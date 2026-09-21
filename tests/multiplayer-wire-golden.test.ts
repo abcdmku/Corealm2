@@ -1,13 +1,17 @@
-import { afterEach, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { WebSocket } from "ws";
 import { WORLD_PROTOCOL_VERSION, type WorldDescriptor } from "../game/src/contracts.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
+import { startThreadedServer } from "./helpers/threadedServer.js";
 
 /**
  * The frames a socket peer receives, as text. Clients in the field parse these, so the text is the
  * contract: field order, error wording and close codes. Only the session id and tick numbers vary.
+ *
+ * The same text must arrive whether the world runs in this thread or in its own, in which case the
+ * frames are serialised in the world's thread and written to the socket here, as strings or as bytes.
  */
 const world: WorldDescriptor = { providerId: "reference", worldId: "yard", name: "Yard", endpoint: "ws://127.0.0.1:0/",
   protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "lab", seed: 1337, population: 0, capacity: 2, availability: "available" };
@@ -26,11 +30,14 @@ function raw(port: number, origin?: string): Promise<Raw> {
 const join = (token: string, extra: Record<string, unknown> = {}) => JSON.stringify({ type: "join", providerId: "reference", worldId: "yard", token, protocolVersion: WORLD_PROTOCOL_VERSION, ...extra });
 const varying = (frame: string) => frame.replace(/"sessionId":"[0-9a-f-]{36}"/g, '"sessionId":"<session>"').replace(/"tick":\d+/g, '"tick":<tick>');
 
+const MODES = ["one thread", "a thread per world, frames as bytes", "a thread per world, frames as text"] as const;
+for (const mode of MODES) describe(mode, () => {
 it("sends a socket peer the same text for the same inputs", async () => {
-  const server = await startReferenceServer({ worlds: [world], storage: new MemoryWorldStorage(), build: () => createMultiplayerLabWorld(), log: () => {},
-    allowedOrigins: ["https://play.example"], authentication: { authenticate: async token => ({ playerId: token, name: `${token} the player` }) } });
+  const shared = { worlds: [world], log: () => {}, allowedOrigins: ["https://play.example"], authentication: { authenticate: async (token: string) => ({ playerId: token, name: `${token} the player` }) } };
+  const server = mode === "one thread" ? await startReferenceServer({ ...shared, storage: new MemoryWorldStorage(), build: () => createMultiplayerLabWorld() })
+    : await startThreadedServer({ ...shared, threads: { peerEncoding: mode.endsWith("bytes") ? "bytes" : "text" } });
   cleanup.push(() => server.close());
-  const revision = [...server.worlds.values()][0]!.runtime.descriptor.catalogRevision;
+  const revision = server.status()[0]!.descriptor.catalogRevision;
 
   const alice = await raw(server.port, "https://play.example"); alice.ws.send(join("alice")); await alice.next(2);
   expect(varying(alice.frames[0]!)).toBe(`{"type":"joined","sessionId":"<session>","playerId":"alice","world":{"providerId":"reference","worldId":"yard","name":"Yard","endpoint":"ws://127.0.0.1:${server.port}/",`
@@ -67,12 +74,15 @@ it("sends a socket peer the same text for the same inputs", async () => {
   expect(alice.frames.slice(before).filter(frame => !frame.startsWith('{"type":"update"'))).toEqual(['{"type":"error","error":{"code":"INVALID_MESSAGE","message":"Unknown message type"}}']);
   // A client sees its own close before the server has run the close handler that drops the peer and
   // records the leave, so wait for the world to let go of alice rather than for her socket.
-  await expect.poll(() => [...server.worlds.values()][0]!.peers.size, { timeout: 5000, interval: 5 }).toBe(0);
+  await expect.poll(() => server.events.at(-1)?.kind, { timeout: 5000, interval: 5 }).toBe("leave");
+  await server.refresh();
   expect([server.metrics.rejected, server.metrics.errors, server.metrics.bytesOut > 0]).toEqual([10, 0, true]);
   expect(server.events.map(event => [event.kind, event.accountId, event.detail])).toEqual([["join", "alice", "yard"],
     ...["INVALID_MESSAGE", "INVALID_MESSAGE", "INVALID_MESSAGE", "UNAUTHORIZED", "INCOMPATIBLE", "UNAVAILABLE", "DUPLICATE_LOGIN", "UNAUTHORIZED", "INCOMPATIBLE"].map(code => ["rejected", null, code]),
     ["leave", "alice", "yard"]]);
 }, 60_000);
+
+});
 
 it("drops a socket peer that has been silent for thirty seconds and keeps its place for the reconnect window", async () => {
   const server = await startReferenceServer({ worlds: [world], storage: new MemoryWorldStorage(), build: () => createMultiplayerLabWorld(), log: () => {},
@@ -87,4 +97,16 @@ it("drops a socket peer that has been silent for thirty seconds and keeps its pl
   expect(await alice.closed).toEqual([1006, ""]);
   await expect.poll(() => [hosted.peers.size, hosted.admission.population], { timeout: 3000, interval: 5 }).toEqual([0, 1]);
   expect(server.events.map(event => event.kind)).toEqual(["join", "leave"]);
+}, 60_000);
+
+it("drops a silent socket peer of a world in its own thread, and that world keeps its place", async () => {
+  const server = await startThreadedServer({ worlds: [world], log: () => {}, authentication: { authenticate: async token => ({ playerId: token, name: token }) } });
+  cleanup.push(() => server.close());
+  const alice = await raw(server.port); alice.ws.send(join("alice")); await alice.next(2);
+  // The main thread owns the socket, so it is the one that hears nothing. Thirty seconds pass at once.
+  const now = Date.now; Date.now = () => now() + 30_001;
+  try { expect(await alice.closed).toEqual([1006, ""]); } finally { Date.now = now; }
+  await expect.poll(() => server.events.map(event => event.kind), { timeout: 3000, interval: 20 }).toEqual(["join", "leave"]);
+  await server.refresh();
+  expect([server.status()[0]!.peers, server.status()[0]!.population]).toEqual([0, 1]);
 }, 60_000);

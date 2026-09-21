@@ -6,6 +6,7 @@ import { bundleServer, forbiddenPackages } from "./server-exe/bundle.js";
 import { stageAssets } from "./server-exe/assets.js";
 import { executableName, nodeBinary, TARGETS, type Target } from "./server-exe/nodeBinary.js";
 import { injectSeaBlob, removeSignature, seaConfig, writeSeaBlob } from "./server-exe/sea.js";
+import { SERVER_BUNDLE_ASSET } from "../game/src/multiplayer/threads/launch.js";
 
 /**
  * `npm run server:build`: the Windows and Linux game server executables.
@@ -83,7 +84,9 @@ for (const asset of assets) log(`  ${mib(asset.bytes).padStart(10)}  ${asset.nam
 
 const blob = join(work, "server.blob");
 await writeSeaBlob(join(work, "sea-config.json"),
-  seaConfig(bundlePath, blob, Object.fromEntries(assets.map(asset => [asset.name, asset.path]))));
+  // The bundle is `main`, and an asset as well: a world or database thread is a worker, a worker needs code to run, and Node
+  // will not take the executable itself as a worker script. The bootstrap in `threads/launch.ts` compiles this asset instead.
+  seaConfig(bundlePath, blob, { ...Object.fromEntries(assets.map(asset => [asset.name, asset.path])), [SERVER_BUNDLE_ASSET]: bundlePath }));
 log(`blob ${mib((await readFile(blob)).length)}`);
 
 if (args.includes("--bundle-only")) {

@@ -26,32 +26,12 @@ import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { contentUpdated } from "../game/src/multiplayer/protocol.js";
 import { WebSocketProvider } from "../game/src/multiplayer/webSocketProvider.js";
 import { readContentSources } from "../tools/content/compile.js";
+import placementWorld, { PLACEMENT_GROUP as GROUP } from "./fixtures/placementWorld.js";
 
 const OWNER = "acc_OOOOOOOOOOOOOOOOOOOOOO", ALICE = "acc_AAAAAAAAAAAAAAAAAAAAAA", BOB = "acc_BBBBBBBBBBBBBBBBBBBBBB", CAROL = "acc_CCCCCCCCCCCCCCCCCCCCCC";
-const GROUP = "redsill_frogs", TABLE = "shared_t0_frog", MARKER = "publish_marker";
+const TABLE = "shared_t0_frog", MARKER = "publish_marker";
 const world: WorldDescriptor = { providerId: "reference", worldId: "north", name: "north", endpoint: "ws://127.0.0.1:0/",
   protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 4, availability: "available" };
-
-/**
- * A flat pad under one real placement, with its creatures built and rebuilt by the production spawn
- * planner. The authored world does the same over terrain, solids and its baked navmesh.
- */
-async function placementWorld(): Promise<HeadlessWorldPorts> {
-  await Navigation.initLibrary();
-  const ground = new Mesh(new PlaneGeometry(320, 320), new MeshBasicMaterial());
-  ground.rotation.x = -Math.PI / 2; ground.position.set(-50, 0, -52); ground.updateMatrixWorld(true);
-  const nav = new Navigation();
-  if (!nav.build([ground])) throw new Error("placement pad navigation failed");
-  ground.geometry.dispose(); ground.material.dispose();
-  const context: SpawnContext = { seed: 1337, floorAt: () => 0, baseY: () => 0, assetSize: () => null, refinePopulation: false,
-    spacing: () => ({ underground: () => false, place: (_entity, x, z) => nav.nearestWalkable([x, 0, z], .3) ? [x, 0, z] : null }) };
-  const first = planSpawns(context, RESOLVED_TABLES.world as CompiledWorld, new Set([GROUP]), []);
-  const entities = first.spawns as SemanticEntity[];
-  return { nav, entities, habitats: first.habitats, spawn: [-50, 0, -40] as Vec3,
-    planSpawns: (table, groupIds, residents) => planSpawns(context, table, groupIds, residents),
-    movement: { solids: new Solids([]), heightAt: () => 0, regionAt: () => "fallowmarch" },
-    campfirePlacement: { groundAt: () => ({ y: 0, normal: [0, 1, 0] }), withinPlayableBounds: () => true, distanceToWater: () => Infinity, clearAt: () => true } };
-}
 
 type Sources = Record<string, any>;
 const clone = <T>(value: T): T => structuredClone(value);

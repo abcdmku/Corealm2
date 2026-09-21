@@ -90,7 +90,7 @@ Secrets live in three places: the game server's own database, the identity servi
 | M6 | The baked server world pack and the two single executables. | Done |
 | M7 | Thin client, local play in a Web Worker. | Done |
 | M8 | The CI content workflows. | Done |
-| M9 | A worker thread per world. | Not started |
+| M9 | A worker thread per world. | Done |
 
 ## Where to read more
 

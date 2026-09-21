@@ -1,29 +1,40 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { WebSocket, WebSocketServer } from "ws";
-import type { PlayerCharacter, Vec3, WorldDescriptor, WorldKey, WorldStorage } from "../contracts.js";
+import { WebSocketServer } from "ws";
+import type { WorldDescriptor, WorldKey, WorldStorage } from "../contracts.js";
 import { adminUnavailable, createAdminApi } from "./adminApi.js";
 import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type ServerAdminStorage } from "./adminStorage.js";
 import { createAdminUi, type AdminUiSource } from "./adminUi.js";
-import { applyPlayerOps, editDiff, EditFailure, PLACE_SNAP_METRES, type PlayerPatch } from "./playerEdits.js";
+import { HoldFailure, localHostControl, type HostControl, type WorldStatus } from "./hostControl.js";
+import { editDiff, EditFailure, type PlayerPatch } from "./playerEdits.js";
 import { playerRevision } from "./playerRevision.js";
 import { createDirectoryHeartbeat, DEFAULT_SERVER_NAME, effectiveSettings, settingsPatch, type ServerSettings } from "./serverSettings.js";
-import { playerSessionState } from "../state/store.js";
 import { createCatalogHost, seedCatalog, serveCatalog, type CatalogHost } from "./catalogHost.js";
 import { MemoryCatalogStorage, type CatalogStorage } from "./catalogStorage.js";
 import { createAssetHost, type AssetHostOptions } from "./assetManifest.js";
 import { createContentPublisher } from "./contentPublish.js";
 import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
 import type { HeadlessWorldPorts } from "./headlessWorld.js";
-import { MAX_MESSAGE_BYTES, SessionFailure, worldKey } from "./protocol.js";
-import { MAX_OUTBOUND_BYTES } from "./replication.js";
-import { createWorldHost, type AuthenticatedPlayer, type AuthenticationAdapter, type HostedWorld as CoreHostedWorld, type PeerLink, type ServerEvent, type WorldHostMetrics } from "./worldHost.js";
+import { MAX_MESSAGE_BYTES, SessionFailure } from "./protocol.js";
+import { createThreadedHost, type DatabaseThread, type ThreadedHost } from "./threads/threadedHost.js";
+import type { ThreadLauncher } from "./threads/launch.js";
+import type { PeerEncoding } from "./threads/peerChannel.js";
+import type { CatalogSource, WorldBuild } from "./threads/worldThread.js";
+import { WebSocketLink } from "./webSocketLink.js";
+import { createWorldHost, type AuthenticatedPlayer, type AuthenticationAdapter, type HostedWorld as CoreHostedWorld, type ServerEvent, type WorldHostMetrics } from "./worldHost.js";
 
 /**
  * The reference server is the host core of `worldHost.ts` behind a WebSocket transport, plus what only
  * a network server has: HTTP routes, the catalog endpoint, administration, publishing, settings and
  * the directory heartbeat. Everything about worlds, peers, joins, commands and ticks is the core's.
+ *
+ * The core runs in one of two places. With threads off it runs here, every world in one loop, which
+ * is what tests, tools and a one-world server want. With `threads` it runs once per world, each in a
+ * thread of its own, and this thread keeps the sockets and routes them (`threads/threadedHost.ts`).
+ * Everything below reaches the worlds through `HostControl`, which both arrangements implement.
  */
 export type { AuthenticatedPlayer, AuthenticationAdapter, ServerEvent } from "./worldHost.js";
+export { WebSocketLink } from "./webSocketLink.js";
+export type { WorldStatus } from "./hostControl.js";
 export type ReferenceServerMetrics = WorldHostMetrics;
 export type HostedWorld = CoreHostedWorld<WebSocketLink>;
 /** What an HTTP extension may read. Worlds and metrics are live objects, not copies. */
@@ -70,36 +81,23 @@ export interface ReferenceServerOptions {
   now?(): number;
   /** One JSON object per event. The owner setup code is printed through this, once. */
   log?(event: Record<string, unknown>): void;
+  /**
+   * Run each world in its own thread. `storage`, `admin` and `catalog` must then be the database
+   * thread's (`startDatabaseThread`), and `build` is not used: a world is built inside its thread
+   * from `threads.build`, which is data, because a function cannot cross to another thread.
+   */
+  threads?: ThreadedHosting;
+}
+export interface ThreadedHosting {
+  launch: ThreadLauncher;
+  database: DatabaseThread;
+  /** How each world thread builds its world, and where it gets the catalog it installs before importing the simulation. */
+  build: WorldBuild; catalog: CatalogSource;
+  peerEncoding?: PeerEncoding; holdTimeoutMs?: number; restart?: boolean; reportMs?: number;
 }
 /** What `PATCH /admin/players/<id>` did. `live` names the world whose player was edited. */
 export interface PlayerEditOutcome { applied: "live" | "stored"; world: WorldKey | null; changed: boolean; warnings: string[] }
 
-/** A peer silent for this long, pings included, is dead. Only a socket can go silent without closing. */
-const PEER_SILENCE_MS = 30_000;
-/**
- * One WebSocket as the core sees it. The socket's own limits live here: messages are JSON text, a
- * peer that cannot drain its outbound queue is dropped, and a peer that stopped answering pings is
- * no longer `open`.
- */
-export class WebSocketLink implements PeerLink {
-  lastSeen = Date.now();
-  constructor(readonly ws: WebSocket, private readonly metrics: WorldHostMetrics, private readonly origin: string | undefined, private readonly allowedOrigins: readonly string[] | undefined) {}
-  get silent(): boolean { return Date.now() - this.lastSeen > PEER_SILENCE_MS; }
-  get open(): boolean { return this.ws.readyState === WebSocket.OPEN && !this.silent; }
-  send(value: unknown): boolean {
-    const ws = this.ws;
-    if (ws.readyState !== WebSocket.OPEN) return false;
-    const json = JSON.stringify(value); const size = Buffer.byteLength(json);
-    if (size > MAX_OUTBOUND_BYTES || ws.bufferedAmount + size > MAX_OUTBOUND_BYTES) {
-      this.metrics.backlogDisconnects++; ws.close(4008, "BACKLOG: outbound queue exceeded"); setTimeout(() => ws.terminate(), 1000).unref(); return false;
-    }
-    this.metrics.bytesOut += size; ws.send(json); return true;
-  }
-  close(code: number, reason: string): void { this.ws.close(code, reason); }
-  admit(): void {
-    if (this.origin && this.allowedOrigins && !this.allowedOrigins.includes(this.origin)) throw new SessionFailure("UNAUTHORIZED", "Origin is not allowed");
-  }
-}
 
 /**
  * The catalog this process simulates is the one its content modules loaded, or the one a publish
@@ -133,25 +131,26 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     const ban = accounts && await accounts.banOf(playerId, now());
     if (ban) throw new SessionFailure("BANNED", banMessage(ban));
   }
-  const host = await createWorldHost<WebSocketLink>({ worlds: options.worlds, storage: options.storage, build: options.build, authentication: options.authentication,
-    catalogRevision: catalog.revision, now, log,
-    async beforeAdmission(player, world) { await refuseBanned(player.playerId); await options.beforeAdmission?.(player, world); } });
-  const { worlds, metrics, events } = host, recordEvent = host.record;
+  const beforeAdmission = async (player: AuthenticatedPlayer, world: WorldDescriptor): Promise<void> => { await refuseBanned(player.playerId); await options.beforeAdmission?.(player, world); };
+  const threaded: ThreadedHost | null = options.threads ? await createThreadedHost({ ...options.threads, worlds: options.worlds, catalogRevision: catalog.revision,
+    authentication: options.authentication, beforeAdmission, allowedOrigins: options.allowedOrigins, now, log }) : null;
+  const local = threaded ? null : await createWorldHost<WebSocketLink>({ worlds: options.worlds, storage: options.storage, build: options.build, authentication: options.authentication,
+    catalogRevision: catalog.revision, now, log, beforeAdmission });
+  const host: HostControl = threaded ? threaded.control : localHostControl(local!);
+  /** Live objects, with threads off. With threads on a world is in another thread and this is empty: read `status()`. */
+  const worlds: ReadonlyMap<string, HostedWorld> = local ? local.worlds : new Map();
+  const { metrics, events } = host, recordEvent = host.record;
+  const first = (): WorldStatus => host.status()[0]!;
   const startedAt = now();
   const settingDefaults: ServerSettings = { name: options.settings?.name ?? DEFAULT_SERVER_NAME, description: options.settings?.description ?? null,
     registerWithDirectory: options.settings?.registerWithDirectory ?? false,
-    capacity: Object.fromEntries([...worlds.values()].map(hosted => [hosted.runtime.descriptor.worldId, hosted.admission.capacity])) };
+    capacity: Object.fromEntries(host.status().map(world => [world.key.worldId, world.capacity])) };
   let settings = accounts ? effectiveSettings(settingDefaults, await accounts.settings()) : settingDefaults;
   const directory = accounts && options.identityUrl ? createDirectoryHeartbeat({ identityUrl: options.identityUrl, log, settings: () => settings,
-    endpoint: () => [...worlds.values()][0]!.runtime.descriptor.endpoint, ...options.directory }) : null;
+    endpoint: () => first().descriptor.endpoint, ...options.directory }) : null;
   /** Bring the running worlds in line with `settings`. Players already in a world stay when its capacity drops. */
-  function applySettings(): void {
-    for (const { runtime, admission } of worlds.values()) {
-      admission.capacity = runtime.descriptor.capacity = settings.capacity[runtime.descriptor.worldId] ?? admission.capacity;
-      if (settings.description) runtime.descriptor.description = settings.description; else delete runtime.descriptor.description;
-    }
-  }
-  applySettings();
+  const applySettings = (): Promise<void> => host.configure({ capacity: settings.capacity, description: settings.description });
+  await applySettings();
   if (accounts && options.ownerAccount !== undefined) {
     if (!ACCOUNT_ID.test(options.ownerAccount)) throw new Error("ownerAccount must be an identity account id");
     await accounts.setSetupCodeHash(null);
@@ -176,9 +175,10 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     }
     if (request.method === "GET" && path === "/worlds") {
       response.setHeader("Content-Type", "application/json"); response.setHeader("Access-Control-Allow-Origin", "*");
+      await threaded?.refresh();
       // A capacity an admin lowered under the players already in is still a full world, not an invalid one.
-      response.end(JSON.stringify([...worlds.values()].map(({ runtime, admission }) => ({ ...runtime.descriptor,
-        population: Math.min(admission.population, admission.capacity), availability: host.closed ? "unavailable" : admission.population >= admission.capacity ? "full" : "available" })))); return;
+      response.end(JSON.stringify(host.status().map(world => ({ ...world.descriptor,
+        population: Math.min(world.population, world.capacity), availability: host.closed || !world.available ? "unavailable" : world.population >= world.capacity ? "full" : "available" })))); return;
     }
     if (await serveCatalog(request, response, catalog)) return;
     if (adminApi ? await adminApi(request, response) : adminUnavailable(request, response)) return;
@@ -189,8 +189,6 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
     route(request, response).catch(() => { metrics.errors++; if (!response.headersSent) response.writeHead(500); response.end(); });
   });
   const sockets = new WebSocketServer({ server: http, maxPayload: MAX_MESSAGE_BYTES, perMessageDeflate: false });
-  const keyOf = (hosted: HostedWorld): WorldKey => ({ providerId: hosted.runtime.descriptor.providerId, worldId: hosted.runtime.descriptor.worldId });
-  const snapIn = (hosted: HostedWorld | null | undefined) => (position: Vec3): Vec3 | null => hosted?.runtime.ports.nav.nearestWalkable(position, PLACE_SNAP_METRES) ?? null;
   /**
    * Edit one player through the running server. Both paths run inside the publisher's hold, so no
    * tick and no commit is in flight while the edit is computed and applied.
@@ -211,27 +209,18 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
         const expected = (revision: string): void => {
           if (patch.expect !== null && patch.expect !== revision) throw new EditFailure(409, "revision_mismatch", `The player changed since revision ${patch.expect} was read. It is now ${revision}`);
         };
-        const live = host.holder(accountId);
+        // The world that holds the account edits the player where they are, and queues the audit row for its next commit.
+        const live = await host.editLive(accountId, patch, by);
         if (live) {
-          const { ownedWorld: _owned, ...before } = playerSessionState(live.runtime.players.get(accountId)!.store.get());
-          expected(playerRevision(before));
-          const result = applyPlayerOps(before, patch.ops, { world: keyOf(live), snap: snapIn(live) });
-          const diff = editDiff(before, result.character);
-          if (!diff) return { applied: "live", world: keyOf(live), changed: false, warnings: result.warnings };
-          live.runtime.adoptCharacter(accountId, result.character, result.moved);
-          durable = new Promise<void>((resolve, reject) => live.audits.push({ accountId, by,
-            entry: { action: "player.edit", target: accountId, before: diff.before, after: { ...diff.after, applied: "live", world: live.runtime.descriptor.worldId } },
-            settle: outcome => outcome === "saved" ? resolve() : reject(outcome === "fenced" ? new EditFailure(409, "player_busy", "This player's session ended before the edit was saved")
-              : new EditFailure(503, "unavailable", "World storage failed before the edit was saved")) }));
-          return { applied: "live", world: keyOf(live), changed: true, warnings: result.warnings };
+          if (live.pending !== null) { durable = host.editSaved(live.pending); durable.catch(() => {}); }
+          return { applied: "live", world: live.world, changed: live.changed, warnings: live.warnings };
         }
         const detail = await stored.player(accountId, now());
         if (!detail) throw new EditFailure(409, "not_found", "No such player on this server");
         if (!detail.character) throw new EditFailure(409, "no_character", "This player has joined but has never been saved, so there is nothing to edit yet");
         if (!storage.editStoredPlayer) throw new EditFailure(503, "unavailable", "This server's storage cannot edit a stored player");
         expected(playerRevision(detail.character));
-        const last = detail.lastWorld && worlds.get(worldKey(detail.lastWorld));
-        const result = applyPlayerOps(detail.character, patch.ops, { world: last ? detail.lastWorld : null, snap: snapIn(last) });
+        const result = await host.planStoredEdit(detail.lastWorld, detail.character, patch.ops);
         const diff = editDiff(detail.character, result.character);
         if (!diff) return { applied: "stored", world: null, changed: false, warnings: result.warnings };
         const written = await storage.editStoredPlayer({ accountId, expected: detail.character, character: result.character, by,
@@ -240,55 +229,47 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
         if (written !== "written") return "retry";
         // A world that keeps this player for their campfire or cache holds a copy of the character. Nothing reads
         // it on a join, which takes the stored one, but a publish asks it who holds an item.
-        for (const hosted of worlds.values()) if (!hosted.leases.has(accountId)) hosted.runtime.adoptCharacter(accountId, result.character, false);
+        await host.adoptStored(accountId, result.character);
         return { applied: "stored", world: null, changed: true, warnings: result.warnings };
-      });
+      }).catch(error => { throw error instanceof HoldFailure ? new EditFailure(503, "unavailable", `The running worlds could not be held, so nothing was edited. ${error.message}`) : error; });
       if (outcome !== "retry") { await durable; return outcome; }
       if (attempt >= 20) throw new EditFailure(409, "player_busy", "This player is joining or leaving. Try again in a moment");
       await new Promise(resolve => setTimeout(resolve, 50));
     }
   }
   async function patchSettings(body: Record<string, unknown>, by: AdminActor) {
-    const changes = settingsPatch(body, [...worlds.values()].map(hosted => hosted.runtime.descriptor.worldId), directory !== null);
+    const changes = settingsPatch(body, host.status().map(world => world.key.worldId), directory !== null);
     const overrides = await accounts!.setSettings(changes, by);
-    settings = effectiveSettings(settingDefaults, overrides); applySettings(); directory?.sync();
+    settings = effectiveSettings(settingDefaults, overrides); await applySettings(); directory?.sync();
     return { settings, overrides, defaults: settingDefaults };
   }
   function serverInfo() {
-    const first = [...worlds.values()][0]!.runtime.descriptor;
-    return { name: settings.name, description: settings.description, endpoint: first.endpoint, assetBaseUrl: first.assetBaseUrl ?? null,
-      identityUrl: options.identityUrl ?? null, authentication: first.authentication ?? "guest", catalogRevision: catalog.revision,
+    const { descriptor } = first();
+    return { name: settings.name, description: settings.description, endpoint: descriptor.endpoint, assetBaseUrl: descriptor.assetBaseUrl ?? null,
+      identityUrl: options.identityUrl ?? null, authentication: descriptor.authentication ?? "guest", catalogRevision: catalog.revision,
       host: options.host ?? "127.0.0.1", registerWithDirectory: settings.registerWithDirectory,
-      worlds: [...worlds.values()].map(({ runtime, admission }) => ({ providerId: runtime.descriptor.providerId, worldId: runtime.descriptor.worldId,
-        name: runtime.descriptor.name, seed: runtime.descriptor.seed, capacity: admission.capacity })) };
+      worlds: host.status().map(world => ({ providerId: world.key.providerId, worldId: world.key.worldId,
+        name: world.descriptor.name, seed: world.descriptor.seed, capacity: world.capacity })) };
   }
-  function liveCharacter(accountId: string): { world: WorldKey; character: PlayerCharacter } | null {
-    for (const hosted of worlds.values()) {
-      if (!hosted.leases.has(accountId)) continue;
-      const player = hosted.runtime.players.get(accountId); if (!player) continue;
-      const { ownedWorld, ...character } = playerSessionState(player.store.get());
-      return { world: { providerId: hosted.runtime.descriptor.providerId, worldId: hosted.runtime.descriptor.worldId }, character };
-    }
-    return null;
-  }
-  const publisher = accounts ? createContentPublisher({
-    catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, betweenTicks: host.betweenTicks, failClosed: host.failClosed, broadcast: host.broadcast,
-    worlds: () => [...worlds.values()].map(hosted => hosted.runtime),
-  }) : null;
+  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, host }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
     admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log,
-    ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: [...worlds.values()][0]?.runtime.descriptor.assetBaseUrl }),
-    authenticate: token => options.authentication.authenticate(token, [...worlds.values()][0]!.runtime.descriptor),
+    ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: host.status()[0]?.descriptor.assetBaseUrl }),
+    authenticate: token => options.authentication.authenticate(token, first().descriptor),
     server: {
-      startedAt, metrics, events: () => events, record: recordEvent, liveCharacter, disconnect: host.disconnectAccount, connected: host.connected, editPlayer, info: serverInfo,
+      startedAt, metrics, events: () => events, record: recordEvent, liveCharacter: host.liveCharacter, disconnect: host.disconnectAccount, connected: host.connected, editPlayer, info: serverInfo,
       settings: { get: async () => ({ settings, overrides: await accounts.settings(), defaults: settingDefaults }), patch: patchSettings },
-      worlds: () => [...worlds.values()].map(({ runtime, admission }) => ({ key: { providerId: runtime.descriptor.providerId, worldId: runtime.descriptor.worldId },
-        name: runtime.descriptor.name, playersOnline: admission.population, capacity: admission.capacity, tick: runtime.clock.tick })),
+      async worlds() {
+        await threaded?.refresh();
+        return host.status().map(world => ({ key: world.key, name: world.descriptor.name, playersOnline: world.population, capacity: world.capacity, tick: world.tick }));
+      },
+      threads: threaded ? () => threaded.diagnostics() : null,
     },
   }) : null;
   sockets.on("connection", (ws, request) => {
+    if (threaded) { threaded.accept(ws, request); return; }
     const link = new WebSocketLink(ws, metrics, request.headers.origin, options.allowedOrigins);
-    const connection = host.connect(link); if (!connection) return;
+    const connection = local!.connect(link); if (!connection) return;
     const authDeadline = setTimeout(() => ws.close(4001, "Authentication timeout"), 5000);
     ws.on("error", () => { metrics.errors++; });
     ws.on("pong", () => { link.lastSeen = Date.now(); });
@@ -306,23 +287,33 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
   });
   await new Promise<void>((resolve, reject) => { http.once("error", reject); http.listen(options.port ?? 0, options.host ?? "127.0.0.1", resolve); });
   const address = http.address(); if (!address || typeof address === "string") throw new Error("Server did not bind");
-  for (const hosted of worlds.values()) if (new URL(hosted.runtime.descriptor.endpoint).port === "0") {
-    hosted.runtime.descriptor.endpoint = `ws://127.0.0.1:${address.port}/`;
-  }
-  host.start();
+  // A listener bound to port 0 learns its endpoint here.
+  const unbound = host.status().filter(world => new URL(world.descriptor.endpoint).port === "0");
+  const bound = unbound.length ? `ws://127.0.0.1:${address.port}/` : null;
+  if (threaded) await threaded.start(bound);
+  else { if (bound !== null) for (const hosted of worlds.values()) if (new URL(hosted.runtime.descriptor.endpoint).port === "0") hosted.runtime.descriptor.endpoint = bound; local!.start(); }
   const heartbeat = setInterval(() => { for (const ws of sockets.clients) ws.ping(); }, 10_000);
   // A MessagePort peer has no ping and is never silent. A socket that stopped answering is dropped here, and the core saves its player.
-  const silence = setInterval(() => { for (const hosted of worlds.values()) for (const peer of hosted.peers.values()) if (peer.link.silent) peer.link.ws.terminate(); }, 1000);
+  const silence = setInterval(() => {
+    if (threaded) threaded.dropSilent();
+    else for (const hosted of worlds.values()) for (const peer of hosted.peers.values()) if (peer.link.silent) peer.link.ws.terminate();
+  }, 1000);
   directory?.sync();
   return { port: address.port, worlds, metrics, catalog, events, directory,
+    /** Each world as plain data, in either arrangement. With threads on it is at most a report old; `refresh` asks the worlds now. */
+    status: (): WorldStatus[] => host.status(),
+    refresh: async (): Promise<void> => { await threaded?.refresh(); },
+    /** Per-world tick times and the database thread's numbers. Null with threads off, where `metrics` is the whole story. */
+    threads: threaded ? { diagnostics: () => threaded.diagnostics(), clearTicks: () => threaded.clearTicks() } : null,
     /** The settings in force: configuration defaults under the overrides an admin stored. */
     get settings(): ServerSettings { return settings; },
     async close() {
-      // Stops the loop at once, then waits for the tick in flight before the sockets go.
-      const stopped = host.close(async () => {
+      const disconnectPeers = async (): Promise<void> => {
         for (const ws of sockets.clients) ws.terminate();
         await new Promise<void>((resolve) => sockets.close(() => resolve()));
-      });
+      };
+      // Stops the loop at once, then waits for the tick in flight before the sockets go.
+      const stopped = threaded ? threaded.close(disconnectPeers) : local!.close(disconnectPeers);
       clearInterval(heartbeat); clearInterval(silence); directory?.close();
       await stopped;
       await new Promise<void>((resolve) => http.close(() => resolve()));

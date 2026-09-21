@@ -10,6 +10,8 @@ import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { Navigation } from "../game/src/systems/navigation.js";
 import { startReferenceServer } from "../game/src/multiplayer/referenceServer.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
+import { fileURLToPath } from "node:url";
+import { runScaling, runScalingClient } from "./lib/capacityScaling.js";
 
 const args = process.argv.slice(2);
 const value = (key: string, fallback: string) => args[args.indexOf(key) + 1] && args.includes(key) ? args[args.indexOf(key) + 1]! : fallback;
@@ -18,7 +20,10 @@ const placement = value("--placement", "clustered");
 const percentile = (values: number[], p: number) => values.length ? [...values].sort((a,b) => a-b)[Math.min(values.length-1, Math.floor(values.length*p))]! : null;
 if (!Number.isInteger(count) || count < 1 || count > 1000 || !Number.isFinite(seconds) || seconds < 1 || !["clustered", "distributed"].includes(placement)) throw new Error("Invalid workload options");
 
-if (args.includes("--worker")) {
+// `--scaling` is the several-worlds measurement in `lib/capacityScaling.ts`. Without it this file is the single-world fixture it always was.
+if (args.includes("--scaling-client")) await runScalingClient(args);
+else if (args.includes("--scaling")) await runScaling(args, fileURLToPath(import.meta.url));
+else if (args.includes("--worker")) {
   const endpoint = value("--endpoint", "");
   const clients: { socket: WebSocket; sessionId: string; sequence: number; operation: number; index: number; pending: Map<number,number> }[] = [];
   const latency: number[] = []; const slowLatency: number[] = []; const errors: string[] = []; let bytesIn = 0; let bytesOut = 0; let accepted = 0; let rejected = 0; let updates = 0;

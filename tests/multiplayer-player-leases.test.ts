@@ -5,6 +5,9 @@ import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { MemoryWorldStorage } from "../game/src/multiplayer/memoryStorage.js";
 import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { memoryPort, openLocalWorldStorage } from "../game/src/multiplayer/indexedDbStorage.js";
+import { MessageChannel } from "node:worker_threads";
+import { createRpc, type Endpoint } from "../game/src/multiplayer/threads/rpc.js";
+import { remoteStorage, serveStorage, storageShape } from "../game/src/multiplayer/threads/storageProxy.js";
 
 const descriptor = (worldId: string): WorldDescriptor => ({ providerId: "lease", worldId, name: worldId, endpoint: "ws://127.0.0.1:0/",
   protocolVersion: WORLD_PROTOCOL_VERSION, fixture: "authored", seed: 1337, population: 0, capacity: 8, availability: "available" });
@@ -19,11 +22,24 @@ function record(world: HeadlessWorld, playerId: string, currency: number, sessio
   return { ...world.snapshot(), leases: { [playerId]: { sessionId, action } } };
 }
 
+/**
+ * SQLite as a world thread sees it: every call is a message over a real `MessageChannel` to the code
+ * the database thread runs, so arguments and results are structured clones, never shared objects.
+ */
+function overMessages(owned: SqliteWorldStorage): WorldStorage {
+  const channel = new MessageChannel();
+  createRpc(channel.port1 as Endpoint, serveStorage({ world: owned, admin: owned.admin, catalog: owned.catalog }, { calls: 0, commits: 0, commitMs: [], commitWaitMs: [], busyMs: 0 }));
+  const remote = remoteStorage(createRpc(channel.port2 as Endpoint, {}), storageShape(owned)).world;
+  return { ...remote, close: async () => { channel.port1.close(); channel.port2.close(); await owned.close(); } };
+}
+
 // `local` is the worker's IndexedDB storage over a port in memory: same rules, written behind.
-for (const kind of ["sqlite", "memory", "local"] as const) describe(`${kind} player leases`, () => {
+// `sqlite-remote` is SQLite behind the database thread's message protocol: same rules, asked for from another thread.
+for (const kind of ["sqlite", "sqlite-remote", "memory", "local"] as const) describe(`${kind} player leases`, () => {
   async function open() {
     const clock = { now: 1_000_000 };
     const storage: WorldStorage = kind === "sqlite" ? new SqliteWorldStorage(":memory:", { now: () => clock.now })
+      : kind === "sqlite-remote" ? overMessages(new SqliteWorldStorage(":memory:", { now: () => clock.now }))
       : kind === "memory" ? new MemoryWorldStorage(() => clock.now)
       : await openLocalWorldStorage({ port: memoryPort(), now: () => clock.now });
     cleanups.push(() => storage.close());

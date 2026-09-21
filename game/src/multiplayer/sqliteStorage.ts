@@ -286,7 +286,8 @@ export class SqliteWorldStorage implements WorldStorage {
       for (const [id, receipts] of Object.entries(record.receipts)) {
         const tail = receipts.at(-1), prior = priorReceipts?.get(id); nextReceipts.set(id, tail);
         const head = receipts[0]?.operation ?? Number.MAX_SAFE_INTEGER; nextHeads.set(id, head);
-        if (prior && tail === prior && priorHeads?.get(id) === head) continue;
+        // Compared by operation, not identity: a ledger that crossed from a world thread is a copy every time, and an operation's receipt never changes.
+        if (prior && tail?.operation === prior.operation && priorHeads?.get(id) === head) continue;
         for (const receipt of receipts) if (!prior || receipt.operation > prior.operation) putReceipt.run(key, id, receipt.operation, JSON.stringify(receipt));
         pruneReceipts.run(key, id, head);
       }

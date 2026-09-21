@@ -40,6 +40,12 @@ export interface HostConfiguration {
    * the local server. A live server leaves it off: its database is the source of truth.
    */
   followRepoCatalog: boolean;
+  /**
+   * Whether each world runs in a thread of its own, with one more thread owning the database.
+   * `auto`, the default, does so when the server runs more than one world: one world gains nothing
+   * from a thread of its own and pays for the messages. `on` and `off` say so outright.
+   */
+  threads: boolean;
   worlds: HostWorld[];
   /** The file the settings below came from, or null when there was none. */
   configFile: string | null;
@@ -53,7 +59,7 @@ const DEFAULT_SEED = 1337;
 const DEFAULT_CAPACITY = 64;
 const WORLD_ID = /^[A-Za-z0-9_.:-]{1,128}$/;
 const FILE_KEYS = ["host", "port", "publicEndpoint", "allowedOrigins", "data", "assetBaseUrl", "identityUrl", "ownerAccount",
-  "authored", "developmentGuests", "guests", "authModule", "worlds", "name", "description", "registerWithDirectory", "adminUiDir"];
+  "authored", "developmentGuests", "guests", "authModule", "worlds", "name", "description", "registerWithDirectory", "adminUiDir", "threads"];
 /** The same account id shape the identity service mints and the join token carries. */
 const OWNER_ACCOUNT = /^acc_[A-Za-z0-9_-]{22,120}$/;
 const WORLD_KEYS = ["id", "name", "seed", "capacity"];
@@ -164,7 +170,10 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
     .map(world => capacityOverride === undefined ? world : { ...world, capacity: capacityOverride });
   if (!worlds.length || new Set(worlds.map(world => world.id)).size !== worlds.length
     || worlds.some(world => !WORLD_ID.test(world.id))) throw new Error("World IDs must be unique nonempty identifiers");
-  return { authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
+  const threadMode = value("--threads", "COREALM_THREADS", "threads", "auto")!;
+  if (!["auto", "on", "off"].includes(threadMode)) throw new Error('threads must be "auto", "on" or "off"');
+  const threads = threadMode === "on" || (threadMode === "auto" && worlds.length > 1);
+  return { threads, authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
     assetBaseUrl, identityUrl, ownerAccount, authModule, name, description, registerWithDirectory, adminUiDir, followRepoCatalog: args.includes("--follow-repo-catalog"), worlds, configFile: text === undefined ? null : path };
 }
 
