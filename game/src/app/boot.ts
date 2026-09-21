@@ -1097,10 +1097,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (cached && generationCache) return spreadMobSpawnsCached(generationCache, actors, worldHabitats, ports, { trustBaked: thinGame }).then(apply);
     apply(spreadMobSpawns(actors, worldHabitats, ports));
   };
-  // A lab spreads its creatures here because it tells its worker where everything stands, and the bake because it writes the
-  // placement record. The authored game page only reads that record: it draws no creature from it, and needs where they stand
-  // for the tree clearances below.
-  if (mobSpacingLab || denseCaveLab || profile.kind === 'game') {
+  // The spacing lab spreads its creatures here because it tells its worker where everything stands, and the bake because it
+  // writes the placement record. The authored game page only reads that record: it draws no creature from it, and needs where
+  // they stand for the tree clearances below.
+  //
+  // The dense cave lab is deliberately NOT in that list. Its packs are the legacy encounter record
+  // (`featureLab/denseCave.ts` -> `content/legacyEncounterPlacements.ts`), already laid out against the cave's own receiving
+  // floor and door partitions. Running the habitat pass over them a second time re-places the same bodies with the generic
+  // minimum gap, and the Cairn Hall compartment between the stone door and Ordrun's gate has no room for the seventh
+  // Vault Custodian once that gap applies: boot threw "No spaced, walkable spawn for lab:dense-cave:gravelmaw_ch3_bears_7".
+  // The authored world keeps its own gravelmaw placement and still goes through spacing below.
+  if (mobSpacingLab || profile.kind === 'game') {
     await bootTelemetry.measureAsync("boot.spawns", async () => { await applyMobSpacing(built.entities, true); });
     entityStore.load(loadedEntities(built.entities));
   }

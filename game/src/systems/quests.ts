@@ -47,8 +47,8 @@ import type { EventBus } from "../core/events.js";
 import type { SimClock } from "../core/time.js";
 import type { TickSystem } from "../core/time.js";
 import type { InteractionContext, InteractionDispatcher } from "../world/interactions.js";
-import type { QuestDef, QuestGrant, QuestPredicate, QuestStageDef } from "../content/quests.js";
-import { QUESTS, quest } from "../content/quests.js";
+import type { QuestDef, QuestGrant, QuestPredicate, QuestPresentation, QuestStageDef } from "../content/quests.js";
+import { QUESTS, quest, questRules } from "../content/quests.js";
 import { findLocation } from "../content/regions.js";
 
 // -------------------------------------------------------------------- ports
@@ -184,7 +184,7 @@ export class QuestSystem implements TickSystem {
       .map((def) => this.summaryOf(state, def));
   }
 
-  private isKnown(state: GameState, def: QuestDef): boolean {
+  private isKnown(state: GameState, def: QuestPresentation): boolean {
     const status = state.quests[def.id]?.status ?? "unstarted";
     if (status !== "unstarted") return true;
     if (!state.discovery.regions.includes(def.regionId)) return false;
@@ -252,7 +252,7 @@ export class QuestSystem implements TickSystem {
    * no-op, because a dialogue option can be chosen twice in a laggy frame.
    */
   start(questId: QuestId): Result<QuestSummary> {
-    const def = quest(questId);
+    const def = questRules(questId);
     if (!def) return err("NOT_FOUND", `No quest with id ${questId}`);
 
     const state = this.deps.store.get();
@@ -279,7 +279,7 @@ export class QuestSystem implements TickSystem {
    * `setQuestStage` and the `quest_longcairn_stage4` scenario both land here.
    */
   setStage(questId: QuestId, stage: number): Result<QuestSummary> {
-    const def = quest(questId);
+    const def = questRules(questId);
     if (!def) return err("NOT_FOUND", `No quest with id ${questId}`);
     if (!Number.isFinite(stage) || stage < 0) return err("INVALID_ARGUMENT", "Stage must be at least 0");
 
@@ -357,9 +357,11 @@ export class QuestSystem implements TickSystem {
         this.deps.entities.setState(state.entityId, state.state, state.lockedReason);
       }
     };
-    for (const def of QUESTS) {
-      const record = this.deps.store.get().quests[def.id];
+    for (const row of QUESTS) {
+      const record = this.deps.store.get().quests[row.id];
       if (!record || record.status === "unstarted") continue;
+      const def = questRules(row.id);
+      if (!def) continue;
       write(def.onStart);
       for (const stage of def.stages) {
         if (stage.index > record.stage && record.status !== "complete") break;
@@ -496,9 +498,13 @@ export class QuestSystem implements TickSystem {
     const state = this.deps.store.get();
     let changed = false;
 
-    for (const def of QUESTS) {
-      const record = state.quests[def.id];
+    for (const row of QUESTS) {
+      const record = state.quests[row.id];
       if (!record || record.status === "unstarted") continue;
+      // Only a host evaluates a quest. A page runs on the client catalog, which carries the journal
+      // and no rule, so there is nothing here for it to decide.
+      const def = questRules(row.id);
+      if (!def) continue;
 
       // Completion can owe physical rewards after paying XP and gold. Deliver that saved debt
       // without re-entering stages or applying the completion grant again.
@@ -784,7 +790,7 @@ export class QuestSystem implements TickSystem {
     }
   }
 
-  private requirementsMet(state: GameState, def: QuestDef): boolean {
+  private requirementsMet(state: GameState, def: QuestPresentation): boolean {
     for (const key of Object.keys(def.requirements) as SkillId[]) {
       const needed = def.requirements[key];
       if (needed !== undefined && state.skills[key].level < needed) return false;
@@ -792,7 +798,7 @@ export class QuestSystem implements TickSystem {
     return true;
   }
 
-  private summaryOf(state: GameState, def: QuestDef): QuestSummary {
+  private summaryOf(state: GameState, def: QuestPresentation): QuestSummary {
     const record = state.quests[def.id];
     const status = record?.status ?? "unstarted";
     const stage = record?.stage ?? 0;
@@ -813,7 +819,7 @@ export class QuestSystem implements TickSystem {
     };
   }
 
-  private emitUpdate(def: QuestDef, record: QuestRecord): void {
+  private emitUpdate(def: QuestPresentation, record: QuestRecord): void {
     const stageDef = def.stages[record.stage];
     this.deps.events.emit(
       "quest.updated",

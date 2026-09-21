@@ -507,6 +507,8 @@ The JSON API lives under `/admin/` as well, so the split is fixed:
 
 `index.html` is `Cache-Control: no-cache` with an `ETag`. Files Vite wrote as `assets/<name>-<hash>.<ext>` are `public, max-age=31536000, immutable`; anything else is cached for five minutes. A path is decoded once and refused with 400 if it holds `..`, a dot file, a backslash, a colon, an empty segment, a control character or a second layer of percent-encoding, and the directory source refuses anything that resolves outside it.
 
+Files are compressed on the way out. A request that accepts `br` gets brotli, one that accepts only `gzip` gets gzip, and one that accepts neither gets the bytes as they are; every answer carries `Vary: Accept-Encoding`, and each encoding has its own `ETag`, so a cache in the middle cannot hand one client another's copy. The editor's main chunk is 4,172,106 bytes and goes out as 291,497 brotli or 479,473 gzip. Nothing is compressed ahead of time: the first request for a file compresses it, which costs about 26 ms for that chunk and nothing afterwards, and the copies are kept in memory up to 8 MB. Already-compressed types (`.png`, `.jpg`, `.webp`, `.avif`, `.gif`, `.ico`, `.woff`, `.woff2`, `.glb`, `.ktx2`) and files under a kilobyte are sent as they are.
+
 The page is served with:
 
 ```
@@ -567,7 +569,7 @@ Two workspaces appear that a repository checkout does not have. Everything else 
 
 Tick figures come from the ring of the last 36,000 ticks, an hour at 10 Hz. Stage times are that stage's total divided by the number of samples, so they are a per-tick average over the life of the process, not a recent window. `bytesOutPerSecond` is the same kind of average. `server` is the settings summary the devdocs `server` workspace shows, with no secrets in it; the publish history is `GET /admin/content/revision`. `events` is a bounded ring of the last 256 of `join`, `leave`, `rejected`, `ban`, `unban`, `kick`, `admin-session` and `owner-setup`, oldest first; M6's console reads the same ring.
 
-When each world runs in its own thread the body also has `threads`: per world `worldId`, `available`, `restarts`, `bootMs`, `buildMs`, its recent `ticks`, its `stages` totals, `heapUsedBytes`, `utilization` of its event loop and `cpuMs`, and for the database thread `calls`, `commits`, `commitMs`, `commitWaitMs`, `busyMs` and `utilization` since the last request. `tick` and `stages` above then cover every world's ticks together, and `worlds` is at most a second old.
+When each world runs in its own thread the body also has `threads`. `mode` is what the host asked for, `"on"` or `"auto"`. Per world it gives `worldId`, `available`, `restarts`, `failures` and `abandoned` (see [scaling](#scaling-on-one-machine)), `bootMs`, `buildMs`, its recent `ticks`, its `stages` totals, `heapUsedBytes`, `utilization` of its event loop and `cpuMs`; for the database thread it gives `calls`, `commits`, `commitMs`, `commitWaitMs`, `busyMs` and `utilization` since the last request. `tick` and `stages` above then cover every world's ticks together, and `worlds` is at most a second old. The field is absent when threads are off, which is what the devdocs **Server → Overview** Threads card reads to say so.
 
 Without a credential the endpoint answers 401, and with a token that lacks `stats:read` it answers 403.
 
@@ -604,7 +606,7 @@ Set the environment up in **Settings → Environments → New environment**, nam
 
 Neither workflow prints a token, passes one on a command line, or grants itself more permission than it needs: the export holds `contents: write` and `pull-requests: write`, the publish holds `contents: read`. Both use `actions/checkout` and `actions/setup-node` and no third-party action; anything third-party added later must be pinned by full commit SHA. The export skips with a notice, rather than failing, when the variable or the secret is missing, so a fork and the weekly schedule stay green.
 
-#The export opens its pull request as GitHub Actions. A repository forbids that by default: switch on Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests". Without it the run pushes `content/live-export`, fails, and prints the comparison link so the pull request can be opened by hand.
+The export opens its pull request as GitHub Actions. A repository forbids that by default: switch on Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests". Without it the run pushes `content/live-export`, fails, and prints the comparison link so the pull request can be opened by hand.
 
 ### The self-test, which needs nothing
 
@@ -732,6 +734,8 @@ Two worlds in one thread tick in twice the time of one, and the second world pus
 A tick's commit crosses to the database thread as a structured clone of the same patch the single-process server commits. At 40 players it is 109 kB and takes 0.8 ms to serialise and read back, split between the two threads. At 150 players it is 406 kB and 2.8 ms. The entity baseline a world commits once at boot is 9.1 MB. Replication frames cross the other way. The world thread serialises each frame once and writes the UTF-8 for one turn of its loop into one buffer, which is transferred rather than copied, so the main thread spends 0.004 ms per tick handing 126 kB of frames for 40 players to their sockets. Sent as strings instead, the same frames cost the main thread 0.10 ms per tick for re-encoding alone, and 0.42 ms against 0.014 ms at 150 players. The bytes on the wire are identical either way.
 
 If a world's thread dies, the server logs `world.crashed`, disconnects that world's players with `UNAVAILABLE`, lists the world as unavailable in `/worlds`, frees its players' accounts so they can join another world at once, and starts the world again after one second, then two, four, up to a minute, logging `world.restarted`. The other worlds keep ticking. A failed database write still stops the whole server, as it always has. A publish, a settings change or a player edit that cannot stop every world at a tick boundary within ten seconds answers 503 and changes nothing.
+
+A world that fails five times inside ten minutes is left down. The cause of a world that dies seconds after every start is in its own data or code, and the thousandth try goes the way the second did, so the server logs `world.abandoned` once, with the count and the window, and stops. The world stays unavailable until the server is restarted, the other worlds go on, and `/admin/stats` marks it `abandoned` with its `failures`, which the devdocs Threads card shows as **Given up**. A failure older than the window is forgotten, so a world that ran longer than ten minutes before it died begins counting again from one.
 
 ### Crowded player presentation
 

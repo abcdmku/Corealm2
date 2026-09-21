@@ -26,6 +26,10 @@ Add `--sustained` to alternate real keyboard movement and repeated ground clicks
 
 The sustained response check uses the documented p95 acknowledgement target of 250 ms. It also reports maximum acknowledgement and frame intervals; a percentile pass does not certify hitch-free cold shader/asset preparation.
 
+`npx tsx tools/world-resource-check.ts` is the final-world tree and fishing integration gate, after the forest and fishing labs pass. It boots the authored world, so it keeps two budgets: `WORLD_BOOT_BUDGET_MS` (75 s) for reaching a playable world, and 88 s for everything it asserts after that. Boot is a property of the machine — it grows by about twenty seconds whenever the shipped navmesh no longer matches the authored sources and `systems/navigation.ts` regenerates the mesh in the page — and charging it to the gate's operation budget made a stale bake look like a resource bug. Pass `--url` to reuse a warm server, and `--forest-only` for the tree half.
+
+`npx tsx tools/agent-proof.ts --run runs/<id> [--proof mining|quest] [--scale 8]` runs a scripted autonomous player through `window.corealm.agent`. It asks for control the way [the agent API](./agent-api.md) says to — `corealm_session {op:"request_control"}` from the page, Allow clicked on the production companion panel — because `agent/session.ts: guard` refuses every acting tool outside play mode. Both proofs in one run exceed the shared 270-second ceiling on a machine where the authored world takes forty seconds to boot; run one shard at a time, or raise `AGENT_PROOF_DEADLINE_MS`.
+
 The combat and building labs are two modes of the same compact Fallowmarch yard. Both boot through `game/index.html`, the production renderer and `WorldScene`, and the normal asset, material, rig, animation, entity-view, effect, navigation, physics, and input paths. The yard is a 256 m by 256 m plains terrain with gentle relief and a 96 m by 96 m flat central build pad. It keeps edit feedback fast by leaving out the full authored island and its ordinary content. Optional fixtures add production foliage, forest gathering and persistence, or an enclosed fishing basin when those systems are under review.
 
 ### How a lab runs
@@ -136,6 +140,14 @@ Run `npx tsx tools/mob-spawn-spacing-test.ts` for the lab, then add `--world` fo
 spawn, real movement and deterministic reset. Run `npx tsx tools/dense-cave-lab-test.ts` for
 the expanded receiving floor and both gates. Inspect the captures under the ignored
 `test-results/mob-spawn-spacing/` and `test-results/dense-cave-lab/` directories.
+
+`?mode=combat&denseCave=1` is the legacy encounter record, not a spacing exercise:
+`featureLab/denseCave.ts` lays its six packs out against the cave's own receiving floor and door
+partitions from `content/legacyEncounterPlacements.ts`, and boot leaves them there. Running the
+habitat pass over them a second time re-places the same bodies with the generic minimum gap, and
+the Cairn Hall compartment between the stone door and Ordrun's gate has no room for the seventh
+Vault Custodian once that gap applies, so the lab refused to boot at all. `spawnSpacing=1` is the
+route that exercises the placement pass.
 
 Start with the smallest loop that can reject a bad change:
 
@@ -264,7 +276,7 @@ npx tsx tools/fishing-lab-test.ts --url http://127.0.0.1:4174
 npm run lab:health-bars
 ```
 
-These write ignored `report.json` files and screenshots under `test-results/creature-lab/`, `forest-lab/`, `fishing-lab/` and `health-bars-lab/`. Forest, fishing and health bars accept `--url` to reuse a server. The health-bars gate fights a cow at melee level 1 and checks the world-space bars `render/healthBars.ts` draws: one over the creature, one over the player, the fill equal to the creature's health ratio, the creature's bar anchored just above its drawn bounds through the reported camera, and no bars left once the fight is reset and the linger ends. Their reports distinguish debug setup from real input. The creature gate follows natural attack, flee, death and respawn behavior in its own lifecycle loop; it does not certify every creature's art.
+These write ignored `report.json` files and screenshots under `test-results/creature-lab/`, `forest-lab/`, `fishing-lab/` and `health-bars-lab/`. Forest, fishing and health bars accept `--url` to reuse a server. The health-bars gate fights a cow at melee level 1 and checks the world-space bars `render/healthBars.ts` draws: one over the creature, one over the player, the fill equal to the creature's health ratio, the creature's bar anchored just above its drawn bounds through the reported camera, and no bars left once the fight is reset and the linger ends. Their reports distinguish debug setup from real input. The creature gate follows natural attack, flee, death and respawn behavior in its own lifecycle loop; it does not certify every creature's art. It also spawns all seven regional bosses and checks each wears the body `content/regionalBossBodies.ts` authors for it and draws at least half again the widest ordinary animal the same run spawned; the old absolute size bands (an Orb boss over 3 m, a miniboss under 3) went stale when the seven stopped sharing two rigs.
 
 ### Creature gallery
 

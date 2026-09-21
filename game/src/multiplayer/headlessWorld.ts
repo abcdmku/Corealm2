@@ -49,6 +49,9 @@ export interface HeadlessWorldPorts {
 const SPARSE_SNAPSHOT_RADIUS = 80;
 
 /** One entity table, navmesh, clock, resource schedule, and enemy AI per world. */
+/** How far an enemy looks for the player it is simulated against. */
+const ENEMY_SELECTION_RADIUS = 60;
+
 export class HeadlessWorld {
   readonly social: WorldSocial;
   readonly actions = new PublicActions();
@@ -61,6 +64,18 @@ export class HeadlessWorld {
   readonly shared: SharedWorldState;
   readonly ai: EnemyAiSystem;
   private readonly targets = new Map<string, string>();
+  /**
+   * Where the active players stand this tick, as one box.
+   *
+   * `selectPlayerForEnemy` below runs for every enemy in the world on every tick, and each run was a
+   * 60 m query into the player index. In an authored world that is thousands of grid lookups a tick
+   * to discover, almost every time, that the only player is half a map away — and the enemy AI is
+   * essentially the whole cost of a scaled tick. An enemy further than the selection radius from
+   * this box cannot have a player within that radius of it, so the query would have found nobody;
+   * the fast path below returns the same "nobody" without asking. Kept per tick and stamped with the
+   * tick it was built for, so a caller running before the first one still takes the slow path.
+   */
+  private selection: { minX: number; maxX: number; minZ: number; maxZ: number; tick: number } | null = null;
   private readonly sentinel: HeadlessPlayer;
   private selected: HeadlessPlayer;
   private persistedEntities = new Map<string, string>();
@@ -117,13 +132,16 @@ export class HeadlessWorld {
         // Active aggro stays stable while valid; otherwise notice the nearest player now.
         if (world.shared.enemies[entity.id]?.state !== "aggro" || !world.eligibleEnemyTarget(player, entity)) {
           let best = Infinity; let selectedId = "";
-          world.spatial.forEachInRadius(entity.position, 60, (id, distance) => {
-            const candidate = world.players.get(id);
-            if (world.eligibleEnemyTarget(candidate, entity) && (distance < best || (distance === best && id < selectedId))) {
-              selectedId = id; best = distance;
-            }
-          });
-          player = world.players.get(selectedId);
+          if (world.noPlayerWithin(entity.position, ENEMY_SELECTION_RADIUS)) player = undefined;
+          else {
+            world.spatial.forEachInRadius(entity.position, ENEMY_SELECTION_RADIUS, (id, distance) => {
+              const candidate = world.players.get(id);
+              if (world.eligibleEnemyTarget(candidate, entity) && (distance < best || (distance === best && id < selectedId))) {
+                selectedId = id; best = distance;
+              }
+            });
+            player = world.players.get(selectedId);
+          }
         }
         world.selectEnemyTarget(entity.id, player, world.clock.elapsedMs);
         return player !== undefined;
@@ -167,6 +185,19 @@ export class HeadlessWorld {
     });
     return player;
   }
+  /**
+   * True when no active player can be within `radius` of `point`, cheaply and without false claims.
+   *
+   * Only answers from a box built during this tick; any other moment takes the ordinary query.
+   */
+  private noPlayerWithin(point: Vec3, radius: number): boolean {
+    const box = this.selection;
+    if (!box || box.tick !== this.clock.tick) return false;
+    if (box.minX > box.maxX) return true;
+    return point[0] < box.minX - radius || point[0] > box.maxX + radius
+      || point[2] < box.minZ - radius || point[2] > box.maxZ + radius;
+  }
+
   private eligibleEnemyTarget(player: HeadlessPlayer | undefined, entity: SemanticEntity): player is HeadlessPlayer {
     if (!player) return false;
     const state = player.store.get().player;
@@ -340,7 +371,14 @@ export class HeadlessWorld {
   tick(): void {
     this.social.tick();
     this.ports.beforeTick?.(this);
-    for (const id of this.active) { const player = this.players.get(id)!; player.move(); this.spatial.move(id, player.store.get().player.position); }
+    let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
+    for (const id of this.active) {
+      const player = this.players.get(id)!; player.move();
+      const at = player.store.get().player.position; this.spatial.move(id, at);
+      if (at[0] < minX) minX = at[0]; if (at[0] > maxX) maxX = at[0];
+      if (at[2] < minZ) minZ = at[2]; if (at[2] > maxZ) maxZ = at[2];
+    }
+    this.selection = { minX, maxX, minZ, maxZ, tick: this.clock.tick };
     this.ai.tick(100, this.clock.elapsedMs);
     for (const id of this.active) {
       const player = this.players.get(id)!;

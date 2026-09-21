@@ -1,12 +1,29 @@
 /** Real-Chromium acceptance for explicit, world-anchored loot selection. */
+import "./lib/repoContent.js";
 import path from "node:path";
 import { mkdir } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";
+import { CURRENCY_ITEM_ID } from "../game/src/content/items.js";
 import { repoRoot } from "./lib/paths.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
 import { waitForDebug } from "./lib/wait-for-debug.js";
 
 interface LootStack { itemId: string; quantity: number }
+
+/**
+ * What the character is carrying, by item id.
+ *
+ * Gold is not one of the 28 slots. `systems/inventory.ts: addCurrency` keeps it in `state.currency`
+ * and nowhere else, and a creature's drop leads with it, so a tally that reads only `slots` says the
+ * first cell paid nothing. `corealm_inventory` reports the purse alongside the slots; fold it in.
+ */
+interface CarriedView { slots?: Array<{ itemId: string; quantity: number } | null>; currency?: number }
+const carried = (view: CarriedView | undefined): Record<string, number> => {
+  const totals: Record<string, number> = {};
+  for (const slot of view?.slots ?? []) if (slot) totals[slot.itemId] = (totals[slot.itemId] ?? 0) + slot.quantity;
+  if (typeof view?.currency === "number") totals[CURRENCY_ITEM_ID] = view.currency;
+  return totals;
+};
 
 interface BrowserDebug {
   clearInventory(): void;
@@ -86,18 +103,11 @@ try {
       ? spawned.data["items"] as LootStack[]
       : [];
     if (expected.length < 2) throw new Error(`Expected at least two guaranteed stacks, got ${expected.length}`);
-    const inventory = await debug.callTool("corealm_inventory", {}) as {
-      slots?: Array<{ itemId: string; quantity: number } | null>;
-    };
-    const beforeOpen: Record<string, number> = {};
-    for (const slot of inventory.slots ?? []) {
-      if (slot) beforeOpen[slot.itemId] = (beforeOpen[slot.itemId] ?? 0) + slot.quantity;
-    }
     return {
       sourceId: box.id,
       sourceName: box.name,
       expected,
-      beforeOpen,
+      beforeOpen: await debug.callTool("corealm_inventory", {}) as CarriedView,
     };
   });
 
@@ -122,13 +132,7 @@ try {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
     const panel = document.querySelector<HTMLElement>(".loot-reveal:not([hidden])");
     if (!debug || !panel) throw new Error("The opened loot grid is unavailable");
-    const inventoryView = await debug.callTool("corealm_inventory", {}) as {
-      slots?: Array<{ itemId: string; quantity: number } | null>;
-    };
-    const inventory: Record<string, number> = {};
-    for (const slot of inventoryView.slots ?? []) {
-      if (slot) inventory[slot.itemId] = (inventory[slot.itemId] ?? 0) + slot.quantity;
-    }
+    const inventory = await debug.callTool("corealm_inventory", {}) as CarriedView;
     const rect = panel.getBoundingClientRect();
     const anchorX = Number(panel.dataset["anchorX"]);
     const anchorY = Number(panel.dataset["anchorY"]);
@@ -148,8 +152,8 @@ try {
     };
   }, dropped.sourceId);
 
-  if (JSON.stringify(opened.inventory) !== JSON.stringify(dropped.beforeOpen)) {
-    throw new Error("Opening the loot box changed the inventory");
+  if (JSON.stringify(carried(opened.inventory)) !== JSON.stringify(carried(dropped.beforeOpen))) {
+    throw new Error("Opening the loot box changed what the character carries");
   }
   if (!opened.remains) throw new Error("Opening removed the loot box before an item was chosen");
   if (opened.gridCells !== dropped.expected.length) {
@@ -199,23 +203,17 @@ try {
   ), dropped.expected.length);
   const afterOne = await page.evaluate(async (sourceId) => {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
-    const inventoryView = await debug?.callTool("corealm_inventory", {}) as {
-      slots?: Array<{ itemId: string; quantity: number } | null>;
-    } | undefined;
-    const inventory: Record<string, number> = {};
-    for (const slot of inventoryView?.slots ?? []) {
-      if (slot) inventory[slot.itemId] = (inventory[slot.itemId] ?? 0) + slot.quantity;
-    }
     return {
-      inventory,
+      inventory: await debug?.callTool("corealm_inventory", {}) as CarriedView,
       remains: (await debug?.getEntities())?.some((entity) => entity.id === sourceId) ?? false,
     };
   }, dropped.sourceId);
   const first = dropped.expected[0];
   if (!first) throw new Error("The deterministic drop unexpectedly had no first stack");
-  const firstGain = (afterOne.inventory[first.itemId] ?? 0) - (dropped.beforeOpen[first.itemId] ?? 0);
+  const firstGain = (carried(afterOne.inventory)[first.itemId] ?? 0) - (carried(dropped.beforeOpen)[first.itemId] ?? 0);
   if (firstGain !== first.quantity || !afterOne.remains) {
-    throw new Error("Clicking one cell did not take exactly that stack and preserve the box");
+    throw new Error(`Clicking the first cell gained ${firstGain} ${first.itemId}, not ${first.quantity}`
+      + `${afterOne.remains ? "" : ", and the box did not survive"}`);
   }
 
   for (let remaining = dropped.expected.length - 1; remaining > 0; remaining -= 1) {
@@ -229,17 +227,10 @@ try {
 
   const afterAll = await page.evaluate(async () => {
     const debug = Reflect.get(window, "__gameDebug") as BrowserDebug | undefined;
-    const inventoryView = await debug?.callTool("corealm_inventory", {}) as {
-      slots?: Array<{ itemId: string; quantity: number } | null>;
-    } | undefined;
-    const inventory: Record<string, number> = {};
-    for (const slot of inventoryView?.slots ?? []) {
-      if (slot) inventory[slot.itemId] = (inventory[slot.itemId] ?? 0) + slot.quantity;
-    }
-    return inventory;
+    return await debug?.callTool("corealm_inventory", {}) as CarriedView;
   });
   for (const stack of dropped.expected) {
-    const gained = (afterAll[stack.itemId] ?? 0) - (dropped.beforeOpen[stack.itemId] ?? 0);
+    const gained = (carried(afterAll)[stack.itemId] ?? 0) - (carried(dropped.beforeOpen)[stack.itemId] ?? 0);
     if (gained !== stack.quantity) {
       throw new Error(`${stack.itemId} gained ${gained}, expected ${stack.quantity}`);
     }
@@ -249,9 +240,9 @@ try {
     sourceId: dropped.sourceId,
     sourceName: dropped.sourceName,
     expected: dropped.expected,
-    beforeOpen: dropped.beforeOpen,
-    afterOpen: opened.inventory,
-    afterAll,
+    beforeOpen: carried(dropped.beforeOpen),
+    afterOpen: carried(opened.inventory),
+    afterAll: carried(afterAll),
     gridCells: opened.gridCells,
     hoverLabel: hover.label,
     anchorGap: opened.anchorGap,

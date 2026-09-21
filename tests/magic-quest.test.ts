@@ -3,7 +3,7 @@ import type { ItemId, SemanticEntity, SkillId } from "../game/src/contracts.js";
 import { ok, SKILL_IDS } from "../game/src/contracts.js";
 import { dialogueNode, validateDialogue } from "../game/src/content/dialogue.js";
 import { ENEMIES } from "../game/src/content/enemies.js";
-import { quest } from "../game/src/content/quests.js";
+import { questRules } from "../game/src/content/quests.js";
 import { EventBus } from "../game/src/core/events.js";
 import { SimClock } from "../game/src/core/time.js";
 import { setSkillLevel, Store } from "../game/src/state/store.js";
@@ -15,7 +15,7 @@ import {
 import { InteractionDispatcher } from "../game/src/world/interactions.js";
 
 function sparkingStone() {
-  const found = quest("sparking_stone");
+  const found = questRules("sparking_stone");
   if (!found) throw new Error("Missing sparking_stone quest");
   return found;
 }

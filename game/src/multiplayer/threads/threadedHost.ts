@@ -32,6 +32,9 @@ import type { CatalogSource, WorldBuild, WorldReady, WorldReport, WorldThreadDat
  */
 reviveWith(error => error.name === "EditFailure" && error.status && error.code ? new EditFailure(error.status as 400 | 409 | 503, error.code, error.message, error.opIndex ?? null) : null);
 
+/** How the host was asked to run its worlds. `"off"` never reaches this module: it runs no threads at all. */
+export type ThreadMode = "auto" | "on";
+
 export interface ThreadedHostOptions {
   launch: ThreadLauncher;
   database: DatabaseThread;
@@ -40,6 +43,8 @@ export interface ThreadedHostOptions {
   catalogRevision: string;
   catalog: CatalogSource; build: WorldBuild;
   authentication: AuthenticationAdapter;
+  /** What the host was configured with. `"auto"` means threads were chosen because this server has more than one world. */
+  mode?: ThreadMode;
   beforeAdmission(player: AuthenticatedPlayer, world: WorldDescriptor): Promise<void>;
   allowedOrigins?: readonly string[];
   now(): number;
@@ -50,10 +55,18 @@ export interface ThreadedHostOptions {
   holdTimeoutMs?: number;
   /** Start a crashed world again, with a growing pause between tries. On by default. */
   restart?: boolean;
+  /** Failures inside `restartWindowMs` after which the world is left down. Default 5. */
+  restartLimit?: number;
+  /** How long a failure is remembered. Default ten minutes. */
+  restartWindowMs?: number;
   reportMs?: number;
 }
 export interface WorldDiagnostics {
   worldId: string; available: boolean; restarts: number; bootMs: number; buildMs: number;
+  /** Crashes and failed starts still inside the restart window. */
+  failures: number;
+  /** The world failed too often and is not being started again. It stays unavailable until the server restarts. */
+  abandoned: boolean;
   /** Recent tick times in milliseconds, oldest first. `clearTicks` empties them. */
   ticks: number[]; stages: WorldHostMetrics["stages"];
   heapUsedBytes: number; utilization: number; cpuMs: number | null;
@@ -66,7 +79,7 @@ export interface ThreadedHost {
   start(endpoint: string | null): Promise<void>;
   /** Ask every world for its numbers now instead of waiting for its next report. At most one ask in flight. */
   refresh(): Promise<void>;
-  diagnostics(): Promise<{ worlds: WorldDiagnostics[]; database: DatabaseThreadStats }>;
+  diagnostics(): Promise<{ mode: ThreadMode; worlds: WorldDiagnostics[]; database: DatabaseThreadStats }>;
   clearTicks(): void;
   /** Terminate sockets that went silent. The reference server calls it once a second. */
   dropSilent(): void;
@@ -76,11 +89,46 @@ export interface ThreadedHost {
 const TICK_RING = 36_000;
 const RELEASE_WAIT_MS = 5_000;
 const UNAVAILABLE = { type: "error", error: { code: "UNAVAILABLE", message: "World storage or simulation failed" } };
+const RESTART_LIMIT = 5, RESTART_WINDOW_MS = 600_000;
+
+export interface RestartBudget {
+  /** Failures still inside the window. */
+  readonly failures: number;
+  /** The limit was reached: this world is not being started again. */
+  readonly abandoned: boolean;
+  /** Record a crash or a failed start. Returns the pause before the next try, or null to stop trying. */
+  failed(at: number): number | null;
+}
+/**
+ * How long to wait before starting a crashed world again, and when to stop.
+ *
+ * A world that fails, is started, and fails again within seconds will do that forever: the bug is in
+ * its own data or code, and the thousandth try goes the same way as the second. So failures inside
+ * the window are counted, and at the limit the world is left down for an operator to look at. The
+ * window is also what forgives: a failure older than it is dropped, so a world that ran longer than
+ * the window before it died starts its count again from one.
+ */
+export function restartBudget(limit = RESTART_LIMIT, windowMs = RESTART_WINDOW_MS): RestartBudget {
+  const times: number[] = [];
+  let abandoned = false;
+  return {
+    get failures() { return times.length; },
+    get abandoned() { return abandoned; },
+    failed(at) {
+      if (abandoned) return null;
+      while (times.length && at - times[0]! >= windowMs) times.shift();
+      times.push(at);
+      if (times.length >= limit) { abandoned = true; return null; }
+      // One second, then two, four and so on up to a minute, for as long as the world keeps failing.
+      return Math.min(60_000, 1000 * 2 ** (times.length - 1));
+    },
+  };
+}
 
 interface Routed { id: number; ws: WebSocket; link: WebSocketLink; thread: WorldThread; account: string | null; deadline: ReturnType<typeof setTimeout> | null }
 interface WorldThread {
   index: number; key: string; input: WorldDescriptor; descriptor: WorldDescriptor;
-  worker: Worker | null; rpc: Rpc | null; available: boolean; restarts: number; bootMs: number; buildMs: number;
+  worker: Worker | null; rpc: Rpc | null; available: boolean; restarts: number; budget: RestartBudget; bootMs: number; buildMs: number;
   report: WorldReport | null; ticks: number[]; stages: WorldHostMetrics["stages"]; cpuMs: number | null;
   peers: Map<number, Routed>;
 }
@@ -102,7 +150,8 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
   for (const [index, input] of options.worlds.entries()) {
     const world = descriptor({ ...input, catalogRevision: options.catalogRevision, authentication: input.authentication ?? advertised }); compatible(world);
     if (threads.some(thread => thread.key === worldKey(world))) throw new Error("Duplicate hosted world");
-    threads.push({ index, key: worldKey(world), input: world, descriptor: world, worker: null, rpc: null, available: false, restarts: 0, bootMs: 0, buildMs: 0,
+    threads.push({ index, key: worldKey(world), input: world, descriptor: world, worker: null, rpc: null, available: false, restarts: 0,
+      budget: restartBudget(options.restartLimit, options.restartWindowMs), bootMs: 0, buildMs: 0,
       report: null, ticks: [], stages: { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }, cpuMs: null, peers: new Map() });
   }
   const live = (): WorldThread[] => threads.filter(thread => thread.available && thread.rpc);
@@ -219,9 +268,16 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
     void database.storage.world.openWorld(thread.descriptor).catch(error => log({ event: "world.lease_release_failed", level: "error", world: thread.descriptor.worldId, message: error instanceof Error ? error.message : String(error) }));
     if (options.restart !== false) restartLater(thread);
   }
-  /** One second, then two, four and so on up to a minute, for as long as the world keeps failing to start. */
+  /** One second, then two, four and so on, until the world has failed too often to be worth starting again. */
   function restartLater(thread: WorldThread): void {
-    const pause = Math.min(60_000, 1000 * 2 ** Math.min(16, thread.restarts++));
+    const pause = thread.budget.failed(now());
+    if (pause === null) {
+      log({ event: "world.abandoned", level: "error", world: thread.descriptor.worldId, failures: thread.budget.failures, restarts: thread.restarts,
+        windowMs: options.restartWindowMs ?? RESTART_WINDOW_MS,
+        message: `World ${thread.descriptor.worldId} failed ${thread.budget.failures} times and is not being started again. It stays unavailable until this server restarts.` });
+      return;
+    }
+    thread.restarts++;
     setTimeout(() => {
       if (closing || closed || thread.worker) return;
       boot(thread).then(() => thread.rpc?.call("start")).then(() => log({ event: "world.restarted", world: thread.descriptor.worldId, restarts: thread.restarts }),
@@ -384,7 +440,8 @@ export async function createThreadedHost(options: ThreadedHostOptions): Promise<
     async start(endpoint) { if (endpoint !== null) await control.configure({ endpoint }); await each("start"); },
     async diagnostics() {
       await refresh();
-      return { database: await database.stats(), worlds: threads.map(thread => ({ worldId: thread.descriptor.worldId, available: thread.available, restarts: thread.restarts, bootMs: thread.bootMs, buildMs: thread.buildMs,
+      return { mode: options.mode ?? "auto", database: await database.stats(), worlds: threads.map(thread => ({ worldId: thread.descriptor.worldId, available: thread.available, restarts: thread.restarts,
+        failures: thread.budget.failures, abandoned: thread.budget.abandoned, bootMs: thread.bootMs, buildMs: thread.buildMs,
         ticks: [...thread.ticks], stages: { ...thread.stages }, heapUsedBytes: thread.report?.heapUsedBytes ?? 0, utilization: thread.report?.utilization ?? 0, cpuMs: thread.cpuMs })) };
     },
     clearTicks() { metrics.ticks.length = 0; for (const thread of threads) { thread.ticks.length = 0; thread.cpuMs = thread.cpuMs === null ? null : 0; thread.stages = { simulationMs: 0, snapshotMs: 0, commitMs: 0, replicationMs: 0, samples: 0 }; } },

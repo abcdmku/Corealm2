@@ -201,8 +201,10 @@ together with the semantic work they were about 0.3 s.
 
 Bundle sizes from the same build: initial application JavaScript 0.621 MB gzip against the 1.000 MB
 budget (0.974 MB before, with the 4 MB catalog compiled in), critical JavaScript plus WASM 1.132 MB
-against 1.500 MB, the local-play worker 0.290 MB against 0.350 MB. The client catalog is 1,056,568
-bytes, 152 KB gzipped, fetched once and cached for good.
+against 1.500 MB, the local-play worker 0.290 MB against 0.350 MB. The client catalog was 1,056,568
+bytes, 152 KB gzipped, fetched once and cached for good. It is now 1,040,948 bytes, 147 KB gzipped:
+quests were later cut to the journal a player reads, which took that table from 25,417 bytes to
+9,797.
 
 No console or page errors in any of the six boots. Machine-local measurements on one Windows 11
 desktop, not a hardware claim and not a prediction for remote hosting.

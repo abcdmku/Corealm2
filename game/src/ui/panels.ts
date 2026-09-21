@@ -34,7 +34,7 @@ import { DeferredOverlay } from "./deferredOverlay.js";
 import { createItemIcon } from "./itemIcons.js";
 import { Hud } from "./hud.js";
 import type { DeathDetail } from "./deathScreen.js";
-import { TitleScreen, type SaveRecoveryControls } from "./titleScreen.js";
+import { TitleScreen } from "./titleScreen.js";
 import { SettingsStore } from "./settings.js";
 import { PanelDock } from "./dock.js";
 import { createSpellActionBar, type ActionBarSpell, type SpellActionBar } from "./spellActionBar.js";
@@ -310,7 +310,6 @@ export interface ManagedPanel {
 // ------------------------------------------------------------------- the UI
 
 export interface UiOptions {
-  saveRecovery?: SaveRecoveryControls;
   registry?: KeyBindingRegistry;
   /** Existing client-preference store, when boot must apply audio before the UI is constructed. */
   settings?: SettingsStore;
@@ -566,7 +565,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       if (!titleCoveredBySettings) return;
       titleCoveredBySettings = false;
       title.setCovered(false);
-    }, options.saveRecovery),
+    }),
     onError: loadError("Settings"),
   });
   bank = new LazyPanel<BankPanelHandle>({
@@ -592,7 +591,6 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     onError: loadError("Death report"),
   });
   const title = new TitleScreen({
-    saveRecovery: options.saveRecovery,
     hasSave: () => options.hasSave?.() ?? false,
     onNewGame: () => {
       dismissTransient();

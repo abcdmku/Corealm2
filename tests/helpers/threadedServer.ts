@@ -22,7 +22,7 @@ export interface ThreadedServerOptions extends Omit<ReferenceServerOptions, "sto
   sources?: Record<string, unknown>;
   /** Mount `/admin`. Needs account authentication. */
   admin?: boolean;
-  threads?: Partial<Pick<ThreadedHosting, "peerEncoding" | "holdTimeoutMs" | "restart" | "reportMs">>;
+  threads?: Partial<Pick<ThreadedHosting, "mode" | "peerEncoding" | "holdTimeoutMs" | "restart" | "restartLimit" | "restartWindowMs" | "reportMs">>;
 }
 export async function startThreadedServer(options: ThreadedServerOptions) {
   const { database: spec = { kind: "memory" }, build = { kind: "lab" }, sources = {}, admin = false, threads, ...rest } = options;

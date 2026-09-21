@@ -46,6 +46,8 @@ export interface HostConfiguration {
    * from a thread of its own and pays for the messages. `on` and `off` say so outright.
    */
   threads: boolean;
+  /** What was asked for, before the world count decided what `auto` means. The admin console shows it. */
+  threadMode: "auto" | "on" | "off";
   worlds: HostWorld[];
   /** The file the settings below came from, or null when there was none. */
   configFile: string | null;
@@ -173,7 +175,7 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   const threadMode = value("--threads", "COREALM_THREADS", "threads", "auto")!;
   if (!["auto", "on", "off"].includes(threadMode)) throw new Error('threads must be "auto", "on" or "off"');
   const threads = threadMode === "on" || (threadMode === "auto" && worlds.length > 1);
-  return { threads, authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
+  return { threads, threadMode: threadMode as "auto" | "on" | "off", authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
     assetBaseUrl, identityUrl, ownerAccount, authModule, name, description, registerWithDirectory, adminUiDir, followRepoCatalog: args.includes("--follow-repo-catalog"), worlds, configFile: text === undefined ? null : path };
 }
 

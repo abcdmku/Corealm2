@@ -59,6 +59,16 @@ describe("the game page's catalog", () => {
       for (const key of FORBIDDEN_KEYS) expect(part.includes(`"${key}"`), `the client catalog's ${table} table spells "${key}"`).toBe(false);
     }
     expect(text.includes('"lootRolls"') || text.includes('"lootTables"')).toBe(false);
+    // A quest's completion predicate is the answer to the puzzle it sets, and its rewards and hints
+    // are the rest of the walkthrough. The journal is the name, the region, the giver and the prose.
+    const quests = client.tables.quests as Record<string, unknown>[];
+    expect(quests.length).toBe((compiled.tables.quests as unknown[]).length);
+    expect(Object.keys(quests[0]!)).toEqual(["id", "name", "regionId", "giverNpcId", "requirements", "prerequisiteQuestIds", "stages"]);
+    expect(Object.keys((quests[0]!.stages as Record<string, unknown>[])[0]!)).toEqual(["index", "objective", "refs"]);
+    // `kind` is not here: an objective ref is `{ kind: "item", id }`, and the key lists above already fix both shapes.
+    for (const key of ["completion", "hint", "grants", "onFlag", "onStart", "rewards", "summary"]) {
+      expect(JSON.stringify(quests).includes(`"${key}"`), `the client catalog's quests spell "${key}"`).toBe(false);
+    }
     for (const name of ["world", "lootTables", "encounters", "placements", "habitats"]) expect(client.tables).not.toHaveProperty(name);
     expect(client.tables.dialogue).toEqual([]);
     // Reported so a growing projection is noticed in review. The full catalog is about 4 MB.

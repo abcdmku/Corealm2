@@ -73,9 +73,9 @@ async function frame(entityId: string): Promise<any> {
 }
 try {
   report.installedCandidates = await installAssetCandidates(page, path.join(output, "candidate-catalog.json"));
-  const target = new URL(url); target.searchParams.set("mode", "combat"); target.searchParams.set("rhinoTiming", "1"); target.searchParams.delete("motion");
-  report.fixtureTimingRequested = true;
-  report.fixtureTimingNote = "rhinoTiming=1 requests the root-owned production fixture timing hook. The local content-table value is recorded separately; impact observations verify the behavior.";
+  const target = new URL(url); target.searchParams.set("mode", "combat"); target.searchParams.delete("motion");
+  report.fixtureTimingRequested = false;
+  report.fixtureTimingNote = "The reviewed contact fraction shipped: CREATURE_MOTION_TIMING carries 0.33229264631653577 for all three rhino assets, so the retired rhinoTiming=1 override has nothing left to force. Impact observations verify the behaviour.";
   await page.goto(target.href, { waitUntil: "domcontentloaded", timeout: 20_000 });
   await page.waitForFunction(() => (window as any).__featureLab?.getState()?.ready, undefined, { timeout: 20_000 });
   report.hardware = await page.evaluate(() => {

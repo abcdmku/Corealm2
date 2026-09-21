@@ -97,6 +97,16 @@ export const questSchema = obj({
   }, {}, { label: "Rewards" }),
 });
 
+/**
+ * The same quest with its rules taken out: the journal a player reads, and nothing that decides
+ * when a stage is finished or what it pays. `content/clientCatalog.ts` projects a row to this shape
+ * and `content/quests.ts` parses it, so the two cannot drift: a field added to a quest stays on the
+ * server until it is named here.
+ */
+export const questStagePresentationSchema = questStageSchema.omit("hint", "completion", "grants", "onFlag");
+export const questPresentationSchema = questSchema.omit("kind", "summary", "onStart", "rewards")
+  .extend({ stages: arr(questStagePresentationSchema, { minLength: 1 }, { label: "Stages", ordered: true }) });
+
 const reason = str({}, { label: "Disabled reason", multiline: true, help: "Why this condition blocks the option. Hidden branches may use an empty reason." });
 const questId = ref("quest", { label: "Quest", role: "Mentioned in" });
 const bound = int({ min: 0 });

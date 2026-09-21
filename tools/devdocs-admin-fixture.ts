@@ -100,6 +100,15 @@ function stats(): Record<string, unknown> {
       { at: NOW - 120_000, kind: "kick", accountId: ADMIN, detail: "Taking the world down for a publish" },
       { at: NOW - 60_000, kind: "join", accountId: ADMIN, detail: "second-corealm" },
     ],
+    // Two worlds, so this server runs a thread each: one healthy, one that crashed twice and came back.
+    threads: {
+      mode: "auto",
+      worlds: [
+        { worldId: "corealm", available: true, restarts: 0, failures: 0, abandoned: false, bootMs: 3_812, buildMs: 2_904, heapUsedBytes: 702_021_632, utilization: 0.41, cpuMs: 620_410 },
+        { worldId: "second-corealm", available: true, restarts: 2, failures: 2, abandoned: false, bootMs: 4_118, buildMs: 3_002, heapUsedBytes: 668_991_488, utilization: 0.37, cpuMs: 588_120 },
+      ],
+      database: { calls: 184_221, commits: 9_030, commitMs: [0.7, 1.1, 0.9, 2.4], commitWaitMs: [0.2, 0.4, 1.9, 0.3], busyMs: 18_204, utilization: 0.12 },
+    },
     catalogRevision: REVISION,
     server: {
       name: "Raid Night", description: "Fridays, 8pm, bring your own arrows.", endpoint: "wss://play.example.com/",

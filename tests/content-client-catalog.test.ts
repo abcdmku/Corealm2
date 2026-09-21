@@ -36,13 +36,13 @@ describe("compile outputs", () => {
 describe("client catalog", () => {
   const client = fromDisk.client, text = serializeClientCatalog(client);
   it("holds presentation and player-visible tables and nothing the server keeps", () => {
-    expect(Object.keys(client.tables)).toEqual([...CLIENT_TABLES, "regions", "worldResources", "creatures", "enemies", "compiledCreatures", "species", "dialogue"]);
+    expect(Object.keys(client.tables)).toEqual([...CLIENT_TABLES, "regions", "worldResources", "creatures", "quests", "enemies", "compiledCreatures", "species", "dialogue"]);
     for (const secret of ["lootRolls", "lootTables", "habitats", "groupsByRegion", "creatureByGroup", "placements", "encounters", "sourceMap",
       "aggroRadius", "maxHit", "attackLevel", "maxHealth", "\"loot\"", "inheritedFields", "respawnMs"]) expect(text.includes(secret), secret).toBe(false);
     // The game page installs this catalog, so its content modules find the names they read. A combat block is cut to its label,
-    // the quest log's text is here because a player reads it, and dialogue text reaches a page only through the replicated conversation.
+    // a quest is cut to its journal, and dialogue text reaches a page only through the replicated conversation.
     expect(client.tables.dialogue).toEqual([]);
-    expect(client.tables).toHaveProperty("quests");
+    expect((client.tables.quests as Record<string, unknown>[]).every(row => !("completion" in row) && !("rewards" in row))).toBe(true);
     for (const row of [...client.tables.species, ...client.tables.compiledCreatures.flatMap(creature => creature.presentation ? [creature.presentation as Record<string, unknown>] : [])]) {
       expect(Object.keys(row.stats as object).every(key => ["id", "name", "family", "tier"].includes(key))).toBe(true);
     }

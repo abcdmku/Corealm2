@@ -17,7 +17,7 @@ import { SessionFooter } from "./ui/SessionFooter.js";
 import { ShellSaveBar, useDirtyByWorkspace } from "./ui/ShellSaveBar.js";
 import { ErrorState, LoadingRows } from "./ui/States.js";
 import { WORKSPACES, type Route } from "./ui/workspaces.js";
-import { REGISTRY } from "./workspaces/registry.js";
+import { CRUMBS, REGISTRY } from "./workspaces/registry.js";
 import { Button, Badge } from "./components/ui/index.js";
 import { PANEL } from "./ui/layout.js";
 
@@ -107,6 +107,7 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
   const go: AppProps["navigate"] = (name, recordId) => { navigate(name, recordId); setMobileNav(false); };
   const collections = query.data ?? [];
   const Custom = REGISTRY[workspace.key]?.[view.key];
+  const Crumb = CRUMBS[workspace.key];
   const tabs = workspace.views.filter(candidate => !candidate.hidden);
   const viewRoute = `${workspace.key}/${view.key}`;
   // A record page keeps its list beside it. The catalog's rail walks the compiled items so tier
@@ -158,7 +159,9 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
         <Button variant="ghost" size="icon-sm" className="hidden max-md:inline-flex" aria-label={mobileNav ? "Close navigation" : "Open navigation"} onClick={() => setMobileNav(!mobileNav)}>{mobileNav ? <X size={18} /> : <MenuIcon size={18} />}</Button>
         <span className="mr-2 text-[13px] font-semibold text-foreground">{workspace.label}</span>
         {tabs.length > 1 && tabs.map(candidate => <button key={candidate.key} className="inline-flex h-[26px] cursor-pointer items-center gap-1.5 rounded-md px-2.5 text-xs font-medium whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground aria-[current=page]:bg-selected aria-[current=page]:text-foreground" aria-current={candidate.key === view.key ? "page" : undefined} onClick={() => go(`${workspace.key}/${candidate.key}`)}>{candidate.label}</button>)}
-        {id !== undefined && <span className="min-w-0 ml-1 inline-flex items-center gap-1 overflow-hidden text-xs text-faint"><ChevronRight size={12} /><code className="truncate text-[11px] text-muted-foreground">{id}</code></span>}
+        {id !== undefined && <span className="min-w-0 ml-1 inline-flex items-center gap-1 overflow-hidden text-xs text-faint"><ChevronRight size={12} />
+          <code className="truncate text-[11px] text-muted-foreground">{Crumb ? <Suspense fallback={id}><Crumb id={id} /></Suspense> : id}</code>
+        </span>}
         <div className="ml-auto flex items-center gap-1">
           <Button variant="ghost" size="icon-sm" aria-label="Search" onClick={() => setPalette(true)}><Search size={16} /></Button>
         </div>

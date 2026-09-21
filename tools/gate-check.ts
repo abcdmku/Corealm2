@@ -28,7 +28,7 @@ import type {} from "./lib/debug-api.js";
 // The reward numbers F3 asserts are read out of the content table and handed to the page, so
 // the check compares the game against its own definition instead of against a number a test
 // author typed once and nobody re-read when the quest was rebalanced.
-import { QUESTS } from "../game/src/content/quests.js";
+import { QUEST_RULES } from "../game/src/content/quests.js";
 
 export interface GateCheck {
   id: string;
@@ -1234,7 +1234,7 @@ export async function runGateCheck(runCandidate: string, timeScale: number): Pro
     // F3 asserts exact numbers, so it reads them from `content/quests.ts` rather than carrying its
     // own copy: a rebalance that changes a reward makes the check disagree with the game, which is
     // the point, and never makes the check silently obsolete.
-    const coldIron = QUESTS.find((quest) => quest.id === "cold_iron");
+    const coldIron = QUEST_RULES.find((quest) => quest.id === "cold_iron");
     if (!coldIron) throw new Error("content/quests.ts no longer defines cold_iron");
     await page.evaluate((rewards) => {
       (window as unknown as { __gateExpect: unknown }).__gateExpect = { coldIron: rewards };

@@ -72,9 +72,9 @@
 <g>
 <rect data-box="docs" x="330" y="76" width="290" height="100" rx="8" fill="var(--surfaceAccent)" stroke="var(--accent)" stroke-width="2"/>
 <text data-owner="docs" x="346" y="107" font-size="15" font-weight="600" fill="var(--text)">docs.yml · Game and guide</text>
-<text data-owner="docs" x="346" y="128" font-size="13" fill="var(--textMuted)">On a pull request: check, labs, smoke.</text>
-<text data-owner="docs" x="346" y="145" font-size="13" fill="var(--textMuted)">On main: deploy the client and the</text>
-<text data-owner="docs" x="346" y="162" font-size="13" fill="var(--textMuted)">player guide to GitHub Pages.</text>
+<text data-owner="docs" x="346" y="128" font-size="13" fill="var(--textMuted)">On a pull request: check and labs. The</text>
+<text data-owner="docs" x="346" y="145" font-size="13" fill="var(--textMuted)">smoke test needs a GPU runner.</text>
+<text data-owner="docs" x="346" y="162" font-size="13" fill="var(--textMuted)">On main: deploy the client and guide.</text>
 </g>
 <g>
 <rect data-box="cexport" x="330" y="202" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>

@@ -15,6 +15,7 @@ import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";
 import type { FeatureLabCatalog, FeatureLabState } from "../game/src/contracts.js";
+import { REGIONAL_BOSS_BODIES } from "../game/src/content/regionalBossBodies.js";
 import { LEASH_METRES } from "../game/src/systems/enemyAI.js";
 import { ENEMY_RESPAWN_MS } from "../game/src/systems/combat.js";
 import { installTestDeadline } from "./lib/deadline.js";
@@ -46,31 +47,37 @@ const CREATURES = {
 } as const;
 
 /**
- * The three elemental orb bosses, which share one rig in three colours.
+ * The three elemental orb bosses.
  *
- * Worth their own pass because they are the only entities in the game whose look is carried by an
- * emissive map rather than by a texture and a tier tint, and because a boss that fails to load is
- * a quest that cannot be finished — each of these drops the Orb its element's magic ladder is
- * gated on. `entityViews.prepare` throws on a missing asset, so spawning one at all is the proof.
+ * Worth their own pass because a boss that fails to load is a quest that cannot be finished — each
+ * of these drops the Orb its element's magic ladder is gated on. `entityViews.prepare` throws on a
+ * missing asset, so spawning one at all is most of the proof.
+ *
+ * The expected rig is read from `content/regionalBossBodies.ts` rather than spelled here. All seven
+ * regional bosses used to share two rigs — `boss_rhino_*` in three elemental colours and one
+ * Monster02 in four texture variants — and each has had its own authored body since, at its own
+ * authored scale (Galeskin and Rootheart are drawn at 1.35 so their short stride reads). Two checks
+ * here were written against the old arrangement and were asserting a size band nothing produces any
+ * more: that an Orb boss always draws over 3 m (Ordrun draws 2.48) and that a miniboss always draws
+ * under 3 (Tideworn draws 4.05). What still holds, and is what those checks were reaching for, is
+ * that a boss reads bigger than anything on the ordinary roster.
  */
 const BOSSES = [
-  { presetId: "tempest_roc", label: "Tempest Roc", assetId: "boss_rhino_air" },
-  { presetId: "rootheart", label: "The Rootheart", assetId: "boss_rhino_earth" },
-  { presetId: "gravelmaw:ordrun", label: "Ordrun the Quarrykeeper", assetId: "boss_rhino_water" },
-] as const;
+  { presetId: "tempest_roc", label: "Tempest Roc", body: "tempest_roc" },
+  { presetId: "rootheart", label: "The Rootheart", body: "rootheart" },
+  { presetId: "gravelmaw:ordrun", label: "Ordrun the Quarrykeeper", body: "ordrun" },
+] as const satisfies readonly { presetId: string; label: string; body: keyof typeof REGIONAL_BOSS_BODIES }[];
 
-/**
- * The four regional minibosses: one Monster02 rig in four texture variants, built by named-take
- * selection from a single all-animation FBX. Spawning each one proves the take selector shipped
- * exactly the canonical clip set the renderer keys on, and the drawn-size band proves the 1.3x
- * miniboss scale landed between the ordinary roster and the 1.6x Orb bosses.
- */
+/** The four regional minibosses, at the shared 1.3x miniboss scale on top of their authored body. */
 const MINIBOSSES = [
-  { presetId: "galeskin", label: "Galeskin", assetId: "miniboss_galeskin" },
-  { presetId: "mossbound", label: "Mossbound", assetId: "miniboss_mossbound" },
-  { presetId: "tideworn", label: "Tideworn", assetId: "miniboss_tideworn" },
-  { presetId: "cinderwake", label: "Cinderwake", assetId: "miniboss_cinderwake" },
-] as const;
+  { presetId: "galeskin", label: "Galeskin", body: "galeskin" },
+  { presetId: "mossbound", label: "Mossbound", body: "mossbound" },
+  { presetId: "tideworn", label: "Tideworn", body: "tideworn" },
+  { presetId: "cinderwake", label: "Cinderwake", body: "cinderwake" },
+] as const satisfies readonly { presetId: string; label: string; body: keyof typeof REGIONAL_BOSS_BODIES }[];
+
+/** A boss has to read as one: at least half again the widest ordinary animal this gate spawned. */
+const BOSS_SIZE_FACTOR = 1.5;
 
 /** Inside the goat's 8 m radius and well outside the hen's 3 m. One distance, opposite outcomes. */
 const AGGRO_PROBE_DISTANCE = 6;
@@ -96,6 +103,8 @@ interface AggroEvidence {
   observedStates: string[];
   closedDistance: boolean;
   engaged: boolean;
+  /** Widest ground axis at drawn scale, the roster baseline the boss sizes are measured against. */
+  drawnMetres: number;
 }
 
 interface AttackEvidence {
@@ -139,6 +148,8 @@ interface BossEvidence {
   label: string;
   presetId: string;
   expectedAssetId: string;
+  assetId: string | undefined;
+  viewScale: number | undefined;
   spawned: boolean;
   archetype: string | undefined;
   maxHealth: number | null;
@@ -277,17 +288,18 @@ try {
   const bosses: BossEvidence[] = [];
   for (const boss of BOSSES) {
     bosses.push(await observeBoss(page, boss));
-    await capture(page, path.join(screenshotDir, `boss-${boss.assetId}.png`));
+    await capture(page, path.join(screenshotDir, `boss-${boss.body}.png`));
   }
 
   stage = "minibosses";
   const minibosses: BossEvidence[] = [];
   for (const boss of MINIBOSSES) {
     minibosses.push(await observeBoss(page, boss));
-    await capture(page, path.join(screenshotDir, `miniboss-${boss.assetId}.png`));
+    await capture(page, path.join(screenshotDir, `miniboss-${boss.body}.png`));
   }
 
   const final = await readState(page);
+  const rosterDrawnMetres = Math.max(aggressiveAggro.drawnMetres, passiveAggro.drawnMetres);
   const bossCatalog = Object.fromEntries([...BOSSES, ...MINIBOSSES].map((boss) => [
     boss.presetId,
     catalog.targets.creature.some((preset) => preset.id === boss.presetId),
@@ -333,18 +345,21 @@ try {
     everyOrbBossCarriesItsStatBlock: bosses.every((boss) => (
       boss.maxHealth !== null && boss.maxHealth > 0 && boss.aggroRadius > 0 && boss.level > 0
     )),
-    orbBossesAreVisiblyBigger: bosses.every((boss) => boss.drawnMetres > 3),
 
     everyMinibossSpawnsWithItsRig:
       minibosses.every((boss) => boss.spawned && boss.archetype === "boss"),
     everyMinibossCarriesItsStatBlock: minibosses.every((boss) => (
       boss.maxHealth !== null && boss.maxHealth > 0 && boss.aggroRadius > 0 && boss.level > 0
     )),
-    // The Monster02 rig is 0.93 x 0.65 m on the ground; at 1.3x and the tier silhouette the
-    // widest axis lands between ~1.1 m (tier 1) and ~1.5 m (tier 20) - clearly not the 3 m+
-    // Orb-boss read, and clearly bigger than a hen.
-    minibossesDrawBetweenRosterAndBosses:
-      minibosses.every((boss) => boss.drawnMetres > 0.9 && boss.drawnMetres < 3),
+    // The body each of the seven is authored with, read off the drawn entity rather than off a
+    // list in this file, so a rig swap in `content/regionalBossBodies.ts` cannot pass unnoticed.
+    everyRegionalBossWearsItsAuthoredBody:
+      [...bosses, ...minibosses].every((boss) => boss.assetId === boss.expectedAssetId),
+    // Relative, because the absolute band moved when each boss got its own body. The roster
+    // baseline is measured in this same run, from the two animals the aggro pass already spawned.
+    regionalBossesDrawBiggerThanTheRoster:
+      rosterDrawnMetres > 0 && [...bosses, ...minibosses]
+        .every((boss) => boss.drawnMetres > rosterDrawnMetres * BOSS_SIZE_FACTOR),
 
     screenshotsCaptured: screenshots.length >= 9,
     noRuntimeErrors: final.errors.length === 0
@@ -359,6 +374,7 @@ try {
     url: server.url,
     checks,
     evidence: {
+      rosterDrawnMetres,
       aggro: { aggressive: aggressiveAggro, passive: passiveAggro },
       attack,
       flee,
@@ -447,6 +463,7 @@ async function observeAggro(
     // ground snapping settle it, and calling that "closed the distance" would pass on noise.
     closedDistance: spawnedAtMetres !== undefined && closest < spawnedAtMetres - 0.5,
     engaged,
+    drawnMetres: Math.round((settled.target?.ai?.bodyRadius ?? 0) * 200) / 100,
   };
 }
 
@@ -629,24 +646,27 @@ async function observeRespawn(
  */
 async function observeBoss(
   targetPage: Page,
-  boss: { presetId: string; label: string; assetId: string },
+  boss: { presetId: string; label: string; body: keyof typeof REGIONAL_BOSS_BODIES },
 ): Promise<BossEvidence> {
   // Well outside the widest authored aggro radius (22 m, the Rootheart) so the boss is measured
   // standing still rather than mid-charge, and the screenshot frames the whole animal.
   const state = await spawn(targetPage, boss.presetId, 30);
   const ai = state.target?.ai;
-  const archetype = await targetPage.evaluate(async (entityId) => {
+  const drawn = await targetPage.evaluate(async (entityId) => {
     const debug = (window as unknown as {
-      __gameDebug?: { getEntities?: () => { id: string; archetype?: string }[] };
+      __gameDebug?: { getEntity?: (id: string) => Promise<{ archetype?: string; view?: { assetId?: string; scale?: number } } | null> };
     }).__gameDebug;
-    return (await debug?.getEntities?.())?.find((entity) => entity.id === entityId)?.archetype;
+    const entity = await debug?.getEntity?.(entityId);
+    return { archetype: entity?.archetype, assetId: entity?.view?.assetId, scale: entity?.view?.scale };
   }, state.target?.entityId ?? "");
   return {
     label: boss.label,
     presetId: boss.presetId,
-    expectedAssetId: boss.assetId,
+    expectedAssetId: REGIONAL_BOSS_BODIES[boss.body].assetId,
+    assetId: drawn.assetId,
+    viewScale: drawn.scale,
     spawned: state.target?.presetId === boss.presetId,
-    archetype,
+    archetype: drawn.archetype,
     maxHealth: state.target?.maxHealth ?? null,
     aggroRadius: ai?.aggroRadius ?? 0,
     level: ai?.level ?? 0,

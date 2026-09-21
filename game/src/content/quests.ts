@@ -28,7 +28,7 @@ import type {
 
 const questData = RESOLVED_TABLES["quests"];
 import { parseCollection } from "./schema/core.js";
-import { questSchema } from "./schema/story.js";
+import { questPresentationSchema, questSchema } from "./schema/story.js";
 
 // ------------------------------------------------------------------- shapes
 
@@ -90,7 +90,11 @@ export interface QuestGrant {
 
 export type { QuestObjectiveRef };
 
-export interface QuestStageDef {
+/**
+ * A stage as the journal shows it. Every catalog carries this much, the client catalog included,
+ * because the quest panel prints the objective and names its refs.
+ */
+export interface QuestStagePresentation {
   index: number;
   /**
    * Player-facing prose. Shown in the quest panel and returned by `getQuests().currentObjective`.
@@ -103,6 +107,10 @@ export interface QuestStageDef {
    * guides can show the step in the real world rather than beside a generic illustration.
    */
   refs?: QuestObjectiveRef[];
+}
+
+/** A stage with its rules: how it is finished and what finishing it pays. Server catalogs only. */
+export interface QuestStageDef extends QuestStagePresentation {
   /** One line of "how", surfaced through docs search and the quest panel. */
   hint: string;
   completion: QuestPredicate;
@@ -117,17 +125,27 @@ export interface QuestStageDef {
   onFlag?: { flag: string; grant: QuestGrant }[];
 }
 
-export interface QuestDef {
+/**
+ * A quest as the journal shows it: the name, where it is, who starts it, what it asks of a
+ * character, and the prose of each stage. This is what the client catalog carries, so a page can
+ * build the quest log without being handed the answers.
+ */
+export interface QuestPresentation {
   id: QuestId;
   name: string;
   regionId: RegionId;
-  kind: "local" | "skill" | "puzzle" | "dungeon" | "chain";
-  /** One paragraph for the journal and the docs index. Never leaks a later stage. */
-  summary: string;
   /** The NPC id that starts it. `npcGivingQuest` in content/npcs.ts agrees with this. */
   giverNpcId: EntityId;
   requirements: Partial<Record<SkillId, number>>;
   prerequisiteQuestIds: QuestId[];
+  stages: QuestStagePresentation[];
+}
+
+/** The authored quest, rules and all. Only a server catalog carries it: see `questRules`. */
+export interface QuestDef extends QuestPresentation {
+  kind: "local" | "skill" | "puzzle" | "dungeon" | "chain";
+  /** One paragraph for the journal and the docs index. Never leaks a later stage. */
+  summary: string;
   /** Handed over the moment the quest starts, so no stage can strand a fresh character. */
   onStart?: QuestGrant;
   stages: QuestStageDef[];
@@ -141,24 +159,48 @@ export interface QuestDef {
   };
 }
 
+/**
+ * Which catalog this process runs on. A server catalog holds authored quests; the client catalog
+ * holds the projection `content/clientCatalog.ts` makes of them, which has no `rewards` because it
+ * has no rules at all. The rows are parsed against whichever shape they are, so a projected row
+ * that still carried a predicate would fail here rather than reach a player.
+ */
+const authored = Array.isArray(questData) && questData.length > 0
+  && (questData as Record<string, unknown>[]).every((row) => typeof row === "object" && row !== null && "rewards" in row);
+
 /** Quest records retain their authored journal order. */
-export const QUESTS: readonly QuestDef[] = parseCollection(questSchema, questData, { name: "quests" });
+export const QUESTS: readonly QuestPresentation[] = authored
+  ? parseCollection(questSchema, questData, { name: "quests" })
+  : parseCollection(questPresentationSchema, questData, { name: "quests" });
 
-const BY_ID = new Map<QuestId, QuestDef>(QUESTS.map((row) => [row.id, row]));
+const BY_ID = new Map<QuestId, QuestPresentation>(QUESTS.map((row) => [row.id, row]));
+const RULES = new Map<QuestId, QuestDef>(authored ? (QUESTS as readonly QuestDef[]).map((row) => [row.id, row]) : []);
 
-export function quest(id: QuestId): QuestDef | undefined {
+export function quest(id: QuestId): QuestPresentation | undefined {
   return BY_ID.get(id);
 }
 
-export function questsForRegion(regionId: RegionId): QuestDef[] {
+/**
+ * How a quest is finished and what it pays. A host has these; a page does not, because the client
+ * catalog carries no predicate a player could read the answers out of. Nothing on a page asks: the
+ * quest log is built from `QUESTS` and from the summaries the host replicates.
+ */
+export function questRules(id: QuestId): QuestDef | undefined {
+  return RULES.get(id);
+}
+
+/** Every authored quest, rules and all, in journal order. Empty on a client catalog. */
+export const QUEST_RULES: readonly QuestDef[] = [...RULES.values()];
+
+export function questsForRegion(regionId: RegionId): QuestPresentation[] {
   return QUESTS.filter((row) => row.regionId === regionId);
 }
 
-export function questsGivenBy(npcId: EntityId): QuestDef[] {
+export function questsGivenBy(npcId: EntityId): QuestPresentation[] {
   return QUESTS.filter((row) => row.giverNpcId === npcId);
 }
 
-export function stageOf(id: QuestId, index: number): QuestStageDef | undefined {
+export function stageOf(id: QuestId, index: number): QuestStagePresentation | undefined {
   const def = BY_ID.get(id);
   if (!def) return undefined;
   return def.stages.find((row) => row.index === index);
@@ -185,7 +227,7 @@ export function referencedItemIds(): ItemId[] {
     for (const stack of grant.items ?? []) out.add(stack.itemId);
     for (const stack of grant.takeItems ?? []) out.add(stack.itemId);
   };
-  for (const def of QUESTS) {
+  for (const def of RULES.values()) {
     collect(def.onStart);
     for (const stage of def.stages) {
       walk(stage.completion);

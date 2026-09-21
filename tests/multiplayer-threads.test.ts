@@ -9,6 +9,7 @@ import { totalXpAt } from "../game/src/content/xp.js";
 import { createSigningKey, joinTokenClaims, signJoinToken, type IdentityKey } from "../identity/src/joinToken.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
 import type { DatabaseSpec } from "../game/src/multiplayer/threads/databaseThread.js";
+import { restartBudget } from "../game/src/multiplayer/threads/threadedHost.js";
 import type { WorldBuild } from "../game/src/multiplayer/threads/worldThread.js";
 import { readContentSources } from "../tools/content/compile.js";
 import { PLACEMENT_GROUP } from "./fixtures/placementWorld.js";
@@ -26,13 +27,14 @@ const world = (worldId: string, fixture: "lab" | "authored" = "lab"): WorldDescr
 const cleanups: (() => Promise<unknown> | unknown)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
 
-async function serve(options: { build?: WorldBuild; database?: DatabaseSpec; sources?: Record<string, unknown>; fixture?: "lab" | "authored"; holdTimeoutMs?: number; restart?: boolean } = {}) {
+async function serve(options: { build?: WorldBuild; database?: DatabaseSpec; sources?: Record<string, unknown>; fixture?: "lab" | "authored"; holdTimeoutMs?: number; restart?: boolean; restartLimit?: number } = {}) {
   const created = createSigningKey(), logs: Record<string, unknown>[] = [];
   const keys: IdentityKey[] = [{ kid: created.signing.kid, alg: "EdDSA", publicKey: created.publicKey, status: "active" }];
   const server = await startThreadedServer({ worlds: [world("north", options.fixture), world("south", options.fixture)], admin: true, ownerAccount: OWNER, log: event => logs.push(event),
     ...(options.build ? { build: options.build } : {}), ...(options.database ? { database: options.database } : {}), ...(options.sources ? { sources: options.sources } : {}),
     assets: { bundledManifest: async () => JSON.parse(await readFile("game/public/assets/manifest.json", "utf8")) },
-    threads: { ...(options.holdTimeoutMs ? { holdTimeoutMs: options.holdTimeoutMs } : {}), ...(options.restart === undefined ? {} : { restart: options.restart }) },
+    threads: { ...(options.holdTimeoutMs ? { holdTimeoutMs: options.holdTimeoutMs } : {}), ...(options.restart === undefined ? {} : { restart: options.restart }),
+      ...(options.restartLimit === undefined ? {} : { restartLimit: options.restartLimit }) },
     authentication: await createIdentityAuthentication({ identityUrl: "https://identity.test/", fetch: (async () => new Response(JSON.stringify({ keys }))) as typeof fetch }) });
   let closed = false; const close = async () => { if (!closed) { closed = true; await server.close(); } };
   cleanups.push(close);
@@ -175,6 +177,49 @@ describe("failure", () => {
     const carol = await connect(served, "south", "acc_CCCCCCCCCCCCCCCCCCCCCC", "Carol");
     expect(carol.verdict.type).toBe("joined");
   }, 90_000);
+
+  it("stops starting a world that keeps failing, and says so in the log and in the stats", async () => {
+    const crashFlag = join(tmpdir(), `corealm-crash-${randomUUID()}`);
+    cleanups.push(() => rm(crashFlag, { force: true }));
+    // The flag stays put, so every thread this world gets dies the same way its first one did.
+    const served = await serve({ restartLimit: 2, build: fixtureWorld("threadWorlds.ts", { worldId: "south", crashFlag } satisfies ThreadWorldOptions) });
+    const bob = await connect(served, "south", BOB, "Bob");
+    expect(bob.verdict.type).toBe("joined");
+    await writeFile(crashFlag, "");
+    await expect.poll(() => served.logs.filter(event => event.event === "world.abandoned").length, { timeout: 20_000, interval: 50 }).toBe(1);
+
+    const abandoned = served.logs.find(event => event.event === "world.abandoned")!;
+    expect([abandoned.world, abandoned.level, abandoned.failures, abandoned.message]).toEqual(["south", "error", 2,
+      "World south failed 2 times and is not being started again. It stays unavailable until this server restarts."]);
+    // It was started once, died again inside a second, and is not started a third time.
+    expect(served.logs.filter(event => event.event === "world.crashed" && event.world === "south").length).toBe(2);
+    expect(served.logs.filter(event => event.event === "world.restarted" && event.world === "south").length).toBe(1);
+    await new Promise(resolve => setTimeout(resolve, 2_500));
+    expect(served.logs.filter(event => event.event === "world.restarted" && event.world === "south").length).toBe(1);
+
+    const listed = await served.worlds();
+    expect([listed.north.availability, listed.south.availability]).toEqual(["available", "unavailable"]);
+    expect((await connect(served, "south", "acc_CCCCCCCCCCCCCCCCCCCCCC", "Carol")).verdict.error).toEqual({ code: "UNAVAILABLE", message: "World is unavailable" });
+    const stats = await served.call("/admin/stats", { token: served.owner });
+    expect(stats.body.threads.mode).toBe("auto");
+    expect(stats.body.threads.worlds.map((entry: any) => [entry.worldId, entry.available, entry.abandoned, entry.failures]))
+      .toEqual([["north", true, false, 0], ["south", false, true, 2]]);
+    // The server itself is still serving: north never noticed.
+    expect((await fetch(`http://127.0.0.1:${served.server.port}/readyz`)).status).toBe(200);
+  }, 90_000);
+
+  it("forgives failures older than the restart window", () => {
+    // The clock is the test's, so ten minutes pass between two lines.
+    const budget = restartBudget(3, 600_000);
+    expect([budget.failed(0), budget.failed(500), budget.abandoned]).toEqual([1000, 2000, false]);
+    // A world that ran past the window before it died starts counting from one again.
+    expect(budget.failed(600_500)).toBe(1000);
+    expect([budget.failures, budget.abandoned]).toEqual([1, false]);
+    // Three inside the window is the limit, and the answer stays null however long the server runs after it.
+    expect([budget.failed(600_600), budget.failed(600_700)]).toEqual([2000, null]);
+    expect([budget.failures, budget.abandoned]).toEqual([3, true]);
+    expect(budget.failed(2_000_000)).toBe(null);
+  });
 
   it("refuses an operation that needs the tick hold when a world does not reach it in time, and recovers", async () => {
     const stallFlag = join(tmpdir(), `corealm-stall-${randomUUID()}`);

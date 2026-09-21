@@ -5,7 +5,7 @@ import path from "node:path";
 import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { content, type ContentTables } from "../game/src/content/index.js";
-import { QUESTS, type QuestPredicate } from "../game/src/content/quests.js";
+import { QUESTS, QUEST_RULES, type QuestPredicate } from "../game/src/content/quests.js";
 import { REGIONS, validateRegions } from "../game/src/content/regions.js";
 import { ALL_PROCEDURAL_GEAR_ASSETS } from "../game/src/render/proceduralGear.js";
 import { TRAVERSAL_CONTACTS } from "../game/src/systems/traversalContacts.js";
@@ -66,7 +66,7 @@ function validateContentTables(tables: ContentTables): string[] {
       problems.push(`${where} counts kills of unknown enemy family "${predicate.enemyFamily}"`);
     }
   };
-  for (const quest of QUESTS) {
+  for (const quest of QUEST_RULES) {
     for (const stage of quest.stages) {
       const where = `quest ${quest.id} stage ${stage.index}`;
       if (stage.objective.includes("`")) problems.push(`${where} objective still prints a developer id: ${stage.objective}`);

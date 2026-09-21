@@ -46,7 +46,7 @@ describe('reference deployment configuration',()=>{
    identityUrl:'https://identity.example.com/',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two'}]}});
   expect(hostConfiguration([],{},read)).toEqual({authored:false,authentication:'account',developmentGuests:false,guests:false,host:'127.0.0.1',port:4200,
    data:'./data',publicEndpoint:'ws://127.0.0.1:4200/',allowedOrigins:[],
-   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,threads:true,registerWithDirectory:false,adminUiDir:'dist/devdocs-server',
+   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,threads:true,threadMode:'auto',registerWithDirectory:false,adminUiDir:'dist/devdocs-server',
    configFile:'corealm-server.json',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two',name:'two',seed:1337,capacity:64}]});
  });
  it('reads the defaults of the runtime settings and the admin UI directory, and checks them',()=>{

@@ -286,7 +286,8 @@ async function main(argv: readonly string[]): Promise<number> {
     settings: { ...(config.name ? { name: config.name } : {}), ...(config.description ? { description: config.description } : {}), registerWithDirectory: config.registerWithDirectory },
     adminUi: adminUiArchive ? archiveAdminUi(adminUiArchive) : directoryAdminUi(resolve(base, config.adminUiDir)),
     build: world => pack ? authoredWorld(pack, world.seed) : createMultiplayerLabWorld(world.seed), authentication,
-    ...(database ? { threads: { launch: launchThreads, database, catalog: { kind: "storage" as const }, build: sharedPack ? { kind: "pack" as const, bytes: sharedPack } : { kind: "lab" as const } } } : {}),
+    ...(database ? { threads: { launch: launchThreads, database, mode: config.threadMode === "on" ? "on" as const : "auto" as const,
+      catalog: { kind: "storage" as const }, build: sharedPack ? { kind: "pack" as const, bytes: sharedPack } : { kind: "lab" as const } } } : {}),
   }).catch(async error => { await storage.close(); throw error; });
 
   // `ready: true` and `port` are what every launcher and proof script waits for.

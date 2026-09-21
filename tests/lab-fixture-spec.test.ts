@@ -20,7 +20,7 @@ describe("labFixtureSpec", () => {
       version: 1, mode: "combat", seed: 1337, terrain: yard,
       spawn: { regionId: "fallowmarch", x: 0, z: 0, facingRad: 0 },
       structure: { selection: {}, architecture: null }, creature: null, character, content: quietContent,
-      runtime: [], regionalTier: null, rhinoTiming: false, interestRadius: 400,
+      runtime: [], regionalTier: null, interestRadius: 400,
     });
   });
 
@@ -29,7 +29,7 @@ describe("labFixtureSpec", () => {
       version: 1, mode: "building", seed: 1337, terrain: yard,
       spawn: { regionId: "fallowmarch", x: 0, z: 0, facingRad: 0 },
       structure: { selection: { kind: "wall-run", id: "palisade", kit: "stone", width: 9, depth: 3, seed: 7 }, architecture: "faeholme" },
-      creature: null, character, content: quietContent, runtime: [], regionalTier: null, rhinoTiming: false, interestRadius: 400,
+      creature: null, character, content: quietContent, runtime: [], regionalTier: null, interestRadius: 400,
     });
   });
 
@@ -101,7 +101,6 @@ describe("labFixtureSpec", () => {
     // The seed belongs to the armour lab, and only digits are a seed.
     expect(labFixtureSpec("?mode=combat&fabLootSeed=42")!.seed).toBe(1337);
     expect(labFixtureSpec("?mode=combat&fabArmor=1&fabLootSeed=4x")!.seed).toBe(1337);
-    expect(labFixtureSpec("?mode=combat&rhinoTiming=1")!.rhinoTiming).toBe(true);
   });
 });
 

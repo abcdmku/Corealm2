@@ -4,7 +4,7 @@ import { Activity } from "lucide-react";
 import { statsQuery, type ServerStats } from "../../api/adminData.js";
 import { useAccountNames } from "../../model/adminNames.js";
 import { Badge, Button } from "../../components/ui/index.js";
-import { bytes, count, moment, ms, shortRevision, since } from "../../model/format.js";
+import { bytes, count, moment, ms, percent, shortRevision, since } from "../../model/format.js";
 import { EmptyNote, ErrorState, LoadingRows } from "../../ui/States.js";
 import { PAGE_WIDE, PAGE_HEADING, PANEL, PANEL_BODY, PANEL_HEADER } from "../../ui/layout.js";
 import { cn } from "../../lib/utils.js";
@@ -100,6 +100,8 @@ export default function OverviewView() {
         ]} />
       </Panel>
 
+      <Threads stats={stats} />
+
       <Panel title="Trouble" aside={stats.errors + stats.backlogDisconnects === 0 ? "none" : undefined}>
         <Stats rows={[
           { label: "Errors", value: count(stats.errors), tone: stats.errors > 0 ? "danger" : undefined },
@@ -128,6 +130,48 @@ export default function OverviewView() {
       Polling is paused because this tab is in the background. <Button variant="link" size="xs" onClick={() => void query.refetch()}>Read once now</Button>
     </p>}
   </div>;
+}
+
+/**
+ * A thread per world, and the thread that owns the database.
+ *
+ * `threads` is missing from the reading when the server runs every world in one loop, which is what
+ * a one-world server does, so the panel says that rather than drawing an empty list. Where there
+ * are threads, what an admin needs is which world is down and whether the database is the queue
+ * everything waits in: `commitWait` is how long a world's commit sat before the database thread
+ * reached it, and it is the number that grows first when one file cannot keep up with the worlds.
+ */
+function Threads({ stats }: { stats: ServerStats }) {
+  const threads = stats.threads;
+  const nameOf = (worldId: string): string => stats.worlds.find(world => world.worldId === worldId)?.name ?? worldId;
+  const mean = (samples: readonly number[]): number => samples.length ? samples.reduce((sum, value) => sum + value, 0) / samples.length : 0;
+  if (!threads) return <Panel title="Threads" aside="off">
+    <EmptyNote>Every world ticks in this server&rsquo;s main thread.</EmptyNote>
+  </Panel>;
+  const down = threads.worlds.filter(world => !world.available).length;
+  return <Panel title="Threads" aside={threads.mode === "on" ? "on" : "auto"}>
+    <ul className="m-0 flex list-none flex-col gap-1 p-0">
+      {threads.worlds.map(world => <li key={world.worldId} className="flex items-center gap-2 text-xs">
+        <span className="min-w-0 flex-1 truncate" title={world.worldId}>{nameOf(world.worldId)}</span>
+        {world.restarts > 0 && <span className="shrink-0 text-muted-foreground" title={`${world.failures} failures inside the restart window`}>
+          {count(world.restarts)} {world.restarts === 1 ? "restart" : "restarts"}
+        </span>}
+        <Badge variant={world.abandoned ? "danger" : world.available ? "ok" : "warn"}
+          title={world.abandoned ? "Failed too often to be started again. It stays down until this server restarts."
+            : world.available ? `Booted in ${ms(world.bootMs)}, ${bytes(world.heapUsedBytes)} heap` : "The thread is gone. It is being started again."}>
+          {world.abandoned ? "Given up" : world.available ? "Running" : "Down"}
+        </Badge>
+      </li>)}
+    </ul>
+    <div className="mt-2 border-t border-border-subtle pt-2">
+      <Stats rows={[
+        { label: "Commit", value: ms(mean(threads.database.commitMs)) },
+        { label: "Commit wait", value: ms(mean(threads.database.commitWaitMs)), tone: mean(threads.database.commitWaitMs) > 20 ? "warn" : undefined },
+        { label: "Database busy", value: percent(threads.database.utilization), tone: threads.database.utilization > 0.8 ? "warn" : undefined },
+        ...(down ? [{ label: "Worlds down", value: count(down), tone: "danger" as const }] : []),
+      ]} />
+    </div>
+  </Panel>;
 }
 
 function Panel({ title, aside, children }: { title: string; aside?: React.ReactNode; children: React.ReactNode }) {

@@ -65,6 +65,37 @@ async function installCounter(page: Page): Promise<void> {
   await page.evaluate(INSTALL_COUNTER);
 }
 
+/**
+ * The player hands the agent the keys, which is now a precondition for acting at all.
+ *
+ * `agent/session.ts: guard` refuses every `act` tool outside play mode with the agent holding
+ * control, so a proof that simply started calling `corealm_interact` got NOT_PERMITTED on its first
+ * real action. That gate is the collaboration model in `docs/agent-api.md`, not a bug: the agent
+ * asks with `corealm_session {op:"request_control"}` and the player answers Allow in the companion
+ * panel. Both halves are real here — the request is an agent tool call from inside the page, and the
+ * Allow is a pointer click on the production panel, the only player-side surface that grants it.
+ */
+async function handOverControl(page: Page, objective: string): Promise<{ status: string; mode: string }> {
+  await page.evaluate(
+    (name) => (window as unknown as AgentWindow).corealm.agent.call("corealm_session", { op: "connect", agentName: name }),
+    "Agent proof",
+  );
+  const asked = page.evaluate(
+    (text) => (window as unknown as AgentWindow).corealm.agent.call("corealm_session", {
+      op: "request_control", objective: text, timeoutMs: 25_000,
+    }),
+    objective,
+  ) as Promise<{ status?: string; session?: { mode?: string } }>;
+  const companion = page.getByRole("region", { name: "AI agent", exact: true });
+  const allow = companion.getByRole("button", { name: "Allow", exact: true });
+  await allow.waitFor({ state: "visible", timeout: 20_000 });
+  await allow.click();
+  const answer = await asked;
+  return { status: String(answer?.status ?? "unknown"), mode: String(answer?.session?.mode ?? "unknown") };
+}
+
+interface AgentWindow { corealm: { agent: { call(name: string, args?: unknown): Promise<unknown> } } }
+
 async function callCount(page: Page): Promise<number> {
   return (await page.evaluate("window.__agentCalls")) as number;
 }
@@ -78,7 +109,10 @@ async function callCount(page: Page): Promise<number> {
 const MINING_AGENT = `(async (targetLevel) => {
   const agent = window.corealm.agent;
   const log = [];
-  let cursor = 0;
+  // Start at the world's current cursor, not at zero: sinceSeq 0 answers out of the journal's
+  // backlog, so the first wait for "the walk finished" was answered by an event from before the
+  // walk started, and every iteration abandoned its walk to start another one.
+  let cursor = (await agent.call("corealm_context", { sections: ["events"] })).events.nextSeq;
 
   const waitFor = async (types, timeoutMs) => {
     const result = await agent.call("corealm_events", { sinceSeq: cursor, types, timeoutMs });
@@ -224,7 +258,10 @@ const MINING_AGENT = `(async (targetLevel) => {
 const QUEST_AGENT = `(async () => {
   const agent = window.corealm.agent;
   const log = [];
-  let cursor = 0;
+  // Start at the world's current cursor, not at zero: sinceSeq 0 answers out of the journal's
+  // backlog, so the first wait for "the walk finished" was answered by an event from before the
+  // walk started, and every iteration abandoned its walk to start another one.
+  let cursor = (await agent.call("corealm_context", { sections: ["events"] })).events.nextSeq;
 
   const waitFor = async (types, timeoutMs) => {
     const r = await agent.call("corealm_events", { sinceSeq: cursor, types, timeoutMs });
@@ -279,7 +316,8 @@ const QUEST_AGENT = `(async () => {
     }
     for (const suffix of wantedSuffixes) {
       const view = await agent.call("corealm_dialogue", { op: "state" });
-      if (!view || view.error) return false;
+      if (!view || view.error) { log.push("dialogue state refused: " + JSON.stringify(view)); return false; }
+      log.push("options at " + suffix + ": " + (view.options || []).map((o) => o.id + (o.enabled ? "" : "!")).join(","));
       const option = (view.options || []).find((o) => o.id.endsWith("#" + suffix) && o.enabled);
       if (!option) { log.push("no enabled option " + suffix); return false; }
       await agent.call("corealm_dialogue", { op: "choose", optionId: option.id });
@@ -288,6 +326,9 @@ const QUEST_AGENT = `(async () => {
   };
 
   await talkThrough(giverId, ["offer", "accept"]);
+  // The choice is acknowledged by the world; the journal this page reads catches up on the update
+  // that carries it. Wait for that update rather than reading the tick before it.
+  await waitFor(["quest.updated"], 5000);
   let quest = await questById("cold_iron");
   log.push("after accept: " + quest.status + " stage " + quest.stage);
   return { status: quest.status, stage: quest.stage, objective: quest.currentObjective, log };
@@ -372,6 +413,7 @@ async function runOne(
     const api = window.__gameDebug as unknown as { setTimeScale?: (value: number) => void };
     await api.setTimeScale?.(scale);
   }, timeScale);
+  const handover = await handOverControl(page, `Agent proof: ${name}`);
   await installCounter(page);
 
   const before = await callCount(page);
@@ -391,7 +433,7 @@ async function runOne(
     passed: failures.length === 0 && judge(value),
     toolCalls,
     wallClockSeconds: Math.round((Date.now() - startedAt) / 100) / 10,
-    summary: { ...summary, log: undefined },
+    summary: { ...summary, controlHandover: handover, log: undefined },
     log: Array.isArray(summary.log) ? (summary.log as string[]) : [],
     errors: [...failures, ...errors.slice(-5)],
   };
@@ -410,7 +452,11 @@ async function main(): Promise<void> {
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
-  const clearDeadline = installTestDeadline("agent proof");
+  // The authored world has to boot before a proof can start, and on a dev server whose shipped
+  // navmesh is stale that alone is most of a minute. `AGENT_PROOF_DEADLINE_MS` raises the ceiling
+  // for a machine where it does not fit; the proofs themselves are seconds each.
+  const clearDeadline = installTestDeadline("agent proof",
+    Number(process.env["AGENT_PROOF_DEADLINE_MS"]) || undefined);
   try {
     await main();
   } finally {

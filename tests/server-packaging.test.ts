@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { createAdminUi } from "../game/src/multiplayer/adminUi.js";
+import { brotliDecompressSync, gunzipSync } from "node:zlib";
+import { contentType, createAdminUi } from "../game/src/multiplayer/adminUi.js";
 import {
   ASSET_MANIFEST_ASSET, BUILD_INFO_ASSET, DEVELOPMENT_BUILD, SERVER_WORLD_PACK_FILE,
   archiveAdminUi, buildInfo, createEmbedded, packAdminUiArchive, readAdminUiArchive, repoPathOf, serverBaseDir,
@@ -128,18 +129,84 @@ describe("the admin UI archive", () => {
   });
 });
 
-type Answer = { status: number; headers: Record<string, string>; body: string };
-async function get(ui: (request: IncomingMessage, response: ServerResponse) => Promise<boolean>, url: string): Promise<Answer> {
-  const answer: Answer = { status: 0, headers: {}, body: "" };
+describe("compressing the admin UI", () => {
+  // The shipped build's main chunk is four megabytes; this stands in for it at a size a test can read.
+  const script = Buffer.from("export const app = 1;\n".repeat(200));
+  const files: Record<string, Buffer> = {
+    "index.html": Buffer.from(`<!doctype html><title>Corealm</title><p>${"admin ".repeat(200)}</p>`),
+    "assets/app-A1b2C3d4.js": script,
+    "assets/pic-A1b2C3d4.png": Buffer.alloc(4096, 7),
+    "logo.svg": Buffer.from("<svg/>"),
+  };
+  const ui = createAdminUi({ source: { read: async path => (files[path] ? { bytes: files[path]!, type: contentType(path) } : null) } });
+  const BR = { "accept-encoding": "br, gzip" }, GZIP = { "accept-encoding": "gzip, deflate" };
+
+  it("sends brotli where the client takes it, and says so", async () => {
+    const answer = await get(ui, "/admin/assets/app-A1b2C3d4.js", { headers: BR });
+    expect([answer.status, answer.headers["Content-Encoding"], answer.headers.Vary]).toEqual([200, "br", "Accept-Encoding"]);
+    expect(answer.headers["Cache-Control"]).toBe("public, max-age=31536000, immutable");
+    expect(brotliDecompressSync(answer.bytes)).toEqual(script);
+    expect(answer.bytes.length).toBe(Number(answer.headers["Content-Length"]));
+    expect(answer.bytes.length).toBeLessThan(script.length / 4);
+  });
+
+  it("falls back to gzip, and to the bytes themselves when the client takes neither", async () => {
+    const zipped = await get(ui, "/admin/assets/app-A1b2C3d4.js", { headers: GZIP });
+    expect(zipped.headers["Content-Encoding"]).toBe("gzip");
+    expect(gunzipSync(zipped.bytes)).toEqual(script);
+    // `br;q=0` is a refusal, not a preference.
+    const refused = await get(ui, "/admin/assets/app-A1b2C3d4.js", { headers: { "accept-encoding": "br;q=0, gzip;q=1.0" } });
+    expect(refused.headers["Content-Encoding"]).toBe("gzip");
+    const plain = await get(ui, "/admin/assets/app-A1b2C3d4.js");
+    expect([plain.headers["Content-Encoding"], plain.headers.Vary, plain.bytes.length]).toEqual([undefined, "Accept-Encoding", script.length]);
+    expect(plain.bytes).toEqual(script);
+  });
+
+  it("gives each encoding its own ETag and answers 304 to the one it sent", async () => {
+    const brotli = await get(ui, "/admin/assets/app-A1b2C3d4.js", { headers: BR });
+    const plain = await get(ui, "/admin/assets/app-A1b2C3d4.js");
+    expect(brotli.headers.ETag).toBe(`${plain.headers.ETag!.slice(0, -1)}-br"`);
+    const again = await get(ui, "/admin/assets/app-A1b2C3d4.js", { headers: { ...BR, "if-none-match": brotli.headers.ETag! } });
+    expect([again.status, again.headers["Content-Encoding"], again.body]).toEqual([304, "br", ""]);
+    // The identity ETag does not match the brotli answer, so the client that has the raw bytes is sent the encoded ones.
+    const mismatched = await get(ui, "/admin/assets/app-A1b2C3d4.js", { headers: { ...BR, "if-none-match": plain.headers.ETag! } });
+    expect(mismatched.status).toBe(200);
+  });
+
+  it("leaves already-compressed types and small files alone", async () => {
+    const png = await get(ui, "/admin/assets/pic-A1b2C3d4.png", { headers: BR });
+    expect([png.status, png.headers["Content-Type"], png.headers["Content-Encoding"], png.bytes.length]).toEqual([200, "image/png", undefined, 4096]);
+    const svg = await get(ui, "/admin/logo.svg", { headers: BR });
+    expect([svg.headers["Content-Encoding"], svg.body]).toEqual([undefined, "<svg/>"]);
+  });
+
+  it("compresses the page too, and HEAD sends its length without its body", async () => {
+    const page = await get(ui, "/admin/", { headers: BR });
+    expect([page.headers["Content-Encoding"], page.headers["Cache-Control"]]).toEqual(["br", "no-cache"]);
+    expect(brotliDecompressSync(page.bytes).toString("utf8")).toBe(files["index.html"]!.toString("utf8"));
+    const head = await get(ui, "/admin/assets/app-A1b2C3d4.js", { method: "HEAD", headers: BR });
+    const body = await get(ui, "/admin/assets/app-A1b2C3d4.js", { headers: BR });
+    expect([head.status, head.headers["Content-Encoding"], head.body]).toEqual([200, "br", ""]);
+    expect(head.headers["Content-Length"]).toBe(body.headers["Content-Length"]);
+  });
+});
+
+type Answer = { status: number; headers: Record<string, string>; body: string; bytes: Buffer };
+async function get(ui: (request: IncomingMessage, response: ServerResponse) => Promise<boolean>, url: string,
+  init: { method?: string; headers?: Record<string, string> } = {}): Promise<Answer> {
+  const answer: Answer = { status: 0, headers: {}, body: "", bytes: Buffer.alloc(0) };
   const response = {
     writeHead(status: number, headers: Record<string, string | number> = {}) {
       answer.status = status;
       for (const [key, value] of Object.entries(headers)) answer.headers[key] = String(value);
       return response;
     },
-    end(body?: Buffer | string) { answer.body = body === undefined ? "" : String(body); },
+    end(body?: Buffer | string) {
+      answer.bytes = body === undefined ? Buffer.alloc(0) : Buffer.isBuffer(body) ? body : Buffer.from(body);
+      answer.body = body === undefined ? "" : String(body);
+    },
   };
-  await ui({ url, method: "GET", headers: {} } as IncomingMessage, response as unknown as ServerResponse);
+  await ui({ url, method: init.method ?? "GET", headers: init.headers ?? {} } as IncomingMessage, response as unknown as ServerResponse);
   return answer;
 }
 

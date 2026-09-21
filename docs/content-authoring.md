@@ -54,7 +54,8 @@ server catalog instead.
 | `creatureDefinitions`, `creatureProfiles` | no | Authoring data. |
 | `world.encounters`, `world.placements`, `world.resources`, `world.groupsByRegion`, `world.habitats`, `world.creatureByGroup` | no | Spawn tables. |
 | `worldRegions`, `encounters`, `placements`, `resourcePlacements`, `equipmentFamilies`, `recipeTemplates`, `balance/formation` | no | Compiler inputs. |
-| `quests` | whole | The page builds the quest log (`QuestSummary`) from these records and the replicated quest state. The rows include each stage's completion predicate, so a client can read how a stage completes. Cutting them to names, objectives, hints and rewards needs `content/quests.ts` to parse a row without its predicate first. |
+| `quests` | id, name, region, giver, requirements, prerequisites, and each stage as index, objective and refs | The journal. The page builds the quest log (`QuestSummary`) from these records and the replicated quest state, and prints the objective of the stage a player is on. |
+| `quests` rules: `completion`, `hint`, `grants`, `onFlag`, `onStart`, `rewards`, `summary`, `kind` | no | Server only. A completion predicate is the answer to the puzzle its stage sets. Only a host evaluates one; `questRules()` in `content/quests.ts` answers there and nowhere else. |
 | `dialogue` | an empty table | The dialogue panel draws the `DialogueView` replicated in the player's state. Dialogue text and branch conditions never leave the server. |
 | `sourceMap` | no | Authoring data. |
 

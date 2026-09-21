@@ -44,9 +44,9 @@
 <g>
 <rect data-box="docs" x="330" y="76" width="290" height="100" rx="8" fill="#152b44" stroke="#79bbff" stroke-width="2"/>
 <text data-owner="docs" x="346" y="107" font-size="15" font-weight="600" fill="#e8eef5">docs.yml · Game and guide</text>
-<text data-owner="docs" x="346" y="128" font-size="13" fill="#c2ccd8">On a pull request: check, labs, smoke.</text>
-<text data-owner="docs" x="346" y="145" font-size="13" fill="#c2ccd8">On main: deploy the client and the</text>
-<text data-owner="docs" x="346" y="162" font-size="13" fill="#c2ccd8">player guide to GitHub Pages.</text>
+<text data-owner="docs" x="346" y="128" font-size="13" fill="#c2ccd8">On a pull request: check and labs. The</text>
+<text data-owner="docs" x="346" y="145" font-size="13" fill="#c2ccd8">smoke test needs a GPU runner.</text>
+<text data-owner="docs" x="346" y="162" font-size="13" fill="#c2ccd8">On main: deploy the client and guide.</text>
 </g>
 <g>
 <rect data-box="cexport" x="330" y="202" width="290" height="83" rx="8" fill="#1a2029" stroke="#9aa5b2" stroke-width="1.6"/>

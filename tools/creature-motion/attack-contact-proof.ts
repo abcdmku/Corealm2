@@ -69,7 +69,7 @@ async function frame(entityId: string): Promise<any> {
   }, entityId);
 }
 try {
-  const target = new URL(url); target.searchParams.set('mode', 'combat'); target.searchParams.delete('motion'); target.searchParams.delete('rhinoTiming');
+  const target = new URL(url); target.searchParams.set('mode', 'combat'); target.searchParams.delete('motion');
   await page.goto(target.href, { waitUntil: 'domcontentloaded', timeout: 20_000 });
   await page.waitForFunction(() => (window as any).__featureLab?.getState()?.ready, undefined, { timeout: 20_000 });
   report.hardware = await page.evaluate(() => {

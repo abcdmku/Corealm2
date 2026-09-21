@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ENEMIES } from "../game/src/content/enemies.js";
 import { GATHERING_PRODUCTION_TIERS } from "../game/src/content/gatheringProductionTiers.js";
-import { QUESTS } from "../game/src/content/quests.js";
+import { QUEST_RULES } from "../game/src/content/quests.js";
 import { RECIPES } from "../game/src/content/recipes.js";
 import { SHOPS } from "../game/src/content/shops.js";
 
@@ -60,7 +60,7 @@ describe("magic weapon recipes", () => {
 
     const enemyDrops = ENEMIES.flatMap((enemy) => enemy.lootRolls.flatMap(roll => roll.drops).map((drop) => drop.itemId));
     const shopStock = SHOPS.flatMap((shop) => shop.stock.map((stock) => stock.itemId));
-    const questGrants = QUESTS.flatMap((quest) => [
+    const questGrants = QUEST_RULES.flatMap((quest) => [
       ...(quest.onStart?.items ?? []).map((item) => item.itemId),
       ...quest.rewards.items.map((item) => item.itemId),
       ...quest.stages.flatMap((stage) => (stage.grants?.items ?? []).map((item) => item.itemId)),

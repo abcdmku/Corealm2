@@ -138,7 +138,12 @@ Time control drives the worker's tick loop: `setPaused`, `setTimeScale` (0.1 to 
 which runs exactly `n` ticks. A tick is always 100 ms of simulation. Skipping time sends no
 frames nobody watches: above 1x, only the last tick of each burst takes a snapshot and
 replicates, and in a lab `advanceTicks(n)` runs its ticks back to back and replicates every
-fiftieth and the last. A tick that ran a player command is always a whole tick. `getSaveBlob` returns the
+fiftieth and the last. A tick that ran a player command is always a whole tick. The authored world
+reaches the full 100x: a scaled tick is simulation and nothing else, and the enemy AI — which is
+what a scaled tick costs — no longer runs a player query for every creature in the world when the
+only player is half a map away (`multiplayer/headlessWorld.ts`). `__gameDebug.getWorldState()`
+reports `tickCost`, the milliseconds a tick spends simulating, snapshotting, committing and
+replicating, which is what to read when time will not go faster. `getSaveBlob` returns the
 old save format at the same version, so a tool reads it as a `GameState`, and `loadSaveBlob`
 takes that or an old `corealm.save.v1` fixture. In a connected (socket) session the writes
 reject with `UNAVAILABLE`, and the entity reads answer from the replicated set.

@@ -242,7 +242,6 @@
 .settings__row + .settings__row { border-top: 1px solid rgba(255, 255, 255, 0.05); }
 
 .settings__label { font-size: var(--size-sm); font-weight: 500; color: var(--ink); cursor: default; }
-.settings__hint { font-size: var(--size-xs); line-height: 1.4; color: var(--ink-dim); }
 
 /* ---- the slider: a thin track with a brass fill and a small round thumb */
 
@@ -315,8 +314,6 @@
 
 .settings__footer .btn { color: var(--ink-faint); font-weight: 500; letter-spacing: 0; }
 .settings__footer .btn:hover { color: var(--ink); }
-
-.settings__note { margin: 0; font-size: var(--size-xs); line-height: 1.45; color: var(--ink-faint); }
 
 /* ---- the switch: the track alone says on or off */
 

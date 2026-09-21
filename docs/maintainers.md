@@ -89,13 +89,16 @@ Secrets live in three places: the game server's own database, the identity servi
 | M5 | Devdocs server mode, the players and server workspaces. | Done |
 | M6 | The baked server world pack and the two single executables. | Done |
 | M7 | Thin client, local play in a Web Worker. | Done |
-| M8 | The CI content workflows. | Done |
+| M8 | The CI content workflows. | Done. Export has run against the test server; publish has never run from `main`. |
 | M9 | A worker thread per world. | Done |
+
+Every milestone is built. [Live server status](live-server-status.md) has the evidence one line at a time, what is still unverified, and the checklist for merging `live-server` into `main`.
 
 ## Where to read more
 
 - [live-server-plan.md](live-server-plan.md): the architecture and the milestones. Its **Build notes** section records where the code went another way.
-- [live-server-m7-stages.md](live-server-m7-stages.md): the working plan for the milestone in progress.
+- [live-server-status.md](live-server-status.md): what is done, what is not verified, what the known limits are, and what merging to `main` needs.
+- [live-server-m7-stages.md](live-server-m7-stages.md): how M7 was staged. Kept as the record of that milestone, not as a plan.
 - [multiplayer-hosting.md](multiplayer-hosting.md): configuration, the admin API, publishing, the executable, releases.
 - [identity-service.md](identity-service.md): accounts, join tokens, key rotation, the server directory.
 - [content-authoring.md](content-authoring.md): the two catalogs, the save cycle, repo mode against server mode.

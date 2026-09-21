@@ -65,12 +65,14 @@ try{
   await page.locator('#panel-equipment .panel__close').click();
  }
  if(!await page.locator('#panel-inventory').isVisible())await page.locator('.dock__btn[data-panel="inventory"]').click();
- // Every surviving icon must load through the production inventory raster path.
+ // Every surviving icon must load through the production inventory raster path. Only the 28 slots:
+ // the gold balance at the foot of the panel draws the currency item through the same raster path
+ // (`ui/inventoryPanel.ts` builds `.inv-gold__icon`), so an unscoped count is always one too many.
  const items=[...CRAFTED_JEWELRY,...MINIBOSS_JEWELLERY];
  for(let i=0;i<items.length;i+=24){
   await driver.callDebug('clearInventory');const batch=items.slice(i,i+24);
   for(const item of batch)await driver.callDebug('giveItem',[item.id,1,'inventory']);
-  await page.waitForFunction(ids=>{const images=[...document.querySelectorAll<HTMLImageElement>('#panel-inventory .item-icon__raster')];return images.length===ids.length&&images.every(img=>img.complete&&img.naturalWidth===48)},batch.map(item=>item.id),{timeout:15000}).catch(async error=>{await writeFile(path.join(out,"failure.json"),JSON.stringify({batch:batch.map(i=>i.id),save:await save(),images:await page.locator("#panel-inventory .item-icon__raster").evaluateAll(imgs=>imgs.map(i=>({src:(i as HTMLImageElement).src,width:(i as HTMLImageElement).naturalWidth}))),errors:driver.consoleErrors}));throw error});
+  await page.waitForFunction(ids=>{const images=[...document.querySelectorAll<HTMLImageElement>('#panel-inventory .slot .item-icon__raster')];return images.length===ids.length&&images.every(img=>img.complete&&img.naturalWidth===48)},batch.map(item=>item.id),{timeout:15000}).catch(async error=>{await writeFile(path.join(out,"failure.json"),JSON.stringify({batch:batch.map(i=>i.id),save:await save(),images:await page.locator("#panel-inventory .slot .item-icon__raster").evaluateAll(imgs=>imgs.map(i=>({src:(i as HTMLImageElement).src,width:(i as HTMLImageElement).naturalWidth}))),errors:driver.consoleErrors}));throw error});
   if(i===0){await page.locator('#panel-inventory .slot').first().hover();await page.screenshot({path:path.join(out,'inventory.png'),timeout:5000});}
  }
  if(!world){
@@ -80,6 +82,10 @@ try{
   for(const item of MINIBOSS_JEWELLERY){
    await driver.callDebug('clearInventory');await driver.callDebug('giveItem',[item.id,1,'inventory']);
    await page.locator(`#panel-inventory .slot[data-item="${item.id}"]`).first().click();
+   // A click is a command to the world, and the page shows the result when the next update
+   // arrives. Reading the totals in the same breath read the state from before the click.
+   await page.waitForFunction(({slot,id})=>window.__featureLab!.getState().equipment[slot as never]===id,
+    {slot:item.equip!.slot,id:item.id},{timeout:5000});
    const after=await page.evaluate(()=>window.__featureLab!.getState().equipmentTotals);
    for(const [stat,value] of Object.entries(item.equip!.bonuses))assert.equal(after[stat as keyof typeof after]-baseline[stat as keyof typeof baseline],value ? 2 : 0,`${item.id} ${stat}`);
    bonuses.push({id:item.id,before:baseline,after});

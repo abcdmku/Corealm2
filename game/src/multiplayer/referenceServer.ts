@@ -15,7 +15,7 @@ import { createContentPublisher } from "./contentPublish.js";
 import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
 import type { HeadlessWorldPorts } from "./headlessWorld.js";
 import { MAX_MESSAGE_BYTES, SessionFailure } from "./protocol.js";
-import { createThreadedHost, type DatabaseThread, type ThreadedHost } from "./threads/threadedHost.js";
+import { createThreadedHost, type DatabaseThread, type ThreadedHost, type ThreadMode } from "./threads/threadedHost.js";
 import type { ThreadLauncher } from "./threads/launch.js";
 import type { PeerEncoding } from "./threads/peerChannel.js";
 import type { CatalogSource, WorldBuild } from "./threads/worldThread.js";
@@ -93,7 +93,9 @@ export interface ThreadedHosting {
   database: DatabaseThread;
   /** How each world thread builds its world, and where it gets the catalog it installs before importing the simulation. */
   build: WorldBuild; catalog: CatalogSource;
-  peerEncoding?: PeerEncoding; holdTimeoutMs?: number; restart?: boolean; reportMs?: number;
+  /** What the host was configured with, for the admin console. */
+  mode?: ThreadMode;
+  peerEncoding?: PeerEncoding; holdTimeoutMs?: number; restart?: boolean; restartLimit?: number; restartWindowMs?: number; reportMs?: number;
 }
 /** What `PATCH /admin/players/<id>` did. `live` names the world whose player was edited. */
 export interface PlayerEditOutcome { applied: "live" | "stored"; world: WorldKey | null; changed: boolean; warnings: string[] }

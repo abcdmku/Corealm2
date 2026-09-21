@@ -10,7 +10,6 @@ import type { EntityId, FeatureLabApi, ItemId, SkillId } from "../contracts.js";
 import type { KeyBindingRegistry, Unregister } from "../input/keyboard.js";
 import type { ManagedPanel, PanelHandle, UiContext } from "./panels.js";
 import type { SettingsStore } from "./settings.js";
-import type { SaveRecoveryControls } from "./titleScreen.js";
 import { panelInteraction } from "./panelInteraction.js";
 
 const pendingPanels = new WeakMap<KeyBindingRegistry, Set<{ cancelPending(): void }>>();
@@ -282,11 +281,9 @@ export async function loadControlsPanel(context: UiContext): Promise<ManagedPane
   return new ControlsPanel(context);
 }
 
-export async function loadSettingsPanel(
-  context: UiContext, settings: SettingsStore, onClose: () => void, saveRecovery?: SaveRecoveryControls,
-): Promise<ManagedPanel> {
+export async function loadSettingsPanel(context: UiContext, settings: SettingsStore, onClose: () => void): Promise<ManagedPanel> {
   const { SettingsPanel } = await import("./settingsPanel.js");
-  return new SettingsPanel(context, settings, onClose, saveRecovery);
+  return new SettingsPanel(context, settings, onClose);
 }
 
 export async function loadMapPanel(context: UiContext): Promise<ManagedPanel> {

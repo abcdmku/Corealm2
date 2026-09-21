@@ -64,7 +64,8 @@ async function capture(name: string, entityId: string): Promise<any> {
 }
 try {
   report.installed = await installAssetCandidates(page, path.join(repoRoot, 'art/rebuild/candidates/finish-motion/rhino-attack/catalog.json'));
-  const target = new URL(url); target.searchParams.set('mode', 'combat'); target.searchParams.set('rhinoTiming', '1'); target.searchParams.delete('motion');
+  // No rhinoTiming override: the reviewed contact fraction is in `content/creatureMotionTiming.ts`.
+  const target = new URL(url); target.searchParams.set('mode', 'combat'); target.searchParams.delete('motion');
   await page.goto(target.href, { waitUntil: 'domcontentloaded', timeout: 20_000 });
   await page.waitForFunction(() => (window as any).__featureLab?.getState()?.ready, undefined, { timeout: 20_000 });
   report.hardware = await page.evaluate(() => {

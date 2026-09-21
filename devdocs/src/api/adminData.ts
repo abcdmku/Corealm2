@@ -84,12 +84,28 @@ export interface ServerStats {
   bytesOut: number; bytesOutPerSecond: number;
   memory: { rssBytes: number; heapUsedBytes: number };
   events: ServerEvent[];
+  /** Only when each world runs in its own thread. Absent means every world ticks in the server's main thread. */
+  threads?: ServerThreads;
   catalogRevision: string;
   server: {
     name: string; description: string | null; endpoint: string; assetBaseUrl: string | null; identityUrl: string | null;
     authentication: string; catalogRevision: string; host: string; registerWithDirectory: boolean;
     worlds: { providerId: string; worldId: string; name: string; seed: number; capacity: number }[];
   };
+}
+
+/**
+ * A thread per world, and the one thread that owns the database. `mode` is what the host asked for:
+ * `on` outright, or `auto`, which runs threads because this server has more than one world.
+ */
+export interface ServerThreads {
+  mode: "auto" | "on";
+  worlds: {
+    worldId: string; available: boolean; restarts: number; failures: number; abandoned: boolean;
+    bootMs: number; buildMs: number; heapUsedBytes: number; utilization: number; cpuMs: number | null;
+  }[];
+  /** Samples since the last reading, so a mean over them is a mean over the last second. */
+  database: { calls: number; commits: number; commitMs: number[]; commitWaitMs: number[]; busyMs: number; utilization: number };
 }
 
 export interface ServerSettings { name: string; description: string | null; registerWithDirectory: boolean; capacity: Record<string, number> }

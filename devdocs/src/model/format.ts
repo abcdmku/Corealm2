@@ -48,6 +48,9 @@ export function ms(value: number | null | undefined): string {
 
 export const count = (value: number | null | undefined): string => Number.isFinite(value ?? NaN) ? (value as number).toLocaleString() : "—";
 
+/** A 0-to-1 share as whole percent. Event loop utilization and the like. */
+export const percent = (value: number | null | undefined): string => Number.isFinite(value ?? NaN) ? `${Math.round((value as number) * 100)}%` : "—";
+
 /** A 64 character content hash, short enough to read and long enough to tell two apart. */
 export const shortRevision = (revision: string | null | undefined): string => revision ? revision.slice(0, 12) : "—";
 

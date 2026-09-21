@@ -73,17 +73,22 @@ async function main(): Promise<void> {
     await labPanel.waitFor({ state: "visible", timeout: remaining(3_000) });
     await labPanel.locator(".panel__close").click();
 
-    stage = "companion expansion and collapse during loading";
+    // Solo play shows no companion at all any more: `ui/agentPanel.ts: applyVisible` keeps the card
+    // hidden until an agent connects or asks for something, so the old "OFFLINE header at boot"
+    // evidence no longer exists to collect. What the deferral still owes is that `agentPanelBody.ts`
+    // is fetched when the card first needs it and never before, which a real connection provokes.
+    stage = "companion appears on connection and loads its controls then";
     const companion = page.getByRole("region", { name: "AI agent", exact: true });
-    assert(await companion.isVisible(), "The offline companion header must be visible before its controls load");
-    assert.equal((await companion.locator(".agent-panel__name").textContent())?.trim(), "Agent companion");
-    assert.equal((await companion.locator(".agent-panel__mode").textContent())?.trim(), "Offline");
-    const companionBody = companion.locator(".agent-panel__body");
-    assert(await companionBody.isHidden());
+    assert(await companion.isHidden(), "Solo play must leave the agent companion out of the HUD");
+    assert.equal(requests.agentPanelBody, 0, "A hidden companion fetched its controls");
     await Promise.all([
-      page.waitForRequest("**/ui/agentPanelBody.ts*", { timeout: remaining(3_000) }),
-      companion.getByRole("button", { name: "Expand agent companion", exact: true }).click(),
+      page.waitForRequest("**/ui/agentPanelBody.ts*", { timeout: remaining(4_000) }),
+      driver.callDebug("callTool", ["corealm_session", { op: "connect", agentName: "Deferred overlays gate" }]),
     ]);
+    await companion.waitFor({ state: "visible", timeout: remaining(3_000) });
+    assert.equal((await companion.locator(".agent-panel__name").textContent())?.trim(), "Deferred overlays gate");
+    assert.equal((await companion.locator(".agent-panel__mode").textContent())?.trim(), "guide");
+    const companionBody = companion.locator(".agent-panel__body");
     assert.equal(await companionBody.getAttribute("aria-busy"), "true");
     await companion.getByRole("button", { name: "Collapse agent companion", exact: true }).click();
     assert(await companionBody.isHidden());
@@ -94,24 +99,32 @@ async function main(): Promise<void> {
     assert.equal(await expandCompanion.getAttribute("aria-expanded"), "false");
     await expandCompanion.click();
     assert(await companionBody.isVisible());
-    assert(await companionBody.getByText("Waiting for an agent", { exact: true }).isVisible());
+    // The goal/activity/control rows, live: the tool call that connected is still the session's
+    // task, so the activity reads it rather than "Idle".
+    assert.match(await companionBody.innerText(), /GOAL[\s\S]*DOING[\s\S]*CONTROL/);
     assert(await companionBody.getByText("You", { exact: true }).isVisible());
     assert.match(await companionBody.locator(".agent-panel__foot").innerText(), /WebMCP/);
-    assert(await companionBody.getByRole("button", { name: "Let agent play", exact: true, includeHidden: true }).isHidden());
     assert.equal(requests.agentPanelBody, 1, "Reopening the companion fetched its controls again");
-    screenshots.push(await driver.screenshot(output, "00-offline-companion-controls"));
-    report.companion = { offlineHeaderAtBoot: true, collapsedDuringLoad: true, stayedCollapsedAfterLoad: true, reopenedOfflineControls: true };
+    screenshots.push(await driver.screenshot(output, "00-connected-companion-controls"));
+    report.companion = { hiddenWhileSolo: true, loadedOnConnection: true, collapsedDuringLoad: true, stayedCollapsedAfterLoad: true };
     await companion.getByRole("button", { name: "Collapse agent companion", exact: true }).click();
+    await driver.callDebug("callTool", ["corealm_session", { op: "disconnect" }]);
 
     await driver.callDebug("clearInventory");
     const grant = await driver.callDebug("giveItem", ["air_essence", 3, "inventory"]) as Result<number>;
     assert(grant.ok && grant.value === 3);
 
     stage = "tooltip cancellation and live quantity";
+    // The hover card layer loads once, on the first hover that could show one. Resting on the
+    // companion's own buttons above is such a hover, so the request may already be in flight (and
+    // still held); what matters is that it was not fetched at boot and is not fetched twice.
     await Promise.all([
-      page.waitForRequest("**/ui/tooltips.ts*", { timeout: remaining(4_000) }),
+      requests.tooltips === 0
+        ? page.waitForRequest("**/ui/tooltips.ts*", { timeout: remaining(4_000) })
+        : Promise.resolve(null),
       driver.press("i"),
     ]);
+    assert.equal(requests.tooltips, 1, "The hover card layer was fetched more than once");
     const inventory = page.locator("#panel-inventory");
     const essenceSlot = inventory.locator('[data-item="air_essence"]');
     await essenceSlot.waitFor({ state: "visible", timeout: remaining(3_000) });

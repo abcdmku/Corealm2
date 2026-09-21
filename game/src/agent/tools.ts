@@ -134,7 +134,14 @@ function createWorldTools({ api, session }: ToolDeps): ToolDef[] {
         if (refused) return refused;
       }
       if (op === "choose" && typeof args.optionId !== "string") return failure("INVALID_ARGUMENT", "optionId is required when op is choose");
-      return unwrap(await sendGameCommand(api, "dialogue", op, typeof args.optionId === "string" ? args.optionId : undefined));
+      // Send one argument for `state` and `end`, not two with the second undefined. The command
+      // crosses a structured clone to the world, and `multiplayer/protocol.ts` validates the
+      // arguments by length: `["state", undefined]` is arity 2, which it rejects as an invalid
+      // message, and the rejection surfaced as UNKNOWN_OUTCOME — "the world did not acknowledge
+      // the command" — for a read that any mode is allowed to make.
+      return unwrap(typeof args.optionId === "string"
+        ? await sendGameCommand(api, "dialogue", op, args.optionId)
+        : await sendGameCommand(api, "dialogue", op));
     }),
 
     defineTool(TOOL_SPECS.corealm_bank, async (args, context) => {

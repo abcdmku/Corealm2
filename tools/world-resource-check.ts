@@ -49,9 +49,23 @@ interface Trace {
 const tuple = (point: Point): Vec3 => [point.x, point.y, point.z];
 const gap = (a: Point, b: Vec3): number => Math.hypot(a.x - b[0], a.z - b[2]);
 
+/**
+ * How long the authored world may take to become playable, which is a property of the machine and
+ * not of anything this gate proves.
+ *
+ * It is kept out of the operation budget below. Boot here is a cold Chromium against a dev server
+ * building nine regions, and it grows by about twenty seconds whenever the shipped navmesh no longer
+ * matches the authored sources, because `systems/navigation.ts` then regenerates the mesh in the
+ * page (`boot.navigation.ready` reports `runtime-fallback`). Charging that to the gameplay budget
+ * made a stale bake look like a resource bug. Every gameplay wait below keeps its strict value.
+ */
+const BOOT_BUDGET_MS = Number(process.env["WORLD_BOOT_BUDGET_MS"] ?? 75_000);
+/** Everything after readiness: the walks, gathers, saves and redraws this gate actually asserts. */
+const OPERATION_BUDGET_MS = 88_000;
+
 async function main(): Promise<void> {
   const started = Date.now();
-  const clearDeadline = installTestDeadline("World resource integration", 90_000);
+  const clearDeadline = installTestDeadline("World resource integration", BOOT_BUDGET_MS + OPERATION_BUDGET_MS + 2_000);
   const args = process.argv.slice(2);
   const forestOnly = args.includes("--forest-only");
   const externalUrl = argValue(args, "--url");
@@ -76,9 +90,11 @@ async function main(): Promise<void> {
   let stage = "boot";
   let currentId: string | null = null;
   let cursor = 0;
+  // Reset once the world is playable, so the operation budget measures the gate and not the boot.
+  let operationsStarted = started;
   const remaining = (limit: number): number => {
-    const left = 88_000 - (Date.now() - started);
-    assert(left > 0, "World resource integration exceeded its 88-second operation budget");
+    const left = OPERATION_BUDGET_MS - (Date.now() - operationsStarted);
+    assert(left > 0, `World resource integration exceeded its ${OPERATION_BUDGET_MS / 1_000}-second operation budget`);
     return Math.max(1, Math.min(left, limit));
   };
 
@@ -265,6 +281,13 @@ async function main(): Promise<void> {
     assert(clicked, `No live canvas hover found ${id}; use --forest-near/--tree-id to choose an observed clear approach`);
     // A click is a command to the world, which answers on its next tick. Wait for the walk it starts, then read it.
     await driver.page!.waitForFunction(() => (window.__gameDebug as unknown as { getPlayer(): { moving: boolean } }).getPlayer().moving, undefined, { timeout: 3_000 }).catch(() => undefined);
+    // And wait for the selection the same click made. A fishing school is a short walk away, so the
+    // "moving" wait above can be satisfied before the update carrying the selection has been applied,
+    // and reading in the same breath read the tick before it: the assert below saw a null selection
+    // on a click whose hover had already been confirmed stable twice.
+    await driver.page!.waitForFunction((entityId) =>
+      (window.__gameDebug as unknown as Debug).getState().selectedEntityId === entityId,
+      id, { timeout: 3_000 }).catch(() => undefined);
     const clickState = await driver.page!.evaluate(async () => {
       const debug = window.__gameDebug as unknown as Debug;
       const state = JSON.parse(await debug.getSaveBlob()) as GameState;
@@ -335,7 +358,9 @@ async function main(): Promise<void> {
     const page = driver.page!;
     page.setDefaultTimeout(5_000);
     await page.addInitScript("globalThis.__name = (target, name) => Object.defineProperty(target, 'name', { value: name, configurable: true });");
-    await driver.open(remaining(25_000), "/index.html");
+    await driver.open(BOOT_BUDGET_MS, "/index.html");
+    report.bootMs = Date.now() - started;
+    operationsStarted = Date.now();
     const timeOrigin = await page.evaluate(() => performance.timeOrigin);
     for (let i = 0; i < 8; i++) {
       const close = page.locator(".panel:not([hidden]) .panel__close").first();

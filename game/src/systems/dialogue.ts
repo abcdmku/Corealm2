@@ -35,7 +35,7 @@ import type {
 } from "../content/dialogue.js";
 import { dialogueNode } from "../content/dialogue.js";
 import { dialogueRootFor, npcName } from "../content/npcs.js";
-import { quest } from "../content/quests.js";
+import { quest, questRules } from "../content/quests.js";
 import { content } from "../content/index.js";
 import { InventorySystem } from "./inventory.js";
 
@@ -407,7 +407,7 @@ export class DialogueSystem {
         // A first quest start can use slots before a later direct handover. Quest-owned grants
         // deliberately park shortfalls, so they may partially fit and must not block acceptance.
         // Active/complete or repeated starts never replay the onStart grant.
-        const def = quest(effect.questId);
+        const def = questRules(effect.questId);
         if (!def) return err("NOT_FOUND", `No quest with id ${effect.questId}`);
         const state = previewStore.get();
         if ((state.quests[effect.questId]?.status ?? "unstarted") !== "unstarted") continue;

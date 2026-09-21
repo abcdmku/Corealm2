@@ -9,7 +9,7 @@
  * the page evaluates must find the table names they read: `compiledCreatures`, `species`, `quests`
  * and `dialogue` are here under those names, cut down to presentation, and `content/worldData.ts`
  * builds an unpopulated world from `regions` and `worldResources`. Loot rolls, combat
- * and AI numbers, habitats, encounters and spawn placements are never copied.
+ * and AI numbers, habitats, encounters, spawn placements and quest rules are never copied.
  * `tests/client-catalog-page-graph.test.ts` evaluates the page's content modules against this
  * projection and fails when the page reads something it does not carry.
  *
@@ -24,9 +24,11 @@ export const CLIENT_TABLES = [
   'items', 'recipes', 'resources', 'progression', 'materials', 'campfireFuels', 'equipmentSets',
   'shops', 'npcs', 'spells', 'spellRunes', 'elementalSpells',
   'balance/recipes', 'balance/sets', 'balance/campfires', 'audio',
-  // The quest log shows names, stage text, objectives and rewards, all of which a player reads in play.
-  'quests',
 ] as const;
+/** What the quest log shows: the name, the region, who starts it, what it asks for, and each stage's prose. */
+const QUEST_FIELDS = ['id', 'name', 'regionId', 'giverNpcId', 'requirements', 'prerequisiteQuestIds'] as const;
+/** A stage without its rules. `hint`, `completion`, `grants` and `onFlag` stay on the server. */
+const QUEST_STAGE_FIELDS = ['index', 'objective', 'refs'] as const;
 /** Presentation fields of a species row. `stats`, `attack`, `habitat` and `respawnMs` stay on the server. */
 const CREATURE_FIELDS = ['id', 'assetId', 'scale', 'regionId', 'activity', 'description', 'bodyFamily', 'rigFamily',
   'movement', 'nativeSize', 'nativeBase', 'nativeVisualRadius', 'nativeBodyRadius'] as const;
@@ -46,6 +48,8 @@ export interface ClientCatalog {
     regions: unknown[];
     creatures: ClientCreature[];
     enemies: ClientEnemy[];
+    /** The journal, without the rules: no completion predicate, no grant, no reward, no hint. */
+    quests: Row[];
     /** Where resource clusters lie: `world.resources`. Terrain is shaped around them (a fishing cluster digs its basin), and a player sees every one. */
     worldResources: unknown[];
     compiledCreatures: Row[];
@@ -67,6 +71,9 @@ export function clientCatalog(server: { revision: string; tables: Record<string,
       name: stats.name, family: stats.family, tier: stats.tier } as ClientCreature;
   });
   const pick = (row: Row, fields: readonly string[]): Row => Object.fromEntries(fields.filter(key => row[key] !== undefined).map(key => [key, row[key]]));
+  // A quest's completion predicate is the answer to the puzzle it sets, so it is a server field
+  // however plainly it reads. `content/quests.ts` parses what is left with `questPresentationSchema`.
+  tables.quests = rows(server.tables.quests).map(row => ({ ...pick(row, QUEST_FIELDS), stages: rows(row.stages).map(stage => pick(stage, QUEST_STAGE_FIELDS)) }));
   tables.enemies = rows(server.tables.enemies).map(enemy => pick(enemy, ENEMY_FIELDS) as unknown as ClientEnemy);
   // A species row, and a compiled creature's `presentation`, which is one: model, scale, rig and body family, with the combat block cut to its label.
   const presented = (species: Row): Row => ({ ...pick(species, CREATURE_FIELDS), stats: pick((species.stats ?? {}) as Row, ENEMY_FIELDS) });

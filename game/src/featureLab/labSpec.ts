@@ -66,8 +66,6 @@ export interface LabFixtureSpec {
   runtime: LabRuntimeFixture[];
   /** `regionalTier=30|40|60`. */
   regionalTier: 30 | 40 | 60 | null;
-  /** Boss rhino contact timing under review. */
-  rhinoTiming: boolean;
   /**
    * How far from the player the worker replicates entities. The old lab page held its whole yard, and
    * tools read creatures a hundred metres off, so a lab replicates the yard rather than the 48 m of a
@@ -141,7 +139,6 @@ export function labFixtureSpec(search: string | URLSearchParams): LabFixtureSpec
     },
     runtime,
     regionalTier: combat && (tier === "30" || tier === "40" || tier === "60") ? Number(tier) as 30 | 40 | 60 : null,
-    rhinoTiming: on("rhinoTiming"),
     interestRadius: LAB_INTEREST_RADIUS,
   };
 }
