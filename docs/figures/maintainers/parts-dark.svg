@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 552" width="960" height="552" role="img" aria-labelledby="parts-title parts-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="parts-title">The four deployable parts of Corealm</title>
+<desc id="parts-desc">An identity service at the top signs players in and mints join tokens. A player&#39;s browser on the left connects to a game server on the right over a WebSocket to join and play. The browser loads its files from an asset host below it. Devdocs, below the game server, calls the admin API, and the game server serves devdocs at /admin. A dashed arrow from the identity service to the game server carries the public keys, fetched once at server start.</desc>
+<defs>
+<marker id="head-neutral-dark" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#9aa5b2"/></marker>
+<marker id="tail-neutral-dark" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#9aa5b2"/></marker>
+<marker id="head-accent-dark" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#79bbff"/></marker>
+<marker id="tail-accent-dark" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#79bbff"/></marker>
+<marker id="head-secondary-dark" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#5fd3a4"/></marker>
+<marker id="tail-secondary-dark" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#5fd3a4"/></marker>
+<marker id="head-muted-dark" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#828d9b"/></marker>
+<marker id="tail-muted-dark" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#828d9b"/></marker>
+</defs>
+<text data-owner="free" x="24" y="30" font-size="17" font-weight="600" fill="#e8eef5">The four deployable parts</text>
+<g>
+<rect data-box="identity" x="340" y="64" width="280" height="100" rx="8" fill="#1a2029" stroke="#9aa5b2" stroke-width="1.6"/>
+<text data-owner="identity" x="356" y="95" font-size="15" font-weight="600" fill="#e8eef5">Identity service</text>
+<text data-owner="identity" x="356" y="116" font-size="13" fill="#c2ccd8">Accounts and login. Signs a 60-second</text>
+<text data-owner="identity" x="356" y="133" font-size="13" fill="#c2ccd8">join token for one named game server.</text>
+<text data-owner="identity" x="356" y="150" font-size="13" fill="#c2ccd8">identity/ · npm run identity</text>
+</g>
+<g>
+<rect data-box="browser" x="30" y="226" width="290" height="100" rx="8" fill="#112b26" stroke="#5fd3a4" stroke-width="2"/>
+<text data-owner="browser" x="46" y="257" font-size="15" font-weight="600" fill="#e8eef5">Player&#39;s browser</text>
+<text data-owner="browser" x="46" y="278" font-size="13" fill="#c2ccd8">The game client. It renders and never</text>
+<text data-owner="browser" x="46" y="295" font-size="13" fill="#c2ccd8">simulates. Local play runs the server</text>
+<text data-owner="browser" x="46" y="312" font-size="13" fill="#c2ccd8">code in a Web Worker.</text>
+</g>
+<g>
+<rect data-box="server" x="640" y="226" width="290" height="100" rx="8" fill="#1a2029" stroke="#9aa5b2" stroke-width="1.6"/>
+<text data-owner="server" x="656" y="257" font-size="15" font-weight="600" fill="#e8eef5">Game server</text>
+<text data-owner="server" x="656" y="278" font-size="13" fill="#c2ccd8">One per host. Simulation, player data,</text>
+<text data-owner="server" x="656" y="295" font-size="13" fill="#c2ccd8">content catalog, admin API. Ships as</text>
+<text data-owner="server" x="656" y="312" font-size="13" fill="#c2ccd8">one executable.</text>
+</g>
+<g>
+<rect data-box="assets" x="30" y="388" width="290" height="100" rx="8" fill="#181d25" stroke="#828d9b" stroke-width="1.4"/>
+<text data-owner="assets" x="46" y="419" font-size="15" font-weight="600" fill="#e8eef5">Asset host</text>
+<text data-owner="assets" x="46" y="440" font-size="13" fill="#c2ccd8">Static files: client build, models,</text>
+<text data-owner="assets" x="46" y="457" font-size="13" fill="#c2ccd8">baked world, navmesh, world pack.</text>
+<text data-owner="assets" x="46" y="474" font-size="13" fill="#c2ccd8">GitHub Pages by default.</text>
+</g>
+<g>
+<rect data-box="devdocs" x="640" y="388" width="290" height="100" rx="8" fill="#1a2029" stroke="#9aa5b2" stroke-width="1.6"/>
+<text data-owner="devdocs" x="656" y="419" font-size="15" font-weight="600" fill="#e8eef5">Devdocs</text>
+<text data-owner="devdocs" x="656" y="440" font-size="13" fill="#c2ccd8">One app, two modes. Repo mode edits</text>
+<text data-owner="devdocs" x="656" y="457" font-size="13" fill="#c2ccd8">JSON in the checkout. Server mode</text>
+<text data-owner="devdocs" x="656" y="474" font-size="13" fill="#c2ccd8">edits a live server after login.</text>
+</g>
+<path data-arrow="browser-identity" d="M255,226 L400,170" fill="none" stroke="#79bbff" stroke-width="2.1" marker-end="url(#head-accent-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="243" y="208" font-size="13" text-anchor="end" fill="#79bbff">sign in, join token</text>
+<path data-arrow="identity-server" d="M560,170 L706,226" fill="none" stroke="#9aa5b2" stroke-width="2.1" stroke-dasharray="7 5" marker-end="url(#head-neutral-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="718" y="208" font-size="13" text-anchor="start" fill="#c2ccd8">public keys, at start</text>
+<path data-arrow="browser-server" d="M322,276 H636" fill="none" stroke="#79bbff" stroke-width="2.1" marker-end="url(#head-accent-dark)" marker-start="url(#tail-accent-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="479" y="264" font-size="13" text-anchor="middle" fill="#79bbff">join, commands, snapshots (WebSocket)</text>
+<path data-arrow="assets-browser" d="M175,388 V334" fill="none" stroke="#9aa5b2" stroke-width="2.1" marker-end="url(#head-neutral-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="189" y="364" font-size="13" text-anchor="start" fill="#c2ccd8">client build, models, world</text>
+<path data-arrow="devdocs-server" d="M785,386 V334" fill="none" stroke="#9aa5b2" stroke-width="2.1" marker-end="url(#head-neutral-dark)" marker-start="url(#tail-neutral-dark)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="771" y="364" font-size="13" text-anchor="end" fill="#c2ccd8">admin API · served at /admin</text>
+<path d="M30,516 H64" fill="none" stroke="#79bbff" stroke-width="2"/>
+<text data-owner="free" x="74" y="520" font-size="13" fill="#c2ccd8">every session</text>
+<path d="M193.3,516 H227.3" fill="none" stroke="#9aa5b2" stroke-width="2" stroke-dasharray="7 5"/>
+<text data-owner="free" x="237.3" y="520" font-size="13" fill="#c2ccd8">once, at server start</text>
+</svg>

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 572" width="960" height="572" role="img" aria-labelledby="join-title join-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="join-title">How a player gets into a world</title>
+<desc id="join-desc">Two lanes. The top lane, joining a server, runs six numbered steps: pick a server and world; sign in on the identity service&#39;s own pages with a username and password; get a 60-second join token for that server; the game server verifies the token offline; the server claims the account&#39;s lease so the account plays one world at a time; play. The bottom lane, playing locally, runs three steps with no login: pick Play local; the same host core starts in a Web Worker with IndexedDB storage; the page joins it over a MessagePort through the same session client.</desc>
+<defs>
+<marker id="head-neutral-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#3f4752"/></marker>
+<marker id="tail-neutral-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#3f4752"/></marker>
+<marker id="head-accent-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#0b57a4"/></marker>
+<marker id="tail-accent-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#0b57a4"/></marker>
+<marker id="head-secondary-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#0d6152"/></marker>
+<marker id="tail-secondary-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#0d6152"/></marker>
+<marker id="head-muted-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#5d6673"/></marker>
+<marker id="tail-muted-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#5d6673"/></marker>
+</defs>
+<text data-owner="free" x="24" y="30" font-size="17" font-weight="600" fill="#12161b">Getting into a world</text>
+<text data-owner="free" x="30" y="58" font-size="13" font-weight="600" letter-spacing="0.09em" fill="#3b434d">JOIN A SERVER</text>
+<g>
+<rect data-box="top0" x="30" y="72" width="260" height="100" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="top0" x="46" y="103" font-size="15" font-weight="600" fill="#12161b">1 · Pick</text>
+<text data-owner="top0" x="46" y="124" font-size="13" fill="#3b434d">The picker always shows: Play local,</text>
+<text data-owner="top0" x="46" y="141" font-size="13" fill="#3b434d">or a server and one of its worlds.</text>
+<text data-owner="top0" x="46" y="158" font-size="13" fill="#3b434d">Assets preload behind it.</text>
+</g>
+<g>
+<rect data-box="top1" x="350" y="72" width="260" height="100" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="top1" x="366" y="103" font-size="15" font-weight="600" fill="#12161b">2 · Sign in</text>
+<text data-owner="top1" x="366" y="124" font-size="13" fill="#3b434d">The browser goes to the identity</text>
+<text data-owner="top1" x="366" y="141" font-size="13" fill="#3b434d">service&#39;s own pages. A password is</text>
+<text data-owner="top1" x="366" y="158" font-size="13" fill="#3b434d">typed there and nowhere else.</text>
+</g>
+<g>
+<rect data-box="top2" x="670" y="72" width="260" height="100" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="top2" x="686" y="103" font-size="15" font-weight="600" fill="#12161b">3 · Join token</text>
+<text data-owner="top2" x="686" y="124" font-size="13" fill="#3b434d">The client asks for a fresh token</text>
+<text data-owner="top2" x="686" y="141" font-size="13" fill="#3b434d">naming that server&#39;s endpoint. It</text>
+<text data-owner="top2" x="686" y="158" font-size="13" fill="#3b434d">lasts 60 seconds, before every join.</text>
+</g>
+<g>
+<rect data-box="bot0" x="30" y="246" width="260" height="100" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="bot0" x="46" y="277" font-size="15" font-weight="600" fill="#12161b">4 · Verify</text>
+<text data-owner="bot0" x="46" y="298" font-size="13" fill="#3b434d">The game server checks signature,</text>
+<text data-owner="bot0" x="46" y="315" font-size="13" fill="#3b434d">audience and expiry offline, against</text>
+<text data-owner="bot0" x="46" y="332" font-size="13" fill="#3b434d">keys it fetched at start.</text>
+</g>
+<g>
+<rect data-box="bot1" x="350" y="246" width="260" height="100" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="bot1" x="366" y="277" font-size="15" font-weight="600" fill="#12161b">5 · Lease</text>
+<text data-owner="bot1" x="366" y="298" font-size="13" fill="#3b434d">The server claims the account&#39;s</text>
+<text data-owner="bot1" x="366" y="315" font-size="13" fill="#3b434d">lease: one world at a time. A second</text>
+<text data-owner="bot1" x="366" y="332" font-size="13" fill="#3b434d">login is refused.</text>
+</g>
+<g>
+<rect data-box="bot2" x="670" y="246" width="260" height="100" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="bot2" x="686" y="277" font-size="15" font-weight="600" fill="#12161b">6 · Play</text>
+<text data-owner="bot2" x="686" y="298" font-size="13" fill="#3b434d">The server simulates and sends</text>
+<text data-owner="bot2" x="686" y="315" font-size="13" fill="#3b434d">snapshots. The browser renders and</text>
+<text data-owner="bot2" x="686" y="332" font-size="13" fill="#3b434d">predicts movement.</text>
+</g>
+<path data-arrow="t01" d="M294,122 H344" fill="none" stroke="#0b57a4" stroke-width="2.1" marker-end="url(#head-accent-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<path data-arrow="t12" d="M614,122 H664" fill="none" stroke="#0b57a4" stroke-width="2.1" marker-end="url(#head-accent-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<path data-arrow="wrap" d="M800,172 V208 H160 V242" fill="none" stroke="#0b57a4" stroke-width="2.1" marker-end="url(#head-accent-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="480" y="201" font-size="13" text-anchor="middle" fill="#0b57a4">the token rides on the join message</text>
+<path data-arrow="b01" d="M294,296 H344" fill="none" stroke="#0b57a4" stroke-width="2.1" marker-end="url(#head-accent-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<path data-arrow="b12" d="M614,296 H664" fill="none" stroke="#0b57a4" stroke-width="2.1" marker-end="url(#head-accent-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="30" y="392" font-size="13" font-weight="600" letter-spacing="0.09em" fill="#3b434d">OR PLAY LOCAL, WITH NO LOGIN</text>
+<g>
+<rect data-box="loc0" x="30" y="406" width="260" height="83" rx="8" fill="#d9efe8" stroke="#0d6152" stroke-width="2"/>
+<text data-owner="loc0" x="46" y="437" font-size="15" font-weight="600" fill="#12161b">1 · Pick</text>
+<text data-owner="loc0" x="46" y="458" font-size="13" fill="#3b434d">Choose Play local. It needs no</text>
+<text data-owner="loc0" x="46" y="475" font-size="13" fill="#3b434d">account and no network.</text>
+</g>
+<g>
+<rect data-box="loc1" x="350" y="406" width="260" height="83" rx="8" fill="#d9efe8" stroke="#0d6152" stroke-width="2"/>
+<text data-owner="loc1" x="366" y="437" font-size="15" font-weight="600" fill="#12161b">2 · Worker</text>
+<text data-owner="loc1" x="366" y="458" font-size="13" fill="#3b434d">The same host core starts in a Web</text>
+<text data-owner="loc1" x="366" y="475" font-size="13" fill="#3b434d">Worker and saves to IndexedDB.</text>
+</g>
+<g>
+<rect data-box="loc2" x="670" y="406" width="260" height="83" rx="8" fill="#d9efe8" stroke="#0d6152" stroke-width="2"/>
+<text data-owner="loc2" x="686" y="437" font-size="15" font-weight="600" fill="#12161b">3 · Play</text>
+<text data-owner="loc2" x="686" y="458" font-size="13" fill="#3b434d">The page joins it over a MessagePort,</text>
+<text data-owner="loc2" x="686" y="475" font-size="13" fill="#3b434d">through the same session client.</text>
+</g>
+<path data-arrow="l01" d="M294,448 H344" fill="none" stroke="#0d6152" stroke-width="2.1" marker-end="url(#head-secondary-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<path data-arrow="l12" d="M614,448 H664" fill="none" stroke="#0d6152" stroke-width="2.1" marker-end="url(#head-secondary-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M30,536 H64" fill="none" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="free" x="74" y="540" font-size="13" fill="#3b434d">connected play</text>
+<path d="M200.06,536 H234.06" fill="none" stroke="#0d6152" stroke-width="2"/>
+<text data-owner="free" x="244.06" y="540" font-size="13" fill="#3b434d">local play, same server code</text>
+</svg>

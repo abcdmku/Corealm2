@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 790" width="960" height="790" role="img" aria-labelledby="pipelines-title pipelines-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="pipelines-title">Environments and the pipelines between them</title>
+<desc id="pipelines-desc">Three columns. Local dev on the left lists npm run dev, npm run devdocs, npm run identity and npm run multiplayer:server. CI on GitHub in the middle lists five workflows: docs.yml, content-export.yml, content-publish.yml, release.yml and content-selftest.yml. Deployed on the right lists the asset host, the game server, the GitHub release that carries the executables, and the identity service. Solid arrows run automatically on their trigger: docs.yml deploys to the asset host, release.yml builds the GitHub release. Dashed arrows are manual: content-export reads the game server, content-publish sends to it behind an approval. A note at the bottom says secrets live in the server database, the identity service&#39;s environment and GitHub secrets, and never in a static build.</desc>
+<defs>
+<marker id="head-neutral-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#3f4752"/></marker>
+<marker id="tail-neutral-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#3f4752"/></marker>
+<marker id="head-accent-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#0b57a4"/></marker>
+<marker id="tail-accent-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#0b57a4"/></marker>
+<marker id="head-secondary-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#0d6152"/></marker>
+<marker id="tail-secondary-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#0d6152"/></marker>
+<marker id="head-muted-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#5d6673"/></marker>
+<marker id="tail-muted-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#5d6673"/></marker>
+</defs>
+<text data-owner="free" x="24" y="30" font-size="17" font-weight="600" fill="#12161b">Environments and what triggers what</text>
+<text data-owner="free" x="30" y="62" font-size="13" font-weight="600" letter-spacing="0.09em" fill="#3b434d">1 · LOCAL DEV</text>
+<text data-owner="free" x="330" y="62" font-size="13" font-weight="600" letter-spacing="0.09em" fill="#3b434d">2 · CI ON GITHUB</text>
+<text data-owner="free" x="670" y="62" font-size="13" font-weight="600" letter-spacing="0.09em" fill="#3b434d">3 · DEPLOYED</text>
+<g>
+<rect data-box="local0" x="30" y="76" width="250" height="66" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
+<text data-owner="local0" x="46" y="107" font-size="15" font-weight="600" fill="#12161b">npm run dev</text>
+<text data-owner="local0" x="46" y="128" font-size="13" fill="#3b434d">The game on 127.0.0.1:4173.</text>
+</g>
+<g>
+<rect data-box="local1" x="30" y="168" width="250" height="66" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
+<text data-owner="local1" x="46" y="199" font-size="15" font-weight="600" fill="#12161b">npm run devdocs</text>
+<text data-owner="local1" x="46" y="220" font-size="13" fill="#3b434d">The editor, repo mode.</text>
+</g>
+<g>
+<rect data-box="local2" x="30" y="260" width="250" height="66" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
+<text data-owner="local2" x="46" y="291" font-size="15" font-weight="600" fill="#12161b">npm run identity</text>
+<text data-owner="local2" x="46" y="312" font-size="13" fill="#3b434d">Accounts on 127.0.0.1:4190.</text>
+</g>
+<g>
+<rect data-box="local3" x="30" y="352" width="250" height="66" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
+<text data-owner="local3" x="46" y="383" font-size="15" font-weight="600" fill="#12161b">npm run multiplayer:server</text>
+<text data-owner="local3" x="46" y="404" font-size="13" fill="#3b434d">Loopback guests for testing.</text>
+</g>
+<g>
+<rect data-box="trigger" x="30" y="444" width="250" height="83" rx="8" fill="#eceef0" stroke="#5d6673" stroke-width="1.4"/>
+<text data-owner="trigger" x="46" y="475" font-size="15" font-weight="600" fill="#12161b">Then push</text>
+<text data-owner="trigger" x="46" y="496" font-size="13" fill="#3b434d">A push, a pull request or a</text>
+<text data-owner="trigger" x="46" y="513" font-size="13" fill="#3b434d">v* tag starts the workflows.</text>
+</g>
+<g>
+<rect data-box="docs" x="330" y="76" width="290" height="100" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="docs" x="346" y="107" font-size="15" font-weight="600" fill="#12161b">docs.yml · Game and guide</text>
+<text data-owner="docs" x="346" y="128" font-size="13" fill="#3b434d">On a pull request: check, labs, smoke.</text>
+<text data-owner="docs" x="346" y="145" font-size="13" fill="#3b434d">On main: deploy the client and the</text>
+<text data-owner="docs" x="346" y="162" font-size="13" fill="#3b434d">player guide to GitHub Pages.</text>
+</g>
+<g>
+<rect data-box="cexport" x="330" y="202" width="290" height="83" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
+<text data-owner="cexport" x="346" y="233" font-size="15" font-weight="600" fill="#12161b">content-export.yml</text>
+<text data-owner="cexport" x="346" y="254" font-size="13" fill="#3b434d">Mondays and on demand. Opens a pull</text>
+<text data-owner="cexport" x="346" y="271" font-size="13" fill="#3b434d">request with the server&#39;s content.</text>
+</g>
+<g>
+<rect data-box="cpublish" x="330" y="311" width="290" height="83" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
+<text data-owner="cpublish" x="346" y="342" font-size="15" font-weight="600" fill="#12161b">content-publish.yml</text>
+<text data-owner="cpublish" x="346" y="363" font-size="13" fill="#3b434d">Manual. Environment live-server, so</text>
+<text data-owner="cpublish" x="346" y="380" font-size="13" fill="#3b434d">a reviewer approves before it sends.</text>
+</g>
+<g>
+<rect data-box="release" x="330" y="420" width="290" height="83" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="release" x="346" y="451" font-size="15" font-weight="600" fill="#12161b">release.yml · Server release</text>
+<text data-owner="release" x="346" y="472" font-size="13" fill="#3b434d">On a v* tag: build both executables</text>
+<text data-owner="release" x="346" y="489" font-size="13" fill="#3b434d">and attach them to a release.</text>
+</g>
+<g>
+<rect data-box="selftest" x="330" y="529" width="290" height="83" rx="8" fill="#eceef0" stroke="#5d6673" stroke-width="1.4"/>
+<text data-owner="selftest" x="346" y="560" font-size="15" font-weight="600" fill="#12161b">content-selftest.yml</text>
+<text data-owner="selftest" x="346" y="581" font-size="13" fill="#3b434d">On pushes to the content tooling.</text>
+<text data-owner="selftest" x="346" y="598" font-size="13" fill="#3b434d">Proves the round trip, no secrets.</text>
+</g>
+<g>
+<rect data-box="assethost" x="670" y="76" width="260" height="83" rx="8" fill="#eceef0" stroke="#5d6673" stroke-width="1.4"/>
+<text data-owner="assethost" x="686" y="107" font-size="15" font-weight="600" fill="#12161b">Asset host</text>
+<text data-owner="assethost" x="686" y="128" font-size="13" fill="#3b434d">GitHub Pages by default.</text>
+<text data-owner="assethost" x="686" y="145" font-size="13" fill="#3b434d">Client build, models, world.</text>
+</g>
+<g>
+<rect data-box="gameserver" x="670" y="202" width="260" height="192" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="gameserver" x="686" y="233" font-size="15" font-weight="600" fill="#12161b">Game server</text>
+<text data-owner="gameserver" x="686" y="254" font-size="13" fill="#3b434d">The executable behind a reverse</text>
+<text data-owner="gameserver" x="686" y="271" font-size="13" fill="#3b434d">proxy that holds the TLS</text>
+<text data-owner="gameserver" x="686" y="288" font-size="13" fill="#3b434d">certificate. One per host.</text>
+<text data-owner="gameserver" x="686" y="322" font-size="13" fill="#3b434d">The owner runs a test server</text>
+<text data-owner="gameserver" x="686" y="339" font-size="13" fill="#3b434d">the same way.</text>
+</g>
+<g>
+<rect data-box="ghrelease" x="670" y="420" width="260" height="83" rx="8" fill="#eceef0" stroke="#5d6673" stroke-width="1.4"/>
+<text data-owner="ghrelease" x="686" y="451" font-size="15" font-weight="600" fill="#12161b">GitHub release</text>
+<text data-owner="ghrelease" x="686" y="472" font-size="13" fill="#3b434d">corealm-server-win-x64.exe,</text>
+<text data-owner="ghrelease" x="686" y="489" font-size="13" fill="#3b434d">corealm-server-linux-x64.</text>
+</g>
+<g>
+<rect data-box="identitydeploy" x="670" y="529" width="260" height="83" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
+<text data-owner="identitydeploy" x="686" y="560" font-size="15" font-weight="600" fill="#12161b">Identity service</text>
+<text data-owner="identitydeploy" x="686" y="581" font-size="13" fill="#3b434d">Deployed by hand, behind HTTPS.</text>
+<text data-owner="identitydeploy" x="686" y="598" font-size="13" fill="#3b434d">It holds the signing keys.</text>
+</g>
+<path data-arrow="docs-assets" d="M622,118 H666" fill="none" stroke="#0b57a4" stroke-width="2.1" marker-end="url(#head-accent-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="644" y="138" font-size="13" text-anchor="middle" fill="#0b57a4">deploy</text>
+<path data-arrow="server-export" d="M666,244 H624" fill="none" stroke="#3f4752" stroke-width="2.1" stroke-dasharray="7 5" marker-end="url(#head-neutral-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="644" y="264" font-size="13" text-anchor="middle" fill="#3b434d">read</text>
+<path data-arrow="publish-server" d="M622,353 H666" fill="none" stroke="#3f4752" stroke-width="2.1" stroke-dasharray="7 5" marker-end="url(#head-neutral-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="644" y="373" font-size="13" text-anchor="middle" fill="#3b434d">send</text>
+<path data-arrow="release-gh" d="M622,462 H666" fill="none" stroke="#0b57a4" stroke-width="2.1" marker-end="url(#head-accent-light)" stroke-linecap="round" stroke-linejoin="round"/>
+<text data-owner="free" x="644" y="482" font-size="13" text-anchor="middle" fill="#0b57a4">build</text>
+<g>
+<rect data-box="secrets" x="30" y="644" width="900" height="83" rx="8" fill="#eceef0" stroke="#5d6673" stroke-width="1.4"/>
+<text data-owner="secrets" x="46" y="675" font-size="15" font-weight="600" fill="#12161b">Where secrets live</text>
+<text data-owner="secrets" x="46" y="696" font-size="13" fill="#3b434d">The game server&#39;s own database (admin sessions, API tokens), the identity service&#39;s environment, and GitHub secrets.</text>
+<text data-owner="secrets" x="46" y="713" font-size="13" fill="#3b434d">A static build never holds one. The content workflows read their token from the environment, never a command line.</text>
+</g>
+<path d="M30,758 H64" fill="none" stroke="#0b57a4" stroke-width="2"/>
+<text data-owner="free" x="74" y="762" font-size="13" fill="#3b434d">automatic on its trigger</text>
+<path d="M243.99999999999997,758 H278" fill="none" stroke="#3f4752" stroke-width="2" stroke-dasharray="7 5"/>
+<text data-owner="free" x="288" y="762" font-size="13" fill="#3b434d">manual, or waits for an approval</text>
+</svg>

@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 556" width="960" height="556" role="img" aria-labelledby="repo-title repo-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="repo-title">The repository, folder by folder</title>
+<desc id="repo-desc">Nine top-level folders with one line each: game, devdocs, identity, tools, tests, docs, deploy, art and runs. A wide box underneath names the four files to read first: docs/live-server-plan.md, docs/multiplayer-hosting.md, game/src/contracts.ts with game/src/multiplayer/worldHost.ts, and the scripts block of package.json.</desc>
+<style>
+  svg {
+    --surface: #f1f3f5;
+    --surfaceMuted: #eceef0;
+    --surfaceAccent: #dbe9f8;
+    --surfaceSecondary: #d9efe8;
+    --stroke: #3f4752;
+    --strokeMuted: #5d6673;
+    --text: #12161b;
+    --textMuted: #3b434d;
+    --accent: #0b57a4;
+    --secondary: #0d6152;
+  }
+  @media (prefers-color-scheme: dark) {
+    svg {
+    --surface: #1a2029;
+    --surfaceMuted: #181d25;
+    --surfaceAccent: #152b44;
+    --surfaceSecondary: #112b26;
+    --stroke: #9aa5b2;
+    --strokeMuted: #828d9b;
+    --text: #e8eef5;
+    --textMuted: #c2ccd8;
+    --accent: #79bbff;
+    --secondary: #5fd3a4;
+    }
+  }
+</style>
+<defs>
+<marker id="head-neutral-adaptive" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="var(--stroke)"/></marker>
+<marker id="tail-neutral-adaptive" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="var(--stroke)"/></marker>
+<marker id="head-accent-adaptive" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="var(--accent)"/></marker>
+<marker id="tail-accent-adaptive" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="var(--accent)"/></marker>
+<marker id="head-secondary-adaptive" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="var(--secondary)"/></marker>
+<marker id="tail-secondary-adaptive" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="var(--secondary)"/></marker>
+<marker id="head-muted-adaptive" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="var(--strokeMuted)"/></marker>
+<marker id="tail-muted-adaptive" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="var(--strokeMuted)"/></marker>
+</defs>
+<text data-owner="free" x="24" y="30" font-size="17" font-weight="600" fill="var(--text)">The repository</text>
+<g>
+<rect data-box="folder0" x="30" y="60" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder0" x="46" y="91" font-size="15" font-weight="600" fill="var(--text)">game/</text>
+<text data-owner="folder0" x="46" y="112" font-size="13" fill="var(--textMuted)">Client, simulation, the multiplayer</text>
+<text data-owner="folder0" x="46" y="129" font-size="13" fill="var(--textMuted)">host core, compiler, authored JSON.</text>
+</g>
+<g>
+<rect data-box="folder1" x="335" y="60" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder1" x="351" y="91" font-size="15" font-weight="600" fill="var(--text)">devdocs/</text>
+<text data-owner="folder1" x="351" y="112" font-size="13" fill="var(--textMuted)">The editor and admin UI. React and</text>
+<text data-owner="folder1" x="351" y="129" font-size="13" fill="var(--textMuted)">Vite. Repo mode and server mode.</text>
+</g>
+<g>
+<rect data-box="folder2" x="640" y="60" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder2" x="656" y="91" font-size="15" font-weight="600" fill="var(--text)">identity/</text>
+<text data-owner="folder2" x="656" y="112" font-size="13" fill="var(--textMuted)">The accounts service: usernames,</text>
+<text data-owner="folder2" x="656" y="129" font-size="13" fill="var(--textMuted)">passwords, join tokens, directory.</text>
+</g>
+<g>
+<rect data-box="folder3" x="30" y="172" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder3" x="46" y="203" font-size="15" font-weight="600" fill="var(--text)">tools/</text>
+<text data-owner="folder3" x="46" y="224" font-size="13" fill="var(--textMuted)">Every entry point npm run calls:</text>
+<text data-owner="folder3" x="46" y="241" font-size="13" fill="var(--textMuted)">servers, builds, bakes, probes.</text>
+</g>
+<g>
+<rect data-box="folder4" x="335" y="172" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder4" x="351" y="203" font-size="15" font-weight="600" fill="var(--text)">tests/</text>
+<text data-owner="folder4" x="351" y="224" font-size="13" fill="var(--textMuted)">The vitest suite. npm test runs it,</text>
+<text data-owner="folder4" x="351" y="241" font-size="13" fill="var(--textMuted)">npm run check runs it with builds.</text>
+</g>
+<g>
+<rect data-box="folder5" x="640" y="172" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder5" x="656" y="203" font-size="15" font-weight="600" fill="var(--text)">docs/</text>
+<text data-owner="folder5" x="656" y="224" font-size="13" fill="var(--textMuted)">These documents, and the generated</text>
+<text data-owner="folder5" x="656" y="241" font-size="13" fill="var(--textMuted)">player guide under docs/game/.</text>
+</g>
+<g>
+<rect data-box="folder6" x="30" y="284" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder6" x="46" y="315" font-size="15" font-weight="600" fill="var(--text)">deploy/</text>
+<text data-owner="folder6" x="46" y="336" font-size="13" fill="var(--textMuted)">The systemd unit that runs the</text>
+<text data-owner="folder6" x="46" y="353" font-size="13" fill="var(--textMuted)">Linux server executable.</text>
+</g>
+<g>
+<rect data-box="folder7" x="335" y="284" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder7" x="351" y="315" font-size="15" font-weight="600" fill="var(--text)">art/</text>
+<text data-owner="folder7" x="351" y="336" font-size="13" fill="var(--textMuted)">Source art and the inputs that</text>
+<text data-owner="folder7" x="351" y="353" font-size="13" fill="var(--textMuted)">generate models, icons, textures.</text>
+</g>
+<g>
+<rect data-box="folder8" x="640" y="284" width="290" height="83" rx="8" fill="var(--surface)" stroke="var(--stroke)" stroke-width="1.6"/>
+<text data-owner="folder8" x="656" y="315" font-size="15" font-weight="600" fill="var(--text)">runs/</text>
+<text data-owner="folder8" x="656" y="336" font-size="13" fill="var(--textMuted)">Per-build planning and review</text>
+<text data-owner="folder8" x="656" y="353" font-size="13" fill="var(--textMuted)">notes. Nothing ships from here.</text>
+</g>
+<g>
+<rect data-box="first" x="30" y="408" width="900" height="117" rx="8" fill="var(--surfaceAccent)" stroke="var(--accent)" stroke-width="2"/>
+<text data-owner="first" x="46" y="439" font-size="15" font-weight="600" fill="var(--text)">Read these first</text>
+<text data-owner="first" x="46" y="460" font-size="13" fill="var(--textMuted)">docs/live-server-plan.md: the architecture and the milestones. Its Build notes section records deviations.</text>
+<text data-owner="first" x="46" y="477" font-size="13" fill="var(--textMuted)">docs/multiplayer-hosting.md: running a server: configuration, the admin API, publishing, releases.</text>
+<text data-owner="first" x="46" y="494" font-size="13" fill="var(--textMuted)">game/src/contracts.ts holds the shared types. game/src/multiplayer/worldHost.ts is the host core.</text>
+<text data-owner="first" x="46" y="511" font-size="13" fill="var(--textMuted)">package.json: the scripts block is every command in this document.</text>
+</g>
+</svg>
