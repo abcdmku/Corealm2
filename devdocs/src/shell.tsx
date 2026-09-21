@@ -13,9 +13,8 @@ import { installThumbnailProvider } from "./ui/assetThumbnails.js";
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1 } } });
 
-// Rendered GLB thumbnails write their PNG back to the repo's cache endpoint, so they need the
-// checkout. A live server and the player guide both draw the glyph instead.
-if (can("assets")) void import("./viewer/thumbnailRenderer.js").then(module => installThumbnailProvider(module.createThumbnailProvider()));
+// Server mode renders thumbnails in the browser. Only a checkout persists them through its cache.
+if (can("assets") || can("publish")) void import("./viewer/thumbnailRenderer.js").then(module => installThumbnailProvider(module.createThumbnailProvider({ repoCache: can("assets") })));
 
 export function Shell() {
   return <QueryClientProvider client={queryClient}>

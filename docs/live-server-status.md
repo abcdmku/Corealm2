@@ -43,6 +43,11 @@ yet, what the known limits are, and what merging to `main` still needs.
   Before/after source hashes match. Both worlds now report `0.1.0`, and the built client's desktop and
   phone selectors were checked against live discovery. The Pages client still needs its identity URL
   and the branch deployment before account play can be checked there; see the merge checklist below.
+- The live admin now uses `https://abcdmku.github.io/Corealm2/` as its asset host. Item icons were
+  visually checked in the signed-in owner session. Server-mode model thumbnails now render in the
+  browser without repository cache endpoints, including when the renderer loads after the view.
+  Typecheck, ten focused tests, the admin build and the Windows executable build pass. The rebuilt
+  server is deployed; its content revision and base markers are unchanged.
 
 ## Not verified
 

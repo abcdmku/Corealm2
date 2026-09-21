@@ -1,7 +1,8 @@
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { createThumbnailProvider } from "../devdocs/src/viewer/thumbnailRenderer.js";
 import {
   createThumbnailsHandler,
   decodePngDataUrl,
@@ -11,6 +12,9 @@ import {
   type ThumbnailsHandlerResponse,
   type ThumbnailWriteResponse,
 } from "../devdocs/server/handlers/thumbnails.js";
+
+vi.mock("../devdocs/src/viewer/registry.js", () => ({ viewerRegistry: async () => ({ entry: () => undefined }) }));
+afterEach(() => vi.unstubAllGlobals());
 
 /** Smallest valid PNG: 1x1 transparent pixel. */
 const PNG_BYTES = Buffer.from(
@@ -35,6 +39,20 @@ function body<T>(response: ThumbnailsHandlerResponse | undefined): T {
 const url = "/__devdocs/thumbnails/goat.png";
 
 describe("devdocs thumbnails handler", () => {
+  it("keeps server-mode thumbnails off the repository cache endpoints", async () => {
+    const fetch = vi.fn();
+    vi.stubGlobal("fetch", fetch);
+    // An absent manifest entry falls back to a glyph, without probing a nonexistent cache API.
+    expect(await createThumbnailProvider({ repoCache: false })("absent_asset")).toBeUndefined();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("still uses an existing repository thumbnail before loading a model", async () => {
+    const fetch = vi.fn(async () => new Response("", { status: 200, headers: { "Content-Type": "image/png" } }));
+    vi.stubGlobal("fetch", fetch);
+    expect(await createThumbnailProvider({ repoCache: true })("goat")).toBe("/__devdocs/thumbnails/goat.png");
+    expect(fetch).toHaveBeenCalledExactlyOnceWith("/__devdocs/thumbnails/goat.png", { method: "HEAD", cache: "no-cache" });
+  });
   it("returns 404 before a render is stored, then serves the PUT PNG bytes", async () => {
     const { root, handler } = await fixture();
     const missing = await handler({ method: "GET", url });

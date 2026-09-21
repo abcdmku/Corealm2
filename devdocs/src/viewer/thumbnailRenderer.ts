@@ -158,15 +158,14 @@ async function storeRendered(assetId: string, dataUrl: string): Promise<boolean>
 }
 
 /**
- * Provider for `installThumbnailProvider`: the dev server's cached PNG wins; otherwise render in
- * the browser, hand the PNG to the server in the background, and show the data URL immediately.
+ * Render in the browser and show the data URL. Repository mode also reads and writes its PNG cache.
  */
-export function createThumbnailProvider(): ThumbnailProvider {
+export function createThumbnailProvider({ repoCache }: { repoCache: boolean }): ThumbnailProvider {
   return async assetId => {
     if (!ASSET_ID.test(assetId)) return undefined;
-    if (await readCached(assetId)) return cachedUrl(assetId);
+    if (repoCache && await readCached(assetId)) return cachedUrl(assetId);
     const dataUrl = await renderAssetThumbnail(assetId);
-    if (dataUrl) void storeRendered(assetId, dataUrl);
+    if (repoCache && dataUrl) void storeRendered(assetId, dataUrl);
     return dataUrl;
   };
 }
