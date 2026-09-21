@@ -1,13 +1,21 @@
 name: Content export
 
-# Once a server is live it is the source of truth for its data, and the repository receives exports.
-# This pulls a live server's source collections back into `game/content/data/` and keeps one pull
-# request open on a fixed branch. It never publishes anything: the token it uses is `content:read`.
+# A backup and promotion tool. It is not part of any normal loop, and it runs only when a human
+# starts it.
+#
+# The repository holds the base game, which seeds a new server's database once. After that the
+# server's database is that server's content, and nothing flows back on its own. This workflow does
+# one deliberate thing: it reads one configured server's source collections into
+# `game/content/data/` and opens a pull request that a human must merge. Use it to back up or
+# version a server you own, or to promote a change you made on your own server into the base game.
+# Merging the pull request changes the base game for every server seeded after it and changes
+# nothing on a server already running. A server cannot start this workflow, and it never publishes:
+# the token it uses is `content:read`.
 #
 # Configure it once, per `docs/multiplayer-hosting.md` → "Content workflows and their secrets":
 #   repository variable COREALM_SERVER_URL      the server to export from, e.g. https://play.example.com/
 #   repository secret   COREALM_CONTENT_READ_TOKEN   a cat_… token with the content:read scope
-# Without both it skips with a notice, so a fork and the weekly schedule never fail red.
+# Without both it skips with a notice, so a fork never fails red.
 
 on:
   workflow_dispatch:
@@ -21,9 +29,6 @@ on:
   push:
     branches: [live-server]
     paths: ['.github/export-now']
-  schedule:
-    # Monday morning UTC, so a week of live edits is waiting as a pull request.
-    - cron: "17 6 * * 1"
 
 permissions: {}
 
@@ -126,9 +131,11 @@ jobs:
           SUMMARY: ${{ runner.temp }}/export-summary.md
           REVISION: ${{ steps.export.outputs.revision }}
           COLLECTIONS: ${{ steps.export.outputs.collections }}
+          # Already checked for scheme and for characters a URL may not hold, in the first step.
+          SERVER_URL: ${{ steps.configured.outputs.server_url }}
         run: |
           set -euo pipefail
-          title="Live server content export ${REVISION:0:12}"
+          title="Promote content from ${SERVER_URL} into the base game (${REVISION:0:12})"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$BRANCH"

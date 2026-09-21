@@ -15,7 +15,7 @@ yet, what the known limits are, and what merging to `main` still needs.
 | M5 Devdocs server mode | The editor runs against a live server's admin API and against the fixture: `tests/devdocs-server-backend.test.ts`, `tests/devdocs-server-http.test.ts`, and `tools/devdocs-surface-audit.ts --server`, which walks every `players` and `server` surface. |
 | M6 World pack and executables | Booting the authored world from the pack takes about 4 s, against about 39 s building it from source (`docs/world-authoring.md`, "Server world pack"). Both executables build from one machine and the Linux one starts from an empty folder in `release.yml`; `tests/server-packaging.test.ts` and `tests/world-pack-parity.test.ts` cover the archive, the pack and the log. |
 | M7 Thin client, worker local play | Connected first playable fell from 14,207 ms to 9,178 ms and local from 13,735 ms to 9,148 ms, beating the M1 baseline. Initial application JavaScript fell from 0.974 MB gzip to 0.621 MB. Numbers and method in `docs/startup-performance.md`; `tests/client-catalog-page-graph.test.ts` and `tests/local-worker-import-graph.test.ts` hold the page and the worker to the split. |
-| M8 CI content workflows | `content-export.yml` has run against the owner's test server and opened a pull request matching an edit made in devdocs. `content-selftest.yml` proves the round trip with no secrets. |
+| M8 CI content workflows | `content-export.yml` has run against the owner's test server and opened a pull request matching an edit made in devdocs. `content-selftest.yml` proves both tools work with no secrets. Both workflows are manual: a server owns its content, and neither one is part of the normal loop. |
 | M9 Thread per world | Two worlds in their own threads tick at 35.3 ms p50 against 36.3 ms for one world alone; the same two worlds in one thread tick at 72.8 ms. Measured with `npm run multiplayer:capacity -- --scaling`; the table is in `docs/multiplayer-hosting.md`, "Scaling on one machine". `tests/multiplayer-threads.test.ts` drives a threaded server through sockets and the admin API. |
 
 ## Not verified
@@ -51,6 +51,11 @@ yet, what the known limits are, and what merging to `main` still needs.
   knows theirs changes it on the service's own `/password` page.
 - **A world that keeps crashing is left down.** Five failures inside ten minutes stop the restarts
   and mark the world `abandoned` in `/admin/stats`. It stays unavailable until the server restarts.
+- **A server cannot take a newer base game without losing its edits.** The repository's catalog
+  seeds a database once and a later deploy leaves an existing one alone, so new base content in a
+  later release never reaches a server that has already been seeded. The missing feature is a
+  per-record three-way merge in devdocs, between the base the server was seeded from, the new base,
+  and what the server holds now.
 
 ## Merging `live-server` into `main`
 

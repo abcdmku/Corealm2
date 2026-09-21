@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 790" width="960" height="790" role="img" aria-labelledby="pipelines-title pipelines-desc" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
 <title id="pipelines-title">Environments and the pipelines between them</title>
-<desc id="pipelines-desc">Three columns. Local dev on the left lists npm run dev, npm run devdocs, npm run identity and npm run multiplayer:server. CI on GitHub in the middle lists five workflows: docs.yml, content-export.yml, content-publish.yml, release.yml and content-selftest.yml. Deployed on the right lists the asset host, the game server, the GitHub release that carries the executables, and the identity service. Solid arrows run automatically on their trigger: docs.yml deploys to the asset host, release.yml builds the GitHub release. Dashed arrows are manual: content-export reads the game server, content-publish sends to it behind an approval. A note at the bottom says secrets live in the server database, the identity service&#39;s environment and GitHub secrets, and never in a static build.</desc>
+<desc id="pipelines-desc">Three columns. Local dev on the left lists npm run dev, npm run devdocs, npm run identity and npm run multiplayer:server. CI on GitHub in the middle lists five workflows: docs.yml, content-export.yml, content-publish.yml, release.yml and content-selftest.yml. Deployed on the right lists the asset host, the game server, the GitHub release that carries the executables, and the identity service. Solid arrows run automatically on their trigger: docs.yml deploys to the asset host, release.yml builds the GitHub release. Dashed arrows are manual and neither runs on a schedule: content-export reads one server for a backup or a promotion, content-publish sends a checkout&#39;s content to a server you administer, behind an approval. A note at the bottom says secrets live in the server database, the identity service&#39;s environment and GitHub secrets, and never in a static build.</desc>
 <defs>
 <marker id="head-neutral-light" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L11,4.5 L0,9 Z" fill="#3f4752"/></marker>
 <marker id="tail-neutral-light" markerWidth="11" markerHeight="9" refX="1" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M11,0 L0,4.5 L11,9 Z" fill="#3f4752"/></marker>
@@ -51,14 +51,14 @@
 <g>
 <rect data-box="cexport" x="330" y="202" width="290" height="83" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
 <text data-owner="cexport" x="346" y="233" font-size="15" font-weight="600" fill="#12161b">content-export.yml</text>
-<text data-owner="cexport" x="346" y="254" font-size="13" fill="#3b434d">Mondays and on demand. Opens a pull</text>
-<text data-owner="cexport" x="346" y="271" font-size="13" fill="#3b434d">request with the server&#39;s content.</text>
+<text data-owner="cexport" x="346" y="254" font-size="13" fill="#3b434d">Manual. Backs up or promotes one</text>
+<text data-owner="cexport" x="346" y="271" font-size="13" fill="#3b434d">server&#39;s content as a pull request.</text>
 </g>
 <g>
 <rect data-box="cpublish" x="330" y="311" width="290" height="83" rx="8" fill="#f1f3f5" stroke="#3f4752" stroke-width="1.6"/>
 <text data-owner="cpublish" x="346" y="342" font-size="15" font-weight="600" fill="#12161b">content-publish.yml</text>
-<text data-owner="cpublish" x="346" y="363" font-size="13" fill="#3b434d">Manual. Environment live-server, so</text>
-<text data-owner="cpublish" x="346" y="380" font-size="13" fill="#3b434d">a reviewer approves before it sends.</text>
+<text data-owner="cpublish" x="346" y="363" font-size="13" fill="#3b434d">Manual. Pushes a checkout&#39;s content to</text>
+<text data-owner="cpublish" x="346" y="380" font-size="13" fill="#3b434d">a server you administer, after approval.</text>
 </g>
 <g>
 <rect data-box="release" x="330" y="420" width="290" height="83" rx="8" fill="#dbe9f8" stroke="#0b57a4" stroke-width="2"/>
@@ -70,7 +70,7 @@
 <rect data-box="selftest" x="330" y="529" width="290" height="83" rx="8" fill="#eceef0" stroke="#5d6673" stroke-width="1.4"/>
 <text data-owner="selftest" x="346" y="560" font-size="15" font-weight="600" fill="#12161b">content-selftest.yml</text>
 <text data-owner="selftest" x="346" y="581" font-size="13" fill="#3b434d">On pushes to the content tooling.</text>
-<text data-owner="selftest" x="346" y="598" font-size="13" fill="#3b434d">Proves the round trip, no secrets.</text>
+<text data-owner="selftest" x="346" y="598" font-size="13" fill="#3b434d">Proves the tools work, no secrets.</text>
 </g>
 <g>
 <rect data-box="assethost" x="670" y="76" width="260" height="83" rx="8" fill="#eceef0" stroke="#5d6673" stroke-width="1.4"/>

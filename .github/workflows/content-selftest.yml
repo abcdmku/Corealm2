@@ -1,6 +1,8 @@
 name: Content sync self-test
 
-# Proves M8's done-when without a hosted server and without a single secret.
+# Proves the export and publish TOOLS work, without a hosted server and without a single secret.
+# It is a test of the tools. It is not a flow anybody runs: a server owns its own content, and
+# nothing goes from a server to the base game without a person deciding it should.
 #
 # `tools/content/selftest-server-sync.ts` boots a real game server on loopback with a throwaway
 # database, mints a real cat_… token, publishes a loot edit through the admin API exactly as devdocs

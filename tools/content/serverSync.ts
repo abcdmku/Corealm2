@@ -259,8 +259,8 @@ export function explainRefusal(error: ServerRefusal): string {
     case "stale_collections": {
       const stale = stringList(error.detail.stale);
       return [`The live server refused this publish: ${stale.length ? stale.join(", ") : "some collections"} changed on the server since this checkout last exported it.`,
-        "Someone edited the live server in devdocs. The server is the source of truth for its own data, so nothing is being forced.",
-        "Run the content export workflow, merge the pull request it opens, then publish again."].join("\n");
+        "Somebody edited this server in devdocs, and that server owns its content, so nothing is being forced.",
+        "Export the server's content, reconcile it with this branch, then publish again."].join("\n");
     }
     case "definition_in_use": {
       const lines = blockers.filter(isRecord).slice(0, 20).map(blocker =>

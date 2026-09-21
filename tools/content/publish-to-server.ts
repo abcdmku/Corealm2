@@ -1,11 +1,12 @@
 /**
- * Push this checkout's content to a named live server.
+ * Push this checkout's content to a server you administer: restoring a backup, or loading content
+ * you authored offline.
  *
- * This is the direction that fights the rule: a live server owns its data, and the repository
- * receives exports. So a publish from CI is deliberate, manual, and guarded twice. `--confirm` has
- * to equal the name the server reports at `GET /admin/info`, so a pasted URL cannot quietly land on
- * the wrong host, and every collection is sent with the revision the server itself reported, so a
- * publish that would overwrite an edit made in devdocs is refused rather than forced.
+ * A server owns its own content, so this overwrites somebody's live data. Every publish is
+ * therefore deliberate, manual, and guarded twice. `--confirm` has to equal the name the server
+ * reports at `GET /admin/info`, so a pasted URL cannot quietly land on the wrong host, and every
+ * collection is sent with the revision the server itself reported, so a publish that would
+ * overwrite an edit made in devdocs is refused rather than forced.
  *
  * Usage:
  *   COREALM_CONTENT_TOKEN=cat_… tsx tools/content/publish-to-server.ts --server https://play.example.com/ --confirm "Raid Night"

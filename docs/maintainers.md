@@ -29,11 +29,13 @@ A `player_leases` row holds one account in one world at a time. A second login i
 
 Local play needs no account. The same host core starts in a Web Worker, saves to IndexedDB, and the page joins it over a MessagePort through the same session client. Connected play and local play share one code path.
 
-## How content reaches the game and comes back
+## How content reaches the game
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="figures/maintainers/content-dark.svg"><img alt="Authored JSON under game/content/data compiles into a client catalog and a server catalog under one revision hash. That compiled catalog seeds an empty server database once. Devdocs in server mode publishes new revisions into the database, and the running worlds take them. The content-export workflow reads the database and opens a pull request back onto the authored JSON." src="figures/maintainers/content-light.svg"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="figures/maintainers/content-dark.svg"><img alt="Authored JSON under game/content/data compiles into a client catalog and a server catalog under one revision hash. That compiled catalog seeds an empty server database once, and never again. Devdocs in server mode publishes new revisions into that server's database, and the running worlds take them. A note beside the database says exporting a server's content to a folder or your own repository, and promoting a change into the base game by hand, are optional tools; nothing flows back automatically." src="figures/maintainers/content-light.svg"></picture>
 
-Authored JSON compiles to two catalogs under one revision hash: a small client catalog the browser may read, and the full server catalog with loot rolls and spawn tables. A live server keeps every revision it has published in its own database and simulates from the active one. The repository's catalog only seeds an empty database. After that the server is the source of truth for its own data, and the repository receives exports.
+The repository holds the base game. Authored JSON compiles to two catalogs under one revision hash: a small client catalog the browser may read, and the full server catalog with loot rolls and spawn tables. That compiled catalog seeds a new server's database once, on its first start with an empty database, and a later deploy never overwrites a database that already holds a catalog.
+
+From then on the server's database is that server's content. Admins edit it live in devdocs, and those edits stay on that server. Nothing a server does reaches the base game on its own.
 
 A publish from devdocs compiles, checks and swaps in one step. Loot applies at the next kill, spawns at the next respawn, and every other table at the next restart. A rollback is a publish of an older revision. Removing an item a player holds, or a creature alive in a world, is refused: mark the definition `retired` instead. See [content authoring](content-authoring.md).
 
@@ -43,11 +45,13 @@ A publish from devdocs compiles, checks and swaps in one step. Loot applies at t
 
 ## Environments and pipelines
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="figures/maintainers/pipelines-dark.svg"><img alt="Three columns. Local dev runs npm run dev, devdocs, identity and multiplayer:server. CI on GitHub runs five workflows: docs.yml, content-export.yml, content-publish.yml, release.yml and content-selftest.yml. Deployed are the asset host, the game server behind a reverse proxy, the GitHub release carrying both executables, and the identity service. Secrets live in the server database, the identity service's environment and GitHub secrets." src="figures/maintainers/pipelines-light.svg"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="figures/maintainers/pipelines-dark.svg"><img alt="Three columns. Local dev runs npm run dev, devdocs, identity and multiplayer:server. CI on GitHub runs five workflows: docs.yml, content-export.yml, content-publish.yml, release.yml and content-selftest.yml. The two content workflows are manual, on dashed arrows: export backs up or promotes one server's content as a pull request, publish pushes a checkout's content to a server you administer. Deployed are the asset host, the game server behind a reverse proxy, the GitHub release carrying both executables, and the identity service. Secrets live in the server database, the identity service's environment and GitHub secrets." src="figures/maintainers/pipelines-light.svg"></picture>
 
 The owner also runs a test server on their own machine: the same executable behind a TLS proxy.
 
 Secrets live in three places: the game server's own database, the identity service's environment, and GitHub secrets. A static build never holds one. The publish workflow keeps its token in the `live-server` environment, so a reviewer has to approve before it can be read. Both content tools read the token from `COREALM_CONTENT_TOKEN` and refuse a `--token` flag, because a command line is visible to every other process on the machine.
+
+Neither content workflow runs on a schedule. Both are manual, both run inside the repository they live in, and both read or write one configured server. A server cannot start either of them, and the export can only open a pull request that a human merges, so no host you do not control has a path into this repository.
 
 ## Day to day
 
@@ -58,8 +62,8 @@ Secrets live in three places: the game server's own database, the identity servi
 | Run a server locally | `npm run multiplayer:server -- --authored --development-guests --port 4180 --data ./local-worlds` | [multiplayer-hosting.md](multiplayer-hosting.md#run-locally) |
 | Run accounts locally | `npm run identity -- --origins http://127.0.0.1:4173` | [identity-service.md](identity-service.md#configuration) |
 | Edit content | Devdocs, then **Save all** | [content-authoring.md](content-authoring.md#the-save-cycle) |
-| Publish repo content to a live server | The **Content publish** workflow, or `npm run content:publish:server -- --server <url> --confirm "<server name>"` | [content workflows](multiplayer-hosting.md#content-workflows-and-their-secrets) |
-| Export a live server into the repo | The **Content export** workflow, or `npm run content:export:server -- --server <url> --dry-run` | [content workflows](multiplayer-hosting.md#content-workflows-and-their-secrets) |
+| Push this checkout's content to a server I administer | The **Content publish** workflow, or `npm run content:publish:server -- --server <url> --confirm "<server name>"` | [content workflows](multiplayer-hosting.md#content-workflows-and-their-secrets) |
+| Back up a server's content, or promote one of its changes into the base game | The **Content export** workflow, or `npm run content:export:server -- --server <url> --dry-run` | [content workflows](multiplayer-hosting.md#content-workflows-and-their-secrets) |
 | Rebake the world | `npm run world:build` | [server world pack](world-authoring.md#server-world-pack) |
 | Run the gates | `npm run check`, then `npm run smoke -- --run runs/corealm --hardware` | [feature-lab.md](feature-lab.md#everyday-commands) |
 | Build the server executables | `npm run devdocs:build:server`, then `npm run server:build` | [building the executables](multiplayer-hosting.md#building-the-executables) |

@@ -1,15 +1,16 @@
 name: Content publish
 
-# Pushes this repository's content to a named live server. This is the direction that fights the
-# rule that a live server owns its data, so it is manual only, it names the server twice, and it
-# defaults to validating without storing.
+# Pushes this checkout's content to a named server you administer: restoring a backup, or loading
+# content you authored offline. A server owns its own content, so this overwrites somebody's live
+# data. That is why it is manual only, names the server twice, and defaults to validating without
+# storing.
 #
 # Configure it once, per `docs/multiplayer-hosting.md` → "Content workflows and their secrets":
 #   environment  live-server                      with required reviewers, so a publish needs approval
 #   environment secret COREALM_CONTENT_PUBLISH_TOKEN   a cat_… token with the content:publish scope
 #
-# A refusal is the normal outcome when someone has edited the server in devdocs. Run the content
-# export workflow, merge the pull request it opens, then publish again. Never force.
+# A refusal is the normal outcome when somebody has edited the server in devdocs. Export the
+# server's content, reconcile it with this branch, then publish again. Never force.
 
 on:
   workflow_dispatch:

@@ -1,11 +1,13 @@
 /**
- * Pull a live server's content back into this checkout.
+ * Copy one server's content into this checkout.
  *
- * Once a server is live it is the source of truth for its data, so the repository receives exports
- * rather than dictating. This tool reads the active revision's source collections over the admin
- * API with a `content:read` token, writes them through the canonical JSON writer, and recompiles, so
- * an export of content that did not change is a zero-byte diff and an export that did change is a
- * pull request a human reads.
+ * A server owns its own content: the repository's catalog seeds an empty database once, and nothing
+ * flows back on its own. This tool is the deliberate exception, for backing up or versioning a
+ * server you own, or for proposing that a change you made on your own server become part of the
+ * base game. It reads the active revision's source collections over the admin API with a
+ * `content:read` token, writes them through the canonical JSON writer, and recompiles, so an export
+ * of content that did not change is a zero-byte diff and an export that did change is a pull
+ * request a human reads and merges.
  *
  * Usage:
  *   COREALM_CONTENT_TOKEN=cat_… tsx tools/content/export-from-server.ts --server https://play.example.com/
@@ -108,9 +110,10 @@ export async function exportFromServer(options: ExportOptions): Promise<ExportRe
 /** The pull request body. Every value the server supplied passes through `safeId` first. */
 export function exportSummary(result: ExportResult): string {
   const lines = [
-    "### Live content export",
+    "### Promote server content into the base game",
     "",
-    `Exported from \`${result.serverUrl}\` at catalog revision \`${result.serverRevision.slice(0, 12)}\`.`,
+    `This pull request proposes promoting content from \`${result.serverUrl}\` into the base game, read at catalog revision \`${result.serverRevision.slice(0, 12)}\`.`,
+    "Merging it changes the base game for every NEW server, which is seeded from it. Existing servers are unaffected: they own their own content.",
     "",
   ];
   if (result.published) {
@@ -133,7 +136,7 @@ export function exportSummary(result: ExportResult): string {
        "That is expected when the server runs a release whose balance formulas differ from this branch: formulas are TypeScript that ships with a server release, and only the data is exported.",
        "The source collections in this diff are still exactly what the server holds."].join(" "));
   if (result.missing.length > 0) lines.push("", `The server sent no value for ${result.missing.map(name => `\`${safeId(name)}\``).join(", ")}, so ${result.missing.length === 1 ? "that file was" : "those files were"} left as this branch has ${result.missing.length === 1 ? "it" : "them"}.`);
-  lines.push("", "Once a server is live it is the source of truth for its data. Review this the way you would review an edit made in devdocs, because that is what it is.");
+  lines.push("", "Nothing here landed automatically: somebody ran the export tool and somebody has to merge this. Review it as a change to the base game.");
   return lines.join("\n");
 }
 

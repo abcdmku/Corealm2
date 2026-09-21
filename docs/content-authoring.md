@@ -217,24 +217,34 @@ it reads again only at its **next restart**, how many creatures respawn onto the
 record ids the change reached. [Publishing content](multiplayer-hosting.md#publishing-content) has the
 full endpoint reference.
 
-### Keeping the repository and a live server in step
+### The base game, a server's own content, and the optional tools between them
 
-A live server owns its data. Its catalog starts as the one the repository compiled, and from the
-first publish onwards the two drift apart, because the people editing loot on a Tuesday evening are
-editing the server, not a checkout. The rule that settles every question about which one wins is:
-**once a server is live, it is the source of truth for its data, and the repository receives
-exports.**
+The repository holds the base game. Its compiled catalog seeds a new server's database once, on that
+server's first start with an empty database. A later deploy of the same executable never overwrites
+a database that already holds a catalog.
 
-Two workflows carry that. `Content export` reads a server's source collections, writes them back
-into `game/content/data/` with the same canonical writer devdocs writes with, recompiles, and keeps
-one pull request open on the branch `content/live-export`. It runs weekly and on demand. An export
-of content the branch already holds is a zero-byte diff, so a quiet week leaves no pull request.
+After that seeding, the server's database is that server's content. The people editing loot on a
+Tuesday evening are editing that one server, and their edits stay there. Nothing a server does
+reaches the base game by itself, and a host somebody else runs has no path into this repository at
+all.
 
-`Content publish` is the other direction and is manual only. It sends just the collections this
-branch differs on, each with the revision the server reported for it, so a publish that would
-overwrite an edit somebody made in devdocs is refused with `stale_collections` instead of forced.
-The fix is always the same: export, merge, publish. It also needs the server's own name repeated
-back to it, which is what stops a publish landing on the wrong host.
+Two tools move content between a checkout and a server, and neither is part of the normal loop.
+Both are manual, both write only into the checkout they run in, and both name one server.
+
+`Content export` reads one server's source collections, writes them into `game/content/data/` with
+the same canonical writer devdocs writes with, recompiles, and opens a pull request a human has to
+merge. Use it for two things. A server owner backs up or versions their own server's content, into a
+folder or into their own repository or fork. Or the project owner promotes a change they made on
+their own server into the base game, by hand, reviewed like any other pull request. Merging one of
+those pull requests changes the base game for every server seeded after it; servers already running
+are untouched.
+
+`Content publish` sends the other way. It pushes a checkout's content to a named server you
+administer, which is how you restore a backup or load content you authored offline. It sends only
+the collections this branch differs on, each with the revision the server reported for it, so a
+publish that would overwrite an edit somebody made in devdocs is refused with `stale_collections`
+instead of forced. It also needs the server's own name repeated back to it, which is what stops a
+publish landing on the wrong host.
 
 Both run as commands too, which is the way to see what a workflow will do before you let it run:
 

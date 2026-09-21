@@ -575,12 +575,12 @@ Without a credential the endpoint answers 401, and with a token that lacks `stat
 
 ### Content workflows and their secrets
 
-Once a server is live, it is the source of truth for its data. The repository receives exports. Two workflows carry that in both directions, and only one of them is scheduled.
+A server owns its own content. The repository's catalog seeds an empty database once and nothing flows back after that, so neither of these workflows is part of the normal loop. Both are manual, both run inside the repository they live in, and both read or write one configured server. A server cannot trigger either one.
 
 | Workflow | When | Scope it uses | What it does |
 | --- | --- | --- | --- |
-| `.github/workflows/content-export.yml` | Manual, and Mondays at 06:17 UTC | `content:read` | Reads the active revision's source collections, writes them into `game/content/data/`, recompiles, and keeps one pull request open on the branch `content/live-export`. |
-| `.github/workflows/content-publish.yml` | Manual only | `content:publish` | Sends the collections this branch differs on to a named server. Validates by default; storing is an explicit choice. |
+| `.github/workflows/content-export.yml` | Manual only | `content:read` | Reads the active revision's source collections, writes them into `game/content/data/`, recompiles, and opens a pull request on the branch `content/live-export` that a human has to merge. Use it to back up a server's content, or to promote a change into the base game. |
+| `.github/workflows/content-publish.yml` | Manual only | `content:publish` | Pushes the collections this branch differs on to a server you administer, for restoring a backup or loading content you authored offline. Validates by default; storing is an explicit choice. |
 
 Both run `tsx` tools you can run yourself, which is the honest way to see what a workflow will do:
 
@@ -595,7 +595,7 @@ The token comes from `COREALM_CONTENT_TOKEN` and nowhere else. Both tools refuse
 
 | Kind | Name | Value |
 | --- | --- | --- |
-| Repository variable | `COREALM_SERVER_URL` | The server the scheduled export reads, e.g. `https://play.example.com/`. A manual run can override it. |
+| Repository variable | `COREALM_SERVER_URL` | The one server the export reads, e.g. `https://play.example.com/`. A run can override it. |
 | Repository secret | `COREALM_CONTENT_READ_TOKEN` | A `cat_…` token with `content:read` only. |
 | Environment | `live-server` | Protects the publish workflow. Add required reviewers so a publish waits for a human. |
 | Environment secret | `COREALM_CONTENT_PUBLISH_TOKEN` | A `cat_…` token with `content:publish`, stored **in that environment**, not at repository level, so the approval gate is the only way to reach it. |
@@ -604,13 +604,13 @@ Mint each token in the admin UI: **Server → Access → API tokens → New toke
 
 Set the environment up in **Settings → Environments → New environment**, name it `live-server`, add the reviewers who may approve a publish, and add `COREALM_CONTENT_PUBLISH_TOKEN` as an environment secret there. Optionally restrict the environment to the default branch. With no environment of that name, GitHub creates one with no protection on the first run, so the reviewer list is the part that actually guards it.
 
-Neither workflow prints a token, passes one on a command line, or grants itself more permission than it needs: the export holds `contents: write` and `pull-requests: write`, the publish holds `contents: read`. Both use `actions/checkout` and `actions/setup-node` and no third-party action; anything third-party added later must be pinned by full commit SHA. The export skips with a notice, rather than failing, when the variable or the secret is missing, so a fork and the weekly schedule stay green.
+Neither workflow prints a token, passes one on a command line, or grants itself more permission than it needs: the export holds `contents: write` and `pull-requests: write`, the publish holds `contents: read`. Both use `actions/checkout` and `actions/setup-node` and no third-party action; anything third-party added later must be pinned by full commit SHA. The export skips with a notice, rather than failing, when the variable or the secret is missing, so a fork stays green.
 
 The export opens its pull request as GitHub Actions. A repository forbids that by default: switch on Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests". Without it the run pushes `content/live-export`, fails, and prints the comparison link so the pull request can be opened by hand.
 
 ### The self-test, which needs nothing
 
-`.github/workflows/content-selftest.yml` proves the whole path with no hosted server and no secret. It runs `npm run content:selftest`, which boots a real game server on loopback with a throwaway database, mints a real `cat_…` token through the admin API, publishes a small loot edit the way devdocs publishes one, runs the export tool's own command line against it, and asserts that the checkout now holds exactly that edit: one authored file changed, the bytes are the canonical writer's, the content still compiles. It runs on any branch whose push touches the content tooling, the content compiler or the server's content endpoints. It is not a required check.
+`.github/workflows/content-selftest.yml` proves the two tools work, with no hosted server and no secret. It is a test of the tools, not a flow anybody is meant to run on a schedule. It runs `npm run content:selftest`, which boots a real game server on loopback with a throwaway database, mints a real `cat_…` token through the admin API, publishes a small loot edit the way devdocs publishes one, runs the export tool's own command line against it, and asserts that the checkout now holds exactly that edit: one authored file changed, the bytes are the canonical writer's, the content still compiles. It runs on any branch whose push touches the content tooling, the content compiler or the server's content endpoints. It is not a required check.
 
 Run it yourself with `npm run content:selftest`. On a working checkout it exports into a temporary copy of `game/content/data` and refuses to touch the real one; `--in-place` is for CI and disposable clones.
 
@@ -618,7 +618,7 @@ What the self-test cannot see on its own is GitHub: the branch, the pull request
 
 #### Reading the export pull request
 
-The branch `content/live-export` belongs to the workflow and is rebuilt from the default branch on every run, so the pull request always shows the live server's content against the branch you would merge it into. The body names the server, the revision, who published it and when, and the record ids in each changed collection. Review it as what it is: an edit somebody made in devdocs on a running game.
+The branch `content/live-export` belongs to the workflow and is rebuilt from the default branch on every run, so the pull request always shows the server's content against the branch you would merge it into. The body names the server, the revision, who published it and when, and the record ids in each changed collection. Review it as what it is: a proposal to move one server's edits into the base game. Merging it changes the base game for every server seeded after it, and changes nothing on any server already running.
 
 A pull request whose diff is only `game/content/compiled/catalog.json` means the data is the same and this branch's balance formulas are not the ones the server's release was built with. Formulas are TypeScript that ships with a server release; only data is exported. The tool says so in the body rather than failing.
 
@@ -626,9 +626,9 @@ A pull request whose diff is only `game/content/compiled/catalog.json` means the
 
 The publish sends each collection with the revision the server itself reported for it. If somebody edited that collection in devdocs since this branch last exported, the server answers 409 `stale_collections` and the workflow fails with:
 
-> Someone edited the live server in devdocs. The server is the source of truth for its own data, so nothing is being forced. Run the content export workflow, merge the pull request it opens, then publish again.
+> Somebody edited this server in devdocs, and that server owns its content, so nothing is being forced. Export the server's content, reconcile it with this branch, then publish again.
 
-There is no force flag, and adding one would be the wrong fix. The merge belongs in a pull request, where two people's edits to the same records are visible, not in a CLI that picks a winner. Run the export, merge it, resolve whatever conflicts it raises against your own branch, then publish.
+There is no force flag, and adding one would be the wrong fix. Reconciling two people's edits to the same records belongs somewhere both are visible, not in a CLI that picks a winner. Export the server's content, work out what this branch should hold, then publish.
 
 Two other refusals are worth knowing before you see them. `definition_in_use` means the publish removes an item or creature that a player is still holding or that is alive in a world; the message lists the holders, and the fix is to set `retired: true` on the definition instead. `wrong_server` means `--confirm` did not match the name the server reports at `GET /admin/info`, and nothing was sent. That check runs before anything is read, so a URL pasted from the wrong tab costs nothing.
 

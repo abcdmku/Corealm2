@@ -150,7 +150,7 @@ describe("publishing a checkout to a named live server", () => {
     expect(refused).toBeInstanceOf(PublishRefused);
     expect((refused as PublishRefused).code).toBe("stale_collections");
     expect((refused as PublishRefused).message).toContain("items changed on the server since this checkout last exported it");
-    expect((refused as PublishRefused).message).toContain("Run the content export workflow, merge the pull request it opens, then publish again.");
+    expect((refused as PublishRefused).message).toContain("Export the server's content, reconcile it with this branch, then publish again.");
     // Nothing was forced: the devdocs edit is still what the server is running.
     expect(await activeRevision()).toBe(raced);
     expect((await serverSources()).items.find((row: any) => row.id === "worn_sword").description).toBe("Edited in devdocs meanwhile.");
