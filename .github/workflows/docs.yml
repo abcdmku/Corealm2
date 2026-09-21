@@ -56,6 +56,7 @@ jobs:
             devdocs
             game
             game/content
+            identity
             tests
             tools
       - uses: actions/setup-node@v5
@@ -100,6 +101,7 @@ jobs:
             devdocs
             game
             game/content
+            identity
             tests
             tools
       # Pages must be enabled once in repository settings with "GitHub Actions" as its source.
