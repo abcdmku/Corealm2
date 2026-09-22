@@ -21,7 +21,7 @@ function fixture() {
       expect(renderer.autoClear).toBe(false);
       expect(renderer.toneMapping).toBe(THREE.NoToneMapping);
       expect((quad.material as THREE.NodeMaterial).isNodeMaterial).toBe(true);
-      quad.onBeforeRender(renderer as never, quad as never, camera, quad.geometry, quad.material, null as never);
+      quad.onBeforeRender(renderer as never, quad as never, camera, quad.geometry, quad.material as THREE.NodeMaterial, null as never);
     }),
   };
   return { renderer, effect: new ScreenAntialiasing() };

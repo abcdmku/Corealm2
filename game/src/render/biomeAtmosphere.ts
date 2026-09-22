@@ -62,7 +62,7 @@ export class BiomeAtmosphere {
   private readonly material = this.createMaterial();
 
   private createMaterial(): THREE.NodeMaterial {
-    const material = new THREE.NodeMaterial({ depthTest: false, depthWrite: false, toneMapped: false, fog: false });
+    const material = Object.assign(new THREE.NodeMaterial(), { depthTest: false, depthWrite: false, toneMapped: false, fog: false });
     material.vertexNode = vec4(positionGeometry.xy, 0, 1);
     material.fragmentNode = Fn(() => {
       // The renderer owns a linear HDR frame. Grade the same display values as the

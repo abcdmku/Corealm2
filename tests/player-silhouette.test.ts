@@ -47,7 +47,7 @@ it("submits five independent depth samples together and reads only completed ren
       inRender = true;
       index = 0;
       try {
-        scene.onBeforeRender(renderer as never, scene, camera, null as never);
+        scene.onBeforeRender(renderer as never, scene, camera, null as never, null as never, null as never);
         samples = scene.children.filter(object => object.occlusionTest) as THREE.Mesh[];
         const end = scene.children.find(object => !object.occlusionTest) as THREE.Mesh;
         expect(end.frustumCulled).toBe(false);

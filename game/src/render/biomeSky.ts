@@ -114,7 +114,7 @@ export class BiomeSky {
   private readonly material = this.createMaterial();
 
   private createMaterial(): THREE.NodeMaterial {
-    const material = new THREE.NodeMaterial({ depthWrite: false, depthTest: false, toneMapped: false, fog: false });
+    const material = Object.assign(new THREE.NodeMaterial(), { depthWrite: false, depthTest: false, toneMapped: false, fog: false });
     const skyUv = varying(positionGeometry.xy, "vSkyUv");
     material.vertexNode = vec4(positionGeometry.xy, 1, 1);
     material.fragmentNode = Fn(() => {

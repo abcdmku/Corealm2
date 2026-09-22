@@ -18,7 +18,7 @@ function fixture() {
     autoClear: true, clear: vi.fn(), render: vi.fn((scene: THREE.Scene, camera: THREE.Camera) => {
       inRender = true;
       try {
-        if (scene.isScene) scene.onBeforeRender(renderer as never, scene, camera, null as never);
+        if (scene.isScene) scene.onBeforeRender(renderer as never, scene, camera, null as never, null as never, null as never);
         scene.traverse(object => {
           const mesh = object as THREE.Mesh;
           if (!mesh.isMesh) return;

@@ -16,7 +16,7 @@ export function isolateMagicEmission(material: THREE.Material): void {
   const nodeMaterial = material as THREE.NodeMaterial;
   const emission = uniform(0);
   material.userData['magicEmissionPass'] = emission;
-  nodeMaterial.outputNode = mix(nodeMaterial.outputNode ?? output, vec4(emissive, output.a), emission);
+  nodeMaterial.outputNode = mix((nodeMaterial.outputNode as THREE.Node<"vec4"> | null) ?? output, vec4(emissive, output.a), emission);
 }
 
 function target(name: string): THREE.RenderTarget {
@@ -25,7 +25,7 @@ function target(name: string): THREE.RenderTarget {
   return result;
 }
 function fullscreen(name: string, fragmentNode: THREE.Node): THREE.QuadMesh {
-  const material = new THREE.NodeMaterial({ depthTest: false, depthWrite: false, toneMapped: false });
+  const material = Object.assign(new THREE.NodeMaterial(), { depthTest: false, depthWrite: false, toneMapped: false });
   material.name = name;
   material.fragmentNode = fragmentNode;
   return new THREE.QuadMesh(material);
@@ -44,7 +44,7 @@ export class MagicGlow {
   private readonly horizontal = Array.from({ length: 5 }, (_, i) => target(`Magic bloom horizontal ${i}`));
   private readonly vertical = Array.from({ length: 5 }, (_, i) => target(`Magic bloom vertical ${i}`));
   private readonly highPass: THREE.QuadMesh;
-  private readonly blur: { quad: THREE.QuadMesh; input: ReturnType<typeof texture>; direction: ReturnType<typeof uniform<THREE.Vector2>> }[];
+  private readonly blur: { quad: THREE.QuadMesh; input: ReturnType<typeof texture>; direction: THREE.UniformNode<"vec2", THREE.Vector2> }[];
   private readonly composite: THREE.QuadMesh;
   private readonly occlusionMaterials = new Map<THREE.Material, { version: number; material: THREE.Material }>();
   private readonly occlusionObjects = new WeakMap<THREE.Object3D, THREE.Object3D>();
@@ -69,7 +69,7 @@ export class MagicGlow {
       }
       return { quad: fullscreen(`Magic bloom blur ${index}`, vec4(sample.div(weight), 1)), input, direction };
     });
-    let halo = vec3(0);
+    let halo: THREE.Node<"vec3"> = vec3(0);
     for (let i = 0; i < 5; i++) {
       const factor = 1 - i * .2, mixed = factor + (1.2 - 2 * factor) * .65;
       halo = halo.add(texture(this.vertical[i]!.texture).rgb.mul(mixed));
@@ -252,6 +252,8 @@ export class MagicGlow {
     for (const { material } of this.occlusionMaterials.values()) material.dispose();
     this.occlusionMaterials.clear();
     for (const target of [...this.horizontal, ...this.vertical]) target.dispose();
-    for (const quad of [this.highPass, ...this.blur.map(pass => pass.quad), this.composite]) quad.material.dispose();
+    for (const quad of [this.highPass, ...this.blur.map(pass => pass.quad), this.composite]) {
+      for (const material of Array.isArray(quad.material) ? quad.material : [quad.material]) material.dispose();
+    }
   }
 }

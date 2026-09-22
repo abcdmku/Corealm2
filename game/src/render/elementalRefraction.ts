@@ -13,7 +13,11 @@ export const elementalRefractionScene = texture(placeholder);
 export const elementalRefractionViewport = uniform(new THREE.Vector2(1, 1));
 export const elementalRefractionExposure = uniform(1);
 export const refractionDisplayColor = (hdr: THREE.Node) => renderOutput(hdr, THREE.ACESFilmicToneMapping, THREE.SRGBColorSpace).rgb;
-export const refractionHDRColor = (display: THREE.Node) => inverseACES(colorSpaceToWorking(vec3(display), THREE.SRGBColorSpace), elementalRefractionExposure);
+export const refractionHDRColor = (display: THREE.Node<"vec3">) => {
+  // The upstream ColorSpaceNode declaration loses the input width; conversion retains RGB.
+  const linear = colorSpaceToWorking(display, THREE.SRGBColorSpace) as unknown as THREE.Node<"vec3">;
+  return inverseACES(linear, elementalRefractionExposure);
+};
 
 export function registerElementalRefraction(mesh: THREE.Mesh): () => void {
   mesh.layers.set(REFRACTION_LAYER); sources.add(mesh);
@@ -25,13 +29,13 @@ export interface ElementalRefractionOptions {
   liquid: boolean;
   strength: number;
   flowMode?: number;
-  positionNode: THREE.Node;
-  normalNode: THREE.Node;
-  localNode: THREE.Node;
-  alphaNode: THREE.Node;
-  seedNode?: THREE.Node;
-  viewNode?: THREE.Node;
-  coverageNode?: THREE.Node;
+  positionNode: THREE.Node<"vec3">;
+  normalNode: THREE.Node<"vec3">;
+  localNode: THREE.Node<"vec3">;
+  alphaNode: THREE.Node<"float">;
+  seedNode?: THREE.Node<"float">;
+  viewNode?: THREE.Node<"vec3">;
+  coverageNode?: THREE.Node<"float">;
 }
 
 /** Native spatial refraction, with authored turbulent flow and the existing liquid/air response. */
