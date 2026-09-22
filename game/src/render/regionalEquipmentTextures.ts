@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { normalGeometry, positionGeometry, texture as textureNode, uv, varying, vec3, mix, smoothstep, vertexColor, uniform } from 'three/tsl';
+import { cloneNodeMaterial, composeSurface, surfaceNodes, type SurfaceNodeMaterial } from './nodeMaterials.js';
 import { assetBaseUrl } from '../app/config.js';
 
 type Tier = 30 | 40 | 60;
@@ -72,64 +74,41 @@ function treatment(material: THREE.MeshStandardMaterial, appearance: Appearance,
 }
 
 /** Material-only overlay. Native diffuse, UVs, vertex detail, normal and ORM maps remain attached. */
-function overlay(material: THREE.MeshStandardMaterial, tier: Tier, mode: Treatment): void {
+function overlay(material: SurfaceNodeMaterial, tier: Tier, mode: Treatment): void {
+  const shaded = material as THREE.MeshStandardMaterial;
   const surface = mode.endsWith('-mask') ? 'metal' : mode as Surface;
   const generated = texture(tier, surface), wood = mode === 'tool-metal-mask' ? texture(tier, 'wood') : null;
-  const hasNativeMap = Boolean(material.map);
+  const hasNativeMap = Boolean(shaded.map);
   const uvScale = surface === 'wood' ? 2.5 : surface === 'metal' ? 2 : 3;
   const tileMetres = surface === 'wood' ? .30 : surface === 'metal' ? .48 : .20;
-  const inheritedCompile = material.onBeforeCompile, inheritedKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.uniforms.regionalEquipmentMap = { value: generated };
-    if (wood) shader.uniforms.regionalEquipmentWood = { value: wood };
-    shader.vertexShader = shader.vertexShader.replace('#include <common>', `
-      #include <common>
-      varying vec3 vRegionalEquipmentPosition;
-      varying vec3 vRegionalEquipmentNormal;
-      varying vec2 vRegionalEquipmentUv;
-    `).replace('#include <begin_vertex>', `
-      #include <begin_vertex>
-      vRegionalEquipmentPosition = position;
-      vRegionalEquipmentNormal = normal;
-    `).replace('#include <uv_vertex>', `
-      #include <uv_vertex>
-      vRegionalEquipmentUv = ${hasNativeMap ? 'vMapUv' : 'vec2(0.0)'};
-    `);
-    shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `
-      #include <common>
-      uniform sampler2D regionalEquipmentMap;
-      ${wood ? 'uniform sampler2D regionalEquipmentWood;' : ''}
-      varying vec3 vRegionalEquipmentPosition;
-      varying vec3 vRegionalEquipmentNormal;
-      varying vec2 vRegionalEquipmentUv;
-      vec3 regionalEquipmentSample(sampler2D sourceMap) {
-        ${hasNativeMap ? `return texture2D(sourceMap, vRegionalEquipmentUv * ${uvScale.toFixed(2)}).rgb;` : `
-          vec3 weights = pow(abs(normalize(vRegionalEquipmentNormal)), vec3(4.0));
-          weights /= max(dot(weights, vec3(1.0)), .0001);
-          vec3 p = vRegionalEquipmentPosition / ${tileMetres.toFixed(3)};
-          return texture2D(sourceMap, p.yz).rgb * weights.x
-            + texture2D(sourceMap, p.xz).rgb * weights.y + texture2D(sourceMap, p.xy).rgb * weights.z;
-        `}
-      }
-    `).replace('#include <lights_physical_fragment>', `
-      // Run after native map/color/ORM hooks. Their luminance keeps seams, wear and sculpted detail.
-      float regionalNativeLuma = dot(diffuseColor.rgb, vec3(.2126, .7152, .0722));
-      float regionalNativeDetail = clamp(pow(max(regionalNativeLuma, .0001) / .18, .45), .38, 1.45);
-      vec3 regionalGenerated = regionalEquipmentSample(regionalEquipmentMap);
-      vec3 regionalColor = regionalGenerated * regionalNativeDetail;
-      ${mode === 'armor-metal-mask' ? `
-        float regionalMetalMask = smoothstep(.20, .70, metalnessFactor);
-        diffuseColor.rgb = mix(diffuseColor.rgb, regionalColor, regionalMetalMask * .94);
-      ` : mode === 'tool-metal-mask' ? `
-        float regionalMetalMask = smoothstep(.20, .70, metalnessFactor);
-        vec3 regionalWood = regionalEquipmentSample(regionalEquipmentWood) * regionalNativeDetail;
-        diffuseColor.rgb = mix(diffuseColor.rgb, mix(regionalWood, regionalColor, regionalMetalMask), .94);
-      ` : 'diffuseColor.rgb = mix(diffuseColor.rgb, regionalColor, .94);'}
-      #include <lights_physical_fragment>
-    `);
-  };
-  material.customProgramCacheKey = () => `${inheritedKey()}|regional-equipment-v1:${tier}:${mode}:${hasNativeMap}`;
+  const powers = varying(normalGeometry).normalize().abs().pow(4);
+  const weights = powers.div(powers.dot(vec3(1)).max(0.0001));
+  const point = varying(positionGeometry).div(tileMetres);
+  // Native atlases can crop/rotate UV0; preserve that transform before applying detail tiling.
+  shaded.map?.updateMatrix();
+  const nativeUv = shaded.map
+    ? uniform(shaded.map.matrix).mul(vec3(uv(shaded.map.channel), 1)).xy.mul(uvScale)
+    : uv().mul(uvScale);
+  const sample = (map: THREE.Texture) => hasNativeMap
+    ? textureNode(map, nativeUv).rgb
+    : textureNode(map, point.yz).rgb.mul(weights.x)
+      .add(textureNode(map, point.xz).rgb.mul(weights.y))
+      .add(textureNode(map, point.xy).rgb.mul(weights.z));
+  if (material.vertexColors) {
+    composeSurface(material, { color: previous => previous.mul(vertexColor().rgb) });
+    material.vertexColors = false;
+  }
+  const metalMask = smoothstep(0.20, 0.70, surfaceNodes(material).metalness);
+  composeSurface(material, {
+    color: previous => {
+      const detail = previous.dot(vec3(0.2126, 0.7152, 0.0722))
+        .max(0.0001).div(0.18).pow(0.45).clamp(0.38, 1.45);
+      const generatedColor = sample(generated).mul(detail);
+      if (mode === 'armor-metal-mask') return mix(previous, generatedColor, metalMask.mul(0.94));
+      if (wood) return mix(previous, mix(sample(wood).mul(detail), generatedColor, metalMask), 0.94);
+      return mix(previous, generatedColor, 0.94);
+    },
+  });
   material.name = `${material.name || material.type}|regional:${tier}:${mode}`;
   material.userData.regionalEquipmentTexture = { tier, surface, mode };
   material.needsUpdate = true;
@@ -146,9 +125,7 @@ export function applyRegionalEquipmentTextures(object: THREE.Object3D, appearanc
       if (!shaded.isMeshStandardMaterial || source.userData.regionalEquipmentTexture) return source;
       const mode = treatment(shaded, appearance, child.name);
       if (!mode) return source;
-      const clone = shaded.clone();
-      clone.onBeforeCompile = (shader, renderer) => shaded.onBeforeCompile.call(shaded, shader, renderer);
-      clone.customProgramCacheKey = shaded.customProgramCacheKey.bind(shaded);
+      const clone = cloneNodeMaterial(shaded);
       overlay(clone, tier, mode); return clone;
     };
     child.material = Array.isArray(child.material) ? child.material.map(apply) : apply(child.material);

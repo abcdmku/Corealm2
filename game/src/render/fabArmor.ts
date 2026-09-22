@@ -1,5 +1,7 @@
 import { assetBaseUrl } from "../app/config.js";
 import * as THREE from 'three';
+import { float, mix, smoothstep, vec3, vertexColor } from 'three/tsl';
+import { cloneNodeMaterial, composeSurface } from './nodeMaterials.js';
 import type { EquipSlot } from '../contracts.js';
 import type { CharacterBody, GearAppearance } from './equipmentVisuals.js';
 import { applyFabMagicSurface } from './fabMagicSurface.js';
@@ -93,10 +95,9 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;
     const apply = (source: THREE.Material): THREE.Material => {
-      const material = source.clone() as THREE.MeshStandardMaterial;
-      if (!material.isMeshStandardMaterial) return material;
-      material.onBeforeCompile = (shader, renderer) => source.onBeforeCompile.call(source, shader, renderer);
-      material.customProgramCacheKey = source.customProgramCacheKey.bind(source);
+      const material = cloneNodeMaterial(source);
+      if (!(material as THREE.MeshStandardMaterial).isMeshStandardMaterial) return material;
+      const shaded = material as THREE.MeshStandardMaterial;
       const role = source.name.split('|')[0];
       const rareMagicTier = set === 'tideweave' ? 50 : set === 'nightweave' ? 70 : set === 'frostweave' ? 90 : null;
       const magicRole = tier >= 0 ? role?.replace('fab_', '') : source.userData.fabRole;
@@ -110,22 +111,22 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
         return applyRareMageMaterial(source as THREE.MeshStandardMaterial, rareMagicTier, magicRole, textile);
       }
       if (tier >= 0 && role === 'fab_cloth') {
-        material.map = texture(`fabric-${[1, 5, 10, 20, 50, 70][tier]}`);
+        shaded.map = texture(`fabric-${[1, 5, 10, 20, 50, 70][tier]}`);
         material.color.setHex(salvage ? SALVAGE.cloth : 0xffffff);
-        material.metalness = 0;
-        material.roughness = tier < 4 ? 0.9 : 0.72;
+        shaded.metalness = 0;
+        shaded.roughness = tier < 4 ? 0.9 : 0.72;
       } else if (tier >= 0 && role === 'fab_leather') {
         // Salvage wears plain brown leather. The dyed scale sheet is a crafted-tier treatment, and
         // its teal albedo cannot be tinted back to undyed hide.
-        material.map = salvage ? texture('leather') : scales(0, false);
+        shaded.map = salvage ? texture('leather') : scales(0, false);
         material.color.setHex(salvage ? SALVAGE.leather : [0xa8b4c8, 0x8fbd9c, 0xa8a3c9, 0xbba89c, 0xb9a2c7, 0xc3d5ef][tier]!);
         material.color.multiplyScalar(salvage ? 1 : 1.5);
-        material.metalness = 0;
-        material.roughness = 0.8;
+        shaded.metalness = 0;
+        shaded.roughness = 0.8;
       } else if (tier >= 0 && role === 'fab_trim') {
         material.color.setHex(salvage ? SALVAGE.trim : [0x9a8771, 0xaaa393, 0xaeb8c6, 0xc18b59, 0xc3a471, 0xc4d2e7][tier]!);
-        material.metalness = 0.35;
-        material.roughness = 0.52;
+        shaded.metalness = 0.35;
+        shaded.roughness = 0.52;
       }
       const rareTier = ['duskguard', 'tideweave'].includes(set) ? 50
         : ['oathguard', 'nightweave'].includes(set) ? 70
@@ -136,25 +137,24 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
         ? ['cloth', 'leather', 'trim'].includes(magicRole)
         : !/Flesh|Skin|Hair|Fur/i.test(source.name));
       if (tierSurface) {
-        const authored = material.onBeforeCompile;
-        const cacheKey = material.customProgramCacheKey();
-        const dye = rareTier === 50 ? 'vec3(0.10, 0.42, 0.95)'
-          : rareTier === 70 ? 'vec3(0.12, 0.055, 0.25)' : 'vec3(0.35, 0.85, 0.78)';
-        material.onBeforeCompile = (shader, renderer) => {
-          authored.call(material, shader, renderer);
-          shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>',
-            `#include <color_fragment>
-            vec3 armorAuthored = diffuseColor.rgb;
-            float armorDyeLuma = dot(armorAuthored, vec3(0.2126, 0.7152, 0.0722));
-            float armorWarmTrim = smoothstep(0.015, 0.10, armorAuthored.r - armorAuthored.b)
-              * smoothstep(0.035, 0.16, armorDyeLuma);
-            float armorSilverTrim = smoothstep(0.32, 0.65, armorDyeLuma);
-            float armorDarkBacking = 1.0 - smoothstep(0.004, 0.025, armorDyeLuma);
-            vec3 armorDyed = ${dye} * 0.92 * pow(max(armorDyeLuma, 0.0), 0.62);
-            float armorPreserve = max(armorWarmTrim * 0.92, max(armorSilverTrim * 0.82, armorDarkBacking * ${rareTier === 50 ? '0.15' : '0.85'}));
-            diffuseColor.rgb = mix(mix(armorAuthored, armorDyed, 0.78), armorAuthored * 0.94, armorPreserve);`);
-        };
-        material.customProgramCacheKey = () => `${cacheKey}|armor-tier-${rareTier}-v3`;
+        const dye = rareTier === 50 ? vec3(0.10, 0.42, 0.95)
+          : rareTier === 70 ? vec3(0.12, 0.055, 0.25) : vec3(0.35, 0.85, 0.78);
+        if (material.vertexColors) {
+          composeSurface(material, { color: previous => previous.mul(vertexColor().rgb) });
+          material.vertexColors = false;
+        }
+        composeSurface(material, {
+          color: previous => {
+            const luminance = previous.dot(vec3(0.2126, 0.7152, 0.0722));
+            const warm = smoothstep(0.015, 0.10, previous.r.sub(previous.b))
+              .mul(smoothstep(0.035, 0.16, luminance));
+            const silver = smoothstep(0.32, 0.65, luminance);
+            const dark = float(1).sub(smoothstep(0.004, 0.025, luminance));
+            const dyed = dye.mul(0.92).mul(luminance.max(0).pow(0.62));
+            const preserve = warm.mul(0.92).max(silver.mul(0.82)).max(dark.mul(rareTier === 50 ? 0.15 : 0.85));
+            return mix(mix(previous, dyed, 0.78), previous.mul(0.94), preserve);
+          },
+        });
       }
       material.name = `${source.name}|fab:${set}`;
       material.needsUpdate = true;
@@ -162,11 +162,11 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
       // what make a crafted mage set read as enchanted, which tier 0 gear has no business doing.
       if (tier >= 0 && !salvage && ['cloth', 'leather', 'trim'].includes(magicRole)) {
         const detail = scales(0, true);
-        if (magicRole === 'leather' && !material.normalMap) {
-          material.bumpMap = detail;
-          material.bumpScale = 0.004;
+        if (magicRole === 'leather' && !shaded.normalMap) {
+          shaded.bumpMap = detail;
+          shaded.bumpScale = 0.004;
         }
-        const physical = applyFabMagicSurface(material, {
+        const physical = applyFabMagicSurface(shaded, {
           tier: [1, 5, 10, 20, 50, 70][tier]!, role: magicRole,
           detailTexture: detail,
         });
@@ -174,8 +174,8 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
         return physical;
       }
       if (tierSurface && rareTier === 90) {
-        const physical = applyFabMagicSurface(material, { tier: 90, role: 'trim' });
-        physical.metalness = material.metalness;
+        const physical = applyFabMagicSurface(shaded, { tier: 90, role: 'trim' });
+        physical.metalness = shaded.metalness;
         physical.iridescence = 0.9;
         material.dispose();
         return physical;

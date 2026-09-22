@@ -1,5 +1,7 @@
 import { assetBaseUrl } from "../app/config.js";
 import * as THREE from "three";
+import { normalGeometry, positionGeometry, texture as textureNode, varying, vec3 } from "three/tsl";
+import { composeSurface, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 
 // Accepted lab captures and source hashes are recorded in art/equipment-retexture/acceptance.json.
 const productionEnabled = true;
@@ -53,7 +55,7 @@ export async function equipmentSurfaceTexturesReady(): Promise<void> {
 }
 
 /** Apply after tier treatment. No geometry, UVs, authored PBR maps or colours are changed. */
-export function applyEquipmentSurfaceTexture(material: THREE.Material, assetId: string): void {
+export function applyEquipmentSurfaceTexture(material: SurfaceNodeMaterial, assetId: string): void {
   if (!equipmentSurfaceTexturesEnabled() || typeof document === "undefined" || applied.has(material)) return;
   if (!/^corealm_(sword|dagger|axe|shield|staff|wand)_[1-4]$/.test(assetId)) return;
   const shaded = material as THREE.MeshStandardMaterial;
@@ -67,47 +69,20 @@ export function applyEquipmentSurfaceTexture(material: THREE.Material, assetId: 
   // Runtime daggers have no UV attribute on either their lofted grip or forged blade.
   // File-backed wood/leather retain their own UV textures from the asset pipeline.
   const texture = surfaceTexture(surface);
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
-  // This metal image contains dozens of hammer marks across a tile. At .25 m,
-  // those marks average away at the normal combat camera distance. A 1.8 m tile
-  // puts a few marks across a blade while retaining the same restrained contrast.
+  // Keep the original local projection so skinned/held tools retain their authored grain.
   const tileMetres = surface === "metal" ? 1.8 : 0.075;
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.uniforms.equipmentSurfaceMap = { value: texture };
-    shader.vertexShader = shader.vertexShader.replace("#include <common>", `
-      #include <common>
-      varying vec3 vEquipmentSurfacePosition;
-      varying vec3 vEquipmentSurfaceNormal;
-    `).replace("#include <begin_vertex>", `
-      #include <begin_vertex>
-      vEquipmentSurfacePosition = position;
-      vEquipmentSurfaceNormal = normal;
-    `);
-    shader.fragmentShader = shader.fragmentShader.replace("#include <common>", `
-      #include <common>
-      uniform sampler2D equipmentSurfaceMap;
-      varying vec3 vEquipmentSurfacePosition;
-      varying vec3 vEquipmentSurfaceNormal;
-    `).replace("#include <lights_physical_fragment>", `
-      vec3 equipmentProjectionWeights = pow(abs(normalize(vEquipmentSurfaceNormal)), vec3(4.0));
-      equipmentProjectionWeights /= max(dot(equipmentProjectionWeights, vec3(1.0)), 0.0001);
-      vec3 equipmentSurfacePosition = vEquipmentSurfacePosition / ${tileMetres.toFixed(3)};
-      vec3 equipmentSurfaceSample =
-        texture2D(equipmentSurfaceMap, equipmentSurfacePosition.yz).rgb * equipmentProjectionWeights.x
-        + texture2D(equipmentSurfaceMap, equipmentSurfacePosition.xz).rgb * equipmentProjectionWeights.y
-        + texture2D(equipmentSurfaceMap, equipmentSurfacePosition.xy).rgb * equipmentProjectionWeights.z;
-      float equipmentSurfaceValue = dot(equipmentSurfaceSample, vec3(0.2126, 0.7152, 0.0722));
-      // Neutral grain multiplies the completed tier treatment around one. The PNG's
-      // nominal .55 sRGB midtone is approximately .263 in linear shader space.
-      float equipmentSurfaceDetail = clamp(equipmentSurfaceValue / 0.263 - 1.0, -1.0, 1.0);
-      diffuseColor.rgb *= 1.0 + equipmentSurfaceDetail * ${surface === "metal" ? "0.25" : "0.30"};
-      roughnessFactor = clamp(roughnessFactor - equipmentSurfaceDetail * 0.055, 0.04, 1.0);
-      #include <lights_physical_fragment>
-    `);
-  };
-  material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|equipment-surface-v2:${surface}:${tileMetres}`;
+  const normal = varying(normalGeometry).normalize();
+  const powers = normal.abs().pow(4);
+  const weights = powers.div(powers.dot(vec3(1)).max(0.0001));
+  const point = varying(positionGeometry).div(tileMetres);
+  const sample = textureNode(texture, point.yz).rgb.mul(weights.x)
+    .add(textureNode(texture, point.xz).rgb.mul(weights.y))
+    .add(textureNode(texture, point.xy).rgb.mul(weights.z));
+  const detail = sample.dot(vec3(0.2126, 0.7152, 0.0722)).div(0.263).sub(1).clamp(-1, 1);
+  composeSurface(material, {
+    color: previous => previous.mul(detail.mul(surface === "metal" ? 0.25 : 0.30).add(1)),
+    roughness: previous => previous.sub(detail.mul(0.055)).clamp(0.04, 1),
+  });
   material.userData.equipmentSurfaceTexture = surface;
   material.needsUpdate = true;
   applied.add(material);

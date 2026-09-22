@@ -10,6 +10,9 @@ import { CRAFTED_JEWELRY, isRetiredJewelry } from '../content/jewelry.js';
  * Altar-crafted elemental weapons add a charged core around the set crystal.
  */
 import * as THREE from "three";
+import { MeshPhysicalNodeMaterial } from "three/webgpu";
+import { color, mix, smoothstep, vec3, vertexColor } from "three/tsl";
+import { cloneNodeMaterial, composeSurface, surfaceNodes, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 import type { EquipSlot, ItemId } from "../contracts.js";
 import { tierSilhouetteScale } from "./materials.js";
 import { buildEquipmentCoreGeometry } from "./equipmentDetails.js";
@@ -1008,11 +1011,7 @@ export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppe
 }
 
 function tintedMaterial(material: THREE.Material, appearance: GearAppearance, partName?: string): THREE.Material {
-  const clone = material.clone();
-  // Three does not copy compile callbacks. Keep the source's authored surface shader when
-  // applying a tier, as MaterialManager's variants do for other production assets.
-  clone.onBeforeCompile = (shader, renderer) => material.onBeforeCompile.call(material, shader, renderer);
-  clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
+  const clone = cloneNodeMaterial(material);
   if (applyArmorTexture(clone, { ...appearance, partName })) return clone;
   const shaded = clone as Partial<THREE.MeshStandardMaterial>;
   const role = material.userData["equipmentRole"] as string | undefined;
@@ -1070,7 +1069,7 @@ function isKnightOutfitAsset(assetId: string): boolean {
  * retaining dark seams, bright wear, native map colour and all authored roughness/normal detail.
  */
 function applyMetalTierColour(
-  material: THREE.Material,
+  material: SurfaceNodeMaterial,
   source: THREE.MeshStandardMaterial,
   tint: number,
   reference: number,
@@ -1079,114 +1078,64 @@ function applyMetalTierColour(
   shaded.color.copy(source.color);
   shaded.emissive.copy(source.emissive);
   shaded.emissiveIntensity = source.emissiveIntensity;
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.fragmentShader = shader.fragmentShader.replace("#include <color_fragment>", `
-      vec3 gearMetalSource = diffuseColor.rgb;
-      #include <color_fragment>
-      #if defined(USE_COLOR) || defined(USE_COLOR_ALPHA)
-        gearMetalSource *= dot(vColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-      #endif
-    `);
-    shader.fragmentShader = shader.fragmentShader.replace("#include <metalnessmap_fragment>", `
-      #include <metalnessmap_fragment>
-      float gearMetalMask = smoothstep(0.20, 0.70, metalnessFactor);
-      float gearMetalLuma = dot(gearMetalSource, vec3(0.2126, 0.7152, 0.0722));
-      float gearMetalWear = max(pow(max(gearMetalLuma, 0.0001) / ${reference.toFixed(3)}, 0.80), 0.08);
-      vec3 gearMetalColour = ${glslColour(tint)} * 0.72 * gearMetalWear
-        * gearMetalSource / max(gearMetalLuma, 0.001);
-      vec3 gearMetalHighlight = max(gearMetalColour - vec3(0.78), vec3(0.0));
-      gearMetalColour = min(gearMetalColour, vec3(0.78))
-        + 0.17 * gearMetalHighlight / (vec3(0.17) + gearMetalHighlight);
-      diffuseColor.rgb = mix(diffuseColor.rgb, gearMetalColour, gearMetalMask);
-    `);
-  };
-  material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|metal-tier:${tint}:${reference}`;
+  const initial = surfaceNodes(material);
+  // Retain vertex shading but remove its baked bronze hue from the metal side.
+  const vertex = material.vertexColors ? vertexColor().rgb : vec3(1);
+  const metalSource = initial.color.mul(vertex.dot(vec3(0.2126, 0.7152, 0.0722)));
+  const sourceLuma = metalSource.dot(vec3(0.2126, 0.7152, 0.0722));
+  const wear = sourceLuma.max(0.0001).div(reference).pow(0.80).max(0.08);
+  const dyed = color(tint).mul(0.72).mul(wear).mul(metalSource).div(sourceLuma.max(0.001));
+  const highlight = dyed.sub(0.78).max(0);
+  const compressed = dyed.min(0.78).add(highlight.mul(0.17).div(highlight.add(0.17)));
+  const mask = smoothstep(0.20, 0.70, initial.metalness);
+  material.vertexColors = false;
+  composeSurface(material, { color: previous => mix(previous.mul(vertex), compressed, mask) });
+  material.userData.gearColorTreatment = { kind: "metal", tint, reference };
 }
 
 /** Regional colour stays strongest in the midtones; worn bright edges keep a steel reflection. */
-function applyRareTierColour(material: THREE.Material, tint: number): void {
+function applyRareTierColour(material: SurfaceNodeMaterial, tint: number): void {
   const shaded = material as THREE.MeshStandardMaterial;
   if (!(shaded.color instanceof THREE.Color)) return;
   shaded.color.setHex(0xffffff);
-  patchGearShader(material, `rare-tier:${tint}`, `
-    float gearRareLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-    float gearRareEdge = smoothstep(0.38, 0.80, gearRareLuma);
-    vec3 gearRareColour = mix(${glslColour(tint)}, vec3(0.78, 0.83, 0.87), gearRareEdge * 0.62);
-    diffuseColor.rgb *= gearRareColour;
-  `);
+  includeGearVertexColor(material);
+  composeSurface(material, {
+    color: previous => {
+      const edge = smoothstep(0.38, 0.80, previous.dot(vec3(0.2126, 0.7152, 0.0722)));
+      return previous.mul(mix(color(tint), vec3(0.78, 0.83, 0.87), edge.mul(0.62)));
+    },
+  });
+  material.userData.gearColorTreatment = { kind: "rare", tint };
 }
 
-function glslColour(tint: number): string {
-  const colour = new THREE.Color(tint);
-  return `vec3(${colour.r.toFixed(6)}, ${colour.g.toFixed(6)}, ${colour.b.toFixed(6)})`;
+function includeGearVertexColor(material: SurfaceNodeMaterial): void {
+  if (!material.vertexColors) return;
+  composeSurface(material, { color: previous => previous.mul(vertexColor().rgb) });
+  material.vertexColors = false;
 }
 
-function patchGearShader(material: THREE.Material, key: string, colour: string, roughness = ""): void {
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.fragmentShader = shader.fragmentShader.replace("#include <color_fragment>", `#include <color_fragment>${colour}`);
-    if (roughness) {
-      shader.fragmentShader = shader.fragmentShader.replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>${roughness}`);
-    }
-  };
-  material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|${key}`;
-}
-
-/**
- * Rehues Ranger's nearly black albedo without using emissive light.
- *
- * A uniform emissive lift made every normal face equally bright, which erased the hood folds,
- * chest planes, straps, and boot shape. This fragment pass reads the authored texture and vertex
- * colour luminance, maps that value into the tier hue, then leaves Three's normal PBR lighting to
- * shade the result. A soft luminance expansion keeps the cloth folds, while warm source pixels
- * retain the leather colour. There is no emissive lift.
- */
-function applyRangerTierColour(material: THREE.Material, tint: number): void {
+/** Re-dye Ranger cloth while retaining brown leather, folds and the authored PBR response. */
+function applyRangerTierColour(material: SurfaceNodeMaterial, tint: number): void {
   const shaded = material as Partial<THREE.MeshStandardMaterial>;
   if (!(shaded.color instanceof THREE.Color)) return;
-
-  // The shader below owns the tier colour. White lets it measure the unmodified source albedo.
   shaded.color.setHex(0xffffff);
   if (shaded.emissive instanceof THREE.Color) {
     shaded.emissive.setHex(0x000000);
     shaded.emissiveIntensity = 0;
   }
-
-  const colour = new THREE.Color(tint);
-  const colourLiteral = `vec3(${colour.r.toFixed(6)}, ${colour.g.toFixed(6)}, ${colour.b.toFixed(6)})`;
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    const marker = "#include <color_fragment>";
-    if (!shader.fragmentShader.includes(marker)) return;
-    shader.fragmentShader = shader.fragmentShader.replace(marker, `${marker}
-      float gearTierSourceLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-      float gearTierValue = clamp(pow(max(gearTierSourceLuma, 0.001) / 0.14, 0.72), 0.18, 1.32);
-      // Leather has to be BROWN, not merely warm. The old mask was red-minus-blue alone, which is
-      // positive for the hood's mossy green, the tan boots and the pauldron fur, so those three
-      // parts kept their source colour at every tier: Hide and Heavy Hide were identical above the
-      // waist in the lab. Requiring red over green as well leaves straps and belts protected and
-      // lets dyed cloth take the tier.
-      float gearWarm = smoothstep(0.012, 0.065, diffuseColor.r - diffuseColor.b);
-      float gearBrown = smoothstep(0.000, 0.030, diffuseColor.r - diffuseColor.g);
-      float gearLeatherMask = gearWarm * gearBrown;
-      vec3 gearClothColour = ${colourLiteral} * gearTierValue;
-      // Even protected leather carries some of the tier, or a full hide set reads as one dye lot
-      // with brown accessories bolted on.
-      vec3 gearLeatherColour = mix(diffuseColor.rgb * 1.32, gearClothColour * 1.15, 0.42);
-      diffuseColor.rgb = mix(gearClothColour, gearLeatherColour, gearLeatherMask * 0.88);
-    `);
-  };
-  material.customProgramCacheKey = (): string => (
-    `${inheritedCacheKey()}|ranger-tier-colour:${tint.toString(16)}`
-  );
-  material.needsUpdate = true;
+  includeGearVertexColor(material);
+  composeSurface(material, {
+    color: previous => {
+      const luminance = previous.dot(vec3(0.2126, 0.7152, 0.0722));
+      const value = luminance.max(0.001).div(0.14).pow(0.72).clamp(0.18, 1.32);
+      const warm = smoothstep(0.012, 0.065, previous.r.sub(previous.b));
+      const brown = smoothstep(0, 0.030, previous.r.sub(previous.g));
+      const cloth = color(tint).mul(value);
+      const leather = mix(previous.mul(1.32), cloth.mul(1.15), 0.42);
+      return mix(cloth, leather, warm.mul(brown).mul(0.88));
+    },
+  });
+  material.userData.gearColorTreatment = { kind: "ranger", tint };
 }
 
 /** A cut crystal with a bevelled girdle and finished facets; geometry is shared for the session. */
@@ -1194,7 +1143,7 @@ const MAGIC_ORB_GEOMETRY = buildEquipmentCoreGeometry();
 
 function magicOrbMesh(appearance: GearOrbAppearance): THREE.Mesh {
   const charged = appearance.charged;
-  const material = new THREE.MeshPhysicalMaterial({
+  const material = new MeshPhysicalNodeMaterial({
     color: charged ? appearance.colour : 0x384044,
     emissive: charged ? appearance.emissive : 0x000000,
     emissiveIntensity: charged ? 0.72 : 0,

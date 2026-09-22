@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import * as THREE from "three";
+import { MeshStandardNodeMaterial, type Node } from "three/webgpu";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import {
   applyGearAppearance,
@@ -63,14 +64,15 @@ function paint(source: THREE.MeshStandardMaterial, appearance: GearAppearance): 
   return mesh.material;
 }
 
-function compile(material: THREE.Material): string {
-  const shader = {
-    vertexShader: THREE.ShaderLib.standard.vertexShader,
-    fragmentShader: THREE.ShaderLib.standard.fragmentShader,
-    uniforms: THREE.UniformsUtils.clone(THREE.ShaderLib.standard.uniforms),
-  } as Parameters<THREE.Material["onBeforeCompile"]>[0];
-  material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-  return shader.fragmentShader;
+function graph(material: THREE.Material): string {
+  const values: unknown[] = [];
+  (material as MeshStandardNodeMaterial).colorNode?.traverse(node => {
+    const data = node as Node & { value?: unknown; op?: string; method?: string; scope?: string };
+    const value = data.value instanceof THREE.Color ? data.value.toArray()
+      : typeof data.value === "number" ? data.value : undefined;
+    values.push([node.constructor.name, data.op, data.method, data.scope, value]);
+  });
+  return JSON.stringify(values);
 }
 
 function materialState(material: THREE.MeshStandardMaterial): unknown {
@@ -89,7 +91,7 @@ function materialState(material: THREE.MeshStandardMaterial): unknown {
     side: material.side,
     maps: MAP_FIELDS.map(field => material[field]?.uuid),
     userData: structuredClone(material.userData),
-    shader: compile(material),
+    shader: graph(material),
     cacheKey: material.customProgramCacheKey(),
   };
 }
@@ -102,7 +104,8 @@ function expectAuthoredSurface(painted: THREE.MeshStandardMaterial, source: THRE
   expect(painted.roughness).toBe(source.roughness);
   expect(painted.metalness).toBe(source.metalness);
   expect(painted.normalScale.toArray()).toEqual(source.normalScale.toArray());
-  expect(painted.vertexColors).toBe(source.vertexColors);
+  // Tier color nodes consume the authored vertex shading before re-dyeing it.
+  expect(painted.vertexColors).toBe(false);
   expect(painted.transparent).toBe(source.transparent);
   expect(painted.opacity).toBe(source.opacity);
   expect(painted.alphaTest).toBe(source.alphaTest);
@@ -110,9 +113,6 @@ function expectAuthoredSurface(painted: THREE.MeshStandardMaterial, source: THRE
   for (const field of MAP_FIELDS) expect(painted[field], field).toBe(source[field]);
 }
 
-function glslColour(tint: number): string {
-  return `vec3(${new THREE.Color(tint).toArray().map(value => value.toFixed(6)).join(", ")})`;
-}
 
 const REGIONAL_ITEM_IDS = new Set(REGIONAL_TIER_ITEMS.map(({ id }) => id));
 const KNIGHT_APPEARANCES = BODIES.flatMap(body => GEAR_APPEARANCE_IDS
@@ -154,8 +154,8 @@ describe("restored equipment metal materials", () => {
       const before = materialState(source);
       const painted = paint(source, appearance);
       expectAuthoredSurface(painted, source);
-      expect(compile(painted), appearance.assetId).not.toBe(compile(source));
-      expect(compile(painted), appearance.assetId).toContain(glslColour(appearance.tint!));
+      expect(graph(painted), appearance.assetId).not.toBe(graph(source));
+      expect(painted.userData.gearColorTreatment).toEqual({ kind: "metal", tint: appearance.tint, reference: appearance.attach === "skin" ? 0.22 : 0.10 });
       expect(materialState(source), appearance.assetId).toEqual(before);
     }
   });
@@ -166,11 +166,11 @@ describe("restored equipment metal materials", () => {
       const source = fixtureMaterial();
       const painted = appearances.map(appearance => paint(source, appearance));
       expect(new Set(painted.map(material => `${material.name}|${material.color.getHexString()}`)).size).toBe(appearances.length);
-      expect(new Set(painted.map(material => material.customProgramCacheKey())).size).toBe(appearances.length);
+      expect(new Set(painted.map(graph)).size).toBe(appearances.length);
       for (const [index, material] of painted.entries()) {
         const repeated = paint(source, appearances[index]!);
-        expect(repeated.customProgramCacheKey()).toBe(material.customProgramCacheKey());
-        expect(compile(repeated)).toBe(compile(material));
+        expect(repeated.userData.gearColorTreatment).toEqual(material.userData.gearColorTreatment);
+        expect(graph(repeated)).toBe(graph(material));
       }
     }
   });
@@ -187,45 +187,25 @@ describe("restored equipment metal materials", () => {
         const painted = appearances.map(appearance => paint(source, appearance));
         expect(painted).toHaveLength(variant.parts.length);
         expect(new Set(painted.map(material => `${material.name}|${material.color.getHexString()}`)).size).toBe(1);
-        expect(new Set(painted.map(material => material.customProgramCacheKey())).size).toBe(1);
-        expect(new Set(painted.map(compile)).size).toBe(1);
+        expect(new Set(painted.map(graph)).size).toBe(1);
+        expect(new Set(painted.map(graph)).size).toBe(1);
       }
     }
   });
 
-  it("captures authored map colour before vertex tint and applies correction after the metallic mask", () => {
-    const shader = compile(paint(fixtureMaterial(), gearAppearance("corven_sword")!));
-    const orderedStages = [
-      "#include <map_fragment>",
-      "vec3 gearMetalSource = diffuseColor.rgb;",
-      "#include <color_fragment>",
-      "gearMetalSource *= dot(vColor.rgb, vec3(0.2126, 0.7152, 0.0722));",
-      "#include <metalnessmap_fragment>",
-      "float gearMetalMask = smoothstep(0.20, 0.70, metalnessFactor);",
-      "float gearMetalLuma = dot(gearMetalSource, vec3(0.2126, 0.7152, 0.0722));",
-      "vec3 gearMetalHighlight = max(gearMetalColour - vec3(0.78), vec3(0.0));",
-      "+ 0.17 * gearMetalHighlight / (vec3(0.17) + gearMetalHighlight);",
-      "diffuseColor.rgb = mix(diffuseColor.rgb, gearMetalColour, gearMetalMask);",
-      "#include <lights_physical_fragment>",
-      "#include <lights_fragment_begin>",
-    ];
-    let previous = -1;
-    for (const marker of orderedStages) {
-      const index = shader.indexOf(marker);
-      expect(index, marker).toBeGreaterThan(previous);
-      expect(shader.indexOf(marker, index + marker.length), `${marker} must occur once`).toBe(-1);
-      previous = index;
-    }
-
-    // Both Three vertex-colour modes must retain scalar shading, while the original
-    // diffuseColor still contains vertex chroma for the nonmetal side of the final mix.
-    expect(shader).toMatch(/#if defined\(USE_COLOR\) \|\| defined\(USE_COLOR_ALPHA\)\s+gearMetalSource \*= dot\(vColor\.rgb, vec3\(0\.2126, 0\.7152, 0\.0722\)\);\s+#endif/);
-    expect(shader).toMatch(/gearMetalColour = vec3\([^)]+\) \* 0\.72 \* gearMetalWear\s+\* gearMetalSource \/ max\(gearMetalLuma, 0\.001\)/);
-    const correction = shader.slice(shader.indexOf("float gearMetalMask"), shader.indexOf("#include <normal_fragment_begin>"));
-    expect(correction).not.toMatch(/gearMetalWear\s*=\s*clamp\(/);
-    expect(correction).not.toContain("min(gearMetalColour, vec3(0.95))");
-    expect(correction).not.toMatch(/(?:roughnessFactor|metalnessFactor|totalEmissiveRadiance|normal)\s*[*+/\-]?=/);
-    expect(correction.match(/diffuseColor\.rgb\s*=/g)).toHaveLength(1);
+  it("uses the restored metallic mask and authored vertex shading in its color graph", () => {
+    const painted = paint(fixtureMaterial(), gearAppearance("corven_sword")!);
+    const result = graph(painted);
+    expect(result).toContain("VertexColorNode");
+    expect(result).toContain("metalness");
+    expect(result).toContain("smoothstep");
+    expect(result).toContain("pow");
+    expect(result).toContain("color");
+    const nodes = painted as unknown as MeshStandardNodeMaterial;
+    expect(nodes.colorNode).not.toBeNull();
+    expect(nodes.roughnessNode).toBeNull();
+    expect(nodes.metalnessNode).toBeNull();
+    expect(nodes.normalNode).toBeNull();
   });
 
   it("requires a restored metallic mask and leaves other equipment treatments outside the metal pass", () => {
@@ -233,8 +213,8 @@ describe("restored equipment metal materials", () => {
       const source = fixtureMaterial();
       source.metalnessMap = null;
       const painted = paint(source, appearance);
-      expect(compile(painted)).not.toContain("gearMetalSource");
-      expect(painted.customProgramCacheKey()).not.toContain("metal-tier:");
+      expect(painted.userData.gearColorTreatment?.kind).not.toBe("metal");
+      expect(painted.userData.gearColorTreatment?.kind).not.toBe("metal");
     }
     for (const itemId of [
       "kaldite_dagger", "emberite_dagger", "tideworn_sword", "mossbound_staff",
@@ -243,15 +223,15 @@ describe("restored equipment metal materials", () => {
       const source = fixtureMaterial();
       const before = materialState(source);
       const painted = paint(source, gearAppearance(itemId)!);
-      expect(compile(painted), itemId).not.toContain("gearMetalSource");
-      expect(painted.customProgramCacheKey(), itemId).not.toContain("metal-tier:");
+      expect(painted.userData.gearColorTreatment?.kind, itemId).not.toBe("metal");
+      expect(painted.userData.gearColorTreatment?.kind, itemId).not.toBe("metal");
       expect(source.metalnessMap).not.toBeNull();
       expect(materialState(source)).toEqual(before);
     }
     for (const role of ["leather", "gem"]) {
       const source = fixtureMaterial();
       source.userData["equipmentRole"] = role;
-      expect(compile(paint(source, gearAppearance("corven_sword")!)), role).not.toContain("gearMetalSource");
+      expect(paint(source, gearAppearance("corven_sword")!).userData.gearColorTreatment?.kind, role).not.toBe("metal");
     }
   });
 
@@ -301,8 +281,8 @@ describe("restored equipment metal materials", () => {
       expect(grip!.roughness).toBeGreaterThan(metal!.roughness);
     }
     for (const material of mesh.material) {
-      expect(compile(material)).not.toContain("gearMetalSource");
-      expect(material.customProgramCacheKey()).not.toContain("metal-tier:");
+      expect(material.userData.gearColorTreatment?.kind).not.toBe("metal");
+      expect(material.userData.gearColorTreatment?.kind).not.toBe("metal");
     }
     for (const [index, material] of mesh.material.entries()) {
       expect(material).not.toBe(sources[index]);
@@ -343,7 +323,7 @@ function materials(object: THREE.Object3D): THREE.MeshStandardMaterial[] {
   object.traverse(child => {
     if (!(child instanceof THREE.Mesh)) return;
     for (const material of Array.isArray(child.material) ? child.material : [child.material]) {
-      expect(material).toBeInstanceOf(THREE.MeshStandardMaterial);
+      expect((material as THREE.MeshStandardMaterial).isMeshStandardMaterial).toBe(true);
       result.push(material as THREE.MeshStandardMaterial);
     }
   });
@@ -385,7 +365,7 @@ describe("shipped equipment material definitions", () => {
       expect(painted).toHaveLength(sourceMaterials.length);
       for (const [index, material] of painted.entries()) {
         expectAuthoredSurface(material, sourceMaterials[index]!);
-        expect(compile(material)).toContain(glslColour(appearance.tint!));
+        expect(material.userData.gearColorTreatment?.tint).toBe(appearance.tint);
       }
       expect(sourceMaterials.map(materialState)).toEqual(before);
     }

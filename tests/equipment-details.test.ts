@@ -1,7 +1,9 @@
 import * as THREE from "three";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { MeshStandardNodeMaterial } from "three/webgpu";
 import { buildEquipmentCoreGeometry } from "../game/src/render/equipmentDetails.js";
 import { buildEquipmentDagger } from "../game/src/render/proceduralGearModels.js";
+import { applyArmorTexture } from "../game/src/render/equipmentArmorTextures.js";
 
 function meshes(group: THREE.Group): THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>[] {
   const result: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>[] = [];
@@ -139,5 +141,65 @@ describe("shared production equipment details", () => {
     firstCore.dispose();
     secondCore.computeBoundingSphere();
     expect(secondCore.boundingSphere!.radius).toBeCloseTo(1, 6);
+  });
+});
+
+describe("armor node surfaces", () => {
+  afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
+
+  function enableTextures(): void {
+    vi.stubGlobal("document", {});
+    vi.spyOn(THREE.TextureLoader.prototype, "load").mockImplementation((_url, onLoad) => {
+      const texture = new THREE.Texture<HTMLImageElement>();
+      queueMicrotask(() => onLoad?.(texture));
+      return texture;
+    });
+  }
+
+  it("keeps authored ORM and native normal maps under the tier's atlas and relief", () => {
+    enableTextures();
+    const material = new MeshStandardNodeMaterial({ vertexColors: true });
+    const orm = new THREE.Texture();
+    const normal = new THREE.Texture();
+    material.metalnessMap = material.roughnessMap = orm;
+    material.normalMap = normal;
+    const appearance = { assetId: "outfit_female_knight_chest", itemId: "nightmarshal_plate" };
+    expect(applyArmorTexture(material, appearance)).toBe(true);
+    expect(material.map?.name).toBe("equipment-armor-nightglass-albedo");
+    expect(material.map?.flipY).toBe(false);
+    expect(material.map?.colorSpace).toBe(THREE.SRGBColorSpace);
+    expect(material.metalnessMap).toBe(orm);
+    expect(material.roughnessMap).toBe(orm);
+    expect(material.normalMap).toBe(normal);
+    expect(material.vertexColors).toBe(false);
+    expect(material.userData.equipmentArmorReliefMetres).toBe(0.0035);
+    for (const channel of [material.colorNode, material.normalNode, material.roughnessNode, material.metalnessNode]) {
+      expect(channel?.isNode).toBe(true);
+    }
+    const normalNode = material.normalNode;
+    const name = material.name;
+    expect(applyArmorTexture(material, appearance)).toBe(true);
+    expect(material.normalNode).toBe(normalNode);
+    expect(material.name).toBe(name);
+  });
+
+  it.each([
+    ["fauld-lame-0", "padding", 0.0028, false],
+    ["belt", "strap", 0.0010, false],
+    ["collar-mail", "metal", 0.00065, true],
+  ] as const)("keeps %s's local triplanar surface without requiring a UV atlas", (partName, surface, relief, vertexColors) => {
+    enableTextures();
+    const material = new MeshStandardNodeMaterial();
+    expect(applyArmorTexture(material, {
+      assetId: "proc_armour_fauld_10", itemId: "kaldite_fauld", partName,
+    })).toBe(true);
+    expect(material.map).toBeNull();
+    expect(material.userData.equipmentArmorPartSurface).toBe(surface);
+    expect(material.userData.equipmentArmorReliefMetres).toBe(relief);
+    expect(material.vertexColors).toBe(vertexColors);
+    expect(material.normalNode?.isNode).toBe(true);
+    expect(material.colorNode?.isNode).toBe(true);
+    expect(material.roughnessNode?.isNode).toBe(true);
+    expect(material.metalness > 0).toBe(surface === "metal");
   });
 });

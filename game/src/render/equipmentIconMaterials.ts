@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { color, float, materialColor, mix, smoothstep, texture, vec3 } from "three/tsl";
+import { composeSurface, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 
 type Appearance = { assetId: string; itemId?: string; tint?: number; accent?: number };
 type Palette = { wood: number; metal: number; leather: number; gem?: number; plate?: number };
@@ -28,7 +30,7 @@ const elements: Record<string, { wood: string; gem: number }> = {
 };
 
 /** Material-only treatment for existing Corealm weapons. Call before surface grain. */
-export function applyIconWeaponMaterials(material: THREE.Material, appearance: Appearance): void {
+export function applyIconWeaponMaterials(material: SurfaceNodeMaterial, appearance: Appearance): void {
   if (appearance.assetId === "miniboss_staff" || appearance.assetId === "miniboss_sword") {
     applyImportedIconMaterial(material, appearance);
     return;
@@ -96,32 +98,18 @@ export function applyIconWeaponMaterials(material: THREE.Material, appearance: A
     shaded.emissiveIntensity = 0;
     if (role === "gem" && "clearcoat" in shaded) (shaded as THREE.MeshPhysicalMaterial).clearcoat = 0;
   }
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
-  const linear = new THREE.Color(colour);
-  const rgb = `vec3(${linear.r.toFixed(6)}, ${linear.g.toFixed(6)}, ${linear.b.toFixed(6)})`;
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.fragmentShader = shader.fragmentShader.replace("#include <map_fragment>", `
-      #include <map_fragment>
-      float iconWeaponGrain = 1.0;
-      #ifdef USE_MAP
-        iconWeaponGrain = clamp(dot(sampledDiffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)) / 0.60, 0.55, 1.30);
-      #endif
-    `).replace("#include <lights_physical_fragment>", `
-      // Resolve after old tier shaders, before the generated surface grain callback.
-      diffuseColor.rgb = ${rgb} * iconWeaponGrain;
-      #include <lights_physical_fragment>
-    `);
-  };
-  material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|icon-weapon-v1:${appearance.itemId}:${role}:${colour}`;
+  const grain = shaded.map
+    ? texture(shaded.map).rgb.dot(vec3(0.2126, 0.7152, 0.0722)).div(0.60).clamp(0.55, 1.30)
+    : float(1);
+  // The reviewed icon palette resolves after imported tier dyes, before surface grain.
+  composeSurface(material, { color: () => color(colour).mul(grain) });
   material.userData.iconWeaponPalette = appearance.itemId;
   material.name += `|icon:${appearance.itemId}:${role}`;
   material.needsUpdate = true;
 }
 
 /** Imported boss meshes share one atlas and have no equipmentRole partitions. */
-function applyImportedIconMaterial(material: THREE.Material, appearance: Appearance): void {
+function applyImportedIconMaterial(material: SurfaceNodeMaterial, appearance: Appearance): void {
   const driftwood = appearance.itemId === "tideworn_staff" || appearance.itemId === "galeskin_staff";
   const titanium = appearance.itemId === "cinderwake_sword";
   const copper = appearance.itemId === "galeskin_sword";
@@ -139,30 +127,17 @@ function applyImportedIconMaterial(material: THREE.Material, appearance: Appeara
   // replace its mask or wash orange over the whole blade.
   shaded.emissive.setHex(shaded.emissiveMap ? (titanium ? 0xff781c : moss ? 0x6d922a : 0x849b9e) : 0);
   shaded.emissiveIntensity = shaded.emissiveMap ? (titanium ? 1.2 : moss ? 0.04 : 0) : 0;
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
-  const rgb = `vec3(${colour.r.toFixed(6)}, ${colour.g.toFixed(6)}, ${colour.b.toFixed(6)})`;
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.fragmentShader = shader.fragmentShader.replace("#include <map_fragment>", `
-      #include <map_fragment>
-      float iconBossSource = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-    `).replace("#include <lights_physical_fragment>", `
-      float iconBossDetail = clamp(pow(max(iconBossSource, 0.0001) / 0.18, 0.60), 0.22, 1.30);
-      diffuseColor.rgb = ${rgb} * iconBossDetail;
-      ${moss ? `
-        // Reuse authored local markings as moss pigmentation, retaining the UV layout.
-        #ifdef USE_EMISSIVEMAP
-          vec3 iconMossMark = texture2D(emissiveMap, vEmissiveMapUv).rgb;
-          float iconMossMask = max(max(iconMossMark.r, iconMossMark.g), iconMossMark.b);
-          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.19, 0.29, 0.025) * iconBossDetail,
-            smoothstep(0.06, 0.50, iconMossMask) * 0.94);
-        #endif
-      ` : ""}
-      #include <lights_physical_fragment>
-    `);
-  };
-  material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|icon-boss-v1:${appearance.itemId}`;
+  composeSurface(material, {
+    color: () => {
+      const detail = materialColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722))
+        .max(0.0001).div(0.18).pow(0.60).clamp(0.22, 1.30);
+      const base = color(colour).mul(detail);
+      if (!moss || !shaded.emissiveMap) return base;
+      const mark = texture(shaded.emissiveMap).rgb;
+      const mask = smoothstep(0.06, 0.50, mark.r.max(mark.g).max(mark.b));
+      return mix(base, vec3(0.19, 0.29, 0.025).mul(detail), mask.mul(0.94));
+    },
+  });
   material.userData.iconWeaponPalette = appearance.itemId;
   material.name += `|icon:${appearance.itemId}`;
   material.needsUpdate = true;

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import type { ItemDef, ItemId } from "../game/src/contracts.js";
 import { EQUIPMENT, KITS, MAGIC_ORBS } from "../game/src/content/equipment.js";
 import { WILDERNESS_LOOT_ITEMS } from "../game/src/content/wildernessLoot.js";
@@ -401,14 +402,8 @@ describe("tinting", () => {
     expect(painted.color.getHex()).toBe(0xffffff);
     expect(painted.emissive.getHex()).toBe(0x000000);
     expect(painted.emissiveIntensity).toBe(0);
-    expect(painted.customProgramCacheKey()).toContain("ranger-tier-colour:416f9d");
-
-    const shader = {
-      fragmentShader: "#include <color_fragment>", vertexShader: "", uniforms: {},
-    } as Parameters<THREE.Material["onBeforeCompile"]>[0];
-    painted.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-    expect(shader.fragmentShader).toContain("gearTierSourceLuma");
-    expect(shader.fragmentShader).toContain("gearTierValue");
+    expect(painted.userData.gearColorTreatment).toEqual({ kind: "ranger", tint: 0x416f9d });
+    expect((painted as unknown as MeshStandardNodeMaterial).colorNode).not.toBeNull();
 
     const knight = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
     const plate = gearAppearance("grithe_cuirass");

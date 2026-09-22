@@ -1,5 +1,7 @@
 import { assetBaseUrl } from "../app/config.js";
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
+import { faceDirection, Fn, If, normalGeometry, positionGeometry, positionView, texture, uv, varying, vec2, vec3 } from "three/tsl";
+import { composeSurface, surfaceNodes } from "./nodeMaterials.js";
 
 // Accepted through the production lab; evidence: art/equipment-retexture/ornate-armor/.
 const productionEnabled = true;
@@ -100,8 +102,8 @@ export function applyArmorTexture(
   const prefix = appearance.itemId?.split("_")[0];
   const tier = prefix === "nightmarshal" ? "nightglass" : prefix;
   if (!tier || !Object.prototype.hasOwnProperty.call(tiers, tier)) return false;
-  const shaded = material as THREE.MeshStandardMaterial;
-  if (!shaded.isMeshStandardMaterial || (!procedural && !shaded.metalnessMap)) return false;
+  const shaded = material as THREE.MeshStandardNodeMaterial;
+  if (!shaded.isMeshStandardNodeMaterial || (!procedural && !shaded.metalnessMap)) return false;
   if (applied.has(material)) return true;
   const armorTier = tier as ArmorTier;
   if (procedural) return applyArmorPartTexture(shaded, armorTier, appearance.partName ?? "");
@@ -115,53 +117,26 @@ export function applyArmorTexture(
   // Native ORM is the material mask. Setting both factors to one exposes its full range.
   shaded.metalness = 1;
   shaded.roughness = 1;
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.uniforms.armorHeightMap = { value: height };
-    shader.fragmentShader = shader.fragmentShader.replace("#include <common>", `
-      #include <common>
-      uniform sampler2D armorHeightMap;
-      // Surface-gradient bump over the already evaluated native tangent-space normal.
-      // Unnormalized position derivatives retain the height's view-space metre scale.
-      vec3 armorReliefNormal(vec3 positionView, vec3 surfaceNormal, vec2 heightGradient, float facing) {
-        vec3 dx = dFdx(positionView);
-        vec3 dy = dFdy(positionView);
-        vec3 rx = cross(dy, surfaceNormal);
-        vec3 ry = cross(surfaceNormal, dx);
-        float determinant = dot(dx, rx) * facing;
-        if (abs(determinant) < 1e-12) return surfaceNormal;
-        vec3 gradient = sign(determinant) * (heightGradient.x * rx + heightGradient.y * ry);
-        return normalize(abs(determinant) * surfaceNormal - gradient);
-      }
-    `).replace("#include <metalnessmap_fragment>", `
-      #include <metalnessmap_fragment>
-      float armorMetalMask = smoothstep(0.20, 0.70, metalnessFactor);
-      float armorHeight = texture2D(armorHeightMap, vMapUv).r;
-      float armorBurnish = smoothstep(0.55, 0.85, armorHeight) * armorMetalMask;
-      // ORM variation retains the authored seams, leather grain, and worn plate detail.
-      float armorNativeRoughness = roughnessFactor;
-      float armorLeatherRoughness = clamp(${settings.leatherRoughness.toFixed(3)}
-        + (armorNativeRoughness - 0.60) * 0.18, 0.40, 0.88);
-      float armorMetalRoughness = clamp(${settings.metalRoughness.toFixed(3)}
-        + (armorNativeRoughness - 0.40) * 0.16 - armorBurnish * 0.065, 0.13, 0.44);
-      roughnessFactor = mix(armorLeatherRoughness, armorMetalRoughness, armorMetalMask);
-      metalnessFactor = mix(min(metalnessFactor, 0.05), ${settings.metalness.toFixed(3)}, armorMetalMask);
-      // Lift the atlas leather's dyed base while preserving its seams and grain.
-      diffuseColor.rgb *= mix(1.20, 1.0, armorMetalMask);
-    `).replace("#include <normal_fragment_maps>", `
-      #include <normal_fragment_maps>
-      vec2 armorUvDx = dFdx(vMapUv);
-      vec2 armorUvDy = dFdy(vMapUv);
-      vec2 armorHeightGradient = vec2(
-        texture2D(armorHeightMap, vMapUv + armorUvDx).r - armorHeight,
-        texture2D(armorHeightMap, vMapUv + armorUvDy).r - armorHeight
-      ) * ${settings.relief.toFixed(4)};
-      normal = armorReliefNormal(-vViewPosition, normal, armorHeightGradient, faceDirection);
-    `);
-  };
-  material.customProgramCacheKey = (): string => `${inheritedKey()}|ornate-armor-v2:${armorTier}`;
+  const inherited = surfaceNodes(shaded);
+  const metalMask = inherited.metalness.smoothstep(0.20, 0.70);
+  const mapUv = uv(shaded.map.channel);
+  const heightSample = texture(height, mapUv).r;
+  const burnish = heightSample.smoothstep(0.55, 0.85).mul(metalMask);
+  const leatherRoughness = inherited.roughness.sub(0.60).mul(0.18)
+    .add(settings.leatherRoughness).clamp(0.40, 0.88);
+  const metalRoughness = inherited.roughness.sub(0.40).mul(0.16)
+    .add(settings.metalRoughness).sub(burnish.mul(0.065)).clamp(0.13, 0.44);
+  const heightGradient = vec2(
+    texture(height, mapUv.add(mapUv.dFdx())).r.sub(heightSample),
+    texture(height, mapUv.add(mapUv.dFdy())).r.sub(heightSample),
+  ).mul(settings.relief);
+  composeSurface(shaded, {
+    // ORM still separates dyed leather and worn plate; only its response is retuned.
+    color: previous => previous.mul(metalMask.mix(1.20, 1.0)),
+    roughness: () => metalMask.mix(leatherRoughness, metalRoughness),
+    metalness: previous => metalMask.mix(previous.min(0.05), settings.metalness),
+    normal: previous => reliefNormal(previous, heightGradient),
+  });
   // CharacterRig batches by name/color, so mixed tiers must have distinct identities.
   material.name = `${material.name || material.type}|armor:${armorTier}`;
   material.userData.equipmentArmorTexture = armorTier;
@@ -171,7 +146,7 @@ export function applyArmorTexture(
   return true;
 }
 
-function applyArmorPartTexture(material: THREE.MeshStandardMaterial, tier: ArmorTier, partName: string): boolean {
+function applyArmorPartTexture(material: THREE.MeshStandardNodeMaterial, tier: ArmorTier, partName: string): boolean {
   const padded = partName.startsWith("fauld-lame-");
   const leather = padded || material.userData.equipmentRole === "leather"
     || /belt|hanger/.test(partName);
@@ -188,64 +163,26 @@ function applyArmorPartTexture(material: THREE.MeshStandardMaterial, tier: Armor
   material.emissiveIntensity = 0;
   material.metalness = leather ? 0 : settings.metalness;
   material.roughness = leather ? settings.leatherRoughness : settings.metalRoughness;
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer): void => {
-    inheritedCompile.call(material, shader, renderer);
-    shader.uniforms.armorPartAlbedo = { value: albedo };
-    shader.uniforms.armorPartHeight = { value: height };
-    shader.vertexShader = shader.vertexShader.replace("#include <common>", `
-      #include <common>
-      varying vec3 vArmorPartPosition;
-      varying vec3 vArmorPartNormal;
-    `).replace("#include <begin_vertex>", `
-      #include <begin_vertex>
-      vArmorPartPosition = position;
-      vArmorPartNormal = normal;
-    `);
-    shader.fragmentShader = shader.fragmentShader.replace("#include <common>", `
-      #include <common>
-      uniform sampler2D armorPartAlbedo;
-      uniform sampler2D armorPartHeight;
-      varying vec3 vArmorPartPosition;
-      varying vec3 vArmorPartNormal;
-      vec3 armorPartSample(sampler2D tex, vec3 p, vec3 w) {
-        return texture2D(tex, p.yz).rgb * w.x
-          + texture2D(tex, p.xz).rgb * w.y + texture2D(tex, p.xy).rgb * w.z;
-      }
-    `).replace("#include <color_fragment>", `
-      #include <color_fragment>
-      vec3 armorPartWeights = pow(abs(normalize(vArmorPartNormal)), vec3(6.0));
-      armorPartWeights /= max(dot(armorPartWeights, vec3(1.0)), 0.0001);
-      vec3 armorPartPoint = vArmorPartPosition / ${tileMetres.toFixed(3)};
-      float armorPartValue = dot(armorPartSample(armorPartAlbedo, armorPartPoint, armorPartWeights),
-        vec3(0.2126, 0.7152, 0.0722));
-      diffuseColor.rgb *= clamp(armorPartValue / 0.263, 0.48, 1.55);
-      float armorPartHeightValue = armorPartSample(armorPartHeight, armorPartPoint, armorPartWeights).r;
-    `).replace("#include <roughnessmap_fragment>", `
-      #include <roughnessmap_fragment>
-      roughnessFactor = clamp(roughnessFactor - (armorPartValue / 0.263 - 1.0)
-        * ${leather ? "0.07" : "0.11"}, ${leather ? "0.40" : "0.14"}, ${leather ? "0.88" : "0.44"});
-    `).replace("#include <normal_fragment_maps>", `
-      #include <normal_fragment_maps>
-      // Sample along the screen derivatives of local position. No UV attributes required.
-      vec2 armorPartGradient = vec2(
-        armorPartSample(armorPartHeight, armorPartPoint + dFdx(armorPartPoint), armorPartWeights).r - armorPartHeightValue,
-        armorPartSample(armorPartHeight, armorPartPoint + dFdy(armorPartPoint), armorPartWeights).r - armorPartHeightValue
-      ) * ${reliefMetres.toFixed(5)};
-      vec3 armorPartDx = dFdx(-vViewPosition);
-      vec3 armorPartDy = dFdy(-vViewPosition);
-      vec3 armorPartRx = cross(armorPartDy, normal);
-      vec3 armorPartRy = cross(normal, armorPartDx);
-      float armorPartDet = dot(armorPartDx, armorPartRx) * faceDirection;
-      if (abs(armorPartDet) > 1e-12) {
-        normal = normalize(abs(armorPartDet) * normal - sign(armorPartDet)
-          * (armorPartGradient.x * armorPartRx + armorPartGradient.y * armorPartRy));
-      }
-    `);
-  };
+  // These are the authored local attributes, before skinning, as in the atlas-free
+  // cloth treatment. Varyings keep the pattern attached to each moving armor part.
+  const localPosition = varying(positionGeometry);
+  const localNormal = varying(normalGeometry);
+  const weights = localNormal.normalize().abs().pow(6);
+  const blend = weights.div(weights.dot(vec3(1)).max(0.0001));
+  const point = localPosition.div(tileMetres);
+  const value = triplanar(albedo, point, blend).dot(vec3(0.2126, 0.7152, 0.0722));
+  const heightValue = triplanar(height, point, blend).r;
+  const gradient = vec2(
+    triplanar(height, point.add(point.dFdx()), blend).r.sub(heightValue),
+    triplanar(height, point.add(point.dFdy()), blend).r.sub(heightValue),
+  ).mul(reliefMetres);
+  composeSurface(material, {
+    color: previous => previous.mul(value.div(0.263).clamp(0.48, 1.55)),
+    roughness: previous => previous.sub(value.div(0.263).sub(1).mul(leather ? 0.07 : 0.11))
+      .clamp(leather ? 0.40 : 0.14, leather ? 0.88 : 0.44),
+    normal: previous => reliefNormal(previous, gradient),
+  });
   const surface = padded ? "padding" : leather ? "strap" : "metal";
-  material.customProgramCacheKey = (): string => `${inheritedKey()}|armor-part-v2:${tier}:${surface}`;
   material.name = `${material.name || material.type}|armor:${tier}`;
   material.userData.equipmentArmorTexture = tier;
   material.userData.equipmentArmorPartSurface = surface;
@@ -253,4 +190,30 @@ function applyArmorPartTexture(material: THREE.MeshStandardMaterial, tier: Armor
   material.needsUpdate = true;
   applied.add(material);
   return true;
+}
+
+/** View-space surface gradients retain relief in metres over the native normal map. */
+function reliefNormal(surfaceNormal: THREE.Node<"vec3">, heightGradient: THREE.Node<"vec2">): THREE.Node<"vec3"> {
+  return Fn(() => {
+    const dx = positionView.dFdx();
+    const dy = positionView.dFdy();
+    const rx = dy.cross(surfaceNormal);
+    const ry = surfaceNormal.cross(dx);
+    const determinant = dx.dot(rx).mul(faceDirection);
+    // Derivatives and implicit-LOD samples must execute outside divergent control flow.
+    const sampledGradient = heightGradient.toVar();
+    const result = surfaceNormal.toVar();
+    // Degenerate triangles have no stable surface gradient. Preserve their native normal.
+    If(determinant.abs().greaterThan(1e-12), () => {
+      const gradient = sampledGradient.x.mul(rx).add(sampledGradient.y.mul(ry)).mul(determinant.sign());
+      result.assign(determinant.abs().mul(surfaceNormal).sub(gradient).normalize());
+    });
+    return result;
+  })();
+}
+
+function triplanar(map: THREE.Texture, point: THREE.Node<"vec3">, weights: THREE.Node<"vec3">): THREE.Node<"vec3"> {
+  return texture(map, point.yz).rgb.mul(weights.x)
+    .add(texture(map, point.xz).rgb.mul(weights.y))
+    .add(texture(map, point.xy).rgb.mul(weights.z));
 }
