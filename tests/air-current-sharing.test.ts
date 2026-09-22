@@ -138,6 +138,7 @@ describe('shared air current materials', () => {
         expect(first.vertex).toContain('currentLife');
         expect(first.vertex).toContain('currentProfile');
         expect(first.vertex).not.toMatch(/array<mat4x4<f32>,\s*64>/);
+        expect(first.fragment).not.toContain('vInstanceColor');
         expect(first.fragment.length).toBeGreaterThan(200);
       }
     } finally { pools.forEach(pool => pool.dispose()); }

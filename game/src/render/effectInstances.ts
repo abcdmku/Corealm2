@@ -15,7 +15,7 @@ export const effectInstanceColor = () => attribute<'vec3'>('effectColor', 'vec3'
 
 export class EffectInstances<M extends Material = Material> extends Mesh<InstancedBufferGeometry, M> {
   readonly instanceMatrix: InstancedInterleavedBuffer;
-  readonly instanceColor: InstancedBufferAttribute;
+  readonly instanceColors: InstancedBufferAttribute;
   readonly capacity: number;
 
   constructor(source: BufferGeometry, material: M, capacity: number,
@@ -39,10 +39,12 @@ export class EffectInstances<M extends Material = Material> extends Mesh<Instanc
     }
     for (let column = 0; column < 4; column++)
       geometry.setAttribute(MATRIX_ATTRIBUTES[column]!, new InterleavedBufferAttribute(this.instanceMatrix, 4, column * 4));
-    this.instanceColor = options.colors ?? new InstancedBufferAttribute(new Float32Array(capacity * 3).fill(1), 3);
-    if (this.instanceColor.count !== capacity) throw new RangeError('Effect color capacity mismatch');
-    this.instanceColor.setUsage(DynamicDrawUsage);
-    geometry.setAttribute('effectColor', this.instanceColor);
+    // `instanceColor` is reserved by Three for InstancedMesh's automatic varying.
+    // Ordinary meshes consume the named attribute only when their graph requests it.
+    this.instanceColors = options.colors ?? new InstancedBufferAttribute(new Float32Array(capacity * 3).fill(1), 3);
+    if (this.instanceColors.count !== capacity) throw new RangeError('Effect color capacity mismatch');
+    this.instanceColors.setUsage(DynamicDrawUsage);
+    geometry.setAttribute('effectColor', this.instanceColors);
     this.frustumCulled = false;
   }
 
@@ -54,6 +56,6 @@ export class EffectInstances<M extends Material = Material> extends Mesh<Instanc
   }
   setMatrixAt(index: number, matrix: Matrix4): void { matrix.toArray(this.instanceMatrix.array, index * 16); }
   getMatrixAt(index: number, matrix: Matrix4): void { matrix.fromArray(this.instanceMatrix.array, index * 16); }
-  setColorAt(index: number, color: Color): void { color.toArray(this.instanceColor.array, index * 3); }
-  getColorAt(index: number, color: Color): void { color.fromArray(this.instanceColor.array, index * 3); }
+  setColorAt(index: number, color: Color): void { color.toArray(this.instanceColors.array, index * 3); }
+  getColorAt(index: number, color: Color): void { color.fromArray(this.instanceColors.array, index * 3); }
 }

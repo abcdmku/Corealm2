@@ -27,7 +27,8 @@ describe("shared elemental pool materials", () => {
         expect(mesh.material).toBe(other.material);
         expect(mesh.geometry).not.toBe(other.geometry);
         expect(mesh.instanceMatrix.array).not.toBe(other.instanceMatrix.array);
-        expect(mesh.instanceColor.array).not.toBe(other.instanceColor.array);
+        expect(mesh.instanceColors.array).not.toBe(other.instanceColors.array);
+        expect('instanceColor' in mesh).toBe(false);
         expect(mesh.userData["effectClock"]).not.toBe(other.userData["effectClock"]);
         expect(mesh.userData["effectClock"].value).toBe(2.5);
         expect(other.userData["effectClock"].value).toBe(19);
@@ -39,6 +40,7 @@ describe("shared elemental pool materials", () => {
         const shader = lowerToWgsl(mesh);
         expect(shader.vertex).toContain("effectMatrix0");
         expect(shader.vertex).toContain("effectMatrix3");
+        expect(shader.fragment).not.toContain("vInstanceColor");
         expect(shader.fragment.length).toBeGreaterThan(500);
       }
       first.dispose(); firstDisposed = true;
