@@ -198,6 +198,29 @@ describe("EntityViews resident motion", () => {
       expect(f.views.pickAll(ray)).toEqual(['behind']);
     } finally { f.dispose(); }
   });
+  it('prepares a newly joined nearby live rig without starting a redundant sampled rig', async () => {
+    let ready = false;
+    const entity = actor('remote:new-player');
+    const f = await fixture([], 12, false, false, root => Boolean((root as THREE.Mesh).isMesh) || ready);
+    const prepare = vi.spyOn(AnimationLod.prototype, 'prepare');
+    try {
+      await f.views.prepare([entity]);
+      f.views.update(0, new THREE.Vector3());
+      f.views.sync([entity]);
+      f.views.update(.016, new THREE.Vector3());
+      expect(prepare).not.toHaveBeenCalled();
+      expect(f.views.presentationSnapshot(entity.id)).toMatchObject({ preparing: true, mode: 'baked', complete: true });
+      ready = true;
+      f.views.update(.016, new THREE.Vector3());
+      expect(f.views.presentationSnapshot(entity.id)).toMatchObject({ preparing: false, mode: 'live-rig', complete: true });
+      expect(prepare).not.toHaveBeenCalled();
+      // The sampled representation is still created when distance actually needs it.
+      f.views.update(.016, new THREE.Vector3(100, 0, 0));
+      expect(prepare).toHaveBeenCalled();
+      expect(f.views.motionSnapshot(entity.id)?.path).toBe('sampled-rig');
+    } finally { prepare.mockRestore(); f.dispose(); }
+  });
+
   it('keeps a moving sampled actor drawn and pickable until its replacement is ready', async () => {
     let ready = false;
     const entity = actor('streaming-handoff');

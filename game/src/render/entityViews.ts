@@ -5188,7 +5188,11 @@ export class EntityViews {
     const transform = SCRATCH_TRANSFORM;
 
     const playback = record.playback;
-    const lod = playback ? this.ensureAnimationLod(group, record) : null;
+    // A new nearby actor already has its live rig queued. Do not make its first
+    // display wait for a second, sampled rig and every remote action palette.
+    // Existing sampled actors remain visible during a detailed-rig handoff.
+    const lod = playback && (!record.unique || group.animationLod)
+      ? this.ensureAnimationLod(group, record) : null;
     if (lod && playback) {
       lod.set(slot, placement, {
         terrain: this.terrainPose(record, placement),
