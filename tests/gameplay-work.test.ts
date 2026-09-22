@@ -85,3 +85,55 @@ it('rejects an iterator failure and keeps unrelated preparation usable', async (
   const next = work.run(() => 7);
   frames.shift()!(); expect(await next).toBe(7);
 });
+
+it('holds optional work after slow frames while visible work remains available', async () => {
+  const frames: (() => void)[] = [], events: string[] = [];
+  let time = 0;
+  const work = new GameplayWork(run => frames.push(run), () => time);
+  work.setInteractive(true);
+  work.reportFrame(80);
+  const optional = work.run(() => events.push('prefetch'), () => 1);
+  const visible = work.run(() => events.push('visible'), () => 2);
+  frames.shift()!(); await visible;
+  expect(events).toEqual(['visible']);
+  time = 100;
+  frames.shift()!();
+  expect(events).toEqual(['visible']);
+  time = 121;
+  frames.shift()!(); await optional;
+  expect(events).toEqual(['visible', 'prefetch']);
+});
+
+it('lets optional work make bounded progress on a persistently slow device', async () => {
+  const frames: (() => void)[] = [];
+  let time = 0, finished = false;
+  const work = new GameplayWork(run => frames.push(run), () => time);
+  work.setInteractive(true);
+  work.reportFrame(33);
+  const result = work.run(() => { finished = true; });
+  for (time = 0; time < 500; time += 50) {
+    work.reportFrame(33);
+    frames.shift()!();
+    expect(finished).toBe(false);
+  }
+  work.reportFrame(33);
+  frames.shift()!(); await result;
+  expect(finished).toBe(true);
+});
+
+it('reduces a computation slice after a slow frame instead of merely delaying its start', async () => {
+  const frames: (() => void)[] = [];
+  let time = 0, steps = 0;
+  const work = new GameplayWork(run => frames.push(run), () => time);
+  work.setInteractive(true);
+  work.reportFrame(40);
+  function* compute() {
+    while (steps < 8) { time += 0.25; steps++; yield; }
+    return steps;
+  }
+  const result = work.runSliced(compute(), () => 2);
+  frames.shift()!();
+  expect(steps).toBe(2);
+  work.setInteractive(false);
+  expect(await result).toBe(8);
+});

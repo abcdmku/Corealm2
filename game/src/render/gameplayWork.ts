@@ -3,20 +3,36 @@
 export class GameplayWork {
   private interactive = false;
   private scheduled = false;
-  private readonly jobs: { start: () => void; priority: () => number }[] = [];
+  private pressureUntil = 0;
+  private readonly jobs: { start: () => void; priority: () => number; queuedAt: number }[] = [];
 
   constructor(private readonly schedule: (run: () => void) => void = afterPaint,
     private readonly now: () => number = () => performance.now()) {}
 
   setInteractive(value: boolean): void {
     this.interactive = value;
-    if (!value) while (this.jobs.length) this.takeNext()!.start();
+    if (!value) {
+      this.pressureUntil = 0;
+      while (this.jobs.length) this.takeNext()!.start();
+    }
+  }
+
+  /** Feed the measured frame interval, including CPU/GPU waits, rather than just render CPU
+   * time. A slow frame gives input and drawing a short recovery window. */
+  reportFrame(milliseconds: number): void {
+    if (this.interactive && Number.isFinite(milliseconds) && milliseconds > 25) {
+      this.pressureUntil = this.now() + 120;
+    }
+  }
+
+  isUnderPressure(): boolean {
+    return this.pressureUntil > 0 && this.now() < this.pressureUntil;
   }
 
   run<T>(work: () => T | PromiseLike<T>, priority: () => number = () => 0): Promise<T> {
     if (!this.interactive) return Promise.resolve().then(work);
     return new Promise<T>((resolve, reject) => {
-      this.jobs.push({ priority, start: () => {
+      this.jobs.push({ priority, queuedAt: this.now(), start: () => {
         try { resolve(work()); } catch (error) { reject(error); }
       } });
       this.scheduleNext();
@@ -28,23 +44,32 @@ export class GameplayWork {
   runSliced<T>(steps: Iterator<unknown, T>, priority: () => number = () => 0): Promise<T> {
     const advance = (): T | Promise<T> => {
       const started = this.now();
+      const budget = this.isUnderPressure() ? 0.5 : 2;
       let count = 0;
       do {
         const step = steps.next();
         if (step.done) return step.value;
         count++;
-      } while (count < 128 && this.now() - started < 2);
+      } while (count < 128 && this.now() - started < budget);
       return this.run(advance, priority);
     };
     return this.run(advance, priority);
   }
 
   private takeNext() {
-    let best = 0;
-    for (let i = 1; i < this.jobs.length; i++) {
-      if (this.jobs[i]!.priority() > this.jobs[best]!.priority()) best = i;
+    let best = -1;
+    let bestRank = -Infinity;
+    const underPressure = this.isUnderPressure();
+    const now = underPressure ? this.now() : 0;
+    for (let i = 0; i < this.jobs.length; i++) {
+      const job = this.jobs[i]!;
+      const rank = job.priority();
+      // Visible/player work still progresses. Optional work gets a bounded delay, so low-end
+      // machines that sustain 30 fps and hidden tabs never leave a requested asset unfinished.
+      if (underPressure && rank < 2 && now - job.queuedAt < 500) continue;
+      if (rank > bestRank) { best = i; bestRank = rank; }
     }
-    return this.jobs.splice(best, 1)[0];
+    return best < 0 ? undefined : this.jobs.splice(best, 1)[0];
   }
 
   private scheduleNext(): void {
@@ -53,11 +78,16 @@ export class GameplayWork {
     this.schedule(() => {
       this.scheduled = false;
       const started = this.now();
+      const underPressure = this.isUnderPressure();
+      const budget = underPressure ? 0.5 : 2;
       // Cheap placement and cancelled jobs should not each cost an entire frame. An expensive
       // job gets the frame to itself; bounded starts also contain async decoder continuations.
       let count = 0;
-      do { this.takeNext()?.start(); count++; }
-      while (this.jobs.length && count < 8 && this.now() - started < 2);
+      do {
+        const next = this.takeNext();
+        if (!next) break;
+        next.start(); count++;
+      } while (this.jobs.length && count < (underPressure ? 1 : 8) && this.now() - started < budget);
       this.scheduleNext();
     });
   }

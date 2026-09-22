@@ -2890,6 +2890,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   loop.setUi(ui);
   loop.setFrameObserver((frameMs) => {
+    assets.reportFrame(frameMs);
     const next = adaptiveDistance.sample(frameMs, runtimePerformanceEnabled && debugReady
       && clientSettings.get().autoDrawDistance && !document.hidden && !clock.paused
       && store.get().player.regionId !== "gravelmaw",

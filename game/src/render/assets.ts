@@ -194,6 +194,7 @@ const ASSET_PRIORITY_RANK: Readonly<Record<AssetPriority, number>> = {
 
 const DEFAULT_ASSET_PRIORITY: AssetPriority = "background";
 const MAX_CONCURRENT_ASSET_LOADS = 8;
+const MEBIBYTE = 1024 * 1024;
 
 /** One registry's immutable external images; never changes Three's global file/image cache. */
 class CachedAssetImageLoader extends THREE.ImageBitmapLoader {
@@ -283,21 +284,30 @@ export class AssetTextureCache {
   }
 
   shareSources(roots: readonly THREE.Object3D[]): void {
+    for (const _ of this.shareSourceSteps(roots)) { /* Synchronous tooling and already-covered work. */ }
+  }
+
+  /** Each node and imported image can be prepared separately before the asset is published. */
+  *shareSourceSteps(roots: readonly THREE.Object3D[]): Generator<void, void> {
     const materials = new Set<THREE.Material>();
     const textures = new Set<THREE.Texture>();
-    for (const root of roots) {
-      root.traverse((node) => {
-        const mesh = node as THREE.Mesh;
-        if (!mesh.isMesh) return;
-        for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
-          if (material && !materials.has(material)) {
-            materials.add(material);
-            for (const value of Object.values(material)) {
-              if (value instanceof THREE.Texture) textures.add(value);
-            }
+    const visited = new Set<THREE.Object3D>();
+    const pending = [...roots];
+    while (pending.length) {
+      const node = pending.pop()!;
+      if (visited.has(node)) continue;
+      visited.add(node);
+      for (const child of node.children) pending.push(child);
+      const mesh = node as THREE.Mesh;
+      for (const material of !mesh.isMesh ? [] : Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+        if (material && !materials.has(material)) {
+          materials.add(material);
+          for (const value of Object.values(material)) {
+            if (value instanceof THREE.Texture) textures.add(value);
           }
         }
-      });
+      }
+      yield;
     }
     for (const texture of textures) {
       const bitmap = texture.source.data;
@@ -329,6 +339,7 @@ export class AssetTextureCache {
       // GLTFLoader already marked this fresh texture for upload. needsUpdate here would
       // increment the shared source version and reupload images used by earlier assets.
       texture.source = source;
+      yield;
     }
   }
 }
@@ -374,6 +385,7 @@ export class AssetRegistry {
   private primaryRetryCallbacks = new Set<PrimaryAssetRetryCallback>();
   private activeRegionId: string | null = null;
   private activeLoads = 0;
+  private readonly activeRequests = new Set<QueuedAssetLoad>();
   private gameplayActive = false;
   private readonly preparation = new GameplayWork();
 
@@ -382,6 +394,13 @@ export class AssetRegistry {
     this.gameplayActive = active;
     this.preparation.setInteractive(active);
     this.scheduleQueue();
+  }
+
+  /** Let background downloads and CPU preparation back off after a delayed gameplay frame. */
+  reportFrame(milliseconds: number): void {
+    if (!this.gameplayActive) return;
+    this.preparation.reportFrame(milliseconds);
+    if (this.queued.size) this.scheduleQueue();
   }
 
   /** Geometry assembly shares the same frame pacing as model decoding. */
@@ -630,6 +649,7 @@ export class AssetRegistry {
       if (!request) return;
       this.queued.delete(request.id);
       this.activeLoads += 1;
+      this.activeRequests.add(request);
       this.startQueuedLoad(request);
     }
   }
@@ -638,6 +658,7 @@ export class AssetRegistry {
     let best: QueuedAssetLoad | null = null;
     let bestRank = -1;
     for (const request of this.queued.values()) {
+      if (!this.canStart(request)) continue;
       const rank = ASSET_PRIORITY_RANK[this.effectivePriority(request)];
       if (rank > bestRank || (rank === bestRank && request.sequence < (best?.sequence ?? Infinity))) {
         best = request;
@@ -645,6 +666,35 @@ export class AssetRegistry {
       }
     }
     return best;
+  }
+
+  private estimatedBytes(request: QueuedAssetLoad): number {
+    // The manifest records uncompressed model bytes, also for compressed delivery. This bounds
+    // simultaneous model buffers, not the eventual texture/geometry residency of the world.
+    return Math.max(0, request.entry?.bytes ?? 0);
+  }
+
+  private canStart(request: QueuedAssetLoad): boolean {
+    let activeBytes = 0, optionalBytes = 0, optionalLoads = 0;
+    for (const active of this.activeRequests) {
+      const bytes = this.estimatedBytes(active);
+      activeBytes += bytes;
+      if (ASSET_PRIORITY_RANK[this.effectivePriority(active)] < 2) {
+        optionalBytes += bytes;
+        optionalLoads++;
+      }
+    }
+    const bytes = this.estimatedBytes(request);
+    const byteLimit = (this.gameplayActive ? 16 : 32) * MEBIBYTE;
+    // A single oversized model must still finish. It runs alone until its buffers publish.
+    if (this.activeLoads && activeBytes + bytes > byteLimit) return false;
+    if (this.gameplayActive && ASSET_PRIORITY_RANK[this.effectivePriority(request)] < 2) {
+      const optionalLimit = this.preparation.isUnderPressure() ? 1 : 2;
+      if (optionalLoads >= optionalLimit) return false;
+      // Leave two request slots and part of the byte budget for newly visible/player content.
+      if (optionalLoads && optionalBytes + bytes > 8 * MEBIBYTE) return false;
+    }
+    return true;
   }
 
   private effectivePriority(request: QueuedAssetLoad): AssetPriority {
@@ -707,9 +757,8 @@ export class AssetRegistry {
       group.name = id;
       if (surfaceTextures) applyCorealmSurfaceMaterials(group, surfaceTextures);
     }, this.priorityFor(request));
-    await this.preparation.run(() => {
-      this.textureCache.shareSources(gltf.scenes ?? [group]);
-    }, this.priorityFor(request));
+    await this.preparation.runSliced(this.textureCache.shareSourceSteps(gltf.scenes ?? [group]),
+      this.priorityFor(request));
     await this.preparation.run(() => {
       for (const clip of gltf.animations) {
         this.assetClips.set(`${id}:${clip.name}`, clip);
@@ -775,6 +824,7 @@ export class AssetRegistry {
       })
       .finally(() => {
         this.activeLoads -= 1;
+        this.activeRequests.delete(request);
         this.scheduleQueue();
       });
   }

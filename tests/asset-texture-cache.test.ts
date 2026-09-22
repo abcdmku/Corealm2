@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AssetTextureCache } from "../game/src/render/assets.js";
+import { GameplayWork } from "../game/src/render/gameplayWork.js";
 
 const PAGE_URL = "https://assets.example/game/index.html";
 const IMAGE_URL = "https://assets.example/game/assets/textures/imported/hash.png";
@@ -300,6 +301,25 @@ describe("AssetTextureCache image requests", () => {
 });
 
 describe("AssetTextureCache source sharing", () => {
+  it('slices large imported hierarchies without changing the resulting shared sources', async () => {
+    const cache = new AssetTextureCache();
+    const bitmap = new TestImageBitmap();
+    const textures = Array.from({ length: 600 }, () => texture(bitmap));
+    const root = sceneWith(...textures);
+    const frames: (() => void)[] = [];
+    let clock = 0, frameCount = 0;
+    const work = new GameplayWork(run => frames.push(run), () => clock += 0.01);
+    work.setInteractive(true);
+    const ready = work.runSliced(cache.shareSourceSteps([root, root]));
+    frames.shift()!(); frameCount++;
+    expect(frames.length).toBeGreaterThan(0);
+    while (frames.length) { frames.shift()!(); frameCount++; }
+    await ready;
+    expect(frameCount).toBeGreaterThan(1);
+    expect(new Set(textures.map(texture => texture.source)).size).toBe(1);
+    expect(textures.every(texture => texture.source.version === 1)).toBe(true);
+  });
+
   it("interns bitmap sources across nested material arrays without replacing textures or changing UV state", () => {
     const cache = new AssetTextureCache();
     const bitmap = new TestImageBitmap();

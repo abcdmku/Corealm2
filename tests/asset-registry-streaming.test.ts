@@ -147,7 +147,7 @@ describe("AssetRegistry streaming", () => {
     registry.setGameplayActive(true);
     const requests = ids.map(id => registry.load(id));
     await flushQueue();
-    expect(registry.getLoadStats()).toMatchObject({inflight:4, queued:16});
+    expect(registry.getLoadStats()).toMatchObject({inflight:2, queued:18});
     registry.setGameplayActive(false); await flushQueue();
     expect(registry.getLoadStats()).toMatchObject({inflight:16, queued:4});
     for (let turn = 0; turn < 12 && registry.getLoadStats().loaded < ids.length; turn += 1) {
@@ -156,6 +156,48 @@ describe("AssetRegistry streaming", () => {
     }
     await Promise.all(requests);
     expect(registry.getLoadStats()).toMatchObject({loaded:20, failed:0});
+  });
+
+  it('reserves gameplay capacity for visible content while background requests are waiting', async () => {
+    const pending = new Map<string, Deferred<FakeGltf>>();
+    const registry = await registryWith(['far-a', 'far-b', 'far-c', 'near', 'player'], async url => {
+      const id = assetIdFromUrl(url), request = deferred<FakeGltf>();
+      pending.set(id, request); return request.promise;
+    });
+    registry.setGameplayActive(true);
+    const requests = ['far-a', 'far-b', 'far-c'].map(id => registry.load(id));
+    await flushQueue();
+    expect([...pending.keys()]).toEqual(['far-a', 'far-b']);
+    requests.push(registry.load('near', { priority: 'visible-spawn' }));
+    requests.push(registry.load('player', { priority: 'player' }));
+    await flushQueue();
+    expect([...pending.keys()]).toEqual(['far-a', 'far-b', 'player', 'near']);
+    registry.setGameplayActive(false);
+    await flushQueue();
+    for (const [id, request] of pending) request.resolve(gltf(id));
+    await Promise.all(requests);
+  });
+
+  it('bounds outstanding model bytes and permits one oversized model to finish', async () => {
+    const pending = new Map<string, Deferred<FakeGltf>>();
+    const registry = await registryWith(['large-a', 'large-b', 'small', 'oversized'], async url => {
+      const id = assetIdFromUrl(url), request = deferred<FakeGltf>();
+      pending.set(id, request); return request.promise;
+    });
+    for (const id of ['large-a', 'large-b']) registry.entry(id)!.bytes = 20 * 1024 * 1024;
+    registry.entry('oversized')!.bytes = 40 * 1024 * 1024;
+    const requests = ['large-a', 'large-b', 'small', 'oversized'].map(id => registry.load(id));
+    await flushQueue();
+    expect([...pending.keys()]).toEqual(['large-a', 'small']);
+    pending.get('large-a')!.resolve(gltf('large-a'));
+    pending.get('small')!.resolve(gltf('small'));
+    await flushQueue();
+    expect([...pending.keys()]).toEqual(['large-a', 'small', 'large-b']);
+    pending.get('large-b')!.resolve(gltf('large-b'));
+    await flushQueue();
+    expect([...pending.keys()]).toEqual(['large-a', 'small', 'large-b', 'oversized']);
+    pending.get('oversized')!.resolve(gltf('oversized'));
+    await Promise.all(requests);
   });
 
   it("does not begin raw GLB parsing inline when gameplay is active", async () => {
