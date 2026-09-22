@@ -1,8 +1,8 @@
 import { describe, expect as vitestExpect, it } from "vitest";
 import { Color, MeshBasicMaterial, MeshPhysicalMaterial, MeshStandardMaterial, ShaderMaterial, Texture } from "three";
-import { MeshBasicNodeMaterial, MeshPhysicalNodeMaterial, MeshStandardNodeMaterial, type Node } from "three/webgpu";
+import { MaterialNode, MaterialReferenceNode, MeshBasicNodeMaterial, MeshPhysicalNodeMaterial, MeshStandardNodeMaterial, NodeMaterial, type Node } from "three/webgpu";
 import { materialColor, materialOpacity, positionLocal, uniform, vec3 as tslVec3 } from "three/tsl";
-import { cloneNodeMaterial, composeSurface, ensureNodeMaterial, surfaceNodes } from "../game/src/render/nodeMaterials.js";
+import { cloneNodeMaterial, composeSurface, ensureNodeMaterial, sourceMaterialNode, sourceMaterialReference, surfaceColorNode, surfaceNodes } from "../game/src/render/nodeMaterials.js";
 
 // Vitest's generic assertion types need not expand the recursive TSL graph types.
 const expect = (value: unknown) => vitestExpect(value);
@@ -100,14 +100,14 @@ describe("node material conversion", () => {
 
   it("composes effects over snapshots of all channels without overwriting preceding effects", () => {
     const material = new MeshStandardNodeMaterial();
-    expect(referencesInput(surfaceNodes(material).color, materialColor)).toBe(true);
-    expect(surfaceNodes(material).opacity).toBe(materialOpacity);
+    expect(referencesInput(surfaceNodes(material).color, sourceMaterialNode(material, MaterialNode.COLOR))).toBe(true);
+    expect(surfaceNodes(material).opacity).toBe(sourceMaterialNode(material, MaterialNode.OPACITY));
     expect(surfaceNodes(material).position).toBe(positionLocal);
-    const tint = materialColor.mul(0.8);
-    const firstOpacity = materialOpacity.mul(0.8);
+    const tint = sourceMaterialNode<"vec3">(material, MaterialNode.COLOR).mul(0.8);
+    const firstOpacity = sourceMaterialNode<"float">(material, MaterialNode.OPACITY).mul(0.8);
     expect(composeSurface(material, {
-      color: previous => { expect(referencesInput(previous, materialColor)).toBe(true); return tint; },
-      opacity: previous => { expect(previous).toBe(materialOpacity); return firstOpacity; },
+      color: previous => { expect(referencesInput(previous, sourceMaterialNode(material, MaterialNode.COLOR))).toBe(true); return tint; },
+      opacity: previous => { expect(previous).toBe(sourceMaterialNode(material, MaterialNode.OPACITY)); return firstOpacity; },
     })).toBe(material);
     const firstColor = material.colorNode;
     let nextOpacity = firstOpacity;
@@ -138,7 +138,54 @@ describe("node material conversion", () => {
     }
     const channels = (joined as { nodes: unknown[] }).nodes;
     expect(channels[0]).toBe(recolored);
-    expect(referencesInput(channels[1], materialColor)).toBe(true);
-    expect(surfaceNodes(material).opacity).toBe(materialOpacity);
+    expect(referencesInput(channels[1], sourceMaterialNode(material, MaterialNode.COLOR))).toBe(true);
+    expect(surfaceNodes(material).opacity).toBe(sourceMaterialNode(material, MaterialNode.OPACITY));
   });
+});
+
+
+it("keeps surface color, opacity and mapped alpha on the actual source during shadow overrides", () => {
+  const original = new MeshStandardNodeMaterial({ color: 0x123456, map: new Texture(), opacity: .7 });
+  composeSurface(original, { color: previous => previous.mul(.8) });
+  const clone = cloneNodeMaterial(original);
+  clone.color.set(0xff0000); clone.opacity = .3; clone.map = new Texture();
+  const shadow = new NodeMaterial() as NodeMaterial & { isShadowPassMaterial: boolean };
+  shadow.isShadowPassMaterial = true;
+  type PropertyNode = Node & { getCache(property: string, type: string): MaterialReferenceNode };
+  const color = sourceMaterialNode(original, MaterialNode.COLOR) as PropertyNode;
+  for (const [property, type, expected] of [
+    ["color", "color", clone.color], ["map", "texture", clone.map], ["opacity", "float", .3],
+  ] as const) {
+    const reference = color.getCache(property, type);
+    reference.updateReference({ material: shadow, renderer: { _currentSourceMaterial: clone } } as never);
+    expect(reference.reference).toBe(clone);
+    expect((reference.reference as unknown as Record<string, unknown>)[property]).toBe(expected);
+    // Asynchronous compilation can run after the override context is restored.
+    reference.updateReference({ material: shadow, renderer: {} } as never);
+    expect(reference.reference).toBe(original);
+    reference.updateReference({ material: clone, renderer: {} } as never);
+    expect(reference.reference).toBe(clone);
+  }
+  expect(clone.colorNode).toBe(original.colorNode);
+  expect(surfaceColorNode(original)).toBeTruthy();
+});
+
+
+it("reads raw custom properties from each clone without applying the surface map", () => {
+  const owner = new MeshStandardNodeMaterial({ map: new Texture(), color: 0x123456 }) as MeshStandardNodeMaterial & { shimmer: number };
+  owner.shimmer = .2;
+  const clone = cloneNodeMaterial(owner) as MeshStandardNodeMaterial & { shimmer: number };
+  clone.shimmer = .9; clone.color.set(0xff0000);
+  const shadow = new NodeMaterial() as NodeMaterial & { isShadowPassMaterial: boolean };
+  shadow.isShadowPassMaterial = true;
+  const raw = sourceMaterialReference<"float">(owner, "shimmer", "float") as unknown as MaterialReferenceNode;
+  const color = sourceMaterialReference<"color">(owner, "color", "color") as unknown as MaterialReferenceNode;
+  for (const reference of [raw, color]) {
+    reference.updateReference({ material: shadow, renderer: { _currentSourceMaterial: clone } } as never);
+    expect(reference.reference).toBe(clone);
+  }
+  expect((raw.reference as typeof clone).shimmer).toBe(.9);
+  expect((color.reference as typeof clone).color).toBe(clone.color);
+  expect(raw.property).toBe("shimmer"); expect(color.property).toBe("color");
+  expect(sourceMaterialReference(owner, "color", "color")).toBe(color);
 });

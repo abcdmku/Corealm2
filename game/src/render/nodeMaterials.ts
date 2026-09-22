@@ -5,18 +5,14 @@ import {
   MeshStandardMaterial,
 } from "three";
 import {
+  MaterialNode,
+  MaterialReferenceNode,
   MeshBasicNodeMaterial,
   MeshPhysicalNodeMaterial,
   MeshStandardNodeMaterial,
   type Node,
 } from "three/webgpu";
 import {
-  materialColor,
-  materialEmissive,
-  materialMetalness,
-  materialNormal,
-  materialOpacity,
-  materialRoughness,
   positionLocal,
   vec3,
   vec4,
@@ -117,25 +113,85 @@ export function cloneNodeMaterial(source: Material): SurfaceNodeMaterial {
   return clone;
 }
 
+type MaterialScope = ConstructorParameters<typeof MaterialNode>[0];
+type SourceState = { material?: Material | null; renderer?: { _currentSourceMaterial?: Material | null } };
+
+function sourceMaterial(state: SourceState, owner: SurfaceNodeMaterial): Material {
+  // Three retains the exact source during override draws, including multi-material meshes.
+  // A shadow's bare NodeMaterial does not own the surface colour, maps or opacity.
+  const source = state.renderer?._currentSourceMaterial;
+  if (source) return source;
+  const material = state.material as (Material & { isShadowPassMaterial?: boolean }) | null | undefined;
+  return material && !material.isShadowPassMaterial ? material : owner;
+}
+
+const sourceReferences = new WeakMap<SurfaceNodeMaterial, Map<string, MaterialReferenceNode>>();
+
+/** Read a raw surface property without applying maps or another material transform. */
+export function sourceMaterialReference<TNodeType>(
+  material: SurfaceNodeMaterial, property: string, type: string,
+): Node<TNodeType> {
+  let references = sourceReferences.get(material);
+  if (!references) { references = new Map(); sourceReferences.set(material, references); }
+  const key = `${property}:${type}`;
+  let reference = references.get(key);
+  if (!reference) {
+    reference = new MaterialReferenceNode(property, type, material).onReference(function(state) {
+      this.reference = sourceMaterial(state as unknown as SourceState, material);
+      return this.reference;
+    });
+    references.set(key, reference);
+  }
+  return reference as unknown as Node<TNodeType>;
+}
+
+const sourceNodes = new WeakMap<SurfaceNodeMaterial, Map<MaterialScope, Node>>();
+
+/** Material properties that remain attached to the drawn surface through native shadow overrides.
+ * References stay draw-specific so clones can share a graph while changing colour/map/opacity. */
+export function sourceMaterialNode<TNodeType>(material: SurfaceNodeMaterial, scope: MaterialScope): Node<TNodeType> {
+  let nodes = sourceNodes.get(material);
+  if (!nodes) { nodes = new Map(); sourceNodes.set(material, nodes); }
+  const cached = nodes.get(scope);
+  if (cached) return cached as Node<TNodeType>;
+  const node = new MaterialNode<TNodeType>(scope) as MaterialNode<TNodeType> & {
+    getCache(property: string, type: string): MaterialReferenceNode;
+  };
+  node.getCache = (property, type) => sourceMaterialReference(material, property, type) as unknown as MaterialReferenceNode;
+  const setup = node.setup;
+  node.setup = function(builder) {
+    const context = builder.context as { material?: Material };
+    const previous = context.material;
+    context.material = sourceMaterial(builder as unknown as SourceState, material);
+    try { return setup.call(this, builder); }
+    finally { context.material = previous; }
+  };
+  nodes.set(scope, node);
+  return node;
+}
+
+/** Includes texture alpha, which the shadow pipeline also samples for cutout surfaces. */
+export function surfaceColorNode(material: SurfaceNodeMaterial): Node<"vec4"> {
+  return rgbaNode(material.colorNode ?? sourceMaterialNode<"vec4">(material, MaterialNode.COLOR));
+}
+
 /** Snapshot the current graph inputs before adding another material effect. */
 export function surfaceNodes(material: SurfaceNodeMaterial): SurfaceNodes {
   const lit = material as MeshStandardNodeMaterial;
   return {
-    // materialColor has a vec3 declaration but produces vec4 when a map exists.
-    // Color transforms operate on RGB; composeSurface retains the original alpha.
-    color: rgbNode(material.colorNode ?? materialColor),
-    opacity: (material.opacityNode ?? materialOpacity) as Node<"float">,
-    normal: (material.normalNode ?? materialNormal) as Node<"vec3">,
-    roughness: (lit.roughnessNode ?? materialRoughness) as Node<"float">,
-    metalness: (lit.metalnessNode ?? materialMetalness) as Node<"float">,
-    emissive: (lit.emissiveNode ?? materialEmissive) as Node<"vec3">,
+    color: rgbNode(surfaceColorNode(material)),
+    opacity: (material.opacityNode ?? sourceMaterialNode<"float">(material, MaterialNode.OPACITY)) as Node<"float">,
+    normal: (material.normalNode ?? sourceMaterialNode<"vec3">(material, MaterialNode.NORMAL)) as Node<"vec3">,
+    roughness: (lit.roughnessNode ?? sourceMaterialNode<"float">(material, MaterialNode.ROUGHNESS)) as Node<"float">,
+    metalness: (lit.metalnessNode ?? sourceMaterialNode<"float">(material, MaterialNode.METALNESS)) as Node<"float">,
+    emissive: (lit.emissiveNode ?? sourceMaterialNode<"vec3">(material, MaterialNode.EMISSIVE)) as Node<"vec3">,
     position: (material.positionNode ?? positionLocal) as Node<"vec3">,
   };
 }
 
 export function composeSurface<T extends SurfaceNodeMaterial>(material: T, transforms: SurfaceTransforms): T {
   const previous = surfaceNodes(material);
-  const previousAlpha = rgbaNode(material.colorNode ?? materialColor).a;
+  const previousAlpha = surfaceColorNode(material).a;
   const lit = material as MeshStandardNodeMaterial;
   if (transforms.color) material.colorNode = rgbaNode(transforms.color(previous.color), previousAlpha);
   if (transforms.opacity) material.opacityNode = transforms.opacity(previous.opacity);

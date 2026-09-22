@@ -392,7 +392,7 @@ export class Renderer {
     // Fog and the sky meet in display space. The HDR world is tone mapped later, so
     // compensate the fog colour once in the node graph instead of changing its public palette.
     this.scene.fogNode = fogNode(
-      inverseACES(uniform(fog.color), uniform(1).onRenderUpdate(() => this.renderer.toneMappingExposure)),
+      inverseACES(uniform(fog.color).rgb, uniform(1).onRenderUpdate(() => this.renderer.toneMappingExposure)),
       rangeFogFactor(uniform(fog.near).onRenderUpdate(() => fog.near),
         uniform(fog.far).onRenderUpdate(() => fog.far))
         .mul(uniform(1).onRenderUpdate(() => this.scene.fog ? 1 : 0)),
