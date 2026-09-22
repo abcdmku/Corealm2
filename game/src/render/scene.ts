@@ -32,6 +32,9 @@ import { captureGeometry, restoreGeometry, validTerrainCache, validGeometry, typ
  * This file owns no gameplay state. It reads geometry parameters and draws.
  */
 import * as THREE from "three";
+import { type MeshStandardNodeMaterial, type Node } from "three/webgpu";
+import { abs, clamp as clampNode, cross, dFdx, dFdy, dot, floor, fract, mix, normalize, positionView, positionWorld, sign, sin, vec3 } from "three/tsl";
+import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
 import { createGrassBladeGeometry } from "./grassBlades.js";
 import type { WorldSite } from "../content/worldSites.js";
 import { applyWorldSiteTerrain, worldSiteWorkFloorWeight } from "../world/siteTerrain.js";
@@ -2995,10 +2998,6 @@ export class WorldScene {
       const instanced = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
       instanced.name = `${name}-${index}`;
       instanced.castShadow = options.castShadow ?? true;
-      if (part.windStrength > 0) {
-        instanced.customDepthMaterial = this.materials.windShadow(part.material, part.windStrength, "depth");
-        instanced.customDistanceMaterial = this.materials.windShadow(part.material, part.windStrength, "distance");
-      }
       instanced.receiveShadow = true;
       instanced.frustumCulled = true;
       // The object stays at identity; placement and wind live in instance data/shaders.
@@ -3385,7 +3384,7 @@ export class WorldScene {
  * composition it owns off the platformer rocks, but `content/regions.ts` still names
  * `boulder_large` as the Great Cairn's hero mesh and `boulder_medium` as the Thornline Stones'.
  */
-const STONE_DETAIL_CACHE = new WeakMap<THREE.Material, THREE.MeshStandardMaterial>();
+const STONE_DETAIL_CACHE = new WeakMap<THREE.Material, MeshStandardNodeMaterial>();
 
 /**
  * The neutral the flat platformer brown is pulled toward, and how far.
@@ -3400,103 +3399,46 @@ const STONE_TINT_MIX = 0.75;
 /** How hard the noise gradient bends the normal. 2.6 was read off the crags at 20-30 m, not close up. */
 const STONE_BUMP_SCALE = 2.6;
 
-const STONE_SHARED_HEADER = /* glsl */ `
-varying vec3 vStoneWorld;
-`;
-
-const STONE_VERTEX_BODY = /* glsl */ `
-{
-  // 'transformed' is still the object-space position after <project_vertex>; this repeats that
-  // chunk's own instancing and batching steps rather than trying to invert the view matrix, which
-  // GLSL ES 1.00 has no inverse() for.
-  vec4 stoneObject = vec4( transformed, 1.0 );
-  #ifdef USE_BATCHING
-    stoneObject = batchingMatrix * stoneObject;
-  #endif
-  #ifdef USE_INSTANCING
-    stoneObject = instanceMatrix * stoneObject;
-  #endif
-  vStoneWorld = ( modelMatrix * stoneObject ).xyz;
-}
-`;
-
-const STONE_FRAGMENT_HEADER = /* glsl */ `
-float gStoneRelief = 0.0;
-
-float stoneHash( vec3 p ) {
-  p = fract( p * 0.3183099 + vec3( 0.71, 0.113, 0.419 ) );
-  p *= 17.0;
-  return fract( p.x * p.y * p.z * ( p.x + p.y + p.z ) );
+function stoneHashNode(point: Node<"vec3">): Node<"float"> {
+  const p = fract(point.mul(.3183099).add(vec3(.71, .113, .419))).mul(17);
+  return fract(p.x.mul(p.y).mul(p.z).mul(p.x.add(p.y).add(p.z)));
 }
 
-float stoneNoise( vec3 x ) {
-  vec3 i = floor( x );
-  vec3 f = fract( x );
-  f = f * f * ( 3.0 - 2.0 * f );
-  return mix(
-    mix( mix( stoneHash( i + vec3( 0.0, 0.0, 0.0 ) ), stoneHash( i + vec3( 1.0, 0.0, 0.0 ) ), f.x ),
-         mix( stoneHash( i + vec3( 0.0, 1.0, 0.0 ) ), stoneHash( i + vec3( 1.0, 1.0, 0.0 ) ), f.x ), f.y ),
-    mix( mix( stoneHash( i + vec3( 0.0, 0.0, 1.0 ) ), stoneHash( i + vec3( 1.0, 0.0, 1.0 ) ), f.x ),
-         mix( stoneHash( i + vec3( 0.0, 1.0, 1.0 ) ), stoneHash( i + vec3( 1.0, 1.0, 1.0 ) ), f.x ), f.y ), f.z );
+function stoneNoiseNode(point: Node<"vec3">): Node<"float"> {
+  const i = floor(point), raw = fract(point), f = raw.mul(raw).mul(raw.mul(-2).add(3));
+  const h = (x: number, y: number, z: number) => stoneHashNode(i.add(vec3(x, y, z)));
+  return mix(mix(mix(h(0,0,0), h(1,0,0), f.x), mix(h(0,1,0), h(1,1,0), f.x), f.y),
+    mix(mix(h(0,0,1), h(1,0,1), f.x), mix(h(0,1,1), h(1,1,1), f.x), f.y), f.z);
 }
-`;
-
-const STONE_COLOUR_BODY = /* glsl */ `
-{
-  // 0.53 m and 2.4 m features, plus a bedding term in world Y warped by the coarse octave. The
-  // bedding is what makes a 9 m crag read as rock rather than as noise sprayed on a cone.
-  float fine = stoneNoise( vStoneWorld * 1.9 );
-  float coarse = stoneNoise( vStoneWorld * 0.42 );
-  float bedding = sin( vStoneWorld.y * 2.1 + coarse * 6.28 );
-  gStoneRelief = fine * 0.55 + coarse * 0.45 + bedding * 0.13;
-  diffuseColor.rgb *= 0.74 + 0.52 * gStoneRelief;
-}
-`;
-
-const STONE_ROUGHNESS_BODY = /* glsl */ `
-roughnessFactor = clamp( roughnessFactor * ( 0.86 + 0.26 * gStoneRelief ), 0.2, 1.0 );
-`;
-
-const STONE_NORMAL_BODY = /* glsl */ `
-{
-  vec2 dHdxy = vec2( dFdx( gStoneRelief ), dFdy( gStoneRelief ) ) * ${STONE_BUMP_SCALE.toFixed(1)};
-  vec3 sigmaX = normalize( dFdx( - vViewPosition ) );
-  vec3 sigmaY = normalize( dFdy( - vViewPosition ) );
-  vec3 r1 = cross( sigmaY, normal );
-  vec3 r2 = cross( normal, sigmaX );
-  float det = dot( sigmaX, r1 );
-  normal = normalize( abs( det ) * normal - sign( det ) * ( dHdxy.x * r1 + dHdxy.y * r2 ) );
-}
-`;
 
 /** True when a (geometry, material) pair has no UV set and no base-colour map to sample with one. */
 export function needsStoneDetail(geometry: THREE.BufferGeometry, material: THREE.Material): boolean {
   if (geometry.getAttribute("uv") !== undefined) return false;
   const standard = material as THREE.MeshStandardMaterial;
-  return standard.isMeshStandardMaterial === true && standard.map === null;
+  return (standard.isMeshStandardMaterial === true || (material as MeshStandardNodeMaterial).isMeshStandardNodeMaterial === true) && standard.map === null;
 }
 
 /** The derived material for one untextured source material. Cached, so the program compiles once. */
-export function stoneDetail(source: THREE.Material): THREE.MeshStandardMaterial {
+export function stoneDetail(source: THREE.Material): MeshStandardNodeMaterial {
   const cached = STONE_DETAIL_CACHE.get(source);
   if (cached) return cached;
-
-  const derived = (source as THREE.MeshStandardMaterial).clone();
+  const derived = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
   derived.name = `${source.name || "stone"}-detail`;
   derived.color.lerp(new THREE.Color(STONE_TINT), STONE_TINT_MIX);
-  // Required: without a cache key of its own, three keys the program on the material's PROPERTIES,
-  // so an untouched copy of the same GLB material would be handed this one's compiled program.
-  derived.customProgramCacheKey = () => "corealm-stone-detail-v1";
-  derived.onBeforeCompile = (shader) => {
-    shader.vertexShader = `${STONE_SHARED_HEADER}\n${shader.vertexShader}`.replace(
-      "#include <project_vertex>",
-      `#include <project_vertex>\n${STONE_VERTEX_BODY}`,
-    );
-    shader.fragmentShader = `${STONE_SHARED_HEADER}${STONE_FRAGMENT_HEADER}\n${shader.fragmentShader}`
-      .replace("#include <color_fragment>", `#include <color_fragment>\n${STONE_COLOUR_BODY}`)
-      .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\n${STONE_ROUGHNESS_BODY}`)
-      .replace("#include <normal_fragment_maps>", `#include <normal_fragment_maps>\n${STONE_NORMAL_BODY}`);
-  };
+  const fine = stoneNoiseNode(positionWorld.mul(1.9));
+  const coarse = stoneNoiseNode(positionWorld.mul(.42));
+  const bedding = sin(positionWorld.y.mul(2.1).add(coarse.mul(6.28)));
+  const relief = fine.mul(.55).add(coarse.mul(.45)).add(bedding.mul(.13));
+  composeSurface(derived, {
+    color: previous => previous.mul(relief.mul(.52).add(.74)),
+    roughness: previous => clampNode(previous.mul(relief.mul(.26).add(.86)), .2, 1),
+    normal: previous => {
+      const sx = normalize(dFdx(positionView)), sy = normalize(dFdy(positionView));
+      const r1 = cross(sy, previous), r2 = cross(previous, sx), det = dot(sx, r1);
+      const gradient = r1.mul(dFdx(relief)).add(r2.mul(dFdy(relief))).mul(STONE_BUMP_SCALE);
+      return normalize(previous.mul(abs(det)).sub(gradient.mul(sign(det))));
+    },
+  });
   STONE_DETAIL_CACHE.set(source, derived);
   return derived;
 }

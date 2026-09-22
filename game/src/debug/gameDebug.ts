@@ -347,6 +347,7 @@ export function installGameDebug(deps: DebugDeps): void {
     getPerformanceTimings(): Record<string, unknown> {
       return renderer.getPerformanceTimings();
     },
+    getGraphicsBackendState() { return renderer.getBackendState(); },
     getPresentationState() { return renderer.getPresentationState(); },
     getMagicGlowState() {
       return renderer.magicGlow.snapshot();
@@ -579,17 +580,13 @@ export function installGameDebug(deps: DebugDeps): void {
     /** Measure actual GPU submissions in one frame, including its shadow pass. */
     getRenderProfile(namePrefix?: string): unknown {
       const gpu = renderer.renderer;
-      const original = gpu.renderBufferDirect;
-      const gl = gpu.getContext();
+      const originalRenderObject = gpu.getRenderObjectFunction();
       const rows = new Map<string, { name: string; pass: string; calls: number; triangles: number;
         objects: number[]; targets: string[]; materials: { name: string; uuid: string; transparent: boolean; opacity: number; side: number; forceSinglePass: boolean; transmission: number;
           alphaTest: number; alphaToCoverage: boolean; coverageSamples: number; mapMinFilter: number | null; mapAnisotropy: number | null;
           leafAssociatedColour: boolean; mapUuid: string | null }[] }>();
-      gpu.renderBufferDirect = function (camera, scene, geometry, material, object, group) {
-        const calls = gpu.info.render.calls;
-        const triangles = gpu.info.render.triangles;
-        original.call(this, camera, scene, geometry, material, object, group);
-        const submitted = gpu.info.render.calls - calls;
+      const record = (object: THREE.Object3D, camera: THREE.Camera, material: THREE.Material,
+        submitted: number, triangles: number): void => {
         if (!submitted) return;
         const name = object.name || object.parent?.name || object.type;
         const target = gpu.getRenderTarget();
@@ -599,7 +596,7 @@ export function installGameDebug(deps: DebugDeps): void {
         const key = `${pass}:${name}`;
         const row = rows.get(key) ?? { name, pass, calls: 0, triangles: 0, objects: [], targets: [], materials: [] };
         row.calls += submitted;
-        row.triangles += gpu.info.render.triangles - triangles;
+        row.triangles += triangles;
         if (!row.objects.includes(object.id)) row.objects.push(object.id);
         const targetId = target?.texture.uuid ?? "canvas";
         if (!row.targets.includes(targetId)) row.targets.push(targetId);
@@ -608,7 +605,7 @@ export function installGameDebug(deps: DebugDeps): void {
           opacity: material.opacity, side: material.side, forceSinglePass: material.forceSinglePass,
           transmission: (material as THREE.MeshPhysicalMaterial).transmission ?? 0,
           alphaTest: material.alphaTest, alphaToCoverage: material.alphaToCoverage,
-          coverageSamples: gl.isEnabled(gl.SAMPLE_ALPHA_TO_COVERAGE) ? Number(gl.getParameter(gl.SAMPLES)) : 0,
+          coverageSamples: material.alphaToCoverage ? gpu.currentSamples : 0,
           mapMinFilter: (material as THREE.MeshStandardMaterial).map?.minFilter ?? null,
           mapAnisotropy: (material as THREE.MeshStandardMaterial).map?.anisotropy ?? null,
           leafAssociatedColour: (material as THREE.MeshStandardMaterial).map?.userData.leafAssociatedColour === true,
@@ -616,17 +613,56 @@ export function installGameDebug(deps: DebugDeps): void {
         });
         rows.set(key, row);
       };
+      const restore: (() => void)[] = [];
+      const instrumented = new Set<THREE.Object3D>();
+      const submissions: { object: THREE.Object3D; calls: number; triangles: number;
+        nestedCalls: number; nestedTriangles: number }[] = [];
+      const instrument = (object: THREE.Object3D): void => {
+        if (instrumented.has(object)) return;
+        instrumented.add(object);
+        const before = object.onBeforeRender;
+        const after = object.onAfterRender;
+        object.onBeforeRender = function (...args) {
+          before.apply(this, args);
+          submissions.push({ object: this, calls: gpu.info.render.drawCalls,
+            triangles: gpu.info.render.triangles, nestedCalls: 0, nestedTriangles: 0 });
+        };
+        object.onAfterRender = function (...args) {
+          const submission = submissions.pop();
+          if (submission?.object === this) {
+            const calls = gpu.info.render.drawCalls - submission.calls;
+            const triangles = gpu.info.render.triangles - submission.triangles;
+            // Node updates may render nested passes. Attribute those to their own objects,
+            // never to the outer object's material just because its callback began first.
+            const parent = submissions.at(-1);
+            if (parent) { parent.nestedCalls += calls; parent.nestedTriangles += triangles; }
+            record(this, args[2], args[4], calls - submission.nestedCalls, triangles - submission.nestedTriangles);
+          }
+          after.apply(this, args);
+        };
+        restore.push(() => { object.onBeforeRender = before; object.onAfterRender = after; });
+      };
+      // ShadowNode installs its own render-object hook, so scene callbacks cover shadow draws.
+      // The public hook additionally discovers fullscreen/effect objects outside the main scene.
+      // Neither path counts a resident, culled or zero-range object without actual draw deltas.
+      renderer.scene.traverse(instrument);
+      gpu.setRenderObjectFunction((...args) => {
+        instrument(args[0]);
+        if (originalRenderObject) originalRenderObject.call(gpu, ...args);
+        else gpu.renderObject(...args);
+      });
       try {
         renderer.camera.updateMatrixWorld();
         renderer.prepareScene?.(renderer.camera);
         renderer.drawFrame();
       } finally {
-        gpu.renderBufferDirect = original;
+        gpu.setRenderObjectFunction(originalRenderObject);
+        for (const reset of restore) reset();
       }
       const draws = [...rows.values()].sort((a, b) => b.triangles - a.triangles);
       const transmissiveCandidates: Record<string, unknown>[] = [];
       const cameraFrustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4()
-        .multiplyMatrices(renderer.camera.projectionMatrix, renderer.camera.matrixWorldInverse));
+        .multiplyMatrices(renderer.camera.projectionMatrix, renderer.camera.matrixWorldInverse), renderer.camera.coordinateSystem);
       renderer.scene.traverseVisible(object => {
         const mesh = object as THREE.Mesh;
         if (!mesh.isMesh || !object.layers.test(renderer.camera.layers)) return;
@@ -650,6 +686,7 @@ export function installGameDebug(deps: DebugDeps): void {
             transmission: (material as THREE.MeshPhysicalMaterial).transmission })) });
       });
       return {
+        backend: renderer.getBackendState(),
         calls: draws.reduce((sum, row) => sum + row.calls, 0),
         triangles: draws.reduce((sum, row) => sum + row.triangles, 0),
         passes: Object.fromEntries(["colour", "colour-offscreen", "shadow", "postprocess", "depth-only"].map((pass) => {
@@ -672,8 +709,7 @@ export function installGameDebug(deps: DebugDeps): void {
         throw new Error("Contribution capture requires an existing transmissive mesh");
       }
       const visible = object.visible;
-      const draw = () => { renderer.prepareScene?.(renderer.camera); renderer.renderer.render(renderer.scene, renderer.camera);
-        return renderer.renderer.domElement.toDataURL("image/png"); };
+      const draw = () => renderer.captureFrame();
       // One synchronous call: no simulation, animation or wind update can run between images.
       try {
         object.visible = true;
