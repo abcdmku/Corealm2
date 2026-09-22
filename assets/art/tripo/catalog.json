@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "generator": "Tripo Studio / GPT Image 2.5",
+  "created": "2026-09-22",
+  "direction": "Appealing living medieval fantasy, natural faces and layered painted textures. No science fiction, superhero faceplates, or mechanical anatomy. Skeletal anatomy is reserved for undead species. Wizard sets use pointed cloth hats. Low-tier martial armor stays plain.",
+  "assets": [
+    {
+      "id": "novice-wizard",
+      "kind": "armor-reference",
+      "tier": 1,
+      "style": "magic",
+      "itemIds": ["marchhide_hood", "marchhide_robe", "marchhide_leggings", "marchhide_wraps", "marchhide_boots"],
+      "file": "references/novice-wizard.png",
+      "sha256": "86fca58087c784ff22df3bf6f138fda22d39ad31d6b0bd384b00ec11a4f04717",
+      "sourceImageId": "620d7dd2-72dc-4e79-9631-bc50ad9c9ddd",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/620d7dd2-72dc-4e79-9631-bc50ad9c9ddd/image.png",
+      "prompt": "Marchweave novice robes. Craftable tier 1 wizard clothing set. A classic soft broad-brim pointed wizard hat, slightly bent tip, plain blue wool band and one modest brass buckle. Blue-gray wool robe with comfortable narrow sleeves, warm cream linen lining, brown leather belt, plain leather gloves and ankle boots, dark trousers visible through split robe hem. Very simple low-level medieval village wizard, no armor plates, no huge shoulders, no gems. Presented as clothing worn by an invisible person, empty hat and collar, sleeves held in relaxed A-pose, no visible human body, no staff. Hand-painted wool weave, stitched seams, worn leather grain and small repaired patches. One single full-body asset, centered three-quarter front view, all limbs and feet separated and visible, plain warm gray background, no floor base, no lettering, no collage or additional views. Hand-painted classic medieval fantasy RPG art, soft natural rounded forms, earthy layered textured surfaces, readable game silhouette, efficient broad geometry. Absolutely no sci-fi, robots, Iron Man, superhero designs, angular faceplates, geometric visor eyes, mechanical joints, powered armor, glowing circuitry or chest reactors.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Pointed soft hat, restrained cloth silhouette, gloves and boots visible, no faceplate or large pauldrons. This is a design source, not a published inventory icon.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": { "generation": "parts-balanced", "topology": "triangles", "maxTrianglesPerPart": 5000, "smartUv": true, "textures": true, "rigging": true }
+    }
+  ]
+}
