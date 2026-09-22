@@ -1,0 +1,24 @@
+{
+  "output": "assets/art/tripo/imports/creatures/fallow-brute-t1",
+  "entries": [
+    {
+      "id": "creature_boss_galeskin",
+      "name": "Fallow Brute",
+      "source": "assets/art/tripo/exports/corealm_fallow_brute_37458f5d_8k_rigged.glb",
+      "expectedSourceSha256": "2adabf7f9db7a767db9e0760389edd191ac74ad1b454a121d94f19b9875b1503",
+      "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+      "modelId": "37458f5d-edc4-443d-97f8-dad5716de47b",
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
+      },
+      "heightMeters": 2.8,
+      "yawDegrees": 0,
+      "orientationVerified": true,
+      "requirePbrMaps": false,
+      "retargetHumanoid": true,
+      "repairHumanoidWeights": true,
+      "geometryBasisDegrees": 90
+    }
+  ]
+}

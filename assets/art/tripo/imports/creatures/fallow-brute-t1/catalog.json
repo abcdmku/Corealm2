@@ -1,0 +1,770 @@
+{
+  "assets": [
+    {
+      "id": "creature_boss_galeskin",
+      "file": "models/creature/creature_boss_galeskin.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Fallow Brute",
+      "tags": [
+        "creature",
+        "tripo"
+      ],
+      "bytes": 2273440,
+      "sha256": "77722412ae1dcacbdfc5df6cedf3adaf42947a0d938d60314c98861e08dad149",
+      "triangles": 6568,
+      "size": {
+        "x": 1.5224232977496963,
+        "y": 2.8000000000000007,
+        "z": 0.764631269179683
+      },
+      "base": {
+        "x": -0.7612116488748474,
+        "y": 5.458171726645595e-16,
+        "z": -0.3823156345898414
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_bc847a50-a9f2-461b-b16e-76001ee5ad8f"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio",
+        "modelId": "37458f5d-edc4-443d-97f8-dad5716de47b",
+        "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+        "sourceFile": "sources/creature_boss_galeskin-2adabf7f9db7.glb",
+        "sourceSha256": "2adabf7f9db7a767db9e0760389edd191ac74ad1b454a121d94f19b9875b1503",
+        "basisRepair": {
+          "degrees": 90,
+          "sourceSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.006883169276032958,
+              "p95": 0.018334921865128126,
+              "max": 0.03136038748224851,
+              "samples": 266
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.031420227954485035,
+              "p95": 0.07914972039724995,
+              "max": 0.11559997508269758,
+              "samples": 266
+            }
+          },
+          "bindLateralAxis": [
+            1.1500275310488608e-8,
+            6.532615681057302e-7,
+            0.9999999999997866
+          ],
+          "resultSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.031420227954485035,
+              "p95": 0.07914972039724995,
+              "max": 0.11559997508269758,
+              "samples": 266
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.006883169276032958,
+              "p95": 0.018334921865128126,
+              "max": 0.03136038748224851,
+              "samples": 266
+            }
+          },
+          "method": "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology"
+        },
+        "materialTreatment": null,
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 4256,
+          "dominantJointVertices": {
+            "RightHand": 405,
+            "RightForeArm": 83,
+            "RightArm": 132,
+            "Spine2": 171,
+            "RightUpLeg": 487,
+            "Spine1": 25,
+            "Spine": 53,
+            "LeftUpLeg": 330,
+            "LeftForeArm": 85,
+            "LeftArm": 129,
+            "LeftShoulder": 47,
+            "Neck": 435,
+            "RightShoulder": 55,
+            "Head": 489,
+            "LeftHand": 398,
+            "Hips": 201,
+            "RightToeBase": 173,
+            "RightFoot": 60,
+            "RightLeg": 133,
+            "LeftLeg": 134,
+            "LeftFoot": 59,
+            "LeftToeBase": 172
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": -89.99998410126187,
+          "translationScale": 0.5709733026665519,
+          "bindBounds": {
+            "min": [
+              -0.2717285560981036,
+              2.4361892452794586e-8,
+              -0.13647463078459304
+            ],
+            "max": [
+              0.27172853634937144,
+              0.9995116983504178,
+              0.1364746120160337
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.02561356415603653
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.039878549044756004
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.11017831428721778
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.036325408677957104
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0318728009444427,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0318728009444427,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0318728009444427,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.09828785766637914
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        }
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": null,
+        "animationAcceptance": "pending-production-lab"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_boss_galeskin": "models/creature_boss_galeskin.glb"
+  },
+  "packs": [
+    {
+      "id": "corealm-tripo-creatures",
+      "name": "Tripo generated creature assets",
+      "author": "Corealm",
+      "source": "https://studio.tripo3d.ai/",
+      "license": "LicenseRef-Tripo-Generated"
+    }
+  ],
+  "imports": [
+    {
+      "id": "creature_boss_galeskin",
+      "name": "Fallow Brute",
+      "modelId": "37458f5d-edc4-443d-97f8-dad5716de47b",
+      "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+      "sourceFile": "sources/creature_boss_galeskin-2adabf7f9db7.glb",
+      "downloadedFilename": "corealm_fallow_brute_37458f5d_8k_rigged.glb",
+      "sourceSha256": "2adabf7f9db7a767db9e0760389edd191ac74ad1b454a121d94f19b9875b1503",
+      "sourceBytes": 16841356,
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
+      },
+      "source": {
+        "triangles": 6568,
+        "textures": [
+          {
+            "name": "corealm_fallow_brute_37458f5d_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 16514506,
+            "sha256": "9f679ee74fef3547c4f471b1f0daa5f75645ed02439494353236939df8ccbbf9"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_bc847a50-a9f2-461b-b16e-76001ee5ad8f",
+            "baseColor": "corealm_fallow_brute_37458f5d_8k_rigged_basecolor.jpg",
+            "normal": null,
+            "metallicRoughness": null,
+            "emissive": null
+          }
+        ],
+        "clips": [],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_bc847a50-a9f2-461b-b16e-76001ee5ad8f",
+            "vertices": 4256,
+            "joints": [
+              {
+                "name": "mixamorig:RightHand",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 4252
+              },
+              {
+                "name": "mixamorig:Spine1",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:LeftHandThumb1",
+                "vertices": 2
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.2769001929062395,
+            -0.5485602021217344,
+            -0.13452247393400948
+          ],
+          "max": [
+            0.27758506754212503,
+            0.4509515166282654,
+            0.16215655431865766
+          ]
+        },
+        "problems": [
+          "99.9% of vertices use one joint; exported limb weights are unusable"
+        ]
+      },
+      "basisRepair": {
+        "degrees": 90,
+        "sourceSymmetry": {
+          "x": {
+            "planeCenter": 0,
+            "rms": 0.006883169276032958,
+            "p95": 0.018334921865128126,
+            "max": 0.03136038748224851,
+            "samples": 266
+          },
+          "z": {
+            "planeCenter": 0,
+            "rms": 0.031420227954485035,
+            "p95": 0.07914972039724995,
+            "max": 0.11559997508269758,
+            "samples": 266
+          }
+        },
+        "bindLateralAxis": [
+          1.1500275310488608e-8,
+          6.532615681057302e-7,
+          0.9999999999997866
+        ],
+        "resultSymmetry": {
+          "x": {
+            "planeCenter": 0,
+            "rms": 0.031420227954485035,
+            "p95": 0.07914972039724995,
+            "max": 0.11559997508269758,
+            "samples": 266
+          },
+          "z": {
+            "planeCenter": 0,
+            "rms": 0.006883169276032958,
+            "p95": 0.018334921865128126,
+            "max": 0.03136038748224851,
+            "samples": 266
+          }
+        },
+        "method": "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology"
+      },
+      "materialTreatment": null,
+      "weightRepair": {
+        "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+        "vertices": 4256,
+        "dominantJointVertices": {
+          "RightHand": 405,
+          "RightForeArm": 83,
+          "RightArm": 132,
+          "Spine2": 171,
+          "RightUpLeg": 487,
+          "Spine1": 25,
+          "Spine": 53,
+          "LeftUpLeg": 330,
+          "LeftForeArm": 85,
+          "LeftArm": 129,
+          "LeftShoulder": 47,
+          "Neck": 435,
+          "RightShoulder": 55,
+          "Head": 489,
+          "LeftHand": 398,
+          "Hips": 201,
+          "RightToeBase": 173,
+          "RightFoot": 60,
+          "RightLeg": 133,
+          "LeftLeg": 134,
+          "LeftFoot": 59,
+          "LeftToeBase": 172
+        },
+        "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+        "requiresVisualReview": true
+      },
+      "retarget": {
+        "restoredJoints": 54,
+        "mappedJoints": 52,
+        "yawDegrees": -89.99998410126187,
+        "translationScale": 0.5709733026665519,
+        "bindBounds": {
+          "min": [
+            -0.2717285560981036,
+            2.4361892452794586e-8,
+            -0.13647463078459304
+          ],
+          "max": [
+            0.27172853634937144,
+            0.9995116983504178,
+            0.1364746120160337
+          ]
+        },
+        "clips": [
+          {
+            "name": "Idle",
+            "sourceTake": "Idle_Loop",
+            "seconds": 2.5,
+            "samples": 76,
+            "maximumGroundCorrection": 0.02561356415603653
+          },
+          {
+            "name": "Walk",
+            "sourceTake": "Walk_Loop",
+            "seconds": 1.3333333730697632,
+            "samples": 42,
+            "maximumGroundCorrection": 0.039878549044756004
+          },
+          {
+            "name": "Run",
+            "sourceTake": "Jog_Fwd_Loop",
+            "seconds": 0.9333333373069763,
+            "samples": 30,
+            "maximumGroundCorrection": 0.11017831428721778
+          },
+          {
+            "name": "Attack",
+            "sourceTake": "Punch_Jab",
+            "seconds": 0.8666666746139526,
+            "samples": 28,
+            "maximumGroundCorrection": 0.036325408677957104
+          },
+          {
+            "name": "Hit",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.0318728009444427,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitLeft",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.0318728009444427,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitRight",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.0318728009444427,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "Death",
+            "sourceTake": "Death01",
+            "seconds": 2.4000000953674316,
+            "samples": 74,
+            "maximumGroundCorrection": 0.09828785766637914
+          }
+        ],
+        "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+        "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+      },
+      "readyForLab": true,
+      "reasons": [],
+      "runtime": {
+        "triangles": 6568,
+        "textures": [
+          {
+            "name": "corealm_fallow_brute_37458f5d_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1396751,
+            "sha256": "7cfd3a199b50251ecba0452b337404d660a43c6423aa59bdae09f1785767beff"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_bc847a50-a9f2-461b-b16e-76001ee5ad8f",
+            "baseColor": "corealm_fallow_brute_37458f5d_8k_rigged_basecolor.jpg",
+            "normal": null,
+            "metallicRoughness": null,
+            "emissive": null
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_bc847a50-a9f2-461b-b16e-76001ee5ad8f",
+            "vertices": 4256,
+            "joints": [
+              {
+                "name": "mixamorig:RightHand",
+                "vertices": 441
+              },
+              {
+                "name": "mixamorig:RightForeArm",
+                "vertices": 229
+              },
+              {
+                "name": "mixamorig:RightArm",
+                "vertices": 236
+              },
+              {
+                "name": "mixamorig:RightShoulder",
+                "vertices": 138
+              },
+              {
+                "name": "mixamorig:Spine2",
+                "vertices": 417
+              },
+              {
+                "name": "mixamorig:Spine1",
+                "vertices": 129
+              },
+              {
+                "name": "mixamorig:RightUpLeg",
+                "vertices": 612
+              },
+              {
+                "name": "mixamorig:Spine",
+                "vertices": 315
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 311
+              },
+              {
+                "name": "mixamorig:LeftUpLeg",
+                "vertices": 456
+              },
+              {
+                "name": "mixamorig:LeftForeArm",
+                "vertices": 212
+              },
+              {
+                "name": "mixamorig:LeftArm",
+                "vertices": 220
+              },
+              {
+                "name": "mixamorig:LeftShoulder",
+                "vertices": 132
+              },
+              {
+                "name": "mixamorig:Neck",
+                "vertices": 880
+              },
+              {
+                "name": "mixamorig:Head",
+                "vertices": 893
+              },
+              {
+                "name": "mixamorig:LeftHand",
+                "vertices": 428
+              },
+              {
+                "name": "mixamorig:RightLeg",
+                "vertices": 231
+              },
+              {
+                "name": "mixamorig:LeftLeg",
+                "vertices": 243
+              },
+              {
+                "name": "mixamorig:RightToeBase",
+                "vertices": 208
+              },
+              {
+                "name": "mixamorig:RightFoot",
+                "vertices": 281
+              },
+              {
+                "name": "mixamorig:LeftFoot",
+                "vertices": 284
+              },
+              {
+                "name": "mixamorig:LeftToeBase",
+                "vertices": 207
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.7612116488748474,
+            5.458171726645595e-16,
+            -0.3823156345898414
+          ],
+          "max": [
+            0.7612116488748488,
+            2.800000000000001,
+            0.3823156345898416
+          ]
+        },
+        "problems": [],
+        "file": "models/creature_boss_galeskin.glb",
+        "sha256": "77722412ae1dcacbdfc5df6cedf3adaf42947a0d938d60314c98861e08dad149",
+        "bytes": 2273440,
+        "scale": 2.8013679808527625
+      }
+    }
+  ],
+  "heldCandidates": [],
+  "visualAccepted": false,
+  "promotable": false
+}
