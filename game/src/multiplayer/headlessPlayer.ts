@@ -48,6 +48,7 @@ export interface HeadlessPlayerPorts {
   ownsEnemy(id: string): boolean;
   shareKill?: import("../systems/combat.js").CombatDeps["shareKill"];
   assignLoot?: import("../systems/combat.js").CombatDeps["assignLoot"];
+  canLoot?: (pileId: string) => boolean;
   transferLoot?: import("../systems/death.js").DeathDeps["transferLoot"];
   campfirePlacement: CampfirePlacementProbes;
   knownLocations?: readonly DiscoverableLocation[];
@@ -142,7 +143,7 @@ export class HeadlessPlayer implements CommandExecutor {
     respawnAnchors.update();
     const death = new DeathSystem({ store, events, entities, inventory, dispatcher, health, combat: this.combat,
       sharedLootTimers:false,
-      transferLoot: ports.transferLoot,
+      transferLoot: ports.transferLoot, canLoot: ports.canLoot,
       cacheView: RECOVERY_CACHE_VIEW,
       onLootOpened:container=>events.emit("loot.opened",{container},container.entityId,now()),
       recoveryCacheId: `recovery:${state.player.id}`,
@@ -207,7 +208,7 @@ export class HeadlessPlayer implements CommandExecutor {
     return this.withNavigation(()=>this.executeIntent(input));
   }
   private executeIntent(input: GameCommand): Result<unknown> {
-    if (input.method === "chat" || input.method === "party" || input.method === "who") return err("UNAVAILABLE", "Social commands require a world.");
+    if (input.method === "chat" || input.method === "party" || input.method === "who" || input.method === "trade" || input.method === "dropItem") return err("UNAVAILABLE", "Social commands require a world.");
     const target = ["interact","takeLoot","attack","produceAt"].includes(input.method) ? input.args[0]
       : input.method === "cast" ? input.args[1] : undefined;
     if (typeof target === "string") {

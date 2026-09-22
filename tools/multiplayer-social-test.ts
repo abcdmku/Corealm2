@@ -23,7 +23,7 @@ const local = authored ? null : await startReferenceServer({ worlds: [world], st
   const ports = await createMultiplayerLabWorld(); content.register({ enemies: ENEMIES });
   const frog = ports.entities.find(entity => entity.id === "multiplayer:frog")!;
   const def = resolveEnemyDef(frog); frog.meta = { ...frog.meta, enemyId: "party_fixture" };
-  ports.enemies = [{ ...def, id: "party_fixture", lootRolls: ["grithe_ore", "palewood_log", "grithe_ore"].map((itemId, index) => ({ id: `items_${index}`, name: "Items", count: 1, drops: [{ itemId, chance: 1, quantity: [1, 1] as [number, number] }] })), gold: [0, 0] }];
+  ports.enemies = [{ ...def, id: "party_fixture", lootRolls: ["grithe_ore", "palewood_log", "air_essence"].map((itemId, index) => ({ id: `items_${index}`, name: "Items", count: 1, drops: [{ itemId, chance: 1, quantity: [1, 1] as [number, number] }] })), gold: [0, 0] }];
   return ports;
 }, authentication: { authenticate: async token => ({ playerId: token.replace("guest:", ""), name: token.replace("guest:", "") }) } });
 const host = local ?? await startAuthoredTestHost();
@@ -159,7 +159,7 @@ try {
     check("reducedKillXp", bob.store.get().skills.melee.xp - xpBefore === Math.floor(frog.combat!.maxHealth));
     const lootId = Object.keys(runtime.shared.lootPiles).find(id => id.startsWith("loot_"))!;
     for (const page of [a, b]) await page.waitForFunction(id => (window.__multiplayerLab!.observe() as { entities: { id: string }[] }).entities.some(entity => entity.id === id), lootId);
-    check("everyoneSeesPile", !!lootId);
+    check("partySeesPile", !!lootId);
     const count = (id: string, item: string) => runtime.players.get(id)!.store.get().inventory.slots.reduce((sum, stack) => sum + (stack?.itemId === item ? stack.quantity : 0), 0);
     const aliceOre = count("alice", "grithe_ore"), bobOre = count("bob", "grithe_ore"), bobLog = count("bob", "palewood_log");
     for (const page of [a, b]) { await page.getByRole("button", { name: "Open combat loot", exact: true }).click(); await page.locator(".loot-reveal").waitFor({ state: "visible" }); }
@@ -176,6 +176,11 @@ try {
   await b.getByRole("menuitem", { name: "Leave party" }).click();
   await waitParty(a, 1);
   check("leaveUpdatesRoster", (await observe(b)).social.party === null);
+  if (local) {
+    const remaining = Object.keys([...local.worlds.values()][0]!.runtime.shared.lootPiles).find(id => id.startsWith("loot_"))!;
+    await b.waitForFunction(id => !(window.__multiplayerLab!.observe() as { entities: { id: string }[] }).entities.some(entity => entity.id === id), remaining);
+    check("leavingHidesCombatLoot", true);
+  }
   await b.waitForFunction(() => !document.querySelector(".party-member"));
   check("cardClearsOnLeave", !await cardShowing(b));
   if (local) {
@@ -188,6 +193,44 @@ try {
     await a.waitForTimeout(400);
     check("rightClickFindsPlayer", await rightClickPlayer(a, "bob"));
     await a.screenshot({ path: `${out}/player-menu.png`, timeout: 5000 });
+    // Exercise the production trade dialog between players who are not in the same party.
+    const countItem = (id: string, item: string) => runtime.players.get(id)!.inventory.countOf(item);
+    runtime.players.get("alice")!.inventory.addItem("grithe_ore", 2);
+    runtime.players.get("bob")!.inventory.addItem("palewood_log", 1);
+    const aliceOreBefore = countItem("alice", "grithe_ore"), bobOreBefore = countItem("bob", "grithe_ore");
+    const aliceLogsBefore = countItem("alice", "palewood_log");
+    await a.getByRole("menuitem", { name: "Trade with bob", exact: true }).click();
+    for (const page of [a, b]) await page.getByRole("dialog", { name: "Player trade" }).waitFor();
+    await a.getByLabel("Trade item", { exact: true }).selectOption("grithe_ore");
+    await a.getByLabel("Trade quantity").fill("2");
+    await a.getByRole("button", { name: "Set offer", exact: true }).click();
+    await b.getByLabel("Trade item", { exact: true }).selectOption("palewood_log");
+    await b.getByRole("button", { name: "Set offer", exact: true }).click();
+    await a.waitForFunction(() => (window.__multiplayerLab!.observe() as { social: SocialView }).social.trade?.revision === 2);
+    await a.getByRole("button", { name: "Accept trade", exact: true }).click();
+    await a.getByRole("button", { name: "Waiting for other player", exact: true }).waitFor();
+    check("tradeWaitsForBoth", countItem("alice", "grithe_ore") === aliceOreBefore);
+    await b.screenshot({ path: `${out}/trade-offers.png`, timeout: 5000 });
+    await b.getByRole("button", { name: "Accept trade", exact: true }).click();
+    await a.getByRole("dialog", { name: "Player trade" }).waitFor({ state: "hidden" });
+    check("tradeTransfersBothOffers", countItem("alice", "grithe_ore") === aliceOreBefore - 2
+      && countItem("bob", "grithe_ore") === bobOreBefore + 2 && countItem("alice", "palewood_log") === aliceLogsBefore + 1);
+    await a.keyboard.press("i");
+    await a.locator('.inv-grid .slot[data-item="palewood_log"]').first().focus();
+    await a.keyboard.press("Shift+F10");
+    const dropEntry = a.getByRole("menuitem", { name: `Drop ${content.item("palewood_log")!.name}`, exact: true });
+    const dropIndex = Number(await dropEntry.getAttribute("data-index"));
+    await a.locator(".ctx-menu").focus();
+    for (let index = 0; index <= dropIndex; index++) await a.keyboard.press("ArrowDown");
+    await a.keyboard.press("Enter");
+    await a.waitForFunction(() => (window.__multiplayerLab!.observe() as { entities: { id: string }[] }).entities.some(entity => entity.id.startsWith("drop:alice:")));
+    const dropId = Object.keys(runtime.shared.lootPiles).find(id => id.startsWith("drop:alice:"))!;
+    check("dropRemovesOneItem", countItem("alice", "palewood_log") === aliceLogsBefore);
+    check("outsiderCannotSeeDrop", !(await observe(b)).entities.some(entity => entity.id === dropId));
+    check("outsiderCannotTakeDrop", !runtime.execute("bob", { method: "takeLoot", args: [dropId] }).ok);
+    await a.screenshot({ path: `${out}/dropped-item.png`, timeout: 5000 });
+    await a.keyboard.press("i");
+    check("rightClickAfterTrade", await rightClickPlayer(a, "bob"));
     await a.getByRole("menuitem", { name: /^Invite bob to party/ }).click();
     await b.locator(".party__invite").waitFor();
     await b.screenshot({ path: `${out}/invitation.png`, timeout: 5000 });
@@ -201,6 +244,22 @@ try {
     await a.keyboard.press("Enter");
     await a.locator(".msglog").screenshot({ path: `${out}/chat-open.png`, timeout: 5000 });
     await a.keyboard.press("Escape");
+  }
+  if (authored) {
+    const before = (await observe(a)).inventory.slots.filter(slot => slot?.itemId === "worn_hatchet").length;
+    await a.keyboard.press("i");
+    await a.locator('.inv-grid .slot[data-item="worn_hatchet"]').first().click({ button: "right" });
+    await a.getByRole("menuitem", { name: /^Drop / }).click();
+    await a.waitForFunction(() => (window.__multiplayerLab!.observe() as { entities: { id: string }[] }).entities.some(entity => entity.id.startsWith("drop:")));
+    const state = await observe(a), drop = state.entities.find(entity => entity.id.startsWith("drop:"))!;
+    check("authoredDropRemovesItem", state.inventory.slots.filter(slot => slot?.itemId === "worn_hatchet").length === before - 1);
+    check("authoredDropPrivate", !(await observe(b)).entities.some(entity => entity.id === drop.id));
+    await a.keyboard.press("i");
+    await a.evaluate(async id => { const debug = window.__gameDebug as unknown as { callTool(name: string, args: unknown): Promise<unknown> }; await debug.callTool("corealm_interact", { entityId: id, interaction: "loot" }); }, drop.id);
+    await a.locator(".loot-reveal button").first().click();
+    await a.waitForFunction(expected => (window.__multiplayerLab!.observe() as { inventory: { slots: ({ itemId: string } | null)[] } }).inventory.slots.filter(slot => slot?.itemId === "worn_hatchet").length === expected, before);
+    check("authoredDropRecovered", true);
+    await a.screenshot({ path: `${out}/drop-recovered.png`, timeout: 5000 });
   }
   check("noRuntimeErrors", errors.length === 0); check("withinBudget", Date.now() - started < budget);
   const report = { passed: true, checks, errors, durationMs: Date.now() - started };

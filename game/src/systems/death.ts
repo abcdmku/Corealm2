@@ -68,6 +68,8 @@ export interface DeathHealthPort {
 }
 
 export interface DeathDeps {
+  /** The authority uses the same visibility rule for opening and taking loot. */
+  canLoot?: (pileId: string) => boolean;
   /** Shared pile pickup may deliver to another party member's inventory. */
   transferLoot?: (stack: import("../contracts.js").LootStack, pile: SemanticEntity) => Result<number>;
   /** A shared multiplayer world runs loot expiry once, independently of player death ticks. */
@@ -293,7 +295,7 @@ export class DeathSystem implements TickSystem {
     } else {
       const pile = state.world.lootPiles[entity.id];
       if (!pile) return err("NOT_FOUND", "There is nothing there.", entity.id);
-      if (pile.ownerOnly && pile.ownerId && pile.ownerId !== state.player.id) return err("UNAVAILABLE", "This loot belongs to another player.", entity.id);
+      if (this.deps.canLoot ? !this.deps.canLoot(entity.id) : pile.ownerOnly && pile.ownerId && pile.ownerId !== state.player.id) return err("UNAVAILABLE", "This loot belongs to another player.", entity.id);
       items = pile.items;
     }
 
@@ -324,7 +326,7 @@ export class DeathSystem implements TickSystem {
     } else {
       const pile = state.world.lootPiles[entityId];
       if (!pile) return err("NOT_FOUND", "There is nothing there.", entityId);
-      if (pile.ownerOnly && pile.ownerId && pile.ownerId !== state.player.id) return err("UNAVAILABLE", "This loot belongs to another player.", entityId);
+      if (this.deps.canLoot ? !this.deps.canLoot(entityId) : pile.ownerOnly && pile.ownerId && pile.ownerId !== state.player.id) return err("UNAVAILABLE", "This loot belongs to another player.", entityId);
       items = pile.items;
     }
 

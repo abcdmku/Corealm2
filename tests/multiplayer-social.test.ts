@@ -147,29 +147,27 @@ describe("authoritative chat and parties", () => {
     a.combat.damageEnemy(enemy.id, 100000, world.clock.elapsedMs, "melee");
     expect(world.players.get("b")!.store.get().skills.melee.xp - before.find(([id]) => id === "b")![1]).toBe(Math.floor(bonus / 2));
   });
-  it("shows piles to outsiders and lets their pickup route each stack to the earning party", () => {
+  it("hides party loot from outsiders and rejects their open and pickup attempts", () => {
     const world = fixture(), partyId = group(world); pile(world, partyId);
-    const aBefore = count(world, "a", "grithe_ore"), bBefore = count(world, "b", "palewood_log"), cBefore = count(world, "c", "grithe_ore");
-    const update = new Replicator("session", "c").update(world, 0, new Map(), true);
-    expect(update.entities.some(entity => entity.id === "pile")).toBe(true); expect(update.social!.party).toBeNull();
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0, "stack:0"] }).ok).toBe(true);
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 1, "stack:1"] }).ok).toBe(true);
-    expect(count(world, "a", "grithe_ore")).toBe(aBefore + 1); expect(count(world, "b", "palewood_log")).toBe(bBefore + 1);
-    expect(count(world, "c", "grithe_ore")).toBe(cBefore);
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0, "stack:0"] }).ok).toBe(false);
-    expect(world.shared.lootPiles.pile!.items).toHaveLength(1);
-    expect(world.social.view("a").party!.nextLootId).toBe("a");
+    const outsider = new Replicator("session", "c").update(world, 0, new Map(), true);
+    expect(outsider.entities.some(entity => entity.id === "pile")).toBe(false);
+    expect(world.execute("c", { method: "interact", args: ["pile", "loot"] }).ok).toBe(false);
+    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(false);
+    expect(world.shared.lootPiles.pile!.items).toHaveLength(3);
+    const before = count(world, "a", "grithe_ore");
+    expect(world.execute("b", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(true);
+    expect(count(world, "a", "grithe_ore")).toBe(before + 1);
   });
   it("skips ineligible or full recipients and never consumes items or turns if all are unavailable", () => {
     const world = fixture(), partyId = group(world); pile(world, partyId);
     const a = world.players.get("a")!.store.get(), b = world.players.get("b")!.store.get();
     a.player.position = [100, 0, 100]; b.player.health = 0;
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(false);
+    expect(world.execute("a", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(false);
     expect(world.shared.lootPiles.pile!.items).toHaveLength(3); expect(world.social.view("a").party!.nextLootId).toBe("a");
     a.player.position = [0, 0, 0]; b.player.health = 10;
     a.inventory.slots = a.inventory.slots.map((_, slotIndex) => ({ itemId: "worn_sword", quantity: 1, slotIndex }));
     const before = count(world, "b", "grithe_ore");
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(true);
+    expect(world.execute("a", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(true);
     expect(count(world, "b", "grithe_ore")).toBe(before + 1);
   });
   it("accepts JSON nulls for optional legacy pickup arguments", () => {
@@ -183,7 +181,7 @@ describe("authoritative chat and parties", () => {
   });
   it("persists membership, routing cursor, public pile and delivery together in SQLite", async () => {
     const world = fixture(), partyId = group(world); pile(world, partyId);
-    world.execute("c", { method: "takeLoot", args: ["pile", 0] });
+    world.execute("a", { method: "takeLoot", args: ["pile", 0] });
     const storage = new SqliteWorldStorage(":memory:");
     try {
       await storage.commit(world.snapshot());
@@ -192,7 +190,7 @@ describe("authoritative chat and parties", () => {
       expect(restored.social.view("a").party!.nextLootId).toBe("b");
       expect(restored.shared.lootPiles.pile!.items).toHaveLength(2);
       const before = count(restored, "b", "palewood_log");
-      expect(restored.execute("c", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(true);
+      expect(restored.execute("a", { method: "takeLoot", args: ["pile", 0] }).ok).toBe(true);
       expect(count(restored, "b", "palewood_log")).toBe(before + 1);
     } finally { await storage.close(); }
   });
@@ -202,18 +200,18 @@ describe("authoritative chat and parties", () => {
     const a = world.players.get("a")!.store.get();
     a.inventory.slots = a.inventory.slots.map((_, slotIndex) => ({ itemId: "worn_sword", quantity: 1, slotIndex }));
     a.inventory.slots[0] = null;
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0, "partial"] }).ok).toBe(true);
+    expect(world.execute("a", { method: "takeLoot", args: ["pile", 0, "partial"] }).ok).toBe(true);
     expect(items[0]!.quantity).toBe(2); expect(world.social.view("a").party!.nextLootId).toBe("b");
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0, "partial"] }).ok).toBe(true);
+    expect(world.execute("a", { method: "takeLoot", args: ["pile", 0, "partial"] }).ok).toBe(true);
     expect(world.shared.lootPiles.pile).toBeUndefined();
     const orb = ALL_ITEMS.find(item => item.orb)!; expect(orb).toBeDefined();
     const orbItems = pile(world, partyId); orbItems.splice(0, orbItems.length, { itemId: orb.id, quantity: 1, partyId, stackId: "orb" });
     a.magic.consumedOrbs[orb.id] = true;
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0, "orb"] }).ok).toBe(true);
+    expect(world.execute("a", { method: "takeLoot", args: ["pile", 0, "orb"] }).ok).toBe(true);
     expect(count(world, "b", orb.id)).toBe(1);
     const blocked = pile(world, partyId); blocked.splice(0, blocked.length, { itemId: orb.id, quantity: 1, partyId, stackId: "blocked" });
     const next = world.social.view("a").party!.nextLootId;
-    expect(world.execute("c", { method: "takeLoot", args: ["pile", 0, "blocked"] }).ok).toBe(false);
+    expect(world.execute("a", { method: "takeLoot", args: ["pile", 0, "blocked"] }).ok).toBe(false);
     expect(blocked).toHaveLength(1); expect(world.social.view("a").party!.nextLootId).toBe(next);
   });
   it("rotates across all eight members and preserves the next turn when a member leaves", () => {
@@ -234,5 +232,83 @@ describe("authoritative chat and parties", () => {
     expect(replicator.update(world, 0, new Map()).social).toBeUndefined();
     const state = new ReplicatedState("session", "b"); expect(state.apply(structuredClone(first))).toBe(true);
     first.social!.party!.members.length = 0; expect(() => new ReplicatedState("session", "b").apply(first)).toThrow();
+  });
+});
+
+
+describe("item drops and player trading", () => {
+  const trade = (world: HeadlessWorld, id: string, action: import("../game/src/contracts.js").TradeAction) => world.execute(id, { method: "trade", args: [action] });
+  function start(world: HeadlessWorld) {
+    expect(trade(world, "a", { kind: "request", playerId: "b" }).ok).toBe(true);
+    return world.exchange.view("a")!.id;
+  }
+  it("drops exact quantities, replicates only to current party, and removes access on leaving", () => {
+    const world = fixture(); world.players.get("a")!.inventory.addItem("grithe_ore", 3);
+    const before = count(world, "a", "grithe_ore");
+    expect(world.execute("a", { method: "dropItem", args: ["grithe_ore", 2] }).ok).toBe(true);
+    expect(count(world, "a", "grithe_ore")).toBe(before - 2);
+    const id = Object.keys(world.shared.lootPiles)[0]!;
+    const replication = new Replicator("session", "b");
+    expect(replication.update(world, 0, new Map(), true).entities.some(e => e.id === id)).toBe(false);
+    expect(world.execute("b", { method: "takeLoot", args: [id] }).ok).toBe(false);
+    group(world);
+    expect(replication.update(world, 0, new Map()).entities.some(e => e.id === id)).toBe(true);
+    action(world, "b", "leave");
+    expect(replication.update(world, 0, new Map()).removedEntities).toContain(id);
+    expect(world.execute("b", { method: "takeLoot", args: [id] }).ok).toBe(false);
+    expect(world.execute("a", { method: "takeLoot", args: [id] }).ok).toBe(true);
+    expect(count(world, "a", "grithe_ore")).toBe(before);
+  });
+  it("requires both approvals of the same revision and commits each offer once", () => {
+    const world = fixture(); world.players.get("a")!.inventory.addItem("grithe_ore", 2); world.players.get("b")!.inventory.addItem("palewood_log", 1);
+    const a = count(world, "a", "grithe_ore"), b = count(world, "b", "grithe_ore"), id = start(world);
+    expect(world.social.view("c").trade).toBeNull();
+    expect(trade(world, "c", { kind: "accept", tradeId: id, revision: 0 }).ok).toBe(false);
+    trade(world, "a", { kind: "offer", tradeId: id, itemId: "grithe_ore", quantity: 2 });
+    trade(world, "a", { kind: "accept", tradeId: id, revision: 1 });
+    trade(world, "b", { kind: "offer", tradeId: id, itemId: "palewood_log", quantity: 1 });
+    expect(world.exchange.view("a")!.participants.every(p => !p.accepted)).toBe(true);
+    expect(trade(world, "a", { kind: "accept", tradeId: id, revision: 1 }).ok).toBe(false);
+    trade(world, "a", { kind: "accept", tradeId: id, revision: 2 });
+    expect(count(world, "a", "grithe_ore")).toBe(a);
+    expect(trade(world, "b", { kind: "accept", tradeId: id, revision: 2 })).toEqual({ ok: true, value: { completed: true } });
+    expect(count(world, "a", "grithe_ore")).toBe(a - 2); expect(count(world, "b", "grithe_ore")).toBe(b + 2);
+    expect(trade(world, "b", { kind: "accept", tradeId: id, revision: 2 }).ok).toBe(false);
+  });
+  it("rejects full recipients without partial transfers and permits a full inventory swap", () => {
+    const world = fixture();
+    for (const id of ["a", "b"]) world.players.get(id)!.store.get().inventory.slots = Array.from({ length: 28 }, (_, slotIndex) => ({ itemId: id === "a" ? "grithe_ore" : "palewood_log", quantity: 1, slotIndex }));
+    const id = start(world);
+    trade(world, "a", { kind: "offer", tradeId: id, itemId: "grithe_ore", quantity: 1 });
+    trade(world, "a", { kind: "accept", tradeId: id, revision: 1 });
+    expect(trade(world, "b", { kind: "accept", tradeId: id, revision: 1 }).ok).toBe(false);
+    expect(count(world, "a", "grithe_ore")).toBe(28); expect(count(world, "b", "palewood_log")).toBe(28);
+    trade(world, "b", { kind: "offer", tradeId: id, itemId: "palewood_log", quantity: 1 });
+    const revision = world.exchange.view("a")!.revision;
+    trade(world, "a", { kind: "accept", tradeId: id, revision });
+    expect(trade(world, "b", { kind: "accept", tradeId: id, revision }).ok).toBe(true);
+    expect(count(world, "a", "palewood_log")).toBe(1); expect(count(world, "b", "grithe_ore")).toBe(1);
+  });
+  it("revalidates spent offers and cancels on separation, disconnect, expiry, or decline", () => {
+    const world = fixture(); world.players.get("a")!.inventory.addItem("grithe_ore", 1);
+    const id = start(world), held = count(world, "a", "grithe_ore");
+    trade(world, "a", { kind: "offer", tradeId: id, itemId: "grithe_ore", quantity: held });
+    trade(world, "a", { kind: "accept", tradeId: id, revision: 1 });
+    world.players.get("a")!.inventory.removeItem("grithe_ore", held);
+    expect(trade(world, "b", { kind: "accept", tradeId: id, revision: 1 }).ok).toBe(false);
+    trade(world, "b", { kind: "cancel", tradeId: id }); expect(world.exchange.view("a")).toBeNull();
+    start(world); world.players.get("b")!.store.get().player.position = [6, 0, 0]; world.exchange.tick(); expect(world.exchange.view("a")).toBeNull();
+    world.players.get("b")!.store.get().player.position = [0, 0, 0]; start(world); world.clock.skipMs(120001); world.exchange.tick(); expect(world.exchange.view("b")).toBeNull();
+    start(world); world.leave("b"); expect(world.exchange.view("a")).toBeNull();
+  });
+  it("rejects malformed transfer commands and invalid drop quantities", () => {
+    expect(command({ method: "dropItem", args: ["grithe_ore", 1] }).method).toBe("dropItem");
+    for (const action of [{ kind: "request", playerId: "b" }, { kind: "offer", tradeId: "t", itemId: "grithe_ore", quantity: 1 },
+      { kind: "accept", tradeId: "t", revision: 0 }, { kind: "cancel", tradeId: "t" }]) expect(command({ method: "trade", args: [action] }).method).toBe("trade");
+    for (const args of [["grithe_ore", -1], ["grithe_ore", 0], ["grithe_ore", 1.5]]) expect(() => command({ method: "dropItem", args })).toThrow();
+    expect(() => command({ method: "trade", args: [{ kind: "accept", tradeId: "t", revision: -1 }] })).toThrow();
+    const world = fixture(), before = world.players.get("a")!.inventory.slots();
+    expect(world.execute("a", { method: "dropItem", args: ["grithe_ore", 1.5] }).ok).toBe(false);
+    expect(world.players.get("a")!.inventory.slots()).toEqual(before);
   });
 });

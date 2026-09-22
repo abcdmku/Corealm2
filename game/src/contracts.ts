@@ -86,7 +86,14 @@ export type GameCommand = {
 }[GameCommandMethod] | { method: "steer"; args: [x: number, z: number] }
   | { method: "chat"; args: [message: string, channel?: ChatChannel, targetId?: string] }
   | { method: "party"; args: [operation: PartyOperation, targetId?: string] }
-  | { method: "who"; args: [] };
+  | { method: "who"; args: [] }
+  | { method: "dropItem"; args: [itemId: string, quantity: number] }
+  | { method: "trade"; args: [action: TradeAction] };
+export type TradeAction = { kind: "request"; playerId: string } | { kind: "cancel"; tradeId: string }
+  | { kind: "offer"; tradeId: string; itemId: string; quantity: number }
+  | { kind: "accept"; tradeId: string; revision: number };
+export interface TradeView { id: string; revision: number; expiresAtMs: number;
+  participants: { id: string; name: string; items: ItemStack[]; accepted: boolean }[] }
 export type PartyOperation = "create" | "invite" | "accept" | "decline" | "leave" | "kick" | "disband";
 export const MAX_PARTY_PLAYERS = 8;
 export const LOCAL_CHAT_RADIUS = 30;
@@ -107,6 +114,7 @@ export interface PartyView {
   members: { id: string; name: string; level: number; connected: boolean; nearby: boolean; health: number; maxHealth: number }[];
 }
 export interface SocialView {
+  trade?: TradeView | null;
   party: PartyView | null;
   invitations: { partyId: string; leaderName: string; expiresAtMs: number }[];
   messages: ChatMessage[];

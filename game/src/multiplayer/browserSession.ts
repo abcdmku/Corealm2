@@ -297,7 +297,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
         }
         remote.set(player.id, {
         id: `remote:${player.id}`, archetype: "npc", name: player.name, tier: 1, regionId: player.regionId,
-        position: player.position, state: player.health <= 0 ? "dead" : "alive", interactions: ["trade", "inspect"],
+        position: player.position, state: player.health <= 0 ? "dead" : "alive", interactions: ["inspect"],
         meta: { remotePlayer: true, playerLevel: player.level, pose: player.presentation?.pose ?? "idle" },
         view: { assetId: "base_male", partAssetIds: outfit, rotationY: player.facingRad, labelHeight: 2.2, pickable: "context",
           ...(options.equipment?{equipment: { ...player.equipment, ...(player.presentation?.toolItemId ? { mainHand: player.presentation.toolItemId } : {}) }}:{}) },

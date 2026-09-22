@@ -165,12 +165,23 @@ export class WorldSocial {
       if (result.levelsGained) player.events.emit("level.gained", { skill, level: result.newLevel, levelsGained: result.levelsGained }, undefined, atMs);
     }
   }
+  canLoot(id: string, pileId: string): boolean {
+    const pile = this.world.shared.lootPiles[pileId];
+    if (!pile) return false;
+    if (pile.ownerId === id) return true;
+    if (pile.ownerOnly) return false;
+    const party = this.party(id);
+    if (pile.ownerId) return !!party && this.party(pile.ownerId)?.id === party.id;
+    const tagged = pile.items.find(stack => stack.partyId)?.partyId;
+    return tagged ? party?.id === tagged : true;
+  }
   tagLoot(killerId: string, items: LootStack[]): LootStack[] {
     const party = this.party(killerId);
     return items.map(item => ({ ...item, ...(party ? { partyId: party.id } : {}) }));
   }
   collect(collectorId: string, stack: LootStack, pile: SemanticEntity): Result<number> {
-    const party = (stack.partyId ? this.parties.get(stack.partyId) : undefined) ?? this.party(collectorId);
+    if (!this.canLoot(collectorId, pile.id)) return err("UNAVAILABLE", "This loot belongs to another player.");
+    const party = stack.partyId && this.party(collectorId)?.id === stack.partyId ? this.parties.get(stack.partyId) : undefined;
     const eligible = new Set(this.eligible(party, pile));
     const deliver = (id: string): Result<number> => {
       const player = this.world.players.get(id)!;
@@ -199,6 +210,7 @@ export class WorldSocial {
   view(id: string): SocialView {
     const party = this.party(id);
     return {
+      trade: this.world.exchange.view(id),
       party: party ? { id: party.id, leaderId: party.leaderId, nextLootId: party.nextLootId,
         members: party.members.map(member => {
           const player = this.world.players.get(member.id)?.store.get().player;

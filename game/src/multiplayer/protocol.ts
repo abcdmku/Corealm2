@@ -128,6 +128,16 @@ export function command(value: unknown): GameCommand {
     case "chat": valid = typeof a[0] === "string" && a[0].trim().length > 0 && a[0].length <= 280 && (a.length === 1
       || a.length === 2 && (a[1] === "nearby" || a[1] === "party")
       || a.length === 3 && a[1] === "whisper" && typeof a[2] === "string" && a[2].trim().length > 0 && a[2].length <= 128); break;
+    case "dropItem": valid = a.length === 2 && id(a[0]) && integer(a[1]) && a[1] > 0 && a[1] <= 1_000_000; break;
+    case "trade": {
+      const t = a[0];
+      valid = a.length === 1 && record(t) && (
+        t.kind === "request" && only(t, ["kind", "playerId"]) && id(t.playerId)
+        || t.kind === "cancel" && only(t, ["kind", "tradeId"]) && id(t.tradeId)
+        || t.kind === "accept" && only(t, ["kind", "tradeId", "revision"]) && id(t.tradeId) && integer(t.revision) && t.revision >= 0
+        || t.kind === "offer" && only(t, ["kind", "tradeId", "itemId", "quantity"]) && id(t.tradeId) && id(t.itemId) && integer(t.quantity) && t.quantity >= 0 && t.quantity <= 1_000_000);
+      break;
+    }
     case "who": valid = a.length === 0; break;
     case "party": valid = ["create", "leave", "disband"].includes(a[0]) ? a.length === 1
       : ["invite", "accept", "decline", "kick"].includes(a[0]) && a.length === 2 && id(a[1]); break;
@@ -165,7 +175,7 @@ export function command(value: unknown): GameCommand {
       break;
     }
   }
-  if (!valid || !["steer", "chat", "party", "who"].includes(method) && !(GAME_COMMAND_METHODS as readonly string[]).includes(method)) {
+  if (!valid || !["steer", "chat", "party", "who", "trade", "dropItem"].includes(method) && !(GAME_COMMAND_METHODS as readonly string[]).includes(method)) {
     throw new SessionFailure("INVALID_MESSAGE", "Invalid command arguments");
   }
   return structuredClone(value) as unknown as GameCommand;
