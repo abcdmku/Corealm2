@@ -21,11 +21,17 @@ startup must stay below one second and post-join gaps below 150 ms. The startup 
 multi-second browser-wide freezes; it is not a smooth-frame target. `--channel chrome` uses the
 installed Chrome in a fresh test profile. `--trace-boot` starts the optional trace before navigation;
 plain `--trace` still measures only after joining. Do not compare traced timings to acceptance runs.
+Both walking and join-stability checks accept `--require-webgpu` to reject fallback rendering
+and failed graphics preparation. Add `--menus` to walking to open and close the six dock
+panels and full map through real input, asserting visible content and recording that phase's
+frame and GPU completion intervals.
 The walking check also captures the first ready frame, requires nearby building and creature
 geometry with no pending entity or animation work, then sends movement immediately. `--budget`
 requires movement within 250 ms. Startup duration is reported separately because the owner
 accepts longer responsive loading; `--startup-budget-ms 20000` restores the earlier time limit
-when explicitly requested. A smooth empty
+when explicitly requested. `--startup-timeout-ms` controls how long the harness waits to collect
+that result and extends its overall deadline; it does not change gameplay or browser-stall limits.
+A smooth empty
 world or a connected session behind a blocking menu does not pass. `--authored` uses the existing
 production test host; `--warm` reloads the same browser context with caches enabled. Report cold
 and warm results separately. Network emulation applies to the asset origin; the authored socket
@@ -587,6 +593,13 @@ still determine visual acceptance.
 The glow command also accepts `--spell vacuum-coil` for the air-current material. It selects
 the requested spell and compares emission shortly after the first impact, writing into
 `test-results/elemental-spells/glow-vacuum-coil/`.
+
+`npx tsx tools/magic-glow-compile-test.ts --url http://127.0.0.1:4173 --channel chrome`
+is the small native GPU probe. Use the existing Vite source server. It checks emitter-only
+preparation, visible halo pixels and opaque-wall occlusion using asynchronous texture readback.
+Add `--scenery` to verify shared native shader graphs across cluster capacities, independent
+matrix/color buffers, visible placements, updates and surviving buffers after cluster disposal.
+Its diagnostic camera is not gameplay or art acceptance; inspect a live spell in the lab too.
 
 Run `npx tsx tools/elemental-refraction-test.ts --url http://127.0.0.1:4178` to compare air
 and water with refraction enabled and disabled in synchronous renders. It checks visible

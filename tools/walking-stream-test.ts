@@ -14,9 +14,11 @@ const value = (key:string,fallback:string) => args.includes(key) ? args[args.ind
 const desktop = args.includes('--desktop'), label = value('--label','walking');
 const probeBrowser = args.includes('--browser-probe'), warm = args.includes('--warm');
 const traceBoot = args.includes('--trace-boot'), trace = traceBoot || args.includes('--trace');
+const startupTimeout = Number(value('--startup-timeout-ms', '60000'));
+assert.ok(Number.isFinite(startupTimeout) && startupTimeout > 0, 'Startup timeout must be a positive number');
 const out = path.resolve('test-results/walking-stream',label);
 await mkdir(out,{recursive:true});
-const clear = installTestDeadline('Walking and streaming',115_000);
+const clear = installTestDeadline('Walking and streaming',115_000 + Math.max(0, startupTimeout - 60_000) * (warm ? 2 : 1));
 const suppliedUrl = value('--url', '');
 const server = suppliedUrl ? null : await preview({root:gameRoot,preview:{host:'127.0.0.1',port:0}});
 const address = server?.httpServer.address();
@@ -88,7 +90,7 @@ try {
   const waitForPlayable = async () => {
     try {
       await page.waitForFunction(()=>(window as any).__gameDebug?.getState().ready
-        || document.querySelector('.boot-error'),undefined,{timeout:60_000});
+        || document.querySelector('.boot-error'),undefined,{timeout:startupTimeout});
       const bootError=await page.locator('.boot-error').allTextContents();
       if(bootError.length)throw new Error(bootError.join('\n'));
     } catch(error) {
@@ -342,6 +344,8 @@ try {
   assert.equal(end.loading.assets.failed,0);
   assert.equal(end.loading.assets.queued,0);assert.equal(end.loading.assets.inflight,0);
   assert.equal(end.views.residency.pending,0);
+  assert.equal(end.views.residency.missing,0,'Travel must retain complete model residency');
+  assert.equal(end.views.residency.failed,0,'Travel must not hide failed entity loads');
   assert.equal(end.views.pendingAnimations,0);
   assert.equal(end.shaders.waiting,0,'Graphics preparation must finish too');
   assert.equal(end.timings.preparation.failed,0,'No GPU preparation failure may be hidden by readiness');

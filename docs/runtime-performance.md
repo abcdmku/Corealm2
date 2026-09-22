@@ -2,6 +2,106 @@
 
 This pass follows the startup work in [startup-performance.md](startup-performance.md).
 
+## Native WebGPU migration
+
+The production renderer now uses Three's WebGPU backend. Terrain, water, foliage, sampled
+skeletal animation, equipment, architecture, spells, glow, refraction, grading, anti-aliasing
+and occlusion use native node materials and passes. Imported materials are converted before
+the game's surface treatments run. The separate inventory-art tool still uses WebGL.
+Backend diagnostics identify a WebGL2 fallback explicitly; it cannot pass a native WebGPU check.
+
+Native shader lowering assigns deterministic names to unnamed buffer bindings. Three r185
+otherwise embeds global node IDs in shader source, causing equivalent instanced and skinned
+materials to miss its program cache. Static scenery uses ordinary meshes with instanced
+geometry and named matrix/color attributes. Three otherwise lowers a separate node graph
+for each `InstancedMesh`, even when its final GPU shader matches another cluster. Named
+attributes share the lowered graph while resolving each cluster's own buffers. Cluster
+capacities, placements, culling, wind and shadows remain unchanged. Sampled actors retain
+their native instance/palette path; explicit authored buffer capacities and names remain distinct.
+The renderer counts shared geometry-buffer owners so unloading one scenery cluster releases
+its own transforms without destroying vertex/index buffers still used by neighboring clusters.
+Imported integer attributes are separated before WebGPU can promote shared
+joint/color buffers, and sampled actors pack compatible vertex attributes to fit standard
+device limits without removing shader inputs.
+
+GPU preparation is serialized in small batches. Texture uploads await asynchronous queue
+completion, and pipeline failures prevent readiness. The frame loop presents at most 60 times
+per second and permits at most two outstanding GPU frames, dropping to one under pressure.
+Input and UI updates continue while presentation waits. This leaves browser headroom and
+prevents a growing queue of stale game frames.
+Preparation yields through ordinary MessageChannel tasks, avoiding accumulated timer clamping.
+Diagnostics include initial resident preparation as well as streaming and effects.
+Native node lowering preserves Three's build sequence but yields after a measured two milliseconds
+of work instead of after every empty shader stage. A recursive node operation is indivisible, so
+this is a cooperative budget, not a hard maximum task duration.
+Startup and covered effect preparation use batches of at most four objects. Streaming seeds
+each new scenery layout alone, then prepares up to eight known-layout clusters together, capped
+at 256 KiB of estimated new or changed buffer uploads. An indivisible larger object gets a
+submission to itself. Textures still upload and fence individually. A temporary light index
+avoids rescanning the full world for each batch while tracking changes and current visibility.
+Instanced, skinned and batched objects retain separate preparation for their own buffers;
+ordinary meshes can share preparation by geometry and material.
+Native glow reuses the main frame's multisampled depth and stencil by temporarily replacing
+its color attachment. Only registered emitters enter its preparation and draw submissions;
+ordinary world geometry is no longer prepared and drawn again for glow occlusion. The fallback
+retains its separate depth pass. Resizing and disposal preserve one owner for the native depth.
+The streaming queue drains through ordinary tasks between frames, yielding to painting after
+slow frames. It groups up to 32 jobs for bookkeeping; the count and byte limits above still
+bound each native submission. Unknown scenery layouts prepare individually; other streamed
+objects use at most four per batch within the same byte cap. Debug state also counts pending
+scenery, instanced actors, skinned actors and ordinary objects separately.
+Completed inner batches release their readiness immediately, so a prepared actor does not wait
+for unrelated objects later in the outer job. A new nearby live rig also avoids starting a second
+sampled-animation representation while its first display prepares. Existing sampled actors stay
+visible during detailed-rig handoffs.
+
+Background assets use frame-pressure budgets, bounded downloads and buffered bytes. Foliage
+pixel conversion and hashing now run in a worker, alongside the existing world-data, Meshopt
+and local-simulation workers. Rendering, scene construction, some GLTF assembly and DOM work
+still run on the main thread. This migration does not claim full OffscreenCanvas isolation
+or a guarantee of zero driver stalls.
+
+The joined world's real spawn, nearby structures, creatures, NPCs, animations and required
+graphics prepare before gameplay is revealed. Readiness includes a completed GPU frame.
+Initial elapsed loading time remains a recorded metric, with the owner's approval for a
+longer responsive loading screen. It cannot substitute for content completeness or input proof.
+
+Use the existing production walking check with `--authored --desktop --channel chrome
+--browser-probe --require-webgpu --menus --budget --presentation-budget`. It checks actual
+drawn starting geometry, first movement, newly resident entities after travel, seven real
+panels, GPU completion and a separate browser page. The two-client join check also accepts
+`--channel chrome --require-webgpu` and rejects graphics preparation failures.
+
+The September 22 native acceptance run used Chrome 152.0.7977.83 on Windows/D3D11,
+1440 x 900 at DPR 1, the existing default 70% render scale, no CPU throttling, and
+20 Mbps/80 ms emulation for asset downloads. Authoritative sockets used a local server;
+these figures do not measure live-server or WAN latency.
+The final cold run reached complete gameplay in 55.824 seconds and responded to movement in
+75.2 ms. Walking RAF intervals were 18.8 ms at the 95th percentile and 47.9 ms maximum;
+completed GPU frames were 29.9 ms and 58.6 ms. The seven menus peaked at 112.5 ms RAF
+and 116.1 ms GPU completion. The separate browser page peaked at 218.7/229.1 ms
+RAF/GPU during loading and 104.2/108.5 ms during play. The final state contained 1,496
+resident entity views, with zero missing/failed models, pending animations, queued assets
+or pending shader work. Background preparation finished during the menu phase after travel.
+Startup remains a substantial wait. The change makes that wait responsive and gates gameplay
+on complete nearby content; it does not establish a short startup time on every device.
+
+The warm-cache run reached gameplay in 43.353 seconds and first movement in 122.9 ms.
+Walking RAF intervals were 18.7 ms at the 95th percentile and 45.8 ms maximum; completed
+GPU frames were 28.6 ms and 53.1 ms. Menus peaked at 114.5/119.2 ms RAF/GPU. The other
+browser page peaked at 229.1/237.5 ms during loading and 46.3/118.6 ms during play.
+All 1,496 resident views were complete and every asset, animation and graphics queue drained.
+
+The final two-client lab check passed joining, movement, camera input and a cold equipment
+change on native WebGPU. The remote player first appeared after 1.838 seconds with all ten
+meshes complete and had no disappearance or partially drawn samples. The maximum observed
+interval was 97.1 ms during joining and 73.9 ms during equipment changes. Runtime and graphics
+validation errors were zero. Normal gameplay screenshots were inspected. The production build,
+typecheck and focused actor/preparation checks passed. These local samples do not establish
+performance on every GPU or over the live server's network.
+
+The measurements below this section describe earlier WebGL revisions, not the native renderer.
+
 ## Loading after multiplayer
 
 The page's asset loader now enables Meshopt's shared worker pool. Its asynchronous decode API
@@ -46,9 +146,9 @@ tests and hardware gameplay smoke. Join timing was variable: two unprofiled runs
 four runs passed movement, replication, complete remote actors and equipment changes without
 runtime errors. The passing repeats do not establish that the intermittent join spike is fixed.
 
-## Browser-wide stalls during joining
+## Earlier WebGL investigation: browser-wide stalls during joining
 
-Acceptance remains open. A cold authored-server join still took 27.03 seconds with asset
+That patch's acceptance remained open. A cold authored-server join took 27.03 seconds with asset
 requests limited to 20 Mbps and 80 ms latency, exceeding the existing 20-second startup budget.
 A passing frame-rate sample is not sufficient to release this change.
 
