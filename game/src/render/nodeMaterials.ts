@@ -38,6 +38,14 @@ export type SurfaceTransforms = {
   [Channel in keyof SurfaceNodes]?: (previous: SurfaceNodes[Channel]) => SurfaceNodes[Channel];
 };
 
+// These are the only constructor forms used here. Three's full TSL overloads
+// recursively compare every node extension for dynamic material input types.
+const rgbNode = vec3 as unknown as (value: Node) => Node<"vec3">;
+const rgbaNode = vec4 as unknown as {
+  (value: Node): Node<"vec4">;
+  (value: Node<"vec3">, alpha: Node<"float">): Node<"vec4">;
+};
+
 const converted = new WeakMap<Material, SurfaceNodeMaterial>();
 
 function isSurfaceNodeMaterial(material: Material): material is SurfaceNodeMaterial {
@@ -115,7 +123,7 @@ export function surfaceNodes(material: SurfaceNodeMaterial): SurfaceNodes {
   return {
     // materialColor has a vec3 declaration but produces vec4 when a map exists.
     // Color transforms operate on RGB; composeSurface retains the original alpha.
-    color: vec3(material.colorNode ?? materialColor),
+    color: rgbNode(material.colorNode ?? materialColor),
     opacity: (material.opacityNode ?? materialOpacity) as Node<"float">,
     normal: (material.normalNode ?? materialNormal) as Node<"vec3">,
     roughness: (lit.roughnessNode ?? materialRoughness) as Node<"float">,
@@ -127,9 +135,9 @@ export function surfaceNodes(material: SurfaceNodeMaterial): SurfaceNodes {
 
 export function composeSurface<T extends SurfaceNodeMaterial>(material: T, transforms: SurfaceTransforms): T {
   const previous = surfaceNodes(material);
-  const previousAlpha = vec4(material.colorNode ?? materialColor).a;
+  const previousAlpha = rgbaNode(material.colorNode ?? materialColor).a;
   const lit = material as MeshStandardNodeMaterial;
-  if (transforms.color) material.colorNode = vec4(transforms.color(previous.color), previousAlpha);
+  if (transforms.color) material.colorNode = rgbaNode(transforms.color(previous.color), previousAlpha);
   if (transforms.opacity) material.opacityNode = transforms.opacity(previous.opacity);
   if (transforms.normal) material.normalNode = transforms.normal(previous.normal);
   if (transforms.roughness) lit.roughnessNode = transforms.roughness(previous.roughness);

@@ -1,11 +1,15 @@
 import { describe, expect as vitestExpect, it } from "vitest";
 import { Color, MeshBasicMaterial, MeshPhysicalMaterial, MeshStandardMaterial, ShaderMaterial, Texture } from "three";
-import { MeshBasicNodeMaterial, MeshPhysicalNodeMaterial, MeshStandardNodeMaterial } from "three/webgpu";
-import { materialColor, materialOpacity, positionLocal, uniform, vec3 } from "three/tsl";
+import { MeshBasicNodeMaterial, MeshPhysicalNodeMaterial, MeshStandardNodeMaterial, type Node } from "three/webgpu";
+import { materialColor, materialOpacity, positionLocal, uniform, vec3 as tslVec3 } from "three/tsl";
 import { cloneNodeMaterial, composeSurface, ensureNodeMaterial, surfaceNodes } from "../game/src/render/nodeMaterials.js";
 
 // Vitest's generic assertion types need not expand the recursive TSL graph types.
 const expect = (value: unknown) => vitestExpect(value);
+const vec3 = tslVec3 as unknown as {
+  (value: Node): Node<"vec3">;
+  (x: number, y: number, z: number): Node<"vec3">;
+};
 const referencesInput = (node: unknown, expected: unknown): boolean => {
   for (let current = node; current && typeof current === "object"; current = (current as { node?: unknown }).node) {
     if (current === expected) return true;
@@ -99,7 +103,7 @@ describe("node material conversion", () => {
     expect(referencesInput(surfaceNodes(material).color, materialColor)).toBe(true);
     expect(surfaceNodes(material).opacity).toBe(materialOpacity);
     expect(surfaceNodes(material).position).toBe(positionLocal);
-    const tint = materialColor.mul(vec3(0.8, 0.9, 1));
+    const tint = materialColor.mul(0.8);
     const firstOpacity = materialOpacity.mul(0.8);
     expect(composeSurface(material, {
       color: previous => { expect(referencesInput(previous, materialColor)).toBe(true); return tint; },
