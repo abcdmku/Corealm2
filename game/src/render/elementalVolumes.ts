@@ -1,11 +1,9 @@
 import * as THREE from "three";
 import { isolateMagicEmission } from "./magicGlow.js";
+import { MeshBasicNodeMaterial, MeshStandardNodeMaterial, MeshPhysicalNodeMaterial } from "three/webgpu";
+import { Fn, abs, attribute, buffer, dot, float, instanceIndex, mat3, materialColor, modelNormalMatrix, normalGeometry, normalize, positionGeometry, positionView, pow, sin, smoothstep, uniform, varying, vec3, vec4 } from "three/tsl";
+import { fbm3, noise3 } from "./elementalNodes.js";
 
-const noiseGLSL = `
-float hash3(vec3 p){p=fract(p*.3183099+vec3(.13,.37,.71));p*=17.0;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
-float noise3(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(mix(hash3(i),hash3(i+vec3(1,0,0)),f.x),mix(hash3(i+vec3(0,1,0)),hash3(i+vec3(1,1,0)),f.x),f.y),mix(mix(hash3(i+vec3(0,0,1)),hash3(i+vec3(1,0,1)),f.x),mix(hash3(i+vec3(0,1,1)),hash3(i+vec3(1,1,1)),f.x),f.y),f.z);}
-float fbm3(vec3 p){return noise3(p)*.55+noise3(p*2.03)*.28+noise3(p*4.07)*.17;}
-`;
 export type VolumeShape = "sphere" | "tube" | "ring" | "funnel";
 
 /** Dissolving spatial membranes around particle bodies. The noise is sampled in 3D. */
@@ -16,6 +14,7 @@ export class ElementalVolumes {
   private readonly up = new THREE.Vector3(0, 1, 0);
   private readonly direction = new THREE.Vector3();
   private energyGain = 1;
+  private readonly clock = uniform(0);
   constructor(parent: THREE.Object3D) {
     const geometries: Record<VolumeShape, THREE.BufferGeometry> = {
       sphere: new THREE.SphereGeometry(1, 28, 20),
@@ -32,23 +31,22 @@ export class ElementalVolumes {
           2,
         ).setUsage(THREE.DynamicDrawUsage),
       );
-      const material = new THREE.ShaderMaterial({
-        transparent: true,
-        depthWrite: false,
-        side: THREE.DoubleSide,
-        blending: THREE.AdditiveBlending,
-        uniforms: { time: { value: 0 } },
-        vertexShader: `attribute vec2 envelope;varying vec3 vLocal;varying vec3 vNormal;varying vec3 vView;varying vec3 vColour;varying vec2 vEnvelope;
-        void main(){vLocal=position;vEnvelope=envelope;vColour=instanceColor;vec3 p=position;float wave=sin(p.y*13.0+envelope.y*2.0)+sin(p.x*17.0-p.z*11.0+envelope.y);p+=normal*wave*.025;vec4 view=modelViewMatrix*instanceMatrix*vec4(p,1);mat3 m=mat3(instanceMatrix);vec3 n=normal/vec3(dot(m[0],m[0]),dot(m[1],m[1]),dot(m[2],m[2]));vNormal=normalize(normalMatrix*m*n);vView=-view.xyz;gl_Position=projectionMatrix*view;}`,
-        fragmentShader: `uniform float time;varying vec3 vLocal;varying vec3 vNormal;varying vec3 vView;varying vec3 vColour;varying vec2 vEnvelope;
-        ${noiseGLSL}
-        void main(){vec3 flow=vLocal*4.2+vec3(time*.45,-time*1.9,vEnvelope.y);float n=fbm3(flow+fbm3(flow*.7)*1.4);float filaments=pow(1.0-abs(n*2.0-1.0),12.0);float skin=smoothstep(.53,.69,n)*.4;float rim=pow(1.0-abs(dot(normalize(vNormal),normalize(vView))),1.8);float alpha=(filaments*.55+skin+rim*filaments*.55)*vEnvelope.x;
-        if(alpha<.012)discard;vec3 c=vColour*(2.0+filaments*5.0);gl_FragColor=vec4(c,alpha*.32);
-        #include <tonemapping_fragment>
-        #include <colorspace_fragment>
-        }`,
-      });
-      const mesh = new THREE.InstancedMesh(geometry, material, 160);
+      const material=new MeshBasicNodeMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
+      const mesh=new THREE.InstancedMesh(geometry,material,160);
+      const envelope=attribute("envelope","vec2" as const),vEnvelope=varying(envelope),local=varying(positionGeometry);
+      const matrix=buffer(mesh.instanceMatrix.array,"mat4" as const,160).element(instanceIndex),m=mat3(matrix);
+      const wave=sin(positionGeometry.y.mul(13).add(envelope.y.mul(2))).add(sin(positionGeometry.x.mul(17).sub(positionGeometry.z.mul(11)).add(envelope.y)));
+      material.positionNode=matrix.mul(vec4(positionGeometry.add(normalGeometry.mul(wave).mul(.025)),1)).xyz;
+      const col0=m.element(0),col1=m.element(1),col2=m.element(2);
+      const normal=normalize(varying(modelNormalMatrix.mul(m.mul(normalGeometry.div(vec3(dot(col0,col0),dot(col1,col1),dot(col2,col2)))))));
+      // Basic NodeMaterial applies the live per-instance colour after colorNode.
+      const flow=local.mul(4.2).add(vec3(this.clock.mul(.45),this.clock.mul(-1.9),vEnvelope.y));
+      const n=fbm3(flow.add(fbm3(flow.mul(.7)).mul(1.4))),filaments=pow(float(1).sub(abs(n.mul(2).sub(1))),12);
+      const skin=smoothstep(.53,.69,n).mul(.4),rim=pow(float(1).sub(abs(dot(normal,normalize(positionView.negate())))),1.8);
+      const alpha=filaments.mul(.55).add(skin).add(rim.mul(filaments).mul(.55)).mul(vEnvelope.x);
+      material.colorNode=vec3(filaments.mul(5).add(2));
+      material.opacityNode=alpha.mul(.32);
+      material.maskNode=alpha.greaterThanEqual(.012);
       // The shader reads instanceColor even while this pool is empty at preparation.
       mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(160 * 3).fill(1), 3)
         .setUsage(THREE.DynamicDrawUsage);
@@ -67,7 +65,7 @@ export class ElementalVolumes {
     this.energyGain = energyGain;
     for (const mesh of this.batches.values()) {
       mesh.count = 0;
-      (mesh.material as THREE.ShaderMaterial).uniforms["time"]!.value = seconds;
+      this.clock.value = seconds;
     }
   }
   put(
@@ -174,23 +172,14 @@ export class ElementalSolids {
       positions.setXYZ(i, x * r, Math.max(-0.8, Math.min(0.74, y)) * r, z * r);
     }
     stone.computeVertexNormals();
-    const material = new THREE.MeshStandardMaterial({
+    const material = new MeshStandardNodeMaterial({
       color: 0xf0e6d4,
       roughness: 0.64,
       metalness: 0.08,
     });
-    material.onBeforeCompile = (shader) => {
-      shader.vertexShader =
-        `varying vec3 vStone;\n${shader.vertexShader}`.replace(
-          "#include <begin_vertex>",
-          "#include <begin_vertex>\nvStone=position;",
-        );
-      shader.fragmentShader =
-        `varying vec3 vStone;\n${noiseGLSL}\n${shader.fragmentShader}`.replace(
-          "#include <color_fragment>",
-          `#include <color_fragment>\nfloat grain=fbm3(vStone*22.0);float strata=noise3(vStone*vec3(6.0,25.0,6.0));diffuseColor.rgb*=.7+grain*.42+strata*.16;`,
-        );
-    };
+    const stoneSample=varying(positionGeometry);
+    const grain=fbm3(stoneSample.mul(22)),strata=noise3(stoneSample.mul(vec3(6,25,6)));
+    material.colorNode=materialColor.rgb.mul(grain.mul(.42).add(strata.mul(.16)).add(.7));
     const ice = new THREE.CylinderGeometry(0.015, 0.21, 1, 5, 1);
     this.stone = this.batch(
       parent,
@@ -201,7 +190,7 @@ export class ElementalSolids {
     this.ice = this.batch(
       parent,
       ice,
-      new THREE.MeshPhysicalMaterial({
+      new MeshPhysicalNodeMaterial({
         color: 0x6c9497,
         roughness: 0.13,
         metalness: 0.16,

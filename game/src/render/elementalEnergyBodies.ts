@@ -1,10 +1,12 @@
 import * as THREE from "three";
+import type { Node } from "three/webgpu";
 import type { Vec3, SpellElement } from "../contracts.js";
 import { createElementalMatterMaterial } from "./elementalMatterMaterial.js";
 import { createElementalLiquidMaterial } from "./elementalLiquidMaterial.js";
 import { registerElementalRefraction } from "./elementalRefraction.js";
-import { elementalFlowTexture, flowSampling } from "./elementalFlowTexture.js";
-import { elementalFlameTexture, flameSampling } from "./elementalFlameTexture.js";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import { Fn, If, abs, atan, attribute, cross, dot, float, max, mix, modelNormalMatrix, normalize, positionGeometry, positionView, pow, sin, smoothstep, step, uniform, varying, vec2, vec3, vec4 } from "three/tsl";
+import { authoredFlow, clockUniform, flameColor, flameDetail, matterNoise3 } from "./elementalNodes.js";
 
 /** Swept, tapered 3D volumes provide the principal silhouette above the fine spark layer. */
 export class ElementalEnergyBodies {
@@ -58,64 +60,58 @@ export class ElementalEnergyBodies {
     ).setUsage(THREE.DynamicDrawUsage);
     geometry.setAttribute("bodyTint", this.tint);
     geometry.instanceCount = 0;
-    const material = element === "earth" || magical ? new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-      blending: element === "fire" ? THREE.NormalBlending : THREE.AdditiveBlending,
-      uniforms: { time: this.clock, magicEmissionPass: {value:0}, magicGain: {value: magical ? 1 : 0}, magicSchool: {value: element === "water" ? 1 : element === "fire" ? 3 : 0}, flowTexture: {value: elementalFlowTexture()},flameTexture:{value:elementalFlameTexture()} },
-      vertexShader: `attribute vec4 curveA,curveB,curveC,curveD,bodyTint;uniform float time;
-      varying vec3 vNormal,vView,vColour,vSample;varying float vAlpha,vAlong,vKind,vSeed;
-      void main(){float u=position.y,v=1.0-u;vec3 p=v*v*v*curveA.xyz+3.0*v*v*u*curveB.xyz+3.0*v*u*u*curveC.xyz+u*u*u*curveD.xyz;
-        vec3 tangent=normalize(3.0*v*v*(curveB.xyz-curveA.xyz)+6.0*v*u*(curveC.xyz-curveB.xyz)+3.0*u*u*(curveD.xyz-curveC.xyz));
-        vec3 ref=abs(tangent.y)>.94?vec3(1,0,0):vec3(0,1,0);vec3 right=normalize(cross(tangent,ref)),up=cross(right,tangent);
-        float envelope=pow(max(0.0,sin(u*3.14159265)),.65);float flame=step(.5,curveA.w)*(1.0-step(1.5,curveA.w));float fold=1.0+(.12+flame*.23)*sin(u*22.0-time*5.0+bodyTint.a)*sin(u*3.14159);
-        vec3 radial=right*position.x+up*position.z*curveC.w;p+=radial*curveB.w*envelope*fold;
-        vec4 view=modelViewMatrix*vec4(p,1);vNormal=normalize(normalMatrix*(right*position.x+up*position.z/max(.1,curveC.w)));vView=-view.xyz;
-        vSample=vec3(position.x,position.y*6.0,position.z);vAlong=u;vKind=curveA.w;vSeed=bodyTint.a;vColour=bodyTint.rgb;vAlpha=curveD.w;gl_Position=projectionMatrix*view;}`,
-      fragmentShader: `uniform float time,magicGain,magicSchool,magicEmissionPass;${flowSampling}${flameSampling}varying vec3 vNormal,vView,vColour,vSample;varying float vAlpha,vAlong,vKind,vSeed;
-      float hash(vec3 p){p=fract(p*.3183099+.17);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
-      float noise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);}
-      void main(){vec3 flow=vSample*vec3(2.0,1.8,2.0)+vec3(vSeed,-time*3.,0.);float n=noise(flow)*.65+noise(flow*2.1)*.35;
-        float face=abs(dot(normalize(vNormal),normalize(vView)));float grain=smoothstep(vKind>.5&&vKind<1.5?.25:.08,.64,n);
-        float current=pow(max(0.,sin(vAlong*24.0-time*12.0+n*4.0)),6.0);float base=vKind>.5&&vKind<1.5?.06:.32;float alpha=vAlpha*(base+(1.0-base)*grain)*pow(face,.5);
-        vec3 c=vColour*(1.8+grain*2.5+current*1.5);c+=vec3(.95,.98,1.0)*pow(face,14.0)*current*.14;
-        if(magicGain>.5){
-          float across=atan(vSample.z,vSample.x)/6.2831853;
-          float ink=authoredFlow(vec2(vAlong*1.8-time*.48,across*1.5+vSeed*.13),time*.18,vSeed);
-          float torn=smoothstep(.15,.57,ink+n*.20);
-          float endFade=pow(max(0.,sin(vAlong*3.14159)),.48);
-          float heart=pow(face,7.)*(.48+.52*ink);
-          alpha=vAlpha*endFade*pow(face,.7)*(.18+torn*.82);
-          c=vColour*(1.8+ink*2.8)+mix(vColour,vec3(1.),.72)*heart*2.8;
-          if((vKind>.5&&vKind<1.5)||magicSchool>2.5){
-            float flame=flameDetail(vec2(across*1.5,vAlong*1.25),time*1.25,vSeed);
-            alpha=vAlpha*endFade*smoothstep(.04,.33,flame)*pow(face,.55);
-            c=flameColor(flame,1.-vAlong,magicEmissionPass);
-          }else if(vKind>2.5||(magicSchool>.5&&magicSchool<1.5)){
-            // Unequal highlights travel through the current; the blue remains between them.
-            float crest=pow(face,10.)*smoothstep(.25,.65,ink);
-            float bead=pow(.5+.5*sin(vAlong*19.-time*7.+n*3.+vSeed),8.);
-            c=mix(vec3(.03,.30,2.5),vec3(.06,2.25,2.9),ink);
-            c+=vec3(2.8,3.8,3.3)*crest*(.35+bead*.95);
-            alpha*=.64+.36*torn;
-          }
-          if(alpha<.008)discard;gl_FragColor=vec4(c,alpha);
-        }else{if(alpha<.006)discard;gl_FragColor=vec4(c*.17,alpha*.55);}
-        #include <tonemapping_fragment>
-        #include <colorspace_fragment>
-      }`,
-    }) : element === "water" ? createElementalLiquidMaterial(this.clock) : createElementalMatterMaterial(element, this.clock);
+    let material: THREE.Material;
+    if(element === "earth" || magical) {
+      const node = new MeshBasicNodeMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,
+        blending:element === "fire" ? THREE.NormalBlending : THREE.AdditiveBlending});
+      const time=clockUniform(this.clock),emission=uniform(0);
+      node.userData["magicEmissionPass"]=emission;
+      const a=attribute("curveA","vec4" as const),b=attribute("curveB","vec4" as const),c=attribute("curveC","vec4" as const),d=attribute("curveD","vec4" as const),tint=attribute("bodyTint","vec4" as const);
+      const u=positionGeometry.y,v=float(1).sub(u);
+      const tangent=normalize(b.xyz.sub(a.xyz).mul(v.mul(v).mul(3)).add(c.xyz.sub(b.xyz).mul(v.mul(u).mul(6))).add(d.xyz.sub(c.xyz).mul(u.mul(u).mul(3))));
+      const ref=abs(tangent.y).greaterThan(.94).select(vec3(1,0,0),vec3(0,1,0)),right=normalize(cross(tangent,ref)),up=cross(right,tangent);
+      const envelope=pow(max(sin(u.mul(3.14159265)),0),.65),flame=step(.5,a.w).mul(float(1).sub(step(1.5,a.w)));
+      const fold=flame.mul(.23).add(.12).mul(sin(u.mul(22).sub(time.mul(5)).add(tint.a))).mul(sin(u.mul(3.14159))).add(1);
+      node.positionNode=a.xyz.mul(v.pow(3)).add(b.xyz.mul(v.mul(v).mul(u).mul(3))).add(c.xyz.mul(v.mul(u).mul(u).mul(3))).add(d.xyz.mul(u.pow(3)))
+        .add(right.mul(positionGeometry.x).add(up.mul(positionGeometry.z).mul(c.w)).mul(b.w).mul(envelope).mul(fold));
+      const normal=normalize(varying(modelNormalMatrix.mul(right.mul(positionGeometry.x).add(up.mul(positionGeometry.z).div(max(c.w,.1))))));
+      const sample=varying(vec3(positionGeometry.x,u.mul(6),positionGeometry.z)),along=varying(u),kind=varying(a.w),seed=varying(tint.a),colour=varying(tint.rgb),sourceAlpha=varying(d.w);
+      node.fragmentNode=Fn((): Node<"vec4"> =>{
+        const flow=sample.mul(vec3(2,1.8,2)).add(vec3(seed,time.mul(-3),0));
+        const n=matterNoise3(flow).mul(.65).add(matterNoise3(flow.mul(2.1)).mul(.35));
+        const face=abs(dot(normal,normalize(positionView.negate()))),isFlame=kind.greaterThan(.5).and(kind.lessThan(1.5));
+        const grain=smoothstep(isFlame.select(.25,.08),.64,n),current=pow(max(sin(along.mul(24).sub(time.mul(12)).add(n.mul(4))),0),6);
+        const base=isFlame.select(.06,.32);
+        const alpha=sourceAlpha.mul(base.add(float(1).sub(base).mul(grain))).mul(pow(face,.5)).toVar();
+        const color=colour.mul(grain.mul(2.5).add(current.mul(1.5)).add(1.8)).add(vec3(.95,.98,1).mul(pow(face,14)).mul(current).mul(.14)).toVar();
+        if(magical) {
+          const across=atan(sample.z,sample.x).div(6.2831853);
+          const ink=authoredFlow(vec2(along.mul(1.8).sub(time.mul(.48)),across.mul(1.5).add(seed.mul(.13))),time.mul(.18),seed);
+          const torn=smoothstep(.15,.57,ink.add(n.mul(.20))),endFade=pow(max(sin(along.mul(3.14159)),0),.48);
+          const heart=pow(face,7).mul(ink.mul(.52).add(.48));
+          alpha.assign(sourceAlpha.mul(endFade).mul(pow(face,.7)).mul(torn.mul(.82).add(.18)));
+          color.assign(colour.mul(ink.mul(2.8).add(1.8)).add(mix(colour,vec3(1),.72).mul(heart).mul(2.8)));
+          If(element === "fire" ? float(1).greaterThan(0) : isFlame,()=>{
+            const fire=flameDetail(vec2(across.mul(1.5),along.mul(1.25)),time.mul(1.25),seed);
+            alpha.assign(sourceAlpha.mul(endFade).mul(smoothstep(.04,.33,fire)).mul(pow(face,.55)));
+            color.assign(flameColor(fire,float(1).sub(along),emission));
+          }).ElseIf(element === "water" ? float(1).greaterThan(0) : kind.greaterThan(2.5),()=>{
+            const crest=pow(face,10).mul(smoothstep(.25,.65,ink)),bead=pow(sin(along.mul(19).sub(time.mul(7)).add(n.mul(3)).add(seed)).mul(.5).add(.5),8);
+            color.assign(mix(vec3(.03,.30,2.5),vec3(.06,2.25,2.9),ink).add(vec3(2.8,3.8,3.3).mul(crest).mul(bead.mul(.95).add(.35))));
+            alpha.mulAssign(torn.mul(.36).add(.64));
+          });
+          alpha.lessThan(.008).discard();return vec4(color,alpha);
+        }
+        alpha.lessThan(.006).discard();return vec4(color.mul(.17),alpha.mul(.55));
+      })();
+      material=node;
+    } else material=element === "water" ? createElementalLiquidMaterial(this.clock) : createElementalMatterMaterial(element,this.clock);
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.name = element === "earth" ? "elemental-energy-bodies" : `elemental-matter-${element}`;
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 12;
     this.mesh.userData["magicGlow"] = magical || element !== "water";
     this.mesh.userData["magicGlowOnly"] = (magical && element !== "fire") || element === "earth";
-    if(element === "fire" && magical){
-      const shader=material as THREE.ShaderMaterial;
-      shader.userData["magicEmissionPass"]=shader.uniforms["magicEmissionPass"];
-    }
     parent.add(this.mesh);
     if (element === "water" && !magical) this.unregisterRefraction = registerElementalRefraction(this.mesh);
   }

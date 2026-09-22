@@ -1,5 +1,8 @@
 import * as THREE from "three";
-import { elementalRefractionFragment, refractionUniforms, registerElementalRefraction } from "./elementalRefraction.js";
+import type { Node } from "three/webgpu";
+import { Fn, If, abs, attribute, buffer, cos, float, instanceIndex, mat3, max, modelNormalMatrix, normalize, normalGeometry, positionGeometry, sin, smoothstep, varying, varyingProperty, vec3, vec4 } from "three/tsl";
+import { createElementalRefractionMaterial, registerElementalRefraction } from "./elementalRefraction.js";
+import { clockUniform } from "./elementalNodes.js";
 
 /** Closed, curling water volumes. Surface lighting and airborne spray are separate layers. */
 export class ElementalFluidBodies {
@@ -92,56 +95,52 @@ export class ElementalFluidBodies {
       ["pool", new THREE.SphereGeometry(1,32,12)],
     ] as const) {
       geometry.setAttribute("fluidVariant",new THREE.InstancedBufferAttribute(new Float32Array((kind==="drop"?640:32)*2),2).setUsage(THREE.DynamicDrawUsage));
-      const material = new THREE.ShaderMaterial({
-        uniforms: refractionUniforms(this.clock,true,kind === "drop" ? 5 : 14,kind === "pool" ? 2 : kind === "wave" ? 1 : kind === "jet" ? 3 : 0),
-        defines: { FLUID_WAVE: kind === "wave" ? 1 : 0, FLUID_JET: kind === "jet" ? 1 : 0, FLUID_DROP: kind === "drop" ? 1 : 0 },
-        transparent: true, depthWrite: false, side: THREE.DoubleSide, toneMapped: false,
-        vertexShader: `uniform float time;attribute vec2 fluidVariant;attribute vec3 fluidSurface;
-          varying vec3 vRefNormal,vRefView,vRefLocal;varying float vRefAlpha,vRefSeed;
-          void main(){
-            float seed=instanceMatrix[3].x*.31+instanceMatrix[3].z*.17+fluidVariant.x*2.31;
-            vec3 p=position,n=normal;
-            #if FLUID_DROP == 0
-              float phase=p.y*13.0-time*7.0+seed;
-              float surge=sin(phase)*.025+sin(p.x*7.0+p.z*9.0+time*4.0+seed)*.018;
-              p+=normal*surge;
-              #if FLUID_JET == 1
-                p.x+=sin(p.y*6.0-time*3.0+seed)*p.y*.10;
-                p.z+=cos(p.y*7.0-time*2.3+seed)*p.y*.09;
-                p.x+=fluidVariant.y*p.y*p.y*.22;
-                p.xz*=1.+sin(p.y*6.+fluidVariant.x)*.13;
-              #else
-                p.y+=sin(p.x*4.0-time*4.1+seed)*.14*smoothstep(.1,.8,p.y);
-                p.z+=sin(p.x*3.5+time*3.7+seed)*.20*smoothstep(.1,.8,p.y);
-                p.y*=1.+sin(p.x*3.1+fluidVariant.x*1.7)*.17;
-                p.z+=fluidVariant.y*p.x*p.x*.24;
-                #if FLUID_WAVE == 1
-                if(fluidVariant.x>=50.&&fluidVariant.x<60.){
-                  // A rolled lip parameterized directly, so narrowing the ring cannot create spikes.
-                  float lateral=fluidSurface.x,along=fluidSurface.y;
-                  float curl=-1.5707963+along*4.241150;
-                  float crest=(sin(curl)+1.)*.5;
-                  float roll=.93+.055*sin(lateral*4.-time*2.8+seed)+.025*sin(lateral*9.+time*3.1);
-                  p=vec3(lateral,crest*roll,cos(curl)*.7+fluidSurface.z*(.045+(1.-along)*.07));
-                  p.z+=lateral*lateral*.48+crest*crest*.30;
-                }else if(fluidVariant.x>=40.&&fluidVariant.x<50.){
-                  p.y*=1.-smoothstep(.64,1.,abs(p.x));
-                  p.z+=p.y*p.y*.5;
-                  p.z*=1.-smoothstep(.80,1.,abs(p.x))*.7;
-                }
-                #endif
-              #endif
-              n+=vec3(cos(phase)*.28,sin(phase*.7)*.08,sin(phase)*.24);
-            #endif
-            vec4 view=modelViewMatrix*instanceMatrix*vec4(p,1.0);
-            mat3 m=mat3(instanceMatrix);n/=vec3(dot(m[0],m[0]),dot(m[1],m[1]),dot(m[2],m[2]));
-            vRefNormal=normalize(normalMatrix*m*n);vRefView=-view.xyz;
-            vRefLocal=vec3(p.x,position.y,p.z);vRefAlpha=.93;vRefSeed=seed;
-            gl_Position=projectionMatrix*view;
-          }`,
-        fragmentShader: elementalRefractionFragment,
-      });
-      const mesh = new THREE.InstancedMesh(geometry, material, kind === "drop" ? 640 : 32);
+      const mesh = new THREE.InstancedMesh(geometry, undefined, kind === "drop" ? 640 : 32);
+      const matrix=buffer(mesh.instanceMatrix.array,"mat4" as const,mesh.instanceMatrix.count).element(instanceIndex);
+      const time=clockUniform(this.clock),variant=attribute("fluidVariant","vec2" as const),surface=attribute("fluidSurface","vec3" as const);
+      const seed=matrix.element(3).x.mul(.31).add(matrix.element(3).z.mul(.17)).add(variant.x.mul(2.31));
+      const refNormal=varyingProperty("vec3"),refLocal=varyingProperty("vec3");
+      const position=Fn((): Node<"vec3"> =>{
+        const p=positionGeometry.toVar(),n=normalGeometry.toVar();
+        if(kind !== "drop") {
+          const phase=p.y.mul(13).sub(time.mul(7)).add(seed);
+          const surge=sin(phase).mul(.025).add(sin(p.x.mul(7).add(p.z.mul(9)).add(time.mul(4)).add(seed)).mul(.018));
+          p.addAssign(normalGeometry.mul(surge));
+          if(kind === "jet") {
+            p.x.addAssign(sin(p.y.mul(6).sub(time.mul(3)).add(seed)).mul(p.y).mul(.10));
+            p.z.addAssign(cos(p.y.mul(7).sub(time.mul(2.3)).add(seed)).mul(p.y).mul(.09));
+            p.x.addAssign(variant.y.mul(p.y).mul(p.y).mul(.22));
+            p.xz.mulAssign(sin(p.y.mul(6).add(variant.x)).mul(.13).add(1));
+          } else {
+            p.y.addAssign(sin(p.x.mul(4).sub(time.mul(4.1)).add(seed)).mul(.14).mul(smoothstep(.1,.8,p.y)));
+            p.z.addAssign(sin(p.x.mul(3.5).add(time.mul(3.7)).add(seed)).mul(.20).mul(smoothstep(.1,.8,p.y)));
+            p.y.mulAssign(sin(p.x.mul(3.1).add(variant.x.mul(1.7))).mul(.17).add(1));
+            p.z.addAssign(variant.y.mul(p.x).mul(p.x).mul(.24));
+            if(kind === "wave") {
+              If(variant.x.greaterThanEqual(50).and(variant.x.lessThan(60)),()=>{
+                const lateral=surface.x,along=surface.y,curl=along.mul(4.241150).sub(1.5707963),crest=sin(curl).add(1).mul(.5);
+                const roll=sin(lateral.mul(4).sub(time.mul(2.8)).add(seed)).mul(.055).add(sin(lateral.mul(9).add(time.mul(3.1))).mul(.025)).add(.93);
+                p.assign(vec3(lateral,crest.mul(roll),cos(curl).mul(.7).add(surface.z.mul(float(1).sub(along).mul(.07).add(.045)))));
+                p.z.addAssign(lateral.mul(lateral).mul(.48).add(crest.mul(crest).mul(.30)));
+              }).ElseIf(variant.x.greaterThanEqual(40).and(variant.x.lessThan(50)),()=>{
+                p.y.mulAssign(float(1).sub(smoothstep(.64,1,abs(p.x))));
+                p.z.addAssign(p.y.mul(p.y).mul(.5));p.z.mulAssign(float(1).sub(smoothstep(.80,1,abs(p.x)).mul(.7)));
+              });
+            }
+          }
+          n.addAssign(vec3(cos(phase).mul(.28),sin(phase.mul(.7)).mul(.08),sin(phase).mul(.24)));
+        }
+        const m=mat3(matrix),col0=m.element(0),col1=m.element(1),col2=m.element(2);
+        n.divAssign(vec3(col0.dot(col0),col1.dot(col1),col2.dot(col2)));
+        refNormal.assign(normalize(modelNormalMatrix.mul(m.mul(n))));
+        refLocal.assign(vec3(p.x,positionGeometry.y,p.z));
+        return matrix.mul(vec4(p,1)).xyz;
+      })();
+      const material=createElementalRefractionMaterial({clock:this.clock,liquid:true,strength:kind === "drop" ? 5 : 14,
+        flowMode:kind === "pool" ? 2 : kind === "wave" ? 1 : kind === "jet" ? 3 : 0,
+        positionNode:position,normalNode:refNormal,localNode:refLocal,alphaNode:float(.93),seedNode:varying(seed)});
+      material.side=THREE.DoubleSide;
+      mesh.material=material;
       this.unregister.push(registerElementalRefraction(mesh));
       mesh.count = 0;
       mesh.frustumCulled = false;

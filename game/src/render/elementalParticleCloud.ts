@@ -1,15 +1,19 @@
 import * as THREE from "three";
+import type { Node } from "three/webgpu";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import { Fn, abs, attribute, cos, dot, float, fract, mat3, max, modelNormalMatrix, normalGeometry, normalize, positionGeometry, positionView, pow, screenCoordinate, sin, smoothstep, uniform, varying, vec2, vec3, vec4 } from "three/tsl";
 
 /** All motes are three-dimensional meshes. No camera-facing cards or particle atlases. */
 export class ElementalParticleCloud {
   readonly mesh: THREE.Mesh<
     THREE.InstancedBufferGeometry,
-    THREE.ShaderMaterial
+    MeshBasicNodeMaterial
   >;
   private readonly centres: THREE.InstancedBufferAttribute;
   private readonly colours: THREE.InstancedBufferAttribute;
   private readonly shapes: THREE.InstancedBufferAttribute;
   private count = 0;
+  private readonly clock = uniform(0);
   private energyGain = 1;
   dropped = 0;
   private readonly colour = new THREE.Color();
@@ -43,64 +47,41 @@ export class ElementalParticleCloud {
     geometry.setAttribute("tintAlpha", this.colours);
     geometry.setAttribute("shape", this.shapes);
     geometry.instanceCount = 0;
-    const material = new THREE.ShaderMaterial({
-      uniforms: { time: { value: 0 } },
-      defines: {
-        SMOKE: kind === "smoke" ? 1 : 0,
-        FRAGMENT: kind === "fragment" ? 1 : 0,
-        DROPLET: kind === "droplet" ? 1 : 0,
-      },
-      transparent: kind !== "fragment",
-      depthWrite: kind === "fragment",
-      depthTest: true,
-      blending:
-        kind === "light" ? THREE.AdditiveBlending : THREE.NormalBlending,
-      side: THREE.FrontSide,
-      vertexShader: `uniform float time;attribute vec4 centreSize;attribute vec4 tintAlpha;attribute vec4 shape;
-      varying vec4 vTint;varying vec3 vNormal;varying vec3 vLocal;varying vec3 vView;varying float vSeed;
-      void main(){
-       float c=cos(shape.x),s=sin(shape.x);mat3 spin=mat3(c,0,-s,0,1,0,s,0,c);
-       #if FRAGMENT == 1
-        float ax=shape.w*1.73+time*(1.1+fract(shape.w*.37)*3.);
-        float az=shape.w*2.41-time*(.9+fract(shape.w*.63)*2.);
-        mat3 tilt=mat3(1,0,0,0,cos(ax),sin(ax),0,-sin(ax),cos(ax));
-        mat3 roll=mat3(cos(az),sin(az),0,-sin(az),cos(az),0,0,0,1);
-        spin=spin*tilt*roll;
-       #endif
-       vec3 p=position*vec3(shape.y,shape.z,1.0);p=spin*p;
-       vec4 view=modelViewMatrix*vec4(centreSize.xyz+p*centreSize.w,1.0);
-       vNormal=normalize(normalMatrix*spin*(normal/vec3(shape.y,shape.z,1.0)));vView=-view.xyz;vLocal=position;vTint=tintAlpha;vSeed=shape.w;
-       #if DROPLET == 1
-        vNormal=normalize(normalMatrix*spin*(position/vec3(shape.y,shape.z,1.0)));
-       #endif
-       gl_Position=projectionMatrix*view;
-      }`,
-      fragmentShader: `uniform float time;varying vec4 vTint;varying vec3 vNormal;varying vec3 vLocal;varying vec3 vView;varying float vSeed;
-      void main(){
-       vec3 n=normalize(vNormal);float face=max(0.0,dot(n,normalize(vView)));float lit=.48+.52*max(0.0,dot(n,normalize(vec3(-.4,.8,.3))));
-       float alpha=vTint.a;vec3 colour=vTint.rgb;
-       #if SMOKE == 1
-        float breakup=smoothstep(-.2,.7,sin(vLocal.x*9.0+vSeed)*sin(vLocal.y*8.0-time*.7)*sin(vLocal.z*11.0+vSeed*.3));
-        alpha*=pow(face,3.0)*breakup*.32;colour*=lit;
-       #elif FRAGMENT == 1
-        if(fract(sin(dot(gl_FragCoord.xy,vec2(12.9898,78.233)))*43758.5453)>alpha)discard;
-        colour*=lit;
-       #elif DROPLET == 1
-        // Shaded, sharply bounded liquid. Specular highlights stay in the scene
-        // pass; these drops never enter the magic bloom buffer.
-        float rim=pow(1.-face,3.);
-        float glint=pow(max(0.,dot(n,normalize(normalize(vView)+vec3(-.4,.8,.3)))),32.);
-        colour=colour*(.46+lit*.40)+vec3(.36,.48,.49)*rim+vec3(.84,.92,.94)*glint;
-        alpha*=.76+.24*face;
-       #else
-        float core=pow(face,8.0);colour*=4.0+core*9.0;alpha*=pow(face,2.5);
-       #endif
-       if(alpha<.006)discard;
-       gl_FragColor=vec4(colour,alpha);
-       #include <tonemapping_fragment>
-       #include <colorspace_fragment>
-      }`,
+    const material = new MeshBasicNodeMaterial({
+      transparent: kind !== "fragment", depthWrite: kind === "fragment", depthTest: true,
+      blending: kind === "light" ? THREE.AdditiveBlending : THREE.NormalBlending, side: THREE.FrontSide,
     });
+    const centre=attribute("centreSize","vec4" as const),tint=attribute("tintAlpha","vec4" as const),shape=attribute("shape","vec4" as const);
+    const c=cos(shape.x),s=sin(shape.x);
+    let spin=mat3(c,0,s.negate(),0,1,0,s,0,c);
+    if(kind === "fragment") {
+      const ax=shape.w.mul(1.73).add(this.clock.mul(fract(shape.w.mul(.37)).mul(3).add(1.1)));
+      const az=shape.w.mul(2.41).sub(this.clock.mul(fract(shape.w.mul(.63)).mul(2).add(.9)));
+      spin=spin.mul(mat3(1,0,0,0,cos(ax),sin(ax),0,sin(ax).negate(),cos(ax))).mul(mat3(cos(az),sin(az),0,sin(az).negate(),cos(az),0,0,0,1));
+    }
+    const stretch=vec3(shape.y,shape.z,1);
+    material.positionNode=centre.xyz.add(spin.mul(positionGeometry.mul(stretch)).mul(centre.w));
+    const normal=normalize(varying(modelNormalMatrix.mul(spin.mul((kind === "droplet" ? positionGeometry : normalGeometry).div(stretch)))));
+    const local=varying(positionGeometry),seed=varying(shape.w),vTint=varying(tint);
+    material.fragmentNode=Fn((): Node<"vec4"> =>{
+      const face=max(dot(normal,normalize(positionView.negate())),0);
+      const lit=max(dot(normal,normalize(vec3(-.4,.8,.3))),0).mul(.52).add(.48);
+      const alpha=vTint.a.toVar(),colour=vTint.rgb.toVar();
+      if(kind === "smoke") {
+        const breakup=smoothstep(-.2,.7,sin(local.x.mul(9).add(seed)).mul(sin(local.y.mul(8).sub(this.clock.mul(.7)))).mul(sin(local.z.mul(11).add(seed.mul(.3)))));
+        alpha.mulAssign(pow(face,3).mul(breakup).mul(.32));colour.mulAssign(lit);
+      } else if(kind === "fragment") {
+        fract(sin(dot(screenCoordinate.xy,vec2(12.9898,78.233))).mul(43758.5453)).greaterThan(alpha).discard();colour.mulAssign(lit);
+      } else if(kind === "droplet") {
+        const rim=pow(float(1).sub(face),3);
+        const glint=pow(max(dot(normal,normalize(normalize(positionView.negate()).add(vec3(-.4,.8,.3)))),0),32);
+        colour.assign(colour.mul(lit.mul(.40).add(.46)).add(vec3(.36,.48,.49).mul(rim)).add(vec3(.84,.92,.94).mul(glint)));
+        alpha.mulAssign(face.mul(.24).add(.76));
+      } else {
+        colour.mulAssign(pow(face,8).mul(9).add(4));alpha.mulAssign(pow(face,2.5));
+      }
+      alpha.lessThan(.006).discard();return vec4(colour,alpha);
+    })();
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.frustumCulled = false;
     this.mesh.name = `elemental-3d-${kind}`;
@@ -114,7 +95,7 @@ export class ElementalParticleCloud {
     this.energyGain = energyGain;
     this.count = 0;
     this.dropped = 0;
-    this.mesh.material.uniforms["time"]!.value = seconds;
+    this.clock.value = seconds;
   }
   put(
     x: number,

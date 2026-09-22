@@ -1,84 +1,49 @@
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import { abs, atan, attribute, cos, cross, float, max, mix, modelNormalMatrix, normalize, positionGeometry, pow, sin, smoothstep, varying, vec2, vec3 } from "three/tsl";
 import { isolateMagicEmission } from "./magicGlow.js";
-import { elementalFlowTexture, flowSampling } from "./elementalFlowTexture.js";
+import { authoredFlow, clockUniform } from "./elementalNodes.js";
 
 /** Lit elemental matter: its surface carries the shape, with emission confined to hot or wet detail. */
-export function createElementalMatterMaterial(
-  element: "wind" | "water" | "fire",
-  clock: { value: number },
-): THREE.MeshStandardMaterial {
-  const material = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    roughness: element === "water" ? .3 : element === "wind" ? .8 : .65,
-    metalness: 0,
-    transparent: true,
-    depthWrite: false,
-    side: THREE.FrontSide,
-  });
-  material.defines = { ...material.defines, MATTER_KIND: element === "wind" ? 0 : element === "water" ? 1 : 2 };
-  material.onBeforeCompile = (shader) => {
-    shader.uniforms["matterTime"] = clock;
-    shader.uniforms["flowTexture"] = {value:elementalFlowTexture()};
-    const varyings = `varying vec3 vBodySample,vBodyColour;varying float vBodyAlpha,vBodyAlong,vBodySeed;`;
-    shader.vertexShader = `attribute vec4 curveA,curveB,curveC,curveD,bodyTint;uniform float matterTime;${varyings}\n${shader.vertexShader}`
-      .replace("#include <beginnormal_vertex>", `
-        float u=position.y,v=1.0-u;
-        vec3 bodyPosition=v*v*v*curveA.xyz+3.0*v*v*u*curveB.xyz+3.0*v*u*u*curveC.xyz+u*u*u*curveD.xyz;
-        vec3 tangent=normalize(3.0*v*v*(curveB.xyz-curveA.xyz)+6.0*v*u*(curveC.xyz-curveB.xyz)+3.0*u*u*(curveD.xyz-curveC.xyz));
-        vec3 chord=normalize(curveD.xyz-curveA.xyz);vec3 reference=abs(chord.y)>.85?vec3(1,0,0):vec3(0,1,0);
-        vec3 right=normalize(cross(tangent,reference)),up=cross(right,tangent);
-        float envelope=pow(max(0.0,sin(u*3.14159265)),.65);
-        float fold=1.0+.2*sin(u*23.0-matterTime*6.0+bodyTint.a)*sin(u*3.14159);
-        bodyPosition+=(right*position.x+up*position.z*curveC.w)*curveB.w*envelope*fold;
-        #if MATTER_KIND == 2
-          float flicker=u*13.0-matterTime*7.0+bodyTint.a;
-          bodyPosition+=(right*sin(flicker*.47)+up*cos(flicker*.61))*curveB.w*.42*envelope;
-          bodyPosition+=(right*position.x+up*position.z)*sin(flicker+atan(position.z,position.x)*3.0)*curveB.w*.20*envelope;
-        #endif
-        vec3 objectNormal=normalize(right*position.x+up*position.z/max(.1,curveC.w));
-        vBodySample=vec3(position.x,u*6.0,position.z);vBodyColour=bodyTint.rgb;vBodyAlpha=curveD.w;vBodyAlong=u;vBodySeed=bodyTint.a;
-      `)
-      .replace("#include <begin_vertex>", "vec3 transformed=bodyPosition;");
-    shader.fragmentShader = `uniform float matterTime;${varyings}${flowSampling}
-      float matterHash(vec3 p){p=fract(p*.3183099+.17);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
-      float matterNoise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(matterHash(i),matterHash(i+vec3(1,0,0)),f.x),mix(matterHash(i+vec3(0,1,0)),matterHash(i+vec3(1,1,0)),f.x),f.y),mix(mix(matterHash(i+vec3(0,0,1)),matterHash(i+vec3(1,0,1)),f.x),mix(matterHash(i+vec3(0,1,1)),matterHash(i+vec3(1,1,1)),f.x),f.y),f.z);}
-      ${shader.fragmentShader}`
-      .replace("#include <color_fragment>", `#include <color_fragment>
-        vec3 flow=vBodySample*vec3(2.7,1.6,2.7)+vec3(vBodySeed,-matterTime*3.,0.);
-        #if MATTER_KIND == 2
-          flow=vBodySample*vec3(3.0,.9,3.0)+vec3(vBodySeed,-matterTime*3.8,0.);
-          flow+=vec3(matterNoise(flow*.7),matterNoise(flow*.6+7.0),matterNoise(flow*.8+13.0))*1.7;
-        #endif
-        vec2 streamUv=vec2(atan(vBodySample.z,vBodySample.x)/6.2831853*2.0,vBodyAlong*1.4);
-        float grain=authoredFlow(streamUv,matterTime*1.6,vBodySeed);
-        float crest=smoothstep(.55,.75,grain);
-        #if MATTER_KIND == 0
-          diffuseColor.rgb=vBodyColour*(.5+grain*.5);
-          diffuseColor.a=vBodyAlpha*smoothstep(.23,.56,grain)*.65;
-        #elif MATTER_KIND == 1
-          diffuseColor.rgb=mix(vec3(.016,.095,.12),vBodyColour*.7,crest*.8);
-          diffuseColor.a=vBodyAlpha*(.7+grain*.3)*(1.0-smoothstep(.5,1.0,vBodyAlong)*(1.0-smoothstep(.3,.57,grain)));
-        #else
-          diffuseColor.rgb=mix(vec3(.13,.002,.001),vec3(.42,.025,.001),grain);
-          float body=smoothstep(.025,.40,grain+(1.0-vBodyAlong)*.14);
-          diffuseColor.a=vBodyAlpha*body*(1.0-smoothstep(.80,1.0,vBodyAlong));
-        #endif
-        if(diffuseColor.a<.008)discard;
-      `)
-      .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>
-        #if MATTER_KIND == 0
-          totalEmissiveRadiance=vBodyColour*crest*.18;
-        #elif MATTER_KIND == 1
-          float current=pow(.5+.5*sin(grain*20.-matterTime*5.+vBodyAlong*11.),8.);
-          totalEmissiveRadiance=vec3(.12,.66,.85)*crest*(.8+current*1.2);
-        #else
-          float heat=smoothstep(.1,.67,grain)*(1.0-smoothstep(.75,1.0,vBodyAlong));
-          totalEmissiveRadiance=mix(vec3(.42,.009,.002),vec3(3.8,.42,.006),heat);
-          totalEmissiveRadiance=mix(totalEmissiveRadiance,vec3(6.,2.4,.45),smoothstep(.58,.87,grain));
-          totalEmissiveRadiance+=vec3(1.7,.52,.09)*pow(.5+.5*sin(grain*23.-matterTime*4.6+vBodyAlong*9.),9.)*heat;
-        #endif
-      `);
-  };
+export function createElementalMatterMaterial(element: "wind" | "water" | "fire", clock: { value: number }): MeshStandardNodeMaterial {
+  const material = new MeshStandardNodeMaterial({ color: 0xffffff, roughness: element === "water" ? .3 : element === "wind" ? .8 : .65,
+    metalness: 0, transparent: true, depthWrite: false, side: THREE.FrontSide });
+  const time=clockUniform(clock),a=attribute("curveA","vec4" as const),b=attribute("curveB","vec4" as const),c=attribute("curveC","vec4" as const),d=attribute("curveD","vec4" as const),tint=attribute("bodyTint","vec4" as const);
+  const u=positionGeometry.y,v=float(1).sub(u);
+  const tangent=normalize(b.xyz.sub(a.xyz).mul(v.mul(v).mul(3)).add(c.xyz.sub(b.xyz).mul(v.mul(u).mul(6))).add(d.xyz.sub(c.xyz).mul(u.mul(u).mul(3))));
+  const chord=normalize(d.xyz.sub(a.xyz)),reference=abs(chord.y).greaterThan(.85).select(vec3(1,0,0),vec3(0,1,0));
+  const right=normalize(cross(tangent,reference)),up=cross(right,tangent);
+  const envelope=pow(max(sin(u.mul(3.14159265)),0),.65);
+  const fold=sin(u.mul(23).sub(time.mul(6)).add(tint.a)).mul(.2).mul(sin(u.mul(3.14159))).add(1);
+  let p=a.xyz.mul(v.pow(3)).add(b.xyz.mul(v.mul(v).mul(u).mul(3))).add(c.xyz.mul(v.mul(u).mul(u).mul(3))).add(d.xyz.mul(u.pow(3)));
+  p=p.add(right.mul(positionGeometry.x).add(up.mul(positionGeometry.z).mul(c.w)).mul(b.w).mul(envelope).mul(fold));
+  if(element === "fire") {
+    const flicker=u.mul(13).sub(time.mul(7)).add(tint.a);
+    p=p.add(right.mul(sin(flicker.mul(.47))).add(up.mul(cos(flicker.mul(.61)))).mul(b.w).mul(.42).mul(envelope));
+    p=p.add(right.mul(positionGeometry.x).add(up.mul(positionGeometry.z)).mul(sin(flicker.add(atan(positionGeometry.z,positionGeometry.x).mul(3)))).mul(b.w).mul(.20).mul(envelope));
+  }
+  material.positionNode=p;
+  material.normalNode=normalize(varying(modelNormalMatrix.mul(normalize(right.mul(positionGeometry.x).add(up.mul(positionGeometry.z).div(max(c.w,.1)))))));
+  const sample=varying(vec3(positionGeometry.x,u.mul(6),positionGeometry.z)),along=varying(u),seed=varying(tint.a),colour=varying(tint.rgb),alpha=varying(d.w);
+  const grain=authoredFlow(vec2(atan(sample.z,sample.x).div(6.2831853).mul(2),along.mul(1.4)),time.mul(1.6),seed);
+  const crest=smoothstep(.55,.75,grain);
+  if(element === "wind") {
+    material.colorNode=colour.mul(grain.mul(.5).add(.5));
+    material.opacityNode=alpha.mul(smoothstep(.23,.56,grain)).mul(.65);
+    material.emissiveNode=colour.mul(crest).mul(.18);
+  } else if(element === "water") {
+    material.colorNode=mix(vec3(.016,.095,.12),colour.mul(.7),crest.mul(.8));
+    material.opacityNode=alpha.mul(grain.mul(.3).add(.7)).mul(float(1).sub(smoothstep(.5,1,along).mul(float(1).sub(smoothstep(.3,.57,grain)))));
+    const current=pow(sin(grain.mul(20).sub(time.mul(5)).add(along.mul(11))).mul(.5).add(.5),8);
+    material.emissiveNode=vec3(.12,.66,.85).mul(crest).mul(current.mul(1.2).add(.8));
+  } else {
+    material.colorNode=mix(vec3(.13,.002,.001),vec3(.42,.025,.001),grain);
+    material.opacityNode=alpha.mul(smoothstep(.025,.40,grain.add(float(1).sub(along).mul(.14)))).mul(float(1).sub(smoothstep(.80,1,along)));
+    const heat=smoothstep(.1,.67,grain).mul(float(1).sub(smoothstep(.75,1,along)));
+    const radiance=mix(mix(vec3(.42,.009,.002),vec3(3.8,.42,.006),heat),vec3(6,2.4,.45),smoothstep(.58,.87,grain));
+    material.emissiveNode=radiance.add(vec3(1.7,.52,.09).mul(pow(sin(grain.mul(23).sub(time.mul(4.6)).add(along.mul(9))).mul(.5).add(.5),9)).mul(heat));
+  }
+  material.alphaTest=.008;
   isolateMagicEmission(material);
   return material;
 }

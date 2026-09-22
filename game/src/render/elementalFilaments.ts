@@ -1,10 +1,12 @@
 import * as THREE from "three";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import { abs, attribute, cross, dot, float, max, mix, modelNormalMatrix, normalGeometry, normalize, positionGeometry, positionView, pow, sin, uniform, varying, vec3, vec4 } from "three/tsl";
 
 /** Thin 3D energy strands. Connected segments share strand coordinates so glow flows through joins. */
 export class ElementalFilaments {
   readonly mesh: THREE.Mesh<
     THREE.InstancedBufferGeometry,
-    THREE.ShaderMaterial
+    MeshBasicNodeMaterial
   >;
   private readonly starts: THREE.InstancedBufferAttribute;
   private readonly ends: THREE.InstancedBufferAttribute;
@@ -12,6 +14,7 @@ export class ElementalFilaments {
   private readonly flows: THREE.InstancedBufferAttribute;
   private readonly colour = new THREE.Color();
   private count = 0;
+  private readonly clock = uniform(0);
   private energyGain = 1;
   dropped = 0;
   readonly capacity = 4096;
@@ -21,33 +24,34 @@ export class ElementalFilaments {
     geometry.setAttribute("position", base.getAttribute("position"));
     geometry.setAttribute("normal", base.getAttribute("normal"));
     geometry.setIndex(base.index);
-    const attribute = () =>
+    const createAttribute = () =>
       new THREE.InstancedBufferAttribute(
         new Float32Array(this.capacity * 4),
         4,
       ).setUsage(THREE.DynamicDrawUsage);
-    this.starts = attribute();
-    this.ends = attribute();
-    this.tints = attribute();
-    this.flows = attribute();
+    this.starts = createAttribute();
+    this.ends = createAttribute();
+    this.tints = createAttribute();
+    this.flows = createAttribute();
     geometry.setAttribute("strandStart", this.starts);
     geometry.setAttribute("strandEnd", this.ends);
     geometry.setAttribute("strandTint", this.tints);
     geometry.setAttribute("strandFlow", this.flows);
     geometry.instanceCount = 0;
-    const material = new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      uniforms: { time: { value: 0 } },
-      vertexShader: `attribute vec4 strandStart,strandEnd,strandTint,strandFlow;varying vec4 vTint;varying vec3 vNormal,vView;varying float vAlong,vSeed;
-       void main(){vec3 axis=normalize(strandEnd.xyz-strandStart.xyz);vec3 ref=abs(axis.y)>.95?vec3(1,0,0):vec3(0,1,0);vec3 right=normalize(cross(axis,ref)),forward=cross(right,axis);float t=position.y+.5;vAlong=mix(strandFlow.x,strandFlow.y,t);vSeed=strandFlow.z;float taper=.18+.82*pow(max(0.,sin(vAlong*3.14159)),.35);vec3 offset=(right*position.x+forward*position.z)*strandStart.w*taper;vec3 p=mix(strandStart.xyz,strandEnd.xyz,t)+offset;vec4 view=modelViewMatrix*vec4(p,1);vView=-view.xyz;vNormal=normalize(normalMatrix*(right*normal.x+forward*normal.z));vTint=vec4(strandTint.rgb*strandTint.a,strandEnd.w);gl_Position=projectionMatrix*view;}`,
-      fragmentShader: `uniform float time;varying vec4 vTint;varying vec3 vNormal,vView;varying float vAlong,vSeed;
-       void main(){float face=abs(dot(normalize(vNormal),normalize(vView)));float pulse=pow(max(0.,sin(vAlong*18.-time*15.+vSeed)),12.);float alpha=vTint.a*pow(face,.65);vec3 colour=vTint.rgb*(2.5+face*3.+pulse*6.);gl_FragColor=vec4(colour,alpha);
-       #include <tonemapping_fragment>
-       #include <colorspace_fragment>
-       }`,
-    });
+    const material = new MeshBasicNodeMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+    const start = attribute("strandStart","vec4" as const), end = attribute("strandEnd","vec4" as const), tint = attribute("strandTint","vec4" as const), flow = attribute("strandFlow","vec4" as const);
+    const axis = normalize(end.xyz.sub(start.xyz));
+    const reference = abs(axis.y).greaterThan(.95).select(vec3(1,0,0),vec3(0,1,0));
+    const right=normalize(cross(axis,reference)),forward=cross(right,axis), t=positionGeometry.y.add(.5);
+    const along=varying(mix(flow.x,flow.y,t)),seed=varying(flow.z);
+    const taper=float(.18).add(pow(max(sin(along.mul(3.14159)),0),.35).mul(.82));
+    material.positionNode=mix(start.xyz,end.xyz,t).add(right.mul(positionGeometry.x).add(forward.mul(positionGeometry.z)).mul(start.w).mul(taper));
+    const normal=normalize(varying(modelNormalMatrix.mul(right.mul(normalGeometry.x).add(forward.mul(normalGeometry.z)))));
+    const face=abs(dot(normal,normalize(positionView.negate())));
+    const pulse=pow(max(sin(along.mul(18).sub(this.clock.mul(15)).add(seed)),0),12);
+    const alpha=varying(end.w).mul(pow(face,.65));
+    const color=varying(tint.rgb.mul(tint.a)).mul(float(2.5).add(face.mul(3)).add(pulse.mul(6)));
+    material.fragmentNode=vec4(color,alpha);
     this.mesh = new THREE.Mesh(geometry, material);
     this.mesh.frustumCulled = false;
     this.mesh.name = "elemental-energy-filaments";
@@ -60,7 +64,7 @@ export class ElementalFilaments {
     this.energyGain = energyGain;
     this.count = 0;
     this.dropped = 0;
-    this.mesh.material.uniforms["time"]!.value = seconds;
+    this.clock.value = seconds;
   }
   segment(
     ax: number,
