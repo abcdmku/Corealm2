@@ -12,7 +12,7 @@
     "smartUv": true,
     "rigRequired": true,
     "productionStatus": "not-integrated",
-    "imageGate": "Exact source Astra-low wild_audit approval before current model generation"
+    "imageGate": "Exact source image Astra-low approval before each model generation; initial wild_audit followed by user-directed fresh face_audit_crown on current revisions."
   },
   "assets": [
     {
@@ -99,50 +99,47 @@
     },
     {
       "id": "veil-reaper",
-      "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
-      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/6d49aefd-62a1-418f-890a-e204ce693159/image.png",
-      "file": "refs/crown-wild-veil-reaper-v2.png",
-      "sha256": "d3208fda49bda846869148d01148d14d67eb6a130218437ef91d2d6fe82ac297",
-      "referenceReview": "denied-latest-face-gate",
+      "sourceImageId": "567b09d0-dd57-48c3-a750-9dd85a729d7e",
+      "file": "refs/crown-wild-veil-reaper-v3.png",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/567b09d0-dd57-48c3-a750-9dd85a729d7e/image.png",
+      "sha256": "a8556d8e1602cff66d7bf77e05704a0d2fdcab0054d3244050782f4d3163edee",
+      "referenceReview": "approved",
+      "editReferenceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+      "generator": "GPT Image 2.5",
+      "prompt": "Veil Reaper revision three, face correction of the supplied full-body reference. Preserve the original floating body, balanced substantial upper torso, proportionate arms, three hooked fingers, four broad blue-gray leathery shoulder-mantle layers, pale salt streaks and two gray-plum spectral tails. Replace the entire split faceless head inside the hood with one INTACT COHERENT ADULT GHOST FACE. The hood is open widely enough to clearly show the whole face: two separate small amber-gray eyes with upper and lower eyelids, natural brows, a complete nose with bridge and tip, two cheeks, a clearly closed ordinary horizontal mouth with lips, and one solid chin. Stern mature male features with cool gray intact skin, reserved watchful expression, not smiling and not cute. Head is proportionate to the body; face planes are uninterrupted, no central seam, slit, cleft, holes, hollow wound, lobed folds, exposed skull, erased face or genital-like shapes. Hood frames the face as normal medieval cloth, never conceals it. No horns, no sci-fi mask or metal faceplate. Keep the existing layered hide material, restrained palette, generous full-body framing, gray background, even lighting, three-quarter floating pose and no feet. Serious medieval RPG in the broad visual spirit of Knight Online and RuneScape. One complete creature only, no text, no pedestal.",
       "review": {
-        "reviewer": "wild_audit",
+        "reviewer": "face_audit_crown",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
-        "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+        "sourceImageId": "567b09d0-dd57-48c3-a750-9dd85a729d7e",
         "verdict": "approved",
         "reasons": [
-          "Unmistakably floating with legless spectral tails",
-          "Dark hood and claws convey serious fantasy without gore or science fiction"
+          "Coherent mature ghost face inside hood.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
         ]
       },
+      "facialReview": {
+        "reviewer": "face_audit_crown",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "567b09d0-dd57-48c3-a750-9dd85a729d7e",
+        "verdict": "approved",
+        "reasons": [
+          "Coherent mature ghost face inside hood.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
+        ],
+        "status": "approved"
+      },
       "targetTriangles": 5000,
-      "actualTriangles": 4883,
-      "modelId": "6fadb584-9372-420c-87b0-b53632c3cbf3",
-      "modelOwner": "spectral_model_finish",
-      "stage": "held-facial-revision",
+      "actualTriangles": 5161,
+      "modelId": "8f777c2c-433a-4aec-9291-7ad12f7c04ee",
+      "modelOwner": "creatures_crown_wild",
+      "stage": "uv-saved",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
-      "uvUtilization": 70.0,
-      "smartUv": "saved",
-      "textureStatus": "8k-completed",
-      "pbrStatus": "completed",
-      "rigStatus": "completed",
-      "rigType": "Other",
-      "export": {
-        "format": "GLB",
-        "textureResolution": 8192,
-        "exportSkeleton": true,
-        "path": "C:/Users/Borg/Downloads/corealm_veil_reaper_6fadb584_8k_rigged.glb",
-        "bytes": 21261276,
-        "skinJoints": 54,
-        "baseColorResolution": 8192,
-        "normalAndRoughnessMetalnessResolution": 4096,
-        "animations": 0,
-        "dominantRootBone": "BoneRoot",
-        "dominantRootVertices": 3466,
-        "vertices": 3470
-      },
       "history": [
         {
           "sourceImageId": "d82bb9e5-3038-418e-bdb3-bfe9a428a474",
@@ -153,90 +150,198 @@
           "processingAfterGate": false,
           "downloadReadyStarred": false,
           "modelStatus": "held"
+        },
+        {
+          "id": "veil-reaper",
+          "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+          "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/6d49aefd-62a1-418f-890a-e204ce693159/image.png",
+          "file": "refs/crown-wild-veil-reaper-v2.png",
+          "sha256": "d3208fda49bda846869148d01148d14d67eb6a130218437ef91d2d6fe82ac297",
+          "referenceReview": "denied-latest-face-gate",
+          "review": {
+            "reviewer": "wild_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+            "verdict": "approved",
+            "reasons": [
+              "Unmistakably floating with legless spectral tails",
+              "Dark hood and claws convey serious fantasy without gore or science fiction"
+            ]
+          },
+          "targetTriangles": 5000,
+          "actualTriangles": 4883,
+          "modelId": "6fadb584-9372-420c-87b0-b53632c3cbf3",
+          "modelOwner": "spectral_model_finish",
+          "stage": "held-facial-revision",
+          "pbr": true,
+          "downloadReadyStarred": false,
+          "productionStatus": "not-integrated",
+          "uvUtilization": 70.0,
+          "smartUv": "saved",
+          "textureStatus": "8k-completed",
+          "pbrStatus": "completed",
+          "rigStatus": "completed",
+          "rigType": "Other",
+          "export": {
+            "format": "GLB",
+            "textureResolution": 8192,
+            "exportSkeleton": true,
+            "path": "C:/Users/Borg/Downloads/corealm_veil_reaper_6fadb584_8k_rigged.glb",
+            "bytes": 21261276,
+            "skinJoints": 54,
+            "baseColorResolution": 8192,
+            "normalAndRoughnessMetalnessResolution": 4096,
+            "animations": 0,
+            "dominantRootBone": "BoneRoot",
+            "dominantRootVertices": 3466,
+            "vertices": 3470
+          },
+          "variantsProposed": [
+            "Gloam Wraith"
+          ],
+          "variantStatus": "not-generated",
+          "prompt": "Veil Reaper, a floating wilderness predatory spirit for a serious medieval RPG. A balanced substantial upper body with two strong proportionate arms ending in three hooked fingers. The head is shaped like a downward folded slate hood, its face a single deep vertical seam rather than a human skull or mask. Four broad layers of blue-gray leathery hide form a short mantle grown from the shoulders. The lower torso tapers into one broad split spectral tail, two curling gray-plum veils drift in open air without legs or feet. Pale salt streaks on dark hide, small dim amber light deep in the facial seam. Suspended a short distance above the ground, neutral poised floating posture, no scythe, no skeletal thinness, no corpse anatomy.",
+          "promptSuffixOverride": " Serious medieval RPG creature concept with the clear authored silhouette and grounded material treatment of classic Knight Online and RuneScape. Balanced adult proportions, believable body mass and useful articulated limbs. No oversized shoulders, wafer-thin limbs, cute face, decorative horns, excessive spikes, science fiction, Iron Man mask, random gold filigree, floating debris or ornamental clutter. One full body at three-quarter angle, neutral hovering pose, arms slightly separated, entire spectral tail visible, all extremities inside frame, plain warm gray background, even lighting, no text or base.",
+          "rigValidation": "failed-current-rig-page-export",
+          "rigNeedsRepair": true,
+          "facialReview": {
+            "status": "denied",
+            "reviewer": "face_audit_crown",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+            "reasons": [
+              "Vertical lobed seam replaces face; put coherent ghost face inside hood."
+            ]
+          },
+          "revisionStatus": "face-only-gpt-image-2.5-in-progress",
+          "promotionAllowed": false,
+          "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion.",
+          "modelStatus": "held-denied-face"
         }
       ],
+      "promotionAllowed": true,
       "variantsProposed": [
         "Gloam Wraith"
       ],
       "variantStatus": "not-generated",
-      "prompt": "Veil Reaper, a floating wilderness predatory spirit for a serious medieval RPG. A balanced substantial upper body with two strong proportionate arms ending in three hooked fingers. The head is shaped like a downward folded slate hood, its face a single deep vertical seam rather than a human skull or mask. Four broad layers of blue-gray leathery hide form a short mantle grown from the shoulders. The lower torso tapers into one broad split spectral tail, two curling gray-plum veils drift in open air without legs or feet. Pale salt streaks on dark hide, small dim amber light deep in the facial seam. Suspended a short distance above the ground, neutral poised floating posture, no scythe, no skeletal thinness, no corpse anatomy.",
-      "promptSuffixOverride": " Serious medieval RPG creature concept with the clear authored silhouette and grounded material treatment of classic Knight Online and RuneScape. Balanced adult proportions, believable body mass and useful articulated limbs. No oversized shoulders, wafer-thin limbs, cute face, decorative horns, excessive spikes, science fiction, Iron Man mask, random gold filigree, floating debris or ornamental clutter. One full body at three-quarter angle, neutral hovering pose, arms slightly separated, entire spectral tail visible, all extremities inside frame, plain warm gray background, even lighting, no text or base.",
-      "rigValidation": "failed-current-rig-page-export",
-      "rigNeedsRepair": true,
-      "facialReview": {
-        "status": "denied",
-        "reviewer": "face_audit_crown",
-        "model": "gpt-6-astra",
-        "reasoningEffort": "low",
-        "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
-        "reasons": [
-          "Vertical lobed seam replaces face; put coherent ghost face inside hood."
-        ]
-      },
-      "revisionStatus": "face-only-gpt-image-2.5-in-progress",
-      "promotionAllowed": false,
-      "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion."
+      "smartUv": "saved",
+      "uvUtilization": 67.9
     },
     {
       "id": "pallid-shade",
-      "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
-      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb/image.png",
-      "file": "refs/crown-wild-pallid-shade-v2.png",
-      "sha256": "a91b06eba5e89766848c4fd788f06a9c34512c4c18c798abedcd659943ba4e83",
-      "referenceReview": "denied-latest-face-gate",
+      "sourceImageId": "f8bef0ea-fb28-4f3c-a6d7-14e862827c40",
+      "file": "refs/crown-wild-pallid-shade-v3.png",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/f8bef0ea-fb28-4f3c-a6d7-14e862827c40/image.png",
+      "sha256": "f919f0038b0690a9ececabc624b3e20139041e9c7e2dfc30ee931748d9a4bdb7",
+      "referenceReview": "approved",
+      "editReferenceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
+      "generator": "GPT Image 2.5",
+      "prompt": "Pallid Shade revision three, face correction of the supplied full-body reference. Preserve the hovering legless specter body, balanced adult upper torso and proportionate arms, broad four-fingered hands, waxen ash-gray skin with layered violet marbling, substantial smooth folds on chest and shoulders, and two intertwined translucent gray-violet mist tails. Replace the blank split oval head with a COMPLETE INTACT ADULT GHOST FACE. A proportionate dignified bald male head, clearly readable two separate pale gray eyes with eyelids and natural brows, full nose with bridge and tip, intact cheeks, closed normal horizontal lips and solid chin. Calm stern mature expression, solemn and otherworldly without a smile. The face has continuous unbroken skin with fine ash-gray and lavender mottling. No seam, slit, groove through the face, missing features, cavities, split lobes, melted face, wounds, exposed skull or genital-like shapes. No horns and no science-fiction faceplate. Keep the existing moderate body mass, hands and mist-tail silhouette, pale lavender palette and material detail. Full-body three-quarter floating pose, both eyes readable, all extremities and mist tails fully inside the frame with margin, plain warm gray background, even soft light. Serious medieval RPG creature in the broad visual spirit of Knight Online and RuneScape. One creature, no text, no pedestal.",
       "review": {
-        "reviewer": "wild_audit",
+        "reviewer": "face_audit_crown",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
-        "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
+        "sourceImageId": "f8bef0ea-fb28-4f3c-a6d7-14e862827c40",
         "verdict": "approved",
         "reasons": [
-          "Legless translucent specter",
-          "Featureless split face and layered spectral body without robot hardware"
+          "Complete pale ghost face replaces split oval.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
         ]
       },
+      "facialReview": {
+        "reviewer": "face_audit_crown",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "f8bef0ea-fb28-4f3c-a6d7-14e862827c40",
+        "verdict": "approved",
+        "reasons": [
+          "Complete pale ghost face replaces split oval.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
+        ],
+        "status": "approved"
+      },
       "targetTriangles": 5000,
-      "actualTriangles": 5258,
-      "modelId": "cc8d0574-5566-4cad-85a7-0a56b618a042",
-      "modelOwner": "spectral_model_finish",
-      "stage": "held-facial-revision",
+      "actualTriangles": 5090,
+      "modelId": "a0260cc5-d2e2-4432-8f09-ac51c1ede02f",
+      "modelOwner": "creatures_crown_wild",
+      "stage": "smart-uv-generating",
       "pbr": true,
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
-      "uvUtilization": 73.1,
-      "smartUv": "saved",
-      "textureStatus": "8k-completed",
-      "pbrStatus": "completed",
-      "rigStatus": "completed",
-      "rigType": "Other",
+      "history": [
+        {
+          "id": "pallid-shade",
+          "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
+          "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb/image.png",
+          "file": "refs/crown-wild-pallid-shade-v2.png",
+          "sha256": "a91b06eba5e89766848c4fd788f06a9c34512c4c18c798abedcd659943ba4e83",
+          "referenceReview": "denied-latest-face-gate",
+          "review": {
+            "reviewer": "wild_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
+            "verdict": "approved",
+            "reasons": [
+              "Legless translucent specter",
+              "Featureless split face and layered spectral body without robot hardware"
+            ]
+          },
+          "targetTriangles": 5000,
+          "actualTriangles": 5258,
+          "modelId": "cc8d0574-5566-4cad-85a7-0a56b618a042",
+          "modelOwner": "spectral_model_finish",
+          "stage": "held-facial-revision",
+          "pbr": true,
+          "downloadReadyStarred": false,
+          "productionStatus": "not-integrated",
+          "uvUtilization": 73.1,
+          "smartUv": "saved",
+          "textureStatus": "8k-completed",
+          "pbrStatus": "completed",
+          "rigStatus": "completed",
+          "rigType": "Other",
+          "variantsProposed": [
+            "Wraith"
+          ],
+          "variantStatus": "not-generated",
+          "prompt": "Pallid Shade, a floating wilderness echo spirit for a serious medieval RPG. Adult human height, balanced substantial upper torso and two proportionate arms with broad four-fingered hands. A smooth pale oval head has one curved recessed groove and no human features. Opaque waxen ash-gray skin with layered violet marbling, broad folds like cooled wax at chest and shoulders. The lower torso narrows into two broad intertwined ribbons of translucent gray-violet mist ending above the ground, no legs or feet. Restrained pale violet light within the head groove, solemn still presence, no exposed bones or skull. Clearly airborne, clean silhouette and enough solid upper body for animation.",
+          "export": {
+            "format": "GLB",
+            "textureResolution": 8192,
+            "exportSkeleton": true,
+            "path": "C:/Users/Borg/Downloads/corealm_pallid_shade_cc8d0574_8k_rigged.glb",
+            "bytes": 20106668,
+            "role": "source-archive-pending-rig-repair"
+          },
+          "rigValidation": "unusable-current-export-or-pending-repair",
+          "rigNeedsRepair": true,
+          "facialReview": {
+            "status": "denied",
+            "reviewer": "face_audit_crown",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
+            "reasons": [
+              "Blank split oval has erased face; add eyes, nose and closed mouth."
+            ]
+          },
+          "revisionStatus": "face-only-gpt-image-2.5-in-progress",
+          "promotionAllowed": false,
+          "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion.",
+          "modelStatus": "held-denied-face"
+        }
+      ],
+      "promotionAllowed": true,
       "variantsProposed": [
         "Wraith"
       ],
       "variantStatus": "not-generated",
-      "prompt": "Pallid Shade, a floating wilderness echo spirit for a serious medieval RPG. Adult human height, balanced substantial upper torso and two proportionate arms with broad four-fingered hands. A smooth pale oval head has one curved recessed groove and no human features. Opaque waxen ash-gray skin with layered violet marbling, broad folds like cooled wax at chest and shoulders. The lower torso narrows into two broad intertwined ribbons of translucent gray-violet mist ending above the ground, no legs or feet. Restrained pale violet light within the head groove, solemn still presence, no exposed bones or skull. Clearly airborne, clean silhouette and enough solid upper body for animation.",
-      "export": {
-        "format": "GLB",
-        "textureResolution": 8192,
-        "exportSkeleton": true,
-        "path": "C:/Users/Borg/Downloads/corealm_pallid_shade_cc8d0574_8k_rigged.glb",
-        "bytes": 20106668,
-        "role": "source-archive-pending-rig-repair"
-      },
-      "rigValidation": "unusable-current-export-or-pending-repair",
-      "rigNeedsRepair": true,
-      "facialReview": {
-        "status": "denied",
-        "reviewer": "face_audit_crown",
-        "model": "gpt-6-astra",
-        "reasoningEffort": "low",
-        "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
-        "reasons": [
-          "Blank split oval has erased face; add eyes, nose and closed mouth."
-        ]
-      },
-      "revisionStatus": "face-only-gpt-image-2.5-in-progress",
-      "promotionAllowed": false,
-      "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion."
+      "smartUv": "generating"
     },
     {
       "id": "grave-lantern",
@@ -274,10 +379,10 @@
         "status": "approved"
       },
       "targetTriangles": 5000,
-      "actualTriangles": null,
-      "modelId": null,
+      "actualTriangles": 5032,
+      "modelId": "0e0f3db5-28ee-4b67-9fda-c3eaf7612d2a",
       "modelOwner": "creatures_crown_wild",
-      "stage": "reference-approved-awaiting-model",
+      "stage": "rig-generating",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
@@ -347,7 +452,14 @@
           "modelStatus": "held-denied-face"
         }
       ],
-      "promotionAllowed": true
+      "promotionAllowed": true,
+      "smartUv": "saved",
+      "uvUtilization": 71.1,
+      "textureStatus": "8k-completed",
+      "removeLighting": true,
+      "pbrStatus": "completed",
+      "rigStatus": "generating",
+      "rigType": "Other"
     },
     {
       "id": "banshee",
@@ -525,32 +637,47 @@
     },
     {
       "id": "furnace-regent",
-      "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
-      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/1f397436-2ecc-48ba-ac51-98f40a79b063/image.png",
-      "file": "refs/crown-wild-furnace-regent-v2.png",
-      "sha256": "1be56d413fe9fcd1672933c102e3fb20bb58762249f726faeb048273e7ce4113",
-      "referenceReview": "denied-latest-face-gate",
+      "sourceImageId": "178a8efe-3648-4546-8d27-5265407f1728",
+      "file": "refs/crown-wild-furnace-regent-v3.png",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/178a8efe-3648-4546-8d27-5265407f1728/image.png",
+      "sha256": "8b6aa5f748a81b00c2781b5906a3df030167737f44c4507925fc6e7eae469989",
+      "referenceReview": "approved",
+      "editReferenceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
+      "generator": "GPT Image 2.5",
+      "prompt": "Furnace Regent revision three ? face correction to the attached reference. Preserve the entire existing body exactly: balanced powerful fired-clay humanoid silhouette, proportionate muscular limbs, four-fingered rough clay hands and broad feet, coarse pitted terracotta with soot deposits, restrained branching orange ember fissures at the ribs and left shoulder, gray woven waist mantle and simple rope. Preserve pose, framing, plain background, clay surface detail and mature serious medieval RPG style. Replace ONLY the hollow craggy head opening with a COMPLETE SOLID fired-clay head joined naturally to a solid neck. Intact forehead and rounded cranium, a substantial brow, TWO separate small clearly visible natural eyes, a broad solid nose with ordinary nostrils, solid cheeks, a CLOSED conventional horizontal mouth and a complete chin and jaw. A stern neutral expression, weathered clay sculptural features integrated into the same terracotta material. The head must read as an intact living clay person, not a mask or helmet. No hollow head, face cavity, blasted-away features, missing head, enormous mouth, slit face, radial orifice, genital-like folds, horns or science-fiction details. Keep the original body unchanged; full body unobstructed front three-quarter reference suitable for 3D modeling.",
       "review": {
-        "reviewer": "wild_audit",
+        "reviewer": "face_audit_crown",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
-        "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
+        "sourceImageId": "178a8efe-3648-4546-8d27-5265407f1728",
         "verdict": "approved",
         "reasons": [
-          "Eroded hollow kiln head removes robot face",
-          "Irregular ember fissures and porous clay provide authored elemental identity",
-          "Solid balanced body"
+          "Solid clay head with complete eyes, nose, closed mouth and jaw.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
         ]
       },
+      "facialReview": {
+        "reviewer": "face_audit_crown",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "178a8efe-3648-4546-8d27-5265407f1728",
+        "verdict": "approved",
+        "reasons": [
+          "Solid clay head with complete eyes, nose, closed mouth and jaw.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
+        ],
+        "status": "approved"
+      },
       "targetTriangles": 6500,
-      "actualTriangles": 6706,
-      "modelId": "c797b18d-ae98-4890-8e2c-54377e12a2a0",
+      "actualTriangles": 6619,
+      "modelId": "7b89144e-17a9-4a6f-9b66-0b60d2891553",
       "modelOwner": "creatures_crown_wild",
-      "stage": "held-facial-revision",
+      "stage": "8k-texture-generating",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
-      "uvUtilization": null,
       "history": [
         {
           "sourceImageId": "86989bd3-faf6-45d4-bc77-d844abe069d4",
@@ -566,85 +693,172 @@
               "Robot or Iron Man mask-panel face and symmetric horizontal rib slots"
             ]
           }
+        },
+        {
+          "id": "furnace-regent",
+          "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
+          "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/1f397436-2ecc-48ba-ac51-98f40a79b063/image.png",
+          "file": "refs/crown-wild-furnace-regent-v2.png",
+          "sha256": "1be56d413fe9fcd1672933c102e3fb20bb58762249f726faeb048273e7ce4113",
+          "referenceReview": "denied-latest-face-gate",
+          "review": {
+            "reviewer": "wild_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
+            "verdict": "approved",
+            "reasons": [
+              "Eroded hollow kiln head removes robot face",
+              "Irregular ember fissures and porous clay provide authored elemental identity",
+              "Solid balanced body"
+            ]
+          },
+          "targetTriangles": 6500,
+          "actualTriangles": 6706,
+          "modelId": "c797b18d-ae98-4890-8e2c-54377e12a2a0",
+          "modelOwner": "creatures_crown_wild",
+          "stage": "held-facial-revision",
+          "pbr": true,
+          "downloadReadyStarred": false,
+          "productionStatus": "not-integrated",
+          "uvUtilization": null,
+          "prompt": "Furnace Regent revision two. A serious wilderness kiln-stone sovereign, large balanced humanoid body formed from continuous weathered fired clay with proportionate muscular limbs. The upper torso rises into one hollow sloping craggy kiln arch where a head would be. Inside the arch is a deep irregular dark cavity with dim orange embers at its back, no face, eyes, cheeks, mouth, nose, helmet or mask. Old lumpy terracotta surfaces have fine mineral grain, broad natural erosion hollows and uneven soot deposits. Irregular branching ember fissures run only through the lower ribs and left shoulder, never repeated straight slots. Strong four-fingered rough clay hands and wide plain feet, ordinary shoulders and forearms, no separate armor plates or machine joints. A short ash-gray woven waist mantle hangs from a simple rope. Substantial yet balanced build, dignified unsettling presence, restrained heat rather than fire covering the body.",
+          "promptSuffixOverride": " Serious PG-13 medieval RPG concept in the spirit of Knight Online and RuneScape, balanced mature proportions, broad readable forms and layered hand-painted natural material detail. No dinosaurs, reptiles, cute mascots, skinny limbs, oversized fists, science fiction, robot faceplates, ornamental horns or random spikes. One entire creature at front three-quarter view, limbs separated, all extremities fully in frame with generous margin, plain warm gray background, soft even lighting, no scenery, pedestal or text.",
+          "smartUv": "saved",
+          "textureStatus": "8k-completed",
+          "pbrStatus": "completed",
+          "rigStatus": "completed",
+          "rigType": "Humanoid Mixamo",
+          "facialReview": {
+            "status": "denied",
+            "reviewer": "face_audit_crown",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
+            "reasons": [
+              "Giant eroded head cavity reads blasted-away face; replace with solid clay head with eyes, nose and closed mouth."
+            ]
+          },
+          "revisionStatus": "face-only-gpt-image-2.5-in-progress",
+          "promotionAllowed": false,
+          "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion.",
+          "modelStatus": "held-denied-face"
         }
       ],
-      "prompt": "Furnace Regent revision two. A serious wilderness kiln-stone sovereign, large balanced humanoid body formed from continuous weathered fired clay with proportionate muscular limbs. The upper torso rises into one hollow sloping craggy kiln arch where a head would be. Inside the arch is a deep irregular dark cavity with dim orange embers at its back, no face, eyes, cheeks, mouth, nose, helmet or mask. Old lumpy terracotta surfaces have fine mineral grain, broad natural erosion hollows and uneven soot deposits. Irregular branching ember fissures run only through the lower ribs and left shoulder, never repeated straight slots. Strong four-fingered rough clay hands and wide plain feet, ordinary shoulders and forearms, no separate armor plates or machine joints. A short ash-gray woven waist mantle hangs from a simple rope. Substantial yet balanced build, dignified unsettling presence, restrained heat rather than fire covering the body.",
-      "promptSuffixOverride": " Serious PG-13 medieval RPG concept in the spirit of Knight Online and RuneScape, balanced mature proportions, broad readable forms and layered hand-painted natural material detail. No dinosaurs, reptiles, cute mascots, skinny limbs, oversized fists, science fiction, robot faceplates, ornamental horns or random spikes. One entire creature at front three-quarter view, limbs separated, all extremities fully in frame with generous margin, plain warm gray background, soft even lighting, no scenery, pedestal or text.",
+      "promotionAllowed": true,
       "smartUv": "saved",
-      "textureStatus": "8k-completed",
-      "pbrStatus": "completed",
-      "rigStatus": "completed",
-      "rigType": "Humanoid Mixamo",
-      "facialReview": {
-        "status": "denied",
-        "reviewer": "face_audit_crown",
-        "model": "gpt-6-astra",
-        "reasoningEffort": "low",
-        "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
-        "reasons": [
-          "Giant eroded head cavity reads blasted-away face; replace with solid clay head with eyes, nose and closed mouth."
-        ]
-      },
-      "revisionStatus": "face-only-gpt-image-2.5-in-progress",
-      "promotionAllowed": false,
-      "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion."
+      "uvUtilization": 73.6,
+      "textureStatus": "8k-generating",
+      "removeLighting": true
     },
     {
       "id": "voidstone-colossus",
-      "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
-      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e551d858-ef7a-460a-afb9-5d4859292e45/image.png",
-      "file": "refs/crown-wild-voidstone-colossus.png",
-      "sha256": "59e85d30f77c695204057970e2f1cbe16dbf64f9aee785eca4d71f16a4be1190",
-      "referenceReview": "denied-latest-face-gate",
+      "sourceImageId": "bd9a0ede-69c8-429d-b6c9-d17071a6ca6f",
+      "file": "refs/crown-wild-voidstone-colossus-v2.png",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/bd9a0ede-69c8-429d-b6c9-d17071a6ca6f/image.png",
+      "sha256": "f78d4a363d9841a8a9b6416339dd0cf212a73e9fa5bfa50d35f76f36f87de363",
+      "referenceReview": "approved",
+      "editReferenceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
+      "generator": "GPT Image 2.5",
+      "prompt": "Voidstone Colossus revision two ? face correction to the attached reference. Preserve the existing full body exactly: towering balanced humanoid mineral guardian, geological dark violet basalt planes, split-column torso with restrained violet light deep inside its chest cleft, long powerful articulated stone arms ending in three blunt grasping digits, proportionate sturdy legs and broad stone feet. Keep the original layered rock anatomy, weathered gray edges, lavender mineral veins, dark green inclusions, pose, composition and plain background unchanged. Replace ONLY the damaged obscured facial mass beneath the existing forward-inclined slab brow with an INTACT SOLID basalt face. The slab remains a geological brow over a complete head: TWO separate clearly visible small ordinary eyes, a broad projecting stone nose, substantial solid cheeks, a CLOSED conventional horizontal mouth, an intact jaw and chin. The solid face is readable in the light, not hidden behind shadow or an aperture. Serious ancient stern expression, sculptural natural stone features, no metal mask, helmet or science-fiction robot. No face holes, hollow or missing head, blasted-away facial features, slit face, radial orifice, genital-like folds, horns or random crystals. Change only the face; preserve the source body silhouette and materials exactly. Full-body front three-quarter 3D-model reference.",
       "review": {
-        "reviewer": "wild_audit",
-        "model": "gpt-6-astra",
-        "reasoningEffort": "low",
-        "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
-        "verdict": "approved",
-        "reasons": [
-          "Irregular layered geology and central void seam",
-          "Substantial limbs read fantasy stone being"
-        ]
-      },
-      "targetTriangles": 6500,
-      "actualTriangles": 7098,
-      "modelId": "fb1656c7-b508-44a2-a5ef-4359320f912c",
-      "modelOwner": "wild_model_finish",
-      "stage": "held-facial-revision",
-      "pbr": true,
-      "downloadReadyStarred": true,
-      "productionStatus": "not-integrated",
-      "uvUtilization": 73.6,
-      "smartUv": "saved",
-      "textureStatus": "8k-completed",
-      "pbrStatus": "completed",
-      "rigStatus": "completed",
-      "prompt": "Voidstone Colossus, a towering wilderness mineral guardian with balanced powerful anatomy and clearly articulated limbs. Its narrow torso forms an upright split column of dark violet basalt with a deep natural vertical cleft, lower body grounded on two proportionate sturdy legs and wide rock feet. Long heavy arms end in three blunt grasping stone digits, arm length only slightly greater than human. Head is a forward inclined blunt slab with a deep horizontal recess, no sculpted face or helmet. Broad erosion channels, lavender mineral veins, weathered gray edges and green-black inclusions. A faint violet glow lies deep inside the torso cleft. Geological planes rather than stacked boulders, no spikes, horns, crystals attached at random, or oversized fists.",
-      "rigType": "Humanoid Mixamo",
-      "export": {
-        "format": "GLB",
-        "textureResolution": 8192,
-        "exportSkeleton": true,
-        "path": "C:/Users/Borg/Downloads/corealm_voidstone_colossus_fb1656c7_8k_rigged.glb",
-        "bytes": 39822392,
-        "role": "source-archive-pending-rig-repair"
-      },
-      "rigValidation": "unusable-current-export-or-pending-repair",
-      "rigNeedsRepair": true,
-      "facialReview": {
-        "status": "denied",
         "reviewer": "face_audit_crown",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
-        "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
+        "sourceImageId": "bd9a0ede-69c8-429d-b6c9-d17071a6ca6f",
+        "verdict": "approved",
         "reasons": [
-          "Slab cap over eroded recessed facial mass; solid stone face beneath brow needed."
+          "Intact stone face beneath slab brow.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
         ]
       },
-      "revisionStatus": "face-only-gpt-image-2.5-in-progress",
-      "promotionAllowed": false,
-      "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion."
+      "facialReview": {
+        "reviewer": "face_audit_crown",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "bd9a0ede-69c8-429d-b6c9-d17071a6ca6f",
+        "verdict": "approved",
+        "reasons": [
+          "Intact stone face beneath slab brow.",
+          "No genital-like, missing or woundlike facial mass.",
+          "Prior body and material identity preserved; spectral forms remain floating."
+        ],
+        "status": "approved"
+      },
+      "targetTriangles": 6500,
+      "actualTriangles": 6861,
+      "modelId": "625fda6a-9671-41e4-9982-f8b4ed06a60e",
+      "modelOwner": "wild_model_finish",
+      "stage": "8k-texture-generating",
+      "pbr": true,
+      "downloadReadyStarred": false,
+      "productionStatus": "not-integrated",
+      "history": [
+        {
+          "id": "voidstone-colossus",
+          "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
+          "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e551d858-ef7a-460a-afb9-5d4859292e45/image.png",
+          "file": "refs/crown-wild-voidstone-colossus.png",
+          "sha256": "59e85d30f77c695204057970e2f1cbe16dbf64f9aee785eca4d71f16a4be1190",
+          "referenceReview": "denied-latest-face-gate",
+          "review": {
+            "reviewer": "wild_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
+            "verdict": "approved",
+            "reasons": [
+              "Irregular layered geology and central void seam",
+              "Substantial limbs read fantasy stone being"
+            ]
+          },
+          "targetTriangles": 6500,
+          "actualTriangles": 7098,
+          "modelId": "fb1656c7-b508-44a2-a5ef-4359320f912c",
+          "modelOwner": "wild_model_finish",
+          "stage": "held-facial-revision",
+          "pbr": true,
+          "downloadReadyStarred": false,
+          "productionStatus": "not-integrated",
+          "uvUtilization": 73.6,
+          "smartUv": "saved",
+          "textureStatus": "8k-completed",
+          "pbrStatus": "completed",
+          "rigStatus": "completed",
+          "prompt": "Voidstone Colossus, a towering wilderness mineral guardian with balanced powerful anatomy and clearly articulated limbs. Its narrow torso forms an upright split column of dark violet basalt with a deep natural vertical cleft, lower body grounded on two proportionate sturdy legs and wide rock feet. Long heavy arms end in three blunt grasping stone digits, arm length only slightly greater than human. Head is a forward inclined blunt slab with a deep horizontal recess, no sculpted face or helmet. Broad erosion channels, lavender mineral veins, weathered gray edges and green-black inclusions. A faint violet glow lies deep inside the torso cleft. Geological planes rather than stacked boulders, no spikes, horns, crystals attached at random, or oversized fists.",
+          "rigType": "Humanoid Mixamo",
+          "export": {
+            "format": "GLB",
+            "textureResolution": 8192,
+            "exportSkeleton": true,
+            "path": "C:/Users/Borg/Downloads/corealm_voidstone_colossus_fb1656c7_8k_rigged.glb",
+            "bytes": 39822392,
+            "role": "source-archive-pending-rig-repair"
+          },
+          "rigValidation": "unusable-current-export-or-pending-repair",
+          "rigNeedsRepair": true,
+          "facialReview": {
+            "status": "denied",
+            "reviewer": "face_audit_crown",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
+            "reasons": [
+              "Slab cap over eroded recessed facial mass; solid stone face beneath brow needed."
+            ]
+          },
+          "revisionStatus": "face-only-gpt-image-2.5-in-progress",
+          "promotionAllowed": false,
+          "exportHold": "New user facial direction supersedes initial source approval; preserve source archives, no promotion.",
+          "modelStatus": "held-denied-face"
+        }
+      ],
+      "promotionAllowed": true,
+      "smartUv": "saved",
+      "uvUtilization": 74.0,
+      "textureStatus": "8k-generating",
+      "removeLighting": true
     },
     {
       "id": "red-dragon",
@@ -775,5 +989,5 @@
   "sharedPromptSuffix": " Serious medieval RPG creature concept with the clear authored silhouette and grounded material treatment of classic Knight Online and RuneScape. Balanced adult proportions, believable body mass and useful articulated limbs. No oversized shoulders, wafer-thin limbs, cute face, decorative horns, excessive spikes, science fiction, Iron Man mask, random gold filigree, floating debris or ornamental clutter. One full body at three-quarter angle, neutral ready stance, arms slightly separated, feet visible, all extremities inside frame, plain warm gray background, even lighting, no text or base.",
   "riggingInvestigation": "Current-version Rig-page source GLB exports checked on four assets contain skeletons but almost all weight on root. Exactly one Revenant Animate Walk diagnostic reached a playable 2.33 second preview with GLB8KCurrent, Skeleton ON, CurrentFrame OFF, 1 Walk animation and StayInPlace ON; final download opened ERR_BLOCKED_BY_CLIENT. No Animate archive downloaded, no weight/animation acceptance. Diagnostic closed without retry or more animation credits; root owns local rig repair.",
   "facialDirectionUpdate": "User requires intact coherent faces: no genital-like faces, missing/blown-off faces or eroded head cavities. Existing artifacts preserved; suspect faces held for fresh Astra-low review; no replacement generation before verdict.",
-  "previewTabsClosed": true
+  "previewTabsClosed": false
 }

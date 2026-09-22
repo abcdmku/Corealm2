@@ -1146,7 +1146,7 @@
       "editIntent": "Face-only correction preserving original body and colors",
       "modelStarted": false,
       "downloadReadyStarred": false,
-      "stage": "approved_image_ready_for_model",
+      "stage": "age_confirmation_hold_before_model",
       "review": {
         "verdict": "approved",
         "reviewer": "face_audit_fairy",
@@ -1158,7 +1158,9 @@
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
       },
-      "prompt": "Pending exact prompt record from completed Tripo card"
+      "prompt": "Pending exact prompt record from completed Tripo card",
+      "tabId": "1472601758",
+      "blocker": "Tripo requires user confirmation over 18; root asked user, no age assertion made"
     },
     {
       "key": "orchid-reaper-face-r3",
@@ -1173,9 +1175,9 @@
       "sourceImageSha256": "9f9d7e75a6480dbac957757d5fbc90c311f0409a50e0f2ef6f0e4cb5a2e1829f",
       "revisesKey": "orchid-reaper",
       "editIntent": "Face-only correction preserving original body and colors",
-      "modelStarted": false,
+      "modelStarted": true,
       "downloadReadyStarred": false,
-      "stage": "approved_image_ready_for_model",
+      "stage": "8k_texture_generating",
       "review": {
         "verdict": "approved",
         "reviewer": "face_audit_fairy",
@@ -1187,13 +1189,160 @@
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
       },
-      "prompt": "Pending exact prompt record from completed Tripo card"
+      "prompt": "Pending exact prompt record from completed Tripo card",
+      "modelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/4c599d13-d2e0-4099-93f0-79bf17056049",
+      "modelStartedAfterApproval": true,
+      "worker": "flyer_models",
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks",
+      "actualTriangles": 5868,
+      "smartUvSaved": true,
+      "uvUtilization": 71.1,
+      "textureReferenceVerification": {
+        "actualReferenceId": "dd2ec618-2d13-46ac-a75f-3e4e4ad2d59d",
+        "approvedSourceId": "6a942b74-b3c2-4b55-9b4d-13bf186a7c6a",
+        "method": "Exact approved local PNG upload; Texture reference visually matched",
+        "verified": true
+      }
+    },
+    {
+      "key": "root-tender-face-r3",
+      "name": "Root Tender",
+      "replaces": [
+        "Briar Sapling",
+        "Starroot Tender"
+      ],
+      "targetTriangles": 4000,
+      "sourceImageId": "4301f329-c580-4ba5-918b-ed4d09ef696d",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/4301f329-c580-4ba5-918b-ed4d09ef696d/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-root-tender-face-r3.png",
+      "sourceImageSha256": "80da6cfb4587a624b8c82655548dc69ed0d76d4da7f95c8457ff94dca5132424",
+      "revisesKey": "root-tender",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": true,
+      "downloadReadyStarred": false,
+      "stage": "model_processing",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "4301f329-c580-4ba5-918b-ed4d09ef696d",
+        "reasons": [
+          "Solid ochre seed face has distinct eyes and closed mouth, no slit; braided body/digging hands preserved, neutral serious expression."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      },
+      "modelId": "4580db8d-f714-4acf-be53-33a2543e7090",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/4580db8d-f714-4acf-be53-33a2543e7090",
+      "modelStartedAfterApproval": true,
+      "worker": "botanical_models",
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+    },
+    {
+      "key": "mooncap-sporekin-face-r3",
+      "name": "Mooncap Sporekin",
+      "replaces": [
+        "Mooncap Sporekin",
+        "Duskcap Sporekin"
+      ],
+      "targetTriangles": 4000,
+      "sourceImageId": "612f264c-74d2-48c4-bbc8-36680dd6127e",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/612f264c-74d2-48c4-bbc8-36680dd6127e/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-mooncap-sporekin-face-r3.png",
+      "sourceImageSha256": "5883497c239eef155dc0a686240ae4f58dff3b4def488eaa6351351c6c593d62",
+      "revisesKey": "mooncap-sporekin",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": true,
+      "downloadReadyStarred": false,
+      "stage": "model_processing",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "612f264c-74d2-48c4-bbc8-36680dd6127e",
+        "reasons": [
+          "Intact ivory fungal face beneath mature gilled cap, no absent face; original textured body and limbs retained."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      },
+      "modelId": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+      "modelStartedAfterApproval": true,
+      "worker": "botanical_models",
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+    },
+    {
+      "key": "silverleaf-petalguard-face-r4",
+      "name": "Silverleaf Petalguard",
+      "replaces": [
+        "Silverleaf Petalguard"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "cfd7281a-cf83-4306-980e-c6c1ed63c637",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/cfd7281a-cf83-4306-980e-c6c1ed63c637/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-silverleaf-petalguard-face-r4.png",
+      "sourceImageSha256": "d4270bf84f9b6b2636ca7a43ba0f28ad6cd2830a4b35db77c040148146cc9dde",
+      "revisesKey": "silverleaf-petalguard-r2",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": false,
+      "downloadReadyStarred": false,
+      "stage": "approved_image_ready_for_model",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "cfd7281a-cf83-4306-980e-c6c1ed63c637",
+        "reasons": [
+          "Solid leaf-grain face with amber eyes and closed mouth; correct original woven torso, asymmetric leaves and oval forearm shield restored, no leaf-armor drift."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      }
+    },
+    {
+      "key": "elder-grovebeast-face-r4",
+      "name": "Elder Grovebeast",
+      "replaces": [
+        "Elder Grovebeast"
+      ],
+      "targetTriangles": 6500,
+      "sourceImageId": "f0b9be96-d379-447a-8d63-6c66f2614e0d",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/f0b9be96-d379-447a-8d63-6c66f2614e0d/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-elder-grovebeast-face-r4.png",
+      "sourceImageSha256": "aa10c1e466ad9ec1f2cb5a48ae668769ea3cb85eae42460fdb96b357712cc987",
+      "revisesKey": "elder-grovebeast-r2",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": false,
+      "downloadReadyStarred": false,
+      "stage": "denied_image_held",
+      "review": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "f0b9be96-d379-447a-8d63-6c66f2614e0d",
+        "reasons": [
+          "Face intact and original body restored, but circular wide-open amber eyes with large glossy pupils and rounded short muzzle read as a worried mascot. Reduce eye diameter one-third, heavy relaxed lids, subdued highlights and flatter cheek/jaw."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      }
     }
   ],
   "exportedSourceModels": 10,
   "readyStarredSourceModels": 5,
   "latestArtGate": {
-    "status": "R3 review: three revised sources approved, two denied for body drift; two earlier R3 refs awaiting review; two R4 corrections generating",
+    "status": "Six face replacements approved; Elder R4 denied mascot expression, R5 small eye/lid correction generating",
     "userCorrection": "stop with the genitals as faces or a blown off missing face",
     "required": "Healthy readable intact faces/anatomy; no genital-like snouts, radial fleshy openings, torn or absent faces, or hollow head cavities",
     "supersedesPriorApprovalForFacialConcern": true,

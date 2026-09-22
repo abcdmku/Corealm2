@@ -488,7 +488,7 @@
       "revision": 3,
       "baseSourceImageId": "f1168b3e-6a08-4dae-b3cb-06521aed056f",
       "baseReferencePath": "assets/art/tripo/references/stone-cairn-treader.png",
-      "stage": "source-approved-ready-for-model",
+      "stage": "rigging",
       "imageId": "ba1d051b-87bb-441c-ab3e-ae54fa8a4e19",
       "auditStatus": "approved",
       "triangleTarget": 5000,
@@ -513,14 +513,31 @@
         "method": "actual view_image of exact local full PNG",
         "reason": "Cairn void fully bridged with continuous limestone and solid sensory stones, retaining tripod/feelers.",
         "scope": "Exact source image gate; no fleshy/genital-like openings or destroyed faces; runtime acceptance separate."
-      }
+      },
+      "modelId": "86b4cf32-f017-44a4-96e0-8c9076543753",
+      "modelGeneratedAfterSourceApproval": true,
+      "triangleCount": 5176,
+      "vertexCount": 2968,
+      "uvStatus": "saved",
+      "uvUtilization": 77.3,
+      "textureStatus": "8k-complete",
+      "textureReferenceImageId": "ba1d051b-87bb-441c-ab3e-ae54fa8a4e19",
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "pbrRequired": false,
+      "pbrReason": "Matte natural stone and lichen; no deliberate shiny, glowing or metallic elements",
+      "riggingType": "Other",
+      "rigStatus": "generating",
+      "downloadReadyStarred": false,
+      "readyForRuntime": false,
+      "readyForAnimation": false,
+      "runtimeIntegrationStatus": "held-until-actual-export-weight-verification"
     },
     {
       "creatureId": "scree-watcher",
       "revision": 4,
       "baseSourceImageId": "a0b851a5-2aa2-4c9c-a1ff-07850ad17450",
       "baseReferencePath": "assets/art/tripo/references/stone-scree-watcher.png",
-      "stage": "source-approved-ready-for-model",
+      "stage": "8k-texture-generating",
       "imageId": "8e244738-a5b9-4e31-a27a-6708dbfd95ca",
       "auditStatus": "approved",
       "triangleTarget": 5000,
@@ -545,7 +562,18 @@
         "method": "actual view_image of exact local full PNG",
         "reason": "Scree central woundlike gouge filled and tip clefts replaced by solid inlays, retaining forked crown and schist layers.",
         "scope": "Exact source image gate; no fleshy/genital-like openings or destroyed faces; runtime acceptance separate."
-      }
+      },
+      "modelId": "f6f96c07-46d4-4a03-ad42-2ad03f03f55b",
+      "modelGeneratedAfterSourceApproval": true,
+      "triangleCount": 5084,
+      "vertexCount": 3041,
+      "uvStatus": "saved",
+      "pbrRequired": false,
+      "pbrReason": "Matte natural stone and lichen; no deliberate shiny, glowing or metallic elements",
+      "uvUtilization": 67.6,
+      "textureStatus": "8k-generating",
+      "textureReferenceImageId": "8e244738-a5b9-4e31-a27a-6708dbfd95ca",
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source"
     }
   ],
   "approvedSources": {
@@ -624,5 +652,32 @@
   "sourceIdentityVerifiedCount": 7,
   "sourceAuditHistoricalComplete": true,
   "faceAuditStatus": "five-approved-two-face-revisions-required",
-  "starRemovalVerifiedCount": 7
+  "starRemovalVerifiedCount": 7,
+  "queuedMissingBases": [
+    {
+      "id": "quarry-warden",
+      "gameIds": [
+        "quarrykeeper_t10",
+        "boss_ordrun_t10"
+      ],
+      "sourceWorker": "stone_next_sources",
+      "stage": "source-generation-delegated"
+    },
+    {
+      "id": "chalk-warden",
+      "gameIds": [
+        "chalk_warden_t10"
+      ],
+      "sourceWorker": "stone_next_sources",
+      "stage": "source-generation-delegated"
+    },
+    {
+      "id": "iron-golem",
+      "gameIds": [
+        "iron_golem_t20"
+      ],
+      "sourceWorker": "stone_next_sources",
+      "stage": "source-generation-delegated"
+    }
+  ]
 }

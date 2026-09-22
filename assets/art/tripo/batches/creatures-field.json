@@ -471,8 +471,13 @@
         "reason": "Intact closed seed-pod head, lateral eyes, dry horizontal mouth; radial flesh and cavity eliminated. Body preserved."
       },
       "model": {
-        "status": "not started; awaiting exact source approval",
-        "targetTriangles": 5000
+        "status": "8K texture UI at 99 percent; completion pending service recovery",
+        "targetTriangles": 5000,
+        "id": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+        "actualTriangles": 5350,
+        "verifiedSourceImageId": "7e19b68e-3ecb-4d34-a6b8-c1dfb7db8384",
+        "smartUv": "completed and saved",
+        "texture": "8K generating"
       },
       "faceReview": {
         "status": "approved",
@@ -494,13 +499,24 @@
       "inputReference": "assets/art/tripo/references/field-knotwarden.png",
       "prompt": "FIELD11 KNOTWARDEN FACE REVISION THREE. Edit only the HEAD and FACE of the exact attached full-body fantasy woodland creature. Preserve the complete four-legged wooden body, solid balanced proportions, all articulated root limbs, curved split root hands, rounded rear root feet, modest root tail, growth curls, moss and lichen, warm walnut and honey wood grain, pose, neutral gray background and soft lighting exactly. Fill the entire hollow oval head opening and its central bud with a continuous SOLID end-grain wooden face. Solid natural honey-brown end-grain wood extends from brow through cheeks to a complete chin with no hole, indentation or hollow area. Two small horizontally separated amber sensory inlays sit flush in the upper face with modest wood brows. Give one subtle SHORT CLOSED horizontal mouth seam low on the face, no nose, no projecting snout. Preserve the original approximate head shape and short neck but the front must clearly be intact solid living wood, calm and mature. Amber inlays are small sap-like eyes, not a central bud. No oval aperture, face cavity, central slit or cleft, hole around a bud, genital-like folds, fleshy lobes, torn or missing face, human mask, robot faceplate, horns, antlers, cute eyes or smile. Serious PG-13 medieval fantasy RPG with healthy living woodland materials. Keep every non-face detail unchanged.",
       "referenceReview": {
-        "status": "pending",
+        "status": "approved",
         "reviewer": "face_audit_field_stone (gpt-6-astra low)",
-        "sourceImageId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d"
+        "sourceImageId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d",
+        "reason": "Continuous end-grain face, modest amber eyes and closed mouth eliminate hollow oval/bud concern. Body preserved."
       },
       "model": {
-        "status": "not started; awaiting exact source approval",
-        "targetTriangles": 5000
+        "status": "held on transient Tripo model-data loading failure; existing model retained",
+        "targetTriangles": 5000,
+        "id": "ff8f6620-b9e0-40b2-addf-8c278c1810bf",
+        "inputSourceImageId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d",
+        "serviceHold": "Asset card exists, Texture editor input image matches approved source, but viewer says Ready For A New 3D Model with no mesh stats/reference control; root confirmed same service failure on older completed assets. No duplicate generation.",
+        "downstreamJobs": "none started"
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d",
+        "reason": "Continuous end-grain face, modest amber eyes and closed mouth eliminate hollow oval/bud concern. Body preserved."
       }
     }
   ],

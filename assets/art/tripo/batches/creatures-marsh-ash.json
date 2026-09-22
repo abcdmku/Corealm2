@@ -76,14 +76,40 @@
           },
           "statusBeforeFacialGate": "8k-texture-in-progress",
           "animationStatus": "HOLD-facial-denial"
+        },
+        {
+          "revision": 3,
+          "basisSourceImageId": "229aa81d-0c6b-482c-930f-f3ecec4a93c1",
+          "sourceImageId": "82c631cb-8417-473f-828c-41389e907129",
+          "sourcePath": "assets/art/tripo/references/marsh-ash-reed-strider-v3.png",
+          "generator": "Tripo GPT Image 2.5",
+          "generationMethod": "Positive face-only prompt with exact v2 PNG attached",
+          "starred": false,
+          "trianglesTarget": 5000,
+          "prompt": "Sedgewalker face correction. Preserve this exact creature body, four wading legs and broad feet, olive ochre cream patterned skin, body volume, stance, framing and background. Give the creature a healthy solid broad wedge-shaped head, two small calm amber eyes at the sides, a continuous firm cheek and lower jaw, and one short closed horizontal mouth. The front of the head and throat should be smooth continuous healthy patterned skin. Keep the head compact and broad, the expression mature and neutral, and preserve every non-head detail. Serious medieval fantasy RPG creature painting.",
+          "facialReview": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "82c631cb-8417-473f-828c-41389e907129",
+            "reasons": [
+              "Continuous broad wedge face, closed firm jaw and lateral amber eyes remove split facial folds. Four wading supports and wide feet remain balanced fantasy anatomy. Mature neutral expression and layered olive/ochre/cream skin; no genital cavity, missing facial mass, dinosaur posture or science fiction."
+            ]
+          },
+          "review": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "82c631cb-8417-473f-828c-41389e907129",
+            "reasons": [
+              "Continuous broad wedge face, closed firm jaw and lateral amber eyes remove split facial folds. Four wading supports and wide feet remain balanced fantasy anatomy. Mature neutral expression and layered olive/ochre/cream skin; no genital cavity, missing facial mass, dinosaur posture or science fiction."
+            ]
+          },
+          "status": "approved-source-awaiting-mesh"
         }
-      ],
-      "faceCorrectionInProgress": {
-        "revision": 3,
-        "basisSourceImageId": "229aa81d-0c6b-482c-930f-f3ecec4a93c1",
-        "generator": "Tripo GPT Image 2.5",
-        "scope": "face-only edit using attached exact v2 reference; requires face_audit_marsh approval before model generation"
-      }
+      ]
     },
     {
       "key": "fen-crawler",
@@ -155,18 +181,65 @@
           "sourcePath": "assets/art/tripo/references/marsh-ash-fen-crawler-v3.png",
           "generator": "Tripo GPT Image 2.5",
           "generationMethod": "Image prompt with exact v2 PNG reference attached",
-          "status": "face-reference-awaiting-independent-audit",
+          "status": "denied-style-no-model",
           "modelId": null,
           "starred": false,
-          "prompt": "Mirelatch FACE REVISION THREE. Edit only the face in this exact reference. Preserve the broad flat living mantle, six legs, gripping feet, lateral breathing folds, healthy balanced body, layered olive ochre slate blue skin, pose and background. Remove the two dangling pale fleshy bulbs and fill their area with one compact intact armored invertebrate head. The head has two small lateral dark eyes under modest brows and a pair of SHORT HARD mandibles meeting together in one closed horizontal mouth. Solid continuous firm chitin covers the cheeks, chin and front bridge. The head is broad and short and sits naturally beneath the mantle front. Healthy neutral mature fantasy scavenger. No soft lobes, hanging lip folds, vertical split, radial aperture, cavity, missing face, skull, reptile snout, horns, robot faceplate or cute expression. Keep the layered natural colors and original full-body composition exactly, with changes restricted to the head."
+          "prompt": "Mirelatch FACE REVISION THREE. Edit only the face in this exact reference. Preserve the broad flat living mantle, six legs, gripping feet, lateral breathing folds, healthy balanced body, layered olive ochre slate blue skin, pose and background. Remove the two dangling pale fleshy bulbs and fill their area with one compact intact armored invertebrate head. The head has two small lateral dark eyes under modest brows and a pair of SHORT HARD mandibles meeting together in one closed horizontal mouth. Solid continuous firm chitin covers the cheeks, chin and front bridge. The head is broad and short and sits naturally beneath the mantle front. Healthy neutral mature fantasy scavenger. No soft lobes, hanging lip folds, vertical split, radial aperture, cavity, missing face, skull, reptile snout, horns, robot faceplate or cute expression. Keep the layered natural colors and original full-body composition exactly, with changes restricted to the head.",
+          "facialReview": {
+            "status": "denied",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "a491c3d2-2f1c-476e-8ee9-3fa8ba44b525",
+            "reasons": [
+              "Facial integrity passes, but rounded glossy eyes and short cheeked plated muzzle read as cute baby turtle. Narrow lateral almond eyes, flat cheeks and angular insect mandibles required."
+            ]
+          },
+          "review": {
+            "status": "denied",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "a491c3d2-2f1c-476e-8ee9-3fa8ba44b525",
+            "reasons": [
+              "Facial integrity passes, but rounded glossy eyes and short cheeked plated muzzle read as cute baby turtle. Narrow lateral almond eyes, flat cheeks and angular insect mandibles required."
+            ]
+          }
+        },
+        {
+          "revision": 4,
+          "basisSourceImageId": "a491c3d2-2f1c-476e-8ee9-3fa8ba44b525",
+          "sourceImageId": "bdb61868-6633-414a-9f5f-c5570ff46025",
+          "sourcePath": "assets/art/tripo/references/marsh-ash-fen-crawler-v4.png",
+          "generator": "Tripo GPT Image 2.5",
+          "generationMethod": "Positive face-only prompt with exact v3 PNG attached",
+          "modelId": null,
+          "starred": false,
+          "trianglesTarget": 5000,
+          "prompt": "Mirelatch face revision four. Preserve the exact full body, layered natural marsh coloring, pose and background of this reference. Refine only the small intact head beneath the front mantle. Give it narrow lateral almond-shaped eyes with restrained mature brows, flat firm angular cheeks, and two short HARD angular insect mandibles meeting at one clean closed horizontal seam. The front of the head is compact solid patterned chitin, the eyes small and recessed, and its expression calm and serious. Keep the whole six-legged mantle creature otherwise identical. Mature medieval fantasy RPG art with grounded proportions and intricate layered surface detail.",
+          "facialReview": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "bdb61868-6633-414a-9f5f-c5570ff46025",
+            "reasons": [
+              "Smaller shadowed lateral eyes and firmer angular facial plates remove baby-turtle expression. Intact compact head and closed hard mouth, no genital lobes, cavity or missing mass. Six-limbed mantle with breathing folds, layered olive/ochre/slate material and balanced supports pass."
+            ]
+          },
+          "review": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "bdb61868-6633-414a-9f5f-c5570ff46025",
+            "reasons": [
+              "Smaller shadowed lateral eyes and firmer angular facial plates remove baby-turtle expression. Intact compact head and closed hard mouth, no genital lobes, cavity or missing mass. Six-limbed mantle with breathing folds, layered olive/ochre/slate material and balanced supports pass."
+            ]
+          },
+          "status": "approved-source-awaiting-mesh"
         }
-      ],
-      "faceCorrectionInProgress": {
-        "revision": 3,
-        "basisSourceImageId": "766e1c21-a2bd-443c-886a-c67806290fcb",
-        "generator": "Tripo GPT Image 2.5",
-        "scope": "face-only edit using attached exact v2 reference; requires face_audit_marsh approval before model generation"
-      }
+      ]
     },
     {
       "key": "blind-cave-weaver",
@@ -318,18 +391,43 @@
           "sourcePath": "assets/art/tripo/references/marsh-ash-slag-crawler-v3.png",
           "generator": "Tripo GPT Image 2.5",
           "generationMethod": "Image prompt with exact v2 PNG reference attached",
-          "status": "face-reference-awaiting-independent-audit",
-          "modelId": null,
+          "status": "8k-texture-in-progress",
+          "modelId": "61822a59-0ed6-4485-9032-988a4da00369",
           "starred": false,
-          "prompt": "Cinder Latcher FACE REVISION THREE. Change only the front face of the exact attached fantasy creature. Preserve the entire porous iron-red and terracotta mineral shell, all four radial gripping limbs, broad pads, charcoal joint folds, glossy black patches, silhouette, pose and gray background. Replace the entire central oval aperture and its three pale soft lobes with one solid continuous rounded mineral face. Three modest dark eyes are set into shallow small sockets across its upper front. Below them is one short CLOSED transverse jaw seam with hard blunt jaw edges. Fill every formerly open area with firm intact rust-colored mineral tissue so the entire face has solid volume. Serious calm living mineral scavenger, natural stone grain continuing through the face, no separate mask or armor. No fleshy lips, hanging lobes, central vertical split, radial opening, cavity, exposed inside flesh, missing face, horns, machinery, humanoid helmet or cute expression. Keep every non-face detail and the full-body framing unchanged."
+          "prompt": "Cinder Latcher FACE REVISION THREE. Change only the front face of the exact attached fantasy creature. Preserve the entire porous iron-red and terracotta mineral shell, all four radial gripping limbs, broad pads, charcoal joint folds, glossy black patches, silhouette, pose and gray background. Replace the entire central oval aperture and its three pale soft lobes with one solid continuous rounded mineral face. Three modest dark eyes are set into shallow small sockets across its upper front. Below them is one short CLOSED transverse jaw seam with hard blunt jaw edges. Fill every formerly open area with firm intact rust-colored mineral tissue so the entire face has solid volume. Serious calm living mineral scavenger, natural stone grain continuing through the face, no separate mask or armor. No fleshy lips, hanging lobes, central vertical split, radial opening, cavity, exposed inside flesh, missing face, horns, machinery, humanoid helmet or cute expression. Keep every non-face detail and the full-body framing unchanged.",
+          "facialReview": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "8397bdb3-128f-4eb8-ade2-7800829c29f0",
+            "reasons": [
+              "Solid continuous mineral face, three small eyes and closed jaw seam remove aperture. Balanced limbs and layered volcanic material; no genital, wound, dinosaur or science-fiction read."
+            ]
+          },
+          "review": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "8397bdb3-128f-4eb8-ade2-7800829c29f0",
+            "reasons": [
+              "Solid continuous mineral face, three small eyes and closed jaw seam remove aperture. Balanced limbs and layered volcanic material; no genital, wound, dinosaur or science-fiction read."
+            ]
+          },
+          "trianglesTarget": 3500,
+          "trianglesActual": 3704,
+          "browserTabId": "1472601770",
+          "smartUV": {
+            "status": "saved"
+          },
+          "texture": {
+            "resolution": "8K",
+            "removeLighting": true,
+            "status": "in-progress"
+          }
         }
-      ],
-      "faceCorrectionInProgress": {
-        "revision": 3,
-        "basisSourceImageId": "e2cc871c-39b5-4bec-af19-fcb3e46e342f",
-        "generator": "Tripo GPT Image 2.5",
-        "scope": "face-only edit using attached exact v2 reference; requires face_audit_marsh approval before model generation"
-      }
+      ]
     },
     {
       "key": "kiln-marrow",
@@ -419,18 +517,34 @@
           "sourcePath": "assets/art/tripo/references/marsh-ash-kiln-marrow-v3.png",
           "generator": "Tripo GPT Image 2.5",
           "generationMethod": "Image prompt with exact v2 PNG reference attached",
-          "status": "face-reference-awaiting-independent-audit",
-          "modelId": null,
+          "status": "mesh-in-progress",
+          "modelId": "beb307c7-cb3b-4a71-be1f-9f5a20023530",
           "starred": false,
-          "prompt": "Kilnback FACE REVISION THREE. Edit only the front facial anatomy of this exact reference image. Preserve its entire healthy six-legged body, broad pads, balanced mass, dorsal heat vents, ivory sienna ceramic skin, subtle amber glow, pose, framing and gray background. Remove all three pendant fleshy feeding lobes completely. Replace that front region with an intact blunt solid mineral muzzle grown continuously from the body, two small lateral dark eyes set in modest brow hollows and one narrow CLOSED horizontal mouth with a firm lower jaw. The muzzle is broad and short with no projecting beak or reptile snout. Continuous unbroken dry mineral skin covers face and throat. No hanging lip folds, paired bulbs, central split, radial aperture, exposed cavity, face hole, missing face, horns, spikes, human mask, robot panels or cute expression. Serious neutral ashland grazer, natural layered material. Change no non-face part of this image."
+          "prompt": "Kilnback FACE REVISION THREE. Edit only the front facial anatomy of this exact reference image. Preserve its entire healthy six-legged body, broad pads, balanced mass, dorsal heat vents, ivory sienna ceramic skin, subtle amber glow, pose, framing and gray background. Remove all three pendant fleshy feeding lobes completely. Replace that front region with an intact blunt solid mineral muzzle grown continuously from the body, two small lateral dark eyes set in modest brow hollows and one narrow CLOSED horizontal mouth with a firm lower jaw. The muzzle is broad and short with no projecting beak or reptile snout. Continuous unbroken dry mineral skin covers face and throat. No hanging lip folds, paired bulbs, central split, radial aperture, exposed cavity, face hole, missing face, horns, spikes, human mask, robot panels or cute expression. Serious neutral ashland grazer, natural layered material. Change no non-face part of this image.",
+          "facialReview": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "fab0b1bb-216a-433d-aa90-9565bc267327",
+            "reasons": [
+              "Complete blunt face, small eyes and firm closed jaw replace dangling lobes; six-limbed ash grazer remains balanced and serious."
+            ]
+          },
+          "review": {
+            "status": "approved",
+            "reviewer": "face_audit_marsh",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "fab0b1bb-216a-433d-aa90-9565bc267327",
+            "reasons": [
+              "Complete blunt face, small eyes and firm closed jaw replace dangling lobes; six-limbed ash grazer remains balanced and serious."
+            ]
+          },
+          "trianglesTarget": 5000,
+          "browserTabId": "1472601764"
         }
-      ],
-      "faceCorrectionInProgress": {
-        "revision": 3,
-        "basisSourceImageId": "4268761b-6cee-4239-b21f-9b699c66bbc6",
-        "generator": "Tripo GPT Image 2.5",
-        "scope": "face-only edit using attached exact v2 reference; requires face_audit_marsh approval before model generation"
-      }
+      ]
     },
     {
       "key": "cinder-penitent",
@@ -555,5 +669,5 @@
       }
     }
   ],
-  "facialReviewGate": "New user correction supersedes prior approvals for cavity, radial fleshy aperture, missing-face or genital-like facial anatomy. No new promotion, replacement generation or export until fresh Astra facial verdict."
+  "facialReviewGate": "Exact source must pass fresh independent Astra low full style and facial integrity review before model promotion. Preserve denied history; no genital-like folds, facial cavities or missing mass."
 }
