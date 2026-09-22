@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import { normalGeometry, positionGeometry, texture as textureNode, uv, varying, vec3, mix, smoothstep, vertexColor, uniform } from 'three/tsl';
 import { cloneNodeMaterial, composeSurface, surfaceNodes, type SurfaceNodeMaterial } from './nodeMaterials.js';
 import { assetBaseUrl } from '../app/config.js';
@@ -45,7 +46,7 @@ export async function regionalEquipmentTexturesReady(): Promise<void> {
   await Promise.all(pending.values());
 }
 
-function treatment(material: THREE.MeshStandardMaterial, appearance: Appearance, meshName: string): Treatment | null {
+function treatment(material: THREE.MeshStandardMaterial | MeshStandardNodeMaterial, appearance: Appearance, meshName: string): Treatment | null {
   const role = material.userData.equipmentRole as string | undefined;
   const name = material.name.split('|')[0] ?? '';
   if (/^fab_(male|female)_mage_/.test(appearance.assetId)) {
@@ -75,7 +76,7 @@ function treatment(material: THREE.MeshStandardMaterial, appearance: Appearance,
 
 /** Material-only overlay. Native diffuse, UVs, vertex detail, normal and ORM maps remain attached. */
 function overlay(material: SurfaceNodeMaterial, tier: Tier, mode: Treatment): void {
-  const shaded = material as THREE.MeshStandardMaterial;
+  const shaded = material as MeshStandardNodeMaterial;
   const surface = mode.endsWith('-mask') ? 'metal' : mode as Surface;
   const generated = texture(tier, surface), wood = mode === 'tool-metal-mask' ? texture(tier, 'wood') : null;
   const hasNativeMap = Boolean(shaded.map);
@@ -124,8 +125,10 @@ export function applyRegionalEquipmentTextures(object: THREE.Object3D, appearanc
   object.traverse(child => {
     if (!(child instanceof THREE.Mesh)) return;
     const apply = (source: THREE.Material): THREE.Material => {
-      const shaded = source as THREE.MeshStandardMaterial;
-      if (!shaded.isMeshStandardMaterial || source.userData.regionalEquipmentTexture) return source;
+      const standard = source instanceof THREE.MeshStandardMaterial
+        || (source as MeshStandardNodeMaterial).isMeshStandardNodeMaterial;
+      if (!standard || source.userData.regionalEquipmentTexture) return source;
+      const shaded = source as THREE.MeshStandardMaterial | MeshStandardNodeMaterial;
       const mode = treatment(shaded, appearance, child.name);
       if (!mode) return source;
       const clone = cloneNodeMaterial(shaded);

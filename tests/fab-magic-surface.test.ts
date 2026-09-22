@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { applyFabMagicSurface, fabMagicShimmerPhase, getFabMagicSurfaceState, setFabMagicSampleTime } from '../game/src/render/fabMagicSurface.js';
 
-import { MeshStandardNodeMaterial, type MeshPhysicalNodeMaterial, type Node } from 'three/webgpu';
+import { MeshStandardNodeMaterial, NodeMaterial, type MaterialReferenceNode, type MeshPhysicalNodeMaterial, type Node } from 'three/webgpu';
 import { materialColor, uniform } from 'three/tsl';
 
 function contains(root: Node | null, child: Node): boolean {
@@ -32,7 +32,7 @@ describe('Fab magic woven iridescence', () => {
   });
 
   it('replaces imported sheen maps without changing authored base or normal maps', () => {
-    const source = new THREE.MeshPhysicalMaterial({ sheen: 1, sheenRoughness: 1 });
+    const source = new THREE.MeshPhysicalMaterial({ sheen: 1, sheenRoughness: 1, transmission: 0.4, dispersion: 0.05, alphaTest: 0.1 });
     const oldSheenColor = new THREE.Texture();
     // Imported Paragon alpha=0 would reduce sheen roughness to zero in the shader.
     const oldSheenRoughness = new THREE.DataTexture(new Uint8Array([255, 255, 255, 0]), 1, 1);
@@ -49,6 +49,13 @@ describe('Fab magic woven iridescence', () => {
     expect(source.sheenColorMap).toBe(oldSheenColor);
     expect(source.sheenRoughnessMap).toBe(oldSheenRoughness);
     expect(source.sheenRoughness).toBe(1);
+    for (const copy of [material, material.clone()]) {
+      expect(copy.transmission).toBe(0.4);
+      expect(copy.dispersion).toBe(0.05);
+      expect(copy.alphaTest).toBe(0.1);
+      expect(copy.iridescence).toBe(material.iridescence);
+      expect(copy.sheen).toBe(material.sheen);
+    }
   });
 
   it('preserves authored maps and color while using a separate scale mask on its configured UV channel', () => {
@@ -103,13 +110,18 @@ describe('Fab magic woven iridescence', () => {
       expect(original.userData.magicSurface.phase).toBe(0);
       expect(cloned.customProgramCacheKey()).toBe(key);
       expect(cloned.customProgramCacheKey()).toBe(original.customProgramCacheKey());
-      const referenceMaterials: unknown[] = [];
+      const references: MaterialReferenceNode[] = [];
       cloned.iridescenceThicknessNode!.traverse(node => {
-        const reference = node as Node & { property?: string; material?: unknown };
-        if (reference.property === '_fabMagicShimmer') referenceMaterials.push(reference.material);
+        const reference = node as unknown as MaterialReferenceNode;
+        if (reference.property === '_fabMagicShimmer') references.push(reference);
       });
-      // No node captures the original. References resolve the material being drawn.
-      expect(referenceMaterials).toContain(null);
+      expect(references.length).toBeGreaterThan(0);
+      for (const reference of references) {
+        type Frame = Parameters<typeof reference.updateReference>[0];
+        expect(reference.updateReference({ material: cloned } as unknown as Frame)).toBe(cloned);
+        expect(reference.updateReference({ material: new NodeMaterial(),
+          renderer: { _currentSourceMaterial: cloned } } as unknown as Frame)).toBe(cloned);
+      }
     } finally {
       now.mockRestore();
     }

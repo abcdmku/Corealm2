@@ -1,5 +1,6 @@
 import { assetBaseUrl } from "../app/config.js";
 import * as THREE from "three";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import { normalGeometry, positionGeometry, texture as textureNode, varying, vec3 } from "three/tsl";
 import { composeSurface, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 
@@ -58,8 +59,8 @@ export async function equipmentSurfaceTexturesReady(): Promise<void> {
 export function applyEquipmentSurfaceTexture(material: SurfaceNodeMaterial, assetId: string): void {
   if (!equipmentSurfaceTexturesEnabled() || typeof document === "undefined" || applied.has(material)) return;
   if (!/^corealm_(sword|dagger|axe|shield|staff|wand)_[1-4]$/.test(assetId)) return;
-  const shaded = material as THREE.MeshStandardMaterial;
-  if (!shaded.isMeshStandardMaterial) return;
+  const shaded = material as MeshStandardNodeMaterial;
+  if (!shaded.isMeshStandardNodeMaterial) return;
   const role = material.userData.equipmentRole as string | undefined;
   const dagger = /^corealm_dagger_[1-4]$/.test(assetId);
   const surface: Surface | undefined = role === "blade" || role === "metal" ? "metal"

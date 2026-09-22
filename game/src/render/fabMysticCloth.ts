@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { type MeshPhysicalNodeMaterial, type MeshStandardNodeMaterial } from 'three/webgpu';
-import { float, frontFacing, materialColor, materialSheen, materialSpecularIntensity, texture, uv, vec3, vec4, vertexColor } from 'three/tsl';
-import { cloneNodeMaterial, composeSurface } from './nodeMaterials.js';
+import { MaterialNode, type MeshPhysicalNodeMaterial, type MeshStandardNodeMaterial, type Node } from 'three/webgpu';
+import { float, frontFacing, mix, texture, uv, vec3, vec4, vertexColor } from 'three/tsl';
+import { cloneNodeMaterial, composeSurface, sourceMaterialNode, surfaceColorNode } from './nodeMaterials.js';
 import { applyFabMagicSurface, preserveFabClothHighlights } from './fabMagicSurface.js';
 
 export type MysticClothPanel = 'outer' | 'lining' | 'embroidery' | 'binding' | 'soft-leather';
@@ -24,9 +24,9 @@ export function applyMysticClothMaterial(
   const weave = texture(textile, uv(0).mul(repeat)).rgb;
   const weaveLight = weave.dot(vec3(0.2126, 0.7152, 0.0722));
   const thread = weaveLight.smoothstep(0.10, 0.42).mul(embroidery);
-  const color = dye.mul(weaveLight.sqrt().mul(0.3).add(0.88)).mix(weave.mul(1.35), embroidery);
+  const color = mix(dye.mul(weaveLight.sqrt().mul(0.3).add(0.88)), weave.mul(1.35), embroidery);
   // Textile replaces the old RGB after vertex tint, retaining its coverage.
-  const alpha = vec4(prepared.colorNode ?? materialColor).a
+  const alpha = surfaceColorNode(prepared).a
     .mul(prepared.vertexColors ? vertexColor().a : float(1));
   prepared.vertexColors = false;
   prepared.colorNode = vec4(color.mul(frontFacing.select(vec3(1), vec3(0.55, 0.60, 0.70))), alpha);
@@ -46,9 +46,9 @@ export function applyMysticClothMaterial(
   prepared.emissiveNode = null;
   prepared.name = `${source.name}|mystic:${tier}:${panel}`;
   const result = applyFabMagicSurface(prepared, { tier, role: panel === 'soft-leather' ? 'leather' : 'cloth', tailored: true });
-  result.sheenNode = vec3(result.sheenNode ?? materialSheen)
+  result.sheenNode = vec3((result.sheenNode ?? sourceMaterialNode<'vec3'>(result, MaterialNode.SHEEN)) as Node<'vec3'>)
     .mul(float(0.75).mix(1.25, thread)).mul(frontFacing.select(1, 0.2));
-  result.specularIntensityNode = float(result.specularIntensityNode ?? materialSpecularIntensity)
+  result.specularIntensityNode = float((result.specularIntensityNode ?? sourceMaterialNode<'float'>(result, MaterialNode.SPECULAR_INTENSITY)) as Node<'float'>)
     .mul(frontFacing.select(1, 0.15));
   preserveFabClothHighlights(result);
   result.specularColorMap = null;

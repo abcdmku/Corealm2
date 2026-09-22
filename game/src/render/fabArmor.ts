@@ -1,5 +1,6 @@
 import { assetBaseUrl } from "../app/config.js";
 import * as THREE from 'three';
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import { float, mix, smoothstep, vec3, vertexColor } from 'three/tsl';
 import { cloneNodeMaterial, composeSurface } from './nodeMaterials.js';
 import type { EquipSlot } from '../contracts.js';
@@ -96,8 +97,8 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
     if (!mesh.isMesh) return;
     const apply = (source: THREE.Material): THREE.Material => {
       const material = cloneNodeMaterial(source);
-      if (!(material as THREE.MeshStandardMaterial).isMeshStandardMaterial) return material;
-      const shaded = material as THREE.MeshStandardMaterial;
+      if (!(material as MeshStandardNodeMaterial).isMeshStandardNodeMaterial) return material;
+      const shaded = material as MeshStandardNodeMaterial;
       const role = source.name.split('|')[0];
       const rareMagicTier = set === 'tideweave' ? 50 : set === 'nightweave' ? 70 : set === 'frostweave' ? 90 : null;
       const magicRole = tier >= 0 ? role?.replace('fab_', '') : source.userData.fabRole;

@@ -1,11 +1,11 @@
 import * as THREE from 'three';
 
-import { MeshPhysicalNodeMaterial, PhysicalLightingModel, type MeshStandardNodeMaterial, type NodeBuilder } from 'three/webgpu';
+import { MaterialNode, MeshPhysicalNodeMaterial, PhysicalLightingModel, type MeshStandardNodeMaterial, type Node, type NodeBuilder } from 'three/webgpu';
 import {
-  float, materialColor, materialIridescenceThickness, materialReference, materialSheen,
+  float, mix,
   normalView, normalViewGeometry, positionViewDirection, vec3, vec4, vertexColor,
 } from 'three/tsl';
-import { ensureNodeMaterial } from './nodeMaterials.js';
+import { ensureNodeMaterial, sourceMaterialNode, sourceMaterialReference, surfaceColorNode } from './nodeMaterials.js';
 
 const lumaWeights = vec3(0.2126, 0.7152, 0.0722);
 
@@ -18,19 +18,28 @@ export function preserveFabClothHighlights(material: THREE.Material): void {
 class FabClothLightingModel extends PhysicalLightingModel {
   override ambientOcclusion(builder: NodeBuilder): void {
     super.ambientOcclusion(builder);
-    const reflected = builder.context.reflectedLight;
+    const { reflectedLight: reflected } = builder.context as {
+      reflectedLight: {
+        directDiffuse: Node<'vec3'>;
+        indirectDiffuse: Node<'vec3'>;
+        directSpecular: Node<'vec3'>;
+        indirectSpecular: Node<'vec3'>;
+      };
+    };
+    const sheenDirect = this.sheenSpecularDirect as Node<'vec3'> | null;
+    const sheenIndirect = this.sheenSpecularIndirect as Node<'vec3'> | null;
     let reflection = vec3(reflected.directSpecular).add(reflected.indirectSpecular);
-    if (this.sheen && this.sheenSpecularDirect && this.sheenSpecularIndirect) {
-      reflection = reflection.add(this.sheenSpecularDirect, this.sheenSpecularIndirect);
+    if (this.sheen && sheenDirect && sheenIndirect) {
+      reflection = reflection.add(sheenDirect, sheenIndirect);
     }
     const limit = vec3(reflected.directDiffuse).add(reflected.indirectDiffuse)
       .dot(lumaWeights).mul(0.8).add(0.035);
     const scale = limit.div(limit.add(reflection.dot(lumaWeights))).toVar();
     vec3(reflected.directSpecular).mulAssign(scale);
     vec3(reflected.indirectSpecular).mulAssign(scale);
-    if (this.sheen && this.sheenSpecularDirect && this.sheenSpecularIndirect) {
-      vec3(this.sheenSpecularDirect).mulAssign(scale);
-      vec3(this.sheenSpecularIndirect).mulAssign(scale);
+    if (this.sheen && sheenDirect && sheenIndirect) {
+      sheenDirect.mulAssign(scale);
+      sheenIndirect.mulAssign(scale);
     }
   }
 }
@@ -94,6 +103,16 @@ class FabMagicMaterial extends MeshPhysicalNodeMaterial {
   _fabMagicTailored = false;
 
   override copy(source: THREE.Material): this {
+    // NodeMaterial visits setters only on the immediate subclass prototype.
+    this.alphaTest = source.alphaTest;
+    if (source instanceof MeshPhysicalNodeMaterial || source instanceof THREE.MeshPhysicalMaterial) {
+      this.anisotropy = source.anisotropy;
+      this.clearcoat = source.clearcoat;
+      this.iridescence = source.iridescence;
+      this.dispersion = source.dispersion;
+      this.sheen = source.sheen;
+      this.transmission = source.transmission;
+    }
     // NodeMaterial serializes userData, which can also hold live asset metadata.
     super.copy(Object.assign(Object.create(source) as THREE.Material, { userData: {} }));
     this.userData = { ...source.userData };
@@ -124,9 +143,9 @@ class FabMagicMaterial extends MeshPhysicalNodeMaterial {
   }
 
   buildMagicNodes(): void {
-    const shimmer = materialReference('_fabMagicShimmer', 'float');
-    const tintStrength = materialReference('_fabMagicTintStrength', 'float');
-    const thickness = float(this.iridescenceThicknessNode ?? materialIridescenceThickness)
+    const shimmer = sourceMaterialReference<'float'>(this, '_fabMagicShimmer', 'float');
+    const tintStrength = sourceMaterialReference<'float'>(this, '_fabMagicTintStrength', 'float');
+    const thickness = float((this.iridescenceThicknessNode ?? sourceMaterialNode<'float'>(this, MaterialNode.IRIDESCENCE_THICKNESS)) as Node<'float'>)
       .add(shimmer).max(1);
     const normal = this._fabMagicTailored ? normalViewGeometry : normalView;
     const facing = normal.dot(positionViewDirection).abs();
@@ -135,17 +154,17 @@ class FabMagicMaterial extends MeshPhysicalNodeMaterial {
       .add(shimmer.mul(0.045)).sin().mul(0.5).add(0.5);
     this.iridescenceThicknessNode = thickness;
     if (this._fabMagicTailored) {
-      this.sheenNode = vec3(this.sheenNode ?? materialSheen)
-        .mul(vec3(0.34, 0.92, 0.85).mix(vec3(0.86, 0.4, 1), hue));
+      this.sheenNode = vec3((this.sheenNode ?? sourceMaterialNode<'vec3'>(this, MaterialNode.SHEEN)) as Node<'vec3'>)
+        .mul(mix(vec3(0.34, 0.92, 0.85), vec3(0.86, 0.4, 1), hue));
     } else {
-      const sourceColor = vec4(this.colorNode ?? materialColor);
+      const sourceColor = surfaceColorNode(this);
       const vertexTint = this.vertexColors ? vertexColor() : vec4(1);
       const rgba = sourceColor.mul(vertexTint);
       const base = rgba.rgb;
       this.vertexColors = false;
-      const tint = vec3(0.08, 0.75, 0.65).mix(vec3(0.6, 0.19, 0.88), hue);
+      const tint = mix(vec3(0.08, 0.75, 0.65), vec3(0.6, 0.19, 0.88), hue);
       const equalLumaTint = tint.div(tint.dot(lumaWeights));
-      this.colorNode = vec4(base.mix(equalLumaTint.mul(base.dot(lumaWeights)),
+      this.colorNode = vec4(mix(base, equalLumaTint.mul(base.dot(lumaWeights)),
         tintStrength.mul(base.r.sub(base.b).smoothstep(0.025, 0.14).oneMinus())), rgba.a);
     }
   }

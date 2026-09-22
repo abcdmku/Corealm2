@@ -1,6 +1,7 @@
 import * as THREE from "three";
-import { color, float, materialColor, mix, smoothstep, texture, vec3 } from "three/tsl";
-import { composeSurface, type SurfaceNodeMaterial } from "./nodeMaterials.js";
+import { MaterialNode, type MeshStandardNodeMaterial, type MeshPhysicalNodeMaterial } from "three/webgpu";
+import { color, float, mix, smoothstep, texture, vec3 } from "three/tsl";
+import { composeSurface, sourceMaterialNode, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 
 type Appearance = { assetId: string; itemId?: string; tint?: number; accent?: number };
 type Palette = { wood: number; metal: number; leather: number; gem?: number; plate?: number };
@@ -37,8 +38,8 @@ export function applyIconWeaponMaterials(material: SurfaceNodeMaterial, appearan
   }
   const match = /^corealm_(sword|dagger|shield|staff|wand)_([1-4])$/.exec(appearance.assetId);
   if (!match || !appearance.itemId) return;
-  const shaded = material as THREE.MeshStandardMaterial;
-  if (!shaded.isMeshStandardMaterial) return;
+  const shaded = material as MeshStandardNodeMaterial;
+  if (!shaded.isMeshStandardNodeMaterial) return;
   const role = material.userData.equipmentRole as string | undefined;
   if (!role || !["metal", "blade", "wood", "leather", "gem"].includes(role)) return;
   const id = aliases[appearance.itemId] ?? appearance.itemId;
@@ -96,7 +97,7 @@ export function applyIconWeaponMaterials(material: SurfaceNodeMaterial, appearan
   } else {
     shaded.emissive.setHex(0);
     shaded.emissiveIntensity = 0;
-    if (role === "gem" && "clearcoat" in shaded) (shaded as THREE.MeshPhysicalMaterial).clearcoat = 0;
+    if (role === "gem" && "clearcoat" in shaded) (shaded as MeshPhysicalNodeMaterial).clearcoat = 0;
   }
   const grain = shaded.map
     ? texture(shaded.map).rgb.dot(vec3(0.2126, 0.7152, 0.0722)).div(0.60).clamp(0.55, 1.30)
@@ -116,8 +117,8 @@ function applyImportedIconMaterial(material: SurfaceNodeMaterial, appearance: Ap
   const moss = appearance.itemId === "mossbound_staff" || appearance.itemId === "mossbound_sword";
   if (!driftwood && !titanium && !copper && !moss) return;
   const staff = appearance.assetId === "miniboss_staff";
-  const shaded = material as THREE.MeshStandardMaterial;
-  if (!shaded.isMeshStandardMaterial) return;
+  const shaded = material as MeshStandardNodeMaterial;
+  if (!shaded.isMeshStandardNodeMaterial) return;
   const colour = new THREE.Color(driftwood ? 0xc4beb0 : copper ? 0xd39369 : moss && staff ? 0x9b8a6c : 0xbcc1c8);
   shaded.color.setHex(0xffffff);
   shaded.vertexColors = false;
@@ -129,7 +130,7 @@ function applyImportedIconMaterial(material: SurfaceNodeMaterial, appearance: Ap
   shaded.emissiveIntensity = shaded.emissiveMap ? (titanium ? 1.2 : moss ? 0.04 : 0) : 0;
   composeSurface(material, {
     color: () => {
-      const detail = materialColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722))
+      const detail = sourceMaterialNode<"vec4">(material, MaterialNode.COLOR).rgb.dot(vec3(0.2126, 0.7152, 0.0722))
         .max(0.0001).div(0.18).pow(0.60).clamp(0.22, 1.30);
       const base = color(colour).mul(detail);
       if (!moss || !shaded.emissiveMap) return base;

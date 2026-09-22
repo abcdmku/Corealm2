@@ -10,7 +10,7 @@ import { CRAFTED_JEWELRY, isRetiredJewelry } from '../content/jewelry.js';
  * Altar-crafted elemental weapons add a charged core around the set crystal.
  */
 import * as THREE from "three";
-import { MeshPhysicalNodeMaterial } from "three/webgpu";
+import { MeshPhysicalNodeMaterial, type MeshStandardNodeMaterial } from "three/webgpu";
 import { color, mix, smoothstep, vec3, vec4, vertexColor } from "three/tsl";
 import { cloneNodeMaterial, composeSurface, surfaceNodes, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 import type { EquipSlot, ItemId } from "../contracts.js";
@@ -1013,7 +1013,7 @@ export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppe
 function tintedMaterial(material: THREE.Material, appearance: GearAppearance, partName?: string): THREE.Material {
   const clone = cloneNodeMaterial(material);
   if (applyArmorTexture(clone, { ...appearance, partName })) return clone;
-  const shaded = clone as Partial<THREE.MeshStandardMaterial>;
+  const shaded = clone as Partial<MeshStandardNodeMaterial>;
   const role = material.userData["equipmentRole"] as string | undefined;
   const tintable = role !== "leather" && role !== "gem" && role !== "wood";
   if (tintable && appearance.tint !== undefined && shaded.color instanceof THREE.Color) {
@@ -1074,7 +1074,7 @@ function applyMetalTierColour(
   tint: number,
   reference: number,
 ): void {
-  const shaded = material as THREE.MeshStandardMaterial;
+  const shaded = material as MeshStandardNodeMaterial;
   shaded.color.copy(source.color);
   shaded.emissive.copy(source.emissive);
   shaded.emissiveIntensity = source.emissiveIntensity;
@@ -1099,7 +1099,7 @@ function applyMetalTierColour(
 
 /** Regional colour stays strongest in the midtones; worn bright edges keep a steel reflection. */
 function applyRareTierColour(material: SurfaceNodeMaterial, tint: number): void {
-  const shaded = material as THREE.MeshStandardMaterial;
+  const shaded = material as MeshStandardNodeMaterial;
   if (!(shaded.color instanceof THREE.Color)) return;
   shaded.color.setHex(0xffffff);
   includeGearVertexColor(material);
@@ -1123,7 +1123,7 @@ function includeGearVertexColor(material: SurfaceNodeMaterial): void {
 
 /** Re-dye Ranger cloth while retaining brown leather, folds and the authored PBR response. */
 function applyRangerTierColour(material: SurfaceNodeMaterial, tint: number): void {
-  const shaded = material as Partial<THREE.MeshStandardMaterial>;
+  const shaded = material as Partial<MeshStandardNodeMaterial>;
   if (!(shaded.color instanceof THREE.Color)) return;
   shaded.color.setHex(0xffffff);
   if (shaded.emissive instanceof THREE.Color) {
