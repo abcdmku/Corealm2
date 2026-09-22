@@ -1,0 +1,59 @@
+{
+  "output": "assets/art/tripo/imports/creatures",
+  "entries": [
+    {
+      "id": "creature_boss_mossbound",
+      "name": "Grove Brute",
+      "source": "C:/Users/Borg/Downloads/corealm_grove_brute_07e65df7_8k_rigged.glb",
+      "expectedSourceSha256": "5244b9a7b9b7dc8f9e5d4da470323c0d417206b94312eb9e7749fc9a3f27d7b0",
+      "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+      "modelId": "07e65df7-8ccb-4a73-872a-54d1229da86c",
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "field_audit (gpt-6-astra low)"
+      },
+      "heightMeters": 2.65,
+      "yawDegrees": 0,
+      "orientationVerified": true,
+      "requirePbrMaps": false,
+      "retargetHumanoid": true,
+      "repairHumanoidWeights": true,
+      "geometryReference": "C:/Users/Borg/Downloads/orc+warrior+3d+model.glb"
+    },
+    {
+      "id": "creature_boss_tideworn",
+      "name": "Undercrag Mawer",
+      "source": "C:/Users/Borg/Downloads/corealm_undercrag_mawer_31201699_8k_rigged.glb",
+      "expectedSourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+      "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+      "modelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "stone_audit (gpt-6-astra low)"
+      },
+      "heightMeters": 2.4,
+      "yawDegrees": 0,
+      "orientationVerified": true,
+      "requirePbrMaps": false,
+      "retargetHumanoid": true,
+      "repairHumanoidWeights": true,
+      "geometryReference": "C:/Users/Borg/Downloads/humanoid+ape+3d+model.glb"
+    },
+    {
+      "id": "creature_flint_mandible",
+      "name": "Flint Mandible",
+      "source": "C:/Users/Borg/Downloads/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+      "expectedSourceSha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+      "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+      "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "stone_audit (gpt-6-astra low)"
+      },
+      "heightMeters": 0.8,
+      "yawDegrees": -90,
+      "orientationVerified": false,
+      "requirePbrMaps": false
+    }
+  ]
+}
