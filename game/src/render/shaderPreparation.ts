@@ -3,6 +3,7 @@ import { yieldToMainThread } from "../core/yield.js";
 import type { WebGPURenderer } from "three/webgpu";
 import { createGpuCompletion } from "./framePacer.js";
 import type { GpuCompletion } from "./framePacer.js";
+import { isSceneryInstances } from "./sceneryInstances.js";
 
 
 type DeviceError = { message?: string };
@@ -145,6 +146,9 @@ export function disposeGraphicsValidation(renderer: WebGPURenderer): void {
 
 /** Repeated tiles share geometry and materials, and therefore the same compiler inputs. */
 export function shaderGeometryKey(mesh: THREE.Mesh): string {
+  if (isSceneryInstances(mesh)) {
+    return `scenery:${mesh.sourceGeometry.uuid}:${mesh.receiveShadow}:${Boolean(mesh.instanceColors)}`;
+  }
   const instanced = mesh as THREE.InstancedMesh;
   return `${mesh.type}:${mesh.geometry.uuid}:${mesh.receiveShadow}:${Boolean(instanced.instanceColor)}:${Boolean(instanced.morphTexture)}`;
 }

@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { expect, it, vi } from "vitest";
 import { Renderer } from "../game/src/render/renderer.js";
+import { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
 
 vi.mock("../game/src/render/shaderPreparation.js", async importOriginal => {
@@ -82,11 +83,12 @@ it("prepares every instance, sampled draw, skeleton, and batch while deduplicati
   const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
   const ordinary = new THREE.Mesh(geometry, material), duplicate = ordinary.clone();
   const instances = [new THREE.InstancedMesh(geometry, material, 4), new THREE.InstancedMesh(geometry, material, 4)];
+  const scenery = [new SceneryInstances(geometry, material, 4), new SceneryInstances(geometry, material, 11)];
   const skeletons = [new THREE.SkinnedMesh(geometry, material), new THREE.SkinnedMesh(geometry, material)];
   const batches = [new THREE.BatchedMesh(1, 24, 36, material), new THREE.BatchedMesh(1, 24, 36, material)];
   for (const batch of batches) { batch.geometry.dispose(); batch.geometry = geometry; }
   const counted = [Object.assign(ordinary.clone(), { count: 2 }), Object.assign(ordinary.clone(), { count: 2 })];
-  scene.add(ordinary, duplicate, ...instances, ...skeletons, ...batches, ...counted);
+  scene.add(ordinary, duplicate, ...instances, ...scenery, ...skeletons, ...batches, ...counted);
   const frameTarget = new THREE.RenderTarget(), fake = {};
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     scene, camera, renderer: fake, frameTarget, warmupMaterials: [],
@@ -95,7 +97,8 @@ it("prepares every instance, sampled draw, skeleton, and batch while deduplicati
   const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
   await renderer.warmup();
   expect(prepare).toHaveBeenCalledWith(fake, scene, camera,
-    [ordinary, ...instances, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4 });
+    [ordinary, ...instances, ...scenery, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4 });
+  for (const cluster of scenery) cluster.dispose();
   geometry.dispose(); material.dispose(); frameTarget.dispose();
 });
 

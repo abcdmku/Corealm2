@@ -21,6 +21,8 @@ import { MagicGlow } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { installStableShaderNames } from "./stableNodeBuilder.js";
+import { isSceneryInstances } from "./sceneryInstances.js";
+import { installSharedGeometryBuffers } from "./sharedGeometryBuffers.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
 import { prepareShaderMeshes, shaderGeometryKey, installGraphicsValidation, graphicsValidationState,
   assertGraphicsValid, waitForGraphicsValidation, validateGraphicsWork, validateGraphicsSubmission,
@@ -443,6 +445,7 @@ export class Renderer {
   init(): Promise<void> {
     this.initializing ??= (async () => {
       await this.renderer.init();
+      installSharedGeometryBuffers(this.renderer);
       installStableShaderNames(this.renderer);
       this.completeGpuWork = createGpuCompletion(this.renderer);
       this.framePacer = new FramePacer(this.completeGpuWork);
@@ -609,10 +612,11 @@ export class Renderer {
     this.scene.traverseVisible(object => {
       const drawable = object as THREE.Mesh & THREE.Points & THREE.Line & THREE.Sprite;
       const needsOwnBindings = (object as THREE.InstancedMesh).isInstancedMesh
+        || isSceneryInstances(object)
         || (object as THREE.SkinnedMesh).isSkinnedMesh || (object as THREE.BatchedMesh).isBatchedMesh
         || (drawable.count ?? 0) > 1;
-      // Native instancing/batching keys include object or texture identity. Skinned
-      // meshes also need their actual skeleton buffers and bone-count variant ready.
+      // Scenery shares lowered shaders, but every cluster still needs its own matrix
+      // buffers uploaded. Actors also need their skeleton and palette bindings ready.
       if (drawable.isMesh && !needsOwnBindings) {
         const key = `${shaderGeometryKey(drawable)}:${(Array.isArray(drawable.material) ? drawable.material : [drawable.material])
           .map(material => material.uuid).join(",")}:${drawable.castShadow}:${Boolean(drawable.userData.prepareCorpseFade)}`;

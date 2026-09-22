@@ -13,6 +13,7 @@ const option = (name: string): string | undefined => {
   return value;
 };
 const url = option('--url'), channel = option('--channel');
+const scenery = args.includes('--scenery');
 const clear = installTestDeadline('Glow compilation', 60_000);
 const server = url ? { url, close: async () => {} } : await startGameServer();
 const browser = await chromium.launch({ headless: true, ...(channel ? { channel } : {}),
@@ -33,12 +34,14 @@ try {
     contentType: 'text/html', body: '<style>body{margin:0}canvas{width:192px;height:192px}</style><canvas id="viewport"></canvas>',
   }));
   await page.goto(`${server.url}/glow-probe`);
-  const result = await page.evaluate(async (threePath) => {
+  const result = await page.evaluate(async ({ threePath, scenery }) => {
     const THREE = await import(threePath);
     const glowPath = '/src/render/magicGlow.ts';
     const shaderPath = '/src/render/shaderPreparation.ts';
     const namesPath = '/src/render/stableNodeBuilder.ts';
     const completionPath = '/src/render/framePacer.ts';
+    const sharedGeometryPath = '/src/render/sharedGeometryBuffers.ts';
+    const sharedGeometry = scenery ? await import(sharedGeometryPath) : null;
     const { MagicGlow, registerMagicGlow, isolateMagicEmission } = await import(glowPath);
     const { installGraphicsValidation, validateGraphicsWork, waitForGraphicsValidation,
       graphicsValidationState, disposeGraphicsValidation } = await import(shaderPath);
@@ -73,6 +76,7 @@ try {
     let complete: (() => Promise<void>) & { dispose?(): void } = async () => {};
     try {
       await gpu.init();
+      sharedGeometry?.installSharedGeometryBuffers(gpu);
       if (!gpu.backend.isWebGPUBackend) throw new Error('Glow probe requires the native WebGPU backend');
       installStableShaderNames(gpu); installGraphicsValidation(gpu);
       complete = createGpuCompletion(gpu);
@@ -130,17 +134,106 @@ try {
         }
         return { samples, changedPixels, meanAbs: meanAbs / samples, positive: positive / samples, peak };
       };
+      const probeScenery = async () => {
+        const modulePath = '/src/render/sceneryInstances.ts';
+        const { SceneryInstances } = await import(modulePath);
+        const sceneryScene = new THREE.Scene();
+        sceneryScene.background = new THREE.Color(0);
+        const view = new THREE.OrthographicCamera(-3, 3, 2, -2, .1, 20);
+        view.position.z = 5; view.lookAt(0, 0, 0); view.updateMatrixWorld();
+        const sourceGeometry = new THREE.PlaneGeometry(.6, .6);
+        const sourceMaterial = new THREE.MeshBasicNodeMaterial({ color: 0xffffff });
+        const first = new SceneryInstances(sourceGeometry, sourceMaterial, 2, { colors: true });
+        const second = new SceneryInstances(sourceGeometry, sourceMaterial, 5, { colors: true });
+        first.name = 'scenery-two'; second.name = 'scenery-five';
+        const matrix = new THREE.Matrix4();
+        const place = (cluster: any, index: number, x: number, y: number, color: number): void => {
+          cluster.setMatrixAt(index, matrix.makeTranslation(x, y, 0));
+          cluster.setColorAt(index, new THREE.Color(color));
+        };
+        place(first, 0, -2, 0, 0xff0000); place(first, 1, -1, 0, 0x0000ff);
+        place(second, 0, .5, 0, 0x00ff00); place(second, 1, 1.5, 0, 0xffff00); place(second, 2, 2.5, 0, 0xff00ff);
+        const publish = (cluster: any, count: number): void => {
+          cluster.instanceCount = count;
+          cluster.instanceTransforms.needsUpdate = true;
+          cluster.instanceColors.needsUpdate = true;
+          cluster.computeBoundingBox(); cluster.computeBoundingSphere();
+        };
+        publish(first, 2); publish(second, 3);
+        sceneryScene.add(first, second);
+        const submitted = new Map<any, { nodeState: unknown; cacheKey: unknown; transformBuffer: unknown; colorBuffer: unknown }>();
+        const nativeDraw = gpu.backend.draw;
+        gpu.backend.draw = function (object: any, ...rest: any[]) {
+          nativeDraw.call(this, object, ...rest);
+          const mesh = object.object;
+          if (mesh !== first && mesh !== second) return;
+          submitted.set(mesh, { nodeState: object.getNodeBuilderState(), cacheKey: object.getCacheKey(),
+            transformBuffer: this.get(mesh.instanceTransforms).buffer, colorBuffer: this.get(mesh.instanceColors).buffer });
+        };
+        const readFrame = async () => {
+          gpu.setRenderTarget(target);
+          await validateGraphicsWork(gpu, 'Scenery native frame', async () => {
+            gpu.render(sceneryScene, view); await complete();
+          });
+          const raw = await gpu.readRenderTargetPixelsAsync(target, 0, 0, size, size);
+          return Float32Array.from(raw as Uint16Array, value => THREE.DataUtils.fromHalfFloat(value));
+        };
+        const sample = (data: Float32Array, x: number, y: number): number[] => {
+          const px = Math.floor((x + 3) / 6 * size), py = Math.floor((2 - y) / 4 * size);
+          const start = (py * size + px) * 4;
+          return Array.from(data.slice(start, start + 3));
+        };
+        let firstDisposed = false;
+        let secondDisposed = false;
+        let replacement: any = null;
+        try {
+          gpu.setRenderTarget(target);
+          await validateGraphicsWork(gpu, 'Scenery native preparation', () => gpu.compileAsync(sceneryScene, view));
+          const before = await readFrame();
+          const a = submitted.get(first), b = submitted.get(second);
+          const sharing = {
+            submittedClusters: submitted.size,
+            nodeStateShared: Boolean(a?.nodeState && a.nodeState === b?.nodeState),
+            cacheKeyShared: Boolean(a && b && a.cacheKey === b.cacheKey),
+            independentTransformBuffers: Boolean(a?.transformBuffer && b?.transformBuffer && a.transformBuffer !== b.transformBuffer),
+            independentColorBuffers: Boolean(a?.colorBuffer && b?.colorBuffer && a.colorBuffer !== b.colorBuffer),
+          };
+          sceneryScene.remove(first); first.dispose(); firstDisposed = true;
+          const afterDispose = await readFrame();
+          place(second, 0, .5, .8, 0x00ffff); publish(second, 3);
+          const afterUpdate = await readFrame();
+          sceneryScene.remove(second); second.dispose(); secondDisposed = true;
+          replacement = new SceneryInstances(sourceGeometry, sourceMaterial, 1, { colors: true });
+          place(replacement, 0, -2, 0, 0xff0000); publish(replacement, 1);
+          sceneryScene.add(replacement);
+          await validateGraphicsWork(gpu, 'Recreated scenery preparation', () => gpu.compileAsync(sceneryScene, view));
+          const afterRecreate = await readFrame();
+          return { ...sharing, capacities: [2, 5], counts: [2, 3],
+            before: { red: sample(before, -2, 0), blue: sample(before, -1, 0), green: sample(before, .5, 0),
+              yellow: sample(before, 1.5, 0), magenta: sample(before, 2.5, 0), unused: sample(before, 0, 0) },
+            afterDispose: { removed: sample(afterDispose, -2, 0), surviving: sample(afterDispose, .5, 0) },
+            afterUpdate: { oldPosition: sample(afterUpdate, .5, 0), movedCyan: sample(afterUpdate, .5, .8),
+              otherInstance: sample(afterUpdate, 1.5, 0) },
+            afterRecreate: { recreated: sample(afterRecreate, -2, 0), removed: sample(afterRecreate, 1.5, 0) } };
+        } finally {
+          gpu.backend.draw = nativeDraw;
+          if (!firstDisposed) first.dispose();
+          if (!secondDisposed) second.dispose();
+          replacement?.dispose(); sourceGeometry.dispose(); sourceMaterial.dispose();
+        }
+      };
+      const sceneryResult = scenery ? await probeScenery() : null;
       await waitForGraphicsValidation(gpu);
       return { backend: 'webgpu', ordinaryObjects: ordinaryIds.size, preparedOrdinary, preparedEmitter,
         compiledObjects: compiled.size, selectedPreparationMs, visible: compare(visibleBase, visibleGlow, true),
         occluded: compare(occludedBase, occludedGlow, false), visibleState,
-        validation: graphicsValidationState(gpu), programs: gpu.info.memory.programs };
+        scenery: sceneryResult, validation: graphicsValidationState(gpu), programs: gpu.info.memory.programs };
     } finally {
       unregister(); complete.dispose?.(); glow.dispose(); target.dispose();
       emitter.geometry.dispose(); emission.dispose(); wall.geometry.dispose(); wall.material.dispose();
       ordinaryGeometry.dispose(); ordinaryMaterial.dispose(); disposeGraphicsValidation(gpu); gpu.dispose();
     }
-  }, threePath);
+  }, { threePath, scenery });
   console.log(JSON.stringify({ ...result, errors }));
   assert.equal(result.backend, 'webgpu');
   assert.equal(result.preparedEmitter, true, 'Native glow preparation must include the selected emitter');
@@ -152,6 +245,24 @@ try {
   assert.ok(result.occluded.meanAbs < .00001 && result.occluded.peak < .001,
     'Opaque world depth must suppress glow from a fully hidden emitter');
   assert.equal(result.validation.failed, 0);
+  if (scenery) {
+    const proof = result.scenery;
+    assert.ok(proof, 'Scenery proof must run when requested');
+    assert.equal(proof.submittedClusters, 2);
+    assert.ok(proof.nodeStateShared && proof.cacheKeyShared, 'Different cluster capacities must share the actual native node-builder state/cache');
+    assert.ok(proof.independentTransformBuffers && proof.independentColorBuffers, 'Shared graphs must bind distinct native instance buffers');
+    const colorMatches = (actual: number[], expected: number[]) => actual.every((value, index) => Math.abs(value - expected[index]!) < .02);
+    for (const [name, expected] of Object.entries({ red: [1, 0, 0], blue: [0, 0, 1], green: [0, 1, 0],
+      yellow: [1, 1, 0], magenta: [1, 0, 1], unused: [0, 0, 0] })) {
+      assert.ok(colorMatches(proof.before[name as keyof typeof proof.before], expected), `${name} instance must draw at its own transform with its own color`);
+    }
+    assert.ok(colorMatches(proof.afterDispose.removed, [0, 0, 0]) && colorMatches(proof.afterDispose.surviving, [0, 1, 0]),
+      'Disposing one cluster must leave the other native buffers drawing');
+    assert.ok(colorMatches(proof.afterUpdate.oldPosition, [0, 0, 0]) && colorMatches(proof.afterUpdate.movedCyan, [0, 1, 1])
+      && colorMatches(proof.afterUpdate.otherInstance, [1, 1, 0]), 'Remaining transforms and colors must still update independently after disposal');
+    assert.ok(colorMatches(proof.afterRecreate.recreated, [1, 0, 0]) && colorMatches(proof.afterRecreate.removed, [0, 0, 0]),
+      'After every cluster is disposed, unchanged CPU source geometry must support a fresh cluster');
+  }
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ passed: true, channel: channel ?? 'chromium', browserVersion: browser.version() }));
 } finally { await browser.close(); await server.close(); clear(); }
