@@ -83302,7 +83302,7 @@
         "head",
         "tripo-armor-approved"
       ],
-      "bytes": 1205556,
+      "bytes": 2687784,
       "size": {
         "x": 0.2376708984375,
         "y": 0.26054680347442627,
@@ -83335,7 +83335,7 @@
         "torso",
         "tripo-armor-approved"
       ],
-      "bytes": 1268584,
+      "bytes": 2750804,
       "size": {
         "x": 1.305291771888733,
         "y": 0.767265796661377,
@@ -83375,7 +83375,7 @@
         "arms",
         "tripo-armor-approved"
       ],
-      "bytes": 1210176,
+      "bytes": 2692392,
       "size": {
         "x": 1.6841140389442444,
         "y": 0.10439145565032959,
@@ -83408,7 +83408,7 @@
         "legs",
         "tripo-armor-approved"
       ],
-      "bytes": 1213784,
+      "bytes": 2696000,
       "size": {
         "x": 0.4088684022426605,
         "y": 0.6630469858646393,
@@ -83448,7 +83448,7 @@
         "feet",
         "tripo-armor-approved"
       ],
-      "bytes": 1207072,
+      "bytes": 2689292,
       "size": {
         "x": 0.4879027009010315,
         "y": 0.3548826360702435,
@@ -83660,7 +83660,7 @@
         "head",
         "tripo-armor-approved"
       ],
-      "bytes": 1261004,
+      "bytes": 2812920,
       "itemModel": {
         "itemId": "corven_helm",
         "wearable": true
@@ -83700,7 +83700,7 @@
         "torso",
         "tripo-armor-approved"
       ],
-      "bytes": 1352004,
+      "bytes": 2903928,
       "itemModel": {
         "itemId": "corven_plate",
         "wearable": true,
@@ -83747,7 +83747,7 @@
         "arms",
         "tripo-armor-approved"
       ],
-      "bytes": 1300692,
+      "bytes": 2852604,
       "itemModel": {
         "itemId": "corven_gauntlets",
         "wearable": true
@@ -83787,7 +83787,7 @@
         "legs",
         "tripo-armor-approved"
       ],
-      "bytes": 1302840,
+      "bytes": 2854756,
       "itemModel": {
         "itemId": "corven_greaves",
         "wearable": true,
@@ -83834,7 +83834,7 @@
         "feet",
         "tripo-armor-approved"
       ],
-      "bytes": 1292792,
+      "bytes": 2844716,
       "itemModel": {
         "itemId": "corven_boots",
         "wearable": true
@@ -83860,6 +83860,406 @@
       "configSha256": "e6faec5ad916023a3b78acf0fdabf81f76967df2d7bf264eb0c959bb61310c22",
       "triangles": 926,
       "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_charhide_hood",
+      "file": "models/items/charhide_hood.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_hood",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "bytes": 875212,
+      "itemModel": {
+        "itemId": "charhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.46430669724941254,
+        "y": 0.2872556447982788,
+        "z": 0.631420910358429
+      },
+      "base": {
+        "x": -0.2326049506664276,
+        "y": 1.721840739250183,
+        "z": -0.34216055274009705
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_hood",
+      "status": "pending",
+      "sha256": "77a1b23ff79368efd83321af4ccaec88c151ea6299506751e9136bc208739102",
+      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
+      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "triangles": 515,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_charhide_robe",
+      "file": "models/items/charhide_robe.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_robe",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "bytes": 999316,
+      "itemModel": {
+        "itemId": "charhide_robe",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.4359070658683777,
+        "y": 1.298071712255478,
+        "z": 0.5627685040235519
+      },
+      "base": {
+        "x": -0.7192153930664062,
+        "y": 0.3071284592151642,
+        "z": -0.3692600131034851
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_robe",
+      "status": "pending",
+      "sha256": "f6d7e048a16edbff6448dfda0a5b8e665d4259c63df47580197c6267ef0d255e",
+      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
+      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "triangles": 2518,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_charhide_wraps",
+      "file": "models/items/charhide_wraps.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_wraps",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "bytes": 871040,
+      "itemModel": {
+        "itemId": "charhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.6384384036064148,
+        "y": 0.12009704113006592,
+        "z": 0.1088511049747467
+      },
+      "base": {
+        "x": -0.819219172000885,
+        "y": 1.3550355434417725,
+        "z": -0.08888161927461624
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_wraps",
+      "status": "pending",
+      "sha256": "41b74b6b653b52774828f2c9a1aa7b54e0448f1aa89d607d0ce076271e7f9035",
+      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
+      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "triangles": 522,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_charhide_leggings",
+      "file": "models/items/charhide_leggings.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_leggings",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "bytes": 882952,
+      "itemModel": {
+        "itemId": "charhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.32032594084739685,
+        "y": 0.6829100847244263,
+        "z": 0.339648574590683
+      },
+      "base": {
+        "x": -0.16016292572021484,
+        "y": 0.37849104404449463,
+        "z": -0.19582274556159973
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_leggings",
+      "status": "pending",
+      "sha256": "e7253ea590420e75b1c2d7faf701ad9ced9ca6e14b35a7333ae8eb26f21f267c",
+      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
+      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "triangles": 578,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_charhide_boots",
+      "file": "models/items/charhide_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "bytes": 940512,
+      "itemModel": {
+        "itemId": "charhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4048769026994705,
+        "y": 0.4390139773487931,
+        "z": 0.33151891082525253
+      },
+      "base": {
+        "x": -0.20243839919567108,
+        "y": -4.962086563864432e-7,
+        "z": -0.21298585832118988
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_boots",
+      "status": "pending",
+      "sha256": "f30f1399df5ec064e8933b1320d274f1f24cdd9321c547ac19585811f71c6b28",
+      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
+      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "triangles": 1185,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_dewglass_helm",
+      "file": "models/items/dewglass_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_helm",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "bytes": 2960288,
+      "itemModel": {
+        "itemId": "dewglass_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.2321533039212227,
+        "y": 0.28273940086364746,
+        "z": 0.29538580775260925
+      },
+      "base": {
+        "x": -0.11607645452022552,
+        "y": 1.5663563013076782,
+        "z": -0.15756595134735107
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_helm",
+      "status": "pending",
+      "sha256": "8fd19deed11f43ae781a46f4127e300bf54c5c69babf8abe2f5286ebe280a18c",
+      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
+      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "triangles": 266,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_dewglass_plate",
+      "file": "models/items/dewglass_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_plate",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3113548,
+      "itemModel": {
+        "itemId": "dewglass_plate",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.5246346592903137,
+        "y": 0.9286140203475952,
+        "z": 0.35491348803043365
+      },
+      "base": {
+        "x": -0.7623157501220703,
+        "y": 0.7325912714004517,
+        "z": -0.24993035197257996
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_plate",
+      "status": "pending",
+      "sha256": "6173073c26d0a16c09df6e2a75d2df5e6789a6e9a2b3f598f5661a1e58602e95",
+      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
+      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "triangles": 2300,
+      "drawCalls": 22
+    },
+    {
+      "id": "corealm_item_dewglass_gauntlets",
+      "file": "models/items/dewglass_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_gauntlets",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "bytes": 2992364,
+      "itemModel": {
+        "itemId": "dewglass_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7728618383407593,
+        "y": 0.12092602252960205,
+        "z": 0.1515833212324651
+      },
+      "base": {
+        "x": -0.8864383101463318,
+        "y": 1.3643780946731567,
+        "z": -0.1517767757177353
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_gauntlets",
+      "status": "pending",
+      "sha256": "5662cbd194e9ada17833c6d7a604b50ca647d93faef5fd291e445f0b525c8540",
+      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
+      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "triangles": 686,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_dewglass_greaves",
+      "file": "models/items/dewglass_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_greaves",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3024240,
+      "itemModel": {
+        "itemId": "dewglass_greaves",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.34256458282470703,
+        "y": 0.6847167313098907,
+        "z": 0.25383303314447403
+      },
+      "base": {
+        "x": -0.17128203809261322,
+        "y": 0.4317861497402191,
+        "z": -0.1705297827720642
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_greaves",
+      "status": "pending",
+      "sha256": "08171791d411c52fe15f29da2bde664141ee9f91e4d070ab57df485b43cea6cb",
+      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
+      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "triangles": 778,
+      "drawCalls": 13
+    },
+    {
+      "id": "corealm_item_dewglass_boots",
+      "file": "models/items/dewglass_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "bytes": 2997196,
+      "itemModel": {
+        "itemId": "dewglass_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.42584413290023804,
+        "y": 0.5645742453634739,
+        "z": 0.34416770935058594
+      },
+      "base": {
+        "x": -0.21293802559375763,
+        "y": 4.1350722312927246e-7,
+        "z": -0.2021460235118866
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_boots",
+      "status": "pending",
+      "sha256": "7def639fd646e19a256b85d50d220200df0bdd47e2e71a4ee26adfe42c7a4f96",
+      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
+      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "triangles": 726,
+      "drawCalls": 6
     }
   ]
 }

@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { Document, NodeIO } from "@gltf-transform/core";
 import { Matrix4 } from "three";
-import { buildTripoArmor, type TripoArmorConfig } from "../tools/item-models/import-tripo.js";
+import sharp from "sharp";
+import { buildTripoArmor, retuneTripoMetalRoughness, type TripoArmorConfig } from "../tools/item-models/import-tripo.js";
 
 function sourceAndConfig() {
   const document = new Document(), buffer = document.createBuffer(), scene = document.createScene();
@@ -47,6 +48,37 @@ function weightedSourceAndConfig() {
 }
 
 describe("Tripo armor import", () => {
+  it("restores plate metal response without turning adjacent leather into metal", async () => {
+    const base = await sharp(Buffer.from([180, 105, 75, 70, 50, 35]), { raw: { width: 2, height: 1, channels: 3 } }).png().toBuffer();
+    const packed = await sharp(Buffer.from([3, 210, 5, 4, 215, 6]), { raw: { width: 2, height: 1, channels: 3 } }).png().toBuffer();
+    const result = await retuneTripoMetalRoughness(base, packed, "copper");
+    const pixels = await sharp(result).raw().toBuffer();
+    expect(pixels[0]).toBe(3); // packed red channel is untouched
+    expect(pixels[1]).toBeLessThan(150); // plate roughness
+    expect(pixels[2]).toBeGreaterThan(100); // plate metalness
+    expect(pixels[4]).toBeGreaterThan(190); // leather remains rough
+    expect(pixels[5]).toBeLessThan(25); // leather remains nonmetallic
+  });
+  it("widens iron plate response while keeping warm cloth and leather rough", async () => {
+    const base = await sharp(Buffer.from([
+      135, 125, 122, // neutral steel
+      210, 198, 177, // warm linen
+      70, 50, 35, // leather
+    ]), { raw: { width: 3, height: 1, channels: 3 } }).png().toBuffer();
+    const packed = await sharp(Buffer.from([
+      3, 210, 5,
+      4, 215, 6,
+      5, 220, 7,
+    ]), { raw: { width: 3, height: 1, channels: 3 } }).png().toBuffer();
+    const result = await retuneTripoMetalRoughness(base, packed, "iron");
+    const pixels = await sharp(result).raw().toBuffer();
+    expect(pixels[2]).toBeGreaterThan(160); // steel becomes metallic
+    expect(pixels[1]).toBeLessThan(130); // steel becomes smoother
+    expect(pixels[5]).toBeLessThan(80); // linen stays mostly nonmetallic
+    expect(pixels[4]).toBeGreaterThan(160); // linen stays rough
+    expect(pixels[8]).toBeLessThan(25); // leather stays nonmetallic
+    expect(pixels[7]).toBeGreaterThan(200); // leather stays rough
+  });
   it("keeps hanging bell-sleeve vertices on the arm instead of pinning them to the waist", async () => {
     const { document, config } = sourceAndConfig();
     const part = config.parts[1]!;

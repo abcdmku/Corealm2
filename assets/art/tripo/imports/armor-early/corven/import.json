@@ -11,27 +11,27 @@
     "status": "accepted-native-male-runtime",
     "sourceLimitations": "Downloaded export is unrigged; segmented embedded maps are 1K or 2K, not the requested 8K master. Geometry is matched uniquely by triangle count.",
     "fitMethod": "Source +X forward converted to native +Z. Arm groups rotate from authored rest pose into native T pose; lower leg centers narrow to native hips. No retopology or new geometry.",
-    "visualReview": "Root reviewed five-piece iron fit and connected Jog_Fwd_Loop using the normal player camera. All layer assets loaded, no missing bones or attachment errors; browser and game errors empty. Female fit remains legacy; 8K source export remains outstanding.",
+    "visualReview": "Root reviewed five-piece iron fit and connected Jog_Fwd_Loop using the normal player camera. All layer assets loaded, no missing bones or attachment errors; browser and game errors empty. Female fit remains legacy; 8K source export remains outstanding. PBR iron response was accepted under the normal player camera: restrained steel highlights stay on plates while beige cloth and brown leather remain matte; the chest plate stays subdued at full frame.",
     "acceptedAssets": [
       {
         "id": "corealm_item_corven_helm",
-        "sha256": "5bcdd151aea70284a8814e86bba74a6e7ad774455a91ea2cee56071e8449865c"
+        "sha256": "6ffff38667563dbaaa85f3bf0417aa302b984bc40509d9d427fc1053c59f87fb"
       },
       {
         "id": "corealm_item_corven_plate",
-        "sha256": "feb82f71ba4bc6583e738d0d0aaab98f19720396827d48642c8dd2bfb8af10ed"
+        "sha256": "1774ac2758ddbc434bd0071c9ae278651dbefd11d0917bd2f2b20dd0988aa160"
       },
       {
         "id": "corealm_item_corven_gauntlets",
-        "sha256": "01c76ab4e443771a657953a21ae3d57fb98815f89e603cf16176391a30a2eb4d"
+        "sha256": "4020cc520b18d51fc67a5b5595668b52888dc8e4a5da120770364d06ae14db1a"
       },
       {
         "id": "corealm_item_corven_greaves",
-        "sha256": "29f90eeaad696b29a6667f0b528cddf018bf6061c4926fbe851eb4c48a37fcbe"
+        "sha256": "7f021eb074723aca268ff4da65c38e78e5bd67e8da7b594362567ad89ba42c9a"
       },
       {
         "id": "corealm_item_corven_boots",
-        "sha256": "0b85fbcb1684422ae1b0a86594440d0163df5b224d5604a6e294247f2ea2a7a8"
+        "sha256": "39c43d425cc440b8c3d67856a458b065b5a0263aa00953cd7a761a523f709363"
       }
     ]
   },
@@ -12573,5 +12573,6 @@
         5
       ]
     }
-  ]
+  ],
+  "pbrMetalProfile": "iron"
 }

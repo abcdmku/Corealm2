@@ -34,6 +34,8 @@ export interface TripoArmorConfig {
   /** Relative to the repository, inside the candidate root or an assigned Tripo armor import directory. */
   output?: string;
   textureSize?: 1024 | 2048 | 4096 | 8192;
+  /** Corrects Tripo's nearly nonmetallic packed map on the coloured plate regions. */
+  pbrMetalProfile?: "copper" | "iron" | "aqua";
   alignment: { space: "native-male-t-pose"; reviewedBy: string; matrix?: number[] };
   /** Desired source-joint world matrices BEFORE alignment, keyed by exact exported joint name.
    * Bake targetWorld * inverseBind using exported skin weights. Node TRS is not a bind-pose source.
@@ -75,6 +77,7 @@ function validateConfig(config: TripoArmorConfig): void {
     }
   }
   if (![1024, 2048, 4096, 8192].includes(config.textureSize ?? 2048)) throw new Error("textureSize must be 1024, 2048, 4096 or 8192");
+  if (config.pbrMetalProfile && !["copper", "iron", "aqua"].includes(config.pbrMetalProfile)) throw new Error("Unknown pbrMetalProfile");
   if (!Array.isArray(config.parts) || !config.parts.length) throw new Error("parts must contain explicit source assignments");
   const ids = new Set<string>();
   for (const slot of slots) {
@@ -338,9 +341,55 @@ function copyGeometry(target: Document, assignment: Assignment, alignment: Matri
   return primitive;
 }
 
+type MetalProfile = NonNullable<TripoArmorConfig["pbrMetalProfile"]>;
+const smoothstep = (low: number, high: number, value: number) => {
+  const t = Math.max(0, Math.min(1, (value - low) / (high - low)));
+  return t * t * (3 - 2 * t);
+};
+
+/** Keep the authored atlas and normal map, but give visible plate regions physical metal response. */
+export async function retuneTripoMetalRoughness(baseImage: Uint8Array, packedImage: Uint8Array, profile: MetalProfile): Promise<Buffer> {
+  const base = await sharp(baseImage).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  const packed = await sharp(packedImage).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  if (base.info.width !== packed.info.width || base.info.height !== packed.info.height || base.info.channels !== 3 || packed.info.channels !== 3) {
+    throw new Error("PBR retune requires matching three-channel base and packed maps");
+  }
+  const targetMetal = profile === "copper" ? 190 : profile === "iron" ? 205 : 195;
+  const targetRough = profile === "copper" ? 105 : profile === "iron" ? 92 : 85;
+  for (let i = 0; i < base.data.length; i += 3) {
+    const r = base.data[i]!, g = base.data[i + 1]!, b = base.data[i + 2]!;
+    const peak = Math.max(1, r, g, b), light = (r + g + b) / 3;
+    let confidence: number;
+    if (profile === "copper") {
+      confidence = smoothstep(.10, .23, (r - g) / peak) * smoothstep(.015, .09, (g - b) / peak) * smoothstep(75, 120, light);
+    } else if (profile === "iron") {
+      confidence = (1 - smoothstep(.10, .24, (Math.max(r, g, b) - Math.min(r, g, b)) / peak))
+        * smoothstep(-.22, -.08, (b - r) / peak) * smoothstep(55, 90, light);
+    } else {
+      confidence = smoothstep(-.08, .04, (g - r) / peak) * smoothstep(-.08, .04, (b - r) / peak)
+        * smoothstep(65, 105, light);
+    }
+    packed.data[i + 1] = Math.round(packed.data[i + 1]! + (targetRough - packed.data[i + 1]!) * confidence);
+    packed.data[i + 2] = Math.round(packed.data[i + 2]! + (targetMetal - packed.data[i + 2]!) * confidence);
+  }
+  return sharp(packed.data, { raw: { width: packed.info.width, height: packed.info.height, channels: 3 } }).png().toBuffer();
+}
+
+async function tuneSourcePbr(source: Document, profile: MetalProfile): Promise<void> {
+  const processed = new Set<ReturnType<Material["getMetallicRoughnessTexture"]>>();
+  for (const material of source.getRoot().listMaterials()) {
+    const base = material.getBaseColorTexture(), packed = material.getMetallicRoughnessTexture();
+    if (!base?.getImage() || !packed?.getImage()) throw new Error(`${material.getName()}: missing base or packed PBR map`);
+    if (processed.has(packed)) continue;
+    processed.add(packed);
+    packed.setImage(await retuneTripoMetalRoughness(base.getImage()!, packed.getImage()!, profile)).setMimeType("image/png");
+  }
+}
+
 /** Builds pending candidates only. Neither this fit declaration nor the skin pass grants visual approval. */
 export async function buildTripoArmor(source: Document, config: TripoArmorConfig): Promise<{ slot: ArmorSlot; document: Document; triangles: number; bounds: Box3 }[]> {
   validateConfig(config);
+  if (config.pbrMetalProfile) await tuneSourcePbr(source, config.pbrMetalProfile);
   const selected = assignments(source, config);
   const alignment = matrix(config.alignment.matrix, "alignment");
   const outputs = [];

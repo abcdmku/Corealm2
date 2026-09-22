@@ -11,27 +11,27 @@
     "status": "accepted-native-male-runtime",
     "sourceLimitations": "Downloaded export is unrigged; segmented embedded maps are 1K or 2K, not the requested 8K master. Geometry is matched uniquely by triangle count.",
     "fitMethod": "Source +X forward converted to native +Z. Arm groups rotate from authored rest pose into native T pose; lower leg centers narrow to native hips. No retopology or new geometry.",
-    "visualReview": "Root reviewed intact five-piece fit and Jog_Fwd_Loop movement under normal player camera; Hit_Chest exercised, no missing bones, attachment errors or browser/game errors. Female fit remains legacy. Source maps remain 1K/2K pending preserved 8K export.",
+    "visualReview": "Root reviewed intact five-piece fit and Jog_Fwd_Loop movement under normal player camera; Hit_Chest exercised, no missing bones, attachment errors or browser/game errors. Female fit remains legacy. Source maps remain 1K/2K pending preserved 8K export. PBR copper response was accepted under the normal player camera: warm highlights stay on plates while beige cloth and dark leather remain matte.",
     "acceptedAssets": [
       {
         "id": "corealm_item_grithe_helm",
-        "sha256": "001a265ca7551c754d60b1d9cafa5c31b16896c94fe391df345438510035eb47"
+        "sha256": "088cfde992610f1986aeead648870d2a51af12f3a80c9caee343a13ef7cbad2c"
       },
       {
         "id": "corealm_item_grithe_cuirass",
-        "sha256": "91f71217c9ba2d6632e7797488e3f2a90f1383a7336745266ddb23b245e365b2"
+        "sha256": "b714bea0690a6b41509e384ed2bdbd72167aaaf256ec1801d2f24193c7d4323a"
       },
       {
         "id": "corealm_item_grithe_gloves",
-        "sha256": "79271ff57c0f798370c08a8f0e3b7b05b429d57a9f06563a72af32e8533850c6"
+        "sha256": "6802609410143591e4996a813879a9d9d2225b69f28e0ca4dc77f5fbc398b384"
       },
       {
         "id": "corealm_item_grithe_greaves",
-        "sha256": "d9304512b5ae55fbfb23dd8b51481f2276fe8bcf65f24eafa105afa731b20506"
+        "sha256": "5aa8caea90e54e81e7de8d268123279e401db0cd0efcf13975e75483a9f3fe11"
       },
       {
         "id": "corealm_item_grithe_boots",
-        "sha256": "8fa0b8b1f82d042f0d0e890f664537f1aaa83ffb471427a438c50c6eb60cb8ba"
+        "sha256": "82ca8493e34736fdbac5aeb386719bbaed2e74018a6fa56c527a2e22320b04c0"
       }
     ]
   },
@@ -9823,5 +9823,6 @@
       ],
       "rigidBone": "Head"
     }
-  ]
+  ],
+  "pbrMetalProfile": "copper"
 }
