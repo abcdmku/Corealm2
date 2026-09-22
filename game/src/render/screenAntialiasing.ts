@@ -1,7 +1,6 @@
-import * as THREE from "three";
-import { FullScreenQuad } from "three/addons/postprocessing/Pass.js";
-import { FXAAShader } from "three/addons/shaders/FXAAShader.js";
-import { GpuTimer } from "./gpuTimer.js";
+import * as THREE from "three/webgpu";
+import { rtt, texture } from "three/tsl";
+import { fxaa } from "three/addons/tsl/display/FXAANode.js";
 
 export const SCREEN_AA_MATERIAL = "Final frame antialiasing";
 
@@ -10,79 +9,72 @@ export class ScreenAntialiasing {
   enabled = true;
   timingEnabled = false;
   private readonly size = new THREE.Vector2();
-  private frame: THREE.FramebufferTexture | null = null;
-  private gpuTimer: GpuTimer | null = null;
-  private readonly material = new THREE.ShaderMaterial({
-    name: SCREEN_AA_MATERIAL,
-    uniforms: THREE.UniformsUtils.clone(FXAAShader.uniforms),
-    vertexShader: FXAAShader.vertexShader,
-    // This copy has one mip. Explicit LOD also avoids undefined derivatives in FXAA's
-    // per-pixel edge-search loops on ANGLE/D3D11.
-    fragmentShader: FXAAShader.fragmentShader.replace("return texture( tex2D, uv );", "return textureLod( tex2D, uv, 0.0 );"),
-    depthTest: false,
-    depthWrite: false,
-    blending: THREE.NoBlending,
-    toneMapped: false,
-  });
-  private readonly quad = new FullScreenQuad(this.material);
+  private readonly frame = new THREE.FramebufferTexture(1, 1);
+  private readonly frameNode = texture(this.frame);
+  // The common renderer's framebuffer contains linear display colour, even when the
+  // canvas is sRGB. FXAA measures display-space contrast, then returns linear colour
+  // for the renderer's single final sRGB conversion.
+  private readonly display = rtt(this.frameNode.workingToColorSpace(THREE.SRGBColorSpace), null, null,
+    { type: THREE.UnsignedByteType, depthBuffer: false, stencilBuffer: false });
+  private readonly material = new THREE.NodeMaterial();
+  private readonly quad = new THREE.QuadMesh(this.material);
 
-  compile(renderer: THREE.WebGLRenderer): void {
-    const geometry = new THREE.PlaneGeometry(2, 2);
-    geometry.deleteAttribute('normal');
-    const mesh = new THREE.Mesh(geometry, this.material);
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mipmap = renderer.getActiveMipmapLevel();
-    try { renderer.setRenderTarget(null); renderer.compile(mesh, camera); }
-    finally { renderer.setRenderTarget(previous, face, mipmap); geometry.dispose(); }
+  constructor() {
+    this.frame.name = "Resolved linear display colour for antialiasing";
+    this.frame.minFilter = this.frame.magFilter = THREE.LinearFilter;
+    this.frame.colorSpace = THREE.NoColorSpace;
+    this.material.name = SCREEN_AA_MATERIAL;
+    this.material.fragmentNode = fxaa(this.display).colorSpaceToWorking(THREE.SRGBColorSpace);
+    this.material.depthTest = false;
+    this.material.depthWrite = false;
+    this.material.blending = THREE.NoBlending;
+    this.material.toneMapped = false;
   }
 
-  render(renderer: THREE.WebGLRenderer): void {
+  async compile(renderer: THREE.WebGPURenderer): Promise<void> {
+    const toneMapping = renderer.toneMapping;
+    try {
+      renderer.toneMapping = THREE.NoToneMapping;
+      await renderer.compileAsync(this.quad, this.quad.camera);
+    } finally {
+      renderer.toneMapping = toneMapping;
+    }
+  }
+
+  render(renderer: THREE.WebGPURenderer): void {
     if (!this.enabled) return;
     renderer.getDrawingBufferSize(this.size);
     if (this.size.x < 1 || this.size.y < 1) return;
-    if (!this.frame || this.frame.image.width !== this.size.x || this.frame.image.height !== this.size.y) {
-      this.frame?.dispose();
-      this.frame = new THREE.FramebufferTexture(this.size.x, this.size.y);
-      this.frame.name = "Resolved display colour for antialiasing";
-      this.frame.minFilter = this.frame.magFilter = THREE.LinearFilter;
-      // The canvas already contains tone-mapped sRGB values. FXAA needs that display-space
-      // contrast; do not decode, tone map or encode them again in this final pass.
-      this.frame.colorSpace = THREE.NoColorSpace;
-      this.material.uniforms.tDiffuse!.value = this.frame;
-      this.material.uniforms.resolution!.value.set(1 / this.size.x, 1 / this.size.y);
+    if (this.frame.image.width !== this.size.x || this.frame.image.height !== this.size.y) {
+      this.frame.image.width = this.size.x;
+      this.frame.image.height = this.size.y;
+      this.frame.needsUpdate = true;
     }
-    const previousAutoClear = renderer.autoClear;
-    const previousAutoReset = renderer.info.autoReset;
-    // Sample separately from the whole-frame and shadow queries; never block for a result.
-    // Coprime with the other timers' 20-frame cadence so diagnostic toggles cannot lock
-    // this sampler onto a frame already owned by a whole-frame query.
-    if (this.timingEnabled && !this.gpuTimer) {
-      const context = renderer.getContext();
-      if ("createQuery" in context) this.gpuTimer = new GpuTimer(context, 31, 7);
-    }
-    this.gpuTimer?.begin();
+    const autoClear = renderer.autoClear, autoReset = renderer.info.autoReset, toneMapping = renderer.toneMapping;
     try {
+      // The explicit frame target remains bound throughout the effects chain, so
+      // Three copies its actual HDR format before the display-space RTT executes.
       renderer.copyFramebufferToTexture(this.frame);
-      // Preserve the scene depth and include this single triangle in frame statistics.
       renderer.autoClear = false;
       renderer.info.autoReset = false;
+      renderer.toneMapping = THREE.NoToneMapping;
       this.quad.render(renderer);
     } finally {
-      this.gpuTimer?.end();
-      renderer.autoClear = previousAutoClear;
-      renderer.info.autoReset = previousAutoReset;
+      renderer.autoClear = autoClear;
+      renderer.info.autoReset = autoReset;
+      renderer.toneMapping = toneMapping;
     }
   }
 
-  getTiming(): ReturnType<GpuTimer["snapshot"]> {
-    return this.gpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 };
+  getTiming(): { supported: boolean; milliseconds: number | null; completed: number; pending: number } {
+    // Backend timestamps are measured by the renderer; this pass never obtains a
+    // synchronous WebGL context or waits for a GPU result.
+    return { supported: false, milliseconds: null, completed: 0, pending: 0 };
   }
 
   dispose(): void {
-    this.gpuTimer?.dispose();
-    this.frame?.dispose();
-    this.frame = null;
+    this.frame.dispose();
+    this.display.renderTarget?.dispose();
     this.material.dispose();
-    this.quad.dispose();
   }
 }

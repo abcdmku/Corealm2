@@ -1,48 +1,51 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
 import { describe, expect, it, vi } from "vitest";
 import { TransmissionOcclusion, transmissionProbeBounds, isTransmissionDepthOccluder } from "../game/src/render/transmissionOcclusion.js";
 
 function fixture() {
   let available = false;
-  const gl = { ANY_SAMPLES_PASSED: 1, CURRENT_QUERY: 2, QUERY_RESULT_AVAILABLE: 3, QUERY_RESULT: 4, SAMPLES: 5,
-    isContextLost: () => false, getParameter: () => 4, getQuery: () => null,
-    createQuery: vi.fn(() => ({})), deleteQuery: vi.fn(), beginQuery: vi.fn(), endQuery: vi.fn(),
-    getQueryParameter: vi.fn((_query: unknown, parameter: number) => {
-      if (parameter === 3) return available;
-      if (!available) throw new Error("Blocking occlusion query read");
-      return false;
-    }) };
-  const renderer = { getContext: () => gl, getDrawingBufferSize: (v: THREE.Vector2) => v.set(1440, 900),
-    getRenderTarget: () => null, getViewport: (v: THREE.Vector4) => v.set(0, 0, 1440, 900),
+  let inRender = false;
+  const submitted = new Set<THREE.Object3D>();
+  const renderer = { samples: 4, getDrawingBufferSize: (v: THREE.Vector2) => v.set(1440, 900),
+    getRenderTarget: () => null, getActiveCubeFace: () => 0, getActiveMipmapLevel: () => 0,
+    getViewport: (v: THREE.Vector4) => v.set(0, 0, 1440, 900),
     getScissor: (v: THREE.Vector4) => v.set(0, 0, 1440, 900), getScissorTest: () => false,
     setRenderTarget: vi.fn(), setViewport: vi.fn(), setScissor: vi.fn(), setScissorTest: vi.fn(),
+    isOccluded: vi.fn((object: THREE.Object3D) => {
+      if (!inRender) throw new Error("Occlusion results require an active render context");
+      return available && submitted.has(object);
+    }),
     autoClear: true, clear: vi.fn(), render: vi.fn((scene: THREE.Scene, camera: THREE.Camera) => {
-      scene.traverse(object => {
-        const mesh = object as THREE.Mesh;
-        if (!mesh.isMesh) return;
-        mesh.onBeforeRender(renderer as unknown as THREE.WebGLRenderer, scene, camera, mesh.geometry, mesh.material as THREE.Material, null as never);
-        mesh.onAfterRender(renderer as unknown as THREE.WebGLRenderer, scene, camera, mesh.geometry, mesh.material as THREE.Material, null as never);
-      });
-    }), info: { render: { triangles: 12 } } };
+      inRender = true;
+      try {
+        if (scene.isScene) scene.onBeforeRender(renderer as never, scene, camera, null as never);
+        scene.traverse(object => {
+          const mesh = object as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          mesh.onBeforeRender(renderer as never, scene, camera, mesh.geometry, mesh.material as THREE.Material, null as never);
+          if (mesh.occlusionTest) submitted.add(mesh);
+          renderer.info.render.triangles += 12;
+          mesh.onAfterRender(renderer as never, scene, camera, mesh.geometry, mesh.material as THREE.Material, null as never);
+        });
+      } finally { inRender = false; }
+    }), info: { autoReset: true, render: { triangles: 0 } } };
   const camera = new THREE.PerspectiveCamera(50, 1.6, .1, 200);
   camera.position.set(0, 2, 10); camera.lookAt(0, 0, 0); camera.updateMatrixWorld();
   const terrain = new THREE.Group();
   const ground = new THREE.Mesh(new THREE.BoxGeometry(30, 1, 30)); ground.name = "terrain-chunk-0-0"; terrain.add(ground);
   const surface = new THREE.Mesh(new THREE.BoxGeometry(1, .1, 1), new THREE.MeshPhysicalMaterial({ transmission: .94 }));
   const probe = new TransmissionOcclusion();
-  const update = () => probe.update(renderer as unknown as THREE.WebGLRenderer, camera, terrain, [surface]);
-  return { probe, gl, renderer, camera, terrain, ground, surface, update, available: () => { available = true; } };
+  const update = () => probe.update(renderer as unknown as THREE.WebGPURenderer, camera, terrain, [surface]);
+  return { probe, submitted, renderer, camera, terrain, ground, surface, update, available: () => { available = true; } };
 }
 
 describe("conservative transmissive terrain occlusion", () => {
-  it("deletes uncommitted queries and fails open when a native draw hook throws", () => {
+  it("fails open and restores native state when a draw hook throws", () => {
     const f = fixture();
     const after = () => { throw new Error("native after hook failed"); };
     f.surface.onAfterRender = after;
     f.probe.setProbeMode("exact-diagnostic"); f.probe.setEnabled(true);
     expect(() => f.update()).not.toThrow();
-    expect(f.gl.deleteQuery).toHaveBeenCalledOnce();
-    expect(f.gl.endQuery).toHaveBeenCalledOnce();
     expect(f.surface.visible).toBe(true);
     expect(f.surface.material.transmission).toBe(.94);
     expect(f.surface.material.colorWrite).toBe(true);
@@ -51,7 +54,7 @@ describe("conservative transmissive terrain occlusion", () => {
     expect(f.probe.active).toBe(false);
     expect(f.probe.snapshot().pendingQueries).toBe(0);
     expect(f.probe.snapshot().lastFailure).toBe("native after hook failed");
-    f.update(); expect(f.gl.createQuery).toHaveBeenCalledOnce(); f.probe.dispose();
+    const draws = f.renderer.render.mock.calls.length; f.update(); expect(f.renderer.render).toHaveBeenCalledTimes(draws); f.probe.dispose();
   });
 
   it("keeps native opaque alpha/depth behavior and rejects ineligible occluders", () => {
@@ -65,10 +68,10 @@ describe("conservative transmissive terrain occlusion", () => {
     const before = vi.fn(() => { expect(shell.material.colorWrite).toBe(false); expect(shell.material.alphaTest).toBe(.5); });
     shell.onBeforeRender = before;
     f.probe.setProbeMode("exact-diagnostic"); f.probe.setEnabled(true);
-    const update = (revision: string) => f.probe.update(f.renderer as unknown as THREE.WebGLRenderer, f.camera, f.terrain, [f.surface], [{ mesh: shell, revision }]);
+    const update = (revision: string) => f.probe.update(f.renderer as unknown as THREE.WebGPURenderer, f.camera, f.terrain, [f.surface], [{ mesh: shell, revision }]);
     update("a"); expect(before).toHaveBeenCalledOnce(); expect(shell.material.colorWrite).toBe(true);
-    f.available(); update("a"); expect(f.gl.createQuery).toHaveBeenCalledTimes(1);
-    update("b"); expect(f.gl.createQuery).toHaveBeenCalledTimes(2);
+    f.available(); update("a"); expect(f.probe.snapshot().submittedQueries).toBe(1);
+    update("b"); expect(f.probe.snapshot().submittedQueries).toBe(2);
     expect(f.surface.visible).toBe(true); f.probe.dispose();
   });
 
@@ -91,26 +94,26 @@ describe("conservative transmissive terrain occlusion", () => {
     expect(f.probe.snapshot().probes[0]?.hidden).toBe(true);
     expect(f.surface.visible).toBe(true);
     f.camera.position.x += 1; f.camera.updateMatrixWorld(); f.update();
-    expect(f.gl.createQuery).toHaveBeenCalledTimes(2);
+    expect(f.probe.snapshot().submittedQueries).toBe(2);
     expect(f.surface.visible).toBe(true); f.probe.dispose();
   });
 
   it("does nothing by default and keeps uncertain query results visible", () => {
-    const f = fixture(); f.update(); expect(f.gl.createQuery).not.toHaveBeenCalled();
+    const f = fixture(); f.update(); expect(f.probe.snapshot().submittedQueries).toBe(0);
     f.probe.setEnabled(true); f.update(); f.update();
     expect(f.surface.visible).toBe(true);
-    expect(f.gl.createQuery).toHaveBeenCalledTimes(1);
+    expect(f.probe.snapshot().submittedQueries).toBe(2);
     expect(f.probe.snapshot().pendingQueries).toBe(1);
     expect(f.renderer.autoClear).toBe(true);
     f.probe.dispose();
   });
 
-  it("hides only a completed negative query and restores immediately when the camera moves", () => {
+  it("hides only a resolved occluded result and restores immediately when the camera moves", () => {
     const f = fixture(); f.probe.setEnabled(true); f.update(); f.available(); f.update();
     expect(f.surface.visible).toBe(false);
     f.camera.position.x += .01; f.camera.updateMatrixWorld(); f.update();
     expect(f.surface.visible).toBe(true);
-    expect(f.gl.createQuery).toHaveBeenCalledTimes(2);
+    expect(f.probe.snapshot().submittedQueries).toBe(2);
     f.update(); expect(f.surface.visible).toBe(false);
     f.probe.setEnabled(false); expect(f.surface.visible).toBe(true);
     f.probe.dispose();
@@ -132,7 +135,7 @@ describe("conservative transmissive terrain occlusion", () => {
   it("does not revive deliberately invisible surfaces", () => {
     const f = fixture(); f.surface.visible = false; f.probe.setEnabled(true); f.update();
     f.probe.setEnabled(false); expect(f.surface.visible).toBe(false);
-    expect(f.gl.createQuery).not.toHaveBeenCalled(); f.probe.dispose();
+    expect(f.probe.snapshot().submittedQueries).toBe(0); f.probe.dispose();
   });
 
   it("pads the complete geometric bounds instead of testing sampled corner rays", () => {

@@ -1,6 +1,6 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
 
-type Probe = { key: string; query: WebGLQuery | null; hidden: boolean | null; bounds?: number[]; result?: unknown };
+type Probe = { key: string; sample: THREE.Mesh; submitted: boolean; hidden: boolean | null; bounds: number[]; result?: boolean };
 /** Caller certifies static geometry/instances and changes revision on any source lifecycle change. */
 export interface TransmissionOpaqueOccluder { mesh: THREE.Mesh; revision: string; instanceIds?: readonly number[]; sourceInstanceIds?: readonly number[] }
 
@@ -39,8 +39,9 @@ export function transmissionProbeBounds(bounds: THREE.Box3, camera: THREE.Camera
 }
 
 /**
- * Default-off diagnostic. Only immutable terrain writes this private depth buffer: moving leaves,
- * actors and props cannot become stale occluders. A camera/terrain/target change restores drawing.
+ * Default-off diagnostic. Only immutable terrain writes this private depth buffer:
+ * moving foliage and actors cannot become stale occluders. Changing the camera,
+ * terrain or target discards the query identity and restores ordinary drawing.
  */
 export class TransmissionOcclusion {
   private enabled = false;
@@ -49,18 +50,17 @@ export class TransmissionOcclusion {
   private readonly hidden = new Set<THREE.Mesh>();
   private readonly terrainScene = new THREE.Scene();
   private readonly probeScene = new THREE.Scene();
-  private readonly depthMaterial = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: true, fog: false });
-  private readonly box = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false, side: THREE.DoubleSide, fog: false }));
-  private target: THREE.WebGLRenderTarget | null = null;
+  private readonly depthMaterial = new THREE.MeshBasicNodeMaterial({ colorWrite: false, depthWrite: true, fog: false });
+  private readonly boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+  private readonly probeMaterial = new THREE.MeshBasicNodeMaterial({ colorWrite: false, depthWrite: false, side: THREE.DoubleSide, fog: false });
+  private target: THREE.RenderTarget | null = null;
   private terrainKey = "";
   private submittedQueries = 0;
   private extraTriangles = 0;
+  private queryCursor = 0;
+  private supported = false;
   private lastProbeState: Record<string, unknown> | null = null;
-  private gl: WebGL2RenderingContext | null = null;
   private lastFailure: string | null = null;
-
-  constructor() { this.box.frustumCulled = false; this.probeScene.add(this.box); }
 
   get active(): boolean { return this.enabled; }
 
@@ -76,8 +76,9 @@ export class TransmissionOcclusion {
   }
 
   snapshot() {
-    return { enabled: this.enabled, probeMode: this.probeMode, lastFailure: this.lastFailure, supported: this.gl !== null, hiddenMeshes: [...this.hidden].map(mesh => mesh.name),
-      pendingQueries: [...this.probes.values()].filter(probe => probe.query !== null).length,
+    return { enabled: this.enabled, probeMode: this.probeMode, lastFailure: this.lastFailure, supported: this.supported,
+      hiddenMeshes: [...this.hidden].map(mesh => mesh.name),
+      pendingQueries: [...this.probes.values()].filter(probe => probe.submitted && probe.hidden === null).length,
       submittedQueries: this.submittedQueries, extraTriangles: this.extraTriangles,
       lastProbeState: this.lastProbeState,
       probes: [...this.probes].map(([mesh, probe]) => ({ name: mesh.name, hidden: probe.hidden, result: probe.result, bounds: probe.bounds })) };
@@ -90,31 +91,29 @@ export class TransmissionOcclusion {
 
   reset(): void {
     this.restore();
-    if (this.gl) for (const probe of this.probes.values()) if (probe.query) this.gl.deleteQuery(probe.query);
     this.probes.clear();
+    this.probeScene.clear();
+    this.queryCursor = 0;
   }
 
-  update(renderer: THREE.WebGLRenderer, camera: THREE.Camera, terrain: THREE.Object3D | undefined,
+  update(renderer: THREE.WebGPURenderer, camera: THREE.Camera, terrain: THREE.Object3D | undefined,
     candidates: readonly THREE.Mesh[], opaqueSources: readonly TransmissionOpaqueOccluder[] = []): void {
     try { this.updateInternal(renderer, camera, terrain, candidates, opaqueSources); }
     catch (error) {
-      // A diagnostic must not prevent the ordinary render or leave a stale hidden source.
       this.lastFailure = error instanceof Error ? error.message : String(error);
       this.enabled = false;
       this.reset();
     }
   }
 
-  private updateInternal(renderer: THREE.WebGLRenderer, camera: THREE.Camera, terrain: THREE.Object3D | undefined,
+  private updateInternal(renderer: THREE.WebGPURenderer, camera: THREE.Camera, terrain: THREE.Object3D | undefined,
     candidates: readonly THREE.Mesh[], opaqueSources: readonly TransmissionOpaqueOccluder[]): void {
     this.restore();
     this.extraTriangles = 0;
     if (!this.enabled || !terrain || !candidates.length) return;
-    if (renderer.clippingPlanes?.length || (camera as THREE.Camera & { viewport?: THREE.Vector4 }).viewport) return;
-    const context = renderer.getContext();
-    if (!("createQuery" in context) || context.isContextLost()) { this.reset(); return; }
-    this.gl = context;
-    const gl = context;
+    if ((camera as THREE.Camera & { viewport?: THREE.Vector4 }).viewport) return;
+    this.supported = typeof renderer.isOccluded === "function";
+    if (!this.supported) { this.reset(); return; }
     const viewport = renderer.getDrawingBufferSize(new THREE.Vector2());
     if (viewport.x < 1 || viewport.y < 1) return;
     terrain.updateWorldMatrix(true, true);
@@ -129,7 +128,7 @@ export class TransmissionOcclusion {
         || (material as THREE.MeshStandardMaterial).displacementMap)) return;
       terrainMeshes.push(mesh);
     });
-    if (!terrainMeshes.length) return;
+    if (!terrainMeshes.length) { this.reset(); return; }
     const opaqueOccluders = this.probeMode === "exact-diagnostic"
       ? opaqueSources.filter(source => !candidates.includes(source.mesh) && isTransmissionDepthOccluder(source.mesh, camera)) : [];
     for (const source of opaqueOccluders) source.mesh.updateWorldMatrix(true, false);
@@ -155,7 +154,6 @@ export class TransmissionOcclusion {
     }
     const cameraKey = `${camera.projectionMatrix.elements.join(",")}|${camera.matrixWorldInverse.elements.join(",")}|${camera.layers.mask}|${viewport.x},${viewport.y}`;
     const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse), camera.coordinateSystem, camera.reversedDepth);
-    const queued: { mesh: THREE.Mesh; bounds: THREE.Box3; probe: Probe }[] = [];
     const seen = new Set<THREE.Mesh>();
     for (const mesh of candidates) {
       if (!mesh.visible || mesh.castShadow || (mesh as THREE.SkinnedMesh).isSkinnedMesh || !mesh.layers.test(camera.layers)) continue;
@@ -170,7 +168,7 @@ export class TransmissionOcclusion {
       if (batched.isBatchedMesh) batched.computeBoundingBox();
       const bounds = transmissionProbeBounds(new THREE.Box3().setFromObject(mesh), camera, viewport.y);
       if (bounds.isEmpty() || !frustum.intersectsBox(bounds)) continue;
-      // An enclosing box crossing the near plane loses its front cap; do not trust that query.
+      // An enclosing box crossing the near plane loses its front cap.
       let nearestDepth = Infinity;
       for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) {
         nearestDepth = Math.min(nearestDepth, -new THREE.Vector3(x, y, z).applyMatrix4(camera.matrixWorldInverse).z);
@@ -180,45 +178,51 @@ export class TransmissionOcclusion {
       const key = `${cameraKey}|${bounds.min.toArray()},${bounds.max.toArray()}`;
       let probe = this.probes.get(mesh);
       if (!probe || probe.key !== key) {
-        if (probe?.query) gl.deleteQuery(probe.query);
-        probe = { key, query: null, hidden: null, bounds: [...bounds.min.toArray(), ...bounds.max.toArray()] };
+        // A new identity prevents late GPU results for the previous camera/bounds
+        // from hiding geometry after the source or view has changed.
+        const sample = new THREE.Mesh(this.boxGeometry, this.probeMaterial);
+        sample.frustumCulled = false;
+        sample.occlusionTest = true;
+        sample.layers.mask = camera.layers.mask;
+        bounds.getCenter(sample.position);
+        bounds.getSize(sample.scale);
+        probe = { key, sample, submitted: false, hidden: null, bounds: [...bounds.min.toArray(), ...bounds.max.toArray()] };
         this.probes.set(mesh, probe);
       }
-      if (probe.query && gl.getQueryParameter(probe.query, gl.QUERY_RESULT_AVAILABLE)) {
-        probe.result = gl.getQueryParameter(probe.query, gl.QUERY_RESULT);
-        probe.hidden = probe.result === false || probe.result === 0;
-        gl.deleteQuery(probe.query); probe.query = null;
-      }
-      if (probe.hidden === true && this.probeMode === "bounds") { mesh.visible = false; this.hidden.add(mesh); }
-      else if (probe.hidden === null && !probe.query) queued.push({ mesh, bounds, probe });
     }
-    for (const [mesh, probe] of this.probes) if (!seen.has(mesh)) {
-      if (probe.query) gl.deleteQuery(probe.query);
-      this.probes.delete(mesh);
-    }
-    if (!queued.length) return;
-    // No blocking result reads, and no overlapping occlusion query from another diagnostic.
-    if (gl.getQuery(gl.ANY_SAMPLES_PASSED, gl.CURRENT_QUERY)) return;
+    for (const mesh of this.probes.keys()) if (!seen.has(mesh)) this.probes.delete(mesh);
+    if (!this.probes.size) return;
     if (!this.target) {
-      this.target = new THREE.WebGLRenderTarget(viewport.x, viewport.y, { depthBuffer: true });
-      this.target.samples = Math.max(4, Number(gl.getParameter(gl.SAMPLES)) || 0);
+      this.target = new THREE.RenderTarget(viewport.x, viewport.y, { depthBuffer: true });
+      this.target.samples = Math.max(4, renderer.samples);
     }
     this.target.setSize(viewport.x, viewport.y);
     const previousTarget = renderer.getRenderTarget();
-    const previousFace = renderer.getActiveCubeFace?.() ?? 0;
-    const previousMip = renderer.getActiveMipmapLevel?.() ?? 0;
+    const previousFace = renderer.getActiveCubeFace();
+    const previousMip = renderer.getActiveMipmapLevel();
     const previousViewport = renderer.getViewport(new THREE.Vector4());
     const previousScissor = renderer.getScissor(new THREE.Vector4());
     const previousScissorTest = renderer.getScissorTest();
     const previousAutoClear = renderer.autoClear;
+    const previousAutoReset = renderer.info.autoReset;
+    const trianglesBefore = renderer.info.render.triangles;
     try {
       renderer.setRenderTarget(this.target);
       renderer.setScissorTest(false);
       renderer.autoClear = false;
+      renderer.info.autoReset = false;
       renderer.clear();
+      // The API returns completed asynchronous results only inside this target's
+      // render context. False/undefined is never evidence that a pending box is hidden.
+      this.terrainScene.onBeforeRender = () => {
+        for (const [mesh, probe] of this.probes) {
+          if (!probe.submitted || probe.hidden === true) continue;
+          const result = renderer.isOccluded(this.probeMode === "bounds" ? probe.sample : mesh);
+          if (result === true) { probe.result = true; probe.hidden = true; }
+        }
+      };
       renderer.render(this.terrainScene, camera);
-      this.extraTriangles += renderer.info.render.triangles;
-      const terrainTriangles = renderer.info.render.triangles;
+      const terrainTriangles = renderer.info.render.triangles - trianglesBefore;
       let opaqueTriangles = 0;
       const opaqueVisibility: { name: string; allowed: number; before: number; during: number; after: number }[] = [];
       for (const source of opaqueOccluders) {
@@ -229,75 +233,41 @@ export class TransmissionOcclusion {
         let during = before;
         const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         const colorWrites = materials.map(material => material.colorWrite);
-        // Keep the actual alpha texture, discard shader, sidedness, depth state and batch hooks.
-        // No proxy box or simplified solid may occlude a sample absent from native geometry.
+        const triangles = renderer.info.render.triangles;
         try {
           for (const material of materials) material.colorWrite = false;
           withTransmissionOccluderSubset(source, () => { during = countVisible(); renderer.render(mesh, camera); });
-          opaqueTriangles += renderer.info.render.triangles;
-          this.extraTriangles += renderer.info.render.triangles;
         } finally { materials.forEach((material, index) => { material.colorWrite = colorWrites[index]!; }); }
+        opaqueTriangles += renderer.info.render.triangles - triangles;
         opaqueVisibility.push({ name: mesh.name, allowed: source.instanceIds?.length ?? before, before, during, after: countVisible() });
       }
-      this.box.layers.mask = camera.layers.mask;
-      for (const entry of queued.slice(0, 4)) {
-        entry.bounds.getCenter(this.box.position);
-        entry.bounds.getSize(this.box.scale);
-        const query = gl.createQuery();
-        if (!query) continue;
-        let active = false;
-        let submitted = false;
-        let completed = false;
-        const exact = this.probeMode === "exact-diagnostic";
-        const object = exact ? entry.mesh : this.box;
-        const before = object.onBeforeRender;
-        const after = object.onAfterRender;
-        const captureProbeState = () => {
-          this.lastProbeState = { mode: this.probeMode, terrainTriangles, opaqueTriangles, opaqueVisibility,
-            opaqueSources: opaqueOccluders.map(source => source.mesh.name), depthTest: gl.isEnabled?.(gl.DEPTH_TEST),
-            depthFunction: gl.getParameter(gl.DEPTH_FUNC), depthWrite: gl.getParameter(gl.DEPTH_WRITEMASK),
-            framebufferBound: Boolean(gl.getParameter(gl.FRAMEBUFFER_BINDING)), samples: gl.getParameter(gl.SAMPLES) };
-        };
-        // Use the actual batch and its original hooks, geometry, instance textures and transforms.
-        // Disable only colour output, depth writes and the unrelated transmission colour prepass.
-        const materials = exact ? (Array.isArray(object.material) ? object.material : [object.material]) : [];
-        const states = materials.map(material => ({ material, colorWrite: material.colorWrite,
-          depthWrite: material.depthWrite, transmission: (material as THREE.MeshPhysicalMaterial).transmission }));
-        for (const state of states) {
-          state.material.colorWrite = false; state.material.depthWrite = false;
-          if (state.transmission > 0) { (state.material as THREE.MeshPhysicalMaterial).transmission = 0; state.material.needsUpdate = true; }
-        }
-        object.onBeforeRender = function (...args) {
-          before.apply(this, args);
-          gl.beginQuery(gl.ANY_SAMPLES_PASSED, query); active = true; submitted = true;
-        };
-        object.onAfterRender = function (...args) {
-          gl.endQuery(gl.ANY_SAMPLES_PASSED); active = false;
-          captureProbeState();
-          after.apply(this, args);
-        };
-        try {
-          renderer.render(exact ? object : this.probeScene, camera);
-          completed = true;
-        }
-        finally {
-          try { if (active) gl.endQuery(gl.ANY_SAMPLES_PASSED); }
-          finally {
-            object.onBeforeRender = before;
-            object.onAfterRender = after;
-            for (const state of states) {
-              state.material.colorWrite = state.colorWrite; state.material.depthWrite = state.depthWrite;
-              if (state.transmission > 0) { (state.material as THREE.MeshPhysicalMaterial).transmission = state.transmission; state.material.needsUpdate = true; }
-            }
-            if (!completed) gl.deleteQuery(query);
-          }
-        }
-        this.extraTriangles += renderer.info.render.triangles;
-        if (submitted) { entry.probe.query = query; this.submittedQueries++; }
-        else gl.deleteQuery(query);
+      const queued = [...this.probes].filter(([, probe]) => probe.hidden !== true);
+      // Revisit unresolved/visible boxes in bounded round-robin batches. The backend
+      // deliberately exposes no synchronous query-ready check.
+      const count = Math.min(queued.length, this.probeMode === "bounds" ? 4 : 1);
+      const selected = Array.from({ length: count }, (_, offset) => queued[(this.queryCursor + offset) % queued.length]!);
+      this.queryCursor = queued.length ? (this.queryCursor + count) % queued.length : 0;
+      this.probeScene.clear();
+      if (this.probeMode === "bounds") {
+        for (const [, probe] of selected) this.probeScene.add(probe.sample);
+        if (selected.length) renderer.render(this.probeScene, camera);
+      } else {
+        // Exact diagnostic keeps native batch hooks, instances and discard shaders.
+        for (const [mesh] of selected) this.renderExact(renderer, camera, mesh);
+      }
+      for (const [, probe] of selected) { probe.submitted = true; this.submittedQueries++; }
+      this.lastProbeState = { mode: this.probeMode, terrainTriangles, opaqueTriangles, opaqueVisibility,
+        opaqueSources: opaqueOccluders.map(source => source.mesh.name), depthTest: true,
+        depthWrite: false, framebufferBound: true, samples: this.target.samples };
+      for (const [mesh, probe] of this.probes) if (probe.hidden === true && this.probeMode === "bounds") {
+        mesh.visible = false;
+        this.hidden.add(mesh);
       }
     } finally {
+      this.extraTriangles = renderer.info.render.triangles - trianglesBefore;
+      this.terrainScene.onBeforeRender = () => {};
       renderer.autoClear = previousAutoClear;
+      renderer.info.autoReset = previousAutoReset;
       renderer.setRenderTarget(previousTarget, previousFace, previousMip);
       renderer.setViewport(previousViewport);
       renderer.setScissor(previousScissor);
@@ -305,9 +275,35 @@ export class TransmissionOcclusion {
     }
   }
 
+  private renderExact(renderer: THREE.WebGPURenderer, camera: THREE.Camera, mesh: THREE.Mesh): void {
+    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    const states = materials.map(material => ({ material, colorWrite: material.colorWrite,
+      depthWrite: material.depthWrite, transmission: (material as THREE.MeshPhysicalMaterial).transmission }));
+    const occlusionTest = mesh.occlusionTest;
+    try {
+      mesh.occlusionTest = true;
+      for (const state of states) {
+        state.material.colorWrite = false;
+        state.material.depthWrite = false;
+        if (state.transmission > 0) { (state.material as THREE.MeshPhysicalMaterial).transmission = 0; state.material.needsUpdate = true; }
+      }
+      renderer.render(mesh, camera);
+    } finally {
+      mesh.occlusionTest = occlusionTest;
+      for (const state of states) {
+        state.material.colorWrite = state.colorWrite;
+        state.material.depthWrite = state.depthWrite;
+        if (state.transmission > 0) { (state.material as THREE.MeshPhysicalMaterial).transmission = state.transmission; state.material.needsUpdate = true; }
+      }
+    }
+  }
+
   dispose(): void {
-    this.reset(); this.target?.dispose(); this.depthMaterial.dispose();
-    this.box.geometry.dispose(); (this.box.material as THREE.Material).dispose();
+    this.reset();
+    this.target?.dispose();
+    this.depthMaterial.dispose();
+    this.boxGeometry.dispose();
+    this.probeMaterial.dispose();
     this.terrainScene.clear();
   }
 }

@@ -1,16 +1,16 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
 import { PlayerDepthVisibility } from "./playerDepthVisibility.js";
 
 /** Draw only the occluded part of the animated player, using the completed scene depth. */
 export class PlayerSilhouette {
   private readonly scene = new THREE.Scene();
   private readonly copies = new Map<THREE.Mesh, THREE.Mesh>();
-  private readonly mask = new THREE.MeshBasicMaterial({
+  private readonly mask = new THREE.MeshBasicNodeMaterial({
     colorWrite: false, depthWrite: false, depthFunc: THREE.LessEqualDepth,
     stencilWrite: true, stencilRef: 1, stencilFunc: THREE.AlwaysStencilFunc,
     stencilZPass: THREE.ReplaceStencilOp,
   });
-  private readonly fill = new THREE.MeshBasicMaterial({
+  private readonly fill = new THREE.MeshBasicNodeMaterial({
     color: 0x92a6a8, transparent: true, opacity: 0.24, toneMapped: false, fog: false,
     depthWrite: false, depthFunc: THREE.GreaterDepth,
     stencilWrite: true, stencilRef: 1, stencilFunc: THREE.NotEqualStencilFunc,
@@ -22,7 +22,16 @@ export class PlayerSilhouette {
   private lastOpacityAt: number | null = null;
   private opacity = 0;
   snapshot(): { active: boolean; opacity: number } { return { active: this.active, opacity: this.fill.opacity }; }
-  compile(renderer: THREE.WebGLRenderer, camera: THREE.Camera): void { this.visibility.compile(renderer, camera); }
+  async compile(renderer: THREE.WebGPURenderer, camera: THREE.Camera): Promise<void> {
+    await this.visibility.compile(renderer, camera);
+    if (!this.syncCopies()) return;
+    try {
+      this.scene.overrideMaterial = this.mask;
+      await renderer.compileAsync(this.scene, camera);
+      this.scene.overrideMaterial = this.fill;
+      await renderer.compileAsync(this.scene, camera);
+    } finally { this.scene.overrideMaterial = null; }
+  }
 
   /** Ignore isolated limb and edge overlaps without delaying a substantial obstruction. */
   shouldShow(blockedSamples: number): boolean {
@@ -37,11 +46,31 @@ export class PlayerSilhouette {
     return this.opacity;
   }
 
-  render(renderer: THREE.WebGLRenderer, camera: THREE.Camera): void {
+  render(renderer: THREE.WebGPURenderer, camera: THREE.Camera): void {
     const blocked = this.visibility.sample(renderer, camera, this.source);
     this.fill.opacity = this.updateOpacity(blocked, performance.now());
     this.active = this.fill.opacity > 0;
     if (!this.active) return;
+    if (!this.syncCopies()) return;
+    const autoClear = renderer.autoClear;
+    const infoAutoReset = renderer.info.autoReset;
+    renderer.autoClear = false;
+    renderer.info.autoReset = false;
+    try {
+      renderer.clearStencil();
+      // Visible player pixels mask out self-occluded limbs and back faces.
+      this.scene.overrideMaterial = this.mask;
+      renderer.render(this.scene, camera);
+      this.scene.overrideMaterial = this.fill;
+      renderer.render(this.scene, camera);
+    } finally {
+      renderer.autoClear = autoClear;
+      renderer.info.autoReset = infoAutoReset;
+      this.scene.overrideMaterial = null;
+    }
+  }
+
+  private syncCopies(): number {
     const active = new Set<THREE.Mesh>();
     this.source?.traverseVisible(object => {
       if (!(object instanceof THREE.Mesh)) return;
@@ -69,23 +98,7 @@ export class PlayerSilhouette {
       this.scene.remove(copy);
       this.copies.delete(source);
     }
-    if (!active.size) return;
-    const autoClear = renderer.autoClear;
-    const infoAutoReset = renderer.info.autoReset;
-    renderer.autoClear = false;
-    renderer.info.autoReset = false;
-    try {
-      renderer.clearStencil();
-      // Visible player pixels mask out self-occluded limbs and back faces.
-      this.scene.overrideMaterial = this.mask;
-      renderer.render(this.scene, camera);
-      this.scene.overrideMaterial = this.fill;
-      renderer.render(this.scene, camera);
-    } finally {
-      renderer.autoClear = autoClear;
-      renderer.info.autoReset = infoAutoReset;
-      this.scene.overrideMaterial = null;
-    }
+    return active.size;
   }
 
   dispose(): void {

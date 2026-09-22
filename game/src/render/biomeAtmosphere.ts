@@ -1,4 +1,8 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
+import {
+  Fn, colorSpaceToWorking, mix, positionGeometry, renderOutput, smoothstep,
+  texture, uniform, varying, vec3, vec4,
+} from "three/tsl";
 import type { RegionId } from "../contracts.js";
 import { BiomeSky, BIOME_MOOD_STRENGTH } from "./biomeSky.js";
 
@@ -42,34 +46,36 @@ export function blendBiomeLook(weights: BiomeWeights, wildernessMagic = 0) {
   return result;
 }
 
-/** Grade the completed display frame so existing sky/fog, antialiasing and stencil stay intact.
+/** Grade the completed HDR frame into linear display colour; sky/fog and stencil stay intact.
  * One GPU framebuffer copy and one triangle. DOM UI is outside this pass.
  */
 export class BiomeAtmosphere {
   readonly sky = new BiomeSky();
-  private texture: THREE.FramebufferTexture | null = null;
+  private texture = new THREE.FramebufferTexture(1, 1);
   private readonly size = new THREE.Vector2();
-  private readonly origin = new THREE.Vector2();
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.Camera();
-  private readonly material = new THREE.ShaderMaterial({
-    depthTest: false, depthWrite: false, toneMapped: false,
-    uniforms: { frame: { value: null }, tint: { value: new THREE.Vector3(1, 1, 1) },
-      shade: { value: new THREE.Vector3(1, 1, 1) }, saturation: { value: 1 } },
-    vertexShader: `varying vec2 vUv;
-      void main() { vUv = position.xy * .5 + .5; gl_Position = vec4(position.xy, 0., 1.); }`,
-    fragmentShader: `uniform sampler2D frame;
-      uniform vec3 tint, shade; uniform float saturation; varying vec2 vUv;
-      void main() {
-        vec4 source = texture2D(frame, vUv);
-        float luma = dot(source.rgb, vec3(.2126, .7152, .0722));
-        vec3 colour = mix(vec3(luma), source.rgb, saturation);
-        // Split tone retains black and protects bright clouds and spell cores from clipping.
-        vec3 balance = mix(shade, tint, smoothstep(.12, .75, luma));
-        colour += ${(2 * BIOME_MOOD_STRENGTH).toFixed(2)} * (balance - 1.) * colour * (1. - colour);
-        gl_FragColor = vec4(clamp(colour, 0., 1.), source.a);
-      }`,
-  });
+  private readonly uniforms = {
+    tint: uniform(new THREE.Vector3(1, 1, 1)), shade: uniform(new THREE.Vector3(1, 1, 1)), saturation: uniform(1),
+  };
+  private readonly source = texture(this.texture, varying(positionGeometry.xy.mul(.5).add(.5), "vBiomeGradeUv"));
+  private readonly material = this.createMaterial();
+
+  private createMaterial(): THREE.NodeMaterial {
+    const material = new THREE.NodeMaterial({ depthTest: false, depthWrite: false, toneMapped: false, fog: false });
+    material.vertexNode = vec4(positionGeometry.xy, 0, 1);
+    material.fragmentNode = Fn(() => {
+      // The renderer owns a linear HDR frame. Grade the same display values as the
+      // old pass, then return linear display colour for the remaining compositors.
+      const source = renderOutput(this.source, THREE.ACESFilmicToneMapping, THREE.SRGBColorSpace).toVar();
+      const luma = source.rgb.dot(vec3(.2126, .7152, .0722)).toVar();
+      const colour = mix(vec3(luma), source.rgb, this.uniforms.saturation).toVar();
+      const balance = mix(this.uniforms.shade, this.uniforms.tint, smoothstep(.12, .75, luma));
+      colour.addAssign(balance.sub(1).mul(colour).mul(vec3(1).sub(colour)).mul(2 * BIOME_MOOD_STRENGTH));
+      return colorSpaceToWorking(vec4(colour.clamp(0, 1), source.a), THREE.SRGBColorSpace);
+    })();
+    return material;
+  }
   private readonly geometry = new THREE.BufferGeometry().setAttribute("position",
     new THREE.Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3));
   private weights: BiomeWeights = {};
@@ -77,16 +83,16 @@ export class BiomeAtmosphere {
   private wildernessMagic = 0;
 
   constructor() {
+    this.texture.type = THREE.HalfFloatType;
     const mesh = new THREE.Mesh(this.geometry, this.material);
     mesh.frustumCulled = false;
     this.scene.add(mesh);
   }
 
   setWeights(weights: BiomeWeights): void { this.weights = { ...weights }; }
-  compile(renderer: THREE.WebGLRenderer): void {
-    const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mipmap = renderer.getActiveMipmapLevel();
-    try { renderer.setRenderTarget(null); renderer.compile(this.scene, this.camera); }
-    finally { renderer.setRenderTarget(previous, face, mipmap); }
+  async compile(renderer: THREE.WebGPURenderer): Promise<void> {
+    // Compile against the same explicit HDR target used for gameplay rendering.
+    await renderer.compileAsync(this.scene, this.camera);
   }
   setWildernessMagic(amount: number): void { this.wildernessMagic = Math.max(0, Math.min(1, amount)); }
   setPreview(region: RegionId | "neutral" | null): void { this.override = region; this.sky.enabled = true; }
@@ -94,33 +100,35 @@ export class BiomeAtmosphere {
   updateEnvironment(scene: THREE.Scene, deltaSeconds: number): void { this.sky.update(scene, this.activeWeights(), deltaSeconds, this.wildernessMagic); }
   snapshot() {
     return { preview: this.override, weights: { ...this.weights }, wildernessMagic: this.wildernessMagic, sky: this.sky.snapshot(),
-      tint: this.material.uniforms.tint!.value.toArray(),
-      shade: this.material.uniforms.shade!.value.toArray(), saturation: this.material.uniforms.saturation!.value };
+      tint: this.uniforms.tint.value.toArray(),
+      shade: this.uniforms.shade.value.toArray(), saturation: this.uniforms.saturation.value };
   }
 
-  render(renderer: THREE.WebGLRenderer, deltaSeconds: number): void {
+  render(renderer: THREE.WebGPURenderer, deltaSeconds: number): void {
     const look = blendBiomeLook(this.activeWeights(), this.wildernessMagic);
     const blend = 1 - Math.exp(-Math.min(Math.max(deltaSeconds, 0), 0.1) * 3);
     for (const key of ["tint", "shade"] as const) {
-      const value = this.material.uniforms[key]!.value as THREE.Vector3;
+      const value = this.uniforms[key].value;
       value.x += (look[key][0]! - value.x) * blend;
       value.y += (look[key][1]! - value.y) * blend;
       value.z += (look[key][2]! - value.z) * blend;
     }
-    this.material.uniforms.saturation!.value += (look.saturation - this.material.uniforms.saturation!.value) * blend;
+    this.uniforms.saturation.value += (look.saturation - this.uniforms.saturation.value) * blend;
     renderer.getDrawingBufferSize(this.size);
-    if (!this.texture || this.texture.image.width !== this.size.x || this.texture.image.height !== this.size.y) {
-      this.texture?.dispose();
+    if (this.texture.image.width !== this.size.x || this.texture.image.height !== this.size.y) {
+      this.texture.dispose();
       this.texture = new THREE.FramebufferTexture(this.size.x, this.size.y);
-      this.material.uniforms.frame!.value = this.texture;
+      this.texture.type = THREE.HalfFloatType;
+      this.source.value = this.texture;
     }
-    renderer.copyFramebufferToTexture(this.texture, this.origin);
-    const autoClear = renderer.autoClear, autoReset = renderer.info.autoReset;
+    renderer.copyFramebufferToTexture(this.texture);
+    const autoClear = renderer.autoClear, autoReset = renderer.info.autoReset, toneMapping = renderer.toneMapping;
+    renderer.toneMapping = THREE.NoToneMapping;
     renderer.autoClear = false;
     renderer.info.autoReset = false;
     try { renderer.render(this.scene, this.camera); }
-    finally { renderer.autoClear = autoClear; renderer.info.autoReset = autoReset; }
+    finally { renderer.autoClear = autoClear; renderer.info.autoReset = autoReset; renderer.toneMapping = toneMapping; }
   }
 
-  dispose(): void { this.sky.dispose(); this.texture?.dispose(); this.material.dispose(); this.geometry.dispose(); }
+  dispose(): void { this.sky.dispose(); this.texture.dispose(); this.material.dispose(); this.geometry.dispose(); }
 }

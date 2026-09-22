@@ -1,4 +1,7 @@
-import * as THREE from "three";
+import * as THREE from "three/webgpu";
+import {
+  Fn, If, float, mat3, mix, positionGeometry, smoothstep, uniform, varying, vec2, vec3, vec4,
+} from "three/tsl";
 import type { BiomeWeights } from "./biomeAtmosphere.js";
 import type { RegionId } from "../contracts.js";
 
@@ -54,6 +57,47 @@ export function blendBiomeSky(weights: BiomeWeights, wildernessMagic = 0) {
   return result;
 }
 
+// These shared node functions generate the same four-octave field on both GPU backends.
+const skyHash = Fn(([p]: [THREE.Node<"vec2">]) =>
+  p.dot(vec2(127.1, 311.7)).sin().mul(43758.5453).fract(),
+).setLayout({ name: "biomeSkyHash", type: "float", inputs: [{ name: "p", type: "vec2" }] });
+const skyNoise = Fn(([p]: [THREE.Node<"vec2">]) => {
+  const i = p.floor();
+  const f = p.fract().toVar();
+  f.assign(f.mul(f).mul(float(3).sub(f.mul(2))));
+  return mix(mix(skyHash(i), skyHash(i.add(vec2(1, 0))), f.x),
+    mix(skyHash(i.add(vec2(0, 1))), skyHash(i.add(1)), f.x), f.y);
+}).setLayout({ name: "biomeSkyNoise", type: "float", inputs: [{ name: "p", type: "vec2" }] });
+const cloudNoise = Fn(([point]: [THREE.Node<"vec2">]) => {
+  const p = point.toVar(), n = float(0).toVar();
+  let amplitude = .55;
+  for (let i = 0; i < 4; i++) {
+    n.addAssign(skyNoise(p).mul(amplitude));
+    p.assign(p.mul(2.03).add(17.7));
+    amplitude *= .5;
+  }
+  return n;
+}).setLayout({ name: "biomeCloudNoise", type: "float", inputs: [{ name: "point", type: "vec2" }] });
+
+// The completed HDR frame is tone mapped once. Undo that transform for the sky,
+// which previously bypassed tone mapping, so its authored palette stays unchanged.
+export const inverseACES = Fn(([colour, exposure]: [THREE.Node<"vec3">, THREE.Node<"float">]) => {
+  const inverseOutput = mat3(new THREE.Matrix3().set(
+    1.60475, -.53108, -.07367, -.10208, 1.10813, -.00605, -.00327, -.07276, 1.07602,
+  ).invert());
+  const inverseInput = mat3(new THREE.Matrix3().set(
+    .59719, .35458, .04823, .07600, .90834, .01566, .02840, .13383, .83777,
+  ).invert());
+  const target = inverseOutput.mul(colour.clamp(0, 1)).clamp(0, 1).toVar();
+  const a = float(1).sub(target.mul(.983729));
+  const b = target.mul(.4329510 * .983729).sub(.0245786);
+  const c = target.mul(.238081).add(.000090537);
+  const input = b.add(b.mul(b).add(a.mul(c).mul(4)).sqrt()).div(a.mul(2));
+  return inverseInput.mul(input).mul(.6).div(exposure.max(.00001));
+}).setLayout({ name: "biomeInverseSkyACES", type: "vec3", inputs: [
+  { name: "colour", type: "vec3" }, { name: "exposure", type: "float" },
+] });
+
 /** Camera-oriented sky with no finite dome, texture downloads or per-frame PMREM regeneration. */
 export class BiomeSky {
   enabled = false;
@@ -61,80 +105,70 @@ export class BiomeSky {
   private near = 26;
   private far = 210;
   private time = 0;
-  private readonly material = new THREE.ShaderMaterial({
-    depthWrite: false, depthTest: false, toneMapped: false, fog: false,
-    uniforms: { zenith: { value: this.current.zenith }, horizon: { value: this.current.horizon },
-      cloud: { value: this.current.cloud }, cloudCover: { value: 0 }, time: { value: 0 },
-      night: { value: 0 }, underground: { value: 0 }, fairyDepth: { value: 0 },
-      inverseProjection: { value: new THREE.Matrix4() }, cameraWorld: { value: new THREE.Matrix4() } },
-    vertexShader: `varying vec2 vSkyUv;
-      void main() { vSkyUv = position.xy; gl_Position = vec4(position.xy, 1., 1.); }`,
-    fragmentShader: `uniform vec3 zenith, horizon, cloud;
-      uniform float cloudCover, time, night, underground, fairyDepth; uniform mat4 inverseProjection, cameraWorld;
-      varying vec2 vSkyUv;
-      float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
-      float noise(vec2 p) {
-        vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
-        return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.),f.x),f.y);
-      }
-      float cloudNoise(vec2 p) {
-        float n=0., a=.55;
-        for(int i=0;i<4;i++) { n+=a*noise(p); p=p*2.03+17.7; a*=.5; }
-        return n;
-      }
-      void main() {
-        vec4 ray=inverseProjection*vec4(vSkyUv,1.,1.);
-        vec3 direction=normalize(mat3(cameraWorld)*ray.xyz);
-        // Full horizon plateau below the skyline means fog cannot reveal a mismatched sky band.
-        float elevation=max(direction.y,0.);
-        vec3 colour=mix(horizon,zenith,smoothstep(0.,.65,elevation));
-        vec2 p=direction.xz/(.24+elevation)*2.3+vec2(time*.006,time*.002);
-        float density=cloudNoise(p);
-        float cover=smoothstep(.76-cloudCover*.55,.94-cloudCover*.55,density);
-        // A second, finer layer breaks up the broad banks without a texture seam.
-        float wisps=smoothstep(.56,.78,cloudNoise(p*2.1+vec2(time*.004,9.)));
-        cover=max(cover,wisps*cloudCover*.28);
-        cover*=smoothstep(.015,.16,elevation)*.82;
-        vec3 litCloud=mix(cloud*.73,cloud,smoothstep(.38,.77,density));
-        colour=mix(colour,litCloud,cover);
-        // The fairy map has an immense mineral vault in the sky, never local cave geometry.
-        // Warped layers and thin luminous seams stay directional as the follow camera turns.
-        if (underground>.001) {
-          vec2 vaultPoint=direction.xz/(.38+elevation)*2.8;
-          float folds=cloudNoise(vaultPoint+vec2(time*.0015,0.));
-          float strata=cloudNoise(vaultPoint*1.7+vec2(folds*3.5,folds*1.8));
-          float ridge=1.-abs(strata*2.-1.);
-          float ceiling=smoothstep(.24,.78,folds)*.68;
-          vec3 vault=mix(zenith*.58,cloud*.62,ceiling);
-          float seam=pow(max(0.,ridge),16.)*smoothstep(.36,.65,folds);
-          vec3 mineral=mix(vec3(.10,.56,.47),vec3(.40,.20,.65),fairyDepth);
-          vault+=mineral*seam*.22;
-          // Loose glowing grains read as distant spores, without a celestial moon or star field.
-          vec2 grainPoint=vaultPoint*68.;
-          float grainSeed=hash(floor(grainPoint));
-          float grain=step(.993,grainSeed)*(1.-smoothstep(.015,.085,length(fract(grainPoint)-.5)));
-          vault+=mineral*grain*(.3+.15*sin(time*.7+grainSeed*20.));
-          colour=mix(colour,vault,underground*smoothstep(.015,.25,elevation));
-        }
-        vec3 sunDirection=normalize(vec3(-.48,.38,-.78));
-        float sun=max(dot(direction,sunDirection),0.);
-        float halo=pow(sun,36.)*.13+pow(sun,640.)*.38;
-        colour+=cloud*halo*(1.-cover)*smoothstep(.02,.18,elevation)*(1.-night);
-        // A fixed moon and sparse directional stars keep their place as the camera turns.
-        vec3 moonDirection=normalize(vec3(-.48,.38,-.78));
-        float moonDistance=length(direction-moonDirection);
-        float moonDisc=1.-smoothstep(.024,.026,moonDistance);
-        float moonHalo=exp(-moonDistance*27.)*.045;
-        float moonMark=.84+.16*noise(direction.xz*430.);
-        vec2 starCell=direction.xz/(.35+elevation)*180.;
-        float starSeed=hash(floor(starCell));
-        float star=step(.997,starSeed)*(1.-smoothstep(.02,.11,length(fract(starCell)-.5)));
-        colour+=night*(1.-underground)*(1.-cover)*smoothstep(.03,.2,elevation)*
-          (vec3(.45,.53,.65)*(moonDisc*moonMark+moonHalo)+vec3(.4,.49,.65)*star);
-        gl_FragColor=vec4(colour,1.);
-        #include <colorspace_fragment>
-      }`,
-  });
+  private readonly uniforms = {
+    zenith: uniform(this.current.zenith), horizon: uniform(this.current.horizon),
+    cloud: uniform(this.current.cloud), cloudCover: uniform(0), time: uniform(0),
+    night: uniform(0), underground: uniform(0), fairyDepth: uniform(0), exposure: uniform(1),
+    inverseProjection: uniform(new THREE.Matrix4()), cameraWorld: uniform(new THREE.Matrix4()),
+  };
+  private readonly material = this.createMaterial();
+
+  private createMaterial(): THREE.NodeMaterial {
+    const material = new THREE.NodeMaterial({ depthWrite: false, depthTest: false, toneMapped: false, fog: false });
+    const skyUv = varying(positionGeometry.xy, "vSkyUv");
+    material.vertexNode = vec4(positionGeometry.xy, 1, 1);
+    material.fragmentNode = Fn(() => {
+      const { zenith, horizon, cloud, cloudCover, time, night, underground, fairyDepth, inverseProjection, cameraWorld } = this.uniforms;
+      const ray = inverseProjection.mul(vec4(skyUv, 1, 1));
+      const direction = cameraWorld.mul(vec4(ray.xyz, 0)).xyz.normalize().toVar();
+      // Full horizon plateau below the skyline matches the terminal fog colour.
+      const elevation = direction.y.max(0).toVar();
+      const colour = mix(horizon, zenith, smoothstep(0, .65, elevation)).toVar();
+      const p = direction.xz.div(elevation.add(.24)).mul(2.3).add(vec2(time.mul(.006), time.mul(.002))).toVar();
+      const density = cloudNoise(p).toVar();
+      const cover = smoothstep(float(.76).sub(cloudCover.mul(.55)), float(.94).sub(cloudCover.mul(.55)), density).toVar();
+      // The second finer cloud layer breaks broad banks without a texture seam.
+      const wisps = smoothstep(.56, .78, cloudNoise(p.mul(2.1).add(vec2(time.mul(.004), 9))));
+      cover.assign(cover.max(wisps.mul(cloudCover).mul(.28)));
+      cover.mulAssign(smoothstep(.015, .16, elevation).mul(.82));
+      const litCloud = mix(cloud.mul(.73), cloud, smoothstep(.38, .77, density));
+      colour.assign(mix(colour, litCloud, cover));
+      // The fairy map's mineral vault stays directional as the follow camera turns.
+      If(underground.greaterThan(.001), () => {
+        const vaultPoint = direction.xz.div(elevation.add(.38)).mul(2.8).toVar();
+        const folds = cloudNoise(vaultPoint.add(vec2(time.mul(.0015), 0))).toVar();
+        const strata = cloudNoise(vaultPoint.mul(1.7).add(vec2(folds.mul(3.5), folds.mul(1.8))));
+        const ridge = float(1).sub(strata.mul(2).sub(1).abs());
+        const ceiling = smoothstep(.24, .78, folds).mul(.68);
+        const vault = mix(zenith.mul(.58), cloud.mul(.62), ceiling).toVar();
+        const seam = ridge.max(0).pow(16).mul(smoothstep(.36, .65, folds));
+        const mineral = mix(vec3(.10, .56, .47), vec3(.40, .20, .65), fairyDepth);
+        vault.addAssign(mineral.mul(seam).mul(.22));
+        // Loose luminous grains are distant spores, with no celestial moon or stars.
+        const grainPoint = vaultPoint.mul(68).toVar();
+        const grainSeed = skyHash(grainPoint.floor()).toVar();
+        const grain = grainSeed.step(.993).mul(float(1).sub(smoothstep(.015, .085, grainPoint.fract().sub(.5).length())));
+        vault.addAssign(mineral.mul(grain).mul(time.mul(.7).add(grainSeed.mul(20)).sin().mul(.15).add(.3)));
+        colour.assign(mix(colour, vault, underground.mul(smoothstep(.015, .25, elevation))));
+      });
+      const sunDirection = vec3(-.48, .38, -.78).normalize();
+      const sun = direction.dot(sunDirection).max(0).toVar();
+      const halo = sun.pow(36).mul(.13).add(sun.pow(640).mul(.38));
+      colour.addAssign(cloud.mul(halo).mul(float(1).sub(cover)).mul(smoothstep(.02, .18, elevation)).mul(float(1).sub(night)));
+      // Fixed moon, surface markings and sparse directional stars retain their positions.
+      const moonDistance = direction.sub(sunDirection).length().toVar();
+      const moonDisc = float(1).sub(smoothstep(.024, .026, moonDistance));
+      const moonHalo = moonDistance.mul(-27).exp().mul(.045);
+      const moonMark = skyNoise(direction.xz.mul(430)).mul(.16).add(.84);
+      const starCell = direction.xz.div(elevation.add(.35)).mul(180).toVar();
+      const starSeed = skyHash(starCell.floor());
+      const star = starSeed.step(.997).mul(float(1).sub(smoothstep(.02, .11, starCell.fract().sub(.5).length())));
+      colour.addAssign(night.mul(float(1).sub(underground)).mul(float(1).sub(cover)).mul(smoothstep(.03, .2, elevation))
+        .mul(vec3(.45, .53, .65).mul(moonDisc.mul(moonMark).add(moonHalo)).add(vec3(.4, .49, .65).mul(star))));
+      return vec4(inverseACES(colour, this.uniforms.exposure), 1);
+    })();
+    return material;
+  }
   private readonly geometry = new THREE.BufferGeometry().setAttribute("position",
     new THREE.Float32BufferAttribute([-1,-1,0,3,-1,0,-1,3,0],3));
   readonly mesh = new THREE.Mesh(this.geometry, this.material);
@@ -143,8 +177,9 @@ export class BiomeSky {
     this.mesh.name = "biome-sky"; this.mesh.frustumCulled = false; this.mesh.renderOrder = -10000;
     this.mesh.visible = false;
     this.mesh.onBeforeRender = (_renderer, _scene, camera) => {
-      this.material.uniforms.inverseProjection!.value.copy(camera.projectionMatrixInverse);
-      this.material.uniforms.cameraWorld!.value.copy(camera.matrixWorld);
+      this.uniforms.exposure.value = _renderer.toneMappingExposure;
+      this.uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
+      this.uniforms.cameraWorld.value.copy(camera.matrixWorld);
     };
   }
   setFogRange(near: number, far: number): void { this.near = near; this.far = far; }
@@ -156,11 +191,11 @@ export class BiomeSky {
     for (const key of ["zenith", "horizon", "cloud"] as const) this.current[key].lerp(target[key], alpha);
     for (const key of ["cloudCover", "fogNear", "fogFar", "night", "magic", "underground", "fairyDepth"] as const) this.current[key] += (target[key] - this.current[key]) * alpha;
     this.time += Math.min(Math.max(deltaSeconds, 0), .1);
-    this.material.uniforms.time!.value = this.time;
-    this.material.uniforms.cloudCover!.value = this.current.cloudCover;
-    this.material.uniforms.night!.value = this.current.night;
-    this.material.uniforms.underground!.value = this.current.underground;
-    this.material.uniforms.fairyDepth!.value = this.current.fairyDepth;
+    this.uniforms.time.value = this.time;
+    this.uniforms.cloudCover.value = this.current.cloudCover;
+    this.uniforms.night.value = this.current.night;
+    this.uniforms.underground.value = this.current.underground;
+    this.uniforms.fairyDepth.value = this.current.fairyDepth;
     if (scene.fog instanceof THREE.Fog) {
       scene.fog.color.copy(this.current.horizon);
       scene.fog.near = this.near * this.current.fogNear;
