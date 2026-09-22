@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { expect, it, vi } from "vitest";
 import { Renderer } from "../game/src/render/renderer.js";
 import { SceneryInstances } from "../game/src/render/sceneryInstances.js";
+import { registerElementalRefraction } from "../game/src/render/elementalRefraction.js";
 import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
 
 vi.mock("../game/src/render/shaderPreparation.js", async importOriginal => {
@@ -51,7 +52,7 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   const visible = new THREE.Mesh(geometry, material), duplicate = visible.clone();
   const interior = new THREE.Mesh(new THREE.SphereGeometry(), material);
   hidden.visible = false; hidden.add(interior); scene.add(visible, duplicate, hidden);
-  const frameTarget = new THREE.RenderTarget(), fake = {};
+  const frameTarget = new THREE.RenderTarget(), fake = { shadowMap: { enabled: true } };
   let finishGlow!: () => void;
   const prepareGlow = vi.fn(() => new Promise<void>(resolve => { finishGlow = resolve; }));
   const renderer = Object.assign(Object.create(Renderer.prototype), {
@@ -74,7 +75,7 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   expect(renderer.getPreparationState()).toMatchObject({ compiling: true, ready: false });
   finishGlow(); await warming;
   expect(renderer.getPreparationState()).toMatchObject({ compiling: false, ready: true });
-  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget, batchSize: 4 });
+  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 3 });
   geometry.dispose(); interior.geometry.dispose(); material.dispose(); frameTarget.dispose();
 });
 
@@ -89,7 +90,7 @@ it("prepares every instance, sampled draw, skeleton, and batch while deduplicati
   for (const batch of batches) { batch.geometry.dispose(); batch.geometry = geometry; }
   const counted = [Object.assign(ordinary.clone(), { count: 2 }), Object.assign(ordinary.clone(), { count: 2 })];
   scene.add(ordinary, duplicate, ...instances, ...scenery, ...skeletons, ...batches, ...counted);
-  const frameTarget = new THREE.RenderTarget(), fake = {};
+  const frameTarget = new THREE.RenderTarget(), fake = { shadowMap: { enabled: true } };
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     scene, camera, renderer: fake, frameTarget, warmupMaterials: [],
     magicGlow: { prepare: async () => {} },
@@ -97,7 +98,10 @@ it("prepares every instance, sampled draw, skeleton, and batch while deduplicati
   const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
   await renderer.warmup();
   expect(prepare).toHaveBeenCalledWith(fake, scene, camera,
-    [ordinary, ...instances, ...scenery, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4 });
+    [ordinary, ...instances, ...scenery, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 3 });
+  Object.assign(renderer, { streamedShaders: {} });
+  await renderer.warmup();
+  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 1, pipelineConcurrency: 1 });
   for (const cluster of scenery) cluster.dispose();
   geometry.dispose(); material.dispose(); frameTarget.dispose();
 });
@@ -116,23 +120,27 @@ it("reports the actual graphics backend and initialization state", () => {
 it("uses bounded startup batches for effects and one object after streaming begins", async () => {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(), frameTarget = new THREE.RenderTarget();
   const root = new THREE.Group(); root.add(new THREE.Mesh());
+  const refracting = new THREE.Mesh(); const unregister = registerElementalRefraction(refracting); root.add(refracting);
   const refraction = vi.fn(async () => {}), glow = vi.fn(async () => {});
   const renderer = Object.assign(Object.create(Renderer.prototype), {
-    scene, camera, frameTarget, renderer: {}, streamedShaders: null,
+    scene, camera, frameTarget, renderer: { shadowMap: { enabled: true } }, streamedShaders: null,
     elementalRefraction: { compile: refraction }, magicGlow: { compileOcclusion: glow },
   }) as Renderer;
   const submit = Reflect.get(renderer, "submitEffects") as (root: THREE.Object3D) => Promise<void>;
   const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
   await submit.call(renderer, root);
-  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 4 });
-  expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4);
-  expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4);
+  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 3 });
+  expect(prepare.mock.lastCall?.[3]).toEqual([root.children[0]]);
+  expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4, frameTarget);
+  expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4, frameTarget,
+    expect.objectContaining({ renderer: renderer.renderer, scene, camera, renderTarget: frameTarget }));
   Object.assign(renderer, { streamedShaders: {} });
   await submit.call(renderer, root);
-  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 1 });
-  expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 1);
-  expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 1);
-  frameTarget.dispose();
+  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 1, pipelineConcurrency: 1 });
+  expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 1, frameTarget);
+  expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 1, frameTarget,
+    expect.objectContaining({ renderer: renderer.renderer, scene, camera, renderTarget: frameTarget }));
+  unregister(); frameTarget.dispose();
 });
 
 it("draws all game passes into HDR, presents once, and restores the caller's output state", () => {

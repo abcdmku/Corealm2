@@ -97,6 +97,25 @@ it('drains outstanding pipelines before a material updateAfter callback and befo
   f.submitted[2]!.resolve({}); await preparing;
 });
 
+it('admits three pending pipelines when requested and waits for a slot before submitting the fourth', async () => {
+  const f = fixture(), originalGet = f.pipelines.getForRender, originalCreate = f.backend.createRenderPipeline;
+  const preparing = withNativePipelineConcurrency(f.renderer, () => f.compile(), 3);
+  let finished = false; void preparing.then(() => { finished = true; });
+  await microtasks();
+  expect(f.submitted).toHaveLength(3); expect(f.built).toEqual([0, 1, 2]);
+  expect(f.after).toEqual([0, 1]); expect(f.scopes).toEqual([]);
+  expect(f.popped).toEqual([0, 1, 2]); expect(f.backend.device).toBe(f.device);
+  f.submitted[1]!.resolve({}); await microtasks();
+  expect(f.submitted).toHaveLength(4); expect(f.peak()).toBe(3);
+  expect(f.results).toEqual([{ id: 1, scope: 1 }]);
+  f.submitted[3]!.resolve({}); await microtasks();
+  f.submitted[2]!.resolve({}); await microtasks();
+  expect(f.after).toEqual([0, 1, 2, 3]); expect(finished).toBe(false);
+  f.submitted[0]!.resolve({}); await preparing;
+  expect(f.results.at(-1)).toEqual({ id: 0, scope: 0 }); expect(f.scopes).toEqual([]);
+  expect(f.pipelines.getForRender).toBe(originalGet); expect(f.backend.createRenderPipeline).toBe(originalCreate);
+});
+
 it('drains the other pipeline on failure and restores the renderer before rejecting', async () => {
   const f = fixture(), originalGet = f.pipelines.getForRender, originalCreate = f.backend.createRenderPipeline;
   const failure = new Error('native compile failed');

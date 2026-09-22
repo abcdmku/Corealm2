@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three/webgpu";
-import { MagicGlow, registerMagicGlow } from "../game/src/render/magicGlow.js";
+import { captureMagicGlowPreparation, MagicGlow, registerMagicGlow } from "../game/src/render/magicGlow.js";
+import { ElementalRefraction, isElementalRefractionObject, registerElementalRefraction } from "../game/src/render/elementalRefraction.js";
+import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
 import { lowerToWgsl } from "./helpers/wgsl.js";
 
 function harness(native = false) {
@@ -71,6 +73,69 @@ function harness(native = false) {
 }
 
 describe("magic glow preparation", () => {
+  it('reuses completed native base preparation but compiles new meshes and changed materials', async () => {
+    const h = harness(true), compiled: THREE.Object3D[] = [];
+    const unregister = registerMagicGlow(h.scene);
+    h.renderer.compileAsync = async root => {
+      expect(h.renderer.getRenderTarget()).toBe(h.initialTarget);
+      root.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object); });
+    };
+    try {
+      const objects = [h.body, h.emitter];
+      const prepared = captureMagicGlowPreparation(h.renderer, h.scene, h.camera, h.initialTarget, objects);
+      await prepareShaderMeshes(h.renderer, h.scene, h.camera, objects, { renderTarget: h.initialTarget, batchSize: 4 });
+      compiled.length = 0;
+      h.renderer.setRenderTarget(null);
+      await h.glow.prepare(h.renderer, h.scene, h.camera, h.initialTarget, 4, prepared);
+      expect(compiled).toEqual([]);
+      expect(h.drawn).toEqual([h.emitter]);
+      expect(h.renderer.getRenderTarget()).toBeNull();
+      const child = new THREE.Mesh(h.emitter.geometry, h.emitter.material);
+      child.userData.magicGlow = true; h.body.add(child);
+      await h.glow.compileOcclusion(h.renderer, h.scene, h.camera, h.scene, 4, h.initialTarget, prepared);
+      expect(compiled).toEqual([child]);
+      compiled.length = 0;
+      h.body.remove(child);
+      h.emitter.material.needsUpdate = true;
+      await h.glow.compileOcclusion(h.renderer, h.scene, h.camera, h.scene, 4, h.initialTarget, prepared);
+      expect(compiled).toEqual([h.emitter]);
+      const latest = captureMagicGlowPreparation(h.renderer, h.scene, h.camera, h.initialTarget, objects);
+      const originalMaterial = h.emitter.material;
+      h.emitter.material = new THREE.MeshBasicMaterial();
+      try {
+        compiled.length = 0;
+        await h.glow.compileOcclusion(h.renderer, h.scene, h.camera, h.scene, 4, h.initialTarget, latest);
+        expect(compiled).toEqual([h.emitter]);
+      } finally { h.emitter.material.dispose(); h.emitter.material = originalMaterial; }
+    } finally { unregister(); h.dispose(); }
+  });
+
+  it('requires the same native target and lighting context and retains fallback occlusion variants', async () => {
+    for (const native of [true, false]) {
+      const h = harness(native), compiled: THREE.Mesh[] = [];
+      const unregister = registerMagicGlow(h.scene);
+      const otherTarget = h.initialTarget.clone();
+      h.renderer.compileAsync = async root => { root.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object as THREE.Mesh); }); };
+      try {
+        const prepared = captureMagicGlowPreparation(h.renderer, h.scene, h.camera, h.initialTarget, [h.body, h.emitter]);
+        await h.glow.compileOcclusion(h.renderer, h.scene, h.camera, h.scene, 4, otherTarget, prepared);
+        if (native) {
+          expect(compiled).toEqual([h.emitter]);
+          compiled.length = 0;
+          h.scene.add(new THREE.DirectionalLight());
+          await h.glow.compileOcclusion(h.renderer, h.scene, h.camera, h.scene, 4, h.initialTarget, prepared);
+          expect(compiled).toEqual([h.emitter]);
+        } else {
+          expect(compiled).toHaveLength(2);
+          const body = compiled.find(object => object.geometry === h.body.geometry)!;
+          expect(body.material).not.toBe(h.body.material);
+          expect((body.material as THREE.Material).colorWrite).toBe(false);
+          expect(h.body.material.colorWrite).toBe(true);
+        }
+      } finally { otherTarget.dispose(); unregister(); h.dispose(); }
+    }
+  });
+
   it('prepares only actual native emitters and reuses world depth with a color-only attachment swap', async () => {
     const h = harness(true), compiled: THREE.Object3D[] = [], batches: number[] = [];
     const child = new THREE.Mesh(h.emitter.geometry, h.emitter.material);
@@ -224,4 +289,27 @@ describe("magic glow preparation", () => {
       expect(h.glow.snapshot()).toMatchObject({ enabled: false, activeMeshes: 0, rendered: false });
     } finally { h.dispose(); }
   });
+});
+
+it('prepares only the refraction partition against its explicit depth target and restores live state', async () => {
+  const h = harness(true), refraction = new ElementalRefraction(), compiled: THREE.Object3D[] = [];
+  const unregister = registerElementalRefraction(h.emitter), cameraMask = h.camera.layers.mask;
+  h.emitter.visible = false;
+  h.renderer.setRenderTarget(null);
+  h.renderer.compileAsync = async (root, camera) => {
+    expect(h.renderer.getRenderTarget()).toBe(h.initialTarget);
+    expect(camera).not.toBe(h.camera);
+    expect(camera.layers.test(h.emitter.layers)).toBe(true);
+    expect(h.camera.layers.mask).toBe(cameraMask);
+    root.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object); });
+  };
+  try {
+    expect(isElementalRefractionObject(h.body)).toBe(false);
+    expect(isElementalRefractionObject(h.emitter)).toBe(true);
+    await refraction.compile(h.renderer, h.scene, h.camera, h.scene, 4, h.initialTarget);
+    expect(compiled).toEqual([h.emitter]);
+    expect(h.renderer.getRenderTarget()).toBeNull();
+    expect(h.camera.layers.mask).toBe(cameraMask);
+    expect(h.emitter.visible).toBe(false);
+  } finally { unregister(); refraction.dispose(); h.dispose(); }
 });

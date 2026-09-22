@@ -4,7 +4,7 @@ import { Fn, If, buffer, instanceIndex, cos, dot, float, floor, fract, max, mix,
 import { elementalFlowTexture } from "./elementalFlowTexture.js";
 import { elementalFlameTexture } from "./elementalFlameTexture.js";
 
-// Start the authored texture requests when effects load, before pipeline preparation.
+// Shared identities; explicit preparation downloads and decodes the maps before effects compile.
 const flowMap = texture(elementalFlowTexture());
 const flameMap = texture(elementalFlameTexture());
 
@@ -16,7 +16,8 @@ export function elementalInstanceMatrix(attribute: InstancedBufferAttribute): No
 }
 
 /** Authored elemental sampling shared by the native renderer's spatial effects. */
-export const clockUniform = (clock: { value: number }): Node<"float"> => reference("value", "float", clock);
+export const clockUniform = (clock?: { value: number }): Node<"float"> => clock
+  ? reference("value", "float", clock) : reference("userData.effectClock.value", "float", null);
 export const authoredFlow = Fn(([uv, time, seed]: [Node<"vec2">, Node<"float">, Node<"float">]): Node<"float"> => {
   const drift = vec2(seed.mul(.137), time.mul(-.28));
   const warp = flowMap.sample(uv.mul(.47).add(drift.mul(.38))).rg;

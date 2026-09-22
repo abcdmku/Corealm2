@@ -4,6 +4,54 @@ import { prepareShaderMeshes } from "./shaderPreparation.js";
 import { cloneNodeMaterial } from "./nodeMaterials.js";
 
 const roots = new Set<THREE.Object3D>();
+
+type PreparedMesh = {
+  geometry: THREE.BufferGeometry;
+  materials: { material: THREE.Material; version: number }[];
+};
+
+export interface MagicGlowPreparation {
+  readonly renderer: THREE.WebGPURenderer;
+  readonly scene: THREE.Scene;
+  readonly camera: THREE.Camera;
+  readonly renderTarget: THREE.RenderTarget;
+  readonly context: string;
+  readonly meshes: ReadonlyMap<THREE.Object3D, PreparedMesh>;
+}
+
+function preparationContext(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, target: THREE.RenderTarget): string {
+  const lights: string[] = [];
+  scene.traverseVisible(object => {
+    if ((object as THREE.Light).isLight && object.layers.test(camera.layers)) lights.push(`${object.uuid}:${object.castShadow}`);
+  });
+  return [camera.layers.mask, renderer.toneMapping, renderer.outputColorSpace, renderer.shadowMap.enabled, renderer.shadowMap.type,
+    scene.fog?.constructor.name, scene.environment?.uuid, scene.overrideMaterial?.uuid, scene.overrideMaterial?.version,
+    target.samples, target.depthBuffer, target.stencilBuffer, target.textures.length, target.texture.type,
+    target.texture.format, target.texture.colorSpace, ...lights].join(':');
+}
+
+/** Capture before base preparation; pass the token only after that preparation succeeds. */
+export function captureMagicGlowPreparation(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera,
+  renderTarget: THREE.RenderTarget, objects: readonly THREE.Object3D[]): MagicGlowPreparation {
+  const meshes = new Map<THREE.Object3D, PreparedMesh>();
+  for (const object of objects) {
+    const mesh = object as THREE.Mesh;
+    if (mesh.isMesh) meshes.set(mesh, { geometry: mesh.geometry,
+      materials: (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map(material => ({ material, version: material.version })) });
+  }
+  return { renderer, scene, camera, renderTarget, meshes, context: preparationContext(renderer, scene, camera, renderTarget) };
+}
+
+function samePreparedMesh(object: THREE.Mesh, prepared: MagicGlowPreparation | undefined): boolean {
+  const saved = prepared?.meshes.get(object);
+  if (!saved || saved.geometry !== object.geometry) return false;
+  const materials = Array.isArray(object.material) ? object.material : [object.material];
+  return materials.length === saved.materials.length && materials.every((material, index) => {
+    const previous = saved.materials[index]!;
+    return material === previous.material && material.version === previous.version;
+  });
+}
+
 export function writesGlowOcclusion(material: THREE.Material | THREE.Material[]): boolean {
   return (Array.isArray(material) ? material : [material]).some(mat => mat.visible && (mat.depthWrite || mat.stencilWrite));
 }
@@ -118,15 +166,18 @@ export class MagicGlow {
   }
 
   /** Native emitters reuse the prepared world depth; fallback retains its separate depth pass. */
-  async compileOcclusion(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D = scene, batchSize = 1): Promise<void> {
+  async compileOcclusion(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D = scene,
+    batchSize = 1, outputTarget?: THREE.RenderTarget, prepared?: MagicGlowPreparation): Promise<void> {
     const selected = this.select(scene), objects: THREE.Object3D[] = [];
     if (root !== scene) root.traverse(object => { if (object.userData.magicGlow) selected.add(object); });
     if (this.nativeDepthReuse(renderer)) {
-      const output = this.frameTarget ?? renderer.getRenderTarget();
+      const output = outputTarget ?? this.frameTarget ?? renderer.getRenderTarget();
       if (!output) throw new Error('Native magic glow requires the main depth/stencil target');
+      const reusable = prepared?.renderer === renderer && prepared.scene === scene && prepared.camera === camera
+        && prepared.renderTarget === output && prepared.context === preparationContext(renderer, scene, camera, output) ? prepared : undefined;
       root.traverse(object => {
         const mesh = object as THREE.Mesh;
-        if (mesh.isMesh && mesh.material && selected.has(mesh) && mesh.layers.test(camera.layers)) objects.push(mesh);
+        if (mesh.isMesh && mesh.material && selected.has(mesh) && mesh.layers.test(camera.layers) && !samePreparedMesh(mesh, reusable)) objects.push(mesh);
       });
       // Actual draw identities and the main target's depth/stencil/sample format are reused.
       // Ordinary world geometry never enters the emission preparation queue.
@@ -159,11 +210,12 @@ export class MagicGlow {
   }
 
   /** Exercise the actual depth-aware bloom pyramid before the first visible spell. */
-  async prepare(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, outputTarget?: THREE.RenderTarget, batchSize = 1): Promise<void> {
+  async prepare(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, outputTarget?: THREE.RenderTarget,
+    batchSize = 1, prepared?: MagicGlowPreparation): Promise<void> {
     const activeMeshes = this.activeMeshes, rendered = this.rendered;
     const output = outputTarget ?? this.frameTarget ?? renderer.getRenderTarget();
     this.frameTarget = output;
-    await this.compileOcclusion(renderer, scene, camera, scene, batchSize);
+    await this.compileOcclusion(renderer, scene, camera, scene, batchSize, output ?? undefined, prepared);
     const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mip = renderer.getActiveMipmapLevel();
     try { renderer.setRenderTarget(output); this.draw(renderer, scene, camera, this.select(scene)); }
     finally { renderer.setRenderTarget(previous, face, mip); this.activeMeshes = activeMeshes; this.rendered = rendered; }

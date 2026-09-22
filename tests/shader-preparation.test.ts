@@ -25,6 +25,124 @@ function fixture() {
   return { scene, camera, renderer, compile, initTexture, completed };
 }
 
+function nativePipelineFixture(count: number) {
+  const f = fixture();
+  type RenderObject = { name: string; getNodeBuilderState(): { updateAfterNodes: unknown[] } };
+  type Device = { pushErrorScope(filter: string): void; popErrorScope(): Promise<unknown>;
+    createRenderPipelineAsync(descriptor: { label: string }): Promise<unknown> };
+  const backend = f.renderer.backend as unknown as { device: Device;
+    createRenderPipeline(object: RenderObject, promises: Promise<unknown>[]): void };
+  const pipelines = (f.renderer as unknown as { _pipelines: {
+    getForRender(object: RenderObject, promises: Promise<unknown>[]): void } })._pipelines;
+  const requests: { resolve(): void; reject(error: Error): void }[] = [];
+  let active = 0, peak = 0;
+  backend.device.createRenderPipelineAsync = () => {
+    active++; peak = Math.max(peak, active);
+    return new Promise<void>((resolve, reject) => requests.push({ resolve, reject })).finally(() => { active--; });
+  };
+  backend.createRenderPipeline = function (object, promises) {
+    const device = this.device;
+    device.pushErrorScope('validation');
+    promises.push((async () => {
+      // Native Three reports device errors but resolves its own preparation promise.
+      try { await device.createRenderPipelineAsync({ label: object.name }); } catch {}
+      await device.popErrorScope();
+    })());
+  };
+  pipelines.getForRender = (object, promises) => backend.createRenderPipeline(object, promises);
+  const batches: THREE.Object3D[][] = [];
+  f.compile.mockImplementation(async view => {
+    const batch = [...view.children]; batches.push(batch);
+    for (const mesh of batch) {
+      await Promise.resolve();
+      const promises: Promise<unknown>[] = [];
+      pipelines.getForRender({ name: mesh.name, getNodeBuilderState: () => ({ updateAfterNodes: [] }) }, promises);
+      if (promises.length) await Promise.all(promises);
+    }
+  });
+  const meshes = Array.from({ length: count }, (_, index) => {
+    // Two of these independent 240000-byte uploads cannot share a 256KiB batch.
+    const geometry = new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(new Float32Array(60_000), 3));
+    const map = new THREE.DataTexture(new Uint8Array(4), 1, 1);
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ map }));
+    mesh.name = `pipeline-${index}`;
+    return mesh;
+  });
+  return { ...f, requests, batches, meshes, peak: () => peak };
+}
+
+it('overlaps startup pipelines across byte-bounded upload batches without publishing readiness before the final drain', async () => {
+  const f = nativePipelineFixture(3), ready = vi.fn();
+  let fence!: () => void;
+  f.completed.mockImplementationOnce(async () => {}).mockImplementationOnce(() => new Promise<void>(resolve => { fence = resolve; }));
+  const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
+    { batchSize: 4, pipelineConcurrency: 2, onPreparedBatch: ready });
+  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(2));
+  expect(f.requests).toHaveLength(1); expect(f.initTexture).toHaveBeenCalledOnce();
+  expect(ready).not.toHaveBeenCalled();
+  fence();
+  await vi.waitFor(() => expect(f.requests).toHaveLength(2));
+  expect(f.completed).toHaveBeenCalledTimes(3); // First mesh fence plus two distinct texture fences.
+  expect(f.batches.map(batch => batch.length)).toEqual([1, 1]);
+  f.requests[1]!.resolve();
+  await vi.waitFor(() => expect(f.requests).toHaveLength(3));
+  f.requests[2]!.resolve();
+  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(6));
+  expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1]);
+  expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(3);
+  expect(ready).not.toHaveBeenCalled(); expect(f.peak()).toBe(2);
+  f.requests[0]!.resolve(); await preparing;
+  expect(ready).toHaveBeenCalledTimes(3);
+  expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
+});
+
+it('drains cross-batch native failures without publishing any startup batch as ready', async () => {
+  const f = nativePipelineFixture(2), ready = vi.fn();
+  const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
+    { batchSize: 4, pipelineConcurrency: 2, onPreparedBatch: ready });
+  let settled = false;
+  const result = preparing.catch(error => { settled = true; return error; });
+  await vi.waitFor(() => expect(f.requests).toHaveLength(2));
+  f.requests[1]!.reject(new Error('bad pipeline'));
+  await vi.waitFor(() => expect(graphicsValidationState(f.renderer).failed).toBe(1));
+  expect(settled).toBe(false); expect(ready).not.toHaveBeenCalled();
+  f.requests[0]!.resolve();
+  expect(await result).toMatchObject({ message: expect.stringContaining('bad pipeline') });
+  expect(ready).not.toHaveBeenCalled();
+  expect(graphicsValidationState(f.renderer).pending).toBe(0);
+});
+
+it('honors three startup pipeline slots across upload batches and retains all readiness until drained', async () => {
+  const f = nativePipelineFixture(4), ready = vi.fn();
+  const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
+    { batchSize: 4, pipelineConcurrency: 3, onPreparedBatch: ready });
+  await vi.waitFor(() => expect(f.requests).toHaveLength(3));
+  expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1]);
+  expect(f.initTexture).toHaveBeenCalledTimes(3); expect(f.completed).toHaveBeenCalledTimes(5);
+  expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(4);
+  f.requests[1]!.resolve();
+  await vi.waitFor(() => expect(f.requests).toHaveLength(4));
+  expect(f.peak()).toBe(3); expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1, 1]);
+  f.requests[2]!.resolve(); f.requests[3]!.resolve();
+  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(8));
+  expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(4);
+  f.requests[0]!.resolve(); await preparing;
+  expect(ready).toHaveBeenCalledTimes(4); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
+});
+
+it('drains a cancelled startup pipeline after its upload fence without publishing ready objects', async () => {
+  const f = nativePipelineFixture(2), ready = vi.fn();
+  let cancelled = false;
+  f.completed.mockImplementationOnce(async () => {}).mockImplementationOnce(async () => { cancelled = true; });
+  const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
+    { pipelineConcurrency: 2, isCancelled: () => cancelled, onPreparedBatch: ready });
+  let settled = false; void preparing.then(() => { settled = true; });
+  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(2));
+  expect(f.requests).toHaveLength(1); expect(settled).toBe(false);
+  f.requests[0]!.resolve(); await preparing;
+  expect(f.requests).toHaveLength(1); expect(ready).not.toHaveBeenCalled();
+});
+
 it("uses real children and the live scene cache, restoring hidden hierarchies and output before await", async () => {
   const { scene, camera, renderer, compile } = fixture();
   const root = new THREE.Group(), mesh = new THREE.Mesh(), child = new THREE.Mesh();

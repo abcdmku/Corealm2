@@ -17,8 +17,10 @@ import { CAMERA, RENDER_BUDGET } from "../app/config.js";
 import { GpuTimer } from "./gpuTimer.js";
 import { FramePacer, gameplayPixelRatio, createGpuCompletion } from "./framePacer.js";
 import { ScreenAntialiasing } from "./screenAntialiasing.js";
-import { MagicGlow } from "./magicGlow.js";
-import { ElementalRefraction } from "./elementalRefraction.js";
+import { MagicGlow, captureMagicGlowPreparation } from "./magicGlow.js";
+import { ElementalRefraction, isElementalRefractionObject } from "./elementalRefraction.js";
+import { prepareElementalFlowTexture } from "./elementalFlowTexture.js";
+import { prepareElementalFlameTexture } from "./elementalFlameTexture.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { installStableShaderNames } from "./stableNodeBuilder.js";
 import { isSceneryInstances } from "./sceneryInstances.js";
@@ -603,9 +605,13 @@ export class Renderer {
         if (hidden.length) objects.push(...this.warmupObjects());
       } finally { for (const root of hidden) root.visible = false; }
       // No temporary mesh or visibility mutation survives an asynchronous yield.
-      await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget, batchSize: 4 });
+      const preparing = [...new Set(objects), ...proxies];
+      const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, preparing);
+      const batchSize = this.streamedShaders ? 1 : 4;
+      await prepareShaderMeshes(this.renderer, this.scene, this.camera, preparing,
+        { renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 3 });
       await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
-        this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget, 4));
+        this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget, batchSize, prepared));
     } finally { this.preparingResident--; }
   }
 
@@ -636,6 +642,11 @@ export class Renderer {
   private compilingEffects = false;
   private effectPreparation: Promise<void> = Promise.resolve();
 
+  /** Download during world pipeline preparation; effect compilation awaits decoded images. */
+  async prepareEffectTextures(): Promise<void> {
+    await Promise.all([prepareElementalFlowTexture(), prepareElementalFlameTexture()]);
+  }
+
   get effectsReady(): boolean { return !this.compilingEffects && this.deferredEffectRoots.size === 0
     && this.requiredEffectRoots.size === 0 && !graphicsValidationState(this.renderer).failed; }
 
@@ -649,14 +660,18 @@ export class Renderer {
   }
 
   private async submitEffects(root: THREE.Object3D): Promise<void> {
+    await this.prepareEffectTextures();
     const meshes: THREE.Object3D[] = [];
-    root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object); });
-    const batchSize = this.streamedShaders ? 1 : 4;
-    await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, {
-      renderTarget: this.frameTarget, batchSize,
+    root.traverse(object => {
+      if ((object as THREE.Mesh).isMesh && !isElementalRefractionObject(object)) meshes.push(object);
     });
-    await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root, batchSize);
-    await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root, batchSize);
+    const batchSize = this.streamedShaders ? 1 : 4;
+    const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, meshes);
+    await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, {
+      renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 3,
+    });
+    await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget);
+    await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget, prepared);
   }
 
   /** Serialize effects with each other; each helper yields between a bounded number of pipelines. */

@@ -3445,6 +3445,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Match the first gameplay frame before compiling. Hidden cave lights otherwise produce
   // a different cache key, including for Three's internal sky shader on the first water draw.
   if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
+  // These maps belong to spell pools, not the starting terrain. Their downloads overlap
+  // world pipeline preparation. A lab may already display an effect in its warmup scene.
+  const effectTextures = worldMapCapture ? undefined : renderer.prepareEffectTextures();
+  void effectTextures?.catch(() => {}); // The awaited readiness gate below reports failures.
+  if (profile.kind === "feature-lab") await effectTextures;
   if (profile.fullWarmup || performanceLab || multiplayerFixture) {
     setStatus("Finishing graphics…",5);
     if (!worldMapCapture) {
@@ -3455,6 +3460,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   if (!worldMapCapture) {
     setStatus("Starting the game…",5);
+    await effectTextures;
     // Submitted again because the scene's lights are final only now, and a pool's program depends on them.
     await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot(), { deferred: deferSpellPrograms }));
     await bootTelemetry.measureAsync("boot.shaders.input-feedback", () => renderer.prepareEffects(overlays.preparationRoot()));

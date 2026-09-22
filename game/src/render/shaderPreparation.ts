@@ -118,6 +118,10 @@ function beginValidation(renderer: WebGPURenderer): { state: ValidationState; cl
 }
 
 export async function validateGraphicsWork<T>(renderer: WebGPURenderer, label: string, work: () => T | Promise<T>): Promise<T> {
+  return validateWork(renderer, label, work, true);
+}
+
+async function validateWork<T>(renderer: WebGPURenderer, label: string, work: () => T | Promise<T>, drainPipelines: boolean): Promise<T> {
   const scope = beginValidation(renderer);
   let result!: T;
   let failure: unknown;
@@ -125,7 +129,8 @@ export async function validateGraphicsWork<T>(renderer: WebGPURenderer, label: s
   catch (error) { failure = error; validationError(scope.state, error, label); }
   try { await scope.close(); }
   catch (error) { failure ??= error; validationError(scope.state, error, label); }
-  await waitForGraphicsValidation(renderer);
+  if (drainPipelines) await waitForGraphicsValidation(renderer);
+  else assertGraphicsValid(renderer);
   if (failure !== undefined) throw failure;
   return result;
 }
@@ -156,8 +161,8 @@ export function shaderGeometryKey(mesh: THREE.Mesh): string {
 
 export interface ShaderPreparationOptions {
   batchSize?: number;
-  /** Startup may overlap two native pipeline waits while node building stays serial. */
-  pipelineConcurrency?: 1 | 2;
+  /** Startup may overlap up to three native pipeline waits while node building stays serial. */
+  pipelineConcurrency?: 1 | 2 | 3;
   renderTarget?: THREE.RenderTarget | null;
   isCancelled?: () => boolean;
   onPendingTextures?: (count: number) => void;
@@ -238,20 +243,20 @@ function preparedScenery(object: THREE.Object3D, state: PreparationState): boole
 }
 
 function nextPreparationBatch(objects: readonly THREE.Object3D[], offset: number, batchSize: number,
-  state: PreparationState, pipelineConcurrency: 1 | 2): THREE.Object3D[] {
+  state: PreparationState, pipelineConcurrency: 1 | 2 | 3): THREE.Object3D[] {
   const first = objects[offset]!;
   const scenery = isSceneryInstances(first);
   // Startup's native loop builds nodes serially, so later items reuse the completed
   // builder even while its GPU pipeline is pending. Interactive admission is unchanged.
-  let limit = scenery ? preparedScenery(first, state) ? 8 : pipelineConcurrency === 2 ? 4 : 1 : batchSize;
+  let limit = scenery ? preparedScenery(first, state) ? 8 : pipelineConcurrency > 1 ? 4 : 1 : batchSize;
   const batch: THREE.Object3D[] = [], selectedBuffers = new Set<AttributeBuffer>();
   let bytes = 0;
   for (let index = offset; index < objects.length && batch.length < limit; index++) {
     const object = objects[index]!;
     if (index > offset && (scenery
-      ? pipelineConcurrency === 2 ? !isSceneryInstances(object) : !preparedScenery(object, state)
+      ? pipelineConcurrency > 1 ? !isSceneryInstances(object) : !preparedScenery(object, state)
       : isSceneryInstances(object))) break;
-    if (scenery && pipelineConcurrency === 2 && !preparedScenery(object, state)) {
+    if (scenery && pipelineConcurrency > 1 && !preparedScenery(object, state)) {
       limit = Math.min(limit, 4);
       if (batch.length >= limit) break;
     }
@@ -404,7 +409,7 @@ class PreparationLights {
 function compileBatch(
   renderer: WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera,
   objects: readonly THREE.Object3D[], state: PreparationState, fading: boolean,
-  renderTarget: THREE.RenderTarget | null | undefined, pipelineConcurrency: 1 | 2, lights?: PreparationLights,
+  renderTarget: THREE.RenderTarget | null | undefined, lights?: PreparationLights,
 ): Promise<void> {
   const view = new THREE.Group();
   view.matrixWorldAutoUpdate = false;
@@ -438,8 +443,7 @@ function compileBatch(
       if (fading && original.material) object.material = Array.isArray(original.material)
         ? original.material.map(source => corpseMaterial(source, state)) : corpseMaterial(original.material, state);
     }
-    const compile = () => renderer.compileAsync(view, camera, scene);
-    return pipelineConcurrency === 2 ? withNativePipelineConcurrency(renderer, compile) : compile();
+    return renderer.compileAsync(view, camera, scene);
   } finally {
     scene.onBeforeRender = beforeRender; scene.traverseVisible = traverseVisible;
     if (target !== undefined) renderer.setRenderTarget(target, cubeFace, mipLevel);
@@ -473,7 +477,9 @@ async function prepare(
   const fallback = (renderer.backend as unknown as { isWebGLBackend?: boolean }).isWebGLBackend === true;
   const pipelineConcurrency = fallback ? 1 : options.pipelineConcurrency ?? 1;
   const lights = objects.length >= 16 && objects.length > batchSize ? new PreparationLights(scene) : undefined;
-  try {
+  const completedBatches: THREE.Object3D[][] = [];
+  const drainPipelines = pipelineConcurrency === 1;
+  const prepareBatches = async () => {
     for (let offset = 0; offset < objects.length && !cancelled();) {
       const batch = nextPreparationBatch(objects, offset, batchSize, state, pipelineConcurrency);
       const textures = collectTextures(batch, scene).filter(texture => state.textures.get(texture) !== texture.version);
@@ -482,10 +488,10 @@ async function prepare(
       for (let index = 0; index < textures.length; index++) {
         if (cancelled()) return;
         const texture = textures[index]!;
-        await validateGraphicsWork(renderer, `Texture ${texture.name || texture.uuid}`, async () => {
+        await validateWork(renderer, `Texture ${texture.name || texture.uuid}`, async () => {
           renderer.initTexture(texture);
           await finishUploads(completion);
-        });
+        }, drainPipelines);
         if (!state.watchedTextures.has(texture)) {
           texture.addEventListener("dispose", () => state.textures.delete(texture));
           state.watchedTextures.add(texture);
@@ -500,17 +506,36 @@ async function prepare(
       for (const object of batch) for (const buffer of geometryBuffers(object)) {
         buffers.set(buffer, { version: buffer.version, array: buffer.array });
       }
-      await validateGraphicsWork(renderer, "Resident graphics pipelines", () =>
-        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, pipelineConcurrency, lights));
-      if (cancelled()) return;
+      await validateWork(renderer, "Resident graphics pipelines", () =>
+        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights), drainPipelines);
+      if (cancelled()) {
+        if (!drainPipelines) await finishUploads(completion);
+        return;
+      }
       const fading = batch.filter(object => object.userData.prepareCorpseFade === true);
-      if (fading.length) await validateGraphicsWork(renderer, "Creature fade pipelines", () =>
-        compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, pipelineConcurrency, lights));
+      if (fading.length) await validateWork(renderer, "Creature fade pipelines", () =>
+        compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights), drainPipelines);
       await finishUploads(completion);
       rememberPreparedBuffers(batch, buffers, state);
-      progress.pendingMeshes -= batch.length;
       offset += batch.length;
-      if (!cancelled()) options.onPreparedBatch?.(batch);
+      if (drainPipelines) {
+        progress.pendingMeshes -= batch.length;
+        if (!cancelled()) options.onPreparedBatch?.(batch);
+      } else completedBatches.push(batch);
+    }
+  };
+  try {
+    if (pipelineConcurrency === 1) await prepareBatches();
+    else {
+      // Upload batches retain their fences and byte limits while bounded native pipeline
+      // compilations may span batches. None of this job becomes ready before its full
+      // pipeline/error drain, including objects whose uploads finished much earlier.
+      try { await withNativePipelineConcurrency(renderer, prepareBatches, pipelineConcurrency); }
+      finally { await waitForGraphicsValidation(renderer); }
+      if (!cancelled()) for (const batch of completedBatches) {
+        progress.pendingMeshes -= batch.length;
+        options.onPreparedBatch?.(batch);
+      }
     }
   } finally { lights?.dispose(); options.onPendingTextures?.(0); }
 }

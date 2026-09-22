@@ -61,9 +61,10 @@ function scopedPipelineDevice(device: Device): { device: Device; close(): void }
 }
 
 /** Keep Three's node building, geometry uploads, bindings, and per-object yields in
- * their native serial order. Only native pipeline promises overlap, with two slots.
- * The caller retains its upload fence and publishes readiness after this resolves. */
-export async function withNativePipelineConcurrency(renderer: WebGPURenderer, compile: () => Promise<void>): Promise<void> {
+ * their native serial order. Only native pipeline promises overlap, with bounded slots.
+ * One preparation job may call compileAsync repeatedly under this adapter. The caller
+ * retains each upload fence and publishes readiness only after the whole job resolves. */
+export async function withNativePipelineConcurrency(renderer: WebGPURenderer, compile: () => Promise<void>, limit: 2 | 3 = 2): Promise<void> {
   const internal = renderer as unknown as Internals;
   const backend = internal.backend, pipelines = internal._pipelines;
   if (REVISION !== '185' || internal._initialized !== true || backend?.isWebGPUBackend !== true
@@ -80,7 +81,7 @@ export async function withNativePipelineConcurrency(renderer: WebGPURenderer, co
   const recordFailure = (error: unknown) => { if (!failed) { failed = true; failure = error; } };
   backend.createRenderPipeline = function (object, promises) {
     if (!submitting) return createRenderPipeline.call(this, object, promises);
-    if (++submittedCount > 1 || pending.size >= 2) throw new Error('Unexpected native pipeline submission count');
+    if (++submittedCount > 1 || pending.size >= limit) throw new Error('Unexpected native pipeline submission count');
     const device = this.device, scoped = scopedPipelineDevice(device);
     this.device = scoped.device;
     try { return createRenderPipeline.call(this, object, promises); }
@@ -94,7 +95,7 @@ export async function withNativePipelineConcurrency(renderer: WebGPURenderer, co
       throw new Error('Unexpected native asynchronous pipeline shape');
     }
     if (failed) throw failure;
-    if (pending.size >= 2) throw new Error('Native pipeline concurrency exceeded two submissions');
+    if (pending.size >= limit) throw new Error(`Native pipeline concurrency exceeded ${limit} submissions`);
     const submitted: PipelinePromise[] = [];
     let pipeline: unknown;
     submitting = true;
@@ -111,7 +112,7 @@ export async function withNativePipelineConcurrency(renderer: WebGPURenderer, co
     if (object.getNodeBuilderState().updateAfterNodes.length > 0) {
       // Such nodes may depend on completion. Preserve native updateAfter ordering.
       promises.push(...pending);
-    } else if (pending.size >= 2) promises.push(Promise.race(pending));
+    } else if (pending.size >= limit) promises.push(Promise.race(pending));
     return pipeline;
   };
   try { await compile(); }
