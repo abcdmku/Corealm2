@@ -4,9 +4,9 @@ import { prepareShaderMeshes } from "./shaderPreparation.js";
 import { GameplayWork } from "./gameplayWork.js";
 import { yieldToMainThread } from "../core/yield.js";
 
-// One native object remains in flight at a time inside prepareShaderMeshes. Grouping a few
-// objects amortizes preparation bookkeeping without widening the GPU submission queue.
-const DRAIN_BATCH_SIZE = 4;
+// Native preparation seeds unknown scenery layouts alone, then groups at most eight cached
+// clusters within its upload byte budget. A larger outer job amortizes the live light index.
+const DRAIN_BATCH_SIZE = 32;
 
 /** Prepare newly resident pipelines and uploads before their first gameplay draw. */
 export class StreamedShaderWarmup {
@@ -150,7 +150,7 @@ export class StreamedShaderWarmup {
     this.pending = true;
     let succeeded = false;
     void prepareShaderMeshes(this.renderer, this.scene, this.camera, batch, {
-      batchSize: 1,
+      batchSize: 4,
       renderTarget: this.renderTarget,
       isCancelled: () => this.disposed,
       onPendingTextures: count => { this.pendingTextures = count; },
@@ -171,6 +171,17 @@ export class StreamedShaderWarmup {
 
   getState() { return { waiting: this.waiting.size, queued: this.queued.size, compiling: this.pending,
     textures: this.pendingTextures, failed: this.failed.size, error: this.lastError }; }
+  pendingKinds() {
+    const kinds = { scenery: 0, instanced: 0, skinned: 0, ordinary: 0 };
+    for (const object of this.waiting) {
+      const mesh = object as THREE.Mesh & { isSceneryInstances?: boolean; isInstancedMesh?: boolean; isSkinnedMesh?: boolean };
+      if (mesh.isSceneryInstances) kinds.scenery++;
+      else if (mesh.isInstancedMesh) kinds.instanced++;
+      else if (mesh.isSkinnedMesh) kinds.skinned++;
+      else kinds.ordinary++;
+    }
+    return kinds;
+  }
   hasPending(root: THREE.Object3D): boolean { return this.pendingRoots.has(root); }
 
   dispose(): void {

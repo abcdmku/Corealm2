@@ -321,7 +321,9 @@ export class Renderer {
     this.streamedShaders ??= new StreamedShaderWarmup(this.renderer, this.scene, this.camera, this.frameTarget);
   }
 
-  streamingShaderState() { const state = this.streamedShaders?.getState() ?? null; return state ? { ...state, effectsReady: this.effectsReady, deferredEffectPrograms: this.compilingEffects ? 1 : 0 } : null; }
+  streamingShaderState() { const state = this.streamedShaders?.getState() ?? null; return state ? { ...state,
+    pendingKinds: this.streamedShaders!.pendingKinds(), effectsReady: this.effectsReady,
+    deferredEffectPrograms: this.compilingEffects ? 1 : 0 } : null; }
 
   setDestinationLoading(active: boolean): void {
     this.startStreamingWarmup();
@@ -603,7 +605,7 @@ export class Renderer {
       // No temporary mesh or visibility mutation survives an asynchronous yield.
       await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget, batchSize: 4 });
       await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
-        this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget));
+        this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget, 4));
     } finally { this.preparingResident--; }
   }
 
@@ -649,9 +651,12 @@ export class Renderer {
   private async submitEffects(root: THREE.Object3D): Promise<void> {
     const meshes: THREE.Object3D[] = [];
     root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object); });
-    await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, { renderTarget: this.frameTarget });
-    await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root);
-    await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root);
+    const batchSize = this.streamedShaders ? 1 : 4;
+    await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, {
+      renderTarget: this.frameTarget, batchSize,
+    });
+    await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root, batchSize);
+    await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root, batchSize);
   }
 
   /** Serialize effects with each other; each helper yields between a bounded number of pipelines. */

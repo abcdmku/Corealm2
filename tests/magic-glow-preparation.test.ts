@@ -72,13 +72,17 @@ function harness(native = false) {
 
 describe("magic glow preparation", () => {
   it('prepares only actual native emitters and reuses world depth with a color-only attachment swap', async () => {
-    const h = harness(true), compiled: THREE.Object3D[] = [];
+    const h = harness(true), compiled: THREE.Object3D[] = [], batches: number[] = [];
     const child = new THREE.Mesh(h.emitter.geometry, h.emitter.material);
     child.userData.magicGlow = true; h.body.add(child);
     const light = new THREE.DirectionalLight(); h.scene.add(light);
     const unregister = registerMagicGlow(h.scene);
     const previous = h.state();
-    h.renderer.compileAsync = async root => { root.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object); }); };
+    h.renderer.compileAsync = async root => {
+      const before = compiled.length;
+      root.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object); });
+      batches.push(compiled.length - before);
+    };
     const draw = h.renderer.render;
     h.renderer.render = function (scene, camera) {
       if (scene === h.scene) {
@@ -91,8 +95,9 @@ describe("magic glow preparation", () => {
       return draw.call(this, scene, camera);
     };
     try {
-      await h.glow.prepare(h.renderer, h.scene, h.camera, h.initialTarget);
+      await h.glow.prepare(h.renderer, h.scene, h.camera, h.initialTarget, 4);
       expect(compiled).toEqual([child, h.emitter]);
+      expect(batches).toEqual([2]);
       expect(h.drawn).toEqual([child, h.emitter]);
       expect(h.clears).toEqual([[true, false, false]]);
       expect(h.initialTarget.texture).toBe(h.baseTexture);
@@ -100,6 +105,7 @@ describe("magic glow preparation", () => {
       expect(h.state()).toEqual(previous);
       h.fail();
       await expect(h.glow.prepare(h.renderer, h.scene, h.camera, h.initialTarget)).rejects.toThrow('driver draw failed');
+      expect(batches).toEqual([2, 1, 1]);
       expect(h.initialTarget.texture).toBe(h.baseTexture);
       expect(h.renderer.getRenderObjectFunction()).toBeNull();
       expect(h.state()).toEqual(previous);

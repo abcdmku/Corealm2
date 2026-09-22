@@ -99,13 +99,13 @@ export class ElementalRefraction {
     return { enabled: this.enabled, rendered: this.rendered, activeMeshes: this.activeMeshes,
       copies: this.rendered ? 1 : 0, width: this.frame?.image.width ?? 0, height: this.frame?.image.height ?? 0 };
   }
-  async compile(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D): Promise<void> {
+  async compile(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D, batchSize = 1): Promise<void> {
     const meshes: THREE.Mesh[] = [];
     root.traverse(object => { if ((object as THREE.Mesh).isMesh && object.layers.isEnabled(REFRACTION_LAYER)) meshes.push(object as THREE.Mesh); });
     if (!meshes.length) return;
     const refractionCamera = camera.clone();
     refractionCamera.layers.set(REFRACTION_LAYER);
-    await prepareShaderMeshes(renderer, scene, refractionCamera, meshes, { renderTarget: renderer.getRenderTarget() });
+    await prepareShaderMeshes(renderer, scene, refractionCamera, meshes, { renderTarget: renderer.getRenderTarget(), batchSize });
   }
   render(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera): void {
     this.rendered = false; this.activeMeshes = 0;

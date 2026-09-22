@@ -162,10 +162,16 @@ export interface ShaderPreparationOptions {
 type Drawable = THREE.Object3D & { material?: THREE.Material | THREE.Material[] };
 type TextureNode = { isNode: true; value?: unknown; getChildren?: () => Iterable<TextureNode> };
 type PreparationProgress = { pendingMeshes: number; pendingTextures: number };
+type AttributeBuffer = THREE.BufferAttribute | THREE.InterleavedBuffer;
+type PreparedBuffer = { version: number; array: THREE.TypedArray };
+const MAX_PREPARATION_BUFFER_BYTES = 256 * 1024;
 type PreparationState = {
   jobs: Set<PreparationProgress>;
   textures: WeakMap<THREE.Texture, number>;
   watchedTextures: WeakSet<THREE.Texture>;
+  buffers: WeakMap<AttributeBuffer, PreparedBuffer>;
+  watchedGeometries: WeakSet<THREE.BufferGeometry>;
+  sceneryLayouts: WeakMap<THREE.Material, { version: number; keys: Set<string> }>;
   fadeMaterials: WeakMap<THREE.Material, { version: number; material: THREE.Material; release: () => void }>;
   tail: Promise<void>;
   completion?: GpuCompletion;
@@ -175,10 +181,109 @@ const states = new WeakMap<WebGPURenderer, PreparationState>();
 function stateFor(renderer: WebGPURenderer): PreparationState {
   let state = states.get(renderer);
   if (!state) {
-    state = { jobs: new Set(), textures: new WeakMap(), watchedTextures: new WeakSet(), fadeMaterials: new WeakMap(), tail: Promise.resolve() };
+    state = { jobs: new Set(), textures: new WeakMap(), watchedTextures: new WeakSet(), buffers: new WeakMap(),
+      watchedGeometries: new WeakSet(), sceneryLayouts: new WeakMap(), fadeMaterials: new WeakMap(), tail: Promise.resolve() };
     states.set(renderer, state);
   }
   return state;
+}
+
+function geometryAttributeBuffers(geometry: THREE.BufferGeometry | undefined): Set<AttributeBuffer> {
+  const buffers = new Set<AttributeBuffer>();
+  const add = (attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute | null | undefined) => {
+    if (attribute) buffers.add((attribute as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute
+      ? (attribute as THREE.InterleavedBufferAttribute).data : attribute as THREE.BufferAttribute);
+  };
+  if (geometry) {
+    for (const attribute of Object.values(geometry.attributes)) add(attribute);
+    add(geometry.index);
+    for (const attributes of Object.values(geometry.morphAttributes)) for (const attribute of attributes ?? []) add(attribute);
+  }
+  return buffers;
+}
+
+function geometryBuffers(object: THREE.Object3D): Set<AttributeBuffer> {
+  const mesh = object as THREE.Mesh & THREE.InstancedMesh;
+  const buffers = geometryAttributeBuffers(mesh.geometry);
+  if (mesh.isInstancedMesh) {
+    buffers.add(mesh.instanceMatrix);
+    if (mesh.instanceColor) buffers.add(mesh.instanceColor);
+  }
+  return buffers;
+}
+
+function bufferUploadBytes(buffer: AttributeBuffer): number {
+  // WebGPU widens unnormalized small integer arrays to 32 bits and can pad storage vec3s.
+  // Counting every small integer as widened is conservative for normalized imported attributes.
+  const attribute = buffer as THREE.BufferAttribute & { isStorageBufferAttribute?: boolean; isStorageInstancedBufferAttribute?: boolean };
+  const stride = (buffer as THREE.InterleavedBuffer).isInterleavedBuffer
+    ? (buffer as THREE.InterleavedBuffer).stride : attribute.itemSize;
+  const components = stride === 3 && (attribute.isStorageBufferAttribute || attribute.isStorageInstancedBufferAttribute) ? 4 : stride;
+  return buffer.count * Math.ceil(components * Math.max(4, buffer.array.BYTES_PER_ELEMENT) / 4) * 4;
+}
+
+function preparedScenery(object: THREE.Object3D, state: PreparationState): boolean {
+  if (!isSceneryInstances(object) || object.userData.prepareCorpseFade === true) return false;
+  const key = shaderGeometryKey(object);
+  const materials = Array.isArray(object.material) ? object.material : [object.material];
+  return materials.length > 0 && materials.every(material => {
+    const prepared = state.sceneryLayouts.get(material);
+    return prepared?.version === material.version && prepared.keys.has(key);
+  });
+}
+
+function nextPreparationBatch(objects: readonly THREE.Object3D[], offset: number, batchSize: number,
+  state: PreparationState): THREE.Object3D[] {
+  const first = objects[offset]!;
+  const scenery = isSceneryInstances(first);
+  // A first layout must finish alone: Three does not cache an in-progress node builder.
+  const limit = scenery ? preparedScenery(first, state) ? 8 : 1 : batchSize;
+  const batch: THREE.Object3D[] = [], selectedBuffers = new Set<AttributeBuffer>();
+  let bytes = 0;
+  for (let index = offset; index < objects.length && batch.length < limit; index++) {
+    const object = objects[index]!;
+    if (index > offset && (scenery ? !preparedScenery(object, state) : isSceneryInstances(object))) break;
+    const buffers = geometryBuffers(object);
+    let additional = 0;
+    for (const buffer of buffers) {
+      const prepared = state.buffers.get(buffer);
+      if (!selectedBuffers.has(buffer) && (prepared?.version !== buffer.version || prepared.array !== buffer.array
+        || buffer.usage === THREE.DynamicDrawUsage)) additional += bufferUploadBytes(buffer);
+    }
+    // An indivisible oversized object still loads, with the whole submission to itself.
+    if (batch.length && bytes + additional > MAX_PREPARATION_BUFFER_BYTES) break;
+    batch.push(object); bytes += additional;
+    for (const buffer of buffers) selectedBuffers.add(buffer);
+  }
+  return batch;
+}
+
+function rememberPreparedBuffers(objects: readonly THREE.Object3D[], buffers: Map<AttributeBuffer, PreparedBuffer>, state: PreparationState): void {
+  for (const [buffer, prepared] of buffers) state.buffers.set(buffer, prepared);
+  for (const object of objects) {
+    const mesh = object as THREE.Mesh;
+    const geometries = isSceneryInstances(object) ? [object.geometry, object.sourceGeometry] : [mesh.geometry];
+    for (const geometry of geometries) if (geometry && !state.watchedGeometries.has(geometry)) {
+      state.watchedGeometries.add(geometry);
+      const originalBuffers = geometryAttributeBuffers(geometry);
+      geometry.addEventListener('dispose', () => {
+        // Disposing one scenery wrapper may retain shared buffers. Invalidating those too
+        // is conservative: a later preparation counts their bytes again instead of guessing.
+        for (const buffer of originalBuffers) state.buffers.delete(buffer);
+        for (const buffer of geometryAttributeBuffers(geometry)) state.buffers.delete(buffer);
+      });
+    }
+    if (!isSceneryInstances(object)) continue;
+    const key = shaderGeometryKey(object);
+    for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+      let prepared = state.sceneryLayouts.get(material);
+      if (prepared?.version !== material.version) {
+        prepared = { version: material.version, keys: new Set() };
+        state.sceneryLayouts.set(material, prepared);
+      }
+      prepared.keys.add(key);
+    }
+  }
 }
 
 /** Includes queued startup, effect, and streamed work, before its first asynchronous yield. */
@@ -354,8 +459,8 @@ async function prepare(
   const batchSize = Math.max(1, Math.min(4, Math.floor(options.batchSize ?? 1)));
   const lights = objects.length >= 16 && objects.length > batchSize ? new PreparationLights(scene) : undefined;
   try {
-    for (let offset = 0; offset < objects.length && !cancelled(); offset += batchSize) {
-      const batch = objects.slice(offset, offset + batchSize);
+    for (let offset = 0; offset < objects.length && !cancelled();) {
+      const batch = nextPreparationBatch(objects, offset, batchSize, state);
       const textures = collectTextures(batch, scene).filter(texture => state.textures.get(texture) !== texture.version);
       progress.pendingTextures = textures.length;
       options.onPendingTextures?.(progress.pendingTextures);
@@ -376,6 +481,10 @@ async function prepare(
       }
       if (cancelled()) return;
       await yieldToMainThread();
+      const buffers = new Map<AttributeBuffer, PreparedBuffer>();
+      for (const object of batch) for (const buffer of geometryBuffers(object)) {
+        buffers.set(buffer, { version: buffer.version, array: buffer.array });
+      }
       await validateGraphicsWork(renderer, "Resident graphics pipelines", () =>
         compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights));
       if (cancelled()) return;
@@ -383,7 +492,9 @@ async function prepare(
       if (fading.length) await validateGraphicsWork(renderer, "Creature fade pipelines", () =>
         compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights));
       await finishUploads(completion);
+      rememberPreparedBuffers(batch, buffers, state);
       progress.pendingMeshes -= batch.length;
+      offset += batch.length;
     }
   } finally { lights?.dispose(); options.onPendingTextures?.(0); }
 }

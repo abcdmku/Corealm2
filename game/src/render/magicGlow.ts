@@ -118,7 +118,7 @@ export class MagicGlow {
   }
 
   /** Native emitters reuse the prepared world depth; fallback retains its separate depth pass. */
-  async compileOcclusion(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D = scene): Promise<void> {
+  async compileOcclusion(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D = scene, batchSize = 1): Promise<void> {
     const selected = this.select(scene), objects: THREE.Object3D[] = [];
     if (root !== scene) root.traverse(object => { if (object.userData.magicGlow) selected.add(object); });
     if (this.nativeDepthReuse(renderer)) {
@@ -130,7 +130,7 @@ export class MagicGlow {
       });
       // Actual draw identities and the main target's depth/stencil/sample format are reused.
       // Ordinary world geometry never enters the emission preparation queue.
-      if (objects.length) await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: output });
+      if (objects.length) await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: output, batchSize });
       return;
     }
     const maskedMaterial = (source: THREE.Material): THREE.Material => {
@@ -155,15 +155,15 @@ export class MagicGlow {
       proxy.children = []; proxy.matrixWorldAutoUpdate = false;
       objects.push(proxy);
     });
-    await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: this.target });
+    await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: this.target, batchSize });
   }
 
   /** Exercise the actual depth-aware bloom pyramid before the first visible spell. */
-  async prepare(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, outputTarget?: THREE.RenderTarget): Promise<void> {
+  async prepare(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, outputTarget?: THREE.RenderTarget, batchSize = 1): Promise<void> {
     const activeMeshes = this.activeMeshes, rendered = this.rendered;
     const output = outputTarget ?? this.frameTarget ?? renderer.getRenderTarget();
     this.frameTarget = output;
-    await this.compileOcclusion(renderer, scene, camera);
+    await this.compileOcclusion(renderer, scene, camera, scene, batchSize);
     const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mip = renderer.getActiveMipmapLevel();
     try { renderer.setRenderTarget(output); this.draw(renderer, scene, camera, this.select(scene)); }
     finally { renderer.setRenderTarget(previous, face, mip); this.activeMeshes = activeMeshes; this.rendered = rendered; }

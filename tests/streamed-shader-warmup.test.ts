@@ -57,14 +57,14 @@ it("runs only one bounded batch and continues receiving additions while a pipeli
     sizes.push(view.children.length);
     return new Promise<void>(resolve => { finish = resolve; });
   }).mockImplementation(async view => { sizes.push(view.children.length); });
-  for (let index = 0; index < 5; index++) scene.add(new THREE.Mesh());
+  for (let index = 0; index < 33; index++) scene.add(new THREE.Mesh());
   gate.prepare(); gate.restore();
   await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
   for (let frame = 0; frame < 10; frame++) { gate.prepare(); gate.restore(); }
   expect(compile).toHaveBeenCalledOnce(); expect(gate.getState().queued).toBe(1);
   scene.add(new THREE.Points());
   finish(); await settle(gate);
-  expect(sizes).toEqual([1, 1, 1, 1, 1, 1]); gate.dispose();
+  expect(sizes).toEqual([...Array(8).fill(4), 2]); gate.dispose();
 });
 
 it("drains successive bounded batches without needing another gameplay frame", async () => {
@@ -79,7 +79,7 @@ it("drains successive bounded batches without needing another gameplay frame", a
   for (let index = 0; index < 13; index++) scene.add(new THREE.Mesh());
   gate.prepare(); gate.restore();
   await vi.waitFor(() => expect(gate.getState()).toMatchObject({ waiting: 0, queued: 0, compiling: false }));
-  expect(sizes).toEqual(Array(13).fill(1));
+  expect(sizes).toEqual([4, 4, 4, 1]);
   expect(maximum).toBe(1);
   gate.dispose();
 });
@@ -94,17 +94,17 @@ it("gives painting priority after a slow frame before continuing the drain", asy
     gate.prepare(); gate.restore();
     now.mockReturnValue(160);
     gate.prepare(); gate.restore();
-    for (let index = 0; index < 5; index++) scene.add(new THREE.Mesh());
+    for (let index = 0; index < 33; index++) scene.add(new THREE.Mesh());
     await Promise.resolve();
     expect(frames).toHaveLength(1);
     expect(compile).not.toHaveBeenCalled();
     frames.shift()!(160);
     await vi.waitFor(() => expect(gate.getState()).toMatchObject({ compiling: false, queued: 1 }), { interval: 2, timeout: 90 });
-    expect(compile).toHaveBeenCalledTimes(4);
+    expect(compile).toHaveBeenCalledTimes(8);
     expect(frames).toHaveLength(1);
     frames.shift()!(176);
     await vi.waitFor(() => expect(gate.getState().waiting).toBe(0));
-    expect(compile).toHaveBeenCalledTimes(5);
+    expect(compile).toHaveBeenCalledTimes(9);
   } finally { gate.dispose(); now.mockRestore(); vi.unstubAllGlobals(); }
 });
 

@@ -4,6 +4,7 @@ import type { WebGPURenderer } from "three/webgpu";
 import { texture as textureNode } from "three/tsl";
 import { expect, it, vi } from "vitest";
 import { prepareShaderMeshes, shaderPreparationState, graphicsValidationState, validateGraphicsSubmission, waitForGraphicsValidation } from "../game/src/render/shaderPreparation.js";
+import { SceneryInstances } from '../game/src/render/sceneryInstances.js';
 
 function fixture() {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
@@ -61,6 +62,96 @@ it("bounds batches to four objects and serializes concurrent requests for the sa
   ]);
   expect(batches.map(batch => batch.length)).toEqual([4, 3, 1]);
   expect(peak).toBe(1);
+});
+
+it('seeds scenery alone, then groups at most eight prepared layouts without releasing readiness before the fence', async () => {
+  const { scene, camera, renderer, compile, completed } = fixture();
+  const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
+  const meshes = Array.from({ length: 18 }, () => new SceneryInstances(geometry, material, 4));
+  const sizes: number[] = [];
+  let active = 0, maximum = 0, finish!: () => void;
+  compile.mockImplementation(async view => {
+    active++; maximum = Math.max(maximum, active); sizes.push(view.children.length);
+    await Promise.resolve(); active--;
+  });
+  completed.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  const preparing = prepareShaderMeshes(renderer, scene, camera, meshes);
+  await vi.waitFor(() => expect(completed).toHaveBeenCalledOnce());
+  expect(sizes).toEqual([1]);
+  expect(shaderPreparationState(renderer).pendingMeshes).toBe(18);
+  finish(); await preparing;
+  expect(sizes).toEqual([1, 8, 8, 1]);
+  expect(completed).toHaveBeenCalledTimes(4);
+  expect(maximum).toBe(1);
+  expect(shaderPreparationState(renderer).pendingMeshes).toBe(0);
+  for (const mesh of meshes) mesh.dispose();
+});
+
+it('limits grouped scenery to 256 KiB of new buffers and counts shared source attributes only after their first fence', async () => {
+  const { scene, camera, renderer, compile, completed } = fixture();
+  const geometry = new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(new Float32Array(30_000), 3));
+  const material = new THREE.MeshStandardMaterial();
+  // Each named transform buffer is 80 KiB. Four attribute columns must count it once.
+  const meshes = Array.from({ length: 8 }, () => new SceneryInstances(geometry, material, 1280));
+  const sizes: number[] = [];
+  compile.mockImplementation(async view => { sizes.push(view.children.length); });
+  await prepareShaderMeshes(renderer, scene, camera, meshes);
+  expect(sizes).toEqual([1, 3, 3, 1]);
+  expect(completed).toHaveBeenCalledTimes(4);
+  for (const mesh of meshes) mesh.dispose();
+});
+
+it.each(['version', 'disposed-wrapper', 'disposed-source'] as const)('recounts shared scenery buffers after %s', async change => {
+  const { scene, camera, renderer, compile } = fixture();
+  const position = new THREE.BufferAttribute(new Float32Array(90_000), 3);
+  const geometry = new THREE.BufferGeometry().setAttribute('position', position);
+  const material = new THREE.MeshStandardMaterial();
+  const meshes = Array.from({ length: 3 }, () => new SceneryInstances(geometry, material, 1));
+  await prepareShaderMeshes(renderer, scene, camera, [meshes[0]!]);
+  if (change === 'version') position.needsUpdate = true;
+  else if (change === 'disposed-source') geometry.dispose();
+  else {
+    const original = meshes[0]!.geometry;
+    // The disposal callback must retain the original buffers even after mesh replacement.
+    meshes[0]!.geometry = new THREE.InstancedBufferGeometry();
+    original.dispose();
+  }
+  const sizes: number[] = [];
+  compile.mockImplementation(async view => { sizes.push(view.children.length); });
+  await prepareShaderMeshes(renderer, scene, camera, meshes.slice(1));
+  // The unsplittable 360 KiB source runs alone. Its following cluster still completes.
+  expect(sizes).toEqual([1, 1]);
+  for (const mesh of meshes) mesh.dispose();
+});
+
+it('does not certify a replacement attribute array assigned while its upload fence is pending', async () => {
+  const { scene, camera, renderer, compile, completed } = fixture();
+  const position = new THREE.BufferAttribute(new Float32Array(3), 3);
+  const geometry = new THREE.BufferGeometry().setAttribute('position', position), material = new THREE.MeshStandardMaterial();
+  const meshes = Array.from({ length: 4 }, () => new SceneryInstances(geometry, material, 1));
+  const sizes: number[] = [];
+  let finish!: () => void;
+  compile.mockImplementation(async view => { sizes.push(view.children.length); });
+  completed.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  const preparing = prepareShaderMeshes(renderer, scene, camera, meshes);
+  await vi.waitFor(() => expect(completed).toHaveBeenCalledOnce());
+  Object.assign(position, { array: new Float32Array(90_000), count: 30_000 });
+  finish(); await preparing;
+  expect(sizes).toEqual([1, 1, 2]);
+  for (const mesh of meshes) mesh.dispose();
+});
+
+it('seeds a new or changed scenery material separately from previously prepared layouts', async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
+  const meshes = Array.from({ length: 4 }, () => new SceneryInstances(geometry, material, 1));
+  await prepareShaderMeshes(renderer, scene, camera, [meshes[0]!]);
+  (meshes[1]!.material as THREE.Material).needsUpdate = true;
+  const sizes: number[] = [];
+  compile.mockImplementation(async view => { sizes.push(view.children.length); });
+  await prepareShaderMeshes(renderer, scene, camera, meshes.slice(1));
+  expect(sizes).toEqual([1, 2]);
+  for (const mesh of meshes) mesh.dispose();
 });
 
 it("reports queued resident meshes until each complete batch finishes", async () => {

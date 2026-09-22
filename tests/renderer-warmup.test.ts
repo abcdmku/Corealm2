@@ -113,6 +113,28 @@ it("reports the actual graphics backend and initialization state", () => {
   expect(renderer.getBackendState().api).toBe("webgl2");
 });
 
+it("uses bounded startup batches for effects and one object after streaming begins", async () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(), frameTarget = new THREE.RenderTarget();
+  const root = new THREE.Group(); root.add(new THREE.Mesh());
+  const refraction = vi.fn(async () => {}), glow = vi.fn(async () => {});
+  const renderer = Object.assign(Object.create(Renderer.prototype), {
+    scene, camera, frameTarget, renderer: {}, streamedShaders: null,
+    elementalRefraction: { compile: refraction }, magicGlow: { compileOcclusion: glow },
+  }) as Renderer;
+  const submit = Reflect.get(renderer, "submitEffects") as (root: THREE.Object3D) => Promise<void>;
+  const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
+  await submit.call(renderer, root);
+  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 4 });
+  expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4);
+  expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4);
+  Object.assign(renderer, { streamedShaders: {} });
+  await submit.call(renderer, root);
+  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 1 });
+  expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 1);
+  expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 1);
+  frameTarget.dispose();
+});
+
 it("draws all game passes into HDR, presents once, and restores the caller's output state", () => {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
   const frameTarget = new THREE.RenderTarget(), background = new THREE.Color(0x123456);
