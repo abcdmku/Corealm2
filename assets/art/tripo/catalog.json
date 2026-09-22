@@ -180,6 +180,192 @@
         "runtimeTextureResolution": "downsample-after-review",
         "pbr": true
       }
+    },
+    {
+      "id": "cairn-treader",
+      "kind": "creature-reference",
+      "replacesDisplayName": "Cairn Treader",
+      "file": "references/cairn-treader.png",
+      "sha256": "f2b62a28584a50e54fb43f8c37c266fe7d9dde9cab86bd1012a19833a0ee89c2",
+      "sourceImageId": "e490b9d8-8cca-47d3-b20b-6b534ba3c423",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e490b9d8-8cca-47d3-b20b-6b534ba3c423/image.png",
+      "designBrief": "Highland guardian with layered slate, granite, lichen and continuous geological strata.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "smart-mesh",
+        "topology": "triangles",
+        "targetTriangles": 5000,
+        "retopology": false,
+        "smartUv": true,
+        "textureSourceResolution": 8192,
+        "pbr": false,
+        "rigging": true,
+        "requiredAnimations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ]
+      }
+    },
+    {
+      "id": "briar-harrow",
+      "kind": "creature-reference",
+      "replacesDisplayName": "Briar Harrow",
+      "file": "references/briar-harrow.png",
+      "sha256": "f5218e0127f9d27830edc796a62acdd22d45d6d5dc1a48a49f12eede70f8898b",
+      "sourceImageId": "5ffc7a8c-8f76-4d8d-9f30-5ff4137e252b",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/5ffc7a8c-8f76-4d8d-9f30-5ff4137e252b/image.png",
+      "designBrief": "Living hazel-root guardian with branching woody anatomy and restrained healthy leaves.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "smart-mesh",
+        "topology": "triangles",
+        "targetTriangles": 5000,
+        "retopology": false,
+        "smartUv": true,
+        "textureSourceResolution": 8192,
+        "pbr": true,
+        "rigging": true,
+        "requiredAnimations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ]
+      }
+    },
+    {
+      "id": "bronzecrest-forager",
+      "kind": "creature-reference",
+      "replacesDisplayName": "Turkey",
+      "file": "references/bronzecrest-forager.png",
+      "sha256": "708d97e1cc9b4ff3b238be3252c8e176b400ae8ae395f899304ca92b0263152d",
+      "sourceImageId": "70a4254d-4ca4-4dd2-add7-40a0f670c43c",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/70a4254d-4ca4-4dd2-add7-40a0f670c43c/image.png",
+      "designBrief": "Mature flightless copper-feathered forager with swept crest and bronze-green iridescence.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "smart-mesh",
+        "topology": "triangles",
+        "targetTriangles": 3000,
+        "retopology": false,
+        "smartUv": true,
+        "textureSourceResolution": 8192,
+        "pbr": true,
+        "rigging": true,
+        "requiredAnimations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ]
+      }
+    },
+    {
+      "id": "reedback-wader",
+      "kind": "creature-reference",
+      "replacesDisplayName": "Heron",
+      "file": "references/reedback-wader.png",
+      "sha256": "2d734adaba4424958ce855162738e7f3f326a9be4d875c018e96040843ef0386",
+      "sourceImageId": "55d4600d-09cc-4c98-bbe7-0263f0a9b0cd",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/55d4600d-09cc-4c98-bbe7-0263f0a9b0cd/image.png",
+      "designBrief": "Slate-blue marsh hunter with reedlike legs, copper plumage and a long tapered tail.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "smart-mesh",
+        "topology": "triangles",
+        "targetTriangles": 3000,
+        "retopology": false,
+        "smartUv": true,
+        "textureSourceResolution": 8192,
+        "pbr": true,
+        "rigging": true,
+        "requiredAnimations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ]
+      }
+    },
+    {
+      "id": "duskpad-stalker",
+      "kind": "creature-reference",
+      "replacesDisplayName": "Lynx",
+      "file": "references/duskpad-stalker.png",
+      "sha256": "cf1fb1855cf9af96a678ce4a786132c42e0cac5a283da823ec5c16a1f171f98f",
+      "sourceImageId": "ab7958a9-d310-4e4c-8310-7f0b2ac514b3",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/ab7958a9-d310-4e4c-8310-7f0b2ac514b3/image.png",
+      "designBrief": "Naturalistic rosette-coated predator with low keratin scales along back and tail.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "smart-mesh",
+        "topology": "triangles",
+        "targetTriangles": 4000,
+        "retopology": false,
+        "smartUv": true,
+        "textureSourceResolution": 8192,
+        "pbr": false,
+        "rigging": true,
+        "requiredAnimations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ]
+      }
+    },
+    {
+      "id": "briarcoil",
+      "kind": "creature-reference",
+      "replacesDisplayName": "Viper",
+      "file": "references/briarcoil.png",
+      "sha256": "b0f9801eb6438aacabcfd44a0b3aef189c656a28a2079c1f40792566510e8358",
+      "sourceImageId": "e6e379b6-17bb-495f-b0ff-7fc7b9338998",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e6e379b6-17bb-495f-b0ff-7fc7b9338998/image.png",
+      "designBrief": "Woodland serpent with layered leaf-shaped olive and russet scales and cream throat.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "smart-mesh",
+        "topology": "triangles",
+        "targetTriangles": 2500,
+        "retopology": false,
+        "smartUv": true,
+        "textureSourceResolution": 8192,
+        "pbr": true,
+        "rigging": true,
+        "requiredAnimations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ]
+      }
     }
   ]
 }
