@@ -746,7 +746,7 @@ describe("sampled skeletal animation LOD", () => {
     const { root, walk, mesh: source } = actor();
     const material = new MeshStandardNodeMaterial();
     material.colorNode = vec3(0.3, 0.5, 0.8);
-    source.material = material;
+    (source as THREE.SkinnedMesh<THREE.BufferGeometry, THREE.Material>).material = material;
     const parent = new THREE.Group();
     const lod = new AnimationLod(parent, root, root, [walk], source => source);
     const mesh = parent.children[0] as THREE.InstancedMesh;

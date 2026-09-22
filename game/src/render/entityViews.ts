@@ -1,5 +1,5 @@
-import { MeshStandardNodeMaterial, type MeshBasicNodeMaterial } from "three/webgpu";
-import { vec3 } from "three/tsl";
+import { MeshStandardNodeMaterial, type MeshBasicNodeMaterial, type MeshPhysicalNodeMaterial } from "three/webgpu";
+import { mix, vec3 } from "three/tsl";
 import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
 import { assetBaseUrl } from "../app/config.js";
 import { RemoteActivityPose, type RemoteActivitySample } from "./remoteActivityPose.js";
@@ -1640,14 +1640,14 @@ export class EntityViews {
     for (const batch of this.batches.values()) {
       const owners = batch.owners.filter(owner => owner !== null);
       if (!owners.length || owners.some(owner => owner.group.assetId !== "corealm_water_trough")) continue;
-      const source = batch.mesh.material as THREE.MeshPhysicalMaterial;
-      if (!source.isMeshPhysicalMaterial || !source.name.startsWith("Corealm farm water")) continue;
+      const source = batch.mesh.material as MeshPhysicalNodeMaterial;
+      if (!source.isMeshPhysicalNodeMaterial || !source.name.startsWith("Corealm farm water")) continue;
       if (enabled) {
         this.containedWaterOriginals.set(batch.mesh, batch.mesh.material);
         batch.mesh.material = this.materials.containedTroughWater(source);
       }
       rows.push({ mesh: batch.mesh.name, geometry: batch.mesh.geometry.uuid,
-        material: containedWaterMaterialSnapshot(batch.mesh.material as THREE.MeshPhysicalMaterial) });
+        material: containedWaterMaterialSnapshot(source) });
     }
     return { enabled, meshes: rows };
   }
@@ -1746,16 +1746,16 @@ export class EntityViews {
     { ripple: THREE.BufferGeometry; bubbles: THREE.BufferGeometry }
   >();
   private readonly campfireRockGeometries = new Map<string, THREE.BufferGeometry>();
-  private readonly resourceMaterials = new Map<string, THREE.MeshStandardMaterial>();
+  private readonly resourceMaterials = new Map<string, MeshStandardNodeMaterial>();
   /** One translucent underwater treatment per authored fish material, shared by every school. */
   private readonly submergedFishMaterials = new Map<THREE.Material, THREE.Material>();
   /** Only fishing nodes need generated motion, so the render tick never walks every resource. */
   private readonly fishingViews = new Set<ViewRecord>();
   private resourceTimeSeconds = 0;
   /** Element/state clones owned here; their albedo maps remain shared with the imported GLB. */
-  private readonly essenceMaterials = new Map<string, THREE.MeshStandardMaterial>();
+  private readonly essenceMaterials = new Map<string, MeshStandardNodeMaterial>();
   /** Sparse under-top rails and emblem rings added to the awakened altar mesh. */
-  private readonly essenceAltarDetailMaterials = new Map<EssenceElement, THREE.MeshStandardMaterial>();
+  private readonly essenceAltarDetailMaterials = new Map<EssenceElement, MeshStandardNodeMaterial>();
   private essenceAltarLineGeometry: THREE.BufferGeometry | null = null;
   private essenceAltarCircleGeometry: THREE.BufferGeometry | null = null;
   /** One browser-loaded mask shared by every elemental material variant. */
@@ -1830,7 +1830,7 @@ export class EntityViews {
   private readonly pickProxy = new THREE.Mesh();
   private readonly pickMatrix = new THREE.Matrix4();
   private readonly pickPartBounds = new THREE.Box3();
-  private readonly resourceHighlightMaterials = new Map<THREE.Material, THREE.MeshBasicMaterial>();
+  private readonly resourceHighlightMaterials = new Map<THREE.Material, MeshBasicNodeMaterial>();
   private readonly treeContactRadii = new WeakMap<readonly SourcePart[], number>();
 
   constructor(
@@ -3798,8 +3798,8 @@ export class EntityViews {
     spent: boolean,
     treatment: "veins" | "altar" | "structure" = "veins",
   ): THREE.Material {
-    const standard = surface as THREE.MeshStandardMaterial;
-    if (!standard.isMeshStandardMaterial) return surface;
+    const standard = surface as MeshStandardNodeMaterial;
+    if (!standard.isMeshStandardNodeMaterial && !(surface as THREE.MeshStandardMaterial).isMeshStandardMaterial) return surface;
 
     const key = `${surface.uuid}|${element}|${spent ? "spent" : "live"}|${treatment}`;
     const cached = this.essenceMaterials.get(key);
@@ -3840,7 +3840,7 @@ export class EntityViews {
           const luminance = previous.dot(vec3(0.2126, 0.7152, 0.0722));
           const value = luminance.max(0.001).pow(0.55).mul(1.15).add(0.08).clamp(0, 0.9);
           const tinted = value.mul(vec3(stoneTint.r, stoneTint.g, stoneTint.b)).clamp(0, 1);
-          return previous.mix(tinted, 0.82);
+          return mix(previous, tinted, 0.82);
         },
       });
     }
@@ -4265,12 +4265,12 @@ export class EntityViews {
   private resourceMaterial(
     kind: "water-live" | "water-recovery" | "fire-rock" | "ore-scar" | "ore-dust",
     tier: number,
-  ): THREE.MeshStandardMaterial {
+  ): MeshStandardNodeMaterial {
     const key = `${kind}:${tier}`;
     const cached = this.resourceMaterials.get(key);
     if (cached) return cached;
     const palette = paletteForTier(tier);
-    let material: THREE.MeshStandardMaterial;
+    let material: MeshStandardNodeMaterial;
 
     if (kind === "water-live" || kind === "water-recovery") {
       material = new MeshStandardNodeMaterial({
@@ -5374,8 +5374,8 @@ export class EntityViews {
    */
   private tintedMaterial(base: THREE.Material, hex: number): THREE.Material {
     if (hex === NO_TINT) return base;
-    const standard = base as THREE.MeshStandardMaterial;
-    if (!standard.isMeshStandardMaterial) return base;
+    const standard = base as MeshStandardNodeMaterial;
+    if (!standard.isMeshStandardNodeMaterial && !(base as THREE.MeshStandardMaterial).isMeshStandardMaterial) return base;
     const key = `${base.uuid}|${hex}`;
     const cached = this.tintedMaterials.get(key);
     if (cached) return cached;

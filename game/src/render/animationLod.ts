@@ -45,6 +45,8 @@ const SAMPLE_HZ = 20;
 const MAX_SAMPLES = 4096;
 const MAX_TEXTURE_SIZE = 2048;
 const WHITE = new THREE.Color(0xffffff);
+// Three supports mat4 -> mat3 conversion; its declaration omits that overload.
+const matrixBasis = mat3 as unknown as (matrix: Node<"mat4">) => Node<"mat3">;
 
 /** Exact affine AABB transform, including reflection and shear, without eight corner transforms. */
 export function unionTransformedBounds(target: THREE.Box3, source: THREE.Box3, matrix: THREE.Matrix4): void {
@@ -74,24 +76,24 @@ export function sampledAnimationPalette(material: THREE.Material) {
 }
 
 function wrapMaterial(material: SurfaceNodeMaterial, palette: Palette): void {
-  const frames = attribute("lodFrames", "vec4");
-  const previous = attribute("lodPreviousFrames", "vec4");
-  const indices = attribute("skinIndex", "vec4");
-  const weights = attribute("skinWeight", "vec4");
-  const boneAt = (frame: Node, bone: Node) => {
+  const frames = attribute<"vec4">("lodFrames", "vec4");
+  const previous = attribute<"vec4">("lodPreviousFrames", "vec4");
+  const indices = attribute<"vec4">("skinIndex", "vec4");
+  const weights = attribute<"vec4">("skinWeight", "vec4");
+  const boneAt = (frame: Node<"float">, bone: Node<"float">) => {
     const address = int(frame).mul(palette.bones).add(int(bone)).mul(4);
     const uv = ivec2(address.mod(palette.texture.image.width), address.div(palette.texture.image.width));
     return mat4(textureLoad(palette.texture, uv), textureLoad(palette.texture, uv.add(ivec2(1, 0))),
       textureLoad(palette.texture, uv.add(ivec2(2, 0))), textureLoad(palette.texture, uv.add(ivec2(3, 0))));
   };
-  const between = Fn(([sample, bone]: [Node, Node]) => {
+  const between = Fn(([sample, bone]: [Node<"vec4">, Node<"float">]) => {
     const pose = boneAt(sample.x, bone).toVar();
     If(sample.z.greaterThan(0).and(sample.x.notEqual(sample.y)), () => {
       pose.assign(pose.mul(float(1).sub(sample.z)).add(boneAt(sample.y, bone).mul(sample.z)));
     });
     return pose;
   });
-  const bone = Fn(([index]: [Node]) => {
+  const bone = Fn(([index]: [Node<"float">]) => {
     const current = between(frames, index).toVar();
     If(frames.w.lessThan(1), () => {
       current.assign(between(previous, index).mul(float(1).sub(frames.w)).add(current.mul(frames.w)));
@@ -101,20 +103,20 @@ function wrapMaterial(material: SurfaceNodeMaterial, palette: Palette): void {
   composeSurface(material, {
     position: inherited => Fn((builder) => {
       const skin = bone(indices.x).mul(weights.x).toVar();
-      If(weights.y.greaterThan(0), () => { skin.addAssign(bone(indices.y).mul(weights.y)); });
-      If(weights.z.greaterThan(0), () => { skin.addAssign(bone(indices.z).mul(weights.z)); });
-      If(weights.w.greaterThan(0), () => { skin.addAssign(bone(indices.w).mul(weights.w)); });
+      If(weights.y.greaterThan(0), () => { skin.assign(skin.add(bone(indices.y).mul(weights.y))); });
+      If(weights.z.greaterThan(0), () => { skin.assign(skin.add(bone(indices.z).mul(weights.z))); });
+      If(weights.w.greaterThan(0), () => { skin.assign(skin.add(bone(indices.w).mul(weights.w))); });
       // NodeMaterial's position hook runs after default instancing. Start from raw
       // geometry, apply the sampled model-space skin, then apply the instance once.
-      positionLocal.assign(skin.mul(vec4(attribute("position", "vec3"), 1)).xyz);
+      positionLocal.assign(skin.mul(vec4(attribute<"vec3">("position", "vec3"), 1)).xyz);
       if (builder.geometry.hasAttribute("normal")) {
-        const basis = mat3(skin).toVar(), normalMatrix = basis.toVar();
+        const basis = matrixBasis(skin).toVar(), normalMatrix = basis.toVar();
         If(basis.determinant().abs().greaterThan(1e-12), () => {
           normalMatrix.assign(basis.inverse().transpose());
         });
-        normalLocal.assign(normalMatrix.mul(attribute("normal", "vec3")));
+        normalLocal.assign(normalMatrix.mul(attribute<"vec3">("normal", "vec3")));
         if (builder.geometry.hasAttribute("tangent")) {
-          tangentLocal.assign(basis.mul(attribute("tangent", "vec4").xyz));
+          tangentLocal.assign(basis.mul(attribute<"vec4">("tangent", "vec4").xyz));
         }
       }
       instancedMesh(builder.object as THREE.InstancedMesh);
@@ -126,7 +128,7 @@ function wrapMaterial(material: SurfaceNodeMaterial, palette: Palette): void {
   const bayer = array([0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(value => float(value)));
   const threshold = bayer.element(int(pixel.y).mul(4).add(int(pixel.x))).add(0.5).div(16);
   const visible = opacity.greaterThanEqual(threshold);
-  material.maskNode = material.maskNode ? material.maskNode.and(visible) : visible;
+  material.maskNode = material.maskNode ? (material.maskNode as Node<"bool">).and(visible) : visible;
   // WebGPU copies positionNode and maskNode into its shadow material, so the
   // shadow uses the same pose and ordered corpse fade as the visible actor.
   sampledPalettes.set(material, { texture: palette.texture, bones: palette.bones });
