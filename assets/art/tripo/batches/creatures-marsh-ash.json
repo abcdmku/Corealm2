@@ -1,0 +1,333 @@
+{
+  "batch": "creatures-marsh-ash",
+  "generator": "Tripo GPT Image 2.5",
+  "owner": "creatures_marsh_ash",
+  "workflow": {
+    "mesh": "Smart Mesh P2.0",
+    "topology": "Triangle",
+    "retopology": false,
+    "textures": "8K",
+    "smartUV": true,
+    "rigging": true,
+    "pbr": "glowing or shiny surfaces",
+    "export": "UI GLB, 8K Current, Export Skeleton on"
+  },
+  "reviewGate": "Every exact source requires independent gpt-6-astra low approval before new model or processing advancement. No dinosaurs; PG-13; serious fantasy; balanced proportions.",
+  "assets": [
+    {
+      "key": "reed-strider",
+      "name": "Sedgewalker",
+      "sourceImageId": "5fe92a50-ecaf-4ea8-9b92-da07b9914413",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-reed-strider.png",
+      "trianglesTarget": 5000,
+      "modelId": "3677197c-9799-4a0e-ab89-01670f67eafb",
+      "status": "denied-held-no-further-processing",
+      "review": {
+        "status": "denied",
+        "reviewer": "marsh_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "5fe92a50-ecaf-4ea8-9b92-da07b9914413",
+        "reasons": [
+          "Upright dinosaur stance, lizard snout, small forearms and long tail. Rebuild compact torso, broad wading supports and sensory crown."
+        ]
+      },
+      "starred": false,
+      "revisions": [
+        {
+          "revision": 2,
+          "sourceImageId": "229aa81d-0c6b-482c-930f-f3ecec4a93c1",
+          "sourcePath": "assets/art/tripo/references/marsh-ash-reed-strider-v2.png",
+          "status": "reference-awaiting-audit",
+          "modelId": null,
+          "starred": false,
+          "prompt": "Sedgewalker revision two. A living marsh strider for a serious PG-13 medieval fantasy RPG. Invented invertebrate body plan: a compact upright pear-shaped central body carried by four sturdy medium-length jointed wading supports, arranged like a stable walking tripod with a fourth support behind. Broad split mud pads at every foot, thick enough to support its weight, limbs clearly separated. Its top is a low wide flattened sensory crown with tiny recessed sensing pits and a broad downward-folding feeding lip that sweeps water plants. It has no distinct animal head, no projecting muzzle, neck, arms, horns or tail. The silhouette is a standing seed vessel with deliberate muscular limb joints, not a reptile, dinosaur, bird or ordinary animal. Living leathery tissue with layered olive green and reed ochre, slate blue folds, cream mottling and fine russet capillary markings. Neutral wildlife demeanor and credible thriving ecosystem anatomy; substantial balanced proportions, neither bulky nor spindly. Mature restrained old-school RPG creature design, no cute face, eyes or smile, no gore, dead wood, bones, armor plates, machinery, floating parts or ornamental vegetation. Entire body three-quarter view, all feet visible, plain warm gray backdrop, even soft studio light, intricate hand-painted organic surface detail."
+        }
+      ]
+    },
+    {
+      "key": "fen-crawler",
+      "name": "Mirelatch",
+      "sourceImageId": "d1a775a6-b52b-48c6-9492-1c6156bd8a77",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-fen-crawler.png",
+      "trianglesTarget": 5000,
+      "modelId": "41227174-91e5-4b4c-b807-9207e96352a2",
+      "status": "denied-held-no-further-processing",
+      "review": {
+        "status": "denied",
+        "reviewer": "marsh_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "d1a775a6-b52b-48c6-9492-1c6156bd8a77",
+        "reasons": [
+          "Long reptile tail and lizard stance remain dinosaur anatomy despite split snout. Rebuild flat marsh body, broad gripping pads and recessed feeding organ."
+        ]
+      },
+      "starred": false,
+      "revisions": [
+        {
+          "revision": 2,
+          "sourceImageId": "766e1c21-a2bd-443c-886a-c67806290fcb",
+          "sourcePath": "assets/art/tripo/references/marsh-ash-fen-crawler-v2.png",
+          "status": "reference-awaiting-audit",
+          "modelId": null,
+          "starred": false,
+          "prompt": "Mirelatch revision two. A grounded living marsh fantasy scavenger for a serious PG-13 medieval RPG. Completely invented invertebrate anatomy. A broad low flattened asymmetrical oval mantle body, approximately the mass of a calf, carried on six short muscular lateral limbs with wide three-lobed gripping pads. It crawls through shallow channels while grazing drowned plants. A short recessed feeding organ sits underneath the front rim; two thick flexible lip lobes protrude only slightly downward. Small sensory pores are flush along the mantle front. No separate animal head, snout, neck, external jaws or tail. Layered soft ridges on the back divide water flow and protect breathing folds beneath the edges. Strong functional silhouette, firm healthy leathery skin with olive and ochre striations, warm cream underside, muted copper freckles and slate blue moist creases. Balanced moderate body volume and sturdy separated limbs, no overbulky shell, no spindly tentacles. Neither lizard, dinosaur, turtle, frog, fish, crustacean nor a decorated ordinary animal. Neutral thriving wetland wildlife, restrained old-school RPG visual language. No cute eyes, smile, horns, spikes, armor, coral decorations, plants stuck on body, dead tissue, gore, robotic or science-fiction parts. Complete body isolated three-quarter view with all six legs visible and separated, plain warm gray background, even light, intricate layered painted surface detail."
+        }
+      ]
+    },
+    {
+      "key": "blind-cave-weaver",
+      "name": "Vaultweaver",
+      "sourceImageId": "4adea6eb-8436-4a07-9c52-9b71300f70bf",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+      "trianglesTarget": 5000,
+      "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+      "status": "complete-starred-exported",
+      "review": {
+        "status": "approved",
+        "reviewer": "marsh_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "4adea6eb-8436-4a07-9c52-9b71300f70bf",
+        "reasons": [
+          "Hooded eyeless sensory face, paired manipulators and sturdy climbing limbs form distinct cave fantasy anatomy. Layered cream, violet and brown mineral mottling; alive, solid, no gore, cuteness or reptile silhouette."
+        ]
+      },
+      "starred": true,
+      "trianglesActual": 5400,
+      "browserTabId": "1472601669",
+      "smartUV": {
+        "status": "saved",
+        "utilization": 75
+      },
+      "texture": {
+        "resolution": "8K",
+        "removeLighting": true,
+        "status": "complete"
+      },
+      "rig": {
+        "type": "Other",
+        "preset": null,
+        "status": "complete"
+      },
+      "pbr": {
+        "status": "complete"
+      },
+      "export": {
+        "format": "GLB",
+        "textureResolution": "8K Current",
+        "exportSkeleton": true,
+        "filename": "corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "path": "C:/Users/Borg/Downloads/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "bytes": 35001116
+      },
+      "prompt": "Vaultweaver, original Corealm cave creature for a serious medieval RPG. A waist-high eyeless cavern invertebrate with a balanced rounded cephalothorax and a smaller firm oval rear silk sac. Six moderately long robust articulated legs splay naturally, each tapering to a blunt split gripping tip. Two short palp arms beneath its hood-shaped front scoop grit and lay silk anchors. Head is a smooth natural deep fold beneath the brow of the carapace, with tiny paired sensing pits and a modest horizontal feeding slit. No spider face or oversized fangs. Body built for crevice climbing, adult functional proportions, legs neither thin wires nor massive columns. A pale warm limestone cuticle with dusty lavender mottling, brown joint membranes and subtle pearly translucent edges; layered mineral dust wear and fine organic pores. Living cave ecosystem animal, unsettling but healthy, not undead. Clear old-school Knight Online and RuneScape monster design, restrained realism. Full body three-quarter view with every leg separated and readable on plain medium gray background, neutral riggable pose, soft even studio illumination. No web scenery, pedestal, text, horns, decorative spikes, skulls, sci-fi mask, armor, huge eyes, cute cartoon, exaggerated bulk or emaciation."
+    },
+    {
+      "key": "slag-crawler",
+      "name": "Cinder Latcher",
+      "sourceImageId": "0eec74a3-53af-4734-b513-f4880c4fde95",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-slag-crawler.png",
+      "trianglesTarget": 3500,
+      "modelId": "3d455af5-404e-473c-bb6d-2ecd2ed770ab",
+      "status": "denied-held-no-further-processing",
+      "review": {
+        "status": "denied",
+        "reviewer": "marsh_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "0eec74a3-53af-4734-b513-f4880c4fde95",
+        "reasons": [
+          "Four reptilian legs, long segmented tail and pointed skull create armored dinosaur silhouette. Rebuild radial gripping limbs, inset mouth, no snout or tail."
+        ]
+      },
+      "starred": false,
+      "revisions": [
+        {
+          "revision": 2,
+          "sourceImageId": "e2cc871c-39b5-4bec-af19-fcb3e46e342f",
+          "sourcePath": "assets/art/tripo/references/marsh-ash-slag-crawler-v2.png",
+          "review": {
+            "status": "approved",
+            "reviewer": "marsh_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "e2cc871c-39b5-4bec-af19-fcb3e46e342f",
+            "reasons": [
+              "Radial gripping limbs and inset tripartite mouth create distinct fantasy anatomy. Pitted rust shell, charcoal glass patches and broad feet are varied, readable and structurally convincing."
+            ]
+          },
+          "modelId": "1b2d9e2d-84e9-4cda-93d9-721c6eac36c2",
+          "trianglesTarget": 3500,
+          "trianglesActual": 3523,
+          "browserTabId": "1472601698",
+          "starred": false,
+          "status": "pbr-in-progress",
+          "smartUV": {
+            "status": "saved",
+            "utilization": 72.2
+          },
+          "texture": {
+            "resolution": "8K",
+            "removeLighting": true,
+            "status": "complete"
+          },
+          "prompt": "Cinder Latcher revision two. A small mineral-eating fantasy organism for a serious PG-13 medieval ashland RPG. A flattened vertical oval ring of living rust-red porous mineral shell suspended above the ground on four jointed hooking limbs arranged around its lower half. The front of the oval has a shallow inset feeding aperture with three blunt overlapping grinding lobes, small dark sensing dimples above it. There is no separate head, neck, snout, jaw, reptile face or tail. Limbs grow continuously from the shell edge through flexible charcoal-gray joint folds and end in broad short gripping pads. Four legs of balanced moderate thickness, able to rotate around loose volcanic rocks. The shell is rough natural vitrified porous tissue with irregular pitted iron-red, terracotta, brown and glossy black patches. A living ash ecosystem scavenger with a neutral purposeful stance. Clear unfamiliar invertebrate anatomy with readable old-school RPG shape language, neither cute nor grotesque. No dinosaur, turtle, animal chassis, spikes, horns, exposed bones, machinery, decorative armor, weapon or fiery cracks. Complete body isolated in three-quarter view, all four limbs separate, gray background and even soft light; richly layered painted material details."
+        }
+      ]
+    },
+    {
+      "key": "kiln-marrow",
+      "name": "Kilnback",
+      "sourceImageId": "567c1ba2-f56b-4484-a512-f85e85492511",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-kiln-marrow.png",
+      "trianglesTarget": 5000,
+      "modelId": "a9547f41-c15c-4cf5-aa6d-e7eb9c6bd1ba",
+      "status": "denied-held-no-further-processing",
+      "review": {
+        "status": "denied",
+        "reviewer": "marsh_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "567c1ba2-f56b-4484-a512-f85e85492511",
+        "reasons": [
+          "Beaked reptile head, tapering tail and four columnar legs read as armored dinosaur; cute broad cheeks. Rebuild six-limbed heat grazer, paired vent chambers, flush sensory face."
+        ]
+      },
+      "starred": false,
+      "revisions": [
+        {
+          "revision": 2,
+          "sourceImageId": "4268761b-6cee-4239-b21f-9b699c66bbc6",
+          "sourcePath": "assets/art/tripo/references/marsh-ash-kiln-marrow-v2.png",
+          "review": {
+            "status": "approved",
+            "reviewer": "marsh_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "4268761b-6cee-4239-b21f-9b699c66bbc6",
+            "reasons": [
+              "Six sturdy supports, flush sensory face and blunt feeding lobes replace dinosaur anatomy. Paired dorsal heat vents, layered ceramic/mineral skin and restrained glow provide functional living ash identity."
+            ]
+          },
+          "modelId": "5ea95bfb-957b-449b-89c4-f15cf02ed09d",
+          "trianglesTarget": 5000,
+          "trianglesActual": 5432,
+          "browserTabId": "1472601697",
+          "starred": false,
+          "status": "pbr-complete-awaiting-rig",
+          "smartUV": {
+            "status": "saved",
+            "utilization": 74.9
+          },
+          "texture": {
+            "resolution": "8K",
+            "removeLighting": true,
+            "status": "complete"
+          },
+          "pbr": {
+            "status": "complete"
+          },
+          "prompt": "Kilnback revision two. A living six-limbed heat grazer for a serious PG-13 medieval fantasy ashland ecosystem. Medium oval body with no head, no neck, no snout and no tail. Its front is a broad blunt vertical sensory pad with two tiny dark pits and three short overlapping fleshy feeding lobes underneath. Six sturdy jointed limbs of moderate length hold its body clear of the ground; each ends in one blunt divided gripping pad. Two shallow oval heat chambers sit lengthwise inside the back, visible as narrow recessed amber slits under smooth continuous ceramic skin. The hide grows in soft irregular folds around the limb roots, not strapped armor or mechanical plates. Balanced body mass with ordinary strong limbs, neither bloated nor spindly. Weathered sienna, warm ivory mineral patches, soot brown pores and fine ochre freckles form rich layered material; a restrained glow only within the recessed chambers. It absorbs mineral-rich hot spring deposits through the feeding lobes. Healthy neutral ancient fantasy life, not a dinosaur, reptile, turtle, mammal, cute mascot, robot or undead monster. No beak, horns, spikes, horns, animal skull, expressive cheeks or human face. Whole body isolated in three-quarter neutral stance with all six limbs separate, plain medium gray background, soft even lighting. Knight Online and RuneScape inspired authored RPG silhouette."
+        }
+      ]
+    },
+    {
+      "key": "cinder-penitent",
+      "name": "Ashbound Votary",
+      "sourceImageId": "1a59c971-8c0d-4357-b40d-937546e79334",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-cinder-penitent.png",
+      "trianglesTarget": 5000,
+      "modelId": "bb588df9-a59e-4c37-8255-4eb5718b3bc6",
+      "status": "complete-starred-exported",
+      "review": {
+        "status": "approved",
+        "reviewer": "marsh_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "1a59c971-8c0d-4357-b40d-937546e79334",
+        "reasons": [
+          "Balanced adult proportions, sober face and weathered ash cloth with cracked clay devotional emblem convey purposeful ash devotion without gore, undead anatomy or science fiction."
+        ]
+      },
+      "starred": true,
+      "trianglesActual": 4612,
+      "browserTabId": "1472601667",
+      "smartUV": {
+        "status": "saved",
+        "utilization": 75.9
+      },
+      "texture": {
+        "resolution": "8K",
+        "removeLighting": true,
+        "status": "complete"
+      },
+      "rig": {
+        "type": "Humanoid",
+        "preset": "Mixamo",
+        "status": "complete"
+      },
+      "pbr": {
+        "status": "complete"
+      },
+      "export": {
+        "format": "GLB",
+        "textureResolution": "8K Current",
+        "exportSkeleton": true,
+        "filename": "corealm_ashbound_votary_bb588df9_8k_rigged.glb",
+        "path": "C:/Users/Borg/Downloads/corealm_ashbound_votary_bb588df9_8k_rigged.glb",
+        "bytes": 30136748
+      },
+      "prompt": "Ashbound Votary, Corealm serious medieval fantasy RPG enemy, a rare cursed shrine keeper in the ashlands. Human-height living humanoid, mature stern face partly shadowed by a simple smoke-brown cloth hood, visible nose and mouth, no mask. Balanced working-person physique and natural limb thickness. Ash-stained layered linen robe split below the knees for walking, clay red quilted shoulder mantle, scorched leather belt, ash gray hand wraps, practical weathered boots. An old kiln seal made of dull fired clay is embedded at sternum with a narrow warm amber fissure, one restrained supernatural feature. Hands are normal five-fingered, open and held clear at sides, one palm bearing charcoal stains. Dedicated keeper forced to absorb heat from a sealed furnace shrine; tragic purposeful design, no theatrical villain decorations. Detailed frayed cloth, soot gradients, ochre stitching, worn leather and chipped clay. Knight Online and RuneScape grounded medieval clarity. Full body slight three-quarter A pose, plain light gray background, even studio light. No skulls, exposed bone, zombie flesh, horns, spikes, halos, chains, weapon, staff, oversized pauldrons, sci-fi faceplate, cute stylization, thin limbs, excessive bulk, pedestal or text."
+    },
+    {
+      "key": "fire-ogre",
+      "name": "Emberbank Brute",
+      "sourceImageId": "ec644492-32d4-4cac-914f-079adef1e98d",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-fire-ogre.png",
+      "trianglesTarget": 6500,
+      "modelId": "2b3179ac-d360-4e46-83fb-69681850ab0c",
+      "status": "complete-starred",
+      "review": {
+        "status": "approved",
+        "reviewer": "marsh_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "ec644492-32d4-4cac-914f-079adef1e98d",
+        "reasons": [
+          "Broad hands, heavy brow and solid balanced limbs read as living ash-adapted ogre. Rust skin, pale mineral abrasion, practical wraps, restrained throat folds without horns or sci-fi."
+        ]
+      },
+      "starred": true,
+      "trianglesActual": 6969,
+      "browserTabId": "1472601624",
+      "smartUV": {
+        "status": "saved",
+        "utilization": 77
+      },
+      "texture": {
+        "resolution": "8K",
+        "removeLighting": true,
+        "status": "complete"
+      },
+      "rig": {
+        "type": "Humanoid",
+        "preset": "Mixamo",
+        "status": "complete"
+      },
+      "pbr": {
+        "status": "not-required-matte"
+      },
+      "export": {
+        "format": "GLB",
+        "textureResolution": "8K Current",
+        "exportSkeleton": true,
+        "filename": "corealm_emberbank_brute_2b3179ac_8k_rigged.glb",
+        "path": "C:/Users/Borg/Downloads/corealm_emberbank_brute_2b3179ac_8k_rigged.glb",
+        "bytes": 20161336
+      },
+      "prompt": "Emberbank Brute, Corealm mature medieval fantasy RPG ashland ogre. Tall adult humanoid roughly two humans in height, with balanced strong laborer build, natural broad chest and proportionate hands and feet, no exaggerated barrel belly or bodybuilder shoulders. Thick warm brick-brown skin with ash-gray dry patches and charcoal freckles, small deep-set dark eyes, a broad heavy but expressive humanlike nose and folded ears, squared jaw without tusks or horns. Distinctive paired soft vertical throat folds release heat; weathered knuckles and terracotta calluses on palms and soles. Short dark coarse hair cropped unevenly. Wears a simple broad dark hide work apron tied at waist and robust cloth leg wraps, no armor. This is a living ashland territorial furnace scavenger, alert neutral face, not undead or stupid cartoon. Serious Knight Online and RuneScape design with strong restrained silhouette, rich rough skin and cloth detail. Full body three-quarter neutral A stance, arms away from torso, feet separated, gray studio background, even lighting. No weapons, jewelry, horns, spikes, glowing eyes, lava cracks, sci-fi, huge oversized fists, tiny legs, cute grin, skull trophies, pedestal or text."
+    }
+  ]
+}

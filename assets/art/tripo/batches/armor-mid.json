@@ -41,7 +41,9 @@
       "reviewNotes": "Wine-red leather coat and pointed hat, separate gloves and boots, restrained lower-tier decoration. Tripo skeleton visible and aligned in neutral pose.",
       "rigEvidence": "Humanoid selected; Mixamo preset; Skeleton checked; Rigged models can be used for animation link and Retry button visible.",
       "nativePlayerBinding": "pending-local-export",
-      "animationCheck": "pending-native-binding"
+      "animationCheck": "pending-native-binding",
+      "downloadReadyStarred": true,
+      "collectionEvidence": "Exact model UUID matched in Tripo Assets sidebar; favorite star changed from gray to yellow after click."
     },
     {
       "id": "dewglass-martial",
@@ -69,7 +71,9 @@
       "reviewNotes": "Pale jade leaf-patterned plate with purple underlayer, medieval helm and proportionate shoulders. Tripo skeleton visible and aligned in neutral pose.",
       "rigEvidence": "Humanoid selected; Mixamo preset; Skeleton checked; Rigged models can be used for animation link and Retry button visible.",
       "nativePlayerBinding": "pending-local-export",
-      "animationCheck": "pending-native-binding"
+      "animationCheck": "pending-native-binding",
+      "downloadReadyStarred": true,
+      "collectionEvidence": "Exact model UUID matched in Tripo Assets sidebar; favorite star changed from gray to yellow after click."
     },
     {
       "id": "mistweave-wizard",
@@ -97,7 +101,9 @@
       "reviewNotes": "Lavender and silver woven robes with pointed hat, split skirt and matching boots. Tripo skeleton visible and aligned in neutral pose. Skirt needs native binding acceptance.",
       "rigEvidence": "Humanoid selected; Mixamo preset; Skeleton checked; Rigged models can be used for animation link and Retry button visible.",
       "nativePlayerBinding": "pending-local-export",
-      "animationCheck": "pending-native-binding"
+      "animationCheck": "pending-native-binding",
+      "downloadReadyStarred": true,
+      "collectionEvidence": "Exact model UUID matched in Tripo Assets sidebar; favorite star changed from gray to yellow after click."
     },
     {
       "id": "crownsilver-martial",
@@ -125,7 +131,9 @@
       "reviewNotes": "Silver plate with gold trim, navy cloth and heraldic tabard. Medieval visor avoids superhero faceplate. Tripo skeleton visible and aligned in neutral pose.",
       "rigEvidence": "Humanoid selected; Mixamo preset; Skeleton checked; Rigged models can be used for animation link and Retry button visible.",
       "nativePlayerBinding": "pending-local-export",
-      "animationCheck": "pending-native-binding"
+      "animationCheck": "pending-native-binding",
+      "downloadReadyStarred": true,
+      "collectionEvidence": "Exact model UUID matched in Tripo Assets sidebar; favorite star changed from gray to yellow after click."
     },
     {
       "id": "crownhide-wizard",
@@ -153,8 +161,10 @@
       "reviewNotes": "Navy and ivory robes with pointed hat and gold embroidery. Tripo skeleton visible and aligned in neutral pose. Skirt needs native binding acceptance.",
       "rigEvidence": "Humanoid selected; Mixamo preset; Skeleton checked; Rigged models can be used for animation link and Retry button visible.",
       "nativePlayerBinding": "pending-local-export",
-      "animationCheck": "pending-native-binding"
+      "animationCheck": "pending-native-binding",
+      "downloadReadyStarred": true,
+      "collectionEvidence": "Exact model UUID matched in Tripo Assets sidebar; favorite star changed from gray to yellow after click."
     }
   ],
-  "notes": "All five whole sets completed Smart Mesh, saved Smart UV, 8K texture with Remove Lighting enabled, PBR, Simple segmentation, and Humanoid Mixamo rig through Tripo UI. After saving, the segmentation preview label reverted to Balanced while part counts were retained. No exports or production integration claimed. Root owns batch export, native player binding, integration and commits."
+  "notes": "All five whole sets completed Smart Mesh, saved Smart UV, 8K texture with Remove Lighting enabled, PBR, Simple segmentation, and Humanoid Mixamo rig through Tripo UI. After saving, the segmentation preview label reverted to Balanced while part counts were retained. No exports or production integration claimed. Root owns batch export, native player binding, integration and commits. All five completed model cards were starred for user download; yellow favorite state verified against each exact model UUID."
 }

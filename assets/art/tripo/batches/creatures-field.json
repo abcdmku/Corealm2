@@ -1,0 +1,318 @@
+{
+  "batch": "creatures-field",
+  "generator": "Tripo Studio GPT Image 2.5",
+  "created": "2026-09-22",
+  "imageGate": "Independent Astra-low field_audit approval required before new model, UV or texture jobs",
+  "productionIntegrated": false,
+  "workflow": {
+    "mesh": "Smart Mesh P2",
+    "topology": "Triangle",
+    "retopology": false,
+    "textureResolution": "8K",
+    "smartUv": true,
+    "rigging": true,
+    "animationChecks": [
+      "walk",
+      "run",
+      "attack",
+      "hit",
+      "death"
+    ],
+    "export": "Batch Export GLB with Export Skeleton"
+  },
+  "entries": [
+    {
+      "id": "field-wickerjaw",
+      "name": "Wickerjaw",
+      "replaces": [
+        "Heath Jack",
+        "fox family"
+      ],
+      "sourceId": "0f099638-0c31-44ee-950e-595ad5cb6625",
+      "image": "assets/art/tripo/references/field-wickerjaw.png",
+      "prompt": "FIELD01 WICKERJAW. Original small fantasy creature species for a serious medieval RPG, Fallowmarch heathland seed thief and burrow hunter. Anatomical design, not a real animal wearing fantasy decoration. Four balanced muscular legs, broad three-toed gripping paws, an oval torso of moderate thickness, a short flattened balancing tail. Its unmistakable head has a horizontally divided hard seed-cracking lower bill under a soft short muzzle, two small deep-set amber eyes, a pair of low swept-back folded sensory fins instead of mammal ears. Mature alert neutral expression. Fine russet and peat-brown velvet hide with dark branching freckle patterns, ochre worn bill edges, cream throat folds. Healthy and well fed but athletic, neither bulky nor skinny; ordinary sized head and feet. No horns, spikes, glowing parts, armor, fox ears, cat face, cute eyes or smile. Art direction of a grounded Knight Online or RuneScape creature designed by a human concept artist: simple legible silhouette, restrained fantasy, intentional anatomy. One creature only, full body three-quarter view, all four feet visible and separated for 3D rigging, standing naturally with tail clear of legs. Neutral light gray background, soft even studio light, realistic painted material detail, no pedestal, no text.",
+      "audit": {
+        "reviewer": "/root/field_audit",
+        "verdict": "DENY",
+        "reason": "Furred dinosaur reading from beaked head, reptilian legs and tail. Replace with upright woodland being with broad non-beaked face and grasping hands."
+      },
+      "model": {
+        "id": "e2105bc8-a5c2-49fd-a631-32d2c6346c2f",
+        "targetTriangles": 3500,
+        "actualTriangles": 3904,
+        "status": "held-rejected-source",
+        "smartUv": "requested before image gate; not promoted",
+        "texture": "not started",
+        "rig": "not started"
+      },
+      "sourceImageId": "0f099638-0c31-44ee-950e-595ad5cb6625",
+      "referenceReview": {
+        "status": "denied",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "0f099638-0c31-44ee-950e-595ad5cb6625",
+        "reason": "Furred dinosaur reading from beaked head, reptilian legs and tail. Replace with upright woodland being with broad non-beaked face and grasping hands."
+      }
+    },
+    {
+      "id": "field-hedge-clasper",
+      "name": "Hedge Clasper",
+      "replaces": [
+        "Thorn Maw"
+      ],
+      "sourceId": "cc9b0bcf-1c9e-4519-b081-998a45915df8",
+      "image": "assets/art/tripo/references/field-hedge-clasper.png",
+      "prompt": "FIELD02 HEDGE CLASPER. Original woodland ambush creature species for a serious medieval RPG. A living terrestrial plant predator that prunes invasive thickets. Balanced low four-legged body, each limb a supple rooted tendon of moderate thickness with three short gripping digits; a compact deep green trunk body with flexible ribbed growth seams. Head is a clean tapered seed-pod shape opening sideways at two fleshy hinged jaw lobes lined with small inward woody teeth. Two tiny dark sensory pits on upper pod. No human face. Its defining silhouette is one graceful curved dorsal leaf shielding its spine, not a forest of random spikes. Bark-green leathery plant skin with overlapping reddish-brown cambium scars, mossy olive mottling, fresh ochre bud tissue around joint folds; layered surface colors, alive and thriving. Muscular balanced proportions, not squat tank, not thin insect or stick creature. Serious and watchful, no horror rot, no skull, no cute mascot, no glowing veins, no horns. Readable classic Knight Online and RuneScape RPG style, individually designed anatomy rather than animal with decoration. Full body three-quarter view, four feet separated, mouth only slightly open, clear limb connections, neutral pale gray background, soft flat studio light, no base, no text.",
+      "audit": {
+        "reviewer": "/root/field_audit",
+        "verdict": "DENY",
+        "reason": "Long toothy reptile head, arched dinosaur neck and clawed quadruped posture. Redesign as upright rooted pitcher plant with radial opening, stalk arms and broad root feet."
+      },
+      "model": {
+        "targetTriangles": 5000,
+        "status": "not started"
+      },
+      "sourceImageId": "cc9b0bcf-1c9e-4519-b081-998a45915df8",
+      "referenceReview": {
+        "status": "denied",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "cc9b0bcf-1c9e-4519-b081-998a45915df8",
+        "reason": "Long toothy reptile head, arched dinosaur neck and clawed quadruped posture. Redesign as upright rooted pitcher plant with radial opening, stalk arms and broad root feet."
+      }
+    },
+    {
+      "id": "field-bramble-tiller",
+      "name": "Bramble Tiller",
+      "replaces": [
+        "Briar Harrow"
+      ],
+      "sourceId": "b715bac6-1c3e-41d5-b816-d88877850af4",
+      "image": "assets/art/tripo/references/field-bramble-tiller.png",
+      "prompt": "FIELD03 BRAMBLE TILLER. Original healthy woodland guardian species for a serious medieval RPG. Living root organism with a non-human four-legged anatomical design, not a man made of bark. Balanced muscular quadruped built around a horizontal arched root crown; four proportionate jointed root legs with broad divided digging pads, a short upward neck carrying a smooth wedge-shaped greenwood sensory head with two recessed dark amber eyes and a small beak-like split. Two curved flat hoe-shaped growths grow from its forearms for clearing soil, modest in size. The body is compact but not chunky, legs weight-bearing and neither thin nor stubby. Spring green cambium under warm gray-brown bark, fine layered lichen patches, reddish old growth edges and pale scraped wear on digging pads; only a few small fresh leaf shoots on shoulders. Distinct deliberate silhouette, no random antlers, no tree crown on head, no human face, no skull, no scifi armor, no smile or large eyes. It tends forest clearings and becomes dangerous when its root beds are harmed. Serious grounded Knight Online and RuneScape concept-art sensibility. One full-body creature at three-quarter angle, all four legs visible apart for rigging, clean neutral gray backdrop, diffuse material lighting, no environment or text.",
+      "audit": {
+        "reviewer": "/root/field_audit",
+        "verdict": "DENY",
+        "reason": "Pointed beaked head and long neck read as dinosaur and repeat animal chassis. Redesign upright bramble worker with short trunk face, branch arms and root legs."
+      },
+      "model": {
+        "targetTriangles": 5000,
+        "status": "not started"
+      },
+      "sourceImageId": "b715bac6-1c3e-41d5-b816-d88877850af4",
+      "referenceReview": {
+        "status": "denied",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "b715bac6-1c3e-41d5-b816-d88877850af4",
+        "reason": "Pointed beaked head and long neck read as dinosaur and repeat animal chassis. Redesign upright bramble worker with short trunk face, branch arms and root legs."
+      }
+    },
+    {
+      "id": "field-knotwarden",
+      "name": "Knotwarden",
+      "replaces": [
+        "Hollow Bough"
+      ],
+      "sourceId": "a7bec67e-77f3-4366-92d2-70c331c9460b",
+      "image": "assets/art/tripo/references/field-knotwarden.png",
+      "prompt": "FIELD04 KNOTWARDEN. Original ancient woodland creature for a serious medieval RPG, a living fallen-bough guardian with purposeful unusual anatomy. Four evenly proportioned articulated limbs support a gently arched cylindrical trunk body, medium solid build with clear flexible joints; forward pair end in curved split root hands, hind pair in grounded rounded root feet. A single hollow resonating knot sits at the front of its short neck as its head, oblique natural oval opening with a small living amber bud inside, no face, no human eyes or nose. Rounded shoulders formed by old growth curls, flexible greenwood tendon joints, modest curved tail-like root for balance. Sound from the knot warns the forest of fire. Healthy timber with walnut brown grain, honey colored exposed knots, muted green lichen islands and fine pale moss fibers; limited fresh foliage tucked into upper growth seams. This is a living organism not a dead tree monster. Neither huge blocky golem nor skeletal branch stick figure. No horns, no spikes, no robot masks, no glowing fissures, no skull or ribs, no cute expression. Restrained hand-designed classic RPG look with Knight Online and RuneScape readability. Full body three-quarter natural standing riggable pose, all four limbs separated, soft gray background, even light, no pedestal, no text.",
+      "audit": {
+        "reviewer": "/root/field_audit",
+        "verdict": "APPROVE",
+        "reason": "Hollow knot face and root hands establish distinct fantasy being. Living shoots and lichen, solid readable wooden anatomy."
+      },
+      "model": {
+        "targetTriangles": 5000,
+        "status": "mesh generating; input source UUID verified; output source pending verification",
+        "starred": false,
+        "id": "700784eb-f8e8-48c9-b673-41977ea512db",
+        "inputSourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b"
+      },
+      "sourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b",
+        "reason": "Hollow knot face and root hands establish distinct fantasy being. Living shoots and lichen, solid readable wooden anatomy."
+      },
+      "heldModel": {
+        "id": "7f01743c-c408-4489-bd18-3166f587a608",
+        "sourceImageId": "d82bb9e5-3038-418e-bdb3-bfe9a428a474",
+        "reason": "Tripo visible reference inspection shows feathered humanoid, not approved Knotwarden source. Removed from field ready set; no export.",
+        "starred": false
+      }
+    },
+    {
+      "id": "field-fallow-brute",
+      "name": "Fallow Brute",
+      "replaces": [
+        "Plains Ogre"
+      ],
+      "sourceId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+      "image": "assets/art/tripo/references/field-fallow-brute.png",
+      "prompt": "FIELD05 FALLOW BRUTE. Serious medieval RPG plains ogre, original mature humanoid species inspired by early Knight Online creature readability. Tall but balanced muscular adult, believable six-and-a-half head proportions, a broad but not barrel-shaped torso, ordinary length strong legs and long capable arms ending in normal sized four-finger hands. A low forehead, small steady eyes, flat broad nose, thick closed lips and one short lower tusk on either side; calm wary expression, not grotesque or cute. Warm clay-brown skin with leathery callus pads on shoulders and knuckles, sparse dark hair in a short rough scalp strip, faint ochre clan pigment rubbed into old skin creases. Wears a practical plain woven flax waist wrap and a single fitted leather belt with a small seed pouch, no armor and no weapon so animation can use separate props. It lives at grassland edges and guards grain stores. Distinct face with natural organic planes, no horns, no scifi mask, no giant belly, no oversized fists, no skinny legs, no skulls, no ornamental clutter or glowing eyes. Healthy neutral ecology creature, game-ready readable silhouette and hand-painted skin detail. Full body front three-quarter relaxed A pose, fingers slightly apart, feet planted apart, neutral gray background, diffuse lighting, no base or text.",
+      "audit": {
+        "reviewer": "/root/field_audit",
+        "verdict": "APPROVE",
+        "reason": "Healthy serious orc anatomy, balanced solid limbs, readable cloth/leather/skin without decorative armor. Close relative of Grove Brute."
+      },
+      "model": {
+        "targetTriangles": 6500,
+        "status": "ready for user batch export",
+        "id": "37458f5d-edc4-443d-97f8-dad5716de47b",
+        "actualTriangles": 6568,
+        "smartUv": "completed and saved",
+        "chronology": "First mesh and all downstream jobs requested only after exact source approval by field_audit.",
+        "texture": "8K completed",
+        "rig": "completed Humanoid Mixamo",
+        "pbr": "not required: matte skin and fiber",
+        "starred": true,
+        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export",
+        "export": {
+          "path": "C:/Users/Borg/Downloads/corealm_fallow_brute_37458f5d_8k_rigged.glb",
+          "bytes": 16841356,
+          "skinJoints": 54,
+          "textureDimensions": [
+            8192,
+            8192
+          ],
+          "animations": [],
+          "verified": true
+        },
+        "verifiedSourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+        "sourceVerification": "Direct Tripo Texture reference image UUID matched approved source"
+      },
+      "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+        "reason": "Healthy serious orc anatomy, balanced solid limbs, readable cloth/leather/skin without decorative armor. Close relative of Grove Brute."
+      }
+    },
+    {
+      "id": "field-grove-brute",
+      "name": "Grove Brute",
+      "replaces": [
+        "Forest Ogre"
+      ],
+      "sourceId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+      "image": "assets/art/tripo/references/field-grove-brute.png",
+      "prompt": "FIELD06 GROVE BRUTE. Serious medieval RPG forest ogre from a healthy woodland ecosystem. Mature intelligent nonhuman humanoid, balanced powerful build with proportional hands and feet, substantial but ordinary-width shoulders, long weight-bearing legs, neither bulky bodybuilder nor skinny giant. Broad sloping forehead, small dark watchful eyes, wide flat nose, closed thick lips, two modest flat lower tusks, short coarse dark hair. Skin is warm olive-brown with pale tan palm calluses and darker freckled patches around shoulders; finely layered leathery pores and old healed scratches, alive and cared for. Practical woven bark-fiber waist wrap, fitted brown leather shoulder sling holding an empty gathering basket close to back, restrained useful objects only. Hands empty and clear for rigging. He tends coppiced woodland and protects mushroom beds. Original early Knight Online / RuneScape serious creature art, neutral intent, quiet credible presence, no horns, no antlers, no leaf beard, no man covered in random tree parts, no skull trophies, no scifi elements, no enormous fists, no cute eyes or smile. Full body front three-quarter relaxed A pose, arms away from torso and feet apart, neutral light gray background, even diffuse light, no pedestal or text.",
+      "audit": {
+        "reviewer": "/root/field_audit",
+        "verdict": "APPROVE",
+        "reason": "Grounded healthy orc with practical basket and clear material detail. Close relative of Fallow Brute."
+      },
+      "model": {
+        "id": "07e65df7-8ccb-4a73-872a-54d1229da86c",
+        "targetTriangles": 6500,
+        "status": "ready for user batch export",
+        "smartUv": "completed and saved",
+        "texture": "8K completed",
+        "rig": "completed Humanoid Mixamo",
+        "actualTriangles": 6566,
+        "starred": true,
+        "pbr": "not required: matte skin and fiber",
+        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export",
+        "chronology": "Mesh requested before the new image-review gate. Held at gate. Exact source approved by field_audit before Smart UV, 8K texture, rig and star actions.",
+        "verifiedSourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+        "sourceVerification": "Direct Tripo Texture reference image UUID matched approved source"
+      },
+      "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+        "reason": "Grounded healthy orc with practical basket and clear material detail. Close relative of Fallow Brute."
+      }
+    },
+    {
+      "id": "field-heath-knucker-v2",
+      "name": "Heath Knucker",
+      "replaces": [
+        "Heath Jack",
+        "fox family"
+      ],
+      "sourceId": "bf4d830a-9ecd-4ef4-aa10-40e1439bb4f6",
+      "sourceImageId": "bf4d830a-9ecd-4ef4-aa10-40e1439bb4f6",
+      "image": "assets/art/tripo/references/field-heath-knucker-v2.png",
+      "prompt": "FIELD07 HEATH KNUCKER. A mature upright woodland fantasy being for a serious PG-13 medieval RPG, replacement for ordinary fox and hare encounters in a thriving temperate heath. Original biped anatomy, standing on TWO strong proportional legs, TWO articulate arms held clear of torso with three-finger seed-cracking hands. Solid athletic body of balanced width and five-and-a-half head proportions, short neck, small broad non-beaked face, flat flexible nose, thick closed lips, small deep-set amber eyes and low folded sensory ears close to scalp. Short bristled russet velvet skin with irregular peat-brown branching freckles, cream throat patch and pale callused palms. No tail. Grounded natural creature with clever wary adult expression, subtle asymmetry in brow and skin, neither baby nor comic character. It digs seed stores under hedges and grips stones to crack hard nuts. Modest woven grass belt only, no weapon. Distinct hands and broad upright posture are the memorable silhouette. No dinosaur, reptile, bird beak, animal skull, elongated snout, long neck, horns, spikes, skeleton, armor, science fiction, huge fists, giant shoulders or twig limbs. Clear restrained authored shape language inspired by Knight Online and RuneScape. Complete full body front three-quarter relaxed A pose, feet apart, fingers separated, neutral light gray background, soft even lighting, no text, no base.",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "bf4d830a-9ecd-4ef4-aa10-40e1439bb4f6",
+        "reason": "Upright beastfolk silhouette removes dinosaur anatomy; adult balanced musculature, restrained face, layered russet and cream fur."
+      },
+      "model": {
+        "targetTriangles": 4000,
+        "status": "ready for export",
+        "id": "0f74b416-840b-419a-8f5d-c4cfc0a80a02",
+        "actualTriangles": 4269,
+        "verifiedSourceImageId": "bf4d830a-9ecd-4ef4-aa10-40e1439bb4f6",
+        "smartUv": "completed and saved",
+        "texture": "8K completed",
+        "rig": "completed Humanoid Mixamo",
+        "pbr": "not required: matte fur and fiber",
+        "starred": true,
+        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export"
+      }
+    },
+    {
+      "id": "field-hedge-clasper-v2",
+      "name": "Hedge Clasper",
+      "replaces": [
+        "Thorn Maw"
+      ],
+      "sourceId": "83e2ac95-d092-4dbb-b922-63c8027c344c",
+      "sourceImageId": "83e2ac95-d092-4dbb-b922-63c8027c344c",
+      "image": "assets/art/tripo/references/field-hedge-clasper-v2.png",
+      "prompt": "FIELD08 HEDGE CLASPER REVISED. A living rooted pitcher-plant monster for a serious PG-13 medieval RPG woodland. Upright body on TWO solid broad root feet, TWO flexible stalk arms of medium strength ending in three fleshy gripping fingers. Its head is a stout upright pitcher cup with a small RADIAL circular opening tilted slightly forward, overlapping blunt inner feeding pads, no toothed animal jaws or skull. Neck very short. Balanced torso shaped like a muscular folded plant stalk, moderate width and clear flexible joint transitions. A single curved modest leaf forms a lid behind the head cup. Leaf-green leathery plant skin with olive mottling, reddish-brown growth seams, muted ochre inner cup and deep plum joint folds. Rich layered organic texture and living buds, no rot or wounds. Territorial thicket pruner, alien botanical design with calm purposeful presence rather than horror or cute mascot. Functional and readable silhouette, mature sturdy ordinary proportions, neither chunky nor overly thin. No quadruped animal body, dinosaur, reptile, bird, tail, beak, long neck, horns, random spikes, human face, glowing robot mask, armor. Classic Knight Online and RuneScape serious fantasy art direction. One full body in front three-quarter view, arms away from torso, root feet apart, all extremities visible for rigging, neutral gray studio background, no text, no pedestal.",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "83e2ac95-d092-4dbb-b922-63c8027c344c",
+        "reason": "Pitcher opening and root feet form distinct botanical monster, living green and red-veined materials, solid separate limbs without reptile chassis."
+      },
+      "model": {
+        "targetTriangles": 5000,
+        "status": "PBR completed; rig pending",
+        "id": "43f50f53-5a1d-49f7-9d8c-34d502d4ec4d",
+        "verifiedSourceImageId": "83e2ac95-d092-4dbb-b922-63c8027c344c",
+        "actualTriangles": 5453,
+        "smartUv": "completed and saved",
+        "texture": "8K completed",
+        "pbr": "completed for waxy plant skin",
+        "starred": false
+      }
+    },
+    {
+      "id": "field-bramble-tiller-v2",
+      "name": "Bramble Tiller",
+      "replaces": [
+        "Briar Harrow"
+      ],
+      "sourceId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+      "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+      "image": "assets/art/tripo/references/field-bramble-tiller-v2.png",
+      "prompt": "FIELD09 BRAMBLE TILLER REVISED. A living upright bramble worker for a serious PG-13 medieval RPG healthy woodland ecosystem. TWO firmly grounded root legs and TWO clearly separated branch arms with proportionate three-finger hands. Its broad but balanced trunk torso has continuous curved grain and flexible greenwood tendons instead of stacked wood armor; strong limbs of ordinary thickness. A short neck supports a blunt oval trunk face with a small natural horizontal seam and two deep-set tiny dark amber sensory buds, no human nose or robot mask. Two modest curved flat hoe-shaped growths extend from outer forearms for clearing soil. Short roots at the heels, no tail. Warm gray-brown living bark, spring-green cambium at joint folds, pale scraped digging edges, reddish growth scars and layered lichen speckles. Only a few fresh leaf shoots at shoulders. Purposeful ecological keeper of root beds; serious quiet and healthy, no dead tree horror, no rot, no skeleton. Memorable compact upright silhouette inspired by early Knight Online and RuneScape hand-authored RPG design. No dinosaur, animal chassis, bird beak, long neck, horns, antler crown, cartoon eyes, huge shoulders, blocky fists or skeletal branches. Full body front three-quarter relaxed A pose, arms away from trunk, feet apart, neutral gray background, even lighting, no base or text.",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "field_audit (gpt-6-astra low)",
+        "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+        "reason": "Upright trunk and branch anatomy removes dinosaur issue; functional forearm cutting growths, living bark, lichen and shoots."
+      },
+      "model": {
+        "targetTriangles": 5000,
+        "status": "ready for export",
+        "id": "0900292c-ef73-40f9-864d-1f289df395f5",
+        "actualTriangles": 5821,
+        "verifiedSourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+        "smartUv": "completed and saved",
+        "texture": "8K completed",
+        "rig": "completed Humanoid Mixamo",
+        "pbr": "not required: matte living wood",
+        "starred": true,
+        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export"
+      }
+    }
+  ]
+}

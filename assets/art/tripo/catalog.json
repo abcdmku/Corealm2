@@ -79,7 +79,12 @@
         "id": "c5a70ae1-ee14-41c4-8f64-0f7415431954",
         "generationVerified": "Smart Mesh P2.0, Triangle, target 5000",
         "generatedTriangles": 5392,
-        "status": "geometry-completed"
+        "status": "rig-submitted-verification-pending",
+        "smartUv": "saved",
+        "textureResolution": 8192,
+        "pbr": "completed",
+        "segmentedParts": 17,
+        "rig": "Humanoid Mixamo submitted; current completion not yet verified"
       }
     },
     {
@@ -194,7 +199,14 @@
       "tripoModel": {
         "id": "a5963344-843a-47a7-8ff4-4d91210b18b4",
         "generationVerified": "Smart Mesh P2.0, Triangle, target 5000",
-        "status": "generation-submitted"
+        "status": "rig-submitted-verification-pending",
+        "generatedTriangles": 4767,
+        "smartUv": "saved",
+        "textureResolution": 8192,
+        "pbr": "completed",
+        "segmentedParts": 28,
+        "rig": "Humanoid Mixamo submitted; current completion not yet verified",
+        "downloadMatch": "fantasy+wizard+armor+3d.glb static batch export, 4767 triangles, 28 parts"
       }
     },
     {
@@ -383,5 +395,18 @@
         ]
       }
     }
-  ]
+  ],
+  "creatureApprovalGate": {
+    "reviewer": "gpt-6-astra-low",
+    "requirement": "Explicit APPROVE for the exact source image UUID before generating a new creature model. Revisions require a fresh verdict.",
+    "modelSourceVerification": "Verify the actual Tripo model Texture reference-image UUID matches the approved UUID; a ledger label alone is not evidence.",
+    "heldModels": "Historical denied, superseded or mismatched models remain unstarred and excluded from imports.",
+    "acceptance": "Image approval and Tripo rig completion do not imply game acceptance. Validate skin weights and quick walk, run, attack, hit and death in the production feature lab."
+  },
+  "exportWorkflow": {
+    "preferred": "Individual GLB export, 8k Current, Export Skeleton enabled; Pack UV disabled when present.",
+    "automation": "Unsegmented creature exports downloaded through the UI. Some segmented armor exports still reach ERR_BLOCKED_BY_CLIENT.",
+    "sourceValidation": "Preserve downloaded originals. Inspect embedded texture dimensions, source identity, skin weights and inverse bind matrices before importing. Several rig-page GLBs contain unusable root-only weights and require correction.",
+    "segmentedTextureCaveat": "The available armor exports have reduced per-part textures despite selecting 8K; these are not accepted as preserved 8K masters."
+  }
 }

@@ -32,7 +32,9 @@
       "verifiedRiggedVertices": 4080,
       "visualReview": "Tripo screenshot reviewed; native player fit not yet tested",
       "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064",
-      "sourceReference": "assets/art/tripo/references/novice-wizard.png"
+      "sourceReference": "assets/art/tripo/references/novice-wizard.png",
+      "downloadReadyStarred": true,
+      "collectionVerification": "Exact model ID present in Tripo Collected sidebar after star action"
     },
     {
       "tier": 1,
@@ -48,7 +50,9 @@
       "previewSegments": 7,
       "verifiedRiggedVertices": 3597,
       "visualReview": "Tripo screenshot reviewed; native player fit not yet tested",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/026ce9e7-7aa1-45b8-9f06-71e77456488c"
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/026ce9e7-7aa1-45b8-9f06-71e77456488c",
+      "downloadReadyStarred": true,
+      "collectionVerification": "Exact model ID present in Tripo Collected sidebar after star action"
     },
     {
       "tier": 5,
@@ -66,7 +70,9 @@
       "verifiedRiggedVertices": 4842,
       "visualReview": "Tripo screenshot reviewed; native player fit not yet tested",
       "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/cdbbbe9d-00aa-4643-8a45-fcc859ec87ca",
-      "sourceReference": "assets/art/tripo/references/early-iron-martial.png"
+      "sourceReference": "assets/art/tripo/references/early-iron-martial.png",
+      "downloadReadyStarred": true,
+      "collectionVerification": "Exact model ID present in Tripo Collected sidebar after star action"
     },
     {
       "tier": 5,
@@ -83,7 +89,9 @@
       "previewSegments": 21,
       "verifiedRiggedVertices": 4962,
       "visualReview": "Tripo screenshot reviewed; native player fit not yet tested",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/20da09df-3f2e-415b-aca2-10406106024e"
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/20da09df-3f2e-415b-aca2-10406106024e",
+      "downloadReadyStarred": true,
+      "collectionVerification": "Exact model ID present in Tripo Collected sidebar after star action"
     },
     {
       "tier": 10,
@@ -99,7 +107,9 @@
       "previewSegments": 18,
       "verifiedRiggedVertices": 5136,
       "visualReview": "Tripo screenshot reviewed; native player fit not yet tested",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/e7c9f2c3-2278-4367-801e-13d19bd62a01"
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/e7c9f2c3-2278-4367-801e-13d19bd62a01",
+      "downloadReadyStarred": true,
+      "collectionVerification": "Exact model ID present in Tripo Collected sidebar after star action"
     }
   ]
 }

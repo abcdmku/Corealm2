@@ -1,0 +1,674 @@
+{
+  "batch": "creatures-fairy",
+  "owner": "/root/creatures_fairy",
+  "restoredAfterDiskFull": true,
+  "generator": "Tripo GPT Image 2.5",
+  "workflow": {
+    "mesh": "Smart Mesh P2",
+    "topology": "Triangle",
+    "retopology": false,
+    "uv": "Smart UV saved before textures",
+    "texture": "8K",
+    "pbr": "Required for luminous or reflective creatures; completed for current models",
+    "riggingRequired": true,
+    "export": "Individual UI GLB, 8k Current, Export Skeleton enabled, Pack UV off if present; user explicitly authorized individual exports",
+    "biomeVariants": "Reuse base meshes; image-generated layered detailed texture maps, never monochromatic recolors"
+  },
+  "acceptanceGate": {
+    "reviewer": "fairy_audit",
+    "model": "gpt-6-astra",
+    "reasoningEffort": "low",
+    "exactImageApprovalBeforeModel": true,
+    "noDinosaurs": true,
+    "rating": "PG-13"
+  },
+  "assets": [
+    {
+      "key": "root-tender",
+      "name": "Root Tender",
+      "replaces": [
+        "Briar Sapling",
+        "Starroot Tender"
+      ],
+      "targetTriangles": 4000,
+      "sourceImageId": "fcc7fa78-f111-454e-bda2-ffc4469f1576",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/fcc7fa78-f111-454e-bda2-ffc4469f1576/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-root-tender.png",
+      "sourceImageSha256": "2b3c4b701e1241696120d6fe60dad42127db87bbef35532549b670255bd7817f",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "fcc7fa78-f111-454e-bda2-ffc4469f1576",
+        "reasons": [
+          "Wholly braided-root anatomy with bud sensory slit, functional digging digits, textured living growth."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "7508cd34-a17e-4945-8c38-e6ae4542f4b2",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=7508cd34-a17e-4945-8c38-e6ae4542f4b2",
+      "actualTriangles": 4204,
+      "vertices": 2619,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Humanoid Mixamo",
+      "rigCompleted": true,
+      "tabId": "1472601659",
+      "worker": "botanical_models",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "dewglass-reliquary",
+      "name": "Dewglass Reliquary",
+      "replaces": [
+        "Dewglass Reliquary"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/46fc14b8-a68c-4020-a738-ad8423dbae96/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-dewglass-reliquary.png",
+      "sourceImageSha256": "86413c08dad4c5b500703ff373c9c2fb2c5349b5cfd61a82f46131c729fc261a",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+        "reasons": [
+          "Unusual living reservoir silhouette, clear functional limbs, mineral/pearl layered skin."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "exported_rigged_glb",
+      "downloadReadyStarred": true,
+      "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=d95af2cf-3b9a-498d-9403-7a55fd873a73",
+      "actualTriangles": 5242,
+      "vertices": 3173,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Other",
+      "rigCompleted": true,
+      "tabId": "1472601625",
+      "worker": "creatures_fairy",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "bytes": 21448588,
+        "sha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+        "skins": 1,
+        "joints": 14,
+        "animations": 0,
+        "baseColorSize": [
+          8192,
+          8192
+        ],
+        "metallicRoughnessSize": [
+          4096,
+          4096
+        ],
+        "normalSize": [
+          4096,
+          4096
+        ],
+        "verified": true
+      }
+    },
+    {
+      "key": "dewglass-weaver",
+      "name": "Dewglass Weaver",
+      "replaces": [
+        "Dewglass Weaver"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/fd6a89d9-bc1a-4b39-9b3c-197179f4e281/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-dewglass-weaver.png",
+      "sourceImageSha256": "290b413c7efd877bc804b08ffc35c8446d4a705ef3595c48b700673fc844e601",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+        "reasons": [
+          "Coherent leaf arthropod anatomy, readable six-legged stance, layered opal cuticle."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "exported_rigged_glb",
+      "downloadReadyStarred": true,
+      "modelId": "3ead9c24-4f01-468d-9742-6995dc817118",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=3ead9c24-4f01-468d-9742-6995dc817118",
+      "actualTriangles": 5460,
+      "vertices": 3555,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Other",
+      "rigCompleted": true,
+      "tabId": "1472601649",
+      "worker": "creatures_fairy",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_dewglass_weaver_3ead9c24_8k_rigged.glb",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "bytes": 27182612,
+        "sha256": "93c742635c17f766e50c3e5f38ab8c3f303ea820cadc9197ba0601618740de88",
+        "skins": 1,
+        "joints": 18,
+        "animations": 0,
+        "baseColorSize": [
+          8192,
+          8192
+        ],
+        "metallicRoughnessSize": [
+          4096,
+          4096
+        ],
+        "normalSize": [
+          4096,
+          4096
+        ],
+        "verified": true
+      }
+    },
+    {
+      "key": "lantern-sprite",
+      "name": "Lantern Sprite standing rejected source",
+      "replaces": [
+        "Lantern Sprite",
+        "Prismatic Sprite"
+      ],
+      "targetTriangles": 3500,
+      "sourceImageId": "97896aef-d95c-4bb7-9649-837dcfb95af3",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/97896aef-d95c-4bb7-9649-837dcfb95af3/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-lantern-sprite.png",
+      "sourceImageSha256": "b29cc030fac97536cc11f98f23ad610d8e5d64f5eab0789319efa1dbbfa3c9e1",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "denied",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "97896aef-d95c-4bb7-9649-837dcfb95af3",
+        "reasons": [
+          "Grounded narrow avian legs and oversized head crest read birdlike walker. Flight revision needs visible broad functional wings and tucked hovering feet."
+        ]
+      },
+      "modelStarted": false,
+      "stage": "denied_image_held",
+      "downloadReadyStarred": false
+    },
+    {
+      "key": "mooncap-sporekin",
+      "name": "Mooncap Sporekin",
+      "replaces": [
+        "Mooncap Sporekin",
+        "Duskcap Sporekin"
+      ],
+      "targetTriangles": 4000,
+      "sourceImageId": "375ac1a5-ca5a-449e-a05c-a81f6a405245",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/375ac1a5-ca5a-449e-a05c-a81f6a405245/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-mooncap-sporekin.png",
+      "sourceImageSha256": "a8d38f95deaa5c5710705c705ee3444492ab62b11077cd20d1f264fd495242d5",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "375ac1a5-ca5a-449e-a05c-a81f6a405245",
+        "reasons": [
+          "Fused gill head/trunk, convincing continuous fungal skin, capable balanced limbs."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "cde60b92-dc34-41a2-9d66-135d21b75e05",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=cde60b92-dc34-41a2-9d66-135d21b75e05",
+      "actualTriangles": 4217,
+      "vertices": 2836,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Humanoid Mixamo",
+      "rigCompleted": true,
+      "tabId": "1472601663",
+      "worker": "botanical_models",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "mooncap-snail",
+      "name": "Mooncap Snail",
+      "replaces": [
+        "Mooncap Snail",
+        "Starcap Snail"
+      ],
+      "targetTriangles": 4000,
+      "sourceImageId": "0eb3ade5-d1c9-4fcd-ab7a-32c51ba39651",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/0eb3ade5-d1c9-4fcd-ab7a-32c51ba39651/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-mooncap-snail.png",
+      "sourceImageSha256": "e7ed8e7089fdb37fadb894f5df85d9ed6003a22de86836e5af3dc7c781560a07",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "0eb3ade5-d1c9-4fcd-ab7a-32c51ba39651",
+        "reasons": [
+          "Adult snail exception, layered mineral shell and mottled tissue, no mascot expression."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "69abe6f5-af9d-4617-857d-d2ba60375f54",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=69abe6f5-af9d-4617-857d-d2ba60375f54",
+      "actualTriangles": 4154,
+      "vertices": null,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Other",
+      "rigCompleted": true,
+      "tabId": "1472601666",
+      "worker": "flyer_models",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "glasspond-frog",
+      "name": "Glasspond Frog",
+      "replaces": [
+        "Glasspond Frog"
+      ],
+      "targetTriangles": 3500,
+      "sourceImageId": "250b0552-6e98-4ed2-b2a7-9f12d7aa9e2a",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/250b0552-6e98-4ed2-b2a7-9f12d7aa9e2a/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-glasspond-frog.png",
+      "sourceImageSha256": "74a10e3368db3cebd5121d568cdea2e771fef6724a313871b9e7587b242b20fb",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "250b0552-6e98-4ed2-b2a7-9f12d7aa9e2a",
+        "reasons": [
+          "Grounded adult frog exception, layered peacock mottling and veins, balanced limbs."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "05481088-98cd-4385-9275-dc4e5bff375d",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=05481088-98cd-4385-9275-dc4e5bff375d",
+      "actualTriangles": 3811,
+      "vertices": 2414,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Other",
+      "rigCompleted": true,
+      "tabId": "1472601652",
+      "worker": "creatures_fairy",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "moonpetal-stalker",
+      "name": "Moonpetal Stalker",
+      "replaces": [
+        "Moonpetal Stalker"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "91a930c5-cc4b-4991-9993-f93ea61f2d3c",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/91a930c5-cc4b-4991-9993-f93ea61f2d3c/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-moonpetal-stalker.png",
+      "sourceImageSha256": "c250e072e16995fcd313af79c5c54e183675bf84e7cb20b27b4f46e537c0844b",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "91a930c5-cc4b-4991-9993-f93ea61f2d3c",
+        "reasons": [
+          "Coherent radial petal mouth and muscular membrane body, distinct layered cream/mulberry/teal regions, balanced predatory quadruped. Raised eyes are a little prominent but do not make it a cute mascot."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "a56dd8d1-bb33-4f3e-803f-c1f9fbdc6469",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=a56dd8d1-bb33-4f3e-803f-c1f9fbdc6469",
+      "actualTriangles": 5412,
+      "vertices": 3313,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Other",
+      "rigCompleted": true,
+      "tabId": "1472601665",
+      "worker": "botanical_models",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "silverleaf-petalguard",
+      "name": "Silverleaf Petalguard rejected source",
+      "replaces": [
+        "Silverleaf Petalguard"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "043ce37c-253d-4770-81b9-9fb064cab7ce",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/043ce37c-253d-4770-81b9-9fb064cab7ce/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-silverleaf-petalguard.png",
+      "sourceImageSha256": "a5ee2917a03f45e922dd3dd8520674f540b3183b3590c1f96a93631b5d9a3c0c",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "denied",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "043ce37c-253d-4770-81b9-9fb064cab7ce",
+        "reasons": [
+          "Symmetrical pointed shoulder pauldrons, chest cuirass and hip plates read a human wearing leaf armor; long fingers drift thin. Require continuous twisted stem torso, asymmetric leaf growth, no discrete shoulder/hip plates and shorter strong digits."
+        ]
+      },
+      "modelStarted": false,
+      "stage": "denied_image_held",
+      "downloadReadyStarred": false
+    },
+    {
+      "key": "thistledown-veilspirit",
+      "name": "Thistledown Veilspirit standing rejected source",
+      "replaces": [
+        "Thistledown Veilspirit",
+        "Orchid Veilspirit"
+      ],
+      "targetTriangles": 4500,
+      "sourceImageId": "97f58f12-a293-4748-a133-56fb8a648c90",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/97f58f12-a293-4748-a133-56fb8a648c90/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-thistledown-veilspirit.png",
+      "sourceImageSha256": "0730df0223c63370d0027709158aaa15e16713345dab5536c5d01ab54d0ae6db",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "denied",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "97f58f12-a293-4748-a133-56fb8a648c90",
+        "reasons": [
+          "Draped arm membranes read cloak, feet grounded. Flight revision needs spread supported wings and clear airborne pose."
+        ]
+      },
+      "modelStarted": false,
+      "stage": "denied_image_held",
+      "downloadReadyStarred": false
+    },
+    {
+      "key": "elder-grovebeast",
+      "name": "Elder Grovebeast rejected source",
+      "replaces": [
+        "Elder Grovebeast"
+      ],
+      "targetTriangles": 6500,
+      "sourceImageId": "fbac8707-b3d0-4947-a400-7d5a2ac917ff",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/fbac8707-b3d0-4947-a400-7d5a2ac917ff/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-elder-grovebeast.png",
+      "sourceImageSha256": "02a87480024ecf8c27f0838f2eea8260b2aa5bc2e4f37e4e3673d14e9acbb14e",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "denied",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "fbac8707-b3d0-4947-a400-7d5a2ac917ff",
+        "reasons": [
+          "Beaked reptile head and massive four-legged reptilian stance read as dinosaur, expressly excluded; muted brown bark dominates. Replace with botanical radial grinding bud mouth, divided root limbs, nonreptilian torso and larger plum/lavender living tissue areas."
+        ]
+      },
+      "modelStarted": false,
+      "stage": "denied_image_held",
+      "downloadReadyStarred": false
+    },
+    {
+      "key": "orchid-reaper",
+      "name": "Orchid Reaper",
+      "replaces": [
+        "Orchid Reaper"
+      ],
+      "targetTriangles": 5500,
+      "sourceImageId": "21b5a5c2-2918-48cc-8123-e0c84ca8d13d",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/21b5a5c2-2918-48cc-8123-e0c84ca8d13d/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-orchid-reaper.png",
+      "sourceImageSha256": "bd05cf530761acd864cf0eeb5ff9aeca72abbfb28a5f85a441373285b0e65003",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "21b5a5c2-2918-48cc-8123-e0c84ca8d13d",
+        "reasons": [
+          "Truly petal-grown mouth/blades and fibrous joints, restrained predator mass, aubergine/ivory/coral layering."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "27afaa71-4c4c-4ff5-8062-310d439bf111",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=27afaa71-4c4c-4ff5-8062-310d439bf111",
+      "actualTriangles": 5970,
+      "vertices": 3738,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Humanoid Mixamo",
+      "rigCompleted": true,
+      "tabId": "1472601668",
+      "worker": "botanical_models",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "lantern-sprite-flight",
+      "name": "Lantern Sprite",
+      "replaces": [
+        "Lantern Sprite",
+        "Prismatic Sprite"
+      ],
+      "targetTriangles": 3500,
+      "sourceImageId": "aad97912-7760-46ee-86be-a85f5d5e98bd",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/aad97912-7760-46ee-86be-a85f5d5e98bd/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-lantern-sprite-flight.png",
+      "sourceImageSha256": "2e50f467c77509077c656ce6c878d1df61370d72695bbc4bd484b5fd73e5fe5a",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "aad97912-7760-46ee-86be-a85f5d5e98bd",
+        "reasons": [
+          "Four broad veined wings attach coherently at torso; tucked legs and unsupported body read hover; indigo/teal/amber layered tissue stays serious and organic."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "98776da4-a10d-4974-910d-adba0888e99b",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=98776da4-a10d-4974-910d-adba0888e99b",
+      "actualTriangles": 3754,
+      "vertices": null,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Other",
+      "rigCompleted": true,
+      "tabId": "1472601660",
+      "worker": "flyer_models",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "thistledown-veilspirit-flight",
+      "name": "Thistledown Veilspirit",
+      "replaces": [
+        "Thistledown Veilspirit",
+        "Orchid Veilspirit"
+      ],
+      "targetTriangles": 4500,
+      "sourceImageId": "4bac7be3-ebc9-4644-b1c8-10d932fc3945",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/4bac7be3-ebc9-4644-b1c8-10d932fc3945/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-thistledown-veilspirit-flight.png",
+      "sourceImageSha256": "7577d0c0af2c29a12a439d1fdea0966314de4ff6724b3860f8f18828fe238ae3",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "4bac7be3-ebc9-4644-b1c8-10d932fc3945",
+        "reasons": [
+          "Arm-supported membrane wings have visible load-bearing rays and wide span; suspended legs establish airborne pose; faceless bud core and pearl/violet/copper tissue read alien life."
+        ]
+      },
+      "modelStarted": true,
+      "stage": "rigged_ready_for_export",
+      "downloadReadyStarred": true,
+      "modelId": "b2fe6659-4935-43f9-a687-3af27da7490a",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=b2fe6659-4935-43f9-a687-3af27da7490a",
+      "actualTriangles": 4815,
+      "vertices": null,
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "smartUvSaved": true,
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigType": "Other",
+      "rigCompleted": true,
+      "tabId": "1472601664",
+      "worker": "flyer_models",
+      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+    },
+    {
+      "key": "silverleaf-petalguard-r2",
+      "name": "Silverleaf Petalguard",
+      "replaces": [
+        "Silverleaf Petalguard"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "82e99623-4f48-4a56-93f4-b3262bb8ca17",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/82e99623-4f48-4a56-93f4-b3262bb8ca17/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-silverleaf-petalguard-r2.png",
+      "sourceImageSha256": "1b6bf96ff97cd51ce23d4bba1336ac330ee9be02f36386c21cf15efcc0ec6bc2",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "82e99623-4f48-4a56-93f4-b3262bb8ca17",
+        "reasons": [
+          "Continuous woven stem anatomy replaces armor plates; asymmetric leaf growth and shorter functional digits resolve costume/thin-hand concerns; silver leaves, burgundy fibers, moss and growth scars give layered organic detail."
+        ]
+      },
+      "modelStarted": false,
+      "stage": "approved_image_ready_for_model",
+      "downloadReadyStarred": false
+    },
+    {
+      "key": "elder-grovebeast-r2",
+      "name": "Elder Grovebeast",
+      "replaces": [
+        "Elder Grovebeast"
+      ],
+      "targetTriangles": 6500,
+      "sourceImageId": "4b8cb069-0372-436b-a844-67280b1d8004",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/4b8cb069-0372-436b-a844-67280b1d8004/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-elder-grovebeast-r2.png",
+      "sourceImageSha256": "5a0b1441c7c3b4637c0de977b198637c7d95c865a1a361b4980a6b60a9380bea",
+      "prompt": null,
+      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "fairy_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "4b8cb069-0372-436b-a844-67280b1d8004",
+        "reasons": [
+          "Radial botanical mouth and root-built feet remove dinosaur read; plum fiber cage around lavender living sacs establishes strange fairy anatomy; weight-bearing limbs support its large grazer body without mascot proportions."
+        ]
+      },
+      "modelStarted": false,
+      "stage": "approved_image_ready_for_model",
+      "downloadReadyStarred": false
+    }
+  ]
+}

@@ -1,0 +1,539 @@
+{
+  "version": 1,
+  "owner": "creatures_crown_wild",
+  "generator": "Tripo Studio / GPT Image 2.5",
+  "created": "2026-09-22",
+  "direction": "Serious medieval RPG inspired by Knight Online and RuneScape. Balanced mature builds, layered natural materials, no dinosaur stand-ins, science fiction faces, cute mascots, excessive horns or clutter. Crownward is maintained and dignified; wilderness permits stranger darker forms. Banshee and spectral families float.",
+  "workflow": {
+    "mesh": "Smart Mesh P2.0",
+    "topology": "Triangle",
+    "retopology": false,
+    "textureResolution": 8192,
+    "smartUv": true,
+    "rigRequired": true,
+    "productionStatus": "not-integrated",
+    "imageGate": "Exact source Astra-low wild_audit approval before current model generation"
+  },
+  "assets": [
+    {
+      "id": "vault-custodian",
+      "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/6ad1ad82-dbb7-4d87-ae76-c022d945687b/image.png",
+      "file": "refs/crown-wild-vault-custodian-v2.png",
+      "sha256": "5ebbdb2b027da7fa92d48fe2788b2edcc6ce8fc70412bea634b055172a828e54",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+        "verdict": "approved",
+        "reasons": [
+          "Weathered layered stone with natural recessed joints",
+          "Balanced sentinel silhouette"
+        ]
+      },
+      "targetTriangles": 5000,
+      "actualTriangles": 5476,
+      "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+      "modelOwner": "spectral_model_finish",
+      "stage": "exported-awaiting-game-acceptance",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 70.2,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Humanoid Mixamo",
+      "export": {
+        "format": "GLB",
+        "textureResolution": 8192,
+        "exportSkeleton": true,
+        "path": "C:/Users/Borg/Downloads/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+        "bytes": 28704296,
+        "skinJoints": 54,
+        "baseColorResolution": 8192,
+        "normalAndRoughnessMetalnessResolution": 4096,
+        "animations": 0
+      },
+      "history": [
+        {
+          "sourceImageId": "1a694e1f-50c7-4006-a949-416b0e1fe793",
+          "file": "refs/crown-wild-vault-custodian.png",
+          "modelId": "1b8cbc0d-ccbf-4c40-87a1-a821715cc50a",
+          "referenceReview": "denied",
+          "createdBeforeImageGate": true,
+          "processingAfterGate": false,
+          "downloadReadyStarred": false,
+          "modelStatus": "held",
+          "review": {
+            "reviewer": "wild_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "1a694e1f-50c7-4006-a949-416b0e1fe793",
+            "verdict": "denied",
+            "reasons": [
+              "Exposed circular mechanical elbow and knee hinges and machine-like fingers"
+            ]
+          }
+        }
+      ],
+      "prompt": "Vault Custodian, a living limestone temple sentinel for a serious medieval RPG. A balanced human-height stone body with proportionate broad chest, solid arms and legs, small blunt three-fingered hands. Head has the solemn outline of a plain greathelm but is continuous naturally weathered stone with one deep narrow horizontal aperture. Torso and limbs are continuous carved limestone, never a suit of armor on a man. Joints are deep flexible shadowed folds between overlapping worn stone surfaces, with no circular pivots, metal machinery or mechanical fingers. Pale warm limestone has dense gray veins, faint ocher mineral layers, chisel scars and softened chipped edges. Modest blue woven oath sash at waist. Neutral watchful guardian of an old maintained shrine. No horns, no bulky boulder stacking, no robot parts."
+    },
+    {
+      "id": "veil-reaper",
+      "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/6d49aefd-62a1-418f-890a-e204ce693159/image.png",
+      "file": "refs/crown-wild-veil-reaper-v2.png",
+      "sha256": "d3208fda49bda846869148d01148d14d67eb6a130218437ef91d2d6fe82ac297",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+        "verdict": "approved",
+        "reasons": [
+          "Unmistakably floating with legless spectral tails",
+          "Dark hood and claws convey serious fantasy without gore or science fiction"
+        ]
+      },
+      "targetTriangles": 5000,
+      "actualTriangles": 4883,
+      "modelId": "6fadb584-9372-420c-87b0-b53632c3cbf3",
+      "modelOwner": "spectral_model_finish",
+      "stage": "exported-awaiting-game-acceptance",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 70.0,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Other",
+      "export": {
+        "format": "GLB",
+        "textureResolution": 8192,
+        "exportSkeleton": true,
+        "path": "C:/Users/Borg/Downloads/corealm_veil_reaper_6fadb584_8k_rigged.glb",
+        "bytes": 21261276,
+        "skinJoints": 54,
+        "baseColorResolution": 8192,
+        "normalAndRoughnessMetalnessResolution": 4096,
+        "animations": 0
+      },
+      "history": [
+        {
+          "sourceImageId": "d82bb9e5-3038-418e-bdb3-bfe9a428a474",
+          "modelId": "04236a47-9f50-448d-9a6a-d68ca4659f3c",
+          "referenceReview": "superseded",
+          "reason": "User requested floating spectral anatomy; not a critic denial",
+          "createdBeforeImageGate": true,
+          "processingAfterGate": false,
+          "downloadReadyStarred": false,
+          "modelStatus": "held"
+        }
+      ],
+      "variantsProposed": [
+        "Gloam Wraith"
+      ],
+      "variantStatus": "not-generated",
+      "prompt": "Veil Reaper, a floating wilderness predatory spirit for a serious medieval RPG. A balanced substantial upper body with two strong proportionate arms ending in three hooked fingers. The head is shaped like a downward folded slate hood, its face a single deep vertical seam rather than a human skull or mask. Four broad layers of blue-gray leathery hide form a short mantle grown from the shoulders. The lower torso tapers into one broad split spectral tail, two curling gray-plum veils drift in open air without legs or feet. Pale salt streaks on dark hide, small dim amber light deep in the facial seam. Suspended a short distance above the ground, neutral poised floating posture, no scythe, no skeletal thinness, no corpse anatomy.",
+      "promptSuffixOverride": " Serious medieval RPG creature concept with the clear authored silhouette and grounded material treatment of classic Knight Online and RuneScape. Balanced adult proportions, believable body mass and useful articulated limbs. No oversized shoulders, wafer-thin limbs, cute face, decorative horns, excessive spikes, science fiction, Iron Man mask, random gold filigree, floating debris or ornamental clutter. One full body at three-quarter angle, neutral hovering pose, arms slightly separated, entire spectral tail visible, all extremities inside frame, plain warm gray background, even lighting, no text or base."
+    },
+    {
+      "id": "pallid-shade",
+      "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb/image.png",
+      "file": "refs/crown-wild-pallid-shade-v2.png",
+      "sha256": "a91b06eba5e89766848c4fd788f06a9c34512c4c18c798abedcd659943ba4e83",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "38e488ba-cee6-4b83-9fe2-a2f6e6fd00bb",
+        "verdict": "approved",
+        "reasons": [
+          "Legless translucent specter",
+          "Featureless split face and layered spectral body without robot hardware"
+        ]
+      },
+      "targetTriangles": 5000,
+      "actualTriangles": 5258,
+      "modelId": "cc8d0574-5566-4cad-85a7-0a56b618a042",
+      "modelOwner": "spectral_model_finish",
+      "stage": "rig-complete-awaiting-export",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 73.1,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Other",
+      "variantsProposed": [
+        "Wraith"
+      ],
+      "variantStatus": "not-generated",
+      "prompt": "Pallid Shade, a floating wilderness echo spirit for a serious medieval RPG. Adult human height, balanced substantial upper torso and two proportionate arms with broad four-fingered hands. A smooth pale oval head has one curved recessed groove and no human features. Opaque waxen ash-gray skin with layered violet marbling, broad folds like cooled wax at chest and shoulders. The lower torso narrows into two broad intertwined ribbons of translucent gray-violet mist ending above the ground, no legs or feet. Restrained pale violet light within the head groove, solemn still presence, no exposed bones or skull. Clearly airborne, clean silhouette and enough solid upper body for animation."
+    },
+    {
+      "id": "grave-lantern",
+      "sourceImageId": "1dc306b6-3aa3-45de-9941-949552ed9d20",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/1dc306b6-3aa3-45de-9941-949552ed9d20/image.png",
+      "file": "refs/crown-wild-grave-lantern-v2.png",
+      "sha256": "054d4a6a5a1e3023afc43874f02d3f44e7e4cc76f76847724345fc46cbe0aceb",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "1dc306b6-3aa3-45de-9941-949552ed9d20",
+        "verdict": "approved",
+        "reasons": [
+          "Headless amber cage and three root limbs remove dinosaur anatomy",
+          "Bark, lichen and resin retain layered material detail"
+        ]
+      },
+      "targetTriangles": 5000,
+      "actualTriangles": 5095,
+      "modelId": "4c0c3739-ec06-4410-9290-699c77d11b6a",
+      "modelOwner": "creatures_crown_wild",
+      "stage": "8k-texture-generating",
+      "pbr": true,
+      "downloadReadyStarred": false,
+      "productionStatus": "not-integrated",
+      "uvUtilization": null,
+      "history": [
+        {
+          "sourceImageId": "d048dc78-5d16-4e32-8adc-93b37c9f5140",
+          "file": "refs/crown-wild-grave-lantern.png",
+          "referenceReview": "denied",
+          "review": {
+            "reviewer": "wild_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "d048dc78-5d16-4e32-8adc-93b37c9f5140",
+            "verdict": "denied",
+            "reasons": [
+              "Dinosaur or lizard head, reptile tail and three-toed dinosaur feet"
+            ]
+          }
+        }
+      ],
+      "prompt": "Grave Lantern revision two. An unfamiliar mobile woodland grave ward, its entire torso a vertically oval open cage of dark petrified wood enclosing one ribbed amber glass light organ. Exactly three moderately thick jointed root limbs radiate evenly from the bottom of the cage, each ending in a broad blunt three-lobed root pad. No separate head, neck, face, snout, jaw, shoulders, hips or tail. Two short strong curved branch feelers emerge beside the amber organ to touch old stones. The organism senses through the warm amber body, not eyes. Continuous weathered wood grain flows through torso and root limbs, dark umber resin folds at joints, uneven pale gray lichen and copper growth scars. Waist-high, balanced weight with ordinary strong limbs, neutral patient shrine keeper. Natural living fantasy anatomy with a lantern-shaped body, never a turtle, dinosaur or animal carrying a lantern.",
+      "promptSuffixOverride": " Serious PG-13 medieval RPG concept in the spirit of Knight Online and RuneScape, balanced mature proportions, broad readable forms and layered hand-painted natural material detail. No dinosaurs, reptiles, cute mascots, skinny limbs, oversized fists, science fiction, robot faceplates, ornamental horns or random spikes. One entire creature at front three-quarter view, limbs separated, all extremities fully in frame with generous margin, plain warm gray background, soft even lighting, no scenery, pedestal or text.",
+      "smartUv": "saved",
+      "textureStatus": "8k-generating"
+    },
+    {
+      "id": "banshee",
+      "sourceImageId": "142a84c7-ce68-4a9a-be9e-d607c555beca",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/142a84c7-ce68-4a9a-be9e-d607c555beca/image.png",
+      "file": "refs/crown-wild-banshee-v2.png",
+      "sha256": "938263bc97ceab41557c0e90f32a80dc699bb1ecbd941543570857feb2f5d402",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "142a84c7-ce68-4a9a-be9e-d607c555beca",
+        "verdict": "approved",
+        "reasons": [
+          "Unmistakably floating female ghost",
+          "Dress dissolves into translucent tails without corpse or gore"
+        ]
+      },
+      "targetTriangles": 5000,
+      "actualTriangles": 4474,
+      "modelId": "956635da-08fc-4770-905e-5bee385bcaf9",
+      "modelOwner": "spectral_model_finish",
+      "stage": "rig-complete-awaiting-export",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 72.4,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Other",
+      "history": [
+        {
+          "sourceImageId": "02fcb80e-a0f9-4367-bb0f-7b5ca984de10",
+          "referenceReview": "superseded",
+          "reason": "User requested floating ghost anatomy"
+        }
+      ],
+      "prompt": "Banshee, a floating wilderness mourning ghost for a serious medieval RPG. Full adult female upper body with balanced anatomy, stern long face with closed eyes and gray lavender skin, mouth slightly open in a solemn breath. Dense dark hair forms two broad swept-back locks joined into a short heavy braid. Faded midnight-blue burial gown with a woven silver hem. The empty lower gown opens into three broad curling ribbons of pale blue mist that taper in open air, unmistakably hovering above the ground, no legs or feet beneath. Proportionate arms separated from torso, wrapped forearms and relaxed visible hands. Restrained lavender light at throat, quiet mournful menace, no exposed bones, no gore, no shredded rag cloud.",
+      "promptSuffixOverride": " Serious medieval RPG creature concept with the clear authored silhouette and grounded material treatment of classic Knight Online and RuneScape. Balanced adult proportions, believable body mass and useful articulated limbs. No oversized shoulders, wafer-thin limbs, cute face, decorative horns, excessive spikes, science fiction, Iron Man mask, random gold filigree, floating debris or ornamental clutter. One full body at three-quarter angle, neutral hovering pose, arms slightly separated, entire spectral tail visible, all extremities inside frame, plain warm gray background, even lighting, no text or base."
+    },
+    {
+      "id": "revenant",
+      "sourceImageId": "547d71b5-ee5f-477e-a03c-fd53e5b94c1d",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/547d71b5-ee5f-477e-a03c-fd53e5b94c1d/image.png",
+      "file": "refs/crown-wild-revenant.png",
+      "sha256": "04939a49aba571ab5c31fcdd498a06d3fc5cc258a923b919013cefef064ad635",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "547d71b5-ee5f-477e-a03c-fd53e5b94c1d",
+        "verdict": "approved",
+        "reasons": [
+          "Intact undead soldier face",
+          "Worn chain and leather layers",
+          "Balanced medieval proportions"
+        ]
+      },
+      "targetTriangles": 5000,
+      "actualTriangles": 5281,
+      "modelId": "97940d41-9ad5-42a0-83f1-ed40797a2c62",
+      "modelOwner": "wild_model_finish",
+      "stage": "exported-rig-needs-repair",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 72.6,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Humanoid Mixamo",
+      "prompt": "Revenant, a wilderness fallen road warden returned to duty. Adult human warrior with balanced average muscular build, weathered olive-gray skin, stern intact face and short coarse dark hair. Low round iron helmet open at face with a dented nasal guard. Worn dark rust chain shirt, split brown leather skirt, practical steel bracers and thick walking boots. Old moss stitched through the shoulder strap, faded red cloth wraps and pale salt stains. Both hands empty and clearly visible. Undead through stillness and cold gray eyes, not a skeleton or zombie gore. Grounded veteran silhouette, no huge pauldrons, no spikes.",
+      "rigValidation": "failed",
+      "rigNeedsRepair": true,
+      "export": {
+        "format": "GLB",
+        "textureResolution": 8192,
+        "exportSkeleton": true,
+        "path": "C:/Users/Borg/Downloads/corealm_revenant_97940d41_8k_rigged.glb",
+        "bytes": 26908564,
+        "skinJoints": 54,
+        "animations": 0,
+        "dominantHipsVertices": 3536,
+        "vertices": 3536
+      }
+    },
+    {
+      "id": "chainbound-archon",
+      "sourceImageId": "43600cfb-63f6-46b0-919f-698243884f34",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/43600cfb-63f6-46b0-919f-698243884f34/image.png",
+      "file": "refs/crown-wild-chainbound-archon.png",
+      "sha256": "6e18b516549d05214104eb653233fb51c4146f03bba01055a47267ab2cedaf21",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "43600cfb-63f6-46b0-919f-698243884f34",
+        "verdict": "approved",
+        "reasons": [
+          "Restrained bell helm and attached chains provide readable identity",
+          "Weathered plate and cloth remain fantasy"
+        ]
+      },
+      "targetTriangles": 6500,
+      "actualTriangles": 6894,
+      "modelId": "7b60bf75-4990-476d-8087-c32e36aac850",
+      "modelOwner": "wild_model_finish",
+      "stage": "rig-complete-awaiting-export",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 77.0,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Humanoid Mixamo",
+      "prompt": "Chainbound Archon, a tall wilderness judgment construct with an adult athletic humanoid silhouette. The head is a solid weathered bronze bell shape, open downward, with a narrow dark sound slit across the front and no human face. A stout iron yoke crosses its shoulders, two short heavy chain lengths are secured along its forearms as binding tools, never dangling across limbs. Torso is dark fired ceramic shaped as a plain barrel breastplate over soot-colored flexible leather. Broad segmented hands, proportionate thighs and calves, block-soled feet. Old pale bronze edges, black-green oxidation in grooves, charcoal red clay chips. Small amber glow inside bell slit. Sacred medieval craftsmanship, no horns, crown spikes or science fiction robot."
+    },
+    {
+      "id": "furnace-regent",
+      "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/1f397436-2ecc-48ba-ac51-98f40a79b063/image.png",
+      "file": "refs/crown-wild-furnace-regent-v2.png",
+      "sha256": "1be56d413fe9fcd1672933c102e3fb20bb58762249f726faeb048273e7ce4113",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "1f397436-2ecc-48ba-ac51-98f40a79b063",
+        "verdict": "approved",
+        "reasons": [
+          "Eroded hollow kiln head removes robot face",
+          "Irregular ember fissures and porous clay provide authored elemental identity",
+          "Solid balanced body"
+        ]
+      },
+      "targetTriangles": 6500,
+      "actualTriangles": 6706,
+      "modelId": "c797b18d-ae98-4890-8e2c-54377e12a2a0",
+      "modelOwner": "creatures_crown_wild",
+      "stage": "8k-texture-generating",
+      "pbr": true,
+      "downloadReadyStarred": false,
+      "productionStatus": "not-integrated",
+      "uvUtilization": null,
+      "history": [
+        {
+          "sourceImageId": "86989bd3-faf6-45d4-bc77-d844abe069d4",
+          "file": "refs/crown-wild-furnace-regent.png",
+          "referenceReview": "denied",
+          "review": {
+            "reviewer": "wild_audit",
+            "model": "gpt-6-astra",
+            "reasoningEffort": "low",
+            "sourceImageId": "86989bd3-faf6-45d4-bc77-d844abe069d4",
+            "verdict": "denied",
+            "reasons": [
+              "Robot or Iron Man mask-panel face and symmetric horizontal rib slots"
+            ]
+          }
+        }
+      ],
+      "prompt": "Furnace Regent revision two. A serious wilderness kiln-stone sovereign, large balanced humanoid body formed from continuous weathered fired clay with proportionate muscular limbs. The upper torso rises into one hollow sloping craggy kiln arch where a head would be. Inside the arch is a deep irregular dark cavity with dim orange embers at its back, no face, eyes, cheeks, mouth, nose, helmet or mask. Old lumpy terracotta surfaces have fine mineral grain, broad natural erosion hollows and uneven soot deposits. Irregular branching ember fissures run only through the lower ribs and left shoulder, never repeated straight slots. Strong four-fingered rough clay hands and wide plain feet, ordinary shoulders and forearms, no separate armor plates or machine joints. A short ash-gray woven waist mantle hangs from a simple rope. Substantial yet balanced build, dignified unsettling presence, restrained heat rather than fire covering the body.",
+      "promptSuffixOverride": " Serious PG-13 medieval RPG concept in the spirit of Knight Online and RuneScape, balanced mature proportions, broad readable forms and layered hand-painted natural material detail. No dinosaurs, reptiles, cute mascots, skinny limbs, oversized fists, science fiction, robot faceplates, ornamental horns or random spikes. One entire creature at front three-quarter view, limbs separated, all extremities fully in frame with generous margin, plain warm gray background, soft even lighting, no scenery, pedestal or text.",
+      "smartUv": "saved",
+      "textureStatus": "8k-generating"
+    },
+    {
+      "id": "voidstone-colossus",
+      "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e551d858-ef7a-460a-afb9-5d4859292e45/image.png",
+      "file": "refs/crown-wild-voidstone-colossus.png",
+      "sha256": "59e85d30f77c695204057970e2f1cbe16dbf64f9aee785eca4d71f16a4be1190",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "e551d858-ef7a-460a-afb9-5d4859292e45",
+        "verdict": "approved",
+        "reasons": [
+          "Irregular layered geology and central void seam",
+          "Substantial limbs read fantasy stone being"
+        ]
+      },
+      "targetTriangles": 6500,
+      "actualTriangles": 7098,
+      "modelId": "fb1656c7-b508-44a2-a5ef-4359320f912c",
+      "modelOwner": "wild_model_finish",
+      "stage": "rig-complete-awaiting-export",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 73.6,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "prompt": "Voidstone Colossus, a towering wilderness mineral guardian with balanced powerful anatomy and clearly articulated limbs. Its narrow torso forms an upright split column of dark violet basalt with a deep natural vertical cleft, lower body grounded on two proportionate sturdy legs and wide rock feet. Long heavy arms end in three blunt grasping stone digits, arm length only slightly greater than human. Head is a forward inclined blunt slab with a deep horizontal recess, no sculpted face or helmet. Broad erosion channels, lavender mineral veins, weathered gray edges and green-black inclusions. A faint violet glow lies deep inside the torso cleft. Geological planes rather than stacked boulders, no spikes, horns, crystals attached at random, or oversized fists.",
+      "rigType": "Humanoid Mixamo"
+    },
+    {
+      "id": "red-dragon",
+      "sourceImageId": "7be6e74e-3c63-4e8a-919f-cc6f415822d4",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/7be6e74e-3c63-4e8a-919f-cc6f415822d4/image.png",
+      "file": "refs/crown-wild-red-dragon.png",
+      "sha256": "7938d512e86acba10ed37cfe8767193ad8a066e0b71891ca0f5e4a664b550d99",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "7be6e74e-3c63-4e8a-919f-cc6f415822d4",
+        "verdict": "approved",
+        "reasons": [
+          "Classic four-legged winged dragon",
+          "Expressive draconic head, layered scales and substantial body"
+        ]
+      },
+      "targetTriangles": 9000,
+      "actualTriangles": 9327,
+      "modelId": "d20f1d55-1dce-46f6-b4e4-375769915b1f",
+      "modelOwner": "wild_model_finish",
+      "stage": "rig-complete-awaiting-export",
+      "pbr": true,
+      "downloadReadyStarred": true,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 78.7,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "variantsProposed": [
+        "Red Wilderness Dragon"
+      ],
+      "variantStatus": "not-generated",
+      "prompt": "Red Dragon of Crownward, a mature serious medieval dragon, balanced long-bodied six-limbed anatomy with four sturdy walking legs and two broad leathery wings half-open and clearly separated behind shoulders. Strong long neck, narrow wedge head with a single swept-back pair of short brow crests, closed jaw with small visible lower teeth. Long tapering tail curves outward with tip visible. Thick crimson scales with dark wine ridges, warm ocher underside, restrained black horn claws, weathered burgundy wing membranes with vein patterns and old pale healed scars. Intelligent territorial temperament, weight carried on all four feet. Classic dragon, no giant head, no oversized horns, no armor, no jewels or decorative patterns.",
+      "rigStatus": "completed",
+      "rigType": "Other"
+    },
+    {
+      "id": "crown-knight",
+      "sourceImageId": "59ac6fb8-1bc6-4263-81a4-d21a548dc31a",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/59ac6fb8-1bc6-4263-81a4-d21a548dc31a/image.png",
+      "file": "refs/crown-wild-crown-knight.png",
+      "sha256": "1b0967188b315b1ecf507d8299a07e4fee219f1d6b0eaece0a0ea25754c2b561",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "wild_audit",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "59ac6fb8-1bc6-4263-81a4-d21a548dc31a",
+        "verdict": "approved",
+        "reasons": [
+          "Clear medieval steel construction",
+          "Believable cloth and leather layering",
+          "Balanced proportions"
+        ]
+      },
+      "targetTriangles": 5000,
+      "actualTriangles": 5427,
+      "modelId": "f3b036f0-e5a0-423e-bbce-4cd37cfbd51a",
+      "modelOwner": "spectral_model_finish",
+      "stage": "exported-rig-needs-repair",
+      "pbr": true,
+      "downloadReadyStarred": false,
+      "productionStatus": "not-integrated",
+      "uvUtilization": 79.0,
+      "smartUv": "saved",
+      "textureStatus": "8k-completed",
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Humanoid Mixamo",
+      "variantsProposed": [
+        "Ivory Castellan",
+        "Pearl Knight",
+        "Nightforge Marshal"
+      ],
+      "variantStatus": "not-generated",
+      "prompt": "Crownward Oathkeeper, a noble living medieval knight guarding a prosperous kingdom. Adult balanced athletic build and human proportions, practical closed greathelm with a straight narrow eye slit and flat crown, no sculpted face. Well-maintained silver steel plate over quilted deep blue cloth, softly worn steel edges and restrained engraved lines only at borders. Proportionate shoulder plates, overlapping elbow and knee armor conceals the articulation, practical five-finger gloves, solid walking sabatons. A simple ivory tabard divided below belt carries one small blue heraldic bar. Both hands empty, no sword or shield. Dignified neutral sentinel, no gold ornament, wings, horns or glowing eyes.",
+      "rigValidation": "failed",
+      "rigNeedsRepair": true,
+      "export": {
+        "format": "GLB",
+        "textureResolution": 8192,
+        "exportSkeleton": true,
+        "path": "C:/Users/Borg/Downloads/corealm_crownward_oathkeeper_f3b036f0_8k_rigged.glb",
+        "bytes": 34429788,
+        "skinJoints": 54,
+        "baseColorResolution": 8192,
+        "normalAndRoughnessMetalnessResolution": 4096,
+        "animations": 0,
+        "dominantHipsVertices": 3772,
+        "vertices": 3774
+      }
+    }
+  ],
+  "recoveryNote": "Ledger rebuilt from verified source IDs, hashes, Astra verdict messages and worker stage messages after an ENOSPC write truncated the prior untracked JSON. Exported source files were unaffected.",
+  "sharedPromptSuffix": " Serious medieval RPG creature concept with the clear authored silhouette and grounded material treatment of classic Knight Online and RuneScape. Balanced adult proportions, believable body mass and useful articulated limbs. No oversized shoulders, wafer-thin limbs, cute face, decorative horns, excessive spikes, science fiction, Iron Man mask, random gold filigree, floating debris or ornamental clutter. One full body at three-quarter angle, neutral ready stance, arms slightly separated, feet visible, all extremities inside frame, plain warm gray background, even lighting, no text or base."
+}

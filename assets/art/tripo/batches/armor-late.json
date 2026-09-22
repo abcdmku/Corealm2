@@ -27,12 +27,13 @@
       "pbr": "complete",
       "segmentation": "saved",
       "rig": "Humanoid Mixamo complete; Skeleton visible and enabled",
-      "export": "pending",
+      "export": "User download handoff; starred in Tripo collection",
       "integration": "pending",
       "segmentCount": 40,
       "vertices": 6942,
       "visualReview": "Reviewed finished textured rig preview; balanced wearable medieval silhouette. Native slot binding and animation acceptance pending.",
-      "url": "https://studio.tripo3d.ai/workspace/rigging/cc618fd5-433e-4a90-978c-fd957504b5f3"
+      "url": "https://studio.tripo3d.ai/workspace/rigging/cc618fd5-433e-4a90-978c-fd957504b5f3",
+      "downloadReadyStarred": true
     },
     {
       "key": "staramethyst-martial",
@@ -46,12 +47,13 @@
       "pbr": "complete",
       "segmentation": "saved",
       "rig": "Humanoid Mixamo complete; Skeleton visible and enabled",
-      "export": "pending",
+      "export": "User download handoff; starred in Tripo collection",
       "integration": "pending",
       "segmentCount": 32,
       "vertices": 6079,
       "visualReview": "Reviewed finished textured rig preview; balanced wearable medieval silhouette. Native slot binding and animation acceptance pending.",
-      "url": "https://studio.tripo3d.ai/workspace/rigging/345486fd-8001-4f74-b85b-e5ee50af89c6"
+      "url": "https://studio.tripo3d.ai/workspace/rigging/345486fd-8001-4f74-b85b-e5ee50af89c6",
+      "downloadReadyStarred": true
     },
     {
       "key": "cindersteel-martial",
@@ -65,12 +67,13 @@
       "pbr": "complete",
       "segmentation": "saved",
       "rig": "Humanoid Mixamo complete; Skeleton visible and enabled",
-      "export": "pending",
+      "export": "User download handoff; starred in Tripo collection",
       "integration": "pending",
       "segmentCount": 26,
       "vertices": 6444,
       "visualReview": "Reviewed finished textured rig preview; balanced wearable medieval silhouette. Native slot binding and animation acceptance pending.",
-      "url": "https://studio.tripo3d.ai/workspace/rigging/7971b96b-dc57-46e0-8b60-f3c054478f6d"
+      "url": "https://studio.tripo3d.ai/workspace/rigging/7971b96b-dc57-46e0-8b60-f3c054478f6d",
+      "downloadReadyStarred": true
     },
     {
       "key": "starhide-wizard",
@@ -85,12 +88,13 @@
       "pbr": "complete",
       "segmentation": "saved",
       "rig": "Humanoid Mixamo complete; Skeleton visible and enabled",
-      "export": "pending",
+      "export": "User download handoff; starred in Tripo collection",
       "integration": "pending",
       "segmentCount": 40,
       "vertices": 5188,
       "visualReview": "Reviewed finished textured rig preview; balanced wearable medieval silhouette. Native slot binding and animation acceptance pending.",
-      "url": "https://studio.tripo3d.ai/workspace/rigging/d8d97261-b328-4f2f-ad0f-e091bc0dc366"
+      "url": "https://studio.tripo3d.ai/workspace/rigging/d8d97261-b328-4f2f-ad0f-e091bc0dc366",
+      "downloadReadyStarred": true
     },
     {
       "key": "dragonhide-wizard",
@@ -105,12 +109,13 @@
       "pbr": "complete",
       "segmentation": "saved",
       "rig": "Humanoid Mixamo complete; Skeleton visible and enabled",
-      "export": "pending",
+      "export": "User download handoff; starred in Tripo collection",
       "integration": "pending",
       "segmentCount": 9,
       "vertices": 6421,
       "visualReview": "Reviewed finished textured rig preview; balanced wearable medieval silhouette. Native slot binding and animation acceptance pending.",
-      "url": "https://studio.tripo3d.ai/workspace/rigging/cece2daf-bcfc-4737-bc40-b1ece5c73765"
+      "url": "https://studio.tripo3d.ai/workspace/rigging/cece2daf-bcfc-4737-bc40-b1ece5c73765",
+      "downloadReadyStarred": true
     }
   ]
 }
