@@ -449,6 +449,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // 5. Renderer.
   setStatus("Starting graphics…",1);
   const renderer = new Renderer(canvas);
+  await renderer.init();
   renderer.setRenderScale(initialSettings.renderScale);
   renderer.setShadowQuality(initialSettings.shadowQuality);
   renderer.setDrawDistance(initialSettings.drawDistance);
@@ -3493,7 +3494,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       // Lab setup waits for the renderer; game sessions joined before final graphics preparation.
       selection?.setReady();
       // The first frame is on screen. The spell pools' programs finish now, between frames; `boot.effects.ready` records when.
-      void renderer.finishDeferredEffects();
+      void renderer.finishDeferredEffects().catch(error => {
+        console.error("Unable to prepare background spell graphics", error);
+      });
       if (labSpec && startFeatureLab) {
         // A lab is ready when its worker's world is joined, the character is set up and the first target stands in it.
         await new Promise<void>((resolve, reject) => {

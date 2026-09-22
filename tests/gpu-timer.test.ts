@@ -1,63 +1,64 @@
-import { describe, expect, it, vi } from "vitest";
-import { GpuTimer } from "../game/src/render/gpuTimer.js";
+import { describe, expect, it, vi } from 'vitest';
+import { GpuTimer } from '../game/src/render/gpuTimer.js';
 
-function fixture(supported = true) {
-  let available = false;
-  let disjoint = false;
-  const gl = {
-    QUERY_RESULT_AVAILABLE: 1, QUERY_RESULT: 2,
-    getExtension: () => supported ? { TIME_ELAPSED_EXT: 3, GPU_DISJOINT_EXT: 4 } : null,
-    getParameter: () => disjoint,
-    createQuery: vi.fn(() => ({})), deleteQuery: vi.fn(), beginQuery: vi.fn(), endQuery: vi.fn(),
-    getQueryParameter: vi.fn((_query: unknown, parameter: number) => {
-      if (parameter === 1) return available;
-      if (!available) throw new Error("Blocking query result read");
-      return 12_500_000;
-    }),
+function fixture(supported = true, interval = 10, phase = 0) {
+  const pending: { resolve(ms: number | undefined): void; reject(error: Error): void }[] = [];
+  const renderer = {
+    hasFeature: vi.fn(() => supported),
+    resolveTimestampsAsync: vi.fn(() => new Promise<number | undefined>((resolve, reject) => {
+      pending.push({ resolve, reject });
+    })),
   };
-  return { gl, timer: new GpuTimer(gl as unknown as WebGL2RenderingContext),
-    available: () => { available = true; }, disjoint: () => { disjoint = true; } };
+  return { renderer, timer: new GpuTimer(renderer, interval, phase),
+    complete: async (index: number, ms: number | undefined) => { pending[index]!.resolve(ms); await Promise.resolve(); },
+    fail: async (index: number) => { pending[index]!.reject(new Error('Device lost')); await Promise.resolve(); } };
 }
 
-describe("nonblocking GPU render timer", () => {
-  it("alternates frame and shadow queries without nesting the WebGL elapsed target", () => {
-    const f = fixture();
-    let active = false;
-    f.gl.beginQuery.mockImplementation(() => { expect(active).toBe(false); active = true; });
-    f.gl.endQuery.mockImplementation(() => { expect(active).toBe(true); active = false; });
-    const whole = new GpuTimer(f.gl as unknown as WebGL2RenderingContext, 20, 0);
-    const shadow = new GpuTimer(f.gl as unknown as WebGL2RenderingContext, 20, 10);
-    for (let frame = 0; frame < 40; frame++) {
-      whole.begin(); shadow.begin(); shadow.end(); whole.end();
-    }
-    expect(f.gl.beginQuery).toHaveBeenCalledTimes(4);
-    expect(whole.snapshot().pending).toBe(2);
-    expect(shadow.snapshot().pending).toBe(2);
-    expect(active).toBe(false);
-    whole.dispose(); shadow.dispose();
-  });
-  it("leaves unsupported contexts uninstrumented", () => {
+describe('nonblocking GPU render timer', () => {
+  it('leaves unsupported backends uninstrumented', () => {
     const f = fixture(false);
     f.timer.begin(); f.timer.end();
-    expect(f.gl.createQuery).not.toHaveBeenCalled();
+    expect(f.renderer.hasFeature).toHaveBeenCalledWith('timestamp-query');
+    expect(f.renderer.resolveTimestampsAsync).not.toHaveBeenCalled();
     expect(f.timer.snapshot()).toMatchObject({ supported: false, milliseconds: null });
   });
-  it("bounds pending work and reads elapsed time only after availability", () => {
+
+  it('bounds async readback to one request and retains millisecond timing', async () => {
     const f = fixture();
     for (let i = 0; i < 100; i++) { f.timer.begin(); f.timer.end(); }
-    expect(f.gl.createQuery).toHaveBeenCalledTimes(4);
-    expect(f.timer.snapshot()).toMatchObject({ milliseconds: null, pending: 4 });
-    f.available(); f.timer.begin(); f.timer.end();
-    expect(f.timer.snapshot()).toMatchObject({ milliseconds: 12.5, completed: 4 });
-    f.timer.dispose();
-    expect(f.timer.snapshot().pending).toBe(0);
-  });
-  it("discards disjoint samples without reading their result", () => {
-    const f = fixture();
+    expect(f.renderer.resolveTimestampsAsync).toHaveBeenCalledExactlyOnceWith('render');
+    expect(f.timer.snapshot()).toMatchObject({ milliseconds: null, completed: 0, pending: 1 });
+    await f.complete(0, 12.5);
+    expect(f.timer.snapshot()).toMatchObject({ milliseconds: 12.5, completed: 1, pending: 0 });
     f.timer.begin(); f.timer.end();
-    f.disjoint(); f.timer.begin();
-    expect(f.gl.getQueryParameter).not.toHaveBeenCalled();
-    expect(f.gl.deleteQuery).toHaveBeenCalledTimes(1);
+    expect(f.renderer.resolveTimestampsAsync).toHaveBeenCalledTimes(2);
+    f.timer.dispose();
+    await f.complete(1, 50);
+    expect(f.timer.snapshot()).toMatchObject({ milliseconds: 12.5, completed: 1, pending: 0 });
+  });
+
+  it('samples the requested frame cadence after its render completes', async () => {
+    const f = fixture(true, 4, 1);
+    f.timer.begin(); f.timer.end();
+    expect(f.renderer.resolveTimestampsAsync).not.toHaveBeenCalled();
+    f.timer.begin();
+    expect(f.renderer.resolveTimestampsAsync).not.toHaveBeenCalled();
+    f.timer.end(); await f.complete(0, 7);
+    for (let i = 0; i < 3; i++) { f.timer.begin(); f.timer.end(); }
+    expect(f.renderer.resolveTimestampsAsync).toHaveBeenCalledTimes(1);
+    f.timer.begin(); f.timer.end();
+    expect(f.renderer.resolveTimestampsAsync).toHaveBeenCalledTimes(2);
+  });
+
+  it('ignores missing or invalid samples and recovers from a rejected readback', async () => {
+    const f = fixture(true, 1);
+    for (const [index, value] of [undefined, NaN, -1].entries()) {
+      f.timer.begin(); f.timer.end(); await f.complete(index, value);
+    }
     expect(f.timer.snapshot()).toMatchObject({ milliseconds: null, completed: 0, pending: 0 });
+    f.timer.begin(); f.timer.end(); await f.fail(3);
+    expect(f.timer.snapshot().pending).toBe(0);
+    f.timer.begin(); f.timer.end(); await f.complete(4, 0);
+    expect(f.timer.snapshot()).toMatchObject({ milliseconds: 0, completed: 1, pending: 0 });
   });
 });

@@ -3,21 +3,25 @@ import { usesMobileAssets } from './assetDelivery.js';
 import { PlayerSilhouette } from "./playerSilhouette.js";
 import { BiomeAtmosphere, type BiomeWeights } from "./biomeAtmosphere.js";
 /**
- * Renderer ownership: the WebGL context, the render target size, sky, atmosphere, lighting rig,
+ * Renderer ownership: the graphics backend, the render target size, sky, atmosphere, lighting rig,
  * and per-frame stats.
  *
  * This file owns no gameplay state. Everything it draws is a view of the canonical store.
  */
 import * as THREE from "three";
+import { WebGPURenderer, PMREMGenerator, MeshBasicNodeMaterial, QuadMesh } from "three/webgpu";
+import { texture, fog as fogNode, rangeFogFactor, uniform } from "three/tsl";
+import { inverseACES } from "./biomeSky.js";
+import type { GraphicsBackendState, GraphicsPreparationState } from "../contracts.js";
 import { CAMERA, RENDER_BUDGET } from "../app/config.js";
 import { GpuTimer } from "./gpuTimer.js";
-import { FramePacer, gameplayPixelRatio } from "./framePacer.js";
+import { FramePacer, gameplayPixelRatio, createGpuCompletion } from "./framePacer.js";
 import { ScreenAntialiasing } from "./screenAntialiasing.js";
-import { MagicGlow, writesGlowOcclusion } from "./magicGlow.js";
+import { MagicGlow } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
-import { compileCorpseFadeVariants, compileShadowMeshes, shaderGeometryKey } from "./shaderPreparation.js";
+import { prepareShaderMeshes, shaderGeometryKey } from "./shaderPreparation.js";
 
 export interface RenderStats {
   fps: number;
@@ -248,24 +252,9 @@ const SKY_TEXTURE_WIDTH = 1024;
 const SUN_OFFSET = DAYLIGHT_LOOK.sunOffset;
 
 export interface WarmupOptions {
-  /**
-   * Roots whose materials should ALSO be compiled in their transparent form.
-   *
-   * `transparent` is part of three's program cache key (the `opaque` bit in
-   * `WebGLPrograms.getProgramCacheKeyBooleans`), so the first frame the occluder fade flips a roof
-   * to transparent pays a fresh shader compile — the same class of stall that measured 1130 ms
-   * here. Pass the fade candidates and that cost moves to boot.
-   */
+  /** Prepare the alternate blending pipeline used when an occluding roof fades. */
   transparentVariants?: readonly THREE.Object3D[];
-  /**
-   * Groups that are hidden at boot but will be shown later — the dungeon interior, today.
-   *
-   * `loop.addInterior` hides the Gravelmaw group whenever the player is on the surface, and three
-   * skips everything under an invisible ancestor, including its four lights. So a warm-up that runs
-   * with the dungeon hidden compiles neither the dungeon's own materials nor the +3-point-light
-   * variant of every other material, and the player pays for both in the frame they walk in.
-   * These roots are shown for a second compile pass and put back exactly as they were.
-   */
+  /** Prepare resident but hidden interiors without revealing them during asynchronous work. */
   temporarilyVisible?: readonly THREE.Object3D[];
 }
 
@@ -275,7 +264,7 @@ export class Renderer {
   readonly biomeAtmosphere = new BiomeAtmosphere();
   biomeWeightsSource?: () => BiomeWeights;
   wildernessMagicSource?: () => number;
-  readonly renderer: THREE.WebGLRenderer;
+  readonly renderer: WebGPURenderer;
   readonly playerSilhouette = new PlayerSilhouette();
   readonly scene: THREE.Scene;
   readonly camera: THREE.PerspectiveCamera;
@@ -294,21 +283,26 @@ export class Renderer {
   transmissionOpaqueOccluders?: () => readonly TransmissionOpaqueOccluder[];
   private readonly transmissionOcclusion = new TransmissionOcclusion();
   private readonly screenAntialiasing = new ScreenAntialiasing();
+  private readonly frameTarget = new THREE.RenderTarget(1, 1, {
+    type: THREE.HalfFloatType, depthBuffer: true, stencilBuffer: true, samples: 4,
+  });
+  private readonly presentationMaterial = new MeshBasicNodeMaterial({ depthTest: false, depthWrite: false });
+  private readonly presentation = new QuadMesh(this.presentationMaterial);
   private gpuTimer: GpuTimer | null = null;
-  private shadowGpuTimer: GpuTimer | null = null;
-  private restoreShadowTiming: (() => void) | null = null;
-  private timingRender = false;
   private cpuPrepareMs = 0;
   private cpuSubmitMs = 0;
   private cpuShadowMs = 0;
-  private readonly framePacer: FramePacer;
+  private framePacer!: FramePacer;
   private readonly gpuTimingEnabled = new URLSearchParams(location.search).get('gpu-timing') === '1';
-  private readonly restoreFramePacer = () => this.framePacer.contextRestored();
+  private initialized = false;
+  private initializing: Promise<void> | null = null;
+  private completeGpuWork!: () => Promise<void>;
+  private readonly onResize = () => this.resize();
 
   /** The two gradients: the one the sky is drawn from, and the one the world is lit by. */
   private readonly skyGradients: THREE.DataTexture[] = [];
   /** PMREM outputs, held so `dispose` can free them: [0] is the background, [1] the environment. */
-  private readonly prefiltered: THREE.WebGLRenderTarget[] = [];
+  private readonly prefiltered: THREE.RenderTarget[] = [];
   /**
    * Transparent clones made by `warmup`, kept alive deliberately. three releases a program when the
    * last material referencing it is disposed, so an undisposed clone is what pins the variant in
@@ -319,10 +313,10 @@ export class Renderer {
   private readonly preparedInteriors = new WeakSet<THREE.Object3D>();
 
   startStreamingWarmup(): void {
-    this.streamedShaders ??= new StreamedShaderWarmup(this.renderer, this.scene, this.camera);
+    this.streamedShaders ??= new StreamedShaderWarmup(this.renderer, this.scene, this.camera, this.frameTarget);
   }
 
-  streamingShaderState() { const state = this.streamedShaders?.getState() ?? null; return state ? { ...state, effectsReady: this.effectsReady, deferredEffectPrograms: this.deferredEffectPrograms.size } : null; }
+  streamingShaderState() { const state = this.streamedShaders?.getState() ?? null; return state ? { ...state, effectsReady: this.effectsReady, deferredEffectPrograms: this.compilingEffects ? 1 : 0 } : null; }
 
   setDestinationLoading(active: boolean): void {
     this.startStreamingWarmup();
@@ -345,6 +339,8 @@ export class Renderer {
   /** Keep portal loading covered while the streaming compiler still suppresses its meshes. */
   async waitForInterior(root: THREE.Object3D): Promise<void> {
     while (!this.isInteriorReady(root)) {
+      const state = this.streamedShaders?.getState();
+      if (state?.failed) throw new Error(state.error ?? "Unable to prepare destination graphics");
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
     }
   }
@@ -356,22 +352,17 @@ export class Renderer {
   private stats: RenderStats = { fps: 0, frameMs: 0, drawCalls: 0, triangles: 0, programs: 0, overBudget: false };
 
   constructor(canvas: HTMLCanvasElement) {
-    this.renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      stencil: true,
-      powerPreference: "high-performance",
-      alpha: false,
+    this.renderer = new WebGPURenderer({
+      canvas, antialias: true, stencil: true, powerPreference: "high-performance",
+      alpha: false, trackTimestamp: this.gpuTimingEnabled,
     });
-    // Seed Three's state cache before animation palettes upload partial rows. Otherwise their
-    // first update asks the driver for these defaults and synchronously drains all queued draws.
-    const gl = this.renderer.getContext() as WebGL2RenderingContext;
-    this.framePacer = new FramePacer(gl);
-    canvas.addEventListener('webglcontextrestored', this.restoreFramePacer);
     this.screenAntialiasing.timingEnabled = this.gpuTimingEnabled;
-    for (const parameter of [gl.UNPACK_ROW_LENGTH, gl.UNPACK_SKIP_PIXELS, gl.UNPACK_SKIP_ROWS]) {
-      this.renderer.state.pixelStorei(parameter, 0);
-    }
+    this.renderer.info.autoReset = false;
+    this.presentationMaterial.fragmentNode = texture(this.frameTarget.texture);
+    this.renderer.onDeviceLost = info => {
+      this.initialized = false;
+      console.error("The graphics device was lost", info);
+    };
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -386,74 +377,23 @@ export class Renderer {
     this.camera.position.set(0, 14, 18);
     this.camera.lookAt(0, 1, 0);
 
-    // Sky and environment: the SAME gradient shape, prefiltered twice from two different columns
-    // of `SKY_STOPS`.
-    //
-    // Deviation from the proposal, and the reason for it: the spec asked for a BackSide sphere of
-    // radius 1000 parented to the camera. Radius 1000 is beyond `CAMERA.far` (280) so it would be
-    // clipped away entirely, and a sphere parented to the camera inherits camera pitch, which tilts
-    // the horizon band whenever the player orbits. `scene.background` holding a PMREM cube costs
-    // the same single draw call, is drawn in the correct orientation by construction, and cannot be
-    // clipped or culled.
-    //
-    // Two prefilters and not one, at a measured cost of 1.4 MB and about 8 ms of boot. The first
-    // pass used one texture for both and the ACES pre-compensation the BACKGROUND needs went
-    // straight into the lighting integral, where nothing ever undoes it. `scene.background` and
-    // `scene.environment` are supposed to agree about the SHAPE of the sky, which they do here,
-    // and they are supposed to disagree about its numbers, because one is an image that will be
-    // tone mapped and the other is a light that will not.
-    //
-    // An equirect DataTexture cannot be a background directly: three 0.185's `addToRenderList`
-    // only routes `isCubeTexture` and `CubeUVReflectionMapping` to the sky box, and any other
-    // texture becomes a flat screen-space quad instead of a sky.
-    const backgroundGradient = createSkyGradient("background");
-    const lightGradient = createSkyGradient("light");
-    this.skyGradients.push(backgroundGradient, lightGradient);
-    const background = generateEnvironment(this.renderer, backgroundGradient);
-    const environment = generateEnvironment(this.renderer, lightGradient);
-    if (background) {
-      this.prefiltered.push(background);
-      this.scene.background = background.texture;
-    } else {
-      // Fallback only. If PMREM fails there is no gradient, but the frame still has the flat sky it
-      // had before this change rather than a black void.
-      this.scene.background = new THREE.Color(0xb8cfe0);
-    }
-    if (environment) {
-      this.prefiltered.push(environment);
-      this.scene.environment = environment.texture;
-      this.scene.environmentIntensity = ENVIRONMENT_INTENSITY;
-    }
-
-    // FOG IS SAMPLED FROM THE SKY, not authored beside it. Two separate corrections:
-    //
-    // 1. The colour. The previous value, 0x9fcdfa, was the authored 0xb8cfe0 pre-compensated for
-    //    ACES on the stated grounds that "fog is mixed in linear space before tone mapping". In
-    //    three 0.185 that is backwards. `ShaderLib/meshphysical.glsl.js` orders the tail of the
-    //    fragment shader `<tonemapping_fragment>`, `<colorspace_fragment>`, `<fog_fragment>` — fog
-    //    is the LAST thing that touches the pixel — and `WebGLMaterials.refreshFogUniforms` does
-    //    `fog.color.getRGB( uniforms.fogColor.value, getUnlitUniformColorSpace( renderer ) )`,
-    //    which with `outputColorSpace = SRGBColorSpace` hands the shader the sRGB-ENCODED hex.
-    //    Nothing tone maps it. So the pre-compensated value went to screen raw as #9fcdfa, a
-    //    saturated pale blue, while the sky it was supposed to dissolve into is tone mapped and
-    //    displays its `authored` column. Measured in litb-great_cairn.png: the sky just below the
-    //    horizon reads (203,209,209) and (206,212,213), against a fog colour of (159,205,250) —
-    //    47 levels apart in red and 41 in blue, which is the flat pale band across the horizon.
-    //    Sampling the `authored` column at the horizon makes the two agree by construction, and
-    //    any future edit to SKY_STOPS carries the fog with it.
-    // 2. The range. 30..300 put almost no haze anywhere a player looks. The world is 700 x 400 m
-    //    and a shot camera sits 6-34 m out, so the ridges that make up the mid-ground sit at
-    //    40-120 m: at 30..300 a ridge at 45 m carried 5.6% fog. Measured in litb-palewood_copse.png
-    //    column 720, the sky ramps 200,207,207 down to 167,174,164 over 210 px and then the ridge
-    //    below it drops 203 levels in ONE row — no aerial perspective at any distance this world
-    //    actually contains. 26..210 puts 12% on 45 m, 40% on 120 m and full haze past 210, which is
-    //    inside `CAMERA.far` (280) on purpose: terrain past 210 m now dissolves into the sky
-    //    instead of ending at a visible edge where the heightfield runs out.
+    // The visible and illuminating gradients share their shape but retain separate colour
+    // values: tone-map compensation belongs to the background, never to incoming light.
+    this.skyGradients.push(createSkyGradient("background"), createSkyGradient("light"));
+    this.scene.background = new THREE.Color(0xb8cfe0);
     const fog = new THREE.Fog(0xffffff, FOG_NEAR, FOG_FAR);
     // Copied rather than passed as a hex: `sampleSky` returns a linear working-space colour and the
     // Fog constructor would re-decode a hex from sRGB, which is one conversion too many.
     sampleSky(FOG_HORIZON_ELEVATION, "light", fog.color);
     this.scene.fog = fog;
+    // Fog and the sky meet in display space. The HDR world is tone mapped later, so
+    // compensate the fog colour once in the node graph instead of changing its public palette.
+    this.scene.fogNode = fogNode(
+      inverseACES(uniform(fog.color), uniform(1).onRenderUpdate(() => this.renderer.toneMappingExposure)),
+      rangeFogFactor(uniform(fog.near).onRenderUpdate(() => fog.near),
+        uniform(fog.far).onRenderUpdate(() => fog.far))
+        .mul(uniform(1).onRenderUpdate(() => this.scene.fog ? 1 : 0)),
+    );
 
     // The lower, warmer key carries the direction. Keeping most of the old sky fill preserves
     // daylight readability in Vellenwood while reducing horizontal-surface energy by about 30%.
@@ -492,12 +432,60 @@ export class Renderer {
     // same job from every direction at once and is directionally correct.
 
     this.resize();
-    this.magicGlow.compile(this.renderer);
-    this.screenAntialiasing.compile(this.renderer);
-    this.biomeAtmosphere.compile(this.renderer);
-    this.playerSilhouette.compile(this.renderer, this.camera);
-    window.addEventListener("resize", () => this.resize());
+    window.addEventListener("resize", this.onResize);
+  }
 
+  /** Backend initialization and shader preparation finish while the loading view is visible. */
+  init(): Promise<void> {
+    this.initializing ??= (async () => {
+      await this.renderer.init();
+      this.completeGpuWork = createGpuCompletion(this.renderer);
+      this.framePacer = new FramePacer(this.completeGpuWork);
+      const pmrem = new PMREMGenerator(this.renderer);
+      try {
+        await pmrem.compileEquirectangularShader();
+        for (const gradient of this.skyGradients) {
+          const target = pmrem.fromEquirectangular(gradient);
+          target.texture.name = "sky-environment";
+          this.prefiltered.push(target);
+          await this.completeGpuWork();
+          await new Promise<void>(resolve => setTimeout(resolve, 0));
+        }
+        this.scene.background = this.prefiltered[0]!.texture;
+        this.scene.environment = this.prefiltered[1]!.texture;
+        this.scene.environmentIntensity = ENVIRONMENT_INTENSITY;
+      } finally { pmrem.dispose(); }
+      // Initialization precedes the render loop; all display passes target the same HDR format.
+      this.renderer.setRenderTarget(this.frameTarget);
+      try {
+        await this.magicGlow.compile(this.renderer, this.frameTarget);
+        await this.screenAntialiasing.compile(this.renderer);
+        await this.biomeAtmosphere.compile(this.renderer);
+        await this.playerSilhouette.compile(this.renderer, this.camera);
+      } finally { this.renderer.setRenderTarget(null); }
+      const toneMapping = this.renderer.toneMapping;
+      this.renderer.toneMapping = THREE.NoToneMapping;
+      try { await this.renderer.compileAsync(this.presentation, this.presentation.camera); }
+      finally { this.renderer.toneMapping = toneMapping; }
+      this.gpuTimer = this.gpuTimingEnabled ? new GpuTimer(this.renderer) : null;
+      this.initialized = true;
+    })();
+    return this.initializing;
+  }
+
+  getBackendState(): GraphicsBackendState {
+    return {
+      api: (this.renderer.backend as unknown as { isWebGPUBackend?: boolean }).isWebGPUBackend ? "webgpu" : "webgl2",
+      thread: "main", ready: this.initialized,
+    };
+  }
+
+  getPreparationState(): GraphicsPreparationState {
+    const streaming = this.streamedShaders?.getState();
+    return { pendingMeshes: streaming?.waiting ?? 0, pendingTextures: streaming?.textures ?? 0,
+      failed: streaming?.failed ?? 0,
+      compiling: Boolean(streaming?.compiling || this.compilingEffects),
+      ready: this.initialized && !streaming?.waiting && !streaming?.compiling && !streaming?.failed && this.effectsReady };
   }
 
   resize(): void {
@@ -505,6 +493,8 @@ export class Renderer {
     const height = window.innerHeight;
     this.renderer.setPixelRatio(gameplayPixelRatio(window.devicePixelRatio, this.renderScale));
     this.renderer.setSize(width, height, false);
+    const pixels = this.renderer.getDrawingBufferSize(new THREE.Vector2());
+    this.frameTarget.setSize(pixels.x, pixels.y);
     this.camera.aspect = width / Math.max(1, height);
     this.camera.updateProjectionMatrix();
   }
@@ -560,86 +550,47 @@ export class Renderer {
     this.sun.target.updateMatrixWorld();
   }
 
-  /**
-   * Compiles every shader the first frames would otherwise compile mid-session.
-   *
-   * Measured before this existed: `npm run perf` reported 19 programs at the `spawn` and
-   * `town_entrance` poses and 20 at all sixteen later ones, and the frames that did the compiling
-   * measured 1130.6 ms, 994.7 ms and 346.1 ms against medians of 1.2-4.2 ms. Call this once, at the
-   * end of boot, after the world, the entity views, the dungeon and the overlays exist — anything
-   * added to the scene afterwards is not covered.
-   *
-   * Cheap to call twice; three returns the cached program for anything already compiled.
-   *
-   * Hidden invocation pools and the first HDR glow draw are prepared separately by prepareEffects.
-   */
+  /** Prepare resident pipelines in small asynchronous batches before exposing the world. */
   async warmup(options?: WarmupOptions): Promise<void> {
-    const holder = new THREE.Group();
-    holder.name = "shader-warmup";
-
-    const seen = new Set<THREE.Material>();
-    for (const root of options?.transparentVariants ?? []) {
-      root.traverse((object) => {
-        const mesh = object as THREE.Mesh;
-        if (mesh.isMesh !== true) return;
-        // These proxies cover architecture. Creature fades need the real skinned mesh;
-        // compileColourPasses prepares those separately.
-        if ((mesh as THREE.SkinnedMesh).isSkinnedMesh === true) return;
-        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-        for (const material of materials) {
-          if (seen.has(material)) continue;
-          seen.add(material);
-          const clone = material.clone();
-          clone.defines = { ...material.defines };
-          clone.onBeforeCompile = material.onBeforeCompile.bind(material);
-          clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
-          clone.transparent = true;
-          clone.depthWrite = false;
-          this.warmupMaterials.push(clone);
-          // The real geometry, not a placeholder: vertex colours, vertex alphas and UV sets are all
-          // program parameters read off the geometry, so a stand-in would compile a different
-          // program to the one the fade actually needs.
-          const instanced = mesh as THREE.InstancedMesh;
-          const proxy = instanced.isInstancedMesh === true
-            ? new THREE.InstancedMesh(mesh.geometry, clone, 1)
-            : new THREE.Mesh(mesh.geometry, clone);
-          if (instanced.isInstancedMesh && instanced.instanceColor) {
-            (proxy as THREE.InstancedMesh).instanceColor = instanced.instanceColor;
-          }
-          proxy.frustumCulled = false;
-          holder.add(proxy);
-        }
-      });
-    }
-
-    if (holder.children.length > 0) this.scene.add(holder);
-    const passes = [this.warmupObjects()];
+    const proxies: THREE.Mesh[] = [];
+    const seen = new Set<string>();
+    for (const root of options?.transparentVariants ?? []) root.traverse(object => {
+      const mesh = object as THREE.Mesh;
+      if (!mesh.isMesh || (mesh as THREE.SkinnedMesh).isSkinnedMesh) return;
+      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+        const key = `${shaderGeometryKey(mesh)}:${material.uuid}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const clone = material.clone();
+        clone.transparent = true; clone.depthWrite = false;
+        this.warmupMaterials.push(clone);
+        const instanced = mesh as THREE.InstancedMesh;
+        const proxy = instanced.isInstancedMesh
+          ? new THREE.InstancedMesh(mesh.geometry, clone, 1)
+          : new THREE.Mesh(mesh.geometry, clone);
+        if (instanced.isInstancedMesh) (proxy as THREE.InstancedMesh).instanceColor = instanced.instanceColor;
+        proxy.frustumCulled = false;
+        proxies.push(proxy);
+      }
+    });
+    const objects = this.warmupObjects();
     const hidden = (options?.temporarilyVisible ?? []).filter(root => !root.visible);
     try {
-      // Capture the real meshes, then restore visibility before yielding to gameplay.
-      if (hidden.length) {
-        try {
-          for (const root of hidden) root.visible = true;
-          passes.push(this.warmupObjects());
-        } finally { for (const root of hidden) root.visible = false; }
-      }
-      // The compile views retain the proxies; they must never appear in a yielded frame.
-      this.scene.remove(holder);
-      for (const objects of passes) await this.compileColourPasses(objects);
-    } finally {
-      this.scene.remove(holder);
-      holder.clear();
-    }
+      for (const root of hidden) root.visible = true;
+      if (hidden.length) objects.push(...this.warmupObjects());
+    } finally { for (const root of hidden) root.visible = false; }
+    // No temporary mesh or visibility mutation survives an asynchronous yield.
+    await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget });
+    await this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget);
   }
 
   private warmupObjects(): THREE.Object3D[] {
-    const objects: THREE.Object3D[] = [];
-    const seen = new Set<string>();
+    const objects: THREE.Object3D[] = [], seen = new Set<string>();
     this.scene.traverseVisible(object => {
       const drawable = object as THREE.Mesh & THREE.Points & THREE.Line & THREE.Sprite;
       if (drawable.isMesh) {
         const key = `${shaderGeometryKey(drawable)}:${(Array.isArray(drawable.material) ? drawable.material : [drawable.material])
-          .map(material => material.uuid).join(",")}:${drawable.castShadow}:${drawable.customDepthMaterial?.uuid ?? "depth"}:${Boolean(drawable.userData.prepareCorpseFade)}`;
+          .map(material => material.uuid).join(",")}:${drawable.castShadow}:${Boolean(drawable.userData.prepareCorpseFade)}`;
         if (seen.has(key)) return;
         seen.add(key);
       }
@@ -648,203 +599,60 @@ export class Renderer {
     return objects;
   }
 
-  /** Submit bounded groups so startup does not monopolize the CPU or driver queue. */
-  private async compileColourPasses(objects: readonly THREE.Object3D[]): Promise<void> {
-    const view = new THREE.Group();
-    let batch: readonly THREE.Object3D[] = [];
-    view.traverse = callback => { callback(view); for (const object of batch) callback(object); };
-    const materials = new Map<THREE.Material, THREE.Material>();
-    const copy = (source: THREE.Material): THREE.Material => {
-      const cached = materials.get(source);
-      if (cached) return cached;
-      const clone = source.clone();
-      clone.defines = { ...source.defines };
-      clone.onBeforeCompile = source.onBeforeCompile.bind(source);
-      clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
-      materials.set(source, clone);
-      this.warmupMaterials.push(clone);
-      return clone;
-    };
-    const target = new THREE.WebGLRenderTarget(1, 1);
-    let sliceStarted = performance.now();
-    try {
-      for (let offset = 0; offset < objects.length; offset += 8) {
-        batch = objects.slice(offset, offset + 8);
-        const meshes = batch.filter(object => (object as THREE.Mesh).isMesh) as THREE.Mesh[];
-        const previous = this.renderer.getRenderTarget();
-        try {
-          this.renderer.compile(view, this.camera, this.scene);
-          compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
-          this.renderer.setRenderTarget(target);
-          this.renderer.compile(view, this.camera, this.scene);
-          compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
-          if (this.renderer.shadowMap?.enabled) {
-            const fallbackDepth = new THREE.MeshDepthMaterial();
-            try { compileShadowMeshes(this.renderer, this.scene, this.camera, meshes, copy, fallbackDepth); }
-            finally { fallbackDepth.dispose(); }
-          }
-        } finally { this.renderer.setRenderTarget(previous); }
-        // Yield submission, but keep compilation parallel. prepareEffects waits for every
-        // resulting program before the first gameplay draw.
-        if (performance.now() - sliceStarted >= 4) {
-          await new Promise<void>(resolve => setTimeout(resolve, 0));
-          sliceStarted = performance.now();
-        }
-      }
-    } finally { target.dispose(); }
-  }
-
-  /**
-   * Hidden effect pools whose programs the first frame does not draw. The driver compiles programs
-   * in the order they were submitted, a few at a time, so 150 spell programs submitted during boot
-   * sit in front of the scene programs the first frame is waiting for. A deferred pool is therefore
-   * not submitted at all until `finishDeferredEffects` runs after the first frame, and
-   * `effectsReady` tells the effect layer when it may show a pool for the first time.
-   */
+  private readonly requiredEffectRoots = new Set<THREE.Object3D>();
   private readonly deferredEffectRoots = new Set<THREE.Object3D>();
-  private readonly deferredEffectPrograms = new Set<THREE.WebGLProgram>();
   private deferredEffectsDone: Promise<void> | null = null;
-  /** False while a deferred pool is unsubmitted or compiling. Showing its mesh then would stall the frame on the link. */
-  get effectsReady(): boolean { return this.deferredEffectRoots.size === 0 && this.deferredEffectPrograms.size === 0; }
+  private compilingEffects = false;
+  private effectPreparation: Promise<void> = Promise.resolve();
 
-  /**
-   * Submit hidden effect programs so the GPU can compile them while other work runs. With
-   * `deferred`, the pool is only noted, and submitted once the first frame is on screen.
-   */
+  get effectsReady(): boolean { return !this.compilingEffects && this.deferredEffectRoots.size === 0 && this.requiredEffectRoots.size === 0; }
+
+  /** Enrollment is cheap. Compilation is awaited at the readiness gate or paced after it. */
   compileEffects(root: THREE.Object3D, options: { deferred?: boolean } = {}): void {
-    if (options.deferred && !this.deferredEffectsDone) { this.deferredEffectRoots.add(root); return; }
-    this.submitEffects(root);
-  }
-
-  private submitEffects(root: THREE.Object3D): void {
-    const meshes: THREE.Mesh[] = [];
-    root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
-    // Compile-only traversal keeps real geometry, instancing, parents and scene light counts.
-    const view = new THREE.Group();
-    let passMeshes = meshes;
-    view.traverse = callback => { callback(view); for (const mesh of passMeshes) callback(mesh); };
-    const previous = this.renderer.getRenderTarget();
-    const cubeFace = this.renderer.getActiveCubeFace();
-    const mipmapLevel = this.renderer.getActiveMipmapLevel();
-    const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
-    try {
-      this.renderer.setRenderTarget(null);
-      passMeshes = meshes.filter(mesh => !mesh.userData['magicGlowOnly']);
-      this.renderer.compile(view, this.camera, this.scene);
-      this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root);
-      this.renderer.setRenderTarget(target);
-      passMeshes = meshes.filter(mesh => mesh.layers.test(this.camera.layers)
-        && (mesh.userData['magicGlow'] || writesGlowOcclusion(mesh.material)));
-      this.renderer.compile(view, this.camera, this.scene);
-      if (meshes.some(mesh => mesh.castShadow)) {
-        const fallbackDepth = new THREE.MeshDepthMaterial();
-        const materials = new Map<THREE.Material, THREE.Material>();
-        const compilationMaterial = (source: THREE.Material): THREE.Material => {
-          const cached = materials.get(source);
-          if (cached) return cached;
-          const clone = source.clone();
-          clone.defines = { ...source.defines };
-          clone.onBeforeCompile = source.onBeforeCompile.bind(source);
-          clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
-          materials.set(source, clone);
-          this.warmupMaterials.push(clone);
-          return clone;
-        };
-        try { compileShadowMeshes(this.renderer, this.scene, this.camera, meshes, compilationMaterial, fallbackDepth); }
-        finally { fallbackDepth.dispose(); }
-      }
-    } finally {
-      this.renderer.setRenderTarget(previous, cubeFace, mipmapLevel);
-      target.dispose();
+    if (options.deferred && !this.deferredEffectsDone) this.deferredEffectRoots.add(root);
+    else {
+      this.deferredEffectRoots.delete(root);
+      this.requiredEffectRoots.add(root);
     }
   }
 
-  /** Polls one program to completion through `KHR_parallel_shader_compile`, then reflects it. `pause` spreads the reflection over tasks. */
-  private async finishProgram(program: THREE.WebGLProgram): Promise<void> {
-    const handle = program.program as WebGLProgram | undefined;
-    if (!handle) return;
-    const gl = this.renderer.getContext();
-    const extension = gl.getExtension('KHR_parallel_shader_compile');
-    while (extension && !gl.getProgramParameter(handle, extension.COMPLETION_STATUS_KHR)) {
-      await new Promise<void>(resolve => setTimeout(resolve, 8));
-    }
-    if (!gl.getProgramParameter(handle, gl.LINK_STATUS)) {
-      throw new Error(`Unable to prepare game graphics: ${gl.getProgramInfoLog(handle)}`);
-    }
-    // Link status already validates this program. Avoid three synchronous driver-log queries
-    // for every successful shader, while retaining normal diagnostics for later programs.
-    const checkErrors = this.renderer.debug.checkShaderErrors;
-    this.renderer.debug.checkShaderErrors = false;
-    try { program.getUniforms(); program.getAttributes(); }
-    finally { this.renderer.debug.checkShaderErrors = checkErrors; }
+  private async submitEffects(root: THREE.Object3D): Promise<void> {
+    const meshes: THREE.Object3D[] = [];
+    root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object); });
+    await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, { renderTarget: this.frameTarget });
+    await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root);
+    await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root);
   }
 
-  /**
-   * After the first frame: see the deferred effect programs through without holding a frame. Each
-   * program is polled until the driver reports it done and is reflected in its own task, so no
-   * frame pays for more than one. Resolves, and `effectsReady` turns true, when all are usable.
-   */
+  /** Serialize effects with each other; each helper yields between a bounded number of pipelines. */
   finishDeferredEffects(): Promise<void> {
-    this.deferredEffectsDone ??= (async () => {
-      const span = bootTelemetry.startSpan("boot.effects.ready", { startMs: 0 });
+    this.deferredEffectsDone ??= this.effectPreparation = this.effectPreparation.then(async () => {
+      const span = bootTelemetry.startSpan("boot.effects.ready");
+      this.compilingEffects = true;
       try {
-        // Submitting is synchronous work for the CPU. It belongs to the first idle moment after the caller's frame, not to the caller.
-        await new Promise<void>(resolve => setTimeout(resolve, 0));
-        for (const root of [...this.deferredEffectRoots]) {
-          const meshes: THREE.Mesh[] = [];
-          root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
-          for (let offset = 0; offset < meshes.length; offset += 8) {
-            const batch = meshes.slice(offset, offset + 8), view = new THREE.Group();
-            view.traverse = callback => { callback(view); for (const mesh of batch) callback(mesh); };
-            const known = new Set(this.renderer.info.programs ?? []);
-            bootTelemetry.measureSync("boot.effects.deferredSubmit", () => this.submitEffects(view));
-            for (const program of this.renderer.info.programs ?? []) if (!known.has(program)) {
-              this.deferredEffectPrograms.add(program);
-            }
-            await new Promise<void>(resolve => setTimeout(resolve, 0));
-          }
-          this.deferredEffectRoots.delete(root);
+        for (const root of [...this.requiredEffectRoots, ...this.deferredEffectRoots]) {
+          await this.submitEffects(root);
+          this.requiredEffectRoots.delete(root); this.deferredEffectRoots.delete(root);
         }
-        const programs = this.deferredEffectPrograms.size;
-        for (const program of [...this.deferredEffectPrograms]) {
-          await this.finishProgram(program);
-          this.deferredEffectPrograms.delete(program);
-          await new Promise<void>(resolve => setTimeout(resolve, 0));
-        }
-        span.end({ programs });
-      } catch (error) {
-        // A program that will not link stays unusable: the effect layer keeps its pools hidden and play goes on.
-        span.fail(error);
-        console.error("[corealm] An effect shader could not be prepared; spell effects stay hidden.", error);
-      }
-    })();
+        span.end();
+      } catch (error) { span.fail(error); throw error; }
+      finally { this.compilingEffects = false; }
+    });
     return this.deferredEffectsDone;
   }
 
-  /**
-   * Prepare hidden pools and the HDR compositor before the view is revealed. Every program the
-   * frame can draw is waited for. Programs of deferred effect pools are not: see `compileEffects`.
-   */
   async prepareEffects(root: THREE.Object3D, options: { deferred?: boolean } = {}): Promise<void> {
-    bootTelemetry.measureSync("boot.effects.submit", () => this.compileEffects(root, options));
-    const programSpan = bootTelemetry.startSpan("boot.effects.programs");
-    try {
-      let waited = 0;
-      for (const program of this.renderer.info.programs ?? []) {
-        if (this.deferredEffectPrograms.has(program)) continue;
-        await this.finishProgram(program); waited += 1;
-      }
-      programSpan.end({ programs: waited });
-    } catch (error) {
-      programSpan.fail(error);
-      throw error;
-    }
-    bootTelemetry.measureSync("boot.effects.sceneDraw", () => {
-      this.camera.updateMatrixWorld();
-      this.prepareScene?.(this.camera);
-      this.drawWorld();
+    this.compileEffects(root, options);
+    this.effectPreparation = this.effectPreparation.then(async () => {
+      this.compilingEffects = true;
+      try {
+        for (const effect of this.requiredEffectRoots) {
+          await bootTelemetry.measureAsync("boot.effects.programs", () => this.submitEffects(effect));
+          this.requiredEffectRoots.delete(effect);
+        }
+      } finally { this.compilingEffects = false; }
     });
-    bootTelemetry.measureSync("boot.effects.glow", () => this.magicGlow.prepare(this.renderer, this.scene, this.camera));
+    await this.effectPreparation;
   }
 
   render(nowMs: number): void {
@@ -869,25 +677,6 @@ export class Renderer {
       this.scene.environmentIntensity = THREE.MathUtils.lerp(this.scene.environmentIntensity, .65, underground);
       this.hemisphere.intensity = THREE.MathUtils.lerp(this.hemisphere.intensity, .65, underground);
     }
-    const context = this.renderer.getContext();
-    if (this.gpuTimingEnabled && "createQuery" in context && !this.gpuTimer) {
-      // WebGL elapsed queries cannot overlap. Whole-frame and shadow-only samples alternate.
-      this.gpuTimer = new GpuTimer(context, 20, 0);
-      this.shadowGpuTimer = new GpuTimer(context, 20, 10);
-      const shadowMap = this.renderer.shadowMap;
-      const original = shadowMap.render;
-      shadowMap.render = (...args) => {
-        if (!this.timingRender || args[0].length === 0) return original.apply(shadowMap, args);
-        this.shadowGpuTimer?.begin();
-        const started = performance.now();
-        try { return original.apply(shadowMap, args); }
-        finally {
-          this.cpuShadowMs = performance.now() - started;
-          this.shadowGpuTimer?.end();
-        }
-      };
-      this.restoreShadowTiming = () => { shadowMap.render = original; };
-    }
     const prepareStart = performance.now();
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);
@@ -899,15 +688,13 @@ export class Renderer {
     try {
       if (this.transmissionOcclusion.active) this.transmissionOcclusion.update(this.renderer, this.camera,
         this.scene.getObjectByName("terrain"), this.transmissionCandidates?.() ?? [], this.transmissionOpaqueOccluders?.() ?? []);
-      this.timingRender = true;
       this.drawFrame(this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
     } finally {
-      this.timingRender = false;
       this.streamedShaders?.restore();
       this.cpuSubmitMs = performance.now() - submitStart;
       this.gpuTimer?.end();
     }
-    this.framePacer.submit(nowMs);
+    this.framePacer.submit(performance.now());
 
     if (this.lastFrameAt > 0) {
       const frameMs = nowMs - this.lastFrameAt;
@@ -924,50 +711,54 @@ export class Renderer {
     this.stats = {
       fps: averageMs > 0 ? Math.round(1000 / averageMs) : 0,
       frameMs: Math.round(averageMs * 100) / 100,
-      drawCalls: info.calls,
+      drawCalls: info.drawCalls,
       triangles: info.triangles,
-      programs: this.renderer.info.programs?.length ?? 0,
-      overBudget: info.calls > RENDER_BUDGET.maxDrawCalls,
+      programs: this.renderer.info.memory.programs,
+      overBudget: info.drawCalls > RENDER_BUDGET.maxDrawCalls,
     };
   }
 
   /** Draw the scene and final display treatment without advancing simulation or camera state. */
   drawFrame(deltaSeconds = 0): void {
-    this.drawWorld();
-    this.elementalRefraction.render(this.renderer, this.scene, this.camera);
-    this.playerSilhouette.render(this.renderer, this.camera);
-    this.biomeAtmosphere.render(this.renderer, deltaSeconds);
-    this.magicGlow.render(this.renderer, this.scene, this.camera);
-    this.screenAntialiasing.render(this.renderer);
+    this.renderer.info.reset();
+    const previous = this.renderer.getRenderTarget();
+    const toneMapping = this.renderer.toneMapping;
+    try {
+      this.renderer.setRenderTarget(this.frameTarget);
+      this.drawWorld();
+      this.elementalRefraction.render(this.renderer, this.scene, this.camera);
+      this.playerSilhouette.render(this.renderer, this.camera);
+      // Atmosphere applies the display transform before grading. Remaining passes operate
+      // on linear display values and the final output only encodes the canvas colour space.
+      this.biomeAtmosphere.render(this.renderer, deltaSeconds);
+      this.magicGlow.render(this.renderer, this.scene, this.camera);
+      this.screenAntialiasing.render(this.renderer);
+      this.renderer.setRenderTarget(previous);
+      this.renderer.toneMapping = THREE.NoToneMapping;
+      this.presentation.render(this.renderer);
+    } finally {
+      this.renderer.setRenderTarget(previous);
+      this.renderer.toneMapping = toneMapping;
+    }
   }
 
-  /** Wait for GPU completion, optionally requiring a gameplay submission newer than the caller's baseline. */
+  /** Queue completion is asynchronous; no game frame waits on the CPU for the GPU. */
   async waitForFrame(afterSubmission?: number): Promise<void> {
-    const gl = this.renderer.getContext() as WebGL2RenderingContext;
     const deadline = performance.now() + 30_000;
     if (afterSubmission !== undefined) {
       for (;;) {
-        const now = performance.now(), state = this.framePacer.snapshot(now);
-        if (state.failed || gl.isContextLost() || now >= deadline)
-          throw new Error('Unable to finish the first game frame');
+        const state = this.framePacer.snapshot(performance.now());
+        if (state.failed || performance.now() >= deadline) throw new Error("Unable to finish the first game frame");
         if (state.submitted > afterSubmission) break;
-        // The loop may skip a draw to service input or GPU backpressure. A fence on the
-        // earlier warmup commands cannot certify that the gameplay scene has rendered.
         await new Promise<void>(resolve => setTimeout(resolve, 8));
       }
     }
-    const fence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
-    if (!fence) throw new Error('Unable to finish the first game frame');
-    gl.flush();
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
-      for (;;) {
-        const status = gl.clientWaitSync(fence, 0, 0);
-        if (status === gl.ALREADY_SIGNALED || status === gl.CONDITION_SATISFIED) return;
-        if (status === gl.WAIT_FAILED || gl.isContextLost() || performance.now() >= deadline)
-          throw new Error('Unable to finish the first game frame');
-        await new Promise<void>(resolve => setTimeout(resolve, 8));
-      }
-    } finally { gl.deleteSync(fence); }
+      await Promise.race([this.completeGpuWork(), new Promise<never>((_, reject) => {
+        timeout = setTimeout(() => reject(new Error("Unable to finish the first game frame")), Math.max(0, deadline - performance.now()));
+      })]);
+    } finally { clearTimeout(timeout); }
   }
 
   private drawWorld(): void {
@@ -986,7 +777,7 @@ export class Renderer {
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);
     this.drawFrame();
-    return this.renderer.domElement.toDataURL("image/png");
+    return (this.renderer.domElement as HTMLCanvasElement).toDataURL("image/png");
   }
 
   /**
@@ -1022,7 +813,6 @@ export class Renderer {
       bottom: shadowCamera.bottom,
     };
     const previousShadowNeedsUpdate = this.sun.shadow.needsUpdate;
-    const previousShadowMapNeedsUpdate = this.renderer.shadowMap.needsUpdate;
     const hidden = [this.scene.getObjectByName("player"), this.scene.getObjectByName("overlays"), this.scene.getObjectByName("biome-sky")]
       .filter((object): object is THREE.Object3D => object !== undefined)
       .map((object) => ({ object, visible: object.visible }));
@@ -1057,7 +847,6 @@ export class Renderer {
       shadowCamera.bottom = -shadowHalfHeight;
       shadowCamera.updateProjectionMatrix();
       this.sun.shadow.needsUpdate = true;
-      this.renderer.shadowMap.needsUpdate = true;
       // Anchor the shadow texel grid in the light camera's own right/up plane. World-X/Z snapping
       // only happened to work while the sun was high: under a grazing key, both light-space axes
       // contain world Y and Z, so neighbouring captures could land at a fractional texel there.
@@ -1073,7 +862,7 @@ export class Renderer {
       camera.updateMatrixWorld();
       this.prepareScene?.(camera);
       this.renderer.render(this.scene, camera);
-      return this.renderer.domElement.toDataURL("image/png");
+      return (this.renderer.domElement as HTMLCanvasElement).toDataURL("image/png");
     } finally {
       for (const entry of hidden) entry.object.visible = entry.visible;
       this.scene.fog = previousFog;
@@ -1086,7 +875,6 @@ export class Renderer {
       shadowCamera.bottom = previousShadowBounds.bottom;
       shadowCamera.updateProjectionMatrix();
       this.sun.shadow.needsUpdate = previousShadowNeedsUpdate;
-      this.renderer.shadowMap.needsUpdate = previousShadowMapNeedsUpdate;
       this.renderer.setPixelRatio(previousRatio);
       this.renderer.setSize(previousSize.x, previousSize.y, false);
     }
@@ -1098,7 +886,7 @@ export class Renderer {
 
   getFramePressureMs(): number { return this.framePacer.pressureMs(performance.now()); }
 
-  canRenderFrame(): boolean { return this.framePacer.ready(performance.now()); }
+  canRenderFrame(): boolean { return this.initialized && this.framePacer.ready(performance.now()); }
 
   /** No driver calls: safe to sample alongside input without perturbing GPU timings. */
   getPresentationState() { return this.framePacer.snapshot(performance.now()); }
@@ -1111,17 +899,17 @@ export class Renderer {
   }
 
   getPerformanceTimings(): Record<string, unknown> {
-    const gl = this.renderer.getContext();
-    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
     return {
+      backend: this.getBackendState(), preparation: this.getPreparationState(),
       cpuPrepareMs: this.cpuPrepareMs, cpuSubmitMs: this.cpuSubmitMs, cpuShadowMs: this.cpuShadowMs,
       presentation: this.getPresentationState(), gpuTimingEnabled: this.gpuTimingEnabled,
       gpu: this.gpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
-      gpuShadow: this.shadowGpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
+      gpuShadow: { supported: false, milliseconds: null, completed: 0, pending: 0 },
       gpuAntialiasing: this.screenAntialiasing.getTiming(),
-      drawingBuffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
-      antialiasing: { samples: Number(gl.getParameter(gl.SAMPLES)), finalPass: this.screenAntialiasing.enabled ? "FXAA" : null },
-      renderer: info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : null,
+      drawingBuffer: [size.x, size.y],
+      antialiasing: { samples: this.renderer.samples, finalPass: this.screenAntialiasing.enabled ? "FXAA" : null },
+      renderer: this.getBackendState().api,
       transmissionOcclusion: this.transmissionOcclusion.snapshot(),
     };
   }
@@ -1145,8 +933,11 @@ export class Renderer {
   }
 
   dispose(): void {
-    this.renderer.domElement.removeEventListener('webglcontextrestored', this.restoreFramePacer);
-    this.framePacer.dispose();
+    window.removeEventListener("resize", this.onResize);
+    this.initialized = false;
+    this.framePacer?.dispose();
+    this.frameTarget.dispose();
+    this.presentationMaterial.dispose();
     this.biomeAtmosphere.dispose();
     this.playerSilhouette.dispose();
     this.screenAntialiasing.dispose();
@@ -1154,8 +945,6 @@ export class Renderer {
     this.elementalRefraction.dispose();
     this.transmissionOcclusion.dispose();
     this.gpuTimer?.dispose();
-    this.shadowGpuTimer?.dispose();
-    this.restoreShadowTiming?.();
     this.streamedShaders?.dispose();
     for (const material of this.warmupMaterials) material.dispose();
     this.warmupMaterials.length = 0;
@@ -1290,28 +1079,4 @@ function desaturate(colour: THREE.Color, amount: number): void {
     luminance + (colour.g - luminance) * amount,
     luminance + (colour.b - luminance) * amount,
   );
-}
-
-/**
- * Prefilters the gradient into an environment map.
- *
- * There was no `scene.environment` anywhere in this game before this: grep for `envMap`, `PMREM`
- * or `scene.environment` across game/src returned nothing. That is why nothing metallic reads as
- * metal, and why a roughness-0.1 water surface would have rendered black — a smooth surface with
- * nothing to reflect reflects nothing. About 1.4 MB for a 256 cube and roughly 8 ms at boot.
- */
-function generateEnvironment(
-  renderer: THREE.WebGLRenderer,
-  gradient: THREE.DataTexture,
-): THREE.WebGLRenderTarget | null {
-  try {
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    const target = pmrem.fromEquirectangular(gradient);
-    pmrem.dispose();
-    target.texture.name = "sky-environment";
-    return target;
-  } catch {
-    // A missing environment map is a look regression, not a crash. Boot continues without it.
-    return null;
-  }
 }

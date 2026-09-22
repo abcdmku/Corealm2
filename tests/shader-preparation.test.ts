@@ -1,180 +1,118 @@
 import * as THREE from "three";
-import { describe, expect, it } from "vitest";
-import { compileCorpseFadeVariants, compileShadowMeshes } from "../game/src/render/shaderPreparation.js";
-import { SpellVfx } from "../game/src/render/spellVfx.js";
-import { ElementalRefraction, registerElementalRefraction } from "../game/src/render/elementalRefraction.js";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import type { WebGPURenderer } from "three/webgpu";
+import { texture as textureNode } from "three/tsl";
+import { expect, it, vi } from "vitest";
+import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
 
-it("prepares refraction with its actual light layer and restores camera and scene on failure",()=>{
-  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(),mesh=new THREE.Mesh();
-  const light=new THREE.PointLight();scene.add(light,mesh);scene.background=new THREE.Color(0xabcdef);
-  const background=scene.background,mask=camera.layers.mask,unregister=registerElementalRefraction(mesh);
-  const pass=new ElementalRefraction();
-  try {
-    expect(()=>pass.compile({compile:(view:THREE.Object3D)=>{
-      expect(mesh.layers.test(camera.layers)).toBe(true);expect(light.layers.test(camera.layers)).toBe(false);
-      const objects:THREE.Object3D[]=[];view.traverse(object=>objects.push(object));expect(objects).toContain(mesh);
-      expect(scene.background).toBeNull();throw new Error("compile failed");
-    }} as unknown as THREE.WebGLRenderer,scene,camera,scene)).toThrow("compile failed");
-    expect(camera.layers.mask).toBe(mask);expect(scene.background).toBe(background);
-  }finally{unregister();mesh.geometry.dispose();(mesh.material as THREE.Material).dispose();pass.dispose();}
-});
-
-function retainedMaterials() {
-  const clones = new Map<THREE.Material, THREE.Material>();
-  const hooks = new Map<THREE.Material, THREE.Material["onBeforeCompile"]>();
-  return {
-    clones, hooks,
-    compile: (source: THREE.Material) => {
-      let clone = clones.get(source);
-      if (!clone) {
-        clone = source.clone();
-        clone.onBeforeCompile = source.onBeforeCompile.bind(source);
-        clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
-        clones.set(source, clone); hooks.set(clone, clone.onBeforeCompile);
-      }
-      return clone;
-    },
-    dispose: () => { for (const clone of clones.values()) clone.dispose(); },
-  };
+function fixture() {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
+  let target: THREE.RenderTarget | null = null;
+  const compile = vi.fn(async (_view: THREE.Object3D, _camera: THREE.Camera, _scene: THREE.Scene) => {});
+  const initTexture = vi.fn((_texture: THREE.Texture) => {});
+  const completed = vi.fn(async () => {});
+  const renderer = {
+    init: async () => {}, compileAsync: compile, initTexture,
+    backend: { isWebGPUBackend: true, device: { queue: { onSubmittedWorkDone: completed } } },
+    getRenderTarget: () => target, setRenderTarget: (value: THREE.RenderTarget | null) => { target = value; },
+    getActiveCubeFace: () => 0, getActiveMipmapLevel: () => 0,
+  } as unknown as WebGPURenderer;
+  return { scene, camera, renderer, compile, initTexture, completed };
 }
 
-it.each([false, true])("prepares corpse fade on actual skinned meshes and restores live state, failure=%s", fails => {
-  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
-  const material = new THREE.MeshStandardMaterial(), second = material.clone();
-  material.onBeforeCompile = shader => { shader.fragmentShader += "// creature surface"; };
-  material.customProgramCacheKey = () => "creature-surface";
-  const mesh = new THREE.SkinnedMesh(new THREE.BoxGeometry(), [material, second]);
-  mesh.userData.prepareCorpseFade = true;
-  mesh.bind(new THREE.Skeleton([new THREE.Bone()]));
-  const ordinary = new THREE.Mesh(mesh.geometry, material);
-  scene.add(mesh, ordinary);
-  const original = mesh.material, skeleton = mesh.skeleton;
-  const materials = retainedMaterials();
-  const renderer = { compile(view: THREE.Object3D) {
-    const compiled: THREE.Object3D[] = [];
-    view.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object); });
-    expect(compiled).toEqual([mesh]);
-    expect(mesh.parent).toBe(scene); expect(mesh.skeleton).toBe(skeleton);
-    expect(ordinary.material).toBe(material);
-    expect(mesh.material).not.toBe(original);
-    for (const surface of mesh.material) {
-      expect(surface.transparent).toBe(true); expect(surface.depthWrite).toBe(false);
-    }
-    expect(mesh.material[0]!.customProgramCacheKey()).toBe("creature-surface");
-    const shader = { fragmentShader: "" } as THREE.WebGLProgramParametersWithUniforms;
-    mesh.material[0]!.onBeforeCompile(shader, renderer as unknown as THREE.WebGLRenderer);
-    expect(shader.fragmentShader).toContain("// creature surface");
-    if (fails) throw new Error("compile failed");
-    return new Set<THREE.Material>();
-  } };
-  const prepare = () => compileCorpseFadeVariants(renderer as unknown as THREE.WebGLRenderer, scene, camera, [ordinary, mesh], materials.compile);
-  if (fails) expect(prepare).toThrow("compile failed"); else prepare();
-  expect(mesh.material).toBe(original);
-  expect(material.transparent).toBe(false); expect(material.depthWrite).toBe(true);
-  for (const clone of materials.clones.values()) { expect(clone.transparent).toBe(false); expect(clone.depthWrite).toBe(true); }
-  materials.dispose(); mesh.geometry.dispose(); mesh.skeleton.dispose(); material.dispose(); second.dispose();
+it("uses real children and the live scene cache, restoring hidden hierarchies and output before await", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const root = new THREE.Group(), mesh = new THREE.Mesh(), child = new THREE.Mesh();
+  root.position.set(7, 2, 1); root.visible = false; root.add(mesh); mesh.add(child); scene.add(root);
+  mesh.visible = false; mesh.layers.set(3);
+  const originalChildren = mesh.children, target = new THREE.RenderTarget(1, 1);
+  let finish!: () => void;
+  compile.mockImplementation((view, viewCamera, liveScene) => {
+    expect(view.children).toEqual([mesh, child]);
+    expect(viewCamera).toBe(camera); expect(liveScene).toBe(scene);
+    expect(mesh.parent).toBe(root); expect(child.parent).toBe(mesh);
+    expect(mesh.children).toEqual([]); expect(mesh.visible).toBe(true);
+    expect(mesh.frustumCulled).toBe(false); expect(mesh.layers.mask).toBe(camera.layers.mask);
+    expect(mesh.matrixWorld.elements[12]).toBe(7);
+    expect(renderer.getRenderTarget()).toBe(target);
+    return new Promise<void>(resolve => { finish = resolve; });
+  });
+  const preparation = prepareShaderMeshes(renderer, scene, camera, [mesh, child], { renderTarget: target });
+  await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
+  expect(mesh.visible).toBe(false); expect(root.visible).toBe(false);
+  expect(mesh.children).toBe(originalChildren); expect(mesh.layers.mask).toBe(1 << 3);
+  expect(renderer.getRenderTarget()).toBeNull();
+  finish(); await preparation;
+  target.dispose();
 });
 
-describe("shared shadow shader preparation", () => {
-  it("executes every hidden Earth depth hook using real meshes and restores their surface materials", () => {
-    const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
-    const visibleLights = [new THREE.DirectionalLight(), new THREE.PointLight()];
-    const hidden = new THREE.Group(); hidden.visible = false; hidden.add(new THREE.SpotLight());
-    scene.add(...visibleLights, hidden);
-    scene.fog = new THREE.Fog(0xabcdef, 1, 10);
-    scene.environment = new THREE.Texture(); scene.background = new THREE.Color(0xabcdef);
-    const vfx = new SpellVfx({ parent: scene, camera, groundHeightAt: () => 0 });
-    const meshes: THREE.Mesh[] = [];
-    vfx.preparationRoot().traverse(object => {
-      if ((object as THREE.Mesh).isMesh && (object as THREE.Mesh).customDepthMaterial) meshes.push(object as THREE.Mesh);
-    });
-    const originals = new Map(meshes.map(mesh => [mesh, { material: mesh.material, depth: mesh.customDepthMaterial, parent: mesh.parent }]));
-    const compiled = new Map<string, { vertex: string; uniforms: Record<string, unknown> }>();
-    const compiledMeshes = new Set<THREE.Object3D>();
-    const materials = retainedMaterials(), fallback = new THREE.MeshDepthMaterial();
-    const allVisibleLights: THREE.Object3D[] = [];
-    scene.traverseVisible(object => { if ((object as THREE.Light).isLight) allVisibleLights.push(object); });
-    const renderer = {
-      compile: (view: THREE.Object3D, viewCamera: THREE.Camera, shadowScene: THREE.Scene) => {
-        expect(viewCamera).toBe(camera);
-        expect(shadowScene.fog).toBeNull(); expect(shadowScene.environment).toBeNull(); expect(shadowScene.background).toBeNull();
-        const lights: THREE.Object3D[] = [];
-        shadowScene.traverseVisible(object => { if ((object as THREE.Light).isLight) lights.push(object); });
-        expect(lights).toEqual(allVisibleLights);
-        view.traverse(object => {
-          if (!(object instanceof THREE.Mesh)) return;
-          const original = originals.get(object)!;
-          expect(object.parent).toBe(original.parent); expect(object.visible).toBe(false);
-          const depth = object.material as THREE.MeshDepthMaterial;
-          expect(depth).not.toBe(original.depth);
-          expect(depth.depthPacking).toBe(THREE.RGBADepthPacking);
-          expect(depth.customProgramCacheKey()).toBe(original.depth!.customProgramCacheKey());
-          const shader = { vertexShader: THREE.ShaderLib.depth.vertexShader,
-            fragmentShader: THREE.ShaderLib.depth.fragmentShader, uniforms: {} as Record<string, THREE.IUniform> };
-          depth.onBeforeCompile(shader as THREE.WebGLProgramParametersWithUniforms, renderer);
-          compiled.set(object.name, { vertex: shader.vertexShader, uniforms: shader.uniforms });
-          compiledMeshes.add(object);
-        });
-      },
-    } as unknown as THREE.WebGLRenderer;
-    try {
-      expect(meshes).toHaveLength(13);
-      compileShadowMeshes(renderer, scene, camera, meshes, materials.compile, fallback);
-      expect(compiledMeshes.size).toBe(meshes.length);
-      for (const name of ["elemental-basic-pebble", "elemental-flint-connected-fracture", "elemental-siege-connected-fracture"]) {
-        expect(compiled.get(name)!.vertex).toContain("fractureTurn");
-        expect(compiled.get(name)!.uniforms).toHaveProperty("shatterTime");
-        expect(compiled.get(name)!.uniforms).toHaveProperty("fractureFade");
-      }
-      for (let index = 0; index < 5; index++) {
-        const shader = compiled.get(`elemental-mountain-fracture-outcrop-${index}`)!;
-        expect(shader.vertex).toContain("rockInverseModel");
-        expect(shader.uniforms).toHaveProperty("rockCollapse");
-        expect(shader.uniforms).toHaveProperty("fractureFade");
-      }
-      expect(compiled.get("elemental-fault-travelling-ridge")!.uniforms).toHaveProperty("faultFront");
-      for (const [mesh, original] of originals) {
-        expect(mesh.material).toBe(original.material); expect(mesh.customDepthMaterial).toBe(original.depth);
-      }
-      for (const clone of materials.clones.values()) expect(clone.onBeforeCompile).toBe(materials.hooks.get(clone));
-    } finally { materials.dispose(); fallback.dispose(); vfx.dispose(); scene.environment.dispose(); }
+it("bounds batches to four objects and serializes concurrent requests for the same renderer", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const objects = Array.from({ length: 7 }, () => new THREE.Mesh());
+  const batches: THREE.Object3D[][] = [];
+  let running = 0, peak = 0;
+  compile.mockImplementation(async view => {
+    running++; peak = Math.max(peak, running); batches.push([...view.children]);
+    await new Promise(resolve => setTimeout(resolve, 1)); running--;
   });
+  await Promise.all([
+    prepareShaderMeshes(renderer, scene, camera, objects, { batchSize: 20 }),
+    prepareShaderMeshes(renderer, scene, camera, [objects[0]!]),
+  ]);
+  expect(batches.map(batch => batch.length)).toEqual([4, 3, 1]);
+  expect(peak).toBe(1);
+});
 
-  it("copies surface shadow parameters, skips non-casters, and restores material arrays on compile failure", () => {
-    const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
-    const texture = new THREE.Texture(), planes = [new THREE.Plane(new THREE.Vector3(0, 1, 0), 2)];
-    const surfaces = [THREE.FrontSide, THREE.BackSide, THREE.DoubleSide].map(side => new THREE.MeshStandardMaterial({
-      side, map: texture, alphaMap: texture, alphaTest: 0.3, displacementMap: texture,
-      displacementScale: 0.7, displacementBias: -0.2, clippingPlanes: planes, clipShadows: true, clipIntersection: true, wireframe: true,
-    }));
-    surfaces[1]!.alphaToCoverage = true; surfaces[2]!.shadowSide = THREE.FrontSide;
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(), surfaces), skipped = new THREE.Mesh();
-    mesh.castShadow = true; scene.add(mesh, skipped);
-    const materials = retainedMaterials(), fallback = new THREE.MeshDepthMaterial();
-    let calls = 0;
-    const renderer = {
-      compile: (view: THREE.Object3D) => view.traverse(object => {
-        if (!(object instanceof THREE.Mesh)) return;
-        expect(object).toBe(mesh);
-        const depth = object.material as THREE.MeshDepthMaterial;
-        expect(depth.side).toBe([THREE.BackSide, THREE.FrontSide, THREE.FrontSide][calls]);
-        expect(depth.alphaTest).toBe(calls === 1 ? 0.5 : 0.3);
-        expect(depth.map).toBe(texture); expect(depth.alphaMap).toBe(texture); expect(depth.displacementMap).toBe(texture);
-        expect(depth.displacementScale).toBe(0.7); expect(depth.displacementBias).toBe(-0.2);
-        expect(depth.clippingPlanes).toBe(planes); expect(depth.clipShadows).toBe(true);
-        expect(depth.clipIntersection).toBe(true); expect(depth.wireframe).toBe(true);
-        calls++;
-        if (calls === 3) throw new Error("shadow compile failed");
-      }),
-    } as unknown as THREE.WebGLRenderer;
-    try {
-      expect(() => compileShadowMeshes(renderer, scene, camera, [skipped, mesh], materials.compile, fallback)).toThrow("shadow compile failed");
-      expect(calls).toBe(3); expect(mesh.material).toBe(surfaces);
-      expect(mesh.parent).toBe(scene); expect(skipped.parent).toBe(scene);
-    } finally {
-      materials.dispose(); fallback.dispose(); texture.dispose(); mesh.geometry.dispose();
-      for (const surface of surfaces) surface.dispose();
-      skipped.geometry.dispose(); (skipped.material as THREE.Material).dispose();
+it("waits for each texture upload, discovers TSL maps, and reuses only unchanged live versions", async () => {
+  const { scene, camera, renderer, compile, initTexture, completed } = fixture();
+  const maps = [new THREE.DataTexture(new Uint8Array(4), 1, 1), new THREE.DataTexture(new Uint8Array(4), 1, 1)];
+  const first = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ map: maps[0] }));
+  const nodeMaterial = new MeshBasicNodeMaterial(); nodeMaterial.colorNode = textureNode(maps[1]!);
+  const second = new THREE.Mesh(first.geometry, nodeMaterial);
+  let finish!: () => void;
+  completed.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  const preparation = prepareShaderMeshes(renderer, scene, camera, [first, second]);
+  await vi.waitFor(() => expect(initTexture).toHaveBeenCalledTimes(1));
+  expect(compile).not.toHaveBeenCalled();
+  finish(); await preparation;
+  expect(initTexture.mock.calls.map(call => call[0])).toEqual(maps);
+  await prepareShaderMeshes(renderer, scene, camera, [first, second]);
+  expect(initTexture).toHaveBeenCalledTimes(2);
+  maps[0]!.needsUpdate = true; maps[1]!.dispose();
+  await prepareShaderMeshes(renderer, scene, camera, [first, second]);
+  expect(initTexture).toHaveBeenCalledTimes(4);
+});
+
+it("prepares corpse transparency without changing live material or skinning across an await", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const material = new MeshBasicNodeMaterial();
+  const mesh = new THREE.SkinnedMesh(new THREE.BoxGeometry(), material);
+  mesh.bind(new THREE.Skeleton([new THREE.Bone()]));
+  mesh.userData.prepareCorpseFade = true; scene.add(mesh);
+  const skeleton = mesh.skeleton;
+  let fadeMaterial: THREE.Material | undefined;
+  compile.mockImplementation(async view => {
+    const item = view.children[0] as THREE.SkinnedMesh;
+    expect(item).toBe(mesh); expect(item.skeleton).toBe(skeleton); expect(item.parent).toBe(scene);
+    const compiled = item.material as THREE.Material;
+    if (compiled.transparent) {
+      fadeMaterial = compiled; expect(compiled.depthWrite).toBe(false);
+      await Promise.resolve();
+      expect(mesh.material).toBe(material); expect(material.transparent).toBe(false);
+      expect(compiled.transparent).toBe(true);
     }
   });
+  await prepareShaderMeshes(renderer, scene, camera, [mesh]);
+  expect(compile).toHaveBeenCalledTimes(2); expect(fadeMaterial).not.toBe(material);
+  expect(mesh.material).toBe(material);
+});
+
+it("restores live state on compilation failure and lets a later preparation proceed", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const mesh = new THREE.Mesh(); mesh.visible = false;
+  compile.mockImplementationOnce(() => { throw new Error("pipeline failed"); });
+  await expect(prepareShaderMeshes(renderer, scene, camera, [mesh])).rejects.toThrow("pipeline failed");
+  expect(mesh.visible).toBe(false); expect(mesh.frustumCulled).toBe(true);
+  await prepareShaderMeshes(renderer, scene, camera, [mesh]);
+  expect(compile).toHaveBeenCalledTimes(2);
 });

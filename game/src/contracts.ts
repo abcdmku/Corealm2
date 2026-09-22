@@ -21,6 +21,7 @@ export interface GraphicsBackendState {
 export interface GraphicsPreparationState {
   pendingMeshes: number;
   pendingTextures: number;
+  failed: number;
   compiling: boolean;
   ready: boolean;
 }

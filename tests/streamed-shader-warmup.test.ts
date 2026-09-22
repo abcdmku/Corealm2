@@ -1,326 +1,113 @@
 import * as THREE from "three";
-import { expect, it } from "vitest";
+import type { WebGPURenderer } from "three/webgpu";
+import { expect, it, vi } from "vitest";
 import { StreamedShaderWarmup } from "../game/src/render/streamedShaderWarmup.js";
 
 function fixture() {
   const scene = new THREE.Scene();
-  let target: THREE.WebGLRenderTarget | null = null;
-  let cubeFace = 0, mipLevel = 0;
-  const calls: { material: THREE.Material; linear: boolean }[] = [];
-  const programs = [{ program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }, { program: { ready: false }, getUniforms: () => ({}), getAttributes: () => ({}) }];
-  const renderer = {
-    initTexture: (_texture: THREE.Texture) => {},
-    debug: { checkShaderErrors: true },
-    info: { programs },
-    getContext: () => ({ getExtension: () => ({ COMPLETION_STATUS_KHR: 1 }), isProgram: () => true,
-      getProgramParameter: (program: { ready: boolean }) => program.ready }),
-    getRenderTarget: () => target,
-    getActiveCubeFace: () => cubeFace,
-    getActiveMipmapLevel: () => mipLevel,
-    setRenderTarget: (value: THREE.WebGLRenderTarget | null, face = 0, level = 0) => { target = value; cubeFace = face; mipLevel = level; },
-    compile: (view: THREE.Object3D) => {
-      view.traverse(object => { if (object instanceof THREE.Mesh) calls.push({ material: object.material as THREE.Material,
-        linear: target !== null }); });
-    },
-  } as unknown as THREE.WebGLRenderer;
+  const compile = vi.fn(async (_view: THREE.Object3D) => {});
+  const renderer = { init: async () => {}, compileAsync: compile, initTexture: () => {},
+    backend: { isWebGPUBackend: true, device: { queue: { onSubmittedWorkDone: async () => {} } } },
+  } as unknown as WebGPURenderer;
   const gate = new StreamedShaderWarmup(renderer, scene, new THREE.PerspectiveCamera());
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
-  return { scene, calls, gate, mesh, renderer, programs };
+  return { scene, gate, mesh, compile };
 }
 
-it("prepares an existing hidden interior before reveal, including its texture uploads", () => {
-  const scene = new THREE.Scene(), root = new THREE.Group();
-  const map = new THREE.DataTexture(new Uint8Array(4), 1, 1);
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ map }));
-  root.add(mesh); root.visible = false; scene.add(root);
-  const { renderer, programs, calls } = fixture();
-  const uploads: THREE.Texture[] = [];
-  renderer.initTexture = texture => { uploads.push(texture); };
-  const gate = new StreamedShaderWarmup(renderer, scene, new THREE.PerspectiveCamera());
-  expect(gate.hasPending(root)).toBe(false);
+async function settle(gate: StreamedShaderWarmup) {
+  await vi.waitFor(() => {
+    gate.prepare(); gate.restore();
+    expect(gate.getState()).toMatchObject({ waiting: 0, queued: 0, compiling: false, textures: 0 });
+  });
+}
+
+it("enrolls hidden attached interiors once and preserves the original parent and visibility", async () => {
+  const { scene, gate, mesh, compile } = fixture();
+  const root = new THREE.Group(); root.add(mesh); root.visible = false; scene.add(root);
   gate.enqueue(root); gate.enqueue(root);
   expect(gate.getState().waiting).toBe(1);
-  gate.prepare(); gate.restore();
-  expect(calls).toHaveLength(2);
-  expect(root.visible).toBe(false);
-  expect(mesh.parent).toBe(root);
-  expect(gate.hasPending(root)).toBe(true);
-  for (const program of programs) program.program.ready = true;
-  gate.prepare(); gate.restore();
-  expect(uploads).toEqual([map]);
-  expect(gate.hasPending(root)).toBe(false);
-  expect(root.visible).toBe(false);
-  gate.enqueue(root);
-  expect(gate.hasPending(root)).toBe(false);
-  expect(calls).toHaveLength(2);
-  root.visible = true;
-  gate.prepare();
-  expect(mesh.visible).toBe(true);
-  gate.restore(); gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose(); map.dispose();
+  gate.prepare(); expect(mesh.visible).toBe(false); gate.restore();
+  expect(root.visible).toBe(false); expect(mesh.parent).toBe(root);
+  await settle(gate);
+  gate.enqueue(root); expect(gate.hasPending(root)).toBe(false);
+  expect(compile).toHaveBeenCalledOnce(); expect(root.visible).toBe(false);
+  gate.dispose();
 });
 
-it("keeps a replacement gameplay actor drawable while its shaders prepare", () => {
-  const { scene, gate, mesh } = fixture();
-  mesh.userData.entityId = "nearby-creature";
-  scene.add(mesh);gate.prepare();
-  expect(gate.getState().waiting).toBe(1);
-  expect(mesh.visible).toBe(true);
-  gate.restore();gate.dispose();mesh.geometry.dispose();mesh.material.dispose();
-});
-
-it("defers new actors during a covered destination load and restores the gameplay visibility policy", () => {
-  const { scene, gate, mesh } = fixture();
-  mesh.userData.entityId = "destination-creature";
-  scene.add(mesh);
+it("keeps ordinary actors visible while deferring sampled replacements and covered destinations", async () => {
+  const { scene, gate, mesh, compile } = fixture();
+  let finish!: () => void;
+  compile.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  mesh.userData.entityId = "creature"; scene.add(mesh);
+  gate.prepare(); expect(mesh.visible).toBe(true); gate.restore();
+  await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
   gate.deferGameplayDraws = true;
   gate.prepare(); expect(mesh.visible).toBe(false); gate.restore();
-  gate.deferGameplayDraws = false;
-  gate.prepare(); expect(mesh.visible).toBe(true); gate.restore();
-  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
+  gate.deferGameplayDraws = false; mesh.userData.deferFirstDraw = true;
+  gate.prepare(); expect(mesh.visible).toBe(false); gate.restore();
+  finish(); await settle(gate);
+  gate.prepare(); expect(mesh.visible).toBe(true); gate.restore(); gate.dispose();
 });
 
-it("prepares corpse transparency in both colour passes before releasing a streamed creature", () => {
-  const { scene, gate, mesh, renderer, programs } = fixture();
-  const original = mesh.material;
-  mesh.userData.prepareCorpseFade = true;
-  mesh.userData.deferFirstDraw = true;
-  const variants: { transparent: boolean; linear: boolean; mesh: THREE.Mesh }[] = [];
-  renderer.compile = ((view: THREE.Object3D) => {
-    view.traverse(object => { if (object instanceof THREE.Mesh) variants.push({ mesh: object,
-      transparent: (object.material as THREE.Material).transparent, linear: renderer.getRenderTarget() !== null }); });
-    return new Set<THREE.Material>();
-  }) as THREE.WebGLRenderer["compile"];
-  scene.add(mesh); gate.prepare();
-  expect(variants.map(row => [row.transparent, row.linear])).toEqual([[false, false], [true, false], [false, true], [true, true]]);
-  expect(variants.every(row => row.mesh === mesh)).toBe(true);
-  expect(mesh.material).toBe(original); expect(original.transparent).toBe(false);
-  expect(mesh.visible).toBe(false); gate.restore();
-  for (const program of programs) program.program.ready = true;
-  gate.prepare(); expect(mesh.visible).toBe(true); expect(gate.hasPending(mesh)).toBe(false);
-  gate.restore(); gate.dispose(); mesh.geometry.dispose(); original.dispose();
-});
-
-it("tracks pending subtrees through reparenting and independent batch completion", () => {
-  const { scene, gate, mesh, programs } = fixture();
-  const oldRoot = new THREE.Group(), newRoot = new THREE.Group();
-  scene.add(oldRoot, newRoot);
-  oldRoot.add(mesh);
-  expect(gate.hasPending(oldRoot)).toBe(true);
-  expect(gate.hasPending(scene)).toBe(true);
-  newRoot.add(mesh);
-  expect(gate.hasPending(oldRoot)).toBe(false);
-  expect(gate.hasPending(newRoot)).toBe(true);
-  expect(gate.hasPending(mesh)).toBe(true);
-  scene.remove(newRoot);
-  expect(gate.hasPending(scene)).toBe(false);
-  expect(gate.hasPending(newRoot)).toBe(false);
-  scene.add(newRoot);
+it("runs only one bounded batch and continues receiving additions while a pipeline is pending", async () => {
+  const { scene, gate, compile } = fixture();
+  let finish!: () => void;
+  const sizes: number[] = [];
+  compile.mockImplementationOnce(view => {
+    sizes.push(view.children.length);
+    return new Promise<void>(resolve => { finish = resolve; });
+  }).mockImplementation(async view => { sizes.push(view.children.length); });
+  for (let index = 0; index < 5; index++) scene.add(new THREE.Mesh());
   gate.prepare(); gate.restore();
-  for (const program of programs) program.program.ready = true;
-  gate.prepare(); gate.restore();
-  expect(gate.hasPending(scene)).toBe(false);
-  expect(gate.hasPending(mesh)).toBe(false);
-  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
+  await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
+  for (let frame = 0; frame < 10; frame++) { gate.prepare(); gate.restore(); }
+  expect(compile).toHaveBeenCalledOnce(); expect(gate.getState().queued).toBe(3);
+  scene.add(new THREE.Points());
+  finish(); await settle(gate);
+  expect(sizes).toEqual([2, 2, 2]); gate.dispose();
 });
 
-it('defers the first draw of an actor with a retained sampled replacement', () => {
-  const { scene, gate, mesh, programs } = fixture();
-  mesh.userData.entityId = 'prepared-creature';
-  mesh.userData.deferFirstDraw = true;
-  scene.add(mesh); gate.prepare();
-  expect(mesh.visible).toBe(false); expect(gate.hasPending(mesh)).toBe(true);
-  gate.restore();
-  for (const program of programs) program.program.ready = true;
+it("updates pending ancestors after reparenting and retains objects requeued during compilation", async () => {
+  const { scene, gate, mesh, compile } = fixture();
+  const first = new THREE.Group(), second = new THREE.Group(); scene.add(first, second); first.add(mesh);
+  let finish!: () => void;
+  compile.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  gate.prepare(); gate.restore(); await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
+  second.add(mesh);
+  expect(gate.hasPending(first)).toBe(false); expect(gate.hasPending(second)).toBe(true);
+  finish(); await settle(gate);
+  expect(compile).toHaveBeenCalledTimes(2);
+  expect(gate.hasPending(scene)).toBe(false); gate.dispose();
+});
+
+it("keeps feedback visible and skips already prewarmed feedback while scenery waits", async () => {
+  const { scene, gate, mesh } = fixture(); scene.add(mesh);
+  const ordinary = new THREE.Group(), prewarmed = new THREE.Group();
+  ordinary.userData.keepVisibleDuringWarmup = true;
+  prewarmed.userData.prewarmedInputFeedback = true;
+  const ring = new THREE.Mesh(), readyRing = new THREE.Mesh();
+  ordinary.add(ring); prewarmed.add(readyRing); scene.add(ordinary, prewarmed);
   gate.prepare();
-  expect(mesh.visible).toBe(true); expect(gate.hasPending(mesh)).toBe(false);
-  gate.restore(); gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
+  expect(mesh.visible).toBe(false); expect(ring.visible).toBe(true); expect(readyRing.visible).toBe(true);
+  expect(gate.hasPending(prewarmed)).toBe(false); gate.restore();
+  await settle(gate); gate.dispose();
 });
 
-it('avoids successful shader log queries and restores diagnostics after reflection fails', () => {
-  const { scene, gate, mesh, renderer, programs } = fixture();
-  scene.add(mesh); gate.prepare(); gate.restore();
-  for (const program of programs) program.program.ready = true;
-  programs[1]!.getUniforms = () => {
-    expect(renderer.debug.checkShaderErrors).toBe(false);
-    throw new Error('reflection failed');
-  };
+it("retains failed readiness and cancels further batches when disposed during preparation", async () => {
+  const { scene, gate, mesh, compile } = fixture();
+  const error = vi.spyOn(console, "error").mockImplementation(() => {});
   try {
-    expect(() => gate.prepare()).toThrow('reflection failed');
-    expect(renderer.debug.checkShaderErrors).toBe(true);
-  } finally { gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose(); }
-});
-
-it("waits for every program, restores materials and visibility between frames", () => {
-  const { scene, calls, gate, mesh, renderer, programs } = fixture();
-  const material = mesh.material;
-  scene.add(mesh);gate.prepare();
-  expect(mesh.visible).toBe(false);
-  expect(gate.hasPending(scene)).toBe(true);
-  expect(gate.hasPending(new THREE.Group())).toBe(false);
-  expect(mesh.material).toBe(material);
-  expect(calls[0]!.material).not.toBe(material);
-  expect(calls[1]!.linear).toBe(true);
-  expect(renderer.getRenderTarget()).toBeNull();
-  gate.restore();expect(mesh.visible).toBe(true);
-  programs[1]!.program.ready = true;
-  gate.prepare();expect(mesh.visible).toBe(false);gate.restore();
-  programs[0]!.program.ready = true;
-  gate.prepare();expect(mesh.visible).toBe(true);expect(gate.getState().waiting).toBe(0);
-  expect(gate.hasPending(scene)).toBe(false);
-  gate.dispose();mesh.geometry.dispose();material.dispose();
-});
-
-it("preserves requeued meshes until their new batch completes and cancels pending work on disposal", () => {
-  const { scene, calls, gate, mesh, programs } = fixture();
-  scene.add(mesh);gate.prepare();gate.restore();
-  scene.remove(mesh);expect(gate.getState().waiting).toBe(0);
-  scene.add(mesh);
-  for (const program of programs) program.program.ready = true;
-  gate.prepare();gate.restore();
-  expect(gate.getState().waiting).toBe(1);
-  expect(calls).toHaveLength(4);
-  let disposed = false;calls[0]!.material.addEventListener("dispose", () => { disposed = true; });
-  mesh.material.dispose();expect(disposed).toBe(false);
-  gate.dispose();expect(disposed).toBe(true);
-  gate.prepare();expect(mesh.visible).toBe(true);mesh.geometry.dispose();
-});
-
-
-it("prepares custom creature shadow materials with the production alpha and side settings", () => {
-  const { scene, calls, gate, mesh } = fixture();
-  mesh.castShadow = true;
-  mesh.customDepthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
-  mesh.customDepthMaterial.customProgramCacheKey = () => "sampled-skeleton-v2";
-  mesh.material.alphaTest = 0.4;
-  scene.add(mesh);gate.prepare();gate.restore();
-  const shadow = calls.at(-1)!.material as THREE.MeshDepthMaterial;
-  expect(shadow.isMeshDepthMaterial).toBe(true);
-  expect(shadow.side).toBe(THREE.BackSide);
-  expect(shadow.alphaTest).toBe(0.4);
-  expect(shadow.customProgramCacheKey()).toBe("sampled-skeleton-v2");
-  expect(mesh.material.isMeshStandardMaterial).toBe(true);
-  gate.dispose();mesh.geometry.dispose();mesh.material.dispose();mesh.customDepthMaterial.dispose();
-});
-
-it("does not retain stale program handles after renderer caches are replaced", () => {
-  const { scene, gate, mesh, renderer } = fixture();
-  scene.add(mesh);gate.prepare();gate.restore();
-  renderer.info.programs = [];
-  gate.prepare();expect(mesh.visible).toBe(true);
-  expect(gate.getState().waiting).toBe(0);
-  gate.dispose();mesh.geometry.dispose();mesh.material.dispose();
-});
-
-
-it("uploads maps and custom palette textures in bounded batches before revealing scenery", () => {
-  const { scene, gate, mesh, renderer, programs } = fixture();
-  const textures = Array.from({ length: 5 }, () => new THREE.DataTexture(new Uint8Array(4), 1, 1));
-  const target = new THREE.WebGLRenderTarget(1, 1);
-  mesh.material.map = textures[0]!;
-  mesh.material.normalMap = textures[1]!;
-  mesh.material.onBeforeCompile = shader => {
-    shader.uniforms.palettes = { value: [textures[2], textures[3], textures[4], target.texture] };
-  };
-  const uploaded: THREE.Texture[] = [];
-  renderer.initTexture = texture => { uploaded.push(texture); };
-  renderer.compile = view => {
-    view.traverse(object => {
-      if (object instanceof THREE.Mesh) {
-        (object.material as THREE.Material).onBeforeCompile({ uniforms: {} } as never, renderer);
-      }
-    });
-    return new Set();
-  };
-  scene.add(mesh); gate.prepare(); gate.restore();
-  expect(uploaded).toHaveLength(0);
-  expect(gate.getState().textures).toBe(5);
-  for (const program of programs) program.program.ready = true;
-  for (let frame = 0; frame < 10 && gate.hasPending(scene); frame++) {
-    const before = uploaded.length;
-    gate.prepare();
-    expect(uploaded.length - before).toBeLessThanOrEqual(2);
-    if (uploaded.length < textures.length) expect(mesh.visible).toBe(false);
-    gate.restore();
-  }
-  expect(new Set(uploaded)).toEqual(new Set(textures));
-  expect(gate.hasPending(scene)).toBe(false);
-  expect(mesh.visible).toBe(true);
-  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
-  textures.forEach(texture => texture.dispose()); target.dispose();
-});
-
-
-it('reuses prepared map versions across batches and reuploads changed or disposed maps', () => {
-  const { scene, gate, mesh, renderer, programs } = fixture();
-  const texture = new THREE.DataTexture(new Uint8Array(4), 1, 1);
-  mesh.material.map = texture;
-  const uploaded: THREE.Texture[] = [];
-  renderer.initTexture = value => { uploaded.push(value); };
-  for (const program of programs) program.program.ready = true;
-  const prepare = () => {
-    scene.remove(mesh); scene.add(mesh);
-    for (let frame = 0; frame < 10 && gate.hasPending(scene); frame++) {
-      gate.prepare(); gate.restore();
-    }
-    expect(gate.hasPending(scene)).toBe(false);
-  };
-  prepare(); expect(uploaded).toHaveLength(1);
-  prepare(); expect(uploaded).toHaveLength(1);
-  texture.needsUpdate = true;
-  prepare(); expect(uploaded).toHaveLength(2);
-  texture.dispose();
-  prepare(); expect(uploaded).toHaveLength(3);
-  gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose(); texture.dispose();
-});
-
-it("prepares the source ShaderMaterial textures without uploading cloned uniform textures", () => {
-  const { scene, gate, renderer, programs } = fixture();
-  const texture = new THREE.DataTexture(new Uint8Array(4), 1, 1);
-  const material = new THREE.ShaderMaterial({ uniforms: { image: { value: texture } } });
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(), material);
-  const uploaded: THREE.Texture[] = [];
-  renderer.initTexture = value => { uploaded.push(value); };
-  renderer.compile = view => {
-    view.traverse(object => {
-      if (object instanceof THREE.Mesh) {
-        const compiled = object.material as THREE.ShaderMaterial;
-        expect(compiled.uniforms.image!.value).toBe(texture);
-        compiled.onBeforeCompile({ uniforms: compiled.uniforms } as never, renderer);
-      }
-    });
-    return new Set();
-  };
-  scene.add(mesh); gate.prepare(); gate.restore();
-  for (const program of programs) program.program.ready = true;
-  gate.prepare(); gate.restore();
-  expect(uploaded).toEqual([texture]);
-  expect(gate.hasPending(scene)).toBe(false);
-  gate.dispose(); mesh.geometry.dispose(); material.dispose(); texture.dispose();
-});
-
-
-it("keeps selection feedback visible while a streamed batch prepares", () => {
-  const { scene, gate, mesh } = fixture();
-  const marker = new THREE.Group();
-  marker.userData.keepVisibleDuringWarmup = true;
-  marker.add(mesh); scene.add(marker);
-  gate.prepare();
-  expect(gate.hasPending(marker)).toBe(true);
-  expect(mesh.visible).toBe(true);
-  gate.restore(); gate.dispose(); mesh.geometry.dispose(); mesh.material.dispose();
-});
-
-it('does not delay prewarmed input feedback behind a pending scenery batch', () => {
-  const { scene, gate, mesh, calls } = fixture();
-  scene.add(mesh); gate.prepare(); gate.restore();
-  const marker = new THREE.Group();
-  marker.userData.prewarmedInputFeedback = true;
-  const ring = new THREE.Mesh(new THREE.RingGeometry(), new THREE.MeshBasicMaterial());
-  marker.add(ring); scene.add(marker); gate.prepare();
-  expect(gate.hasPending(mesh)).toBe(true);
-  expect(gate.hasPending(marker)).toBe(false);
-  expect(ring.visible).toBe(true);
-  expect(calls).toHaveLength(2);
-  gate.restore(); gate.dispose();
-  mesh.geometry.dispose(); mesh.material.dispose(); ring.geometry.dispose(); ring.material.dispose();
+    compile.mockRejectedValueOnce(new Error("pipeline failed"));
+    scene.add(mesh); gate.prepare(); gate.restore();
+    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ failed: 1, compiling: false, error: "pipeline failed" }));
+    expect(gate.hasPending(scene)).toBe(true); expect(error).toHaveBeenCalledOnce();
+    let finish!: () => void;
+    compile.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+    scene.add(new THREE.Mesh(), new THREE.Mesh(), new THREE.Mesh());
+    gate.prepare(); gate.restore(); await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(2));
+    gate.dispose(); finish();
+    await new Promise(resolve => setTimeout(resolve, 10));
+    gate.prepare(); expect(compile).toHaveBeenCalledTimes(2);
+    expect(gate.getState().waiting).toBe(0); expect(mesh.visible).toBe(true);
+  } finally { error.mockRestore(); gate.dispose(); }
 });
