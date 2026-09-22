@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
+import { MeshStandardNodeMaterial } from 'three/webgpu';
 import { NodeIO } from '@gltf-transform/core';
 import { FairyArchitecture, FAIRY_LAMP_LIGHT_BUDGET, fairyArchitectureSurface, createFairyMarketCanopyGeometry } from '../game/src/render/fairyArchitecture.js';
 import { buildPrefab, prefabCollision, variantSeed, type PartPlacement } from '../game/src/render/buildings.js';
@@ -16,7 +17,9 @@ describe('fairy structure presentation', () => {
     expect(warm.normalMap).toBe(source.normalMap);
     expect(warm.aoMap).toBe(source.aoMap);
     expect(warm.roughnessMap).toBe(source.roughnessMap);
-    expect(warm.customProgramCacheKey()).not.toBe(cool.customProgramCacheKey());
+    expect((warm as MeshStandardNodeMaterial).isMeshStandardNodeMaterial).toBe(true);
+    expect((warm as MeshStandardNodeMaterial).colorNode).not.toBeNull();
+    expect((cool as MeshStandardNodeMaterial).colorNode).not.toBe((warm as MeshStandardNodeMaterial).colorNode);
     expect(style.material(source, 'wall_plaster_straight', 'gloamgarden')).toBe(warm);
     expect(style.material(source, 'wall_plaster_straight', 'fallowmarch')).toBeNull();
     expect(source.color.getHex()).toBe(0xffffff);
@@ -29,6 +32,8 @@ describe('fairy structure presentation', () => {
     const lit = style.material(glass, 'window_wide', 'gloamgarden') as THREE.MeshStandardMaterial;
     expect(lit.opacity).toBe(1);
     expect(lit.transparent).toBe(false);
+    expect((lit as MeshStandardNodeMaterial).colorNode).not.toBeNull();
+    expect((lit as MeshStandardNodeMaterial).emissiveNode).not.toBeNull();
     // Guard against the previous pale diffuse + HDR emission that washed panes white.
     const radiance = lit.emissive.clone().multiplyScalar(lit.emissiveIntensity);
     expect(lit.emissiveIntensity).toBeGreaterThan(.3);

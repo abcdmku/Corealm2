@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { MeshStandardNodeMaterial, type UniformNode } from 'three/webgpu';
 import { WILDERNESS_EAST_LAVA_CHANNELS } from '../game/src/content/wildernessEastRelief.js';
 import { describe, expect, it, vi } from 'vitest';
 import { carveLavaTerrain, DEEP_WILDERNESS_LAVA_LAB_CHANNELS, isMoltenLavaAt,
@@ -149,6 +150,19 @@ describe('production deep lava rendering', () => {
     effects.group.updateMatrixWorld(true);
     const downward = new THREE.Vector3(0, -1, 0);
     const moltenMeshes = channels.map(c => effects.group.getObjectByName(`wilderness-lava-${c.id}`)!);
+    const flowClocks = new Set<UniformNode<number>>();
+    for (const molten of moltenMeshes) {
+      const material = (molten as THREE.Mesh).material as MeshStandardNodeMaterial;
+      expect(material.isMeshStandardNodeMaterial).toBe(true);
+      expect(material.onBeforeCompile).toBe(THREE.Material.prototype.onBeforeCompile);
+      expect(material.colorNode).toBeTruthy();
+      expect(material.emissiveNode).toBeTruthy();
+      for (const output of [material.colorNode!, material.emissiveNode!]) output.traverse(node => {
+        if ((node as UniformNode<number>).isUniformNode) flowClocks.add(node as UniformNode<number>);
+      });
+    }
+    expect(flowClocks.size).toBe(1);
+    expect([...flowClocks][0]!.value).toBe(2);
     const joinedHits = new THREE.Raycaster(new THREE.Vector3(1, 10, -9), downward).intersectObjects(moltenMeshes);
     expect(new Set(joinedHits.map(hit => hit.object.name)).size, 'one molten surface at the join').toBe(1);
     for (const channel of channels) {
@@ -170,6 +184,7 @@ describe('production deep lava rendering', () => {
         expect(apron).toBeUndefined();
         expect((bank.material as THREE.MeshStandardMaterial).transparent).toBe(true);
         expect((bank.material as THREE.MeshStandardMaterial).depthWrite).toBe(false);
+        expect((bank.material as MeshStandardNodeMaterial).opacityNode).toBeTruthy();
         for (let i = 0; i < positions.count; i++) {
           expect(positions.getY(i) - ground(positions.getX(i), positions.getZ(i))).toBeLessThan(.12);
         }
@@ -191,6 +206,7 @@ describe('production deep lava rendering', () => {
     }
     const lights = effects.group.children.filter(c => (c as THREE.PointLight).isPointLight);
     camera.position.set(900, 5, 900); camera.updateMatrixWorld(); effects.update(3, camera);
+    expect([...flowClocks][0]!.value).toBe(3);
     expect(effects.getState().lights.every(light => light.intensity === 0)).toBe(true);
     expect(effects.getState().liveParticles).toBe(0);
     expect(lights.every(light => light.visible)).toBe(true);

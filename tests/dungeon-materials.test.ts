@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
 import { afterEach, describe, expect, it } from "vitest";
 import {
   buildDungeon, chamberFloorAt, dungeonFloorHeight, dungeonSolids,
@@ -43,11 +44,11 @@ function build(options?: DungeonOptions): BuiltDungeon {
   return built;
 }
 
-function meshes(built: BuiltDungeon): THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>[] {
-  return built.group.children as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>[];
+function meshes(built: BuiltDungeon): THREE.Mesh<THREE.BufferGeometry, MeshStandardNodeMaterial>[] {
+  return built.group.children as THREE.Mesh<THREE.BufferGeometry, MeshStandardNodeMaterial>[];
 }
 
-function meshNamed(built: BuiltDungeon, name: string): THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial> {
+function meshNamed(built: BuiltDungeon, name: string): THREE.Mesh<THREE.BufferGeometry, MeshStandardNodeMaterial> {
   return meshes(built).find(mesh => mesh.name === name)!;
 }
 
@@ -159,6 +160,7 @@ describe("dungeon material restoration", () => {
     expect(floor.material.roughness).toBe(0.97);
     expect(wall.material.roughness).toBe(0.95);
     for (const material of [floor.material, wall.material]) {
+      expect(material.isMeshStandardNodeMaterial).toBe(true);
       expect(material.map).toBe(textures.stone.albedo);
       expect(material.normalMap).toBe(textures.stone.normal);
       expect(material.roughnessMap).toBe(textures.stone.roughness);

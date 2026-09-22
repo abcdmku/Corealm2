@@ -72,19 +72,21 @@ describe("createRibbonMaterial", () => {
   it("shares live uniforms and preserves transparent overlay rendering", () => {
     const uniforms = { uTime: { value: 0 }, uLength: { value: 12 }, uHead: { value: 0 } };
     const material = createRibbonMaterial(new THREE.Color("#ffd98a"), uniforms);
-    expect(material.customProgramCacheKey()).toMatch(/ribbon/);
+    expect(material.isMeshBasicNodeMaterial).toBe(true);
+    expect(material.colorNode).not.toBeNull();
+    expect(material.opacityNode).not.toBeNull();
     expect(material.transparent).toBe(true);
     expect(material.depthWrite).toBe(false);
     expect(material.toneMapped).toBe(false);
-    const shader = {
-      uniforms: {} as Record<string, { value: unknown }>,
-      vertexShader: "#include <common>\nvoid main(){\n#include <begin_vertex>\n}",
-      fragmentShader: "#include <common>\nvoid main(){\n#include <color_fragment>\n}",
-    };
-    material.onBeforeCompile(shader as never, {} as never);
-    expect(shader.uniforms.uTime).toBe(uniforms.uTime);
-    expect(shader.uniforms.uLength).toBe(uniforms.uLength);
-    expect(shader.uniforms.uHead).toBe(uniforms.uHead);
-
+    const references = new Set<unknown>();
+    for (const graph of [material.colorNode, material.opacityNode]) graph!.traverse(node => {
+      if ('object' in node) references.add(node.object);
+    });
+    expect(references.has(uniforms.uTime)).toBe(true);
+    expect(references.has(uniforms.uLength)).toBe(true);
+    expect(references.has(uniforms.uHead)).toBe(true);
+    uniforms.uTime.value = 4.2;
+    uniforms.uHead.value = 3;
+    expect(material.colorNode!.isNode).toBe(true);
   });
 });

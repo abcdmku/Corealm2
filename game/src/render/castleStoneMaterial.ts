@@ -1,4 +1,11 @@
 import * as THREE from "three";
+import { MeshStandardNodeMaterial, type Node } from 'three/webgpu';
+import {
+  Fn, cameraWorldMatrix, faceDirection, float, max, min, mix, positionView, positionWorld,
+  property, roughness, specularColor, specularF90, diffuseColor, metalness, texture,
+  transformDirection, vec2, vec3, vertexColor,
+} from 'three/tsl';
+import { ensureNodeMaterial, surfaceNodes } from './nodeMaterials.js';
 import { assetBaseUrl } from "../app/config.js";
 
 export type CastleStoneStyle = "pearl" | "cinder";
@@ -77,131 +84,18 @@ export function disposeCastleStoneTextures(): void {
   pending.clear();
 }
 
-const VERTEX_ANCHOR = "#include <project_vertex>";
-const NORMAL_ANCHOR = "#include <normal_fragment_maps>";
-const LIGHTING_ANCHOR = "#include <lights_physical_fragment>";
-const COMMON_ANCHOR = "#include <common>";
+/** Standard lighting with the authored pearl/mineral specular response. */
+class CastleStoneNodeMaterial extends MeshStandardNodeMaterial {
+  castleSpecularNode: Node | null = null;
+  castleFinalRoughnessNode: Node | null = null;
 
-const castleStoneHeader = /* glsl */ `
-uniform sampler2D castleStoneAlbedo;
-varying vec3 vCastleStoneWorld;
-float gCastleStoneMask = 0.0;
-float gCastleStoneFeature = 0.0;
-
-vec3 castleStoneSample( vec3 point, vec3 weights ) {
-  // The continuous warp breaks long, identical repetitions without another texture lookup.
-  vec3 warp = vec3(
-    sin( dot( point, vec3( 0.173, 0.117, 0.071 ) ) + 0.7 ),
-    sin( dot( point, vec3( 0.091, 0.149, 0.127 ) ) + 2.1 ),
-    sin( dot( point, vec3( 0.137, 0.083, 0.163 ) ) + 4.3 )
-  ) * 0.42;
-  vec3 p = point + warp;
-  vec2 xUv = vec2( -p.z + 0.31, p.y + 0.17 );
-  vec2 yUv = vec2( p.x + 0.53, -p.z + 0.29 );
-  vec2 zUv = vec2( p.x + 0.11, p.y + 0.61 );
-  return texture2D( castleStoneAlbedo, xUv ).rgb * weights.x
-    + texture2D( castleStoneAlbedo, yUv ).rgb * weights.y
-    + texture2D( castleStoneAlbedo, zUv ).rgb * weights.z;
-}
-`;
-
-const castleStoneVertex = /* glsl */ `
-vec4 castleStonePosition = vec4( transformed, 1.0 );
-#ifdef USE_BATCHING
-  castleStonePosition = batchingMatrix * castleStonePosition;
-#endif
-#ifdef USE_INSTANCING
-  castleStonePosition = instanceMatrix * castleStonePosition;
-#endif
-vCastleStoneWorld = ( modelMatrix * castleStonePosition ).xyz;
-`;
-
-function surfaceBody(style: CastleStoneStyle, paletteMask: boolean): string {
-  const tileMetres = style === "pearl" ? 5.8 : 5.4;
-  const reliefMetres = style === "pearl" ? 0.026 : 0.032;
-  const masked = paletteMask ? `
-  float castleSourceHigh = max( max( castleSource.r, castleSource.g ), castleSource.b );
-  float castleSourceLow = min( min( castleSource.r, castleSource.g ), castleSource.b );
-  float castleSourceSaturation = ( castleSourceHigh - castleSourceLow )
-    / max( castleSourceHigh, 0.018 );
-  float castleSourceWarmth = ( castleSource.r - castleSource.b )
-    / max( castleSourceHigh, 0.018 );
-  float castleWarmPaint = smoothstep( 0.12, 0.32, castleSourceSaturation )
-    * smoothstep( 0.07, 0.24, castleSourceWarmth );
-  gCastleStoneMask = 1.0 - castleWarmPaint;`
-    : "  gCastleStoneMask = 1.0;";
-  const roughness = style === "pearl"
-    ? "clamp( 0.72 - castleValue * 0.13 + castleBroadTone * 0.035, 0.54, 0.78 )"
-    : "clamp( 0.92 - gCastleStoneFeature * 0.22 + castleBroadTone * 0.030, 0.62, 0.96 )";
-  const feature = style === "pearl"
-    ? "clamp( 1.0 - abs( castleValue - 0.62 ) * 1.5, 0.0, 1.0 )"
-    : "smoothstep( 0.055, 0.19, max( max( castleTexel.r, castleTexel.g ), castleTexel.b ) )";
-
-  return /* glsl */ `
-{
-  vec3 castleSource = diffuseColor.rgb;
-  vec3 castleWeights = pow( abs( normalize( inverseTransformDirection( normal, viewMatrix ) ) ), vec3( 5.0 ) );
-  castleWeights /= max( dot( castleWeights, vec3( 1.0 ) ), 0.0001 );
-  vec3 castleTexel = castleStoneSample( vCastleStoneWorld / ${tileMetres.toFixed(1)}, castleWeights );
-  float castleValue = dot( castleTexel, vec3( 0.2126, 0.7152, 0.0722 ) );
-  float castleBroadTone = sin( dot( vCastleStoneWorld, vec3( 0.071, 0.047, 0.059 ) ) + 1.9 )
-    * sin( dot( vCastleStoneWorld, vec3( -0.031, 0.067, 0.043 ) ) + 0.4 );
-  castleTexel *= (0.96 + castleBroadTone * 0.055) * ${style === 'cinder' ? '1.55' : '1.0'};
-${masked}
-  gCastleStoneFeature = ${feature};
-  diffuseColor.rgb = mix( castleSource, castleTexel, gCastleStoneMask );
-  roughnessFactor = mix( roughnessFactor, ${roughness}, gCastleStoneMask );
-  metalnessFactor = mix( metalnessFactor, 0.0, gCastleStoneMask );
-
-  // Dark mortar in the albedo becomes a recessed surface-gradient bump in view-space metres.
-  vec2 castleHeightGradient = vec2( dFdx( castleValue ), dFdy( castleValue ) )
-    * ${reliefMetres.toFixed(3)} * gCastleStoneMask;
-  vec3 castleDx = dFdx( -vViewPosition );
-  vec3 castleDy = dFdy( -vViewPosition );
-  vec3 castleRx = cross( castleDy, normal );
-  vec3 castleRy = cross( normal, castleDx );
-  float castleDeterminant = dot( castleDx, castleRx ) * faceDirection;
-  if ( abs( castleDeterminant ) > 1e-12 ) {
-    normal = normalize( abs( castleDeterminant ) * normal - sign( castleDeterminant )
-      * ( castleHeightGradient.x * castleRx + castleHeightGradient.y * castleRy ) );
-  }
-}
-`;
-}
-
-function lightingBody(style: CastleStoneStyle): string {
-  if (style === "pearl") {
-    return /* glsl */ `
-{
-  float castleFacing = saturate( dot( normal, normalize( vViewPosition ) ) );
-  float castleGrazing = pow( 1.0 - castleFacing, 2.5 );
-  float castlePearlShift = 0.5 + 0.5 * sin( castleFacing * 7.0
-    + dot( vCastleStoneWorld, vec3( 0.19, 0.11, 0.17 ) ) );
-  vec3 castlePearl = mix( vec3( 0.095, 0.084, 0.071 ), vec3( 0.072, 0.092, 0.125 ), castlePearlShift );
-  float castlePearlStrength = gCastleStoneMask * gCastleStoneFeature * ( 0.12 + castleGrazing * 0.24 );
-  material.specularColor = mix( material.specularColor, castlePearl, castlePearlStrength );
-  material.specularColorBlended = mix( material.specularColor, diffuseColor.rgb, metalnessFactor );
-  material.roughness = mix( material.roughness, max( 0.43, material.roughness * 0.82 ),
-    castlePearlStrength );
-}
-`;
-  }
-  return /* glsl */ `
-{
-  float castleFacing = saturate( dot( normal, normalize( vViewPosition ) ) );
-  float castleGlintAngle = pow( 1.0 - castleFacing, 3.0 );
-  float castleGlint = gCastleStoneMask * gCastleStoneFeature * ( 0.22 + castleGlintAngle * 0.78 );
-  // Only bright mineral flecks tighten the reflected-light lobe. They add no emission.
-  material.roughness = mix( material.roughness, 0.19, castleGlint * 0.68 );
-  material.specularColor = mix( material.specularColor, vec3( 0.12, 0.135, 0.16 ), castleGlint * 0.42 );
-  material.specularColorBlended = mix( material.specularColor, diffuseColor.rgb, metalnessFactor );
-}
-`;
-}
-
-function requireAnchor(shader: string, anchor: string, source: THREE.Material): void {
-  if (!shader.includes(anchor)) {
-    throw new Error(`Castle stone material has no ${anchor} insertion point: ${source.name || source.type}`);
+  override setupSpecular(): void {
+    if (!this.castleSpecularNode) { super.setupSpecular(); return; }
+    specularColor.assign(vec3(this.castleSpecularNode));
+    // Three's lighting model stores the metalness blend separately from dielectric F0.
+    property('color', 'SpecularColorBlended').assign(mix(specularColor, diffuseColor.rgb, metalness));
+    specularF90.assign(1);
+    if (this.castleFinalRoughnessNode) roughness.assign(float(this.castleFinalRoughnessNode));
   }
 }
 
@@ -213,31 +107,71 @@ export function createCastleStoneMaterial(
 ): THREE.Material {
   const standard = source as THREE.MeshStandardMaterial;
   if (!standard.isMeshStandardMaterial) return source;
-
   const paletteMask = options.paletteMask === true;
   const albedo = castleStoneTexture(style);
-  const derived = standard.clone();
-  const inheritedCompile = source.onBeforeCompile;
-  const inheritedProgramKey = source.customProgramCacheKey.bind(source);
+  const derived = new CastleStoneNodeMaterial().copy(ensureNodeMaterial(source));
   derived.name = `${source.name || source.type}@castle-stone:${style}:${paletteMask ? "masked" : "full"}`;
-  derived.userData.corealmCastleStone = { style, paletteMask, tileMetres: style === "pearl" ? 5.8 : 5.4 };
-  derived.onBeforeCompile = (shader, renderer) => {
-    inheritedCompile.call(source, shader, renderer);
-    requireAnchor(shader.vertexShader, COMMON_ANCHOR, source);
-    requireAnchor(shader.vertexShader, VERTEX_ANCHOR, source);
-    requireAnchor(shader.fragmentShader, COMMON_ANCHOR, source);
-    requireAnchor(shader.fragmentShader, NORMAL_ANCHOR, source);
-    requireAnchor(shader.fragmentShader, LIGHTING_ANCHOR, source);
-    shader.uniforms.castleStoneAlbedo = { value: albedo };
-    shader.vertexShader = shader.vertexShader
-      .replace(COMMON_ANCHOR, `${COMMON_ANCHOR}\nvarying vec3 vCastleStoneWorld;`)
-      .replace(VERTEX_ANCHOR, `${VERTEX_ANCHOR}\n${castleStoneVertex}`);
-    shader.fragmentShader = shader.fragmentShader
-      .replace(COMMON_ANCHOR, `${COMMON_ANCHOR}\n${castleStoneHeader}`)
-      .replace(NORMAL_ANCHOR, `${NORMAL_ANCHOR}\n${surfaceBody(style, paletteMask)}`)
-      .replace(LIGHTING_ANCHOR, `${LIGHTING_ANCHOR}\n${lightingBody(style)}`);
-  };
-  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-castle-stone-v1:${style}:${Number(paletteMask)}`;
-  derived.needsUpdate = true;
+  derived.userData.corealmCastleStone = { style, paletteMask, tileMetres: style === 'pearl' ? 5.8 : 5.4 };
+  const previous = surfaceNodes(derived);
+  const sourceVertexColors = derived.vertexColors;
+  derived.vertexColors = false;
+  const sourceColor = Fn(builder => sourceVertexColors && builder.geometry.hasAttribute('color')
+    ? previous.color.mul(vertexColor().rgb) : previous.color)();
+  const normal = previous.normal;
+  const worldNormal = transformDirection(normal, cameraWorldMatrix).normalize();
+  const rawWeights = worldNormal.abs().pow(5);
+  const weights = rawWeights.div(max(rawWeights.dot(vec3(1)), .0001));
+  const point = positionWorld.div(style === 'pearl' ? 5.8 : 5.4);
+  const warp = vec3(
+    point.dot(vec3(.173, .117, .071)).add(.7).sin(),
+    point.dot(vec3(.091, .149, .127)).add(2.1).sin(),
+    point.dot(vec3(.137, .083, .163)).add(4.3).sin(),
+  ).mul(.42);
+  const p = point.add(warp);
+  const xUv = vec2(p.z.negate().add(.31), p.y.add(.17));
+  const yUv = vec2(p.x.add(.53), p.z.negate().add(.29));
+  const zUv = vec2(p.x.add(.11), p.y.add(.61));
+  const sample = texture(albedo, xUv).rgb.mul(weights.x)
+    .add(texture(albedo, yUv).rgb.mul(weights.y))
+    .add(texture(albedo, zUv).rgb.mul(weights.z));
+  const value = sample.dot(vec3(.2126, .7152, .0722));
+  const broadTone = positionWorld.dot(vec3(.071, .047, .059)).add(1.9).sin()
+    .mul(positionWorld.dot(vec3(-.031, .067, .043)).add(.4).sin());
+  const texel = sample.mul(broadTone.mul(.055).add(.96)).mul(style === 'cinder' ? 1.55 : 1);
+  const high = max(max(sourceColor.r, sourceColor.g), sourceColor.b);
+  const low = min(min(sourceColor.r, sourceColor.g), sourceColor.b);
+  const saturation = high.sub(low).div(max(high, .018));
+  const warmth = sourceColor.r.sub(sourceColor.b).div(max(high, .018));
+  const mask = paletteMask ? saturation.smoothstep(.12, .32).mul(warmth.smoothstep(.07, .24)).oneMinus() : float(1);
+  const feature = style === 'pearl' ? value.sub(.62).abs().mul(1.5).oneMinus().clamp(0, 1)
+    : max(max(texel.r, texel.g), texel.b).smoothstep(.055, .19);
+  const stoneRoughness = style === 'pearl' ? float(.72).sub(value.mul(.13)).add(broadTone.mul(.035)).clamp(.54, .78)
+    : float(.92).sub(feature.mul(.22)).add(broadTone.mul(.030)).clamp(.62, .96);
+  derived.colorNode = mix(sourceColor, texel, mask);
+  derived.roughnessNode = mix(previous.roughness, stoneRoughness, mask);
+  derived.metalnessNode = mix(previous.metalness, 0, mask);
+
+  // Surface-gradient relief retains its world-metre depth at every texture projection.
+  const heightGradient = vec2(value.dFdx(), value.dFdy()).mul(style === 'pearl' ? .026 : .032).mul(mask);
+  const dx = positionView.dFdx(), dy = positionView.dFdy();
+  const rx = dy.cross(normal), ry = normal.cross(dx);
+  const determinant = dx.dot(rx).mul(faceDirection);
+  const reliefNormal = determinant.abs().mul(normal).sub(determinant.sign()
+    .mul(heightGradient.x.mul(rx).add(heightGradient.y.mul(ry)))).normalize();
+  const finalNormal = determinant.abs().greaterThan(1e-12).select(reliefNormal, normal);
+  derived.normalNode = finalNormal;
+  const facing = finalNormal.dot(positionView.negate().normalize()).clamp(0, 1);
+  if (style === 'pearl') {
+    const grazing = facing.oneMinus().pow(2.5);
+    const shift = facing.mul(7).add(positionWorld.dot(vec3(.19, .11, .17))).sin().mul(.5).add(.5);
+    const pearl = mix(vec3(.095, .084, .071), vec3(.072, .092, .125), shift);
+    const strength = mask.mul(feature).mul(grazing.mul(.24).add(.12));
+    derived.castleSpecularNode = mix(vec3(.04), pearl, strength);
+    derived.castleFinalRoughnessNode = mix(roughness, max(.43, roughness.mul(.82)), strength);
+  } else {
+    const glint = mask.mul(feature).mul(facing.oneMinus().pow(3).mul(.78).add(.22));
+    derived.castleSpecularNode = mix(vec3(.04), vec3(.12, .135, .16), glint.mul(.42));
+    derived.castleFinalRoughnessNode = mix(roughness, .19, glint.mul(.68));
+  }
   return derived;
 }

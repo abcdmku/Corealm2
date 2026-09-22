@@ -8,15 +8,16 @@
  * that paints a soft translucent body, a thin brighter rim, and a run of chevrons that drift toward
  * the destination so the direction of travel is legible without an arrowhead.
  *
- * On the house pattern (`render/materials.ts`, `render/spellVfx.ts`): a stock `MeshBasicMaterial`
- * patched through `onBeforeCompile` — fog and tone mapping come for free — with its own
- * `customProgramCacheKey`, because three keys programs on material properties and NOT on the patch.
+ * A MeshBasicNodeMaterial keeps the paint in the production WebGPU graph. Live references
+ * update its animation and moving head without rebuilding geometry or shaders.
  *
  * Overdraw: one ribbon under a metre wide along one route. `render/scene.ts` removed 42 road
  * ribbons that covered the whole world for overdraw; this is nothing like that scale, and it is
  * depth-tested against the ground it sits 0.22 m above rather than drawn over everything.
  */
 import * as THREE from "three";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import { attribute, clamp, fract, materialColor, materialOpacity, mix, reference, smoothstep, varying, vec3 } from "three/tsl";
 
 /** Full width is twice this. A little over a metre: a stripe from the follow camera, not a wire. */
 export const RIBBON_HALF_WIDTH = 0.55;
@@ -169,53 +170,32 @@ export function buildRibbonGeometry(
  * follow camera the result read as a string of white dashes with no band between them. The body
  * now carries the colour and the chevrons are a lighter tint of it, not white.
  */
-const RIBBON_FRAGMENT = `
-{
-  float across = abs(vTrail.y);
-  float body = 1.0 - smoothstep(0.62, 1.0, across);
-  float rim = smoothstep(0.70, 0.80, across) * (1.0 - smoothstep(0.90, 1.0, across));
-  // Chevrons: a band by distance TO GO, so the pattern is pinned to the destination and a re-plan
-  // from a new start does not re-phase it. The EDGES are held back so the centre leads and the
-  // apex points the way the route runs. (Subtracting across here put the apex toward the player:
-  // the edges led and the centre lagged, an arrow pointing home. Measured on the Bracken Pit capture.)
-  float toGo = uLength - vTrail.x;
-  float phase = fract((-toGo - uTime * ${CHEVRON_SPEED.toFixed(3)} + across * 0.6) / ${CHEVRON_SPACING.toFixed(3)});
-  float chevron = smoothstep(0.0, 0.16, phase) * (1.0 - smoothstep(0.30, 0.46, phase));
-  // Nothing under the character's feet — the head slides with them — and an ease-out where the
-  // destination ring takes over.
-  float headFade = smoothstep(0.0, 1.8, vTrail.x - uHead);
-  float tailFade = 1.0 - smoothstep(uLength - 1.6, uLength - 0.2, vTrail.x);
-  float fade = headFade * mix(0.15, 1.0, tailFade);
-  vec3 tint = mix(diffuseColor.rgb, vec3(1.0), 0.28);
-  diffuseColor.rgb = mix(diffuseColor.rgb, tint, clamp(chevron * body + rim * 0.6, 0.0, 1.0));
-  diffuseColor.a *= (body * 0.5 + rim * 0.4 + chevron * body * 0.35) * fade;
-}
-`;
-
-/** One material per ribbon (it owns `uLength`); every ribbon shares one program. */
-export function createRibbonMaterial(colour: THREE.Color, uniforms: RibbonUniforms): THREE.MeshBasicMaterial {
-  const material = new THREE.MeshBasicMaterial({
+/** One material per ribbon; live references share the existing animation state. */
+export function createRibbonMaterial(colour: THREE.Color, uniforms: RibbonUniforms): MeshBasicNodeMaterial {
+  const material = new MeshBasicNodeMaterial({
     color: colour,
     transparent: true,
     depthWrite: false,
     side: THREE.DoubleSide,
-    // Annotation paint, not a lit surface: under the scene's ACES exposure the route colour came
-    // out as a pale wash (measured on the same capture as the fragment balance above).
     toneMapped: false,
   });
-  // Required: see the header. Parameter-identical stock materials would otherwise be handed this
-  // program, or this material one of theirs, depending on which compiled first.
-  material.customProgramCacheKey = (): string => "corealm-guide-ribbon-v1";
-  material.onBeforeCompile = (shader): void => {
-    shader.uniforms.uTime = uniforms.uTime;
-    shader.uniforms.uLength = uniforms.uLength;
-    shader.uniforms.uHead = uniforms.uHead;
-    shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", "#include <common>\nattribute vec2 aTrail;\nvarying vec2 vTrail;")
-      .replace("#include <begin_vertex>", "#include <begin_vertex>\n\tvTrail = aTrail;");
-    shader.fragmentShader = shader.fragmentShader
-      .replace("#include <common>", "#include <common>\nvarying vec2 vTrail;\nuniform float uTime;\nuniform float uLength;\nuniform float uHead;")
-      .replace("#include <color_fragment>", `#include <color_fragment>\n${RIBBON_FRAGMENT}`);
-  };
+  material.name = "corealm-guide-ribbon";
+  const time = reference('value', 'float', uniforms.uTime);
+  const length = reference('value', 'float', uniforms.uLength);
+  const head = reference('value', 'float', uniforms.uHead);
+  const trail = varying(attribute('aTrail', 'vec2'));
+  const across = trail.y.abs();
+  const body = smoothstep(.62, 1, across).oneMinus();
+  const rim = smoothstep(.70, .80, across).mul(smoothstep(.90, 1, across).oneMinus());
+  // Keep the pattern pinned to the destination, with its centre pointing forward.
+  const toGo = length.sub(trail.x);
+  const phase = fract(toGo.negate().sub(time.mul(CHEVRON_SPEED)).add(across.mul(.6)).div(CHEVRON_SPACING));
+  const chevron = smoothstep(0, .16, phase).mul(smoothstep(.30, .46, phase).oneMinus());
+  const headFade = smoothstep(0, 1.8, trail.x.sub(head));
+  const tailFade = smoothstep(length.sub(1.6), length.sub(.2), trail.x).oneMinus();
+  const fade = headFade.mul(mix(.15, 1, tailFade));
+  material.colorNode = mix(materialColor.rgb, mix(materialColor.rgb, vec3(1), .28),
+    clamp(chevron.mul(body).add(rim.mul(.6)), 0, 1));
+  material.opacityNode = materialOpacity.mul(body.mul(.5).add(rim.mul(.4)).add(chevron.mul(body).mul(.35))).mul(fade);
   return material;
 }

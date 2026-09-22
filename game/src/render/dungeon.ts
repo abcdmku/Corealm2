@@ -30,6 +30,9 @@
  * centres, radii and floor heights; what changes is that the space between them is now floor.
  */
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import { attribute, cameraViewMatrix, mat3, materialReference, mix, modelWorldMatrix, normalLocal,
+  normalView, positionLocal, texture, uv, varying, vec3, vec4 } from "three/tsl";
 import { mergeGeometries, mergeVertices, toCreasedNormals } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { caveEnvelopeSampler, caveSourceCoordinates } from './caveSourceDomain.js';
@@ -38,7 +41,8 @@ import type { MaterialLibrary } from "./materials.js";
 import { REGION_PALETTES } from "./materials.js";
 import { Rng } from "../core/rng.js";
 import { dungeonFloorHeight, type ChamberSpec, type DungeonSpec } from "../world/dungeonLayout.js";
-import { applyCorealmSurfaceMaterials, type CorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
+import { applyCorealmSurfaceMaterials, corealmSurfaceDetail, type CorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
+import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
 
 export type { ChamberSpec, CorridorSpec, DungeonSpec } from "../world/dungeonLayout.js";
 export { chamberFloorAt, dungeonFloorHeight } from "../world/dungeonLayout.js";
@@ -171,12 +175,12 @@ export function buildDungeon(
   let triangles = 0;
 
   const palette = REGION_PALETTES[spec.regionId] ?? REGION_PALETTES.gravelmaw;
-  const floorMaterial = new THREE.MeshStandardMaterial({
+  const floorMaterial = new MeshStandardNodeMaterial({
     color: 0xffffff, vertexColors: true, roughness: 0.97, metalness: 0,
     envMapIntensity: INTERIOR_ENV_INTENSITY, side: THREE.DoubleSide,
   });
   floorMaterial.name = "dungeon-floor";
-  const rockMaterial = new THREE.MeshStandardMaterial({
+  const rockMaterial = new MeshStandardNodeMaterial({
     color: 0xffffff, vertexColors: true, roughness: 0.95, metalness: 0, flatShading: false,
     // Camera collision can briefly place the eye outside the shell. Keep both sides opaque;
     // triangle winding still identifies the floor and inward blockers for navigation.
@@ -243,7 +247,7 @@ export function buildDungeon(
     floor.material.roughness = floorMaterial.roughness;
     ceiling.material.name = "dungeon-rock";
     ceiling.material.roughness = rockMaterial.roughness;
-    applyCaveRockProjection(ceiling.material, options.surfaceTextures.stone.tileMetres);
+    applyCaveRockProjection(ceiling.material, options.surfaceTextures.stone);
     // The helper clones materials but retains shared maps. Only the unused originals are owned here.
     floorMaterial.dispose();
     rockMaterial.dispose();
@@ -449,15 +453,15 @@ function buildSourceRockFacing(spec: DungeonSpec, grid: FloorGrid, source: CaveR
     roofMatchedBorderSamples: source.continuousEnvelope ? null : roofMatchedBorderSamples,
     roofBorderPositionGap: source.continuousEnvelope ? null : roofBorderPositionGap,
     roofBorderNormalDegrees: source.continuousEnvelope ? null : roofBorderNormalDegrees };
-  let material = source.material.clone();
+  let material = cloneNodeMaterial(source.material) as MeshStandardNodeMaterial;
   if (options.surfaceTextures) {
     // The visible source relief shares the shell's continuous metre-scaled material at every edge.
-    const base = new THREE.MeshStandardMaterial({ color: (REGION_PALETTES[spec.regionId] ?? REGION_PALETTES.gravelmaw).rock });
+    const base = new MeshStandardNodeMaterial({ color: (REGION_PALETTES[spec.regionId] ?? REGION_PALETTES.gravelmaw).rock });
     base.name = 'Corealm weathered strata@cave-source';
     const temporary = new THREE.Mesh(geometry, base);
     applyCorealmSurfaceMaterials(temporary, options.surfaceTextures);
     material.dispose(); material = temporary.material;
-    applyCaveRockProjection(material, options.surfaceTextures.stone.tileMetres);
+    applyCaveRockProjection(material, options.surfaceTextures.stone);
     if (!source.continuousEnvelope) applyCaveSourceDetail(material, source.material.map!);
     base.dispose();
   }
@@ -472,72 +476,40 @@ function buildSourceRockFacing(spec: DungeonSpec, grid: FloorGrid, source: CaveR
 }
 
 /** Source pigment is restrained and vanishes before the joining collar; normals/roughness stay continuous. */
-function applyCaveSourceDetail(material: THREE.MeshStandardMaterial, sourceMap: THREE.Texture): void {
-  const inherited = material.onBeforeCompile.bind(material), inheritedKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer) => {
-    inherited(shader, renderer);
-    shader.uniforms.caveSourceMap = { value: sourceMap };
-    shader.vertexShader = `attribute float caveSourceBlend;
-      varying float vCaveSourceBlend; varying vec2 vCaveSourceUv;
-      ${shader.vertexShader}`.replace('#include <uv_vertex>', `#include <uv_vertex>
-        vCaveSourceBlend = caveSourceBlend; vCaveSourceUv = uv;`);
-    shader.fragmentShader = `uniform sampler2D caveSourceMap;
-      varying float vCaveSourceBlend; varying vec2 vCaveSourceUv;
-      ${shader.fragmentShader}`.replace('#include <color_fragment>', `#include <color_fragment>
-        vec3 sourcePigment = texture2D(caveSourceMap, vCaveSourceUv).rgb;
-        float sourceLuma = dot(sourcePigment, vec3(0.2126, 0.7152, 0.0722));
-        float sourceDetail = clamp(sourceLuma / 0.30, 0.70, 1.30);
-        diffuseColor.rgb *= mix(1.0, sourceDetail, vCaveSourceBlend * 0.35);`);
-  };
-  material.customProgramCacheKey = () => `${inheritedKey()}|cave-source-detail-v1`;
+function applyCaveSourceDetail(material: MeshStandardNodeMaterial, sourceMap: THREE.Texture): void {
+  const sourcePigment = texture(sourceMap, uv()).rgb;
+  const sourceLuma = sourcePigment.dot(vec3(0.2126, 0.7152, 0.0722));
+  const sourceDetail = sourceLuma.div(0.30).clamp(0.70, 1.30);
+  const sourceBlend = varying(attribute('caveSourceBlend', 'float'));
+  composeSurface(material, {
+    color: previous => previous.mul(mix(1, sourceDetail, sourceBlend.mul(0.35))),
+  });
 }
 
 /** World projection carries one stone scale and phase around the wall and across the roof. */
-function applyCaveRockProjection(material: THREE.MeshStandardMaterial, tileMetres: number): void {
-  const inherited = material.onBeforeCompile.bind(material);
-  const inheritedKey = material.customProgramCacheKey.bind(material);
-  material.onBeforeCompile = (shader, renderer) => {
-    inherited(shader, renderer);
-    shader.vertexShader = `varying vec3 vCavePosition;\nvarying vec3 vCaveNormal;\n${shader.vertexShader}`
-      .replace('#include <begin_vertex>', `#include <begin_vertex>
-        vCavePosition = (modelMatrix * vec4(position, 1.0)).xyz;
-        vCaveNormal = normalize(mat3(modelMatrix) * normal);`);
-    shader.fragmentShader = `varying vec3 vCavePosition;
-      varying vec3 vCaveNormal;
-      vec3 caveWeights() {
-        vec3 w = pow(abs(normalize(vCaveNormal)), vec3(4.0));
-        return w / max(dot(w, vec3(1.0)), 0.0001);
-      }
-      vec4 caveTexture(sampler2D sourceMap) {
-        vec3 p = vCavePosition / ${tileMetres.toFixed(6)};
-        vec3 w = caveWeights();
-        return texture2D(sourceMap, p.zy) * w.x
-          + texture2D(sourceMap, p.xz) * w.y
-          + texture2D(sourceMap, p.xy) * w.z;
-      }
-      ${shader.fragmentShader}`
-      .replace('texture2D( map, vMapUv )', 'caveTexture(map)')
-      .replace('#include <roughnessmap_fragment>', `
-        float roughnessFactor = roughness;
-        #ifdef USE_ROUGHNESSMAP
-          roughnessFactor *= caveTexture(roughnessMap).g;
-        #endif`)
-      .replace('#include <normal_fragment_maps>', `
-        #ifdef USE_NORMALMAP
-          vec3 caveP = vCavePosition / ${tileMetres.toFixed(6)};
-          vec3 caveW = caveWeights();
-          vec2 caveX = (texture2D(normalMap, caveP.zy).xy * 2.0 - 1.0) * normalScale;
-          vec2 caveY = (texture2D(normalMap, caveP.xz).xy * 2.0 - 1.0) * normalScale;
-          vec2 caveZ = (texture2D(normalMap, caveP.xy).xy * 2.0 - 1.0) * normalScale;
-          vec3 caveN = normalize(vCaveNormal);
-          vec3 cavePerturb = vec3(0.0, caveX.y, caveX.x) * caveW.x
-            + vec3(caveY.x, 0.0, caveY.y) * caveW.y
-            + vec3(caveZ.x, caveZ.y, 0.0) * caveW.z;
-          cavePerturb -= caveN * dot(caveN, cavePerturb);
-          normal = normalize(normal + mat3(viewMatrix) * cavePerturb);
-        #endif`);
-  };
-  material.customProgramCacheKey = () => `${inheritedKey()}|cave-world-stone-v1:${tileMetres}`;
+function applyCaveRockProjection(material: MeshStandardNodeMaterial, maps: CorealmSurfaceTextures['stone']): void {
+  // Match the original vertex-stage projection, including interpolation before fragment normalization.
+  const worldPosition = varying(modelWorldMatrix.mul(vec4(positionLocal, 1)).xyz);
+  const worldNormal = varying(mat3(modelWorldMatrix).mul(normalLocal).normalize()).normalize();
+  const p = worldPosition.div(maps.tileMetres);
+  const unscaledWeights = worldNormal.abs().pow(4);
+  const weights = unscaledWeights.div(unscaledWeights.dot(vec3(1)).max(0.0001));
+  const projected = (map: THREE.Texture) => texture(map, p.zy).mul(weights.x)
+    .add(texture(map, p.xz).mul(weights.y)).add(texture(map, p.xy).mul(weights.z));
+  const albedoDetail = corealmSurfaceDetail(projected(maps.albedo).rgb, maps.meanLinearRgb, 0.86);
+  const normalScale = materialReference('normalScale', 'vec2');
+  const normalX = texture(maps.normal, p.zy).xy.mul(2).sub(1).mul(normalScale);
+  const normalY = texture(maps.normal, p.xz).xy.mul(2).sub(1).mul(normalScale);
+  const normalZ = texture(maps.normal, p.xy).xy.mul(2).sub(1).mul(normalScale);
+  const offset = vec3(0, normalX.y, normalX.x).mul(weights.x)
+    .add(vec3(normalY.x, 0, normalY.y).mul(weights.y))
+    .add(vec3(normalZ.x, normalZ.y, 0).mul(weights.z));
+  const perturb = offset.sub(worldNormal.mul(worldNormal.dot(offset)));
+  composeSurface(material, {
+    color: () => vec3(materialReference('color', 'color')).mul(albedoDetail),
+    roughness: () => projected(maps.roughness).g.mul(materialReference('roughness', 'float')),
+    normal: () => normalView.add(mat3(cameraViewMatrix).mul(perturb)).normalize(),
+  });
 }
 
 /** The roof height at a world XZ, clamped under the rock when a `ceilingAt` sampler is supplied. */

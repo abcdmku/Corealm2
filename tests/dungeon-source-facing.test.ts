@@ -1,6 +1,7 @@
 import { NodeIO } from '@gltf-transform/core';
 import { mkdir, writeFile } from 'node:fs/promises';
 import * as THREE from 'three';
+import { MeshStandardNodeMaterial, type Node } from 'three/webgpu';
 import { expect, it } from 'vitest';
 import { createCaveLabFixture } from '../game/src/featureLab/cave.js';
 import { buildDungeon, dungeonSolids, dungeonNavigationBlockers, type CaveRockSource } from '../game/src/render/dungeon.js';
@@ -74,12 +75,21 @@ it('fits the accepted licensed scan outside the walking footprint with covered r
   expect(retry.getState()).toEqual({ ready: false, loading: false, error: 'temporary asset failure' });
   await retry.ensure();
   expect(retry.getState().ready).toBe(true);
-  const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} };
-  (facing.material as THREE.MeshStandardMaterial).onBeforeCompile(shader as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
+  const facingMaterial = facing.material as MeshStandardNodeMaterial;
   // Continuous world stone owns the colour, so no source atlas sample can reintroduce a join.
-  expect(shader.fragmentShader).toContain('caveTexture(map)');
-  expect(shader.fragmentShader).not.toContain('caveSourceMap');
-  expect((facing.material as THREE.MeshStandardMaterial).map).toBe(maps.albedo);
+  expect(facingMaterial.isMeshStandardNodeMaterial).toBe(true);
+  const attributes = new Set<string>();
+  const graphTextures = new Set<THREE.Texture>();
+  for (const graph of [facingMaterial.colorNode, facingMaterial.normalNode, facingMaterial.roughnessNode]) {
+    expect(graph).not.toBeNull();
+    graph!.traverse((node: Node & { attributeName?: string; value?: unknown }) => {
+      if (node.attributeName) attributes.add(node.attributeName);
+      if (node.value instanceof THREE.Texture) graphTextures.add(node.value);
+    });
+  }
+  expect(attributes.has('caveSourceBlend')).toBe(false);
+  expect(graphTextures).toEqual(new Set([maps.albedo, maps.normal, maps.roughness]));
+  expect(facingMaterial.map).toBe(maps.albedo);
   expect(state.sourceFacing).not.toBeNull();
   expect(state.sourceFacing!.wallPanels).toBeGreaterThan(4);
   expect(state.sourceFacing!.wallPanels + state.sourceFacing!.roofPanels).toBeLessThan(120);

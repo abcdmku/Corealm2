@@ -1,4 +1,7 @@
 import * as THREE from 'three';
+import { MeshStandardNodeMaterial, type Node } from 'three/webgpu';
+import { Fn, abs, attribute, dot, float, floor, fract, length, materialOpacity, max, min, mix, sin, smoothstep,
+  uniform, varying, vec2, vec3, vec4 } from 'three/tsl';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Ambience } from './vfx.js';
 import { buildLavaSurfaceField } from '../world/lavaSurface.js';
@@ -114,6 +117,46 @@ const hash = (n: number): number => {
   return s - Math.floor(s);
 };
 
+// Preserve the authored molten field in TSL so WebGPU compiles its shaders directly.
+const lavaHashNode = Fn(([p]: [Node<'vec2'>]) =>
+  fract(sin(vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)))).mul(43758.5453)),
+{ name: 'corealmLavaHash', type: 'vec2', inputs: [{ name: 'p', type: 'vec2' }] });
+
+const lavaNoiseNode = Fn(([p]: [Node<'vec2'>]) => {
+  const i = floor(p);
+  const part = fract(p);
+  const f = part.mul(part).mul(float(3).sub(part.mul(2)));
+  return mix(mix(lavaHashNode(i).x, lavaHashNode(i.add(vec2(1, 0))).x, f.x),
+    mix(lavaHashNode(i.add(vec2(0, 1))).x, lavaHashNode(i.add(vec2(1, 1))).x, f.x), f.y);
+}, { name: 'corealmLavaNoise', type: 'float', inputs: [{ name: 'p', type: 'vec2' }] });
+
+const lavaFbmNode = Fn(([p]: [Node<'vec2'>]) => lavaNoiseNode(p).mul(.57)
+  .add(lavaNoiseNode(p.mul(2.07).add(9.1)).mul(.29))
+  .add(lavaNoiseNode(p.mul(4.31).add(17.7)).mul(.14)),
+{ name: 'corealmLavaFbm', type: 'float', inputs: [{ name: 'p', type: 'vec2' }] });
+
+const lavaFractureNode = Fn(([p]: [Node<'vec2'>]) => {
+  const cell = floor(p), part = fract(p);
+  const first = float(8).toVar(), second = float(8).toVar();
+  for (let y = -1; y <= 1; y++) for (let x = -1; x <= 1; x++) {
+    const offset = vec2(x, y);
+    const jitter = lavaHashNode(cell.add(offset)).mul(.64).add(.18);
+    const distance = length(offset.add(jitter).sub(part)).toVar();
+    // Keep the two nearest distances, including equal-distance fractures.
+    second.assign(min(second, max(first, distance)));
+    first.assign(min(first, distance));
+  }
+  return second.sub(first);
+}, { name: 'corealmLavaFracture', type: 'float', inputs: [{ name: 'p', type: 'vec2' }] });
+
+const lavaFieldNode = Fn(([input]: [Node<'vec2'>]) => {
+  const flow = vec2(input.x.add(sin(input.y.mul(.36)).mul(.16)), input.y);
+  const warp = vec2(lavaFbmNode(flow.mul(.8)), lavaFbmNode(flow.mul(.7).add(18.4))).sub(.5);
+  const broken = flow.mul(vec2(.7, .45)).add(warp.mul(1.45));
+  return vec4(lavaFractureNode(broken), lavaFbmNode(flow.mul(.47).add(3.8)),
+    lavaFbmNode(flow.mul(.63).sub(11)), lavaFbmNode(flow.mul(7.7)));
+}, { name: 'corealmLavaField', type: 'vec4', inputs: [{ name: 'flow', type: 'vec2' }] });
+
 /** Warm flame, bank light and slow molten flow share the production render clock. */
 export class WildernessEffects {
   readonly group = new THREE.Group();
@@ -123,7 +166,7 @@ export class WildernessEffects {
   private readonly assigned: (LightSource | undefined)[] = [];
   private readonly ownedGeometry = new Set<THREE.BufferGeometry>();
   private readonly ownedMaterial = new Set<THREE.Material>();
-  private readonly flowClock = { value: 0 };
+  private readonly flowClock = uniform(0).setName('wildernessTime');
   private readonly bankLighting: LavaBankLighting;
   private readonly surfaceAt: (x: number, z: number) => number;
   private readonly textureAt: (x: number, z: number) => readonly [number, number];
@@ -342,9 +385,9 @@ export class WildernessEffects {
       }
     }
     this.addMerged('wilderness-torch-iron', iron,
-      new THREE.MeshStandardMaterial({ color: 0x262526, roughness: .87, metalness: .68 }));
+      new MeshStandardNodeMaterial({ color: 0x262526, roughness: .87, metalness: .68 }));
     this.addMerged('wilderness-torch-coals', coal,
-      new THREE.MeshStandardMaterial({ color: 0x36201b, emissive: 0xa52e08, emissiveIntensity: .9, roughness: 1 }));
+      new MeshStandardNodeMaterial({ color: 0x36201b, emissive: 0xa52e08, emissiveIntensity: .9, roughness: 1 }));
   }
 
   private addMerged(name: string, pieces: THREE.BufferGeometry[], material: THREE.Material): void {
@@ -362,102 +405,41 @@ export class WildernessEffects {
     const columns = Math.max(12, Math.ceil(Math.max(...sections.map(row => row.halfWidth)) * 2 / .45));
     const molten = this.channelRibbon(channel, sections, Array.from({ length: columns + 1 }, (_, i) => i / columns * 2 - 1), false);
     this.moltenTriangles += molten.index!.count / 3;
-    const material = new THREE.MeshStandardMaterial({ color: 0x2b1816, roughness: .91,
+    const material = new MeshStandardNodeMaterial({ color: 0x2b1816, roughness: .91,
       emissive: 0xff5a08, emissiveIntensity: 1, side: THREE.DoubleSide });
-    material.onBeforeCompile = shader => {
-      shader.uniforms.wildernessTime = this.flowClock;
-      shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>
-        attribute float lavaMagic;
-        attribute float lavaBank;
-        attribute vec2 lavaTransport;
-        varying vec2 lavaUv;
-        varying float moltenMagic;
-        varying float moltenBank;
-      `).replace('#include <begin_vertex>', `#include <begin_vertex>
-        lavaUv = lavaTransport;
-        moltenMagic = lavaMagic;
-        moltenBank = lavaBank;
-      `);
-      shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
-        uniform float wildernessTime;
-        varying vec2 lavaUv;
-        varying float moltenMagic;
-        varying float moltenBank;
-        vec2 lavaHash(vec2 p) {
-          return fract(sin(vec2(dot(p, vec2(127.1,311.7)), dot(p,vec2(269.5,183.3))))*43758.5453);
-        }
-        float lavaNoise(vec2 p) {
-          vec2 i=floor(p), f=fract(p);
-          f=f*f*(3.0-2.0*f);
-          return mix(mix(lavaHash(i).x,lavaHash(i+vec2(1,0)).x,f.x),
-            mix(lavaHash(i+vec2(0,1)).x,lavaHash(i+vec2(1,1)).x,f.x),f.y);
-        }
-        float lavaFbm(vec2 p) {
-          return lavaNoise(p)*.57+lavaNoise(p*2.07+9.1)*.29+lavaNoise(p*4.31+17.7)*.14;
-        }
-        float lavaFracture(vec2 p) {
-          vec2 cell = floor(p), part = fract(p);
-          float first = 8.0, second = 8.0;
-          for (int y=-1;y<=1;y++) for(int x=-1;x<=1;x++) {
-            vec2 offset = vec2(float(x),float(y));
-            vec2 jitter = .18 + .64 * lavaHash(cell+offset);
-            float d = length(offset+jitter-part);
-            if (d<first) { second=first; first=d; } else second=min(second,d);
-          }
-          return second-first;
-        }
-        vec4 lavaField(vec2 flow) {
-          flow.x += sin(flow.y*.36)*.16;
-          vec2 warp = vec2(lavaFbm(flow*.8),lavaFbm(flow*.7+18.4))-.5;
-          vec2 broken = flow*vec2(.7,.45)+warp*1.45;
-          return vec4(lavaFracture(broken), lavaFbm(flow*.47+3.8),
-            lavaFbm(flow*.63-11.0), lavaFbm(flow*7.7));
-        }
-      `).replace('#include <color_fragment>', `#include <color_fragment>
-        vec2 flow = lavaUv - vec2(0.0, wildernessTime * .11);
-        vec4 field = lavaField(flow);
-        float crack = 1.0 - smoothstep(.006, .060, field.x);
-        float openings = smoothstep(.40, .74, field.y);
-        float hotPool = smoothstep(.73, .86, field.z) * openings;
-        float heat = max(crack * (.10 + .90 * openings), hotPool * .48);
-        float edge = 1.0 - smoothstep(.66, .96, abs(moltenBank));
-        heat *= .62 + .38 * edge;
-        float grit = field.w * .048;
-        vec3 warmRock = vec3(.029+grit,.027+grit,.025+grit);
-        vec3 coldRock = vec3(.027+grit,.025+grit,.034+grit);
-        vec3 hotRock = mix(vec3(.16,.032,.008),vec3(.048,.031,.18),moltenMagic);
-        diffuseColor.rgb = mix(mix(warmRock,coldRock,moltenMagic),hotRock,heat);
-      `).replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
-        float hottest = smoothstep(.70,.99,heat);
-        vec3 warmMolten = mix(vec3(1.08,.068,.0015),vec3(2.025,.315,.009),hottest);
-        vec3 coldMolten = mix(vec3(.33,.018,.87),vec3(.042,.42,1.32),hottest);
-        vec3 moltenColour = mix(warmMolten,coldMolten,moltenMagic);
-        totalEmissiveRadiance = mix(mix(vec3(.02,.001,.0005),vec3(.003,.001,.028),moltenMagic),moltenColour * 1.6,heat);
-      `);
-    };
-    material.customProgramCacheKey = () => 'wilderness-lava-transport-v10';
+    const moltenMagic = varying(attribute('lavaMagic', 'float'));
+    const moltenBank = varying(attribute('lavaBank', 'float'));
+    const flow = varying(attribute('lavaTransport', 'vec2')).sub(vec2(0, this.flowClock.mul(.11)));
+    const field = lavaFieldNode(flow).toVar();
+    const crack = float(1).sub(smoothstep(.006, .060, field.x));
+    const openings = smoothstep(.40, .74, field.y);
+    const hotPool = smoothstep(.73, .86, field.z).mul(openings);
+    const edge = float(1).sub(smoothstep(.66, .96, abs(moltenBank)));
+    const heat = max(crack.mul(openings.mul(.90).add(.10)), hotPool.mul(.48))
+      .mul(edge.mul(.38).add(.62)).toVar();
+    const grit = field.w.mul(.048);
+    const warmRock = vec3(.029, .027, .025).add(grit);
+    const coldRock = vec3(.027, .025, .034).add(grit);
+    const hotRock = mix(vec3(.16, .032, .008), vec3(.048, .031, .18), moltenMagic);
+    material.colorNode = mix(mix(warmRock, coldRock, moltenMagic), hotRock, heat);
+    const hottest = smoothstep(.70, .99, heat);
+    const warmMolten = mix(vec3(1.08, .068, .0015), vec3(2.025, .315, .009), hottest);
+    const coldMolten = mix(vec3(.33, .018, .87), vec3(.042, .42, 1.32), hottest);
+    const moltenColour = mix(warmMolten, coldMolten, moltenMagic);
+    material.emissiveNode = mix(mix(vec3(.02, .001, .0005), vec3(.003, .001, .028), moltenMagic),
+      moltenColour.mul(1.6), heat);
     this.addMesh(`wilderness-lava-${channel.id}`, molten, material);
     const bankColumns = [...Array.from({ length: 9 }, (_, i) => -2 + i / 8),
       ...Array.from({ length: 9 }, (_, i) => 1 + i / 8)];
     const banks = this.channelRibbon(channel, sections, bankColumns, true);
-    const bankMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 1 });
+    const bankMaterial = new MeshStandardNodeMaterial({ color: 0xffffff, vertexColors: true, roughness: 1 });
     bankMaterial.name = 'Corealm weathered strata';
     if (channel.naturalBanks) {
       bankMaterial.transparent = true;
       bankMaterial.depthWrite = false;
-      bankMaterial.onBeforeCompile = shader => {
-        shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>
-          attribute float lavaBank; varying float shoreFade;
-        `).replace('#include <begin_vertex>', `#include <begin_vertex>
-          shoreFade = 2.0 - abs(lavaBank);
-        `);
-        shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
-          varying float shoreFade;
-        `).replace('#include <color_fragment>', `#include <color_fragment>
-          diffuseColor.a *= smoothstep(0.0, .6, shoreFade);
-        `);
-      };
-      bankMaterial.customProgramCacheKey = () => 'lava-weathered-bank-v1';
+      // Fade is interpolated from the same per-vertex shore value as the authored GLSL.
+      const shoreFade = varying(float(2).sub(abs(attribute('lavaBank', 'float'))));
+      bankMaterial.opacityNode = materialOpacity.mul(smoothstep(0, .6, shoreFade));
     }
     this.addMesh(`wilderness-lava-banks-${channel.id}`, banks, bankMaterial);
     const rocks: THREE.BufferGeometry[] = [];
@@ -480,7 +462,7 @@ export class WildernessEffects {
       }
     }
 
-    const basaltMaterial = new THREE.MeshStandardMaterial({ color: 0x66636a, roughness: 1 });
+    const basaltMaterial = new MeshStandardNodeMaterial({ color: 0x66636a, roughness: 1 });
     basaltMaterial.name = 'Corealm weathered strata';
     this.addMerged(`wilderness-lava-basalt-${channel.id}`, rocks, basaltMaterial);
     if (!channel.naturalBanks) this.buildDryApron(channel, sections);
@@ -515,7 +497,7 @@ export class WildernessEffects {
     geometry.setAttribute('color',new THREE.Float32BufferAttribute(colours,3));
     geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
     geometry.computeVertexNormals();
-    const material = new THREE.MeshStandardMaterial({color:0xffffff,vertexColors:true,roughness:1,flatShading:true});
+    const material = new MeshStandardNodeMaterial({color:0xffffff,vertexColors:true,roughness:1,flatShading:true});
     material.name = 'Corealm weathered strata';
     this.addMesh(`wilderness-rock-mass-${mass.id}`, this.projectRockUvs(geometry), material);
   }
@@ -671,7 +653,7 @@ export class WildernessEffects {
     geometry.setIndex(indices);
     geometry.computeVertexNormals();
     this.dryApronTriangles += indices.length / 3;
-    const material = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 1 });
+    const material = new MeshStandardNodeMaterial({ color: 0xffffff, vertexColors: true, roughness: 1 });
     material.name = 'Corealm weathered strata';
     const mesh = this.addMesh(`wilderness-lava-apron-${channel.id}`, geometry, material);
     // Existing lava and raised banks reject hidden apron fragments before their texture work.
