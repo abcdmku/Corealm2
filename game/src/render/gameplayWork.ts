@@ -1,4 +1,4 @@
-/** Start asset preparation within a small budget after each painted gameplay frame. Network and
+/** Start asset preparation within a small budget after each painted frame, including loading. Network and
  * asynchronous decoder work can overlap; a job waiting on another asset never locks the queue. */
 export class GameplayWork {
   private interactive = false;
@@ -11,10 +11,8 @@ export class GameplayWork {
 
   setInteractive(value: boolean): void {
     this.interactive = value;
-    if (!value) {
-      this.pressureUntil = 0;
-      while (this.jobs.length) this.takeNext()!.start();
-    }
+    if (!value) this.pressureUntil = 0;
+    this.scheduleNext();
   }
 
   /** Feed the measured frame interval, including CPU/GPU waits, rather than just render CPU
@@ -30,7 +28,6 @@ export class GameplayWork {
   }
 
   run<T>(work: () => T | PromiseLike<T>, priority: () => number = () => 0): Promise<T> {
-    if (!this.interactive) return Promise.resolve().then(work);
     return new Promise<T>((resolve, reject) => {
       this.jobs.push({ priority, queuedAt: this.now(), start: () => {
         try { resolve(work()); } catch (error) { reject(error); }
@@ -44,7 +41,7 @@ export class GameplayWork {
   runSliced<T>(steps: Iterator<unknown, T>, priority: () => number = () => 0): Promise<T> {
     const advance = (): T | Promise<T> => {
       const started = this.now();
-      const budget = this.isUnderPressure() ? 0.5 : 2;
+      const budget = this.sliceBudget();
       let count = 0;
       do {
         const step = steps.next();
@@ -54,6 +51,10 @@ export class GameplayWork {
       return this.run(advance, priority);
     };
     return this.run(advance, priority);
+  }
+
+  private sliceBudget(): number {
+    return this.isUnderPressure() ? 0.5 : this.interactive ? 2 : 4;
   }
 
   private takeNext() {
@@ -79,7 +80,7 @@ export class GameplayWork {
       this.scheduled = false;
       const started = this.now();
       const underPressure = this.isUnderPressure();
-      const budget = underPressure ? 0.5 : 2;
+      const budget = this.sliceBudget();
       // Cheap placement and cancelled jobs should not each cost an entire frame. An expensive
       // job gets the frame to itself; bounded starts also contain async decoder continuations.
       let count = 0;
@@ -109,5 +110,5 @@ function afterPaint(run: () => void): void {
   const frame = typeof requestAnimationFrame === "function"
     ? requestAnimationFrame(() => { painted = setTimeout(finish, 0); }) : undefined;
   // Background tabs and a stopped render loop must still finish a requested destination.
-  const fallback = setTimeout(finish, 100);
+  const fallback = setTimeout(finish, frame === undefined ? 0 : 100);
 }

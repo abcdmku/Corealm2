@@ -15,6 +15,9 @@ import { assetBaseUrl, assetManifestUrl } from "../app/config.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import { mirrorAnimationClip } from "./skinning.js";
 import { configureAssetDelivery, deliveryUrl, usesMobileAssets } from './assetDelivery.js';
+import { ensureNodeMaterial } from './nodeMaterials.js';
+import { artSurfaceRoleForMaterial } from './artDirection.js';
+import { prepareLeafTextureAsync } from './leafTexture.js';
 
 /** Suffix for a generated mirror. Shared with `render/characterRig.ts`, which names the clips. */
 export const MIRROR_SUFFIX = "_Mirror";
@@ -348,6 +351,35 @@ export interface AssetRegistryOptions {
   manifestUrl?: string;
   /** URL of the assets directory, including its trailing slash. */
   assetBaseUrl?: string;
+}
+
+/** Convert before any surface treatment so imported slots enter the renderer as node materials.
+ * The converter interns each source material, preserving sharing across meshes and scenes. */
+function* prepareImportedMaterials(roots: readonly THREE.Object3D[]): Generator<void, Set<THREE.Texture>> {
+  const visited = new Set<THREE.Object3D>();
+  const pending = [...roots];
+  const leafTextures = new Set<THREE.Texture>();
+  const convert = (source: THREE.Material) => {
+    const material = ensureNodeMaterial(source);
+    const sourceName = material.name.split('@', 1)[0]!;
+    const standard = material as THREE.MeshStandardMaterial & { isMeshStandardNodeMaterial?: boolean };
+    if ((standard.isMeshStandardMaterial || standard.isMeshStandardNodeMaterial)
+      && sourceName.endsWith('_cutout') && artSurfaceRoleForMaterial(material.name) === 'foliage'
+      && standard.map) leafTextures.add(standard.map);
+    return material;
+  };
+  while (pending.length) {
+    const node = pending.pop()!;
+    if (visited.has(node)) continue;
+    visited.add(node);
+    for (const child of node.children) pending.push(child);
+    const mesh = node as THREE.Mesh;
+    if (mesh.isMesh) {
+      mesh.material = Array.isArray(mesh.material) ? mesh.material.map(convert) : convert(mesh.material);
+    }
+    yield;
+  }
+  return leafTextures;
 }
 
 let meshoptWorkersStarted = false;
@@ -749,6 +781,12 @@ export class AssetRegistry {
   private async publishParsedGltf(id: string, entry: AssetEntry, gltf: GLTF,
     request: QueuedAssetLoad): Promise<THREE.Group> {
     const group = gltf.scene;
+    const scenes = [group, ...(gltf.scenes ?? [])];
+    const leafTextures = await this.preparation.runSliced(prepareImportedMaterials(scenes), this.priorityFor(request));
+    // Readback, alpha association and content hashing finish in the leaf worker before the
+    // synchronous material treatment can use its ready-cache lookup.
+    // One queued leaf image per active asset bounds worker backlog as well as transferred data.
+    for (const texture of leafTextures) await prepareLeafTextureAsync(texture);
     const surfaceTextures = entry.pack.startsWith("corealm-original-")
       ? await loadCorealmSurfaceTextures()
       : null;
@@ -757,7 +795,7 @@ export class AssetRegistry {
       group.name = id;
       if (surfaceTextures) applyCorealmSurfaceMaterials(group, surfaceTextures);
     }, this.priorityFor(request));
-    await this.preparation.runSliced(this.textureCache.shareSourceSteps(gltf.scenes ?? [group]),
+    await this.preparation.runSliced(this.textureCache.shareSourceSteps(scenes),
       this.priorityFor(request));
     await this.preparation.run(() => {
       for (const clip of gltf.animations) {

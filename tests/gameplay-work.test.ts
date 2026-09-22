@@ -1,11 +1,13 @@
 import { expect, it } from 'vitest';
 import { GameplayWork } from '../game/src/render/gameplayWork.js';
 
-it('keeps startup unpaced, then starts priority jobs across frames without locking on an async dependency', async () => {
+it('paces startup and gameplay across frames without locking on an async dependency', async () => {
   const frames: (() => void)[] = [], events: string[] = [];
   let time = 0;
   const work = new GameplayWork(run => frames.push(run), () => time += 2);
-  await work.run(() => events.push('boot'));
+  const boot = work.run(() => events.push('boot'));
+  expect(events).toEqual([]);
+  frames.shift()!(); await boot;
   expect(frames).toHaveLength(0);
   work.setInteractive(true);
   let promote = 0;
@@ -22,7 +24,7 @@ it('keeps startup unpaced, then starts priority jobs across frames without locki
   expect(events.at(-1)).toBe('background'); expect(frames).toHaveLength(0);
 });
 
-it('rejects failed work, continues the queue and flushes pending jobs for a covered load', async () => {
+it('rejects failed work and keeps pending work paced when switching to a covered load', async () => {
   const frames: (() => void)[] = [];
   let time = 0;
   const work = new GameplayWork(run => frames.push(run), () => time += 2);
@@ -32,8 +34,10 @@ it('rejects failed work, continues the queue and flushes pending jobs for a cove
   const next = work.run(() => 42);
   frames.shift()!(); await rejected;
   work.setInteractive(false);
+  expect(frames).toHaveLength(1);
+  frames.shift()!();
   expect(await next).toBe(42);
-  frames.shift()!(); expect(frames).toHaveLength(0);
+  expect(frames).toHaveLength(0);
 });
 
 it('groups cheap placement work but yields after the time budget or a costly job', async () => {
@@ -135,5 +139,23 @@ it('reduces a computation slice after a slow frame instead of merely delaying it
   frames.shift()!();
   expect(steps).toBe(2);
   work.setInteractive(false);
+  while (frames.length) frames.shift()!();
   expect(await result).toBe(8);
+});
+
+it('yields long startup computations within a four millisecond slice', async () => {
+  const frames: (() => void)[] = [];
+  let time = 0, steps = 0;
+  const work = new GameplayWork(run => frames.push(run), () => time);
+  function* compute() {
+    while (steps < 12) { time++; steps++; yield; }
+    return steps;
+  }
+  const result = work.runSliced(compute());
+  frames.shift()!();
+  expect(steps).toBe(4);
+  frames.shift()!();
+  expect(steps).toBe(8);
+  while (frames.length) frames.shift()!();
+  expect(await result).toBe(12);
 });

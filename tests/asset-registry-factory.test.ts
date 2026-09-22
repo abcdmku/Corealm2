@@ -17,7 +17,7 @@ function deferredGroup() {
 }
 
 async function flushQueue(): Promise<void> {
-  for (let turn = 0; turn < 10; turn += 1) await Promise.resolve();
+  for (let turn = 0; turn < 5; turn += 1) await new Promise(resolve => setTimeout(resolve, 0));
 }
 
 function stubManifest(id: string): AssetManifest {

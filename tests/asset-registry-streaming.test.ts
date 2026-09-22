@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { gzipSync } from 'node:zlib';
 import { afterEach, describe, expect, it, vi } from "vitest";
+import * as leafTexture from '../game/src/render/leafTexture.js';
 import {
   AssetRegistry,
   type AssetEntry,
@@ -125,7 +126,8 @@ function assetIdFromUrl(url: string): string {
 }
 
 async function flushQueue(): Promise<void> {
-  for (let turn = 0; turn < 40; turn += 1) await Promise.resolve();
+  // Startup preparation now yields to actual tasks too, rather than only promise continuations.
+  for (let turn = 0; turn < 12; turn += 1) await nextTask();
 }
 
 async function nextTask(): Promise<void> {
@@ -133,6 +135,7 @@ async function nextTask(): Promise<void> {
 }
 
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
 
@@ -232,7 +235,7 @@ describe("AssetRegistry streaming", () => {
     registry.setGameplayActive(true);
 
     const loaded = registry.load("hero");
-    await flushQueue();
+    for (let turn = 0; turn < 40; turn++) await Promise.resolve();
     expect(parseAsync).not.toHaveBeenCalled();
     expect(managerEvents).toEqual([]);
     expect(frames).toHaveLength(1);
@@ -242,10 +245,73 @@ describe("AssetRegistry streaming", () => {
     expect(parseAsync).toHaveBeenCalledTimes(1);
     expect(managerEvents).toEqual(["parse", "manager-load"]);
 
-    // Let the publication jobs run immediately so the test does not leave a scheduled frame
-    // behind. The parse itself was already proven to wait for the captured frame above.
+    // Drain the captured frames without bypassing the loading-screen preparation budget.
     registry.setGameplayActive(false);
+    for (let turn = 0; turn < 10 && !registry.isLoaded('hero'); turn++) {
+      frames.shift()?.(performance.now());
+      await nextTask();
+    }
     await expect(loaded).resolves.toBeInstanceOf(THREE.Group);
+  });
+
+  it('converts imported material slots before publication while retaining shared textures and materials', async () => {
+    const image = new THREE.Texture();
+    const standard = new THREE.MeshStandardMaterial({ map: image, roughness: 0.7 });
+    const physical = new THREE.MeshPhysicalMaterial({ map: image, transmission: 0.4, clearcoat: 0.6 });
+    const basic = new THREE.MeshBasicMaterial({ map: image });
+    const scene = new THREE.Group();
+    const first = new THREE.Mesh(new THREE.BufferGeometry(), [standard, physical, basic]);
+    const second = new THREE.Mesh(new THREE.BufferGeometry(), standard);
+    scene.add(first, second);
+    const registry = await registryWith(['imported'], async () => ({ scene, animations: [] }));
+    const loaded = await registry.load('imported');
+    expect(loaded).toBe(scene);
+    expect(first.material).toHaveLength(3);
+    expect(first.material[0]).toMatchObject({ isMeshStandardNodeMaterial: true, roughness: 0.7, map: image });
+    expect(first.material[1]).toMatchObject({ isMeshPhysicalNodeMaterial: true, transmission: 0.4, clearcoat: 0.6, map: image });
+    expect(first.material[2]).toMatchObject({ isMeshBasicNodeMaterial: true, map: image });
+    expect(second.material).toBe(first.material[0]);
+    expect(first.material[0]).not.toBe(standard);
+    expect(standard.map).toBe(image);
+  });
+
+  it('rejects custom imported shaders instead of publishing a silently simplified asset', async () => {
+    const scene = new THREE.Group();
+    const custom = new THREE.MeshStandardMaterial();
+    custom.onBeforeCompile = shader => { shader.vertexShader += '\n// custom deformation'; };
+    scene.add(new THREE.Mesh(new THREE.BufferGeometry(), custom));
+    const registry = await registryWith(['custom'], async () => ({ scene, animations: [] }));
+    await expect(registry.load('custom')).rejects.toThrow('unported onBeforeCompile');
+    expect(registry.isLoaded('custom')).toBe(false);
+    expect(registry.isFailed('custom')).toBe(true);
+  });
+
+  it('waits for cutout foliage preparation before publishing without processing other maps', async () => {
+    const leafMap = new THREE.Texture(), secondLeafMap = new THREE.Texture();
+    const ordinaryMap = new THREE.Texture(), decorativeMap = new THREE.Texture();
+    const pending = deferred<THREE.Texture>();
+    const prepare = vi.spyOn(leafTexture, 'prepareLeafTextureAsync')
+      .mockReturnValueOnce(pending.promise).mockResolvedValue(secondLeafMap);
+    const leaf = new THREE.MeshStandardMaterial({ map: leafMap });
+    leaf.name = 'Leaves_oak_cutout';
+    const secondLeaf = new THREE.MeshStandardMaterial({ map: secondLeafMap });
+    secondLeaf.name = 'Leaves_pine_cutout';
+    const ordinary = new THREE.MeshStandardMaterial({ map: ordinaryMap });
+    ordinary.name = 'Leaves';
+    const decorative = new THREE.MeshStandardMaterial({ map: decorativeMap });
+    decorative.name = 'Flower_cutout';
+    const scene = new THREE.Group();
+    scene.add(new THREE.Mesh(new THREE.BufferGeometry(), [leaf, leaf, secondLeaf, ordinary, decorative]));
+    const registry = await registryWith(['foliage'], async () => ({ scene, animations: [] }));
+    const loading = registry.load('foliage');
+    await flushQueue();
+    expect(prepare).toHaveBeenCalledExactlyOnceWith(leafMap);
+    expect(registry.isLoaded('foliage')).toBe(false);
+    pending.resolve(leafMap);
+    await expect(loading).resolves.toBe(scene);
+    expect(prepare).toHaveBeenCalledTimes(2);
+    expect(prepare).toHaveBeenLastCalledWith(secondLeafMap);
+    expect(registry.isLoaded('foliage')).toBe(true);
   });
 
   it('loads compressed release models on desktop through the normal geometry and animation path', async () => {
