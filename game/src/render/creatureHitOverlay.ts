@@ -22,7 +22,7 @@ function hasArmAncestor(bone:THREE.Object3D):boolean {
 }
 
 /**
- * Upright bipeds with complete UE4-mannequin or 3ds Max Biped joint naming. Both hang the thighs
+ * Upright bipeds with complete UE4, Biped or Mixamo hierarchies. They hang the thighs
  * from the pelvis beside the spine, so the spine, clavicles and arms carry no support chain and the
  * native Hit recoil on them can be kept. Partial name matches never qualify.
  */
@@ -36,6 +36,16 @@ function isNamedUprightBiped(bones:THREE.Bone[]):boolean {
   // support-ancestor rule above already protects that link, so only Spine1 and above stay eligible.
   if(has('Bip001_Pelvis','Bip001_Spine','Bip001_Spine1','Bip001_L_Clavicle','Bip001_R_Clavicle','Bip001_L_Thigh','Bip001_R_Thigh'))
     return ['Bip001_Pelvis','Bip001_Spine'].includes(parentOf('Bip001_L_Thigh')??'') && parentOf('Bip001_L_Thigh')===parentOf('Bip001_R_Thigh') && parentOf('Bip001_Spine')==='Bip001_Pelvis';
+  // GLTFLoader removes the colon from Mixamo bindings. Require the complete support and
+  // expressive branches, so a partial name match cannot unlock a quadruped's front legs.
+  for(const prefix of ['mixamorig','mixamorig:']) {
+    const edges=[['Spine','Hips'],['Spine1','Spine'],['Spine2','Spine1'],['Neck','Spine2'],['Head','Neck']];
+    for(const side of ['Left','Right'])for(const [child,parent] of [
+      ['Shoulder','Spine2'],['Arm','Shoulder'],['ForeArm','Arm'],['Hand','ForeArm'],
+      ['UpLeg','Hips'],['Leg','UpLeg'],['Foot','Leg'],['ToeBase','Foot'],
+    ])edges.push([side+child,parent==='Spine2'||parent==='Hips'?parent:side+parent]);
+    if(edges.every(([child,parent])=>has(prefix+child,prefix+parent) && parentOf(prefix+child)===prefix+parent))return true;
+  }
   return false;
 }
 

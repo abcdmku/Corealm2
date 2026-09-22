@@ -21,8 +21,9 @@ export async function installAssetCandidates(page: Page, catalogPath: string): P
       throw new Error(`Stale asset candidate ${entry.id}`);
     }
     const index = manifest.assets.findIndex((asset: { id: string }) => asset.id === entry.id);
-    if (index < 0) manifest.assets.push(entry);
-    else manifest.assets[index] = entry;
+    const staged = { ...entry, tags: [...new Set([...(entry.tags ?? []), "temporary-asset-review"])] };
+    if (index < 0) manifest.assets.push(staged);
+    else manifest.assets[index] = staged;
     await page.route(`**/assets/${entry.file}*`, route => route.fulfill({ status: 200, contentType: "model/gltf-binary", body: bytes }));
     ids.push(entry.id);
   }

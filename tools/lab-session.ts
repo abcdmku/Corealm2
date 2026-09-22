@@ -90,7 +90,7 @@ async function main(): Promise<void> {
 
   async function observe(entityIds: string[] = []): Promise<unknown> {
     const result = await driver.page!.evaluate(async ({ entityIds, since }) => {
-      const debug = window.__gameDebug as unknown as Record<string, (...args: unknown[]) => unknown>;
+      const debug = (window.__gameDebug ?? {}) as unknown as Record<string, (...args: unknown[]) => unknown>;
       const lab = window.__featureLab?.getState();
       const creatures = (window as Window & { __creatureGallery?: CreatureGallery }).__creatureGallery?.getState();
       const ids = entityIds.length ? entityIds : creatures?.entityIds.length ? [creatures.entityIds[0]!] : lab?.target?.entityId ? [lab.target.entityId] : [];
@@ -140,6 +140,8 @@ async function main(): Promise<void> {
         if (command.kind !== "creature" && command.kind !== "npc") throw new Error("kind must be creature or npc");
         await call("lab", "spawnTarget", [command.kind, string(command.presetId, "presetId"), { distance: number(command.distance, 10, 1, 100) }]);
         return observe();
+      case "candidates":
+        return { assets: await installAssetCandidates(driver.page!, resolveInside(repoRoot, string(command.catalog, "catalog"))) };
       case "call": {
         if (command.surface !== "lab" && command.surface !== "debug" && command.surface !== "environment" && command.surface !== "creatures" && command.surface !== "forest" && command.surface !== "progression") throw new Error("surface must be lab, debug, environment, creatures, forest or progression");
         if (command.args !== undefined && !Array.isArray(command.args)) throw new Error("args must be an array");
@@ -184,9 +186,15 @@ async function main(): Promise<void> {
         return observe();
       }
       case "input": {
-        const actions = ["key", "click", "drag"].filter((name) => command[name] !== undefined);
-        if (actions.length !== 1) throw new Error("input needs exactly one key, click or drag");
+        const actions = ["key", "click", "drag", "wheel"].filter((name) => command[name] !== undefined);
+        if (actions.length !== 1) throw new Error("input needs exactly one key, click, drag or wheel");
         if (command.key !== undefined) await driver.press(string(command.key, "key"), number(command.holdMs, 0, 0, 5_000));
+        else if (command.wheel !== undefined) {
+          const delta = command.wheel;
+          if (!Array.isArray(delta) || delta.length !== 2 || !delta.every((value) => typeof value === "number" && Number.isFinite(value) && Math.abs(value) <= 2_000)) throw new Error("wheel needs bounded [deltaX, deltaY]");
+          await driver.moveMouse(720, 450);
+          await driver.page!.mouse.wheel(delta[0], delta[1]);
+        }
         else {
           const points = command.click ?? command.drag;
           const length = command.click ? 2 : 4;
@@ -274,8 +282,14 @@ async function main(): Promise<void> {
     await driver.launch();
     const catalog = argValue(args, "--catalog");
     if (catalog) await installAssetCandidates(driver.page!, catalog);
-    await driver.open(20_000, route);
-    await emit({ type: "ready", server: server.url, output: path.relative(repoRoot, output), observation: await observe() });
+    try {
+      await driver.open(20_000, route);
+      await emit({ type: "ready", server: server.url, output: path.relative(repoRoot, output), observation: await observe() });
+    } catch (error) {
+      // Preserve the failed readiness budget while keeping the page available for diagnosis.
+      await emit({ type: "boot-error", ok: false, error: error instanceof Error ? error.message : String(error),
+        console: driver.consoleErrors, page: driver.pageErrors, requests: driver.requestErrors });
+    }
     const input = createInterface({ input: process.stdin, crlfDelay: Infinity, terminal: false });
     for await (const line of input) {
       if (!line.trim()) continue;
@@ -293,7 +307,8 @@ async function main(): Promise<void> {
       if (command?.op === "close") { input.close(); break; }
     }
   } catch (error) {
-    await emit({ type: "session-error", ok: false, error: error instanceof Error ? error.message : String(error) });
+    await emit({ type: "session-error", ok: false, error: error instanceof Error ? error.message : String(error),
+      console: driver.consoleErrors, page: driver.pageErrors, requests: driver.requestErrors });
     throw error;
   } finally {
     await driver.close();

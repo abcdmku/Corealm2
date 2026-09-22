@@ -652,6 +652,13 @@
       "assetStoreId": "342926",
       "sourceArchive": "Worms FREE.unitypackage",
       "archiveSha256": "3c3662e2929be886843d5fd18f4d47db2487cc63181fd6fbc16b4451ca4697c2"
+    },
+    {
+      "id": "corealm-tripo-armor",
+      "name": "Corealm Tripo armor",
+      "author": "Corealm",
+      "license": "LicenseRef-Corealm-Original",
+      "source": "tools/item-models/import-tripo.ts"
     }
   ],
   "assets": [
@@ -83280,6 +83287,185 @@
         "assetAudit": true,
         "labAccepted": true,
         "worldIntegrated": true
+      }
+    },
+    {
+      "id": "corealm_item_grithe_helm",
+      "file": "models/items/grithe_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "grithe_helm",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1205556,
+      "size": {
+        "x": 0.2376708984375,
+        "y": 0.26054680347442627,
+        "z": 0.2885742709040642
+      },
+      "base": {
+        "x": -0.11883535981178284,
+        "y": 1.578554391860962,
+        "z": -0.1724560409784317
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "grithe_helm",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_grithe_cuirass",
+      "file": "models/items/grithe_cuirass.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "grithe_cuirass",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1268584,
+      "size": {
+        "x": 1.305291771888733,
+        "y": 0.767265796661377,
+        "z": 0.3444337099790573
+      },
+      "base": {
+        "x": -0.6526463627815247,
+        "y": 0.8400387763977051,
+        "z": -0.20927254855632782
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "grithe_cuirass",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.95,
+            "maxY": 1.52
+          }
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_grithe_gloves",
+      "file": "models/items/grithe_gloves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "grithe_gloves",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1210176,
+      "size": {
+        "x": 1.6841140389442444,
+        "y": 0.10439145565032959,
+        "z": 0.1545420028269291
+      },
+      "base": {
+        "x": -0.8420575261116028,
+        "y": 1.4354208707809448,
+        "z": -0.12504491209983826
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "grithe_gloves",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_grithe_greaves",
+      "file": "models/items/grithe_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "grithe_greaves",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1213784,
+      "size": {
+        "x": 0.4088684022426605,
+        "y": 0.6630469858646393,
+        "z": 0.2775879353284836
+      },
+      "base": {
+        "x": -0.21144786477088928,
+        "y": 0.28480425477027893,
+        "z": -0.1819775253534317
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "grithe_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.25,
+            "maxY": 1.02
+          }
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_grithe_boots",
+      "file": "models/items/grithe_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "grithe_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1207072,
+      "size": {
+        "x": 0.4879027009010315,
+        "y": 0.3548826360702435,
+        "z": 0.2775879353284836
+      },
+      "base": {
+        "x": -0.24395139515399933,
+        "y": -2.4676322141203855e-7,
+        "z": -0.1856396347284317
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "grithe_boots",
+        "wearable": true
       }
     }
   ]

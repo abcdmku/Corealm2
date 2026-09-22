@@ -1015,7 +1015,7 @@ export class CharacterRig {
   private authoredItemParts(itemId: ItemId, fallback: readonly GearAppearanceLike[]): readonly GearAppearanceLike[] {
     // Only explicitly accepted native-body armor replaces the fitted legacy garments.
     const entry = this.assets.entry(`corealm_item_${itemId}`);
-    // Only the separate local review server supplies this marker. Normal manifests and builds
+    // Only local review asset overlays supply this marker. Normal manifests and builds
     // retain accepted equipment even when a stale authored file remains on disk.
     const stagedReview = import.meta.env?.DEV && typeof location !== 'undefined'
       && new URLSearchParams(location.search).get('mode') === 'combat'
@@ -1031,7 +1031,10 @@ export class CharacterRig {
       && ['frostweave_hood', 'frostweave_robe', 'frostweave_leggings', 'frostweave_boots', 'frostweave_wraps'].includes(itemId)
       && entry?.itemModel?.itemId === itemId && entry.itemModel.wearable === true
       && entry.tags.includes('aurora-tailored-approved');
-    if (!stagedReview && !acceptedTailoredArmor && !acceptedAuroraArmor && fallback.some(part => part.slot === 'head' || SKIN_SLOTS.has(part.slot))) return fallback;
+    const acceptedTripoArmor = this.bodyAssetId === 'base_male'
+      && entry?.itemModel?.itemId === itemId && entry.itemModel.wearable === true
+      && entry.tags.includes('tripo-armor-approved');
+    if (!stagedReview && !acceptedTailoredArmor && !acceptedAuroraArmor && !acceptedTripoArmor && fallback.some(part => part.slot === 'head' || SKIN_SLOTS.has(part.slot))) return fallback;
     const first = fallback[0];
     if (!first || entry?.itemModel?.itemId !== itemId) return fallback;
     const model = entry.itemModel;

@@ -24,6 +24,21 @@ function resolve(itemId: string, candidate: Entry | undefined, body = 'base_male
 beforeEach(() => { vi.stubEnv('DEV', false); vi.stubGlobal('location', { search: '' }); });
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
+describe('Tripo armor appearance selection', () => {
+  it.each(['grithe_cuirass', 'marchhide_robe'])('requires explicit fitted approval for %s on the native male body', id => {
+    expect(resolve(id, entry(id, 'tripo-armor-approved')).selected).toEqual([
+      { assetId: `corealm_item_${id}`, slot: 'body', attach: 'skin' },
+    ]);
+    for (const candidate of [entry(id, 'tripo-authored'), entry(id, 'temporary-asset-review'),
+      { ...entry(id, 'tripo-armor-approved'), itemModel: { itemId: 'other_item', wearable: true } }]) {
+      const result = resolve(id, candidate);
+      expect(result.selected).toBe(result.fallback);
+    }
+    const female = resolve(id, entry(id, 'tripo-armor-approved'), 'base_female');
+    expect(female.selected).toBe(female.fallback);
+  });
+});
+
 describe('Aurora appearance selection', () => {
   it.each(pieces)('selects approved native male %s without imported tint', (id, slot) => {
     const { selected } = resolve(id, entry(id));

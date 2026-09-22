@@ -63,6 +63,35 @@ const overlayDigest=(clip:THREE.AnimationClip|null)=>createHash('sha256').update
 const redWormSupportOnlyReason='The accepted six-joint Worm_Rig_Main -> Worm_Rig1..5 chain has no expressive offshoot; every joint weights the ground-contacting belly. Its authored Hit moves those contacts.';
 
 describe('support-safe additive creature recoil',()=>{
+  it('keeps Mixamo upper-body recoil while protecting locomotion support, and rejects a broken branch',()=>{
+    const root=new THREE.Group(), hips=bone('mixamorigHips',root);
+    const spine=bone('mixamorigSpine',hips), spine1=bone('mixamorigSpine1',spine), spine2=bone('mixamorigSpine2',spine1);
+    const neck=bone('mixamorigNeck',spine2), head=bone('mixamorigHead',neck);
+    const expressive=[spine,spine1,spine2,neck,head], protectedBones=[hips];
+    let rightShoulder:THREE.Bone;
+    for(const side of ['Left','Right']) {
+      const shoulder=bone(`mixamorig${side}Shoulder`,spine2), arm=bone(`mixamorig${side}Arm`,shoulder);
+      const forearm=bone(`mixamorig${side}ForeArm`,arm), hand=bone(`mixamorig${side}Hand`,forearm);
+      if(side==='Right')rightShoulder=shoulder;
+      expressive.push(shoulder,arm,forearm,hand);
+      const leg=bone(`mixamorig${side}UpLeg`,hips), calf=bone(`mixamorig${side}Leg`,leg);
+      const foot=bone(`mixamorig${side}Foot`,calf), toe=bone(`mixamorig${side}ToeBase`,foot);
+      leg.position.set(side==='Left'?.2:-.2,-.2,0);calf.position.y=-.4;foot.position.y=-.4;toe.position.z=.2;
+      protectedBones.push(leg,calf,foot,toe);
+    }
+    const all=[...expressive,...protectedBones],idle=new THREE.AnimationClip('Idle',1,all.map(joint=>rotation(joint.name,[0,0,0])));
+    const hit=new THREE.AnimationClip('Hit',1,all.map(joint=>rotation(joint.name,[0,.3,0])));
+    const result=createMaskedHitOverlay(root,hit,idle);
+    expect(result.boneNames.sort()).toEqual(expressive.map(joint=>joint.name).sort());
+    for(const angle of [.2,.5]) {
+      for(const joint of all)joint.quaternion.setFromAxisAngle(new THREE.Vector3(1,0,0),angle);
+      root.updateMatrixWorld(true);const before=protectedBones.map(joint=>joint.matrixWorld.clone());
+      applyMaskedHitOverlay(root,result,.5);root.updateMatrixWorld(true);
+      protectedBones.forEach((joint,index)=>expect(joint.matrixWorld.equals(before[index]!)).toBe(true));
+    }
+    hips.add(rightShoulder!);
+    expect(createMaskedHitOverlay(root,hit,idle).boneNames.sort()).toEqual([head.name,neck.name].sort());
+  });
   it('recognizes the complete hovering six-arm topology while protecting its lower hooks and hover',()=>{
     const root=new THREE.Group(), hover=bone('hollow_root',root), thorax=bone('hollow_thorax',hover);
     const joints=Array.from({length:6},(_,index)=>{
