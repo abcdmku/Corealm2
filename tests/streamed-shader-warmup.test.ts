@@ -61,10 +61,10 @@ it("runs only one bounded batch and continues receiving additions while a pipeli
   gate.prepare(); gate.restore();
   await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
   for (let frame = 0; frame < 10; frame++) { gate.prepare(); gate.restore(); }
-  expect(compile).toHaveBeenCalledOnce(); expect(gate.getState().queued).toBe(3);
+  expect(compile).toHaveBeenCalledOnce(); expect(gate.getState().queued).toBe(4);
   scene.add(new THREE.Points());
   finish(); await settle(gate);
-  expect(sizes).toEqual([2, 2, 2]); gate.dispose();
+  expect(sizes).toEqual([1, 1, 1, 1, 1, 1]); gate.dispose();
 });
 
 it("updates pending ancestors after reparenting and retains objects requeued during compilation", async () => {
@@ -93,21 +93,26 @@ it("keeps feedback visible and skips already prewarmed feedback while scenery wa
   await settle(gate); gate.dispose();
 });
 
-it("retains failed readiness and cancels further batches when disposed during preparation", async () => {
+it("retains failed readiness instead of revealing an invalid pipeline", async () => {
   const { scene, gate, mesh, compile } = fixture();
   const error = vi.spyOn(console, "error").mockImplementation(() => {});
   try {
     compile.mockRejectedValueOnce(new Error("pipeline failed"));
     scene.add(mesh); gate.prepare(); gate.restore();
-    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ failed: 1, compiling: false, error: "pipeline failed" }));
+    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ failed: 1, compiling: false,
+      error: expect.stringContaining("pipeline failed") }));
     expect(gate.hasPending(scene)).toBe(true); expect(error).toHaveBeenCalledOnce();
-    let finish!: () => void;
-    compile.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
-    scene.add(new THREE.Mesh(), new THREE.Mesh(), new THREE.Mesh());
-    gate.prepare(); gate.restore(); await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(2));
-    gate.dispose(); finish();
-    await new Promise(resolve => setTimeout(resolve, 10));
-    gate.prepare(); expect(compile).toHaveBeenCalledTimes(2);
-    expect(gate.getState().waiting).toBe(0); expect(mesh.visible).toBe(true);
   } finally { error.mockRestore(); gate.dispose(); }
+});
+
+it("cancels further batches when disposed during preparation", async () => {
+  const { scene, gate, mesh, compile } = fixture();
+  let finish!: () => void;
+  compile.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  scene.add(mesh, new THREE.Mesh(), new THREE.Mesh());
+  gate.prepare(); gate.restore(); await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
+  gate.dispose(); finish();
+  await new Promise(resolve => setTimeout(resolve, 10));
+  gate.prepare(); expect(compile).toHaveBeenCalledOnce();
+  expect(gate.getState().waiting).toBe(0); expect(mesh.visible).toBe(true);
 });

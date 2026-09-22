@@ -207,6 +207,7 @@ function round3(value: number): number {
 export function installGameDebug(deps: DebugDeps): void {
   const { store, events, clock, nav, movement, api, renderer, camera, assets } = deps;
   const remote = deps.remote ?? null;
+  const isReady = () => deps.isReady() && renderer.getPreparationState().failed === 0;
 
   const debugApi = {
     // ------------------------------------------------- the nine harness methods
@@ -215,7 +216,7 @@ export function installGameDebug(deps: DebugDeps): void {
       const state = store.get();
       const stats = renderer.getStats();
       return {
-        ready: deps.isReady(),
+        ready: isReady(),
         version: deps.version,
         regionId: state.player.regionId,
         seed: state.meta.seed,
@@ -337,7 +338,7 @@ export function installGameDebug(deps: DebugDeps): void {
     // ------------------------------------------------ additional test surface
 
     ready(): boolean {
-      return deps.isReady();
+      return isReady();
     },
 
     getVersion(): { build: string; contracts: string; content: string } {

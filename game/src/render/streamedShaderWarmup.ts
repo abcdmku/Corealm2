@@ -110,12 +110,12 @@ export class StreamedShaderWarmup {
   }
 
   private compileNext(): void {
-    const batch = [...this.queued].slice(0, 2);
+    const batch = [...this.queued].slice(0, 1);
     for (const object of batch) this.queued.delete(object);
     this.pending = true;
     let succeeded = false;
     void prepareShaderMeshes(this.renderer, this.scene, this.camera, batch, {
-      batchSize: 2,
+      batchSize: 1,
       renderTarget: this.renderTarget,
       isCancelled: () => this.disposed,
       onPendingTextures: count => { this.pendingTextures = count; },

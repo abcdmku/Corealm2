@@ -21,7 +21,9 @@ import { MagicGlow } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
-import { prepareShaderMeshes, shaderGeometryKey } from "./shaderPreparation.js";
+import { prepareShaderMeshes, shaderGeometryKey, installGraphicsValidation, graphicsValidationState,
+  assertGraphicsValid, waitForGraphicsValidation, validateGraphicsWork, validateGraphicsSubmission,
+  disposeGraphicsValidation } from "./shaderPreparation.js";
 
 export interface RenderStats {
   fps: number;
@@ -339,6 +341,7 @@ export class Renderer {
   /** Keep portal loading covered while the streaming compiler still suppresses its meshes. */
   async waitForInterior(root: THREE.Object3D): Promise<void> {
     while (!this.isInteriorReady(root)) {
+      assertGraphicsValid(this.renderer);
       const state = this.streamedShaders?.getState();
       if (state?.failed) throw new Error(state.error ?? "Unable to prepare destination graphics");
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
@@ -441,32 +444,36 @@ export class Renderer {
       await this.renderer.init();
       this.completeGpuWork = createGpuCompletion(this.renderer);
       this.framePacer = new FramePacer(this.completeGpuWork);
-      const pmrem = new PMREMGenerator(this.renderer);
-      try {
-        await pmrem.compileEquirectangularShader();
-        for (const gradient of this.skyGradients) {
-          const target = pmrem.fromEquirectangular(gradient);
-          target.texture.name = "sky-environment";
-          this.prefiltered.push(target);
-          await this.completeGpuWork();
-          await new Promise<void>(resolve => setTimeout(resolve, 0));
-        }
-        this.scene.background = this.prefiltered[0]!.texture;
-        this.scene.environment = this.prefiltered[1]!.texture;
-        this.scene.environmentIntensity = ENVIRONMENT_INTENSITY;
-      } finally { pmrem.dispose(); }
-      // Initialization precedes the render loop; all display passes target the same HDR format.
-      this.renderer.setRenderTarget(this.frameTarget);
-      try {
-        await this.magicGlow.compile(this.renderer, this.frameTarget);
-        await this.screenAntialiasing.compile(this.renderer);
-        await this.biomeAtmosphere.compile(this.renderer);
-        await this.playerSilhouette.compile(this.renderer, this.camera);
-      } finally { this.renderer.setRenderTarget(null); }
-      const toneMapping = this.renderer.toneMapping;
-      this.renderer.toneMapping = THREE.NoToneMapping;
-      try { await this.renderer.compileAsync(this.presentation, this.presentation.camera); }
-      finally { this.renderer.toneMapping = toneMapping; }
+      installGraphicsValidation(this.renderer);
+      await validateGraphicsWork(this.renderer, "Graphics initialization", async () => {
+        const pmrem = new PMREMGenerator(this.renderer);
+        try {
+          await pmrem.compileEquirectangularShader();
+          for (const gradient of this.skyGradients) {
+            const target = pmrem.fromEquirectangular(gradient);
+            target.texture.name = "sky-environment";
+            this.prefiltered.push(target);
+            await this.completeGpuWork();
+            await new Promise<void>(resolve => setTimeout(resolve, 0));
+          }
+          this.scene.background = this.prefiltered[0]!.texture;
+          this.scene.environment = this.prefiltered[1]!.texture;
+          this.scene.environmentIntensity = ENVIRONMENT_INTENSITY;
+        } finally { pmrem.dispose(); }
+        // Initialization precedes the render loop; all display passes target the same HDR format.
+        this.renderer.setRenderTarget(this.frameTarget);
+        try {
+          await this.magicGlow.compile(this.renderer, this.frameTarget);
+          await this.screenAntialiasing.compile(this.renderer);
+          await this.biomeAtmosphere.compile(this.renderer);
+          await this.playerSilhouette.compile(this.renderer, this.camera);
+        } finally { this.renderer.setRenderTarget(null); }
+        const toneMapping = this.renderer.toneMapping;
+        this.renderer.toneMapping = THREE.NoToneMapping;
+        try { await this.renderer.compileAsync(this.presentation, this.presentation.camera); }
+        finally { this.renderer.toneMapping = toneMapping; }
+        await this.completeGpuWork();
+      });
       this.gpuTimer = this.gpuTimingEnabled ? new GpuTimer(this.renderer) : null;
       this.initialized = true;
     })();
@@ -476,16 +483,17 @@ export class Renderer {
   getBackendState(): GraphicsBackendState {
     return {
       api: (this.renderer.backend as unknown as { isWebGPUBackend?: boolean }).isWebGPUBackend ? "webgpu" : "webgl2",
-      thread: "main", ready: this.initialized,
+      thread: "main", ready: this.initialized && !graphicsValidationState(this.renderer).failed,
     };
   }
 
   getPreparationState(): GraphicsPreparationState {
     const streaming = this.streamedShaders?.getState();
+    const validation = graphicsValidationState(this.renderer);
     return { pendingMeshes: streaming?.waiting ?? 0, pendingTextures: streaming?.textures ?? 0,
-      failed: streaming?.failed ?? 0,
+      failed: (streaming?.failed ?? 0) + validation.failed,
       compiling: Boolean(streaming?.compiling || this.compilingEffects),
-      ready: this.initialized && !streaming?.waiting && !streaming?.compiling && !streaming?.failed && this.effectsReady };
+      ready: this.initialized && !streaming?.waiting && !streaming?.compiling && !streaming?.failed && !validation.failed && this.effectsReady };
   }
 
   resize(): void {
@@ -581,7 +589,8 @@ export class Renderer {
     } finally { for (const root of hidden) root.visible = false; }
     // No temporary mesh or visibility mutation survives an asynchronous yield.
     await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget });
-    await this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget);
+    await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
+      this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget));
   }
 
   private warmupObjects(): THREE.Object3D[] {
@@ -605,7 +614,8 @@ export class Renderer {
   private compilingEffects = false;
   private effectPreparation: Promise<void> = Promise.resolve();
 
-  get effectsReady(): boolean { return !this.compilingEffects && this.deferredEffectRoots.size === 0 && this.requiredEffectRoots.size === 0; }
+  get effectsReady(): boolean { return !this.compilingEffects && this.deferredEffectRoots.size === 0
+    && this.requiredEffectRoots.size === 0 && !graphicsValidationState(this.renderer).failed; }
 
   /** Enrollment is cheap. Compilation is awaited at the readiness gate or paced after it. */
   compileEffects(root: THREE.Object3D, options: { deferred?: boolean } = {}): void {
@@ -720,26 +730,28 @@ export class Renderer {
 
   /** Draw the scene and final display treatment without advancing simulation or camera state. */
   drawFrame(deltaSeconds = 0): void {
-    this.renderer.info.reset();
-    const previous = this.renderer.getRenderTarget();
-    const toneMapping = this.renderer.toneMapping;
-    try {
-      this.renderer.setRenderTarget(this.frameTarget);
-      this.drawWorld();
-      this.elementalRefraction.render(this.renderer, this.scene, this.camera);
-      this.playerSilhouette.render(this.renderer, this.camera);
-      // Atmosphere applies the display transform before grading. Remaining passes operate
-      // on linear display values and the final output only encodes the canvas colour space.
-      this.biomeAtmosphere.render(this.renderer, deltaSeconds);
-      this.magicGlow.render(this.renderer, this.scene, this.camera);
-      this.screenAntialiasing.render(this.renderer);
-      this.renderer.setRenderTarget(previous);
-      this.renderer.toneMapping = THREE.NoToneMapping;
-      this.presentation.render(this.renderer);
-    } finally {
-      this.renderer.setRenderTarget(previous);
-      this.renderer.toneMapping = toneMapping;
-    }
+    validateGraphicsSubmission(this.renderer, "Gameplay frame", () => {
+      this.renderer.info.reset();
+      const previous = this.renderer.getRenderTarget();
+      const toneMapping = this.renderer.toneMapping;
+      try {
+        this.renderer.setRenderTarget(this.frameTarget);
+        this.drawWorld();
+        this.elementalRefraction.render(this.renderer, this.scene, this.camera);
+        this.playerSilhouette.render(this.renderer, this.camera);
+        // Atmosphere applies the display transform before grading. Remaining passes operate
+        // on linear display values and the final output only encodes the canvas colour space.
+        this.biomeAtmosphere.render(this.renderer, deltaSeconds);
+        this.magicGlow.render(this.renderer, this.scene, this.camera);
+        this.screenAntialiasing.render(this.renderer);
+        this.renderer.setRenderTarget(previous);
+        this.renderer.toneMapping = THREE.NoToneMapping;
+        this.presentation.render(this.renderer);
+      } finally {
+        this.renderer.setRenderTarget(previous);
+        this.renderer.toneMapping = toneMapping;
+      }
+    });
   }
 
   /** Queue completion is asynchronous; no game frame waits on the CPU for the GPU. */
@@ -747,6 +759,7 @@ export class Renderer {
     const deadline = performance.now() + 30_000;
     if (afterSubmission !== undefined) {
       for (;;) {
+        assertGraphicsValid(this.renderer);
         const state = this.framePacer.snapshot(performance.now());
         if (state.failed || performance.now() >= deadline) throw new Error("Unable to finish the first game frame");
         if (state.submitted > afterSubmission) break;
@@ -758,6 +771,7 @@ export class Renderer {
       await Promise.race([this.completeGpuWork(), new Promise<never>((_, reject) => {
         timeout = setTimeout(() => reject(new Error("Unable to finish the first game frame")), Math.max(0, deadline - performance.now()));
       })]);
+      await waitForGraphicsValidation(this.renderer);
     } finally { clearTimeout(timeout); }
   }
 
@@ -886,7 +900,8 @@ export class Renderer {
 
   getFramePressureMs(): number { return this.framePacer.pressureMs(performance.now()); }
 
-  canRenderFrame(): boolean { return this.initialized && this.framePacer.ready(performance.now()); }
+  canRenderFrame(): boolean { return this.initialized && !graphicsValidationState(this.renderer).failed
+    && this.framePacer.ready(performance.now()); }
 
   /** No driver calls: safe to sample alongside input without perturbing GPU timings. */
   getPresentationState() { return this.framePacer.snapshot(performance.now()); }
@@ -902,6 +917,7 @@ export class Renderer {
     const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
     return {
       backend: this.getBackendState(), preparation: this.getPreparationState(),
+      validation: graphicsValidationState(this.renderer),
       cpuPrepareMs: this.cpuPrepareMs, cpuSubmitMs: this.cpuSubmitMs, cpuShadowMs: this.cpuShadowMs,
       presentation: this.getPresentationState(), gpuTimingEnabled: this.gpuTimingEnabled,
       gpu: this.gpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
@@ -952,6 +968,7 @@ export class Renderer {
     this.prefiltered.length = 0;
     for (const gradient of this.skyGradients) gradient.dispose();
     this.skyGradients.length = 0;
+    disposeGraphicsValidation(this.renderer);
     this.renderer.dispose();
   }
 }
