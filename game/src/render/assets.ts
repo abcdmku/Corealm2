@@ -16,6 +16,7 @@ import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
 import { mirrorAnimationClip } from "./skinning.js";
 import { configureAssetDelivery, deliveryUrl, usesMobileAssets } from './assetDelivery.js';
 import { ensureNodeMaterial } from './nodeMaterials.js';
+import { prepareImportedVertexLayouts } from './geometryVertexLayout.js';
 import { artSurfaceRoleForMaterial } from './artDirection.js';
 import { prepareLeafTextureAsync } from './leafTexture.js';
 
@@ -356,6 +357,7 @@ export interface AssetRegistryOptions {
 /** Convert before any surface treatment so imported slots enter the renderer as node materials.
  * The converter interns each source material, preserving sharing across meshes and scenes. */
 function* prepareImportedMaterials(roots: readonly THREE.Object3D[]): Generator<void, Set<THREE.Texture>> {
+  yield* prepareImportedVertexLayouts(roots);
   const visited = new Set<THREE.Object3D>();
   const pending = [...roots];
   const leafTextures = new Set<THREE.Texture>();
