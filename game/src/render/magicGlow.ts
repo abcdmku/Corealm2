@@ -1,6 +1,7 @@
 import * as THREE from "three/webgpu";
 import { emissive, output, uniform, mix, vec4, vec3, texture, uv, smoothstep, max, float } from "three/tsl";
 import { prepareShaderMeshes } from "./shaderPreparation.js";
+import { cloneNodeMaterial } from "./nodeMaterials.js";
 
 const roots = new Set<THREE.Object3D>();
 export function writesGlowOcclusion(material: THREE.Material | THREE.Material[]): boolean {
@@ -48,6 +49,7 @@ export class MagicGlow {
   private readonly composite: THREE.QuadMesh;
   private readonly occlusionMaterials = new Map<THREE.Material, { version: number; material: THREE.Material }>();
   private readonly occlusionObjects = new WeakMap<THREE.Object3D, THREE.Object3D>();
+  private frameTarget: THREE.RenderTarget | null = null;
   private activeMeshes = 0;
   private rendered = false;
 
@@ -83,6 +85,7 @@ export class MagicGlow {
   }
 
   async compile(renderer: THREE.WebGPURenderer, outputTarget?: THREE.RenderTarget): Promise<void> {
+    this.frameTarget = outputTarget ?? renderer.getRenderTarget();
     const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mip = renderer.getActiveMipmapLevel();
     try {
       renderer.setRenderTarget(this.bright);
@@ -110,20 +113,32 @@ export class MagicGlow {
       width: this.target.width, height: this.target.height };
   }
 
-  /** Prepare the HDR variants without mutating live material flags across an await. */
+  private nativeDepthReuse(renderer: THREE.WebGPURenderer): boolean {
+    return (renderer.backend as { isWebGLBackend?: boolean }).isWebGLBackend !== true;
+  }
+
+  /** Native emitters reuse the prepared world depth; fallback retains its separate depth pass. */
   async compileOcclusion(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D = scene): Promise<void> {
     const selected = this.select(scene), objects: THREE.Object3D[] = [];
     if (root !== scene) root.traverse(object => { if (object.userData.magicGlow) selected.add(object); });
+    if (this.nativeDepthReuse(renderer)) {
+      const output = this.frameTarget ?? renderer.getRenderTarget();
+      if (!output) throw new Error('Native magic glow requires the main depth/stencil target');
+      root.traverse(object => {
+        const mesh = object as THREE.Mesh;
+        if (mesh.isMesh && mesh.material && selected.has(mesh) && mesh.layers.test(camera.layers)) objects.push(mesh);
+      });
+      // Actual draw identities and the main target's depth/stencil/sample format are reused.
+      // Ordinary world geometry never enters the emission preparation queue.
+      if (objects.length) await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: output });
+      return;
+    }
     const maskedMaterial = (source: THREE.Material): THREE.Material => {
       const cached = this.occlusionMaterials.get(source);
       if (cached?.version === source.version) return cached.material;
       cached?.material.dispose();
-      const data = source.userData;
-      let material: THREE.Material;
-      // Node graphs are shared; serializing live uniform references through userData is invalid.
-      try { source.userData = {}; material = source.clone(); }
-      finally { source.userData = data; }
-      material.userData = { ...data }; material.colorWrite = false;
+      const material = cloneNodeMaterial(source);
+      material.colorWrite = false;
       this.occlusionMaterials.set(source, { version: source.version, material });
       return material;
     };
@@ -146,7 +161,8 @@ export class MagicGlow {
   /** Exercise the actual depth-aware bloom pyramid before the first visible spell. */
   async prepare(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, outputTarget?: THREE.RenderTarget): Promise<void> {
     const activeMeshes = this.activeMeshes, rendered = this.rendered;
-    const output = outputTarget ?? renderer.getRenderTarget();
+    const output = outputTarget ?? this.frameTarget ?? renderer.getRenderTarget();
+    this.frameTarget = output;
     await this.compileOcclusion(renderer, scene, camera);
     const previous = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mip = renderer.getActiveMipmapLevel();
     try { renderer.setRenderTarget(output); this.draw(renderer, scene, camera, this.select(scene)); }
@@ -171,7 +187,7 @@ export class MagicGlow {
     if (selected.size) this.draw(renderer, scene, camera, selected);
   }
 
-  private mask(scene: THREE.Scene, selected: ReadonlySet<THREE.Object3D>): () => void {
+  private mask(scene: THREE.Scene, selected: ReadonlySet<THREE.Object3D>, occluders: boolean): () => void {
     const muted = new Map<THREE.Material, boolean>(), skipped = new Map<THREE.Object3D, number>();
     const emissionUniforms = new Map<{ value: number }, number>();
     for (const object of selected) {
@@ -181,7 +197,7 @@ export class MagicGlow {
         if (emission && !emissionUniforms.has(emission)) { emissionUniforms.set(emission, emission.value); emission.value = 1; }
       }
     }
-    scene.traverseVisible(object => {
+    if (occluders) scene.traverseVisible(object => {
       if (selected.has(object)) return;
       const material = (object as THREE.Mesh).material;
       if (!material) return;
@@ -201,6 +217,9 @@ export class MagicGlow {
     renderer.getDrawingBufferSize(this.size);
     if (this.target.width !== this.size.x || this.target.height !== this.size.y) {
       this.target.setSize(this.size.x, this.size.y);
+      // Native rendering attaches this color texture to the main target, so its holder
+      // may never be initialized as a target. Dispose the texture explicitly on resize.
+      this.target.texture.dispose(); this.target.texture.needsUpdate = true;
       this.frame.dispose(); this.frame = new THREE.FramebufferTexture(this.size.x, this.size.y);
       this.frame.colorSpace = THREE.NoColorSpace; this.frameNode.value = this.frame;
       let width = Math.max(1, Math.round(this.size.x / 2)), height = Math.max(1, Math.round(this.size.y / 2));
@@ -219,13 +238,40 @@ export class MagicGlow {
     });
     const background = scene.background, clearAlpha = renderer.getClearAlpha();
     renderer.getClearColor(this.clearColour);
-    const restore = this.mask(scene, selected);
+    const native = this.nativeDepthReuse(renderer);
+    if (native && (!previous || !previous.depthBuffer || previous.textures.length !== 1))
+      throw new Error('Native magic glow requires one main color attachment and retained scene depth');
+    if (native && (previous!.samples !== this.target.samples || previous!.texture.type !== this.target.texture.type
+      || previous!.texture.format !== this.target.texture.format))
+      throw new Error('Magic emission must match the main target color format and MSAA samples');
+    const baseTexture = previous?.texture;
+    const renderObject = native ? renderer.getRenderObjectFunction() : null;
+    const restore = this.mask(scene, selected, !native);
     try {
       renderer.copyFramebufferToTexture(this.frame);
       scene.background = null; renderer.setClearColor(0, 0);
       for (const { shadow } of shadows) { shadow.autoUpdate = false; shadow.needsUpdate = false; }
-      renderer.info.autoReset = false; renderer.autoClear = true;
-      renderer.setRenderTarget(this.target); renderer.render(scene, camera);
+      renderer.info.autoReset = false;
+      if (native) {
+        // One target owns the MSAA depth/stencil attachment. Only color changes, and
+        // r185 caches backend attachment descriptors by their color texture IDs.
+        // This avoids shared-depth disposal/reallocation and preserves per-sample coverage.
+        previous!.texture = this.target.texture;
+        renderer.autoClear = false;
+        renderer.clear(true, false, false);
+        renderer.setRenderObjectFunction((...args) => {
+          if (selected.has(args[0])) (renderObject ?? renderer.renderObject).apply(renderer, args);
+        });
+        try { renderer.render(scene, camera); }
+        finally {
+          renderer.setRenderObjectFunction(renderObject);
+          previous!.texture = baseTexture!;
+        }
+      } else {
+        renderer.autoClear = true;
+        renderer.setRenderTarget(this.target); renderer.render(scene, camera);
+      }
+      renderer.autoClear = true;
       renderer.setRenderTarget(this.bright); this.highPass.render(renderer);
       let input = this.bright;
       for (let i = 0; i < this.blur.length; i++) {
@@ -240,6 +286,10 @@ export class MagicGlow {
       renderer.toneMapping = THREE.NoToneMapping;
       this.composite.render(renderer); this.rendered = true;
     } finally {
+      if (native) {
+        renderer.setRenderObjectFunction(renderObject);
+        previous!.texture = baseTexture!;
+      }
       restore(); scene.background = background; renderer.setClearColor(this.clearColour, clearAlpha);
       for (const saved of shadows) { saved.shadow.autoUpdate = saved.autoUpdate; saved.shadow.needsUpdate = saved.needsUpdate; }
       renderer.setRenderTarget(previous, face, mip); renderer.autoClear = autoClear;
@@ -248,7 +298,7 @@ export class MagicGlow {
   }
 
   dispose(): void {
-    this.target.dispose(); this.frame.dispose(); this.bright.dispose();
+    this.target.dispose(); this.target.texture.dispose(); this.frame.dispose(); this.bright.dispose();
     for (const { material } of this.occlusionMaterials.values()) material.dispose();
     this.occlusionMaterials.clear();
     for (const target of [...this.horizontal, ...this.vertical]) target.dispose();

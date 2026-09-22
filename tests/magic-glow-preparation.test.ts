@@ -3,7 +3,7 @@ import * as THREE from "three/webgpu";
 import { MagicGlow, registerMagicGlow } from "../game/src/render/magicGlow.js";
 import { lowerToWgsl } from "./helpers/wgsl.js";
 
-function harness() {
+function harness(native = false) {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
   const background = new THREE.Color(0x123456);
   scene.background = background;
@@ -14,10 +14,13 @@ function harness() {
   emitter.material.userData["magicEmissionPass"] = emission;
   scene.add(body, emitter);
   const glow = new MagicGlow();
-  const initialTarget = new THREE.RenderTarget(64, 64);
+  const initialTarget = new THREE.RenderTarget(640, 360, { type: THREE.HalfFloatType, depthBuffer: true, stencilBuffer: true, samples: 4 });
   let target: THREE.RenderTarget | null = initialTarget, cubeFace = 2, mipLevel = 1;
   const colour = new THREE.Color(0x345678);
   let alpha = 0.4, failComposite = false;
+  let renderObjectFunction: ReturnType<THREE.WebGPURenderer['getRenderObjectFunction']> = null;
+  const drawn: THREE.Object3D[] = [], clears: boolean[][] = [];
+  const baseTexture = initialTarget.texture;
   const calls: { object: THREE.Object3D; material: string; target: THREE.RenderTarget | null;
     bodyWrites: boolean; emitterWrites: boolean; emission: number }[] = [];
   const fake = {
@@ -33,11 +36,21 @@ function harness() {
     getClearColor: (result: THREE.Color) => result.copy(colour),
     getClearAlpha: () => alpha,
     setClearColor: (next: THREE.ColorRepresentation, opacity: number) => { colour.set(next); alpha = opacity; },
-    init: async () => {}, backend: { isWebGPUBackend: true, device: { queue: { onSubmittedWorkDone: async () => {} } } }, initTexture: () => {},
+    init: async () => {}, backend: { isWebGPUBackend: true, isWebGLBackend: !native, device: { queue: { onSubmittedWorkDone: async () => {} } } }, initTexture: () => {},
     compileAsync: async () => {},
     copyFramebufferToTexture: () => {},
-    clear: () => {},
+    clear: (color: boolean, depth: boolean, stencil: boolean) => {
+      clears.push([color, depth, stencil]);
+      if (native) { expect(target).toBe(initialTarget); expect(target?.texture).not.toBe(baseTexture); }
+    },
+    getRenderObjectFunction: () => renderObjectFunction,
+    setRenderObjectFunction: (callback: typeof renderObjectFunction) => { renderObjectFunction = callback; },
+    renderObject: (object: THREE.Object3D) => { drawn.push(object); },
     render: (object: THREE.Object3D) => {
+      if (object === scene && renderObjectFunction) object.traverseVisible(child => {
+        if ((child as THREE.Mesh).isMesh) renderObjectFunction!(child, scene, camera, (child as THREE.Mesh).geometry,
+          (child as THREE.Mesh).material as THREE.Material, null, null as never, null as never);
+      });
       const material = object instanceof THREE.Mesh ? object.material as THREE.Material : null;
       calls.push({ object, material: material?.uuid ?? "scene", target,
         bodyWrites: body.material.colorWrite, emitterWrites: emitter.material.colorWrite, emission: emission.value });
@@ -50,7 +63,7 @@ function harness() {
     background: scene.background, bodyWrites: body.material.colorWrite,
     emitterWrites: emitter.material.colorWrite, emission: emission.value });
   return {
-    glow, scene, camera, renderer, calls, state,
+    glow, scene, camera, renderer, calls, state, drawn, clears, body, emitter, baseTexture, initialTarget,
     fail: () => { failComposite = true; },
     dispose: () => { glow.dispose(); initialTarget.dispose(); body.geometry.dispose(); body.material.dispose();
       emitter.geometry.dispose(); emitter.material.dispose(); },
@@ -58,6 +71,54 @@ function harness() {
 }
 
 describe("magic glow preparation", () => {
+  it('prepares only actual native emitters and reuses world depth with a color-only attachment swap', async () => {
+    const h = harness(true), compiled: THREE.Object3D[] = [];
+    const child = new THREE.Mesh(h.emitter.geometry, h.emitter.material);
+    child.userData.magicGlow = true; h.body.add(child);
+    const light = new THREE.DirectionalLight(); h.scene.add(light);
+    const unregister = registerMagicGlow(h.scene);
+    const previous = h.state();
+    h.renderer.compileAsync = async root => { root.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object); }); };
+    const draw = h.renderer.render;
+    h.renderer.render = function (scene, camera) {
+      if (scene === h.scene) {
+        expect(h.initialTarget.texture).not.toBe(h.baseTexture);
+        expect(h.initialTarget.depthBuffer).toBe(true); expect(h.initialTarget.stencilBuffer).toBe(true);
+        expect(h.initialTarget.samples).toBe(4);
+        expect(light.parent).toBe(scene);
+        expect(h.body.material.colorWrite).toBe(true);
+      }
+      return draw.call(this, scene, camera);
+    };
+    try {
+      await h.glow.prepare(h.renderer, h.scene, h.camera, h.initialTarget);
+      expect(compiled).toEqual([child, h.emitter]);
+      expect(h.drawn).toEqual([child, h.emitter]);
+      expect(h.clears).toEqual([[true, false, false]]);
+      expect(h.initialTarget.texture).toBe(h.baseTexture);
+      expect(h.renderer.getRenderObjectFunction()).toBeNull();
+      expect(h.state()).toEqual(previous);
+      h.fail();
+      await expect(h.glow.prepare(h.renderer, h.scene, h.camera, h.initialTarget)).rejects.toThrow('driver draw failed');
+      expect(h.initialTarget.texture).toBe(h.baseTexture);
+      expect(h.renderer.getRenderObjectFunction()).toBeNull();
+      expect(h.state()).toEqual(previous);
+    } finally { unregister(); h.dispose(); }
+  });
+
+  it('restores native attachment and render callback when an emitter draw throws', () => {
+    const h = harness(true), unregister = registerMagicGlow(h.scene);
+    const previous = h.state();
+    const hook: NonNullable<ReturnType<THREE.WebGPURenderer['getRenderObjectFunction']>> = () => { throw new Error('emitter failed'); };
+    h.renderer.setRenderObjectFunction(hook);
+    try {
+      expect(() => h.glow.render(h.renderer, h.scene, h.camera)).toThrow('emitter failed');
+      expect(h.initialTarget.texture).toBe(h.baseTexture);
+      expect(h.renderer.getRenderObjectFunction()).toBe(hook);
+      expect(h.state()).toEqual(previous);
+    } finally { unregister(); h.dispose(); }
+  });
+
   it('lowers every native bloom and composite material to WGSL', async () => {
     const h = harness(), shaders: string[] = [];
     h.renderer.compileAsync = async (object, camera) => {
