@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import type { MeshStandardNodeMaterial, Node } from "three/webgpu";
-import { diffuseColor, float, fwidth, materialAlphaTest, materialReference, normalMap, texture, uv, vec2, vec3, vec4 } from "three/tsl";
-import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
+import { diffuseColor, float, fwidth, mix, normalMap, texture, uv, vec2, vec3, vec4 } from "three/tsl";
+import { cloneNodeMaterial, composeSurface, sourceMaterialNode, sourceMaterialReference } from "./nodeMaterials.js";
 import { assetBaseUrl } from "../app/config.js";
 import { prepareLeafTexture } from "./leafTexture.js";
 
@@ -97,8 +97,8 @@ export function corealmSurfaceDetail(
 ): Node<"vec3"> {
   const relative = sample.div(vec3(...meanLinearRgb));
   const luma = relative.dot(vec3(0.2126, 0.7152, 0.0722));
-  const colour = vec3(luma).mix(relative, 0.45);
-  return vec3(1).mix(colour, contrast).clamp(leaf ? 0.58 : 0.42, leaf ? 1.65 : 1.90);
+  const colour = mix(vec3(luma), relative, 0.45);
+  return mix(vec3(1), colour, contrast).clamp(leaf ? 0.58 : 0.42, leaf ? 1.65 : 1.90);
 }
 
 function isStandard(material: THREE.Material): boolean {
@@ -152,14 +152,14 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
         // Associated-alpha filtering prevents dark fringes. Colour uses one wider mip
         // while coverage retains the authored footprint and canopy silhouette.
         derived.colorNode = vec4(
-          materialReference("color", "color").mul(colourSample.rgb.div(colourSample.a.max(0.0001))),
+          sourceMaterialReference<"vec3">(derived, "color", "color").mul(colourSample.rgb.div(colourSample.a.max(0.0001))),
           leafSample.a,
         );
       }
       // Three's alpha-to-coverage range normally begins at the cutoff. Centre it on
       // that cutoff instead, retaining fine needles when their footprint shrinks.
       const edgeWidth = fwidth(diffuseColor.a).max(0.0001);
-      derived.alphaTestNode = materialAlphaTest.sub(edgeWidth.mul(0.5));
+      derived.alphaTestNode = sourceMaterialNode<"float">(derived, "alphaTest").sub(edgeWidth.mul(0.5));
       if (derived.map) {
         const changed = derived.map.minFilter !== THREE.LinearMipmapLinearFilter || derived.map.magFilter !== THREE.LinearFilter
           || !derived.map.generateMipmaps || derived.map.anisotropy !== 8;
@@ -203,13 +203,13 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
     // UV compression selects the same registered midrib in albedo, normal and roughness.
     // Uncompressed textures retain their authored texture matrix and metre-based tiling.
     derived.colorNode = vec4(
-        materialReference("color", "color").mul(corealmSurfaceDetail(sample.rgb, maps.meanLinearRgb, contrast, leaf)),
+        sourceMaterialReference<"vec3">(derived, "color", "color").mul(corealmSurfaceDetail(sample.rgb, maps.meanLinearRgb, contrast, leaf)),
         sample.a,
     );
     composeSurface(derived, {
       ...(blade ? {
-        normal: () => normalMap(texture(maps.normal, surfaceUv), materialReference("normalScale", "vec2")),
-        roughness: () => materialReference("roughness", "float").mul(texture(maps.roughness, surfaceUv).g),
+        normal: () => vec3(normalMap(texture(maps.normal, surfaceUv), sourceMaterialReference<"vec2">(derived, "normalScale", "vec2")) as unknown as Node<"vec3">),
+        roughness: () => sourceMaterialReference<"float">(derived, "roughness", "float").mul(texture(maps.roughness, surfaceUv).g),
       } : {}),
     });
     cache.set(source, derived);

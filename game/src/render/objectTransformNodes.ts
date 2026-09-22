@@ -1,6 +1,7 @@
-import { InstancedInterleavedBuffer, type InstancedBufferAttribute, type InstancedMesh, type BatchedMesh, type Texture } from 'three';
+import { InstancedInterleavedBuffer, type InstancedBufferAttribute, type InstancedMesh, type BatchedMesh, type Texture, Matrix4 } from 'three';
 import { Fn, drawIndex, float, instanceIndex, instancedBufferAttribute, int, ivec2, mat4,
   modelWorldMatrix, textureLoad, textureSize, vec4 } from 'three/tsl';
+import type { Node } from 'three/webgpu';
 
 const matrixBuffers = new WeakMap<InstancedBufferAttribute, InstancedInterleavedBuffer>();
 
@@ -32,10 +33,11 @@ export const objectInstanceMatrix = Fn((builder) => {
   }
   if ((object as BatchedMesh).isBatchedMesh) {
     const batch = object as BatchedMesh & { _indirectTexture: Texture; _matricesTexture: Texture };
-    const index = int(builder.getDrawIndex() === null ? instanceIndex : drawIndex);
-    const indirectSize = int(textureSize(textureLoad(batch._indirectTexture), 0).x);
+    const index = int((builder as typeof builder & { getDrawIndex(): string | null }).getDrawIndex() === null ? instanceIndex : drawIndex);
+    // TextureSizeNode is untyped upstream; its r185 constructor fixes nodeType to uvec2.
+    const indirectSize = int((textureSize(textureLoad(batch._indirectTexture), int(0)) as unknown as Node<'uvec2'>).x);
     const indirect = textureLoad(batch._indirectTexture, ivec2(index.mod(indirectSize), index.div(indirectSize))).x;
-    const size = int(textureSize(textureLoad(batch._matricesTexture), 0).x);
+    const size = int((textureSize(textureLoad(batch._matricesTexture), int(0)) as unknown as Node<'uvec2'>).x);
     const first = float(indirect).mul(4).toInt();
     const x = first.mod(size), y = first.div(size);
     return mat4(
@@ -45,7 +47,7 @@ export const objectInstanceMatrix = Fn((builder) => {
       textureLoad(batch._matricesTexture, ivec2(x.add(3), y)),
     );
   }
-  return mat4(1);
+  return mat4(new Matrix4());
 }).once();
 
 export const objectInstanceWorldOrigin = Fn(() =>

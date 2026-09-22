@@ -10,6 +10,37 @@ import { MaterialLibrary } from "../game/src/render/materials.js";
 import { createArtDirectedMaterial } from "../game/src/render/artDirection.js";
 
 describe("production tree cutouts", () => {
+  it("keeps registered albedo, normal and roughness maps on authored surface node graphs", () => {
+    const maps = () => ({ albedo: new THREE.Texture(), normal: new THREE.Texture(), roughness: new THREE.Texture(),
+      meanLinearRgb: [0.2, 0.3, 0.1] as const, tileMetres: 2.4 });
+    const textures: CorealmSurfaceTextures = { bark: maps(), stone: maps(), leaf: maps() };
+    for (const [name, family] of [
+      ["Bark_Corealm", "bark"], ["Corealm weathered strata", "stone"],
+      ["Leaves_Corealm_needle", "leaf"], ["Leaves_Corealm_grass", "leaf"],
+    ] as const) {
+      const source = new THREE.MeshStandardMaterial({ name, vertexColors: true });
+      const geometry = new THREE.PlaneGeometry();
+      const mesh = new THREE.Mesh(geometry, source);
+      applyCorealmSurfaceMaterials(mesh, textures);
+      const material = mesh.material as unknown as MeshStandardNodeMaterial;
+      expect(material.isMeshStandardNodeMaterial).toBe(true);
+      expect(material.map).toBe(textures[family].albedo);
+      expect(material.normalMap).toBe(textures[family].normal);
+      expect(material.roughnessMap).toBe(textures[family].roughness);
+      expect(material.colorNode).not.toBeNull();
+      expect(material.vertexColors).toBe(true);
+      expect(source.map).toBeNull();
+      if (family === "leaf") {
+        expect(material.normalNode).not.toBeNull();
+        expect(material.roughnessNode).not.toBeNull();
+      }
+      material.dispose(); source.dispose(); geometry.dispose();
+    }
+    for (const family of Object.values(textures)) {
+      family.albedo.dispose(); family.normal.dispose(); family.roughness.dispose();
+    }
+  });
+
   it("preserves red maple saturation through the production organic treatment", () => {
     const map = new THREE.Texture();
     const source = new THREE.MeshStandardMaterial({ name: "Leaves_Corealm_broadleaf_maple_cutout", map });

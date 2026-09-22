@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { MeshStandardNodeMaterial, MeshPhysicalNodeMaterial } from "three/webgpu";
+import type { Node, MeshStandardNodeMaterial, MeshPhysicalNodeMaterial } from "three/webgpu";
 import { bool, cameraPosition, clamp, distance, dot, float, floor, fract, max, mix, positionView,
   reference, screenCoordinate, screenSize, vec2 } from "three/tsl";
 import { cloneNodeMaterial } from "./nodeMaterials.js";
@@ -145,6 +145,6 @@ export function createFoliageOcclusionMaterial(
 
   // The opening is only a colour-pass mask. Shadow silhouettes keep the original mask.
   derived.maskShadowNode = derived.maskShadowNode ?? derived.maskNode ?? bool(true);
-  derived.maskNode = derived.maskNode ? bool(derived.maskNode).and(reveal.not()) : reveal.not();
+  derived.maskNode = derived.maskNode ? (derived.maskNode as Node<"bool">).and(reveal.not()) : reveal.not();
   return derived;
 }

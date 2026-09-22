@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { MeshStandardNodeMaterial, MeshPhysicalNodeMaterial } from "three/webgpu";
+import type { Node, MeshStandardNodeMaterial, MeshPhysicalNodeMaterial } from "three/webgpu";
 import { dot, exp, float, floor, fract, max, min, mix, mod, positionGeometry, pow, reference,
   sin, smoothstep, step, texture, uv, varying, vec2, vec3 } from "three/tsl";
 import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
@@ -20,7 +20,7 @@ export function createMagicTreeShimmer(source: THREE.Material, time: { value: nu
   const magicClock = clock.add(phase);
   const local = varying(positionGeometry);
   const treeUV = uv();
-  let radiance = vec3(0);
+  let radiance: Node<"vec3"> = vec3(0);
 
   if (!/Leaves/i.test(source.name)) {
     // UV.y is swept branch arc length. Motes follow angled limbs from base to tip.
@@ -45,7 +45,7 @@ export function createMagicTreeShimmer(source: THREE.Material, time: { value: nu
         .add(moteColour.mul(halo.mul(0.60).add(tail.mul(0.75)))).mul(alive));
     }
   } else {
-    let leafLight = float(0.3);
+    let leafLight: Node<"float"> = float(0.3);
     if (standard.map) {
       const sample = texture(standard.map);
       leafLight = dot(sample.rgb.div(max(sample.a, 0.001)), vec3(0.2126, 0.7152, 0.0722));

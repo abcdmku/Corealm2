@@ -8,14 +8,14 @@ import { createContainedTroughWater } from "../game/src/render/containedTroughWa
 
 it("preserves authored source/detail, caches the candidate, and restores exact material identity", () => {
   const library = new MaterialLibrary();
-  const source = new THREE.MeshPhysicalMaterial({ transmission: .94, roughness: .085, vertexColors: true });
+  const source = new MeshPhysicalNodeMaterial({ transmission: .94, roughness: .085, vertexColors: true });
   source.name = "Corealm farm water@capillary-transmission-v2";
   source.normalMap = new THREE.Texture();
   const sourceDispose = vi.spyOn(source, "dispose");
   const candidate = library.containedTroughWater(source);
   expect(library.forContainedTrough("corealm_water_trough", source)).toBe(candidate);
   expect(library.forContainedTrough("world_water", source)).toBe(source);
-  const timber = new THREE.MeshPhysicalMaterial();timber.name = "Corealm farm timber";
+  const timber = new MeshPhysicalNodeMaterial();timber.name = "Corealm farm timber";
   expect(library.forContainedTrough("corealm_water_trough", timber)).toBe(timber);
   expect(library.containedTroughWater(source)).toBe(candidate);
   expect(candidate.normalMap).toBe(source.normalMap);

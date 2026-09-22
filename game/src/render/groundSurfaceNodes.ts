@@ -2,7 +2,7 @@ import { DataTexture, RGBAFormat, SRGBColorSpace, type Texture, type Vector3, ty
 import { type MeshStandardNodeMaterial } from 'three/webgpu';
 import {
   Fn, If, abs, attribute, cameraViewMatrix, clamp, cross, dFdx, dFdy, dot, exp,
-  float, floor, fract, fwidth, mat3, max, min, mix, normalWorldGeometry, normalize,
+  float, floor, fract, fwidth, max, min, mix, normalWorldGeometry, normalize,
   positionView, positionWorld, pow, reference, sign, sin, smoothstep, struct,
   texture, varying, vec2, vec3, vec4,
 } from 'three/tsl';
@@ -277,10 +277,10 @@ export function applyGroundSurfaceNodes(material: MeshStandardNodeMaterial, inpu
       const determinant: Node<'float'> = dot(sigmaX, r1);
       const result: Node<'vec3'> = normalize(previous.mul(abs(determinant))
         .sub(r1.mul(gradient.x).add(r2.mul(gradient.y)).mul(sign(determinant)))).toVar();
-      const viewRotation: Node<'mat3'> = mat3(cameraViewMatrix);
-      result.assign(normalize(result.add(viewRotation.mul(vec3(groundBump.x, 0, groundBump.y).mul(0.3)))));
-      result.assign(normalize(result.add(viewRotation.mul(vec3(cobbleBump.x, 0, cobbleBump.y).mul(0.72).mul(cobbleAmount)))));
-      result.assign(normalize(result.add(viewRotation.mul(cliffBump).mul(0.72).mul(cliffAmount))));
+      const viewDirection = (direction: Node<'vec3'>): Node<'vec3'> => cameraViewMatrix.mul(vec4(direction, 0)).xyz;
+      result.assign(normalize(result.add(viewDirection(vec3(groundBump.x, 0, groundBump.y).mul(0.3)))));
+      result.assign(normalize(result.add(viewDirection(vec3(cobbleBump.x, 0, cobbleBump.y).mul(0.72).mul(cobbleAmount)))));
+      result.assign(normalize(result.add(viewDirection(cliffBump).mul(0.72).mul(cliffAmount))));
       return result;
     })(),
   });

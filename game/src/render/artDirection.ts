@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Fn, cameraViewMatrix, diffuseColor, faceDirection, float, vec3, vec4 } from "three/tsl";
+import { Fn, cameraViewMatrix, diffuseColor, faceDirection, float, mix, vec3, vec4 } from "three/tsl";
 import type { MeshStandardNodeMaterial } from "three/webgpu";
 import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
 
@@ -76,7 +76,7 @@ export function createArtDirectedMaterial(source: THREE.Material, role: ArtSurfa
     // A colorNode treatment would grade only the texture before those authored colours.
     roughness: previous => Fn(() => {
       const luma = diffuseColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722)).toVar();
-      const colour = vec3(luma).mix(diffuseColor.rgb, treatment.saturation).toVar();
+      const colour = mix(vec3(luma), diffuseColor.rgb, treatment.saturation).toVar();
       if (treatment.tonalCompression) colour.divAssign(luma.mul(0.2).add(0.9));
       if (understory) colour.divAssign(luma.mul(UNDERSTORY_HIGHLIGHT_SHOULDER).add(1));
       if (role === "elemental-hide") {

@@ -18,8 +18,8 @@ import { MeshBasicNodeMaterial, MeshStandardNodeMaterial, MeshPhysicalNodeMateri
 import { Fn, attribute, cameraViewMatrix, diffuseColor, float, ivec2,
   max, min, mix, pmremTexture, positionGeometry, reference, sin, smoothstep,
   texture, textureLoad, vec2, vec3, vec4,
-  positionWorld, materialReference, If } from "three/tsl";
-import { cloneNodeMaterial, composeSurface, ensureNodeMaterial } from "./nodeMaterials.js";
+  positionWorld, If } from "three/tsl";
+import { cloneNodeMaterial, composeSurface, ensureNodeMaterial, sourceMaterialReference } from "./nodeMaterials.js";
 import { applyGroundSurfaceNodes } from "./groundSurfaceNodes.js";
 import { objectInstanceMatrix, objectInstanceWorldOrigin } from "./objectTransformNodes.js";
 import { createContainedTroughWater } from "./containedTroughWater.js";
@@ -599,7 +599,7 @@ export interface WaterVariantOptions {
 /** Keep per-surface sky response while Three supplies the scene's environment intensity. */
 function environmentResponse(material: MeshStandardNodeMaterial, strength: number): void {
   material.envNode = Fn((builder) => {
-    const environment = builder.scene?.environment;
+    const environment = (builder as typeof builder & { scene: THREE.Scene | null }).scene?.environment;
     return environment ? pmremTexture(environment).mul(strength) : vec3(0);
   })();
 }
@@ -728,11 +728,11 @@ export class MaterialLibrary {
       roughness: roughness => Fn(() => {
         const inherited = roughness.toVar();
         const value = diffuseColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722));
-        diffuseColor.rgb.assign(mix(diffuseColor.rgb, vec3(tint).mul(value), role === "foliage" ? 0.94 : 0.72));
+        diffuseColor.rgb.assign(mix(diffuseColor.rgb, vec3(tint.r, tint.g, tint.b).mul(value), role === "foliage" ? 0.94 : 0.72));
         return inherited;
       })(),
       ...(role === "foliage" ? { emissive: (emissive: import('three/webgpu').Node<'vec3'>) =>
-        emissive.add(vec3(glow).mul(diffuseColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722))).mul(0.12)) } : {}),
+        emissive.add(vec3(glow.r, glow.g, glow.b).mul(diffuseColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722))).mul(0.12)) } : {}),
     });
     return material;
   }
@@ -988,7 +988,7 @@ export class MaterialLibrary {
     const scale = reference('value', 'vec2', uniforms.uWaveScale);
     const scrollA = reference('value', 'vec2', uniforms.uWaveScrollA);
     const scrollB = reference('value', 'vec2', uniforms.uWaveScrollB);
-    const authoredDepth = attribute('aWaterDepth', 'float');
+    const authoredDepth = attribute('aWaterDepth', 'float' as const);
     let depth: import('three/webgpu').Node<'float'> = authoredDepth;
     if (ocean) {
       const gridUniforms = this.oceanDepthUniforms;
@@ -1032,7 +1032,7 @@ export class MaterialLibrary {
         const waveA = texture(material.normalMap!, positionWorld.xz.mul(scale.x).add(scrollA.mul(time))).xyz.mul(2).sub(1);
         const waveB = texture(uniforms.uNormalB.value, positionWorld.xz.mul(scale.y).add(scrollB.mul(time))).xyz.mul(2).sub(1);
         const slope = vec3(waveA.xy.add(waveB.xy), waveA.z.mul(waveB.z)).normalize();
-        const scaled = slope.xy.mul(materialReference('normalScale', 'vec2'));
+        const scaled = slope.xy.mul(sourceMaterialReference<'vec2'>(material, 'normalScale', 'vec2'));
         return cameraViewMatrix.mul(vec4(scaled.x, slope.z, scaled.y, 0)).xyz.normalize();
       },
     });
@@ -1192,7 +1192,7 @@ export class MaterialLibrary {
       composeSurface(clone, { color: previous => {
         const luminanceNode = previous.dot(vec3(0.2126, 0.7152, 0.0722));
         const value = luminanceNode.sub(0.18).mul(treatment.contrast).add(0.18).clamp(0, 1);
-        const tinted = value.mul(vec3(tint)).clamp(0, 1);
+        const tinted = value.mul(vec3(tint.r, tint.g, tint.b)).clamp(0, 1);
         return mix(previous, tinted, treatment.strength).mul(brightness);
       } });
       return clone;
