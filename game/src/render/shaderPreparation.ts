@@ -156,7 +156,9 @@ export interface ShaderPreparationOptions {
 }
 type Drawable = THREE.Object3D & { material?: THREE.Material | THREE.Material[] };
 type TextureNode = { isNode: true; value?: unknown; getChildren?: () => Iterable<TextureNode> };
+type PreparationProgress = { pendingMeshes: number; pendingTextures: number };
 type PreparationState = {
+  jobs: Set<PreparationProgress>;
   textures: WeakMap<THREE.Texture, number>;
   watchedTextures: WeakSet<THREE.Texture>;
   fadeMaterials: WeakMap<THREE.Material, { version: number; material: THREE.Material; release: () => void }>;
@@ -169,10 +171,21 @@ const yieldTask = () => new Promise<void>(resolve => setTimeout(resolve, 0));
 function stateFor(renderer: WebGPURenderer): PreparationState {
   let state = states.get(renderer);
   if (!state) {
-    state = { textures: new WeakMap(), watchedTextures: new WeakSet(), fadeMaterials: new WeakMap(), tail: Promise.resolve() };
+    state = { jobs: new Set(), textures: new WeakMap(), watchedTextures: new WeakSet(), fadeMaterials: new WeakMap(), tail: Promise.resolve() };
     states.set(renderer, state);
   }
   return state;
+}
+
+/** Includes queued startup, effect, and streamed work, before its first asynchronous yield. */
+export function shaderPreparationState(renderer: WebGPURenderer): PreparationProgress & { compiling: boolean } {
+  const jobs = states.get(renderer)?.jobs;
+  let pendingMeshes = 0, pendingTextures = 0;
+  for (const job of jobs ?? []) {
+    pendingMeshes += job.pendingMeshes;
+    pendingTextures += job.pendingTextures;
+  }
+  return { pendingMeshes, pendingTextures, compiling: Boolean(jobs?.size) };
 }
 
 function collectTextures(objects: readonly THREE.Object3D[], scene: THREE.Scene): THREE.Texture[] {
@@ -279,6 +292,7 @@ async function finishUploads(completion: GpuCompletion): Promise<void> {
 async function prepare(
   renderer: WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera,
   objects: readonly THREE.Object3D[], options: ShaderPreparationOptions, state: PreparationState,
+  progress: PreparationProgress,
 ): Promise<void> {
   // compileBatch relies on collection running synchronously until pipeline building starts.
   await renderer.init();
@@ -289,7 +303,8 @@ async function prepare(
     for (let offset = 0; offset < objects.length && !cancelled(); offset += batchSize) {
       const batch = objects.slice(offset, offset + batchSize);
       const textures = collectTextures(batch, scene).filter(texture => state.textures.get(texture) !== texture.version);
-      options.onPendingTextures?.(textures.length);
+      progress.pendingTextures = textures.length;
+      options.onPendingTextures?.(progress.pendingTextures);
       for (let index = 0; index < textures.length; index++) {
         if (cancelled()) return;
         const texture = textures[index]!;
@@ -302,7 +317,8 @@ async function prepare(
           state.watchedTextures.add(texture);
         }
         state.textures.set(texture, texture.version);
-        options.onPendingTextures?.(textures.length - index - 1);
+        progress.pendingTextures = textures.length - index - 1;
+        options.onPendingTextures?.(progress.pendingTextures);
       }
       if (cancelled()) return;
       await yieldTask();
@@ -313,6 +329,7 @@ async function prepare(
       if (fading.length) await validateGraphicsWork(renderer, "Creature fade pipelines", () =>
         compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget));
       await finishUploads(completion);
+      progress.pendingMeshes -= batch.length;
     }
   } finally { options.onPendingTextures?.(0); }
 }
@@ -324,7 +341,10 @@ export function prepareShaderMeshes(
   objects: readonly THREE.Object3D[], options: ShaderPreparationOptions = {},
 ): Promise<void> {
   const state = stateFor(renderer);
-  const result = state.tail.then(() => prepare(renderer, scene, camera, objects, options, state));
+  const progress: PreparationProgress = { pendingMeshes: objects.length, pendingTextures: 0 };
+  state.jobs.add(progress);
+  const result = state.tail.then(() => prepare(renderer, scene, camera, objects, options, state, progress))
+    .finally(() => { state.jobs.delete(progress); });
   state.tail = result.catch(() => {});
   return result;
 }

@@ -51,9 +51,12 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   const interior = new THREE.Mesh(new THREE.SphereGeometry(), material);
   hidden.visible = false; hidden.add(interior); scene.add(visible, duplicate, hidden);
   const frameTarget = new THREE.RenderTarget(), fake = {};
+  let finishGlow!: () => void;
+  const prepareGlow = vi.fn(() => new Promise<void>(resolve => { finishGlow = resolve; }));
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     scene, camera, renderer: fake, frameTarget, warmupMaterials: [],
-    magicGlow: { prepare: vi.fn(async () => {}) },
+    initialized: true, requiredEffectRoots: new Set(), deferredEffectRoots: new Set(),
+    magicGlow: { prepare: prepareGlow },
   }) as Renderer;
   const prepare = vi.mocked(prepareShaderMeshes);
   prepare.mockClear();
@@ -62,9 +65,14 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
     expect(interior.parent).toBe(hidden);
     expect(scene.children).toEqual([visible, duplicate, hidden]);
     expect(objects).toEqual([visible, interior]);
+    expect(renderer.getPreparationState()).toMatchObject({ compiling: true, ready: false });
     await Promise.resolve();
   });
-  await renderer.warmup({ temporarilyVisible: [hidden] });
+  const warming = renderer.warmup({ temporarilyVisible: [hidden] });
+  await vi.waitFor(() => expect(prepareGlow).toHaveBeenCalledOnce());
+  expect(renderer.getPreparationState()).toMatchObject({ compiling: true, ready: false });
+  finishGlow(); await warming;
+  expect(renderer.getPreparationState()).toMatchObject({ compiling: false, ready: true });
   expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget });
   geometry.dispose(); interior.geometry.dispose(); material.dispose(); frameTarget.dispose();
 });

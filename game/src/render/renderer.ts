@@ -23,7 +23,7 @@ import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transm
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
 import { prepareShaderMeshes, shaderGeometryKey, installGraphicsValidation, graphicsValidationState,
   assertGraphicsValid, waitForGraphicsValidation, validateGraphicsWork, validateGraphicsSubmission,
-  disposeGraphicsValidation } from "./shaderPreparation.js";
+  disposeGraphicsValidation, shaderPreparationState } from "./shaderPreparation.js";
 
 export interface RenderStats {
   fps: number;
@@ -490,10 +490,14 @@ export class Renderer {
   getPreparationState(): GraphicsPreparationState {
     const streaming = this.streamedShaders?.getState();
     const validation = graphicsValidationState(this.renderer);
-    return { pendingMeshes: streaming?.waiting ?? 0, pendingTextures: streaming?.textures ?? 0,
-      failed: (streaming?.failed ?? 0) + validation.failed,
-      compiling: Boolean(streaming?.compiling || this.compilingEffects),
-      ready: this.initialized && !streaming?.waiting && !streaming?.compiling && !streaming?.failed && !validation.failed && this.effectsReady };
+    const preparation = shaderPreparationState(this.renderer);
+    // The active streamed batch is already enrolled in the shared preparation queue.
+    const pendingMeshes = Math.max(streaming?.waiting ?? 0,
+      preparation.pendingMeshes + (streaming?.queued ?? 0) + (streaming?.failed ?? 0));
+    const compiling = Boolean(preparation.compiling || this.preparingResident || streaming?.compiling || this.compilingEffects);
+    return { pendingMeshes, pendingTextures: preparation.pendingTextures,
+      failed: (streaming?.failed ?? 0) + validation.failed, compiling,
+      ready: this.initialized && !pendingMeshes && !compiling && !streaming?.failed && !validation.failed && this.effectsReady };
   }
 
   resize(): void {
@@ -558,39 +562,44 @@ export class Renderer {
     this.sun.target.updateMatrixWorld();
   }
 
+  private preparingResident = 0;
+
   /** Prepare resident pipelines in small asynchronous batches before exposing the world. */
   async warmup(options?: WarmupOptions): Promise<void> {
-    const proxies: THREE.Mesh[] = [];
-    const seen = new Set<string>();
-    for (const root of options?.transparentVariants ?? []) root.traverse(object => {
-      const mesh = object as THREE.Mesh;
-      if (!mesh.isMesh || (mesh as THREE.SkinnedMesh).isSkinnedMesh) return;
-      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
-        const key = `${shaderGeometryKey(mesh)}:${material.uuid}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        const clone = material.clone();
-        clone.transparent = true; clone.depthWrite = false;
-        this.warmupMaterials.push(clone);
-        const instanced = mesh as THREE.InstancedMesh;
-        const proxy = instanced.isInstancedMesh
-          ? new THREE.InstancedMesh(mesh.geometry, clone, 1)
-          : new THREE.Mesh(mesh.geometry, clone);
-        if (instanced.isInstancedMesh) (proxy as THREE.InstancedMesh).instanceColor = instanced.instanceColor;
-        proxy.frustumCulled = false;
-        proxies.push(proxy);
-      }
-    });
-    const objects = this.warmupObjects();
-    const hidden = (options?.temporarilyVisible ?? []).filter(root => !root.visible);
+    this.preparingResident = (this.preparingResident ?? 0) + 1;
     try {
-      for (const root of hidden) root.visible = true;
-      if (hidden.length) objects.push(...this.warmupObjects());
-    } finally { for (const root of hidden) root.visible = false; }
-    // No temporary mesh or visibility mutation survives an asynchronous yield.
-    await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget });
-    await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
-      this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget));
+      const proxies: THREE.Mesh[] = [];
+      const seen = new Set<string>();
+      for (const root of options?.transparentVariants ?? []) root.traverse(object => {
+        const mesh = object as THREE.Mesh;
+        if (!mesh.isMesh || (mesh as THREE.SkinnedMesh).isSkinnedMesh) return;
+        for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+          const key = `${shaderGeometryKey(mesh)}:${material.uuid}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          const clone = material.clone();
+          clone.transparent = true; clone.depthWrite = false;
+          this.warmupMaterials.push(clone);
+          const instanced = mesh as THREE.InstancedMesh;
+          const proxy = instanced.isInstancedMesh
+            ? new THREE.InstancedMesh(mesh.geometry, clone, 1)
+            : new THREE.Mesh(mesh.geometry, clone);
+          if (instanced.isInstancedMesh) (proxy as THREE.InstancedMesh).instanceColor = instanced.instanceColor;
+          proxy.frustumCulled = false;
+          proxies.push(proxy);
+        }
+      });
+      const objects = this.warmupObjects();
+      const hidden = (options?.temporarilyVisible ?? []).filter(root => !root.visible);
+      try {
+        for (const root of hidden) root.visible = true;
+        if (hidden.length) objects.push(...this.warmupObjects());
+      } finally { for (const root of hidden) root.visible = false; }
+      // No temporary mesh or visibility mutation survives an asynchronous yield.
+      await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget });
+      await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
+        this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget));
+    } finally { this.preparingResident--; }
   }
 
   private warmupObjects(): THREE.Object3D[] {

@@ -3,7 +3,7 @@ import { MeshBasicNodeMaterial } from "three/webgpu";
 import type { WebGPURenderer } from "three/webgpu";
 import { texture as textureNode } from "three/tsl";
 import { expect, it, vi } from "vitest";
-import { prepareShaderMeshes, graphicsValidationState, validateGraphicsSubmission, waitForGraphicsValidation } from "../game/src/render/shaderPreparation.js";
+import { prepareShaderMeshes, shaderPreparationState, graphicsValidationState, validateGraphicsSubmission, waitForGraphicsValidation } from "../game/src/render/shaderPreparation.js";
 
 function fixture() {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
@@ -63,6 +63,22 @@ it("bounds batches to four objects and serializes concurrent requests for the sa
   expect(peak).toBe(1);
 });
 
+it("reports queued resident meshes until each complete batch finishes", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const releases: (() => void)[] = [];
+  compile.mockImplementation(() => new Promise<void>(resolve => { releases.push(resolve); }));
+  const first = prepareShaderMeshes(renderer, scene, camera, [new THREE.Mesh(), new THREE.Mesh()]);
+  const second = prepareShaderMeshes(renderer, scene, camera, [new THREE.Mesh()]);
+  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 3, pendingTextures: 0, compiling: true });
+  for (let index = 0; index < 3; index++) {
+    await vi.waitFor(() => expect(releases).toHaveLength(index + 1));
+    expect(shaderPreparationState(renderer).pendingMeshes).toBe(3 - index);
+    releases[index]!();
+  }
+  await Promise.all([first, second]);
+  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 0, pendingTextures: 0, compiling: false });
+});
+
 it("waits for each texture upload, discovers TSL maps, and reuses only unchanged live versions", async () => {
   const { scene, camera, renderer, compile, initTexture, completed } = fixture();
   const maps = [new THREE.DataTexture(new Uint8Array(4), 1, 1), new THREE.DataTexture(new Uint8Array(4), 1, 1)];
@@ -74,7 +90,9 @@ it("waits for each texture upload, discovers TSL maps, and reuses only unchanged
   const preparation = prepareShaderMeshes(renderer, scene, camera, [first, second]);
   await vi.waitFor(() => expect(initTexture).toHaveBeenCalledTimes(1));
   expect(compile).not.toHaveBeenCalled();
+  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 2, pendingTextures: 1, compiling: true });
   finish(); await preparation;
+  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 0, pendingTextures: 0, compiling: false });
   expect(initTexture.mock.calls.map(call => call[0])).toEqual(maps);
   await prepareShaderMeshes(renderer, scene, camera, [first, second]);
   expect(initTexture).toHaveBeenCalledTimes(2);
@@ -116,6 +134,7 @@ it("restores live state on compilation failure and keeps readiness failed", asyn
   await expect(prepareShaderMeshes(renderer, scene, camera, [mesh])).rejects.toThrow("pipeline failed");
   expect(compile).toHaveBeenCalledTimes(1);
   expect(graphicsValidationState(renderer).failed).toBeGreaterThan(0);
+  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 0, pendingTextures: 0, compiling: false });
 });
 
 
