@@ -399,9 +399,11 @@
   "creatureApprovalGate": {
     "reviewer": "gpt-6-astra-low",
     "requirement": "Explicit APPROVE for the exact source image UUID before generating a new creature model. Revisions require a fresh verdict.",
-    "modelSourceVerification": "Verify the actual Tripo model Texture reference-image UUID matches the approved UUID; a ledger label alone is not evidence.",
+    "modelSourceVerification": "Verify the actual Tripo model Texture reference-image UUID matches the approved UUID. For uploaded approved PNGs, record the exact approved file SHA256 and its observed upload-reference UUID mapping. A ledger label alone is not evidence.",
+    "faceRequirement": "Intact, intentional, readable PG-13 faces suited to a serious fantasy RPG. Reject genital-like facial folds, paired fleshy lobes, vertical orifice slits, radial fleshy mouths, and hollow, torn-off, blasted or missing faces. Ghosts retain coherent spectral faces; mineral and plant creatures retain solid, readable facial structures without becoming human masks.",
+    "faceRevisions": "The fresh face audit supersedes earlier approvals for this criterion. Denied images and their models remain held and unstarred until a revised exact image receives APPROVE. Preserve approved bodies, regional materials and ecological identity when revising a face.",
     "heldModels": "Historical denied, superseded or mismatched models remain unstarred and excluded from imports.",
-    "acceptance": "Image approval and Tripo rig completion do not imply game acceptance. Validate skin weights and quick walk, run, attack, hit and death in the production feature lab."
+    "acceptance": "Image approval and Tripo rig completion do not imply game acceptance. Validate skin weights, matching intact facial forms and quick walk, run, attack, hit and death in the production feature lab."
   },
   "exportWorkflow": {
     "preferred": "Individual GLB export, 8k Current, Export Skeleton enabled; Pack UV disabled when present.",
