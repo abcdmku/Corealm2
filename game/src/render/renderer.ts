@@ -20,6 +20,7 @@ import { ScreenAntialiasing } from "./screenAntialiasing.js";
 import { MagicGlow } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
+import { installStableShaderNames } from "./stableNodeBuilder.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
 import { prepareShaderMeshes, shaderGeometryKey, installGraphicsValidation, graphicsValidationState,
   assertGraphicsValid, waitForGraphicsValidation, validateGraphicsWork, validateGraphicsSubmission,
@@ -442,6 +443,7 @@ export class Renderer {
   init(): Promise<void> {
     this.initializing ??= (async () => {
       await this.renderer.init();
+      installStableShaderNames(this.renderer);
       this.completeGpuWork = createGpuCompletion(this.renderer);
       this.framePacer = new FramePacer(this.completeGpuWork);
       installGraphicsValidation(this.renderer);

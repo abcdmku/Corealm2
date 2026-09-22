@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { yieldToMainThread } from "../core/yield.js";
 import type { WebGPURenderer } from "three/webgpu";
 import { createGpuCompletion } from "./framePacer.js";
 import type { GpuCompletion } from "./framePacer.js";
@@ -166,7 +167,6 @@ type PreparationState = {
   completion?: GpuCompletion;
 };
 const states = new WeakMap<WebGPURenderer, PreparationState>();
-const yieldTask = () => new Promise<void>(resolve => setTimeout(resolve, 0));
 
 function stateFor(renderer: WebGPURenderer): PreparationState {
   let state = states.get(renderer);
@@ -286,7 +286,7 @@ function compileBatch(
 /** One upload at a time with an asynchronous GPU fence, never a synchronous query. */
 async function finishUploads(completion: GpuCompletion): Promise<void> {
   await completion();
-  await yieldTask();
+  await yieldToMainThread();
 }
 
 async function prepare(
@@ -321,7 +321,7 @@ async function prepare(
         options.onPendingTextures?.(progress.pendingTextures);
       }
       if (cancelled()) return;
-      await yieldTask();
+      await yieldToMainThread();
       await validateGraphicsWork(renderer, "Resident graphics pipelines", () =>
         compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget));
       if (cancelled()) return;
