@@ -56,13 +56,13 @@ class BasicSlot {
   remote=false;
   constructor(parent:THREE.Object3D,ground:(x:number,z:number)=>number){
     this.group.name="basic-spell-cast";parent.add(this.group);
-    this.basic=new BasicElementalVfx(this.group,ground,this.light,this.fragments,this.fluids);
+    this.basic=new BasicElementalVfx(this.group,ground,this.fragments,this.fluids);
     this.arcane=new ArcaneSpellVfx(this.group,ground,this.light);
     this.unregister=registerMagicGlow(this.group);
   }
   update(now:number):void {
     this.light.begin(now/1000,1.15);this.fragments.begin(now/1000);this.fluids.begin(now/1000);
-    this.basic.begin(now/1000);this.arcane.begin(now/1000);
+    this.basic.begin(now/1000,1.15);this.arcane.begin(now/1000);
     if(this.cast&&now<this.end){this.basic.update(this.cast,now,this.element);this.arcane.update(this.cast,now,this.cast.release);}
     else this.cast=null;
     this.light.end();this.fragments.end();this.fluids.end();this.basic.end();this.arcane.end();
@@ -201,7 +201,7 @@ export class SpellVfx {
     for(const slot of this.remoteAdvanced)if(slot.cast)slot.update(nowMs,slot.focus);
   }
   liveParticles():number{
-    return this.slots.reduce((n,s)=>n+s.light.instances+s.fragments.instances,0)+(this.advanced?.cast?this.advanced.vfx.particleCount:0)
+    return this.slots.reduce((n,s)=>n+s.light.instances+s.fragments.instances+s.basic.particleCount,0)+(this.advanced?.cast?this.advanced.vfx.particleCount:0)
       +this.remoteAdvanced.reduce((n,s)=>n+(s.cast?s.vfx.particleCount:0),0);
   }
   drawCalls():number {
@@ -212,7 +212,7 @@ export class SpellVfx {
   }
   getState(){
     const basics=this.slots.filter(s=>s.cast).map(s=>({id:s.id,element:s.element,spellId:s.cast!.spellId as string,impactHeight:s.cast!.impactHeight,origin:s.cast!.origin,
-      size:s.cast!.visualScale,particles:s.light.instances+s.fragments.instances,dropped:s.light.dropped+s.fragments.dropped+s.fluids.dropped+s.basic.dropped+s.arcane.dropped}));
+      size:s.cast!.visualScale,particles:s.light.instances+s.fragments.instances+s.basic.particleCount,dropped:s.light.dropped+s.fragments.dropped+s.basic.droppedParticles+s.fluids.dropped+s.basic.dropped+s.arcane.dropped}));
     for(const a of [this.advanced,...this.remoteAdvanced])
     if(a?.cast)basics.push({id:a.id,element:ELEMENTAL_SPELLS.find(s=>s.id===a.cast!.spellId)!.element,spellId:a.cast.spellId,impactHeight:a.cast.impactHeight,origin:a.cast.origin,
       size:undefined,particles:a.vfx.particleCount,dropped:a.vfx.droppedParticles+a.vfx.droppedFilaments+a.vfx.droppedBodies});

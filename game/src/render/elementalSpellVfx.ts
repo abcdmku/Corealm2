@@ -81,7 +81,7 @@ export class ElementalSpellVfx {
     this.volumes = new ElementalVolumes(this.group);
     this.solids = new ElementalSolids(this.group);
     this.fluids = new ElementalFluidBodies(this.group);
-    this.basic = new BasicElementalVfx(this.group,ground,this.light,this.fragments,this.fluids);
+    this.basic = new BasicElementalVfx(this.group,ground,this.fragments,this.fluids);
     this.arcane = new ArcaneSpellVfx(this.group,ground,this.light);
     this.waterFlow = new ElementalFlowSurfaces(this.group);
     this.waterFinale=new WaterFinaleVfx(this.group,ground);
@@ -103,14 +103,14 @@ export class ElementalSpellVfx {
   }
   get particleCount(): number {
     return (
-      this.light.instances + this.fragments.instances + this.smoke.instances + this.waterFinale.particleCount
+      this.light.instances + this.fragments.instances + this.smoke.instances + this.waterFinale.particleCount + this.basic.particleCount
     );
   }
   get volumeCount(): number {
     return this.volumes.instances + this.fluids.instances;
   }
   get droppedParticles(): number {
-    return this.light.dropped + this.fragments.dropped + this.smoke.dropped + this.waterFinale.droppedParticles;
+    return this.light.dropped + this.fragments.dropped + this.smoke.dropped + this.waterFinale.droppedParticles + this.basic.droppedParticles;
   }
   get solidCount(): number {
     return this.solids.instances + this.earth.fracturePieces + this.basic.solidCount;
@@ -163,7 +163,7 @@ export class ElementalSpellVfx {
     this.fluids.begin(now / 1000);
     this.waterFlow.begin(now / 1000);
     this.waterFinale.begin(now/1000);
-    this.basic.begin(now / 1000);
+    this.basic.begin(now / 1000, grounded ? 1.05 : this.element === "fire" ? 1.25 : 1.1);
     this.arcane.begin(now / 1000);
     this.filaments.begin(now / 1000, grounded ? .17 : this.element === "water" ? .13 : .3);
     this.art.begin(now / 1000, cast);
