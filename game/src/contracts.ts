@@ -10,6 +10,21 @@
 
 // ---------------------------------------------------------------- primitives
 
+/** Graphics backend identity prevents a fallback from masquerading as WebGPU evidence. */
+export interface GraphicsBackendState {
+  api: "webgpu" | "webgl2";
+  thread: "main" | "worker";
+  ready: boolean;
+}
+
+/** Required nearby gameplay is complete before the view is revealed. */
+export interface GraphicsPreparationState {
+  pendingMeshes: number;
+  pendingTextures: number;
+  compiling: boolean;
+  ready: boolean;
+}
+
 /** A roll selects at most one stack. Unallocated probability means no item. */
 export interface LootDrop { itemId: string; quantity: [number, number]; chance: number }
 export interface LootRoll {

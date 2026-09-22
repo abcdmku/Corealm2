@@ -1850,3 +1850,22 @@ If it does not work, nothing after it matters.
 
 The user's implementation request approves the T50/T70 Wilderness expansion, five merged-magic rune keepers, 7–15 creature packs, universal miniboss scaling, adult and baby dragon families, high-tier gathering and equipment materials described in docs/deep-wilderness-round.md. That document records the frozen depth contract and acceptance workflow.
 
+
+## Approved amendment: responsive loading and renderer migration
+
+Approved September 21, 2026 by the owner's instruction to implement the outlined loading
+and renderer work in parallel and commit completed parts. Preserve the existing game,
+content, appearance and multiplayer behavior while replacing its graphics implementation.
+Start the WebGPU migration with a small production-asset proof in the existing lab. Then
+port the production renderer, custom materials and effects; implement worker isolation
+where the renderer boundary supports it. Keep required nearby actors, structures,
+interactions and effects ready before revealing gameplay. Pace background asset processing
+and graphics preparation, prioritize impending movement, and reduce individual upload and
+shader work rather than allowing large queued bursts.
+
+Longer initial loading is acceptable when the page and browser remain responsive. The
+previous 20-second startup ceiling is diagnostic rather than a release requirement for
+this amendment. Content completeness, working input, actual GPU frame completion and
+responsiveness of a separate browser page remain required evidence. Use focused unit
+checks, a production build and representative real-game browser checks. Do not expand
+this work into an unrelated regression campaign or change gameplay to improve timings.
