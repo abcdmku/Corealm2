@@ -1054,9 +1054,9 @@
       "sourceImageSha256": "0a5a9c0bf58da82c4133554b8ae261568ca0ec1eee9add2005ba1288cab469f2",
       "revisesKey": "moonpetal-stalker",
       "editIntent": "Face-only correction preserving original body and colors",
-      "modelStarted": false,
+      "modelStarted": true,
       "downloadReadyStarred": false,
-      "stage": "approved_image_ready_for_model",
+      "stage": "smart_uv_generating",
       "review": {
         "verdict": "approved",
         "reviewer": "face_audit_fairy",
@@ -1068,7 +1068,14 @@
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
       },
-      "prompt": "Pending exact prompt record from completed Tripo card"
+      "prompt": "Moonpetal Stalker FACE REVISION THREE. Edit the attached exact creature reference, changing only its head and face. Preserve the same entire body, four legs and feet, petal tail, cream and mulberry skin with teal inner tissue and yellow speckles, pose, framing and gray background. Replace the circular puckered rosette mouth with a solid firm broad cream-colored plant muzzle. Give it a strong continuous bridge, two small lateral nostrils, and ONE short closed horizontal lower jaw seam. Retain the side petals only as lateral cheeks behind the muzzle; they do not converge on the face center. Keep two small dark eyes set into firm brow sockets, reduce the raised round eyeballs and give calm serious adult eyelids. Healthy intact face with readable closed jaw and solid tissue everywhere. No radial opening, central hole, vertical slit, fleshy folds, lobes, exposed cavity, wound, teeth rosette, horns, human face or cute mascot expression. The head remains a distinct botanical predator, not a real cat or dog. Serious PG-13 medieval RPG game creature, detailed organic materials. Only one complete full-body view, retain the balanced proportions and all original limb separation.",
+      "modelId": "429e6167-4a03-49ea-9dca-7334546bf9f4",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/429e6167-4a03-49ea-9dca-7334546bf9f4",
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "actualTriangles": 5489
     },
     {
       "key": "silverleaf-petalguard-face-r3",
@@ -1097,7 +1104,7 @@
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
       },
-      "prompt": "Pending exact prompt record from completed Tripo card",
+      "prompt": "Silverleaf Petalguard FACE REVISION THREE. Make a strictly face-only edit of the attached full-body botanical sentinel. Preserve every aspect of the grown stem body, asymmetric silver leaves, leaf forearm shield, hands and feet, proportions, detailed burgundy and green growth fibers, pose and gray background. Replace the vertical leaf-bud slit face with a SOLID green woody face. Two separate small amber eyes sit below a continuous silver leaf brow, with a broad solid bridge between them and a short CLOSED horizontal mouth over a clearly shaped firm chin. Retain the silver leaf crown around and behind the head. The face is living wood, with fine growth grain and restrained natural asymmetry, calm mature alert expression. No slit dividing the head, hollow face, masks, radial openings, fleshy folds, genital resemblance, missing tissue, wounds, sci-fi helmet, horns or cute child features. Serious PG-13 medieval fantasy RPG art. Only the head changes; full creature remains otherwise identical to reference.",
       "creatorConcern": "Body gained leaf-armor appearance and more human face; independent reviewer asked to check full style before promotion."
     },
     {
@@ -1127,7 +1134,7 @@
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
       },
-      "prompt": "Pending exact prompt record from completed Tripo card",
+      "prompt": "Elder Grovebeast FACE REVISION THREE. Edit only the head of the attached botanical grazer reference. Preserve its complete plum root-woven body and lavender living tissue, the four balanced root legs, root feelers, original pose, full-body framing, intricate organic surface detail and gray background. Replace the entire round feeding disk with a SOLID blunt bark muzzle. Two small lateral amber eyes with firm calm eyelids sit behind a broad solid brow. The front is continuous weathered plum and ochre wood, ending in a broad CLOSED grinding jaw with one short horizontal mouth line. Give the jaw substantial solid cheeks and chin with fine bark grain. Healthy intact herbivore face that reads clearly at game scale. Keep the short neck and original approximate head size; do not add ears, horns, antlers or dinosaur anatomy. No flower mouth, radial petals on the face, exposed inner mouth, central opening, cavities, fleshy folds, wounds, missing face, exaggerated lips, teeth ring or cute expression. Serious PG-13 fantasy ecosystem creature. Only change the head, retain every other unique botanical body feature from reference.",
       "creatorConcern": "Back gained garden details and pose changed; independent reviewer asked to check full style before promotion."
     },
     {
@@ -1158,7 +1165,7 @@
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
       },
-      "prompt": "Pending exact prompt record from completed Tripo card",
+      "prompt": "Thistledown Veilspirit face correction r3. Edit ONLY the face in the uploaded reference. Keep the exact full-body airborne pose, body proportions, pale rose and lavender colors, thistle crest, every broad functional wing membrane, wing veins, legs, feet, organic surface detail, plain taupe background, framing and lighting unchanged. Replace the entire central pink-fold and vertical dark oval facial opening with a solid continuous pale lavender face. Give it TWO separate narrow almond-shaped eyes set horizontally left and right, an unbroken nose bridge, firm cheek planes and a clearly closed lower face with a small closed mouth. The face is calm, serious and organic. No face cavity, no central slit, no dark oval hole, no petal folds around an opening, no fleshy lobes, no skull, no cute face, no robot or science-fiction mask, no horns. Preserve the head silhouette and thistle crest above the face; do not remove or redesign the wings or body. This is a surgical face-only correction to the same serious fantasy RPG creature.",
       "tabId": "1472601758",
       "blocker": "Tripo requires user confirmation over 18; root asked user, no age assertion made"
     },
@@ -1189,7 +1196,7 @@
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
       },
-      "prompt": "Pending exact prompt record from completed Tripo card",
+      "prompt": "Orchid Reaper face correction r3. Edit ONLY the face in the uploaded reference. Preserve the exact full-body pose, balanced anatomy, burgundy and cream orchid crown and broad side petals, both eyes, shoulders, torso, long curved forearm blades, legs, feet, green fiber joints, all colors and layered surface detail, plain taupe background, framing and lighting unchanged. Replace the ragged open facial cavity beneath the central orchid crown with a completely solid dark aubergine chitin lower face: firm continuous cheek plates and TWO clean closed insect mandibles resting together. The mouth is shut. Keep its serious alert predatory expression and existing small insect eyes. No facial hole, no vertical opening, no central slit, no exposed inner flesh, no fleshy lips or lobes, no teeth-filled cavity, no skull, no cute mascot face, no robot or science-fiction face, no horns. Do not change the orchid crown, side petals, body or blades. This is a precise face-only correction to the same serious fantasy RPG creature.",
       "modelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
       "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/4c599d13-d2e0-4099-93f0-79bf17056049",
       "modelStartedAfterApproval": true,
@@ -1224,7 +1231,7 @@
       "editIntent": "Face-only correction preserving original body and colors",
       "modelStarted": true,
       "downloadReadyStarred": false,
-      "stage": "model_processing",
+      "stage": "8k_texture_generating",
       "review": {
         "verdict": "approved",
         "reviewer": "face_audit_fairy",
@@ -1243,7 +1250,17 @@
       "smartMesh": "P2",
       "topology": "Triangle",
       "retopologyUsed": false,
-      "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks",
+      "prompt": "ROOT TENDER FACE REVISION R3. Edit the supplied exact reference image, changing ONLY the front surface of the head and face. Keep the full body, pose, limb proportions, three-pronged root hands and feet, woven roots, moss, leaves, background, lighting, colors and overall bud-shaped head silhouette exactly as in the reference. Replace the paired plum-colored facial lobes and central vertical slit with one continuous solid ochre seed-shell face. Give the face TWO small inset dark eyes spaced horizontally and one short, firmly CLOSED HORIZONTAL mouth beneath them. The facial surface is hard matte seed shell with subtle natural grain, restrained brow and a small solid lower jaw. The head is intact and fully filled with solid form, with no cavity, missing area, vertical seam or central split. Retain the green bud leaves around the SIDES and BACK of the head; any plum coloration is confined to a small intact crown behind the solid face. Serious mature neutral expression. This is a healthy botanical creature in a serious medieval fantasy RPG, not cute. No paired fleshy lobes, genital-looking folds, radial openings, torn or blown-off face, hollow head, protruding snout, exposed internal tissue, horns, science fiction or armor. Preserve every non-face element from the reference; do not redesign the creature.",
+      "actualTriangles": 4478,
+      "vertices": 2828,
+      "smartUvSaved": true,
+      "textureReferenceVerification": {
+        "actualReferenceId": "cc1bc17b-95db-4999-9ab2-0ca82d849f9d",
+        "approvedSourceId": "4301f329-c580-4ba5-918b-ed4d09ef696d",
+        "method": "Exact approved local PNG upload; Texture reference visually matched",
+        "verified": true
+      }
     },
     {
       "key": "mooncap-sporekin-face-r3",
@@ -1261,7 +1278,7 @@
       "editIntent": "Face-only correction preserving original body and colors",
       "modelStarted": true,
       "downloadReadyStarred": false,
-      "stage": "model_processing",
+      "stage": "8k_texture_generating",
       "review": {
         "verdict": "approved",
         "reviewer": "face_audit_fairy",
@@ -1280,7 +1297,17 @@
       "smartMesh": "P2",
       "topology": "Triangle",
       "retopologyUsed": false,
-      "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks",
+      "prompt": "MOONCAP SPOREKIN FACE REVISION R3. Edit the supplied exact reference image, changing ONLY the face at the front of the head. Preserve its entire body, pose, limbs, hands, feet, proportions, ivory and muted plum colors, speckling, fibrous surface detail, mushroom crown silhouette, background and lighting exactly. Add one solid intact ivory fungal face at the front under the mushroom cap: TWO small deep-set dark eyes placed horizontally, a restrained solid brow, a short firm CLOSED horizontal mouth and a small complete lower jaw. It is a natural mature fungal creature face, not a human mask, helmet, animal snout or cute cartoon. Move the blue-violet mushroom gills strictly ABOVE AND BEHIND the solid face, keeping their cap structure and color. Fill the former central head split completely with solid ivory fungal flesh. There must be no cavity, central cleft, radial opening, exposed inside surface, missing facial region, torn or blown-off head, paired fleshy folds or genital-looking anatomy. Head surface stays healthy dry ivory with subtle purple-gray mottling. Calm serious expression suited to a mature medieval fantasy RPG. No added horns, armor, sci-fi panels, big cute eyes, smile or decorative motifs. Preserve every non-face element from the reference exactly and keep the same full-body framing.",
+      "actualTriangles": 4438,
+      "vertices": 2858,
+      "smartUvSaved": true,
+      "textureReferenceVerification": {
+        "actualReferenceId": "74d01d72-e984-43f7-b8cb-9fab480b7081",
+        "approvedSourceId": "612f264c-74d2-48c4-bbc8-36680dd6127e",
+        "method": "Exact approved local PNG upload; Texture reference visually matched",
+        "verified": true
+      }
     },
     {
       "key": "silverleaf-petalguard-face-r4",
@@ -1295,9 +1322,9 @@
       "sourceImageSha256": "d4270bf84f9b6b2636ca7a43ba0f28ad6cd2830a4b35db77c040148146cc9dde",
       "revisesKey": "silverleaf-petalguard-r2",
       "editIntent": "Face-only correction preserving original body and colors",
-      "modelStarted": false,
+      "modelStarted": true,
       "downloadReadyStarred": false,
-      "stage": "approved_image_ready_for_model",
+      "stage": "model_generating",
       "review": {
         "verdict": "approved",
         "reviewer": "face_audit_fairy",
@@ -1308,7 +1335,15 @@
           "Solid leaf-grain face with amber eyes and closed mouth; correct original woven torso, asymmetric leaves and oval forearm shield restored, no leaf-armor drift."
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
-      }
+      },
+      "prompt": "Silverleaf Petalguard FACE REVISION FOUR. Use the attached original r2 image as the exact canvas. Preserve every pixel of the body below the neck: its continuous woven green stems, asymmetrical sparse silver leaves, one oval forearm leaf shield, original root hands and feet, posture, proportions, colors, lighting and background. Change ONLY the small leaf-bud head. Replace the center slit with a solid ochre-green woody face: two small amber eyes, broad continuous bridge, short closed horizontal mouth and solid chin. Preserve the original outer silver leaf head silhouette. Calm mature nonhuman plant face, subtle growth grain. No human elf, no armor or shoulder pauldrons, no new chest plates, no new hip plates, no new leaves on the body. No facial cavity, vertical slit, radial folds, holes, wounds, science fiction or cute expression. This is a localized face correction, not a redesign. Full body, exactly the original composition.",
+      "modelId": "ef1027d6-fbc4-41a4-843e-b8124986608c",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/ef1027d6-fbc4-41a4-843e-b8124986608c",
+      "modelStartedAfterApproval": true,
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "worker": "botanical_models"
     },
     {
       "key": "elder-grovebeast-face-r4",
@@ -1336,13 +1371,42 @@
           "Face intact and original body restored, but circular wide-open amber eyes with large glossy pupils and rounded short muzzle read as a worried mascot. Reduce eye diameter one-third, heavy relaxed lids, subdued highlights and flatter cheek/jaw."
         ],
         "scope": "Superseding facial correction and overall style/body preservation"
-      }
+      },
+      "prompt": "Elder Grovebeast FACE REVISION FOUR. The attached original r2 image is the exact canvas. Make a localized HEAD edit only, retaining every part below the head unchanged: the smooth plum root-bundle back, lavender rib membranes, four braided root legs, spread root feet, three dangling root feelers, original weight, stance, direction, framing and gray background. Replace only the circular front feeding disk with a small solid blunt bark face of the SAME size. Two small lateral amber eyes sit above a broad closed grinding jaw, one short horizontal mouth seam, firm continuous muzzle with ochre-plum wood grain. Calm serious nonhuman plant grazer. No back garden, no flowers or trees, no leaves added anywhere, no shaggy moss, no ears, no mammal body redesign, no dinosaur head, no horns. No radial mouth, petals around a hole, fleshy folds, cavity, wound, missing face or exposed teeth. Keep original botanical body silhouette and colors exactly; only the head changes."
+    },
+    {
+      "key": "elder-grovebeast-face-r5",
+      "name": "Elder Grovebeast",
+      "replaces": [
+        "Elder Grovebeast"
+      ],
+      "targetTriangles": 6500,
+      "sourceImageId": "71077c91-1aec-4734-babc-c8b2b571e3de",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/71077c91-1aec-4734-babc-c8b2b571e3de/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-elder-grovebeast-face-r5.png",
+      "sourceImageSha256": "7a689a28bd1009faa7788e75bce5ce64e4d21e9cb0a7558e4e75f2fa37d18ea8",
+      "revisesKey": "elder-grovebeast-face-r4",
+      "modelStarted": false,
+      "downloadReadyStarred": false,
+      "stage": "approved_image_ready_for_model",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "71077c91-1aec-4734-babc-c8b2b571e3de",
+        "scope": "Full reference style and face",
+        "reasons": [
+          "Smaller eyes beneath heavy relaxed bark lids remove worried mascot read. Solid muzzle/closed jaw intact, no slit, wound or radial aperture. Original plum root bundle, lavender membranes, feelers, rooted feet and pose preserved."
+        ]
+      },
+      "prompt": "Elder Grovebeast FACE REVISION FIVE. Precisely edit the uploaded image only around the eyes and cheek edge. Keep the entire original body, bark muzzle, closed mouth, root feelers, root legs, plum and lavender colors, pose and framing unchanged. Reduce both eye diameters by one third. Eyes become narrow horizontal ovals under heavy relaxed bark eyelids and a broad firm brow. Small dark irises, tiny subdued natural reflections, no oversized shiny pupils or broad white eye highlights. Flatten the rounded cheek and jaw contour slightly into firm planar bark. Calm serious adult grazer, old and steady, neither worried nor angry. Retain the intact closed face. No smile, snarl, exposed teeth, folds, holes, cute mascot expression or altered body. Do not change anything else in the image."
     }
   ],
   "exportedSourceModels": 10,
   "readyStarredSourceModels": 5,
   "latestArtGate": {
-    "status": "Six face replacements approved; Elder R4 denied mascot expression, R5 small eye/lid correction generating",
+    "status": "All seven face replacements approved; Veil age confirmation pending; six other approved replacements in production or queued",
     "userCorrection": "stop with the genitals as faces or a blown off missing face",
     "required": "Healthy readable intact faces/anatomy; no genital-like snouts, radial fleshy openings, torn or absent faces, or hollow head cavities",
     "supersedesPriorApprovalForFacialConcern": true,

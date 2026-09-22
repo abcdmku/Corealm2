@@ -1,0 +1,1246 @@
+{
+  "checkedAt": "2026-09-22T13:48:47.862508-05:00",
+  "status": "archived-with-skin-quality-holds",
+  "notes": "Original Downloads untouched. Existing source archive hashes reused before creating a new copy. All18 current creature Rig-page exports bind99.50?100% weight mass to one root bone, including quadrupeds and insects; all are on animation hold. Thick Hide binds93.4% to Hips and also requires weight review. No animation acceptance claimed. UI8K selection does not establish8K per-part maps for segmented armor.",
+  "attempts": [
+    {
+      "name": "Thick Hide wizard armor",
+      "modelId": "20da09df-3f2e-415b-aca2-10406106024e",
+      "sourceUrl": "https://studio.tripo3d.ai/workspace/rigging/20da09df-3f2e-415b-aca2-10406106024e",
+      "method": "individual export from freshly loaded rig page",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": true,
+        "filename": "corealm_thick_hide_20da09df_8k_rigged"
+      },
+      "result": "blocked",
+      "evidence": "Server export finished, then Chrome showed tripo-data.rg1.data.tripo3d.com is blocked / ERR_BLOCKED_BY_CLIENT. No new complete download or partial file in Downloads.",
+      "localFile": null,
+      "sha256": null,
+      "verifiedSkins": null,
+      "verifiedImageDimensions": null
+    },
+    {
+      "name": "Grove Brute",
+      "modelId": "07e65df7-8ccb-4a73-872a-54d1229da86c",
+      "sourceUrl": "https://studio.tripo3d.ai/workspace/rigging/07e65df7-8ccb-4a73-872a-54d1229da86c",
+      "method": "individual export from freshly loaded rig page",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": null,
+        "filename": "corealm_grove_brute_07e65df7_8k_rigged"
+      },
+      "result": "blocked",
+      "evidence": "Server export finished, then Chrome showed tripo-data.rg1.data.tripo3d.com is blocked / ERR_BLOCKED_BY_CLIENT. No new complete download or partial file in Downloads.",
+      "localFile": null,
+      "sha256": null,
+      "verifiedSkins": null,
+      "verifiedImageDimensions": null
+    },
+    {
+      "name": "mistweave",
+      "modelId": "57209cfb-970b-40cc-8103-70e99181986f",
+      "method": "individual export, fresh rig page; second attempt after back/reload where count=2",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": false
+      },
+      "attemptCount": 2,
+      "result": "blocked-by-client-no-local-file",
+      "evidence": "Every completed attempt navigated to Chrome ERR_BLOCKED_BY_CLIENT."
+    },
+    {
+      "name": "crownsilver",
+      "modelId": "2c2428b5-e674-47c1-9c14-118d298cc833",
+      "method": "individual export, fresh rig page; second attempt after back/reload where count=2",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": false
+      },
+      "attemptCount": 2,
+      "result": "blocked-by-client-no-local-file",
+      "evidence": "Every completed attempt navigated to Chrome ERR_BLOCKED_BY_CLIENT."
+    },
+    {
+      "name": "crownhide",
+      "modelId": "30c7ea5f-b99f-4402-932e-bbe2df49a888",
+      "method": "individual export, fresh rig page; second attempt after back/reload where count=2",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": false
+      },
+      "attemptCount": 1,
+      "result": "blocked-by-client-no-local-file",
+      "evidence": "Every completed attempt navigated to Chrome ERR_BLOCKED_BY_CLIENT."
+    },
+    {
+      "name": "Cobalt",
+      "modelId": "a9956e9e-0576-47a0-877e-ee5d3a3b2bb5",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": false
+      },
+      "attemptCount": 1,
+      "result": "no-local-file-observed",
+      "evidence": "No cobalt file in Downloads as of ledger update; further armor attempts paused."
+    }
+  ],
+  "successfulExports": [
+    {
+      "modelId": "20da09df-3f2e-415b-aca2-10406106024e",
+      "source": "root-verified UI individual export",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": false
+      },
+      "localFile": "assets/art/tripo/exports/corealm_thick_hide_20da09df_8k_unpacked_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_thick_hide_20da09df_8k_unpacked_rigged.glb",
+      "bytes": 5246708,
+      "sha256": "c3ac619d981b8042e253492072f5c96e97545095ae0c6279bdda78fdd523ef6e",
+      "skins": 1,
+      "jointCounts": [
+        23
+      ],
+      "meshCount": 20,
+      "primitiveCount": 20,
+      "skinnedPrimitiveCount": 20,
+      "imageDimensions": [
+        [
+          32,
+          32
+        ],
+        [
+          64,
+          64
+        ],
+        [
+          128,
+          128
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          1024,
+          1024
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 20,
+        "baseColorTextureCount": 20,
+        "metallicRoughnessTextureCount": 20,
+        "normalTextureCount": 20,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 4962,
+        "jointsWithNonzeroWeight": 15,
+        "blendedVertexFraction": 0.037686,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.934073,
+            "dominantVertexFraction": 0.934704
+          },
+          {
+            "joint": "mixamorig:Spine",
+            "weightFraction": 0.02378,
+            "dominantVertexFraction": 0.020758
+          },
+          {
+            "joint": "mixamorig:Spine1",
+            "weightFraction": 0.02169,
+            "dominantVertexFraction": 0.018944
+          },
+          {
+            "joint": "mixamorig:Neck",
+            "weightFraction": 0.00532,
+            "dominantVertexFraction": 0.005643
+          },
+          {
+            "joint": "mixamorig:LeftUpLeg",
+            "weightFraction": 0.004402,
+            "dominantVertexFraction": 0.004232
+          },
+          {
+            "joint": "mixamorig:RightShoulder",
+            "weightFraction": 0.004301,
+            "dominantVertexFraction": 0.006247
+          }
+        ]
+      },
+      "animationReadiness": "not accepted; contains no animation clips; source weights require review before retargeting"
+    },
+    {
+      "modelId": "07e65df7-8ccb-4a73-872a-54d1229da86c",
+      "source": "root-verified UI individual export",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": true,
+        "packUV": null
+      },
+      "localFile": "assets/art/tripo/exports/corealm_grove_brute_07e65df7_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_grove_brute_07e65df7_8k_rigged.glb",
+      "bytes": 17124112,
+      "sha256": "5244b9a7b9b7dc8f9e5d4da470323c0d417206b94312eb9e7749fc9a3f27d7b0",
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 4150,
+        "jointsWithNonzeroWeight": 4,
+        "blendedVertexFraction": 0.000241,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.999277,
+            "dominantVertexFraction": 0.999277
+          },
+          {
+            "joint": "mixamorig:Spine",
+            "weightFraction": 0.000482,
+            "dominantVertexFraction": 0.000482
+          },
+          {
+            "joint": "mixamorig:RightHandIndex1",
+            "weightFraction": 0.000219,
+            "dominantVertexFraction": 0.000241
+          },
+          {
+            "joint": "mixamorig:RightHandIndex2",
+            "weightFraction": 2.2e-05,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9277% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "b410206c-139f-4849-b493-bec078ea8560",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_cairn_treader_b410206c_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_cairn_treader_b410206c_8k_rigged.glb",
+      "bytes": 18963012,
+      "sha256": "dedd498f309901c1369355d0dd36a3a498b364cc00cf2dd6665c34c5d8856f5c",
+      "skins": 1,
+      "jointCounts": [
+        38
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3112,
+        "jointsWithNonzeroWeight": 8,
+        "blendedVertexFraction": 0.000321,
+        "topJoints": [
+          {
+            "joint": "BoneRoot",
+            "weightFraction": 0.995823,
+            "dominantVertexFraction": 0.995823
+          },
+          {
+            "joint": "R_Forearm",
+            "weightFraction": 0.001607,
+            "dominantVertexFraction": 0.001607
+          },
+          {
+            "joint": "R_Thigh",
+            "weightFraction": 0.000643,
+            "dominantVertexFraction": 0.000643
+          },
+          {
+            "joint": "Spine01",
+            "weightFraction": 0.000643,
+            "dominantVertexFraction": 0.000643
+          },
+          {
+            "joint": "L_Upperarm",
+            "weightFraction": 0.000643,
+            "dominantVertexFraction": 0.000643
+          },
+          {
+            "joint": "L_Thigh",
+            "weightFraction": 0.000321,
+            "dominantVertexFraction": 0.000321
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.5823% source weight mass binds to BoneRoot; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "00725e73-acb0-4633-a8b7-ee04d7c576e9",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_cragbound_keeper_00725e73_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_cragbound_keeper_00725e73_8k_rigged.glb",
+      "bytes": 24125412,
+      "sha256": "3413ffb590eb0a4dcd005035819addc8c2b3aaf5cd25f99a26de458dcc6a93b4",
+      "skins": 1,
+      "jointCounts": [
+        52
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3924,
+        "jointsWithNonzeroWeight": 4,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.99949,
+            "dominantVertexFraction": 0.99949
+          },
+          {
+            "joint": "mixamorig:Spine",
+            "weightFraction": 0.000255,
+            "dominantVertexFraction": 0.000255
+          },
+          {
+            "joint": "mixamorig:RightFoot",
+            "weightFraction": 0.000255,
+            "dominantVertexFraction": 0.000255
+          },
+          {
+            "joint": "mixamorig:RightToeBase",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9490% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+      "bytes": 21448588,
+      "sha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+      "skins": 1,
+      "jointCounts": [
+        14
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3173,
+        "jointsWithNonzeroWeight": 3,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "bone_0",
+            "weightFraction": 0.999685,
+            "dominantVertexFraction": 0.999685
+          },
+          {
+            "joint": "bone_16",
+            "weightFraction": 0.000315,
+            "dominantVertexFraction": 0.000315
+          },
+          {
+            "joint": "bone_17",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9685% source weight mass binds to bone_0; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "3ead9c24-4f01-468d-9742-6995dc817118",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_dewglass_weaver_3ead9c24_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_dewglass_weaver_3ead9c24_8k_rigged.glb",
+      "bytes": 27182612,
+      "sha256": "93c742635c17f766e50c3e5f38ab8c3f303ea820cadc9197ba0601618740de88",
+      "skins": 1,
+      "jointCounts": [
+        18
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3555,
+        "jointsWithNonzeroWeight": 2,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "bone_0",
+            "weightFraction": 1.0,
+            "dominantVertexFraction": 1.0
+          },
+          {
+            "joint": "neutral_bone",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 100.0000% source weight mass binds to bone_0; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "2b3179ac-d360-4e46-83fb-69681850ab0c",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_emberbank_brute_2b3179ac_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_emberbank_brute_2b3179ac_8k_rigged.glb",
+      "bytes": 20161336,
+      "sha256": "3368af107a2b4afcfee27c18f2da9e6a113679123fc7691cdeecd9012d31383b",
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 4331,
+        "jointsWithNonzeroWeight": 2,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.999769,
+            "dominantVertexFraction": 0.999769
+          },
+          {
+            "joint": "mixamorig:RightHand",
+            "weightFraction": 0.000231,
+            "dominantVertexFraction": 0.000231
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9769% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "37458f5d-edc4-443d-97f8-dad5716de47b",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_fallow_brute_37458f5d_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_fallow_brute_37458f5d_8k_rigged.glb",
+      "bytes": 16841356,
+      "sha256": "2adabf7f9db7a767db9e0760389edd191ac74ad1b454a121d94f19b9875b1503",
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 4256,
+        "jointsWithNonzeroWeight": 5,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.99906,
+            "dominantVertexFraction": 0.99906
+          },
+          {
+            "joint": "mixamorig:LeftHandThumb1",
+            "weightFraction": 0.00047,
+            "dominantVertexFraction": 0.00047
+          },
+          {
+            "joint": "mixamorig:Spine1",
+            "weightFraction": 0.000235,
+            "dominantVertexFraction": 0.000235
+          },
+          {
+            "joint": "mixamorig:RightHand",
+            "weightFraction": 0.000235,
+            "dominantVertexFraction": 0.000235
+          },
+          {
+            "joint": "mixamorig:RightHandThumb1",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9060% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+      "bytes": 16766828,
+      "sha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+      "skins": 1,
+      "jointCounts": [
+        8
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 2649,
+        "jointsWithNonzeroWeight": 2,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "bone_0",
+            "weightFraction": 1.0,
+            "dominantVertexFraction": 1.0
+          },
+          {
+            "joint": "neutral_bone",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 100.0000% source weight mass binds to bone_0; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "0a6ea60d-a85d-4484-b634-f0b989dbffb0",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_scree_watcher_0a6ea60d_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_scree_watcher_0a6ea60d_8k_rigged.glb",
+      "bytes": 18017444,
+      "sha256": "c7f736792a6fb937cc200f166c1dcbdef344a3c65a4d639cb2400cac260689c5",
+      "skins": 1,
+      "jointCounts": [
+        41
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3017,
+        "jointsWithNonzeroWeight": 8,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "BoneRoot",
+            "weightFraction": 0.995028,
+            "dominantVertexFraction": 0.995028
+          },
+          {
+            "joint": "L_Upperarm",
+            "weightFraction": 0.001326,
+            "dominantVertexFraction": 0.001326
+          },
+          {
+            "joint": "R_Clavicle",
+            "weightFraction": 0.000994,
+            "dominantVertexFraction": 0.000994
+          },
+          {
+            "joint": "Head",
+            "weightFraction": 0.000663,
+            "dominantVertexFraction": 0.000663
+          },
+          {
+            "joint": "L_Pinky3",
+            "weightFraction": 0.000663,
+            "dominantVertexFraction": 0.000663
+          },
+          {
+            "joint": "R_Forearm",
+            "weightFraction": 0.000663,
+            "dominantVertexFraction": 0.000663
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.5028% source weight mass binds to BoneRoot; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_shalewake_da0d598a_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_shalewake_da0d598a_8k_rigged.glb",
+      "bytes": 17721380,
+      "sha256": "ab8111c81684fe47d41987fabca680c142779130b87cc84a5b022bc690c58dc1",
+      "skins": 1,
+      "jointCounts": [
+        5
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3188,
+        "jointsWithNonzeroWeight": 2,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "bone_0",
+            "weightFraction": 1.0,
+            "dominantVertexFraction": 1.0
+          },
+          {
+            "joint": "neutral_bone",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 100.0000% source weight mass binds to bone_0; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_strata_delver_707c39cd_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_strata_delver_707c39cd_8k_rigged.glb",
+      "bytes": 22553308,
+      "sha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
+      "skins": 1,
+      "jointCounts": [
+        10
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3238,
+        "jointsWithNonzeroWeight": 2,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "bone_0",
+            "weightFraction": 1.0,
+            "dominantVertexFraction": 1.0
+          },
+          {
+            "joint": "neutral_bone",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 100.0000% source weight mass binds to bone_0; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_undercrag_mawer_31201699_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_undercrag_mawer_31201699_8k_rigged.glb",
+      "bytes": 18895004,
+      "sha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 0,
+        "normalTextureCount": 0,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 4198,
+        "jointsWithNonzeroWeight": 3,
+        "blendedVertexFraction": 0.000238,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.999762,
+            "dominantVertexFraction": 0.999762
+          },
+          {
+            "joint": "mixamorig:RightHandIndex1",
+            "weightFraction": 0.000216,
+            "dominantVertexFraction": 0.000238
+          },
+          {
+            "joint": "mixamorig:RightHandIndex2",
+            "weightFraction": 2.3e-05,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9762% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+      "source": "team UI individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+      "bytes": 28704296,
+      "sha256": "6b4817f773e179ca8845ee648be23159fd55efb5f240475e6015d1c2aecb1c5c",
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3290,
+        "jointsWithNonzeroWeight": 2,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.999696,
+            "dominantVertexFraction": 0.999696
+          },
+          {
+            "joint": "mixamorig:RightHandMiddle1",
+            "weightFraction": 0.000304,
+            "dominantVertexFraction": 0.000304
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9696% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "bb588df9-a59e-4c37-8255-4eb5718b3bc6",
+      "source": "team UI Rig-page individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_ashbound_votary_bb588df9_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_ashbound_votary_bb588df9_8k_rigged.glb",
+      "bytes": 30136748,
+      "sha256": "092103afcf086eb19b4c6ea51c7393915b861a54b58df0b54be09d15994446eb",
+      "archiveCopyCreated": true,
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3148,
+        "jointsWithNonzeroWeight": 4,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.999047,
+            "dominantVertexFraction": 0.999047
+          },
+          {
+            "joint": "mixamorig:Neck",
+            "weightFraction": 0.000635,
+            "dominantVertexFraction": 0.000635
+          },
+          {
+            "joint": "mixamorig:RightFoot",
+            "weightFraction": 0.000318,
+            "dominantVertexFraction": 0.000318
+          },
+          {
+            "joint": "mixamorig:RightToeBase",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9047% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "f3b036f0-e5a0-423e-bbce-4cd37cfbd51a",
+      "source": "team UI Rig-page individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_crownward_oathkeeper_f3b036f0_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_crownward_oathkeeper_f3b036f0_8k_rigged.glb",
+      "bytes": 34429788,
+      "sha256": "c3a23753bac5be4d57c5127cc32280e5635a5c3b36fd0641abd7617b3e3be128",
+      "archiveCopyCreated": true,
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3774,
+        "jointsWithNonzeroWeight": 3,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 0.99947,
+            "dominantVertexFraction": 0.99947
+          },
+          {
+            "joint": "mixamorig:LeftHandMiddle3",
+            "weightFraction": 0.00053,
+            "dominantVertexFraction": 0.00053
+          },
+          {
+            "joint": "mixamorig:RightToeBase",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9470% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "97940d41-9ad5-42a0-83f1-ed40797a2c62",
+      "source": "team UI Rig-page individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_revenant_97940d41_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_revenant_97940d41_8k_rigged.glb",
+      "bytes": 26908564,
+      "sha256": "5873f96218a1610a204aa1b19340be0e2ca263c842727c9db44c391aefcf251b",
+      "archiveCopyCreated": true,
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3536,
+        "jointsWithNonzeroWeight": 2,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "mixamorig:Hips",
+            "weightFraction": 1.0,
+            "dominantVertexFraction": 1.0
+          },
+          {
+            "joint": "mixamorig:RightToeBase",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 100.0000% source weight mass binds to mixamorig:Hips; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+      "source": "team UI Rig-page individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+      "bytes": 35001116,
+      "sha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+      "archiveCopyCreated": true,
+      "skins": 1,
+      "jointCounts": [
+        29
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3436,
+        "jointsWithNonzeroWeight": 3,
+        "blendedVertexFraction": 0.0,
+        "topJoints": [
+          {
+            "joint": "bone_0",
+            "weightFraction": 0.999709,
+            "dominantVertexFraction": 0.999709
+          },
+          {
+            "joint": "bone_30",
+            "weightFraction": 0.000291,
+            "dominantVertexFraction": 0.000291
+          },
+          {
+            "joint": "bone_13",
+            "weightFraction": 0.0,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.9709% source weight mass binds to bone_0; root-dominated Rig-page export is not an accepted animated source"
+    },
+    {
+      "modelId": "6fadb584-9372-420c-87b0-b53632c3cbf3",
+      "source": "team UI Rig-page individual export; locally parsed by export agent",
+      "localFile": "assets/art/tripo/exports/corealm_veil_reaper_6fadb584_8k_rigged.glb",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_veil_reaper_6fadb584_8k_rigged.glb",
+      "bytes": 21261276,
+      "sha256": "18a94f874f2a39dde95707c248aa9919474851762bfaa8b75d32552a8b51c0f2",
+      "archiveCopyCreated": true,
+      "skins": 1,
+      "jointCounts": [
+        54
+      ],
+      "meshCount": 1,
+      "primitiveCount": 1,
+      "skinnedPrimitiveCount": 1,
+      "imageDimensions": [
+        [
+          4096,
+          4096
+        ],
+        [
+          8192,
+          8192
+        ]
+      ],
+      "animations": 0,
+      "materialEvidence": {
+        "materialCount": 1,
+        "baseColorTextureCount": 1,
+        "metallicRoughnessTextureCount": 1,
+        "normalTextureCount": 1,
+        "emissiveTextureCount": 0
+      },
+      "weightEvidence": {
+        "weightedVertices": 3470,
+        "jointsWithNonzeroWeight": 5,
+        "blendedVertexFraction": 0.000288,
+        "topJoints": [
+          {
+            "joint": "BoneRoot",
+            "weightFraction": 0.998847,
+            "dominantVertexFraction": 0.998847
+          },
+          {
+            "joint": "Spine01",
+            "weightFraction": 0.000576,
+            "dominantVertexFraction": 0.000576
+          },
+          {
+            "joint": "L_Clavicle",
+            "weightFraction": 0.000288,
+            "dominantVertexFraction": 0.000288
+          },
+          {
+            "joint": "R_Mid2",
+            "weightFraction": 0.000285,
+            "dominantVertexFraction": 0.000288
+          },
+          {
+            "joint": "R_Mid3",
+            "weightFraction": 3e-06,
+            "dominantVertexFraction": 0.0
+          }
+        ]
+      },
+      "animationReadiness": "HOLD: 99.8847% source weight mass binds to BoneRoot; root-dominated Rig-page export is not an accepted animated source"
+    }
+  ],
+  "staticBasisAttempts": [
+    {
+      "modelId": "37458f5d-edc4-443d-97f8-dad5716de47b",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_fallow_brute_37458f5d_8k_static.glb",
+      "bytes": 16841356,
+      "sha256": "304d579851c079cb97c8a04253e81db3675a491ca0df20a6b605eced4d0377e4",
+      "sourcePage": "https://studio.tripo3d.ai/workspace/texture/37458f5d-edc4-443d-97f8-dad5716de47b",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": false
+      },
+      "observedSkins": 1,
+      "observedJointCounts": [
+        54
+      ],
+      "positionHash": "520467a7f23e0c50f0251668f43ead19144c684bab75587ff9bd3f78495a42ff",
+      "basisResult": "Not a static basis reference: exported position payload is identical to the existing rigged master despite UI Export Skeleton OFF. Skin and JOINTS/WEIGHTS remain.",
+      "archiveCopyCreated": false
+    },
+    {
+      "modelId": "0f74b416-840b-419a-8f5d-c4cfc0a80a02",
+      "downloadsFile": "C:/Users/Borg/Downloads/corealm_heath_knucker_0f74b416_8k_static.glb",
+      "bytes": 19076528,
+      "sha256": "65335ea7c3376a300132416a52692fa40e92e23d8a1da19d5c6c7d58daa8070d",
+      "sourcePage": "https://studio.tripo3d.ai/workspace/texture/0f74b416-840b-419a-8f5d-c4cfc0a80a02",
+      "settings": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": false
+      },
+      "observedSkins": 1,
+      "observedJointCounts": [
+        54
+      ],
+      "positionHash": "8dabfac16077e96d7068cde58de5769b50a88c449feb785650e6ddb2ec5c84af",
+      "basisResult": "Not a static basis reference: exported position payload is identical to the existing rigged master despite UI Export Skeleton OFF. Skin and JOINTS/WEIGHTS remain.",
+      "archiveCopyCreated": false
+    },
+    {
+      "modelId": "0900292c-ef73-40f9-864d-1f289df395f5",
+      "name": "Bramble Tiller",
+      "result": "no-export-controls",
+      "evidence": "Fresh Texture page and one observed Model-link navigation both showed Ready For A New 3D Model and no viewer or Export. No generation or source alteration attempted."
+    }
+  ]
+}

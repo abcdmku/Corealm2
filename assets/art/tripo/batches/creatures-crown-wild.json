@@ -136,7 +136,7 @@
       "actualTriangles": 5161,
       "modelId": "8f777c2c-433a-4aec-9291-7ad12f7c04ee",
       "modelOwner": "creatures_crown_wild",
-      "stage": "uv-saved",
+      "stage": "pbr-generating",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
@@ -227,7 +227,10 @@
       ],
       "variantStatus": "not-generated",
       "smartUv": "saved",
-      "uvUtilization": 67.9
+      "uvUtilization": 67.9,
+      "textureStatus": "8k-completed",
+      "removeLighting": true,
+      "pbrStatus": "generating"
     },
     {
       "id": "pallid-shade",
@@ -268,7 +271,7 @@
       "actualTriangles": 5090,
       "modelId": "a0260cc5-d2e2-4432-8f09-ac51c1ede02f",
       "modelOwner": "creatures_crown_wild",
-      "stage": "smart-uv-generating",
+      "stage": "pbr-generating",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
@@ -341,7 +344,11 @@
         "Wraith"
       ],
       "variantStatus": "not-generated",
-      "smartUv": "generating"
+      "smartUv": "saved",
+      "uvUtilization": 69.4,
+      "textureStatus": "8k-completed",
+      "removeLighting": true,
+      "pbrStatus": "generating"
     },
     {
       "id": "grave-lantern",
@@ -382,7 +389,7 @@
       "actualTriangles": 5032,
       "modelId": "0e0f3db5-28ee-4b67-9fda-c3eaf7612d2a",
       "modelOwner": "creatures_crown_wild",
-      "stage": "rig-generating",
+      "stage": "exported-source-rig-validation-held",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
@@ -458,8 +465,18 @@
       "textureStatus": "8k-completed",
       "removeLighting": true,
       "pbrStatus": "completed",
-      "rigStatus": "generating",
-      "rigType": "Other"
+      "rigStatus": "completed",
+      "rigType": "Other",
+      "rigValidation": "unusable-current-export-or-pending-repair",
+      "rigNeedsRepair": true,
+      "export": {
+        "format": "GLB",
+        "textureResolution": 8192,
+        "exportSkeleton": true,
+        "path": "C:/Users/Borg/Downloads/corealm_grave_lantern_0e0f3db5_8k_rigged.glb",
+        "bytes": 29478360,
+        "role": "source-archive-pending-rig-repair"
+      }
     },
     {
       "id": "banshee",
@@ -674,7 +691,7 @@
       "actualTriangles": 6619,
       "modelId": "7b89144e-17a9-4a6f-9b66-0b60d2891553",
       "modelOwner": "creatures_crown_wild",
-      "stage": "8k-texture-generating",
+      "stage": "source-export-submitted",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
@@ -748,8 +765,11 @@
       "promotionAllowed": true,
       "smartUv": "saved",
       "uvUtilization": 73.6,
-      "textureStatus": "8k-generating",
-      "removeLighting": true
+      "textureStatus": "8k-completed",
+      "removeLighting": true,
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Humanoid Mixamo"
     },
     {
       "id": "voidstone-colossus",
@@ -790,7 +810,7 @@
       "actualTriangles": 6861,
       "modelId": "625fda6a-9671-41e4-9982-f8b4ed06a60e",
       "modelOwner": "wild_model_finish",
-      "stage": "8k-texture-generating",
+      "stage": "source-export-submitted",
       "pbr": true,
       "downloadReadyStarred": false,
       "productionStatus": "not-integrated",
@@ -857,8 +877,11 @@
       "promotionAllowed": true,
       "smartUv": "saved",
       "uvUtilization": 74.0,
-      "textureStatus": "8k-generating",
-      "removeLighting": true
+      "textureStatus": "8k-completed",
+      "removeLighting": true,
+      "pbrStatus": "completed",
+      "rigStatus": "completed",
+      "rigType": "Humanoid Mixamo"
     },
     {
       "id": "red-dragon",
@@ -983,6 +1006,64 @@
           "Actual source PNG passes intact coherent face requirement."
         ]
       }
+    },
+    {
+      "id": "silverthorn-harrow",
+      "contentId": "silverthorn_harrow_t40",
+      "regionId": "crownward",
+      "tier": 40,
+      "level": 44,
+      "sourceImageId": "1dde96f3-6e0c-43da-837e-c62e62588b36",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/1dde96f3-6e0c-43da-837e-c62e62588b36/image.png",
+      "file": "refs/crown-wild-silverthorn-harrow.png",
+      "sha256": "b2a0ef15ab06b83cb4ecb4766fa9653ea411783762c110ec688b37aec73e2e9b",
+      "referenceReview": "approved",
+      "review": {
+        "reviewer": "face_audit_crown",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "1dde96f3-6e0c-43da-837e-c62e62588b36",
+        "verdict": "approved",
+        "scope": "full-style-and-face",
+        "reasons": [
+          "Complete mature wooden face with balanced substantial root-walker anatomy and stable broad feet.",
+          "Layered silver bark, grain and moss; healthy green foliage and distinct asymmetric bough.",
+          "Serious dignified Crownward fit; no hollow, genital-like or mechanical face, excessive bulk or skeletal thinness."
+        ]
+      },
+      "facialReview": {
+        "reviewer": "face_audit_crown",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "1dde96f3-6e0c-43da-837e-c62e62588b36",
+        "verdict": "approved",
+        "scope": "full-style-and-face",
+        "reasons": [
+          "Complete mature wooden face with balanced substantial root-walker anatomy and stable broad feet.",
+          "Layered silver bark, grain and moss; healthy green foliage and distinct asymmetric bough.",
+          "Serious dignified Crownward fit; no hollow, genital-like or mechanical face, excessive bulk or skeletal thinness."
+        ],
+        "status": "approved"
+      },
+      "generator": "GPT Image 2.5",
+      "targetTriangles": 5000,
+      "actualTriangles": 4244,
+      "modelId": "bbc46530-fde8-47ec-94f9-03916264971a",
+      "modelOwner": "silverthorn_base",
+      "stage": "8k-texture-generating",
+      "pbr": true,
+      "downloadReadyStarred": false,
+      "productionStatus": "not-integrated",
+      "prompt": "Silverthorn Harrow, a distinct living royal woodland defender from Crownward in a serious medieval fantasy RPG. One full body biped tree creature, three-quarter front view, neutral relaxed A stance, plain warm gray background, all limbs visible with clear gaps for rigging. Mature tier 40 woodland patrol creature, about twice human height with balanced medium proportions, neither massive and squat nor skeletal or spindly. Its silhouette is a gently bowed solid birch trunk torso above two substantial bent root legs ending in short spreading root feet. Two jointed branch arms end in compact heavy four-pronged root hands. A distinct compact head grows naturally from the upper trunk, with a complete solid living wood face: two small amber eyes beneath firm bark brows, clearly formed broad wooden nose, continuous firm cheek planes and jaw, one quiet closed horizontal mouth. Wise vigilant neutral expression, serious adult, intact healthy face clearly readable. Cream and silver-gray birch bark with fine charcoal lenticels, warm pale sapwood seams, olive and deep green moss in shallow bark furrows, scattered fresh green leaves and a few white blossom buds along the shoulders and upper back. One low swept leafy bough across its upper back creates a recognizable asymmetrical silhouette; head is uncovered and has no antlers or horns. Modest short thorn knobs only at outer forearms for territorial defense. Living healthy wood, subtle pearly bark sheen, layered natural color and fine surface detail. Grounded fantasy design with the material clarity and restrained proportions of classic Knight Online and RuneScape creatures. Full body 3D game character reference, clean readable anatomy, soft even lighting, no ground base, no scene, no text, no weapons, no clothing. No hollow face, empty eye sockets, holes, missing jaw, gaping mouth, skull, dead branches, rot, corpse, skeleton, cute mascot features, oversized eyes, armor plates, mechanical joints, glowing circuits or science fiction.",
+      "contentBasis": [
+        "game/src/content/fairyCrownCreatures.ts",
+        "docs/game/creatures/silverthorn_harrow_t40.md"
+      ],
+      "promotionAllowed": true,
+      "smartUv": "saved",
+      "uvUtilization": 73.6,
+      "textureStatus": "8k-generating",
+      "removeLighting": true
     }
   ],
   "recoveryNote": "Ledger rebuilt from verified source IDs, hashes, Astra verdict messages and worker stage messages after an ENOSPC write truncated the prior untracked JSON. Exported source files were unaffected.",

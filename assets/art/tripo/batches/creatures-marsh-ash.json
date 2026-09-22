@@ -107,7 +107,9 @@
               "Continuous broad wedge face, closed firm jaw and lateral amber eyes remove split facial folds. Four wading supports and wide feet remain balanced fantasy anatomy. Mature neutral expression and layered olive/ochre/cream skin; no genital cavity, missing facial mass, dinosaur posture or science fiction."
             ]
           },
-          "status": "approved-source-awaiting-mesh"
+          "status": "mesh-created-preview-loading-blocked",
+          "modelId": "14c1361d-0ffc-4bf1-bf08-cd144937bdb7",
+          "browserTabId": "1472601700"
         }
       ]
     },
@@ -213,7 +215,7 @@
           "sourcePath": "assets/art/tripo/references/marsh-ash-fen-crawler-v4.png",
           "generator": "Tripo GPT Image 2.5",
           "generationMethod": "Positive face-only prompt with exact v3 PNG attached",
-          "modelId": null,
+          "modelId": "ab5c4ee8-808c-4c28-8842-6eabffebfb7f",
           "starred": false,
           "trianglesTarget": 5000,
           "prompt": "Mirelatch face revision four. Preserve the exact full body, layered natural marsh coloring, pose and background of this reference. Refine only the small intact head beneath the front mantle. Give it narrow lateral almond-shaped eyes with restrained mature brows, flat firm angular cheeks, and two short HARD angular insect mandibles meeting at one clean closed horizontal seam. The front of the head is compact solid patterned chitin, the eyes small and recessed, and its expression calm and serious. Keep the whole six-legged mantle creature otherwise identical. Mature medieval fantasy RPG art with grounded proportions and intricate layered surface detail.",
@@ -237,7 +239,9 @@
               "Smaller shadowed lateral eyes and firmer angular facial plates remove baby-turtle expression. Intact compact head and closed hard mouth, no genital lobes, cavity or missing mass. Six-limbed mantle with breathing folds, layered olive/ochre/slate material and balanced supports pass."
             ]
           },
-          "status": "approved-source-awaiting-mesh"
+          "status": "smart-uv-in-progress",
+          "browserTabId": "1472601648",
+          "trianglesActual": 5502
         }
       ]
     },
@@ -391,7 +395,7 @@
           "sourcePath": "assets/art/tripo/references/marsh-ash-slag-crawler-v3.png",
           "generator": "Tripo GPT Image 2.5",
           "generationMethod": "Image prompt with exact v2 PNG reference attached",
-          "status": "8k-texture-in-progress",
+          "status": "pbr-in-progress",
           "modelId": "61822a59-0ed6-4485-9032-988a4da00369",
           "starred": false,
           "prompt": "Cinder Latcher FACE REVISION THREE. Change only the front face of the exact attached fantasy creature. Preserve the entire porous iron-red and terracotta mineral shell, all four radial gripping limbs, broad pads, charcoal joint folds, glossy black patches, silhouette, pose and gray background. Replace the entire central oval aperture and its three pale soft lobes with one solid continuous rounded mineral face. Three modest dark eyes are set into shallow small sockets across its upper front. Below them is one short CLOSED transverse jaw seam with hard blunt jaw edges. Fill every formerly open area with firm intact rust-colored mineral tissue so the entire face has solid volume. Serious calm living mineral scavenger, natural stone grain continuing through the face, no separate mask or armor. No fleshy lips, hanging lobes, central vertical split, radial opening, cavity, exposed inside flesh, missing face, horns, machinery, humanoid helmet or cute expression. Keep every non-face detail and the full-body framing unchanged.",
@@ -424,6 +428,9 @@
           "texture": {
             "resolution": "8K",
             "removeLighting": true,
+            "status": "complete"
+          },
+          "pbr": {
             "status": "in-progress"
           }
         }
@@ -517,7 +524,7 @@
           "sourcePath": "assets/art/tripo/references/marsh-ash-kiln-marrow-v3.png",
           "generator": "Tripo GPT Image 2.5",
           "generationMethod": "Image prompt with exact v2 PNG reference attached",
-          "status": "mesh-in-progress",
+          "status": "mesh-created-preview-loading-blocked",
           "modelId": "beb307c7-cb3b-4a71-be1f-9f5a20023530",
           "starred": false,
           "prompt": "Kilnback FACE REVISION THREE. Edit only the front facial anatomy of this exact reference image. Preserve its entire healthy six-legged body, broad pads, balanced mass, dorsal heat vents, ivory sienna ceramic skin, subtle amber glow, pose, framing and gray background. Remove all three pendant fleshy feeding lobes completely. Replace that front region with an intact blunt solid mineral muzzle grown continuously from the body, two small lateral dark eyes set in modest brow hollows and one narrow CLOSED horizontal mouth with a firm lower jaw. The muzzle is broad and short with no projecting beak or reptile snout. Continuous unbroken dry mineral skin covers face and throat. No hanging lip folds, paired bulbs, central split, radial aperture, exposed cavity, face hole, missing face, horns, spikes, human mask, robot panels or cute expression. Serious neutral ashland grazer, natural layered material. Change no non-face part of this image.",
@@ -542,7 +549,7 @@
             ]
           },
           "trianglesTarget": 5000,
-          "browserTabId": "1472601764"
+          "browserTabId": "1472601846"
         }
       ]
     },
@@ -667,6 +674,42 @@
           "Intact living readable humanoid face."
         ]
       }
+    },
+    {
+      "key": "lava-fire-golem",
+      "name": "Basalt Kindler",
+      "gameIds": [
+        "lava_golem_t10",
+        "fire_golem_t20"
+      ],
+      "sourceImageId": "c174ba7c-dc3f-4159-b9d0-d9c1dcdf953f",
+      "sourcePath": "assets/art/tripo/references/marsh-ash-lava-fire-golem.png",
+      "trianglesTarget": 5000,
+      "modelId": null,
+      "starred": false,
+      "status": "denied-style-no-model",
+      "review": {
+        "status": "denied",
+        "reviewer": "face_audit_marsh",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "c174ba7c-dc3f-4159-b9d0-d9c1dcdf953f",
+        "reasons": [
+          "Facial integrity passes. Body is superhero/bodybuilder-shaped with giant deltoids, sculpted pecs/abs and narrow waist. Actual source is a labeled multi-view concept sheet with scenery and detail panels. Revise moderate working build, irregular continuous basalt/clay masses and single isolated full-body view."
+        ]
+      },
+      "revisions": [
+        {
+          "revision": 2,
+          "sourceImageId": "440257e4-b240-4c56-9ff2-30bde35d1c1c",
+          "sourcePath": "assets/art/tripo/references/marsh-ash-lava-fire-golem-v2.png",
+          "generator": "Tripo GPT Image 2.5",
+          "status": "source-awaiting-independent-audit",
+          "modelId": null,
+          "starred": false,
+          "trianglesTarget": 5000
+        }
+      ]
     }
   ],
   "facialReviewGate": "Exact source must pass fresh independent Astra low full style and facial integrity review before model promotion. Preserve denied history; no genital-like folds, facial cavities or missing mass."

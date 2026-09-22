@@ -471,13 +471,15 @@
         "reason": "Intact closed seed-pod head, lateral eyes, dry horizontal mouth; radial flesh and cavity eliminated. Body preserved."
       },
       "model": {
-        "status": "8K texture UI at 99 percent; completion pending service recovery",
+        "status": "Humanoid Mixamo rig generating",
         "targetTriangles": 5000,
         "id": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
         "actualTriangles": 5350,
         "verifiedSourceImageId": "7e19b68e-3ecb-4d34-a6b8-c1dfb7db8384",
         "smartUv": "completed and saved",
-        "texture": "8K generating"
+        "texture": "8K completed",
+        "pbr": "completed for waxy plant skin",
+        "rig": "Humanoid Mixamo generating"
       },
       "faceReview": {
         "status": "approved",
@@ -517,6 +519,73 @@
         "reviewer": "face_audit_field_stone (gpt-6-astra low)",
         "sourceImageId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d",
         "reason": "Continuous end-grain face, modest amber eyes and closed mouth eliminate hollow oval/bud concern. Body preserved."
+      }
+    },
+    {
+      "id": "field-rootcrown-elder",
+      "name": "Rootcrown Elder",
+      "replaces": [
+        "Rootbound Colossus"
+      ],
+      "definitionIds": [
+        "boss_rootheart_t5",
+        "rootheart"
+      ],
+      "sourceId": "2b1f73fc-fac4-4721-8d94-c8ef57cca8ad",
+      "sourceImageId": "2b1f73fc-fac4-4721-8d94-c8ef57cca8ad",
+      "image": "assets/art/tripo/references/field-rootcrown-elder.png",
+      "prompt": "FIELD12 ROOTCROWN ELDER. Original Rootbound Colossus boss species for Vellenwood, a thriving temperate woodland in a serious PG-13 medieval RPG. A mature living botanical guardian with a memorable SIX-LIMBED silhouette: FOUR sturdy articulated buttress-root walking legs hold up a compact horizontal root-trunk abdomen, and TWO proportionate capable branch arms extend from a short upright forebody, hands empty and separated. Broad weight-bearing root feet, moderate strong limb thickness, flexible greenwood joints. Balanced imposing proportions, not a blocky tank or thin sticks. The upright forebody has continuous living twisted wood anatomy, not a human wearing bark armor. Its head is a SOLID broad rounded heartwood mass with two small separate dark amber eyes under firm natural brows, intact cheeks, a short CLOSED horizontal jaw seam and complete chin; no human nose or mask. Calm mature ancient presence. Warm chestnut heartwood, honey exposed grain, olive living cambium in joint folds, restrained pale lichen mottling, old healed growth scars and a few fresh leaf shoots in shoulder seams. Functional overlapping root flanges brace the chest; every form has a growth and movement purpose. Clear simple major shapes with layered intricate surface color, readable like a classic Knight Online or RuneScape boss. No horns, antlers, tree crown on head, crystals, glowing cracks, skulls, hollow face, cavity, exposed flesh, radial mouth, dinosaur neck, animal body with decoration, cute eyes, oversized fists or scifi armor. Full body front three-quarter pose, all SIX limbs visibly separated, neutral gray background, soft even material lighting, no base, environment, text or weapon.",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "2b1f73fc-fac4-4721-8d94-c8ef57cca8ad",
+        "reason": "Mature intact wooden face; four support legs plus two arms; distinct botanical centaur-like anatomy, layered healthy wood and lichen.",
+        "scope": "overall design and face; runtime acceptance separate"
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "2b1f73fc-fac4-4721-8d94-c8ef57cca8ad",
+        "reason": "Mature intact wooden face; four support legs plus two arms; distinct botanical centaur-like anatomy, layered healthy wood and lichen.",
+        "scope": "overall design and face; runtime acceptance separate"
+      },
+      "model": {
+        "targetTriangles": 6500,
+        "status": "approved source; mesh pending",
+        "extractionRequirement": "Exclude scenic ground and background from creature mesh"
+      }
+    },
+    {
+      "id": "field-mossmantle-sentinel",
+      "name": "Mossmantle Sentinel",
+      "replaces": [
+        "Mossback Sentinel"
+      ],
+      "definitionIds": [
+        "mossback_sentinel_t10"
+      ],
+      "sourceId": "5cecc616-89f9-45cc-891e-bc2d413ade48",
+      "sourceImageId": "5cecc616-89f9-45cc-891e-bc2d413ade48",
+      "image": "assets/art/tripo/references/field-mossmantle-sentinel.png",
+      "prompt": "FIELD13 MOSSMANTLE SENTINEL. Original high-level forest guardian species of thriving Vellenwood for a serious PG-13 medieval fantasy RPG. A mature symbiotic woodland invertebrate with SIX limbs: FOUR well-separated sturdy walking legs beneath a raised oval abdomen, plus TWO forward articulated grasping arms held off the ground, with three short hard finger digits each. Its adult silhouette is taller than wide with balanced substantial weight, moderate limb thickness and visible flexible joints, never a fat beetle or thin insect. The abdomen grows three broad overlapping organic back folds like firm living cartilage, smooth rounded edges, no manufactured armor. Deep olive and warm umber living hide blends into slate-blue fibrous mantle tissue; fine branching cream growth lines, ochre worn edges and irregular velvety green moss symbiosis grow WITHIN the surface, not piled as decorations. Upper chest rises into a short broad intact chitin head between the front limbs, two small lateral dark eyes under calm firm brows, solid continuous face and a pair of SHORT hard mandibles meeting together at a CLOSED horizontal mouth. Clear complete cheeks and chin, no central opening or soft folds. Neither human face nor animal snout. Quiet alert territorial keeper of ancient damp forest paths, healthy imposing adult presence. Rich layered natural material detail and a deliberate readable classic Knight Online / RuneScape monster design. No horns, antlers, mushrooms on back, tree garden, spikes, glowing eyes, real turtle or dinosaur anatomy, bug wearing armor, exposed wounds, skulls, hollow face, radial mouth, genital-like parts, giant cute eyes, smile, robot panels or scifi. Full body three-quarter view showing all SIX limbs separated and complete for rigging, neutral light gray backdrop, soft even studio illumination, no pedestal, props or text.",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "5cecc616-89f9-45cc-891e-bc2d413ade48",
+        "reason": "Intact closed chitin face, restrained eyes, four weight-bearing legs plus two arms; supported domed mantle reads as fantasy symbiotic organism.",
+        "scope": "overall design and face; runtime acceptance separate"
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "5cecc616-89f9-45cc-891e-bc2d413ade48",
+        "reason": "Intact closed chitin face, restrained eyes, four weight-bearing legs plus two arms; supported domed mantle reads as fantasy symbiotic organism.",
+        "scope": "overall design and face; runtime acceptance separate"
+      },
+      "model": {
+        "targetTriangles": 6500,
+        "status": "approved source; mesh pending",
+        "extractionRequirement": "Exclude scenic ground and background from creature mesh"
       }
     }
   ],
