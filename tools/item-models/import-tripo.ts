@@ -24,7 +24,7 @@ interface AssignedPart extends PartSelection {
   matrix?: number[];
   vertexTransforms?: VertexTransform[];
   rigidBone?: string;
-  deform?: "skirt" | "native-hand";
+  deform?: "skirt" | "native-hand" | "sleeved-body";
 }
 interface OmittedPart extends PartSelection { omitReason: string }
 export interface TripoArmorConfig {
@@ -207,9 +207,10 @@ function assignments(document: Document, config: TripoArmorConfig): Assignment[]
     if (omitted ? !part.omitReason?.trim() || "slot" in part : !slots.includes(part.slot)) throw new Error(`part ${row}: use one slot or an explicit omission reason`);
     if (!omitted) {
       if (part.rigidBone !== undefined && (typeof part.rigidBone !== "string" || !part.rigidBone.trim())) throw new Error(`part ${row}: invalid rigidBone`);
-      if (part.deform !== undefined && !["skirt", "native-hand"].includes(part.deform)) throw new Error(`part ${row}: invalid deformation hint`);
+      if (part.deform !== undefined && !["skirt", "native-hand", "sleeved-body"].includes(part.deform)) throw new Error(`part ${row}: invalid deformation hint`);
       if (part.rigidBone && part.deform) throw new Error(`part ${row}: rigidBone and deform cannot be combined`);
       if (part.deform === "native-hand" && part.slot !== "hands") throw new Error(`part ${row}: native-hand requires hands slot`);
+      if (part.deform === "sleeved-body" && part.slot !== "body") throw new Error(`part ${row}: sleeved-body requires body slot`);
       if (config.sourceSkin && part.vertexTransforms?.length) throw new Error(`part ${row}: sourceSkin and vertexTransforms cannot be combined`);
       matrix(part.matrix, `part ${row}`);
     }

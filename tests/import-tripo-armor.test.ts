@@ -47,6 +47,19 @@ function weightedSourceAndConfig() {
 }
 
 describe("Tripo armor import", () => {
+  it("keeps hanging bell-sleeve vertices on the arm instead of pinning them to the waist", async () => {
+    const { document, config } = sourceAndConfig();
+    const part = config.parts[1]!;
+    if (!("slot" in part)) throw new Error("Expected body assignment");
+    part.deform = "sleeved-body";
+    const body = (await buildTripoArmor(document, config)).find(row => row.slot === "body")!.document;
+    const mesh = body.getRoot().listNodes().find(node => node.getMesh())!;
+    const primitive = mesh.getMesh()!.listPrimitives()[0]!;
+    const indices = primitive.getAttribute("JOINTS_0")!.getElement(1, []);
+    const weights = primitive.getAttribute("WEIGHTS_0")!.getElement(1, []);
+    const joints = mesh.getSkin()!.listJoints();
+    expect(weights.reduce((sum, weight, i) => sum + (/arm_l/.test(joints[indices[i]!]!.getName()) ? weight : 0), 0)).toBeGreaterThan(.99);
+  });
   it("bakes source/global/vertex/part transforms before native skinning while retaining UV and PBR data", async () => {
     const { document, config, texture } = sourceAndConfig();
     config.parts[1] = { node: 1, slot: "body", matrix: new Matrix4().makeTranslation(0, 0, .05).elements,

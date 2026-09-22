@@ -83467,6 +83467,185 @@
         "itemId": "grithe_boots",
         "wearable": true
       }
+    },
+    {
+      "id": "corealm_item_marchhide_hood",
+      "file": "models/items/marchhide_hood.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "marchhide_hood",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3639276,
+      "size": {
+        "x": 0.44633784890174866,
+        "y": 0.3405078649520874,
+        "z": 0.4636230915784836
+      },
+      "base": {
+        "x": -0.22196045517921448,
+        "y": 1.7385936975479126,
+        "z": -0.24789546430110931
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "marchhide_hood",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_marchhide_robe",
+      "file": "models/items/marchhide_robe.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "marchhide_robe",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3656008,
+      "size": {
+        "x": 1.4813153743743896,
+        "y": 0.7582813501358032,
+        "z": 0.3388671875
+      },
+      "base": {
+        "x": -0.7406575679779053,
+        "y": 0.7825391292572021,
+        "z": -0.20150871574878693
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "marchhide_robe",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.95,
+            "maxY": 1.52
+          }
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_marchhide_wraps",
+      "file": "models/items/marchhide_wraps.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "marchhide_wraps",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3640536,
+      "size": {
+        "x": 1.7178675532341003,
+        "y": 0.1287367343902588,
+        "z": 0.1618645277339965
+      },
+      "base": {
+        "x": -0.8589339852333069,
+        "y": 1.3959097862243652,
+        "z": -0.16488687694072723
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "marchhide_wraps",
+        "wearable": true
+      }
+    },
+    {
+      "id": "corealm_item_marchhide_leggings",
+      "file": "models/items/marchhide_leggings.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "marchhide_leggings",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3641540,
+      "size": {
+        "x": 0.7186513245105743,
+        "y": 0.7672654241323471,
+        "z": 0.3962399587035179
+      },
+      "base": {
+        "x": -0.35570022463798523,
+        "y": 0.23269541561603546,
+        "z": -0.27572718262672424
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "marchhide_leggings",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.25,
+            "maxY": 1.02
+          }
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_marchhide_boots",
+      "file": "models/items/marchhide_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "marchhide_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3649836,
+      "size": {
+        "x": 0.4016161113977432,
+        "y": 0.29648416310548775,
+        "z": 0.26718756556510925
+      },
+      "base": {
+        "x": -0.20080800354480743,
+        "y": -2.0563602376455492e-8,
+        "z": -0.17278705537319183
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "marchhide_boots",
+        "wearable": true
+      }
     }
   ]
 }

@@ -94,7 +94,7 @@ export async function attachItemSkin(document: Document, itemId: string): Promis
     const upperLower = blend(rigid(`upperarm_${side}`), rigid(`lowerarm_${side}`), smooth(elbow - 0.055, elbow + 0.055, x));
     return blend(upperLower, rigid(`hand_${side}`), smooth(wrist - 0.045, wrist + 0.025, x));
   }
-  function weightsAt(x: number, y: number): Weights {
+  function weightsAt(x: number, y: number, hangingSleeves = false): Weights {
     const side = x >= 0 ? "l" : "r", lateral = Math.abs(x);
     if (slot === "head") return rigid("Head");
     if (slot === "feet") {
@@ -109,7 +109,7 @@ export async function attachItemSkin(document: Document, itemId: string): Promis
     }
     const shoulder = Math.abs(coordinate(`upperarm_${side}`, 0));
     // Sleeve vertices enter only their own arm chain. Wide low hems stay on the spine/pelvis.
-    const sleeve = smooth(shoulder - 0.035, shoulder + 0.075, lateral) * smooth(1.25, 1.39, y);
+    const sleeve = smooth(shoulder - 0.035, shoulder + 0.075, lateral) * (hangingSleeves ? 1 : smooth(1.25, 1.39, y));
     return blend(torso(y), arm(lateral, side), sleeve);
   }
 
@@ -159,6 +159,9 @@ export async function attachItemSkin(document: Document, itemId: string): Promis
     const rigidBone = node.getExtras()["itemModelBone"];
     const isSkirt = node.getExtras()["itemModelDeform"] === "skirt";
     const isNativeHand = node.getExtras()["itemModelDeform"] === "native-hand";
+    // Authored upper-body selections can include bell sleeves below the elbow. Their low
+    // vertices still belong to the arm; the robe skirt must be a separate selection.
+    const hangingSleeves = node.getExtras()["itemModelDeform"] === "sleeved-body";
     if (rigidBone !== undefined && (typeof rigidBone !== "string" || !indices.has(rigidBone))) throw new Error(`${itemId}: invalid rigid plate bone ${rigidBone}`);
     for (const primitive of node.getMesh()!.listPrimitives()) {
       const position = primitive.getAttribute("POSITION");
@@ -173,7 +176,7 @@ export async function attachItemSkin(document: Document, itemId: string): Promis
       for (let vertex = 0; vertex < position.getCount(); vertex++) {
         position.getElement(vertex, point);
         if (!point.every(Number.isFinite)) throw new Error(`${itemId}: nonfinite vertex ${vertex}`);
-        const influences = [...(typeof rigidBone === "string" ? rigid(rigidBone) : isNativeHand ? nativeHandWeights(point) : isSkirt ? skirtWeights(point[0]!, point[1]!) : weightsAt(point[0]!, point[1]!))].filter(([, weight]) => weight > 0)
+        const influences = [...(typeof rigidBone === "string" ? rigid(rigidBone) : isNativeHand ? nativeHandWeights(point) : isSkirt ? skirtWeights(point[0]!, point[1]!) : weightsAt(point[0]!, point[1]!, hangingSleeves))].filter(([, weight]) => weight > 0)
           .sort((a, b) => b[1] - a[1]).slice(0, 4);
         const total = influences.reduce((sum, [, weight]) => sum + weight, 0);
         if (!Number.isFinite(total) || total <= 0) throw new Error(`${itemId}: invalid skin weights`);
