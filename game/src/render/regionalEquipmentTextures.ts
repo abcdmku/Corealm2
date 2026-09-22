@@ -95,7 +95,10 @@ function overlay(material: SurfaceNodeMaterial, tier: Tier, mode: Treatment): vo
       .add(textureNode(map, point.xz).rgb.mul(weights.y))
       .add(textureNode(map, point.xy).rgb.mul(weights.z));
   if (material.vertexColors) {
-    composeSurface(material, { color: previous => previous.mul(vertexColor().rgb) });
+    composeSurface(material, {
+      color: previous => previous.mul(vertexColor().rgb),
+      opacity: previous => previous.mul(vertexColor().a),
+    });
     material.vertexColors = false;
   }
   const metalMask = smoothstep(0.20, 0.70, surfaceNodes(material).metalness);

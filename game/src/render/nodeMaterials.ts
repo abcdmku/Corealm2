@@ -18,6 +18,8 @@ import {
   materialOpacity,
   materialRoughness,
   positionLocal,
+  vec3,
+  vec4,
 } from "three/tsl";
 
 export type SurfaceNodeMaterial = MeshBasicNodeMaterial | MeshStandardNodeMaterial | MeshPhysicalNodeMaterial;
@@ -65,13 +67,13 @@ export function ensureNodeMaterial(source: Material): SurfaceNodeMaterial {
   // clearcoat, sheen and the other physical material properties.
   if ((source as MeshPhysicalMaterial).isMeshPhysicalMaterial) {
     material = new MeshPhysicalNodeMaterial();
-    MeshPhysicalMaterial.prototype.copy.call(material, properties as MeshPhysicalMaterial);
+    MeshPhysicalMaterial.prototype.copy.call(material as unknown as MeshPhysicalMaterial, properties as MeshPhysicalMaterial);
   } else if ((source as MeshStandardMaterial).isMeshStandardMaterial) {
     material = new MeshStandardNodeMaterial();
-    MeshStandardMaterial.prototype.copy.call(material, properties as MeshStandardMaterial);
+    MeshStandardMaterial.prototype.copy.call(material as unknown as MeshStandardMaterial, properties as MeshStandardMaterial);
   } else if ((source as MeshBasicMaterial).isMeshBasicMaterial) {
     material = new MeshBasicNodeMaterial();
-    MeshBasicMaterial.prototype.copy.call(material, properties as MeshBasicMaterial);
+    MeshBasicMaterial.prototype.copy.call(material as unknown as MeshBasicMaterial, properties as MeshBasicMaterial);
   } else {
     throw new Error(`Material ${source.name || source.type} requires an explicit node material port.`);
   }
@@ -83,15 +85,27 @@ export function ensureNodeMaterial(source: Material): SurfaceNodeMaterial {
 /** Give a mesh its own material properties while sharing textures and node graphs. */
 export function cloneNodeMaterial(source: Material): SurfaceNodeMaterial {
   const nodes = ensureNodeMaterial(source);
-  const clone = (nodes as MeshPhysicalNodeMaterial).isMeshPhysicalNodeMaterial
-    ? new MeshPhysicalNodeMaterial()
-    : (nodes as MeshStandardNodeMaterial).isMeshStandardNodeMaterial
-      ? new MeshStandardNodeMaterial()
-      : new MeshBasicNodeMaterial();
+  // Match Material.clone's constructor behavior so specialized node materials
+  // retain their lighting model and render hooks.
+  const Type = nodes.constructor as new () => SurfaceNodeMaterial;
+  const clone = new Type();
+  // NodeMaterial.copy skips private fields and only visits setters on the
+  // immediate prototype. Preserve inherited accessors, including on subclasses.
+  clone.alphaTest = nodes.alphaTest;
+  if ((nodes as MeshPhysicalNodeMaterial).isMeshPhysicalNodeMaterial) {
+    const physical = nodes as MeshPhysicalNodeMaterial;
+    const physicalClone = clone as MeshPhysicalNodeMaterial;
+    physicalClone.anisotropy = physical.anisotropy;
+    physicalClone.clearcoat = physical.clearcoat;
+    physicalClone.iridescence = physical.iridescence;
+    physicalClone.dispersion = physical.dispersion;
+    physicalClone.sheen = physical.sheen;
+    physicalClone.transmission = physical.transmission;
+  }
   // NodeMaterial.copy is safe here: the source is a fully initialized node
   // material and the new destination has no graph that copy could mutate.
   clone.copy(copySource(nodes));
-  clone.userData = { ...nodes.userData };
+  clone.userData = { ...nodes.userData, ...clone.userData };
   return clone;
 }
 
@@ -99,7 +113,9 @@ export function cloneNodeMaterial(source: Material): SurfaceNodeMaterial {
 export function surfaceNodes(material: SurfaceNodeMaterial): SurfaceNodes {
   const lit = material as MeshStandardNodeMaterial;
   return {
-    color: (material.colorNode ?? materialColor) as Node<"vec3">,
+    // materialColor has a vec3 declaration but produces vec4 when a map exists.
+    // Color transforms operate on RGB; composeSurface retains the original alpha.
+    color: vec3(material.colorNode ?? materialColor),
     opacity: (material.opacityNode ?? materialOpacity) as Node<"float">,
     normal: (material.normalNode ?? materialNormal) as Node<"vec3">,
     roughness: (lit.roughnessNode ?? materialRoughness) as Node<"float">,
@@ -111,8 +127,9 @@ export function surfaceNodes(material: SurfaceNodeMaterial): SurfaceNodes {
 
 export function composeSurface<T extends SurfaceNodeMaterial>(material: T, transforms: SurfaceTransforms): T {
   const previous = surfaceNodes(material);
+  const previousAlpha = vec4(material.colorNode ?? materialColor).a;
   const lit = material as MeshStandardNodeMaterial;
-  if (transforms.color) material.colorNode = transforms.color(previous.color);
+  if (transforms.color) material.colorNode = vec4(transforms.color(previous.color), previousAlpha);
   if (transforms.opacity) material.opacityNode = transforms.opacity(previous.opacity);
   if (transforms.normal) material.normalNode = transforms.normal(previous.normal);
   if (transforms.roughness) lit.roughnessNode = transforms.roughness(previous.roughness);

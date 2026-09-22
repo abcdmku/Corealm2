@@ -2,34 +2,33 @@ import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { applyFabMagicSurface, fabMagicShimmerPhase, getFabMagicSurfaceState, setFabMagicSampleTime } from '../game/src/render/fabMagicSurface.js';
 
-function compile(material: THREE.MeshPhysicalMaterial) {
-  const shader = {
-    uniforms: {},
-    vertexShader: '',
-    fragmentShader: '#include <lights_physical_fragment>',
-  } as THREE.WebGLProgramParametersWithUniforms;
-  material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-  return shader;
+import { MeshStandardNodeMaterial, type MeshPhysicalNodeMaterial, type Node } from 'three/webgpu';
+import { materialColor, uniform } from 'three/tsl';
+
+function contains(root: Node | null, child: Node): boolean {
+  let found = false;
+  root?.traverse(node => { if (node === child) found = true; });
+  return found;
+}
+
+function animation(material: MeshPhysicalNodeMaterial) {
+  return material as MeshPhysicalNodeMaterial & { _fabMagicShimmer: number; _fabMagicTintStrength: number };
 }
 
 describe('Fab magic woven iridescence', () => {
-  it('composes authored shader hooks with shimmer and retains both through cloning', () => {
-    const source = new THREE.MeshStandardMaterial();
+  it('composes authored nodes with shimmer and retains both through cloning', () => {
+    const source = new MeshStandardNodeMaterial();
+    const authoredWeave = uniform(0.7);
+    source.colorNode = materialColor.mul(authoredWeave);
     source.userData.revision = 'woven-v4';
-    source.onBeforeCompile = function (shader) {
-      shader.uniforms.authoredWeave = { value: this.userData.revision };
-      shader.fragmentShader += '\n// authored-weave';
-    };
-    source.customProgramCacheKey = function () { return this.userData.revision; };
     const original = applyFabMagicSurface(source, { tier: 70, role: 'cloth' });
     for (const material of [original, original.clone()]) {
-      const shader = compile(material);
-      expect(shader.uniforms.authoredWeave!.value).toBe('woven-v4');
-      expect(shader.fragmentShader).toContain('// authored-weave');
-      expect(shader.fragmentShader).toContain('material.iridescenceThickness + fabMagicShimmer');
-      expect(material.customProgramCacheKey()).toContain('woven-v4|fab-magic-surface');
+      expect(contains(material.colorNode, authoredWeave)).toBe(true);
+      expect(material.iridescenceThicknessNode).not.toBeNull();
+      expect(material.userData.revision).toBe('woven-v4');
+      expect(material.onBeforeCompile).toBe(THREE.Material.prototype.onBeforeCompile);
     }
-    expect(source.customProgramCacheKey()).toBe('woven-v4');
+    expect(source.colorNode).not.toBe(original.colorNode);
   });
 
   it('replaces imported sheen maps without changing authored base or normal maps', () => {
@@ -87,23 +86,30 @@ describe('Fab magic woven iridescence', () => {
     }
   });
 
-  it('retains an independently animated shader uniform after the rig clones materials', () => {
+  it('retains independent material animation values after equipment cloning', () => {
     const original = applyFabMagicSurface(new THREE.MeshStandardMaterial(), { tier: 90, role: 'cloth' });
     const cloned = original.clone();
-    const originalShader = compile(original);
-    const shader = compile(cloned);
-    expect(shader.fragmentShader).toContain('material.iridescenceThickness + fabMagicShimmer');
-    expect(shader.uniforms.fabMagicShimmer).not.toBe(originalShader.uniforms.fabMagicShimmer);
+    const key = cloned.customProgramCacheKey();
+    expect(cloned.iridescenceThicknessNode).toBe(original.iridescenceThicknessNode);
+    expect(cloned.userData.magicSurface).not.toBe(original.userData.magicSurface);
     const now = vi.spyOn(performance, 'now');
     try {
       now.mockReturnValue(0);
       cloned.onBeforeRender(...([] as unknown as Parameters<typeof cloned.onBeforeRender>));
-      const before = shader.uniforms.fabMagicShimmer!.value;
       now.mockReturnValue(4000);
       cloned.onBeforeRender(...([] as unknown as Parameters<typeof cloned.onBeforeRender>));
-      expect(shader.uniforms.fabMagicShimmer!.value).not.toBe(before);
-      expect(shader.uniforms.fabMagicShimmer!.value).toBeCloseTo(fabMagicShimmerPhase(4) * 36);
+      expect(animation(cloned)._fabMagicShimmer).toBeCloseTo(fabMagicShimmerPhase(4) * 36);
+      expect(animation(original)._fabMagicShimmer).toBe(0);
+      expect(original.userData.magicSurface.phase).toBe(0);
+      expect(cloned.customProgramCacheKey()).toBe(key);
       expect(cloned.customProgramCacheKey()).toBe(original.customProgramCacheKey());
+      const referenceMaterials: unknown[] = [];
+      cloned.iridescenceThicknessNode!.traverse(node => {
+        const reference = node as Node & { property?: string; material?: unknown };
+        if (reference.property === '_fabMagicShimmer') referenceMaterials.push(reference.material);
+      });
+      // No node captures the original. References resolve the material being drawn.
+      expect(referenceMaterials).toContain(null);
     } finally {
       now.mockRestore();
     }
@@ -111,19 +117,17 @@ describe('Fab magic woven iridescence', () => {
 
   it('freezes the production phase and exposes it for screenshot state comparisons', () => {
     const material = applyFabMagicSurface(new THREE.MeshStandardMaterial(), { tier: 90, role: 'cloth' }).clone();
-    const shader = compile(material);
     try {
       setFabMagicSampleTime(4);
       material.onBeforeRender(...([] as unknown as Parameters<typeof material.onBeforeRender>));
-      const first = shader.uniforms.fabMagicShimmer!.value;
+      const first = animation(material)._fabMagicShimmer;
       expect(material.userData.magicSurface).toEqual({ tier: 90, role: 'cloth', phase: fabMagicShimmerPhase(4), sampleTime: 4 });
       material.onBeforeRender(...([] as unknown as Parameters<typeof material.onBeforeRender>));
-      expect(shader.uniforms.fabMagicShimmer!.value).toBe(first);
+      expect(animation(material)._fabMagicShimmer).toBe(first);
       setFabMagicSampleTime(12);
       material.onBeforeRender(...([] as unknown as Parameters<typeof material.onBeforeRender>));
-      expect(shader.uniforms.fabMagicShimmer!.value).not.toBe(first);
-      expect(shader.uniforms.fabMagicTintStrength!.value).toBeCloseTo(0.62);
-      expect(shader.fragmentShader).toContain('magicTint /= dot(magicTint, magicLumaWeights)');
+      expect(animation(material)._fabMagicShimmer).not.toBe(first);
+      expect(animation(material)._fabMagicTintStrength).toBeCloseTo(0.62);
     } finally {
       setFabMagicSampleTime(null);
     }

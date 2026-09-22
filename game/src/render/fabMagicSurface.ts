@@ -1,23 +1,38 @@
 import * as THREE from 'three';
 
-/** Keep embroidered color visible in grazing daylight highlights. */
-export function preserveFabClothHighlights(shader: THREE.WebGLProgramParametersWithUniforms): void {
-  shader.fragmentShader = shader.fragmentShader.replace('#include <aomap_fragment>', `#include <aomap_fragment>
-    vec3 mageReflection = reflectedLight.directSpecular + reflectedLight.indirectSpecular;
-    #ifdef USE_SHEEN
-      mageReflection += sheenSpecularDirect + sheenSpecularIndirect;
-    #endif
-    float mageReflectionLuma = dot(mageReflection, vec3(0.2126, 0.7152, 0.0722));
-    float mageHighlightLimit = 0.035 + 0.8 * dot(reflectedLight.directDiffuse + reflectedLight.indirectDiffuse,
-      vec3(0.2126, 0.7152, 0.0722));
-    float mageHighlightScale = mageHighlightLimit / (mageHighlightLimit + mageReflectionLuma);
-    reflectedLight.directSpecular *= mageHighlightScale;
-    reflectedLight.indirectSpecular *= mageHighlightScale;
-    #ifdef USE_SHEEN
-      sheenSpecularDirect *= mageHighlightScale;
-      sheenSpecularIndirect *= mageHighlightScale;
-    #endif
-  `);
+import { MeshPhysicalNodeMaterial, PhysicalLightingModel, type MeshStandardNodeMaterial, type NodeBuilder } from 'three/webgpu';
+import {
+  float, materialColor, materialIridescenceThickness, materialReference, materialSheen,
+  normalView, normalViewGeometry, positionViewDirection, vec3, vec4, vertexColor,
+} from 'three/tsl';
+import { ensureNodeMaterial } from './nodeMaterials.js';
+
+const lumaWeights = vec3(0.2126, 0.7152, 0.0722);
+
+/** Keep embroidered color visible in grazing daylight highlights.
+ * applyFabMagicSurface retains this flag when it promotes the material. */
+export function preserveFabClothHighlights(material: THREE.Material): void {
+  material.userData.preserveFabClothHighlights = true;
+}
+
+class FabClothLightingModel extends PhysicalLightingModel {
+  override ambientOcclusion(builder: NodeBuilder): void {
+    super.ambientOcclusion(builder);
+    const reflected = builder.context.reflectedLight;
+    let reflection = vec3(reflected.directSpecular).add(reflected.indirectSpecular);
+    if (this.sheen && this.sheenSpecularDirect && this.sheenSpecularIndirect) {
+      reflection = reflection.add(this.sheenSpecularDirect, this.sheenSpecularIndirect);
+    }
+    const limit = vec3(reflected.directDiffuse).add(reflected.indirectDiffuse)
+      .dot(lumaWeights).mul(0.8).add(0.035);
+    const scale = limit.div(limit.add(reflection.dot(lumaWeights))).toVar();
+    vec3(reflected.directSpecular).mulAssign(scale);
+    vec3(reflected.indirectSpecular).mulAssign(scale);
+    if (this.sheen && this.sheenSpecularDirect && this.sheenSpecularIndirect) {
+      vec3(this.sheenSpecularDirect).mulAssign(scale);
+      vec3(this.sheenSpecularIndirect).mulAssign(scale);
+    }
+  }
 }
 
 export interface FabMagicSurfaceOptions {
@@ -70,58 +85,84 @@ export function setFabMagicSampleTime(seconds: number | null): void {
   sampleTime = seconds !== null && Number.isFinite(seconds) ? seconds : null;
 }
 
-// Material.clone() invokes the constructor and copy(). Keeping the hooks on the
-// prototype preserves the effect when equipment tinting clones a material.
-class FabMagicMaterial extends THREE.MeshPhysicalMaterial {
-  private readonly shimmer = { value: 0 };
-  private readonly tintStrength = { value: 0.03 };
-  private shimmerStrength = 10;
-  private tailored = false;
-  private authoredCompile?: THREE.Material['onBeforeCompile'];
-  private authoredKey?: () => string;
+// Material references bind to the material being drawn. Clones share immutable
+// node graphs while their animation values and diagnostics remain independent.
+class FabMagicMaterial extends MeshPhysicalNodeMaterial {
+  _fabMagicShimmer = 0;
+  _fabMagicTintStrength = 0.03;
+  _fabMagicShimmerStrength = 10;
+  _fabMagicTailored = false;
 
-  override copy(source: THREE.MeshPhysicalMaterial): this {
-    super.copy(source);
+  override copy(source: THREE.Material): this {
+    // NodeMaterial serializes userData, which can also hold live asset metadata.
+    super.copy(Object.assign(Object.create(source) as THREE.Material, { userData: {} }));
+    this.userData = { ...source.userData };
+    if (source.userData.magicSurface) this.userData.magicSurface = { ...source.userData.magicSurface };
     if (source instanceof FabMagicMaterial) {
-      this.shimmerStrength = source.shimmerStrength;
-      this.tailored = source.tailored;
-      this.tintStrength.value = source.tintStrength.value;
-      this.authoredCompile = source.authoredCompile;
-      this.authoredKey = source.authoredKey;
+      this._fabMagicShimmer = source._fabMagicShimmer;
+      this._fabMagicTintStrength = source._fabMagicTintStrength;
+      this._fabMagicShimmerStrength = source._fabMagicShimmerStrength;
+      this._fabMagicTailored = source._fabMagicTailored;
     }
     return this;
   }
 
+  override customProgramCacheKey(): string {
+    return `${super.customProgramCacheKey()}|fab-cloth-highlights:${!!this.userData.preserveFabClothHighlights}`;
+  }
+
   setShimmerStrength(nanometers: number): void {
-    this.shimmerStrength = nanometers;
+    this._fabMagicShimmerStrength = nanometers;
   }
 
   setTintStrength(strength: number): void {
-    this.tintStrength.value = strength;
+    this._fabMagicTintStrength = strength;
   }
 
   setTailored(tailored: boolean): void {
-    this.tailored = tailored;
+    this._fabMagicTailored = tailored;
   }
 
-  inheritSource(source: THREE.MeshStandardMaterial): void {
-    if (source instanceof FabMagicMaterial) {
-      this.authoredCompile = source.authoredCompile;
-      this.authoredKey = source.authoredKey;
+  buildMagicNodes(): void {
+    const shimmer = materialReference('_fabMagicShimmer', 'float');
+    const tintStrength = materialReference('_fabMagicTintStrength', 'float');
+    const thickness = float(this.iridescenceThicknessNode ?? materialIridescenceThickness)
+      .add(shimmer).max(1);
+    const normal = this._fabMagicTailored ? normalViewGeometry : normalView;
+    const facing = normal.dot(positionViewDirection).abs();
+    const hue = facing.oneMinus().mul(4)
+      .add(this._fabMagicTailored ? float(2.2) : thickness.mul(0.012))
+      .add(shimmer.mul(0.045)).sin().mul(0.5).add(0.5);
+    this.iridescenceThicknessNode = thickness;
+    if (this._fabMagicTailored) {
+      this.sheenNode = vec3(this.sheenNode ?? materialSheen)
+        .mul(vec3(0.34, 0.92, 0.85).mix(vec3(0.86, 0.4, 1), hue));
     } else {
-      this.authoredCompile = source.onBeforeCompile.bind(source);
-      this.authoredKey = source.customProgramCacheKey.bind(source);
+      const sourceColor = vec4(this.colorNode ?? materialColor);
+      const vertexTint = this.vertexColors ? vertexColor() : vec4(1);
+      const rgba = sourceColor.mul(vertexTint);
+      const base = rgba.rgb;
+      this.vertexColors = false;
+      const tint = vec3(0.08, 0.75, 0.65).mix(vec3(0.6, 0.19, 0.88), hue);
+      const equalLumaTint = tint.div(tint.dot(lumaWeights));
+      this.colorNode = vec4(base.mix(equalLumaTint.mul(base.dot(lumaWeights)),
+        tintStrength.mul(base.r.sub(base.b).smoothstep(0.025, 0.14).oneMinus())), rgba.a);
     }
+  }
+
+  override setupLightingModel(): PhysicalLightingModel {
+    if (!this.userData.preserveFabClothHighlights) return super.setupLightingModel() as PhysicalLightingModel;
+    return new FabClothLightingModel(this.useClearcoat, this.useSheen, this.useIridescence,
+      this.useAnisotropy, this.useTransmission, this.useDispersion);
   }
 
   override onBeforeRender(): void {
     const now = performance.now();
     const seconds = sampleTime ?? now / 1000;
     const phase = fabMagicShimmerPhase(seconds);
-    this.shimmer.value = phase * this.shimmerStrength;
+    this._fabMagicShimmer = phase * this._fabMagicShimmerStrength;
     if (this.userData.magicSurface) {
-      this.userData.magicSurface.phase = phase;
-      this.userData.magicSurface.sampleTime = seconds;
+      this.userData.magicSurface = { ...this.userData.magicSurface, phase, sampleTime: seconds };
       renderedSurfaces.delete(this.name);
       renderedSurfaces.set(this.name, {
         name: this.name,
@@ -138,59 +179,15 @@ class FabMagicMaterial extends THREE.MeshPhysicalMaterial {
       }
     }
   }
-
-  override onBeforeCompile(shader: THREE.WebGLProgramParametersWithUniforms, renderer: THREE.WebGLRenderer): void {
-    this.authoredCompile?.(shader, renderer);
-    shader.uniforms.fabMagicShimmer = this.shimmer;
-    shader.uniforms.fabMagicTintStrength = this.tintStrength;
-    shader.fragmentShader = `uniform float fabMagicShimmer;\nuniform float fabMagicTintStrength;\n${shader.fragmentShader}`;
-    shader.fragmentShader = shader.fragmentShader.replace(
-      '#include <lights_physical_fragment>',
-      `#include <lights_physical_fragment>
-      #ifdef USE_IRIDESCENCE
-        material.iridescenceThickness = max(1.0, material.iridescenceThickness + fabMagicShimmer);
-        // Dyed interference fibers remain visible under broad daylight, where
-        // the physical specular lobe alone is faint on rough cloth.
-        float magicFacing = abs(dot(${this.tailored ? 'nonPerturbedNormal' : 'normal'}, normalize(vViewPosition)));
-        float magicHue = 0.5 + 0.5 * sin((1.0 - magicFacing) * 4.0
-          + ${this.tailored ? '2.2' : 'material.iridescenceThickness * 0.012'} + fabMagicShimmer * 0.045);
-        vec3 magicTint = mix(vec3(0.08, 0.75, 0.65), vec3(0.60, 0.19, 0.88), magicHue);
-        // Equal luminance at every phase avoids a breathing brightness pulse.
-        vec3 magicLumaWeights = vec3(0.2126, 0.7152, 0.0722);
-        magicTint /= dot(magicTint, magicLumaWeights);
-        float magicLuma = dot(diffuseColor.rgb, magicLumaWeights);
-        ${this.tailored ? `
-        // Iridescent fibers color reflected light only. The embroidered base
-        // stays stable in shadow, while turning toward the light reveals silk.
-        #ifdef USE_SHEEN
-          material.sheenColor *= mix(vec3(0.34, 0.92, 0.85), vec3(0.86, 0.40, 1.0), magicHue);
-        #endif
-        ` : `material.diffuseColor = mix(diffuseColor.rgb,
-          magicTint * magicLuma, fabMagicTintStrength
-            * (1.0 - smoothstep(0.025, 0.14, diffuseColor.r - diffuseColor.b)));
-        material.diffuseContribution = material.diffuseColor * (1.0 - metalnessFactor);`}
-      #endif`,
-    );
-  }
-
-  override customProgramCacheKey(): string {
-    return `${this.authoredKey?.() ?? ''}|fab-magic-surface-v6:${this.tailored}`;
-  }
 }
 
 /** Adds an iridescent woven finish without replacing authored color or normal maps. */
 export function applyFabMagicSurface(
-  source: THREE.MeshStandardMaterial,
+  source: THREE.MeshStandardMaterial | MeshStandardNodeMaterial,
   options: FabMagicSurfaceOptions,
-): THREE.MeshPhysicalMaterial {
+): MeshPhysicalNodeMaterial {
   const material = new FabMagicMaterial();
-  if (source instanceof THREE.MeshPhysicalMaterial) material.copy(source);
-  else {
-    // MeshPhysicalMaterial.copy expects physical-only Color/Vector fields.
-    THREE.MeshStandardMaterial.prototype.copy.call(material, source);
-    material.defines = { STANDARD: '', PHYSICAL: '' };
-  }
-  material.inheritSource(source);
+  material.copy(ensureNodeMaterial(source));
   const richness = THREE.MathUtils.clamp((options.tier - 1) / 89, 0, 1);
   const trim = options.role === 'trim';
   const cloth = options.role === 'cloth';
@@ -232,6 +229,7 @@ export function applyFabMagicSurface(
   }
   material.userData.magicSurface = { tier: options.tier, role: options.role, phase: 0, sampleTime: 0 };
   material.name = `${source.name}|magic:${options.role}:${options.tier}`;
+  material.buildMagicNodes();
   material.needsUpdate = true;
   return material;
 }

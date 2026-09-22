@@ -1,31 +1,36 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
+import { MeshPhysicalNodeMaterial, type Node } from 'three/webgpu';
+import { frontFacing, uniform, vec3 } from 'three/tsl';
 import { applyMysticClothMaterial, type MysticClothPanel } from '../game/src/render/fabMysticCloth.js';
 
 describe('mystic cloth material composition', () => {
-  it.each([50, 70, 90] as const)('retains cloth texture and shader hooks through equipment cloning at T%i', tier => {
-    const source = new THREE.MeshPhysicalMaterial({ metalness: 1, roughness: 0.1 });
+  it.each([50, 70, 90] as const)('retains cloth texture and authored normal nodes through equipment cloning at T%i', tier => {
+    const source = new MeshPhysicalNodeMaterial({ metalness: 1, roughness: 0.1, vertexColors: true });
     source.specularColorMap = new THREE.Texture();
     source.specularIntensityMap = new THREE.Texture();
     source.normalMap = new THREE.Texture();
-    source.onBeforeCompile = shader => { shader.uniforms.sourceHook = { value: 42 }; };
-    source.customProgramCacheKey = () => 'native-cloth';
+    const authoredNormal = vec3(uniform(0.1), 0, 1).normalize();
+    source.normalNode = authoredNormal;
     const textile = new THREE.Texture();
     const result = applyMysticClothMaterial(source, tier, 'embroidery', textile);
     for (const material of [result, result.clone()]) {
       expect(material.metalness).toBe(0);
+      expect(material.vertexColors).toBe(false);
       expect(material.roughness).toBeGreaterThan(0.6);
       expect(material.specularColorMap).toBeNull();
       expect(material.specularIntensityMap).toBeNull();
       expect(material.normalMap).toBe(source.normalMap);
-      const shader = { uniforms: {}, vertexShader: '#include <uv_vertex>',
-        fragmentShader: '#include <color_fragment>\n#include <lights_physical_fragment>\n#include <aomap_fragment>' } as THREE.WebGLProgramParametersWithUniforms;
-      material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-      expect(shader.uniforms.sourceHook!.value).toBe(42);
-      expect(shader.uniforms.mysticTextile!.value).toBe(textile);
-      expect(shader.vertexShader).toContain('vMysticUv = uv');
-      expect(shader.fragmentShader).not.toContain('magicTint * magicLuma');
-      expect(shader.fragmentShader).toContain('mageHighlightScale');
+      expect(material.normalNode).toBe(authoredNormal);
+      const nodes = new Set<Node>();
+      material.colorNode?.traverse(node => nodes.add(node));
+      expect(nodes.has(frontFacing)).toBe(true);
+      expect([...nodes].some(node => (node as Node & { isVertexColorNode?: boolean }).isVertexColorNode)).toBe(true);
+      expect([...nodes].some(node => (node as Node & { value?: unknown }).value === textile)).toBe(true);
+      expect(material.userData.preserveFabClothHighlights).toBe(true);
+      expect(material.sheenNode).not.toBeNull();
+      expect(material.roughnessNode).not.toBeNull();
+      expect(material.onBeforeCompile).toBe(THREE.Material.prototype.onBeforeCompile);
     }
     expect(source.metalness).toBe(1);
     expect(source.specularColorMap).not.toBeNull();

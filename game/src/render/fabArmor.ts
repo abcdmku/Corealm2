@@ -140,7 +140,10 @@ export function applyFabArmorMaterials(object: THREE.Object3D, appearance: GearA
         const dye = rareTier === 50 ? vec3(0.10, 0.42, 0.95)
           : rareTier === 70 ? vec3(0.12, 0.055, 0.25) : vec3(0.35, 0.85, 0.78);
         if (material.vertexColors) {
-          composeSurface(material, { color: previous => previous.mul(vertexColor().rgb) });
+          composeSurface(material, {
+            color: previous => previous.mul(vertexColor().rgb),
+            opacity: previous => previous.mul(vertexColor().a),
+          });
           material.vertexColors = false;
         }
         composeSurface(material, {

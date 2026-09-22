@@ -1,8 +1,17 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect as vitestExpect, it } from "vitest";
 import { Color, MeshBasicMaterial, MeshPhysicalMaterial, MeshStandardMaterial, ShaderMaterial, Texture } from "three";
 import { MeshBasicNodeMaterial, MeshPhysicalNodeMaterial, MeshStandardNodeMaterial } from "three/webgpu";
 import { materialColor, materialOpacity, positionLocal, uniform, vec3 } from "three/tsl";
 import { cloneNodeMaterial, composeSurface, ensureNodeMaterial, surfaceNodes } from "../game/src/render/nodeMaterials.js";
+
+// Vitest's generic assertion types need not expand the recursive TSL graph types.
+const expect = (value: unknown) => vitestExpect(value);
+const referencesInput = (node: unknown, expected: unknown): boolean => {
+  for (let current = node; current && typeof current === "object"; current = (current as { node?: unknown }).node) {
+    if (current === expected) return true;
+  }
+  return false;
+};
 
 describe("node material conversion", () => {
   it("converts and caches ordinary materials without erasing node defaults", () => {
@@ -31,7 +40,7 @@ describe("node material conversion", () => {
   });
 
   it("retains live metadata and gives clones owned values with shared graph and texture references", () => {
-    const source = new MeshPhysicalMaterial({ map: new Texture(), color: 0x123456 });
+    const source = new MeshPhysicalMaterial({ map: new Texture(), color: 0x123456, alphaTest: 0.4, alphaToCoverage: true });
     const gain = uniform(0.5);
     const metadata: Record<string, unknown> = { gain };
     metadata.self = metadata;
@@ -48,6 +57,8 @@ describe("node material conversion", () => {
     expect(clone.userData).not.toBe(material.userData);
     expect(clone.userData.gain).toBe(gain);
     expect(clone.userData.self).toBe(metadata);
+    expect(clone.alphaTest).toBe(0.4);
+    expect(clone.alphaToCoverage).toBe(true);
     clone.color.set(0xffffff);
     expect(material.color.equals(new Color(0x123456))).toBe(true);
     expect(source.userData).toBe(metadata);
@@ -64,21 +75,41 @@ describe("node material conversion", () => {
     expect(() => ensureNodeMaterial(cached)).toThrow("unported onBeforeCompile");
   });
 
+  it("preserves specialized node material classes and their render hooks", () => {
+    class AnimatedMaterial extends MeshPhysicalNodeMaterial {
+      phase = uniform(0);
+      override onBeforeRender() { this.phase.value += 1; }
+    }
+    const source = new AnimatedMaterial();
+    source.transmission = 0.7;
+    source.clearcoat = 0.8;
+    source.colorNode = vec3(source.phase);
+    const clone = cloneNodeMaterial(source) as AnimatedMaterial;
+    expect(clone).toBeInstanceOf(AnimatedMaterial);
+    expect(clone.phase).toBe(source.phase);
+    expect(clone.transmission).toBe(0.7);
+    expect(clone.clearcoat).toBe(0.8);
+    expect(clone.colorNode).toBe(source.colorNode);
+    clone.onBeforeRender();
+    expect(source.phase.value).toBe(1);
+  });
+
   it("composes effects over snapshots of all channels without overwriting preceding effects", () => {
     const material = new MeshStandardNodeMaterial();
-    expect(surfaceNodes(material).color).toBe(materialColor);
+    expect(referencesInput(surfaceNodes(material).color, materialColor)).toBe(true);
     expect(surfaceNodes(material).opacity).toBe(materialOpacity);
     expect(surfaceNodes(material).position).toBe(positionLocal);
     const tint = materialColor.mul(vec3(0.8, 0.9, 1));
     const firstOpacity = materialOpacity.mul(0.8);
     expect(composeSurface(material, {
-      color: previous => { expect(previous).toBe(materialColor); return tint; },
+      color: previous => { expect(referencesInput(previous, materialColor)).toBe(true); return tint; },
       opacity: previous => { expect(previous).toBe(materialOpacity); return firstOpacity; },
     })).toBe(material);
+    const firstColor = material.colorNode;
     let nextOpacity = firstOpacity;
     composeSurface(material, {
       color: previous => {
-        expect(previous).toBe(tint);
+        expect(referencesInput(previous, firstColor)).toBe(true);
         // A callback changing another channel must not change this batch's input.
         material.opacityNode = uniform(0);
         return previous;
@@ -90,6 +121,20 @@ describe("node material conversion", () => {
       },
     });
     expect(surfaceNodes(material).opacity).toBe(nextOpacity);
-    expect(surfaceNodes(material).color).toBe(tint);
+    expect(referencesInput(surfaceNodes(material).color, material.colorNode)).toBe(true);
+  });
+
+  it("preserves mapped color alpha separately from RGB transforms and material opacity", () => {
+    const material = new MeshStandardNodeMaterial({ map: new Texture(), opacity: 0.8 });
+    const recolored = vec3(0.1, 0.3, 0.6);
+    composeSurface(material, { color: () => recolored });
+    let joined: unknown = material.colorNode;
+    while (joined && typeof joined === "object" && !(joined as { nodes?: unknown[] }).nodes) {
+      joined = (joined as { node?: unknown }).node;
+    }
+    const channels = (joined as { nodes: unknown[] }).nodes;
+    expect(channels[0]).toBe(recolored);
+    expect(referencesInput(channels[1], materialColor)).toBe(true);
+    expect(surfaceNodes(material).opacity).toBe(materialOpacity);
   });
 });

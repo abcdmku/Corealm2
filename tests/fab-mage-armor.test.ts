@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
+import { type Node } from 'three/webgpu';
+import { frontFacing, normalViewGeometry } from 'three/tsl';
 import { applyRareMageMaterial } from '../game/src/render/fabMageArmor.js';
 
 describe('rare mage native material mapping', () => {
@@ -16,7 +18,7 @@ describe('rare mage native material mapping', () => {
     expect(tail.customProgramCacheKey()).not.toBe(panel.customProgramCacheKey());
   });
   it.each([50, 70, 90] as const)('keeps aligned native maps and removes unstable overlays at %i', tier => {
-    const source = new THREE.MeshPhysicalMaterial({ metalness: 1, roughness: 0.4 });
+    const source = new THREE.MeshPhysicalMaterial({ metalness: 1, roughness: 0.4, vertexColors: true });
     source.map = new THREE.Texture();
     source.map.offset.set(0.1, 0.2);
     source.normalMap = new THREE.Texture();
@@ -32,20 +34,24 @@ describe('rare mage native material mapping', () => {
       expect(material.map!.channel).toBe(0);
       expect(material.normalMap).toBe(source.normalMap);
       expect(material.aoMap).toBe(source.aoMap);
+      expect(material.vertexColors).toBe(false);
       expect(material.roughnessMap).toBeNull();
       expect(material.bumpMap).toBeNull();
       expect(material.iridescenceThicknessMap).toBeNull();
       expect(material.roughness).toBeGreaterThanOrEqual(0.6);
       expect(material.metalness).toBe(0);
-      const shader = { uniforms: {}, vertexShader: '', fragmentShader: '#include <color_fragment>\n#include <lights_physical_fragment>' } as THREE.WebGLProgramParametersWithUniforms;
-      material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-      expect(shader.fragmentShader).toContain('dot(nonPerturbedNormal, normalize(vViewPosition))');
-      expect(shader.fragmentShader).not.toContain('material.iridescenceThickness * 0.012');
-      expect(material.customProgramCacheKey()).toContain(`rare-mage-textile-v4:${tier}:cloth`);
-      expect(shader.fragmentShader).toContain('if (!gl_FrontFacing)');
-      expect(shader.uniforms.mageTextile!.value).toBe(textile);
-      expect(shader.fragmentShader).toContain('texture2D(mageTextile, vMageWeaveUv');
-      expect(shader.fragmentShader).not.toContain('magicTint * magicLuma');
+      const nodes = new Set<Node>();
+      material.colorNode?.traverse(node => nodes.add(node));
+      material.sheenNode?.traverse(node => nodes.add(node));
+      expect(nodes.has(frontFacing)).toBe(true);
+      expect([...nodes].some(node => (node as Node & { isVertexColorNode?: boolean }).isVertexColorNode)).toBe(true);
+      expect(nodes.has(normalViewGeometry)).toBe(true);
+      expect([...nodes].some(node => (node as Node & { value?: unknown }).value === textile)).toBe(true);
+      expect(material.userData.preserveFabClothHighlights).toBe(true);
+      expect(material.roughnessNode).not.toBeNull();
+      expect(material.specularIntensityNode).not.toBeNull();
+      expect(material.iridescenceNode).not.toBeNull();
+      expect(material.onBeforeCompile).toBe(THREE.Material.prototype.onBeforeCompile);
       expect(material.sheen).toBeGreaterThan(0.7);
       expect(material.anisotropy).toBeGreaterThan(0);
     }
