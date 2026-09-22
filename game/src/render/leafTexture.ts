@@ -36,6 +36,11 @@ function sourceImage(source: THREE.Texture): (ImageBitmapSource & { width: numbe
   return image?.width && image.height ? image as ImageBitmapSource & { width: number; height: number } : undefined;
 }
 
+function cpuOnly(): boolean {
+  return typeof document === "undefined" && typeof Worker === "undefined"
+    && typeof createImageBitmap === "undefined" && typeof OffscreenCanvas === "undefined";
+}
+
 function cachedTexture(source: THREE.Texture, image: object, sampler: string): THREE.Texture | undefined {
   const cached = textureResults.get(source);
   if (cached?.image === image && cached.version === source.source.version && cached.sampler === sampler
@@ -50,7 +55,7 @@ function materialTexture(source: THREE.Texture, image: object, sampler: string, 
   let prepared = preparedTextures.get(key);
   if (!prepared) {
     prepared = new THREE.DataTexture(pixels.pixels, pixels.width, pixels.height);
-    prepared.name = `${source.name || "Leaf spray"} · coverage-weighted colour`;
+    prepared.name = `${source.name || "Leaf spray"} Â· coverage-weighted colour`;
     prepared.channel = source.channel;
     prepared.mapping = source.mapping;
     prepared.wrapS = source.wrapS; prepared.wrapT = source.wrapT;
@@ -72,6 +77,9 @@ function materialTexture(source: THREE.Texture, image: object, sampler: string, 
       if (preparedTextures.get(key) === owned) preparedTextures.delete(key);
     });
     preparedTextures.set(key, prepared);
+  } else {
+    // Different GLBs can embed identical pixels. Retain the shared output buffer too.
+    pixels.pixels = prepared.image.data as Uint8Array<ArrayBuffer>;
   }
   textureResults.set(source, { image, version: source.source.version, sampler, texture: prepared });
   return prepared;
@@ -155,7 +163,7 @@ function queueImage(image: ImageBitmapSource): Promise<PreparedLeafPixels> {
 export async function prepareLeafTextureAsync(source: THREE.Texture): Promise<THREE.Texture> {
   const image = sourceImage(source);
   // CPU-only material tests have no browser bitmap. A browser never processes pixels here.
-  if (!image || typeof document === "undefined") return source;
+  if (!image || cpuOnly()) return source;
   const sampler = samplerKey(source);
   const cached = cachedTexture(source, image, sampler);
   if (cached) return cached;
@@ -179,7 +187,7 @@ export async function prepareLeafTextureAsync(source: THREE.Texture): Promise<TH
 /** Synchronous lookup only. Model loading must await prepareLeafTextureAsync before treatment. */
 export function prepareLeafTexture(source: THREE.Texture): THREE.Texture {
   const image = sourceImage(source);
-  if (!image || typeof document === "undefined") return source;
+  if (!image || cpuOnly()) return source;
   const cached = cachedTexture(source, image, samplerKey(source));
   if (cached) return cached;
   throw new Error(`Foliage texture was not prepared before model publication: ${source.name || source.uuid}`);

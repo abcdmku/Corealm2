@@ -3,13 +3,17 @@ import { Fn, If, cos, dot, float, floor, fract, max, mix, pow, reference, sin, s
 import { elementalFlowTexture } from "./elementalFlowTexture.js";
 import { elementalFlameTexture } from "./elementalFlameTexture.js";
 
+// Start the authored texture requests when effects load, before pipeline preparation.
+const flowMap = texture(elementalFlowTexture());
+const flameMap = texture(elementalFlameTexture());
+
 /** Authored elemental sampling shared by the native renderer's spatial effects. */
 export const clockUniform = (clock: { value: number }): Node<"float"> => reference("value", "float", clock);
 export const authoredFlow = Fn(([uv, time, seed]: [Node<"vec2">, Node<"float">, Node<"float">]): Node<"float"> => {
   const drift = vec2(seed.mul(.137), time.mul(-.28));
-  const warp = texture(elementalFlowTexture(), uv.mul(.47).add(drift.mul(.38))).rg;
-  const a = texture(elementalFlowTexture(), uv.add(drift).add(vec2(warp.x, warp.y.negate()).mul(.11))).r;
-  const b = texture(elementalFlowTexture(), uv.mul(1.73).add(vec2(seed.mul(-.09), time.mul(.13)))).r;
+  const warp = flowMap.sample(uv.mul(.47).add(drift.mul(.38))).rg;
+  const a = flowMap.sample(uv.add(drift).add(vec2(warp.x, warp.y.negate()).mul(.11))).r;
+  const b = flowMap.sample(uv.mul(1.73).add(vec2(seed.mul(-.09), time.mul(.13)))).r;
   return a.mul(.8).add(b.mul(.2));
 });
 
@@ -36,7 +40,7 @@ const flamePatch = Fn(([uv,cell,seed]: [Node<"vec2">,Node<"vec2">,Node<"float">]
   const r=flameHash(cell.add(seed.mul(vec2(.73,1.19))));
   const turn=r.x.sub(.5).mul(.85), c=cos(turn),s=sin(turn);
   const sample=vec2(c.mul(uv.x).add(s.mul(uv.y)),s.negate().mul(uv.x).add(c.mul(uv.y))).mul(mix(.67,1.25,r.y)).add(r.mul(17.3));
-  return texture(elementalFlameTexture(),sample).r;
+  return flameMap.sample(sample).r;
 });
 export const flameDetail = Fn(([sourceUv,clock,seed]: [Node<"vec2">,Node<"float">,Node<"float">]): Node<"float"> => {
   const variation=fract(sin(vec3(seed.add(1.7),seed.add(19.3),seed.add(41.9)).mul(vec3(12.9898,39.3468,73.156))).mul(43758.5453));

@@ -11,7 +11,7 @@ import { CRAFTED_JEWELRY, isRetiredJewelry } from '../content/jewelry.js';
  */
 import * as THREE from "three";
 import { MeshPhysicalNodeMaterial } from "three/webgpu";
-import { color, mix, smoothstep, vec3, vertexColor } from "three/tsl";
+import { color, mix, smoothstep, vec3, vec4, vertexColor } from "three/tsl";
 import { cloneNodeMaterial, composeSurface, surfaceNodes, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 import type { EquipSlot, ItemId } from "../contracts.js";
 import { tierSilhouetteScale } from "./materials.js";
@@ -1080,7 +1080,8 @@ function applyMetalTierColour(
   shaded.emissiveIntensity = source.emissiveIntensity;
   const initial = surfaceNodes(material);
   // Retain vertex shading but remove its baked bronze hue from the metal side.
-  const vertex = material.vertexColors ? vertexColor().rgb : vec3(1);
+  const vertexTint = material.vertexColors ? vertexColor() : vec4(1);
+  const vertex = vertexTint.rgb;
   const metalSource = initial.color.mul(vertex.dot(vec3(0.2126, 0.7152, 0.0722)));
   const sourceLuma = metalSource.dot(vec3(0.2126, 0.7152, 0.0722));
   const wear = sourceLuma.max(0.0001).div(reference).pow(0.80).max(0.08);
@@ -1089,7 +1090,10 @@ function applyMetalTierColour(
   const compressed = dyed.min(0.78).add(highlight.mul(0.17).div(highlight.add(0.17)));
   const mask = smoothstep(0.20, 0.70, initial.metalness);
   material.vertexColors = false;
-  composeSurface(material, { color: previous => mix(previous.mul(vertex), compressed, mask) });
+  composeSurface(material, {
+    color: previous => mix(previous.mul(vertex), compressed, mask),
+    opacity: previous => previous.mul(vertexTint.a),
+  });
   material.userData.gearColorTreatment = { kind: "metal", tint, reference };
 }
 
@@ -1110,7 +1114,10 @@ function applyRareTierColour(material: SurfaceNodeMaterial, tint: number): void 
 
 function includeGearVertexColor(material: SurfaceNodeMaterial): void {
   if (!material.vertexColors) return;
-  composeSurface(material, { color: previous => previous.mul(vertexColor().rgb) });
+  composeSurface(material, {
+    color: previous => previous.mul(vertexColor().rgb),
+    opacity: previous => previous.mul(vertexColor().a),
+  });
   material.vertexColors = false;
 }
 

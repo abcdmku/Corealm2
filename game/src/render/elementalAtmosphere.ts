@@ -27,12 +27,12 @@ function fireNoise(): THREE.Data3DTexture {
   return combustionNoise;
 }
 
-const spatialHash = Fn(([point]: [Node<"vec3">]) => {
+const spatialHash = Fn(([point]: [Node<"vec3">]): Node<"float"> => {
   const p = fract(point.mul(.3183099).add(vec3(.13, .37, .71))).mul(17).toVar();
   return fract(p.x.mul(p.y).mul(p.z).mul(p.x.add(p.y).add(p.z)));
 }).setLayout({ name: "atmosphereHash", type: "float", inputs: [{ name: "point", type: "vec3" }] });
 
-const spatialNoise = Fn(([point]: [Node<"vec3">]) => {
+const spatialNoise = Fn(([point]: [Node<"vec3">]): Node<"float"> => {
   const cell = floor(point).toVar();
   const f = fract(point).toVar();
   f.assign(f.mul(f).mul(float(3).sub(f.mul(2))));
@@ -64,14 +64,14 @@ export class ElementalAtmosphere {
     this.phases = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity),1).setUsage(THREE.DynamicDrawUsage);
     geometry.setAttribute("volumeCentre",this.centres);geometry.setAttribute("volumeShape",this.shapes);geometry.setAttribute("volumeFloor",this.floors);geometry.setAttribute("volumePhase",this.phases);geometry.instanceCount=0;
 
-    const centre = attribute("volumeCentre", "vec4");
-    const shape = attribute("volumeShape", "vec4");
+    const centre = attribute("volumeCentre","vec4" as const);
+    const shape = attribute("volumeShape","vec4" as const);
     const vCentre = varying(centre.xyz);
     const vSize = varying(shape.xyz);
     const vAlpha = varying(centre.w);
     const vSeed = varying(shape.w);
-    const vFloor = varying(attribute("volumeFloor", "float"));
-    const vPhase = varying(attribute("volumePhase", "float"));
+    const vFloor = varying(attribute("volumeFloor","float" as const));
+    const vPhase = varying(attribute("volumePhase","float" as const));
     const vSurface = varying(positionGeometry);
     const vEye = varying(modelWorldMatrixInverse.mul(vec4(cameraPosition, 1)).xyz.sub(centre.xyz).div(shape.xyz));
     const magicEmissionPass = uniform(0);

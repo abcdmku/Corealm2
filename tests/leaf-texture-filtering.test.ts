@@ -16,7 +16,7 @@ function workerBrowser() {
   let crashes = 0;
   class FakeWorker extends EventTarget {
     pending: LeafTextureTask[] = [];
-    terminate = vi.fn();
+    terminate = vi.fn(() => { this.pending.length = 0; });
     constructor() { super(); workers.push(this); }
     postMessage(task: LeafTextureTask, transfer: Transferable[]) {
       transfers.push(transfer);
@@ -46,7 +46,7 @@ function workerBrowser() {
   return {
     workers, transfers, copy,
     block: () => { blocked = true; },
-    unblock: () => { blocked = false; workers.at(-1)!.finish(); },
+    unblock: () => { blocked = false; if (workers.at(-1)?.pending.length) workers.at(-1)!.finish(); },
     fail: (count: number) => { errors = count; },
     crash: (count: number) => { crashes = count; },
   };
@@ -164,6 +164,61 @@ describe("foliage colour filtering", () => {
     expect(new Set(textures).size).toBe(1);
     expect(await prepareLeafTextureAsync(overflow)).toBe(textures[0]);
     textures[0]!.dispose();
+  });
+
+  it("bounds stalled worker requests, releases the queue, and allows a fresh worker afterward", async () => {
+    vi.useFakeTimers();
+    const browser = workerBrowser();
+    browser.block();
+    const { prepareLeafTextureAsync } = await import("../game/src/render/leafTexture.js");
+    const source = new THREE.Texture({ width: 2, height: 1 });
+    const rejected = expect(prepareLeafTextureAsync(source)).rejects.toThrow("failed after retry");
+    await vi.runAllTimersAsync();
+    await rejected;
+    expect(browser.workers).toHaveLength(2);
+    for (const worker of browser.workers) expect(worker.terminate).toHaveBeenCalledTimes(1);
+    browser.unblock();
+    const prepared = await prepareLeafTextureAsync(source);
+    expect(browser.workers).toHaveLength(3);
+    prepared.dispose();
+  });
+
+  it("performs canvas readback and conversion in the worker and transfers the exact output buffer", async () => {
+    const input = new Uint8ClampedArray([65, 143, 38, 255, 90, 50, 10, 63]);
+    const drawImage = vi.fn();
+    const getImageData = vi.fn(() => ({ data: input }));
+    const context = { drawImage, getImageData };
+    const scope = { onmessage: (_event: { data: LeafTextureTask }) => {}, postMessage: vi.fn() };
+    vi.stubGlobal("self", scope);
+    vi.stubGlobal("OffscreenCanvas", class {
+      constructor(public width: number, public height: number) {}
+      getContext() { return context; }
+    });
+    await import("../game/src/render/leafTexture.worker.js");
+    const bitmap = { width: 2, height: 1, close: vi.fn() };
+    scope.onmessage({ data: { id: 17, bitmap: bitmap as unknown as ImageBitmap } });
+    const [reply, options] = scope.postMessage.mock.calls[0]!;
+    expect(drawImage).toHaveBeenCalledWith(bitmap, 0, 0);
+    expect(getImageData).toHaveBeenCalledWith(0, 0, 2, 1);
+    expect(reply).toEqual({ id: 17, ...prepareLeafPixels(input, 2, 1) });
+    expect(options.transfer).toEqual([reply.pixels.buffer]);
+    expect(bitmap.close).toHaveBeenCalledTimes(1);
+    getImageData.mockImplementationOnce(() => { throw new Error("Read failed"); });
+    scope.onmessage({ data: { id: 18, bitmap: bitmap as unknown as ImageBitmap } });
+    expect(scope.postMessage).toHaveBeenLastCalledWith({ id: 18, error: "Read failed" });
+    expect(bitmap.close).toHaveBeenCalledTimes(2);
+  });
+
+  it("prepares in browser workers even when document is absent", async () => {
+    const browser = workerBrowser();
+    vi.stubGlobal("document", undefined);
+    const { prepareLeafTextureAsync, prepareLeafTexture } = await import("../game/src/render/leafTexture.js");
+    const source = new THREE.Texture({ width: 2, height: 1 });
+    expect(() => prepareLeafTexture(source)).toThrow("not prepared");
+    const prepared = await prepareLeafTextureAsync(source);
+    expect(prepared.userData.leafAssociatedColour).toBe(true);
+    expect(browser.copy).toHaveBeenCalledTimes(1);
+    prepared.dispose();
   });
 
   it("keeps CPU-only tests deterministic without introducing a browser synchronous fallback", async () => {
