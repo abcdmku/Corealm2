@@ -1,7 +1,7 @@
 import { FINALE } from "../content/elementalFinales.js";
 import { basicSpellPath } from "./basicSpellPath.js";
 import * as THREE from "three";
-import { MeshBasicNodeMaterial } from "three/webgpu";
+import { MeshBasicNodeMaterial, type Node } from "three/webgpu";
 import { attribute, buffer, instanceIndex, normalView, positionGeometry, positionView, sin, varying, vec3, vec4 } from "three/tsl";
 import { clockUniform } from "./elementalNodes.js";
 import type { SpellElement, Vec3 } from "../contracts.js";
@@ -41,9 +41,11 @@ export class ArcaneSpellVfx {
     g.setAttribute("coreTint",new THREE.InstancedBufferAttribute(new Float32Array(64*4),4).setUsage(THREE.DynamicDrawUsage));
     const material=new MeshBasicNodeMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,fog:false,alphaTest:.008});
     this.cores=new THREE.InstancedMesh(g,material,64);this.cores.count=0;this.cores.visible=false;this.cores.frustumCulled=false;
-    const time=clockUniform(this.clock),local=varying(positionGeometry),tint=attribute("coreTint","vec4");
+    const time=clockUniform(this.clock),local=varying(positionGeometry),tint=attribute("coreTint","vec4" as const);
     const pulse=sin(positionGeometry.x.mul(7).add(time.mul(11))).mul(sin(positionGeometry.z.mul(8).sub(time.mul(8)))).mul(.06).add(1);
-    const matrix=buffer(this.cores.instanceMatrix.array,"mat4",64).element(instanceIndex);
+    const transforms=buffer(this.cores.instanceMatrix.array,"mat4" as const,64);
+      // Three supports indexed buffer uniforms; its BufferNode declaration omits element.
+      const matrix=(transforms as typeof transforms & {element(index:Node):Node<"mat4">}).element(instanceIndex);
     material.positionNode=matrix.mul(vec4(positionGeometry.mul(pulse),1)).xyz;
     const face=normalView.normalize().dot(positionView.negate().normalize()).max(0);
     const noise=sin(local.y.mul(9).sub(time.mul(9)).add(sin(local.x.mul(8).add(time.mul(5))).mul(2))).mul(.5).add(.5);

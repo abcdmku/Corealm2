@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { MeshStandardNodeMaterial, type Node } from "three/webgpu";
-import { attribute, float, materialColor, max, normalLocal, positionGeometry, reference, screenCoordinate, smoothstep, transformNormalToView, varying, vec2, vec3 } from "three/tsl";
+import { attribute, float, max, normalLocal, positionGeometry, reference, screenCoordinate, smoothstep, transformNormalToView, varying, vec2, vec3 } from "three/tsl";
 import { authoredFlow, matterNoise3 as stoneNoise } from "./elementalNodes.js";
 import { isolateMagicEmission } from "./magicGlow.js";
+import { surfaceColorNode } from "./nodeMaterials.js";
 
 type Face = THREE.Vector3[];
 const noise = (n: number) => { const x = Math.sin(n * 127.1 + 17.7) * 43758.5453; return x - Math.floor(x); };
@@ -103,7 +104,7 @@ export class FracturedBoulder {
     const material = new MeshStandardNodeMaterial({ color: 0x7e8479, roughness: .83, flatShading: true, transparent: true });
     const t=reference('release.value','float',this),size=reference('scale.value','float',this);
     const floor=reference('floor.value','float',this),energy=reference('energy.value','float',this);
-    const shardCentre=attribute('shardCentre','vec4'),shardMotion=attribute('shardMotion','vec4');
+    const shardCentre=attribute('shardCentre','vec4' as const),shardMotion=attribute('shardMotion','vec4' as const);
     const axis=vec3(shardMotion.w.sin(),.7,shardMotion.w.cos()).normalize();
     const angle=t.mul(shardMotion.w.mul(.45).add(1.5));
     const centre=shardCentre.xyz.add(shardMotion.xyz.mul(float(1).sub(t.mul(-1.1).exp()).div(1.1)));
@@ -115,7 +116,7 @@ export class FracturedBoulder {
     material.normalNode=transformNormalToView(turnFracture(normalLocal,axis,angle));
     const point=varying(positionGeometry),grain=stoneNoise(point.mul(37)),strata=stoneNoise(point.mul(vec3(4,22,4)));
     const mineral=authoredFlow(point.xz.mul(.65).add(point.y.mul(.3)),float(0),float(3));
-    material.colorNode=materialColor.rgb.mul(grain.mul(.24).add(strata.mul(.13)).add(mineral.mul(.55)).add(.48));
+    material.colorNode=surfaceColorNode(material).rgb.mul(grain.mul(.24).add(strata.mul(.13)).add(mineral.mul(.55)).add(.48));
     const charged=point.y.mul(5).add(mineral.mul(18)).sub(energy.mul(4)).sin().mul(.5).add(.5).pow(8);
     material.emissiveNode=vec3(.4,.78,.22).mul(smoothstep(.36,.70,mineral).pow(2)).mul(charged.mul(1.8).add(1.5));
     fadeFractureShadow(material,this.fade);

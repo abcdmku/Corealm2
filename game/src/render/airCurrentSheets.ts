@@ -28,7 +28,7 @@ export class AirCurrentSheets {
       geometry.computeVertexNormals();
       geometry.setAttribute("currentLife", new THREE.InstancedBufferAttribute(new Float32Array(64 * 4), 4).setUsage(THREE.DynamicDrawUsage));
       geometry.setAttribute("currentProfile", new THREE.InstancedBufferAttribute(new Float32Array(64 * 4), 4).setUsage(THREE.DynamicDrawUsage));
-      const life=attribute("currentLife","vec4"),profile=attribute("currentProfile","vec4"),time=clockUniform(this.clock);
+      const life=attribute("currentLife","vec4" as const),profile=attribute("currentProfile","vec4" as const),time=clockUniform(this.clock);
       const currentPoint=(coords:Node<"vec2">):Node<"vec3">=>{
         const u=coords.x,v=coords.y,seed=life.y,turns=profile.x;
         const taper=sin(u.mul(Math.PI)).max(.0001).pow(.65),width=profile.y;
@@ -58,7 +58,9 @@ export class AirCurrentSheets {
       const du=currentPoint(coord.add(vec2(.001,0))).sub(point),dv=currentPoint(coord.add(vec2(0,.001))).sub(point);
       const localNormal=du.cross(dv).add(vec3(.00000001)).normalize();
       const matrices=new THREE.InstancedBufferAttribute(new Float32Array(64*16),16).setUsage(THREE.DynamicDrawUsage);
-      const matrix=buffer(matrices.array,"mat4",64).element(instanceIndex);
+      const transforms=buffer(matrices.array,"mat4" as const,64);
+      // Three supports indexed buffer uniforms; its BufferNode declaration omits element.
+      const matrix=(transforms as typeof transforms & {element(index:Node):Node<"mat4">}).element(instanceIndex);
       const positionNode=matrix.mul(vec4(point,1)).xyz;
       const normalNode=varying(modelNormalMatrix.mul(transformNormal(localNormal,matrix)).normalize());
       const emission={value:0};

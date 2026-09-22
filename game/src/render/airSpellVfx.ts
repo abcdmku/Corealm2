@@ -1,7 +1,7 @@
 import { FINALE } from "../content/elementalFinales.js";
 import { tornadoDebris } from "./tornadoDebris.js";
 import * as THREE from "three";
-import type { MeshBasicNodeMaterial } from "three/webgpu";
+import type { MeshBasicNodeMaterial, Node } from "three/webgpu";
 import { attribute, buffer, cos, float, instanceIndex, modelNormalMatrix, normalGeometry, positionGeometry, sin, transformNormal, varying, vec3, vec4 } from "three/tsl";
 import { clockUniform } from "./elementalNodes.js";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
@@ -44,7 +44,7 @@ export class AirSpellVfx {
     ripple.rotateX(Math.PI/2);
     for (const [kind,geometry] of [["shell",new THREE.SphereGeometry(1,24,16)],["funnel",funnel],["ripple",ripple]] as const) {
       geometry.setAttribute("pressureLife",new THREE.InstancedBufferAttribute(new Float32Array(96*3),3).setUsage(THREE.DynamicDrawUsage));
-      const life=attribute("pressureLife","vec3"),time=clockUniform(this.clock);
+      const life=attribute("pressureLife","vec3" as const),time=clockUniform(this.clock);
       const source=positionGeometry;
       const phase=source.y.mul(15).sub(time.mul(5)).add(life.y);
       const radius=life.z.add(float(1).sub(life.z).mul(source.y)).div(source.y.mul(.88).add(.12))
@@ -57,7 +57,9 @@ export class AirSpellVfx {
         ?normalGeometry.add(vec3(sin(phase).mul(.24),0,cos(phase).mul(.24)))
         :normalGeometry;
       const matrices=new THREE.InstancedBufferAttribute(new Float32Array(96*16),16).setUsage(THREE.DynamicDrawUsage);
-      const matrix=buffer(matrices.array,"mat4",96).element(instanceIndex);
+      const transforms=buffer(matrices.array,"mat4" as const,96);
+      // Three supports indexed buffer uniforms; its BufferNode declaration omits element.
+      const matrix=(transforms as typeof transforms & {element(index:Node):Node<"mat4">}).element(instanceIndex);
       const material=createElementalRefractionMaterial({clock:this.clock,liquid:false,
         strength:kind==="funnel"?19:14,flowMode:kind==="funnel"?1:0,
         positionNode:matrix.mul(vec4(point,1)).xyz,

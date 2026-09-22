@@ -1,7 +1,7 @@
 import { FINALE, elementalChoreographyDuration } from "../content/elementalFinales.js";
 import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
-import { attribute, float, materialColor, max, mix, modelWorldMatrix, positionGeometry, reference, smoothstep, varying, vec3, vec4 } from "three/tsl";
+import { attribute, float, max, mix, modelWorldMatrix, positionGeometry, reference, smoothstep, varying, vec3, vec4 } from "three/tsl";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
 import type { ElementalParticleCloud } from "./elementalParticleCloud.js";
 import type { ElementalFilaments } from "./elementalFilaments.js";
@@ -11,6 +11,7 @@ import { FracturedBoulder, fracturedBoulderGeometry, fadeFractureShadow, turnFra
 import { ElementalFlowSurfaces } from "./elementalFlowSurfaces.js";
 import { authoredFlow, matterNoise3 as stoneNoise } from "./elementalNodes.js";
 import { isolateMagicEmission } from "./magicGlow.js";
+import { surfaceColorNode } from "./nodeMaterials.js";
 import { elementalPulseArt } from "./elementalPulseArt.js";
 import { ElementalEnergyBodies } from "./elementalEnergyBodies.js";
 import type { Vec3 } from "../contracts.js";
@@ -96,7 +97,7 @@ export class EarthSpellVfx {
       const grain=stoneNoise(point.mul(19));
       const mineral=stoneNoise(point.mul(2.4).add(stoneNoise(point.mul(4.1)).mul(1.6)));
       const fissure=float(1).sub(smoothstep(.008,.034,mineral.sub(.5).abs()));
-      const base=materialColor.rgb.mul(attribute('color','vec3')).mul(grain.mul(.3).add(.78));
+      const base=surfaceColorNode(material).rgb.mul(attribute('color','vec3' as const)).mul(grain.mul(.3).add(.78));
       const darkened=mix(base,vec3(.085,.093,.08),fissure.mul(.48));
       const shaded=mix(darkened,vec3(.28,.32,.23),smoothstep(.66,.83,mineral).mul(.23));
       const etched=authoredFlow(point.xz.mul(.24).add(point.y.mul(.13)),float(0),float(2));
@@ -123,7 +124,7 @@ export class EarthSpellVfx {
       rock.userData['fractureInverse']=inverse;rock.userData['fractureFade']=fade;
       const collapse=reference('value','float',release),floorNode=reference('value','float',floor);
       const inverseModel=reference('value','mat4',inverse);
-      const chunkCentre=attribute('rockChunkCentre','vec3'),motion=attribute('rockChunkMotion','vec4');
+      const chunkCentre=attribute('rockChunkCentre','vec3' as const),motion=attribute('rockChunkMotion','vec4' as const);
       const worldCentre=modelWorldMatrix.mul(vec4(chunkCentre,1)).xyz;
       const piece=modelWorldMatrix.mul(vec4(positionGeometry,1)).xyz.sub(worldCentre);
       const axis=vec3(motion.x,.4,motion.z).normalize(),angle=collapse.mul(motion.w.add(1.1));
