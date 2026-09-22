@@ -73,7 +73,7 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   expect(renderer.getPreparationState()).toMatchObject({ compiling: true, ready: false });
   finishGlow(); await warming;
   expect(renderer.getPreparationState()).toMatchObject({ compiling: false, ready: true });
-  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget });
+  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget, batchSize: 4 });
   geometry.dispose(); interior.geometry.dispose(); material.dispose(); frameTarget.dispose();
 });
 

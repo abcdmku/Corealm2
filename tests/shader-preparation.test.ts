@@ -79,6 +79,47 @@ it("reports queued resident meshes until each complete batch finishes", async ()
   expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 0, pendingTextures: 0, compiling: false });
 });
 
+it("indexes lights once per preparation while retaining live visibility, topology, and authored traversal", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const meshes = [new THREE.Mesh(), new THREE.Mesh(), new THREE.Mesh()];
+  const visible = new THREE.PointLight(), hidden = new THREE.PointLight(), added = new THREE.SpotLight();
+  const hiddenRoot = new THREE.Group(); hiddenRoot.visible = false; hiddenRoot.add(hidden);
+  scene.add(...meshes, visible, hiddenRoot);
+  const authoredVisits: THREE.Object3D[][] = [];
+  scene.onBeforeRender = () => {
+    const visited: THREE.Object3D[] = []; scene.traverseVisible(object => visited.push(object));
+    authoredVisits.push(visited);
+  };
+  const beforeRender = scene.onBeforeRender, traverseVisible = scene.traverseVisible;
+  const traversal = vi.spyOn(scene, "traverse"), addListener = vi.spyOn(scene, "addEventListener"), removeListener = vi.spyOn(scene, "removeEventListener");
+  const discovered: THREE.Object3D[][] = [];
+  compile.mockImplementation(async (_view, viewCamera, liveScene) => {
+    expect(liveScene).toBe(scene); expect(viewCamera).toBe(camera);
+    Reflect.apply(liveScene.onBeforeRender, liveScene, [renderer, _view, viewCamera, null]);
+    const lights: THREE.Object3D[] = [];
+    liveScene.traverseVisible(object => {
+      expect((object as THREE.Light).isLight).toBe(true);
+      if (object.layers.test(viewCamera.layers)) lights.push(object);
+    });
+    discovered.push(lights);
+    expect(scene.traverseVisible).toBe(traverseVisible);
+    await Promise.resolve();
+    expect(scene.onBeforeRender).toBe(beforeRender);
+    expect(scene.traverseVisible).toBe(traverseVisible);
+    if (discovered.length === 1) {
+      hiddenRoot.visible = true; scene.remove(visible); hiddenRoot.add(added);
+    } else if (discovered.length === 2) {
+      hidden.visible = false; added.layers.set(3);
+    }
+  });
+  await prepareShaderMeshes(renderer, scene, camera, meshes);
+  expect(discovered).toEqual([[visible], [hidden, added], []]);
+  expect(authoredVisits).toHaveLength(3);
+  for (const visited of authoredVisits) for (const mesh of meshes) expect(visited).toContain(mesh);
+  expect(traversal).toHaveBeenCalledOnce();
+  for (const [type, listener] of addListener.mock.calls) expect(removeListener).toHaveBeenCalledWith(type, listener);
+});
+
 it("waits for each texture upload, discovers TSL maps, and reuses only unchanged live versions", async () => {
   const { scene, camera, renderer, compile, initTexture, completed } = fixture();
   const maps = [new THREE.DataTexture(new Uint8Array(4), 1, 1), new THREE.DataTexture(new Uint8Array(4), 1, 1)];

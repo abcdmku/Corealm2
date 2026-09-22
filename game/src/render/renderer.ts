@@ -598,7 +598,7 @@ export class Renderer {
         if (hidden.length) objects.push(...this.warmupObjects());
       } finally { for (const root of hidden) root.visible = false; }
       // No temporary mesh or visibility mutation survives an asynchronous yield.
-      await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget });
+      await prepareShaderMeshes(this.renderer, this.scene, this.camera, [...new Set(objects), ...proxies], { renderTarget: this.frameTarget, batchSize: 4 });
       await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
         this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget));
     } finally { this.preparingResident--; }

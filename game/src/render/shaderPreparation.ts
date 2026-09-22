@@ -239,13 +239,51 @@ function corpseMaterial(source: THREE.Material, state: PreparationState): THREE.
   return material;
 }
 
+/** A multi-batch warmup must not walk the full world again for every light lookup.
+ * Track topology while yielding; visibility and attachment are checked live per light. */
+class PreparationLights {
+  private readonly watched = new Set<THREE.Object3D>();
+  private readonly lights = new Set<THREE.Object3D>();
+  private readonly added = (event: { child: THREE.Object3D }) => this.watch(event.child);
+  private readonly removed = (event: { child: THREE.Object3D }) => event.child.traverse(object => this.unwatch(object));
+
+  constructor(private readonly scene: THREE.Scene) { this.watch(scene); }
+
+  private watch(root: THREE.Object3D): void {
+    root.traverse(object => {
+      if (this.watched.has(object)) return;
+      this.watched.add(object);
+      if ((object as THREE.Light).isLight) this.lights.add(object);
+      object.addEventListener("childadded", this.added);
+      object.addEventListener("childremoved", this.removed);
+    });
+  }
+
+  private unwatch(object: THREE.Object3D): void {
+    this.watched.delete(object); this.lights.delete(object);
+    object.removeEventListener("childadded", this.added);
+    object.removeEventListener("childremoved", this.removed);
+  }
+
+  visitVisible(callback: (object: THREE.Object3D) => void): void {
+    for (const light of this.lights) {
+      for (let ancestor: THREE.Object3D | null = light; ancestor; ancestor = ancestor.parent) {
+        if (!ancestor.visible) break;
+        if (ancestor === this.scene) { callback(light); break; }
+      }
+    }
+  }
+
+  dispose(): void { for (const object of this.watched) this.unwatch(object); }
+}
+
 /** Three collects render items before its first pipeline-building await. Keep the actual
  * scene cache, mesh identity, skinning and parent transforms, then restore all live state
  * before it yields. WebGPU walks children directly, so traverse overrides do not work. */
 function compileBatch(
   renderer: WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera,
   objects: readonly THREE.Object3D[], state: PreparationState, fading: boolean,
-  renderTarget: THREE.RenderTarget | null | undefined,
+  renderTarget: THREE.RenderTarget | null | undefined, lights?: PreparationLights,
 ): Promise<void> {
   const view = new THREE.Group();
   view.matrixWorldAutoUpdate = false;
@@ -257,7 +295,17 @@ function compileBatch(
   const target = renderTarget === undefined ? undefined : renderer.getRenderTarget();
   const cubeFace = renderTarget === undefined ? 0 : renderer.getActiveCubeFace();
   const mipLevel = renderTarget === undefined ? 0 : renderer.getActiveMipmapLevel();
+  const beforeRender = scene.onBeforeRender, traverseVisible = scene.traverseVisible;
   try {
+    if (lights) scene.onBeforeRender = function (...args) {
+      // Authored hooks may traverse or alter the world; run them before intercepting
+      // the renderer's immediately following, light-only targetScene traversal.
+      beforeRender.apply(this, args);
+      scene.traverseVisible = callback => {
+        scene.traverseVisible = traverseVisible;
+        lights.visitVisible(callback);
+      };
+    };
     if (renderTarget !== undefined) renderer.setRenderTarget(renderTarget);
     for (const original of originals) {
       const object = original.object as Drawable;
@@ -271,6 +319,7 @@ function compileBatch(
     }
     return renderer.compileAsync(view, camera, scene);
   } finally {
+    scene.onBeforeRender = beforeRender; scene.traverseVisible = traverseVisible;
     if (target !== undefined) renderer.setRenderTarget(target, cubeFace, mipLevel);
     for (const original of originals) {
       const object = original.object as Drawable;
@@ -299,6 +348,7 @@ async function prepare(
   const completion = state.completion ??= createGpuCompletion(renderer);
   const cancelled = options.isCancelled ?? (() => false);
   const batchSize = Math.max(1, Math.min(4, Math.floor(options.batchSize ?? 1)));
+  const lights = objects.length > batchSize ? new PreparationLights(scene) : undefined;
   try {
     for (let offset = 0; offset < objects.length && !cancelled(); offset += batchSize) {
       const batch = objects.slice(offset, offset + batchSize);
@@ -323,15 +373,15 @@ async function prepare(
       if (cancelled()) return;
       await yieldToMainThread();
       await validateGraphicsWork(renderer, "Resident graphics pipelines", () =>
-        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget));
+        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights));
       if (cancelled()) return;
       const fading = batch.filter(object => object.userData.prepareCorpseFade === true);
       if (fading.length) await validateGraphicsWork(renderer, "Creature fade pipelines", () =>
-        compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget));
+        compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights));
       await finishUploads(completion);
       progress.pendingMeshes -= batch.length;
     }
-  } finally { options.onPendingTextures?.(0); }
+  } finally { lights?.dispose(); options.onPendingTextures?.(0); }
 }
 
 /** Native asynchronous pipeline creation shared by startup and streamed content. Calls
