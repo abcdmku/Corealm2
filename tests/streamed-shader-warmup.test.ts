@@ -61,10 +61,51 @@ it("runs only one bounded batch and continues receiving additions while a pipeli
   gate.prepare(); gate.restore();
   await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
   for (let frame = 0; frame < 10; frame++) { gate.prepare(); gate.restore(); }
-  expect(compile).toHaveBeenCalledOnce(); expect(gate.getState().queued).toBe(4);
+  expect(compile).toHaveBeenCalledOnce(); expect(gate.getState().queued).toBe(1);
   scene.add(new THREE.Points());
   finish(); await settle(gate);
   expect(sizes).toEqual([1, 1, 1, 1, 1, 1]); gate.dispose();
+});
+
+it("drains successive bounded batches without needing another gameplay frame", async () => {
+  const { scene, gate, compile } = fixture();
+  let active = 0, maximum = 0;
+  const sizes: number[] = [];
+  compile.mockImplementation(async view => {
+    active++; maximum = Math.max(maximum, active); sizes.push(view.children.length);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    active--;
+  });
+  for (let index = 0; index < 13; index++) scene.add(new THREE.Mesh());
+  gate.prepare(); gate.restore();
+  await vi.waitFor(() => expect(gate.getState()).toMatchObject({ waiting: 0, queued: 0, compiling: false }));
+  expect(sizes).toEqual(Array(13).fill(1));
+  expect(maximum).toBe(1);
+  gate.dispose();
+});
+
+it("gives painting priority after a slow frame before continuing the drain", async () => {
+  const { scene, gate, compile } = fixture();
+  const frames: FrameRequestCallback[] = [];
+  const now = vi.spyOn(performance, "now").mockReturnValue(100);
+  vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => { frames.push(callback); return frames.length; });
+  vi.stubGlobal("cancelAnimationFrame", () => {});
+  try {
+    gate.prepare(); gate.restore();
+    now.mockReturnValue(160);
+    gate.prepare(); gate.restore();
+    for (let index = 0; index < 5; index++) scene.add(new THREE.Mesh());
+    await Promise.resolve();
+    expect(frames).toHaveLength(1);
+    expect(compile).not.toHaveBeenCalled();
+    frames.shift()!(160);
+    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ compiling: false, queued: 1 }), { interval: 2, timeout: 90 });
+    expect(compile).toHaveBeenCalledTimes(4);
+    expect(frames).toHaveLength(1);
+    frames.shift()!(176);
+    await vi.waitFor(() => expect(gate.getState().waiting).toBe(0));
+    expect(compile).toHaveBeenCalledTimes(5);
+  } finally { gate.dispose(); now.mockRestore(); vi.unstubAllGlobals(); }
 });
 
 it("updates pending ancestors after reparenting and retains objects requeued during compilation", async () => {
@@ -115,4 +156,13 @@ it("cancels further batches when disposed during preparation", async () => {
   await new Promise(resolve => setTimeout(resolve, 10));
   gate.prepare(); expect(compile).toHaveBeenCalledOnce();
   expect(gate.getState().waiting).toBe(0); expect(mesh.visible).toBe(true);
+});
+
+it("cancels a scheduled drain before its first native preparation starts", async () => {
+  const { scene, gate, mesh, compile } = fixture();
+  scene.add(mesh);
+  gate.dispose();
+  await new Promise(resolve => setTimeout(resolve, 10));
+  expect(compile).not.toHaveBeenCalled();
+  expect(gate.getState()).toMatchObject({ waiting: 0, queued: 0, compiling: false });
 });

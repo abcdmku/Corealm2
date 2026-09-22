@@ -1,6 +1,12 @@
 import * as THREE from "three";
 import type { WebGPURenderer } from "three/webgpu";
 import { prepareShaderMeshes } from "./shaderPreparation.js";
+import { GameplayWork } from "./gameplayWork.js";
+import { yieldToMainThread } from "../core/yield.js";
+
+// One native object remains in flight at a time inside prepareShaderMeshes. Grouping a few
+// objects amortizes preparation bookkeeping without widening the GPU submission queue.
+const DRAIN_BATCH_SIZE = 4;
 
 /** Prepare newly resident pipelines and uploads before their first gameplay draw. */
 export class StreamedShaderWarmup {
@@ -16,6 +22,9 @@ export class StreamedShaderWarmup {
   private readonly failed = new Set<THREE.Object3D>();
   private lastError: string | null = null;
   private pending = false;
+  private scheduled = false;
+  private lastFrameAt = 0;
+  private readonly pacing = new GameplayWork();
   private pendingTextures = 0;
   private disposed = false;
   private readonly added = (event: { child: THREE.Object3D }) => this.watch(event.child, true);
@@ -32,6 +41,7 @@ export class StreamedShaderWarmup {
   constructor(private renderer: WebGPURenderer, private scene: THREE.Scene, private camera: THREE.Camera,
     private renderTarget?: THREE.RenderTarget | null) {
     // Existing meshes were covered by startup warmup. Listen before background residency expands.
+    this.pacing.setInteractive(true);
     this.watch(scene, false);
   }
 
@@ -48,6 +58,7 @@ export class StreamedShaderWarmup {
       this.addWaiting(object);
       this.queued.add(object);
     });
+    this.scheduleNext();
   }
 
   private watch(root: THREE.Object3D, enqueue: boolean): void {
@@ -64,6 +75,7 @@ export class StreamedShaderWarmup {
         this.queued.add(object);
       }
     });
+    if (enqueue) this.scheduleNext();
   }
 
   private addWaiting(object: THREE.Object3D): void {
@@ -93,7 +105,10 @@ export class StreamedShaderWarmup {
   /** Called before rendering. Each queue has only one asynchronous batch in flight. */
   prepare(): void {
     if (this.disposed) return;
-    if (!this.pending && this.queued.size) this.compileNext();
+    const now = performance.now();
+    if (this.lastFrameAt > 0) this.pacing.reportFrame(now - this.lastFrameAt);
+    this.lastFrameAt = now;
+    this.scheduleNext();
     for (const object of this.waiting) {
       // Keep sampled actors and input feedback visible while detailed replacements prepare.
       if (!this.deferGameplayDraws && ((object.userData.entityId !== undefined && !object.userData.deferFirstDraw)
@@ -104,13 +119,33 @@ export class StreamedShaderWarmup {
     }
   }
 
+  private scheduleNext(): void {
+    if (this.disposed || this.pending || this.scheduled || !this.queued.size) return;
+    this.scheduled = true;
+    const start = () => {
+      this.scheduled = false;
+      if (this.disposed || this.pending || !this.queued.size) return;
+      this.compileNext();
+    };
+    // Keep draining completed native jobs without waiting for a later render call. Every
+    // continuation yields a real task, and each individual upload/compile yields inside the
+    // shared preparation path. After a slow frame, give painting priority before the next job.
+    void (this.pacing.isUnderPressure()
+      ? this.pacing.run(start, () => 2)
+      : yieldToMainThread().then(start));
+  }
+
   restore(): void {
     for (const object of this.hidden) object.visible = true;
     this.hidden.length = 0;
   }
 
   private compileNext(): void {
-    const batch = [...this.queued].slice(0, 1);
+    const batch: THREE.Object3D[] = [];
+    for (const object of this.queued) {
+      batch.push(object);
+      if (batch.length === DRAIN_BATCH_SIZE) break;
+    }
     for (const object of batch) this.queued.delete(object);
     this.pending = true;
     let succeeded = false;
@@ -130,6 +165,7 @@ export class StreamedShaderWarmup {
       for (const object of batch) if (succeeded && !this.queued.has(object)) this.releaseWaiting(object);
       this.pendingTextures = 0;
       this.pending = false;
+      this.scheduleNext();
     });
   }
 
@@ -148,5 +184,6 @@ export class StreamedShaderWarmup {
     this.pendingRoots.clear(); this.pendingAncestors.clear();
     this.pendingTextures = 0;
     this.pending = false;
+    this.scheduled = false;
   }
 }

@@ -348,7 +348,7 @@ async function prepare(
   const completion = state.completion ??= createGpuCompletion(renderer);
   const cancelled = options.isCancelled ?? (() => false);
   const batchSize = Math.max(1, Math.min(4, Math.floor(options.batchSize ?? 1)));
-  const lights = objects.length > batchSize ? new PreparationLights(scene) : undefined;
+  const lights = objects.length >= 16 && objects.length > batchSize ? new PreparationLights(scene) : undefined;
   try {
     for (let offset = 0; offset < objects.length && !cancelled(); offset += batchSize) {
       const batch = objects.slice(offset, offset + batchSize);

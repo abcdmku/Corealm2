@@ -81,7 +81,7 @@ it("reports queued resident meshes until each complete batch finishes", async ()
 
 it("indexes lights once per preparation while retaining live visibility, topology, and authored traversal", async () => {
   const { scene, camera, renderer, compile } = fixture();
-  const meshes = [new THREE.Mesh(), new THREE.Mesh(), new THREE.Mesh()];
+  const meshes = Array.from({ length: 16 }, () => new THREE.Mesh());
   const visible = new THREE.PointLight(), hidden = new THREE.PointLight(), added = new THREE.SpotLight();
   const hiddenRoot = new THREE.Group(); hiddenRoot.visible = false; hiddenRoot.add(hidden);
   scene.add(...meshes, visible, hiddenRoot);
@@ -113,11 +113,21 @@ it("indexes lights once per preparation while retaining live visibility, topolog
     }
   });
   await prepareShaderMeshes(renderer, scene, camera, meshes);
-  expect(discovered).toEqual([[visible], [hidden, added], []]);
-  expect(authoredVisits).toHaveLength(3);
+  expect(discovered).toEqual([[visible], [hidden, added], ...Array.from({ length: 14 }, () => [])]);
+  expect(authoredVisits).toHaveLength(16);
   for (const visited of authoredVisits) for (const mesh of meshes) expect(visited).toContain(mesh);
   expect(traversal).toHaveBeenCalledOnce();
   for (const [type, listener] of addListener.mock.calls) expect(removeListener).toHaveBeenCalledWith(type, listener);
+});
+
+it("avoids whole-scene listener indexing for short streamed preparation jobs", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const meshes = Array.from({ length: 4 }, () => new THREE.Mesh());
+  scene.add(...meshes, new THREE.PointLight());
+  const addListener = vi.spyOn(scene, "addEventListener");
+  await prepareShaderMeshes(renderer, scene, camera, meshes, { batchSize: 1 });
+  expect(compile).toHaveBeenCalledTimes(4);
+  expect(addListener).not.toHaveBeenCalled();
 });
 
 it("waits for each texture upload, discovers TSL maps, and reuses only unchanged live versions", async () => {
