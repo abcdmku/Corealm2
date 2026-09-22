@@ -1,8 +1,9 @@
 import * as THREE from "three";
+import { surfaceColorNode } from "./nodeMaterials.js";
 import { isolateMagicEmission } from "./magicGlow.js";
 import { MeshBasicNodeMaterial, MeshStandardNodeMaterial, MeshPhysicalNodeMaterial } from "three/webgpu";
 import { Fn, abs, attribute, buffer, dot, float, instanceIndex, mat3, materialColor, modelNormalMatrix, normalGeometry, normalize, positionGeometry, positionView, pow, sin, smoothstep, uniform, varying, vec3, vec4 } from "three/tsl";
-import { fbm3, noise3 } from "./elementalNodes.js";
+import { elementalInstanceMatrix, fbm3, noise3 } from "./elementalNodes.js";
 
 export type VolumeShape = "sphere" | "tube" | "ring" | "funnel";
 
@@ -34,10 +35,10 @@ export class ElementalVolumes {
       const material=new MeshBasicNodeMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
       const mesh=new THREE.InstancedMesh(geometry,material,160);
       const envelope=attribute("envelope","vec2" as const),vEnvelope=varying(envelope),local=varying(positionGeometry);
-      const matrix=buffer(mesh.instanceMatrix.array,"mat4" as const,160).element(instanceIndex),m=mat3(matrix);
+      const matrix=elementalInstanceMatrix(mesh.instanceMatrix),m=matrix.toMat3();
       const wave=sin(positionGeometry.y.mul(13).add(envelope.y.mul(2))).add(sin(positionGeometry.x.mul(17).sub(positionGeometry.z.mul(11)).add(envelope.y)));
       material.positionNode=matrix.mul(vec4(positionGeometry.add(normalGeometry.mul(wave).mul(.025)),1)).xyz;
-      const col0=m.element(0),col1=m.element(1),col2=m.element(2);
+      const col0=m.mul(vec3(1,0,0)),col1=m.mul(vec3(0,1,0)),col2=m.mul(vec3(0,0,1));
       const normal=normalize(varying(modelNormalMatrix.mul(m.mul(normalGeometry.div(vec3(dot(col0,col0),dot(col1,col1),dot(col2,col2)))))));
       // Basic NodeMaterial applies the live per-instance colour after colorNode.
       const flow=local.mul(4.2).add(vec3(this.clock.mul(.45),this.clock.mul(-1.9),vEnvelope.y));
@@ -179,7 +180,8 @@ export class ElementalSolids {
     });
     const stoneSample=varying(positionGeometry);
     const grain=fbm3(stoneSample.mul(22)),strata=noise3(stoneSample.mul(vec3(6,25,6)));
-    material.colorNode=materialColor.rgb.mul(grain.mul(.42).add(strata.mul(.16)).add(.7));
+    const stoneColor=surfaceColorNode(material);
+    material.colorNode=vec4(stoneColor.rgb.mul(grain.mul(.42).add(strata.mul(.16)).add(.7)),stoneColor.a);
     const ice = new THREE.CylinderGeometry(0.015, 0.21, 1, 5, 1);
     this.stone = this.batch(
       parent,

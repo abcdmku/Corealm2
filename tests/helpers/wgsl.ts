@@ -14,7 +14,10 @@ export function lowerToWgsl(object: Object3D, scene = new Scene(), camera: Camer
     device: { features: new Set<string>(), limits: { maxUniformBufferBindingSize: 65536 } },
   });
   renderer.hasFeature = () => false;
-  const builder = new WGSLNodeBuilder(object, renderer);
+  // Runtime NodeBuilder exposes these fields; the r185 declaration is incomplete.
+  const builder = new WGSLNodeBuilder(object, renderer) as WGSLNodeBuilder & {
+    scene: Scene; camera: Camera; build(): void; vertexShader: string; fragmentShader: string;
+  };
   builder.scene = scene;
   builder.camera = camera;
   builder.build();

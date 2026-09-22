@@ -1,11 +1,19 @@
+import type { InstancedBufferAttribute } from "three";
 import type { Node } from "three/webgpu";
-import { Fn, If, cos, dot, float, floor, fract, max, mix, pow, reference, sin, smoothstep, sqrt, texture, vec2, vec3 } from "three/tsl";
+import { Fn, If, buffer, instanceIndex, cos, dot, float, floor, fract, max, mix, pow, reference, sin, smoothstep, sqrt, texture, vec2, vec3 } from "three/tsl";
 import { elementalFlowTexture } from "./elementalFlowTexture.js";
 import { elementalFlameTexture } from "./elementalFlameTexture.js";
 
 // Start the authored texture requests when effects load, before pipeline preparation.
 const flowMap = texture(elementalFlowTexture());
 const flameMap = texture(elementalFlameTexture());
+
+/** Three supports buffer element access at runtime; r185 declarations omit it. */
+export function elementalInstanceMatrix(attribute: InstancedBufferAttribute): Node<"mat4"> {
+  const matrices = buffer(attribute.array, "mat4" as const, attribute.count);
+  const indexed = matrices as typeof matrices & { element(index: Node<"uint">): Node<"mat4"> };
+  return indexed.element(instanceIndex);
+}
 
 /** Authored elemental sampling shared by the native renderer's spatial effects. */
 export const clockUniform = (clock: { value: number }): Node<"float"> => reference("value", "float", clock);
@@ -44,7 +52,7 @@ const flamePatch = Fn(([uv,cell,seed]: [Node<"vec2">,Node<"vec2">,Node<"float">]
 });
 export const flameDetail = Fn(([sourceUv,clock,seed]: [Node<"vec2">,Node<"float">,Node<"float">]): Node<"float"> => {
   const variation=fract(sin(vec3(seed.add(1.7),seed.add(19.3),seed.add(41.9)).mul(vec3(12.9898,39.3468,73.156))).mul(43758.5453));
-  const uv=sourceUv.mul(mix(vec2(.66,.68),vec2(1.28,1.19),variation.xy)).toVar();
+  const uv=sourceUv.mul(vec2(.66,.68).add(vec2(.62,.51).mul(variation.xy))).toVar();
   uv.x.addAssign(uv.y.sub(.5).mul(variation.z.sub(.5)).mul(.58));
   const drift=vec2(variation.z.sub(.5).mul(clock).mul(.045),clock.negate().mul(variation.x.mul(.38).add(.46)));
   const moving=uv.add(drift).toVar();

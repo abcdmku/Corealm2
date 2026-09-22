@@ -53,7 +53,7 @@ export class ElementalParticleCloud {
     });
     const centre=attribute("centreSize","vec4" as const),tint=attribute("tintAlpha","vec4" as const),shape=attribute("shape","vec4" as const);
     const c=cos(shape.x),s=sin(shape.x);
-    let spin=mat3(c,0,s.negate(),0,1,0,s,0,c);
+    let spin: Node<"mat3">=mat3(c,0,s.negate(),0,1,0,s,0,c);
     if(kind === "fragment") {
       const ax=shape.w.mul(1.73).add(this.clock.mul(fract(shape.w.mul(.37)).mul(3).add(1.1)));
       const az=shape.w.mul(2.41).sub(this.clock.mul(fract(shape.w.mul(.63)).mul(2).add(.9)));

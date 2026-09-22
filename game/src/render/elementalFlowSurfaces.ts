@@ -6,7 +6,7 @@ import {
   mix, mod, normalLocal, normalViewGeometry, positionViewDirection, pow, sin,
   smoothstep, uniform, uv, varying, vec2, vec3, vec4,
 } from "three/tsl";
-import { authoredFlow, clockUniform, flameColor, flameDetail, flameNoise } from "./elementalNodes.js";
+import { elementalInstanceMatrix, authoredFlow, clockUniform, flameColor, flameDetail, flameNoise } from "./elementalNodes.js";
 
 type Shape = "band" | "shell" | "funnel" | "plume";
 export interface FlowProfile { foot?:number; arc?:number; lean?:number; twist?:number; }
@@ -41,7 +41,7 @@ export class ElementalFlowSurfaces {
       const mesh=new THREE.InstancedMesh(g,material,96);
       // positionNode follows Three's automatic instance transform. These UV-generated
       // positions replace that result, so apply the instance matrix explicitly.
-      const instanceTransform:Node<"mat4">=buffer(mesh.instanceMatrix.array,"mat4" as const,96).element(instanceIndex);
+      const instanceTransform:Node<"mat4">=elementalInstanceMatrix(mesh.instanceMatrix);
       const life:Node<"vec4">=attribute("flowLife","vec4" as const);
       const profile:Node<"vec4">=attribute("flowProfile","vec4" as const);
       material.positionNode=Fn(():Node<"vec3">=>{

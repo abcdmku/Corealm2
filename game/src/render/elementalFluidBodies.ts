@@ -2,7 +2,7 @@ import * as THREE from "three";
 import type { Node } from "three/webgpu";
 import { Fn, If, abs, attribute, buffer, cos, float, instanceIndex, mat3, max, modelNormalMatrix, normalize, normalGeometry, positionGeometry, sin, smoothstep, varying, varyingProperty, vec3, vec4 } from "three/tsl";
 import { createElementalRefractionMaterial, registerElementalRefraction } from "./elementalRefraction.js";
-import { clockUniform } from "./elementalNodes.js";
+import { elementalInstanceMatrix, clockUniform } from "./elementalNodes.js";
 
 /** Closed, curling water volumes. Surface lighting and airborne spray are separate layers. */
 export class ElementalFluidBodies {
@@ -96,9 +96,9 @@ export class ElementalFluidBodies {
     ] as const) {
       geometry.setAttribute("fluidVariant",new THREE.InstancedBufferAttribute(new Float32Array((kind==="drop"?640:32)*2),2).setUsage(THREE.DynamicDrawUsage));
       const mesh = new THREE.InstancedMesh(geometry, undefined, kind === "drop" ? 640 : 32);
-      const matrix=buffer(mesh.instanceMatrix.array,"mat4" as const,mesh.instanceMatrix.count).element(instanceIndex);
+      const matrix=elementalInstanceMatrix(mesh.instanceMatrix);
       const time=clockUniform(this.clock),variant=attribute("fluidVariant","vec2" as const),surface=attribute("fluidSurface","vec3" as const);
-      const seed=matrix.element(3).x.mul(.31).add(matrix.element(3).z.mul(.17)).add(variant.x.mul(2.31));
+      const seed=matrix.mul(vec4(0,0,0,1)).x.mul(.31).add(matrix.mul(vec4(0,0,0,1)).z.mul(.17)).add(variant.x.mul(2.31));
       const refNormal=varyingProperty("vec3"),refLocal=varyingProperty("vec3");
       const position=Fn((): Node<"vec3"> =>{
         const p=positionGeometry.toVar(),n=normalGeometry.toVar();
@@ -130,7 +130,7 @@ export class ElementalFluidBodies {
           }
           n.addAssign(vec3(cos(phase).mul(.28),sin(phase.mul(.7)).mul(.08),sin(phase).mul(.24)));
         }
-        const m=mat3(matrix),col0=m.element(0),col1=m.element(1),col2=m.element(2);
+        const m=matrix.toMat3(),col0=m.mul(vec3(1,0,0)),col1=m.mul(vec3(0,1,0)),col2=m.mul(vec3(0,0,1));
         n.divAssign(vec3(col0.dot(col0),col1.dot(col1),col2.dot(col2)));
         refNormal.assign(normalize(modelNormalMatrix.mul(m.mul(n))));
         refLocal.assign(vec3(p.x,positionGeometry.y,p.z));
