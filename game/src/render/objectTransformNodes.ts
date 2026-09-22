@@ -1,13 +1,25 @@
 import { InstancedInterleavedBuffer, type InstancedBufferAttribute, type InstancedMesh, type BatchedMesh, type Texture, Matrix4 } from 'three';
-import { Fn, drawIndex, float, instanceIndex, instancedBufferAttribute, int, ivec2, mat4,
+import { Fn, attribute, drawIndex, float, instanceIndex, instancedBufferAttribute, int, ivec2, mat4,
   modelWorldMatrix, textureLoad, textureSize, vec4 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 const matrixBuffers = new WeakMap<InstancedBufferAttribute, InstancedInterleavedBuffer>();
 
+export const SCENERY_MATRIX_ATTRIBUTES = ['sceneryMatrix0', 'sceneryMatrix1', 'sceneryMatrix2', 'sceneryMatrix3'] as const;
+
 /** The same instance or indirect batch transform that precedes a node material's positionNode. */
 export const objectInstanceMatrix = Fn((builder) => {
   const object = builder.object;
+  if (SCENERY_MATRIX_ATTRIBUTES.every(name => builder.geometry.hasAttribute(name))) {
+    // Named attributes resolve against each draw's geometry. Capturing an
+    // instance buffer here would prevent clusters from sharing a node graph.
+    return mat4(
+      attribute<'vec4'>(SCENERY_MATRIX_ATTRIBUTES[0], 'vec4'),
+      attribute<'vec4'>(SCENERY_MATRIX_ATTRIBUTES[1], 'vec4'),
+      attribute<'vec4'>(SCENERY_MATRIX_ATTRIBUTES[2], 'vec4'),
+      attribute<'vec4'>(SCENERY_MATRIX_ATTRIBUTES[3], 'vec4'),
+    );
+  }
   if ((object as InstancedMesh).isInstancedMesh) {
     const source = (object as InstancedMesh).instanceMatrix;
     let buffer = matrixBuffers.get(source);
