@@ -2,10 +2,47 @@
 
 This pass follows the startup work in [startup-performance.md](startup-performance.md).
 
+## Loading after multiplayer
+
+The page's asset loader now enables Meshopt's shared worker pool. Its asynchronous decode API
+previously ran the decoder in a main-thread promise continuation when no workers were enabled.
+Released world records use a separate loading worker for integrity checks, decompression,
+binary decoding, terrain validation and IndexedDB reads/writes. Decoded array buffers transfer
+to the page without copying. Concurrent requests share decoding; malformed records, failed workers
+and timed-out worker requests reject instead of leaving pending loads indefinitely. Generic record
+shape checks and Three.js object construction still run on the page.
+
+Replication and the frame loop now request the same map-filtered entity snapshot from the entity
+store. Previously their separate filter functions produced different arrays of the same scenery,
+invalidating the renderer's stable-snapshot shortcut and reindexing the island on each handoff.
+Current unit coverage checks shared identity, movement, removals, realm filtering, transferred
+buffers, cache validation, corruption, concurrent requests and worker failure.
+
+Chromium/D3D11 at 1440 x 900, default graphics, empty browser caches and 2x CPU throttling measured
+18.38 seconds to a joined playable world before the changes and 13.04 seconds after. Immediate
+movement's 99th-percentile RAF interval fell from 216.7 to 150 ms; its maximum fell from 233.3 to
+183.2 ms. These are single local samples, with CPU profiling and other builds present on the
+machine. They establish neither a device-wide frame-rate guarantee nor the live server's latency.
+
+The final unprofiled production walking gate used 20 Mbps, 80 ms latency and normal desktop CPU
+speed. First playable was 26.83 seconds. Walking had a 16.8 ms 95th percentile, a 66.7 ms maximum
+RAF interval and a 122.4 ms maximum GPU completion interval. No measured post-startup phase had
+a RAF interval above 100 ms. All requested assets and animation/shader preparation finished.
+The two-client production lab passed second-player arrival and a cold Cobalt Sword equipment
+change while movement and camera input continued. Join RAF intervals peaked at 50 ms, with
+GPU completion gaps below 50 ms. Screenshots retained complete actors and were inspected.
+
+The reusable loaders were accepted in the presentation lab first. The authored walking check
+uses the world-scale streaming exception because it crosses the real island's residency boundaries.
+The production build, hardware gameplay smoke, content validation, typecheck and 60 focused
+regressions passed. All 356 rebuilt world-record hashes and the navigation payload stayed unchanged.
+Timing data and screenshots remain disposable under `test-results/`. Download time, first-use
+graphics work and main-thread scene construction still limit startup; this does not claim zero stalls.
+
 ## Menu responsiveness
 
-Menu handlers, simulation and Three.js frame submission currently share the browser's main
-thread. Dynamic imports and promises defer work but do not make their continuations run on
+Menu handlers and Three.js frame submission share the browser's main thread. Local simulation
+now runs in its own worker. Dynamic imports and promises defer work but do not make their continuations run on
 another thread. `GameplayWork.run()` budgets job starts; it cannot interrupt a large job.
 `GameplayWork.runSliced()` now accepts an iterator, checks a 2 ms budget between steps, and
 continues after a painted frame. Each step still has to be small. This is a scheduling target,

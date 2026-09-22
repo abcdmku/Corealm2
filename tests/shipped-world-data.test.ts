@@ -3,6 +3,8 @@ import { gzipSync } from 'node:zlib';
 import { GenerationCache } from '../game/src/world/generationCache.js';
 import { ShippedWorldData } from '../game/src/world/shippedWorldData.js';
 import { encodeWorldData, worldDataSha256 } from '../game/src/world/worldDataFormat.js';
+import { loadWorldDataTask, worldDataTransfers } from '../game/src/world/worldData.worker.js';
+import { WorldDataLoading, type WorldDataLoadReply, type WorldDataLoadTask } from '../game/src/world/worldDataLoading.js';
 
 class MemoryLocal extends GenerationCache {
   records = new Map<string, unknown>();
@@ -11,7 +13,7 @@ class MemoryLocal extends GenerationCache {
   }
   override async put(key: string, data: unknown) { this.records.set(key, structuredClone(data)); return true; }
 }
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 const valid = (value: unknown): value is { positions: Float32Array } => !!value && (value as any).positions instanceof Float32Array;
 
 async function fixture() {
@@ -29,6 +31,97 @@ async function fixture() {
 }
 
 describe('shipped world loading', () => {
+  it('decodes and caches off-thread before transferring exact arrays without detaching the cache', async () => {
+    const f = await fixture();
+    const task: WorldDataLoadTask = { id: 1, op: 'decode', revision: f.local.revision, scope: f.local.scope,
+      key: 'terrain/world', bytes: Uint8Array.from(f.packed), entry: f.manifest.records['terrain/world']! };
+    const value = await loadWorldDataTask(task, f.local) as typeof f.data;
+    const message = structuredClone(value, { transfer: worldDataTransfers(value) });
+    expect(value.positions.byteLength).toBe(0);
+    expect(message).toEqual(f.data);
+    expect(await loadWorldDataTask({ ...task, op: 'read' }, f.local)).toEqual(f.data);
+    expect(await loadWorldDataTask({ ...task, op: 'has' }, f.local)).toBe(true);
+    const corrupt = Uint8Array.from(f.packed); corrupt[20] = corrupt[20]! ^ 0xff;
+    await expect(loadWorldDataTask({ ...task, bytes: corrupt }, f.local)).rejects.toThrow(/integrity/);
+    expect(await f.local.get('terrain/world', valid)).toEqual(f.data);
+  });
+
+  it('transfers each shared typed-array buffer once', () => {
+    const array = new Float32Array([1, 2, 3]);
+    expect(worldDataTransfers({ array, other: array.subarray(1), nested: [array] })).toEqual([array.buffer]);
+  });
+
+  it('validates terrain inputs and numeric arrays in the worker before caching or publishing', async () => {
+    const f = await fixture();
+    const data = { input: 'terrain-input', streamedDraws: true, ranges: [{ min: 0, max: 0 }],
+      lattice: { heights: new Float32Array(4), cols: 2, rows: 2, minX: 0, minZ: 0, step: 1 },
+      chunks: { tile: { surfaceRecord: 'terrain-draw/tile', attributes: {}, index: null } }, coast: null };
+    const bytes = Uint8Array.from(gzipSync(encodeWorldData(data))), sha256 = await worldDataSha256(bytes);
+    const task: WorldDataLoadTask = { id: 1, op: 'decode', revision: f.local.revision, scope: f.local.scope,
+      key: 'terrain/world', terrainInput: data.input, bytes, entry: { file: `${sha256}.world`, sha256, bytes: bytes.length } };
+    expect(await loadWorldDataTask(task, f.local)).toEqual(data);
+    expect(await loadWorldDataTask({ ...task, op: 'read', terrainInput: 'stale-input' }, f.local)).toBeNull();
+    await expect(loadWorldDataTask({ ...task, terrainInput: 'stale-input' }, f.local)).rejects.toThrow(/incompatible inputs/);
+    data.lattice.heights[0] = NaN;
+    const bad = Uint8Array.from(gzipSync(encodeWorldData(data)));
+    await expect(loadWorldDataTask({ ...task, bytes: bad, entry: { ...task.entry, bytes: bad.length, sha256: await worldDataSha256(bad) } }, f.local)).rejects.toThrow(/incompatible inputs/);
+    expect((await f.local.get('terrain/world', (v): v is typeof data => !!v))?.lattice.heights[0]).toBe(0);
+  });
+
+  it('matches concurrent worker replies and rejects outstanding work on worker failure', async () => {
+    const worker = { onmessage: null as ((event: { data: WorldDataLoadReply }) => void) | null,
+      onerror: null as (() => void) | null, onmessageerror: null as (() => void) | null,
+      postMessage: vi.fn(), terminate: vi.fn() };
+    const loading = new WorldDataLoading('revision', 'scope', worker as unknown as Worker);
+    const a = loading.run({ op: 'read', key: 'a' });
+    const b = loading.run({ op: 'read', key: 'b' });
+    const ids = worker.postMessage.mock.calls.map(call => call[0].id as number);
+    worker.onmessage!({ data: { id: ids[1]!, value: 'second' } });
+    expect(await b).toBe('second');
+    worker.onmessage!({ data: { id: ids[0]!, value: 'first' } });
+    expect(await a).toBe('first');
+    const failed = loading.run({ op: 'read', key: 'fail' });
+    const rejection = expect(failed).rejects.toThrow(/worker failed/);
+    worker.onerror!(); await rejection;
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    await expect(loading.run({ op: 'read', key: 'later' })).rejects.toThrow(/worker failed/);
+  });
+
+  it('coalesces simultaneous requests before transferring a compressed file to the worker', async () => {
+    const f = await fixture();
+    const tasks: WorldDataLoadTask[] = [];
+    class LoadingWorker {
+      onmessage: ((event: { data: WorldDataLoadReply }) => void) | null = null;
+      postMessage(task: WorldDataLoadTask, transfers: Transferable[]) {
+        const copy = structuredClone(task, { transfer: transfers }); tasks.push(copy);
+        void loadWorldDataTask(copy, f.local).then(value => {
+          const result = structuredClone(value, { transfer: worldDataTransfers(value) });
+          this.onmessage?.({ data: { id: copy.id, value: result } });
+        }, error => this.onmessage?.({ data: { id: copy.id, error: String(error) } }));
+      }
+      terminate() {}
+    }
+    vi.stubGlobal('Worker', LoadingWorker);
+    const source = new ShippedWorldData(f.local, '/subdir/generated/world/manifest.json', true);
+    const values = await Promise.all([source.get('terrain/world', valid), source.get('terrain/world', valid)]);
+    expect(values).toEqual([f.data, f.data]);
+    expect(tasks.filter(task => task.op === 'decode')).toHaveLength(1);
+    expect(await source.get('terrain/world', valid)).toEqual(f.data);
+    expect(f.fetch).toHaveBeenCalledTimes(2);
+    // A cache hit must still satisfy this caller's current geometry validation.
+    await expect(source.get('terrain/world', (_value): _value is object => false)).rejects.toThrow(/incompatible inputs/);
+  });
+
+  it('rejects stalled worker work instead of leaving a loading screen waiting forever', async () => {
+    vi.useFakeTimers();
+    const worker = { postMessage: vi.fn(), terminate: vi.fn() };
+    const loading = new WorldDataLoading('revision', 'scope', worker as unknown as Worker);
+    const pending = loading.run({ op: 'read', key: 'terrain/world' });
+    const rejected = expect(pending).rejects.toThrow(/timed out/);
+    await vi.advanceTimersByTimeAsync(30_000); await rejected;
+    expect(worker.terminate).toHaveBeenCalledOnce();
+  });
+
   it('starts both terrain grids together and keeps model traffic behind them', async () => {
     const f=await fixture(), load=vi.fn(async (_id:string)=>{});
     Object.assign(f.manifest.records,{'terrain/fairy':{...f.manifest.records['terrain/world'],file:`${'f'.repeat(64)}.world`}});

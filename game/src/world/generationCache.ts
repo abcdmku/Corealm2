@@ -2,6 +2,8 @@
 export interface GenerationCachePort {
   get<T>(key: string, valid: (value: unknown) => value is T): Promise<T | null>;
   put(key: string, data: unknown): Promise<boolean>;
+  /** Release loaders can validate large terrain arrays where they decode them. */
+  getTerrain?(key: string, input: string): Promise<import('../render/terrainCache.js').TerrainCacheData | null>;
 }
 
 const DATABASE = "corealm-generated-world";

@@ -654,7 +654,8 @@ export class WorldScene {
     prepareSurface?: (scene: WorldScene) => void,
   ): Promise<THREE.Mesh[]> {
     const input = JSON.stringify({ spec, flats: this.flats, key });
-    this.terrainCacheRead = await cache.get(`terrain/${key}`, (value): value is TerrainCacheData => validTerrainCache(value, input));
+    this.terrainCacheRead = cache.getTerrain ? await cache.getTerrain(`terrain/${key}`, input)
+      : await cache.get(`terrain/${key}`, (value): value is TerrainCacheData => validTerrainCache(value, input));
     this.terrainDelivery = cache;
     this.terrainCacheWrite = this.terrainCacheRead ? null : { input, ranges: [], lattice: null, chunks: {}, coast: null };
     try {

@@ -1590,13 +1590,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   let activeVisualCentre: Vec3 = [...initialPlayerPosition];
   let activeVisualRegion = loadRegion;
-  const visualRegionFilters = new Map<string, (entity: SemanticEntity) => boolean>();
-  const entitiesForVisualRegion = (regionId: RegionId): readonly SemanticEntity[] => {
-    const map = worldMapForRegion(regionId);
-    let filter = visualRegionFilters.get(map);
-    if (!filter) { filter = entity => worldMapForRegion(entity.regionId) === map; visualRegionFilters.set(map, filter); }
-    return entityStore.renderSnapshot(filter);
-  };
+  const entitiesForVisualRegion = (regionId: RegionId): readonly SemanticEntity[] => entityStore.renderSnapshotForMap(regionId);
   const refreshVisualResidency = (position: Vec3, regionId: RegionId, force = false): void => {
     const regionChanged = regionId !== activeVisualRegion;
     const moved = distanceXZ(position, activeVisualCentre) >= ENTITY_ACTIVE_REPOSITION_DISTANCE;
@@ -2920,7 +2914,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     });
   };
   loop.setEntityViews(entityViews, () => {
-    if (profile.kind === "feature-lab") return entityStore.renderSnapshot();
     return entitiesForVisualRegion(store.get().player.regionId);
   }, () => {
     refreshCarriedAssets();

@@ -67,5 +67,9 @@ it("keeps scenery snapshots stable between updates and filters other map realms"
   const view = layer.renderSnapshot("fallowmarch");
   expect(view.map(entity => entity.id)).toEqual(["surface"]);
   expect(layer.renderSnapshot("fallowmarch")).toBe(view);
+  // The frame loop and replication must not alternate equally populated, distinct arrays:
+  // that would rebuild the world's static spatial cells on every heartbeat.
+  expect(entities.renderSnapshotForMap("fallowmarch")).toBe(view);
+  expect(entities.renderSnapshotForMap("vellenwood")).toBe(view);
   expect(layer.renderSnapshot("gravelmaw").map(entity => entity.id)).toEqual(["cave"]);
 });

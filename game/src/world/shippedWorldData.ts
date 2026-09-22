@@ -1,6 +1,8 @@
 import { bootTelemetry } from "../perf/bootTelemetry.js";
 import { GenerationCache, type GenerationCachePort } from './generationCache.js';
 import { decodeWorldData, worldDataSha256, type WorldDataManifest } from './worldDataFormat.js';
+import { WorldDataLoading } from './worldDataLoading.js';
+import { validTerrainCache, type TerrainCacheData } from '../render/terrainCache.js';
 
 /** Release data is authoritative. Browser storage is an optional local copy of those files. */
 export class ShippedWorldData implements GenerationCachePort {
@@ -8,8 +10,24 @@ export class ShippedWorldData implements GenerationCachePort {
   private shipped: string[] = [];
   private generated: string[] = [];
   private readonly downloads = new Map<string, Promise<Uint8Array>>();
-  constructor(private local: GenerationCache, private url: string, private required: boolean) {}
-  snapshot() { return { ...this.local.snapshot(), shipped: [...this.shipped], generated: [...this.generated] }; }
+  private readonly decodes = new Map<string, Promise<unknown>>();
+  private readonly loading: WorldDataLoading | null;
+  constructor(private local: GenerationCache, private url: string, private required: boolean) {
+    this.loading = typeof Worker === 'undefined' ? null : new WorldDataLoading(local.revision, local.scope);
+  }
+  snapshot() { return { ...(this.loading?.cache ?? this.local.snapshot()), shipped: [...this.shipped], generated: [...this.generated] }; }
+
+  private async cached<T>(key: string, valid: (value: unknown) => value is T, terrainInput?: string): Promise<T | null> {
+    if (!this.loading) return this.local.get(key, valid);
+    const value = await this.loading.run({ op: 'read', key, terrainInput });
+    if (terrainInput !== undefined) return value as T | null;
+    try { return valid(value) ? value : null; } catch { return null; }
+  }
+
+  private async hasCached(key: string): Promise<boolean> {
+    if (this.loading) return Boolean(await this.loading.run({ op: 'has', key }));
+    return !!await this.local.get(key, (value): value is object => !!value && typeof value === 'object');
+  }
 
   /** Overlap independent data and foliage downloads with initialization, using the same registry queue. */
   async preloadArea(x:number,z:number,radius:number,loadAsset:(id:string)=>Promise<unknown>): Promise<void> {
@@ -17,22 +35,22 @@ export class ShippedWorldData implements GenerationCachePort {
     // Both height grids unblock semantic assembly. Fetch them together before large models
     // compete for the connection; those models then overlap terrain reconstruction.
     await Promise.all(['terrain/world','terrain/fairy'].map(async key=>{
-      if(manifest.records[key] && !await this.local.get(key,(v):v is object=>!!v&&typeof v==='object'))
+      if(manifest.records[key] && !await this.hasCached(key))
         await this.download(key,manifest.records[key]!);
     }));
     for(const key of Object.keys(manifest.records).filter(key=>/^(terrain\/|assembly\/|site-cut\/|spawns\/)/.test(key))) {
       // Browser storage can satisfy these without making another request on repeat visits.
-      void this.local.get(key,(v):v is object=>!!v&&typeof v==='object').then(cached=>{
+      void this.hasCached(key).then(cached=>{
         if(!cached) void this.download(key,manifest.records[key]!).catch(()=>{});
-      });
+      }).catch(()=>{});
     }
     const tiles=(manifest.assetTiles??[]).filter(tile=>Math.hypot(
       Math.max(tile.minX-x,0,x-tile.maxX),Math.max(tile.minZ-z,0,z-tile.maxZ))<=radius);
     for (const tile of tiles) if (tile.record && manifest.records[tile.record]) {
       const key=tile.record;
-      void this.local.get(key,(v):v is object=>!!v&&typeof v==='object').then(cached=>{
+      void this.hasCached(key).then(cached=>{
         if(!cached) void this.download(key,manifest.records[key]!).catch(()=>{});
-      });
+      }).catch(()=>{});
     }
     const ids=new Set([...tiles.flatMap(tile=>tile.ids),...(manifest.assetObjects??[])
       .filter(object=>Math.hypot(object.x-x,object.z-z)<=radius).flatMap(object=>object.ids)]);
@@ -71,14 +89,42 @@ export class ShippedWorldData implements GenerationCachePort {
     })();
   }
 
-  async get<T>(key: string, valid: (value: unknown) => value is T): Promise<T | null> {
-    const cached = await bootTelemetry.measureAsync("boot.worldData.cacheRead", () => this.local.get(key, valid), { detail: { key } });
+  get<T>(key: string, valid: (value: unknown) => value is T): Promise<T | null> {
+    return this.read(key, valid);
+  }
+
+  getTerrain(key: string, input: string): Promise<TerrainCacheData | null> {
+    return this.read(key, (value): value is TerrainCacheData => validTerrainCache(value, input), input);
+  }
+
+  private async read<T>(key: string, valid: (value: unknown) => value is T, terrainInput?: string): Promise<T | null> {
+    const cached = await bootTelemetry.measureAsync("boot.worldData.cacheRead", () => this.cached(key, valid, terrainInput), { detail: { key } });
     if (cached) return cached;
     const manifest = await this.index();
     if (!manifest) return null;
     try {
       const entry = manifest.records[key];
       if (!entry || !/^[a-f0-9]{64}\.world$/.test(entry.file)) throw new Error(`World file is missing: ${key}`);
+      if (this.loading) {
+        const decodeKey = JSON.stringify([key, terrainInput]);
+        let pending = this.decodes.get(decodeKey);
+        if (!pending) {
+          pending = (async () => {
+            // Keep the shared compressed download intact for callers with different validators.
+            // The large decoded arrays travel back by ownership transfer, without a copy.
+            const bytes = Uint8Array.from(await this.download(key, entry));
+            try {
+              return await bootTelemetry.measureAsync('boot.worldData.worker', () => this.loading!.run({ op: 'decode', key, bytes, entry, terrainInput }), { detail: { key } });
+            } finally { this.downloads.delete(key); }
+          })();
+          this.decodes.set(decodeKey, pending);
+          void pending.finally(() => this.decodes.delete(decodeKey)).catch(() => {});
+        }
+        const data = await pending;
+        if (terrainInput === undefined && !valid(data)) throw new Error(`World file has incompatible inputs: ${key}`);
+        if (!this.shipped.includes(key)) this.shipped.push(key);
+        return data as T;
+      }
       const bytes = await this.download(key,entry);
       if (bytes.length !== entry.bytes || await worldDataSha256(bytes) !== entry.sha256) throw new Error(`World file failed integrity check: ${key}`);
       const stream = new Blob([Uint8Array.from(bytes)]).stream().pipeThrough(new DecompressionStream('gzip'));

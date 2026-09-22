@@ -13,9 +13,11 @@ const desktop = args.includes('--desktop'), label = value('--label','walking');
 const out = path.resolve('test-results/walking-stream',label);
 await mkdir(out,{recursive:true});
 const clear = installTestDeadline('Walking and streaming',115_000);
-const server = await preview({root:gameRoot,preview:{host:'127.0.0.1',port:0}});
-const address = server.httpServer.address();
-if (!address || typeof address === 'string') throw Error('No preview address');
+const suppliedUrl = value('--url', '');
+const server = suppliedUrl ? null : await preview({root:gameRoot,preview:{host:'127.0.0.1',port:0}});
+const address = server?.httpServer.address();
+if (!suppliedUrl && (!address || typeof address === 'string')) throw Error('No preview address');
+const url = suppliedUrl || `http://127.0.0.1:${(address as {port:number}).port}`;
 const browser = await chromium.launch({headless:true,args:[...(process.platform==='win32'?['--use-angle=d3d11']:[]),
   ...(args.includes('--gpu-commands') ? ['--enable-gpu-service-tracing'] : []),
   '--enable-gpu','--ignore-gpu-blocklist','--mute-audio','--enable-precise-memory-info']});
@@ -80,7 +82,7 @@ try {
       if(ms>4&&window.__travelPhase!=='boot')window.__travelQueries.push({at,name,ms,args:args.filter(x=>typeof x==='number')});return result;
     }}
   })();`});
-  await page.goto(`http://127.0.0.1:${address.port}/`,{waitUntil:'commit'});
+  await page.goto(new URL('/?play=local&local=memory',url).href,{waitUntil:'commit'});
   await page.waitForFunction(()=>(window as any).__gameDebug?.getState().ready,undefined,{timeout:60_000});
   await page.locator('#boot-screen').waitFor({state:'detached'});
   console.log('Playable',await page.evaluate(()=>performance.now()));
@@ -197,5 +199,5 @@ try {
   console.log(JSON.stringify({label,playableMs:data.boot.firstPlayableMs,settledMs,phases,presentationPhases,
     assetsStart:(states.start as any).loading.assets,assetsEnd:end.loading.assets},null,2));
 } finally {
-  await browser.close();await new Promise<void>((resolve,reject)=>server.httpServer.close(e=>e?reject(e):resolve()));clear();
+  await browser.close();if(server)await new Promise<void>((resolve,reject)=>server.httpServer.close(e=>e?reject(e):resolve()));clear();
 }

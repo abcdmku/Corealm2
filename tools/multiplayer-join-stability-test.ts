@@ -438,7 +438,7 @@ function installAssetInstrumentation(page: Page, network: NetworkTrace): void {
     const url = request.url();
     // Keep the browser event stream bounded while retaining every model request. The equipment
     // assertions below match the authored manifest path, rather than relying on an entity id.
-    if (!/\.(?:glb|gltf|bin)(?:[?#]|$)/i.test(url)) return;
+    if (!/\.(?:glb(?:\.model)?|gltf|bin)(?:[?#]|$)/i.test(url)) return;
     network.assetRequests.push({ atMs: Date.now(), url, resourceType: request.resourceType(), method: request.method() });
     if (network.assetRequests.length > 8192) network.assetRequests.splice(0, network.assetRequests.length - 8192);
   });
@@ -973,7 +973,10 @@ try {
     };
   }
 
-  game = await startGameServer();
+  const urlIndex = process.argv.indexOf('--url');
+  const url = urlIndex >= 0 ? process.argv[urlIndex + 1] : undefined;
+  if (urlIndex >= 0 && !url) throw new Error('--url requires the existing game server URL');
+  game = url ? { url, close: async () => {} } : await startGameServer();
   browser = await chromium.launch({ headless: true, args: ["--use-angle=d3d11", "--disable-background-timer-throttling", "--disable-renderer-backgrounding"] });
   // Browser initialization is independent; keep server startup plus two real world boots inside
   // the authored gate's budget. The actual player joins below remain strictly sequential.

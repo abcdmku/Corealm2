@@ -339,8 +339,17 @@ export interface AssetRegistryOptions {
   assetBaseUrl?: string;
 }
 
+let meshoptWorkersStarted = false;
+
 export class AssetRegistry {
-  constructor(private readonly urls: AssetRegistryOptions = {}) {}
+  constructor(private readonly urls: AssetRegistryOptions = {}) {
+    // The decoder's async API otherwise runs WASM in a main-thread promise continuation.
+    // Share a small pool across registries, leaving cores for rendering and the local host.
+    if (!meshoptWorkersStarted && typeof Worker !== "undefined") {
+      MeshoptDecoder.useWorkers(Math.max(1, Math.min(2, (navigator.hardwareConcurrency || 4) - 2)));
+      meshoptWorkersStarted = true;
+    }
+  }
   private manifest: AssetManifest | null = null;
   private byId = new Map<string, AssetEntry>();
   private readonly textureCache = new AssetTextureCache();

@@ -1,4 +1,4 @@
-import { worldMapForRegion, type RegionId, type SemanticEntity } from "../contracts.js";
+import type { RegionId, SemanticEntity } from "../contracts.js";
 import type { EntityStore } from "../world/entities.js";
 
 /** Fixed authored scenery is shared by content version and seed, not gameplay interest radius. */
@@ -9,7 +9,6 @@ export function isStaticScenery(entity: SemanticEntity): boolean {
 /** Keep immutable map scenery while authoritative snapshots replace actors and interactables. */
 export class ReplicatedEntityLayer {
   private scenery = new Map<string, SemanticEntity>();
-  private readonly filters = new Map<string, (entity: SemanticEntity) => boolean>();
   constructor(private readonly store: EntityStore, baseline: readonly SemanticEntity[]) { this.capture(baseline); }
   // Call with the saved offline copy, never the live entity objects that replication mutates.
   capture(baseline: readonly SemanticEntity[]): void {
@@ -27,10 +26,7 @@ export class ReplicatedEntityLayer {
     else this.store.remove(id);
   }
   renderSnapshot(region: RegionId): readonly SemanticEntity[] {
-    const map = worldMapForRegion(region);
-    let filter = this.filters.get(map);
-    if (!filter) { filter = entity => worldMapForRegion(entity.regionId) === map; this.filters.set(map, filter); }
-    return this.store.renderSnapshot(filter);
+    return this.store.renderSnapshotForMap(region);
   }
 }
 

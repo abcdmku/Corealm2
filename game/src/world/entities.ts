@@ -16,6 +16,7 @@ import type {
   Archetype, EntityId, ObserveFilter, ObservedEntity, RegionId,
   SemanticEntity, SkillId, Vec3,
 } from "../contracts.js";
+import { worldMapForRegion } from "../contracts.js";
 import { SKILLS } from "../content/skills.js";
 import { SpatialIndex } from "./spatial.js";
 
@@ -83,6 +84,7 @@ const isMoving = (entity: SemanticEntity) => entity.archetype === 'enemy' || ent
 
 export class EntityStore {
   private readonly renderSnapshots = new Map<((entity: SemanticEntity) => boolean) | undefined, readonly SemanticEntity[]>();
+  private readonly mapFilters = new Map<string, (entity: SemanticEntity) => boolean>();
   private readonly entities = new Map<EntityId, SemanticEntity>();
   private readonly locations = new Map<string, KnownLocation>();
   private readonly spatial: SpatialIndex;
@@ -157,6 +159,14 @@ export class EntityStore {
       this.renderSnapshots.set(filter, rows);
     }
     return rows;
+  }
+
+  /** Replication and the frame loop must share the same stable snapshot and spatial index. */
+  renderSnapshotForMap(region: RegionId): readonly SemanticEntity[] {
+    const map = worldMapForRegion(region);
+    let filter = this.mapFilters.get(map);
+    if (!filter) { filter = entity => worldMapForRegion(entity.regionId) === map; this.mapFilters.set(map, filter); }
+    return this.renderSnapshot(filter);
   }
 
   get size(): number {
