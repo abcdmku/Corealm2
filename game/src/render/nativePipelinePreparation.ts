@@ -64,7 +64,7 @@ function scopedPipelineDevice(device: Device): { device: Device; close(): void }
  * their native serial order. Only native pipeline promises overlap, with bounded slots.
  * One preparation job may call compileAsync repeatedly under this adapter. The caller
  * retains each upload fence and publishes readiness only after the whole job resolves. */
-export async function withNativePipelineConcurrency(renderer: WebGPURenderer, compile: () => Promise<void>, limit: 2 | 3 = 2): Promise<void> {
+export async function withNativePipelineConcurrency(renderer: WebGPURenderer, compile: () => Promise<void>, limit: 2 | 3 | 4 = 2): Promise<void> {
   const internal = renderer as unknown as Internals;
   const backend = internal.backend, pipelines = internal._pipelines;
   if (REVISION !== '185' || internal._initialized !== true || backend?.isWebGPUBackend !== true

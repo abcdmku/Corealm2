@@ -75,7 +75,7 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   expect(renderer.getPreparationState()).toMatchObject({ compiling: true, ready: false });
   finishGlow(); await warming;
   expect(renderer.getPreparationState()).toMatchObject({ compiling: false, ready: true });
-  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 3 });
+  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 4 });
   geometry.dispose(); interior.geometry.dispose(); material.dispose(); frameTarget.dispose();
 });
 
@@ -98,7 +98,7 @@ it("prepares every instance, sampled draw, skeleton, and batch while deduplicati
   const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
   await renderer.warmup();
   expect(prepare).toHaveBeenCalledWith(fake, scene, camera,
-    [ordinary, ...instances, ...scenery, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 3 });
+    [ordinary, ...instances, ...scenery, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 4 });
   Object.assign(renderer, { streamedShaders: {} });
   await renderer.warmup();
   expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 1, pipelineConcurrency: 1 });
@@ -129,7 +129,7 @@ it("uses bounded startup batches for effects and one object after streaming begi
   const submit = Reflect.get(renderer, "submitEffects") as (root: THREE.Object3D) => Promise<void>;
   const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
   await submit.call(renderer, root);
-  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 3 });
+  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 4 });
   expect(prepare.mock.lastCall?.[3]).toEqual([root.children[0]]);
   expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4, frameTarget);
   expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4, frameTarget,

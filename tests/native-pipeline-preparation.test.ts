@@ -8,7 +8,7 @@ function deferred<T>() {
   return { promise, resolve, reject };
 }
 
-function fixture() {
+function fixture(count = 4) {
   type Object = { id: number; getNodeBuilderState(): { updateAfterNodes: unknown[] } };
   const submitted: ReturnType<typeof deferred<unknown>>[] = [];
   const scopes: number[] = [], popped: number[] = [], results: { id: number; scope: unknown }[] = [];
@@ -45,7 +45,7 @@ function fixture() {
     },
   };
   const renderer = { _initialized: true, backend, _pipelines: pipelines } as unknown as WebGPURenderer;
-  const objects = Array.from({ length: 4 }, (_, id) => ({ id, getNodeBuilderState: () => ({ updateAfterNodes: [] as unknown[] }) }));
+  const objects = Array.from({ length: count }, (_, id) => ({ id, getNodeBuilderState: () => ({ updateAfterNodes: [] as unknown[] }) }));
   const compile = async (selected = objects) => {
     for (const object of selected) {
       built.push(object.id);
@@ -97,20 +97,20 @@ it('drains outstanding pipelines before a material updateAfter callback and befo
   f.submitted[2]!.resolve({}); await preparing;
 });
 
-it('admits three pending pipelines when requested and waits for a slot before submitting the fourth', async () => {
-  const f = fixture(), originalGet = f.pipelines.getForRender, originalCreate = f.backend.createRenderPipeline;
-  const preparing = withNativePipelineConcurrency(f.renderer, () => f.compile(), 3);
+it.each([3, 4] as const)('admits %i pending pipelines when requested and waits for a slot before submitting another', async limit => {
+  const f = fixture(limit + 1), originalGet = f.pipelines.getForRender, originalCreate = f.backend.createRenderPipeline;
+  const sequence = Array.from({ length: limit + 1 }, (_, index) => index);
+  const preparing = withNativePipelineConcurrency(f.renderer, () => f.compile(), limit);
   let finished = false; void preparing.then(() => { finished = true; });
   await microtasks();
-  expect(f.submitted).toHaveLength(3); expect(f.built).toEqual([0, 1, 2]);
-  expect(f.after).toEqual([0, 1]); expect(f.scopes).toEqual([]);
-  expect(f.popped).toEqual([0, 1, 2]); expect(f.backend.device).toBe(f.device);
+  expect(f.submitted).toHaveLength(limit); expect(f.built).toEqual(sequence.slice(0, limit));
+  expect(f.after).toEqual(sequence.slice(0, limit - 1)); expect(f.scopes).toEqual([]);
+  expect(f.popped).toEqual(sequence.slice(0, limit)); expect(f.backend.device).toBe(f.device);
   f.submitted[1]!.resolve({}); await microtasks();
-  expect(f.submitted).toHaveLength(4); expect(f.peak()).toBe(3);
+  expect(f.submitted).toHaveLength(limit + 1); expect(f.peak()).toBe(limit);
   expect(f.results).toEqual([{ id: 1, scope: 1 }]);
-  f.submitted[3]!.resolve({}); await microtasks();
-  f.submitted[2]!.resolve({}); await microtasks();
-  expect(f.after).toEqual([0, 1, 2, 3]); expect(finished).toBe(false);
+  for (let index = limit; index >= 2; index--) { f.submitted[index]!.resolve({}); await microtasks(); }
+  expect(f.after).toEqual(sequence); expect(finished).toBe(false);
   f.submitted[0]!.resolve({}); await preparing;
   expect(f.results.at(-1)).toEqual({ id: 0, scope: 0 }); expect(f.scopes).toEqual([]);
   expect(f.pipelines.getForRender).toBe(originalGet); expect(f.backend.createRenderPipeline).toBe(originalCreate);

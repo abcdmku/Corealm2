@@ -609,7 +609,7 @@ export class Renderer {
       const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, preparing);
       const batchSize = this.streamedShaders ? 1 : 4;
       await prepareShaderMeshes(this.renderer, this.scene, this.camera, preparing,
-        { renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 3 });
+        { renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 4 });
       await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
         this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget, batchSize, prepared));
     } finally { this.preparingResident--; }
@@ -668,7 +668,7 @@ export class Renderer {
     const batchSize = this.streamedShaders ? 1 : 4;
     const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, meshes);
     await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, {
-      renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 3,
+      renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 4,
     });
     await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget);
     await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget, prepared);

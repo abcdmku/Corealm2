@@ -161,8 +161,8 @@ export function shaderGeometryKey(mesh: THREE.Mesh): string {
 
 export interface ShaderPreparationOptions {
   batchSize?: number;
-  /** Startup may overlap up to three native pipeline waits while node building stays serial. */
-  pipelineConcurrency?: 1 | 2 | 3;
+  /** Startup may overlap up to four native pipeline waits while node building stays serial. */
+  pipelineConcurrency?: 1 | 2 | 3 | 4;
   renderTarget?: THREE.RenderTarget | null;
   isCancelled?: () => boolean;
   onPendingTextures?: (count: number) => void;
@@ -243,7 +243,7 @@ function preparedScenery(object: THREE.Object3D, state: PreparationState): boole
 }
 
 function nextPreparationBatch(objects: readonly THREE.Object3D[], offset: number, batchSize: number,
-  state: PreparationState, pipelineConcurrency: 1 | 2 | 3): THREE.Object3D[] {
+  state: PreparationState, pipelineConcurrency: 1 | 2 | 3 | 4): THREE.Object3D[] {
   const first = objects[offset]!;
   const scenery = isSceneryInstances(first);
   // Startup's native loop builds nodes serially, so later items reuse the completed

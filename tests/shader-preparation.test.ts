@@ -112,22 +112,22 @@ it('drains cross-batch native failures without publishing any startup batch as r
   expect(graphicsValidationState(f.renderer).pending).toBe(0);
 });
 
-it('honors three startup pipeline slots across upload batches and retains all readiness until drained', async () => {
-  const f = nativePipelineFixture(4), ready = vi.fn();
+it.each([3, 4] as const)('honors %i startup pipeline slots across upload batches and retains all readiness until drained', async limit => {
+  const count = limit + 1, f = nativePipelineFixture(count), ready = vi.fn();
   const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
-    { batchSize: 4, pipelineConcurrency: 3, onPreparedBatch: ready });
-  await vi.waitFor(() => expect(f.requests).toHaveLength(3));
-  expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1]);
-  expect(f.initTexture).toHaveBeenCalledTimes(3); expect(f.completed).toHaveBeenCalledTimes(5);
-  expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(4);
+    { batchSize: 4, pipelineConcurrency: limit, onPreparedBatch: ready });
+  await vi.waitFor(() => expect(f.requests).toHaveLength(limit));
+  expect(f.batches.map(batch => batch.length)).toEqual(Array.from({ length: limit }, () => 1));
+  expect(f.initTexture).toHaveBeenCalledTimes(limit); expect(f.completed).toHaveBeenCalledTimes(2 * limit - 1);
+  expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(count);
   f.requests[1]!.resolve();
-  await vi.waitFor(() => expect(f.requests).toHaveLength(4));
-  expect(f.peak()).toBe(3); expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1, 1]);
-  f.requests[2]!.resolve(); f.requests[3]!.resolve();
-  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(8));
-  expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(4);
+  await vi.waitFor(() => expect(f.requests).toHaveLength(count));
+  expect(f.peak()).toBe(limit); expect(f.batches.map(batch => batch.length)).toEqual(Array.from({ length: count }, () => 1));
+  for (let index = 2; index < count; index++) f.requests[index]!.resolve();
+  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(2 * count));
+  expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(count);
   f.requests[0]!.resolve(); await preparing;
-  expect(ready).toHaveBeenCalledTimes(4); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
+  expect(ready).toHaveBeenCalledTimes(count); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
 });
 
 it('drains a cancelled startup pipeline after its upload fence without publishing ready objects', async () => {
