@@ -608,7 +608,12 @@ export class Renderer {
     const objects: THREE.Object3D[] = [], seen = new Set<string>();
     this.scene.traverseVisible(object => {
       const drawable = object as THREE.Mesh & THREE.Points & THREE.Line & THREE.Sprite;
-      if (drawable.isMesh) {
+      const needsOwnBindings = (object as THREE.InstancedMesh).isInstancedMesh
+        || (object as THREE.SkinnedMesh).isSkinnedMesh || (object as THREE.BatchedMesh).isBatchedMesh
+        || (drawable.count ?? 0) > 1;
+      // Native instancing/batching keys include object or texture identity. Skinned
+      // meshes also need their actual skeleton buffers and bone-count variant ready.
+      if (drawable.isMesh && !needsOwnBindings) {
         const key = `${shaderGeometryKey(drawable)}:${(Array.isArray(drawable.material) ? drawable.material : [drawable.material])
           .map(material => material.uuid).join(",")}:${drawable.castShadow}:${Boolean(drawable.userData.prepareCorpseFade)}`;
         if (seen.has(key)) return;

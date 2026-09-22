@@ -77,6 +77,28 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   geometry.dispose(); interior.geometry.dispose(); material.dispose(); frameTarget.dispose();
 });
 
+it("prepares every instance, sampled draw, skeleton, and batch while deduplicating ordinary meshes", async () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
+  const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
+  const ordinary = new THREE.Mesh(geometry, material), duplicate = ordinary.clone();
+  const instances = [new THREE.InstancedMesh(geometry, material, 4), new THREE.InstancedMesh(geometry, material, 4)];
+  const skeletons = [new THREE.SkinnedMesh(geometry, material), new THREE.SkinnedMesh(geometry, material)];
+  const batches = [new THREE.BatchedMesh(1, 24, 36, material), new THREE.BatchedMesh(1, 24, 36, material)];
+  for (const batch of batches) { batch.geometry.dispose(); batch.geometry = geometry; }
+  const counted = [Object.assign(ordinary.clone(), { count: 2 }), Object.assign(ordinary.clone(), { count: 2 })];
+  scene.add(ordinary, duplicate, ...instances, ...skeletons, ...batches, ...counted);
+  const frameTarget = new THREE.RenderTarget(), fake = {};
+  const renderer = Object.assign(Object.create(Renderer.prototype), {
+    scene, camera, renderer: fake, frameTarget, warmupMaterials: [],
+    magicGlow: { prepare: async () => {} },
+  }) as Renderer;
+  const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
+  await renderer.warmup();
+  expect(prepare).toHaveBeenCalledWith(fake, scene, camera,
+    [ordinary, ...instances, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4 });
+  geometry.dispose(); material.dispose(); frameTarget.dispose();
+});
+
 it("reports the actual graphics backend and initialization state", () => {
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     renderer: { backend: { isWebGPUBackend: true } }, initialized: false,
