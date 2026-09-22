@@ -45,6 +45,21 @@ function fixture() {
 }
 
 describe("frame loop resident motion", () => {
+  it('caps presentation at 60 Hz while reading every input frame and preserving animation time', () => {
+    const f = fixture();
+    try {
+      for (let at = 0; at < 1000; at += 2) f.render(at);
+      expect(f.deps.input.update).toHaveBeenCalledTimes(500);
+      expect(f.deps.renderer.render).toHaveBeenCalledTimes(60);
+      const animationSeconds = f.views.update.mock.calls.reduce((total, [delta]) => total + delta, 0);
+      expect(animationSeconds).toBeGreaterThan(.97);
+      expect(animationSeconds).toBeLessThan(1);
+      // A resumed tab presents once, without trying to draw all missed frames.
+      f.render(5000);
+      expect(f.deps.renderer.render).toHaveBeenCalledTimes(61);
+      expect(f.views.update.mock.lastCall![0]).toBe(.25);
+    } finally { f.loop.dispose(); }
+  });
   it("does not resurrect a network swing cancelled before the next render", () => {
     const f=fixture(),rig={root:{visible:true},setPosition:vi.fn(),play:vi.fn(),poseFor:()=>"idle",
       setLocomotionSpeed:vi.fn(),update:vi.fn(),drainMotionEvents:()=>[],syncTraversalPose:vi.fn(),
@@ -54,7 +69,7 @@ describe("frame loop resident motion", () => {
     try {
       f.loop.handleWorldAction({...base,sequence:1,type:"attack",attack:{id:1,sourceId:"player",targetId:"archer",attacker:"player",kind:"melee",atMs:0,contactAtMs:500,recoverAtMs:800}},0);
       f.loop.handleWorldAction({...base,sequence:2,type:"attackCancelled",sourceId:"player"},1);
-      f.render(16);
+      f.render(1000 / 60);
       expect(rig.play).toHaveBeenCalledWith("idle");
       expect(rig.play.mock.calls.some(call=>call[0]==="attack_melee")).toBe(false);
     } finally {f.loop.dispose();}
@@ -67,7 +82,7 @@ describe("frame loop resident motion", () => {
       f.loop.handleWorldAction({...base,sequence:1,type:"attack",attack:{id:1,sourceId:"archer",targetId:"player",attacker:"enemy",kind:"ranged",atMs:0,contactAtMs:1000,recoverAtMs:1200}},0);
       const mesh=f.deps.scene.overlayGroup.getObjectByName("enemy-projectiles") as THREE.InstancedMesh;
       const matrix=new THREE.Matrix4();
-      f.loop.setRemotePresentationTime(500);f.render(16);mesh.getMatrixAt(0,matrix);const first=matrix.elements[12]!;
+      f.loop.setRemotePresentationTime(500);f.render(1000 / 60);mesh.getMatrixAt(0,matrix);const first=matrix.elements[12]!;
       f.loop.setRemotePresentationTime(550);f.render(66);mesh.getMatrixAt(0,matrix);
       expect(mesh.count).toBe(1);expect(matrix.elements[12]).toBeLessThan(first);
       expect(f.deps.clock.elapsedMs).toBe(500);
@@ -82,7 +97,7 @@ describe("frame loop resident motion", () => {
       f.loop.handleWorldAction({...base,sequence:1,playerId:"previous",type:"attack",attack:{...attack,targetId:"previous"}},0);
       f.loop.handleWorldAction({...base,sequence:2,playerId:"player",type:"attack",attack:{...attack,targetId:"player"}},1);
       f.loop.handleWorldAction({...base,sequence:3,playerId:"previous",type:"attackCancelled",sourceId:"archer"},2);
-      f.loop.setRemotePresentationTime(500);f.render(16);
+      f.loop.setRemotePresentationTime(500);f.render(1000 / 60);
       expect(f.views.cancelAttack).not.toHaveBeenCalled();
       expect(f.loop.remoteProjectileState()).toEqual({visible:1,targets:["player"]});
     }finally{f.loop.dispose();}
@@ -92,10 +107,10 @@ describe("frame loop resident motion", () => {
     vi.stubGlobal('navigator', { scheduling: { isInputPending: () => pending } });
     const f = fixture();
     try {
-      f.render(16);
+      f.render(1000 / 60);
       expect(f.deps.input.update).toHaveBeenCalledTimes(1);
       expect(f.views.update).not.toHaveBeenCalled();
-      pending = false; f.render(32);
+      pending = false; f.render(2000 / 60);
       expect(f.views.update).toHaveBeenCalledTimes(1);
       expect(f.views.update.mock.calls[0]![0]).toBeCloseTo(.032, 2);
     } finally { f.loop.dispose(); }
@@ -106,12 +121,12 @@ describe("frame loop resident motion", () => {
     Object.assign(f.deps.renderer, { canRenderFrame: () => ready });
     f.loop.setUi(ui as never);
     try {
-      f.render(16); f.render(32);
+      f.render(1000 / 60); f.render(2000 / 60);
       expect(f.deps.input.update).toHaveBeenCalledTimes(2);
       expect(ui.update).toHaveBeenCalledTimes(2);
       expect(f.views.update).not.toHaveBeenCalled();
       expect(f.deps.renderer.render).not.toHaveBeenCalled();
-      ready = true; f.render(48);
+      ready = true; f.render(3000 / 60);
       expect(f.views.update).toHaveBeenCalledTimes(1);
       expect(f.views.update.mock.calls[0]![0]).toBeCloseTo(.048, 2);
       expect(f.deps.renderer.render).toHaveBeenCalledTimes(1);
@@ -121,7 +136,7 @@ describe("frame loop resident motion", () => {
     const f = fixture(), observer = vi.fn();
     Object.assign(f.deps.renderer, { getFramePressureMs: () => 180 });
     f.loop.setFrameObserver(observer);
-    try { f.render(16); expect(observer).toHaveBeenCalledWith(180); }
+    try { f.render(1000 / 60); expect(observer).toHaveBeenCalledWith(180); }
     finally { f.loop.dispose(); }
   });
   it("draws a zero-length frame when the first RAF predates a long boot task", () => {
@@ -138,7 +153,7 @@ describe("frame loop resident motion", () => {
     const reconcile = vi.fn(() => { f.order.push("handoff"); });
     f.loop.setEntityViews(f.views as unknown as EntityViews, f.source, f.refresh, reconcile);
     try {
-      f.render(16);
+      f.render(1000 / 60);
       expect(f.order).toEqual(["residency", "handoff", "motion", "animation"]);
       f.order.length = 0;
       f.render(300);
@@ -155,7 +170,7 @@ describe("frame loop resident motion", () => {
       f.loop.handleWorldAction({ sequence: 1, playerId: 'player', position: [0, 0, 0], regionId: 'fallowmarch', type: 'hit',
         hit: { atMs: 500, attacker: 'player', sourceId: 'player', targetId: 'archer', damage: 1,
           hit: true, maxHit: 1, kind: 'melee', killed: false, spellId: null } }, 0);
-      f.render(16);
+      f.render(1000 / 60);
       expect(f.views.actionDurationSeconds).toHaveBeenCalledWith('archer', 'hit', 'left');
       expect(f.views.playAction).toHaveBeenCalledWith('archer', 'hit', { impactSide: 'left', durationSeconds: .517 });
     } finally { f.loop.dispose(); }
@@ -170,20 +185,20 @@ describe("frame loop resident motion", () => {
     const mesh = (): THREE.InstancedMesh => f.deps.scene.overlayGroup.getObjectByName("enemy-projectiles") as THREE.InstancedMesh;
     try {
       f.deps.clock.elapsedMs = 500;
-      shoot(); f.render(16);
+      shoot(); f.render(1000 / 60);
       expect(mesh().count).toBe(1);
       f.loop.handleWorldAction({ ...base, sequence: ++sequence, type: "attackCancelled", sourceId: "archer" }, 0);
-      f.render(32);
+      f.render(2000 / 60);
       expect(mesh().count).toBe(0);
-      shoot(); f.render(48);
+      shoot(); f.render(3000 / 60);
       expect(mesh().count).toBe(1);
       f.deps.store.get().player.regionId = "gravelmaw";
-      f.render(64);
+      f.render(4000 / 60);
       expect(mesh().count).toBe(0);
-      shoot(); f.render(80);
+      shoot(); f.render(5000 / 60);
       f.loop.resetPresentation();
       expect(mesh().count).toBe(0);
-      shoot(); f.render(96);
+      shoot(); f.render(6000 / 60);
       expect(mesh().count).toBe(1);
       f.loop.dispose();
       expect(f.deps.scene.overlayGroup.children).toHaveLength(0);
@@ -195,19 +210,19 @@ describe("frame loop resident motion", () => {
     const land = (sequence: number): void => f.loop.handleWorldAction({ sequence, playerId: "player", position: [0, 0, 0], regionId: "fallowmarch", type: "hit",
       hit: { atMs: 0, attacker: "player", sourceId: "player", targetId: "archer", damage: 1, hit: true, maxHit: 1, kind: "melee", killed: false, spellId: null } }, 0);
     try {
-      land(1); f.render(16);
+      land(1); f.render(1000 / 60);
       expect(f.views.playAction).toHaveBeenLastCalledWith("archer", "hit", { impactSide: "left" });
       f.deps.store.get().player.position = [8, 0, 0];
-      land(2); f.render(32);
+      land(2); f.render(2000 / 60);
       expect(f.views.playAction).toHaveBeenLastCalledWith("archer", "hit", { impactSide: "right" });
     } finally { f.loop.dispose(); }
   });
   it("refreshes residency and interpolates each frame while collecting semantics only at structural cadence", () => {
     const f = fixture();
     try {
-      for (let frame = 1; frame <= 60; frame += 1) f.render(frame * 16);
-      expect(f.refresh).toHaveBeenCalledTimes(60);
-      expect(f.views.syncResidentMotion).toHaveBeenCalledTimes(60);
+      for (let frame = 1; frame <= 58; frame += 1) f.render(frame * 1000 / 60);
+      expect(f.refresh).toHaveBeenCalledTimes(58);
+      expect(f.views.syncResidentMotion).toHaveBeenCalledTimes(58);
       expect(f.views.syncResidentMotion).toHaveBeenLastCalledWith(1);
       expect(f.source).toHaveBeenCalledTimes(3);
       expect(f.views.sync).toHaveBeenCalledTimes(3);
@@ -222,10 +237,10 @@ describe("frame loop resident motion", () => {
   it("replaces stale residency callbacks on reattachment", () => {
     const f = fixture();
     try {
-      f.render(16);
+      f.render(1000 / 60);
       f.deps.clock.paused = true;
       f.loop.setEntityViews(f.views as unknown as EntityViews, f.source);
-      f.render(32);
+      f.render(2000 / 60);
       expect(f.refresh).toHaveBeenCalledTimes(1);
       expect(f.views.syncResidentMotion).toHaveBeenLastCalledWith(1);
       expect(f.source).not.toHaveBeenCalled();
@@ -246,7 +261,7 @@ describe("frame loop resident motion", () => {
     };
     f.loop.setPlayerRig(rig as unknown as CharacterRig);
     try {
-      f.loop.setRemoteTraversal(sample); f.render(16);
+      f.loop.setRemoteTraversal(sample); f.render(1000 / 60);
       expect(f.deps.store.get().player.position).toEqual([0, 0, 0]);
       expect(rig.setPosition).toHaveBeenLastCalledWith([1.25, 0.6, 0], Math.PI / 2);
       expect(f.deps.scene.syncPlayer).toHaveBeenLastCalledWith([1.25, 0.6, 0], Math.PI / 2);
@@ -254,12 +269,12 @@ describe("frame loop resident motion", () => {
       expect(rig.play).not.toHaveBeenCalled();
       expect(rig.syncTraversalPose).toHaveBeenLastCalledWith(sample);
       sample = { ...sample, concealed: true, position: [0, 0, 0], kind: "passage" };
-      f.loop.setRemoteTraversal(sample); f.render(32);
+      f.loop.setRemoteTraversal(sample); f.render(2000 / 60);
       expect(rig.play).not.toHaveBeenCalled();
       expect(rig.syncTraversalPose).toHaveBeenLastCalledWith(sample);
       f.deps.store.get().player.position = [1.5, 0, 0];
       sample = null;
-      f.loop.setRemoteTraversal(sample); f.render(48);
+      f.loop.setRemoteTraversal(sample); f.render(3000 / 60);
       expect(rig.syncTraversalPose).toHaveBeenLastCalledWith(null);
       expect(f.deps.scene.syncPlayer).toHaveBeenLastCalledWith([1.5, 0, 0], 0);
     } finally { f.loop.stop(); }

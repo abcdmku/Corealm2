@@ -169,6 +169,7 @@ export class GameLoop {
   private interiors: { group: { visible: boolean }; visible: () => boolean }[] = [];
   private frameObserver: ((frameMs: number) => void) | null = null;
   private pendingRenderDeltaMs = 0;
+  private nextPresentationAt: number | null = null;
 
   /** Scratch, reused every frame. The render pose is written here rather than allocated. */
   private readonly renderPos: [number, number, number] = [0, 0, 0];
@@ -319,6 +320,7 @@ export class GameLoop {
     this.running = true;
     this.lastFrameAt = performance.now();
     this.pendingRenderDeltaMs = 0;
+    this.nextPresentationAt = null;
     this.deps.renderer.resetFrameTiming?.();
     this.frameHandle = requestAnimationFrame(this.frame);
   }
@@ -369,9 +371,15 @@ export class GameLoop {
     // expensive scene traversal so that the handler runs before we draw an obsolete input state.
     const pendingInput = typeof navigator !== 'undefined'
       && (navigator as Navigator & { scheduling?: { isInputPending(): boolean } }).scheduling?.isInputPending();
-    if ((this.deps.renderer.canRenderFrame?.() ?? true) && !pendingInput) {
+    // A high-refresh display must not fill the shared GPU with hundreds of game frames.
+    // Keep input at browser cadence and give uploads and other tabs time between presentations.
+    const presentationInterval = 1000 / 60;
+    const presentationDue = this.nextPresentationAt === null || nowMs + 0.25 >= this.nextPresentationAt;
+    if (presentationDue && (this.deps.renderer.canRenderFrame?.() ?? true) && !pendingInput) {
       this.renderFrame(nowMs, this.pendingRenderDeltaMs);
       this.pendingRenderDeltaMs = 0;
+      const deadline = this.nextPresentationAt ?? nowMs;
+      this.nextPresentationAt = deadline + (Math.floor(Math.max(0, nowMs - deadline) / presentationInterval) + 1) * presentationInterval;
     } else {
       // Input has already been read. Avoid spending the main thread on palettes/scene updates
       // that cannot be drawn, while menus still reflect current state.
