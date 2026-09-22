@@ -10,6 +10,9 @@
 
 // ---------------------------------------------------------------- primitives
 
+/** Particle geometry and shading remain the same for CPU-authored and GPU-evaluated motion. */
+export type ParticleKind = "light" | "smoke" | "fragment" | "droplet";
+
 /** Graphics backend identity prevents a fallback from masquerading as WebGPU evidence. */
 export interface GraphicsBackendState {
   api: "webgpu" | "webgl2";

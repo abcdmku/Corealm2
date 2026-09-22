@@ -96,6 +96,29 @@ it.each(['light', 'smoke', 'fragment', 'droplet'] as const)('shares %s particle 
   } finally { first.dispose(); second.dispose(); }
 });
 
+it('preserves linear particle energy across pools and avoids uploading empty pools', () => {
+  const parent = new THREE.Group(), first = new ElementalParticleCloud(parent, 'light', 3), second = new ElementalParticleCloud(parent, 'light', 3);
+  try {
+    first.begin(1, 1.25); second.begin(2, .5);
+    first.put(1, 2, 3, .03, 0xc73a09, .7, 31, 1.3, 1.7);
+    second.put(4, 5, 6, .06, 0xc73a09, .4, 51, 1.9, 2);
+    first.end(); second.end();
+    for (const [pool, gain] of [[first, 1.25 * 1.7], [second, 1]] as const) {
+      const tint = pool.mesh.geometry.getAttribute('tintAlpha');
+      const expected = new THREE.Color(0xc73a09).multiplyScalar(gain);
+      expect(tint.getX(0)).toBeCloseTo(expected.r, 6);
+      expect(tint.getY(0)).toBeCloseTo(expected.g, 6);
+      expect(tint.getZ(0)).toBeCloseTo(expected.b, 6);
+      const attributes = Object.values(pool.mesh.geometry.attributes).filter(a => (a as THREE.InstancedBufferAttribute).isInstancedBufferAttribute) as THREE.BufferAttribute[];
+      expect(attributes.reduce((n, a) => n + a.updateRanges.reduce((m, r) => m + r.count, 0) * 4, 0)).toBe(40);
+      const versions = attributes.map(a => a.version);
+      pool.begin(3); pool.end();
+      expect(pool.mesh.visible).toBe(false); expect(pool.instances).toBe(0);
+      expect(attributes.map(a => a.version)).toEqual(versions);
+    }
+  } finally { first.dispose(); second.dispose(); }
+});
+
 it.each((['earth', 'wind', 'water', 'fire'] as const).flatMap(element =>
   [false, true].map(magical => ({ element, magical }))))('shares $element energy graphs (magical=$magical) without sharing curve or tint buffers', ({ element, magical }) => {
   const parent = new THREE.Group(), first = new ElementalEnergyBodies(parent, element, magical), second = new ElementalEnergyBodies(parent, element, magical);
