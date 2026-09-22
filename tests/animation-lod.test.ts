@@ -7,6 +7,11 @@ import { AnimationLod, sampledAnimationPalette, unionTransformedBounds, type Lod
 import { conformTerrainRig } from '../game/src/render/terrainRig.js';
 import { crowdGeometryReady, simplifyCrowdGeometry } from '../game/src/render/crowdGeometry.js';
 
+function attributeValues(attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): number[] {
+  return Array.from({ length: attribute.count }, (_, vertex) =>
+    Array.from({ length: attribute.itemSize }, (_, component) => attribute.getComponent(vertex, component))).flat();
+}
+
 it.each([false, true])('uses one decoded Float32 layout for full-detail and simplification fallback parts (crowd=%s)', simplify => {
   const { root, mesh, head, walk, geometry } = actor();
   const positions = new THREE.InterleavedBuffer(new Float32Array([
@@ -38,8 +43,8 @@ it.each([false, true])('uses one decoded Float32 layout for full-detail and simp
     expect(Array.from(sampled.geometry.index!.array)).toEqual([0, 1, 2]);
     expect(sampled.geometry.drawRange).toEqual({ start: 0, count: 3 });
     for (const [name, source] of Object.entries(geometry.attributes)) {
-      const attribute = sampled.geometry.getAttribute(name) as THREE.BufferAttribute;
-      expect(attribute.isBufferAttribute).toBe(true);
+      const attribute = sampled.geometry.getAttribute(name) as THREE.InterleavedBufferAttribute;
+      expect(attribute.isInterleavedBufferAttribute).toBe(true);
       expect(attribute.array).toBeInstanceOf(Float32Array);
       expect(attribute.normalized).toBe(false);
       expect(attribute.itemSize).toBe(source.itemSize);
@@ -53,14 +58,19 @@ it.each([false, true])('uses one decoded Float32 layout for full-detail and simp
           name === 'skinIndex' ? (source.getComponent(vertex, component) === 1 ? 0 : 1) : source.getComponent(vertex, component)));
       }
     }
+    const vertexBuffers = new Set(Object.entries(sampled.geometry.attributes)
+      .filter(([name]) => !name.startsWith('lod')).map(([, attribute]) =>
+        (attribute as THREE.InterleavedBufferAttribute).data ?? attribute));
+    expect(vertexBuffers.size).toBe(1);
+    expect((sampled.geometry.getAttribute('lodFrames') as THREE.InstancedBufferAttribute).isInstancedBufferAttribute).toBe(true);
     expect(geometry.index).toBe(sourceIndex);
     expect(geometry.index!.array).toBe(sourceIndexArray);
     expect(Array.from(geometry.index!.array)).toEqual(sourceIndexValues);
     expect(attachment.geometry.getAttribute('skinIndex').array).toBeInstanceOf(Float32Array);
     expect(attachment.geometry.getAttribute('skinIndex').normalized).toBe(false);
-    expect(Array.from(attachment.geometry.getAttribute('skinIndex').array)).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    expect(attributeValues(attachment.geometry.getAttribute('skinIndex'))).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     expect(attachment.geometry.getAttribute('skinWeight').array).toBeInstanceOf(Float32Array);
-    expect(Array.from(attachment.geometry.getAttribute('skinWeight').array)).toEqual([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]);
+    expect(attributeValues(attachment.geometry.getAttribute('skinWeight'))).toEqual([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]);
     expect(attachment.geometry.index).toBeNull();
     expect(attachment.geometry.drawRange.count).toBe(3);
     expect(rigidGeometry.hasAttribute('skinIndex')).toBe(false);
@@ -168,7 +178,7 @@ it.each([false, true])('decodes protected half-float/integer streams and keeps f
     expect(sampledHalf.array).toBeInstanceOf(Float32Array);
     expect(sampledHalf.array).not.toBe(sourceHalfArray);
     expect(sampledHalf.normalized).toBe(false);
-    expect(Array.from(sampledHalf.array)).toEqual(decodedHalf);
+    expect(attributeValues(sampledHalf)).toEqual(decodedHalf);
     expect(sampledHalf.getX(0)).toBe(1);
     expect(sampledInteger.array).toBeInstanceOf(Int16Array);
     expect(sampledInteger.array).not.toBe(sourceIntegerArray);

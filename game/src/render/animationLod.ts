@@ -160,6 +160,41 @@ function canonicalSampledAttribute(attribute: THREE.BufferAttribute | THREE.Inte
   return result;
 }
 
+/** One vertex buffer for each compatible per-vertex float layout, leaving instance data separate. */
+function packSampledVertexAttributes(geometry: THREE.BufferGeometry): void {
+  const groups = new Map<string, { name: string; attribute: THREE.BufferAttribute }[]>();
+  for (const [name, source] of Object.entries(geometry.attributes)) {
+    const attribute = source as THREE.BufferAttribute;
+    if (!(attribute.array instanceof Float32Array) || attribute.normalized
+      || attribute.gpuType === THREE.IntType
+      || (attribute as THREE.InstancedBufferAttribute).isInstancedBufferAttribute
+      || (source as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute) continue;
+    const key = `${attribute.count}:${attribute.usage}`;
+    const group = groups.get(key) ?? [];
+    group.push({ name, attribute });
+    groups.set(key, group);
+  }
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    const count = group[0]!.attribute.count;
+    const stride = group.reduce((sum, { attribute }) => sum + attribute.itemSize, 0);
+    const data = new THREE.InterleavedBuffer(new Float32Array(count * stride), stride)
+      .setUsage(group[0]!.attribute.usage);
+    let offset = 0;
+    for (const { name, attribute } of group) {
+      for (let vertex = 0; vertex < count; vertex++) {
+        for (let component = 0; component < attribute.itemSize; component++) {
+          data.array[vertex * stride + offset + component] = attribute.getComponent(vertex, component);
+        }
+      }
+      const packed = new THREE.InterleavedBufferAttribute(data, attribute.itemSize, offset, false);
+      packed.name = attribute.name;
+      geometry.setAttribute(name, packed);
+      offset += attribute.itemSize;
+    }
+  }
+}
+
 /** Shared sampled skeletal poses with small per-instance clip/phase attributes. */
 export class AnimationLod {
   private readonly terrainPoses = new Map<number, LodPose>();
@@ -824,6 +859,7 @@ export class AnimationLod {
         geometry.setAttribute("skinIndex", new THREE.Float32BufferAttribute(new Float32Array(vertexCount * 4), 4));
         geometry.setAttribute("skinWeight", new THREE.Float32BufferAttribute(weights, 4));
       }
+      packSampledVertexAttributes(geometry);
       geometry.setAttribute("lodFrames", this.frames);
       geometry.setAttribute("lodPreviousFrames", this.previousFrames);
       geometry.boundingBox = palette.bounds.clone();
