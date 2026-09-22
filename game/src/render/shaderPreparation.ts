@@ -4,6 +4,7 @@ import type { WebGPURenderer } from "three/webgpu";
 import { createGpuCompletion } from "./framePacer.js";
 import type { GpuCompletion } from "./framePacer.js";
 import { isSceneryInstances } from "./sceneryInstances.js";
+import { withNativePipelineConcurrency } from "./nativePipelinePreparation.js";
 
 
 type DeviceError = { message?: string };
@@ -155,6 +156,8 @@ export function shaderGeometryKey(mesh: THREE.Mesh): string {
 
 export interface ShaderPreparationOptions {
   batchSize?: number;
+  /** Startup may overlap two native pipeline waits while node building stays serial. */
+  pipelineConcurrency?: 1 | 2;
   renderTarget?: THREE.RenderTarget | null;
   isCancelled?: () => boolean;
   onPendingTextures?: (count: number) => void;
@@ -235,16 +238,23 @@ function preparedScenery(object: THREE.Object3D, state: PreparationState): boole
 }
 
 function nextPreparationBatch(objects: readonly THREE.Object3D[], offset: number, batchSize: number,
-  state: PreparationState): THREE.Object3D[] {
+  state: PreparationState, pipelineConcurrency: 1 | 2): THREE.Object3D[] {
   const first = objects[offset]!;
   const scenery = isSceneryInstances(first);
-  // A first layout must finish alone: Three does not cache an in-progress node builder.
-  const limit = scenery ? preparedScenery(first, state) ? 8 : 1 : batchSize;
+  // Startup's native loop builds nodes serially, so later items reuse the completed
+  // builder even while its GPU pipeline is pending. Interactive admission is unchanged.
+  let limit = scenery ? preparedScenery(first, state) ? 8 : pipelineConcurrency === 2 ? 4 : 1 : batchSize;
   const batch: THREE.Object3D[] = [], selectedBuffers = new Set<AttributeBuffer>();
   let bytes = 0;
   for (let index = offset; index < objects.length && batch.length < limit; index++) {
     const object = objects[index]!;
-    if (index > offset && (scenery ? !preparedScenery(object, state) : isSceneryInstances(object))) break;
+    if (index > offset && (scenery
+      ? pipelineConcurrency === 2 ? !isSceneryInstances(object) : !preparedScenery(object, state)
+      : isSceneryInstances(object))) break;
+    if (scenery && pipelineConcurrency === 2 && !preparedScenery(object, state)) {
+      limit = Math.min(limit, 4);
+      if (batch.length >= limit) break;
+    }
     const buffers = geometryBuffers(object);
     let additional = 0;
     for (const buffer of buffers) {
@@ -394,7 +404,7 @@ class PreparationLights {
 function compileBatch(
   renderer: WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera,
   objects: readonly THREE.Object3D[], state: PreparationState, fading: boolean,
-  renderTarget: THREE.RenderTarget | null | undefined, lights?: PreparationLights,
+  renderTarget: THREE.RenderTarget | null | undefined, pipelineConcurrency: 1 | 2, lights?: PreparationLights,
 ): Promise<void> {
   const view = new THREE.Group();
   view.matrixWorldAutoUpdate = false;
@@ -428,7 +438,8 @@ function compileBatch(
       if (fading && original.material) object.material = Array.isArray(original.material)
         ? original.material.map(source => corpseMaterial(source, state)) : corpseMaterial(original.material, state);
     }
-    return renderer.compileAsync(view, camera, scene);
+    const compile = () => renderer.compileAsync(view, camera, scene);
+    return pipelineConcurrency === 2 ? withNativePipelineConcurrency(renderer, compile) : compile();
   } finally {
     scene.onBeforeRender = beforeRender; scene.traverseVisible = traverseVisible;
     if (target !== undefined) renderer.setRenderTarget(target, cubeFace, mipLevel);
@@ -459,10 +470,12 @@ async function prepare(
   const completion = state.completion ??= createGpuCompletion(renderer);
   const cancelled = options.isCancelled ?? (() => false);
   const batchSize = Math.max(1, Math.min(4, Math.floor(options.batchSize ?? 1)));
+  const fallback = (renderer.backend as unknown as { isWebGLBackend?: boolean }).isWebGLBackend === true;
+  const pipelineConcurrency = fallback ? 1 : options.pipelineConcurrency ?? 1;
   const lights = objects.length >= 16 && objects.length > batchSize ? new PreparationLights(scene) : undefined;
   try {
     for (let offset = 0; offset < objects.length && !cancelled();) {
-      const batch = nextPreparationBatch(objects, offset, batchSize, state);
+      const batch = nextPreparationBatch(objects, offset, batchSize, state, pipelineConcurrency);
       const textures = collectTextures(batch, scene).filter(texture => state.textures.get(texture) !== texture.version);
       progress.pendingTextures = textures.length;
       options.onPendingTextures?.(progress.pendingTextures);
@@ -488,11 +501,11 @@ async function prepare(
         buffers.set(buffer, { version: buffer.version, array: buffer.array });
       }
       await validateGraphicsWork(renderer, "Resident graphics pipelines", () =>
-        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights));
+        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, pipelineConcurrency, lights));
       if (cancelled()) return;
       const fading = batch.filter(object => object.userData.prepareCorpseFade === true);
       if (fading.length) await validateGraphicsWork(renderer, "Creature fade pipelines", () =>
-        compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights));
+        compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, pipelineConcurrency, lights));
       await finishUploads(completion);
       rememberPreparedBuffers(batch, buffers, state);
       progress.pendingMeshes -= batch.length;

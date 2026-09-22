@@ -13,8 +13,12 @@ function fixture() {
   const initTexture = vi.fn((_texture: THREE.Texture) => {});
   const completed = vi.fn(async () => {});
   const renderer = {
-    init: async () => {}, compileAsync: compile, initTexture,
-    backend: { isWebGPUBackend: true, device: { queue: { onSubmittedWorkDone: completed } } },
+    _initialized: true, init: async () => {}, compileAsync: compile, initTexture,
+    _pipelines: { getForRender: () => {} },
+    backend: { isWebGPUBackend: true, createRenderPipeline: () => {}, device: {
+      queue: { onSubmittedWorkDone: completed }, pushErrorScope: () => {}, popErrorScope: async () => null,
+      createRenderPipelineAsync: async () => ({}),
+    } },
     getRenderTarget: () => target, setRenderTarget: (value: THREE.RenderTarget | null) => { target = value; },
     getActiveCubeFace: () => 0, getActiveMipmapLevel: () => 0,
   } as unknown as WebGPURenderer;
@@ -98,6 +102,38 @@ it('limits grouped scenery to 256 KiB of new buffers and counts shared source at
   await prepareShaderMeshes(renderer, scene, camera, meshes);
   expect(sizes).toEqual([1, 3, 3, 1]);
   expect(completed).toHaveBeenCalledTimes(4);
+  for (const mesh of meshes) mesh.dispose();
+});
+
+it.each([1, 1280])('allows startup scenery seeds in groups of four within the existing upload cap (capacity %i)', async capacity => {
+  const { scene, camera, renderer, compile, completed } = fixture();
+  const geometry = new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(new Float32Array(30_000), 3));
+  const meshes = Array.from({ length: 8 }, () => new SceneryInstances(geometry, new THREE.MeshStandardMaterial(), capacity));
+  const sizes: number[] = [];
+  let finish!: () => void;
+  compile.mockImplementation(async view => { sizes.push(view.children.length); });
+  completed.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  const preparing = prepareShaderMeshes(renderer, scene, camera, meshes, { pipelineConcurrency: 2 });
+  await vi.waitFor(() => expect(completed).toHaveBeenCalledOnce());
+  expect(shaderPreparationState(renderer).pendingMeshes).toBe(8);
+  expect(sizes).toEqual([capacity === 1 ? 4 : 1]);
+  finish(); await preparing;
+  expect(sizes).toEqual(capacity === 1 ? [4, 4] : [1, 3, 3, 1]);
+  expect(shaderPreparationState(renderer).pendingMeshes).toBe(0);
+  for (const mesh of meshes) mesh.dispose();
+});
+
+it('keeps explicit WebGL fallback preparation serial when startup requests native overlap', async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  Object.assign(renderer.backend, { isWebGPUBackend: false, isWebGLBackend: true, gl: {
+    SYNC_GPU_COMMANDS_COMPLETE: 1, WAIT_FAILED: 2, TIMEOUT_EXPIRED: 3,
+    isContextLost: () => false, fenceSync: () => ({}), flush: () => {}, deleteSync: () => {}, clientWaitSync: () => 4,
+  } });
+  const meshes = Array.from({ length: 3 }, () => new SceneryInstances(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial(), 1));
+  const sizes: number[] = [];
+  compile.mockImplementation(async view => { sizes.push(view.children.length); });
+  await prepareShaderMeshes(renderer, scene, camera, meshes, { pipelineConcurrency: 2 });
+  expect(sizes).toEqual([1, 1, 1]);
   for (const mesh of meshes) mesh.dispose();
 });
 
