@@ -12,10 +12,10 @@
     "riggingRequired": true
   },
   "auditGate": "Independent stone_audit gpt-6-astra low source review before model advancement. No dinosaurs, PG-13 serious fantasy, balanced mature proportions.",
-  "sourceAuditComplete": true,
-  "downloadReadyCount": 7,
+  "sourceAuditComplete": false,
+  "downloadReadyCount": 0,
   "downloadedCount": 7,
-  "batchStatus": "seven-models-created-rigged-starred-and-downloaded; root runtime acceptance and animation checks pending",
+  "batchStatus": "Seven models unstarred and held for root-only weights; exact Cairn/Scree reference images attached to GPT Image 2.5 for face-only corrections; awaiting independent source approval",
   "pbrPolicy": "Matte stone, skin and cloth. No emissive, glass, metallic or deliberately shiny material; extra PBR generation not required.",
   "tabs": [
     "1472601623",
@@ -35,18 +35,19 @@
       "vertexCount": 3112,
       "uvStatus": "saved",
       "textureStatus": "8k-complete",
-      "rigStatus": "other-complete",
-      "status": "exported-awaiting-runtime-check",
-      "auditStatus": "approved",
+      "rigStatus": "tripo-ui-complete-export-root-only-weights",
+      "status": "face-revision-in-progress-animation-hold",
+      "auditStatus": "denied-by-new-face-audit",
       "audit": {
         "verdict": "approved",
         "reviewer": "stone_audit",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
         "sourceImageId": "f1168b3e-6a08-4dae-b3cb-06521aed056f",
-        "reason": "Distinct hollow limestone arch with three stable articulated legs and small lower feelers; cream/rust geology, no mammal or mascot face."
+        "reason": "Distinct hollow limestone arch with three stable articulated legs and small lower feelers; cream/rust geology, no mammal or mascot face.",
+        "historicalApprovalSupersededForNewFaceCriterion": true
       },
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "exportStatus": "downloaded",
       "downloadPath": "C:/Users/Borg/Downloads/corealm_cairn_treader_b410206c_8k_rigged.glb",
       "downloadBytes": 18963012,
@@ -56,10 +57,37 @@
         "exportSkeleton": true
       },
       "exportOperator": "creatures_stone",
-      "animationCheckStatus": "pending-local-export-and-Luna-max-walk-run-attack-hit-death-check",
-      "runtimeIntegrationStatus": "not-integrated",
+      "animationCheckStatus": "hold-root-export-audit-found-root-only-weights",
+      "runtimeIntegrationStatus": "blocked-until-functional-skin-and-new-face-audit",
       "uvUtilization": 68.6,
-      "modelGeneratedAfterSourceApproval": true
+      "modelGeneratedAfterSourceApproval": true,
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "downloadReadyStarredHistorical": true,
+      "readyForAnimation": false,
+      "readyForRuntime": false,
+      "referencePath": "assets/art/tripo/references/stone-cairn-treader.png",
+      "referenceSha256": "4444ded04673e3b21025fcf0ab7207e10f070852ff51f6f3160bd87a643288e7",
+      "referenceBytes": 2188425,
+      "referenceDimensions": [
+        1152,
+        1536
+      ],
+      "prompt": "CAIRN TREADER revision 2. Original living limestone organism for a serious PG-13 medieval RPG highland ecosystem. The creature has a narrow upright oval body formed by a continuous folded stone arch, with an open vertical hollow through its center. Exactly three equal sturdy jointed limbs descend from the body at different angles, each ending in a blunt broad stone pad. No torso, shoulders or hips. Two short curved stone feelers reach forward from its lower rim to turn loose gravel. A single recessed dark sensory cleft lies across the upper rim, without eyes, nose, mouth or face. Moderate build, body width one-third total height, walking limbs support it like a stable three-legged wading organism. Natural cream limestone strata bending around the central hollow, rusty seep lines and dark gray inclusions, ochre crust lichen. Healthy ancient presence, functional unfamiliar anatomy. No animal head, hooves, mammal body, dinosaur, reptile, tail, humanoid armor, robot parts, horns, spikes, glowing runes or cute features. Clear full body three-quarter walking-ready stance, all limbs separate, plain warm gray background, no scene or base. Painted high quality game asset reference with readable broad forms and layered natural material detail, inspired by the sober fantasy worldbuilding of Knight Online and RuneScape.",
+      "promptRecovery": "Exact submitted prompt restored from retained creation tool context",
+      "referenceRecovery": "Full original PNG bundled by supported Tripo pageAssets capability, exact UUID matched to Texture panel input",
+      "textureReferenceImageId": "f1168b3e-6a08-4dae-b3cb-06521aed056f",
+      "textureReferenceVerifiedModelId": "b410206c-139f-4849-b493-bec078ea8560",
+      "textureReferenceVerifiedUrl": "https://studio.tripo3d.ai/workspace/texture/b410206c-139f-4849-b493-bec078ea8560",
+      "faceAuditStatus": "denied",
+      "faceAuditGate": "2026-09-22 user correction: no genital-like, blown-off, missing or eroded empty faces. Earlier source approvals are historical and insufficient for promotion until fresh face review.",
+      "faceAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "f1168b3e-6a08-4dae-b3cb-06521aed056f",
+        "method": "view_image of recovered full original PNG",
+        "reason": "Dominant head/body oval is an empty face-sized void. Preserve tripod, limestone arch silhouette and feelers, but bridge oval with solid recessed limestone face carrying small paired sensory stones."
+      },
+      "starRemovalReason": "Root-only skin weights; Cairn and Scree also denied by new face audit"
     },
     {
       "id": "scree-watcher",
@@ -72,18 +100,19 @@
       "vertexCount": 3017,
       "uvStatus": "saved",
       "textureStatus": "8k-complete",
-      "rigStatus": "other-complete",
-      "status": "exported-awaiting-runtime-check",
-      "auditStatus": "approved",
+      "rigStatus": "tripo-ui-complete-export-root-only-weights",
+      "status": "face-revision-in-progress-animation-hold",
+      "auditStatus": "denied-by-new-face-audit",
       "audit": {
         "verdict": "approved",
         "reviewer": "stone_audit",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
         "sourceImageId": "a0b851a5-2aa2-4c9c-a1ff-07850ad17450",
-        "reason": "Tooth-row, grin and dot eyes removed; diagonal fractured schist with recessed sensing slits, four firm limbs and sober original silhouette."
+        "reason": "Tooth-row, grin and dot eyes removed; diagonal fractured schist with recessed sensing slits, four firm limbs and sober original silhouette.",
+        "historicalApprovalSupersededForNewFaceCriterion": true
       },
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "exportStatus": "downloaded",
       "downloadPath": "C:/Users/Borg/Downloads/corealm_scree_watcher_0a6ea60d_8k_rigged.glb",
       "downloadBytes": 18017444,
@@ -93,10 +122,37 @@
         "exportSkeleton": true
       },
       "exportOperator": "creatures_stone",
-      "animationCheckStatus": "pending-local-export-and-Luna-max-walk-run-attack-hit-death-check",
-      "runtimeIntegrationStatus": "not-integrated",
+      "animationCheckStatus": "hold-root-export-audit-found-root-only-weights",
+      "runtimeIntegrationStatus": "blocked-until-functional-skin-and-new-face-audit",
       "uvUtilization": 68.6,
-      "modelGeneratedAfterSourceApproval": true
+      "modelGeneratedAfterSourceApproval": true,
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "downloadReadyStarredHistorical": true,
+      "readyForAnimation": false,
+      "readyForRuntime": false,
+      "referencePath": "assets/art/tripo/references/stone-scree-watcher.png",
+      "referenceSha256": "81e2ef2bd9b635cb8f39f5f514aede99f678bea549d959cfb337a5ea6bea6e10",
+      "referenceBytes": 2790287,
+      "referenceDimensions": [
+        1152,
+        1536
+      ],
+      "prompt": "SCREE WATCHER revision 3. Serious PG-13 medieval fantasy living cliff lookout. Compact upright asymmetrical body of continuous folded dark schist, carried on four moderately thick radial jointed limbs with broad gripping pads. A wide shallow crescent sensing crown rises directly from the upper body, rounded blunt ends, with two off-center narrow vertical sensory slits recessed deeply in shadow. The body is solid geological mass with an off-center diagonal erosion channel, no eyes, no mouth, no nose, no face. Absolutely no horizontal white stripe, no row of pale chunks, no teeth or grin, no dot eyes. All strata flow diagonally across the torso, irregular brown iron inclusions and slate blue layers; muted golden lichen in small patches. Crown and legs have coherent grown geological folds, natural dark mineral flexures. No separate neck, tail, humanoid chest or hips. Mature alert purpose, balanced build neither bulky nor skinny. No dinosaur, reptile, animal template, robot armor, machinery, horns, spikes, glow, cute mascot or toy. Full body neutral three-quarter view with separated limbs, warm pale gray studio background, no base. Grounded fantasy RPG asset concept inspired by Knight Online and RuneScape, broad clear forms with layered natural erosion and texture.",
+      "promptRecovery": "Exact submitted prompt restored from retained creation tool context",
+      "referenceRecovery": "Full original PNG bundled by supported Tripo pageAssets capability, exact UUID matched to Texture panel input",
+      "textureReferenceImageId": "a0b851a5-2aa2-4c9c-a1ff-07850ad17450",
+      "textureReferenceVerifiedModelId": "0a6ea60d-a85d-4484-b634-f0b989dbffb0",
+      "textureReferenceVerifiedUrl": "https://studio.tripo3d.ai/workspace/texture/0a6ea60d-a85d-4484-b634-f0b989dbffb0",
+      "faceAuditStatus": "denied",
+      "faceAuditGate": "2026-09-22 user correction: no genital-like, blown-off, missing or eroded empty faces. Earlier source approvals are historical and insufficient for promotion until fresh face review.",
+      "faceAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "a0b851a5-2aa2-4c9c-a1ff-07850ad17450",
+        "method": "view_image of recovered full original PNG",
+        "reason": "Long ragged central head gouge reads eroded/missing face; pointed vertical tip clefts compound concern. Preserve forked schist crown and four legs, fill central gouge with continuous layered face and replace tip clefts with shallow dark sensory inlays."
+      },
+      "starRemovalReason": "Root-only skin weights; Cairn and Scree also denied by new face audit"
     },
     {
       "id": "flint-mandible",
@@ -109,18 +165,19 @@
       "vertexCount": 2649,
       "uvStatus": "saved",
       "textureStatus": "8k-complete",
-      "rigStatus": "other-complete",
-      "status": "exported-awaiting-runtime-check",
-      "auditStatus": "approved",
+      "rigStatus": "tripo-ui-complete-export-root-only-weights",
+      "status": "animation-hold",
+      "auditStatus": "approved-with-face-audit",
       "audit": {
         "verdict": "approved",
         "reviewer": "stone_audit",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
         "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
-        "reason": "Knapped flint/chalk carapace, modest functional digging jaws, four small eyes and sturdy arthropod limbs; no mechanical face or dinosaur anatomy."
+        "reason": "Knapped flint/chalk carapace, modest functional digging jaws, four small eyes and sturdy arthropod limbs; no mechanical face or dinosaur anatomy.",
+        "historicalApprovalSupersededForNewFaceCriterion": true
       },
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "exportStatus": "downloaded",
       "downloadPath": "C:/Users/Borg/Downloads/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
       "downloadBytes": 16766828,
@@ -130,10 +187,37 @@
         "exportSkeleton": true
       },
       "exportOperator": "root",
-      "animationCheckStatus": "pending-local-export-and-Luna-max-walk-run-attack-hit-death-check",
-      "runtimeIntegrationStatus": "not-integrated",
+      "animationCheckStatus": "hold-root-export-audit-found-root-only-weights",
+      "runtimeIntegrationStatus": "blocked-until-functional-skin-verification",
       "modelGeneratedBeforeAuditGate": true,
-      "advancementAfterSourceApproval": true
+      "advancementAfterSourceApproval": true,
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "downloadReadyStarredHistorical": true,
+      "readyForAnimation": false,
+      "readyForRuntime": false,
+      "referencePath": "assets/art/tripo/references/stone-flint-mandible.png",
+      "referenceSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+      "referenceBytes": 2538104,
+      "referenceDimensions": [
+        1152,
+        1536
+      ],
+      "prompt": "Flint Mandible, a knee-high burrowing highland arthropod that opens fissures for spring water. Six sturdy jointed walking legs, three body segments with a modest rounded abdomen, flattened chest shield, and two short broad opposed digging jaws at the front. Jaws about one third of body width, rounded chisel edges, not huge monster fangs. Four small dark eyes recessed along the front shield. The shell grows like flint nodules within chalk, matte dusty ivory crust with exposed charcoal brown knapped edges and fine russet abrasion. Rich patterned layered texture. No wings, no antenna forest, no beetle horn, no giant pincers, no armored mammal. Serious mature medieval fantasy RPG creature concept for Corealm, the grounded readable design discipline of Knight Online and RuneScape, original species. Healthy neutral inhabitant of a thriving highland ecosystem. Balanced solid build, limbs with believable joints and moderate thickness, neither bulky nor skinny. Distinct functional anatomy, restrained detail hierarchy, no real animal with cosmetic accessories. No robot face, no armor suit, no sci-fi, no human face, no horns, no antlers, no random spikes, no glowing seams, no cute mascot, no skull, no decay. Single complete creature in relaxed neutral three-quarter view, all feet separated and visible, clean pale warm gray studio background, no base, no environment, no text. Production 3D asset reference, broad readable forms, intricate layered natural surface color and erosion, soft even light.",
+      "promptRecovery": "Exact submitted prompt restored from retained creation tool context",
+      "referenceRecovery": "Full original PNG bundled by supported Tripo pageAssets capability, exact UUID matched to Texture panel input",
+      "textureReferenceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+      "textureReferenceVerifiedModelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+      "textureReferenceVerifiedUrl": "https://studio.tripo3d.ai/workspace/texture/28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+      "faceAuditStatus": "approved",
+      "faceAuditGate": "2026-09-22 user correction: no genital-like, blown-off, missing or eroded empty faces. Earlier source approvals are historical and insufficient for promotion until fresh face review.",
+      "faceAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+        "method": "view_image of recovered full original PNG",
+        "reason": "Head remains intact, with deliberate small eyes/seams, no fleshy radial openings or destroyed-face voids. Source verdict only; runtime holds remain."
+      },
+      "starRemovalReason": "Root-only skin weights; Cairn and Scree also denied by new face audit"
     },
     {
       "id": "stone-golem",
@@ -146,18 +230,19 @@
       "vertexCount": 3924,
       "uvStatus": "saved",
       "textureStatus": "8k-complete",
-      "rigStatus": "humanoid-mixamo-complete",
-      "status": "exported-awaiting-runtime-check",
-      "auditStatus": "approved",
+      "rigStatus": "tripo-ui-complete-export-root-only-weights",
+      "status": "animation-hold",
+      "auditStatus": "approved-with-face-audit",
       "audit": {
         "verdict": "approved",
         "reviewer": "stone_audit",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
         "sourceImageId": "b480f1bd-80ee-4069-9da5-8fc47fd6b9f9",
-        "reason": "Naturally eroded granite body with central fracture and integrated head fissure; modest hands, grounded legs; no fitted armor, pins or superhero anatomy."
+        "reason": "Naturally eroded granite body with central fracture and integrated head fissure; modest hands, grounded legs; no fitted armor, pins or superhero anatomy.",
+        "historicalApprovalSupersededForNewFaceCriterion": true
       },
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "exportStatus": "downloaded",
       "downloadPath": "C:/Users/Borg/Downloads/corealm_cragbound_keeper_00725e73_8k_rigged.glb",
       "downloadBytes": 24125412,
@@ -167,11 +252,38 @@
         "exportSkeleton": true
       },
       "exportOperator": "creatures_stone",
-      "animationCheckStatus": "pending-local-export-and-Luna-max-walk-run-attack-hit-death-check",
-      "runtimeIntegrationStatus": "not-integrated",
+      "animationCheckStatus": "hold-root-export-audit-found-root-only-weights",
+      "runtimeIntegrationStatus": "blocked-until-functional-skin-verification",
       "uvUtilization": 73.9,
       "modelGeneratedAfterSourceApproval": true,
-      "previewNote": "Main Tripo viewport flat white after rigging while textured asset thumbnail remained. Root must inspect local GLB materials before integration."
+      "previewNote": "Main Tripo viewport flat white after rigging while textured asset thumbnail remained. Root must inspect local GLB materials before integration.",
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "downloadReadyStarredHistorical": true,
+      "readyForAnimation": false,
+      "readyForRuntime": false,
+      "referencePath": "assets/art/tripo/references/stone-cragbound-keeper.png",
+      "referenceSha256": "02062e6016838809f821ac0fd3ea98eaf61623cfebd10e4c86e5df1fb10f081d",
+      "referenceBytes": 2490272,
+      "referenceDimensions": [
+        1152,
+        1536
+      ],
+      "prompt": "CRAGBOUND KEEPER revision 2. A serious PG-13 medieval fantasy quarry golem formed from an eroded granite standing stone. Its continuous upright torso has an irregular natural vertical cleft, never a chest plate. Two sturdy jointed legs emerge as natural tapering rock columns with broad undivided slab feet. Two proportionate arms taper smoothly from the body, ending in three blunt stone gripping fingers of ordinary hand size. No separate shoulder armor or abdominal plates. The head is an uncarved rounded continuation of the upper torso, slightly forward, with only a deep horizontal shadowed sensory fissure and no eyes or human face. A quiet purposeful guardian, balanced mature proportions, normal moderate shoulders, normal arm length and weight, no huge fists. Entire body has irregular natural pink-gray granite grain, black feldspar specks, creamy erosion streaks, uneven tawny lichen and rain-worn hollows; no matching mirrored armor sections. Alive through old earth magic with no visible glow. No robot, knight, helmet, superhero muscle, steel, mechanical ball joints, dinosaur, horns, crystals or spikes. Full body, relaxed open stance with separated limbs, warm gray studio background, no base. Readable grounded fantasy design informed by Knight Online and RuneScape.",
+      "promptRecovery": "Exact submitted prompt restored from retained creation tool context",
+      "referenceRecovery": "Full original PNG bundled by supported Tripo pageAssets capability, exact UUID matched to Texture panel input",
+      "textureReferenceImageId": "b480f1bd-80ee-4069-9da5-8fc47fd6b9f9",
+      "textureReferenceVerifiedModelId": "00725e73-acb0-4633-a8b7-ee04d7c576e9",
+      "textureReferenceVerifiedUrl": "https://studio.tripo3d.ai/workspace/texture/00725e73-acb0-4633-a8b7-ee04d7c576e9",
+      "faceAuditStatus": "approved",
+      "faceAuditGate": "2026-09-22 user correction: no genital-like, blown-off, missing or eroded empty faces. Earlier source approvals are historical and insufficient for promotion until fresh face review.",
+      "faceAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "b480f1bd-80ee-4069-9da5-8fc47fd6b9f9",
+        "method": "view_image of recovered full original PNG",
+        "reason": "Head remains intact, with deliberate small eyes/seams, no fleshy radial openings or destroyed-face voids. Source verdict only; runtime holds remain."
+      },
+      "starRemovalReason": "Root-only skin weights; Cairn and Scree also denied by new face audit"
     },
     {
       "id": "shale-elemental",
@@ -184,18 +296,19 @@
       "vertexCount": 3188,
       "uvStatus": "saved",
       "textureStatus": "8k-complete",
-      "rigStatus": "other-complete",
-      "status": "exported-awaiting-runtime-check",
-      "auditStatus": "approved",
+      "rigStatus": "tripo-ui-complete-export-root-only-weights",
+      "status": "animation-hold",
+      "auditStatus": "approved-with-face-audit",
       "audit": {
         "verdict": "approved",
         "reviewer": "stone_audit",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
         "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
-        "reason": "Flowing geological body, integrated sensing cleft, balanced four limbs and violet/ochre seams; no dinosaur neck or tail."
+        "reason": "Flowing geological body, integrated sensing cleft, balanced four limbs and violet/ochre seams; no dinosaur neck or tail.",
+        "historicalApprovalSupersededForNewFaceCriterion": true
       },
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "exportStatus": "downloaded",
       "downloadPath": "C:/Users/Borg/Downloads/corealm_shalewake_da0d598a_8k_rigged.glb",
       "downloadBytes": 17721380,
@@ -205,10 +318,37 @@
         "exportSkeleton": true
       },
       "exportOperator": "creatures_stone",
-      "animationCheckStatus": "pending-local-export-and-Luna-max-walk-run-attack-hit-death-check",
-      "runtimeIntegrationStatus": "not-integrated",
+      "animationCheckStatus": "hold-root-export-audit-found-root-only-weights",
+      "runtimeIntegrationStatus": "blocked-until-functional-skin-verification",
       "uvUtilization": 71.2,
-      "modelGeneratedAfterSourceApproval": true
+      "modelGeneratedAfterSourceApproval": true,
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "downloadReadyStarredHistorical": true,
+      "readyForAnimation": false,
+      "readyForRuntime": false,
+      "referencePath": "assets/art/tripo/references/stone-shalewake.png",
+      "referenceSha256": "81dc3a08840683ed96d4d65a3b21682c60203dc14f257070aed5fe7a17f6b101",
+      "referenceBytes": 2482919,
+      "referenceDimensions": [
+        1152,
+        1536
+      ],
+      "prompt": "SHALEWAKE revision 2. A serious PG-13 medieval fantasy living shale organism. Low elongated body with a continuous folded ridge along its middle, no neck, no head, no tail. Front edge bears one recessed horizontal sensory cleft with two small dark pits inside the shadow. Exactly four strong natural jointed limbs positioned beneath the torso, asymmetrical bend in the shoulders formed by distinct twisting geological folds, each ending in a broad flat three-lobed stone pad. Body is only slightly longer than its width, clearance beneath it equal to body height. Slate layers continue uninterrupted into limbs, joints show dark smooth mineral flexure rather than bolts or rings. Muted violet-gray shale with pale worn edges, ochre mineral streaks and white quartz seams, all layered by natural growth. Moderate balanced weight, no huge shell, no tiny fragile legs. Entire outline an unfamiliar mobile rock formation, not any animal, dinosaur, reptile, turtle, crab or humanoid. No armor, robot joints, face, horns, spikes, crystals, glowing effects or cute features. Full creature in a relaxed three-quarter view, all feet visible, plain warm gray studio background. Sober grounded RPG concept inspired by Knight Online and RuneScape.",
+      "promptRecovery": "Exact submitted prompt restored from retained creation tool context",
+      "referenceRecovery": "Full original PNG bundled by supported Tripo pageAssets capability, exact UUID matched to Texture panel input",
+      "textureReferenceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+      "textureReferenceVerifiedModelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+      "textureReferenceVerifiedUrl": "https://studio.tripo3d.ai/workspace/texture/da0d598a-9330-4856-a88f-6341c1da299d",
+      "faceAuditStatus": "approved",
+      "faceAuditGate": "2026-09-22 user correction: no genital-like, blown-off, missing or eroded empty faces. Earlier source approvals are historical and insufficient for promotion until fresh face review.",
+      "faceAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+        "method": "view_image of recovered full original PNG",
+        "reason": "Head remains intact, with deliberate small eyes/seams, no fleshy radial openings or destroyed-face voids. Source verdict only; runtime holds remain."
+      },
+      "starRemovalReason": "Root-only skin weights; Cairn and Scree also denied by new face audit"
     },
     {
       "id": "beetle-golem",
@@ -221,18 +361,19 @@
       "vertexCount": 3238,
       "uvStatus": "saved",
       "textureStatus": "8k-complete",
-      "rigStatus": "other-complete",
-      "status": "exported-awaiting-runtime-check",
-      "auditStatus": "approved",
+      "rigStatus": "tripo-ui-complete-export-root-only-weights",
+      "status": "animation-hold",
+      "auditStatus": "approved-with-face-audit",
       "audit": {
         "verdict": "approved",
         "reviewer": "stone_audit",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
         "sourceImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
-        "reason": "Grown irregular sandstone body, natural folded joints, six limbs and inset pits; mechanical ring neck and fitted plating removed."
+        "reason": "Grown irregular sandstone body, natural folded joints, six limbs and inset pits; mechanical ring neck and fitted plating removed.",
+        "historicalApprovalSupersededForNewFaceCriterion": true
       },
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "exportStatus": "downloaded",
       "downloadPath": "C:/Users/Borg/Downloads/corealm_strata_delver_707c39cd_8k_rigged.glb",
       "downloadBytes": 22553308,
@@ -242,10 +383,37 @@
         "exportSkeleton": true
       },
       "exportOperator": "creatures_stone",
-      "animationCheckStatus": "pending-local-export-and-Luna-max-walk-run-attack-hit-death-check",
-      "runtimeIntegrationStatus": "not-integrated",
+      "animationCheckStatus": "hold-root-export-audit-found-root-only-weights",
+      "runtimeIntegrationStatus": "blocked-until-functional-skin-verification",
       "uvUtilization": 72.4,
-      "modelGeneratedAfterSourceApproval": true
+      "modelGeneratedAfterSourceApproval": true,
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "downloadReadyStarredHistorical": true,
+      "readyForAnimation": false,
+      "readyForRuntime": false,
+      "referencePath": "assets/art/tripo/references/stone-strata-delver.png",
+      "referenceSha256": "d6715e81c93b35e4ecdfb38041b4c521a48412654cebb356e1028664d12b639d",
+      "referenceBytes": 2392746,
+      "referenceDimensions": [
+        1152,
+        1536
+      ],
+      "prompt": "STRATA DELVER revision 2. An original living mineral organism for a serious PG-13 medieval fantasy RPG. Six healthy sturdy limbs underneath a medium elongated body, all six limbs clearly separated. Broad flat front merging directly into the body with one deep blunt horizontal scraping cleft and four tiny dark sensory pits. No separate head or neck. Its continuous natural shell is sedimentary sandstone deposited in wavy irregular layers, not fitted plates; visible erosion channels and fused mineral growth at limb roots. Flexible underside is rough dark brown organic cartilage, folds at the joints, no rings, pins or hinges. Small rounded rear section, no tail, no horns, no pincers. Beige and honey stone with embedded charcoal nodules, thin rust seepage lines and cream abrasion patches; rich varied natural material. Balanced body and moderately thick limbs, neither chunky nor spindly. Quiet purposeful burrowing life, no face or mascot eyes. No dinosaur, animal in armor, robot, mechanical parts, technology, crystals, decorative spikes or glow. Full body neutral three-quarter view on plain warm gray background. Clear sober fantasy design in the spirit of Knight Online and RuneScape, soft even lighting, natural surface detail.",
+      "promptRecovery": "Exact submitted prompt restored from retained creation tool context",
+      "referenceRecovery": "Full original PNG bundled by supported Tripo pageAssets capability, exact UUID matched to Texture panel input",
+      "textureReferenceImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
+      "textureReferenceVerifiedModelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+      "textureReferenceVerifiedUrl": "https://studio.tripo3d.ai/workspace/texture/707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+      "faceAuditStatus": "approved",
+      "faceAuditGate": "2026-09-22 user correction: no genital-like, blown-off, missing or eroded empty faces. Earlier source approvals are historical and insufficient for promotion until fresh face review.",
+      "faceAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
+        "method": "view_image of recovered full original PNG",
+        "reason": "Head remains intact, with deliberate small eyes/seams, no fleshy radial openings or destroyed-face voids. Source verdict only; runtime holds remain."
+      },
+      "starRemovalReason": "Root-only skin weights; Cairn and Scree also denied by new face audit"
     },
     {
       "id": "cave-ogre",
@@ -258,18 +426,19 @@
       "vertexCount": 4198,
       "uvStatus": "saved",
       "textureStatus": "8k-complete",
-      "rigStatus": "humanoid-mixamo-complete",
-      "status": "exported-awaiting-runtime-check",
-      "auditStatus": "approved",
+      "rigStatus": "tripo-ui-complete-export-root-only-weights",
+      "status": "animation-hold",
+      "auditStatus": "approved-with-face-audit",
       "audit": {
         "verdict": "approved",
         "reviewer": "stone_audit",
         "model": "gpt-6-astra",
         "reasoningEffort": "low",
         "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
-        "reason": "Mature cave humanoid, broad muzzle, cupped ears, modest teeth, layered taupe skin and shoulder mineral deposits; balanced limbs, no mascot or sci-fi."
+        "reason": "Mature cave humanoid, broad muzzle, cupped ears, modest teeth, layered taupe skin and shoulder mineral deposits; balanced limbs, no mascot or sci-fi.",
+        "historicalApprovalSupersededForNewFaceCriterion": true
       },
-      "downloadReadyStarred": true,
+      "downloadReadyStarred": false,
       "exportStatus": "downloaded",
       "downloadPath": "C:/Users/Borg/Downloads/corealm_undercrag_mawer_31201699_8k_rigged.glb",
       "downloadBytes": 18895004,
@@ -279,14 +448,106 @@
         "exportSkeleton": true
       },
       "exportOperator": "root",
-      "animationCheckStatus": "pending-local-export-and-Luna-max-walk-run-attack-hit-death-check",
-      "runtimeIntegrationStatus": "not-integrated",
+      "animationCheckStatus": "hold-root-export-audit-found-root-only-weights",
+      "runtimeIntegrationStatus": "blocked-until-functional-skin-verification",
       "uvUtilization": 69.3,
       "modelGeneratedBeforeAuditGate": true,
-      "advancementAfterSourceApproval": true
+      "advancementAfterSourceApproval": true,
+      "sourceIdentityStatus": "verified-texture-reference-UUID-matches-approved-source",
+      "downloadReadyStarredHistorical": true,
+      "readyForAnimation": false,
+      "readyForRuntime": false,
+      "referencePath": "assets/art/tripo/references/stone-undercrag-mawer.png",
+      "referenceSha256": "0996d00f2b315eaedb61eda9a50c928dffae1e3acf6d62e8d8197daef420dadd",
+      "referenceBytes": 2531863,
+      "referenceDimensions": [
+        1152,
+        1536
+      ],
+      "prompt": "Cave Ogre renamed Undercrag Mawer. A tall cave-dwelling fantasy humanoid with a proportionate broad chest, sturdy normal-length legs and powerful but moderate arms, mature intelligent presence, neither giant belly nor emaciated. Distinct species anatomy: broad flattened muzzle with a short vertical cleft upper lip, low brow under a smooth domed skull, small side-set dark eyes, wide cupped ears, only two modest lower jaw teeth visible, no horns. Ash taupe leathery skin with pale mineral dust embedded in natural shoulder creases, subtle rust mottling around forearms. Simple practical woven dark flax waistcloth and leather belt, no bone trophies or huge club. Open relaxed empty hands, arms clear of torso, bare broad feet. Looks like a living highland cave inhabitant, not a zombie or a human bodybuilder. Serious mature medieval fantasy RPG creature concept for Corealm, the grounded readable design discipline of Knight Online and RuneScape, original species. Healthy neutral inhabitant of a thriving highland ecosystem. Balanced solid build, limbs with believable joints and moderate thickness, neither bulky nor skinny. Distinct functional anatomy, restrained detail hierarchy, no real animal with cosmetic accessories. No robot face, no armor suit, no sci-fi, no horns, no antlers, no random spikes, no glowing seams, no cute mascot, no skull, no decay. Single complete creature in relaxed neutral three-quarter view, all feet separated and visible, clean pale warm gray studio background, no base, no environment, no text. Production 3D asset reference, broad readable forms, intricate layered natural surface color and erosion, soft even light.",
+      "promptRecovery": "Exact submitted prompt restored from retained creation tool context",
+      "referenceRecovery": "Full original PNG bundled by supported Tripo pageAssets capability, exact UUID matched to Texture panel input",
+      "textureReferenceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+      "textureReferenceVerifiedModelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+      "textureReferenceVerifiedUrl": "https://studio.tripo3d.ai/workspace/texture/31201699-cc20-4688-88cf-f29f8eb754cb",
+      "faceAuditStatus": "approved",
+      "faceAuditGate": "2026-09-22 user correction: no genital-like, blown-off, missing or eroded empty faces. Earlier source approvals are historical and insufficient for promotion until fresh face review.",
+      "faceAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+        "method": "view_image of recovered full original PNG",
+        "reason": "Head remains intact, with deliberate small eyes/seams, no fleshy radial openings or destroyed-face voids. Source verdict only; runtime holds remain."
+      },
+      "starRemovalReason": "Root-only skin weights; Cairn and Scree also denied by new face audit"
     }
   ],
-  "revisionQueue": [],
+  "revisionQueue": [
+    {
+      "creatureId": "cairn-treader",
+      "revision": 3,
+      "baseSourceImageId": "f1168b3e-6a08-4dae-b3cb-06521aed056f",
+      "baseReferencePath": "assets/art/tripo/references/stone-cairn-treader.png",
+      "stage": "source-approved-ready-for-model",
+      "imageId": "ba1d051b-87bb-441c-ab3e-ae54fa8a4e19",
+      "auditStatus": "approved",
+      "triangleTarget": 5000,
+      "topology": "Triangle",
+      "mesh": "Smart Mesh P2",
+      "retopology": false,
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/ba1d051b-87bb-441c-ab3e-ae54fa8a4e19/image.png",
+      "referencePath": "assets/art/tripo/references/stone-cairn-treader-r3.png",
+      "referenceSha256": "dce92684a0c33ec66910ccae905cffbeea4b82f62818061e61095f004074ece4",
+      "referenceBytes": 1466685,
+      "referenceDimensions": [
+        1024,
+        1024
+      ],
+      "prompt": "CAIRN TREADER revision 3, face-only correction of the attached original creature. Preserve this exact serious fantasy limestone creature: upright oval arch silhouette, three sturdy articulated load-bearing legs, small lower curved feelers, cream limestone strata, rusty seepage, fine ochre lichen, its scale and neutral three-quarter pose. Change only the central head/body oval void: bridge the entire hollow opening with a SOLID recessed natural limestone face. This continuous intact stone face sits slightly behind the surrounding arch rim, fully closing the hole. Set two small dark gray oval sensory stones widely spaced and level in the upper third of the face, like restrained mineral eyes, not glowing. Keep the face calm and mature, with no mouth opening, nose, smile or human facial sculpture. Natural layered sediment continues across the solid face; no black hole, split, ragged gouge, torn or blown-away surface, wound, fleshy opening, vertical slit or genital-like form. The outer arch remains a raised brow and cheek rim around the solid intact face, not a hollow ring. Do not alter limbs or body proportions. Serious PG-13 medieval fantasy RPG, balanced moderate build, healthy living earth organism; no cute mascot, robot, armor panels, horns, crystals or added decoration. Plain warm gray background, full body reference, soft even studio light, no text.",
+      "generator": "Tripo GPT Image 2.5",
+      "recovery": "Exact new source UUID matched to visible image card prompt and bundled through pageAssets",
+      "audit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "ba1d051b-87bb-441c-ab3e-ae54fa8a4e19",
+        "method": "actual view_image of exact local full PNG",
+        "reason": "Cairn void fully bridged with continuous limestone and solid sensory stones, retaining tripod/feelers.",
+        "scope": "Exact source image gate; no fleshy/genital-like openings or destroyed faces; runtime acceptance separate."
+      }
+    },
+    {
+      "creatureId": "scree-watcher",
+      "revision": 4,
+      "baseSourceImageId": "a0b851a5-2aa2-4c9c-a1ff-07850ad17450",
+      "baseReferencePath": "assets/art/tripo/references/stone-scree-watcher.png",
+      "stage": "source-approved-ready-for-model",
+      "imageId": "8e244738-a5b9-4e31-a27a-6708dbfd95ca",
+      "auditStatus": "approved",
+      "triangleTarget": 5000,
+      "topology": "Triangle",
+      "mesh": "Smart Mesh P2",
+      "retopology": false,
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/8e244738-a5b9-4e31-a27a-6708dbfd95ca/image.png",
+      "referencePath": "assets/art/tripo/references/stone-scree-watcher-r4.png",
+      "referenceSha256": "36e8b3184d0639674a2f9f0dcd0313812ff8c0c555d192377b16d775d2dadbaa",
+      "referenceBytes": 1414823,
+      "referenceDimensions": [
+        1024,
+        1024
+      ],
+      "prompt": "SCREE WATCHER revision 4, face-only correction of the attached original creature. Preserve the exact forked schist sensing crown, four firm radial legs, balanced body proportions, dark slate blue and brown diagonal geological strata, modest ochre lichen, full-body three-quarter stance and pale warm gray background. Repair the ragged central head gouge into a SOLID continuous layered stone face: fill every deep empty cut in the central crown and front with naturally grown schist planes, intact and gently weathered, with no missing chunks or open hole. Preserve the raised outer crown silhouette but make its front an unbroken solid face. At the two tips replace the pointed vertical clefts with two SMALL SHALLOW dark gray oval mineral sensory inlays, one on each crown tip, set into intact stone like discreet eyes; they must not be slits, sockets or holes and do not glow. No mouth, smile, teeth, human nose or carved human mask. No wound, blown-off head, torn material, empty face, deep ragged opening, vertical fissure, genital-like form or fleshy anatomy. Alter only this face surface; retain the original unusual sober silhouette and geological texture. Serious PG-13 medieval fantasy RPG creature, alive and mature, neutral temperament, neither cute nor grotesque. No armor plates, robot, horns, added spikes, crystals or new appendages. Soft even light, full body centered, no scene, base or text.",
+      "generator": "Tripo GPT Image 2.5",
+      "recovery": "Exact new source UUID matched to visible image card prompt and bundled through pageAssets",
+      "audit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_field_stone",
+        "sourceImageId": "8e244738-a5b9-4e31-a27a-6708dbfd95ca",
+        "method": "actual view_image of exact local full PNG",
+        "reason": "Scree central woundlike gouge filled and tip clefts replaced by solid inlays, retaining forked crown and schist layers.",
+        "scope": "Exact source image gate; no fleshy/genital-like openings or destroyed faces; runtime acceptance separate."
+      }
+    }
+  ],
   "approvedSources": {
     "cairn-treader": "f1168b3e-6a08-4dae-b3cb-06521aed056f",
     "scree-watcher": "a0b851a5-2aa2-4c9c-a1ff-07850ad17450",
@@ -358,5 +619,10 @@
       "modelGenerated": false
     }
   ],
-  "ledgerRecovery": "Final write ran out of disk space and truncated the untracked ledger. Recovered all seven model/source pairs, approvals, counts, stages and local export paths from observed tool results. Removed only two redundant untracked rejected-reference PNG copies to make room; original downloads remain. Full source prompts remain in Tripo Image history."
+  "ledgerRecovery": "Restored exact seven original source PNGs through supported pageAssets full-resolution bundles. Submitted prompts restored from retained creation tool context. Seven actual model Texture panels verified against source UUIDs. Prior image approvals preserved as historical; fresh face audit and functional skin required.",
+  "sourceRecoveryComplete": true,
+  "sourceIdentityVerifiedCount": 7,
+  "sourceAuditHistoricalComplete": true,
+  "faceAuditStatus": "five-approved-two-face-revisions-required",
+  "starRemovalVerifiedCount": 7
 }

@@ -35,8 +35,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/fcc7fa78-f111-454e-bda2-ffc4469f1576/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-root-tender.png",
       "sourceImageSha256": "2b3c4b701e1241696120d6fe60dad42127db87bbef35532549b670255bd7817f",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Root Tender. A waist-high mobile orchid-root organism that loosens soil and plants seeds. A pear-shaped vertical torso of tightly braided living roots, two jointed walking legs with three strong spreading root toes, two proportionate forearms ending in three broad flattened digging digits. The head is a low closed seedpod nested directly into the shoulders, with two narrow dark sensory seams beneath its overlapping bracts, no human nose or mouth. Three smooth young leaves grow flush along the spine rather than a crown. Moss green root skin, warm plum inner bracts, pale gold root scars. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -45,13 +44,14 @@
         "sourceImageId": "fcc7fa78-f111-454e-bda2-ffc4469f1576",
         "reasons": [
           "Wholly braided-root anatomy with bud sensory slit, functional digging digits, textured living growth."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
-      "downloadReadyStarred": true,
+      "stage": "exported_rigged_glb_animation_hold",
+      "downloadReadyStarred": false,
       "modelId": "7508cd34-a17e-4945-8c38-e6ae4542f4b2",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=7508cd34-a17e-4945-8c38-e6ae4542f4b2",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/7508cd34-a17e-4945-8c38-e6ae4542f4b2",
       "actualTriangles": 4204,
       "vertices": 2619,
       "modelStartedAfterApproval": true,
@@ -65,7 +65,39 @@
       "rigCompleted": true,
       "tabId": "1472601659",
       "worker": "botanical_models",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "7291213d-94ac-42f7-87c2-286ebbf69cf0",
+        "approvedSourceId": "fcc7fa78-f111-454e-bda2-ffc4469f1576",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_root_tender_7508cd34_8k_rigged.glb",
+        "bytes": 29875344,
+        "sha256": "5da32210c22069b868a4bd3b7cf54a1cb5d8f0c481c5d49aa135c17dd3da861b",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "denied",
+      "currentPromotionStatus": "DENIED: superseding facial art gate; source revision required",
+      "facialAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "fcc7fa78-f111-454e-bda2-ffc4469f1576",
+        "reason": "Paired plum lobes frame one deep vertical genital-like slit.",
+        "requiredFix": "Retain bud silhouette; solid ochre seed face, two small inset eyes and short closed horizontal mouth."
+      },
+      "unstarStatus": "Gray favorite icon verified after superseding facial denial"
     },
     {
       "key": "dewglass-reliquary",
@@ -78,8 +110,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/46fc14b8-a68c-4020-a738-ad8423dbae96/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-dewglass-reliquary.png",
       "sourceImageSha256": "86413c08dad4c5b500703ff373c9c2fb2c5349b5cfd61a82f46131c729fc261a",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Dewglass Reliquary. A living rain-reservoir organism that walks on four bent fleshy legs. Its moderate oval body is enclosed by two overlapping asymmetrical nacreous translucent seed husks, like a opened seed vessel grown organically around a visible turquoise water bladder. Short tapered head emerges low from the front rim with two small recessed violet eyes and a smooth blunt mouth. Broad three-lobed feet; sturdy but proportionate flexible legs. Pearl cream, mineral aquamarine, irregular rosy veins and amber seed scars. It must read as a coherent living species rather than a crab, turtle, treasure chest, statue or robot. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -88,13 +119,14 @@
         "sourceImageId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
         "reasons": [
           "Unusual living reservoir silhouette, clear functional limbs, mineral/pearl layered skin."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
       "stage": "exported_rigged_glb",
       "downloadReadyStarred": true,
       "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=d95af2cf-3b9a-498d-9403-7a55fd873a73",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/d95af2cf-3b9a-498d-9403-7a55fd873a73",
       "actualTriangles": 5242,
       "vertices": 3173,
       "modelStartedAfterApproval": true,
@@ -132,6 +164,27 @@
           4096
         ],
         "verified": true
+      },
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+        "approvedSourceId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+        "method": "Exact generated-image UUID match",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "facialAuditStatus": "approved",
+      "currentPromotionStatus": "source approved, runtime animation HOLD",
+      "facialAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+        "reason": "Intact blunt head has visible eye, nostril and closed jaw; no wound or aperture face.",
+        "requiredFix": ""
       }
     },
     {
@@ -145,8 +198,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/fd6a89d9-bc1a-4b39-9b3c-197179f4e281/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-dewglass-weaver.png",
       "sourceImageSha256": "290b413c7efd877bc804b08ffc35c8446d4a705ef3595c48b700673fc844e601",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Dewglass Weaver. A ground-walking fairy silk producer with six proportionate jointed legs growing from a narrow segmented waist below a broad flattened leaf-shaped abdomen. The abdomen tapers into a short silk-spinning organ. Its small wedge-shaped head is continuous with the chest and has four tiny dark sensory pits in an arched row and two short flexible mouthpalps. No wings. Flexible translucent lilac skin over opal-blue internal ribs; overlapping waxy green bracts on the back resemble grown cuticle, not fitted armor. Feet end in paired broad gripping pads. Creature anatomy should feel halfway between a seed-eating forest arthropod and a leaf organism, neither a recognizable spider nor a wasp. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -155,13 +207,14 @@
         "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
         "reasons": [
           "Coherent leaf arthropod anatomy, readable six-legged stance, layered opal cuticle."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
       "stage": "exported_rigged_glb",
       "downloadReadyStarred": true,
       "modelId": "3ead9c24-4f01-468d-9742-6995dc817118",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=3ead9c24-4f01-468d-9742-6995dc817118",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/3ead9c24-4f01-468d-9742-6995dc817118",
       "actualTriangles": 5460,
       "vertices": 3555,
       "modelStartedAfterApproval": true,
@@ -199,6 +252,27 @@
           4096
         ],
         "verified": true
+      },
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "31e33d49-ce65-400d-9c48-54b6a08f95f2",
+        "approvedSourceId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "facialAuditStatus": "approved",
+      "currentPromotionStatus": "source approved, runtime animation HOLD",
+      "facialAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+        "reason": "Complete insect head with organized bead eyes and paired slender antennae.",
+        "requiredFix": ""
       }
     },
     {
@@ -213,8 +287,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/97896aef-d95c-4bb7-9649-837dcfb95af3/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-lantern-sprite.png",
       "sourceImageSha256": "b29cc030fac97536cc11f98f23ad610d8e5d64f5eab0789319efa1dbbfa3c9e1",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Lantern Sprite. A small airborne living pollinator with an elongated upright teardrop body, a recessed amber light organ in its chest and four broad translucent petal fins that grow directly from the body and undulate to float. Two proportionate lower walking limbs with folded three-digit feet, and two short curved grasping forelimbs. A small wedge-shaped sensory head with paired lateral eyes, no human features. Opaque indigo underside, turquoise skin and amber veins becoming pale apricot along fin margins. The glowing organ is restrained and physical. No insect wings, butterfly, fairy woman, lantern prop, round smiling face, floating particles. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "denied",
         "reviewer": "fairy_audit",
@@ -227,7 +300,8 @@
       },
       "modelStarted": false,
       "stage": "denied_image_held",
-      "downloadReadyStarred": false
+      "downloadReadyStarred": false,
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID"
     },
     {
       "key": "mooncap-sporekin",
@@ -241,8 +315,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/375ac1a5-ca5a-449e-a05c-a81f6a405245/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-mooncap-sporekin.png",
       "sourceImageSha256": "a8d38f95deaa5c5710705c705ee3444492ab62b11077cd20d1f264fd495242d5",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Mooncap Sporekin. An ambulatory fungal organism with a vertical flexible trunk, two medium-length legs ending in splayed root-like feet, and two arms formed from bent smooth fungal stems. Its head is a thick oval folded bracket fungus continuous with the upper trunk, open as three curved lamellae around a narrow vertical sensory slit. No mushroom hat and no human face. The whole organism is one fused anatomy. Indigo and warm ivory gills, muted mulberry trunk with pale marbling and scattered golden spore pores. Limbs have clear elbow and knee bends, body neither potbellied nor twig-like. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -251,13 +324,14 @@
         "sourceImageId": "375ac1a5-ca5a-449e-a05c-a81f6a405245",
         "reasons": [
           "Fused gill head/trunk, convincing continuous fungal skin, capable balanced limbs."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
-      "downloadReadyStarred": true,
+      "stage": "exported_rigged_glb_animation_hold",
+      "downloadReadyStarred": false,
       "modelId": "cde60b92-dc34-41a2-9d66-135d21b75e05",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=cde60b92-dc34-41a2-9d66-135d21b75e05",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/cde60b92-dc34-41a2-9d66-135d21b75e05",
       "actualTriangles": 4217,
       "vertices": 2836,
       "modelStartedAfterApproval": true,
@@ -271,7 +345,39 @@
       "rigCompleted": true,
       "tabId": "1472601663",
       "worker": "botanical_models",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "c327ae70-ef08-4578-9f09-e5a3bc13b8bf",
+        "approvedSourceId": "375ac1a5-ca5a-449e-a05c-a81f6a405245",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_mooncap_sporekin_cde60b92_8k_rigged.glb",
+        "bytes": 28842280,
+        "sha256": "a7492762d7a64f1cbdccd6e595eea26f470ec560de095e5800896893cc25d7ed",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "denied",
+      "currentPromotionStatus": "DENIED: superseding facial art gate; source revision required",
+      "facialAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "375ac1a5-ca5a-449e-a05c-a81f6a405245",
+        "reason": "Flared gill cavity entirely replaces humanoid face.",
+        "requiredFix": "Keep layered cap above/behind solid ivory fungal face with deep-set paired eyes and small firm jaw; no central split."
+      },
+      "unstarStatus": "Gray favorite icon verified after superseding facial denial"
     },
     {
       "key": "mooncap-snail",
@@ -285,8 +391,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/0eb3ade5-d1c9-4fcd-ab7a-32c51ba39651/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-mooncap-snail.png",
       "sourceImageSha256": "e7ed8e7089fdb37fadb894f5df85d9ed6003a22de86836e5af3dc7c781560a07",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Mooncap Snail. A large serious adult fairy snail with a low muscular traveling foot and an oblong forward body. A beautifully irregular low spiral shell of pearl blue and muted rose has layered mineral bands, small scarred growth ridges and a few translucent cream windows. Two stout sensory stalks, small dark eyes and folded mouth tissue, no smiling face. Skin is violet gray with fine pale flecks and a dark blue pebbled saddle. The shell is proportionate, no giant oversized ornament, mushrooms or stars pasted onto it. Anatomically grounded otherworldly snail suitable for a mature fantasy wetland. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -295,13 +400,14 @@
         "sourceImageId": "0eb3ade5-d1c9-4fcd-ab7a-32c51ba39651",
         "reasons": [
           "Adult snail exception, layered mineral shell and mottled tissue, no mascot expression."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
+      "stage": "exported_rigged_glb_animation_hold",
       "downloadReadyStarred": true,
       "modelId": "69abe6f5-af9d-4617-857d-d2ba60375f54",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=69abe6f5-af9d-4617-857d-d2ba60375f54",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/69abe6f5-af9d-4617-857d-d2ba60375f54",
       "actualTriangles": 4154,
       "vertices": null,
       "modelStartedAfterApproval": true,
@@ -315,7 +421,38 @@
       "rigCompleted": true,
       "tabId": "1472601666",
       "worker": "flyer_models",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "eaa42cad-c419-41d0-81dd-89f975da512f",
+        "approvedSourceId": "0eb3ade5-d1c9-4fcd-ab7a-32c51ba39651",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_mooncap_snail_69abe6f5_8k_rigged.glb",
+        "bytes": 25652904,
+        "sha256": "91be76721b707e1933514f07d4dcb43b1c4237c8b6e73c631cc7eeadb4bb44b6",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "approved",
+      "currentPromotionStatus": "source approved, runtime animation HOLD",
+      "facialAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "0eb3ade5-d1c9-4fcd-ab7a-32c51ba39651",
+        "reason": "Recognizable intact snail face with eyestalks and short oral tentacles; no torn or missing face.",
+        "requiredFix": ""
+      }
     },
     {
       "key": "glasspond-frog",
@@ -328,8 +465,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/250b0552-6e98-4ed2-b2a7-9f12d7aa9e2a/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-glasspond-frog.png",
       "sourceImageSha256": "74a10e3368db3cebd5121d568cdea2e771fef6724a313871b9e7587b242b20fb",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Glasspond Frog. A mature fairy pond amphibian with a proportionate angular head and compact but not squat body, clear athletic limbs, long folded hind legs, webbed feet and small lateral amber eyes. Semitranslucent jade skin reveals a few soft violet vein branches along the flanks. Deep peacock-blue irregular back mottling, pearl underjaw, copper flecks around joints, wet natural sheen. A subtle skin ridge runs from each eye to the hips. Restrained believable frog anatomy, no giant cute eyes, no fat belly, no jewels, crown, magical accessories or glow cloud. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -338,13 +474,14 @@
         "sourceImageId": "250b0552-6e98-4ed2-b2a7-9f12d7aa9e2a",
         "reasons": [
           "Grounded adult frog exception, layered peacock mottling and veins, balanced limbs."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
+      "stage": "exported_rigged_glb_animation_hold",
       "downloadReadyStarred": true,
       "modelId": "05481088-98cd-4385-9275-dc4e5bff375d",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=05481088-98cd-4385-9275-dc4e5bff375d",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/05481088-98cd-4385-9275-dc4e5bff375d",
       "actualTriangles": 3811,
       "vertices": 2414,
       "modelStartedAfterApproval": true,
@@ -358,7 +495,38 @@
       "rigCompleted": true,
       "tabId": "1472601652",
       "worker": "creatures_fairy",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "90e2d56e-6a76-41fd-b5f3-7d82bfe611b9",
+        "approvedSourceId": "250b0552-6e98-4ed2-b2a7-9f12d7aa9e2a",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_glasspond_frog_05481088_8k_rigged.glb",
+        "bytes": 23586628,
+        "sha256": "7b8b8684133546d8bfd6eb0a242cac5ea91fda9aea7d894a2ffacfb77aa48d3d",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "approved",
+      "currentPromotionStatus": "source approved, runtime animation HOLD",
+      "facialAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "250b0552-6e98-4ed2-b2a7-9f12d7aa9e2a",
+        "reason": "Intact frog eyes, nostrils and continuous closed mouth.",
+        "requiredFix": ""
+      }
     },
     {
       "key": "moonpetal-stalker",
@@ -371,8 +539,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/91a930c5-cc4b-4991-9993-f93ea61f2d3c/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-moonpetal-stalker.png",
       "sourceImageSha256": "c250e072e16995fcd313af79c5c54e183675bf84e7cb20b27b4f46e537c0844b",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Moonpetal Stalker. A shoulder-high four-legged ambush hunter native to an alien flower woodland. A firm elongated body on four equal moderately bent legs, each with three separated hooked toes. A flat oval sensory head extends forward on a short flexible neck; six thick overlapping petal lobes close around the hidden mouth like a muscular iris, with two small dark eyes above the outer rim. Its smooth hide has continuous tough petal seams across shoulders and hips, with a short balancing paddle tail. No feline muzzle, fur, antlers, scales or human face. Cream and mulberry skin, blue-green leaflike inner membranes, irregular pollen-yellow speckles. Balanced capable predator, neither skeletal nor hulking. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -381,13 +548,14 @@
         "sourceImageId": "91a930c5-cc4b-4991-9993-f93ea61f2d3c",
         "reasons": [
           "Coherent radial petal mouth and muscular membrane body, distinct layered cream/mulberry/teal regions, balanced predatory quadruped. Raised eyes are a little prominent but do not make it a cute mascot."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
-      "downloadReadyStarred": true,
+      "stage": "exported_rigged_glb_animation_hold",
+      "downloadReadyStarred": false,
       "modelId": "a56dd8d1-bb33-4f3e-803f-c1f9fbdc6469",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=a56dd8d1-bb33-4f3e-803f-c1f9fbdc6469",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/a56dd8d1-bb33-4f3e-803f-c1f9fbdc6469",
       "actualTriangles": 5412,
       "vertices": 3313,
       "modelStartedAfterApproval": true,
@@ -401,7 +569,39 @@
       "rigCompleted": true,
       "tabId": "1472601665",
       "worker": "botanical_models",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "cadfef4b-4b4c-4b6c-81a1-b984df73d67a",
+        "approvedSourceId": "91a930c5-cc4b-4991-9993-f93ea61f2d3c",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_moonpetal_stalker_a56dd8d1_8k_rigged.glb",
+        "bytes": 24847268,
+        "sha256": "c0f5991ce5026cdfc48b5fd699f4a2feba7ba58626675e3baffe6366b7c5c448",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "denied",
+      "currentPromotionStatus": "DENIED: superseding facial art gate; source revision required",
+      "facialAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "91a930c5-cc4b-4991-9993-f93ea61f2d3c",
+        "reason": "Puckered radial lobes converge on face center, producing orifice-like face despite eyes.",
+        "requiredFix": "Retain lateral petal cheeks; firm broad muzzle and horizontal closed jaw."
+      },
+      "unstarStatus": "Gray favorite icon verified after superseding facial denial"
     },
     {
       "key": "silverleaf-petalguard",
@@ -414,8 +614,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/043ce37c-253d-4770-81b9-9fb064cab7ce/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-silverleaf-petalguard.png",
       "sourceImageSha256": "a5ee2917a03f45e922dd3dd8520674f540b3183b3590c1f96a93631b5d9a3c0c",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Silverleaf Petalguard, an upright living plant sentinel for a serious medieval fantasy RPG. A balanced trunk body stands on two sturdy jointed stems with three root toes per foot. Two proportionate branch arms, one ending in a broad oval silver-green defensive leaf and the other in three flexible gripping roots. A folded seed bud forms the head, with a narrow dark sensory seam between two waxy green bracts. Helical growth grain joins the torso, elbows and knees. Pale jade bark, burgundy veins, silver leaf margins and amber growth scars. Entire creature shown in three-quarter neutral stance with separated limbs on a plain warm gray background. Natural coherent plant anatomy, healthy and mature, moderate proportions. Painted game concept with layered organic surface detail and restrained fantasy colors.",
       "review": {
         "verdict": "denied",
         "reviewer": "fairy_audit",
@@ -428,7 +627,8 @@
       },
       "modelStarted": false,
       "stage": "denied_image_held",
-      "downloadReadyStarred": false
+      "downloadReadyStarred": false,
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID"
     },
     {
       "key": "thistledown-veilspirit",
@@ -442,8 +642,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/97f58f12-a293-4748-a133-56fb8a648c90/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-thistledown-veilspirit.png",
       "sourceImageSha256": "0730df0223c63370d0027709158aaa15e16713345dab5536c5d01ab54d0ae6db",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Thistledown Veilspirit. A living fairy organism with a smooth upright central body, two proportionate walking legs and two arms that support continuous broad draped membrane lobes growing from the forearms. Its head is an elongated oval hood of living translucent tissue around a small dark sensory core, with no human skull or face. The membranes hang like the protective veil of a sea creature transplanted to the forest, connected along shoulders and arms with clear strong edges, not tattered clothing. Opaque mauve body, milky pearl membranes with branching copper-pink veins and violet margins. Calm alien presence, solid anatomy beneath the membrane, no ghost smoke, butterfly wings, ribcage or skinny limbs. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "denied",
         "reviewer": "fairy_audit",
@@ -456,7 +655,8 @@
       },
       "modelStarted": false,
       "stage": "denied_image_held",
-      "downloadReadyStarred": false
+      "downloadReadyStarred": false,
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID"
     },
     {
       "key": "elder-grovebeast",
@@ -469,8 +669,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/fbac8707-b3d0-4947-a400-7d5a2ac917ff/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-elder-grovebeast.png",
       "sourceImageSha256": "02a87480024ecf8c27f0838f2eea8260b2aa5bc2e4f37e4e3673d14e9acbb14e",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Elder Grovebeast. A large ancient fairy ecosystem grazer with four strong proportionate column-jointed legs, deep but not obese torso, sloping back, long low oval head and broad two-part grinding mouth. Living bark-textured skin grows in continuous winding bands around the joints rather than separate stone armor slabs. Three rounded sensory pits down each cheek. Short root-fringed balancing tail. Back has a single low smooth living ridge, no horns, antlers, spikes, trees or flower garden attached. Plum-brown bark skin with pale lavender growth rings, moss-green soft joint tissue and warm amber scars. A new quadruped species, not bear, elephant, dinosaur, lion or tree man. Ancient and healthy rather than rotten. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "denied",
         "reviewer": "fairy_audit",
@@ -483,7 +682,8 @@
       },
       "modelStarted": false,
       "stage": "denied_image_held",
-      "downloadReadyStarred": false
+      "downloadReadyStarred": false,
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID"
     },
     {
       "key": "orchid-reaper",
@@ -496,8 +696,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/21b5a5c2-2918-48cc-8123-e0c84ca8d13d/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-orchid-reaper.png",
       "sourceImageSha256": "bd05cf530761acd864cf0eeb5ff9aeca72abbfb28a5f85a441373285b0e65003",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Orchid Reaper. A mature upright ambush plant hunter with balanced humanoid limb proportions, a firm tapered torso and two strong walking legs ending in three forward toes. Its two arms terminate in single broad curved pruning blades formed from hardened living petal tissue; blades modest in size and functional. A head of three folded orchid lobes cups a recessed mouth and two small black lateral eyes, creating a coherent predatory flower anatomy without a human face. Glossy deep aubergine skin, ivory inner petal surfaces veined in coral, olive structural fibers at joints and old ochre bite scars. No mantis insect body, exposed bones, horns, costume, armor, smiling face, extreme thin waist or oversized weapons. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -506,13 +705,14 @@
         "sourceImageId": "21b5a5c2-2918-48cc-8123-e0c84ca8d13d",
         "reasons": [
           "Truly petal-grown mouth/blades and fibrous joints, restrained predator mass, aubergine/ivory/coral layering."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
-      "downloadReadyStarred": true,
+      "stage": "exported_rigged_glb_animation_hold",
+      "downloadReadyStarred": false,
       "modelId": "27afaa71-4c4c-4ff5-8062-310d439bf111",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=27afaa71-4c4c-4ff5-8062-310d439bf111",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/27afaa71-4c4c-4ff5-8062-310d439bf111",
       "actualTriangles": 5970,
       "vertices": 3738,
       "modelStartedAfterApproval": true,
@@ -526,7 +726,39 @@
       "rigCompleted": true,
       "tabId": "1472601668",
       "worker": "botanical_models",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "3deeca28-d239-4be8-92dc-e5606fba5f96",
+        "approvedSourceId": "21b5a5c2-2918-48cc-8123-e0c84ca8d13d",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_orchid_reaper_27afaa71_8k_rigged.glb",
+        "bytes": 20256484,
+        "sha256": "6d063a70493f82804c27b1eccb9102408545517f3093214fd014c2fc6206990f",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "denied",
+      "currentPromotionStatus": "DENIED: superseding facial art gate; source revision required",
+      "facialAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "21b5a5c2-2918-48cc-8123-e0c84ca8d13d",
+        "reason": "Ragged burgundy facial cavity looks like missing tissue between eyes and chin.",
+        "requiredFix": "Preserve orchid crown/side petals; solid dark chitin cheeks and two clean closed insect mandibles."
+      },
+      "unstarStatus": "Gray favorite icon verified after superseding facial denial"
     },
     {
       "key": "lantern-sprite-flight",
@@ -540,8 +772,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/aad97912-7760-46ee-86be-a85f5d5e98bd/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-lantern-sprite-flight.png",
       "sourceImageSha256": "2e50f467c77509077c656ce6c878d1df61370d72695bbc4bd484b5fd73e5fe5a",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Lantern Sprite, a living winged fairy pollinator from a serious medieval RPG. Full body shown suspended in mid-air, wings fully open, feet tucked back, no ground contact or stand. A moderate oval torso with a small tapered seedpod head and small recessed lateral eyes. Four broad translucent petal wings connect at visible strong shoulder joints, their main ribs curve outward as functional lifting surfaces. Two short grasping forearms, two proportionate folded hind limbs, no long bird neck or stilt legs. A restrained amber light gland sits inside the chest behind translucent skin. Deep teal body, indigo belly, warm apricot wing margins and branching golden veins with irregular organic color variations. Adult balanced anatomy, neither round mascot nor skinny humanoid. No costume, metal, robot face, horns or ordinary bird anatomy. One complete creature, three-quarter view, plain warm gray background, clear separated limbs and wings for 3D rigging, painted naturalistic game concept.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -550,13 +781,14 @@
         "sourceImageId": "aad97912-7760-46ee-86be-a85f5d5e98bd",
         "reasons": [
           "Four broad veined wings attach coherently at torso; tucked legs and unsupported body read hover; indigo/teal/amber layered tissue stays serious and organic."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
+      "stage": "exported_rigged_glb_animation_hold",
       "downloadReadyStarred": true,
       "modelId": "98776da4-a10d-4974-910d-adba0888e99b",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=98776da4-a10d-4974-910d-adba0888e99b",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/98776da4-a10d-4974-910d-adba0888e99b",
       "actualTriangles": 3754,
       "vertices": null,
       "modelStartedAfterApproval": true,
@@ -570,7 +802,38 @@
       "rigCompleted": true,
       "tabId": "1472601660",
       "worker": "flyer_models",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "e306b1d9-f6b7-453a-8053-225f6fbdf59d",
+        "approvedSourceId": "aad97912-7760-46ee-86be-a85f5d5e98bd",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_lantern_sprite_98776da4_8k_rigged.glb",
+        "bytes": 25021812,
+        "sha256": "d9102124ea1280599f225796389edd4a0203a73bf7279e589cd547b9990f7919",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "approved",
+      "currentPromotionStatus": "source approved, runtime animation HOLD",
+      "facialAudit": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "aad97912-7760-46ee-86be-a85f5d5e98bd",
+        "reason": "Continuous leaf-built face with two distinct eyes and closed tapered front.",
+        "requiredFix": ""
+      }
     },
     {
       "key": "thistledown-veilspirit-flight",
@@ -584,8 +847,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/4bac7be3-ebc9-4644-b1c8-10d932fc3945/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-thistledown-veilspirit-flight.png",
       "sourceImageSha256": "7577d0c0af2c29a12a439d1fdea0966314de4ff6724b3860f8f18828fe238ae3",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Thistledown Veilspirit, a winged living fairy organism for a serious medieval RPG. Entire creature floats in a neutral mid-air flight pose on a plain warm gray background, both wings fully spread and legs relaxed clear of the body, no ground contact, no stand. A firm opaque mauve upright central body with proportionate shoulders, hips and limbs. Two forearms extend outward supporting broad continuous translucent pearly wings with visible branched supporting ribs and clear elbow joints. Wing membranes run from the outer wrist to the side of the hip, strong leaflike margins shaped for real gliding. Its oval sensory head is folded living tissue around a recessed dark almond core. Two medium length legs end in three small grasping toes. Milky membranes have copper-pink branching veins and violet edges, slight natural mottling and scars. Calm mature alien life, healthy organic anatomy, balanced build. No human face, skull, ghost smoke, clothing, fairy woman, butterfly pasted-on wings, cute eyes, horns or technology. Three-quarter complete body view, clean riggable silhouette, painted fantasy game creature.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -594,13 +856,14 @@
         "sourceImageId": "4bac7be3-ebc9-4644-b1c8-10d932fc3945",
         "reasons": [
           "Arm-supported membrane wings have visible load-bearing rays and wide span; suspended legs establish airborne pose; faceless bud core and pearl/violet/copper tissue read alien life."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
       "modelStarted": true,
-      "stage": "rigged_ready_for_export",
-      "downloadReadyStarred": true,
+      "stage": "exported_rigged_glb_animation_hold",
+      "downloadReadyStarred": false,
       "modelId": "b2fe6659-4935-43f9-a687-3af27da7490a",
-      "modelUrl": "https://studio.tripo3d.ai/workspace/generate?assetId=b2fe6659-4935-43f9-a687-3af27da7490a",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/b2fe6659-4935-43f9-a687-3af27da7490a",
       "actualTriangles": 4815,
       "vertices": null,
       "modelStartedAfterApproval": true,
@@ -614,7 +877,39 @@
       "rigCompleted": true,
       "tabId": "1472601664",
       "worker": "flyer_models",
-      "animationCheck": "Not yet performed; root integration and Luna checks pending"
+      "animationCheck": "Not yet performed; root integration and Luna checks pending",
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "textureReferenceVerification": {
+        "actualReferenceId": "528e9d62-21ac-47e6-aa2c-2cf50304ccb2",
+        "approvedSourceId": "4bac7be3-ebc9-4644-b1c8-10d932fc3945",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedAfterExport": true,
+      "export": {
+        "path": "C:\\Users\\Borg\\Downloads\\corealm_thistledown_veilspirit_b2fe6659_8k_rigged.glb",
+        "bytes": 26352248,
+        "sha256": "3916acd8c3e9c891444a8682f04456853242487678eea76e0c405446ff95997d",
+        "format": "GLB",
+        "textureSetting": "8k Current",
+        "exportSkeleton": true,
+        "verified": true,
+        "animationAcceptance": "HOLD pending root importer weight repair and Luna animation checks"
+      },
+      "facialAuditStatus": "denied",
+      "currentPromotionStatus": "DENIED: superseding facial art gate; source revision required",
+      "facialAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "4bac7be3-ebc9-4644-b1c8-10d932fc3945",
+        "reason": "Fleshy pink folds surround a vertical dark oval, strongly genital-like.",
+        "requiredFix": "Keep swept thistle crest; unbroken pale lavender face with two narrow separate eyes and defined closed lower face."
+      },
+      "unstarStatus": "Gray favorite icon verified after superseding facial denial"
     },
     {
       "key": "silverleaf-petalguard-r2",
@@ -627,8 +922,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/82e99623-4f48-4a56-93f4-b3262bb8ca17/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-silverleaf-petalguard-r2.png",
       "sourceImageSha256": "1b6bf96ff97cd51ce23d4bba1336ac330ee9be02f36386c21cf15efcc0ec6bc2",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Silverleaf Petalguard revision two. A serious PG-13 botanical grove sentinel, a continuous living plant body with naturally asymmetric growth. One curved main stem twists from the left root foot through the abdomen to the right shoulder; a second thick stem entwines it to form the other leg and arm. The chest is an open woven arrangement of rounded stems and soft pale jade tissue, never a cuirass. No separate shoulder pieces or hip plates. Strong proportionate branch arms, left forearm expands organically into one oval silver-green leaf shield; right hand has three short thick gripping roots. Head is a closed rounded bud with a thin dark sensing seam. Moderate balanced adult build, normal shoulders and waist, neither chunky nor spindly. Burgundy sap lines run within continuous green stems, silver leaves emerge asymmetrically from the left arm and right calf, ochre growth scars and pale lichens supply surface variation. It is wholly grown botanical anatomy, not a person wearing leaves or a suit of armor. Full body in neutral separated-limb three-quarter stance, plain warm gray background, no weapons or base, layered natural game concept painting.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -637,11 +931,51 @@
         "sourceImageId": "82e99623-4f48-4a56-93f4-b3262bb8ca17",
         "reasons": [
           "Continuous woven stem anatomy replaces armor plates; asymmetric leaf growth and shorter functional digits resolve costume/thin-hand concerns; silver leaves, burgundy fibers, moss and growth scars give layered organic detail."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
-      "modelStarted": false,
-      "stage": "approved_image_ready_for_model",
-      "downloadReadyStarred": false
+      "modelStarted": true,
+      "stage": "facial_art_hold_after_8k_pbr",
+      "downloadReadyStarred": false,
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "modelId": "a35c5493-c162-4927-a59c-028f5b6508e6",
+      "modelStartedAfterApproval": true,
+      "tabId": "1472601707",
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "worker": "botanical_models",
+      "actualTriangles": 5034,
+      "vertices": 3210,
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/a35c5493-c162-4927-a59c-028f5b6508e6",
+      "smartUvSaved": true,
+      "facialAuditStatus": "denied",
+      "currentPromotionStatus": "DENIED: superseding facial art gate; source revision required",
+      "exportHold": "New user facial correction; child instructed to stop promotion/export and preserve current cloud jobs",
+      "textureResolution": "8K",
+      "pbrCompleted": true,
+      "rigCompleted": false,
+      "rigType": "Humanoid Mixamo",
+      "rigStatus": "Not Ready for Auto-Rigging dialog; Try Rigging Anyway not clicked",
+      "textureReferenceVerification": {
+        "actualReferenceId": "6f81fc96-bed8-4fb7-b176-a3a142df6de8",
+        "approvedSourceId": "82e99623-4f48-4a56-93f4-b3262bb8ca17",
+        "method": "Explicit approved local PNG upload",
+        "verified": true
+      },
+      "tabClosedForFacialHold": true,
+      "facialAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "82e99623-4f48-4a56-93f4-b3262bb8ca17",
+        "reason": "Single burgundy slit divides featureless leaf-bud face, repeating genital-like absent-face design.",
+        "requiredFix": "Keep silver leaf brow/crown; solid green woody face, two amber eyes, broad bridge, short closed mouth."
+      },
+      "unstarStatus": "Never starred; no removal required"
     },
     {
       "key": "elder-grovebeast-r2",
@@ -654,8 +988,7 @@
       "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/4b8cb069-0372-436b-a844-67280b1d8004/image.png",
       "sourceImagePath": "assets/art/tripo/refs/fairy-elder-grovebeast-r2.png",
       "sourceImageSha256": "5a0b1441c7c3b4637c0de977b198637c7d95c865a1a361b4980a6b60a9380bea",
-      "prompt": null,
-      "promptRecovery": "Pending recovery from source image card after disk-full record loss",
+      "prompt": "Elder Grovebeast revision two. A large healthy botanical grazer from a strange fairy woodland in a serious PG-13 medieval RPG. Its body is a horizontal bundle of thick living plum-colored roots around an oval open rib basket, with soft lavender membranes stretched between the roots. Four balanced walking limbs split into paired stout braided root columns below each knee, ending in flat tangled root pads. The head is a blunt circular radial feeding bud at the end of a short forward stem, six rounded overlapping fleshy petals surrounding a recessed grinding center, no beak, snout, animal eyes or reptile head. Three short feeler roots surround the feeding bud. The back is smooth arched living tissue with sparse continuous grain. Body mass is substantial but proportionate, limbs neither stilt-thin nor oversized. Plum bark, large lavender living membranes, olive joints and amber growth scars. Clearly a mobile plant organism rather than a dinosaur, reptile, mammal or tree-covered animal. Complete isolated full-body three-quarter stance, separated limbs, plain warm gray background, no stand or scenery, naturalistic layered painted surface detail.",
       "review": {
         "verdict": "approved",
         "reviewer": "fairy_audit",
@@ -664,11 +997,206 @@
         "sourceImageId": "4b8cb069-0372-436b-a844-67280b1d8004",
         "reasons": [
           "Radial botanical mouth and root-built feet remove dinosaur read; plum fiber cage around lavender living sacs establishes strange fairy anatomy; weight-bearing limbs support its large grazer body without mascot proportions."
-        ]
+        ],
+        "historicalApprovalOnlyUntilFacialReview": true
       },
+      "modelStarted": true,
+      "stage": "facial_art_hold_texture_job_last_seen_99_percent",
+      "downloadReadyStarred": false,
+      "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+      "modelId": "972d5a57-6486-4131-849f-dcfbdb85a0d9",
+      "modelStartedAfterApproval": true,
+      "tabId": "1472601708",
+      "smartMesh": "P2",
+      "topology": "Triangle",
+      "retopologyUsed": false,
+      "worker": "botanical_models",
+      "animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+      "starMeaning": "Cloud source ready for download only; not gameplay animation acceptance",
+      "modelUrl": "https://studio.tripo3d.ai/workspace/rigging/972d5a57-6486-4131-849f-dcfbdb85a0d9",
+      "actualTriangles": 6781,
+      "vertices": 4080,
+      "smartUvSaved": true,
+      "facialAuditStatus": "denied",
+      "currentPromotionStatus": "DENIED: superseding facial art gate; source revision required",
+      "exportHold": "New user facial correction; child instructed to stop promotion/export and preserve current cloud jobs",
+      "textureResolution": "8K",
+      "pbrCompleted": false,
+      "rigCompleted": false,
+      "textureReferenceVerification": {
+        "actualReferenceId": "c230b6a1-9f1a-402e-96b8-8df51af4ad59",
+        "approvedSourceId": "4b8cb069-0372-436b-a844-67280b1d8004",
+        "method": "Explicit approved local PNG upload; visible Texture input visually matched to approved file",
+        "verified": true
+      },
+      "tabClosedForFacialHold": true,
+      "facialAudit": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "4b8cb069-0372-436b-a844-67280b1d8004",
+        "reason": "Entire head is a radial fleshy toothed aperture.",
+        "requiredFix": "Solid blunt bark muzzle, two small lateral eyes and broad closed grinding jaw; retain root feelers."
+      },
+      "unstarStatus": "Never starred; no removal required"
+    },
+    {
+      "key": "moonpetal-stalker-face-r3",
+      "name": "Moonpetal Stalker",
+      "replaces": [
+        "Moonpetal Stalker"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "e04d7bfb-fd78-4ba1-82ad-71ce6278c077",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e04d7bfb-fd78-4ba1-82ad-71ce6278c077/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-moonpetal-stalker-face-r3.png",
+      "sourceImageSha256": "0a5a9c0bf58da82c4133554b8ae261568ca0ec1eee9add2005ba1288cab469f2",
+      "revisesKey": "moonpetal-stalker",
+      "editIntent": "Face-only correction preserving original body and colors",
       "modelStarted": false,
+      "downloadReadyStarred": false,
       "stage": "approved_image_ready_for_model",
-      "downloadReadyStarred": false
+      "review": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "e04d7bfb-fd78-4ba1-82ad-71ce6278c077",
+        "reasons": [
+          "Solid broad muzzle, separate nostrils and closed jaw remove puckered aperture; petal cheeks, body, claws and leaf tail retained."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      },
+      "prompt": "Pending exact prompt record from completed Tripo card"
+    },
+    {
+      "key": "silverleaf-petalguard-face-r3",
+      "name": "Silverleaf Petalguard",
+      "replaces": [
+        "Silverleaf Petalguard"
+      ],
+      "targetTriangles": 5000,
+      "sourceImageId": "82d901be-6b5b-49ce-ab94-9be32ad98e02",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/82d901be-6b5b-49ce-ab94-9be32ad98e02/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-silverleaf-petalguard-face-r3.png",
+      "sourceImageSha256": "48e94dadc96ac265a35bd2e58f278dc4ecd481358260fd59d1d12913826d8189",
+      "revisesKey": "silverleaf-petalguard-r2",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": false,
+      "downloadReadyStarred": false,
+      "stage": "denied_image_held",
+      "review": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "82d901be-6b5b-49ce-ab94-9be32ad98e02",
+        "reasons": [
+          "Face intact but human elf plus extensive symmetrical shoulder/chest/hip leaf armor undoes r2 woven-stem anatomy and asymmetric growth. Repeat using exact r2 image with head-only edit."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      },
+      "prompt": "Pending exact prompt record from completed Tripo card",
+      "creatorConcern": "Body gained leaf-armor appearance and more human face; independent reviewer asked to check full style before promotion."
+    },
+    {
+      "key": "elder-grovebeast-face-r3",
+      "name": "Elder Grovebeast",
+      "replaces": [
+        "Elder Grovebeast"
+      ],
+      "targetTriangles": 6500,
+      "sourceImageId": "f874cf32-22a1-456e-a190-70d2a3354fa3",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/f874cf32-22a1-456e-a190-70d2a3354fa3/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-elder-grovebeast-face-r3.png",
+      "sourceImageSha256": "ee37636edf2af7f2517c49eb302a406082d07462da68e336d1dc71928b397b59",
+      "revisesKey": "elder-grovebeast-r2",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": false,
+      "downloadReadyStarred": false,
+      "stage": "denied_image_held",
+      "review": {
+        "verdict": "denied",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "f874cf32-22a1-456e-a190-70d2a3354fa3",
+        "reasons": [
+          "Face intact but replaced simple root-bundle species with tree-covered mammal, dense back garden and altered feet/pose. Repeat exact r2 head-only edit preserving body."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      },
+      "prompt": "Pending exact prompt record from completed Tripo card",
+      "creatorConcern": "Back gained garden details and pose changed; independent reviewer asked to check full style before promotion."
+    },
+    {
+      "key": "thistledown-veilspirit-face-r3",
+      "name": "Thistledown Veilspirit",
+      "replaces": [
+        "Thistledown Veilspirit",
+        "Orchid Veilspirit"
+      ],
+      "targetTriangles": 4500,
+      "sourceImageId": "3d098a8b-f664-40f7-91c1-f1075373abf2",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/3d098a8b-f664-40f7-91c1-f1075373abf2/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-thistledown-veilspirit-face-r3.png",
+      "sourceImageSha256": "48d7311c712b75f4267b0655dd5d04237703e1667229aa1e1755c91ee1641f1d",
+      "revisesKey": "thistledown-veilspirit-flight",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": false,
+      "downloadReadyStarred": false,
+      "stage": "approved_image_ready_for_model",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "3d098a8b-f664-40f7-91c1-f1075373abf2",
+        "reasons": [
+          "Intact pale face with eyes/nose/closed lips replaces slit; swept crest, broad wings and flight body retained."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      },
+      "prompt": "Pending exact prompt record from completed Tripo card"
+    },
+    {
+      "key": "orchid-reaper-face-r3",
+      "name": "Orchid Reaper",
+      "replaces": [
+        "Orchid Reaper"
+      ],
+      "targetTriangles": 5500,
+      "sourceImageId": "6a942b74-b3c2-4b55-9b4d-13bf186a7c6a",
+      "sourceImageUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/6a942b74-b3c2-4b55-9b4d-13bf186a7c6a/image.png",
+      "sourceImagePath": "assets/art/tripo/refs/fairy-orchid-reaper-face-r3.png",
+      "sourceImageSha256": "9f9d7e75a6480dbac957757d5fbc90c311f0409a50e0f2ef6f0e4cb5a2e1829f",
+      "revisesKey": "orchid-reaper",
+      "editIntent": "Face-only correction preserving original body and colors",
+      "modelStarted": false,
+      "downloadReadyStarred": false,
+      "stage": "approved_image_ready_for_model",
+      "review": {
+        "verdict": "approved",
+        "reviewer": "face_audit_fairy",
+        "model": "gpt-6-astra",
+        "reasoningEffort": "low",
+        "sourceImageId": "6a942b74-b3c2-4b55-9b4d-13bf186a7c6a",
+        "reasons": [
+          "Solid chitin cheeks and closed hard mandibles remove wound cavity; crown, blades and body preserved."
+        ],
+        "scope": "Superseding facial correction and overall style/body preservation"
+      },
+      "prompt": "Pending exact prompt record from completed Tripo card"
     }
-  ]
+  ],
+  "exportedSourceModels": 10,
+  "readyStarredSourceModels": 5,
+  "latestArtGate": {
+    "status": "R3 review: three revised sources approved, two denied for body drift; two earlier R3 refs awaiting review; two R4 corrections generating",
+    "userCorrection": "stop with the genitals as faces or a blown off missing face",
+    "required": "Healthy readable intact faces/anatomy; no genital-like snouts, radial fleshy openings, torn or absent faces, or hollow head cavities",
+    "supersedesPriorApprovalForFacialConcern": true,
+    "replacementGenerationPaused": true
+  }
 }

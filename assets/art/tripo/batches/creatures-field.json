@@ -121,10 +121,42 @@
       },
       "model": {
         "targetTriangles": 5000,
-        "status": "mesh generating; input source UUID verified; output source pending verification",
+        "status": "held-rejected-face; archive retained",
         "starred": false,
         "id": "700784eb-f8e8-48c9-b673-41977ea512db",
-        "inputSourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b"
+        "inputSourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b",
+        "actualTriangles": 4424,
+        "verifiedSourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b",
+        "sourceVerification": "Direct Tripo Texture reference image UUID matched approved source",
+        "smartUv": "completed and saved",
+        "texture": "8K completed",
+        "pbr": "completed for amber bud material",
+        "rig": "completed Other",
+        "export": {
+          "path": "C:/Users/Borg/Downloads/corealm_knotwarden_700784eb_8k_rigged.glb",
+          "archivePath": "assets/art/tripo/exports/corealm_knotwarden_700784eb_8k_rigged.glb",
+          "bytes": 35703076,
+          "skinJoints": [
+            22
+          ],
+          "textureDimensions": [
+            [
+              8192,
+              8192
+            ],
+            [
+              4096,
+              4096
+            ],
+            [
+              4096,
+              4096
+            ]
+          ],
+          "animations": [],
+          "verified": true
+        },
+        "animationAcceptance": "HOLD: Tripo Rig-page skin weights require importer reconstruction, then quick walk/run/attack/hit/death check"
       },
       "sourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b",
       "referenceReview": {
@@ -138,6 +170,12 @@
         "sourceImageId": "d82bb9e5-3038-418e-bdb3-bfe9a428a474",
         "reason": "Tripo visible reference inspection shows feathered humanoid, not approved Knotwarden source. Removed from field ready set; no export.",
         "starred": false
+      },
+      "faceReview": {
+        "status": "denied",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "a7bec67e-77f3-4366-92d2-70c331c9460b",
+        "reason": "Hollow oval head around central bud fails missing-face/genital-like criterion."
       }
     },
     {
@@ -156,7 +194,7 @@
       },
       "model": {
         "targetTriangles": 6500,
-        "status": "ready for user batch export",
+        "status": "exported; runtime animation HOLD",
         "id": "37458f5d-edc4-443d-97f8-dad5716de47b",
         "actualTriangles": 6568,
         "smartUv": "completed and saved",
@@ -165,7 +203,7 @@
         "rig": "completed Humanoid Mixamo",
         "pbr": "not required: matte skin and fiber",
         "starred": true,
-        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export",
+        "animationAcceptance": "HOLD: Tripo Rig-page skin weights require importer reconstruction, then quick walk/run/attack/hit/death check",
         "export": {
           "path": "C:/Users/Borg/Downloads/corealm_fallow_brute_37458f5d_8k_rigged.glb",
           "bytes": 16841356,
@@ -175,7 +213,8 @@
             8192
           ],
           "animations": [],
-          "verified": true
+          "verified": true,
+          "archivePath": "assets/art/tripo/exports/corealm_fallow_brute_37458f5d_8k_rigged.glb"
         },
         "verifiedSourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
         "sourceVerification": "Direct Tripo Texture reference image UUID matched approved source"
@@ -186,6 +225,12 @@
         "reviewer": "field_audit (gpt-6-astra low)",
         "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
         "reason": "Healthy serious orc anatomy, balanced solid limbs, readable cloth/leather/skin without decorative armor. Close relative of Grove Brute."
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+        "reason": "Intact complete face passes fresh face audit."
       }
     },
     {
@@ -205,17 +250,28 @@
       "model": {
         "id": "07e65df7-8ccb-4a73-872a-54d1229da86c",
         "targetTriangles": 6500,
-        "status": "ready for user batch export",
+        "status": "exported; runtime animation HOLD",
         "smartUv": "completed and saved",
         "texture": "8K completed",
         "rig": "completed Humanoid Mixamo",
         "actualTriangles": 6566,
         "starred": true,
         "pbr": "not required: matte skin and fiber",
-        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export",
+        "animationAcceptance": "HOLD: Tripo Rig-page skin weights require importer reconstruction, then quick walk/run/attack/hit/death check",
         "chronology": "Mesh requested before the new image-review gate. Held at gate. Exact source approved by field_audit before Smart UV, 8K texture, rig and star actions.",
         "verifiedSourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
-        "sourceVerification": "Direct Tripo Texture reference image UUID matched approved source"
+        "sourceVerification": "Direct Tripo Texture reference image UUID matched approved source",
+        "export": {
+          "path": "C:/Users/Borg/Downloads/corealm_grove_brute_07e65df7_8k_rigged.glb",
+          "bytes": 17124112,
+          "skinJoints": 54,
+          "textureDimensions": [
+            8192,
+            8192
+          ],
+          "verifiedBy": "root; local filename and size also verified by field agent",
+          "archivePath": "assets/art/tripo/exports/corealm_grove_brute_07e65df7_8k_rigged.glb"
+        }
       },
       "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
       "referenceReview": {
@@ -223,6 +279,12 @@
         "reviewer": "field_audit (gpt-6-astra low)",
         "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
         "reason": "Grounded healthy orc with practical basket and clear material detail. Close relative of Fallow Brute."
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+        "reason": "Intact complete face passes fresh face audit."
       }
     },
     {
@@ -244,7 +306,7 @@
       },
       "model": {
         "targetTriangles": 4000,
-        "status": "ready for export",
+        "status": "exported; runtime animation HOLD",
         "id": "0f74b416-840b-419a-8f5d-c4cfc0a80a02",
         "actualTriangles": 4269,
         "verifiedSourceImageId": "bf4d830a-9ecd-4ef4-aa10-40e1439bb4f6",
@@ -253,7 +315,29 @@
         "rig": "completed Humanoid Mixamo",
         "pbr": "not required: matte fur and fiber",
         "starred": true,
-        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export"
+        "animationAcceptance": "HOLD: Tripo Rig-page skin weights require importer reconstruction, then quick walk/run/attack/hit/death check",
+        "export": {
+          "path": "C:/Users/Borg/Downloads/corealm_heath_knucker_0f74b416_8k_rigged.glb",
+          "archivePath": "assets/art/tripo/exports/corealm_heath_knucker_0f74b416_8k_rigged.glb",
+          "bytes": 19076528,
+          "skinJoints": [
+            54
+          ],
+          "textureDimensions": [
+            [
+              8192,
+              8192
+            ]
+          ],
+          "animations": [],
+          "verified": true
+        }
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "bf4d830a-9ecd-4ef4-aa10-40e1439bb4f6",
+        "reason": "Intact complete face passes fresh face audit."
       }
     },
     {
@@ -274,14 +358,46 @@
       },
       "model": {
         "targetTriangles": 5000,
-        "status": "PBR completed; rig pending",
+        "status": "held-rejected-face; archive retained",
         "id": "43f50f53-5a1d-49f7-9d8c-34d502d4ec4d",
         "verifiedSourceImageId": "83e2ac95-d092-4dbb-b922-63c8027c344c",
         "actualTriangles": 5453,
         "smartUv": "completed and saved",
         "texture": "8K completed",
         "pbr": "completed for waxy plant skin",
-        "starred": false
+        "starred": false,
+        "rig": "completed Humanoid Mixamo",
+        "animationAcceptance": "HOLD: Tripo Rig-page skin weights require importer reconstruction, then quick walk/run/attack/hit/death check",
+        "export": {
+          "path": "C:/Users/Borg/Downloads/corealm_hedge_clasper_43f50f53_8k_rigged.glb",
+          "archivePath": "assets/art/tripo/exports/corealm_hedge_clasper_43f50f53_8k_rigged.glb",
+          "bytes": 28392876,
+          "skinJoints": [
+            54
+          ],
+          "textureDimensions": [
+            [
+              8192,
+              8192
+            ],
+            [
+              4096,
+              4096
+            ],
+            [
+              4096,
+              4096
+            ]
+          ],
+          "animations": [],
+          "verified": true
+        }
+      },
+      "faceReview": {
+        "status": "denied",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "83e2ac95-d092-4dbb-b922-63c8027c344c",
+        "reason": "Fleshy radial lobes and open head tube fail latest face criterion."
       }
     },
     {
@@ -302,7 +418,7 @@
       },
       "model": {
         "targetTriangles": 5000,
-        "status": "ready for export",
+        "status": "exported; runtime animation HOLD",
         "id": "0900292c-ef73-40f9-864d-1f289df395f5",
         "actualTriangles": 5821,
         "verifiedSourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
@@ -311,8 +427,82 @@
         "rig": "completed Humanoid Mixamo",
         "pbr": "not required: matte living wood",
         "starred": true,
-        "animationAcceptance": "pending quick walk/run/attack/hit/death checks after export"
+        "animationAcceptance": "HOLD: Tripo Rig-page skin weights require importer reconstruction, then quick walk/run/attack/hit/death check",
+        "export": {
+          "path": "C:/Users/Borg/Downloads/corealm_bramble_tiller_0900292c_8k_rigged.glb",
+          "archivePath": "assets/art/tripo/exports/corealm_bramble_tiller_0900292c_8k_rigged.glb",
+          "bytes": 20755572,
+          "skinJoints": [
+            48
+          ],
+          "textureDimensions": [
+            [
+              8192,
+              8192
+            ]
+          ],
+          "animations": [],
+          "verified": true
+        }
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+        "reason": "Intact complete face passes fresh face audit."
+      }
+    },
+    {
+      "id": "field-hedge-clasper-v3",
+      "name": "Hedge Clasper",
+      "replaces": [
+        "Thorn Maw"
+      ],
+      "supersedes": "field-hedge-clasper-v2",
+      "sourceId": "7e19b68e-3ecb-4d34-a6b8-c1dfb7db8384",
+      "sourceImageId": "7e19b68e-3ecb-4d34-a6b8-c1dfb7db8384",
+      "image": "assets/art/tripo/references/field-hedge-clasper-v3.png",
+      "inputReference": "assets/art/tripo/references/field-hedge-clasper-v2.png",
+      "prompt": "FIELD10 HEDGE CLASPER FACE REVISION THREE. Edit ONLY the head and face of this exact attached creature reference. Preserve the entire healthy green and red-veined plant body, two stalk arms and hands, two root legs and feet, single curved leaf behind its head, balanced proportions, full-body pose, intricate layered organic textures, neutral gray background and lighting. Replace the entire radial fleshy head tube and every folded inner mouth lobe with one SOLID closed seedpod head. Continuous firm dark olive green plant skin covers the front and cheeks. Two modest small dark eyes sit laterally under subtle hard seedpod brows, separated by a wide solid bridge. One short CLOSED dry horizontal mouth seam sits low on the face above a complete firm chin. The front reads as intact living woody plant tissue, not a hole or mask. Keep the same approximate head size and short neck. Mature serious neutral fantasy RPG expression, no smile or cute eyes. No radial opening, head tube, central cleft, face cavity, missing face, torn tissue, exposed inner flesh, fleshy lips or hanging lobes, horns, reptile snout, human nose, helmet or science-fiction face. Change no non-face body details; preserve this creature species exactly.",
+      "referenceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "7e19b68e-3ecb-4d34-a6b8-c1dfb7db8384",
+        "reason": "Intact closed seed-pod head, lateral eyes, dry horizontal mouth; radial flesh and cavity eliminated. Body preserved."
+      },
+      "model": {
+        "status": "not started; awaiting exact source approval",
+        "targetTriangles": 5000
+      },
+      "faceReview": {
+        "status": "approved",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "7e19b68e-3ecb-4d34-a6b8-c1dfb7db8384",
+        "reason": "Intact closed seed-pod head, lateral eyes, dry horizontal mouth; radial flesh and cavity eliminated. Body preserved."
+      }
+    },
+    {
+      "id": "field-knotwarden-v3",
+      "name": "Knotwarden",
+      "replaces": [
+        "Hollow Bough"
+      ],
+      "supersedes": "field-knotwarden",
+      "sourceId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d",
+      "sourceImageId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d",
+      "image": "assets/art/tripo/references/field-knotwarden-v3.png",
+      "inputReference": "assets/art/tripo/references/field-knotwarden.png",
+      "prompt": "FIELD11 KNOTWARDEN FACE REVISION THREE. Edit only the HEAD and FACE of the exact attached full-body fantasy woodland creature. Preserve the complete four-legged wooden body, solid balanced proportions, all articulated root limbs, curved split root hands, rounded rear root feet, modest root tail, growth curls, moss and lichen, warm walnut and honey wood grain, pose, neutral gray background and soft lighting exactly. Fill the entire hollow oval head opening and its central bud with a continuous SOLID end-grain wooden face. Solid natural honey-brown end-grain wood extends from brow through cheeks to a complete chin with no hole, indentation or hollow area. Two small horizontally separated amber sensory inlays sit flush in the upper face with modest wood brows. Give one subtle SHORT CLOSED horizontal mouth seam low on the face, no nose, no projecting snout. Preserve the original approximate head shape and short neck but the front must clearly be intact solid living wood, calm and mature. Amber inlays are small sap-like eyes, not a central bud. No oval aperture, face cavity, central slit or cleft, hole around a bud, genital-like folds, fleshy lobes, torn or missing face, human mask, robot faceplate, horns, antlers, cute eyes or smile. Serious PG-13 medieval fantasy RPG with healthy living woodland materials. Keep every non-face detail unchanged.",
+      "referenceReview": {
+        "status": "pending",
+        "reviewer": "face_audit_field_stone (gpt-6-astra low)",
+        "sourceImageId": "f3c5607d-ea5f-4c70-b4d9-6b3eafc39f3d"
+      },
+      "model": {
+        "status": "not started; awaiting exact source approval",
+        "targetTriangles": 5000
       }
     }
-  ]
+  ],
+  "latestGate": "No further promotion, export or replacement generation for cavity/radial/absent-face concerns until fresh root face audit."
 }
