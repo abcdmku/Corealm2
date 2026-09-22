@@ -104,7 +104,7 @@ export async function createForestFixture({ assets, scene, registerTree }: Fores
         visible = nextVisible;
         for (const [primitive, mesh] of meshes.entries()) {
           mesh.setMatrixAt(slot, (visible ? originals : hidden)[primitive]!);
-          mesh.instanceMatrix.needsUpdate = true;
+          mesh.instanceTransforms.needsUpdate = true;
         }
       });
     }

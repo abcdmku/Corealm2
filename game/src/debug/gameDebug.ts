@@ -32,6 +32,7 @@ import type { Movement } from "../systems/movement.js";
 import type { CorealmGameApi } from "../api/gameApi.js";
 import type { Renderer } from "../render/renderer.js";
 import { SCREEN_AA_MATERIAL } from "../render/screenAntialiasing.js";
+import { isSceneryInstances } from "../render/sceneryInstances.js";
 import type { OrbitCamera } from "../render/camera.js";
 import type { AssetRegistry } from "../render/assets.js";
 import { roundVec3 } from "../core/math.js";
@@ -562,15 +563,18 @@ export function installGameDebug(deps: DebugDeps): void {
     getScatterInstances(name: string, x: number, z: number, radius = 25): unknown {
       const instances: unknown[] = [];
       renderer.scene.traverse(object => {
-        const mesh = object as THREE.InstancedMesh;
-        if (!mesh.isInstancedMesh || !mesh.name.includes(name)) return;
+        const mesh = isSceneryInstances(object) ? object
+          : (object as THREE.InstancedMesh).isInstancedMesh ? object as THREE.InstancedMesh : null;
+        if (!mesh || !mesh.name.includes(name)) return;
         const matrix = new THREE.Matrix4(), combined = new THREE.Matrix4();
-        mesh.geometry.computeBoundingBox();
-        for (let slot = 0; slot < mesh.count; slot++) {
+        const geometry = isSceneryInstances(mesh) ? mesh.sourceGeometry : mesh.geometry;
+        const count = isSceneryInstances(mesh) ? mesh.instanceCount : mesh.count;
+        geometry.computeBoundingBox();
+        for (let slot = 0; slot < count; slot++) {
           mesh.getMatrixAt(slot, matrix); combined.multiplyMatrices(mesh.matrixWorld, matrix);
           const position = new THREE.Vector3().setFromMatrixPosition(combined);
           if (Math.hypot(position.x - x, position.z - z) > radius) continue;
-          const bounds = mesh.geometry.boundingBox!.clone().applyMatrix4(combined);
+          const bounds = geometry.boundingBox!.clone().applyMatrix4(combined);
           instances.push({ name: mesh.name, slot, position: position.toArray(),
             bounds: { min: bounds.min.toArray(), max: bounds.max.toArray() } });
         }
@@ -677,7 +681,7 @@ export function installGameDebug(deps: DebugDeps): void {
           projected.expandByPoint(new THREE.Vector2((point.x + 1) * gpu.domElement.width / 2, (1 - point.y) * gpu.domElement.height / 2));
         }
         transmissiveCandidates.push({ name: object.name, objectId: object.id, type: object.type,
-          count: (object as THREE.InstancedMesh).count ?? null,
+          count: isSceneryInstances(object) ? object.instanceCount : (object as THREE.InstancedMesh).count ?? null,
           instanceCount: (object as THREE.BatchedMesh).instanceCount ?? null,
           worldBounds: { min: bounds.min.toArray(), max: bounds.max.toArray() },
           projectedBoundsPixels: { min: projected.min.toArray(), max: projected.max.toArray() },

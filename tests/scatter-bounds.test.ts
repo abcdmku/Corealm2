@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 import { describe, expect, it } from "vitest";
 import { finalizeScatterBounds, scatterWindMargin } from "../game/src/render/scatterBounds.js";
 
@@ -58,7 +59,7 @@ describe("scatter bounds", () => {
     const geometry = new THREE.BoxGeometry(1.6, 3.2, 0.7);
     geometry.translate(0.3, 1.4, -0.2);
     const material = new THREE.MeshBasicMaterial();
-    const mesh = new THREE.InstancedMesh(geometry, material, 4);
+    const mesh = new SceneryInstances(geometry, material, 4);
     const transforms = [
       new THREE.Matrix4().compose(
         new THREE.Vector3(-45, 1, -35),
@@ -81,7 +82,7 @@ describe("scatter bounds", () => {
       return matrix;
     });
     const positions = Array.from(geometry.getAttribute("position").array);
-    const matrices = Array.from(mesh.instanceMatrix.array);
+    const matrices = Array.from(mesh.instanceTransforms.array);
     geometry.computeBoundingBox();
     geometry.computeBoundingSphere();
     const sourceBox = geometry.boundingBox!.clone();
@@ -92,7 +93,7 @@ describe("scatter bounds", () => {
     finalizeScatterBounds(mesh, margin);
 
     expect(Array.from(geometry.getAttribute("position").array)).toEqual(positions);
-    expect(Array.from(mesh.instanceMatrix.array)).toEqual(matrices);
+    expect(Array.from(mesh.instanceTransforms.array)).toEqual(matrices);
     expect(geometry.boundingBox!.equals(sourceBox)).toBe(true);
     expect(geometry.boundingSphere!.equals(sourceSphere)).toBe(true);
     const attribute = geometry.getAttribute("position");
@@ -109,6 +110,7 @@ describe("scatter bounds", () => {
         }
       }
     }
+    mesh.dispose();
     geometry.dispose();
     material.dispose();
   });
@@ -116,7 +118,7 @@ describe("scatter bounds", () => {
   it("tightens an inflated sphere around a flat tile", () => {
     const geometry = new THREE.SphereGeometry(1, 12, 8);
     const material = new THREE.MeshBasicMaterial();
-    const mesh = new THREE.InstancedMesh(geometry, material, 4);
+    const mesh = new SceneryInstances(geometry, material, 4);
     for (const [index, [x, z]] of [[-50, -50], [50, -50], [50, 50], [-50, 50]].entries()) {
       mesh.setMatrixAt(index, new THREE.Matrix4().makeTranslation(x!, 0, z!));
     }
@@ -127,6 +129,7 @@ describe("scatter bounds", () => {
 
     expect(mesh.boundingSphere!.radius).toBeLessThan(originalRadius);
     expect(mesh.boundingSphere!.radius).toBeCloseTo(Math.sqrt(51.25 ** 2 * 2 + 1.25 ** 2), 5);
+    mesh.dispose();
     geometry.dispose();
     material.dispose();
   });
@@ -134,7 +137,7 @@ describe("scatter bounds", () => {
   it("keeps the existing sphere when the box would loosen a round asset", () => {
     const geometry = new THREE.SphereGeometry(2, 16, 8);
     const material = new THREE.MeshBasicMaterial();
-    const mesh = new THREE.InstancedMesh(geometry, material, 1);
+    const mesh = new SceneryInstances(geometry, material, 1);
     mesh.setMatrixAt(0, new THREE.Matrix4().makeTranslation(17, 3, -8));
     mesh.computeBoundingSphere();
     const originalRadius = mesh.boundingSphere!.radius;
@@ -143,6 +146,7 @@ describe("scatter bounds", () => {
 
     expect(mesh.boundingSphere!.radius).toBeCloseTo(originalRadius + 0.2, 12);
     expect(mesh.boundingSphere!.center.toArray()).toEqual([17, 3, -8]);
+    mesh.dispose();
     geometry.dispose();
     material.dispose();
   });
@@ -150,15 +154,15 @@ describe("scatter bounds", () => {
   it("keeps empty instances empty and can finalize again after matrices change", () => {
     const geometry = new THREE.BoxGeometry();
     const material = new THREE.MeshBasicMaterial();
-    const mesh = new THREE.InstancedMesh(geometry, material, 1);
-    mesh.count = 0;
+    const mesh = new SceneryInstances(geometry, material, 1);
+    mesh.instanceCount = 0;
 
     finalizeScatterBounds(mesh, 3);
 
     expect(mesh.boundingBox!.isEmpty()).toBe(true);
     expect(mesh.boundingSphere!.isEmpty()).toBe(true);
     expect(Number.isNaN(mesh.boundingSphere!.radius)).toBe(false);
-    mesh.count = 1;
+    mesh.instanceCount = 1;
     mesh.setMatrixAt(0, new THREE.Matrix4().makeTranslation(12, 0, 5));
     finalizeScatterBounds(mesh, 0);
     expect(mesh.boundingBox!.containsPoint(new THREE.Vector3(12, 0, 5))).toBe(true);
@@ -167,6 +171,7 @@ describe("scatter bounds", () => {
     finalizeScatterBounds(mesh, 0);
     expect(mesh.boundingBox!.containsPoint(new THREE.Vector3(-20, 0, -10))).toBe(true);
     expect(mesh.boundingBox!.containsPoint(new THREE.Vector3(12, 0, 5))).toBe(false);
+    mesh.dispose();
     geometry.dispose();
     material.dispose();
   });

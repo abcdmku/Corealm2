@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import type { RegionId, SolidVolume } from '../game/src/contracts.js';
 import type { AssetEntry, AssetRegistry } from '../game/src/render/assets.js';
 import { WorldScene, type Rect, type ScatterPlacement } from '../game/src/render/scene.js';
+import type { SceneryInstances } from '../game/src/render/sceneryInstances.js';
 import { resolveFairyDressing } from '../game/src/app/fairyDressing.js';
 import { buildFairyTerrainSpec } from '../game/src/app/worldSpec.js';
 import { collectRoadStamps, prepareWorldSurface } from '../game/src/app/worldSurface.js';
@@ -16,7 +17,7 @@ import { MemoryGenerationCache } from './support/generation-cache.js';
 
 type AuthoredPoint = NonNullable<ScatterLayerSpec['authoredPoints']>[number];
 type Draw = { assetId: string; placement: ScatterPlacement & { forestTree?: ForestTreeDescriptor };
-  matrix: THREE.Matrix4; tileName: string; mesh: THREE.InstancedMesh; slot: number };
+  matrix: THREE.Matrix4; tileName: string; mesh: SceneryInstances; slot: number };
 const ground = (x: number, z: number) => -120 + (x - 2000) * 0.08 + z * 0.03;
 const manifest = JSON.parse(readFileSync('game/public/assets/manifest.json', 'utf8')) as { assets: AssetEntry[] };
 const villageTreeEntries = manifest.assets.filter(entry => /^(fairy_canopy_(gloam|fae)_[12]|fairy_hero_(gloam|fae)_sheltered)$/.test(entry.id));

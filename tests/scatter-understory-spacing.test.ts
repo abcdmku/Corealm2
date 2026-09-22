@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 import { describe, expect, it } from "vitest";
 import type { RegionId } from "../game/src/contracts.js";
 import type { AssetEntry } from "../game/src/render/assets.js";
@@ -92,7 +93,7 @@ function harness(bounds = ordinaryBounds, regionIds: RegionId[] = ["fallowmarch"
   const rows: MeshRow[] = [];
   const grass: { regionId: RegionId; placement: GrassSpritePlacement }[] = [];
   const trees: ForestTreeDescriptor[] = [];
-  const meshes: THREE.InstancedMesh[] = [];
+  const meshes: SceneryInstances[] = [];
   const terrainGroup = new THREE.Group();
   terrainGroup.add(new THREE.Object3D());
   let surfaceAt = (_x: number, _z: number): Surface | null => flat();
@@ -125,7 +126,7 @@ function harness(bounds = ordinaryBounds, regionIds: RegionId[] = ["fallowmarch"
       const built = WorldScene.prototype.scatterInstanced.call(receiver as never, source, next, name, options);
       meshes.push(...built);
       const mesh = built[0]!;
-      const box = mesh.geometry.boundingBox!;
+      const box = mesh.sourceGeometry.boundingBox!;
       next.forEach((placement, slot) => {
         const matrix = new THREE.Matrix4();
         mesh.getMatrixAt(slot, matrix);

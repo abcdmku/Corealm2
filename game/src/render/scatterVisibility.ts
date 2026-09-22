@@ -1,7 +1,10 @@
 import * as THREE from "three";
+import { isSceneryInstances, type SceneryInstances } from "./sceneryInstances.js";
+
+const MATRIX_ATTRIBUTES = ["sceneryMatrix0", "sceneryMatrix1", "sceneryMatrix2", "sceneryMatrix3"];
 
 interface ScatterEntry {
-  mesh: THREE.InstancedMesh;
+  mesh: SceneryInstances;
   count: number;
   /** Original placement data is never rewritten when the draw prefix changes. */
   matrices: Float32Array;
@@ -38,7 +41,7 @@ export interface ScatterVisibilityStats {
  * Shadow casters need a separate pass-aware path and cannot register here.
  */
 export class ScatterVisibility {
-  private readonly entries = new Map<THREE.InstancedMesh, ScatterEntry>();
+  private readonly entries = new Map<SceneryInstances, ScatterEntry>();
   private readonly viewProjection = new THREE.Matrix4();
   private readonly localProjection = new THREE.Matrix4();
   private readonly localView = new THREE.Matrix4();
@@ -51,31 +54,41 @@ export class ScatterVisibility {
     insideMeshes: 0, outsideMeshes: 0, matrixUploads: 0,
   };
 
-  add(mesh: THREE.InstancedMesh, windMargin: number): void {
+  add(mesh: SceneryInstances, windMargin: number): void {
     if (this.entries.has(mesh)) throw new Error("Scatter visibility mesh is already registered");
     if (mesh.castShadow) throw new Error("Scatter visibility cannot compact shadow casters");
-    if (mesh.instanceColor || mesh.morphTexture
-      || Object.values(mesh.geometry.attributes).some(attribute =>
-        attribute instanceof THREE.InstancedBufferAttribute
-        || (attribute instanceof THREE.InterleavedBufferAttribute
-          && attribute.data instanceof THREE.InstancedInterleavedBuffer))) {
+    if (!isSceneryInstances(mesh)) throw new Error("Scatter visibility requires scenery instances");
+    const validMatrices = MATRIX_ATTRIBUTES.every((name, column) => {
+      const attribute = mesh.geometry.getAttribute(name);
+      return attribute instanceof THREE.InterleavedBufferAttribute
+        && attribute.data instanceof THREE.InstancedInterleavedBuffer
+        && attribute.data === mesh.instanceTransforms
+        && attribute.itemSize === 4 && attribute.offset === column * 4
+        && attribute.data.stride === 16 && attribute.data.meshPerAttribute === 1;
+    });
+    if (!validMatrices || mesh.instanceColors || Object.entries(mesh.geometry.attributes).some(([name, attribute]) => {
+      if (attribute instanceof THREE.InstancedBufferAttribute) return true;
+      if (!(attribute instanceof THREE.InterleavedBufferAttribute)
+        || !(attribute.data instanceof THREE.InstancedInterleavedBuffer)) return false;
+      return !MATRIX_ATTRIBUTES.includes(name);
+    })) {
       throw new Error("Scatter visibility requires matrix-only instance attributes");
     }
     if (!Number.isFinite(windMargin) || windMargin < 0) {
       throw new Error("Scatter visibility wind margin must be finite and nonnegative");
     }
-    const count = mesh.count;
-    if (!Number.isInteger(count) || count < 0 || count > mesh.instanceMatrix.count) {
+    const count = mesh.instanceCount;
+    if (!Number.isInteger(count) || count < 0 || count > mesh.instanceTransforms.count) {
       throw new Error("Scatter visibility instance count is outside its matrix buffer");
     }
 
-    const matrices = new Float32Array(mesh.instanceMatrix.array.slice(0, count * 16));
+    const matrices = new Float32Array(mesh.instanceTransforms.array.slice(0, count * 16));
     const bounds = new Float64Array(count * 6);
     const slots = new Uint32Array(count);
     const aggregate = new THREE.Box3();
-    const geometryBox = mesh.geometry.boundingBox?.clone() ?? new THREE.Box3();
-    if (!mesh.geometry.boundingBox && count > 0) {
-      const positions = mesh.geometry.getAttribute("position");
+    const geometryBox = mesh.sourceGeometry.boundingBox?.clone() ?? new THREE.Box3();
+    if (!mesh.sourceGeometry.boundingBox && count > 0) {
+      const positions = mesh.sourceGeometry.getAttribute("position");
       if (!positions) throw new Error("Scatter visibility geometry has no positions");
       geometryBox.setFromBufferAttribute(positions as THREE.BufferAttribute);
     }
@@ -92,12 +105,12 @@ export class ScatterVisibility {
 
     // Keep complete resident bounds while count changes. Otherwise Three could lazily
     // compute an empty sphere during a turned-away frame and never admit the mesh again.
-    if (!mesh.boundingBox) mesh.boundingBox = aggregate.clone();
-    if (!mesh.boundingSphere) mesh.boundingSphere = aggregate.getBoundingSphere(new THREE.Sphere());
+    if (!mesh.boundingBox) mesh.geometry.boundingBox = aggregate.clone();
+    if (!mesh.boundingSphere) mesh.geometry.boundingSphere = aggregate.getBoundingSphere(new THREE.Sphere());
     this.entries.set(mesh, { mesh, count, matrices, bounds, aggregate, slots, reordered: false });
   }
 
-  remove(mesh: THREE.InstancedMesh): void {
+  remove(mesh: SceneryInstances): void {
     const entry = this.entries.get(mesh);
     if (!entry) return;
     this.restore(entry);
@@ -126,12 +139,12 @@ export class ScatterVisibility {
       if (!this.enabled) {
         // setEnabled(false) already restored the buffers. No clipping classifications or
         // uploads happened in this prepare; report the visible full population only.
-        stats.retainedInstances += mesh.count;
-        if (mesh.count === 0) stats.outsideMeshes += 1;
+        stats.retainedInstances += mesh.instanceCount;
+        if (mesh.instanceCount === 0) stats.outsideMeshes += 1;
         continue;
       }
       if (entry.count === 0) {
-        mesh.count = 0;
+        mesh.instanceCount = 0;
         stats.outsideMeshes += 1;
         continue;
       }
@@ -154,18 +167,18 @@ export class ScatterVisibility {
       const planes = useFog ? this.fogPlanes : this.frustum.planes;
       const aggregateState = classifyBox(planes, entry.aggregate);
       if (aggregateState < 0) {
-        mesh.count = 0;
+        mesh.instanceCount = 0;
         stats.outsideMeshes += 1;
         continue;
       }
       if (aggregateState > 0) {
         if (this.restore(entry)) stats.matrixUploads += 1;
         stats.insideMeshes += 1;
-        stats.retainedInstances += mesh.count;
+        stats.retainedInstances += mesh.instanceCount;
         continue;
       }
 
-      const target = mesh.instanceMatrix.array;
+      const target = mesh.instanceTransforms.array;
       let retained = 0;
       let changed = false;
       for (let source = 0; source < entry.count; source += 1) {
@@ -181,12 +194,12 @@ export class ScatterVisibility {
         }
         retained += 1;
       }
-      mesh.count = retained;
+      mesh.instanceCount = retained;
       stats.retainedInstances += retained;
       if (retained === 0) stats.outsideMeshes += 1;
       if (changed) {
         entry.reordered = true;
-        mesh.instanceMatrix.needsUpdate = true;
+        mesh.instanceTransforms.needsUpdate = true;
         stats.matrixUploads += 1;
       }
     }
@@ -210,10 +223,10 @@ export class ScatterVisibility {
   }
 
   private restore(entry: ScatterEntry): boolean {
-    entry.mesh.count = entry.count;
+    entry.mesh.instanceCount = entry.count;
     if (!entry.reordered) return false;
-    entry.mesh.instanceMatrix.array.set(entry.matrices);
-    entry.mesh.instanceMatrix.needsUpdate = true;
+    entry.mesh.instanceTransforms.array.set(entry.matrices);
+    entry.mesh.instanceTransforms.needsUpdate = true;
     for (let index = 0; index < entry.count; index += 1) entry.slots[index] = index;
     entry.reordered = false;
     return true;

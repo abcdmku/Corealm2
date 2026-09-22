@@ -46,6 +46,7 @@ import { GRASS_WIND_STRENGTH, MaterialLibrary, REGION_PALETTES, surfaceColour } 
 import { artSurfaceRoleForMaterial } from "./artDirection.js";
 import { finalizeScatterBounds, scatterWindMargin } from "./scatterBounds.js";
 import { ScatterVisibility } from "./scatterVisibility.js";
+import { SceneryInstances, isSceneryInstances } from "./sceneryInstances.js";
 import { PLAYER_HEIGHT, PLAYER_RADIUS } from "../app/config.js";
 import { Rng } from "../core/rng.js";
 import { clamp } from "../core/math.js";
@@ -2944,7 +2945,7 @@ export class WorldScene {
   // ------------------------------------------------------------- scatter
 
   /**
-   * Places many copies of one asset as a single InstancedMesh per (geometry, material) pair.
+   * Places many copies of one asset as one scenery draw per (geometry, material) pair.
    *
    * This is the draw-call discipline the budget depends on: 200 trees cost the same handful of
    * calls as one tree. Tier variants must be colour swaps over a shared texture, never separate
@@ -2959,7 +2960,7 @@ export class WorldScene {
     options: {
       regionId?: RegionId; castShadow?: boolean; windStrength?: number; compactVisibility?: boolean;
     } = {},
-  ): THREE.InstancedMesh[] {
+  ): SceneryInstances[] {
     if (placements.length === 0) return [];
 
     const parts: { geometry: THREE.BufferGeometry; material: THREE.Material; matrix: THREE.Matrix4; windStrength: number }[] = [];
@@ -2984,7 +2985,7 @@ export class WorldScene {
       });
     });
 
-    const created: THREE.InstancedMesh[] = [];
+    const created: SceneryInstances[] = [];
     const transform = new THREE.Matrix4();
     const placement = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
@@ -2995,7 +2996,7 @@ export class WorldScene {
     const positionVector = new THREE.Vector3();
 
     for (const [index, part] of parts.entries()) {
-      const instanced = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
+      const instanced = new SceneryInstances(part.geometry, part.material, placements.length);
       instanced.name = `${name}-${index}`;
       instanced.castShadow = options.castShadow ?? true;
       instanced.receiveShadow = true;
@@ -3026,7 +3027,7 @@ export class WorldScene {
         instanced.setMatrixAt(slot, transform);
         if (part.windStrength > 0) windMargin = Math.max(windMargin, scatterWindMargin(transform, part.windStrength));
       }
-      instanced.instanceMatrix.needsUpdate = true;
+      instanced.instanceTransforms.needsUpdate = true;
       finalizeScatterBounds(instanced, windMargin);
       if (options.compactVisibility) this.scatterVisibility.add(instanced, windMargin);
 
@@ -3055,7 +3056,7 @@ export class WorldScene {
   }
 
   /**
-   * Draws a spatial tile of grass as one alpha-tested `InstancedMesh`.
+   * Draws a spatial tile of grass with one alpha-tested scenery instance buffer.
    *
    * The caller merges all four former grass asset ids before reaching this method, so common,
    * tall, green and dry-gold grass differ only in matrix and instance colour. Density changes
@@ -3065,13 +3066,14 @@ export class WorldScene {
     placements: readonly GrassSpritePlacement[],
     name: string,
     options: { regionId?: RegionId } = {},
-  ): THREE.InstancedMesh[] {
+  ): SceneryInstances[] {
     if (placements.length === 0) return [];
 
-    const instanced = new THREE.InstancedMesh(
+    const instanced = new SceneryInstances(
       this.grassBladeGeometry ?? this.grassSpriteGeometry,
       this.grassBladeGeometry ? this.materials.grassBlades() : this.materials.grassSprite(),
       placements.length,
+      { colors: true },
     );
     instanced.name = name;
     instanced.castShadow = false;
@@ -3106,8 +3108,8 @@ export class WorldScene {
       instanced.setColorAt(slot, colour.setHex(entry.colour));
     }
 
-    instanced.instanceMatrix.needsUpdate = true;
-    if (instanced.instanceColor) instanced.instanceColor.needsUpdate = true;
+    instanced.instanceTransforms.needsUpdate = true;
+    if (instanced.instanceColors) instanced.instanceColors.needsUpdate = true;
     finalizeScatterBounds(instanced, windMargin);
     // Grass blades are the smallest thing scattered; see the cull-radius note in scatterInstanced.
     instanced.userData.cullRadius = 170;
@@ -3139,7 +3141,7 @@ export class WorldScene {
   }
 
   unregisterScatter(object: THREE.Object3D): void {
-    if ((object as THREE.InstancedMesh).isInstancedMesh) this.scatterVisibility.remove(object as THREE.InstancedMesh);
+    if (isSceneryInstances(object)) this.scatterVisibility.remove(object);
     for (const [regionId, objects] of this.scatterByRegion) {
       const index = objects.indexOf(object);
       if (index < 0) continue;
@@ -3148,9 +3150,9 @@ export class WorldScene {
       break;
     }
     object.removeFromParent();
-    // The asset registry retains geometry/materials. InstancedMesh owns only its uploaded
-    // instance buffers here, and removeFromParent alone does not release those GPU allocations.
-    if ((object as THREE.InstancedMesh).isInstancedMesh) (object as THREE.InstancedMesh).dispose();
+    // The registry retains source geometry/materials. Each scenery object owns its geometry
+    // wrapper and instance buffers; removing the object does not release those allocations.
+    if (isSceneryInstances(object)) object.dispose();
   }
 
   private applyScatterCull(object: THREE.Object3D, x: number, z: number, radius: number): void {
@@ -3159,7 +3161,7 @@ export class WorldScene {
       return;
     }
     const cull = Math.min(radius, (object.userData.cullRadius as number | undefined) ?? radius);
-    const box = (object as THREE.InstancedMesh).boundingBox;
+    const box = isSceneryInstances(object) ? object.boundingBox : null;
     if (box && !box.isEmpty()) {
       // Tile bounds are already in world space. Their enclosing sphere extends well beyond
       // the actual tile edges, keeping distant shards alive unnecessarily. Measure the nearest
@@ -3169,9 +3171,7 @@ export class WorldScene {
       object.visible = dx * dx + dz * dz < cull * cull;
       return;
     }
-    const sphere = (object as THREE.InstancedMesh).boundingSphere
-      ?? (object as THREE.Mesh).geometry?.boundingSphere
-      ?? null;
+    const sphere = (isSceneryInstances(object) ? object.boundingSphere : (object as THREE.Mesh).geometry?.boundingSphere) ?? null;
     if (!sphere) {
       object.visible = true;
       return;
@@ -3200,9 +3200,8 @@ export class WorldScene {
     this.lastScatterCull = { x, z, radius };
     for (const [regionId, objects] of this.scatterByRegion) {
       if (organicBiomes) {
-        // An InstancedMesh composes its instances into its OWN boundingSphere; a plain mesh keeps
-        // the sphere on the geometry. Both sit unparented at the origin, so the sphere centre is
-        // already in world space. See applyScatterCull.
+        // Scenery bounds include all instance transforms. Plain meshes retain geometry bounds.
+        // Both sit at the origin here, so their sphere centres are already in world space.
         for (const object of objects) this.applyScatterCull(object, x, z, radius);
         continue;
       }
@@ -3297,8 +3296,8 @@ export class WorldScene {
     this.scatterVisibility.clear();
     this.terrainGroup.clear();
     this.scatterGroup.traverse((object) => {
-      if ((object as THREE.InstancedMesh).isInstancedMesh) (object as THREE.InstancedMesh).dispose();
-      if (object.userData.ownedGeometry && (object as THREE.Mesh).isMesh) (object as THREE.Mesh).geometry.dispose();
+      if (isSceneryInstances(object)) object.dispose();
+      if (!isSceneryInstances(object) && object.userData.ownedGeometry && (object as THREE.Mesh).isMesh) (object as THREE.Mesh).geometry.dispose();
       if (object.userData.ownedMaterial && (object as THREE.Mesh).isMesh) {
         const material = (object as THREE.Mesh).material;
         for (const entry of Array.isArray(material) ? material : [material]) entry.dispose();

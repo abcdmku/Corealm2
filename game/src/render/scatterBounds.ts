@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { type SceneryInstances } from "./sceneryInstances.js";
 
 /** Maximum displacement of the wind shader after an instance's linear transform. */
 export function scatterWindMargin(matrix: THREE.Matrix4, strength: number): number {
@@ -21,12 +22,12 @@ export function scatterWindMargin(matrix: THREE.Matrix4, strength: number): numb
 }
 
 /** Bounds static instances and their wind motion without changing their geometry or matrices. */
-export function finalizeScatterBounds(mesh: THREE.InstancedMesh, windMargin: number): void {
+export function finalizeScatterBounds(mesh: SceneryInstances, windMargin: number): void {
   mesh.computeBoundingBox();
   mesh.computeBoundingSphere();
   const box = mesh.boundingBox!;
   const sphere = mesh.boundingSphere!;
-  if (mesh.count === 0 || box.isEmpty()) {
+  if (mesh.instanceCount === 0 || box.isEmpty()) {
     box.makeEmpty();
     sphere.makeEmpty();
     return;

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { RegionId, Vec3 } from "../game/src/contracts.js";
 import type { AssetEntry } from "../game/src/render/assets.js";
 import type { ScatterPlacement } from "../game/src/render/scene.js";
+import { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 import type { ForestTreeDescriptor } from "../game/src/world/forestResources.js";
 import { ExclusionZones, scatterTilesForBounds, scatterWorldTile, type RegionScatterSpec } from "../game/src/world/scatter.js";
 import { ScatterStreamingController } from "../game/src/world/scatterStreaming.js";
@@ -24,7 +25,7 @@ function harness(sourceAsset = "tree_common_5") {
   }
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshStandardMaterial();
-  const batches: { assetId: string; placements: readonly ScatterPlacement[]; meshes: THREE.InstancedMesh[] }[] = [];
+  const batches: { assetId: string; placements: readonly ScatterPlacement[]; meshes: SceneryInstances[] }[] = [];
   const loaded = new Set<string>();
   const assets = {
     entry: (id: string) => entries.get(id), byTags: () => [],
@@ -47,7 +48,7 @@ function harness(sourceAsset = "tree_common_5") {
     normalAt: () => [0, 1, 0] as const,
     scatterInstanced: (source: { name: string }, placements: readonly ScatterPlacement[]) => {
       const meshes = [0, 1].map((part) => {
-        const mesh = new THREE.InstancedMesh(geometry, material, placements.length);
+        const mesh = new SceneryInstances(geometry, material, placements.length);
         const local = new THREE.Matrix4().makeTranslation(part * 0.2, part * 2, 0);
         placements.forEach((placement, slot) => {
           const scale = typeof placement.scale === "number" ? new THREE.Vector3().setScalar(placement.scale) : new THREE.Vector3(...placement.scale);
@@ -212,7 +213,7 @@ describe("scatter forest resource bridge", () => {
       for (const mesh of batch.meshes) {
         const matrix = new THREE.Matrix4(); mesh.getMatrixAt(slot, matrix);
         expect(matrix.determinant()).toBe(0);
-        expect(mesh.instanceMatrix.version).toBe(1);
+        expect(mesh.instanceTransforms.version).toBe(1);
       }
       tree.setVisible(true);
       batch.meshes.forEach((mesh, part) => {

@@ -134,16 +134,20 @@ describe("scene-owned grass geometry", () => {
     try {
       scene.setGrassSource(new THREE.Mesh(sourceGeometry, sourceMaterial));
       const first = scene.scatterGrassSprites([placement], "first-tile")[0]!;
-      const nativeGeometry = first.geometry;
+      const nativeGeometry = first.sourceGeometry;
+      const firstWrapperDisposed = vi.fn();
+      first.geometry.addEventListener("dispose", firstWrapperDisposed);
       const nativeDisposed = vi.fn();
       nativeGeometry.addEventListener("dispose", nativeDisposed);
       expect(nativeGeometry).not.toBe(sourceGeometry);
 
       scene.clear();
       expect(nativeDisposed).not.toHaveBeenCalled();
+      expect(firstWrapperDisposed).toHaveBeenCalledOnce();
       expect(scene.hasNativeGrass()).toBe(true);
       const rebuilt = scene.scatterGrassSprites([placement], "rebuilt-tile")[0]!;
-      expect(rebuilt.geometry).toBe(nativeGeometry);
+      expect(rebuilt.sourceGeometry).toBe(nativeGeometry);
+      expect(rebuilt.geometry).not.toBe(first.geometry);
 
       scene.dispose();
       expect(nativeDisposed).toHaveBeenCalledOnce();

@@ -596,7 +596,7 @@ export interface ScatterLayerSpec {
   tags?: string[];
   /**
    * Cap on distinct assets from a `tags` lookup only; an explicit `species` list is taken whole.
-   * A source GLB costs one `InstancedMesh` per primitive and every tree in this kit has two, so a
+   * A source GLB costs one scenery batch per primitive and every tree in this kit has two, so a
    * 2-variant shadow-casting tree layer is 2 x 2 x 2 = 8 draw calls while a 6-variant pebble layer
    * is 6. Instance count does not affect it at all.
    */
@@ -1784,7 +1784,7 @@ async function scatterRegionTile(
     seed,
   };
 
-  // Region-wide rather than per-layer: `scatterInstanced` builds one InstancedMesh per (asset,
+  // Region-wide rather than per-layer: `scatterInstanced` builds one scenery batch per (asset,
   // primitive), so two layers naming the same asset used to pay for it twice. Vellenwood's fern,
   // broad-leaf mat and small leafy plant each appeared in two layers, which was 5 draw calls of
   // pure duplication world-wide. Layers naming the same asset add instances to this shared bucket
@@ -1852,7 +1852,7 @@ async function scatterRegionTile(
         continue;
       }
       // Keyed on shadow as well as asset, because the shadow flag is a property of the
-      // InstancedMesh: fern undergrowth and fern on a damp bank share one mesh, a shadow-casting
+      // scenery batch: fern undergrowth and fern on a damp bank share one mesh, a shadow-casting
       // pine and a non-casting one could not.
       // Always consume the source transform, even for a crowded native plant. Grass,
       // trees and later transforms keep their original stream, and rejected slots never refill.
@@ -1954,7 +1954,7 @@ async function renderScatterBuckets(
           const indices = mesh.geometry.getIndex();
           const positions = mesh.geometry.getAttribute("position");
           const triangles = Math.round((indices?.count ?? positions?.count ?? 0) / 3);
-          result.estimatedTriangles += triangles * mesh.count;
+          result.estimatedTriangles += triangles * mesh.instanceCount;
         }
       }
       continue;
@@ -1989,7 +1989,7 @@ async function renderScatterBuckets(
             for (let primitive = 0; primitive < meshes.length; primitive += 1) {
               const mesh = meshes[primitive]!;
               mesh.setMatrixAt(slot, (visible ? originals : hidden)[primitive]!);
-              mesh.instanceMatrix.needsUpdate = true;
+              mesh.instanceTransforms.needsUpdate = true;
             }
           });
         }
@@ -2000,7 +2000,7 @@ async function renderScatterBuckets(
         const indices = mesh.geometry.getIndex();
         const positions = mesh.geometry.getAttribute("position");
         const triangles = Math.round((indices?.count ?? positions?.count ?? 0) / 3);
-        result.estimatedTriangles += triangles * mesh.count * (bucket.castShadow ? 2 : 1);
+        result.estimatedTriangles += triangles * mesh.instanceCount * (bucket.castShadow ? 2 : 1);
       }
     }
   }
@@ -2539,7 +2539,7 @@ const LITTER_EXCLUSION: ExclusionProfile = {
  *
  * The cost argument that shapes every weight below: buckets are keyed on (asset, castShadow)
  * REGION-WIDE (`scatterRegion`), so a species already named by another layer in the same region
- * adds instances to an existing `InstancedMesh` and costs zero draw calls. `flower_a_single` is
+ * adds instances to an existing scenery batch and costs zero draw calls. `flower_a_single` is
  * free in Fallowmarch because `bloom` already instances it, `mushroom_common` is free in
  * Vellenwood because `fungus` does, and `grass_wispy_short` is free in Karrowmoor because `scrub`
  * does. Only `grass_common_tall` is genuinely new, and only in Fallowmarch.
@@ -2561,7 +2561,7 @@ const SHORE_COVER: ScatterSpeciesSpec[] = [
   // 1.672 m native -> 1.25-2.09 m. Reeds stand plumb out of still water, so tilt is 0.
   { assetId: "grass_wispy_tall", weight: 5, scale: [0.75, 1.25], tilt: 0, sources: ["shore"] },
   // The same fern at damp-bank size. A second entry rather than a second asset: buckets are keyed
-  // on asset id, so both sizes share one InstancedMesh and the variety costs no draw call.
+  // on asset id, so both sizes share one scenery batch and the variety costs no draw call.
   { assetId: "fern_1", weight: 3, scale: [0.45, 0.85], sources: ["shore"] },
 ];
 
@@ -2671,7 +2671,7 @@ const UPLAND_BLADES: ScatterSpeciesSpec[] = [
  * Pebbles, plus the six previously unused `path_rock_*` assets on roads only.
  *
  * All ten share the `PathRocks` material, so under a material-keyed batch the whole family would be
- * free; under per-asset InstancedMesh each one is another draw call, so the pool is cut to the
+ * free; under per-asset scenery batches each one is another draw call, so the pool is cut to the
  * three cheapest silhouettes and one road stone.
  */
 const STONE_SPECIES: ScatterSpeciesSpec[] = [
@@ -2703,7 +2703,7 @@ const STONE_SPECIES: ScatterSpeciesSpec[] = [
  *
  * Two facts drive every number here (architecture.md, correction R6):
  *
- *  1. **Draw calls are flat in instance count.** One region-wide `InstancedMesh` costs one draw
+ *  1. **Draw calls are flat in instance count.** One region-wide scenery batch costs one draw
  *     whether it holds 20 trees or 2000. Draw calls are set by *species count*, times primitives
  *     per asset (2 for every tree in this kit, trunk plus foliage), times 2 again for a shadow
  *     caster. Cutting density buys none. Cutting species and shadow casters buys all of them.

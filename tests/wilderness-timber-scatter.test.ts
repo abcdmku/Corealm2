@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 import { describe, expect, it } from "vitest";
 import type { RegionId, Vec3 } from "../game/src/contracts.js";
 import type { AssetEntry } from "../game/src/render/assets.js";
@@ -33,7 +34,7 @@ function harness(exclusions = new ExclusionZones()) {
   const rows: MeshRow[] = [];
   const grass: GrassSpritePlacement[] = [];
   const trees: ForestTreeDescriptor[] = [];
-  const meshes: THREE.InstancedMesh[] = [];
+  const meshes: SceneryInstances[] = [];
   const receiver = { scatterGroup: new THREE.Group(), scatterVisibility: { add: () => undefined }, registerScatter: () => undefined };
   const terrainGroup = new THREE.Group();
   terrainGroup.add(new THREE.Object3D());
