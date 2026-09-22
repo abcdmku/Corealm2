@@ -61,8 +61,9 @@ describe("native forest render continuity", () => {
       const leafBatch = batches.find((batch) => batch.material === scatterLeaves)!;
       expect(leafBatch).toBeDefined();
       expect(leafBatch.castShadow).toBe(true);
-      expect(leafBatch.customDepthMaterial).toBe(f.materials.windShadow(scatterLeaves, 0.035, "depth"));
-      expect(leafBatch.customDistanceMaterial).toBe(f.materials.windShadow(scatterLeaves, 0.035, "distance"));
+      expect((scatterLeaves as import('three/webgpu').MeshStandardNodeMaterial).positionNode).toBeDefined();
+      expect(leafBatch.customDepthMaterial).toBeUndefined();
+      expect(leafBatch.customDistanceMaterial).toBeUndefined();
       const actual = new THREE.Matrix4();
       for (const [index, entity] of f.entities.entries()) {
         leafBatch.getMatrixAt(index, actual);

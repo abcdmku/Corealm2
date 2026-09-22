@@ -362,10 +362,9 @@ function* prepareImportedMaterials(roots: readonly THREE.Object3D[]): Generator<
   const convert = (source: THREE.Material) => {
     const material = ensureNodeMaterial(source);
     const sourceName = material.name.split('@', 1)[0]!;
-    const standard = material as THREE.MeshStandardMaterial & { isMeshStandardNodeMaterial?: boolean };
-    if ((standard.isMeshStandardMaterial || standard.isMeshStandardNodeMaterial)
+    if ('isMeshStandardNodeMaterial' in material
       && sourceName.endsWith('_cutout') && artSurfaceRoleForMaterial(material.name) === 'foliage'
-      && standard.map) leafTextures.add(standard.map);
+      && material.map) leafTextures.add(material.map);
     return material;
   };
   while (pending.length) {

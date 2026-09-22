@@ -1,5 +1,6 @@
 /** Metre-scale dungeon masonry and a forged sliding gate, shared by the world and feature lab. */
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { mergeGeometries, toCreasedNormals } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import {
@@ -26,17 +27,17 @@ export const DUNGEON_GATE_DIMENSIONS = Object.freeze({
 });
 
 export interface DungeonGateMaterials {
-  stone: THREE.MeshStandardMaterial;
-  metal: THREE.MeshStandardMaterial;
-  fittings: THREE.MeshStandardMaterial;
+  stone: MeshStandardNodeMaterial;
+  metal: MeshStandardNodeMaterial;
+  fittings: MeshStandardNodeMaterial;
 }
 
 /** Materials are shared by both leaf states, the frame, and the adjoining masonry runs. */
 export function createDungeonGateMaterials(
   textures?: CorealmSurfaceTextures,
-  metalSource?: THREE.MeshStandardMaterial,
+  metalSource?: MeshStandardNodeMaterial,
 ): DungeonGateMaterials {
-  let stone = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.95, metalness: 0 });
+  let stone = new MeshStandardNodeMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.95, metalness: 0 });
   stone.name = "Corealm weathered strata";
   if (textures) {
     const geometry = new THREE.BufferGeometry();

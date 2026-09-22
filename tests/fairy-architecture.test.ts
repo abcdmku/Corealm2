@@ -13,8 +13,8 @@ describe('fairy structure presentation', () => {
     const style = new FairyArchitecture();
     const imported = new THREE.MeshStandardMaterial({ name: 'MI_Plaster', map: new THREE.Texture(), normalMap: new THREE.Texture(), aoMap: new THREE.Texture(), roughnessMap: new THREE.Texture() });
     const source = kind === 'node' ? ensureNodeMaterial(imported) as MeshStandardNodeMaterial : imported;
-    const warm = style.material(source, 'wall_plaster_straight', 'gloamgarden') as THREE.MeshStandardMaterial;
-    const cool = style.material(source, 'wall_plaster_straight', 'faeholme') as THREE.MeshStandardMaterial;
+    const warm = style.material(source, 'wall_plaster_straight', 'gloamgarden') as MeshStandardNodeMaterial;
+    const cool = style.material(source, 'wall_plaster_straight', 'faeholme') as MeshStandardNodeMaterial;
     expect(warm).not.toBe(source);
     expect(warm.map).toBe(source.map);
     expect(warm.normalMap).toBe(source.normalMap);
@@ -45,7 +45,7 @@ describe('fairy structure presentation', () => {
   it('lights the actual window pane without making the frame or wall emissive', () => {
     const style = new FairyArchitecture();
     const glass = new THREE.MeshStandardMaterial({ name: 'MI_WindowGlass', transparent: true, opacity: .095 });
-    const lit = style.material(glass, 'window_wide', 'gloamgarden') as THREE.MeshStandardMaterial;
+    const lit = style.material(glass, 'window_wide', 'gloamgarden') as MeshStandardNodeMaterial;
     expect(lit.opacity).toBe(1);
     expect(lit.transparent).toBe(false);
     expect((lit as MeshStandardNodeMaterial).colorNode).not.toBeNull();
@@ -58,7 +58,7 @@ describe('fairy structure presentation', () => {
     expect(radiance.g).toBeGreaterThan(radiance.b * 5);
     expect(.2126 * radiance.r + .7152 * radiance.g + .0722 * radiance.b).toBeLessThan(.4);
     expect(lit.color.r).toBeLessThan(.45);
-    const frame = style.material(new THREE.MeshStandardMaterial({ name: 'MI_WoodTrim_Wear' }), 'window_wide', 'gloamgarden') as THREE.MeshStandardMaterial;
+    const frame = style.material(new THREE.MeshStandardMaterial({ name: 'MI_WoodTrim_Wear' }), 'window_wide', 'gloamgarden') as MeshStandardNodeMaterial;
     expect(frame.emissive.getHex()).toBe(0);
     expect(glass.opacity).toBe(.095);
     expect(fairyArchitectureSurface('market_stall', 'MI_Banner')).toBe('cloth');
@@ -93,7 +93,7 @@ describe('fairy structure presentation', () => {
       roughness: ornament.getRoughnessFactor(), map: new THREE.Texture(), normalMap: new THREE.Texture(),
     });
     const style = new FairyArchitecture();
-    const treated = style.material(source, 'door_round_2', 'gloamgarden') as THREE.MeshStandardMaterial;
+    const treated = style.material(source, 'door_round_2', 'gloamgarden') as MeshStandardNodeMaterial;
     expect(treated).not.toBeNull();
     expect(treated.metalness).toBeLessThan(.25);
     expect(treated.roughness).toBeGreaterThan(.85);
@@ -200,8 +200,8 @@ describe('fairy structure presentation', () => {
     const style = new FairyArchitecture();
     const source = new THREE.MeshStandardMaterial({ name: 'MI_Banner', map: new THREE.Texture(), normalMap: new THREE.Texture(), vertexColors: true });
     const canopy = style.marketCanopyPart(source, 'gloamgarden');
-    expect((canopy.material as THREE.MeshStandardMaterial).map).toBe(source.map);
-    expect((canopy.material as THREE.MeshStandardMaterial).normalMap).toBe(source.normalMap);
+    expect((canopy.material as MeshStandardNodeMaterial).map).toBe(source.map);
+    expect((canopy.material as MeshStandardNodeMaterial).normalMap).toBe(source.normalMap);
     expect(canopy.material.vertexColors).toBe(false);
     expect(source.vertexColors).toBe(true);
     geometry.dispose();

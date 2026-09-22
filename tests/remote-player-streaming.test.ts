@@ -147,7 +147,7 @@ describe('remote player streaming continuity', () => {
     const lod = new AnimationLod(scene, root, root, [clip], material => material);
     for (let slot = 0; slot < 16; slot++) lod.set(slot, new THREE.Matrix4().makeTranslation(slot, 0, 0), { clip, time: .25, blend: 1 });
     const initialMeshes = [...scene.children];
-    const warmup = new StreamedShaderWarmup({} as THREE.WebGLRenderer, scene, new THREE.PerspectiveCamera());
+    const warmup = new StreamedShaderWarmup({} as import("three/webgpu").WebGPURenderer, scene, new THREE.PerspectiveCamera());
     try {
       for (let slot = 16; slot < 33; slot++) {
         expect(lod.isViewReady(mesh => !warmup.hasPending(mesh))).toBe(true);

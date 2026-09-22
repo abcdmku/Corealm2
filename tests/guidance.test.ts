@@ -99,7 +99,7 @@ function harness() {
     return ok({ activeCount: guidance.set(resolved) });
   };
 
-  const guidance = new Guidance({
+  const guidance: Guidance = new Guidance({
     overlays,
     now: () => state.now,
     playerPosition: () => state.player,
