@@ -1,0 +1,24 @@
+{
+  "setId": "nightglass",
+  "modelId": "cc618fd5-433e-4a90-978c-fd957504b5f3",
+  "sourceSha256": "5e51c6ba833afeaf7789ebd877a1d6b83a149db0975aeb1e667f3cb3b962588e",
+  "sourceTriangles": 5005,
+  "sourceMeshCount": 40,
+  "sourceFile": "medieval+knight+3d+model (1).glb",
+  "status": "fit-candidate-only; exported maps are not the requested 8K masters",
+  "observations": [
+    "Source +X forward, +Y up; global yaw maps front to native +Z.",
+    "Sleeves repose from A-pose to native T-pose; detached plates use the same correction.",
+    "Source spread legs narrow to native bind stance.",
+    "Partitioning preserves every source triangle and UV; no retopology or replacement geometry.",
+    "Visual fit and animation acceptance remain required in the root-owned feature lab.",
+    "Closed head shell expanded laterally/depthwise after native-head overlap diagnostic; final facial occlusion must be inspected in game."
+  ],
+  "slotTriangles": {
+    "head": 244,
+    "body": 1433,
+    "hands": 1121,
+    "legs": 1377,
+    "feet": 830
+  }
+}

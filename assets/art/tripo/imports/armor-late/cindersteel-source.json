@@ -1,0 +1,24 @@
+{
+  "setId": "cindersteel",
+  "modelId": "7971b96b-dc57-46e0-8b60-f3c054478f6d",
+  "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
+  "sourceTriangles": 5199,
+  "sourceMeshCount": 26,
+  "sourceFile": "medieval+knight+armor+3d+model (2).glb",
+  "status": "fit-candidate-only; exported maps are not the requested 8K masters",
+  "observations": [
+    "Source +X forward, +Y up; global yaw maps front to native +Z.",
+    "Sleeves repose from A-pose to native T-pose; detached plates use the same correction.",
+    "Source spread legs narrow to native bind stance.",
+    "Partitioning preserves every source triangle and UV; no retopology or replacement geometry.",
+    "Visual fit and animation acceptance remain required in the root-owned feature lab.",
+    "Closed head shell expanded laterally/depthwise after native-head overlap diagnostic; final facial occlusion must be inspected in game."
+  ],
+  "slotTriangles": {
+    "head": 554,
+    "body": 1935,
+    "hands": 1348,
+    "legs": 912,
+    "feet": 450
+  }
+}

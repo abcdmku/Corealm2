@@ -1,0 +1,24 @@
+{
+  "setId": "starhide",
+  "modelId": "d8d97261-b328-4f2f-ad0f-e091bc0dc366",
+  "sourceSha256": "543051e3d674e05d51e0950c26e2be94c4fb105e60b6b7254a5a173b3ce41c3f",
+  "sourceTriangles": 4661,
+  "sourceMeshCount": 40,
+  "sourceFile": "fantasy+wizard+3d+model (4).glb",
+  "status": "fit-candidate-only; exported maps are not the requested 8K masters",
+  "observations": [
+    "Source +X forward, +Y up; global yaw maps front to native +Z.",
+    "Sleeves repose from A-pose to native T-pose; detached plates use the same correction.",
+    "Source spread legs narrow to native bind stance.",
+    "Partitioning preserves every source triangle and UV; no retopology or replacement geometry.",
+    "Visual fit and animation acceptance remain required in the root-owned feature lab.",
+    "Closed head shell expanded laterally/depthwise after native-head overlap diagnostic; final facial occlusion must be inspected in game."
+  ],
+  "slotTriangles": {
+    "head": 569,
+    "body": 2263,
+    "hands": 831,
+    "legs": 178,
+    "feet": 820
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "setId": "staramethyst",
+  "modelId": "345486fd-8001-4f74-b85b-e5ee50af89c6",
+  "sourceSha256": "472437c66083eaa279fd97ae44efc5fc05393e10cf3b28136d311b931ed47c23",
+  "sourceTriangles": 5066,
+  "sourceMeshCount": 32,
+  "sourceFile": "knight+armor+3d+model.glb",
+  "status": "fit-candidate-only; exported maps are not the requested 8K masters",
+  "observations": [
+    "Source +X forward, +Y up; global yaw maps front to native +Z.",
+    "Sleeves repose from A-pose to native T-pose; detached plates use the same correction.",
+    "Source spread legs narrow to native bind stance.",
+    "Partitioning preserves every source triangle and UV; no retopology or replacement geometry.",
+    "Visual fit and animation acceptance remain required in the root-owned feature lab.",
+    "Closed head shell expanded laterally/depthwise after native-head overlap diagnostic; final facial occlusion must be inspected in game."
+  ],
+  "slotTriangles": {
+    "head": 356,
+    "body": 1466,
+    "hands": 1060,
+    "legs": 1400,
+    "feet": 784
+  }
+}

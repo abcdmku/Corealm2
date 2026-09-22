@@ -1,0 +1,24 @@
+{
+  "setId": "dragonhide",
+  "modelId": "cece2daf-bcfc-4737-bc40-b1ece5c73765",
+  "sourceSha256": "6e676694ba3f9b50a53034ddfaa4585e9a624186006b4bc82d717e1dc744245e",
+  "sourceTriangles": 5153,
+  "sourceMeshCount": 9,
+  "sourceFile": "fantasy+armored+wizard+3d+model.glb",
+  "status": "fit-candidate-only; exported maps are not the requested 8K masters",
+  "observations": [
+    "Source +X forward, +Y up; global yaw maps front to native +Z.",
+    "Sleeves repose from A-pose to native T-pose; detached plates use the same correction.",
+    "Source spread legs narrow to native bind stance.",
+    "Partitioning preserves every source triangle and UV; no retopology or replacement geometry.",
+    "Visual fit and animation acceptance remain required in the root-owned feature lab.",
+    "Closed head shell expanded laterally/depthwise after native-head overlap diagnostic; final facial occlusion must be inspected in game."
+  ],
+  "slotTriangles": {
+    "head": 668,
+    "body": 2030,
+    "hands": 1058,
+    "legs": 279,
+    "feet": 1118
+  }
+}
