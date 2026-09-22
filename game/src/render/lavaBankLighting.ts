@@ -1,6 +1,9 @@
 import * as THREE from 'three';
-import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+import { RectAreaLightNode } from 'three/webgpu';
+import { RectAreaLightTexturesLib } from 'three/addons/lights/RectAreaLightTexturesLib.js';
 import { lavaMagicAt, lavaSections, type LavaChannel } from '../content/wildernessLava.js';
+
+let areaLightTexturesReady = false;
 
 /** Broad emitting strips illuminate the receiving banks without a chain of point hotspots. */
 export class LavaBankLighting {
@@ -16,7 +19,11 @@ export class LavaBankLighting {
   private readonly sphere = new THREE.Sphere();
   constructor(parent: THREE.Object3D, channels: readonly LavaChannel[], height: (x: number, z: number) => number) {
     if (!channels.length) return;
-    RectAreaLightUniformsLib.init();
+    if (!areaLightTexturesReady) {
+      // Node lighting reads its own LTC library; WebGL's UniformsLib is not consulted.
+      RectAreaLightNode.setLTC(RectAreaLightTexturesLib.init());
+      areaLightTexturesReady = true;
+    }
     for (const channel of channels) {
       const sections = lavaSections(channel, .8);
       for (let i = 0; i < sections.length - 1; i += 30) {
