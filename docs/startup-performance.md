@@ -125,6 +125,8 @@ above.
 
 ## After M7, 21 September 2026
 
+This section records historical WebGL measurements. Current native startup completes required world assets and entities, runs bounded main-scene warmup, then waits for every local and remote effect pool before revealing play. Startup allows four pipeline creations in flight across upload batches and reuses matching effect preparation. Spell graphs are shared by recipe while clocks resolve per draw and instance attributes remain private; pool capacities are unchanged. Authored spell PNG downloads overlap main warmup and finish decoding before effect preparation; feature labs await them before main warmup. Spell compilation itself waits for final scene lighting. See [Startup loading](./startup-loading.md#complete-starting-view) for the current sequence and [native WebGPU measurements](./runtime-performance.md#native-webgpu-migration) for current evidence. This historical section makes no timing claim about those changes.
+
 The thin client against the M1 baseline above: same machine, same method (production build, three
 cold boots per mode in a fresh headless Chromium through ANGLE D3D11, 1280 by 800 at scale 1,
 service workers blocked, medians, spans that end after the first playable mark left out). Two things
@@ -179,7 +181,7 @@ New spans, and spans that no longer mean what they did:
 
 - `boot.effects.ready` ends after first playable by design: a median 11,150 ms local and 11,065 ms
   connected, about 1.9 s after the first frame, for 82 programs. Until then a cast's visual waits, and
-  is dropped if it waited more than 600 ms. `tools/effects-deferral-test.ts --dist` cast 248 ms after
+  is dropped if it waited more than 600 ms. The historical command `tools/effects-deferral-test.ts --dist` cast 248 ms after
   first playable with the programs not ready: the largest frame gap was 67 ms and the programs were
   usable 879 ms later.
 - `boot.effects.deferredSubmit` (63 ms) is that submission. It runs in a task of its own after the

@@ -24,8 +24,11 @@ Imported integer attributes are separated before WebGPU can promote shared
 joint/color buffers, and sampled actors pack compatible vertex attributes to fit standard
 device limits without removing shader inputs.
 
-GPU preparation is serialized in small batches. Texture uploads await asynchronous queue
-completion, and pipeline failures prevent readiness. The frame loop presents at most 60 times
+GPU preparation builds nodes and uploads data in small serial batches. Startup overlaps at
+most four asynchronous native pipeline creations across those batches; gameplay keeps one.
+Each pipeline owns its validation scope, and startup readiness waits for the entire pool.
+Texture uploads await asynchronous queue completion, and pipeline failures prevent readiness.
+The frame loop presents at most 60 times
 per second and permits at most two outstanding GPU frames, dropping to one under pressure.
 Input and UI updates continue while presentation waits. This leaves browser headroom and
 prevents a growing queue of stale game frames.
@@ -50,16 +53,35 @@ slow frames. It groups up to 32 jobs for bookkeeping; the count and byte limits 
 bound each native submission. Unknown scenery layouts prepare individually; other streamed
 objects use at most four per batch within the same byte cap. Debug state also counts pending
 scenery, instanced actors, skinned actors and ordinary objects separately.
-Completed inner batches release their readiness immediately, so a prepared actor does not wait
+During gameplay, completed inner batches release their readiness immediately, so a prepared actor does not wait
 for unrelated objects later in the outer job. A new nearby live rig also avoids starting a second
 sampled-animation representation while its first display prepares. Existing sampled actors stay
 visible during detailed-rig handoffs.
+
+Spell pools share material graphs by recipe while clocks resolve per draw and instance
+attributes remain private. This removes repeated CPU graph construction for multiplayer
+pools without reducing their capacities or skipping buffer and binding preparation. Visible
+and refracting air currents share their pose attributes, with separate geometry ownership.
+Completed glow preparation is reused only while its mesh, material, camera, scene and target
+still match. Refraction prepares against its actual target. Both authored elemental PNGs
+download during world warmup and finish decoding before spell preparation. Effects compile
+against the final scene lighting, and every local and remote pool is ready before play.
 
 Background assets use frame-pressure budgets, bounded downloads and buffered bytes. Foliage
 pixel conversion and hashing now run in a worker, alongside the existing world-data, Meshopt
 and local-simulation workers. Rendering, scene construction, some GLTF assembly and DOM work
 still run on the main thread. This migration does not claim full OffscreenCanvas isolation
 or a guarantee of zero driver stalls.
+
+WebGPU compute dispatches, renderer ownership in an OffscreenCanvas worker, render bundles,
+GPU-driven culling and MRT postprocessing consolidation are not implemented. The game already
+uses TSL shaders, instancing, shared buffers and asynchronous native pipeline compilation.
+WebGPU does not automatically distribute Three's scene traversal or command preparation across
+CPU cores. The [WebGPU explainer](https://gpuweb.github.io/gpuweb/explainer/#multithreading)
+still identifies sharing one GPUDevice across JavaScript threads as a future capability.
+Moving the renderer to a worker would isolate its JavaScript from page input, but GPU work
+would still share the browser's GPU process. Compute particles could reduce recurring CPU
+updates and uploads; they do not remove startup pipeline compilation or repeated node building.
 
 The joined world's real spawn, nearby structures, creatures, NPCs, animations and required
 graphics prepare before gameplay is revealed. Readiness includes a completed GPU frame.
@@ -76,29 +98,57 @@ The September 22 native acceptance run used Chrome 152.0.7977.83 on Windows/D3D1
 1440 x 900 at DPR 1, the existing default 70% render scale, no CPU throttling, and
 20 Mbps/80 ms emulation for asset downloads. Authoritative sockets used a local server;
 these figures do not measure live-server or WAN latency.
-The final cold run reached complete gameplay in 55.824 seconds and responded to movement in
-75.2 ms. Walking RAF intervals were 18.8 ms at the 95th percentile and 47.9 ms maximum;
-completed GPU frames were 29.9 ms and 58.6 ms. The seven menus peaked at 112.5 ms RAF
-and 116.1 ms GPU completion. The separate browser page peaked at 218.7/229.1 ms
-RAF/GPU during loading and 104.2/108.5 ms during play. The final state contained 1,496
-resident entity views, with zero missing/failed models, pending animations, queued assets
-or pending shader work. Background preparation finished during the menu phase after travel.
-Startup remains a substantial wait. The change makes that wait responsive and gates gameplay
-on complete nearby content; it does not establish a short startup time on every device.
+The follow-up uses the same profile with four startup pipeline slots and shared spell graphs.
+Cold disables the HTTP cache in a fresh browser; warm reloads a joined page in the same context.
+These are individual local samples, not a cross-device average.
 
-The warm-cache run reached gameplay in 43.353 seconds and first movement in 122.9 ms.
-Walking RAF intervals were 18.7 ms at the 95th percentile and 45.8 ms maximum; completed
-GPU frames were 28.6 ms and 53.1 ms. Menus peaked at 114.5/119.2 ms RAF/GPU. The other
-browser page peaked at 229.1/237.5 ms during loading and 46.3/118.6 ms during play.
-All 1,496 resident views were complete and every asset, animation and graphics queue drained.
+| Measurement | Prior native cold | Current cold | Prior native warm | Current warm |
+| --- | ---: | ---: | ---: | ---: |
+| Complete first playable view | 55.824 s | 33.578 s | 43.353 s | 22.965 s |
+| First movement response | 75.2 ms | 109.5 ms | 122.9 ms | 135.3 ms |
+| Walking GPU completion p95 | 29.9 ms | 31.2 ms | 28.6 ms | 29.7 ms |
+| Walking GPU completion maximum | 58.6 ms | 58.5 ms | 53.1 ms | 53.7 ms |
+| Seven-menu GPU completion maximum | 116.1 ms | 116.5 ms | 119.2 ms | 113.5 ms |
+| Other browser page GPU maximum during loading | 229.1 ms | 258.9 ms | 237.5 ms | 275.0 ms |
+| Other browser page GPU maximum during play | 108.5 ms | 108.1 ms | 118.6 ms | 104.5 ms |
 
-The final two-client lab check passed joining, movement, camera input and a cold equipment
+Cold startup fell by 40% and warm startup by 47%. World graphics preparation fell from
+about 21.8 seconds to 8.7 seconds; effect readiness fell from about 12.7 seconds to 5.2 seconds.
+The current cold run's walking RAF p95/max were 22.9/41.6 ms and the warm run's were
+20.7/48.0 ms. Completed walking presentation averaged 42.2 and 44.7 FPS respectively.
+The other page's RAF maximum during loading was 247.5 ms cold and 252.0 ms warm. This
+retains the measured gameplay responsiveness while shortening startup, but brief loading
+hitches remain. It does not establish zero stalls or 60 FPS on every device.
+
+Both current runs passed the starting building, creature, NPC and animation checks. Each
+finished with 1,495 resident entity views, all 161 requested assets loaded, and zero missing
+or failed models, pending animations, queued assets or pending graphics work. The prior
+runs contained 1,496 resident views; the live population moves during the route. The current
+checks add the existing `--idle-after-ms 3000` option after menus. Background preparation
+had not fully drained at the 12-second post-travel settling deadline; it completed during
+the subsequent menus and idle sample. That work is included in presentation measurements.
+Full-world startup and travel use the authored-world exception because their residency and
+loading depend on the actual island. Fire, water and wind also passed the production spell
+lab with real damage, visible particles, unchanged pool capacities and inspected screenshots.
+Runtime and graphics validation errors were zero. Build, typecheck and focused checks passed.
+Disposable reports are under `test-results/walking-stream/startup-four-cold/` and
+`test-results/walking-stream/startup-four-warm/`.
+
+The existing first-cast check now lives at `tools/effects-readiness-test.ts`; its retired
+deferral assertions have been replaced with the current before-play contract. In installed
+Chrome against the production preview, all seven checks passed. Effects were ready before
+the first playable frame, the immediate cast drew particles after 112 ms, its peak was 636
+particles, and its maximum RAF interval was 110.4 ms. The later cast also drew particles.
+The shader disk cache was disabled, no page errors occurred, and the screenshot was inspected.
+This local saved-world check is unthrottled and is not a substitute for the authored-server
+startup numbers above.
+
+The preceding native migration's two-client lab check passed joining, movement, camera input and a cold equipment
 change on native WebGPU. The remote player first appeared after 1.838 seconds with all ten
 meshes complete and had no disappearance or partially drawn samples. The maximum observed
 interval was 97.1 ms during joining and 73.9 ms during equipment changes. Runtime and graphics
-validation errors were zero. Normal gameplay screenshots were inspected. The production build,
-typecheck and focused actor/preparation checks passed. These local samples do not establish
-performance on every GPU or over the live server's network.
+validation errors were zero. This follow-up did not repeat that separate two-client sequence.
+These local samples do not establish performance on every GPU or over the live server's network.
 
 The measurements below this section describe earlier WebGL revisions, not the native renderer.
 
