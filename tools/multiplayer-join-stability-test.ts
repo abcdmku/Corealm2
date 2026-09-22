@@ -4,6 +4,8 @@ import { mkdir, writeFile } from "node:fs/promises";
 import {
   WORLD_PROTOCOL_VERSION,
   SKILL_IDS,
+  type GraphicsBackendState,
+  type GraphicsPreparationState,
   type WorldDescriptor,
 } from "../game/src/contracts.js";
 import { setSkillLevel } from "../game/src/state/store.js";
@@ -26,6 +28,10 @@ import { installTestDeadline } from "./lib/deadline.js";
 const authored = process.argv.includes("--authored");
 const profileEnabled = process.argv.includes("--profile");
 const observeOnly = process.argv.includes("--observe-only");
+const requireWebGpu = process.argv.includes("--require-webgpu");
+const channelIndex = process.argv.indexOf("--channel");
+const channel = channelIndex >= 0 ? process.argv[channelIndex + 1] : undefined;
+if (channelIndex >= 0 && (!channel || channel.startsWith("--"))) throw new Error("--channel requires a browser channel, such as chrome");
 const budget = authored ? 120_000 : 60_000;
 const clearDeadline = installTestDeadline("multiplayer join stability", budget);
 const startedAtMs = Date.now();
@@ -207,6 +213,7 @@ type PageRecord = {
   page: Page;
   trace: BrowserTrace;
   network: NetworkTrace;
+  graphics: { phase: string; backend: GraphicsBackendState | null; preparation: GraphicsPreparationState | null }[];
 };
 
 type JoinMotionHandle = {
@@ -867,6 +874,17 @@ async function closeLabPanel(record: PageRecord): Promise<void> {
   if (await close.count() && await close.isVisible().catch(() => false)) await close.click();
 }
 
+async function recordGraphics(record: PageRecord, phase: string): Promise<void> {
+  const state = await record.page.evaluate(() => {
+    const debug = Reflect.get(window, "__gameDebug") as { getPerformanceTimings?(): {
+      backend?: GraphicsBackendState; preparation?: GraphicsPreparationState;
+    } } | undefined;
+    const timings = debug?.getPerformanceTimings?.();
+    return { backend: timings?.backend ?? null, preparation: timings?.preparation ?? null };
+  });
+  record.graphics.push({ phase, ...state });
+}
+
 async function openPage(name: string, endpoint: string, game: { url: string }): Promise<PageRecord> {
   const context = await browser!.newContext({ viewport: { width: 1280, height: 800 } });
   await installBrowserInstrumentation(context, name);
@@ -906,7 +924,7 @@ async function openPage(name: string, endpoint: string, game: { url: string }): 
     assetRequests: [],
     errors: [],
   };
-  const record: PageRecord = { name, context, page, trace, network };
+  const record: PageRecord = { name, context, page, trace, network, graphics: [] };
   pages.push(record);
   installSocketInstrumentation(page, network);
   installAssetInstrumentation(page, network);
@@ -977,7 +995,8 @@ try {
   const url = urlIndex >= 0 ? process.argv[urlIndex + 1] : undefined;
   if (urlIndex >= 0 && !url) throw new Error('--url requires the existing game server URL');
   game = url ? { url, close: async () => {} } : await startGameServer();
-  browser = await chromium.launch({ headless: true, args: ["--use-angle=d3d11", "--disable-background-timer-throttling", "--disable-renderer-backgrounding"] });
+  browser = await chromium.launch({ headless: true, ...(channel ? { channel } : {}),
+    args: ["--use-angle=d3d11", "--disable-background-timer-throttling", "--disable-renderer-backgrounding"] });
   // Browser initialization is independent; keep server startup plus two real world boots inside
   // the authored gate's budget. The actual player joins below remain strictly sequential.
   const [alice, bob] = await Promise.all([openPage("alice", endpoint, game), openPage("bob", endpoint, game)]);
@@ -1003,6 +1022,7 @@ try {
   await alice.page.waitForFunction(() => (window as any).__gameDebug?.getState().ready
     && !document.getElementById("boot-screen"), undefined, { timeout: 30_000 });
   await markPhase(alice, "playable");
+  await recordGraphics(alice, "first-player-playable");
   await closeLabPanel(alice);
 
   const motion = await driveFirstPlayer(alice);
@@ -1064,6 +1084,7 @@ try {
   presenceJoin = await presencePromise;
   await markPhase(alice, "second-join-window-end", { samples: presenceJoin.length });
   await refreshTrace(alice);
+  await Promise.all(pages.map(record => recordGraphics(record, "second-join-complete")));
   const bobJoinStart = (await phaseMarker(alice, "second-join-window-start"))?.atMs;
   const joinAnalysis = presenceAnalysis(presenceJoin, bobJoinStart);
   markCheck("remoteFirstDisplay", joinAnalysis.firstDisplayAtMs !== null);
@@ -1165,6 +1186,13 @@ try {
   markCheck("equipmentObserverFramePacing", equipmentPacing.passed === true);
   await closeLabPanel(alice);
   await capture(bob, "remote-equipment-after-join");
+  await Promise.all(pages.map(record => recordGraphics(record, "equipment-complete")));
+  for (const record of pages) {
+    markCheck(`${record.name}NoGraphicsPreparationFailures`, record.graphics.length > 0
+      && record.graphics.every(sample => sample.preparation?.failed === 0));
+    if (requireWebGpu) markCheck(`${record.name}NativeWebGpu`, record.graphics.length > 0
+      && record.graphics.every(sample => sample.backend?.api === "webgpu" && sample.backend.ready));
+  }
 
   markCheck("noRuntimeErrors", errors.length === 0);
   markCheck("withinBudget", Date.now() - startedAtMs < budget);
@@ -1211,6 +1239,9 @@ try {
     observeOnly,
     authored,
     profileEnabled,
+    channel: channel ?? "chromium",
+    requireWebGpu,
+    browserVersion: browser?.version() ?? null,
     failure,
     checks,
     errors,
@@ -1230,6 +1261,7 @@ try {
     pages: pages.map((record) => ({
       name: record.name,
       network: record.network,
+      graphics: record.graphics,
       trace: traceSummary(record.trace),
     })),
   };

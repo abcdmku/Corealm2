@@ -14,7 +14,7 @@ it('lights the shore from invisible upward emitting areas before the player appr
   const library = configure.mock.calls[0]![0];
   for (const texture of [library.LTC_FLOAT_1, library.LTC_FLOAT_2, library.LTC_HALF_1, library.LTC_HALF_2]) {
     expect(texture.isDataTexture).toBe(true);
-    expect(texture.image.data.length).toBeGreaterThan(0);
+    expect(texture.image.data?.length).toBeGreaterThan(0);
   }
   configure.mockRestore();
   const camera = new THREE.PerspectiveCamera(55, 1.6, .1, 200);

@@ -85,6 +85,25 @@ try {
   });
   page.on('pageerror',e=>errors.push(String(e)));
   page.on('console',e=>{if(e.type()==='error')errors.push(e.text());});
+  const waitForPlayable = async () => {
+    try {
+      await page.waitForFunction(()=>(window as any).__gameDebug?.getState().ready
+        || document.querySelector('.boot-error'),undefined,{timeout:60_000});
+      const bootError=await page.locator('.boot-error').allTextContents();
+      if(bootError.length)throw new Error(bootError.join('\n'));
+    } catch(error) {
+      const diagnostic=await page.evaluate(()=>({
+        boot:(window as any).__corealmBootTelemetry?.snapshot(),
+        status:document.querySelector('#boot-screen')?.textContent,
+        state:(window as any).__gameDebug?.getState(),
+        timings:(window as any).__gameDebug?.getPerformanceTimings(),
+      }));
+      await writeFile(path.join(out,'startup-failure.json'),JSON.stringify({failure:String(error),errors,socketFrames,diagnostic},null,2));
+      console.error(JSON.stringify({errors:[...new Set(errors)].slice(0,10),
+        status:diagnostic.status,timings:diagnostic.timings}));
+      throw error;
+    }
+  };
   const cdp = await context.newCDPSession(page);
   const mbps = Number(value('--mbps','20')), cpu = Number(value('--cpu',desktop?'1':'2'));
   await cdp.send('Network.enable'); await cdp.send('Network.setCacheDisabled',{cacheDisabled:!warm});
@@ -159,13 +178,13 @@ try {
   if(warm) {
     if(observer)await observer.evaluate(()=>{(window as any).__browserPhase='warming';});
     await page.goto(playUrl,{waitUntil:'commit'});
-    await page.waitForFunction(()=>(window as any).__gameDebug?.getState().ready,undefined,{timeout:60_000});
+    await waitForPlayable();
     // Reload the same browser/context so HTTP, world-data and driver caches survive.
   }
   if(traceBoot)await startTrace();
   if(observer)await observer.evaluate(()=>{(window as any).__browserPhase='boot';});
   await page.goto(playUrl,{waitUntil:'commit'});
-  await page.waitForFunction(()=>(window as any).__gameDebug?.getState().ready,undefined,{timeout:60_000});
+  await waitForPlayable();
   await page.locator('#boot-screen').waitFor({state:'detached'});
   if(observer)await observer.evaluate(()=>{(window as any).__browserPhase='play';});
   console.log('Playable',await page.evaluate(()=>performance.now()));
@@ -237,6 +256,24 @@ try {
   });
   const settledMs = Date.now() - settlingAt;
   states.settled = await snapshot();
+  const menus: {id:string;openMs:number;textLength:number}[]=[];
+  if(args.includes('--menus')) {
+    await page.evaluate(()=>{(window as any).__travelPhase='menus';});
+    for(const id of ['inventory','skills','equipment','quests','spellbook','controls','map']) {
+      const started=Date.now();
+      if(id==='map')await page.keyboard.press('m');
+      else await page.locator(`.dock__btn[data-panel="${id}"]`).click();
+      const panel=page.locator(`#panel-${id}`);
+      await panel.waitFor({state:'visible',timeout:3000});
+      const textLength=(await panel.innerText()).trim().length;
+      assert.ok(textLength>10,`${id} must contain actual panel content`);
+      menus.push({id,openMs:Date.now()-started,textLength});
+      await page.waitForTimeout(350);
+      await panel.locator('.panel__close').click();
+      await panel.waitFor({state:'hidden',timeout:3000});
+    }
+    states.menus=await snapshot();
+  }
   if(args.includes('--idle-after-ms')){
     await page.evaluate(()=>{(window as any).__travelPhase='idle-after';});
     await page.waitForTimeout(Number(value('--idle-after-ms','0')));
@@ -273,7 +310,7 @@ try {
   }
   const data=await page.evaluate(()=>({frames:(window as any).__travelFrames,tasks:(window as any).__travelTasks,shaders:(window as any).__travelShaders,uploads:(window as any).__travelUploads,
     startingWorld:(window as any).__startingWorld,memory:(window as any).__travelMemory,queries:(window as any).__travelQueries,presentation:(window as any).__travelPresentation,boot:(window as any).__corealmBootTelemetry.snapshot()}));
-  const phases = ['idle','walking','settle','idle-after'].map(phase=>{
+  const phases = ['idle','walking','settle','menus','idle-after'].map(phase=>{
     const frames=data.frames.filter((f:any)=>phase==='walking'?f.phase.startsWith('walk-'):f.phase===phase);
     const values=frames.map((f:any)=>f.ms).sort((a:number,b:number)=>a-b);
     const at=(p:number)=>values[Math.min(values.length-1,Math.floor(values.length*p))]??0;
@@ -283,13 +320,13 @@ try {
       fps:1000*values.length/values.reduce((a:number,b:number)=>a+b,0)};
   });
   const end=await snapshot();
-  const presentationPhases = ['idle','walking','settle','idle-after'].map(phase => {
+  const presentationPhases = ['idle','walking','settle','menus','idle-after'].map(phase => {
     const frames=data.presentation.filter((f:any)=>phase==='walking'?f.phase.startsWith('walk-'):f.phase===phase);
     const times=frames.map((f:any)=>f.ms).sort((a:number,b:number)=>a-b);
     return {phase,completed:times.length,p95:times[Math.floor(times.length*.95)]??0,max:times.at(-1)??0,
       fps:frames.length>1 ? 1000*(frames.length-1)/(frames.at(-1).at-frames[0].at) : 0};
   });
-  await writeFile(path.join(out,'report.json'),JSON.stringify({socketFrames,firstMovementMs,warm,authored,desktop,mbps,cpu,browserVersion:browser.version(),channel,settledMs,settlingTimedOut,profileStartMs,states,end,phases,presentationPhases,browserPhases,browserFrames,errors,...data},null,2));
+  await writeFile(path.join(out,'report.json'),JSON.stringify({socketFrames,firstMovementMs,warm,authored,desktop,mbps,cpu,browserVersion:browser.version(),channel,settledMs,settlingTimedOut,profileStartMs,states,end,phases,presentationPhases,browserPhases,browserFrames,menus,errors,...data},null,2));
   await page.screenshot({path:path.join(out,'after-walking.png'),timeout:5000});
   const start=(states.start as any).position;
   assert.ok(Math.hypot(end.position.x-start.x,end.position.z-start.z)>8,'Real movement must cross streaming boundaries');
@@ -307,6 +344,9 @@ try {
   assert.equal(end.views.residency.pending,0);
   assert.equal(end.views.pendingAnimations,0);
   assert.equal(end.shaders.waiting,0,'Graphics preparation must finish too');
+  assert.equal(end.timings.preparation.failed,0,'No GPU preparation failure may be hidden by readiness');
+  assert.equal(end.timings.preparation.ready,true,'Resident GPU work must finish before acceptance');
+  if(args.includes('--require-webgpu'))assert.equal(end.timings.backend.api,'webgpu','This run must exercise the native WebGPU backend');
   const startingIds = new Set((states.start as any).views.residency.residentIds);
   assert.ok(end.views.residency.residentIds.some((id:string)=>!startingIds.has(id)),
     'Travel must bring new entities into the rendered working set, even when they share loaded models');
