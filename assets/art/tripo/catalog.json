@@ -2,7 +2,7 @@
   "version": 1,
   "generator": "Tripo Studio / GPT Image 2.5",
   "created": "2026-09-22",
-  "direction": "Serious medieval RPG with readable Knight Online and RuneScape inspired silhouettes. Normal regions have mature neutral fantasy wildlife and thriving ecosystems; never cute mascots or blanket decay. Fairy regions use organic fantastical anatomy and vibrant alternate-reality colors. Wilderness permits stranger and darker forms. Stone creatures show natural geology and weathering. Horns are occasional, not a default. No science fiction or superhero faceplates. Wizard sets use pointed hats; lower-tier martial armor is simpler.",
+  "direction": "Serious medieval RPG with readable Knight Online and RuneScape inspired silhouettes. Normal regions have mature neutral fantasy wildlife and thriving ecosystems; never cute mascots or blanket decay. Fairy regions use organic fantastical anatomy and vibrant alternate-reality colors. Wilderness permits stranger and darker forms. Stone creatures show natural geology and weathering. Horns are occasional, not a default. No science fiction or superhero faceplates. Wizard sets use pointed hats; lower-tier martial armor is simpler. Creature builds must stay balanced: proportionate solid limbs and bodies, neither bulky blocks nor spindly frames. Fantasy identity comes from coherent distinctive anatomy and ecological function, not familiar animals decorated with scales or horns.",
   "assets": [
     {
       "id": "novice-wizard",
@@ -74,6 +74,12 @@
         "textureSourceResolution": 8192,
         "runtimeTextureResolution": "downsample-after-review",
         "pbr": true
+      },
+      "tripoModel": {
+        "id": "c5a70ae1-ee14-41c4-8f64-0f7415431954",
+        "generationVerified": "Smart Mesh P2.0, Triangle, target 5000",
+        "generatedTriangles": 5392,
+        "status": "geometry-completed"
       }
     },
     {
@@ -112,7 +118,12 @@
         "id": "a9956e9e-0576-47a0-877e-ee5d3a3b2bb5",
         "generatedTriangles": 4991,
         "generationVerified": "Smart Mesh P2.0, Triangle, target 5000",
-        "status": "8k-texture-in-progress"
+        "status": "batch-export-requested-local-file-pending",
+        "smartUv": "saved",
+        "textureResolution": 8192,
+        "pbr": "completed",
+        "segmentedParts": 47,
+        "rig": "Tripo Humanoid Mixamo completed; native player binding pending"
       }
     },
     {
@@ -179,6 +190,11 @@
         "textureSourceResolution": 8192,
         "runtimeTextureResolution": "downsample-after-review",
         "pbr": true
+      },
+      "tripoModel": {
+        "id": "a5963344-843a-47a7-8ff4-4d91210b18b4",
+        "generationVerified": "Smart Mesh P2.0, Triangle, target 5000",
+        "status": "generation-submitted"
       }
     },
     {
@@ -190,8 +206,8 @@
       "sourceImageId": "e490b9d8-8cca-47d3-b20b-6b534ba3c423",
       "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e490b9d8-8cca-47d3-b20b-6b534ba3c423/image.png",
       "designBrief": "Highland guardian with layered slate, granite, lichen and continuous geological strata.",
-      "referenceReview": "accepted",
-      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "referenceReview": "held-for-redesign",
+      "reviewNotes": "Superseded by user feedback: too generic or too close to real animals. Redesign with distinctive functional anatomy and balanced proportions before model generation or integration.",
       "productionStatus": "not-integrated",
       "modelWorkflow": {
         "generation": "smart-mesh",
@@ -221,8 +237,8 @@
       "sourceImageId": "5ffc7a8c-8f76-4d8d-9f30-5ff4137e252b",
       "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/5ffc7a8c-8f76-4d8d-9f30-5ff4137e252b/image.png",
       "designBrief": "Living hazel-root guardian with branching woody anatomy and restrained healthy leaves.",
-      "referenceReview": "accepted",
-      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "referenceReview": "held-for-redesign",
+      "reviewNotes": "Superseded by user feedback: too generic or too close to real animals. Redesign with distinctive functional anatomy and balanced proportions before model generation or integration.",
       "productionStatus": "not-integrated",
       "modelWorkflow": {
         "generation": "smart-mesh",
@@ -252,8 +268,8 @@
       "sourceImageId": "70a4254d-4ca4-4dd2-add7-40a0f670c43c",
       "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/70a4254d-4ca4-4dd2-add7-40a0f670c43c/image.png",
       "designBrief": "Mature flightless copper-feathered forager with swept crest and bronze-green iridescence.",
-      "referenceReview": "accepted",
-      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "referenceReview": "held-for-redesign",
+      "reviewNotes": "Superseded by user feedback: too generic or too close to real animals. Redesign with distinctive functional anatomy and balanced proportions before model generation or integration.",
       "productionStatus": "not-integrated",
       "modelWorkflow": {
         "generation": "smart-mesh",
@@ -283,8 +299,8 @@
       "sourceImageId": "55d4600d-09cc-4c98-bbe7-0263f0a9b0cd",
       "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/55d4600d-09cc-4c98-bbe7-0263f0a9b0cd/image.png",
       "designBrief": "Slate-blue marsh hunter with reedlike legs, copper plumage and a long tapered tail.",
-      "referenceReview": "accepted",
-      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "referenceReview": "held-for-redesign",
+      "reviewNotes": "Superseded by user feedback: too generic or too close to real animals. Redesign with distinctive functional anatomy and balanced proportions before model generation or integration.",
       "productionStatus": "not-integrated",
       "modelWorkflow": {
         "generation": "smart-mesh",
@@ -314,8 +330,8 @@
       "sourceImageId": "ab7958a9-d310-4e4c-8310-7f0b2ac514b3",
       "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/ab7958a9-d310-4e4c-8310-7f0b2ac514b3/image.png",
       "designBrief": "Naturalistic rosette-coated predator with low keratin scales along back and tail.",
-      "referenceReview": "accepted",
-      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "referenceReview": "held-for-redesign",
+      "reviewNotes": "Superseded by user feedback: too generic or too close to real animals. Redesign with distinctive functional anatomy and balanced proportions before model generation or integration.",
       "productionStatus": "not-integrated",
       "modelWorkflow": {
         "generation": "smart-mesh",
@@ -345,8 +361,8 @@
       "sourceImageId": "e6e379b6-17bb-495f-b0ff-7fc7b9338998",
       "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/e6e379b6-17bb-495f-b0ff-7fc7b9338998/image.png",
       "designBrief": "Woodland serpent with layered leaf-shaped olive and russet scales and cream throat.",
-      "referenceReview": "accepted",
-      "reviewNotes": "Reviewed at full resolution: mature naturalistic fantasy, restrained regional palette, no ornamental horns or decay. Model and animation acceptance pending.",
+      "referenceReview": "held-for-redesign",
+      "reviewNotes": "Superseded by user feedback: too generic or too close to real animals. Redesign with distinctive functional anatomy and balanced proportions before model generation or integration.",
       "productionStatus": "not-integrated",
       "modelWorkflow": {
         "generation": "smart-mesh",
