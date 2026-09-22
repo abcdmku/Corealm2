@@ -32,6 +32,8 @@ interface PocState {
 
 export async function startWebGpuPoc(canvas: HTMLCanvasElement): Promise<void> {
   const began = performance.now();
+  document.body.dataset['bootProfile'] = 'feature-lab';
+  document.body.dataset['labMode'] = 'combat';
   const state: PocState = {
     ready: false, backend: 'initializing', error: null, startupMs: 0, compileMs: 0,
     streamedMs: 0, frames: 0, maxFrameGapMs: 0, maxRenderCpuMs: 0, drawCalls: 0,
@@ -179,6 +181,18 @@ export async function startWebGpuPoc(canvas: HTMLCanvasElement): Promise<void> {
     await renderer.compileAsync(scene, camera);
     state.compileMs = performance.now() - compileStart;
     renderer.render(scene, camera);
+    // Submission is not completion. Reveal only after the first WebGPU frame has finished;
+    // this asynchronous fence leaves the browser free to paint and handle input meanwhile.
+    const backend = renderer.backend as typeof renderer.backend & {
+      device?: { queue: { onSubmittedWorkDone(): Promise<void> } };
+    };
+    await backend.device?.queue.onSubmittedWorkDone();
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    state.drawCalls = renderer.info.render.drawCalls;
+    state.triangles = renderer.info.render.triangles;
+    state.drawnMeshes = drawn.size;
+    document.getElementById('boot-screen')?.remove();
+    document.title = `Corealm · Renderer Lab (${state.backend})`;
     state.startupMs = performance.now() - began;
     state.ready = true;
     let previous = performance.now();
