@@ -1,6 +1,7 @@
 import { assetBaseUrl, generatedUrl, publicUrl, setPublicBaseUrl } from "./config.js";
 import { playTargetOf, takePendingLaunch } from "../multiplayer/playIntent.js";
 import { registerDisplayFont } from "../ui/displayFont.js";
+import { prepareUiFirstPaint } from "../ui/firstPaint.js";
 import { runtimeTables } from '../content/runtimeCatalog.js';
 import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
 import { createRiverSurface } from '../render/riverSurface.js';
@@ -1195,11 +1196,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const loadPosition: Vec3 = [spawnSpec.x, 0, spawnSpec.z];
   const loadRegion = spawnSpec.regionId;
   const initialTerrainPreparation = terrainAt(loadPosition[0],loadPosition[2])
-    .prepareTerrainArea(loadPosition[0],loadPosition[2],structureResidencyRadius(initialSettings.drawDistance))
-    .then(() => {
-      // Compile the arriving ground and water while nearby model downloads are still in flight.
-      if (!worldMapCapture && (profile.fullWarmup || performanceLab)) renderer.warmup();
-    });
+    .prepareTerrainArea(loadPosition[0],loadPosition[2],structureResidencyRadius(initialSettings.drawDistance));
   void initialTerrainPreparation.catch(()=>{});
   assets.setActiveRegion(loadRegion);
   const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree, cache: generationCache ?? undefined });
@@ -1450,7 +1447,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     fairyRealm?.scene.setStreamingRadius(fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance);
     scene.updateStreaming(initialPlayerPosition[0], initialPlayerPosition[2]);
     entityViews.update(0, renderer.camera.position, clock.elapsedMs);
-    bootTelemetry.measureSync("boot.shaders.scene.submit", () => renderer.warmup());
+    // Compile once below, after the HUD can paint and the scene's lights are final.
   }
   // Region audio is selected after play. Requesting multi-megabyte music while the renderer is
   // still building made audio compete with the first frame even though browsers cannot play it
@@ -1596,7 +1593,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const moved = distanceXZ(position, activeVisualCentre) >= ENTITY_ACTIVE_REPOSITION_DISTANCE;
     if (!force && !regionChanged && !moved) return;
 
-    if (profile.kind === 'game' && !worldMapCapture) {
+    if (debugReady && profile.kind === 'game' && !worldMapCapture) {
       void preparePlayerArea(playerAssetArea(position, regionId, 48), true).catch(cause => {
         errors.push({ atMs: atMs(), source: 'playerAssets.travel', message: describeError(cause) });
       });
@@ -1614,7 +1611,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
     if (worldMapForRegion(regionId) !== "surface") scatterStreaming.suspend();
     if (!isFairyRegion(regionId)) fairyScatter?.suspend();
-    if ((profile.scatter || fairyLab) && regionId !== "gravelmaw") {
+    if (debugReady && (profile.scatter || fairyLab) && regionId !== "gravelmaw") {
       void scatterForRegion(regionId).streamNearby(position[0], position[2],
         fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + 48).then(() => {
         scatterResults = scatterForRegion(regionId).getStats();
@@ -2683,7 +2680,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           trough.position.set(-3, 0, 3);
           scene.root.add(trough);
           trough.visible = false;
-          renderer.warmup({ temporarilyVisible: [trough] });
+          await renderer.warmup({ temporarilyVisible: [trough] });
           return { reveal: () => { trough.visible = true; }, hide: () => { trough.visible = false; } };
         },
       } : {}),
@@ -3002,7 +2999,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const localSession = (): boolean => localLaunch !== null && worldSelectionResult?.controller.session?.world?.providerId === localLaunch.provider.id;
   installGameDebug({
     store, events, clock, nav, movement, api, renderer, camera, assets, errors,
-    isReady: () => debugReady && (!localLaunch || !(worldSelectionResult?.autoLocal || localDefaulted) || localSession()),
+    isReady: () => debugReady
+      && (profile.kind !== "game" || !worldSelectionResult?.configured || worldSelectionResult.controller.session !== null)
+      && (!localLaunch || !(worldSelectionResult?.autoLocal || localDefaulted) || localSession()),
     version,
     remote: localLaunch ? {
       joined: localSession,
@@ -3349,6 +3348,75 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     };
   }
 
+  const selection = worldMapCapture ? null : await worldSelection;
+  let mountWorldSelector = () => {};
+  if(labSpec&&selection&&localLaunch&&describeLabWorld){
+    // The scene is assembled, so the lab worker can receive its world while final graphics prepare.
+    localLaunch.provider.provideLabWorld(bootTelemetry.measureSync("boot.labWorker.describe", describeLabWorld));
+    const {installBrowserSession}=await import("../multiplayer/browserSession.js");
+    await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
+      sceneryChanges:recapture=>{labSceneryChanged=recapture;},
+      applied(update){forestApplied(update);gameAudio.tick(0,update.simMs);},
+    }, {lab:true,equipment:true}, selection);
+  }
+  if(profile.kind==="game"&&selection){
+    const {installBrowserSession}=await import("../multiplayer/browserSession.js");
+    await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
+      mountWorlds:panel=>{mountWorldSelector=()=>{
+        panel.classList.remove("worlds--boot");panel.hidden=false;ui.setWorlds(panel);
+        if(!choseLocalPlay&&selection.configured&&!selection.controller.session)ui.openTitle("worlds");
+      };},
+      phase(phase){
+        if(["reconnecting","unavailable","incompatible","full"].includes(phase))ui.openTitle("worlds");
+      },
+      applied(update){
+        forestApplied(update);
+        // The boot path prepares the snapshot's destination before revealing it. Do not start
+        // travel prefetch, audio downloads or a second portal curtain while it is doing that.
+        if (!debugReady) return;
+        gameAudio.tick(0,update.simMs);
+        // Within a map the working set follows the player. Across maps (a portal, or a join that lands in the cave) the
+        // curtain covers the change while the destination loads, because the cave's rock and a realm's dressing load on arrival.
+        const player=store.get().player;
+        const crossed=worldMapForRegion(player.regionId)!==worldMapForRegion(activeVisualRegion)
+          ||(player.regionId==="gravelmaw"&&deferredCave!==null&&!deferredCave.getState().ready);
+        if(!crossed){refreshVisualResidency(player.position,player.regionId,update.snapshot);return;}
+        if(portalTransition.active)return;
+        void transitionThroughPortal({position:[...player.position] as Vec3,regionId:player.regionId,name:getRegion(player.regionId)?.name??"Gravelmaw"},()=>{})
+          .catch(cause=>{errors.push({atMs:atMs(),source:"portalTransition",message:describeError(cause)});});
+      },
+      restored(){for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
+    }, {crowds:true,equipment:true}, selection);
+    // Only when there was something to join. The picker shows on every page now, but a page with
+    // no servers behind it has nothing to offer a player who let loading finish without choosing,
+    // so their own world starts. It is a world to join, not a game already running behind the picker.
+    if(!choseLocalPlay&&!selection.configured&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
+  }
+  // Join before preparing the final view: the snapshot defines the real spawn and actors.
+  // The picker remains clickable above the cover if authentication or connection fails.
+  if (profile.kind === "game" && selection) {
+    selection.setReady();
+    await bootTelemetry.measureAsync("boot.world.join", async () => {
+      const started = performance.now();
+      while (selection.panel.dataset.phase === "connecting") {
+        if (performance.now() - started > 60_000) throw new Error("The selected world did not answer during startup");
+        await new Promise<void>(resolve => setTimeout(resolve, 20));
+      }
+    });
+    if (selection.controller.session) {
+      const player = store.get().player;
+      if (player.regionId === "gravelmaw") await deferredCave?.ensure();
+      if (profile.scatter && player.regionId !== "gravelmaw") {
+        scatterResults = await scatterForRegion(player.regionId).loadView(player.position[0], player.position[2],
+          fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE);
+      }
+      refreshVisualResidency(player.position, player.regionId, true);
+      await preparePlayerArea(playerAssetArea(player.position, player.regionId));
+      scene.syncPlayer(player.position, player.facingRad, true);
+      camera.update(...player.position, true);
+    }
+  }
+
   // Settings and lab fixtures may have changed the selected views. Finish their assets and
   // camera-ranked rigs before shader preparation, using the same update path as gameplay.
   setStatus("Preparing your starting area…",5);
@@ -3356,8 +3424,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   bootTelemetry.measureSync("boot.entities.pose", () => {
     for (let pass = 0; pass < 4; pass++) entityViews.update(0, renderer.camera.position, clock.elapsedMs);
   });
-  scene.updateStreaming(initialPlayerPosition[0], initialPlayerPosition[2]);
-  await (wildernessEffects as WildernessEffects | null)?.prepareArea(initialPlayerPosition[0], initialPlayerPosition[2],
+  const readyPosition = store.get().player.position;
+  scene.updateStreaming(readyPosition[0], readyPosition[2]);
+  await (wildernessEffects as WildernessEffects | null)?.prepareArea(readyPosition[0], readyPosition[2],
     structureResidencyRadius(clientSettings.get().drawDistance));
   fairyRealm?.setVisible(isFairyRegion(store.get().player.regionId));
   if (store.get().player.regionId === "gravelmaw") await deferredCave?.ensure();
@@ -3366,7 +3435,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
   if (profile.fullWarmup || performanceLab || multiplayerFixture) {
     setStatus("Finishing graphics…",5);
-    bootTelemetry.measureSync(BOOT_SPANS.SHADER_COMPILE, () => renderer.warmup());
+    if (!worldMapCapture) {
+      const paintSpan = bootTelemetry.startSpan("boot.ui.paint");
+      paintSpan.end(await prepareUiFirstPaint(labelRoot));
+    }
+    await bootTelemetry.measureAsync(BOOT_SPANS.SHADER_COMPILE, () => renderer.warmup());
   }
   if (!worldMapCapture) {
     setStatus("Starting the game…",5);
@@ -3400,49 +3473,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
     if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...labForestStats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
   } else {
-    // The configured multiplayer entry point presents world selection as loading finishes.
-    // Keep the boot cover until discovery and the selector are mounted, so there is no extra
-    // offline "enter game" step before the player can choose their actual world.
-    const selection = await worldSelection;
-    let mountWorldSelector = () => {};
-    if(labSpec&&selection&&localLaunch&&describeLabWorld){
-      // The scene is drawn, so the lab worker can be told what its world is. It has been booting beside the scene since the page opened.
-      localLaunch.provider.provideLabWorld(bootTelemetry.measureSync("boot.labWorker.describe", describeLabWorld));
-      const {installBrowserSession}=await import("../multiplayer/browserSession.js");
-      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
-        sceneryChanges:recapture=>{labSceneryChanged=recapture;},
-        applied(update){forestApplied(update);gameAudio.tick(0,update.simMs);},
-      }, {lab:true,equipment:true}, selection);
-    }
-    if(profile.kind==="game"&&selection){
-      const {installBrowserSession}=await import("../multiplayer/browserSession.js");
-      await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
-        mountWorlds:panel=>{mountWorldSelector=()=>{
-          panel.classList.remove("worlds--boot");panel.hidden=false;ui.setWorlds(panel);
-          if(!choseLocalPlay&&selection.configured)ui.openTitle("worlds");
-        };},
-        phase(phase){
-          if(["reconnecting","unavailable","incompatible","full"].includes(phase))ui.openTitle("worlds");
-        },
-        applied(update){
-          forestApplied(update);gameAudio.tick(0,update.simMs);
-          // Within a map the working set follows the player. Across maps (a portal, or a join that lands in the cave) the
-          // curtain covers the change while the destination loads, because the cave's rock and a realm's dressing load on arrival.
-          const player=store.get().player;
-          const crossed=worldMapForRegion(player.regionId)!==worldMapForRegion(activeVisualRegion)
-            ||(player.regionId==="gravelmaw"&&deferredCave!==null&&!deferredCave.getState().ready);
-          if(!crossed){refreshVisualResidency(player.position,player.regionId,update.snapshot);return;}
-          if(portalTransition.active)return;
-          void transitionThroughPortal({position:[...player.position] as Vec3,regionId:player.regionId,name:getRegion(player.regionId)?.name??"Gravelmaw"},()=>{})
-            .catch(cause=>{errors.push({atMs:atMs(),source:"portalTransition",message:describeError(cause)});});
-        },
-        restored(){for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
-      }, {crowds:true,equipment:true}, selection);
-      // Only when there was something to join. The picker shows on every page now, but a page with
-      // no servers behind it has nothing to offer a player who let loading finish without choosing,
-      // so their own world starts. It is a world to join, not a game already running behind the picker.
-      if(!choseLocalPlay&&!selection.configured&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
-    }
     const firstFrameSpan = bootTelemetry.startSpan(BOOT_SPANS.FIRST_RENDERED_FRAME);
     const beforeGameplay = renderer.getPresentationState().submitted;
     loop.start();
@@ -3459,7 +3489,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         document.getElementById("boot-screen")?.remove();
       });
       bootTelemetry.milestone(BOOT_MILESTONES.BOOT_SCREEN_REMOVED);
-      // The scene is on screen, so a world chosen during loading can be joined now.
+      // Lab setup waits for the renderer; game sessions joined before final graphics preparation.
       selection?.setReady();
       // The first frame is on screen. The spell pools' programs finish now, between frames; `boot.effects.ready` records when.
       void renderer.finishDeferredEffects();

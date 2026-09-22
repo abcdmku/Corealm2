@@ -46,6 +46,57 @@ tests and hardware gameplay smoke. Join timing was variable: two unprofiled runs
 four runs passed movement, replication, complete remote actors and equipment changes without
 runtime errors. The passing repeats do not establish that the intermittent join spike is fixed.
 
+## Browser-wide stalls during joining
+
+Acceptance remains open. A cold authored-server join still took 27.03 seconds with asset
+requests limited to 20 Mbps and 80 ms latency, exceeding the existing 20-second startup budget.
+A passing frame-rate sample is not sufficient to release this change.
+
+The final cached-return authored-server check passed its existing gates at 9.59 seconds
+to playable and 215 ms to initial authoritative movement. Expected nearby structures,
+creatures and NPC geometry were present at readiness, and travel loaded new resident
+entities. Its separate browser page still recorded a 643 ms GPU completion gap during
+startup and 93 ms during play. Passing the one-second browser-hang detector does not
+make that startup stall acceptable. The normal gameplay screenshot was inspected.
+
+The final production build, typecheck, 28 focused regressions and two-client join lab
+passed. These checks establish correctness of the partial patch; they do not override
+the failed cold-start budget. This patch has not been pushed or deployed.
+
+A separate 64 x 64 WebGL page originally reproduced a 3.37-second GPU completion gap during
+joining. Chromium tracing placed 3.31 seconds inside raster flush. Installed Chrome also
+reproduced a 2.52-second gap. Removing individual HUD filters did not reliably remove it.
+
+The current patch waits for mounted HUD images and fonts, then crosses two animation frames
+and a task before shader preparation. Shader submission uses groups of eight objects and yields
+after four milliseconds of submission work. Compilation remains parallel; waiting for each small
+group before submitting the next increased cold startup to 42 seconds and was rejected.
+Deferred spell shader submission is also split into groups. Individual driver calls remain
+uninterruptible, so these work slices do not guarantee zero stalls.
+
+A world selected during startup now joins before final residency and graphics preparation.
+The actual snapshot supplies its spawn and actors. Nearby assets, geometry and animations prepare
+before the first gameplay frame. Travel prefetch and session audio wait until that view is ready.
+The picker must not reopen over an already connected world. An unavailable configured world
+must not report ready.
+
+The walking check captures the first ready frame and asserts geometry for authored buildings,
+worms and an NPC, no pending/missing/failed entity views, and no pending animations. It sends
+movement before its idle sample, then verifies real travel and newly resident entities. Reused
+models are allowed; a rising model-download count alone did not prove that travel loaded a world.
+
+The authored-server candidate had all those starting objects present, first movement at 188 ms,
+and a separate-page maximum of 363 ms during startup and 73 ms during play. These are local
+measurements at 1440 x 900 in installed Chrome, not live-server acceptance. Cold startup still
+fails the elapsed-time gate. The socket uses a local production host; only asset requests are
+network-throttled. Legacy global CDP throttling delayed its 388 KB initial snapshot beyond the
+five-second join timeout, although a direct socket received it in 52 ms. That failed run is not
+used as evidence of a production server delay.
+
+Reports and screenshots are disposable under `test-results/walking-stream/`. See
+[the lab reference](lab-reference.md) for the combined content, input, elapsed-time and browser
+stall checks. This patch has not been accepted as a complete loading-performance fix.
+
 ## Menu responsiveness
 
 Menu handlers and Three.js frame submission share the browser's main thread. Local simulation

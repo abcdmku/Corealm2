@@ -78,7 +78,7 @@ it('waits for GPU completion without a blocking finish and releases failed fence
   }
 });
 
-it("prepares visible resident geometry without compiling hidden navigation or closed interiors", () => {
+it("prepares visible resident geometry without compiling hidden navigation or closed interiors", async () => {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
   const visible = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
   const hidden = new THREE.Group(); hidden.visible = false;
@@ -97,13 +97,13 @@ it("prepares visible resident geometry without compiling hidden navigation or cl
       },
     },
   }) as Renderer;
-  renderer.warmup({ temporarilyVisible: [hidden] });
+  await renderer.warmup({ temporarilyVisible: [hidden] });
   expect(calls).toEqual([[visible], [visible], [visible, interior], [visible, interior]]);
   expect(hidden.visible).toBe(false); expect(interior.parent).toBe(hidden);
   visible.geometry.dispose(); interior.geometry.dispose(); visible.material.dispose();
 });
 
-it("compiles shared tile geometry once while retaining instancing and shadow variants", () => {
+it("compiles shared tile geometry once while retaining instancing and shadow variants", async () => {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
   const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
   const tile = new THREE.InstancedMesh(geometry, material, 2);
@@ -123,13 +123,13 @@ it("compiles shared tile geometry once while retaining instancing and shadow var
       },
     },
   }) as Renderer;
-  renderer.warmup();
+  await renderer.warmup();
   expect(calls).toEqual([[tile, coloured, caster], [tile, coloured, caster]]);
   expect(scene.children).toEqual([tile, copy, coloured, caster]);
   geometry.dispose(); material.dispose();
 });
 
-it("prepares screen and linear refraction programs without losing custom material hooks", () => {
+it("prepares screen and linear refraction programs without losing custom material hooks", async () => {
   const scene = new THREE.Scene();
   const material = new THREE.MeshStandardMaterial();
   material.defines = { MATTER_KIND: 2 };
@@ -146,7 +146,7 @@ it("prepares screen and linear refraction programs without losing custom materia
     renderer: {
       getRenderTarget: () => target,
       setRenderTarget: (next: THREE.WebGLRenderTarget | null) => { target = next; },
-      compile: () => scene.traverse(object => {
+      compile: (view: THREE.Object3D) => view.traverse(object => {
         if (!(object instanceof THREE.Mesh)) return;
         const current = object.material as THREE.Material;
         expect(current.defines).toEqual(material.defines);
@@ -158,7 +158,7 @@ it("prepares screen and linear refraction programs without losing custom materia
       }),
     },
   }) as Renderer;
-  renderer.warmup({ transparentVariants: [mesh] });
+  await renderer.warmup({ transparentVariants: [mesh] });
   expect(calls).toHaveLength(4);
   expect(calls.filter(call => call.offscreen)).toHaveLength(2);
   expect(calls.every(call => call.key === "authored-wind" && call.vertex.includes("authored wind"))).toBe(true);
@@ -304,7 +304,7 @@ it('prepares only the passes an effect can draw into', () => {
   expect(calls).toEqual([[smoke, rock, refraction], [glow, rock]]);
 });
 
-it("prepares a startup creature's fade with its real skinning and retains the programs", () => {
+it("prepares a startup creature's fade with its real skinning and retains the programs", async () => {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
   const material = new THREE.MeshStandardMaterial();
   const mesh = new THREE.SkinnedMesh(new THREE.BoxGeometry(), material);
@@ -324,7 +324,7 @@ it("prepares a startup creature's fade with its real skinning and retains the pr
       },
     },
   }) as Renderer;
-  renderer.warmup();
+  await renderer.warmup();
   expect(calls).toEqual([[false, false], [true, false], [false, true], [true, true]]);
   expect(warmupMaterials).toHaveLength(1);
   expect(mesh.material).toBe(material); expect(material.transparent).toBe(false); expect(mesh.parent).toBe(scene);
@@ -341,3 +341,35 @@ it('rejects a failed release shader before drawing gameplay', async () => {
   expect(bootTelemetry.snapshot().spans.filter(span => span.name === 'boot.effects.programs').at(-1)?.outcome).toBe('error');
 });
 
+
+
+it('yields between shader batches with render targets and temporary visibility restored', async () => {
+  const scene = new THREE.Scene(), hidden = new THREE.Group();
+  hidden.visible = false; scene.add(hidden);
+  for (let i = 0; i < 19; i++) hidden.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial()));
+  const now = vi.spyOn(performance, "now");
+  let elapsed = 0; now.mockImplementation(() => elapsed);
+  let target: THREE.WebGLRenderTarget | null = null, submits = 0;
+  const batches: number[] = [], programs: THREE.WebGLProgram[] = [];
+  const renderer = Object.assign(Object.create(Renderer.prototype), {
+    scene, camera: new THREE.PerspectiveCamera(), warmupMaterials: [],
+    renderer: {
+      info: { programs }, getRenderTarget: () => target,
+      setRenderTarget: (value: THREE.WebGLRenderTarget | null) => { target = value; },
+      compile(view: THREE.Object3D) {
+        let count = 0;
+        view.traverse(object => { if ((object as THREE.Mesh).isMesh) count++; });
+        batches.push(count); submits++; elapsed += 3;
+        programs.push({} as THREE.WebGLProgram);
+      },
+    },
+  }) as Renderer;
+  const intervening = setInterval(() => { expect(target).toBeNull(); expect(hidden.visible).toBe(false); expect(submits).toBeLessThanOrEqual(2); submits = 0; }, 0);
+  try {
+    await renderer.warmup({ temporarilyVisible: [hidden] });
+    expect(batches).toEqual([8, 8, 8, 8, 3, 3]);
+  } finally {
+    clearInterval(intervening); now.mockRestore();
+    hidden.traverse(object => { if (object instanceof THREE.Mesh) { object.geometry.dispose(); object.material.dispose(); } });
+  }
+});

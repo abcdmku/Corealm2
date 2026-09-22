@@ -54,11 +54,11 @@ already carry a `play` target, which covers the harnesses that go through the dr
 harness that calls `page.goto` itself adds it. Lab routes (`?mode=combat`, `?mode=building`)
 need nothing: `bootProfile.ts` resolves them to the feature-lab profile, and boot never
 builds a picker for that profile. `?play=<providerId>/<worldId>` is the other spelling, for
-a harness that wants a specific world joined as soon as the first frame is drawn.
+a harness that wants a specific world joined during startup.
 
 Local play runs in a Web Worker: the page renders and predicts, and the world lives in the
-worker, joined over the same session a socket uses. `?play=local` joins it as soon as the first
-frame is drawn. A page with no server to offer joins it on its own when loading finishes.
+worker, joined over the same session a socket uses. `?play=local` joins it before final graphics preparation, so the authoritative spawn and
+nearby actors are included in the first playable view. A page with no server to offer joins it on its own when loading finishes.
 `getState().ready` is true once the local world is joined and its first snapshot is what the page
 shows. The page has no simulation of its own in any mode. One escape hatch:
 

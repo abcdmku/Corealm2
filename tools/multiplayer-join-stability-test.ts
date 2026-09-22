@@ -999,6 +999,10 @@ try {
   await markPhase(alice, aliceConnected ? "connected" : "connect-timeout", { nodeElapsedMs: Date.now() - aliceJoinStarted });
   markCheck("firstPlayerConnected", aliceConnected);
   if (!aliceConnected) throw new Error("Alice did not connect before the movement phase");
+  // Connecting can overlap graphics preparation. A session alone is not a playable world.
+  await alice.page.waitForFunction(() => (window as any).__gameDebug?.getState().ready
+    && !document.getElementById("boot-screen"), undefined, { timeout: 30_000 });
+  await markPhase(alice, "playable");
   await closeLabPanel(alice);
 
   const motion = await driveFirstPlayer(alice);

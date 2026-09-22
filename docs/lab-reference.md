@@ -14,6 +14,21 @@ Read [the development workflow](./feature-lab.md) first. This file describes exi
 
 For graphics stalls without JavaScript long tasks, `tools/walking-stream-test.ts --desktop --trace --gpu-commands` records individual GPU-process GL calls. Trace extraction streams to disk and stays outside gameplay timing windows. These traces are large disposable diagnostics; acceptance uses an untraced run with `--budget --presentation-budget` after the production build. Both this tool and `multiplayer-join-stability-test.ts` accept `--url` to reuse an existing server, including a production preview. The join check records raw `.glb` and release `.glb.model` requests.
 
+Add `--browser-probe` to the walking check to measure a separate page throughout cold joining
+and travel. That page submits one 64 x 64 WebGL frame at a time and polls completion without
+blocking. Its RAF and GPU gaps appear under `browserPhases` in the report. With `--budget`,
+startup must stay below one second and post-join gaps below 150 ms. The startup ceiling catches
+multi-second browser-wide freezes; it is not a smooth-frame target. `--channel chrome` uses the
+installed Chrome in a fresh test profile. `--trace-boot` starts the optional trace before navigation;
+plain `--trace` still measures only after joining. Do not compare traced timings to acceptance runs.
+The walking check also captures the first ready frame, requires nearby building and creature
+geometry with no pending entity or animation work, then sends movement immediately. `--budget`
+requires movement within 250 ms and the existing startup limit of 20 seconds. A smooth empty
+world or a connected session behind a blocking menu does not pass. `--authored` uses the existing
+production test host; `--warm` reloads the same browser context with caches enabled. Report cold
+and warm results separately. Network emulation applies to the asset origin; the authored socket
+uses loopback without WAN emulation. Its initial frame sizes and arrival times are recorded.
+
 `npx tsx tools/multiplayer-social-test.ts` runs a 60-second-budget, two-context Chromium check of proximity chat, party invitations, reduced kill XP, shared pile visibility and automatic item routing. The deterministic frog uses the production combat and loot systems. Browser input creates and joins the party, sends chat, attacks, and collects the same pile from both clients. Normal-camera screenshots and semantic reports are disposable under `test-results/multiplayer-social/`. After lab acceptance, `--authored` checks the same chat and party UI in the authored world within 120 seconds. Focused server coverage is in `tests/multiplayer-social.test.ts`.
 
 For isolated public-action latency, add `--latency` to `tools/multiplayer-actions-test.ts`; it keeps the semantic assertions and omits screenshots. `--profile` also writes an observer CPU profile and slow shader-query diagnostics. `tools/multiplayer-motion-test.ts --crowded` exercises 144 remote actors, including the 2 Hz crowd publication path, and rejects backward motion or stationary gaps of 300 ms.

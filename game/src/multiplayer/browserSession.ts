@@ -75,7 +75,7 @@ export interface BrowserSessionPorts {
  *
  * Discovery and the player's world choice need none of the gameplay ports, so the panel is built
  * and mounted while the game is still loading. Session ports arrive later through `attach`, and
- * `setReady` opens joining once the first frame is on screen.
+ * `setReady` opens joining once the engine can apply its snapshot.
  *
  * The picker always exists now, including on a page with no servers at all, because "play local" is
  * a choice a player makes rather than the absence of one. `configured` still reports whether there
@@ -351,8 +351,8 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       ports.events.flush(); ports.applied?.(update);
     },
   });
-  // The boot path marks the selector ready once the first frame is drawn; a selector created here
-  // has a live engine already.
+  // Boot enables joining once its engine ports are installed. A selector created here
+  // already has those ports.
   if(!selection)selector.setReady();
   if(options.lab){selector.panel.hidden=true;document.body.append(selector.panel);}
   else if(ports.mountWorlds)ports.mountWorlds(selector.panel);

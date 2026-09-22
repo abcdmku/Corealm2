@@ -573,7 +573,7 @@ export class Renderer {
    *
    * Hidden invocation pools and the first HDR glow draw are prepared separately by prepareEffects.
    */
-  warmup(options?: WarmupOptions): void {
+  async warmup(options?: WarmupOptions): Promise<void> {
     const holder = new THREE.Group();
     holder.name = "shader-warmup";
 
@@ -613,26 +613,26 @@ export class Renderer {
     }
 
     if (holder.children.length > 0) this.scene.add(holder);
-    this.compileColourPasses();
-
-    // Second pass with the interiors revealed. Both variants end up in the program cache, and
-    // neither entering nor leaving the dungeon compiles anything afterwards.
-    const hidden = (options?.temporarilyVisible ?? []).filter((root) => root.visible === false);
-    if (hidden.length > 0) {
-      for (const root of hidden) root.visible = true;
-      this.compileColourPasses();
-      for (const root of hidden) root.visible = false;
+    const passes = [this.warmupObjects()];
+    const hidden = (options?.temporarilyVisible ?? []).filter(root => !root.visible);
+    try {
+      // Capture the real meshes, then restore visibility before yielding to gameplay.
+      if (hidden.length) {
+        try {
+          for (const root of hidden) root.visible = true;
+          passes.push(this.warmupObjects());
+        } finally { for (const root of hidden) root.visible = false; }
+      }
+      // The compile views retain the proxies; they must never appear in a yielded frame.
+      this.scene.remove(holder);
+      for (const objects of passes) await this.compileColourPasses(objects);
+    } finally {
+      this.scene.remove(holder);
+      holder.clear();
     }
-
-    if (holder.children.length > 0) this.scene.remove(holder);
-    holder.clear();
   }
 
-  /** Refraction redraws opaque objects into a linear target with tone mapping disabled. */
-  private compileColourPasses(): void {
-    // Three's compile traverses invisible descendants too. A whole-scene call also prepares
-    // navigation carves, the closed dungeon and dormant pools in the outdoor light setup.
-    // Keep every resident visible object, including off-camera casters, for normal camera turns.
+  private warmupObjects(): THREE.Object3D[] {
     const objects: THREE.Object3D[] = [];
     const seen = new Set<string>();
     this.scene.traverseVisible(object => {
@@ -645,9 +645,14 @@ export class Renderer {
       }
       if (drawable.isMesh || drawable.isPoints || drawable.isLine || drawable.isSprite) objects.push(object);
     });
+    return objects;
+  }
+
+  /** Submit bounded groups so startup does not monopolize the CPU or driver queue. */
+  private async compileColourPasses(objects: readonly THREE.Object3D[]): Promise<void> {
     const view = new THREE.Group();
-    view.traverse = callback => { callback(view); for (const object of objects) callback(object); };
-    const meshes = objects.filter(object => (object as THREE.Mesh).isMesh) as THREE.Mesh[];
+    let batch: readonly THREE.Object3D[] = [];
+    view.traverse = callback => { callback(view); for (const object of batch) callback(object); };
     const materials = new Map<THREE.Material, THREE.Material>();
     const copy = (source: THREE.Material): THREE.Material => {
       const cached = materials.get(source);
@@ -660,23 +665,33 @@ export class Renderer {
       this.warmupMaterials.push(clone);
       return clone;
     };
-    this.renderer.compile(view, this.camera, this.scene);
-    compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
-    const previous = this.renderer.getRenderTarget();
     const target = new THREE.WebGLRenderTarget(1, 1);
+    let sliceStarted = performance.now();
     try {
-      this.renderer.setRenderTarget(target);
-      this.renderer.compile(view, this.camera, this.scene);
-      compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
-      if (this.renderer.shadowMap?.enabled) {
-        const fallbackDepth = new THREE.MeshDepthMaterial();
-        try { compileShadowMeshes(this.renderer, this.scene, this.camera, meshes, copy, fallbackDepth); }
-        finally { fallbackDepth.dispose(); }
+      for (let offset = 0; offset < objects.length; offset += 8) {
+        batch = objects.slice(offset, offset + 8);
+        const meshes = batch.filter(object => (object as THREE.Mesh).isMesh) as THREE.Mesh[];
+        const previous = this.renderer.getRenderTarget();
+        try {
+          this.renderer.compile(view, this.camera, this.scene);
+          compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
+          this.renderer.setRenderTarget(target);
+          this.renderer.compile(view, this.camera, this.scene);
+          compileCorpseFadeVariants(this.renderer, this.scene, this.camera, meshes, copy);
+          if (this.renderer.shadowMap?.enabled) {
+            const fallbackDepth = new THREE.MeshDepthMaterial();
+            try { compileShadowMeshes(this.renderer, this.scene, this.camera, meshes, copy, fallbackDepth); }
+            finally { fallbackDepth.dispose(); }
+          }
+        } finally { this.renderer.setRenderTarget(previous); }
+        // Yield submission, but keep compilation parallel. prepareEffects waits for every
+        // resulting program before the first gameplay draw.
+        if (performance.now() - sliceStarted >= 4) {
+          await new Promise<void>(resolve => setTimeout(resolve, 0));
+          sliceStarted = performance.now();
+        }
       }
-    } finally {
-      this.renderer.setRenderTarget(previous);
-      target.dispose();
-    }
+    } finally { target.dispose(); }
   }
 
   /**
@@ -776,11 +791,19 @@ export class Renderer {
         // Submitting is synchronous work for the CPU. It belongs to the first idle moment after the caller's frame, not to the caller.
         await new Promise<void>(resolve => setTimeout(resolve, 0));
         for (const root of [...this.deferredEffectRoots]) {
-          const known = new Set(this.renderer.info.programs ?? []);
-          bootTelemetry.measureSync("boot.effects.deferredSubmit", () => this.submitEffects(root));
-          for (const program of this.renderer.info.programs ?? []) if (!known.has(program)) this.deferredEffectPrograms.add(program);
+          const meshes: THREE.Mesh[] = [];
+          root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
+          for (let offset = 0; offset < meshes.length; offset += 8) {
+            const batch = meshes.slice(offset, offset + 8), view = new THREE.Group();
+            view.traverse = callback => { callback(view); for (const mesh of batch) callback(mesh); };
+            const known = new Set(this.renderer.info.programs ?? []);
+            bootTelemetry.measureSync("boot.effects.deferredSubmit", () => this.submitEffects(view));
+            for (const program of this.renderer.info.programs ?? []) if (!known.has(program)) {
+              this.deferredEffectPrograms.add(program);
+            }
+            await new Promise<void>(resolve => setTimeout(resolve, 0));
+          }
           this.deferredEffectRoots.delete(root);
-          await new Promise<void>(resolve => setTimeout(resolve, 0));
         }
         const programs = this.deferredEffectPrograms.size;
         for (const program of [...this.deferredEffectPrograms]) {
