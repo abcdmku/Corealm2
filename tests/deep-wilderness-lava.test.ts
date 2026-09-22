@@ -150,7 +150,7 @@ describe('production deep lava rendering', () => {
     effects.group.updateMatrixWorld(true);
     const downward = new THREE.Vector3(0, -1, 0);
     const moltenMeshes = channels.map(c => effects.group.getObjectByName(`wilderness-lava-${c.id}`)!);
-    const flowClocks = new Set<UniformNode<number>>();
+    const flowClocks = new Set<UniformNode<'float', number>>();
     for (const molten of moltenMeshes) {
       const material = (molten as THREE.Mesh).material as MeshStandardNodeMaterial;
       expect(material.isMeshStandardNodeMaterial).toBe(true);
@@ -158,7 +158,7 @@ describe('production deep lava rendering', () => {
       expect(material.colorNode).toBeTruthy();
       expect(material.emissiveNode).toBeTruthy();
       for (const output of [material.colorNode!, material.emissiveNode!]) output.traverse(node => {
-        if ((node as UniformNode<number>).isUniformNode) flowClocks.add(node as UniformNode<number>);
+        if ((node as UniformNode<'float', number>).isUniformNode) flowClocks.add(node as UniformNode<'float', number>);
       });
     }
     expect(flowClocks.size).toBe(1);

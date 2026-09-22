@@ -86,8 +86,8 @@ export function disposeCastleStoneTextures(): void {
 
 /** Standard lighting with the authored pearl/mineral specular response. */
 class CastleStoneNodeMaterial extends MeshStandardNodeMaterial {
-  castleSpecularNode: Node | null = null;
-  castleFinalRoughnessNode: Node | null = null;
+  castleSpecularNode: Node<"vec3"> | null = null;
+  castleFinalRoughnessNode: Node<"float"> | null = null;
 
   override setupSpecular(): void {
     if (!this.castleSpecularNode) { super.setupSpecular(); return; }
@@ -106,7 +106,7 @@ export function createCastleStoneMaterial(
   options: CastleStoneMaterialOptions = {},
 ): THREE.Material {
   const standard = source as THREE.MeshStandardMaterial;
-  if (!standard.isMeshStandardMaterial) return source;
+  if (!standard.isMeshStandardMaterial && !(source as MeshStandardNodeMaterial).isMeshStandardNodeMaterial) return source;
   const paletteMask = options.paletteMask === true;
   const albedo = castleStoneTexture(style);
   const derived = new CastleStoneNodeMaterial().copy(ensureNodeMaterial(source));

@@ -2,11 +2,34 @@ import { NodeIO } from '@gltf-transform/core';
 import { mkdir, writeFile } from 'node:fs/promises';
 import * as THREE from 'three';
 import { MeshStandardNodeMaterial, type Node } from 'three/webgpu';
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
+import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { createCaveLabFixture } from '../game/src/featureLab/cave.js';
-import { buildDungeon, dungeonSolids, dungeonNavigationBlockers, type CaveRockSource } from '../game/src/render/dungeon.js';
+import { buildDungeon, dungeonSolids, dungeonNavigationBlockers, loadCaveRockSource, type CaveRockSource } from '../game/src/render/dungeon.js';
 import { DeferredDungeonFacing } from '../game/src/render/deferredDungeonFacing.js';
 import { MaterialLibrary } from '../game/src/render/materials.js';
+
+it('loads authored cave geometry with a converted node material', async () => {
+  const material = new MeshStandardNodeMaterial({ roughness: .83 });
+  const geometry = new THREE.BoxGeometry(2, 3, 4);
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(3, 4, 5);
+  const scene = new THREE.Group();
+  scene.add(mesh);
+  const load = vi.spyOn(GLTFLoader.prototype, 'loadAsync').mockResolvedValue({ scene } as GLTF);
+  try {
+    const source = await loadCaveRockSource('cave-node-material.glb');
+    expect(source.material).toBe(material);
+    expect(source.geometry).not.toBe(geometry);
+    source.geometry.computeBoundingBox();
+    expect(source.geometry.boundingBox!.getCenter(new THREE.Vector3()).toArray()).toEqual([3, 4, 5]);
+    source.geometry.dispose();
+  } finally {
+    load.mockRestore();
+    geometry.dispose();
+    material.dispose();
+  }
+});
 
 /**
  * Shell obligations the scanned facing has to keep whatever the candidate looks like: it stays out of

@@ -407,9 +407,9 @@ export class WildernessEffects {
     this.moltenTriangles += molten.index!.count / 3;
     const material = new MeshStandardNodeMaterial({ color: 0x2b1816, roughness: .91,
       emissive: 0xff5a08, emissiveIntensity: 1, side: THREE.DoubleSide });
-    const moltenMagic = varying(attribute('lavaMagic', 'float'));
-    const moltenBank = varying(attribute('lavaBank', 'float'));
-    const flow = varying(attribute('lavaTransport', 'vec2')).sub(vec2(0, this.flowClock.mul(.11)));
+    const moltenMagic = varying(attribute<'float'>('lavaMagic', 'float'));
+    const moltenBank = varying(attribute<'float'>('lavaBank', 'float'));
+    const flow = varying(attribute<'vec2'>('lavaTransport', 'vec2')).sub(vec2(0, this.flowClock.mul(.11)));
     const field = lavaFieldNode(flow).toVar();
     const crack = float(1).sub(smoothstep(.006, .060, field.x));
     const openings = smoothstep(.40, .74, field.y);
@@ -438,7 +438,7 @@ export class WildernessEffects {
       bankMaterial.transparent = true;
       bankMaterial.depthWrite = false;
       // Fade is interpolated from the same per-vertex shore value as the authored GLSL.
-      const shoreFade = varying(float(2).sub(abs(attribute('lavaBank', 'float'))));
+      const shoreFade = varying(float(2).sub(abs(attribute<'float'>('lavaBank', 'float'))));
       bankMaterial.opacityNode = materialOpacity.mul(smoothstep(0, .6, shoreFade));
     }
     this.addMesh(`wilderness-lava-banks-${channel.id}`, banks, bankMaterial);

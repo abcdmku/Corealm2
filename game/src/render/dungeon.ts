@@ -30,8 +30,8 @@
  * centres, radii and floor heights; what changes is that the space between them is now floor.
  */
 import * as THREE from "three";
-import { MeshStandardNodeMaterial } from "three/webgpu";
-import { attribute, cameraViewMatrix, mat3, materialReference, mix, modelWorldMatrix, normalLocal,
+import { MeshStandardNodeMaterial, type Node } from "three/webgpu";
+import { attribute, cameraViewMatrix, materialReference, mix, modelWorldMatrix, normalLocal,
   normalView, positionLocal, texture, uv, varying, vec3, vec4 } from "three/tsl";
 import { mergeGeometries, mergeVertices, toCreasedNormals } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -115,7 +115,7 @@ export interface DungeonOptions {
 
 export interface CaveRockSource {
   geometry: THREE.BufferGeometry;
-  material: THREE.MeshStandardMaterial;
+  material: THREE.MeshStandardMaterial | MeshStandardNodeMaterial;
   provenance: string;
   continuousEnvelope?: boolean;
   domainWarp?: { columns: number; rows: number };
@@ -125,9 +125,12 @@ export interface CaveRockSource {
 export async function loadCaveRockSource(url: string): Promise<CaveRockSource> {
   const gltf = await new GLTFLoader().loadAsync(url);
   gltf.scene.updateMatrixWorld(true);
-  let mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial> | undefined;
+  let mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial | MeshStandardNodeMaterial> | undefined;
   gltf.scene.traverse(object => {
-    if (!mesh && object instanceof THREE.Mesh && object.material instanceof THREE.MeshStandardMaterial) mesh = object;
+    if (mesh || !(object as THREE.Mesh).isMesh) return;
+    const candidate = object as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial | MeshStandardNodeMaterial>;
+    if ((candidate.material as THREE.MeshStandardMaterial).isMeshStandardMaterial
+      || (candidate.material as MeshStandardNodeMaterial).isMeshStandardNodeMaterial) mesh = candidate;
   });
   if (!mesh) throw new Error('Cave rock source must contain a standard-material mesh');
   return { geometry: mesh.geometry.clone().applyMatrix4(mesh.matrixWorld), material: mesh.material,
@@ -480,7 +483,7 @@ function applyCaveSourceDetail(material: MeshStandardNodeMaterial, sourceMap: TH
   const sourcePigment = texture(sourceMap, uv()).rgb;
   const sourceLuma = sourcePigment.dot(vec3(0.2126, 0.7152, 0.0722));
   const sourceDetail = sourceLuma.div(0.30).clamp(0.70, 1.30);
-  const sourceBlend = varying(attribute('caveSourceBlend', 'float'));
+  const sourceBlend = varying(attribute('caveSourceBlend', 'float' as const));
   composeSurface(material, {
     color: previous => previous.mul(mix(1, sourceDetail, sourceBlend.mul(0.35))),
   });
@@ -490,14 +493,16 @@ function applyCaveSourceDetail(material: MeshStandardNodeMaterial, sourceMap: TH
 function applyCaveRockProjection(material: MeshStandardNodeMaterial, maps: CorealmSurfaceTextures['stone']): void {
   // Match the original vertex-stage projection, including interpolation before fragment normalization.
   const worldPosition = varying(modelWorldMatrix.mul(vec4(positionLocal, 1)).xyz);
-  const worldNormal = varying(mat3(modelWorldMatrix).mul(normalLocal).normalize()).normalize();
+  const worldNormal = varying(modelWorldMatrix.mul(vec4(normalLocal, 0)).xyz.normalize()).normalize();
   const p = worldPosition.div(maps.tileMetres);
   const unscaledWeights = worldNormal.abs().pow(4);
   const weights = unscaledWeights.div(unscaledWeights.dot(vec3(1)).max(0.0001));
   const projected = (map: THREE.Texture) => texture(map, p.zy).mul(weights.x)
     .add(texture(map, p.xz).mul(weights.y)).add(texture(map, p.xy).mul(weights.z));
   const albedoDetail = corealmSurfaceDetail(projected(maps.albedo).rgb, maps.meanLinearRgb, 0.86);
-  const normalScale = materialReference('normalScale', 'vec2');
+  const normalScale = materialReference('normalScale', 'vec2') as unknown as Node<'vec2'>;
+  const baseColour = materialReference('color', 'color') as unknown as Node<'vec3'>;
+  const roughness = materialReference('roughness', 'float') as unknown as Node<'float'>;
   const normalX = texture(maps.normal, p.zy).xy.mul(2).sub(1).mul(normalScale);
   const normalY = texture(maps.normal, p.xz).xy.mul(2).sub(1).mul(normalScale);
   const normalZ = texture(maps.normal, p.xy).xy.mul(2).sub(1).mul(normalScale);
@@ -506,9 +511,9 @@ function applyCaveRockProjection(material: MeshStandardNodeMaterial, maps: Corea
     .add(vec3(normalZ.x, normalZ.y, 0).mul(weights.z));
   const perturb = offset.sub(worldNormal.mul(worldNormal.dot(offset)));
   composeSurface(material, {
-    color: () => vec3(materialReference('color', 'color')).mul(albedoDetail),
-    roughness: () => projected(maps.roughness).g.mul(materialReference('roughness', 'float')),
-    normal: () => normalView.add(mat3(cameraViewMatrix).mul(perturb)).normalize(),
+    color: () => baseColour.mul(albedoDetail),
+    roughness: () => projected(maps.roughness).g.mul(roughness),
+    normal: () => normalView.add(cameraViewMatrix.mul(vec4(perturb, 0)).xyz).normalize(),
   });
 }
 

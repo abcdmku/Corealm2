@@ -1,15 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { MeshStandardNodeMaterial } from 'three/webgpu';
+import { ensureNodeMaterial } from '../game/src/render/nodeMaterials.js';
+import { createCastleStoneMaterial } from '../game/src/render/castleStoneMaterial.js';
 import { NodeIO } from '@gltf-transform/core';
 import { FairyArchitecture, FAIRY_LAMP_LIGHT_BUDGET, fairyArchitectureSurface, createFairyMarketCanopyGeometry } from '../game/src/render/fairyArchitecture.js';
 import { buildPrefab, prefabCollision, variantSeed, type PartPlacement } from '../game/src/render/buildings.js';
 import { LANTERN_MARKET_COUNTER_Y, LANTERN_MARKET_SEED } from '../game/src/render/structures/fairyStructureParts.js';
 
 describe('fairy structure presentation', () => {
-  it('keeps source maps and materials intact while separating the two fairy palettes', () => {
+  it.each(['imported', 'node'] as const)('keeps %s source maps intact while separating the two fairy palettes', kind => {
     const style = new FairyArchitecture();
-    const source = new THREE.MeshStandardMaterial({ name: 'MI_Plaster', map: new THREE.Texture(), normalMap: new THREE.Texture(), aoMap: new THREE.Texture(), roughnessMap: new THREE.Texture() });
+    const imported = new THREE.MeshStandardMaterial({ name: 'MI_Plaster', map: new THREE.Texture(), normalMap: new THREE.Texture(), aoMap: new THREE.Texture(), roughnessMap: new THREE.Texture() });
+    const source = kind === 'node' ? ensureNodeMaterial(imported) as MeshStandardNodeMaterial : imported;
     const warm = style.material(source, 'wall_plaster_straight', 'gloamgarden') as THREE.MeshStandardMaterial;
     const cool = style.material(source, 'wall_plaster_straight', 'faeholme') as THREE.MeshStandardMaterial;
     expect(warm).not.toBe(source);
@@ -24,6 +27,19 @@ describe('fairy structure presentation', () => {
     expect(style.material(source, 'wall_plaster_straight', 'fallowmarch')).toBeNull();
     expect(source.color.getHex()).toBe(0xffffff);
     style.dispose();
+  });
+
+  it.each(['pearl', 'cinder'] as const)('applies %s castle stone after imported material conversion', stoneStyle => {
+    const source = ensureNodeMaterial(new THREE.MeshStandardMaterial({ map: new THREE.Texture(), roughness: .73 }));
+    const stone = createCastleStoneMaterial(source, stoneStyle, { paletteMask: true }) as MeshStandardNodeMaterial;
+    expect(stone).not.toBe(source);
+    expect(stone.isMeshStandardNodeMaterial).toBe(true);
+    expect(stone.colorNode).not.toBeNull();
+    expect(stone.normalNode).not.toBeNull();
+    expect(stone.userData.corealmCastleStone).toMatchObject({ style: stoneStyle, paletteMask: true });
+    expect(source.colorNode).toBeNull();
+    stone.dispose();
+    source.dispose();
   });
 
   it('lights the actual window pane without making the frame or wall emissive', () => {

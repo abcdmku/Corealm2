@@ -183,7 +183,7 @@ export function createRibbonMaterial(colour: THREE.Color, uniforms: RibbonUnifor
   const time = reference('value', 'float', uniforms.uTime);
   const length = reference('value', 'float', uniforms.uLength);
   const head = reference('value', 'float', uniforms.uHead);
-  const trail = varying(attribute('aTrail', 'vec2'));
+  const trail = varying(attribute('aTrail', 'vec2' as const));
   const across = trail.y.abs();
   const body = smoothstep(.62, 1, across).oneMinus();
   const rim = smoothstep(.70, .80, across).mul(smoothstep(.90, 1, across).oneMinus());

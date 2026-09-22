@@ -105,7 +105,8 @@ export class FairyArchitecture {
   private readonly lights: THREE.PointLight[] = [];
 
   material(base: THREE.Material, assetId: string, regionId: RegionId | null): THREE.Material | null {
-    if (!isFairyArchitectureRegion(regionId) || !(base as THREE.MeshStandardMaterial).isMeshStandardMaterial) return null;
+    if (!isFairyArchitectureRegion(regionId) || (!(base as THREE.MeshStandardMaterial).isMeshStandardMaterial
+      && !(base as MeshStandardNodeMaterial).isMeshStandardNodeMaterial)) return null;
     const surface = fairyArchitectureSurface(assetId, base.name);
     if (!surface) return null;
     const key = `${base.uuid}:${regionId}:${surface}`;
