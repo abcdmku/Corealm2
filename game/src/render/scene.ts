@@ -814,8 +814,8 @@ export class WorldScene {
       const splatA = new Uint8Array(position.count * 4);
       const splatB = new Uint8Array(position.count * 4);
       const extra = new Uint8Array(position.count * 4);
-      // One more byte per vertex: which of the three surfaces this is paved in. PAVING_SURFACE_CODE.
-      const paved = new Uint8Array(position.count);
+      // WebGPU supports a scalar float attribute; retain the authored byte-quantized surface code.
+      const paved = new Float32Array(position.count);
       const surface: SurfaceSample = emptySurface();
 
       for (let i = 0; i < position.count; i += 1) {
@@ -843,7 +843,7 @@ export class WorldScene {
       geometry.setAttribute("aSplatA", new THREE.BufferAttribute(splatA, 4, true));
       geometry.setAttribute("aSplatB", new THREE.BufferAttribute(splatB, 4, true));
       geometry.setAttribute("aGround", new THREE.BufferAttribute(extra, 4, true));
-      geometry.setAttribute("aPaved", new THREE.BufferAttribute(paved, 1, true));
+      geometry.setAttribute("aPaved", new THREE.BufferAttribute(paved, 1));
       geometry.computeBoundingSphere();
 
       if (this.terrainCacheWrite) this.terrainCacheWrite.chunks[key] = captureGeometry(geometry);
@@ -936,7 +936,7 @@ export class WorldScene {
     const splatA = new Uint8Array(vertexCount * 4);
     const splatB = new Uint8Array(vertexCount * 4);
     const ground = new Uint8Array(vertexCount * 4);
-    const paved = new Uint8Array(vertexCount);
+    const paved = new Float32Array(vertexCount);
     const referenced = new Uint8Array(vertexCount);
     const indices: number[] = [];
     const steps: Array<() => void> = [];
@@ -1033,7 +1033,7 @@ export class WorldScene {
       geometry.setAttribute("aSplatA", new THREE.BufferAttribute(splatA, 4, true));
       geometry.setAttribute("aSplatB", new THREE.BufferAttribute(splatB, 4, true));
       geometry.setAttribute("aGround", new THREE.BufferAttribute(ground, 4, true));
-      geometry.setAttribute("aPaved", new THREE.BufferAttribute(paved, 1, true));
+      geometry.setAttribute("aPaved", new THREE.BufferAttribute(paved, 1));
       geometry.setIndex(indices);
       geometry.computeVertexNormals();
       normalAttribute = geometry.getAttribute("normal") as THREE.BufferAttribute;
@@ -1150,7 +1150,7 @@ export class WorldScene {
       const arrayA = splatA.array as Uint8Array;
       const arrayB = splatB.array as Uint8Array;
       const arrayExtra = extra.array as Uint8Array;
-      const arrayPaved = paved.array as Uint8Array;
+      const arrayPaved = paved.array as Float32Array;
       let touched = false;
 
       for (let i = 0; i < position.count; i += 1) {
@@ -3952,7 +3952,7 @@ function writeSplat(
   splatA: Uint8Array,
   splatB: Uint8Array,
   extra: Uint8Array,
-  paved: Uint8Array,
+  paved: Float32Array,
   index: number,
   surface: SurfaceSample,
 ): void {
@@ -3968,7 +3968,7 @@ function writeSplat(
   extra[index * 4 + 1] = toByte(surface.roadPresence);
   extra[index * 4 + 2] = toByte(surface.roadWear);
   extra[index * 4 + 3] = toByte(surface.macro);
-  paved[index] = toByte(surface.pavedKind);
+  paved[index] = toByte(surface.pavedKind) / 255;
 }
 
 interface GroundSwatches {

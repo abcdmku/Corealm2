@@ -310,8 +310,8 @@ try {
   const startingIds = new Set((states.start as any).views.residency.residentIds);
   assert.ok(end.views.residency.residentIds.some((id:string)=>!startingIds.has(id)),
     'Travel must bring new entities into the rendered working set, even when they share loaded models');
-  if(args.includes('--budget'))assert.ok(data.boot.firstPlayableMs<20_000,
-    'The complete playable world must meet the existing 20-second startup budget');
+  if(args.includes('--startup-budget-ms'))assert.ok(data.boot.firstPlayableMs<Number(value('--startup-budget-ms','20000')),
+    'The complete playable world must meet the explicitly requested startup budget');
   if(args.includes('--budget'))assert.ok(firstMovementMs<250,`Ready input took ${firstMovementMs} ms to move the player`);
   if(args.includes('--budget'))for(const phase of phases) {
     assert.ok(phase.max<150,`${phase.phase} must avoid large streaming freezes`);

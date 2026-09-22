@@ -1,5 +1,5 @@
 import { InstancedInterleavedBuffer, type InstancedBufferAttribute, type InstancedMesh, type BatchedMesh, type Texture } from 'three';
-import { Fn, OnFrameUpdate, drawIndex, float, instanceIndex, instancedBufferAttribute, int, ivec2, mat4,
+import { Fn, drawIndex, float, instanceIndex, instancedBufferAttribute, int, ivec2, mat4,
   modelWorldMatrix, textureLoad, textureSize, vec4 } from 'three/tsl';
 
 const matrixBuffers = new WeakMap<InstancedBufferAttribute, InstancedInterleavedBuffer>();
@@ -16,19 +16,19 @@ export const objectInstanceMatrix = Fn((builder) => {
       matrixBuffers.set(source, buffer);
     }
     const shared = buffer;
-    OnFrameUpdate(() => {
+    const syncMatrix = () => {
       if (shared.version !== source.version) {
         shared.clearUpdateRanges();
         for (const range of source.updateRanges) shared.addUpdateRange(range.start, range.count);
         shared.version = source.version;
       }
-    });
+    };
     return mat4(
       instancedBufferAttribute(shared, 'vec4', 16, 0),
       instancedBufferAttribute(shared, 'vec4', 16, 4),
       instancedBufferAttribute(shared, 'vec4', 16, 8),
       instancedBufferAttribute(shared, 'vec4', 16, 12),
-    );
+    ).onFrameUpdate(syncMatrix);
   }
   if ((object as BatchedMesh).isBatchedMesh) {
     const batch = object as BatchedMesh & { _indirectTexture: Texture; _matricesTexture: Texture };

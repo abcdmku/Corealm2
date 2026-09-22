@@ -3448,6 +3448,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // Submitted again because the scene's lights are final only now, and a pool's program depends on them.
     await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot(), { deferred: deferSpellPrograms }));
     await bootTelemetry.measureAsync("boot.shaders.input-feedback", () => renderer.prepareEffects(overlays.preparationRoot()));
+    // A longer responsive load is preferable to a first cast with missing effects or cold pipelines.
+    await renderer.finishDeferredEffects();
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
   if (runtimePerformanceEnabled) renderer.startStreamingWarmup();
@@ -3493,10 +3495,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       bootTelemetry.milestone(BOOT_MILESTONES.BOOT_SCREEN_REMOVED);
       // Lab setup waits for the renderer; game sessions joined before final graphics preparation.
       selection?.setReady();
-      // The first frame is on screen. The spell pools' programs finish now, between frames; `boot.effects.ready` records when.
-      void renderer.finishDeferredEffects().catch(error => {
-        console.error("Unable to prepare background spell graphics", error);
-      });
       if (labSpec && startFeatureLab) {
         // A lab is ready when its worker's world is joined, the character is set up and the first target stands in it.
         await new Promise<void>((resolve, reject) => {

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { GroundSurfaceInputs } from '../game/src/render/groundSurfaceNodes.js';
 import { MaterialLibrary } from '../game/src/render/materials.js';
 
 const libraries = new Set<MaterialLibrary>();
@@ -9,13 +10,8 @@ function groundFixture() {
   const library = new MaterialLibrary();
   libraries.add(library);
   const material = library.ground();
-  const shader = {
-    vertexShader: THREE.ShaderLib.standard.vertexShader,
-    fragmentShader: THREE.ShaderLib.standard.fragmentShader,
-    uniforms: {},
-  } as Parameters<THREE.Material['onBeforeCompile']>[0];
-  material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-  return { library, material, shader };
+  const uniforms = material.userData.groundSurface.inputs as GroundSurfaceInputs;
+  return { library, material, uniforms };
 }
 
 async function surfaceFixture() {
@@ -48,8 +44,8 @@ afterEach(() => {
 });
 
 describe('fairy grass surface loading and material ownership', () => {
-  it('keeps decoded textures through filename-bearing metadata and into compiled ground uniforms', async () => {
-    const { library, shader } = groundFixture();
+  it('keeps decoded textures through filename-bearing metadata and into live ground node bindings', async () => {
+    const { library, uniforms } = groundFixture();
     const fixture = await surfaceFixture();
     const pending = fixture.loadFairyGroundSurface();
     expect(fixture.loadFairyGroundSurface()).toBe(pending);
@@ -73,11 +69,11 @@ describe('fairy grass surface loading and material ownership', () => {
       expect(texture.version).toBeGreaterThan(0);
     }
     library.setFairyGroundSurface(surface);
-    expect(shader.uniforms.uFairyGrassReady!.value).toBe(1);
-    expect(shader.uniforms.uFairyGrassAlbedo!.value).toBe(fixture.albedo);
-    expect(shader.uniforms.uFairyGrassNormal!.value).toBe(fixture.normal);
-    expect(shader.uniforms.uFairyGrassMean!.value.toArray()).toEqual(fixture.metadata.meanLinearRgb);
-    expect(shader.uniforms.uFairyGrassTiling!.value).toBeCloseTo(1 / fixture.metadata.tileMetres);
+    expect(uniforms.uFairyGrassReady!.value).toBe(1);
+    expect(uniforms.uFairyGrassAlbedo!.value).toBe(fixture.albedo);
+    expect(uniforms.uFairyGrassNormal!.value).toBe(fixture.normal);
+    expect(uniforms.uFairyGrassMean!.value.toArray()).toEqual(fixture.metadata.meanLinearRgb);
+    expect(uniforms.uFairyGrassTiling!.value).toBeCloseTo(1 / fixture.metadata.tileMetres);
   });
 
   it('disables and reenables an existing ground material without disposing shared borrowed textures', async () => {
@@ -92,18 +88,18 @@ describe('fairy grass surface loading and material ownership', () => {
     second.library.setFairyGroundSurface(surface);
 
     first.library.setFairyGroundSurface(null);
-    expect(first.shader.uniforms.uFairyGrassReady!.value).toBe(0);
-    expect(first.shader.uniforms.uFairyGrassAlbedo!.value).toBeNull();
-    expect(first.shader.uniforms.uFairyGrassNormal!.value).toBeNull();
+    expect(first.uniforms.uFairyGrassReady!.value).toBe(0);
+    expect(first.uniforms.uFairyGrassAlbedo!.value).toBeNull();
+    expect(first.uniforms.uFairyGrassNormal!.value).toBeNull();
     expect(first.library.ground()).toBe(first.material);
     expect(first.material.version).toBe(materialVersion);
-    expect(second.shader.uniforms.uFairyGrassReady!.value).toBe(1);
-    expect(second.shader.uniforms.uFairyGrassAlbedo!.value).toBe(surface.albedo);
+    expect(second.uniforms.uFairyGrassReady!.value).toBe(1);
+    expect(second.uniforms.uFairyGrassAlbedo!.value).toBe(surface.albedo);
 
     first.library.setFairyGroundSurface(surface);
     expect(first.library.ground()).toBe(first.material);
-    expect(first.shader.uniforms.uFairyGrassReady!.value).toBe(1);
-    expect(first.shader.uniforms.uFairyGrassNormal!.value).toBe(surface.normal);
+    expect(first.uniforms.uFairyGrassReady!.value).toBe(1);
+    expect(first.uniforms.uFairyGrassNormal!.value).toBe(surface.normal);
     for (const { library } of [first, second]) {
       library.dispose();
       libraries.delete(library);

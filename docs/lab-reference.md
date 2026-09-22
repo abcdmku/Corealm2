@@ -23,7 +23,9 @@ installed Chrome in a fresh test profile. `--trace-boot` starts the optional tra
 plain `--trace` still measures only after joining. Do not compare traced timings to acceptance runs.
 The walking check also captures the first ready frame, requires nearby building and creature
 geometry with no pending entity or animation work, then sends movement immediately. `--budget`
-requires movement within 250 ms and the existing startup limit of 20 seconds. A smooth empty
+requires movement within 250 ms. Startup duration is reported separately because the owner
+accepts longer responsive loading; `--startup-budget-ms 20000` restores the earlier time limit
+when explicitly requested. A smooth empty
 world or a connected session behind a blocking menu does not pass. `--authored` uses the existing
 production test host; `--warm` reloads the same browser context with caches enabled. Report cold
 and warm results separately. Network emulation applies to the asset origin; the authored socket
