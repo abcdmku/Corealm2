@@ -1,6 +1,9 @@
 import { FINALE } from "../content/elementalFinales.js";
 import { tornadoDebris } from "./tornadoDebris.js";
 import * as THREE from "three";
+import type { MeshBasicNodeMaterial } from "three/webgpu";
+import { attribute, buffer, cos, float, instanceIndex, modelNormalMatrix, normalGeometry, positionGeometry, sin, transformNormal, varying, vec3, vec4 } from "three/tsl";
+import { clockUniform } from "./elementalNodes.js";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
 import type { ElementalParticleCloud } from "./elementalParticleCloud.js";
 import type { ElementalFilaments } from "./elementalFilaments.js";
@@ -8,7 +11,7 @@ import { ElementalAtmosphere } from "./elementalAtmosphere.js";
 import { ElementalFlowSurfaces } from "./elementalFlowSurfaces.js";
 import { AirCurrentSheets } from "./airCurrentSheets.js";
 import { elementalPulseArt } from "./elementalPulseArt.js";
-import { elementalRefractionFragment, refractionUniforms, registerElementalRefraction } from "./elementalRefraction.js";
+import { createElementalRefractionMaterial, registerElementalRefraction } from "./elementalRefraction.js";
 
 const TAU = Math.PI * 2;
 const clamp = (x: number) => Math.max(0,Math.min(1,x));
@@ -18,7 +21,7 @@ type PressureShape = "shell" | "funnel" | "ripple";
 
 /** Moving pressure, with sparse directional tracers. Large storms lift dark dust and fine ground debris. */
 export class AirSpellVfx {
-  private readonly batches = new Map<PressureShape, THREE.InstancedMesh<THREE.BufferGeometry,THREE.ShaderMaterial>>();
+  private readonly batches = new Map<PressureShape, THREE.InstancedMesh<THREE.BufferGeometry,MeshBasicNodeMaterial>>();
   private readonly unregister: (()=>void)[] = [];
   private readonly atmosphere:ElementalAtmosphere;
   private readonly dustHaze:ElementalAtmosphere;
@@ -41,30 +44,28 @@ export class AirSpellVfx {
     ripple.rotateX(Math.PI/2);
     for (const [kind,geometry] of [["shell",new THREE.SphereGeometry(1,24,16)],["funnel",funnel],["ripple",ripple]] as const) {
       geometry.setAttribute("pressureLife",new THREE.InstancedBufferAttribute(new Float32Array(96*3),3).setUsage(THREE.DynamicDrawUsage));
-      const material=new THREE.ShaderMaterial({
-        uniforms: refractionUniforms(this.clock,false,kind==="funnel"?19:14,kind==="funnel"?1:0),
-        defines: { PRESSURE_FUNNEL: kind==="funnel"?1:0 },
-        transparent:true,depthWrite:false,side:THREE.FrontSide,toneMapped:false,
-        vertexShader:`attribute vec3 pressureLife;uniform float time;
-          varying vec3 vRefNormal,vRefView,vRefLocal;varying float vRefAlpha,vRefSeed;
-          void main(){vec3 p=position;vec3 n=normal;
-            #if PRESSURE_FUNNEL == 1
-              p.xz*=(pressureLife.z+(1.-pressureLife.z)*p.y)/(.12+.88*p.y);
-              float phase=p.y*15.0-time*5.0+pressureLife.y;
-              p.xz*=1.0+.09*sin(phase)+.04*sin(phase*2.1);
-              p.x+=sin(p.y*5.0+time*1.7)*.09*p.y;
-              p.z+=cos(p.y*7.0-time*1.3)*.06*p.y;
-              n.xz+=vec2(sin(phase),cos(phase))*.24;
-            #else
-              p*=1.0+.035*sin(p.y*11.0-time*7.0+pressureLife.y)*sin(p.x*9.0+time*4.0);
-            #endif
-            vec4 world=instanceMatrix*vec4(p,1.0);vec4 view=modelViewMatrix*world;
-            mat3 m=mat3(instanceMatrix);n/=vec3(dot(m[0],m[0]),dot(m[1],m[1]),dot(m[2],m[2]));
-            vRefNormal=normalize(normalMatrix*m*n);vRefView=-view.xyz;vRefLocal=p;
-            vRefAlpha=pressureLife.x;vRefSeed=pressureLife.y;gl_Position=projectionMatrix*view;}`,
-        fragmentShader:elementalRefractionFragment,
-      });
+      const life=attribute("pressureLife","vec3"),time=clockUniform(this.clock);
+      const source=positionGeometry;
+      const phase=source.y.mul(15).sub(time.mul(5)).add(life.y);
+      const radius=life.z.add(float(1).sub(life.z).mul(source.y)).div(source.y.mul(.88).add(.12))
+        .mul(sin(phase).mul(.09).add(sin(phase.mul(2.1)).mul(.04)).add(1));
+      const point=kind==="funnel"
+        ?vec3(source.x.mul(radius).add(sin(source.y.mul(5).add(time.mul(1.7))).mul(.09).mul(source.y)),
+          source.y,source.z.mul(radius).add(cos(source.y.mul(7).sub(time.mul(1.3))).mul(.06).mul(source.y)))
+        :source.mul(sin(source.y.mul(11).sub(time.mul(7)).add(life.y)).mul(sin(source.x.mul(9).add(time.mul(4)))).mul(.035).add(1));
+      const localNormal=kind==="funnel"
+        ?normalGeometry.add(vec3(sin(phase).mul(.24),0,cos(phase).mul(.24)))
+        :normalGeometry;
+      const matrices=new THREE.InstancedBufferAttribute(new Float32Array(96*16),16).setUsage(THREE.DynamicDrawUsage);
+      const matrix=buffer(matrices.array,"mat4",96).element(instanceIndex);
+      const material=createElementalRefractionMaterial({clock:this.clock,liquid:false,
+        strength:kind==="funnel"?19:14,flowMode:kind==="funnel"?1:0,
+        positionNode:matrix.mul(vec4(point,1)).xyz,
+        normalNode:varying(modelNormalMatrix.mul(transformNormal(localNormal,matrix)).normalize()),
+        localNode:varying(point),alphaNode:life.x,seedNode:life.y});
+      material.side=THREE.FrontSide;
       const mesh=new THREE.InstancedMesh(geometry,material,96);
+      mesh.instanceMatrix=matrices;
       mesh.count=0;mesh.visible=false;mesh.frustumCulled=false;
       mesh.name=`elemental-air-pressure-${kind}`;
       mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);

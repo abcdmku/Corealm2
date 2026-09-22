@@ -1,8 +1,10 @@
 import * as THREE from "three";
+import { MeshBasicNodeMaterial, type Node } from "three/webgpu";
+import * as N from "three/tsl";
 import type { Vec3 } from "../contracts.js";
 import { FINALE } from "../content/elementalFinales.js";
-import { refractionUniforms, registerElementalRefraction } from "./elementalRefraction.js";
-import { flowSampling } from "./elementalFlowTexture.js";
+import { elementalRefractionScene, elementalRefractionViewport, registerElementalRefraction } from "./elementalRefraction.js";
+import { authoredFlow } from "./elementalNodes.js";
 
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const ease=(x:number)=>{const u=clamp(x);return u*u*(3-2*u);};
@@ -53,57 +55,51 @@ function splashGeometry():THREE.BufferGeometry {
   g.setIndex(indices);g.computeVertexNormals();return g;
 }
 
-// Undertow's broken, luminous currents carried onto actual curling liquid geometry.
-// The ground remains visible between streams; there is no opaque circular pool.
-const delugeFragment=`${flowSampling}
-  uniform sampler2D sceneColor;uniform vec2 viewport;uniform float time,strength;
-  varying vec3 vRefNormal,vRefView,vRefLocal;varying vec2 vWaterUv;
-  varying float vRefAlpha,vCross;
-  void main(){
-    float u=vWaterUv.x,v=vWaterUv.y;
-    vec2 flowUv=vec2(u*3.8+v*.32,v*.73-time*.63);
-    float body=authoredFlow(flowUv,time*.36,23.);
-    float detail=authoredFlow(flowUv*2.4+vec2(body*.28,time*.15),time*.5,6.);
-    float gaps=authoredFlow(vec2(u*2.3-v*.55,v*.35),time*.15,11.);
-    float stream=smoothstep(.06,.36,body*.8+detail*.2);
-    float edgeFade=smoothstep(0.,.045,v)*(1.-smoothstep(.92,1.,v));
-    float bulk=1.-smoothstep(.40,.92,v);
-    // A continuous dense wave belly; erosion is concentrated in the breaking lip.
-    float coverage=vRefAlpha*edgeFade*(.82+stream*.16)*mix(smoothstep(.045,.21,gaps),.96,bulk*.86);
-    #if SPLASH == 1
-      float tear=body*.52+gaps*.48;
-      coverage*=smoothstep(0.,.10,vCross)*(1.-smoothstep(.90,1.,vCross));
-      if(v>.48&&tear<.16+v*.12)discard;
-      coverage*=mix(.98,smoothstep(.18,.37,tear),smoothstep(.42,.92,v));
-    #endif
-    if(coverage<.016)discard;
-    vec3 n=normalize(vRefNormal);
-    n=normalize(n+vec3(detail-body,body-.4,detail-.45)*.45);
-    float facing=abs(dot(n,normalize(vRefView))),fresnel=pow(1.-facing,3.);
-    vec2 uv=gl_FragCoord.xy/viewport;
-    vec2 shift=(n.xy+vec2(body-.5,detail-.5)*1.4)*strength*coverage/viewport;
-    vec3 scene=texture2D(sceneColor,clamp(uv+shift,vec2(.002),vec2(.998))).rgb;
-    vec3 deep=mix(vec3(.018,.19,.21),vec3(.075,.40,.39),stream);
-    float thickness=.55+bulk*.28+fresnel*.10;
-    vec3 color=mix(scene*vec3(.67,.92,.96),deep,thickness);
-    float foam=smoothstep(.22,.58,body)*smoothstep(.20,.60,detail);
-    float crest=pow(max(0.,sin(v*3.14159)),.7);
-    color=mix(color,vec3(.69,.89,.86),foam*crest*(.74+fresnel*.18));
-    #if SPLASH == 1
-      // Clearer flowing bellies and foam at the torn upper edge keep the
-      // central collision liquid instead of covering it in a white fabric mask.
-      color=mix(scene*vec3(.65,.90,.94),deep,.62+fresnel*.15);
-      color=mix(color,vec3(.79,.94,.91),foam*smoothstep(.28,.88,v)*.80);
-      // The compressed collision catches a brief hard sheen across the moving
-      // folds. It stays on the liquid surface and never blooms onto the spray.
-      float impact=exp(-pow((time-${((crash+90)/1000).toFixed(2)})/.17,2.));
-      color+=vec3(.19,.42,.43)*impact*(.25+foam*.55+fresnel*.65);
-    #endif
-    float glint=pow(max(0.,dot(n,normalize(vec3(-.35,.8,.45)))),30.);
-    color+=vec3(.39,.70,.69)*glint*.75;
-    color+=vec3(.055,.25,.28)*pow(detail,3.)*crest;
-    gl_FragColor=vec4(color,coverage);
-  }`;
+// Authored flow stays on the curling liquid geometry. The shared scene-color
+// capture supplies refraction without another render or texture copy per sheet.
+function delugeFragment(splash:boolean, time:Node<"float">, opacity:Node<"float">):Node<"vec4"> {
+  return N.Fn(():Node<"vec4"> => {
+    const waterUv=N.uv();
+    const u=splash?waterUv.x.add(N.attribute('splashLobe','float')).mul(.283):waterUv.x;
+    const v=waterUv.y;
+    const flowUv=N.vec2(u.mul(3.8).add(v.mul(.32)),v.mul(.73).sub(time.mul(.63)));
+    const body=authoredFlow(flowUv,time.mul(.36),N.float(23)).toVar();
+    const detail=authoredFlow(flowUv.mul(2.4).add(N.vec2(body.mul(.28),time.mul(.15))),time.mul(.5),N.float(6)).toVar();
+    const gaps=authoredFlow(N.vec2(u.mul(2.3).sub(v.mul(.55)),v.mul(.35)),time.mul(.15),N.float(11)).toVar();
+    const stream=N.smoothstep(.06,.36,body.mul(.8).add(detail.mul(.2)));
+    const edgeFade=N.smoothstep(0,.045,v).mul(N.smoothstep(.92,1,v).oneMinus());
+    const bulk=N.smoothstep(.40,.92,v).oneMinus();
+    const coverage=opacity.mul(edgeFade).mul(stream.mul(.16).add(.82))
+      .mul(N.mix(N.smoothstep(.045,.21,gaps),.96,bulk.mul(.86))).toVar();
+    if(splash){
+      const tear=body.mul(.52).add(gaps.mul(.48));
+      coverage.mulAssign(N.smoothstep(0,.10,waterUv.x).mul(N.smoothstep(.90,1,waterUv.x).oneMinus()));
+      N.If(v.greaterThan(.48).and(tear.lessThan(v.mul(.12).add(.16))),()=>N.Discard());
+      coverage.mulAssign(N.mix(.98,N.smoothstep(.18,.37,tear),N.smoothstep(.42,.92,v)));
+    }
+    N.If(coverage.lessThan(.016),()=>N.Discard());
+    const n=N.normalize(N.normalViewGeometry.normalize().add(N.vec3(detail.sub(body),body.sub(.4),detail.sub(.45)).mul(.45))).toVar();
+    const fresnel=N.dot(n,N.positionViewDirection).abs().oneMinus().pow(3);
+    const shift=n.xy.add(N.vec2(body.sub(.5),detail.sub(.5)).mul(1.4)).mul(17).mul(coverage).div(elementalRefractionViewport);
+    const scene=elementalRefractionScene.sample(N.screenUV.add(shift.mul(N.vec2(1,-1))).clamp(.002,.998)).level(N.float(0)).rgb;
+    const deep=N.mix(N.vec3(.018,.19,.21),N.vec3(.075,.40,.39),stream);
+    const thickness=bulk.mul(.28).add(fresnel.mul(.10)).add(.55);
+    const color=N.mix(scene.mul(N.vec3(.67,.92,.96)),deep,thickness).toVar();
+    const foam=N.smoothstep(.22,.58,body).mul(N.smoothstep(.20,.60,detail));
+    const crest=N.sin(v.mul(Math.PI)).max(0).pow(.7);
+    color.assign(N.mix(color,N.vec3(.69,.89,.86),foam.mul(crest).mul(fresnel.mul(.18).add(.74))));
+    if(splash){
+      color.assign(N.mix(scene.mul(N.vec3(.65,.90,.94)),deep,fresnel.mul(.15).add(.62)));
+      color.assign(N.mix(color,N.vec3(.79,.94,.91),foam.mul(N.smoothstep(.28,.88,v)).mul(.80)));
+      const impact=time.sub((crash+90)/1000).div(.17).pow(2).negate().exp();
+      color.addAssign(N.vec3(.19,.42,.43).mul(impact).mul(foam.mul(.55).add(fresnel.mul(.65)).add(.25)));
+    }
+    const glint=N.dot(n,N.vec3(-.35,.8,.45).normalize()).max(0).pow(30);
+    color.addAssign(N.vec3(.39,.70,.69).mul(glint).mul(.75));
+    color.addAssign(N.vec3(.055,.25,.28).mul(detail.pow(3)).mul(crest));
+    return N.vec4(color,coverage);
+  })();
+}
 
 /** One connected surf front. Adjacent points share motion; there are no repeated wave sections. */
 export function delugePoint(angle:number,u:number,age:number,splash=false):Vec3 {
@@ -129,31 +125,19 @@ export function delugePoint(angle:number,u:number,age:number,splash=false):Vec3 
 
 /** 2,880 triangles per connected liquid sheet, deformed without skeletal animation. */
 export class DelugeSurface {
-  readonly mesh:THREE.Mesh<THREE.BufferGeometry,THREE.ShaderMaterial>;
+  readonly mesh:THREE.Mesh<THREE.BufferGeometry,MeshBasicNodeMaterial>;
   height=0;
   radius=0;
-  private readonly clock={value:0};
-  private readonly opacity={value:0};
+  private readonly clock=N.uniform(0);
+  private readonly opacity=N.uniform(0);
   private readonly unregister:()=>void;
   constructor(parent:THREE.Object3D,private readonly splash:boolean){
     const geometry=splash?splashGeometry():new THREE.PlaneGeometry(1,1,80,18);
     (geometry.getAttribute("position") as THREE.BufferAttribute).setUsage(THREE.DynamicDrawUsage);
-    const material=new THREE.ShaderMaterial({
-      uniforms:{...refractionUniforms(this.clock,true,17,splash?3:0),surfaceOpacity:this.opacity},
-      defines:{SPLASH:splash?1:0},
-      transparent:true,depthWrite:false,side:THREE.DoubleSide,toneMapped:false,
-      vertexShader:`uniform float surfaceOpacity;varying vec3 vRefNormal,vRefView,vRefLocal;varying vec2 vWaterUv;varying float vRefAlpha,vCross;
-        #if SPLASH == 1
-          attribute float splashLobe;
-        #endif
-        void main(){vec4 view=modelViewMatrix*vec4(position,1.);vRefView=-view.xyz;vRefNormal=normalMatrix*normal;
-          vRefLocal=position;vWaterUv=uv;vCross=uv.x;
-          #if SPLASH == 1
-            vWaterUv.x=(uv.x+splashLobe)*.283;
-          #endif
-          vRefAlpha=surfaceOpacity;gl_Position=projectionMatrix*view;}`,
-      fragmentShader:delugeFragment,
+    const material=new MeshBasicNodeMaterial({
+      transparent:true,depthWrite:false,side:THREE.DoubleSide,toneMapped:false,fog:false,
     });
+    material.fragmentNode=delugeFragment(splash,this.clock,this.opacity);
     this.mesh=new THREE.Mesh(geometry,material);this.mesh.name=splash?"elemental-deluge-torn-splash":"elemental-deluge-continuous-surf";
     this.mesh.frustumCulled=false;this.mesh.visible=false;this.mesh.renderOrder=splash?10:9;
     this.unregister=registerElementalRefraction(this.mesh);parent.add(this.mesh);

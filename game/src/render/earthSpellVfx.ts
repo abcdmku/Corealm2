@@ -1,13 +1,15 @@
 import { FINALE, elementalChoreographyDuration } from "../content/elementalFinales.js";
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import { attribute, float, materialColor, max, mix, modelWorldMatrix, positionGeometry, reference, smoothstep, varying, vec3, vec4 } from "three/tsl";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
 import type { ElementalParticleCloud } from "./elementalParticleCloud.js";
 import type { ElementalFilaments } from "./elementalFilaments.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { ElementalAtmosphere } from "./elementalAtmosphere.js";
-import { FracturedBoulder, fracturedBoulderGeometry, fadeFractureShadow } from "./fracturedBoulder.js";
+import { FracturedBoulder, fracturedBoulderGeometry, fadeFractureShadow, turnFracture } from "./fracturedBoulder.js";
 import { ElementalFlowSurfaces } from "./elementalFlowSurfaces.js";
-import { elementalFlowTexture, flowSampling } from "./elementalFlowTexture.js";
+import { authoredFlow, matterNoise3 as stoneNoise } from "./elementalNodes.js";
 import { isolateMagicEmission } from "./magicGlow.js";
 import { elementalPulseArt } from "./elementalPulseArt.js";
 import { ElementalEnergyBodies } from "./elementalEnergyBodies.js";
@@ -71,10 +73,10 @@ export class EarthSpellVfx {
   private readonly energy:ElementalEnergyBodies;
   private readonly flint: FracturedBoulder;
   private readonly siege: FracturedBoulder;
-  private readonly outcrops: THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>[]=[];
+  private readonly outcrops: THREE.Mesh<THREE.BufferGeometry,MeshStandardNodeMaterial>[]=[];
   private readonly collapses:Array<{value:number}>=[];
-  private readonly ridge: THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>;
-  private readonly jaws: THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>[]=[];
+  private readonly ridge: THREE.Mesh<THREE.BufferGeometry,MeshStandardNodeMaterial>;
+  private readonly jaws: THREE.Mesh<THREE.BufferGeometry,MeshStandardNodeMaterial>[]=[];
   private readonly front={value:0};
   private readonly clock={value:0};
   private readonly forms: THREE.Mesh[]=[];
@@ -89,27 +91,19 @@ export class EarthSpellVfx {
     this.flint=new FracturedBoulder(parent,72,"elemental-flint-connected-fracture",ground);
     this.siege=new FracturedBoulder(parent,180,"elemental-siege-connected-fracture",ground);
     const make=(geometry:THREE.BufferGeometry,name:string,color:number)=>{
-      const material=new THREE.MeshStandardMaterial({color,roughness:.9,flatShading:true,vertexColors:true});
-      material.onBeforeCompile=shader=>{
-        shader.uniforms["mineralTime"]=this.clock;
-        shader.uniforms["flowTexture"]={value:elementalFlowTexture()};
-        shader.vertexShader=`varying vec3 rockSurface;\n${shader.vertexShader}`.replace("#include <begin_vertex>","#include <begin_vertex>\nrockSurface=position;");
-        shader.fragmentShader=`uniform float mineralTime;varying vec3 rockSurface;${flowSampling}
-          float stoneHash(vec3 p){p=fract(p*.3183099+.17);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
-          float stoneNoise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(stoneHash(i),stoneHash(i+vec3(1,0,0)),f.x),mix(stoneHash(i+vec3(0,1,0)),stoneHash(i+vec3(1,1,0)),f.x),f.y),mix(mix(stoneHash(i+vec3(0,0,1)),stoneHash(i+vec3(1,0,1)),f.x),mix(stoneHash(i+vec3(0,1,1)),stoneHash(i+vec3(1,1,1)),f.x),f.y),f.z);}
-          \n${shader.fragmentShader}`.replace("#include <color_fragment>",`#include <color_fragment>
-          float grain=stoneNoise(rockSurface*19.),mineral=stoneNoise(rockSurface*2.4+stoneNoise(rockSurface*4.1)*1.6);
-          float fissure=1.-smoothstep(.008,.034,abs(mineral-.5));
-          diffuseColor.rgb*=.78+grain*.3;
-          diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.085,.093,.08),fissure*.48);
-          diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.28,.32,.23),smoothstep(.66,.83,mineral)*.23);
-          float etched=authoredFlow(rockSurface.xz*.24+rockSurface.y*.13,0.,2.);
-          diffuseColor.rgb*=.62+etched*.7;`)
-          .replace("#include <emissivemap_fragment>",`#include <emissivemap_fragment>
-            float vein=pow(smoothstep(.46,.72,etched),2.);
-            float charge=pow(.5+.5*sin(rockSurface.y*2.1+etched*15.-mineralTime*3.),8.);
-            totalEmissiveRadiance=vec3(.19,.74,.42)*vein*(.95+charge*2.0);`);
-      };
+      const material=new MeshStandardNodeMaterial({color,roughness:.9,flatShading:true});
+      const point=varying(positionGeometry),clock=reference('value','float',this.clock);
+      const grain=stoneNoise(point.mul(19));
+      const mineral=stoneNoise(point.mul(2.4).add(stoneNoise(point.mul(4.1)).mul(1.6)));
+      const fissure=float(1).sub(smoothstep(.008,.034,mineral.sub(.5).abs()));
+      const base=materialColor.rgb.mul(attribute('color','vec3')).mul(grain.mul(.3).add(.78));
+      const darkened=mix(base,vec3(.085,.093,.08),fissure.mul(.48));
+      const shaded=mix(darkened,vec3(.28,.32,.23),smoothstep(.66,.83,mineral).mul(.23));
+      const etched=authoredFlow(point.xz.mul(.24).add(point.y.mul(.13)),float(0),float(2));
+      material.colorNode=shaded.mul(etched.mul(.7).add(.62));
+      const vein=smoothstep(.46,.72,etched).pow(2);
+      const charge=point.y.mul(2.1).add(etched.mul(15)).sub(clock.mul(3)).sin().mul(.5).add(.5).pow(8);
+      material.emissiveNode=vec3(.19,.74,.42).mul(vein).mul(charge.mul(2).add(.95));
       isolateMagicEmission(material);
       const mesh=new THREE.Mesh(geometry,material);mesh.name=name;mesh.castShadow=true;mesh.receiveShadow=true;mesh.visible=false;
       mesh.frustumCulled=false;mesh.userData["magicGlow"]=true;parent.add(mesh);this.forms.push(mesh);return mesh;
@@ -127,46 +121,27 @@ export class EarthSpellVfx {
       const release={value:0},floor={value:0},inverse={value:new THREE.Matrix4()},fade={value:1};
       this.collapses.push(release);rock.userData['fractureFloor']=floor;
       rock.userData['fractureInverse']=inverse;rock.userData['fractureFade']=fade;
-      const shade=rock.material.onBeforeCompile;
-      const programKey=rock.material.customProgramCacheKey();
-      rock.material.customProgramCacheKey=()=>`${programKey}|world-fracture-v2`;
-      rock.material.onBeforeCompile=(shader,renderer)=>{
-        shade(shader,renderer);shader.uniforms['rockCollapse']=release;shader.uniforms['rockFloor']=floor;
-        shader.uniforms['rockInverseModel']=inverse;
-        shader.vertexShader=`attribute vec3 rockChunkCentre;attribute vec4 rockChunkMotion;uniform float rockCollapse,rockFloor;uniform mat4 rockInverseModel;
-${shader.vertexShader}`
-          .replace('rockSurface=position;',`rockSurface=position;
-            vec3 worldCenter=(modelMatrix*vec4(rockChunkCentre,1.)).xyz;
-            vec3 piece=(modelMatrix*vec4(transformed,1.)).xyz-worldCenter;
-            float a=rockCollapse*(1.1+rockChunkMotion.w),c=cos(a),s=sin(a);
-            vec3 axis=normalize(vec3(rockChunkMotion.x,.4,rockChunkMotion.z));
-            piece=(piece*c+cross(axis,piece)*s+axis*dot(axis,piece)*(1.-c))*(1.-smoothstep(.015,.24,rockCollapse)*.82);
-            vec4 worldRock=vec4(worldCenter+piece,1.);
-            vec3 drift=normalize(mat3(modelMatrix)*vec3(rockChunkMotion.x,.05,rockChunkMotion.z));
-            worldRock.xyz+=drift*((1.-exp(-rockCollapse*1.4))/1.4)*(6.+rockChunkMotion.w*1.6);
-            worldRock.y+=rockCollapse*(7.+rockChunkMotion.y*10.)-9.*rockCollapse*rockCollapse;
-            if(rockCollapse>0.){
-              float centerY=(modelMatrix*vec4(rockChunkCentre,1.)).y+drift.y*((1.-exp(-rockCollapse*1.4))/1.4)*(6.+rockChunkMotion.w*1.6)
-                +rockCollapse*(7.+rockChunkMotion.y*10.)-9.*rockCollapse*rockCollapse;
-              worldRock.y+=max(0.,rockFloor+.23-centerY);
-            }
-            transformed=(rockInverseModel*worldRock).xyz;`);
-      };
-      const depth=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking});
-      depth.onBeforeCompile=(shader,renderer)=>{rock.material.onBeforeCompile(shader,renderer);fadeFractureShadow(shader,fade);};
-      depth.customProgramCacheKey=()=>`${programKey}|world-fracture-depth-v2`;
-      rock.customDepthMaterial=depth;
+      const collapse=reference('value','float',release),floorNode=reference('value','float',floor);
+      const inverseModel=reference('value','mat4',inverse);
+      const chunkCentre=attribute('rockChunkCentre','vec3'),motion=attribute('rockChunkMotion','vec4');
+      const worldCentre=modelWorldMatrix.mul(vec4(chunkCentre,1)).xyz;
+      const piece=modelWorldMatrix.mul(vec4(positionGeometry,1)).xyz.sub(worldCentre);
+      const axis=vec3(motion.x,.4,motion.z).normalize(),angle=collapse.mul(motion.w.add(1.1));
+      const turned=turnFracture(piece,axis,angle).mul(float(1).sub(smoothstep(.015,.24,collapse).mul(.82)));
+      const drift=modelWorldMatrix.mul(vec4(motion.x,.05,motion.z,0)).xyz.normalize();
+      const travel=float(1).sub(collapse.mul(-1.4).exp()).div(1.4).mul(motion.w.mul(1.6).add(6));
+      const lift=collapse.mul(motion.y.mul(10).add(7)).sub(collapse.mul(collapse).mul(9));
+      const worldRock=worldCentre.add(turned).add(drift.mul(travel)).add(vec3(0,lift,0));
+      const centreY=worldCentre.y.add(drift.y.mul(travel)).add(lift);
+      const landing=collapse.greaterThan(0).select(max(0,floorNode.add(.23).sub(centreY)),0);
+      rock.material.positionNode=inverseModel.mul(vec4(worldRock.add(vec3(0,landing,0)),1)).xyz;
+      fadeFractureShadow(rock.material,fade);
       rock.material.transparent=true;this.outcrops.push(rock);
     }
     this.ridge=make(faultGeometry(),"elemental-fault-travelling-ridge",0x8c8777);
-    const shade=this.ridge.material.onBeforeCompile;
-    const ridgeProgramKey=this.ridge.material.customProgramCacheKey();
-    this.ridge.material.customProgramCacheKey=()=>`${ridgeProgramKey}|travelling-fault`;
-    this.ridge.material.onBeforeCompile=(shader,renderer)=>{
-      shade(shader,renderer);shader.uniforms["faultFront"]=this.front;
-      shader.vertexShader=`uniform float faultFront;\n${shader.vertexShader}`.replace("rockSurface=position;","rockSurface=position;transformed.y*=smoothstep(-.13,.13,faultFront-position.z/14.0-.5);");
-    };
-    const depth=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking});depth.onBeforeCompile=this.ridge.material.onBeforeCompile;this.ridge.customDepthMaterial=depth;
+    const faultFront=reference('value','float',this.front);
+    const rise=smoothstep(-.13,.13,faultFront.sub(positionGeometry.z.div(14)).sub(.5));
+    this.ridge.material.positionNode=vec3(positionGeometry.x,positionGeometry.y.mul(rise),positionGeometry.z);
     for(let i=0;i<2;i++)this.jaws.push(make(jawGeometry(i===1),`elemental-basalt-closing-jaw-${i}`,0x898e7c));
   }
   get instances():number {return this.flow.instances+this.haze.instances+this.energy.instances+this.forms.filter(m=>m.visible).length+Number(this.flint.mesh.visible)+Number(this.siege.mesh.visible);}
@@ -377,5 +352,5 @@ ${shader.vertexShader}`
       }
     }
   }
-  dispose():void{this.flow.dispose();this.haze.dispose();this.energy.dispose();this.flint.dispose();this.siege.dispose();for(const mesh of this.forms){mesh.removeFromParent();mesh.geometry.dispose();(mesh.material as THREE.Material).dispose();mesh.customDepthMaterial?.dispose();}}
+  dispose():void{this.flow.dispose();this.haze.dispose();this.energy.dispose();this.flint.dispose();this.siege.dispose();for(const mesh of this.forms){mesh.removeFromParent();mesh.geometry.dispose();(mesh.material as THREE.Material).dispose();}}
 }

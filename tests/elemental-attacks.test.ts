@@ -7,6 +7,7 @@ import {
 } from "../game/src/systems/elementalAttacks.js";
 import { ElementalSpellVfx } from "../game/src/render/elementalSpellVfx.js";
 import * as THREE from "three";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import { elementalGameplayTime, elementalChoreographyTime } from "../game/src/content/elementalTiming.js";
 import { FINALE } from "../game/src/content/elementalFinales.js";
 import { tornadoDebris } from "../game/src/render/tornadoDebris.js";
@@ -26,17 +27,30 @@ describe("elemental attacks", () => {
   it("lands boulder fragments on the terrain plane when contact is above a tall target",()=>{
     const body=new FracturedBoulder(new THREE.Group(),72,"landing-test",()=>2);
     try{
-      const shader={uniforms:{},vertexShader:"#include <begin_vertex>",fragmentShader:""} as THREE.WebGLProgramParametersWithUniforms;
-      body.mesh.material.onBeforeCompile(shader,{} as THREE.WebGLRenderer);
-      const depth={uniforms:{},vertexShader:"#include <begin_vertex>",fragmentShader:"#include <alphatest_fragment>"} as THREE.WebGLProgramParametersWithUniforms;
-      body.mesh.customDepthMaterial!.onBeforeCompile(depth,{} as THREE.WebGLRenderer);
+      const material=body.mesh.material;
+      expect(material.isNodeMaterial).toBe(true);
+      expect(material.positionNode).toBeTruthy();
+      expect(material.maskShadowNode).toBeTruthy();
+      const references: Array<{property:string;object:unknown}>=[];
+      material.positionNode!.traverse(node=>{
+        if('property' in node&&'object' in node)references.push(node as unknown as {property:string;object:unknown});
+      });
+      const floor=references.find(node=>node.property==='floor.value')!;
+      expect(floor).toBeDefined();
+      const shadowReferences: Array<{property:string;object:{value:number}}>=[];
+      material.maskShadowNode!.traverse(node=>{
+        if('property' in node&&'object' in node)shadowReferences.push(node as unknown as {property:string;object:{value:number}});
+      });
+      const fadeBinding=shadowReferences.find(node=>node.property==='value')!;
+      expect(fadeBinding).toBeDefined();
       for(const height of [3.5,7])for(const scale of [.19,.28]){
         body.pose(0,height,10,scale,.5,.8,1);
-        expect(shader.uniforms["rockFloor"]!.value*scale+body.mesh.position.y).toBeCloseTo(2);
+        const groundOffset=(floor.object as {floor:{value:number}}).floor.value;
+        expect(groundOffset*scale+body.mesh.position.y).toBeCloseTo(2);
       }
       for(const fade of [1,.4,.05]){
         body.pose(0,7,10,.28,.5,.8,fade);
-        expect(depth.uniforms['fractureFade']!.value).toBe(body.mesh.material.opacity);
+        expect(fadeBinding.object.value).toBe(body.mesh.material.opacity);
       }
     }finally{body.dispose();}
   });
@@ -140,7 +154,7 @@ describe("elemental attacks", () => {
       expect(vfx.group.children.filter(m=>m.name.startsWith('elemental-mountain-fracture-outcrop-')&&m.visible)).toHaveLength(5);
       const currents=vfx.group.getObjectByName('elemental-earth-mineral-currents') as THREE.Mesh<THREE.InstancedBufferGeometry>;
       expect(currents.geometry.instanceCount).toBeGreaterThanOrEqual(7);
-      const rock=vfx.group.getObjectByName("elemental-mountain-fracture-outcrop-0") as THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>;
+      const rock=vfx.group.getObjectByName("elemental-mountain-fracture-outcrop-0") as THREE.Mesh<THREE.BufferGeometry,MeshStandardNodeMaterial>;
       const outer=rock.position.distanceTo(new THREE.Vector3(0,rock.position.y,10));
       vfx.update(cast,elementalGameplayTime("mountainfall",4250));
       expect(rock.visible).toBe(true);expect(rock.position.distanceTo(new THREE.Vector3(0,rock.position.y,10))).toBeLessThan(outer*.4);
@@ -149,16 +163,23 @@ describe("elemental attacks", () => {
       expect(vfx.particleCount).toBeGreaterThan(5000);
       expect(vfx.group.userData['elementalArt'].earth.boulderPieces).toBeLessThanOrEqual(72);
       expect(vfx.group.userData['elementalArt'].earth.boulderPieces).toBeGreaterThan(0);
-      const shader={uniforms:{},vertexShader:"#include <begin_vertex>",fragmentShader:"#include <alphatest_fragment>"} as THREE.WebGLProgramParametersWithUniforms;
-      rock.customDepthMaterial!.onBeforeCompile(shader,{} as THREE.WebGLRenderer);
+      expect(rock.material.isNodeMaterial).toBe(true);
+      expect(rock.material.positionNode).toBeTruthy();
+      expect(rock.material.maskShadowNode).toBeTruthy();
+      const positionBindings: unknown[]=[];
+      rock.material.positionNode!.traverse(node=>{if('object' in node)positionBindings.push(node.object);});
+      expect(positionBindings).toContain(rock.userData['fractureInverse']);
+      const shadowBindings: unknown[]=[];
+      rock.material.maskShadowNode!.traverse(node=>{if('object' in node)shadowBindings.push(node.object);});
+      expect(shadowBindings).toContain(rock.userData['fractureFade']);
       vfx.update(cast,elementalGameplayTime("mountainfall",6300));
       const local=new THREE.Vector3(.3,.6,-.4);
-      const roundTrip=local.clone().applyMatrix4(rock.matrixWorld).applyMatrix4(shader.uniforms['rockInverseModel']!.value);
+      const roundTrip=local.clone().applyMatrix4(rock.matrixWorld).applyMatrix4(rock.userData['fractureInverse'].value);
       expect(roundTrip.distanceTo(local)).toBeLessThan(.00001);
-      expect(shader.uniforms['fractureFade']!.value).toBe(rock.material.opacity);
+      expect(rock.userData['fractureFade'].value).toBe(rock.material.opacity);
       expect(rock.material.opacity).toBeGreaterThan(0);expect(rock.material.opacity).toBeLessThan(1);
-      const ridge=vfx.group.getObjectByName('elemental-fault-travelling-ridge') as THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>;
-      expect(rock.material.customProgramCacheKey()).not.toBe(ridge.material.customProgramCacheKey());
+      const ridge=vfx.group.getObjectByName('elemental-fault-travelling-ridge') as THREE.Mesh<THREE.BufferGeometry,MeshStandardNodeMaterial>;
+      expect(rock.material.positionNode!.getCacheKey()).not.toBe(ridge.material.positionNode!.getCacheKey());
       vfx.update(cast,elementalGameplayTime("mountainfall",6700));expect(rock.visible).toBe(false);
     }finally{vfx.dispose();}
   });

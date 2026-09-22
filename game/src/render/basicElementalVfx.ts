@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import type { MeshBasicNodeMaterial } from "three/webgpu";
+import { float, modelNormalMatrix, normalGeometry, positionGeometry, sin, varying } from "three/tsl";
 import { basicSpellPath } from "./basicSpellPath.js";
 import type { SpellElement, Vec3 } from "../contracts.js";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
@@ -10,7 +12,8 @@ import { FracturedBoulder } from "./fracturedBoulder.js";
 import type { ElementalParticleCloud } from "./elementalParticleCloud.js";
 import type { ElementalFluidBodies } from "./elementalFluidBodies.js";
 import { ELEMENTAL_ENERGY } from "./elementalEnergyStyles.js";
-import { elementalRefractionFragment, refractionUniforms, registerElementalRefraction } from "./elementalRefraction.js";
+import { createElementalRefractionMaterial, registerElementalRefraction } from "./elementalRefraction.js";
+import { clockUniform } from "./elementalNodes.js";
 
 const clamp=(v:number)=>Math.max(0,Math.min(1,v));
 const smooth=(v:number)=>{const t=clamp(v);return t*t*(3-2*t);};
@@ -23,7 +26,7 @@ export class BasicElementalVfx {
   private readonly currents:AirCurrentSheets;
   private readonly flame:ElementalEnergyBodies;
   private readonly pebble:FracturedBoulder;
-  private readonly pressure:THREE.Mesh<THREE.SphereGeometry,THREE.ShaderMaterial>;
+  private readonly pressure:THREE.Mesh<THREE.SphereGeometry,MeshBasicNodeMaterial>;
   private readonly clock={value:0};
   private readonly alpha={value:0};
   private readonly unregister:()=>void;
@@ -36,16 +39,12 @@ export class BasicElementalVfx {
     this.flame=new ElementalEnergyBodies(parent,"fire",true);
     this.flame.mesh.name="elemental-basic-flame";
     this.pebble=new FracturedBoulder(parent,24,"elemental-basic-pebble",ground);
-    const material=new THREE.ShaderMaterial({
-      uniforms:{...refractionUniforms(this.clock,false,12),puffAlpha:this.alpha},
-      transparent:true,depthWrite:false,side:THREE.FrontSide,toneMapped:false,
-      vertexShader:`uniform float puffAlpha,time;
-        varying vec3 vRefNormal,vRefView,vRefLocal;varying float vRefAlpha,vRefSeed;
-        void main(){vec3 p=position*(1.+sin(position.y*9.-time*8.)*.045);
-          vec4 view=modelViewMatrix*vec4(p,1.);vRefNormal=normalMatrix*normal;vRefView=-view.xyz;
-          vRefLocal=p;vRefAlpha=puffAlpha;vRefSeed=8.;gl_Position=projectionMatrix*view;}`,
-      fragmentShader:elementalRefractionFragment,
-    });
+    const time=clockUniform(this.clock);
+    const puff=positionGeometry.mul(sin(positionGeometry.y.mul(9).sub(time.mul(8))).mul(.045).add(1));
+    const material=createElementalRefractionMaterial({clock:this.clock,liquid:false,strength:12,
+      positionNode:puff,normalNode:varying(modelNormalMatrix.mul(normalGeometry)),
+      localNode:varying(puff),alphaNode:clockUniform(this.alpha),seedNode:float(8)});
+    material.side=THREE.FrontSide;
     this.pressure=new THREE.Mesh(new THREE.SphereGeometry(1,20,12),material);
     this.pressure.name="elemental-basic-pressure";this.pressure.visible=false;
     parent.add(this.pressure);this.unregister=registerElementalRefraction(this.pressure);

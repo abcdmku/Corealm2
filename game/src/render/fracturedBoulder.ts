@@ -1,16 +1,21 @@
 import * as THREE from "three";
-import { elementalFlowTexture, flowSampling } from "./elementalFlowTexture.js";
+import { MeshStandardNodeMaterial, type Node } from "three/webgpu";
+import { attribute, float, materialColor, max, normalLocal, positionGeometry, reference, screenCoordinate, smoothstep, transformNormalToView, varying, vec2, vec3 } from "three/tsl";
+import { authoredFlow, matterNoise3 as stoneNoise } from "./elementalNodes.js";
 import { isolateMagicEmission } from "./magicGlow.js";
 
 type Face = THREE.Vector3[];
 const noise = (n: number) => { const x = Math.sin(n * 127.1 + 17.7) * 43758.5453; return x - Math.floor(x); };
 
-/** Packed depth does not inherit transparent surface opacity. Fade its coverage too. */
-export function fadeFractureShadow(shader: THREE.WebGLProgramParametersWithUniforms, fade: {value:number}): void {
-  shader.uniforms['fractureFade']=fade;
-  shader.fragmentShader=`uniform float fractureFade;\n${shader.fragmentShader}`.replace('#include <alphatest_fragment>',`#include <alphatest_fragment>
-    float coverageNoise=fract(52.9829189*fract(dot(floor(gl_FragCoord.xy),vec2(.06711056,.00583715))));
-    if(coverageNoise>=fractureFade)discard;`);
+/** The shadow pass uses the same fragment coverage as the dissolving stone. */
+export function fadeFractureShadow(material: MeshStandardNodeMaterial, fade: {value:number}): void {
+  const coverageNoise=screenCoordinate.xy.floor().dot(vec2(.06711056,.00583715)).fract().mul(52.9829189).fract();
+  material.maskShadowNode=coverageNoise.lessThan(reference('value','float',fade));
+}
+
+export function turnFracture(v:Node<'vec3'>,axis:Node<'vec3'>,angle:Node<'float'>):Node<'vec3'>{
+  const c=angle.cos(),s=angle.sin();
+  return v.mul(c).add(axis.cross(v).mul(s)).add(axis.mul(axis.dot(v)).mul(float(1).sub(c)));
 }
 
 /** Clip a convex cell, retaining the cap so every fracture fragment is a closed solid. */
@@ -88,47 +93,32 @@ export function fracturedBoulderGeometry(count: number): THREE.BufferGeometry {
 }
 
 export class FracturedBoulder {
-  readonly mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+  readonly mesh: THREE.Mesh<THREE.BufferGeometry, MeshStandardNodeMaterial>;
   readonly release = { value: 0 };
   readonly scale = { value: 1 };
   private readonly energy = { value: 0 };
   private readonly floor = { value: 0 };
   private readonly fade = { value: 0 };
   constructor(parent: THREE.Object3D, count: number, name: string,private readonly ground:(x:number,z:number)=>number=()=>0) {
-    const material = new THREE.MeshStandardMaterial({ color: 0x7e8479, roughness: .83, flatShading: true, transparent: true });
-    material.onBeforeCompile = shader => {
-      shader.uniforms["shatterTime"] = this.release;
-      shader.uniforms["rockScale"] = this.scale;
-      shader.uniforms["rockFloor"] = this.floor;
-      shader.uniforms["mineralTime"] = this.energy;
-      shader.uniforms["flowTexture"]={value:elementalFlowTexture()};
-      shader.vertexShader = `attribute vec4 shardCentre,shardMotion;uniform float shatterTime,rockScale,rockFloor;
-        varying vec3 rockPoint;
-        vec3 fractureTurn(vec3 v){
-          vec3 axis=normalize(vec3(sin(shardMotion.w),.7,cos(shardMotion.w)));
-          float angle=shatterTime*(1.5+shardMotion.w*.45),s=sin(angle),c=cos(angle);
-          return v*c+cross(axis,v)*s+axis*dot(axis,v)*(1.-c);
-        }\n${shader.vertexShader}`
-        .replace("#include <beginnormal_vertex>","#include <beginnormal_vertex>\nobjectNormal=fractureTurn(objectNormal);")
-        .replace("#include <begin_vertex>",`float t=shatterTime;
-          vec3 centre=shardCentre.xyz+shardMotion.xyz*((1.-exp(-t*1.1))/1.1);
-          float floorY=rockFloor+shardCentre.w*.48;
-          float fall=centre.y-7.5*t*t/rockScale;
-          if(t>0.00001){centre.y=max(floorY,fall);
-          if(fall<floorY)centre.y+=abs(sin((floorY-fall)*2.0))*.11*exp(-t*2.);}
-          vec3 transformed=centre+fractureTurn(position-shardCentre.xyz);
-          rockPoint=position;`);
-      shader.fragmentShader = `uniform float mineralTime;varying vec3 rockPoint;${flowSampling}
-        float stoneHash(vec3 p){p=fract(p*.3183099+.17);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
-        float stoneNoise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(stoneHash(i),stoneHash(i+vec3(1,0,0)),f.x),mix(stoneHash(i+vec3(0,1,0)),stoneHash(i+vec3(1,1,0)),f.x),f.y),mix(mix(stoneHash(i+vec3(0,0,1)),stoneHash(i+vec3(1,0,1)),f.x),mix(stoneHash(i+vec3(0,1,1)),stoneHash(i+vec3(1,1,1)),f.x),f.y),f.z);}
-        \n${shader.fragmentShader}`.replace("#include <color_fragment>",`#include <color_fragment>
-        float grain=stoneNoise(rockPoint*37.0),strata=stoneNoise(rockPoint*vec3(4.,22.,4.));
-        float mineral=authoredFlow(rockPoint.xz*.65+rockPoint.y*.3,0.,3.);
-        diffuseColor.rgb*=.48+grain*.24+strata*.13+mineral*.55;`)
-        .replace("#include <emissivemap_fragment>",`#include <emissivemap_fragment>
-          float charged=pow(.5+.5*sin(rockPoint.y*5.+mineral*18.-mineralTime*4.),8.);
-          totalEmissiveRadiance=vec3(.4,.78,.22)*pow(smoothstep(.36,.70,mineral),2.)*(1.5+charged*1.8);`);
-    };
+    const material = new MeshStandardNodeMaterial({ color: 0x7e8479, roughness: .83, flatShading: true, transparent: true });
+    const t=reference('release.value','float',this),size=reference('scale.value','float',this);
+    const floor=reference('floor.value','float',this),energy=reference('energy.value','float',this);
+    const shardCentre=attribute('shardCentre','vec4'),shardMotion=attribute('shardMotion','vec4');
+    const axis=vec3(shardMotion.w.sin(),.7,shardMotion.w.cos()).normalize();
+    const angle=t.mul(shardMotion.w.mul(.45).add(1.5));
+    const centre=shardCentre.xyz.add(shardMotion.xyz.mul(float(1).sub(t.mul(-1.1).exp()).div(1.1)));
+    const floorY=floor.add(shardCentre.w.mul(.48)),fall=centre.y.sub(t.mul(t).mul(7.5).div(size));
+    const bounce=floorY.sub(fall).mul(2).sin().abs().mul(.11).mul(t.mul(-2).exp());
+    const grounded=max(floorY,fall).add(fall.lessThan(floorY).select(bounce,0));
+    material.positionNode=vec3(centre.x,t.greaterThan(.00001).select(grounded,centre.y),centre.z)
+      .add(turnFracture(positionGeometry.sub(shardCentre.xyz),axis,angle));
+    material.normalNode=transformNormalToView(turnFracture(normalLocal,axis,angle));
+    const point=varying(positionGeometry),grain=stoneNoise(point.mul(37)),strata=stoneNoise(point.mul(vec3(4,22,4)));
+    const mineral=authoredFlow(point.xz.mul(.65).add(point.y.mul(.3)),float(0),float(3));
+    material.colorNode=materialColor.rgb.mul(grain.mul(.24).add(strata.mul(.13)).add(mineral.mul(.55)).add(.48));
+    const charged=point.y.mul(5).add(mineral.mul(18)).sub(energy.mul(4)).sin().mul(.5).add(.5).pow(8);
+    material.emissiveNode=vec3(.4,.78,.22).mul(smoothstep(.36,.70,mineral).pow(2)).mul(charged.mul(1.8).add(1.5));
+    fadeFractureShadow(material,this.fade);
     isolateMagicEmission(material);
     this.mesh = new THREE.Mesh(fracturedBoulderGeometry(count), material);
     this.mesh.name = name;
@@ -136,12 +126,6 @@ export class FracturedBoulder {
     this.mesh.frustumCulled = false;
     this.mesh.receiveShadow = true;
     this.mesh.userData["magicGlow"]=true;
-    const depth = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
-    depth.onBeforeCompile = (shader,renderer) => {
-      material.onBeforeCompile(shader,renderer);
-      fadeFractureShadow(shader,this.fade);
-    };
-    this.mesh.customDepthMaterial = depth;
     this.mesh.castShadow = true;
     parent.add(this.mesh);
   }
@@ -159,5 +143,5 @@ export class FracturedBoulder {
     this.mesh.material.opacity = fade;
     this.fade.value = fade;
   }
-  dispose(): void { this.mesh.removeFromParent();this.mesh.geometry.dispose();this.mesh.material.dispose();this.mesh.customDepthMaterial?.dispose(); }
+  dispose(): void { this.mesh.removeFromParent();this.mesh.geometry.dispose();this.mesh.material.dispose(); }
 }

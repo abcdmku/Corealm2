@@ -1,32 +1,26 @@
 import * as THREE from 'three';
+import { MeshBasicNodeMaterial } from 'three/webgpu';
+import { abs, float, pow, smoothstep, uv, vec2 } from 'three/tsl';
 import type { Vec3 } from '../contracts.js';
-import { elementalFlameTexture, flameSampling } from './elementalFlameTexture.js';
+import { clockUniform, flameColor, flameDetail } from './elementalNodes.js';
 
 /** One 576-triangle ribbon. Its trailing edge follows the tip's actual path. */
 export class FurnaceLash {
-  readonly mesh:THREE.Mesh<THREE.PlaneGeometry,THREE.ShaderMaterial>;
+  readonly mesh:THREE.Mesh<THREE.PlaneGeometry,MeshBasicNodeMaterial>;
+  private readonly clock={value:0};
+  private readonly opacity={value:0};
   constructor(parent:THREE.Object3D){
     const geometry=new THREE.PlaneGeometry(1,1,72,4);
     (geometry.getAttribute('position') as THREE.BufferAttribute).setUsage(THREE.DynamicDrawUsage);
     const emission={value:0};
-    const material=new THREE.ShaderMaterial({
-      uniforms:{time:{value:0},opacity:{value:0},flameTexture:{value:elementalFlameTexture()},magicEmissionPass:emission},
-      transparent:true,depthWrite:false,side:THREE.DoubleSide,
-      vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-      fragmentShader:`uniform float time,opacity,magicEmissionPass;varying vec2 vUv;${flameSampling}
-        void main(){
-          float across=abs(vUv.y-.5)*2.;
-          float ink=flameDetail(vec2(vUv.x*1.8,vUv.y*.42),time*1.3,57.);
-          float edge=1.-smoothstep(.48+ink*.42,1.,across);
-          float ends=smoothstep(0.,.14,vUv.x)*(1.-smoothstep(.97,1.,vUv.x));
-          float alpha=opacity*edge*ends*smoothstep(.035,.25,ink);
-          if(alpha<.008)discard;
-          float heat=min(1.,ink+pow(1.-across,5.)*.14);
-          gl_FragColor=vec4(flameColor(heat,across*.55,magicEmissionPass),alpha);
-          #include <tonemapping_fragment>
-          #include <colorspace_fragment>
-        }`,
-    });
+    const material=new MeshBasicNodeMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,fog:false,alphaTest:.008});
+    const coords=uv(),time=clockUniform(this.clock),across=abs(coords.y.sub(.5)).mul(2);
+    const ink=flameDetail(coords.mul(vec2(1.8,.42)),time.mul(1.3),float(57));
+    const edge=float(1).sub(smoothstep(ink.mul(.42).add(.48),1,across));
+    const ends=smoothstep(0,.14,coords.x).mul(float(1).sub(smoothstep(.97,1,coords.x)));
+    const heat=ink.add(pow(float(1).sub(across),5).mul(.14)).min(1);
+    material.colorNode=flameColor(heat,across.mul(.55),clockUniform(emission));
+    material.opacityNode=clockUniform(this.opacity).mul(edge).mul(ends).mul(smoothstep(.035,.25,ink));
     material.userData['magicEmissionPass']=emission;
     this.mesh=new THREE.Mesh(geometry,material);this.mesh.name='elemental-furnace-lash';
     this.mesh.visible=false;this.mesh.frustumCulled=false;this.mesh.renderOrder=13;
@@ -36,7 +30,7 @@ export class FurnaceLash {
   get instances(){return Number(this.mesh.visible);}
   update(path:(u:number)=>Vec3,seconds:number,alpha:number,width:number){
     this.mesh.visible=alpha>.01;if(!this.mesh.visible)return;
-    this.mesh.material.uniforms['time']!.value=seconds;this.mesh.material.uniforms['opacity']!.value=alpha;
+    this.clock.value=seconds;this.opacity.value=alpha;
     const positions=this.mesh.geometry.getAttribute('position'),uv=this.mesh.geometry.getAttribute('uv');
     for(let i=0;i<positions.count;i++){
       const u=uv.getX(i),cross=(uv.getY(i)-.5)*2,p=path(u),q=path(Math.min(1,u+.008));

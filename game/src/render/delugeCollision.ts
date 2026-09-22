@@ -1,5 +1,7 @@
 import * as THREE from "three";
-import { registerElementalRefraction } from "./elementalRefraction.js";
+import { MeshBasicNodeMaterial, type Node } from "three/webgpu";
+import * as N from "three/tsl";
+import { elementalRefractionScene, elementalRefractionViewport, registerElementalRefraction } from "./elementalRefraction.js";
 
 let noiseTexture:THREE.Data3DTexture|undefined;
 function liquidNoise(){
@@ -16,75 +18,76 @@ function liquidNoise(){
 /** One turbulent liquid collision, using the tornado's spatial flow approach.
  * Twelve proxy triangles contain the water; no planar splash silhouettes. */
 export class DelugeCollision {
-  readonly mesh:THREE.Mesh<THREE.BoxGeometry,THREE.ShaderMaterial>;
+  readonly mesh:THREE.Mesh<THREE.BoxGeometry,MeshBasicNodeMaterial>;
+  private readonly age=N.uniform(0);
+  private readonly opacity=N.uniform(0);
   private readonly unregister:()=>void;
   constructor(parent:THREE.Object3D){
-    const material=new THREE.ShaderMaterial({
-      uniforms:{sceneColor:{value:null},viewport:{value:new THREE.Vector2(1,1)},
-        liquidNoise:{value:liquidNoise()},age:{value:0},opacity:{value:0}},
-      transparent:true,depthWrite:false,depthTest:true,side:THREE.FrontSide,toneMapped:false,
-      vertexShader:`varying vec3 vEye,vSurface;
-        void main(){
-          vec3 center=(modelMatrix*vec4(0.,0.,0.,1.)).xyz;
-          vec3 eye=cameraPosition-center;mat3 m=mat3(modelMatrix);
-          vEye=vec3(dot(eye,m[0])/dot(m[0],m[0]),dot(eye,m[1])/dot(m[1],m[1]),dot(eye,m[2])/dot(m[2],m[2]));
-          vSurface=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);
-        }`,
-      fragmentShader:`uniform sampler2D sceneColor;uniform highp sampler3D liquidNoise;
-        uniform vec2 viewport;uniform float age,opacity;uniform mat4 projectionMatrix,modelViewMatrix;varying vec3 vEye,vSurface;
-        float noise3(vec3 p){return texture(liquidNoise,(p+.5)/64.).r;}
-        void main(){
-          vec3 ray=normalize(vSurface-vEye),inv=1./ray;
-          vec3 aa=(-1.-vEye)*inv,bb=(1.-vEye)*inv,lo=min(aa,bb),hi=max(aa,bb);
-          float enter=max(0.,max(lo.x,max(lo.y,lo.z))),leave=min(hi.x,min(hi.y,hi.z));
-          if(leave<=enter)discard;
-          float stride=(leave-enter)/56.,t=max(0.,age),surge=1.-exp(-t*19.);
-          float height=max(.5,1.1+surge*6.5-t*4.-t*t*3.4),radius=1.1+surge*3.+t*2.4;
-          vec2 screen=gl_FragCoord.xy/viewport;vec4 sum=vec4(0.);float waterDepth=1.;
-          for(int i=0;i<56;i++){
-            vec3 jitter=fract(vec3(gl_FragCoord.xyx)*.1031+float(i)*.123);
-            jitter+=dot(jitter,jitter.yzx+33.33);
-            float offset=fract((jitter.x+jitter.y)*jitter.z);
-            vec3 p=vEye+ray*(enter+(float(i)+offset)*stride);
-            vec3 world=p*vec3(7.5,6.,7.5)+vec3(0.,6.,0.);
-            if(world.y<.04)continue;
-            float turn=world.y*.34+t*3.4,c=cos(turn),s=sin(turn);
-            vec3 flow=vec3(c*world.x-s*world.z,world.y-t*7.,s*world.x+c*world.z)*1.25;
-            vec3 warp=vec3(noise3(flow*.41),noise3(flow*.41+17.3),noise3(flow*.41+39.7))-.5;
-            flow+=warp*2.8;
-            float roll=noise3(flow*.78),detail=noise3(flow*2.17),fine=noise3(flow*5.2);
-            vec3 q=world;
-            q.x-=sin(world.y*.54+t*2.)*world.y*.19+warp.x*1.5;
-            q.z-=cos(world.y*.41-t*1.7)*world.y*.17+warp.z*1.7;
-            q=vec3(q.x/(radius*.94),(q.y-height*.31)/(height*.69),q.z/(radius*.84));
-            float edge=1.-length(q)+(roll-.5)*.96+(detail-.5)*.27;
-            float channels=roll*.55+detail*.33+fine*.12;
-            float density=smoothstep(.015,.085,edge)*smoothstep(.28,.58,channels);
-            density*=1.-smoothstep(.83,1.,max(abs(p.x),max(abs(p.y),abs(p.z))));
-            if(density<.012)continue;
-            if(waterDepth==1.){
-              vec4 clip=projectionMatrix*modelViewMatrix*vec4(p,1.);
-              waterDepth=.5+.5*clip.z/clip.w;
-            }
-            vec3 n=normalize(q+warp*2.2+vec3(detail-roll,fine-detail,roll-fine)*2.);
-            float rim=pow(1.-abs(dot(n,ray)),2.);
-            float glint=pow(max(0.,dot(n,normalize(vec3(-.45,.82,.34)-ray))),24.);
-            vec2 shift=(n.xz+warp.xz)*18./viewport;
-            vec3 behind=texture2D(sceneColor,clamp(screen+shift,vec2(.002),vec2(.998))).rgb;
-            vec3 color=mix(behind*vec3(.52,.86,.90),vec3(.018,.22,.24),.64);
-            float foam=smoothstep(.49,.72,channels)*(.40+rim*.50);
-            float collision=exp(-pow((t-.11)/.17,2.));
-            color=mix(color,vec3(.73,.91,.88),foam*(1.+collision*.35));
-            color+=vec3(.48,.78,.77)*glint+vec3(.04,.15,.16)*rim;
-            float a=(1.-exp(-density*stride*length(ray*vec3(7.5,6.,7.5))*1.25))*opacity;
-            sum.rgb+=(1.-sum.a)*a*color;sum.a+=(1.-sum.a)*a;
-            if(sum.a>.96)break;
-          }
-          if(sum.a<.008)discard;
-          gl_FragDepth=waterDepth;
-          gl_FragColor=vec4(sum.rgb/max(sum.a,.001),sum.a);
-        }`,
+    const material=new MeshBasicNodeMaterial({
+      transparent:true,depthWrite:false,depthTest:true,side:THREE.FrontSide,toneMapped:false,fog:false,
     });
+    const noise=N.texture3D(liquidNoise());
+    // Explicit LOD keeps sampling valid inside the raymarch's divergent early exits.
+    const noise3=(p:Node<"vec3">):Node<"float">=>noise.sample(p.add(.5).div(64)).level(N.float(0)).r;
+    material.fragmentNode=N.Fn(():Node<"vec4">=>{
+      const eye=N.modelWorldMatrixInverse.mul(N.vec4(N.cameraPosition,1)).xyz.toVar();
+      const ray=N.positionLocal.sub(eye).normalize().toVar();
+      const inv=ray.reciprocal();
+      const aa=N.vec3(-1).sub(eye).mul(inv),bb=N.vec3(1).sub(eye).mul(inv);
+      const lo=N.min(aa,bb),hi=N.max(aa,bb);
+      const enter=N.max(0,N.max(lo.x,N.max(lo.y,lo.z))).toVar();
+      const leave=N.min(hi.x,N.min(hi.y,hi.z)).toVar();
+      N.If(leave.lessThanEqual(enter),()=>N.Discard());
+      const stride=leave.sub(enter).div(56).toVar();
+      const t=this.age.max(0).toVar(),surge=t.mul(-19).exp().oneMinus();
+      const height=N.max(.5,surge.mul(6.5).add(1.1).sub(t.mul(4)).sub(t.mul(t).mul(3.4)));
+      const radius=surge.mul(3).add(1.1).add(t.mul(2.4));
+      const sum=N.vec4(0).toVar(),waterDepth=N.float(1).toVar();
+      N.Loop(56,({i})=>{
+        const jitter=N.fract(N.screenCoordinate.xyx.mul(.1031).add(N.float(i).mul(.123))).toVar();
+        jitter.addAssign(N.dot(jitter,jitter.yzx.add(33.33)));
+        const offset=N.fract(jitter.x.add(jitter.y).mul(jitter.z));
+        const p=eye.add(ray.mul(enter.add(N.float(i).add(offset).mul(stride)))).toVar();
+        const world=p.mul(N.vec3(7.5,6,7.5)).add(N.vec3(0,6,0)).toVar();
+        N.If(world.y.lessThan(.04),()=>N.Continue());
+        const turn=world.y.mul(.34).add(t.mul(3.4)),c=turn.cos(),s=turn.sin();
+        const flow=N.vec3(c.mul(world.x).sub(s.mul(world.z)),world.y.sub(t.mul(7)),s.mul(world.x).add(c.mul(world.z))).mul(1.25).toVar();
+        const warp=N.vec3(noise3(flow.mul(.41)),noise3(flow.mul(.41).add(17.3)),noise3(flow.mul(.41).add(39.7))).sub(.5).toVar();
+        flow.addAssign(warp.mul(2.8));
+        const roll=noise3(flow.mul(.78)).toVar(),detail=noise3(flow.mul(2.17)).toVar(),fine=noise3(flow.mul(5.2)).toVar();
+        const q=world.toVar();
+        q.x.subAssign(world.y.mul(.54).add(t.mul(2)).sin().mul(world.y).mul(.19).add(warp.x.mul(1.5)));
+        q.z.subAssign(world.y.mul(.41).sub(t.mul(1.7)).cos().mul(world.y).mul(.17).add(warp.z.mul(1.7)));
+        q.assign(N.vec3(q.x.div(radius.mul(.94)),q.y.sub(height.mul(.31)).div(height.mul(.69)),q.z.div(radius.mul(.84))));
+        const edge=q.length().oneMinus().add(roll.sub(.5).mul(.96)).add(detail.sub(.5).mul(.27));
+        const channels=roll.mul(.55).add(detail.mul(.33)).add(fine.mul(.12));
+        const density=N.smoothstep(.015,.085,edge).mul(N.smoothstep(.28,.58,channels))
+          .mul(N.smoothstep(.83,1,N.max(p.x.abs(),N.max(p.y.abs(),p.z.abs()))).oneMinus()).toVar();
+        N.If(density.lessThan(.012),()=>N.Continue());
+        N.If(waterDepth.equal(1),()=>{
+          const view=N.modelViewMatrix.mul(N.vec4(p,1));
+          // The TSL conversion produces normalized depth for both rendering backends.
+          waterDepth.assign(N.viewZToPerspectiveDepth(view.z,N.cameraNear,N.cameraFar));
+        });
+        const n=q.add(warp.mul(2.2)).add(N.vec3(detail.sub(roll),fine.sub(detail),roll.sub(fine)).mul(2)).normalize();
+        const rim=N.dot(n,ray).abs().oneMinus().pow(2);
+        const glint=N.dot(n,N.vec3(-.45,.82,.34).sub(ray).normalize()).max(0).pow(24);
+        const shift=n.xz.add(warp.xz).mul(18).div(elementalRefractionViewport);
+        const behind=elementalRefractionScene.sample(N.screenUV.add(shift.mul(N.vec2(1,-1))).clamp(.002,.998)).level(N.float(0)).rgb;
+        const color=N.mix(behind.mul(N.vec3(.52,.86,.90)),N.vec3(.018,.22,.24),.64).toVar();
+        const foam=N.smoothstep(.49,.72,channels).mul(rim.mul(.50).add(.40));
+        const collision=t.sub(.11).div(.17).pow(2).negate().exp();
+        color.assign(N.mix(color,N.vec3(.73,.91,.88),foam.mul(collision.mul(.35).add(1))));
+        color.addAssign(N.vec3(.48,.78,.77).mul(glint).add(N.vec3(.04,.15,.16).mul(rim)));
+        const a=density.negate().mul(stride).mul(ray.mul(N.vec3(7.5,6,7.5)).length()).mul(1.25).exp().oneMinus().mul(this.opacity);
+        const contribution=sum.a.oneMinus().mul(a).toVar();
+        sum.rgb.addAssign(contribution.mul(color));sum.a.addAssign(contribution);
+        N.If(sum.a.greaterThan(.96),()=>N.Break());
+      });
+      N.If(sum.a.lessThan(.008),()=>N.Discard());
+      N.depth.assign(waterDepth).toStack();
+      return N.vec4(sum.rgb.div(sum.a.max(.001)),sum.a);
+    })();
     this.mesh=new THREE.Mesh(new THREE.BoxGeometry(2,2,2),material);
     this.mesh.scale.set(7.5,6,7.5);this.mesh.visible=false;this.mesh.frustumCulled=false;
     this.mesh.name="elemental-deluge-turbulent-collision";this.mesh.renderOrder=9;
@@ -94,8 +97,8 @@ export class DelugeCollision {
   hide(){this.mesh.visible=false;}
   update(x:number,y:number,z:number,age:number,alpha:number){
     this.mesh.visible=alpha>.01;if(!this.mesh.visible)return;
-    this.mesh.position.set(x,y+6,z);this.mesh.material.uniforms['age']!.value=age;
-    this.mesh.material.uniforms['opacity']!.value=alpha;
+    this.mesh.position.set(x,y+6,z);this.age.value=age;
+    this.opacity.value=alpha;
   }
   dispose(){this.unregister();this.mesh.removeFromParent();this.mesh.geometry.dispose();this.mesh.material.dispose();}
 }

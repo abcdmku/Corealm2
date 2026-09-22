@@ -1,6 +1,9 @@
 import { FINALE } from "../content/elementalFinales.js";
 import { basicSpellPath } from "./basicSpellPath.js";
 import * as THREE from "three";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import { attribute, buffer, instanceIndex, normalView, positionGeometry, positionView, sin, varying, vec3, vec4 } from "three/tsl";
+import { clockUniform } from "./elementalNodes.js";
 import type { SpellElement, Vec3 } from "../contracts.js";
 import { elementalSpell } from "../content/elementalSpells.js";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
@@ -24,7 +27,7 @@ type Path = (u:number)=>Vec3;
 /** Directional magical light. Silhouette comes from moving strokes and dispersed sparks. */
 export class ArcaneSpellVfx {
   private readonly swooshes: ElementalEnergyBodies;
-  private readonly cores: THREE.InstancedMesh<THREE.BufferGeometry,THREE.ShaderMaterial>;
+  private readonly cores: THREE.InstancedMesh<THREE.BufferGeometry,MeshBasicNodeMaterial>;
   private readonly object = new THREE.Object3D();
   private readonly color = new THREE.Color();
   private readonly clock={value:0};
@@ -36,18 +39,16 @@ export class ArcaneSpellVfx {
     this.swooshes.mesh.name="elemental-magic-swooshes";
     const g=new THREE.IcosahedronGeometry(1,1);
     g.setAttribute("coreTint",new THREE.InstancedBufferAttribute(new Float32Array(64*4),4).setUsage(THREE.DynamicDrawUsage));
-    const material=new THREE.ShaderMaterial({uniforms:{time:this.clock},transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-      vertexShader:`attribute vec4 coreTint;uniform float time;varying vec3 vNormal,vView,vLocal;varying vec4 vTint;
-        void main(){vec3 p=position*(1.+sin(position.x*7.+time*11.)*sin(position.z*8.-time*8.)*.06);
-          vec4 view=modelViewMatrix*instanceMatrix*vec4(p,1.);vNormal=normalize(normalMatrix*mat3(instanceMatrix)*normal);vView=-view.xyz;vLocal=position;vTint=coreTint;gl_Position=projectionMatrix*view;}`,
-      fragmentShader:`uniform float time;varying vec3 vNormal,vView,vLocal;varying vec4 vTint;
-        void main(){float face=max(0.,dot(normalize(vNormal),normalize(vView)));float n=.5+.5*sin(vLocal.y*9.-time*9.+sin(vLocal.x*8.+time*5.)*2.);
-          float a=vTint.a*pow(face,1.8)*(.6+n*.4);if(a<.008)discard;
-          gl_FragColor=vec4(vTint.rgb*(3.+pow(face,7.)*5.)+vec3(.6,.7,.8)*pow(face,18.),a);
-          #include <tonemapping_fragment>
-          #include <colorspace_fragment>
-        }`});
+    const material=new MeshBasicNodeMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,fog:false,alphaTest:.008});
     this.cores=new THREE.InstancedMesh(g,material,64);this.cores.count=0;this.cores.visible=false;this.cores.frustumCulled=false;
+    const time=clockUniform(this.clock),local=varying(positionGeometry),tint=attribute("coreTint","vec4");
+    const pulse=sin(positionGeometry.x.mul(7).add(time.mul(11))).mul(sin(positionGeometry.z.mul(8).sub(time.mul(8)))).mul(.06).add(1);
+    const matrix=buffer(this.cores.instanceMatrix.array,"mat4",64).element(instanceIndex);
+    material.positionNode=matrix.mul(vec4(positionGeometry.mul(pulse),1)).xyz;
+    const face=normalView.normalize().dot(positionView.negate().normalize()).max(0);
+    const noise=sin(local.y.mul(9).sub(time.mul(9)).add(sin(local.x.mul(8).add(time.mul(5))).mul(2))).mul(.5).add(.5);
+    material.colorNode=tint.rgb.mul(face.pow(7).mul(5).add(3)).add(vec3(.6,.7,.8).mul(face.pow(18)));
+    material.opacityNode=tint.a.mul(face.pow(1.8)).mul(noise.mul(.4).add(.6));
     this.cores.name="elemental-arcane-concentrated-foci";this.cores.userData["magicGlow"]=true;this.cores.userData["magicGlowOnly"]=true;
     this.cores.instanceMatrix.setUsage(THREE.DynamicDrawUsage);parent.add(this.cores);
   }
