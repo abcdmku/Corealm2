@@ -148,21 +148,23 @@ export class StreamedShaderWarmup {
     }
     for (const object of batch) this.queued.delete(object);
     this.pending = true;
-    let succeeded = false;
     void prepareShaderMeshes(this.renderer, this.scene, this.camera, batch, {
       batchSize: 4,
       renderTarget: this.renderTarget,
       isCancelled: () => this.disposed,
       onPendingTextures: count => { this.pendingTextures = count; },
-    }).then(() => { succeeded = true; }).catch(error => {
+      onPreparedBatch: prepared => {
+        // Reveal a completed actor without waiting for unrelated work in this outer job.
+        // A moved mesh may already belong to the next job. Preserve that enrollment.
+        for (const object of prepared) if (!this.queued.has(object)) this.releaseWaiting(object);
+      },
+    }).catch(error => {
       if (!this.disposed) {
         this.lastError = error instanceof Error ? error.message : String(error);
         for (const object of batch) if (this.waiting.has(object) && !this.queued.has(object)) this.failed.add(object);
         console.error("Streamed shader preparation failed", error);
       }
     }).finally(() => {
-      // A moved mesh may already belong to the next batch. Preserve that enrollment.
-      for (const object of batch) if (succeeded && !this.queued.has(object)) this.releaseWaiting(object);
       this.pendingTextures = 0;
       this.pending = false;
       this.scheduleNext();

@@ -158,6 +158,8 @@ export interface ShaderPreparationOptions {
   renderTarget?: THREE.RenderTarget | null;
   isCancelled?: () => boolean;
   onPendingTextures?: (count: number) => void;
+  /** Runs only after the batch's pipelines, uploads and GPU completion have succeeded. */
+  onPreparedBatch?: (objects: readonly THREE.Object3D[]) => void;
 }
 type Drawable = THREE.Object3D & { material?: THREE.Material | THREE.Material[] };
 type TextureNode = { isNode: true; value?: unknown; getChildren?: () => Iterable<TextureNode> };
@@ -495,6 +497,7 @@ async function prepare(
       rememberPreparedBuffers(batch, buffers, state);
       progress.pendingMeshes -= batch.length;
       offset += batch.length;
+      if (!cancelled()) options.onPreparedBatch?.(batch);
     }
   } finally { lights?.dispose(); options.onPendingTextures?.(0); }
 }

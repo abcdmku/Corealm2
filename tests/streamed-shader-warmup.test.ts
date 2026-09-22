@@ -84,6 +84,31 @@ it("drains successive bounded batches without needing another gameplay frame", a
   gate.dispose();
 });
 
+it("reveals a completed actor while unrelated preparation waits or fails", async () => {
+  const { scene, gate, compile } = fixture();
+  const actor = new THREE.Group(), background = new THREE.Group();
+  for (let index = 0; index < 4; index++) {
+    actor.add(new THREE.Mesh()); background.add(new THREE.Mesh());
+  }
+  let reject!: (error: Error) => void;
+  compile.mockImplementationOnce(async () => {}).mockImplementationOnce(() =>
+    new Promise<void>((_resolve, fail) => { reject = fail; }));
+  const error = vi.spyOn(console, "error").mockImplementation(() => {});
+  try {
+    scene.add(actor, background);
+    await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(2));
+    expect(gate.hasPending(actor)).toBe(false);
+    expect(gate.hasPending(background)).toBe(true);
+    gate.prepare();
+    expect(actor.children.every(mesh => mesh.visible)).toBe(true);
+    expect(background.children.every(mesh => !mesh.visible)).toBe(true);
+    gate.restore();
+    reject(new Error("unrelated pipeline failed"));
+    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ waiting: 4, failed: 4, compiling: false }));
+    expect(gate.hasPending(actor)).toBe(false);
+  } finally { error.mockRestore(); gate.dispose(); }
+});
+
 it("gives painting priority after a slow frame before continuing the drain", async () => {
   const { scene, gate, compile } = fixture();
   const frames: FrameRequestCallback[] = [];
