@@ -2,14 +2,20 @@
   "version": 1,
   "generator": "Tripo Studio / GPT Image 2.5",
   "created": "2026-09-22",
-  "direction": "Appealing living medieval fantasy, natural faces and layered painted textures. No science fiction, superhero faceplates, or mechanical anatomy. Skeletal anatomy is reserved for undead species. Wizard sets use pointed cloth hats. Low-tier martial armor stays plain.",
+  "direction": "Serious medieval RPG with readable Knight Online and RuneScape inspired silhouettes. Normal regions have mature neutral fantasy wildlife and thriving ecosystems; never cute mascots or blanket decay. Fairy regions use organic fantastical anatomy and vibrant alternate-reality colors. Wilderness permits stranger and darker forms. Stone creatures show natural geology and weathering. Horns are occasional, not a default. No science fiction or superhero faceplates. Wizard sets use pointed hats; lower-tier martial armor is simpler.",
   "assets": [
     {
       "id": "novice-wizard",
       "kind": "armor-reference",
       "tier": 1,
       "style": "magic",
-      "itemIds": ["marchhide_hood", "marchhide_robe", "marchhide_leggings", "marchhide_wraps", "marchhide_boots"],
+      "itemIds": [
+        "marchhide_hood",
+        "marchhide_robe",
+        "marchhide_leggings",
+        "marchhide_wraps",
+        "marchhide_boots"
+      ],
       "file": "references/novice-wizard.png",
       "sha256": "86fca58087c784ff22df3bf6f138fda22d39ad31d6b0bd384b00ec11a4f04717",
       "sourceImageId": "620d7dd2-72dc-4e79-9631-bc50ad9c9ddd",
@@ -18,7 +24,162 @@
       "referenceReview": "accepted",
       "reviewNotes": "Pointed soft hat, restrained cloth silhouette, gloves and boots visible, no faceplate or large pauldrons. This is a design source, not a published inventory icon.",
       "productionStatus": "not-integrated",
-      "modelWorkflow": { "generation": "parts-balanced", "topology": "triangles", "maxTrianglesPerPart": 5000, "smartUv": true, "textures": true, "rigging": true }
+      "modelWorkflow": {
+        "generation": "whole-set-smart-mesh",
+        "topology": "triangles",
+        "targetTrianglesPerSet": 5000,
+        "maxTrianglesPerEquipmentPiece": 5000,
+        "sequence": [
+          "generate",
+          "smart-uv",
+          "8k-texture",
+          "pbr",
+          "segment",
+          "bind-to-native-player-skeleton"
+        ],
+        "retopology": false,
+        "textureSourceResolution": 8192,
+        "runtimeTextureResolution": "downsample-after-review",
+        "pbr": true
+      }
+    },
+    {
+      "id": "titanium-martial",
+      "kind": "armor-reference",
+      "tier": 20,
+      "style": "melee",
+      "equipmentFamilyPrefix": "emberite",
+      "file": "references/titanium-martial.png",
+      "sha256": "fd0c7c23d28a7a2d3545b4e94a4d54feb9c2836ef6c3c68926ed9a5f37d9d3ba",
+      "sourceImageId": "c7dbedbd-a2cd-4bdf-8276-c614eff68677",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/c7dbedbd-a2cd-4bdf-8276-c614eff68677/image.png",
+      "designBrief": "Silver field plate with oxblood underlayers and engraved edges.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed full-resolution source: mature proportions, practical separated equipment regions, layered material detail, no science-fiction faceplate. Not yet accepted as worn game equipment.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "whole-set-smart-mesh",
+        "topology": "triangles",
+        "targetTrianglesPerSet": 5000,
+        "maxTrianglesPerEquipmentPiece": 5000,
+        "sequence": [
+          "generate",
+          "smart-uv",
+          "8k-texture",
+          "pbr",
+          "segment",
+          "bind-to-native-player-skeleton"
+        ],
+        "retopology": false,
+        "textureSourceResolution": 8192,
+        "runtimeTextureResolution": "downsample-after-review",
+        "pbr": true
+      }
+    },
+    {
+      "id": "cobalt-martial",
+      "kind": "armor-reference",
+      "tier": 10,
+      "style": "melee",
+      "equipmentFamilyPrefix": "kaldite",
+      "file": "references/cobalt-martial.png",
+      "sha256": "c118c80dbf5ef638dbafc9aa0b9a5854f714f20377cddd9568fdaa9c7ed8afa7",
+      "sourceImageId": "adb8918b-1294-4877-ab95-3df7580f9313",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/adb8918b-1294-4877-ab95-3df7580f9313/image.png",
+      "designBrief": "Cobalt-blue steel, open medieval helmet, plain straps and dark quilted cloth.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed full-resolution source: mature proportions, practical separated equipment regions, layered material detail, no science-fiction faceplate. Not yet accepted as worn game equipment.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "whole-set-smart-mesh",
+        "topology": "triangles",
+        "targetTrianglesPerSet": 5000,
+        "maxTrianglesPerEquipmentPiece": 5000,
+        "sequence": [
+          "generate",
+          "smart-uv",
+          "8k-texture",
+          "pbr",
+          "segment",
+          "bind-to-native-player-skeleton"
+        ],
+        "retopology": false,
+        "textureSourceResolution": 8192,
+        "runtimeTextureResolution": "downsample-after-review",
+        "pbr": true
+      },
+      "tripoModel": {
+        "id": "a9956e9e-0576-47a0-877e-ee5d3a3b2bb5",
+        "generatedTriangles": 4991,
+        "generationVerified": "Smart Mesh P2.0, Triangle, target 5000",
+        "status": "8k-texture-in-progress"
+      }
+    },
+    {
+      "id": "starhide-wizard",
+      "kind": "armor-reference",
+      "tier": 70,
+      "style": "magic",
+      "equipmentFamilyPrefix": "starhide",
+      "file": "references/starhide-wizard.png",
+      "sha256": "f89e1283b6c3709587d159ecdc70eaf4bb31e120b14b8df52a4e43defebac3f3",
+      "sourceImageId": "d214610d-ab7a-4ba9-a822-494bfd89ad69",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/d214610d-ab7a-4ba9-a822-494bfd89ad69/image.png",
+      "designBrief": "Midnight-indigo split robes with celestial embroidery and a sweeping pointed hat.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed full-resolution source: mature proportions, practical separated equipment regions, layered material detail, no science-fiction faceplate. Not yet accepted as worn game equipment.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "whole-set-smart-mesh",
+        "topology": "triangles",
+        "targetTrianglesPerSet": 5000,
+        "maxTrianglesPerEquipmentPiece": 5000,
+        "sequence": [
+          "generate",
+          "smart-uv",
+          "8k-texture",
+          "pbr",
+          "segment",
+          "bind-to-native-player-skeleton"
+        ],
+        "retopology": false,
+        "textureSourceResolution": 8192,
+        "runtimeTextureResolution": "downsample-after-review",
+        "pbr": true
+      }
+    },
+    {
+      "id": "faesilk-wizard",
+      "kind": "armor-reference",
+      "tier": 60,
+      "style": "magic",
+      "equipmentFamilyPrefix": "faesilk",
+      "file": "references/faesilk-wizard.png",
+      "sha256": "5e5e9ed9a8d46125bd4c0450f09f9dfa3a2a770ee4f5b5b94d1d862446616ba1",
+      "sourceImageId": "ce685cfb-9f83-4e9e-bd3c-b62488ded64f",
+      "sourceUrl": "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/ce685cfb-9f83-4e9e-bd3c-b62488ded64f/image.png",
+      "designBrief": "Teal and violet iridescent robes with organic silver embroidery and leaf-shaped tailoring.",
+      "referenceReview": "accepted",
+      "reviewNotes": "Reviewed full-resolution source: mature proportions, practical separated equipment regions, layered material detail, no science-fiction faceplate. Not yet accepted as worn game equipment.",
+      "productionStatus": "not-integrated",
+      "modelWorkflow": {
+        "generation": "whole-set-smart-mesh",
+        "topology": "triangles",
+        "targetTrianglesPerSet": 5000,
+        "maxTrianglesPerEquipmentPiece": 5000,
+        "sequence": [
+          "generate",
+          "smart-uv",
+          "8k-texture",
+          "pbr",
+          "segment",
+          "bind-to-native-player-skeleton"
+        ],
+        "retopology": false,
+        "textureSourceResolution": 8192,
+        "runtimeTextureResolution": "downsample-after-review",
+        "pbr": true
+      }
     }
   ]
 }
