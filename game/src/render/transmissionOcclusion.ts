@@ -1,4 +1,5 @@
 import * as THREE from "three/webgpu";
+import { createOcclusionQueryEnd } from "./playerDepthVisibility.js";
 
 type Probe = { key: string; sample: THREE.Mesh; submitted: boolean; hidden: boolean | null; bounds: number[]; result?: boolean };
 /** Caller certifies static geometry/instances and changes revision on any source lifecycle change. */
@@ -50,6 +51,7 @@ export class TransmissionOcclusion {
   private readonly hidden = new Set<THREE.Mesh>();
   private readonly terrainScene = new THREE.Scene();
   private readonly probeScene = new THREE.Scene();
+  private readonly queryEnd = createOcclusionQueryEnd();
   private readonly depthMaterial = new THREE.MeshBasicNodeMaterial({ colorWrite: false, depthWrite: true, fog: false });
   private readonly boxGeometry = new THREE.BoxGeometry(1, 1, 1);
   private readonly probeMaterial = new THREE.MeshBasicNodeMaterial({ colorWrite: false, depthWrite: false, side: THREE.DoubleSide, fog: false });
@@ -250,7 +252,10 @@ export class TransmissionOcclusion {
       this.probeScene.clear();
       if (this.probeMode === "bounds") {
         for (const [, probe] of selected) this.probeScene.add(probe.sample);
-        if (selected.length) renderer.render(this.probeScene, camera);
+        if (selected.length) {
+          this.probeScene.add(this.queryEnd);
+          renderer.render(this.probeScene, camera);
+        }
       } else {
         // Exact diagnostic keeps native batch hooks, instances and discard shaders.
         for (const [mesh] of selected) this.renderExact(renderer, camera, mesh);
@@ -287,8 +292,10 @@ export class TransmissionOcclusion {
         state.material.depthWrite = false;
         if (state.transmission > 0) { (state.material as THREE.MeshPhysicalMaterial).transmission = 0; state.material.needsUpdate = true; }
       }
+      mesh.add(this.queryEnd);
       renderer.render(mesh, camera);
     } finally {
+      this.queryEnd.removeFromParent();
       mesh.occlusionTest = occlusionTest;
       for (const state of states) {
         state.material.colorWrite = state.colorWrite;
@@ -301,6 +308,8 @@ export class TransmissionOcclusion {
   dispose(): void {
     this.reset();
     this.target?.dispose();
+    this.queryEnd.geometry.dispose();
+    this.queryEnd.material.dispose();
     this.depthMaterial.dispose();
     this.boxGeometry.dispose();
     this.probeMaterial.dispose();

@@ -1,7 +1,7 @@
 import * as THREE from "three/webgpu";
 import {
-  Fn, colorSpaceToWorking, mix, positionGeometry, renderOutput, smoothstep,
-  texture, uniform, varying, vec3, vec4,
+  Fn, colorSpaceToWorking, mix, positionGeometry, renderOutput, screenUV, smoothstep,
+  texture, uniform, vec3, vec4,
 } from "three/tsl";
 import type { RegionId } from "../contracts.js";
 import { BiomeSky, BIOME_MOOD_STRENGTH } from "./biomeSky.js";
@@ -54,11 +54,11 @@ export class BiomeAtmosphere {
   private texture = new THREE.FramebufferTexture(1, 1);
   private readonly size = new THREE.Vector2();
   private readonly scene = new THREE.Scene();
-  private readonly camera = new THREE.Camera();
+  private readonly camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   private readonly uniforms = {
     tint: uniform(new THREE.Vector3(1, 1, 1)), shade: uniform(new THREE.Vector3(1, 1, 1)), saturation: uniform(1),
   };
-  private readonly source = texture(this.texture, varying(positionGeometry.xy.mul(.5).add(.5), "vBiomeGradeUv"));
+  private readonly source = texture(this.texture, screenUV);
   private readonly material = this.createMaterial();
 
   private createMaterial(): THREE.NodeMaterial {

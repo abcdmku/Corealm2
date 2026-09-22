@@ -48,7 +48,11 @@ it("submits five independent depth samples together and reads only completed ren
       index = 0;
       try {
         scene.onBeforeRender(renderer as never, scene, camera, null as never);
-        samples = scene.children as THREE.Mesh[];
+        samples = scene.children.filter(object => object.occlusionTest) as THREE.Mesh[];
+        const end = scene.children.find(object => !object.occlusionTest) as THREE.Mesh;
+        expect(end.frustumCulled).toBe(false);
+        expect(end.renderOrder).toBe(Number.MAX_SAFE_INTEGER);
+        expect(end.material).toMatchObject({ transparent: true, colorWrite: false, depthWrite: false, depthTest: false });
         expect(samples).toHaveLength(5);
         expect(new Set(samples).size).toBe(5);
         expect(samples.every(sample => sample.occlusionTest && !sample.frustumCulled)).toBe(true);
