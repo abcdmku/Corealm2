@@ -113,6 +113,67 @@ describe("the stored session", () => {
 });
 
 describe("join tokens", () => {
+  it.each(["request", "body"] as const)("times out a stalled identity %s without losing the signed-in account", async phase => {
+    vi.useFakeTimers();
+    try {
+      const store = stored();
+      let transportSignal: AbortSignal | undefined;
+      const never = new Promise<never>(() => {});
+      const fetchImpl = vi.fn(async (_url: string, init: RequestInit) => {
+        transportSignal = init.signal as AbortSignal;
+        return phase === "request" ? never : { ok: true, status: 200, text: () => never } as unknown as Response;
+      });
+      const client = new IdentityClient("http://127.0.0.1:4190", { storage: store, now: () => NOW, fetch: fetchImpl as unknown as typeof fetch });
+      const result = client.joinToken("wss://play.example.com/").catch(error => error);
+      await vi.advanceTimersByTimeAsync(10_000);
+      expect(await result).toMatchObject({ code: "UNAVAILABLE", message: expect.stringContaining("too long") });
+      expect(transportSignal?.aborted).toBe(true);
+      expect(client.account()?.name).toBe("Rook");
+      expect(vi.getTimerCount()).toBe(0);
+    } finally { vi.useRealTimers(); }
+  });
+
+  it.each([200, 503])("honors caller cancellation while reading a %s response body and removes its listener", async status => {
+    vi.useFakeTimers();
+    try {
+      const caller = new AbortController();
+      const remove = vi.spyOn(caller.signal, "removeEventListener");
+      let transportSignal: AbortSignal | undefined;
+      const text = vi.fn(() => new Promise<string>(() => {}));
+      const fetchImpl = vi.fn(async (_url: string, init: RequestInit) => {
+        transportSignal = init.signal as AbortSignal;
+        return { ok: status === 200, status, text } as unknown as Response;
+      });
+      const client = new IdentityClient("http://127.0.0.1:4190", { storage: stored(), now: () => NOW, fetch: fetchImpl as unknown as typeof fetch });
+      const result = client.joinToken("wss://play.example.com/", caller.signal).catch(error => error);
+      await vi.advanceTimersByTimeAsync(0);
+      expect(text).toHaveBeenCalledOnce();
+      const reason = new DOMException("Another world was selected", "AbortError");
+      caller.abort(reason);
+      expect(await result).toBe(reason);
+      expect(transportSignal?.aborted).toBe(true);
+      expect(remove).toHaveBeenCalledWith("abort", expect.any(Function));
+      expect(vi.getTimerCount()).toBe(0);
+    } finally { vi.useRealTimers(); }
+  });
+
+  it("does not send an already-cancelled request and cleans up a completed request", async () => {
+    vi.useFakeTimers();
+    try {
+      const fetchImpl = vi.fn(async () => json({ token: "jt-1", expiresAt: NOW + 60 }));
+      const client = new IdentityClient("http://127.0.0.1:4190", { storage: stored(), now: () => NOW, fetch: fetchImpl as unknown as typeof fetch });
+      const cancelled = new AbortController();
+      cancelled.abort();
+      await expect(client.joinToken("wss://play.example.com/", cancelled.signal)).rejects.toMatchObject({ name: "AbortError" });
+      expect(fetchImpl).not.toHaveBeenCalled();
+      const caller = new AbortController();
+      const remove = vi.spyOn(caller.signal, "removeEventListener");
+      expect(await client.joinToken("wss://play.example.com/", caller.signal)).toBe("jt-1");
+      expect(remove).toHaveBeenCalledWith("abort", expect.any(Function));
+      expect(vi.getTimerCount()).toBe(0);
+    } finally { vi.useRealTimers(); }
+  });
+
   it("asks for one token per call, with the world's endpoint as the audience", async () => {
     const calls: { url: string; init: RequestInit }[] = [];
     const fetchImpl = vi.fn(async (url: string, init: RequestInit) => { calls.push({ url, init }); return json({ token: `jt-${calls.length}`, expiresAt: NOW + 60 }); });

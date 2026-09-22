@@ -106,12 +106,12 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     apply:update=>attached.ports?.apply(update),
     phase:(phase,message)=>attached.ports?.phase(phase,message),
     offline:async()=>{await attached.ports?.offline();},
-  }, async world => {
+  }, async (world, signal) => {
     if(window.__COREALM_AUTHENTICATE__)return window.__COREALM_AUTHENTICATE__(world);
     if(world.authentication==="account"){
       if(!identity)throw new SessionFailure("UNAUTHORIZED","This page cannot sign in, so it cannot join worlds that need an account");
       // One token per attempt, reconnects included: they last 60 seconds and are single use.
-      return {token:await identity.joinToken(world.endpoint)};
+      return {token:await identity.joinToken(world.endpoint,signal)};
     }
     if(developmentGuests)return {token:`guest:${name.value}`};
     throw new SessionFailure("UNAUTHORIZED","This deployment must provide a sign-in adapter");

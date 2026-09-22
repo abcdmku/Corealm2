@@ -184,6 +184,12 @@ function pageOverride(): string | null {
 
 const currentBase = (): string => pageOverride() ?? configuredBase ?? PAGE_BASE_URL;
 
+/** Compare the URLs the browser fetches, including relative deployment paths. */
+function samePublicBase(left: string, right: string): boolean {
+  try { return new URL(left, globalThis.location?.href).href === new URL(right, globalThis.location?.href).href; }
+  catch { return left === right; }
+}
+
 /** Root of the public file tree, with a trailing slash. */
 export function publicBaseUrl(): string {
   baseUsed = true;
@@ -193,7 +199,7 @@ export function publicBaseUrl(): string {
 /** Boot's one call, before any file is requested. Undefined leaves the page's own directory. */
 export function setPublicBaseUrl(base: string | undefined): void {
   const next = normalizePublicBase(base);
-  if (next !== null && next !== currentBase()) {
+  if (next !== null && !samePublicBase(next, currentBase())) {
     if (baseUsed) throw new Error("The asset base was already used to build a URL");
     configuredBase = next;
   }
@@ -213,7 +219,7 @@ export function resetPublicBaseUrl(): void {
  */
 export function foreignAssetHost(worldBase: string | undefined): boolean {
   if (pageOverride() !== null) return false;
-  return (normalizePublicBase(worldBase) ?? PAGE_BASE_URL) !== currentBase();
+  return !samePublicBase(normalizePublicBase(worldBase) ?? PAGE_BASE_URL, currentBase());
 }
 
 /**

@@ -1,11 +1,11 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   assetBaseUrl, assetManifestUrl, foreignAssetHost, generatedUrl,
   publicBaseUrl, publicUrl, resetPublicBaseUrl, setPublicBaseUrl,
 } from "../game/src/app/config.js";
 
 const global = globalThis as { __COREALM_ASSET_BASE__?: unknown };
-afterEach(() => { delete global.__COREALM_ASSET_BASE__; resetPublicBaseUrl(); });
+afterEach(() => { delete global.__COREALM_ASSET_BASE__; resetPublicBaseUrl(); vi.unstubAllGlobals(); });
 
 describe("client asset base", () => {
   it("keeps the page's own directory when nothing overrides it", () => {
@@ -50,5 +50,14 @@ describe("client asset base", () => {
     expect(foreignAssetHost("https://cdn.example.com")).toBe(false);
     expect(foreignAssetHost("https://other.example.com/")).toBe(true);
     expect(foreignAssetHost(undefined)).toBe(true);
+  });
+  it("joins the same published directory without reloading for its absolute URL", () => {
+    vi.stubGlobal("location", { href: "https://pages.example.com/Corealm2/?play=local" });
+    setPublicBaseUrl("/Corealm2/");
+    expect(assetManifestUrl()).toBe("/Corealm2/assets/manifest.json");
+    expect(foreignAssetHost("https://pages.example.com/Corealm2")).toBe(false);
+    expect(() => setPublicBaseUrl("https://pages.example.com/Corealm2/")).not.toThrow();
+    expect(foreignAssetHost("https://pages.example.com/another-game/")).toBe(true);
+    expect(foreignAssetHost("https://cdn.example.com/Corealm2/")).toBe(true);
   });
 });

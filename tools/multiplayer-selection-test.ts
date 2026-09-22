@@ -37,10 +37,31 @@ try {
   const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
   await context.addInitScript(() => {
     localStorage.setItem("corealm.settings.v1", JSON.stringify({ renderScale: .7, shadowQuality: "low", drawDistance: "near", music: 0, ambient: 0, sfx: 0 }));
+    // A visible picker must not move behind the loading cover while the first GPU frame is pending.
+    const observation = window as Window & { pickerBlockedDuringBoot?: boolean };
+    observation.pickerBlockedDuringBoot = false;
+    let sawCover = false;
+    const observer = new MutationObserver(() => {
+      const cover = document.getElementById("boot-screen"), picker = document.getElementById("multiplayer-selector");
+      if (cover) sawCover = true;
+      else if (sawCover) observer.disconnect();
+      if (cover && picker && !cover.contains(picker) && picker.getBoundingClientRect().height > 0) {
+        observation.pickerBlockedDuringBoot = true;
+      }
+    });
+    observer.observe(document, { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden", "class"] });
   });
   const page = await context.newPage(); pages.push(page); page.setDefaultTimeout(15_000);
   page.on("pageerror", error => errors.push(error.message));
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
+  let navigations = 0;
+  page.on("framenavigated", frame => { if (frame === page.mainFrame()) navigations++; });
+  // Like Pages in production: the server names the absolute URL of this client's own assets.
+  await page.route("**/worlds", async route => {
+    const response = await route.fetch();
+    const worlds = await response.json() as Record<string, unknown>[];
+    await route.fulfill({ response, json: worlds.map(world => ({ ...world, assetBaseUrl: new URL("/", server!.url).href })) });
+  });
 
   await page.goto(server.url, { waitUntil: "domcontentloaded" });
   const panel = page.locator("#multiplayer-selector");
@@ -66,6 +87,9 @@ try {
   check("joinQueuedDuringLoading", await loading(page) && (await join.textContent())?.trim() === "Joining when ready");
   await page.waitForFunction(() => document.querySelector("#multiplayer-selector")?.getAttribute("data-phase") === "connected", null, { timeout: 120_000 });
   check("queuedJoinConnects", !await loading(page));
+  check("sameAssetHostJoinsWithoutReload", navigations === 1);
+  check("pickerStaysClickableUntilReady", await page.evaluate(() =>
+    !(window as Window & { pickerBlockedDuringBoot?: boolean }).pickerBlockedDuringBoot));
   await page.screenshot({ path: `${out}/connected.png`, timeout: 10_000 });
 
   // Adding the same host by address: it is remembered, and its worlds merge with the configured ones.
@@ -82,6 +106,7 @@ try {
   await page.screenshot({ path: `${out}/added-host.png`, timeout: 10_000 });
 
   // With the launcher's own configuration blocked, the saved host alone has to carry world selection.
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.route("**/__corealm_local_multiplayer.js", route => route.fulfill({ status: 200, contentType: "application/javascript", body: "" }));
   await page.goto(server.url, { waitUntil: "domcontentloaded" });
   check("configurationSuppressed", await page.evaluate(() => (window as unknown as { __COREALM_MULTIPLAYER__?: unknown }).__COREALM_MULTIPLAYER__ === undefined));

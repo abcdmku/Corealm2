@@ -63,6 +63,12 @@ deployment checks and known limits.
   matching `v0.1.0` tag. It checked the world pack, built both executables, smoke-started the Linux
   binary on Ubuntu, and stopped it cleanly. The release includes both binaries, the sample config,
   systemd unit, build metadata and checksums.
+- The mobile join follow-up compares resolved asset URLs, so a server naming the page's own files
+  no longer forces a reload. The picker stays on the loading cover until the first frame is ready;
+  Refresh retries directory discovery, and identity requests time out after ten seconds and cancel
+  with the join. Typecheck, 42 focused tests, the production build and all 28 checks in the existing
+  multiplayer-selection browser check pass. Desktop and 390 px loading-picker screenshots were
+  inspected. The world artifacts were rebaked because boot initialization changed.
 
 ## Not verified
 

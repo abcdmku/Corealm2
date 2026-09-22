@@ -20,6 +20,7 @@ const SESSION_KEY = "corealm.identity.v1";
 const MAX_TOKEN_CHARS = 4_096;
 const MAX_RESPONSE_CHARS = 65_536;
 const MAX_DIRECTORY_SERVERS = 256;
+const AUTH_REQUEST_TIMEOUT_MS = 10_000;
 
 export interface IdentityAccount { id: string; name: string }
 export interface DirectoryServer { name: string; endpoint: string; description?: string }
@@ -165,15 +166,38 @@ export class IdentityClient {
   private async call(path: string, request: { method: "GET" | "POST"; body?: unknown; signal?: AbortSignal }): Promise<Record<string, unknown>> {
     const current = this.stored;
     if (!current) throw new SessionFailure("UNAUTHORIZED", "Sign in first");
-    const response = await this.fetch()(`${this.base}${path}`, {
-      method: request.method, credentials: "omit", redirect: "error",
-      headers: { Authorization: `Bearer ${current.token}`, ...(request.body === undefined ? {} : { "Content-Type": "application/json" }) },
-      ...(request.body === undefined ? {} : { body: JSON.stringify(request.body) }),
-      ...(request.signal ? { signal: request.signal } : {}),
-    });
-    if (response.status === 401) { this.clear(); throw new SessionFailure("UNAUTHORIZED", "Your sign-in expired. Sign in again."); }
-    if (!response.ok) throw await this.failed(response);
-    return this.json(response);
+    const callerAbort = () => request.signal?.reason ?? new DOMException("The identity request was cancelled", "AbortError");
+    if (request.signal?.aborted) throw callerAbort();
+    const controller = new AbortController();
+    let cancellation: unknown;
+    let rejectCancellation!: (reason: unknown) => void;
+    const cancelled = new Promise<never>((_resolve, reject) => { rejectCancellation = reject; });
+    const cancel = (reason: unknown) => {
+      cancellation = reason;
+      rejectCancellation(reason);
+      controller.abort();
+    };
+    const onAbort = () => cancel(callerAbort());
+    request.signal?.addEventListener("abort", onAbort, { once: true });
+    const timer = setTimeout(() => cancel(new SessionFailure("UNAVAILABLE", "The identity service took too long to respond. Try again.")), AUTH_REQUEST_TIMEOUT_MS);
+    try {
+      // The deadline includes response bodies, including error bodies. A stalled body must not
+      // hold the picker open after its caller cancels or before the socket timeout can start.
+      return await Promise.race([cancelled, (async () => {
+        const response = await this.fetch()(`${this.base}${path}`, {
+          method: request.method, credentials: "omit", redirect: "error", signal: controller.signal,
+          headers: { Authorization: `Bearer ${current.token}`, ...(request.body === undefined ? {} : { "Content-Type": "application/json" }) },
+          ...(request.body === undefined ? {} : { body: JSON.stringify(request.body) }),
+        });
+        if (controller.signal.aborted) throw cancellation;
+        if (response.status === 401) { this.clear(); throw new SessionFailure("UNAUTHORIZED", "Your sign-in expired. Sign in again."); }
+        if (!response.ok) throw await this.failed(response);
+        return this.json(response);
+      })()]);
+    } finally {
+      clearTimeout(timer);
+      request.signal?.removeEventListener("abort", onAbort);
+    }
   }
 
   /** `{"error":{"code","message"}}`, mapped onto the codes the session layer already understands. */

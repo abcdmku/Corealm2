@@ -3411,6 +3411,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // Keep the boot cover until discovery and the selector are mounted, so there is no extra
     // offline "enter game" step before the player can choose their actual world.
     const selection = await worldSelection;
+    let mountWorldSelector = () => {};
     if(labSpec&&selection&&localLaunch&&describeLabWorld){
       // The scene is drawn, so the lab worker can be told what its world is. It has been booting beside the scene since the page opened.
       localLaunch.provider.provideLabWorld(bootTelemetry.measureSync("boot.labWorker.describe", describeLabWorld));
@@ -3423,7 +3424,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if(profile.kind==="game"&&selection){
       const {installBrowserSession}=await import("../multiplayer/browserSession.js");
       await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
-        mountWorlds:panel=>{panel.classList.remove("worlds--boot");panel.hidden=false;ui.setWorlds(panel);},
+        mountWorlds:panel=>{mountWorldSelector=()=>{
+          panel.classList.remove("worlds--boot");panel.hidden=false;ui.setWorlds(panel);
+          if(!choseLocalPlay&&selection.configured)ui.openTitle("worlds");
+        };},
         phase(phase){
           if(["reconnecting","unavailable","incompatible","full"].includes(phase))ui.openTitle("worlds");
         },
@@ -3444,8 +3448,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       // Only when there was something to join. The picker shows on every page now, but a page with
       // no servers behind it has nothing to offer a player who let loading finish without choosing,
       // so their own world starts. It is a world to join, not a game already running behind the picker.
-      if(!choseLocalPlay&&selection.configured)ui.openTitle("worlds");
-      else if(!choseLocalPlay&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
+      if(!choseLocalPlay&&!selection.configured&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
     }
     const firstFrameSpan = bootTelemetry.startSpan(BOOT_SPANS.FIRST_RENDERED_FRAME);
     const beforeGameplay = renderer.getPresentationState().submitted;
@@ -3457,6 +3460,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       bootTelemetry.milestone(BOOT_MILESTONES.FIRST_RENDERED_FRAME);
       // The GPU has completed the actual gameplay frame, including textures and particles.
       bootTelemetry.measureSync(BOOT_SPANS.BOOT_SCREEN_REMOVAL, () => {
+        // Keep the picker on the clickable boot cover until the frame is ready. Moving it earlier
+        // puts it behind that cover while the GPU is still busy, blocking login and world choices.
+        mountWorldSelector();
         document.getElementById("boot-screen")?.remove();
       });
       bootTelemetry.milestone(BOOT_MILESTONES.BOOT_SCREEN_REMOVED);

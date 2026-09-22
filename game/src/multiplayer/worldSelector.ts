@@ -121,7 +121,7 @@ export interface WorldSelectorOptions {
 }
 
 export async function createWorldSelector(configuration: WorldConfiguration|undefined, ports: SessionControllerPorts,
-  authenticate: (world: WorldDescriptor) => Promise<{ token: string }>, providers:readonly WorldProvider[]=[],
+  authenticate: (world: WorldDescriptor, signal?: AbortSignal) => Promise<{ token: string }>, providers:readonly WorldProvider[]=[],
   options:WorldSelectorOptions={} ) {
   const identity=options.identity??null;
   const play=options.play??null;
@@ -348,7 +348,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
       if(identity&&directory===null){
         // Quiet on failure: a directory this page cannot reach is not the player's problem, and
         // their own hosts still load.
-        try{directory=await identity.servers(request.signal);}catch{directory=[];}
+        try{directory=await identity.servers(request.signal);}catch{directory=null;}
         if(discovery!==request)return;
       }
       const configured=record(configuration)&&typeof configuration.directoryUrl==="string"?configuration.directoryUrl:null;
@@ -418,7 +418,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     if(!ready){pendingJoin=true;status.textContent="Joining as soon as the game finishes loading.";updateButtons();return;}
     joinSelected();
   };
-  refresh.addEventListener("click",()=>{void reload();});
+  refresh.addEventListener("click",()=>{directory=null;void reload();});
   commit.addEventListener("click",runPrimary);
   hostForm.addEventListener("submit",event=>{
     event.preventDefault();
