@@ -565,11 +565,19 @@ peak populations and GPU submissions, and rejects overflow. Particle storage is
 bounded at 48,000 luminous motes, 16,000 fragments and 3,000 smoke particles; these are capacities,
 not populations emitted by every attack. Connected energy segments share a 4,096-instance pool.
 Each particle batch uses one draw call per pass.
-Deluge's foam and spray use a separate 30,000-particle liquid batch. Its eight-triangle
-droplets have smooth shaded normals and specular highlights, normal blending and no bloom.
-The batch is included in particle/overflow counters and clears with the other effects.
-Launch data is cached once; only motion and draw attributes update each frame. The water
-casting gate checks that the collision droplets submit to scene color instead of HDR emission.
+Deluge's foam and spray use two GPU particle batches with a combined 30,000-particle capacity.
+Their eight-triangle droplets have smooth shaded normals and specular highlights, normal
+blending and no bloom.
+Both batches are included in particle/overflow counters and clear with the other effects.
+The 12,000 foam and 18,000 spray candidates retain static launch, shape and color attributes.
+Vertex shaders evaluate motion, stretch and fading from absolute choreography time. The CPU
+updates per-cast uniforms and counts live particles with sorted phase/birth/death intervals.
+Hidden candidates are not counted as live particles. Ordinary basic spell trails and impact
+lights also use static GPU batches; sparse earth fragments and water drops keep their existing
+renderers. Other particle clouds cache linear colors and upload 40 bytes per live particle,
+down from 48, with seed-derived shape computed in the shader. Empty pools do not mark buffers
+for upload. The water casting gate checks that the collision droplets submit to scene color
+instead of HDR emission.
 Its collision uses one turbulent refractive liquid volume with twelve proxy triangles,
 a shared 256 KiB spatial-noise texture and up to 56 samples per ray. Eight tapered
 currents wrap that volume within the existing 2,880-triangle splash budget. Clockwise

@@ -80,8 +80,10 @@ WebGPU does not automatically distribute Three's scene traversal or command prep
 CPU cores. The [WebGPU explainer](https://gpuweb.github.io/gpuweb/explainer/#multithreading)
 still identifies sharing one GPUDevice across JavaScript threads as a future capability.
 Moving the renderer to a worker would isolate its JavaScript from page input, but GPU work
-would still share the browser's GPU process. Compute particles could reduce recurring CPU
-updates and uploads; they do not remove startup pipeline compilation or repeated node building.
+would still share the browser's GPU process. Basic projectile light particles and Deluge foam
+and spray now evaluate motion in vertex shaders, keeping their seeded attributes resident.
+Stateful compute remains a possible extension for other effects; it does not remove startup
+pipeline compilation or repeated node building.
 
 The joined world's real spawn, nearby structures, creatures, NPCs, animations and required
 graphics prepare before gameplay is revealed. Readiness includes a completed GPU frame.
@@ -149,6 +151,56 @@ meshes complete and had no disappearance or partially drawn samples. The maximum
 interval was 97.1 ms during joining and 73.9 ms during equipment changes. Runtime and graphics
 validation errors were zero. This follow-up did not repeat that separate two-client sequence.
 These local samples do not establish performance on every GPU or over the live server's network.
+
+### Particle follow-up
+
+Deluge foam and spray and basic spell flight and impact motes now evaluate their motion in
+TSL vertex shaders. Seeded launch data stays on the GPU; each frame updates small uniforms.
+The authored trajectories, colors, lifetimes and capacities remain intact. Live-particle
+diagnostics count births, landings and fading without scanning the whole pool. Inactive
+candidates collapse before rasterization and do not inflate the live count. CPU-authored
+clouds cache linear colors and upload 40 bytes per live particle instead of 48.
+
+The production spell lab was measured before and after in the same Chrome profile, with
+eight seconds per spell, no CPU throttling and no simultaneous build or profiler. These are
+individual source-server samples. CPU p95 measures the entire effect update. Attribute
+writes count dynamic particle attributes, excluding uniforms and other GPU traffic.
+
+| Spell | Effect CPU p95 before / after | Peak particle attribute writes before / after |
+| --- | ---: | ---: |
+| Deluge | 3.4 / 0.8 ms | 1,360,416 / 19,600 bytes |
+| Starfall | 4.9 / 3.8 ms | 894,864 / 745,720 bytes |
+| Skybreaker | 2.5 / 2.0 ms | 427,584 / 352,280 bytes |
+| Kindle | 0.2 / 0.2 ms | 15,360 / 1,120 bytes |
+
+Deluge CPU p95 fell 76% and peak particle attribute writes fell 98.6%. Its GPU completion
+p95 stayed about the same, 7.8 / 7.9 ms. This is a CPU and transfer improvement, not evidence
+of faster GPU execution across every spell. Starfall and Skybreaker still compute their
+terrain-dependent particle positions on the CPU. No compute dispatch or GPU readback was added.
+
+The four measured spells retained their hit and damage totals, with zero dropped particles
+and zero runtime or graphics errors. Foam, spray and all four basic elemental trails passed
+real-input lab checks and screenshot review at normal gameplay camera limits. Focused tests
+also compare authored formulas and live counts at matched timestamps, including backward
+time seeks and long-running session clocks. Disposable samples and screenshots are under
+`test-results/particle-*`.
+
+The final production build passed the same authored cold-join, walking, seven-menu and
+separate-browser-page check. First-playable telemetry was 33.167 seconds, first movement
+took 77.3 ms, and walking GPU completion p95/max were 33.4/61.8 ms. Menu completion peaked
+at 141.6 ms. The other page's GPU completion maximum was 204.6 ms during loading and
+139.6 ms during play. Starting buildings, creatures, NPCs and animations passed the drawn
+content checks. The run ended with 1,496 resident views, all 161 requested assets loaded,
+and zero missing models, pending animations, queued graphics work or errors. This keeps
+cold startup near the preceding 33.578-second result; brief hitches remain.
+
+The final production first-cast check passed all seven assertions. Effects were ready before
+the first playable frame, particles appeared 174.7 ms after casting, and the maximum RAF
+interval was 106.2 ms. The later cast also drew particles, with zero page errors. The inspected
+world screenshot retains the authored spell trail and surrounding geometry. Reports are
+`test-results/walking-stream/particle-cold/report.json` and
+`test-results/effects-readiness/report-dist.json`. The warm-join and separate two-client
+sequences were not repeated for this particle-only follow-up.
 
 The measurements below this section describe earlier WebGL revisions, not the native renderer.
 
