@@ -191,6 +191,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const errors: RecordedError[] = [];
   const worldMapCapture = new URLSearchParams(window.location.search).get("world-map-capture") === "1";
   const worldBake = import.meta.env.DEV && new URLSearchParams(location.search).get("world-bake") === "1";
+  const navigationBake = import.meta.env.DEV && new URLSearchParams(location.search).get("navmesh-bake") === "1";
+  const offlineAuthoring = worldBake || navigationBake || worldMapCapture;
   const startedAt = performance.now();
   const atMs = (): number => performance.now() - startedAt;
 
@@ -259,13 +261,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const localLaunch = labSpec
     ? await bootTelemetry.measureAsync("boot.labWorker.prepare", async () =>
       (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "lab", memory: true, lab: labSpec }))
-    : profile.kind === "game" && !worldBake && !worldMapCapture
+    : profile.kind === "game" && !offlineAuthoring
     ? await bootTelemetry.measureAsync("boot.localWorker.prepare", async () =>
       (await import("../multiplayer/localLaunch.js")).prepareLocalLaunch({ fixture: "authored", memory: !profile.persistent || localMode === "memory" }))
       // Without the published manifest there is no local world to offer. The picker still lists servers, and says why.
       .catch((error: unknown) => { console.warn("[corealm] Local play is unavailable: its world files could not be read.", error); return null; })
     : null;
-  const worldSelection = profile.kind === "game" || labSpec
+  const worldSelection = !offlineAuthoring && (profile.kind === "game" || labSpec)
     ? import("../multiplayer/browserSession.js")
       // A lab has one world to join and nobody to ask, so it is `?play=local` without the flag.
       .then(({ startWorldSelection }) => startWorldSelection(labSpec ? { play: { kind: "local" }, local: localLaunch }
@@ -1082,6 +1084,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     bootTelemetry.milestone(BOOT_MILESTONES.NAVIGATION_READY, { artifact: artifact.status, reason: artifact.reason });
   }
   nav.setRouteGraph(built.routeNodes, built.routeEdges);
+
+  if (navigationBake) {
+    if (!navigationBuilt || errors.length) throw new Error(`Navigation bake failed: ${errors.map(error => error.message).join('; ')}`);
+    // The offline builder exports the completed geometry directly. It has no session to join
+    // and needs no gameplay pipelines, actors or UI before collecting the artifact.
+    bootTotalSpan.end();
+    return new Promise<BootResult>(() => {});
+  }
 
   const { spreadMobSpawns } = await import('../world/mobSpawnSpacing.js');
   const { spreadMobSpawnsCached } = await import('../world/mobSpawnCache.js');

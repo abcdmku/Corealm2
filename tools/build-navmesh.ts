@@ -196,27 +196,20 @@ export async function buildNavmeshArtifact(): Promise<{
     await page.routeWebSocket("**", () => undefined);
     await page.goto(`${server.url}?navmesh-bake=1`, { waitUntil: "load", timeout: 60_000 });
     await page.waitForFunction(
-      () => window.__gameDebug?.getState().ready === true,
+      () => typeof window.__corealmNavigationArtifact === "function" || Boolean(document.querySelector('.boot-error')),
       undefined,
       { timeout: 120_000 },
     );
 
     const result = await page.evaluate(async () => {
-      const debug = window.__gameDebug;
-      if (!debug) throw new Error("window.__gameDebug is unavailable");
-      const state = debug.getState() as { seed?: string | number };
-      const navigation = debug.getNavigationState() as { status?: string };
-      if (navigation.status !== "ready") throw new Error(`navigation is ${navigation.status ?? "unknown"}`);
+      const failure = document.querySelector('.boot-error')?.textContent;
+      if (failure) throw new Error(failure);
       if (typeof window.__corealmNavigationArtifact !== "function") {
         throw new Error("window.__corealmNavigationArtifact is unavailable");
       }
-      const getErrors = debug["getErrors"];
-      const errors = typeof getErrors === "function" ? (getErrors() as unknown[]) : [];
-      if (errors.length > 0) throw new Error(`game errors: ${JSON.stringify(errors).slice(0, 2000)}`);
-      if (state.seed === undefined) throw new Error("game state has no world seed");
       return {
-        base64: await window.__corealmNavigationArtifact(state.seed),
-        seed: state.seed,
+        base64: await window.__corealmNavigationArtifact(1337),
+        seed: 1337,
       };
     });
     if (browserErrors.length > 0) {
