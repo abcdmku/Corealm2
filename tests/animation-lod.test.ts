@@ -1,7 +1,9 @@
+import { MeshStandardNodeMaterial, type MeshBasicNodeMaterial } from "three/webgpu";
+import { vec3 } from "three/tsl";
 import * as THREE from "three";
 import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { describe, expect, it, vi } from "vitest";
-import { AnimationLod, unionTransformedBounds, type LodPose } from "../game/src/render/animationLod.js";
+import { AnimationLod, sampledAnimationPalette, unionTransformedBounds, type LodPose } from "../game/src/render/animationLod.js";
 import { conformTerrainRig } from '../game/src/render/terrainRig.js';
 import { crowdGeometryReady, simplifyCrowdGeometry } from '../game/src/render/crowdGeometry.js';
 
@@ -248,7 +250,7 @@ it('ignores unused skeleton bones in sampled and terrain-adjusted bounds', () =>
       lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1, terrain });
       const bounds = lod.bounds(0, new THREE.Box3())!;
       const instance = parent.children[0] as THREE.InstancedMesh;
-      expect(compile(instance.material as THREE.Material).uniforms['lodBoneCount']!.value).toBe(2);
+      expect(sampledAnimationPalette(instance.material as THREE.Material)!.bones).toBe(2);
       expect(bounds.getSize(new THREE.Vector3()).length()).toBeLessThan(2);
       for (let vertex = 0; vertex < 3; vertex++) {
         const actual = paletteVertex(parent.children[0] as THREE.InstancedMesh, 0, vertex);
@@ -296,13 +298,6 @@ function actor() {
   return { root, mesh, hip, head, walk, hit, geometry, material };
 }
 
-type Shader = Parameters<THREE.Material["onBeforeCompile"]>[0];
-function compile(material: THREE.Material, library: "basic" | "standard" | "depth" | "distance" = "standard"): Shader {
-  const shader = { vertexShader: THREE.ShaderLib[library].vertexShader, fragmentShader: THREE.ShaderLib[library].fragmentShader, uniforms: {} } as Shader;
-  material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-  return shader;
-}
-
 // Reference uses Three's ordinary live-skeleton CPU deformation, including the imported hierarchy.
 function referenceVertex(root: THREE.Object3D, clip: THREE.AnimationClip, time: number, vertex: number): THREE.Vector3 {
   const copy = cloneRigged(root);
@@ -319,9 +314,7 @@ function referenceVertex(root: THREE.Object3D, clip: THREE.AnimationClip, time: 
 }
 
 function paletteVertex(mesh: THREE.InstancedMesh, row: number, vertex: number): THREE.Vector3 {
-  const shader = compile(mesh.material as THREE.Material);
-  const texture = shader.uniforms["lodPalette"]!.value as THREE.DataTexture;
-  const bones = shader.uniforms["lodBoneCount"]!.value as number;
+  const { texture, bones } = sampledAnimationPalette(mesh.material as THREE.Material)!;
   const data = texture.image.data as Float32Array;
   const current = mesh.geometry.getAttribute("lodFrames");
   const previous = mesh.geometry.getAttribute("lodPreviousFrames");
@@ -510,41 +503,16 @@ describe("sampled skeletal animation LOD", () => {
     lod.set(4, new THREE.Matrix4(), { clip: walk, time: 0.3, blend: 1, opacity: 0.6 });
     const mesh = parent.children[0] as THREE.InstancedMesh;
     expect('isSkinnedMesh' in mesh, 'Instanced LOD does not enable Three USE_SKINNING').toBe(false);
-    expect(mesh.material).toBeInstanceOf(THREE.MeshBasicMaterial);
+    expect((mesh.material as MeshBasicNodeMaterial).isMeshBasicNodeMaterial).toBe(true);
     expect((mesh.material as THREE.MeshBasicMaterial).color.getHex()).toBe(source.color.getHex());
     expect((mesh.material as THREE.Material).opacity).toBe(source.opacity);
 
-    for (const [material, library] of [
-      [mesh.material as THREE.Material, 'basic'],
-      [mesh.material as THREE.Material, 'standard'],
-      [mesh.customDepthMaterial!, 'depth'],
-      [mesh.customDistanceMaterial!, 'distance'],
-    ] as const) {
-      const shader = compile(material, library);
-      const main = shader.vertexShader.slice(shader.vertexShader.indexOf('void main()'));
-      let conditionDepth = 0;
-      let initialized = false;
-      let opacityInitialized = false;
-      for (const line of main.split('\n')) {
-        if (/^\s*#if(?:def|ndef)?\b/.test(line)) conditionDepth++;
-        if (/^\s*#endif\b/.test(line)) conditionDepth--;
-        if (line.includes('mat4 lodSkin =')) {
-          expect(conditionDepth, `${library}: position pose must survive disabled normal code`).toBe(0);
-          expect(initialized, `${library}: pose is initialized exactly once`).toBe(false);
-          initialized = true;
-        }
-        if (line.includes('lodOpacity =')) {
-          expect(conditionDepth, `${library}: fragment opacity always has a value`).toBe(0);
-          opacityInitialized = true;
-        }
-        if (line.includes('mat3 lodBasis') || line.includes('transformed = (lodSkin')) {
-          expect(initialized, `${library}: pose exists before both normal and position use`).toBe(true);
-        }
-      }
-      expect(initialized).toBe(true);
-      expect(opacityInitialized).toBe(true);
-      expect(shader.vertexShader).not.toContain('#include <skinbase_vertex>');
-    }
+    const nodes = mesh.material as MeshBasicNodeMaterial;
+    expect(nodes.positionNode?.isNode).toBe(true);
+    expect(nodes.maskNode?.isNode).toBe(true);
+    // WebGPU's shadow pass consumes these same nodes from the source material.
+    expect(mesh.customDepthMaterial).toBeUndefined();
+    expect(mesh.customDistanceMaterial).toBeUndefined();
     expect(paletteVertex(mesh, 0, 2).distanceTo(referenceVertex(root, walk, 0.3, 2))).toBeLessThan(1e-6);
     lod.dispose();
     source.dispose();
@@ -623,12 +591,12 @@ describe("sampled skeletal animation LOD", () => {
     lod.dispose();
   });
 
-  it("updates only dynamic texel rows after upload while retaining the baked palette and all shadow uniforms", () => {
+  it("updates only dynamic texel rows after upload while retaining the baked palette and the shadow position graph", () => {
     const { root, walk } = actor(), overlay = overlayClip(), parent = new THREE.Group();
     const lod = new AnimationLod(parent, root, root, [walk], material => material);
     lod.set(4, new THREE.Matrix4(), { clip: walk, time: .2, blend: 1, overlay: { clip: overlay, time: .1, weight: 1 } });
-    const mesh = parent.children[0] as THREE.InstancedMesh, shader = compile(mesh.material as THREE.Material);
-    const texture = shader.uniforms["lodPalette"]!.value as THREE.DataTexture;
+    const mesh = parent.children[0] as THREE.InstancedMesh;
+    const { texture } = sampledAnimationPalette(mesh.material as THREE.Material)!;
     const baked = (texture.image.data as Float32Array).slice(0, lod.sampleCount * 2 * 16);
     expect(texture.updateRanges).toHaveLength(0); // first upload must include all baked frames
     texture.onUpdate!(texture);
@@ -642,8 +610,8 @@ describe("sampled skeletal animation LOD", () => {
       expect(range.start % (texture.image.width * 4) + range.count).toBeLessThanOrEqual(texture.image.width * 4);
     }
     expect(Array.from((texture.image.data as Float32Array).slice(0, baked.length))).toEqual(Array.from(baked));
-    expect(compile(mesh.customDepthMaterial!, "depth").uniforms["lodPalette"]!.value).toBe(texture);
-    expect(compile(mesh.customDistanceMaterial!, "distance").uniforms["lodPalette"]!.value).toBe(texture);
+    expect(sampledAnimationPalette(mesh.material as THREE.Material)!.texture).toBe(texture);
+    expect((mesh.material as MeshStandardNodeMaterial).positionNode).not.toBeNull();
     expect(() => lod.set(5, new THREE.Matrix4(), { clip: walk, time: 0, blend: 1, overlay: { clip: walk, time: 0, weight: 1 } })).toThrow(/additive/);
     lod.dispose();
   });
@@ -661,7 +629,7 @@ describe("sampled skeletal animation LOD", () => {
     const terrain = { placement: new THREE.Matrix4(), origin: new THREE.Vector3(), heightAt: (x: number, z: number) => .1 * x + .05 * z };
     lod.set(0, new THREE.Matrix4(), { clip: walk, time: .2, blend: 1, terrain });
     const instance = parent.children[0] as THREE.InstancedMesh;
-    const texture = compile(instance.material as THREE.Material).uniforms.lodPalette!.value as THREE.DataTexture;
+    const texture = sampledAnimationPalette(instance.material as THREE.Material)!.texture;
     texture.onUpdate!(texture);
     lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1, terrain });
     expect(texture.updateRanges).toHaveLength(1);
@@ -724,8 +692,7 @@ describe("sampled skeletal animation LOD", () => {
     const parent = new THREE.Group();
     const lod = new AnimationLod(parent, root, root, [walk], (source) => source);
     const instance = parent.children[0] as THREE.InstancedMesh;
-    const shader = compile(instance.material as THREE.Material);
-    const owned = [instance.geometry, instance.material as THREE.Material, instance.customDepthMaterial!, instance.customDistanceMaterial!, shader.uniforms["lodPalette"]!.value as THREE.DataTexture];
+    const owned = [instance.geometry, instance.material as THREE.Material, sampledAnimationPalette(instance.material as THREE.Material)!.texture];
     const releases = owned.map((resource) => { const spy = vi.fn(); resource.addEventListener("dispose", spy); return spy; });
     expect(instance.geometry).not.toBe(geometry);
     expect((instance.material as THREE.MeshStandardMaterial).map).toBe(material.map);
@@ -775,22 +742,21 @@ describe("sampled skeletal animation LOD", () => {
     lod.dispose();
   });
 
-  it("uses identical articulated poses for color, directional shadows and point shadows, retaining material hooks", () => {
-    const { root, walk, material } = actor();
-    material.onBeforeCompile = function (shader) { expect(this).toBe(material); shader.vertexShader += "\n// authored material hook"; };
-    material.customProgramCacheKey = () => "authored-surface-v3";
+  it("retains authored surface nodes while sharing the sampled pose and fade with automatic shadows", () => {
+    const { root, walk, mesh: source } = actor();
+    const material = new MeshStandardNodeMaterial();
+    material.colorNode = vec3(0.3, 0.5, 0.8);
+    source.material = material;
     const parent = new THREE.Group();
-    const lod = new AnimationLod(parent, root, root, [walk], (source) => source);
+    const lod = new AnimationLod(parent, root, root, [walk], source => source);
     const mesh = parent.children[0] as THREE.InstancedMesh;
-    const color = compile(mesh.material as THREE.Material);
-    expect(color.vertexShader).toContain("// authored material hook");
-    expect((mesh.material as THREE.Material).customProgramCacheKey()).toContain("authored-surface-v3");
-    for (const shader of [color, compile(mesh.customDepthMaterial!, "depth"), compile(mesh.customDistanceMaterial!, "distance")]) {
-      expect(shader.uniforms["lodPalette"]!.value).toBe(color.uniforms["lodPalette"]!.value);
-      expect(shader.vertexShader).toContain("transformed = (lodSkin * vec4(transformed, 1.0)).xyz;");
-      expect(shader.vertexShader).not.toContain("#include <skinning_vertex>");
-    }
-    expect(color.vertexShader).toContain("transpose(inverse(lodBasis))");
+    const drawn = mesh.material as MeshStandardNodeMaterial;
+    expect(drawn).not.toBe(material);
+    expect(drawn.colorNode).toBe(material.colorNode);
+    expect(drawn.positionNode?.isNode).toBe(true);
+    expect(drawn.maskNode?.isNode).toBe(true);
+    expect(mesh.customDepthMaterial).toBeUndefined();
+    expect(mesh.customDistanceMaterial).toBeUndefined();
     lod.dispose();
   });
 
@@ -804,14 +770,10 @@ describe("sampled skeletal animation LOD", () => {
     const opacity = mesh.geometry.getAttribute("lodPreviousFrames");
     expect(opacity.getW(0)).toBe(1);
     expect(opacity.getW(1)).toBeCloseTo(0.35);
-    for (const [material, library] of [[mesh.material as THREE.Material, "standard"], [mesh.customDepthMaterial!, "depth"], [mesh.customDistanceMaterial!, "distance"]] as const) {
-      const shader = compile(material, library);
-      expect(material.transparent).toBe(false);
-      expect(shader.vertexShader).toContain("lodOpacity = lodPreviousFrames.w;");
-      expect(shader.fragmentShader).toContain("mod(floor(gl_FragCoord.xy), 4.0)");
-      expect(shader.fragmentShader).toContain("if (lodOpacity < lodThreshold) discard;");
-      expect(shader.fragmentShader).toContain("const float lodBayer[16]");
-    }
+    const material = mesh.material as MeshStandardNodeMaterial;
+    expect(material.transparent).toBe(false);
+    expect(material.maskNode?.isNode).toBe(true);
+    expect(material.maskShadowNode).toBeNull(); // shadows inherit the exact visible mask
     lod.hide(3);
     expect(opacity.getW(0)).toBeCloseTo(0.35);
     lod.set(4, new THREE.Matrix4(), { clip: walk, time: 0.3, blend: 1, opacity: 0 });

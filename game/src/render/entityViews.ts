@@ -1,3 +1,6 @@
+import { MeshStandardNodeMaterial, type MeshBasicNodeMaterial } from "three/webgpu";
+import { vec3 } from "three/tsl";
+import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
 import { assetBaseUrl } from "../app/config.js";
 import { RemoteActivityPose, type RemoteActivitySample } from "./remoteActivityPose.js";
 import { interpolatedGroundHeight } from "./terrainContact.js";
@@ -3374,7 +3377,7 @@ export class EntityViews {
     let material = this.essenceAltarDetailMaterials.get(element);
     if (!material) {
       const colour = new THREE.Color(ESSENCE_GLOW[element].colour);
-      material = new THREE.MeshStandardMaterial({
+      material = new MeshStandardNodeMaterial({
         name: `altar-imbued-detail:${element}`,
         color: colour.clone().multiplyScalar(0.22),
         emissive: colour,
@@ -3805,7 +3808,7 @@ export class EntityViews {
     const glow = ESSENCE_GLOW[element];
     const structureColour = ESSENCE_STRUCTURE_COLOUR[element];
     const regionStone = ESSENCE_REGION_STONE[element];
-    const material = standard.clone();
+    const material = cloneNodeMaterial(standard) as MeshStandardNodeMaterial;
     material.name = `${surface.name || "rock"}@essence:${element}:${spent ? "spent" : "live"}`;
     // The court receives a broad element-colour wash. The altar keeps its stone underneath a much
     // brighter fissure mask, so awakening reads as imbued lines instead of a featureless light box.
@@ -3832,23 +3835,14 @@ export class EntityViews {
         stoneTint.r * 0.2126 + stoneTint.g * 0.7152 + stoneTint.b * 0.0722,
       );
       stoneTint.multiplyScalar(1 / tintLuminance);
-      const tintVector = `vec3(${stoneTint.r.toFixed(6)}, ${stoneTint.g.toFixed(6)}, ${stoneTint.b.toFixed(6)})`;
-      const sourceCompile = standard.onBeforeCompile;
-      const sourceProgramKey = standard.customProgramCacheKey();
-      material.onBeforeCompile = (shader, renderer) => {
-        sourceCompile.call(standard, shader, renderer);
-        shader.fragmentShader = shader.fragmentShader.replace(
-          "#include <map_fragment>",
-          /* glsl */ `#include <map_fragment>
-float gEssenceStoneLuminance = dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
-float gEssenceStoneValue = clamp( pow( max( gEssenceStoneLuminance, 0.001 ), 0.55 ) * 1.15 + 0.08, 0.0, 0.9 );
-vec3 gEssenceStoneTinted = clamp( gEssenceStoneValue * ${tintVector}, 0.0, 1.0 );
-diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
-        );
-      };
-      material.customProgramCacheKey = () => (
-        `${sourceProgramKey}|essence-stone-lift-v1:${element}:${spent ? "spent" : "live"}:${treatment}`
-      );
+      composeSurface(material, {
+        color: previous => {
+          const luminance = previous.dot(vec3(0.2126, 0.7152, 0.0722));
+          const value = luminance.max(0.001).pow(0.55).mul(1.15).add(0.08).clamp(0, 0.9);
+          const tinted = value.mul(vec3(stoneTint.r, stoneTint.g, stoneTint.b)).clamp(0, 1);
+          return previous.mix(tinted, 0.82);
+        },
+      });
     }
     material.emissive = new THREE.Color(
       spent ? 0x000000 : treatment === "structure" ? structureColour : glow.colour,
@@ -4055,7 +4049,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const cached = this.submergedFishMaterials.get(source);
     if (cached) return cached;
 
-    const material = source.clone();
+    const material = cloneNodeMaterial(source);
     material.name = `${source.name || source.type}@submerged-fish`;
     material.transparent = true;
     material.opacity = source.opacity * SUBMERGED_FISH_OPACITY;
@@ -4279,7 +4273,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     let material: THREE.MeshStandardMaterial;
 
     if (kind === "water-live" || kind === "water-recovery") {
-      material = new THREE.MeshStandardMaterial({
+      material = new MeshStandardNodeMaterial({
         name: `resource-${kind}-${tier}`,
         color: new THREE.Color(palette.accent).lerp(new THREE.Color(0xa8dce4), 0.58),
         emissive: new THREE.Color(palette.accent),
@@ -4293,7 +4287,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       });
       material.userData.entityCastShadow = false;
     } else if (kind === "fire-rock") {
-      material = new THREE.MeshStandardMaterial({
+      material = new MeshStandardNodeMaterial({
         name: "campfire-ring-rock",
         color: 0x4a4844,
         roughness: 0.97,
@@ -4301,7 +4295,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         flatShading: true,
       });
     } else if (kind === "ore-scar") {
-      material = new THREE.MeshStandardMaterial({
+      material = new MeshStandardNodeMaterial({
         name: `ore-worked-scar-${tier}`,
         color: new THREE.Color(palette.body).multiplyScalar(0.16),
         roughness: 1,
@@ -4309,7 +4303,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         flatShading: true,
       });
     } else {
-      material = new THREE.MeshStandardMaterial({
+      material = new MeshStandardNodeMaterial({
         name: `ore-worked-dust-${tier}`,
         color: new THREE.Color(palette.body).multiplyScalar(0.48),
         roughness: 1,
@@ -5016,10 +5010,6 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const castsShadow = part.material.userData.entityCastShadow !== false;
     mesh.castShadow = castsShadow;
     mesh.receiveShadow = castsShadow;
-    if ((part.windStrength ?? 0) > 0) {
-      mesh.customDepthMaterial = this.materials.windShadow(part.material, part.windStrength!, "depth");
-      mesh.customDistanceMaterial = this.materials.windShadow(part.material, part.windStrength!, "distance");
-    }
     // Per-INSTANCE culling is the whole reason this class is here, and it makes the object-level
     // test both redundant and wrong: a batch's bounding sphere spans every region that uses the
     // material, so it would never cull, while `onBeforeRender` (and `onBeforeShadow`) already drops
@@ -5389,7 +5379,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const key = `${base.uuid}|${hex}`;
     const cached = this.tintedMaterials.get(key);
     if (cached) return cached;
-    const clone = standard.clone();
+    const clone = cloneNodeMaterial(standard);
     clone.color = standard.color.clone().multiply(SCRATCH_COLOUR.setHex(hex));
     this.tintedMaterials.set(key, clone);
     return clone;
@@ -5544,9 +5534,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         if (!mesh.isMesh) return;
         const source = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         const clones = source.map((material) => {
-          const clone = material.clone();
-          clone.onBeforeCompile = material.onBeforeCompile;
-          clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
+          const clone = cloneNodeMaterial(material);
           clone.transparent = true;
           clone.depthWrite = false;
           owned.push(clone);
@@ -5648,7 +5636,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     if (resource) {
       let quiet = this.resourceHighlightMaterials.get(source);
       if (!quiet) {
-        quiet = source.clone();
+        quiet = cloneNodeMaterial(source) as MeshBasicNodeMaterial;
         quiet.color.lerp(new THREE.Color(0xaaa18b), 0.4);
         quiet.opacity = 0.46;
         this.resourceHighlightMaterials.set(source, quiet);

@@ -1,3 +1,4 @@
+import { cloneNodeMaterial, ensureNodeMaterial } from "./nodeMaterials.js";
 import * as THREE from "three";
 import {clone as cloneRigged} from "three/examples/jsm/utils/SkeletonUtils.js";
 import type {EquipSlot,ItemId} from "../contracts.js";
@@ -43,9 +44,9 @@ export class RemoteEquipmentSources {
       // Mark after applying the production treatment. NPC dyes must not overwrite armour tiers.
       const protect=(material:THREE.Material)=>{
         if(shared.has(material)){
-          const original=material;material=original.clone();
-          material.onBeforeCompile=original.onBeforeCompile;material.customProgramCacheKey=original.customProgramCacheKey.bind(original);
+          material=cloneNodeMaterial(material);
         }
+        material=ensureNodeMaterial(material);
         material.name=`equipped:${appearance.assetId}:${appearance.tint??"native"}:${material.name}`;
         this.materials.add(material);return material;
       };

@@ -1,4 +1,8 @@
 import * as THREE from "three";
+import { type Node } from "three/webgpu";
+import { Fn, If, array, attribute, float, instancedMesh, int, ivec2, mat3, mat4, normalLocal,
+  positionLocal, screenCoordinate, tangentLocal, textureLoad, varying, vec4 } from "three/tsl";
+import { cloneNodeMaterial, composeSurface, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainPose } from "./terrainRig.js";
 
 import {simplifyCrowdGeometry} from "./crowdGeometry.js";
@@ -32,8 +36,6 @@ interface Part {
   source: THREE.Material;
   geometry: THREE.BufferGeometry;
   material: THREE.Material;
-  depth: THREE.Material;
-  distance: THREE.Material;
   mesh: THREE.InstancedMesh;
   triangles: number;
   palette: Palette;
@@ -64,116 +66,70 @@ export function unionTransformedBounds(target: THREE.Box3, source: THREE.Box3, m
 
 // Both ordinary meshes (bone-attached equipment) and skinned meshes use this path.
 // Matrices already contain the source mesh hierarchy and its skin bind transforms.
-const PALETTE_SHADER = /* glsl */ `
-uniform highp sampler2D lodPalette;
-uniform int lodBoneCount;
-attribute vec4 skinIndex;
-attribute vec4 skinWeight;
-attribute vec4 lodFrames;
-attribute vec4 lodPreviousFrames;
-varying float lodOpacity;
+const sampledPalettes = new WeakMap<THREE.Material, Readonly<Pick<Palette, "texture" | "bones">>>();
 
-mat4 lodBoneAt(float frame, float bone) {
-  int width = textureSize(lodPalette, 0).x;
-  int address = (int(frame) * lodBoneCount + int(bone)) * 4;
-  ivec2 uv = ivec2(address % width, address / width);
-  return mat4(
-    texelFetch(lodPalette, uv, 0),
-    texelFetch(lodPalette, uv + ivec2(1, 0), 0),
-    texelFetch(lodPalette, uv + ivec2(2, 0), 0),
-    texelFetch(lodPalette, uv + ivec2(3, 0), 0)
-  );
+/** CPU diagnostics use the exact texture consumed by the sampled animation graph. */
+export function sampledAnimationPalette(material: THREE.Material) {
+  return sampledPalettes.get(material) ?? null;
 }
-mat4 lodBetween(vec3 frames, float bone) {
-  mat4 first = lodBoneAt(frames.x, bone);
-  if (frames.z <= 0.0 || frames.x == frames.y) return first;
-  return first * (1.0 - frames.z) + lodBoneAt(frames.y, bone) * frames.z;
-}
-mat4 lodBone(float bone) {
-  mat4 current = lodBetween(lodFrames.xyz, bone);
-  if (lodFrames.w >= 1.0) return current;
-  return lodBetween(lodPreviousFrames.xyz, bone) * (1.0 - lodFrames.w)
-       + current * lodFrames.w;
-}
-`;
 
-const OPACITY_SHADER = /* glsl */ `
-varying float lodOpacity;
-const float lodBayer[16] = float[16](
-   0.0,  8.0,  2.0, 10.0,
-  12.0,  4.0, 14.0,  6.0,
-   3.0, 11.0,  1.0,  9.0,
-  15.0,  7.0, 13.0,  5.0
-);
-`;
-
-const OPACITY_DISCARD = /* glsl */ `
-if (lodOpacity < 1.0) {
-  ivec2 lodPixel = ivec2(mod(floor(gl_FragCoord.xy), 4.0));
-  float lodThreshold = (lodBayer[lodPixel.y * 4 + lodPixel.x] + 0.5) / 16.0;
-  if (lodOpacity < lodThreshold) discard;
-}
-`;
-
-function wrapMaterial(material: THREE.Material, palette: Palette): void {
-  const inheritedCompile = material.onBeforeCompile;
-  const inheritedKey = material.customProgramCacheKey.call(material);
-  material.onBeforeCompile = function (shader, renderer) {
-    inheritedCompile.call(this, shader, renderer);
-    shader.uniforms["lodPalette"] = { value: palette.texture };
-    shader.uniforms["lodBoneCount"] = { value: palette.bones };
-    shader.vertexShader = shader.vertexShader
-      .replace("#include <skinning_pars_vertex>", PALETTE_SHADER)
-      // Basic materials guard skinbase_vertex with USE_ENVMAP || USE_SKINNING. These
-      // instances use our palette rather than Three's USE_SKINNING, so initialize
-      // position skinning and opacity in main before any optional normal branch.
-      .replace(/void\s+main\s*\(\s*\)\s*\{/, main => `${main}\n${/* glsl */ `
-        lodOpacity = lodPreviousFrames.w;
-        mat4 lodSkin = skinWeight.x * lodBone(skinIndex.x);
-        if (skinWeight.y > 0.0) lodSkin += skinWeight.y * lodBone(skinIndex.y);
-        if (skinWeight.z > 0.0) lodSkin += skinWeight.z * lodBone(skinIndex.z);
-        if (skinWeight.w > 0.0) lodSkin += skinWeight.w * lodBone(skinIndex.w);
-      `}`)
-      .replace("#include <skinbase_vertex>", "")
-      .replace("#include <skinnormal_vertex>", /* glsl */ `
-        mat3 lodBasis = mat3(lodSkin);
-        mat3 lodNormal = abs(determinant(lodBasis)) > 1e-12
-          ? transpose(inverse(lodBasis)) : lodBasis;
-        objectNormal = lodNormal * objectNormal;
-        #ifdef USE_TANGENT
-          objectTangent = lodBasis * objectTangent;
-        #endif
-      `)
-      .replace("#include <skinning_vertex>", "transformed = (lodSkin * vec4(transformed, 1.0)).xyz;");
-    shader.fragmentShader = shader.fragmentShader
-      .replace("#include <common>", `#include <common>\n${OPACITY_SHADER}`)
-      .replace("#include <clipping_planes_fragment>", `#include <clipping_planes_fragment>\n${OPACITY_DISCARD}`);
+function wrapMaterial(material: SurfaceNodeMaterial, palette: Palette): void {
+  const frames = attribute("lodFrames", "vec4");
+  const previous = attribute("lodPreviousFrames", "vec4");
+  const indices = attribute("skinIndex", "vec4");
+  const weights = attribute("skinWeight", "vec4");
+  const boneAt = (frame: Node, bone: Node) => {
+    const address = int(frame).mul(palette.bones).add(int(bone)).mul(4);
+    const uv = ivec2(address.mod(palette.texture.image.width), address.div(palette.texture.image.width));
+    return mat4(textureLoad(palette.texture, uv), textureLoad(palette.texture, uv.add(ivec2(1, 0))),
+      textureLoad(palette.texture, uv.add(ivec2(2, 0))), textureLoad(palette.texture, uv.add(ivec2(3, 0))));
   };
-  material.customProgramCacheKey = () => `${inheritedKey}|sampled-skeleton-v4`;
-}
-
-function ownedMaterial(source: THREE.Material): THREE.Material {
-  const owned = source.clone();
-  // Material.clone does not preserve application shader hooks.
-  owned.onBeforeCompile = (shader, renderer) => source.onBeforeCompile.call(source, shader, renderer);
-  owned.customProgramCacheKey = () => source.customProgramCacheKey.call(source);
-  return owned;
-}
-
-function shadowMaterial(source: THREE.Material, distance: boolean): THREE.Material {
-  const surface = source as THREE.MeshStandardMaterial;
-  const result = distance ? new THREE.MeshDistanceMaterial() : new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
-  result.map = surface.map ?? null;
-  result.alphaMap = surface.alphaMap ?? null;
-  result.alphaTest = surface.alphaTest;
-  result.side = surface.side;
-  result.displacementMap = surface.displacementMap ?? null;
-  result.displacementScale = surface.displacementScale ?? 1;
-  result.displacementBias = surface.displacementBias ?? 0;
-  result.clippingPlanes = surface.clippingPlanes;
-  result.clipIntersection = surface.clipIntersection;
-  result.clipShadows = surface.clipShadows;
-  return result;
+  const between = Fn(([sample, bone]: [Node, Node]) => {
+    const pose = boneAt(sample.x, bone).toVar();
+    If(sample.z.greaterThan(0).and(sample.x.notEqual(sample.y)), () => {
+      pose.assign(pose.mul(float(1).sub(sample.z)).add(boneAt(sample.y, bone).mul(sample.z)));
+    });
+    return pose;
+  });
+  const bone = Fn(([index]: [Node]) => {
+    const current = between(frames, index).toVar();
+    If(frames.w.lessThan(1), () => {
+      current.assign(between(previous, index).mul(float(1).sub(frames.w)).add(current.mul(frames.w)));
+    });
+    return current;
+  });
+  composeSurface(material, {
+    position: inherited => Fn((builder) => {
+      const skin = bone(indices.x).mul(weights.x).toVar();
+      If(weights.y.greaterThan(0), () => { skin.addAssign(bone(indices.y).mul(weights.y)); });
+      If(weights.z.greaterThan(0), () => { skin.addAssign(bone(indices.z).mul(weights.z)); });
+      If(weights.w.greaterThan(0), () => { skin.addAssign(bone(indices.w).mul(weights.w)); });
+      // NodeMaterial's position hook runs after default instancing. Start from raw
+      // geometry, apply the sampled model-space skin, then apply the instance once.
+      positionLocal.assign(skin.mul(vec4(attribute("position", "vec3"), 1)).xyz);
+      if (builder.geometry.hasAttribute("normal")) {
+        const basis = mat3(skin).toVar(), normalMatrix = basis.toVar();
+        If(basis.determinant().abs().greaterThan(1e-12), () => {
+          normalMatrix.assign(basis.inverse().transpose());
+        });
+        normalLocal.assign(normalMatrix.mul(attribute("normal", "vec3")));
+        if (builder.geometry.hasAttribute("tangent")) {
+          tangentLocal.assign(basis.mul(attribute("tangent", "vec4").xyz));
+        }
+      }
+      instancedMesh(builder.object as THREE.InstancedMesh);
+      return inherited;
+    })(),
+  });
+  const opacity = varying(previous.w);
+  const pixel = screenCoordinate.xy.floor().mod(4);
+  const bayer = array([0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(value => float(value)));
+  const threshold = bayer.element(int(pixel.y).mul(4).add(int(pixel.x))).add(0.5).div(16);
+  const visible = opacity.greaterThanEqual(threshold);
+  material.maskNode = material.maskNode ? material.maskNode.and(visible) : visible;
+  // WebGPU copies positionNode and maskNode into its shadow material, so the
+  // shadow uses the same pose and ordered corpse fade as the visible actor.
+  sampledPalettes.set(material, { texture: palette.texture, bones: palette.bones });
 }
 
 /** Share floating shader-input layouts across imported, simplified and rigid sampled parts. */
@@ -565,8 +521,6 @@ export class AnimationLod {
       part.mesh.dispose();
       part.geometry.dispose();
       part.material.dispose();
-      part.depth.dispose();
-      part.distance.dispose();
     }
     for (const palette of this.palettes) palette.texture.dispose();
     this.parts.length = 0;
@@ -872,11 +826,9 @@ export class AnimationLod {
       geometry.setAttribute("lodPreviousFrames", this.previousFrames);
       geometry.boundingBox = palette.bounds.clone();
       geometry.boundingSphere = palette.bounds.getBoundingSphere(new THREE.Sphere());
-      const material = ownedMaterial(materialFor(source));
-      const depth = mesh.customDepthMaterial ? ownedMaterial(mesh.customDepthMaterial) : shadowMaterial(material, false);
-      const distance = mesh.customDistanceMaterial ? ownedMaterial(mesh.customDistanceMaterial) : shadowMaterial(material, true);
-      for (const pass of [material, depth, distance]) wrapMaterial(pass, palette);
-      const part: Part = { source, geometry, material, depth, distance, mesh: null!, triangles: Math.floor(geometry.drawRange.count / 3), palette };
+      const material = cloneNodeMaterial(materialFor(source));
+      wrapMaterial(material, palette);
+      const part: Part = { source, geometry, material, mesh: null!, triangles: Math.floor(geometry.drawRange.count / 3), palette };
       part.mesh = this.makeMesh(part);
       this.parts.push(part);
       this.parent.add(part.mesh);
@@ -892,8 +844,6 @@ export class AnimationLod {
     mesh.receiveShadow = true;
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 3).fill(1), 3).setUsage(THREE.DynamicDrawUsage);
-    mesh.customDepthMaterial = part.depth;
-    mesh.customDistanceMaterial = part.distance;
     return mesh;
   }
 
