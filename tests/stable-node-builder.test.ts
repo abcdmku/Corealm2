@@ -1,7 +1,8 @@
 import { AnimationClip, Bone, Group, Skeleton, SkinnedMesh, VectorKeyframeTrack, Float32BufferAttribute, BoxGeometry, InstancedMesh, Mesh, PerspectiveCamera, Scene, type Object3D } from "three";
 import { BufferNode, MeshBasicNodeMaterial, MeshStandardNodeMaterial, WebGPURenderer, WGSLNodeBuilder, type Node } from "three/webgpu";
 import { buffer, positionLocal, vec4 } from "three/tsl";
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
+import * as cooperativeYield from "../game/src/core/yield.js";
 import { AnimationLod } from "../game/src/render/animationLod.js";
 import { objectInstanceWorldOrigin } from "../game/src/render/objectTransformNodes.js";
 import { installStableShaderNames, StableWGSLNodeBuilder } from "../game/src/render/stableNodeBuilder.js";
@@ -118,4 +119,74 @@ it("installs the builder only on its native renderer without changing other rend
   const fallback = { backend: { isWebGPUBackend: false, createNodeBuilder: before } } as unknown as WebGPURenderer;
   installStableShaderNames(fallback);
   expect((fallback.backend as unknown as typeof backend).createNodeBuilder).toBe(before);
+});
+
+
+type LoweredBuilder = StableWGSLNodeBuilder & {
+  scene: Scene; camera: PerspectiveCamera; vertexShader: string; fragmentShader: string; computeShader: string;
+  getAttributesArray(): { name: string; type: string }[];
+  getBindings(): { name: string; bindings: { constructor: { name: string }; getVisibility(): number }[] }[];
+  updateNodes: unknown[]; updateBeforeNodes: unknown[]; updateAfterNodes: unknown[];
+};
+function buildOutput(builder: LoweredBuilder) {
+  return {
+    vertex: builder.vertexShader, fragment: builder.fragmentShader, compute: builder.computeShader,
+    attributes: builder.getAttributesArray().map(({ name, type }) => ({ name, type })),
+    bindings: builder.getBindings().map(group => ({ name: group.name,
+      bindings: group.bindings.map(binding => ({ type: binding.constructor.name, visibility: binding.getVisibility() })) })),
+    updates: [builder.updateNodes.length, builder.updateBeforeNodes.length, builder.updateAfterNodes.length],
+  };
+}
+
+it("preserves the original async build's full shaders, binding layouts, and updates for ordinary, instanced, and skinned graphs", async () => {
+  // Retain the existing stable naming/instancing policy on both builders. Only the
+  // asynchronous scheduling algorithm differs from the original r185 method.
+  const originalBuild = (WGSLNodeBuilder.prototype as unknown as { buildAsync(): Promise<WGSLNodeBuilder> }).buildAsync;
+  vi.stubGlobal("self", { scheduler: { yield: () => Promise.resolve() } });
+  const geometry = new BoxGeometry(), material = new MeshStandardNodeMaterial();
+  material.positionNode = positionLocal.add(objectInstanceWorldOrigin().mul(0.00001));
+  const vertices = geometry.getAttribute("position").count, weights = new Float32Array(vertices * 4);
+  for (let index = 0; index < vertices; index++) weights[index * 4] = 1;
+  geometry.setAttribute("skinIndex", new Float32BufferAttribute(new Float32Array(vertices * 4), 4));
+  geometry.setAttribute("skinWeight", new Float32BufferAttribute(weights, 4));
+  const skinned = new SkinnedMesh(geometry, material), bone = new Bone();
+  skinned.add(bone); skinned.bind(new Skeleton([bone]));
+  try {
+    for (const object of [new Mesh(geometry, material), new InstancedMesh(geometry, material, 7), skinned]) {
+      const configure = () => Object.assign(new StableWGSLNodeBuilder(object, rendererFixture()), {
+        scene: new Scene(), camera: new PerspectiveCamera(),
+      }) as LoweredBuilder;
+      const original = configure(), budgeted = configure();
+      await originalBuild.call(original);
+      await budgeted.buildAsync();
+      expect(buildOutput(budgeted)).toEqual(buildOutput(original));
+    }
+  } finally { vi.unstubAllGlobals(); geometry.dispose(); material.dispose(); }
+});
+
+it.each([0.01, 0.8])("yields after the measured work budget instead of empty shader stages (operation=%sms)", async operationMs => {
+  let clock = 0, lastYield = 0, work = 0;
+  const pauses: number[] = [];
+  const now = vi.spyOn(performance, "now").mockImplementation(() => clock);
+  const yieldTask = vi.spyOn(cooperativeYield, "yieldToMainThread").mockImplementation(async () => {
+    pauses.push(clock - lastYield); lastYield = clock;
+  });
+  const node = { build: () => { clock += operationMs; work++; } };
+  const builder = Object.assign(Object.create(StableWGSLNodeBuilder.prototype), {
+    context: {}, flowNodes: { fragment: [node, node, node], vertex: [node, node], compute: [] },
+    prebuild() {}, setBuildStage() {}, setShaderStage() {}, flowNode: () => node.build(),
+    buildCode() {}, buildUpdateNodes() {},
+  }) as StableWGSLNodeBuilder;
+  try {
+    await builder.buildAsync();
+    expect(work).toBe(15);
+    if (operationMs < 0.1) expect(yieldTask).not.toHaveBeenCalled();
+    else {
+      expect(pauses).toHaveLength(5);
+      for (const elapsed of pauses) {
+        expect(elapsed).toBeGreaterThanOrEqual(2);
+        expect(elapsed).toBeLessThanOrEqual(2 + operationMs + 1e-9);
+      }
+    }
+  } finally { now.mockRestore(); yieldTask.mockRestore(); }
 });
