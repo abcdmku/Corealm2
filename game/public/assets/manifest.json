@@ -83646,6 +83646,220 @@
         "itemId": "marchhide_boots",
         "wearable": true
       }
+    },
+    {
+      "id": "corealm_item_corven_helm",
+      "file": "models/items/corven_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "corven_helm",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1261004,
+      "itemModel": {
+        "itemId": "corven_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.27312010526657104,
+        "y": 0.2668360471725464,
+        "z": 0.2995605543255806
+      },
+      "base": {
+        "x": -0.13656006753444672,
+        "y": 1.5722655057907104,
+        "z": -0.1900341957807541
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "corven_helm",
+      "status": "pending",
+      "sha256": "5bcdd151aea70284a8814e86bba74a6e7ad774455a91ea2cee56071e8449865c",
+      "sourceSha256": "8af8854bad6ed1abea1285be11138f76ece0d6c3dee49b6651583842e4309e9f",
+      "configSha256": "e6faec5ad916023a3b78acf0fdabf81f76967df2d7bf264eb0c959bb61310c22",
+      "triangles": 292,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_corven_plate",
+      "file": "models/items/corven_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "corven_plate",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1352004,
+      "itemModel": {
+        "itemId": "corven_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.95,
+            "maxY": 1.52
+          }
+        ]
+      },
+      "size": {
+        "x": 1.2846746444702148,
+        "y": 0.813085675239563,
+        "z": 0.3522949516773224
+      },
+      "base": {
+        "x": -0.6423365473747253,
+        "y": 0.8005077838897705,
+        "z": -0.20614749193191528
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "corven_plate",
+      "status": "pending",
+      "sha256": "feb82f71ba4bc6583e738d0d0aaab98f19720396827d48642c8dd2bfb8af10ed",
+      "sourceSha256": "8af8854bad6ed1abea1285be11138f76ece0d6c3dee49b6651583842e4309e9f",
+      "configSha256": "e6faec5ad916023a3b78acf0fdabf81f76967df2d7bf264eb0c959bb61310c22",
+      "triangles": 1648,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_corven_gauntlets",
+      "file": "models/items/corven_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "corven_gauntlets",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1300692,
+      "itemModel": {
+        "itemId": "corven_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7099055051803589,
+        "y": 0.15873432159423828,
+        "z": 0.14429323934018612
+      },
+      "base": {
+        "x": -0.8549520969390869,
+        "y": 1.3871840238571167,
+        "z": -0.11615725606679916
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "corven_gauntlets",
+      "status": "pending",
+      "sha256": "01c76ab4e443771a657953a21ae3d57fb98815f89e603cf16176391a30a2eb4d",
+      "sourceSha256": "8af8854bad6ed1abea1285be11138f76ece0d6c3dee49b6651583842e4309e9f",
+      "configSha256": "e6faec5ad916023a3b78acf0fdabf81f76967df2d7bf264eb0c959bb61310c22",
+      "triangles": 649,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_corven_greaves",
+      "file": "models/items/corven_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "corven_greaves",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1302840,
+      "itemModel": {
+        "itemId": "corven_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.25,
+            "maxY": 1.02
+          }
+        ]
+      },
+      "size": {
+        "x": 0.39640261232852936,
+        "y": 0.7088671922683716,
+        "z": 0.24755887687206268
+      },
+      "base": {
+        "x": -0.200226828455925,
+        "y": 0.27671873569488525,
+        "z": -0.14975129067897797
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "corven_greaves",
+      "status": "pending",
+      "sha256": "29f90eeaad696b29a6667f0b528cddf018bf6061c4926fbe851eb4c48a37fcbe",
+      "sourceSha256": "8af8854bad6ed1abea1285be11138f76ece0d6c3dee49b6651583842e4309e9f",
+      "configSha256": "e6faec5ad916023a3b78acf0fdabf81f76967df2d7bf264eb0c959bb61310c22",
+      "triangles": 1002,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_corven_boots",
+      "file": "models/items/corven_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "corven_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "bytes": 1292792,
+      "itemModel": {
+        "itemId": "corven_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4550331085920334,
+        "y": 0.3045707428455273,
+        "z": 0.27685578167438507
+      },
+      "base": {
+        "x": -0.22751593589782715,
+        "y": -2.4676322141203855e-7,
+        "z": -0.14389191567897797
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "corven_boots",
+      "status": "pending",
+      "sha256": "0b85fbcb1684422ae1b0a86594440d0163df5b224d5604a6e294247f2ea2a7a8",
+      "sourceSha256": "8af8854bad6ed1abea1285be11138f76ece0d6c3dee49b6651583842e4309e9f",
+      "configSha256": "e6faec5ad916023a3b78acf0fdabf81f76967df2d7bf264eb0c959bb61310c22",
+      "triangles": 926,
+      "drawCalls": 2
     }
   ]
 }
