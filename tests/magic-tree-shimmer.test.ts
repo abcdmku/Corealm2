@@ -1,38 +1,53 @@
 import * as THREE from "three";
+import { MeshStandardNodeMaterial, type Node } from "three/webgpu";
+import { positionLocal, vec3 } from "three/tsl";
 import { describe, expect, it } from "vitest";
-import { MaterialLibrary } from "../game/src/render/materials.js";
+import { createMagicTreeShimmer } from "../game/src/render/magicTreeShimmer.js";
+
+function descendants(root: Node | null): Node[] {
+  const nodes: Node[] = [];
+  root?.traverse(node => nodes.push(node));
+  return nodes;
+}
 
 describe("magic tree shimmer", () => {
-  it("animates both bark and leaf emission through the production clock while preserving cutout and wind hooks", () => {
-    const library = new MaterialLibrary();
+  it("animates bark and leaf emission from the shared clock while preserving cutouts and vertex animation", () => {
+    const time = { value: 0 };
     for (const role of ["bark", "foliage"] as const) {
-      const source = new THREE.MeshStandardMaterial({ name: role === "bark" ? "Bark_Corealm" : "Leaves_Corealm_broadleaf_magic_cutout", alphaTest: role === "foliage" ? .32 : 0 });
+      const source = new MeshStandardNodeMaterial({
+        name: role === "bark" ? "Bark_Corealm" : "Leaves_Corealm_broadleaf_magic_cutout",
+        map: new THREE.Texture(), alphaTest: role === "foliage" ? .32 : 0,
+      });
       source.userData.corealmMagicTree = true;
-      const material = library.organic(source, role);
-      expect(library.organic(source, role)).toBe(material);
-      const animated = role === "foliage" ? library.wind(material, .035) : material;
-      const shader = { uniforms: {}, vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader } as THREE.WebGLProgramParametersWithUniforms;
-      animated.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-      expect(shader.fragmentShader).toContain("totalEmissiveRadiance += magicRadiance");
-      expect(shader.uniforms.uMagicTreeLeaf!.value).toBe(role === "foliage" ? 1 : 0);
-      expect(shader.vertexShader).toContain("vMagicTreePosition = position");
-      expect(animated.alphaTest).toBe(source.alphaTest);
-      expect(animated.transparent).toBe(false);
-      library.setTime(3.5);
-      expect(shader.uniforms.uMagicTreeTime!.value).toBe(3.5);
-      library.setTime(7);
-      expect(shader.uniforms.uMagicTreeTime!.value).toBe(7);
-      if (role === "foliage") expect(shader.uniforms.uCorealmWindTime!.value).toBe(7);
-      source.dispose();
+      source.emissiveNode = vec3(0.1, 0, 0);
+      source.positionNode = positionLocal.add(vec3(0.03, 0, 0));
+      const material = createMagicTreeShimmer(source, time) as MeshStandardNodeMaterial;
+      expect(material).not.toBe(source);
+      expect(material.emissiveNode).not.toBe(source.emissiveNode);
+      expect(material.positionNode).toBe(source.positionNode);
+      expect(material.alphaTest).toBe(source.alphaTest);
+      expect(material.map).toBe(source.map);
+      expect(material.transparent).toBe(false);
+      expect(material.depthWrite).toBe(true);
+      const nodes = descendants(material.emissiveNode);
+      expect(nodes).toContain(source.emissiveNode);
+      const clock = nodes.find(node => "object" in node && node.object === time) as Node & { object: { value: number } };
+      expect(clock).toBeDefined();
+      time.value = 3.5;
+      expect(clock.object.value).toBe(3.5);
+      time.value = 7;
+      expect(clock.object.value).toBe(7);
+      expect(material.positionNode).toBe(source.positionNode);
+      source.map!.dispose(); source.dispose(); material.dispose();
     }
-    library.dispose();
   });
 
-  it("keeps ordinary tree materials free of the magic shader", () => {
-    const library = new MaterialLibrary();
+  it("keeps ordinary tree materials and non-lit materials free of the magic shader", () => {
     const source = new THREE.MeshStandardMaterial({ name: "Bark_Corealm" });
-    const material = library.organic(source, "bark");
-    expect(material.customProgramCacheKey()).not.toContain("magic-tree");
-    source.dispose(); library.dispose();
+    const unlit = new THREE.MeshBasicMaterial();
+    unlit.userData.corealmMagicTree = true;
+    expect(createMagicTreeShimmer(source, { value: 0 })).toBe(source);
+    expect(createMagicTreeShimmer(unlit, { value: 0 })).toBe(unlit);
+    source.dispose(); unlit.dispose();
   });
 });

@@ -9,24 +9,20 @@ export function createRiverSurface(channels: readonly RiverChannel[], materials:
 } {
   const group = new THREE.Group();
   group.name = 'crownward-river';
-  const source = materials.water('crownward');
-  const material = source.clone();
   const time = { value: 0 };
+  // Each river owns its clock and slower world-space ripple drift. The library
+  // builds a fresh node graph, so these settings never change a cached lake.
+  const material = materials.createWaterVariant('crownward', {
+    time,
+    waveScrollA: new THREE.Vector2(-.003, .0005),
+    waveScrollB: new THREE.Vector2(-.005, -.001),
+    edgeFade: .045,
+  });
   material.name = 'crownward-flowing-freshwater';
   material.normalScale.set(.16, .16);
   material.roughness = .25;
   material.opacity = 1;
   material.depthWrite = true;
-  material.onBeforeCompile = (shader, renderer) => {
-    source.onBeforeCompile(shader, renderer);
-    // Keep world-space sampling through pool caps and confluences. Centreline
-    // transport collapses a broad lake into stripes at its nearest-point seams.
-    shader.uniforms.uTime = time;
-    shader.uniforms.uWaveScrollA = { value: new THREE.Vector2(-.003, .0005) };
-    shader.uniforms.uWaveScrollB = { value: new THREE.Vector2(-.005, -.001) };
-    shader.uniforms.uEdgeFade = { value: .045 };
-  };
-  material.customProgramCacheKey = () => source.customProgramCacheKey() + '-river-world-ripples-v2';
   const built = new Set<number>();
   const bounds = channels.map(channel=>{
     const rows=riverSections(channel,.75);

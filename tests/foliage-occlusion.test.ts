@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import { createArtDirectedMaterial } from "../game/src/render/artDirection.js";
+import { MeshStandardNodeMaterial, type Node } from "three/webgpu";
+import { bool, positionLocal, vec3 } from "three/tsl";
+import { ensureNodeMaterial } from "../game/src/render/nodeMaterials.js";
 import { createFoliageOcclusionMaterial, FoliageOcclusion } from "../game/src/render/foliageOcclusion.js";
 
 function cameraAt(distance: number): THREE.PerspectiveCamera {
@@ -11,12 +13,10 @@ function cameraAt(distance: number): THREE.PerspectiveCamera {
   return camera;
 }
 
-function shaderInput(): Parameters<THREE.Material["onBeforeCompile"]>[0] {
-  return {
-    vertexShader: THREE.ShaderLib.standard.vertexShader,
-    fragmentShader: THREE.ShaderLib.standard.fragmentShader,
-    uniforms: {},
-  } as Parameters<THREE.Material["onBeforeCompile"]>[0];
+function descendants(root: Node | null): Node[] {
+  const nodes: Node[] = [];
+  root?.traverse(node => nodes.push(node));
+  return nodes;
 }
 
 describe("foliage player reveal", () => {
@@ -70,20 +70,18 @@ describe("foliage player reveal", () => {
     expect(state.uniforms.uCorealmFoliageRevealFoot).toBe(foot);
   });
 
-  it("preserves texture cutouts, opaque depth writing, art and vertex animation while sharing uniforms", () => {
+  it("preserves texture cutouts, depth writing, colour and vertex graphs while sharing reveal state", () => {
     const source = new THREE.MeshStandardMaterial({
       map: new THREE.Texture(), alphaTest: 0.4, alphaToCoverage: true,
       transparent: false, depthWrite: true, side: THREE.DoubleSide,
     });
     source.name = "Leaves";
-    source.customProgramCacheKey = () => "source-wind-v2";
-    source.onBeforeCompile = (shader) => { shader.vertexShader += "\n// inherited wind"; };
-    const art = createArtDirectedMaterial(source, "foliage");
+    const art = ensureNodeMaterial(source);
+    art.colorNode = vec3(0.3, 0.7, 0.2);
+    art.positionNode = positionLocal.add(vec3(0.1, 0, 0));
     const state = new FoliageOcclusion();
     const before = source.toJSON();
-    const derived = createFoliageOcclusionMaterial(art, state) as THREE.MeshStandardMaterial;
-    const shader = shaderInput();
-    derived.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    const derived = createFoliageOcclusionMaterial(art, state) as MeshStandardNodeMaterial;
     expect(source.toJSON()).toEqual(before);
     expect(derived.map).toBe(source.map);
     expect(derived.alphaTest).toBe(0.4);
@@ -91,26 +89,43 @@ describe("foliage player reveal", () => {
     expect(derived.transparent).toBe(false);
     expect(derived.depthWrite).toBe(true);
     expect(derived.side).toBe(THREE.DoubleSide);
-    expect(shader.vertexShader).toBe(`${THREE.ShaderLib.standard.vertexShader}\n// inherited wind`);
-    expect(shader.uniforms["uCorealmFoliageRevealFoot"]).toBe(state.uniforms.uCorealmFoliageRevealFoot);
-    expect(derived.customProgramCacheKey()).toContain("source-wind-v2");
-    expect(derived.customProgramCacheKey()).toContain(art.customProgramCacheKey());
-    const programKey = derived.customProgramCacheKey();
+    expect(derived.colorNode).toBe(art.colorNode);
+    expect(derived.positionNode).toBe(art.positionNode);
+    const nodes = descendants(derived.maskNode);
+    const references = nodes.filter(node => "object" in node).map(node => (node as Node & { object: unknown }).object);
+    expect(references).toContain(state.uniforms.uCorealmFoliageRevealFoot);
+    expect(references).toContain(state.uniforms.uCorealmFoliageRevealHead);
+    expect(references).toContain(state.uniforms.uCorealmFoliageRevealEnabled);
+    const mask = derived.maskNode;
+    const shadowMask = derived.maskShadowNode;
     state.update(cameraAt(10), new THREE.Vector3(), new THREE.Vector2(1200, 600));
     expect(state.uniforms.uCorealmFoliageRevealCamera.value.toArray()).toEqual([0, 1, 10]);
-    expect(derived.customProgramCacheKey()).toBe(programKey);
+    expect(derived.maskNode).toBe(mask);
+    expect(derived.maskShadowNode).toBe(shadowMask);
     expect(createFoliageOcclusionMaterial(derived, state)).toBe(derived);
   });
 
-  it("leaves shadow/depth materials alone and reports an incompatible colour shader", () => {
+  it("preserves existing masks in colour and shadow passes without applying reveal to shadows", () => {
+    const state = new FoliageOcclusion();
+    const source = new MeshStandardNodeMaterial();
+    const mask = bool(true);
+    source.maskNode = mask;
+    const derived = createFoliageOcclusionMaterial(source, state) as MeshStandardNodeMaterial;
+    expect(derived.maskShadowNode).toBe(mask);
+    expect(derived.maskNode).not.toBe(mask);
+    expect(descendants(derived.maskNode)).toContain(mask);
+    const explicitShadowMask = bool(false);
+    source.maskShadowNode = explicitShadowMask;
+    expect((createFoliageOcclusionMaterial(source, state) as MeshStandardNodeMaterial).maskShadowNode).toBe(explicitShadowMask);
+  });
+
+  it("leaves shadow/depth materials alone and rejects unported colour shaders", () => {
     const state = new FoliageOcclusion();
     for (const source of [new THREE.MeshDepthMaterial(), new THREE.MeshDistanceMaterial(), new THREE.MeshBasicMaterial()]) {
       expect(createFoliageOcclusionMaterial(source, state)).toBe(source);
     }
     const source = new THREE.MeshStandardMaterial();
     source.onBeforeCompile = (shader) => { shader.fragmentShader = "void main() {}"; };
-    const derived = createFoliageOcclusionMaterial(source, state);
-    expect(() => derived.onBeforeCompile(shaderInput(), {} as THREE.WebGLRenderer))
-      .toThrow("Foliage reveal has no alpha insertion point");
+    expect(() => createFoliageOcclusionMaterial(source, state)).toThrow("unported onBeforeCompile");
   });
 });

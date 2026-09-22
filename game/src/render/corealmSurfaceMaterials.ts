@@ -1,4 +1,7 @@
 import * as THREE from "three";
+import type { MeshStandardNodeMaterial, Node } from "three/webgpu";
+import { diffuseColor, float, fwidth, materialAlphaTest, materialReference, normalMap, texture, uv, vec2, vec3, vec4 } from "three/tsl";
+import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
 import { assetBaseUrl } from "../app/config.js";
 import { prepareLeafTexture } from "./leafTexture.js";
 
@@ -85,6 +88,24 @@ export function loadCorealmSurfaceTextures(baseUrl = `${assetBaseUrl()}textures/
   return pending;
 }
 
+/** Shared measured-mean normalization for UV and world-projected authored surfaces. */
+export function corealmSurfaceDetail(
+  sample: Node<"vec3">,
+  meanLinearRgb: readonly [number, number, number],
+  contrast: number,
+  leaf = false,
+): Node<"vec3"> {
+  const relative = sample.div(vec3(...meanLinearRgb));
+  const luma = relative.dot(vec3(0.2126, 0.7152, 0.0722));
+  const colour = vec3(luma).mix(relative, 0.45);
+  return vec3(1).mix(colour, contrast).clamp(leaf ? 0.58 : 0.42, leaf ? 1.65 : 1.90);
+}
+
+function isStandard(material: THREE.Material): boolean {
+  return (material as THREE.MeshStandardMaterial).isMeshStandardMaterial === true
+    || (material as MeshStandardNodeMaterial).isMeshStandardNodeMaterial === true;
+}
+
 /**
  * Apply before caching the loaded GLB. Geometry and source materials remain unchanged, and
  * subsequent Object3D clones reuse these materials and their PBR maps.
@@ -102,10 +123,10 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
     // Botanical GLBs carry their own bark scan in metre-based UVs. Do not replace it
     // with the legacy mean-normalized surface, which would wash out their albedo.
     if (name === "Bark_Corealm" && source.userData.corealmBarkRelief
-      && (source as THREE.MeshStandardMaterial).isMeshStandardMaterial && (source as THREE.MeshStandardMaterial).map) {
+      && isStandard(source) && (source as THREE.MeshStandardMaterial).map) {
       const existing = cache.get(source);
       if (existing) return existing;
-      const derived = (source as THREE.MeshStandardMaterial).clone();
+      const derived = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
       derived.bumpMap = derived.map;
       derived.bumpScale = .035;
       derived.roughness = .94;
@@ -117,43 +138,28 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
     }
     // Keep the embedded species texture and UVs. Alpha-to-coverage uses the existing MSAA
     // samples to soften leaf edges without sorting transparent cards or adding geometry.
-    if (name?.endsWith("_cutout") && (source as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+    if (name?.endsWith("_cutout") && isStandard(source)) {
       const existing = cache.get(source);
       if (existing) return existing;
-      const derived = (source as THREE.MeshStandardMaterial).clone();
+      const derived = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
       if (derived.map) derived.map = prepareLeafTexture(derived.map);
       const associatedColour = derived.map?.userData.leafAssociatedColour === true;
       derived.alphaToCoverage = true;
       derived.userData[SURFACE_MARKER] = "leaf-cutout";
-      const inheritedCompile = source.onBeforeCompile;
-      const inheritedProgramKey = source.customProgramCacheKey.bind(source);
-      derived.onBeforeCompile = (shader, renderer) => {
-        inheritedCompile.call(source, shader, renderer);
-        if (associatedColour) {
-          // Filter associated RGB and alpha together, then recover the leaf's colour. Empty
-          // texels cannot turn green leaves black as their footprint moves between mip levels.
-          shader.fragmentShader = shader.fragmentShader.replace("#include <map_fragment>", `
-#ifdef USE_MAP
-  vec4 leafSample = texture2D( map, vMapUv );
-  // Shade fine leaf colour from a slightly wider footprint. Coverage keeps the original
-  // footprint so this cannot erase leaves or change the canopy silhouette.
-  vec4 leafColourSample = texture2D( map, vMapUv, 1.0 );
-  leafSample.rgb = leafColourSample.rgb / max( leafColourSample.a, 0.0001 );
-  diffuseColor *= leafSample;
-#endif`);
-        }
-        // Centre the one-pixel coverage ramp on the authored cutoff. Three's one-sided
-        // ramp erodes tiny needles as their texture footprint grows at distance.
-        shader.fragmentShader = shader.fragmentShader.replace("#include <alphatest_fragment>", `
-#if defined( USE_ALPHATEST ) && defined( ALPHA_TO_COVERAGE )
-  float leafEdgeWidth = max( fwidth( diffuseColor.a ), 0.0001 );
-  diffuseColor.a = smoothstep( alphaTest - 0.5 * leafEdgeWidth, alphaTest + 0.5 * leafEdgeWidth, diffuseColor.a );
-  if ( diffuseColor.a == 0.0 ) discard;
-#else
-  #include <alphatest_fragment>
-#endif`);
-      };
-      derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-leaf-coverage-v4:${Number(associatedColour)}`;
+      if (associatedColour && derived.map) {
+        const leafSample = texture(derived.map);
+        const colourSample = texture(derived.map).bias(float(1));
+        // Associated-alpha filtering prevents dark fringes. Colour uses one wider mip
+        // while coverage retains the authored footprint and canopy silhouette.
+        derived.colorNode = vec4(
+          materialReference("color", "color").mul(colourSample.rgb.div(colourSample.a.max(0.0001))),
+          leafSample.a,
+        );
+      }
+      // Three's alpha-to-coverage range normally begins at the cutoff. Centre it on
+      // that cutoff instead, retaining fine needles when their footprint shrinks.
+      const edgeWidth = fwidth(diffuseColor.a).max(0.0001);
+      derived.alphaTestNode = materialAlphaTest.sub(edgeWidth.mul(0.5));
       if (derived.map) {
         const changed = derived.map.minFilter !== THREE.LinearMipmapLinearFilter || derived.map.magFilter !== THREE.LinearFilter
           || !derived.map.generateMipmaps || derived.map.anisotropy !== 8;
@@ -170,17 +176,14 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
     const mineral = name === "Corealm mineral seam";
     const leaf = /^Leaves_Corealm(?:_|$)/.test(name ?? "");
     if (!bark && !mineral && !leaf && name !== "Corealm weathered strata") return source;
-    if (!(source as THREE.MeshStandardMaterial).isMeshStandardMaterial) return source;
+    if (!isStandard(source)) return source;
     const existing = cache.get(source);
     if (existing) return existing;
 
     const standard = source as THREE.MeshStandardMaterial;
-    const derived = standard.clone();
-    const inheritedCompile = source.onBeforeCompile;
-    const inheritedProgramKey = source.customProgramCacheKey.bind(source);
+    const derived = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
     const family = bark ? "bark" : leaf ? "leaf" : "stone";
     const maps = textures[family];
-    const meanRgbKey = maps.meanLinearRgb.map(value => value.toFixed(6)).join(", ");
     const blade = name === "Leaves_Corealm_needle" || name === "Leaves_Corealm_grass";
     const role = mineral ? "mineral" : blade ? "blade" : family;
     const contrast = mineral ? 0.34 : blade ? 0.46 : bark ? 0.80 : leaf ? 0.72 : 0.86;
@@ -195,44 +198,20 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
     derived.metalness = mineral ? standard.metalness : 0;
     derived.flatShading = false;
     derived.userData[SURFACE_MARKER] = role;
-    derived.onBeforeCompile = (shader, renderer) => {
-      inheritedCompile.call(source, shader, renderer);
-      if (blade) {
-        // Needle and grass meshes share the registered midrib region, rather than stretching
-        // a whole broadleaf's branching vein network over a narrow blade. All maps stay aligned.
-        shader.vertexShader = shader.vertexShader.replace("#include <uv_vertex>", `
-#include <uv_vertex>
-#ifdef USE_MAP
-  vMapUv.x = 0.5 + ( vMapUv.x - 0.5 ) * 0.22;
-#endif
-#ifdef USE_NORMALMAP
-  vNormalMapUv.x = 0.5 + ( vNormalMapUv.x - 0.5 ) * 0.22;
-#endif
-#ifdef USE_ROUGHNESSMAP
-  vRoughnessMapUv.x = 0.5 + ( vRoughnessMapUv.x - 0.5 ) * 0.22;
-#endif
-`);
-      }
-      if (!shader.fragmentShader.includes("#include <map_fragment>")) {
-        throw new Error(`Corealm surface has no map insertion point: ${source.name}`);
-      }
-      shader.fragmentShader = shader.fragmentShader.replace("#include <map_fragment>", `
-#ifdef USE_MAP
-  // Normalize against the source map's measured mean RGB before modulation. Region/species
-  // vertex colors remain the palette while cracks, pigment changes and veins retain their color.
-  vec3 corealmSurfaceSample = texture2D( map, vMapUv ).rgb;
-  vec3 corealmSurfaceRelative = corealmSurfaceSample / vec3( ${meanRgbKey} );
-  float corealmSurfaceLuma = dot( corealmSurfaceRelative, vec3( 0.2126, 0.7152, 0.0722 ) );
-  corealmSurfaceRelative = mix( vec3( corealmSurfaceLuma ), corealmSurfaceRelative, 0.45 );
-  vec3 corealmSurfaceDetail = clamp(
-    mix( vec3( 1.0 ), corealmSurfaceRelative, ${contrast.toFixed(2)} ),
-    vec3( ${leaf ? "0.58" : "0.42"} ), vec3( ${leaf ? "1.65" : "1.90"} )
-  );
-  diffuseColor.rgb *= corealmSurfaceDetail;
-#endif
-`);
-    };
-    derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-authored-surface-v2:${role}:${meanRgbKey}`;
+    const surfaceUv = blade ? vec2(uv().x.sub(0.5).mul(0.22).add(0.5), uv().y) : undefined;
+    const sample = texture(maps.albedo, surfaceUv);
+    // UV compression selects the same registered midrib in albedo, normal and roughness.
+    // Uncompressed textures retain their authored texture matrix and metre-based tiling.
+    derived.colorNode = vec4(
+        materialReference("color", "color").mul(corealmSurfaceDetail(sample.rgb, maps.meanLinearRgb, contrast, leaf)),
+        sample.a,
+    );
+    composeSurface(derived, {
+      ...(blade ? {
+        normal: () => normalMap(texture(maps.normal, surfaceUv), materialReference("normalScale", "vec2")),
+        roughness: () => materialReference("roughness", "float").mul(texture(maps.roughness, surfaceUv).g),
+      } : {}),
+    });
     cache.set(source, derived);
     return derived;
   };

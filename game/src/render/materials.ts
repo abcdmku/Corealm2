@@ -14,6 +14,14 @@
  * A cache miss that clones a material silently doubles a draw call somewhere downstream.
  */
 import * as THREE from "three";
+import { MeshBasicNodeMaterial, MeshStandardNodeMaterial, MeshPhysicalNodeMaterial } from "three/webgpu";
+import { Fn, attribute, cameraViewMatrix, diffuseColor, float, ivec2,
+  max, min, mix, pmremTexture, positionGeometry, reference, sin, smoothstep,
+  texture, textureLoad, vec2, vec3, vec4,
+  positionWorld, materialReference, If } from "three/tsl";
+import { cloneNodeMaterial, composeSurface, ensureNodeMaterial } from "./nodeMaterials.js";
+import { applyGroundSurfaceNodes } from "./groundSurfaceNodes.js";
+import { objectInstanceMatrix, objectInstanceWorldOrigin } from "./objectTransformNodes.js";
 import { createContainedTroughWater } from "./containedTroughWater.js";
 import { createMagicTreeShimmer } from "./magicTreeShimmer.js";
 import { createCastleStoneMaterial, type CastleStoneStyle } from './castleStoneMaterial.js';
@@ -26,8 +34,7 @@ import type { FairyGroundSurface } from './fairyGroundSurface.js';
 import type { CorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import {
   DETAIL_TILING_METRES,
-  DETAIL_VALUE_OFFSET,
-  createDetailAtlas,
+    createDetailAtlas,
   createDetailNormals,
   createGrassSpriteTexture,
   createMacroVariation,
@@ -565,46 +572,6 @@ function createCobbleSurfaceTexture(): THREE.DataTexture {
   return texture;
 }
 
-/**
- * Per-material-class image-based-lighting scale, injected as a shader constant.
- *
- * It has to be a constant in the shader rather than `material.envMapIntensity`, and that is a
- * measured property of three 0.185, not a preference. In `WebGLRenderer.setProgram`:
- *
- *   if ( ( material.isMeshStandardMaterial || ... ) && material.envMap === null &&
- *        scene.environment !== null ) m_uniforms.envMapIntensity.value = scene.environmentIntensity;
- *
- * — for any material lit by `scene.environment` rather than its own `envMap`, which is every
- * material in this game, `envMapIntensity` is OVERWRITTEN by the scene value every frame. Setting
- * it per material does nothing at all. Scaling `getIBLIrradiance` and `getIBLRadiance` where they
- * are summed is the same arithmetic and it actually takes effect.
- *
- * Costs nothing: both callers already carry a `customProgramCacheKey`, so no extra program is
- * compiled and the value is folded at compile time.
- */
-function iblScale(scale: number): string {
-  const s = scale.toFixed(3);
-  return /* glsl */ `
-#if defined( RE_IndirectDiffuse )
-  #ifdef USE_LIGHTMAP
-    vec4 lightMapTexel = texture2D( lightMap, vLightMapUv );
-    irradiance += lightMapTexel.rgb * lightMapIntensity;
-  #endif
-  #if defined( USE_ENVMAP ) && defined( ENVMAP_TYPE_CUBE_UV )
-    #if defined( STANDARD ) || defined( LAMBERT ) || defined( PHONG )
-      iblIrradiance += getIBLIrradiance( geometryNormal ) * ${s};
-    #endif
-  #endif
-#endif
-#if defined( USE_ENVMAP ) && defined( RE_IndirectSpecular )
-  radiance += getIBLRadiance( geometryViewDir, geometryNormal, material.roughness ) * ${s};
-#endif
-`;
-}
-// The stock chunk also branches on USE_ANISOTROPY and USE_CLEARCOAT. Neither define can be set
-// here: both callers are plain MeshStandardMaterials, and neither anisotropy nor clearcoat exists
-// on that class in three, so the branches would be dead source.
-
 interface WaterUniforms {
   uTime: { value: number };
   uShallow: { value: THREE.Color };
@@ -622,527 +589,20 @@ interface WindUniforms {
   uCorealmWindStrength: { value: number };
 }
 
-const WIND_VERTEX_HEADER = /* glsl */ `
-uniform float uCorealmWindTime;
-uniform float uCorealmWindStrength;
-`;
-
-const WIND_VERTEX_BODY = /* glsl */ `
-{
-  // Geometry roots sit at or below local y = 0. Only the flexible height bends.
-  float gWindHeight = smoothstep( 0.0, 0.75, max( position.y, 0.0 ) );
-  vec4 gWindOrigin = vec4( 0.0, 0.0, 0.0, 1.0 );
-  #ifdef USE_BATCHING
-    gWindOrigin = batchingMatrix * gWindOrigin;
-  #endif
-  #ifdef USE_INSTANCING
-    gWindOrigin = instanceMatrix * gWindOrigin;
-  #endif
-  gWindOrigin = modelMatrix * gWindOrigin;
-
-  // Translation changes phase without another attribute or material per instance.
-  float gWindPhase = dot( gWindOrigin.xz, vec2( 0.173, 0.277 ) );
-  float gWindMain = sin( uCorealmWindTime * 0.82 + gWindPhase );
-  float gWindRipple = sin( uCorealmWindTime * 1.67 + gWindPhase * 1.31 + position.y * 0.73 );
-  vec2 gWindBend = vec2( 0.86, 0.51 ) * gWindMain + vec2( -0.22, 0.37 ) * gWindRipple;
-  transformed.xz += gWindBend * uCorealmWindStrength * gWindHeight;
-}
-`;
-
-// ------------------------------------------------------------ ground splat
-//
-// Eight surface weights per vertex, packed as two normalised Uint8 vec4s written by
-// `WorldScene.buildChunk` (8 bytes/vertex, about 584 KB over the world's ~73k terrain vertices):
-//
-//   aSplatA = (grass, dryGrass, rock, gravel)
-//   aSplatB = (dirt, mud, cobble, wet)
-//
-// plus `aGround`, which carries the things a weight cannot express:
-//
-//   aGround.x  signed distance to the nearest road centreline, remapped -3.5..3.5 m onto 0..1
-//   aGround.y  1 where a road is within reach, so wheel ruts exist only on roads
-//   aGround.z  how worn the track is, 0 at the shoulder to 1 on the centreline
-//   aGround.w  the macro-variation field, 0.5 at its mean
-//
-// plus `aPaved`, one byte: WHICH of the three paved surfaces the cobble weight above is made of,
-// 0 laid stone / 0.5 dressed block / 1 sawn plank (`PAVING_SURFACE_CODE` in render/scene.ts). A
-// settlement is paved by stamping the ground, not by laying 2 m slabs on it, so the course pattern
-// has to be drawn here.
-//
-// The ruts are computed in the FRAGMENT shader from the interpolated perpendicular distance, not
-// from a vertex weight, because the terrain lattice is 2 m and a rut band is 0.2 m wide: at vertex
-// resolution a rut lands between samples and is never drawn at all.
-
-const GROUND_VERTEX_HEADER = /* glsl */ `
-attribute vec4 aSplatA;
-attribute vec4 aSplatB;
-attribute vec4 aGround;
-attribute float aPaved;
-varying vec4 vSplatA;
-varying vec4 vSplatB;
-varying vec4 vGroundExtra;
-varying vec3 vGroundWorld;
-varying vec3 vGroundWorldNormal;
-varying float vPaved;
-`;
-
-const GROUND_VERTEX_BODY = /* glsl */ `
-vSplatA = aSplatA;
-vSplatB = aSplatB;
-vGroundExtra = aGround;
-vPaved = aPaved;
-vGroundWorld = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;
-vGroundWorldNormal = normalize( mat3( modelMatrix ) * normal );
-`;
-
-const GROUND_FRAGMENT_HEADER = /* glsl */ `
-uniform sampler2D uDetail;
-uniform sampler2D uMacro;
-uniform sampler2D uNormalGS;
-uniform sampler2D uNormalRV;
-uniform sampler2D uCobble;
-uniform float uCobbleTiling;
-uniform sampler2D uGroundStoneAlbedo;
-uniform sampler2D uGroundStoneNormal;
-uniform sampler2D uGroundStoneRoughness;
-uniform vec3 uGroundStoneMean;
-uniform float uGroundStoneTiling;
-uniform float uGroundStoneReady;
-uniform sampler2D uFairyGrassAlbedo;
-uniform sampler2D uFairyGrassNormal;
-uniform vec3 uFairyGrassMean;
-uniform float uFairyGrassTiling;
-uniform float uFairyGrassReady;
-uniform vec4 uDetailTiling;
-varying vec4 vSplatA;
-varying vec4 vSplatB;
-varying vec4 vGroundExtra;
-varying vec3 vGroundWorld;
-varying vec3 vGroundWorldNormal;
-varying float vPaved;
-float gMacroShade;
-vec2 gGroundBump;
-vec2 gCobbleBump;
-float gCobbleCoverage;
-float gCobbleRoughness;
-float gCliffCoverage;
-float gCliffRoughness;
-vec3 gCliffBump;
-
-// Each steep face receives two world-space dimensions. XZ alone collapses to a line on a wall.
-vec4 gTriplanarSample( sampler2D source, vec3 point, vec3 weights ) {
-  return texture2D( source, point.zy ) * weights.x
-       + texture2D( source, point.xz ) * weights.y
-       + texture2D( source, point.xy ) * weights.z;
+export interface WaterVariantOptions {
+  time?: { value: number };
+  waveScrollA?: THREE.Vector2;
+  waveScrollB?: THREE.Vector2;
+  edgeFade?: number;
 }
 
-vec3 gCliffProjectionWeights( vec3 worldNormal ) {
-  vec3 weights = pow( abs( worldNormal ), vec3( 4.0 ) );
-  return weights / max( weights.x + weights.y + weights.z, 0.0001 );
+/** Keep per-surface sky response while Three supplies the scene's environment intensity. */
+function environmentResponse(material: MeshStandardNodeMaterial, strength: number): void {
+  material.envNode = Fn((builder) => {
+    const environment = builder.scene?.environment;
+    return environment ? pmremTexture(environment).mul(strength) : vec3(0);
+  })();
 }
-
-vec3 gTriplanarStoneBump( vec3 point, vec3 weights, vec3 worldNormal ) {
-  vec2 bumpX = texture2D( uGroundStoneNormal, point.zy ).xy * 2.0 - 1.0;
-  vec2 bumpY = texture2D( uGroundStoneNormal, point.xz ).xy * 2.0 - 1.0;
-  vec2 bumpZ = texture2D( uGroundStoneNormal, point.xy ).xy * 2.0 - 1.0;
-  vec3 bump = vec3( 0.0, bumpX.y, bumpX.x ) * weights.x
-            + vec3( bumpY.x, 0.0, bumpY.y ) * weights.y
-            + vec3( bumpZ.x, bumpZ.y, 0.0 ) * weights.z;
-  // Remove the component perpendicular to the face before adding this detail to its normal.
-  return bump - worldNormal * dot( bump, worldNormal );
-}
-
-// One hash per unit laid, off the unit's own cell index, so a stone keeps its tone across a chunk
-// seam and adding a paving rect cannot re-roll the one next to it.
-float gPavedHash( vec2 cell ) {
-  return fract( sin( dot( cell, vec2( 127.1, 311.7 ) ) ) * 43758.5453 );
-}
-`;
-
-const GROUND_FRAGMENT_BODY = /* glsl */ `
-{
-  vec2 detailUv = vGroundWorld.xz * uDetailTiling.x;
-  vec4 detail = texture2D( uDetail, detailUv ) + ${DETAIL_VALUE_OFFSET.toFixed(1)};
-  vec4 near = texture2D( uMacro, vGroundWorld.xz * uDetailTiling.y ) + ${DETAIL_VALUE_OFFSET.toFixed(1)};
-  vec4 middle = texture2D( uMacro, vGroundWorld.xz * uDetailTiling.z ) + ${DETAIL_VALUE_OFFSET.toFixed(1)};
-  vec4 macro = texture2D( uMacro, vGroundWorld.xz * uDetailTiling.w ) + ${DETAIL_VALUE_OFFSET.toFixed(1)};
-
-  // Atlas channels are R grass, G soil, B rock, A gravel; the macro texture uses the same order.
-  // The eight per-vertex weights fold onto those four, and dry grass is deliberately SPLIT rather
-  // than dumped whole into soil: a crest of dry grass that reads as bare dirt is why the shipped
-  // build had no grassland variation at all, only "green" and "brown".
-  vec4 channel = vec4(
-    vSplatA.x + 0.55 * vSplatA.y,
-    0.45 * vSplatA.y + vSplatB.x + vSplatB.y + vSplatB.w,
-    vSplatA.z,
-    vSplatA.w + vSplatB.z
-  );
-  // Sharpened BEFORE normalising. The weights arrive as a partition of unity, so a seam between two
-  // surfaces is a linear ramp and the four detail values simply average across it — which is why a
-  // rock/grass or road/grass boundary reads as one uniform tint rather than as two surfaces
-  // meeting. Squaring costs one multiply and turns a 70/30 vertex into 84/16, so each surface holds
-  // its own character until the last metre of the seam. Anything sharper than a square starts
-  // showing the 2 m terrain lattice as a staircase along the boundary.
-  channel *= channel;
-  float total = max( 0.001, channel.x + channel.y + channel.z + channel.w );
-  channel /= total;
-
-  // Preserve the broad 16/40 m color variation while quieting the 6.3 m pattern. Multiplication
-  // lets each scale fade through its own mip levels without changing the region's base palette.
-  float macroShade = mix( 1.0, dot( channel, near ), 0.45 )
-    * mix( 1.0, dot( channel, middle ), 0.72 )
-    * mix( 1.0, dot( channel, macro ), 0.72 );
-  // Fine terrain grain supports the authored meshes. Gravel keeps stronger per-stone variation;
-  // the rock channel's dense ridges stay subordinate to the outcrop's broad faces.
-  float detailStrength = dot( channel, vec4( 0.28, 0.25, 0.36, 0.65 ) );
-  float shade = clamp( mix( 1.0, dot( channel, detail ), detailStrength ) * macroShade, 0.50, 1.46 );
-
-  // Two wheel ruts at +/-0.55 m from the centreline, 0.16 m wide.
-  float perpendicular = ( vGroundExtra.x - 0.5 ) * 7.0;
-  float rut = ( 1.0 - uFairyGrassReady ) * vGroundExtra.y * exp( -pow( ( abs( perpendicular ) - 0.55 ) / 0.16, 2.0 ) );
-  shade *= 1.0 - 0.22 * rut;
-
-  // The macro reads alone drive the screen-space bump in GROUND_NORMAL_BODY. The detail read is
-  // excluded from it because the detail atlas now has a real normal map of its own, and running
-  // both off the same signal counts its relief twice.
-  gMacroShade = macroShade * ( 1.0 - 0.22 * rut );
-
-  // PER-CHANNEL RELIEF, sampled from the two normal maps generated alongside the albedo atlas.
-  // Both store the world X and Z of a heightfield normal, because the atlas is mapped planar in
-  // world XZ, so blending is a weighted sum of the four tangential pairs and no tangent frame is
-  // needed. The channel weights are already a partition of unity, so the blend can never exceed
-  // any one surface's authored relief.
-  vec4 bumpGS = texture2D( uNormalGS, detailUv ) * 2.0 - 1.0;
-  vec4 bumpRV = texture2D( uNormalRV, detailUv ) * 2.0 - 1.0;
-  gGroundBump = channel.x * bumpGS.xy + channel.y * bumpGS.zw
-              + channel.z * bumpRV.xy + channel.w * bumpRV.zw;
-
-  // PER-SURFACE CHROMA, and this is the part that survives distance.
-  //
-  // Everything above is a VALUE multiplier read out of a texture, and every texture read mips
-  // toward its own mean, so past about 20 m all four channels converge on the same colour. The
-  // contrast stretch in proceduralTextures.ts is what stops that happening this side of 60 m:
-  // measured on palewood_copse open ground, the 20-60 m band went p5..p95 = 101.9..177.0 with a
-  // high-pass RMS of 8.67 to 93.5..209.2 and 11.31, the near band 109.3..130.7 / 6.22 to
-  // 105.2..137.7 / 6.31, and the near road 89.6..117.6 / 3.83 to 88.5..125.6 / 5.05.
-  //
-  // These tints come from the WEIGHTS, not from a texture, so they do not mip and they are the
-  // only surface signal left at 60 m. Each vector is normalised to Rec. 709 luminance 1.0, so this
-  // rotates hue and cannot move the region palette's value — REGION_PALETTES still decides how
-  // light the ground is, and this decides what it is made of.
-  //
-  // Grass gets two, and the dryness selector comes from the 40 m macro read, whose 3 authored
-  // cells put its patches at about 13.3 m across, which is the feature size the 20-60 m band
-  // needs. Tying it to
-  // the same channel that brightens the shade is deliberate — straw IS brighter than sward, so the
-  // value and the hue move together instead of fighting.
-  const vec3 TINT_GRASS_LUSH = vec3( 0.880, 1.056, 0.802 );
-  const vec3 TINT_GRASS_DRY  = vec3( 1.115, 0.998, 0.685 );
-  const vec3 TINT_SOIL       = vec3( 1.184, 0.973, 0.722 );
-  const vec3 TINT_ROCK       = vec3( 0.987, 0.997, 1.068 );
-  const vec3 TINT_GRAVEL     = vec3( 1.035, 0.996, 0.937 );
-  // 0.88..1.16, widened with the channel. The macro grass channel's sigma went 0.077 -> 0.140, and
-  // at the old 0.93..1.11 window that is +/-0.64 sigma: dryness would saturate to 0 or 1 across
-  // most of the field and the sward/straw boundary would read as a drawn edge rather than as one
-  // drying into the other. +/-1.0 sigma keeps the transition about as soft as it was.
-  float dryness = smoothstep( 0.88, 1.16, macro.x );
-  vec3 tint = channel.x * mix( TINT_GRASS_LUSH, TINT_GRASS_DRY, dryness )
-            + channel.y * TINT_SOIL
-            + channel.z * TINT_ROCK
-            + channel.w * TINT_GRAVEL;
-
-  // LAID GROUND.
-  //
-  // Paving is stamped into terrain. Gathered cobble combines fitted faces with the same authored
-  // stone PBR maps as the quarry assets. World-XZ coordinates keep its size fixed in metres
-  // across terrain chunks. Cobble joints and stone grain fade through their mip chains;
-  // the drawn brick and plank joints include the pixel footprint to avoid distant shimmer.
-  float paved = vSplatB.z;
-  // Gathered stone uses a separate irregular pattern. Brick and plank retain their laid courses.
-  float wStone = max( 0.0, 1.0 - vPaved * 2.0 );
-  float wPlank = max( 0.0, vPaved * 2.0 - 1.0 );
-  float wBrick = 1.0 - wStone - wPlank;
-  float cobbled = paved * wStone;
-  gCobbleCoverage = cobbled;
-  gCobbleBump = vec2( 0.0 );
-  gCobbleRoughness = 0.97;
-  if ( cobbled > 0.004 ) {
-    vec4 cobble = texture2D( uCobble, vGroundWorld.xz * uCobbleTiling );
-    vec3 stoneDetail = vec3( 1.0 );
-    vec2 stoneNormal = vec2( 0.0 );
-    if ( uGroundStoneReady > 0.5 ) {
-      vec2 stoneUv = vGroundWorld.xz * uGroundStoneTiling;
-      vec3 stoneRelative = texture2D( uGroundStoneAlbedo, stoneUv ).rgb / uGroundStoneMean;
-      float stoneLuma = dot( stoneRelative, vec3( 0.2126, 0.7152, 0.0722 ) );
-      stoneRelative = mix( vec3( stoneLuma ), stoneRelative, 0.45 );
-      stoneDetail = clamp( mix( vec3( 1.0 ), stoneRelative, 0.86 ), vec3( 0.42 ), vec3( 1.90 ) );
-      stoneNormal = texture2D( uGroundStoneNormal, stoneUv ).xy * 2.0 - 1.0;
-      float stoneRoughness = texture2D( uGroundStoneRoughness, stoneUv ).g;
-      gCobbleRoughness = mix( 0.95, clamp( stoneRoughness, 0.52, 0.96 ), cobble.a );
-    }
-    float cobbleShade = cobble.r * 1.5 * macroShade;
-    shade = mix( shade, cobbleShade, cobbled );
-    gGroundBump *= 1.0 - cobbled;
-    gCobbleBump = ( cobble.gb * 2.0 - 1.0 ) + stoneNormal * 0.65 * cobble.a;
-    gMacroShade = mix( gMacroShade, macroShade, cobbled );
-    tint = mix( tint, mix( vec3( 1.0 ), stoneDetail, cobble.a ), cobbled );
-  }
-  float laid = paved * ( 1.0 - wStone );
-  if ( laid > 0.004 ) {
-
-    // Unit size in metres. Gathered stone is nearly square and hand sized; a dressed block is a
-    // long shallow course; a plank is 2.4 m of sawmill run, 30 cm wide.
-    vec2 unit = vec2( 0.62, 0.52 ) * wStone + vec2( 0.68, 0.30 ) * wBrick + vec2( 2.40, 0.30 ) * wPlank;
-    float jointW = 0.045 * wStone + 0.026 * wBrick + 0.020 * wPlank;
-    float toneVar = 0.30 * wStone + 0.15 * wBrick + 0.22 * wPlank;
-    float jointDark = 0.52 * wStone + 0.60 * wBrick + 0.66 * wPlank;
-
-    // Keep every course on a mason's line. The former stone-only sine warp turned the whole paved
-    // field into broad repeating waves and made an altar court read like scales. Random bond,
-    // per-stone tone, variable joints, and the detail atlas already supply enough irregularity.
-    vec2 p = vGroundWorld.xz;
-    vec2 q = p;
-
-    // Bond. A block wall is a running bond, half a unit per course; stone and plank are staggered
-    // at random, because a random stagger is what a mason and a sawyer both actually produce.
-    float row = floor( q.y / unit.y );
-    float bond = mix( gPavedHash( vec2( row, 7.3 ) ), fract( row * 0.5 ), wBrick );
-    float colf = q.x / unit.x + bond;
-    vec2 cell = vec2( floor( colf ), row );
-
-    // Metres to the nearest joint, along whichever axis is closer.
-    float border = min(
-      ( 0.5 - abs( fract( colf ) - 0.5 ) ) * unit.x,
-      ( 0.5 - abs( fract( q.y / unit.y ) - 0.5 ) ) * unit.y
-    );
-    float tone = gPavedHash( cell + 0.5 );
-    // Joint width varies per unit, which is most of what separates stone bedded by hand from a
-    // printed grid.
-    float footprint = fwidth( p.x ) + fwidth( p.y );
-    float face = smoothstep( 0.0, jointW * ( 0.55 + 0.9 * tone ) + footprint, border );
-    // Grain along the plank, which is the one thing that says sawn timber rather than long stone.
-    float grain = 1.0 + wPlank * 0.085 * sin( q.x * 23.0 + tone * 40.0 );
-    // The detail atlas still runs underneath at a quarter strength: the surface keeps its grit
-    // without the gravel channel deciding what a paved square looks like.
-    float bed = mix( 1.0, detail.w, 0.25 );
-
-    float pavedShade = ( 1.0 - toneVar * 0.5 + toneVar * tone )
-      * mix( jointDark, 1.0, face ) * grain * bed;
-    shade = mix( shade, clamp( pavedShade * macroShade, 0.42, 1.46 ), laid );
-    // Joints as relief, through the screen-space bump the macro reads already drive. It fades out
-    // with the joint, so the grooves are there underfoot and gone by the time they would shimmer.
-    gMacroShade = mix( gMacroShade, macroShade * mix( 0.78, 1.0, face ), laid );
-    // The gravel channel's warm tint is the bed a slab was set in. The paving IS the ground now,
-    // and its hue is the swatch the vertex already carries.
-    tint = mix( tint, vec3( 1.0 ), laid );
-  }
-
-  // Bare cliff faces borrow the same measured stone PBR maps as the production outcrops.
-  // Slope fades this in before the planar projection can stretch; level paths and paving retain
-  // their existing grain, ruts and joints. All maps keep their authored size in world metres.
-  vec3 cliffNormal = normalize( vGroundWorldNormal );
-  float cliffSlope = 1.0 - abs( cliffNormal.y );
-  gCliffCoverage = ( 1.0 - paved ) * smoothstep( 0.10, 0.65, cliffSlope );
-  gCliffRoughness = 0.96;
-  gCliffBump = vec3( 0.0 );
-  if ( gCliffCoverage > 0.004 ) {
-    vec3 projection = gCliffProjectionWeights( cliffNormal );
-    float cliffMacro = gTriplanarSample( uMacro, vGroundWorld * uDetailTiling.y, projection ).z
-      + ${DETAIL_VALUE_OFFSET.toFixed(1)};
-    vec3 rockRelative = vec3( 1.0 );
-    if ( uGroundStoneReady > 0.5 ) {
-      vec3 stonePoint = vGroundWorld * uGroundStoneTiling;
-      rockRelative = gTriplanarSample( uGroundStoneAlbedo, stonePoint, projection ).rgb / uGroundStoneMean;
-      gCliffBump = gTriplanarStoneBump( stonePoint, projection, cliffNormal );
-      gCliffRoughness = clamp( gTriplanarSample( uGroundStoneRoughness, stonePoint, projection ).g, 0.72, 0.98 );
-    } else {
-      rockRelative = vec3( gTriplanarSample( uDetail, vGroundWorld * uDetailTiling.x, projection ).z
-        + ${DETAIL_VALUE_OFFSET.toFixed(1)} );
-    }
-    float rockLuma = max( 0.05, dot( rockRelative, vec3( 0.2126, 0.7152, 0.0722 ) ) );
-    vec3 rockChroma = clamp( mix( vec3( 1.0 ), rockRelative / rockLuma, 0.35 ), vec3( 0.78 ), vec3( 1.22 ) );
-    float moss = ( 0.34 + 0.46 * smoothstep( 0.12, 0.83, max( cliffNormal.y, 0.0 ) ) )
-      * smoothstep( 0.88, 1.16, cliffMacro );
-    if ( uFairyGrassReady > 0.5 ) {
-      // Broad moss blankets join the exposed native stone plates across the bank's creases.
-      float mossPatch = smoothstep( 0.88, 1.10, cliffMacro + max( cliffNormal.y, 0.0 ) * 0.24 );
-      vec3 mossDetail = gTriplanarSample( uFairyGrassAlbedo, vGroundWorld * uFairyGrassTiling, projection ).rgb / uFairyGrassMean;
-      rockLuma = mix( rockLuma, clamp( dot( mossDetail, vec3( 0.2126, 0.7152, 0.0722 ) ), 0.5, 1.5 ) * 0.88, mossPatch * 0.8 );
-      moss = max( moss, mossPatch * 0.86 );
-    }
-    vec3 mossTint = mix( vec3( 1.0 ), vec3( 0.49, 0.74, 0.30 ), moss );
-    float cliffShade = clamp( mix( 1.0, cliffMacro, 0.75 ) * mix( 1.0, rockLuma, 0.82 ), 0.46, 1.50 );
-    cliffShade *= mix( 1.0, 0.80, uFairyGrassReady );
-    shade = mix( shade, cliffShade, gCliffCoverage );
-    tint = mix( tint, rockChroma * mossTint, gCliffCoverage );
-    gGroundBump *= 1.0 - gCliffCoverage;
-    gMacroShade = mix( gMacroShade, mix( 1.0, cliffMacro, 0.75 ), gCliffCoverage );
-  }
-
-  diffuseColor.rgb *= shade * tint;
-  if ( uFairyGrassReady > 0.5 ) {
-    // Living ground remains legible along the soft tread; paved floors and steep stone keep their materials.
-    float grassCoverage = ( 1.0 - paved ) * ( 1.0 - gCliffCoverage ) * ( 0.65 + 0.35 * channel.x );
-    vec2 grassUv = vGroundWorld.xz * uFairyGrassTiling;
-    vec3 grassRelative = texture2D( uFairyGrassAlbedo, grassUv ).rgb / uFairyGrassMean;
-    vec3 grassDetail = clamp( grassRelative, vec3( 0.28 ), vec3( 2.15 ) );
-    diffuseColor.rgb *= mix( vec3( 1.0 ), grassDetail, grassCoverage );
-    vec2 grassNormal = texture2D( uFairyGrassNormal, grassUv ).xy * 2.0 - 1.0;
-    gGroundBump = mix( gGroundBump, grassNormal * 1.3, grassCoverage );
-    gMacroShade = mix( gMacroShade, 1.0, grassCoverage * 0.95 );
-  }
-}
-`;
-
-/**
- * Screen-space bump strength for the three MACRO reads.
- *
- * The macro texture has no normal map — it is sampled at 6.3, 16 and 40 m, so a single stored
- * relief would be wrong at two of the three rates — and a screen-space derivative is the right
- * tool at that scale: `gMacroShade` is already in registers, so this costs two `dFdx`-class
- * instructions and no fetch, and it is automatically mip-correct.
- *
- * Broad color patches need only shallow relief. The lower response keeps those patches from
- * reading as ripples under the low sun; authored terrain geometry supplies the large slopes.
- */
-const GROUND_MACRO_BUMP_SCALE = 0.6;
-
-/**
- * Strength multiplier on the detail normal maps, on top of the metres of relief baked into them.
- *
- * 1.0 means the atlas's authored relief is taken literally. It is set by looking at the ground at
- * the camera's actual pitch and height — the shot presets sit 6-34 m out at a 28-38 degree
- * pitch — rather than at a debug close-up, because relief that reads correctly with the surface
- * filling the frame is roughly twice too strong once the same surface is 20 m away and lit at a
- * grazing angle.
- */
-const GROUND_NORMAL_SCALE = 0.3;
-
-const GROUND_NORMAL_BODY = /* glsl */ `
-{
-  // three's own perturbNormalArb, inlined: that function is compiled only under USE_BUMPMAP and
-  // this material has no bumpMap, so it is not in the program to call. Macro relief only.
-  vec2 dHdxy = vec2( dFdx( gMacroShade ), dFdy( gMacroShade ) ) * ${GROUND_MACRO_BUMP_SCALE.toFixed(1)};
-  vec3 sigmaX = normalize( dFdx( - vViewPosition ) );
-  vec3 sigmaY = normalize( dFdy( - vViewPosition ) );
-  vec3 r1 = cross( sigmaY, normal );
-  vec3 r2 = cross( normal, sigmaX );
-  float det = dot( sigmaX, r1 );
-  normal = normalize( abs( det ) * normal - sign( det ) * ( dHdxy.x * r1 + dHdxy.y * r2 ) );
-
-  // Detail relief, added in WORLD space and rotated into view space by the view matrix's rotation.
-  // The atlas is mapped planar in world XZ, so its stored components ARE the world X and Z of the
-  // perturbed normal; adding them to the geometric normal and renormalising is the standard cheap
-  // blend, and on ground that is within about 20 degrees of level — which is all of it outside the
-  // Karrowmoor risers — it is within a degree of the exact frame construction. viewMatrix is a
-  // rigid transform, so mat3 of it needs no inverse-transpose.
-  vec3 worldBump = vec3( gGroundBump.x, 0.0, gGroundBump.y ) * ${GROUND_NORMAL_SCALE.toFixed(1)};
-  normal = normalize( normal + mat3( viewMatrix ) * worldBump );
-  // Cobble crowns need their own response. The terrain's 0.3 grain scale flattened these broad
-  // faces even though the sampled normals were valid. This term is zero off stone pavement.
-  vec3 cobbleWorldBump = vec3( gCobbleBump.x, 0.0, gCobbleBump.y ) * 0.72 * gCobbleCoverage;
-  normal = normalize( normal + mat3( viewMatrix ) * cobbleWorldBump );
-  normal = normalize( normal + mat3( viewMatrix ) * gCliffBump * 0.72 * gCliffCoverage );
-}
-`;
-
-// ------------------------------------------------------------------- water
-
-const WATER_VERTEX_HEADER = /* glsl */ `
-attribute float aWaterDepth;
-varying float vWaterDepth;
-varying vec3 vWaterWorld;
-`;
-
-const WATER_VERTEX_BODY = /* glsl */ `
-vWaterDepth = aWaterDepth;
-vWaterWorld = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;
-`;
-
-const WATER_FRAGMENT_HEADER = /* glsl */ `
-uniform float uTime;
-uniform vec3 uShallow;
-uniform vec3 uDeep;
-uniform sampler2D uNormalB;
-uniform float uDepthRange;
-uniform float uEdgeFade;
-uniform vec2 uWaveScale;
-uniform vec2 uWaveScrollA;
-uniform vec2 uWaveScrollB;
-varying float vWaterDepth;
-varying vec3 vWaterWorld;
-`;
-
-const WATER_FRAGMENT_BODY = /* glsl */ `
-{
-  float depth01 = clamp( vWaterDepth / uDepthRange, 0.0, 1.0 );
-  diffuseColor.rgb *= mix( uShallow, uDeep, depth01 );
-  // The geometry already stops at the waterline, so this only softens the last few centimetres.
-  diffuseColor.a *= smoothstep( 0.0, uEdgeFade, vWaterDepth );
-}
-`;
-
-// The full-world coast supplies the same raw heights used by its triangles. Manual nearest
-// sampling avoids float-linear-filter requirements and preserves the actual shoreline slope.
-const OCEAN_DEPTH_FRAGMENT_HEADER = /* glsl */ `
-uniform sampler2D uOceanDepthGrid;
-uniform float uOceanDepthReady;
-uniform vec4 uOceanGridBounds;
-uniform vec2 uOceanGridSize;
-uniform vec2 uOceanGridStep;
-uniform float uOceanSeaLevel;
-
-float corealmOceanDepth( vec2 worldXZ ) {
-  if ( uOceanDepthReady < 0.5
-    || any( lessThan( worldXZ, uOceanGridBounds.xy ) )
-    || any( greaterThan( worldXZ, uOceanGridBounds.zw ) ) ) {
-    return max( uDepthRange, vWaterDepth );
-  }
-  vec2 gridPosition = clamp(
-    ( worldXZ - uOceanGridBounds.xy ) / uOceanGridStep,
-    vec2( 0.0 ), uOceanGridSize - vec2( 1.0 )
-  );
-  vec2 cell = min( floor( gridPosition ), uOceanGridSize - vec2( 2.0 ) );
-  vec2 f = gridPosition - cell;
-  float a = texture2D( uOceanDepthGrid, ( cell + vec2( 0.5, 0.5 ) ) / uOceanGridSize ).r;
-  float b = texture2D( uOceanDepthGrid, ( cell + vec2( 1.5, 0.5 ) ) / uOceanGridSize ).r;
-  float c = texture2D( uOceanDepthGrid, ( cell + vec2( 0.5, 1.5 ) ) / uOceanGridSize ).r;
-  float d = texture2D( uOceanDepthGrid, ( cell + vec2( 1.5, 1.5 ) ) / uOceanGridSize ).r;
-  // Match the coast's (a,c,b), (b,c,d) diagonal. Interpolate raw height before clamping depth.
-  float height = f.x + f.y <= 1.0
-    ? a + ( b - a ) * f.x + ( c - a ) * f.y
-    : d + ( c - d ) * ( 1.0 - f.x ) + ( b - d ) * ( 1.0 - f.y );
-  return max( 0.0, uOceanSeaLevel - height );
-}
-`;
-
-const OCEAN_FRAGMENT_BODY = /* glsl */ `
-{
-  float depth = corealmOceanDepth( vWaterWorld.xz );
-  float depth01 = clamp( depth / uDepthRange, 0.0, 1.0 );
-  diffuseColor.rgb *= mix( uShallow, uDeep, depth01 );
-  // Deep water must not reveal where the finite coastal floor ends. Shallows keep their fade.
-  diffuseColor.a *= smoothstep( 0.0, uEdgeFade, depth ) * mix( 0.94, 1.0, depth01 );
-}
-`;
-
-const WATER_NORMAL_BODY = /* glsl */ `
-#ifdef USE_NORMALMAP_TANGENTSPACE
-  vec3 waveA = texture2D( normalMap, vWaterWorld.xz * uWaveScale.x + uWaveScrollA * uTime ).xyz * 2.0 - 1.0;
-  vec3 waveB = texture2D( uNormalB, vWaterWorld.xz * uWaveScale.y + uWaveScrollB * uTime ).xyz * 2.0 - 1.0;
-  // Partial-derivative blend: add the slopes, keep the product of the up components.
-  vec3 mapN = normalize( vec3( waveA.xy + waveB.xy, waveA.z * waveB.z ) );
-  mapN.xy *= normalScale;
-  // The surface is an unrotated horizontal plane, so tangent space is world space with y and z
-  // swapped. No tangent attribute and no getTangentFrame call, and it stays correct across
-  // three.js versions that reshuffle the tangent chunk.
-  //
-  // viewMatrix, not normalMatrix: three declares normalMatrix in its VERTEX prefix only, so the
-  // obvious version of this line fails to compile with "undeclared identifier" and the water
-  // silently falls back to an error material.
-  normal = normalize( ( viewMatrix * vec4( mapN.x, mapN.z, mapN.y, 0.0 ) ).xyz );
-#endif
-`;
 
 /**
  * Material cache. Identical descriptors must return the identical material instance, or instancing
@@ -1160,15 +620,15 @@ export class MaterialLibrary {
   }
 
   forContainedTrough(assetId: string, source: THREE.Material): THREE.Material {
-    return assetId === "corealm_water_trough" && (source as THREE.MeshPhysicalMaterial).isMeshPhysicalMaterial
+    return assetId === "corealm_water_trough" && ((source as THREE.MeshPhysicalMaterial).isMeshPhysicalMaterial || (source as MeshPhysicalNodeMaterial).isMeshPhysicalNodeMaterial)
       && source.name.startsWith("Corealm farm water")
       ? this.containedTroughWater(source as THREE.MeshPhysicalMaterial) : source;
   }
 
   /** Normal library disposal owns these clones, never their borrowed maps. */
-  containedTroughWater(source: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalMaterial {
+  containedTroughWater(source: THREE.MeshPhysicalMaterial | MeshPhysicalNodeMaterial): MeshPhysicalNodeMaterial {
     const key = `contained-trough-water:${source.uuid}`;
-    let material = this.cache.get(key) as THREE.MeshPhysicalMaterial | undefined;
+    let material = this.cache.get(key) as MeshPhysicalNodeMaterial | undefined;
     if (!material) { material = createContainedTroughWater(source); this.cache.set(key, material); }
     return material;
   }
@@ -1207,7 +667,7 @@ export class MaterialLibrary {
     uOceanSeaLevel: { value: 0 },
   };
   private windUniforms: WindUniforms[] = [];
-  private grassSpriteMaterial: THREE.MeshStandardMaterial | null = null;
+  private grassSpriteMaterial: MeshStandardNodeMaterial | null = null;
   private timeSeconds = 0;
   private readonly magicTreeTime = { value: 0 };
   private readonly foliageOcclusion = new FoliageOcclusion();
@@ -1228,9 +688,9 @@ export class MaterialLibrary {
   }
 
   /** Flat stylized surface. The workhorse for terrain, rock, and architecture. */
-  surface(colour: number, roughness = 0.92, metalness = 0): THREE.MeshStandardMaterial {
+  surface(colour: number, roughness = 0.92, metalness = 0): MeshStandardNodeMaterial {
     return this.remember(this.key(["surface", colour, roughness, metalness]), () =>
-      new THREE.MeshStandardMaterial({ color: colour, roughness, metalness, flatShading: false }));
+      new MeshStandardNodeMaterial({ color: colour, roughness, metalness, flatShading: false }));
   }
 
   /** Shared organic treatment after tier/state colour and before animation shader extensions. */
@@ -1256,27 +716,24 @@ export class MaterialLibrary {
   /** Recolour the sampled leaves, including vertex colours and atlas pixels, with native shading. */
   private fairyFoliage(source: THREE.Material, role: ArtSurfaceRole): THREE.Material {
     const style = fairyFoliageStyle(source.name);
-    const standard = source as THREE.MeshStandardMaterial;
-    if (!style || !standard.isMeshStandardMaterial || (role !== "bark" && role !== "foliage")) return source;
+    if (!style || (role !== "bark" && role !== "foliage")) return source;
+    const standard = ensureNodeMaterial(source);
+    if (!(standard instanceof MeshStandardNodeMaterial)) return source;
     const palette = FAIRY_FOLIAGE_COLOURS[style];
     const tint = new THREE.Color(role === "foliage" ? palette.leaf : palette.bark);
     tint.multiplyScalar(1 / Math.max(1e-4, luminance(tint)));
     const glow = new THREE.Color(palette.glow);
-    const material = standard.clone();
-    const inheritedCompile = source.onBeforeCompile;
-    const inheritedKey = source.customProgramCacheKey.bind(source);
-    material.onBeforeCompile = (shader, renderer) => {
-      inheritedCompile.call(source, shader, renderer);
-      shader.fragmentShader = shader.fragmentShader.replace("#include <roughnessmap_fragment>", `
-float fairyValue = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-diffuseColor.rgb = mix(diffuseColor.rgb, fairyValue * vec3(${tint.r.toFixed(6)}, ${tint.g.toFixed(6)}, ${tint.b.toFixed(6)}), ${role === "foliage" ? "0.94" : "0.72"});
-#include <roughnessmap_fragment>`);
-      if (role === "foliage") {
-        shader.fragmentShader = shader.fragmentShader.replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>
-totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow.b.toFixed(6)}) * fairyValue * 0.12;`);
-      }
-    };
-    material.customProgramCacheKey = () => `${inheritedKey()}|fairy-foliage-v1:${style}:${role}`;
+    const material = cloneNodeMaterial(standard) as MeshStandardNodeMaterial;
+    composeSurface(material, {
+      roughness: roughness => Fn(() => {
+        const inherited = roughness.toVar();
+        const value = diffuseColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722));
+        diffuseColor.rgb.assign(mix(diffuseColor.rgb, vec3(tint).mul(value), role === "foliage" ? 0.94 : 0.72));
+        return inherited;
+      })(),
+      ...(role === "foliage" ? { emissive: (emissive: import('three/webgpu').Node<'vec3'>) =>
+        emissive.add(vec3(glow).mul(diffuseColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722))).mul(0.12)) } : {}),
+    });
     return material;
   }
 
@@ -1290,7 +747,7 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
   }
 
   updatePlayerOcclusion(
-    renderer: THREE.WebGLRenderer,
+    renderer: { getDrawingBufferSize(target: THREE.Vector2): THREE.Vector2 },
     camera: THREE.Camera,
     position: readonly [number, number, number],
     playerVisible: boolean,
@@ -1325,7 +782,7 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
    * from baked vertex colours, so three regions cost one material and one shader program.
    *
    * The vertex colour still carries all of the hue — region palette, surface type, and the baked
-   * horizon AO. What `onBeforeCompile` adds is the VALUE detail the vertex colour physically
+   * horizon AO. The surface graph adds the value detail the vertex colour physically
    * cannot: measured, the colour changed by 0.12 of 255 per channel across a 2 m quad, which is
    * below the 8-bit display floor, so the ground was one flat colour at every scale a player sees.
    *
@@ -1353,9 +810,9 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
     }
   }
 
-  ground(): THREE.MeshStandardMaterial {
+  ground(): MeshStandardNodeMaterial {
     return this.remember("ground", () => {
-      const material = new THREE.MeshStandardMaterial({
+      const material = new MeshStandardNodeMaterial({
         color: 0xffffff,
         vertexColors: true,
         roughness: 0.97,
@@ -1382,29 +839,8 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
       // Held so a hot reload cannot orphan the atlas while a compiled program still references it.
       this.groundUniforms = uniforms;
 
-      material.customProgramCacheKey = () => "corealm-ground-splat-v13";
-      material.onBeforeCompile = (shader) => {
-        shader.uniforms.uDetail = uniforms.uDetail;
-        shader.uniforms.uMacro = uniforms.uMacro;
-        shader.uniforms.uNormalGS = uniforms.uNormalGS;
-        shader.uniforms.uNormalRV = uniforms.uNormalRV;
-        shader.uniforms.uCobble = uniforms.uCobble;
-        shader.uniforms.uCobbleTiling = uniforms.uCobbleTiling;
-        shader.uniforms.uDetailTiling = uniforms.uDetailTiling;
-        Object.assign(shader.uniforms, this.groundStoneUniforms, this.fairyGrassUniforms);
-
-        shader.vertexShader = `${GROUND_VERTEX_HEADER}\n${shader.vertexShader}`.replace(
-          "#include <begin_vertex>",
-          `#include <begin_vertex>\n${GROUND_VERTEX_BODY}`,
-        );
-        shader.fragmentShader = `${GROUND_FRAGMENT_HEADER}\n${shader.fragmentShader}`
-          .replace("#include <map_fragment>", `#include <map_fragment>\n${GROUND_FRAGMENT_BODY}`)
-          .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>
-roughnessFactor = mix( roughnessFactor, gCobbleRoughness, gCobbleCoverage );
-roughnessFactor = mix( roughnessFactor, gCliffRoughness, gCliffCoverage );`)
-          .replace("#include <normal_fragment_maps>", GROUND_NORMAL_BODY)
-          .replace("#include <lights_fragment_maps>", iblScale(GROUND_ENV_RESPONSE));
-      };
+      applyGroundSurfaceNodes(material, { ...uniforms, ...this.groundStoneUniforms, ...this.fairyGrassUniforms });
+      environmentResponse(material, GROUND_ENV_RESPONSE);
       return material;
     });
   }
@@ -1419,10 +855,10 @@ roughnessFactor = mix( roughnessFactor, gCliffRoughness, gCliffCoverage );`)
    * shading; each `InstancedMesh` carries the meadow palette and value shifts through `instanceColor` while all
    * regions and all four former grass assets keep one program and one material.
    */
-  grassSprite(): THREE.MeshStandardMaterial {
+  grassSprite(): MeshStandardNodeMaterial {
     if (this.grassSpriteMaterial) return this.grassSpriteMaterial;
 
-    const source = new THREE.MeshStandardMaterial({
+    const source = new MeshStandardNodeMaterial({
       color: 0xffffff,
       map: createGrassSpriteTexture(),
       alphaTest: 0.38,
@@ -1441,35 +877,24 @@ roughnessFactor = mix( roughnessFactor, gCliffRoughness, gCliffCoverage );`)
     source.name = "grass-sprite";
     // Upright cards approximate many curved blades. An upward diffuse normal keeps their two
     // faces from alternating between bright green and black as the camera orbits the same tuft.
-    source.onBeforeCompile = (shader) => {
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "#include <normal_fragment_begin>",
-        `#include <normal_fragment_begin>
-vec3 grassUp = normalize( mat3( viewMatrix ) * vec3( 0.0, 1.0, 0.0 ) );
-normal = normalize( mix( normal, grassUp, 0.78 ) );`,
-      );
-    };
-    source.customProgramCacheKey = () => "corealm-grass-light-v1";
-    this.grassSpriteMaterial = this.wind(this.organic(source, "foliage"), GRASS_WIND_STRENGTH) as THREE.MeshStandardMaterial;
+    composeSurface(source, { normal: normal => mix(normal,
+      cameraViewMatrix.mul(vec4(0, 1, 0, 0)).xyz.normalize(), 0.78).normalize() });
+    this.grassSpriteMaterial = this.wind(this.organic(source, "foliage"), GRASS_WIND_STRENGTH) as MeshStandardNodeMaterial;
     return this.grassSpriteMaterial;
   }
 
   grassBlades(): THREE.Material {
     return this.remember("grass-blades", () => {
-      const source = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.92 });
+      const source = new MeshStandardNodeMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.92 });
       source.name = "Corealm folded grass blades";
-      source.onBeforeCompile = (shader) => {
-        shader.fragmentShader = shader.fragmentShader.replace("#include <normal_fragment_begin>", `#include <normal_fragment_begin>
-vec3 grassUp = normalize(mat3(viewMatrix) * vec3(0.0, 1.0, 0.0));
-normal = normalize(mix(normal, grassUp, 0.45));`);
-      };
-      source.customProgramCacheKey = () => "corealm-grass-blades-v1";
+      composeSurface(source, { normal: normal => mix(normal,
+        cameraViewMatrix.mul(vec4(0, 1, 0, 0)).xyz.normalize(), 0.45).normalize() });
       return this.wind(this.organic(source, "foliage"), GRASS_WIND_STRENGTH);
     });
   }
 
   /**
-   * Adds a small GPU-side bend while preserving the source material's own shader hook.
+   * Adds a small GPU-side bend while preserving the source material's node graph.
    *
    * The clone shares every texture with `source`. One cached clone serves each source/strength
    * pair, and a translation-derived phase keeps instances and BatchedMesh entries out of lockstep.
@@ -1480,49 +905,28 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
 
     const key = this.key(["wind", this.baseKey(source), amount]);
     return this.remember(key, () => {
-      const clone = source.clone();
-      const sourceCompile = source.onBeforeCompile;
-      const sourceProgramKey = source.customProgramCacheKey.bind(source);
+      const clone = cloneNodeMaterial(source);
       const uniforms: WindUniforms = {
         uCorealmWindTime: { value: this.timeSeconds },
         uCorealmWindStrength: { value: amount },
       };
       this.windUniforms.push(uniforms);
-
       clone.name = `${source.name || source.type}@wind:${amount}`;
-      clone.onBeforeCompile = (shader, renderer) => {
-        sourceCompile.call(source, shader, renderer);
-        shader.uniforms.uCorealmWindTime = uniforms.uCorealmWindTime;
-        shader.uniforms.uCorealmWindStrength = uniforms.uCorealmWindStrength;
-        shader.vertexShader = `${WIND_VERTEX_HEADER}\n${shader.vertexShader}`.replace(
-          "#include <begin_vertex>",
-          `#include <begin_vertex>\n${WIND_VERTEX_BODY}`,
-        );
-      };
-      // Strength is a uniform, so every wind material can share the same compiled program shape.
-      clone.customProgramCacheKey = () => `${sourceProgramKey()}|corealm-wind-v1`;
+      const time = reference('value', 'float', uniforms.uCorealmWindTime);
+      const strengthNode = reference('value', 'float', uniforms.uCorealmWindStrength);
+      composeSurface(clone, { position: previous => Fn(() => {
+        const height = smoothstep(0, 0.75, max(positionGeometry.y, 0));
+        const phase = objectInstanceWorldOrigin().xz.dot(vec2(0.173, 0.277));
+        const main = sin(time.mul(0.82).add(phase));
+        const ripple = sin(time.mul(1.67).add(phase.mul(1.31)).add(positionGeometry.y.mul(0.73)));
+        const bend = vec2(0.86, 0.51).mul(main).add(vec2(-0.22, 0.37).mul(ripple)).mul(strengthNode).mul(height);
+        // positionNode runs after instancing; transform only this added displacement so roots,
+        // instance orientation, scale and any preceding skinning remain unchanged.
+        const displacement = objectInstanceMatrix().mul(vec4(bend.x, 0, bend.y, 0)).xyz;
+        return previous.add(displacement);
+      })() });
+      clone.userData.corealmWind = uniforms;
       return clone;
-    });
-  }
-
-  /** Shadow passes sample the identical wind displacement and clock as the visible foliage. */
-  windShadow(source: THREE.Material, strength: number, mode: "depth" | "distance"): THREE.Material {
-    return this.remember(this.key(["wind-shadow", this.baseKey(source), strength, mode]), () => {
-      const original = source as THREE.MeshStandardMaterial;
-      const shadow = mode === "depth"
-        ? new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking })
-        : new THREE.MeshDistanceMaterial();
-      shadow.name = `${source.name}:${mode}`;
-      shadow.map = original.map ?? null;
-      shadow.alphaMap = original.alphaMap ?? null;
-      shadow.alphaTest = original.alphaTest;
-      shadow.side = original.side;
-      shadow.displacementMap = original.displacementMap ?? null;
-      shadow.displacementScale = original.displacementScale ?? 1;
-      shadow.displacementBias = original.displacementBias ?? 0;
-      const animated = this.wind(shadow, strength);
-      if (animated !== shadow) shadow.dispose();
-      return animated;
     });
   }
 
@@ -1547,61 +951,94 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
    * and at 0.50 the water lost its sky and went back to a flat tinted plane. `WATER_ENV_RESPONSE`
    * puts it back for this material alone.
    */
-  water(regionId: RegionId = "fallowmarch", mode: "lake" | "ocean" = "lake"): THREE.MeshStandardMaterial {
+  water(regionId: RegionId = "fallowmarch", mode: "lake" | "ocean" = "lake"): MeshStandardNodeMaterial {
+    return this.remember(this.key(["water", regionId, mode]), () => this.createWater(regionId, mode));
+  }
+
+  /** Independent animation controls for a caller-owned river material, sharing water textures. */
+  createWaterVariant(regionId: RegionId, options: WaterVariantOptions = {}): MeshStandardNodeMaterial {
+    return this.createWater(regionId, 'lake', options);
+  }
+
+  private createWater(regionId: RegionId, mode: "lake" | "ocean", options: WaterVariantOptions = {}): MeshStandardNodeMaterial {
     const ocean = mode === "ocean";
-    return this.remember(this.key(["water", regionId, mode]), () => {
-      const palette = REGION_PALETTES[regionId];
-      const material = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.14,
-        metalness: 0,
-        transparent: true,
-        opacity: ocean ? 1 : 0.94,
-        // The basin owns a closed bank. Rendering the back face would make an invalid or clipped
-        // water plane visible from below, which is the exact defect the basin closure prevents.
-        side: THREE.FrontSide,
-        depthWrite: false,
-        normalMap: createWaterNormalMap("fine"),
-        normalScale: new THREE.Vector2(0.55, 0.55),
-      });
-      material.name = ocean ? `ocean-${regionId}` : `water-${regionId}`;
-
-      const uniforms = {
-        uTime: { value: this.timeSeconds },
-        // Shallow lifts 45% toward the region's own low ground so the edge of the water agrees
-        // with the bank it meets; deep darkens 30%, which is the whole depth cue.
-        uShallow: { value: new THREE.Color(mixHex(palette.water, palette.groundLow, 0.45)) },
-        uDeep: { value: new THREE.Color(mixHex(palette.water, 0x000000, 0.3)) },
-        uNormalB: { value: createWaterNormalMap("coarse") },
-        // Metres of depth over which the tint runs, and metres over which the edge fades out.
-        uDepthRange: { value: 1.2 },
-        uEdgeFade: { value: 0.25 },
-        // 8.0 m and 3.7 m tiling. Scroll 0.012 and -0.019 m/s, 33 degrees apart, so neither the
-        // pattern nor the drift direction ever resolves as one moving texture.
-        uWaveScale: { value: new THREE.Vector2(1 / 8, 1 / 3.7) },
-        uWaveScrollA: { value: new THREE.Vector2(0.012, 0.004) },
-        uWaveScrollB: { value: new THREE.Vector2(-0.0159, 0.0104) },
-      };
-      this.waterUniforms.push(uniforms);
-
-      material.customProgramCacheKey = () => ocean ? "corealm-ocean-water-v1" : "corealm-water-v2";
-      material.onBeforeCompile = (shader) => {
-        for (const [name, uniform] of Object.entries(uniforms)) shader.uniforms[name] = uniform;
-        if (ocean) {
-          for (const [name, uniform] of Object.entries(this.oceanDepthUniforms)) shader.uniforms[name] = uniform;
-        }
-
-        shader.vertexShader = `${WATER_VERTEX_HEADER}\n${shader.vertexShader}`.replace(
-          "#include <begin_vertex>",
-          `#include <begin_vertex>\n${WATER_VERTEX_BODY}`,
-        );
-        shader.fragmentShader = `${WATER_FRAGMENT_HEADER}\n${ocean ? OCEAN_DEPTH_FRAGMENT_HEADER : ""}\n${shader.fragmentShader}`
-          .replace("#include <map_fragment>", `#include <map_fragment>\n${ocean ? OCEAN_FRAGMENT_BODY : WATER_FRAGMENT_BODY}`)
-          .replace("#include <normal_fragment_maps>", WATER_NORMAL_BODY)
-          .replace("#include <lights_fragment_maps>", iblScale(WATER_ENV_RESPONSE));
-      };
-      return material;
+    const palette = REGION_PALETTES[regionId];
+    const material = new MeshStandardNodeMaterial({
+      color: 0xffffff, roughness: 0.14, metalness: 0, transparent: true,
+      opacity: ocean ? 1 : 0.94, side: THREE.FrontSide, depthWrite: false,
+      normalMap: createWaterNormalMap("fine"), normalScale: new THREE.Vector2(0.55, 0.55),
     });
+    material.name = ocean ? `ocean-${regionId}` : `water-${regionId}`;
+    const uniforms: WaterUniforms = {
+      uTime: options.time ?? { value: this.timeSeconds },
+      uShallow: { value: new THREE.Color(mixHex(palette.water, palette.groundLow, 0.45)) },
+      uDeep: { value: new THREE.Color(mixHex(palette.water, 0x000000, 0.3)) },
+      uNormalB: { value: createWaterNormalMap("coarse") },
+      uDepthRange: { value: 1.2 }, uEdgeFade: { value: options.edgeFade ?? 0.25 },
+      uWaveScale: { value: new THREE.Vector2(1 / 8, 1 / 3.7) },
+      uWaveScrollA: { value: options.waveScrollA ?? new THREE.Vector2(0.012, 0.004) },
+      uWaveScrollB: { value: options.waveScrollB ?? new THREE.Vector2(-0.0159, 0.0104) },
+    };
+    if (!options.time) this.waterUniforms.push(uniforms);
+    const time = reference('value', 'float', uniforms.uTime);
+    const range = reference('value', 'float', uniforms.uDepthRange);
+    const edgeFade = reference('value', 'float', uniforms.uEdgeFade);
+    const shallow = reference('value', 'color', uniforms.uShallow);
+    const deep = reference('value', 'color', uniforms.uDeep);
+    const scale = reference('value', 'vec2', uniforms.uWaveScale);
+    const scrollA = reference('value', 'vec2', uniforms.uWaveScrollA);
+    const scrollB = reference('value', 'vec2', uniforms.uWaveScrollB);
+    const authoredDepth = attribute('aWaterDepth', 'float');
+    let depth: import('three/webgpu').Node<'float'> = authoredDepth;
+    if (ocean) {
+      const gridUniforms = this.oceanDepthUniforms;
+      const fallback = new THREE.DataTexture(new Float32Array(4), 2, 2, THREE.RedFormat, THREE.FloatType);
+      fallback.minFilter = fallback.magFilter = THREE.NearestFilter;
+      fallback.needsUpdate = true;
+      material.addEventListener('dispose', () => fallback.dispose());
+      const grid = texture(this.oceanDepthTexture ?? fallback).onRenderUpdate(() => this.oceanDepthTexture ?? fallback);
+      const ready = reference('value', 'float', gridUniforms.uOceanDepthReady);
+      const bounds = reference('value', 'vec4', gridUniforms.uOceanGridBounds);
+      const size = reference('value', 'vec2', gridUniforms.uOceanGridSize);
+      const step = reference('value', 'vec2', gridUniforms.uOceanGridStep);
+      const sea = reference('value', 'float', gridUniforms.uOceanSeaLevel);
+      depth = Fn(() => {
+        const world = positionWorld.xz;
+        const result = max(range, authoredDepth).toVar();
+        const inside = ready.greaterThanEqual(0.5).and(world.x.greaterThanEqual(bounds.x))
+          .and(world.y.greaterThanEqual(bounds.y)).and(world.x.lessThanEqual(bounds.z)).and(world.y.lessThanEqual(bounds.w));
+        If(inside, () => {
+          const gridPosition = world.sub(bounds.xy).div(step).clamp(vec2(0), size.sub(1));
+          const cell = min(gridPosition.floor(), size.sub(2));
+          const f = gridPosition.sub(cell);
+          const a = textureLoad(grid, ivec2(cell)).r;
+          const b = textureLoad(grid, ivec2(cell.add(vec2(1, 0)))).r;
+          const c = textureLoad(grid, ivec2(cell.add(vec2(0, 1)))).r;
+          const d = textureLoad(grid, ivec2(cell.add(1))).r;
+          // Match the coast mesh's triangle diagonal, interpolating height before depth clamping.
+          const low = a.add(b.sub(a).mul(f.x)).add(c.sub(a).mul(f.y));
+          const high = d.add(c.sub(d).mul(float(1).sub(f.x))).add(b.sub(d).mul(float(1).sub(f.y)));
+          result.assign(max(0, sea.sub(f.x.add(f.y).lessThanEqual(1).select(low, high))));
+        });
+        return result;
+      })();
+    }
+    const depth01 = depth.div(range).clamp(0, 1);
+    composeSurface(material, {
+      color: previous => previous.rgb.mul(mix(shallow, deep, depth01)),
+      opacity: previous => previous.mul(smoothstep(0, edgeFade, depth))
+        .mul(ocean ? mix(0.94, 1, depth01) : 1),
+      normal: () => {
+        const waveA = texture(material.normalMap!, positionWorld.xz.mul(scale.x).add(scrollA.mul(time))).xyz.mul(2).sub(1);
+        const waveB = texture(uniforms.uNormalB.value, positionWorld.xz.mul(scale.y).add(scrollB.mul(time))).xyz.mul(2).sub(1);
+        const slope = vec3(waveA.xy.add(waveB.xy), waveA.z.mul(waveB.z)).normalize();
+        const scaled = slope.xy.mul(materialReference('normalScale', 'vec2'));
+        return cameraViewMatrix.mul(vec4(scaled.x, slope.z, scaled.y, 0)).xyz.normalize();
+      },
+    });
+    material.userData.corealmWater = { uniforms, oceanDepth: ocean ? this.oceanDepthUniforms : null };
+    environmentResponse(material, WATER_ENV_RESPONSE);
+    return material;
   }
 
   /**
@@ -1655,15 +1092,15 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
   }
 
   /** Exposed stone face for cliffs and terrace risers. */
-  cliff(regionId: RegionId): THREE.MeshStandardMaterial {
+  cliff(regionId: RegionId): MeshStandardNodeMaterial {
     return this.surface(REGION_PALETTES[regionId].rock, 0.96, 0);
   }
 
   /** Metal for tools, weapons, and ore veins. Restrained: low metalness keeps it readable. */
-  metal(tier: number): THREE.MeshStandardMaterial {
+  metal(tier: number): MeshStandardNodeMaterial {
     const palette = paletteForTier(tier);
     return this.remember(this.key(["metal", palette.tier]), () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardNodeMaterial({
         color: palette.metal,
         roughness: 0.55,
         metalness: 0.35,
@@ -1689,14 +1126,14 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
    *
    * Cached per (tier, depleted), so every ore node in a region shares one material instance.
    */
-  oreRock(tier: number, depleted: boolean): THREE.MeshStandardMaterial {
+  oreRock(tier: number, depleted: boolean): MeshStandardNodeMaterial {
     const palette = paletteForTier(tier);
     return this.remember(this.key(["ore", palette.tier, depleted]), () => {
       const colour = new THREE.Color(depleted ? palette.body : palette.metal);
       if (depleted) applyDepletion(colour);
       else raiseContrast(colour);
       const glow = depleted ? 0 : Math.max(SEAM_GLOW, palette.emissive);
-      return new THREE.MeshStandardMaterial({
+      return new MeshStandardNodeMaterial({
         color: colour,
         roughness: depleted ? 0.98 : 0.62,
         metalness: depleted ? 0 : 0.25,
@@ -1708,10 +1145,10 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
     });
   }
 
-  foliage(tier: number): THREE.MeshStandardMaterial {
+  foliage(tier: number): MeshStandardNodeMaterial {
     const palette = paletteForTier(tier);
     return this.remember(this.key(["foliage", palette.tier]), () =>
-      new THREE.MeshStandardMaterial({
+      new MeshStandardNodeMaterial({
         color: palette.accent,
         roughness: 0.95,
         metalness: 0,
@@ -1737,8 +1174,8 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
     regionId: RegionId,
     role: ArchitectureMaterialRole,
   ): THREE.Material {
-    const source = base as THREE.MeshStandardMaterial;
-    if (!source.isMeshStandardMaterial) return base;
+    const source = ensureNodeMaterial(base);
+    if (!(source instanceof MeshStandardNodeMaterial)) return source;
 
     const key = this.key(["architecture", this.baseKey(base), regionId, role]);
     return this.remember(key, () => {
@@ -1749,28 +1186,15 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
       // the sampled texel luminance, then applies the deliberately restrained role brightness.
       tint.multiplyScalar(1 / tintLuminance);
 
-      const clone = source.clone();
-      const sourceCompile = source.onBeforeCompile;
-      const sourceProgramKey = source.customProgramCacheKey();
-      const shaderKey = `architecture-luma-v2:${regionId}:${role}`;
-      const strength = treatment.strength.toFixed(3);
-      const brightness = (treatment.brightness * (regionId === "wilderness" ? .52 : 1)).toFixed(3);
-      const contrast = treatment.contrast.toFixed(3);
-      const tintVector = `vec3(${tint.r.toFixed(6)}, ${tint.g.toFixed(6)}, ${tint.b.toFixed(6)})`;
-
-      clone.name = `${source.name || "MeshStandardMaterial"}@architecture:${regionId}:${role}`;
-      clone.onBeforeCompile = (shader, renderer) => {
-        sourceCompile.call(source, shader, renderer);
-        shader.fragmentShader = shader.fragmentShader.replace(
-          "#include <map_fragment>",
-          /* glsl */ `#include <map_fragment>
-float gArchitectureLuminance = dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
-float gArchitectureValue = clamp( ( gArchitectureLuminance - 0.18 ) * ${contrast} + 0.18, 0.0, 1.0 );
-vec3 gArchitectureTinted = clamp( gArchitectureValue * ${tintVector}, 0.0, 1.0 );
-diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * ${brightness};`,
-        );
-      };
-      clone.customProgramCacheKey = () => `${sourceProgramKey}|${shaderKey}`;
+      const clone = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
+      const brightness = treatment.brightness * (regionId === "wilderness" ? .52 : 1);
+      clone.name = `${source.name || "MeshStandardNodeMaterial"}@architecture:${regionId}:${role}`;
+      composeSurface(clone, { color: previous => {
+        const luminanceNode = previous.dot(vec3(0.2126, 0.7152, 0.0722));
+        const value = luminanceNode.sub(0.18).mul(treatment.contrast).add(0.18).clamp(0, 1);
+        const tinted = value.mul(vec3(tint)).clamp(0, 1);
+        return mix(previous, tinted, treatment.strength).mul(brightness);
+      } });
       return clone;
     });
   }
@@ -1783,7 +1207,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
    * emissive. One texture, many tiers, one InstancedMesh per (asset, variant) pair.
    */
   variant(base: THREE.Material, spec: VariantSpec): THREE.Material {
-    const source = base as THREE.MeshStandardMaterial;
+    const source = ensureNodeMaterial(base);
     const palette = paletteForTier(spec.tier);
     const state: SurfaceState = spec.state ?? "normal";
     const strength = Math.min(1, Math.max(0, spec.strength ?? 0.55));
@@ -1795,20 +1219,18 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
     // material, and a second material on the same geometry is a second draw call downstream.
     // Props, non-architectural landmarks and NPC art all take this path because they have no tier
     // ladder to express. Architecture takes the separate region-aware path above.
-    if (strength === 0 && glow === 0 && state === "normal") return base;
+    if (strength === 0 && glow === 0 && state === "normal") return source;
 
     const key = this.key(["variant", this.baseKey(base), palette.tier, state, strength, swatch, glow]);
 
     return this.remember(key, () => {
-      if (!source.isMeshStandardMaterial) {
+      if (!(source instanceof MeshStandardNodeMaterial)) {
         // Non-standard materials (rare, and only from third-party GLBs) pass through unchanged
         // rather than being silently replaced with something that does not match the art.
         return source;
       }
       const target = new THREE.Color(swatchColour(palette, swatch));
-      const clone = source.clone();
-      clone.onBeforeCompile = (shader, renderer) => source.onBeforeCompile.call(source, shader, renderer);
-      clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
+      const clone = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
       // clone() keeps the same texture object references. Do NOT reassign clone.map.
       clone.color = new THREE.Color(source.color.getHex()).lerp(target, strength);
       // A tier tint on a TEXTURED material changes hue only. This is the fix for the black
@@ -1858,13 +1280,11 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
    * write, never a mesh rebuild.
    */
   depleted(base: THREE.Material): THREE.Material {
-    const source = base as THREE.MeshStandardMaterial;
+    const source = ensureNodeMaterial(base);
     const key = this.key(["depleted", this.baseKey(base)]);
     return this.remember(key, () => {
-      if (!source.isMeshStandardMaterial) return source;
-      const clone = source.clone();
-      clone.onBeforeCompile = (shader, renderer) => source.onBeforeCompile.call(source, shader, renderer);
-      clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
+      if (!(source instanceof MeshStandardNodeMaterial)) return source;
+      const clone = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
       clone.color = new THREE.Color(source.color.getHex());
       applyDepletion(clone.color);
       clone.roughness = 1;
@@ -1876,10 +1296,10 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
   }
 
   /** Hover / selection ring. Unlit so it stays legible against dark terrain and in shadow. */
-  highlight(colour: string | number): THREE.MeshBasicMaterial {
+  highlight(colour: string | number): MeshBasicNodeMaterial {
     const value = typeof colour === "string" ? new THREE.Color(colour).getHex() : colour;
     return this.remember(this.key(["highlight", value]), () =>
-      new THREE.MeshBasicMaterial({
+      new MeshBasicNodeMaterial({
         color: value,
         transparent: true,
         opacity: 0.68,
@@ -1890,7 +1310,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
         depthWrite: false,
         side: THREE.DoubleSide,
         toneMapped: false,
-      })) as THREE.MeshBasicMaterial;
+      })) as MeshBasicNodeMaterial;
   }
 
   /** Stable identity for a source material, so variants of the same base share a cache namespace. */

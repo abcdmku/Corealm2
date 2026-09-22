@@ -1,4 +1,7 @@
 import * as THREE from "three";
+import { Fn, cameraViewMatrix, diffuseColor, faceDirection, float, vec3, vec4 } from "three/tsl";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
+import { cloneNodeMaterial, composeSurface } from "./nodeMaterials.js";
 
 export type ArtSurfaceRole = "foliage" | "bark" | "hide" | "elemental-hide";
 
@@ -23,8 +26,6 @@ const TREATMENTS: Readonly<Record<ArtSurfaceRole, OrganicTreatment>> = {
 };
 
 const ART_MARKER = "corealmArtSurface";
-const FRAGMENT_ANCHOR = "#include <roughnessmap_fragment>";
-const LIGHTING_ANCHOR = "#include <lights_physical_fragment>";
 const ELEMENTAL_EMISSION_SCALE = 0.22;
 const ELEMENTAL_HIGHLIGHT_SHOULDER = 0.60;
 const UNDERSTORY_HIGHLIGHT_SHOULDER = 0.42;
@@ -42,47 +43,6 @@ export function artSurfaceRoleForMaterial(materialName: string): ArtSurfaceRole 
   return null;
 }
 
-function fragmentTreatment(role: ArtSurfaceRole, understory: boolean, cutout = false): string {
-  const treatment = cutout ? { ...TREATMENTS[role], saturation: 1, value: 1, warmth: [1, 1.04, 1] } : TREATMENTS[role];
-  const warmth = treatment.warmth.map((channel) => channel.toFixed(3)).join(", ");
-  return `
-// Corealm organic surface: ${role}. Uses the existing sampled albedo, never another texture read.
-{
-  float organicLuma = dot( diffuseColor.rgb, vec3( 0.2126, 0.7152, 0.0722 ) );
-  vec3 organicColour = mix( vec3( organicLuma ), diffuseColor.rgb, ${treatment.saturation.toFixed(3)} );
-  ${treatment.tonalCompression
-    ? "// Compress bright fur against dark markings without lifting black into a grey floor.\n  organicColour /= 0.90 + 0.20 * organicLuma;"
-    : ""}
-  ${understory
-    ? `// The shared Leaves atlas is brighter than the separately authored tree crowns.
-  organicColour /= 1.0 + ${UNDERSTORY_HIGHLIGHT_SHOULDER.toFixed(3)} * organicLuma;`
-    : ""}
-  ${role === "elemental-hide"
-    ? `// Compress the bright plate albedo while retaining each element's hue and texture boundaries.
-  organicColour /= 1.0 + ${ELEMENTAL_HIGHLIGHT_SHOULDER.toFixed(3)} * organicLuma;
-  // Add warm reflected stone albedo only in the near-black body, never an emissive fill.
-  float organicStoneLift = 1.0 - smoothstep( 0.012, 0.120, organicLuma );
-  organicColour += vec3( 0.044, 0.040, 0.034 ) * organicStoneLift;`
-    : ""}
-  diffuseColor.rgb = organicColour * vec3( ${warmth} ) * ${treatment.value.toFixed(3)};
-}
-`;
-}
-
-const leafNormalTreatment = (upwardBias = LEAF_UPWARD_NORMAL_BIAS, branchSpray = false): string => `
-// Soften the lighting contrast between flat foliage cards without changing their shadows.
-{
-  vec3 organicWorldUp = normalize( mat3( viewMatrix ) * vec3( 0.0, 1.0, 0.0 ) );
-  ${branchSpray ? `// A spray represents leaves on both sides. Its diffuse lighting must not flip
-  // with gl_FrontFacing when the camera or wind crosses the card's plane.
-  #ifdef DOUBLE_SIDED
-    normal *= faceDirection;
-  #endif
-  normal *= dot( normal, organicWorldUp ) < 0.0 ? -1.0 : 1.0;` : ""}
-  normal = normalize( normal + organicWorldUp * ${upwardBias.toFixed(3)} );
-}
-`;
-
 /**
  * Derives one organic material without changing the source or its textures. The caller owns caching
  * by source identity and role, and disposal. Shader grading preserves alpha and emissive maps.
@@ -94,17 +54,16 @@ const leafNormalTreatment = (upwardBias = LEAF_UPWARD_NORMAL_BIAS, branchSpray =
  */
 export function createArtDirectedMaterial(source: THREE.Material, role: ArtSurfaceRole): THREE.Material {
   const standard = source as THREE.MeshStandardMaterial;
-  if (!standard.isMeshStandardMaterial || source.userData[ART_MARKER] === role) return source;
+  if (!(standard.isMeshStandardMaterial || (source as MeshStandardNodeMaterial).isMeshStandardNodeMaterial)
+    || source.userData[ART_MARKER] === role) return source;
 
-  const derived = standard.clone();
-  const treatment = TREATMENTS[role];
+  const derived = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
   const sourceName = source.name.split("@", 1)[0]!;
   const understory = role === "foliage" && /^Leaves$/i.test(sourceName);
   const cutout = role === "foliage" && /_(needle|broadleaf_oak|broadleaf_yew|broadleaf_maple)_cutout$/.test(sourceName);
   const branchSpray = role === "foliage" && sourceName.endsWith("_cutout");
   const leafNormals = role === "foliage" && !/^(?:Grass|grass-sprite)$/i.test(sourceName);
-  const inheritedCompile = source.onBeforeCompile;
-  const inheritedProgramKey = source.customProgramCacheKey.bind(source);
+  const treatment = cutout ? { ...TREATMENTS[role], saturation: 1, value: 1, warmth: [1, 1.04, 1] as const } : TREATMENTS[role];
   derived.name = `${source.name || source.type}@art:${role}`;
   derived.userData[ART_MARKER] = role;
   derived.roughness = Math.max(standard.roughness, treatment.roughness);
@@ -112,29 +71,31 @@ export function createArtDirectedMaterial(source: THREE.Material, role: ArtSurfa
   if (role === "elemental-hide") {
     derived.emissiveIntensity = standard.emissiveIntensity * ELEMENTAL_EMISSION_SCALE;
   }
-  derived.onBeforeCompile = (shader, renderer) => {
-    inheritedCompile.call(source, shader, renderer);
-    // This sits after the source's map, vertex-colour and alpha hooks, but before PBR lighting.
-    // Fail explicitly if another material extension removes the standard shader's insertion point.
-    if (!shader.fragmentShader.includes(FRAGMENT_ANCHOR)) {
-      throw new Error(`Organic art treatment has no albedo insertion point: ${source.name || source.type}`);
-    }
-    shader.fragmentShader = shader.fragmentShader.replace(
-      FRAGMENT_ANCHOR,
-      `${fragmentTreatment(role, understory, cutout)}\n${FRAGMENT_ANCHOR}`,
-    );
-    if (leafNormals) {
-      if (!shader.fragmentShader.includes(LIGHTING_ANCHOR)) {
-        throw new Error(`Organic art treatment has no lighting insertion point: ${source.name || source.type}`);
+  composeSurface(derived, {
+    // This node runs after the renderer combines texture, vertex and instance colours.
+    // A colorNode treatment would grade only the texture before those authored colours.
+    roughness: previous => Fn(() => {
+      const luma = diffuseColor.rgb.dot(vec3(0.2126, 0.7152, 0.0722)).toVar();
+      const colour = vec3(luma).mix(diffuseColor.rgb, treatment.saturation).toVar();
+      if (treatment.tonalCompression) colour.divAssign(luma.mul(0.2).add(0.9));
+      if (understory) colour.divAssign(luma.mul(UNDERSTORY_HIGHLIGHT_SHOULDER).add(1));
+      if (role === "elemental-hide") {
+        colour.divAssign(luma.mul(ELEMENTAL_HIGHLIGHT_SHOULDER).add(1));
+        colour.addAssign(vec3(0.044, 0.040, 0.034).mul(luma.smoothstep(0.012, 0.120).oneMinus()));
       }
-      shader.fragmentShader = shader.fragmentShader.replace(
-        LIGHTING_ANCHOR,
-        // A branch card represents many leaves facing different directions. Stronger sky
-        // response stops its two flat sides from reading as alternating black/bright sheets.
-        `${leafNormalTreatment(branchSpray ? 2 : LEAF_UPWARD_NORMAL_BIAS, branchSpray)}\n${LIGHTING_ANCHOR}`,
-      );
-    }
-  };
-  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-organic-v5:${role}:${Number(understory)}:${Number(leafNormals)}:${Number(cutout)}:${Number(branchSpray)}`;
+      diffuseColor.rgb.assign(colour.mul(vec3(...treatment.warmth)).mul(treatment.value));
+      return previous;
+    })(),
+    normal: previous => {
+      if (!leafNormals) return previous;
+      const worldUp = cameraViewMatrix.mul(vec4(0, 1, 0, 0)).xyz.normalize();
+      let normal = previous;
+      if (branchSpray) {
+        if (derived.side === THREE.DoubleSide) normal = normal.mul(faceDirection);
+        normal = normal.mul(normal.dot(worldUp).lessThan(0).select(float(-1), float(1)));
+      }
+      return normal.add(worldUp.mul(branchSpray ? 2 : LEAF_UPWARD_NORMAL_BIAS)).normalize();
+    },
+  });
   return derived;
 }

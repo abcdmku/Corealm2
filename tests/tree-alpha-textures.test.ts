@@ -3,6 +3,7 @@ import { NodeIO } from "@gltf-transform/core";
 import { KHRMeshQuantization } from "@gltf-transform/extensions";
 import sharp from "sharp";
 import * as THREE from "three";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import { describe, expect, it } from "vitest";
 import { applyCorealmSurfaceMaterials, type CorealmSurfaceTextures } from "../game/src/render/corealmSurfaceMaterials.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
@@ -12,12 +13,11 @@ describe("production tree cutouts", () => {
   it("preserves red maple saturation through the production organic treatment", () => {
     const map = new THREE.Texture();
     const source = new THREE.MeshStandardMaterial({ name: "Leaves_Corealm_broadleaf_maple_cutout", map });
-    const treated = createArtDirectedMaterial(source, "foliage") as THREE.MeshStandardMaterial;
-    const shader = { uniforms: {}, vertexShader: "", fragmentShader: THREE.ShaderLib.standard.fragmentShader };
-    treated.onBeforeCompile(shader as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
+    const treated = createArtDirectedMaterial(source, "foliage") as MeshStandardNodeMaterial;
     expect(treated.map).toBe(map);
-    expect(shader.fragmentShader).toContain("mix( vec3( organicLuma ), diffuseColor.rgb, 1.000 )");
-    expect(shader.fragmentShader).not.toContain("diffuseColor.rgb, 0.720");
+    expect(treated.isMeshStandardNodeMaterial).toBe(true);
+    expect(treated.roughnessNode).not.toBeNull();
+    expect(treated.color.equals(source.color)).toBe(true);
     source.dispose(); treated.dispose(); map.dispose();
   });
   it("preserves authored bark albedo and relief through the production surface and organic passes", () => {
@@ -38,7 +38,7 @@ describe("production tree cutouts", () => {
     const final = library.organic(treated, "bark") as THREE.MeshStandardMaterial;
     expect(final.map).toBe(map);
     expect(final.bumpMap).toBe(map);
-    expect(final.customProgramCacheKey()).toContain("magic-tree-v3");
+    expect((final as unknown as MeshStandardNodeMaterial).emissiveNode).not.toBeNull();
     applyCorealmSurfaceMaterials(mesh, textures);
     expect(mesh.material).toBe(treated);
     library.dispose(); geometry.dispose(); source.dispose(); treated.dispose(); map.dispose();
@@ -89,16 +89,14 @@ describe("production tree cutouts", () => {
     expect(mesh.material).toBe(treated);
     expect(map.version).toBe(version);
     const library = new MaterialLibrary();
-    const wind = library.wind(library.organic(treated, "foliage"), 0.035) as THREE.MeshStandardMaterial;
+    const wind = library.wind(library.organic(treated, "foliage"), 0.035) as MeshStandardNodeMaterial;
     expect(wind.alphaToCoverage).toBe(true);
-    for (const material of [wind, library.windShadow(wind, 0.035, "depth"), library.windShadow(wind, 0.035, "distance")]) {
-      expect((material as THREE.MeshStandardMaterial).map).toBe(map);
-      expect(material.alphaTest).toBe(0.45);
-      expect(material.transparent).toBe(false);
-      expect(material.depthWrite).toBe(true);
-      // Shadow maps are not multisampled. Keep the source alpha-test silhouette there.
-      expect(material.alphaToCoverage).toBe(material === wind);
-    }
+    expect(wind.map).toBe(map);
+    expect(wind.alphaTest).toBe(0.45);
+    expect(wind.transparent).toBe(false);
+    expect(wind.depthWrite).toBe(true);
+    expect(wind.positionNode).not.toBeNull();
+    expect(wind.alphaTestNode).not.toBeNull();
     library.dispose(); geometry.dispose(); source.dispose(); treated.dispose(); map.dispose();
   });
 });

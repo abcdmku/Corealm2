@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { MeshStandardNodeMaterial } from 'three/webgpu';
 import * as THREE from 'three';
 import { carveRiverTerrain, riverSections, riverSurfaceHeight, riverWaterBodies, sampleRiverChannel, type RiverChannel } from '../game/src/world/riverChannels.js';
 import { dryNavigationMeshes } from '../game/src/world/waterNavigation.js';
@@ -12,7 +13,7 @@ const river: RiverChannel = { id: 'test-river', points: [[0, 0], [20, 0], [40, 0
 
 describe('continuous freshwater channels', () => {
   it('loads approaching channels once and retains the exact full-scene geometry', () => {
-    const source=new THREE.MeshStandardMaterial(), materials={water:()=>source} as unknown as MaterialLibrary;
+    const source=new MeshStandardNodeMaterial(), materials={createWaterVariant:()=>source.clone()} as unknown as MaterialLibrary;
     const channels=[river,{...river,id:'far',points:river.points.map(([x,z])=>[x+400,z] as [number,number])}];
     const full=createRiverSurface(channels,materials);
     const streamed=createRiverSurface(channels,materials,undefined,{stream:true});
@@ -31,8 +32,8 @@ describe('continuous freshwater channels', () => {
     const pool: RiverChannel = { ...river, id: 'grounded-pool', points: [[0, 0], [20, 0], [40, 0]], bedHeights: [1, 1, 1] };
     // A sloping rendered bank crosses the water inside the authored channel.
     const ground = (_x: number, z: number) => 1 + Math.abs(z) * .8;
-    const source = new THREE.MeshStandardMaterial();
-    const built = createRiverSurface([pool], { water: () => source } as unknown as MaterialLibrary, ground);
+    const source = new MeshStandardNodeMaterial();
+    const built = createRiverSurface([pool], { createWaterVariant: () => source.clone() } as unknown as MaterialLibrary, ground);
     const mesh = built.group.children[0] as THREE.Mesh;
     const positions = mesh.geometry.getAttribute('position');
     const depths = mesh.geometry.getAttribute('aWaterDepth');
@@ -54,8 +55,8 @@ describe('continuous freshwater channels', () => {
     const body = riverWaterBodies([lake])[0]!;
     expect(body.id).toBe('lake:crownmere');
     expect(body.contour).toHaveLength(192);
-    const source = new THREE.MeshStandardMaterial();
-    const built = createRiverSurface(CROWNWARD_RIVER_CHANNELS, { water: () => source } as unknown as MaterialLibrary);
+    const source = new MeshStandardNodeMaterial();
+    const built = createRiverSurface(CROWNWARD_RIVER_CHANNELS, { createWaterVariant: () => source.clone() } as unknown as MaterialLibrary);
     built.group.updateMatrixWorld(true);
     const ray = new THREE.Raycaster();
     for (const [x, z] of body.contour) {
@@ -97,21 +98,24 @@ describe('continuous freshwater channels', () => {
       expect(riverSurfaceHeight(channel, .4)).toBe(riverSurfaceHeight(old, .4));
     }
   });
-  it('samples ripples in world space and uses the absolute environment clock without acceleration', () => {
-    const source = new THREE.MeshStandardMaterial();
-    const built = createRiverSurface([river], { water: () => source } as unknown as MaterialLibrary);
-    const material = (built.group.children[0] as THREE.Mesh).material as THREE.MeshStandardMaterial;
-    const shader = { uniforms: {}, vertexShader: 'vWaterWorld = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;', fragmentShader: '' };
-    material.onBeforeCompile(shader as unknown as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
-    const uniforms = shader.uniforms as Record<string, { value: number }>;
+  it('uses independent ripple settings and the absolute environment clock without acceleration', () => {
+    const createWaterVariant = vi.fn((_region: string, overrides: NonNullable<Parameters<MaterialLibrary['createWaterVariant']>[1]>) =>
+      new MeshStandardNodeMaterial());
+    const built = createRiverSurface([river], { createWaterVariant } as unknown as MaterialLibrary);
+    expect(createWaterVariant).toHaveBeenCalledTimes(1);
+    const [region, options] = createWaterVariant.mock.calls[0]!;
+    expect(region).toBe('crownward');
+    expect(options.waveScrollA!.toArray()).toEqual([-.003, .0005]);
+    expect(options.waveScrollB!.toArray()).toEqual([-.005, -.001]);
+    expect(options.edgeFade).toBe(.045);
     built.update(100);
     built.update(100.016);
-    expect(uniforms.uTime!.value).toBe(100.016);
+    expect(options.time!.value).toBe(100.016);
     built.update(100.016);
-    expect(uniforms.uTime!.value).toBe(100.016);
-    expect(shader.vertexShader).toContain('( modelMatrix * vec4( transformed, 1.0 ) ).xyz');
-    expect(shader.vertexShader).not.toContain('riverTransport');
-    built.dispose(); source.dispose();
+    expect(options.time!.value).toBe(100.016);
+    const material = (built.group.children[0] as THREE.Mesh).material as MeshStandardNodeMaterial;
+    expect(material.isMeshStandardNodeMaterial).toBe(true);
+    built.dispose();
   });
   it('renders the exact broad lake footprint and every metre of its outlet without a capsule/ribbon gap', () => {
     const lake: RiverChannel = { id: 'coverage-lake', kind: 'pool', points: [[435,235],[460,228],[485,220],[505,210]],
@@ -119,8 +123,8 @@ describe('continuous freshwater channels', () => {
     const outlet: RiverChannel = { id: 'coverage-outlet', points: [[495,214],[515,200],[535,195],[555,195]],
       widths: [9,6,4,4], halfWidth: 5, bedHeights: [-1,-1,-1.05,-1.1], depth: 2, bankWidth: 4,
       seed: 40402, openEnds: [true,true], naturalBanks: true };
-    const source = new THREE.MeshStandardMaterial();
-    const built = createRiverSurface([lake, outlet], { water: () => source } as unknown as MaterialLibrary);
+    const source = new MeshStandardNodeMaterial();
+    const built = createRiverSurface([lake, outlet], { createWaterVariant: () => source.clone() } as unknown as MaterialLibrary);
     built.group.updateMatrixWorld(true);
     const ray = new THREE.Raycaster();
     const missing: string[] = [];

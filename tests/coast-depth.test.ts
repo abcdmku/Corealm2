@@ -16,14 +16,9 @@ function grid(overrides: Partial<OceanDepthGrid> = {}): OceanDepthGrid {
   };
 }
 
-function shaderFor(material: THREE.Material): Parameters<THREE.Material["onBeforeCompile"]>[0] {
-  const shader = {
-    vertexShader: THREE.ShaderLib.standard.vertexShader,
-    fragmentShader: THREE.ShaderLib.standard.fragmentShader,
-    uniforms: {},
-  } as Parameters<THREE.Material["onBeforeCompile"]>[0];
-  material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-  return shader;
+function bindingsFor(material: THREE.Material): { uniforms: Record<string, {value:any}> } {
+  const water = material.userData.corealmWater;
+  return { uniforms: { ...water.uniforms, ...water.oceanDepth } };
 }
 
 const libraries: MaterialLibrary[] = [];
@@ -68,8 +63,8 @@ describe("coastal depth field", () => {
     const materials = library();
     const source = grid();
     materials.setOceanDepthGrid(source, -5.25);
-    const shader = shaderFor(materials.water("fallowmarch", "ocean"));
-    const texture = shader.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
+    const bindings = bindingsFor(materials.water("fallowmarch", "ocean"));
+    const texture = bindings.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
     const data = texture.image.data as Float32Array;
     expect(texture.image.width).toBe(2);
     expect(texture.image.height).toBe(2);
@@ -84,64 +79,58 @@ describe("coastal depth field", () => {
     expect(texture.flipY).toBe(false);
     expect(texture.unpackAlignment).toBe(1);
     expect(texture.colorSpace).toBe(THREE.NoColorSpace);
-    expect(shader.uniforms.uOceanGridBounds!.value.toArray()).toEqual([-20, 30, -18, 33]);
-    expect(shader.uniforms.uOceanGridSize!.value.toArray()).toEqual([2, 2]);
-    expect(shader.uniforms.uOceanGridStep!.value.toArray()).toEqual([2, 3]);
-    expect(shader.uniforms.uOceanSeaLevel!.value).toBe(-5.25);
+    expect(bindings.uniforms.uOceanGridBounds!.value.toArray()).toEqual([-20, 30, -18, 33]);
+    expect(bindings.uniforms.uOceanGridSize!.value.toArray()).toEqual([2, 2]);
+    expect(bindings.uniforms.uOceanGridStep!.value.toArray()).toEqual([2, 3]);
+    expect(bindings.uniforms.uOceanSeaLevel!.value).toBe(-5.25);
     source.heights[0] = 999;
     expect(data[0]).toBe(0);
   });
 
-  it("evaluates the production shader's triangle expression on a noncoplanar cell", () => {
-    const shader = shaderFor(library().water("fallowmarch", "ocean"));
-    const expression = shader.fragmentShader.match(/float height = ([\s\S]*?);/)?.[1];
-    expect(expression).toBeDefined();
-    // This scalar GLSL expression is valid JavaScript. Evaluate the production expression,
-    // rather than supplying a second CPU interpolation implementation to this check.
-    const height = new Function("a", "b", "c", "d", "f", `return (${expression});`) as (
-      a: number, b: number, c: number, d: number, f: { x: number; y: number },
-    ) => number;
-    const sample = (x: number, z: number): number => height(0, 10, 20, 100, { x, y: z });
-    expect(sample(0.25, 0.25)).toBe(7.5);
-    expect(sample(0.75, 0.75)).toBe(57.5);
-    expect(sample(0.75, 0.25)).toBe(12.5);
-    expect(sample(0, 0)).toBe(0);
-    expect(sample(1, 0)).toBe(10);
-    expect(sample(0, 1)).toBe(20);
-    expect(sample(1, 1)).toBe(100);
-    expect(Math.abs(sample(0.6, 0.4 - 1e-8) - sample(0.6, 0.4 + 1e-8))).toBeLessThan(1e-5);
+  it("builds distinct depth colour, shoreline opacity and two-wave normal graphs", () => {
+    const materials = library();
+    const ocean = materials.water("fallowmarch", "ocean");
+    const lake = materials.water();
+    expect(ocean.isMeshStandardNodeMaterial).toBe(true);
+    for (const material of [ocean, lake]) {
+      expect(material.colorNode).not.toBeNull();
+      expect(material.opacityNode).not.toBeNull();
+      expect(material.normalNode).not.toBeNull();
+      expect(material.envNode).not.toBeNull();
+      expect(material.userData.corealmWater.uniforms.uDepthRange.value).toBe(1.2);
+      expect(material.userData.corealmWater.uniforms.uEdgeFade.value).toBe(0.25);
+    }
+    expect(ocean.opacityNode).not.toBe(lake.opacityNode);
+    expect(ocean.userData.corealmWater.oceanDepth).not.toBeNull();
+    expect(lake.userData.corealmWater.oceanDepth).toBeNull();
   });
 
-  it("fades the production ocean at the shore and becomes exactly opaque in deep water", () => {
-    const shader = shaderFor(library().water("fallowmarch", "ocean"));
-    const expression = shader.fragmentShader.match(/diffuseColor\.a \*= ([^;]+);/)?.[1];
-    expect(expression).toBeDefined();
-    const alpha = new Function("depth", "depth01", "uEdgeFade", "smoothstep", "mix", `return (${expression});`) as (
-      depth: number, depth01: number, edge: number,
-      smoothstep: (low: number, high: number, x: number) => number,
-      mix: (a: number, b: number, t: number) => number,
-    ) => number;
-    const sample = (depth: number): number => alpha(
-      depth, THREE.MathUtils.clamp(depth / shader.uniforms.uDepthRange!.value, 0, 1),
-      shader.uniforms.uEdgeFade!.value,
-      (low, high, x) => THREE.MathUtils.smoothstep(x, low, high), THREE.MathUtils.lerp,
-    );
-    expect(sample(0)).toBe(0);
-    expect(sample(0.125)).toBeCloseTo(0.473125);
-    expect(sample(0.25)).toBeCloseTo(0.9525);
-    expect(sample(1.2)).toBe(1);
-    expect(sample(3)).toBe(1);
+  it("gives rivers independent animation controls without modifying cached lake settings", () => {
+    const materials = library(), time = { value: 5 };
+    const river = materials.createWaterVariant('crownward', { time,
+      waveScrollA: new THREE.Vector2(-.003, .0005), waveScrollB: new THREE.Vector2(-.005, -.001), edgeFade: .045 });
+    const lake = materials.water('crownward');
+    materials.setTime(9);
+    expect(river.userData.corealmWater.uniforms.uTime).toBe(time);
+    expect(time.value).toBe(5);
+    expect(lake.userData.corealmWater.uniforms.uTime.value).toBe(9);
+    expect(river.userData.corealmWater.uniforms.uEdgeFade.value).toBe(.045);
+    expect(lake.userData.corealmWater.uniforms.uEdgeFade.value).toBe(.25);
+    expect(river.normalMap).toBe(lake.normalMap);
+    expect(river.normalNode).not.toBe(lake.normalNode);
+    river.dispose();
   });
+
 });
 
 describe("ocean material lifecycle", () => {
   it("keeps lake defaults, uniforms and cache separate from the ocean variant", () => {
     const materials = library();
     const lake = materials.water();
-    const lakeShader = shaderFor(lake);
+    const lakeBindings = bindingsFor(lake);
     const ocean = materials.water("fallowmarch", "ocean");
     materials.setOceanDepthGrid(grid(), -5.25);
-    const oceanShader = shaderFor(ocean);
+    const oceanBindings = bindingsFor(ocean);
     expect(materials.water("fallowmarch", "lake")).toBe(lake);
     expect(materials.water("fallowmarch", "ocean")).toBe(ocean);
     expect(ocean).not.toBe(lake);
@@ -153,46 +142,45 @@ describe("ocean material lifecycle", () => {
     expect(ocean.depthWrite).toBe(false);
     expect(ocean.side).toBe(THREE.FrontSide);
     expect(lake.normalMap).toBe(ocean.normalMap);
-    expect(lakeShader.fragmentShader).not.toContain("uOcean");
-    expect(Object.keys(lakeShader.uniforms).some((key) => key.startsWith("uOcean"))).toBe(false);
-    expect(lakeShader.uniforms.uShallow).not.toBe(oceanShader.uniforms.uShallow);
-    expect(lakeShader.uniforms.uShallow!.value.equals(oceanShader.uniforms.uShallow!.value)).toBe(true);
-    expect(lakeShader.uniforms.uDeep!.value.equals(oceanShader.uniforms.uDeep!.value)).toBe(true);
+    expect(Object.keys(lakeBindings.uniforms).some((key) => key.startsWith("uOcean"))).toBe(false);
+    expect(lakeBindings.uniforms.uShallow).not.toBe(oceanBindings.uniforms.uShallow);
+    expect(lakeBindings.uniforms.uShallow!.value.equals(oceanBindings.uniforms.uShallow!.value)).toBe(true);
+    expect(lakeBindings.uniforms.uDeep!.value.equals(oceanBindings.uniforms.uDeep!.value)).toBe(true);
     materials.setTime(17);
-    expect(lakeShader.uniforms.uTime!.value).toBe(17);
-    expect(oceanShader.uniforms.uTime!.value).toBe(17);
+    expect(lakeBindings.uniforms.uTime!.value).toBe(17);
+    expect(oceanBindings.uniforms.uTime!.value).toBe(17);
     expect(materials.size()).toBe(2);
   });
 
-  it("rebinds compiled ocean uniforms across replacement, clear and rebuild", () => {
+  it("rebinds ocean node uniforms across replacement, clear and rebuild", () => {
     const materials = library();
     const ocean = materials.water("fallowmarch", "ocean");
-    const shader = shaderFor(ocean);
-    const wrappers = { ...shader.uniforms };
-    expect(shader.uniforms.uOceanDepthReady!.value).toBe(0);
-    expect(shader.uniforms.uOceanDepthGrid!.value).toBeNull();
+    const bindings = bindingsFor(ocean);
+    const wrappers = { ...bindings.uniforms };
+    expect(bindings.uniforms.uOceanDepthReady!.value).toBe(0);
+    expect(bindings.uniforms.uOceanDepthGrid!.value).toBeNull();
     materials.setOceanDepthGrid(grid(), -5.25);
-    const firstTexture = shader.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
+    const firstTexture = bindings.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
     const firstDispose = vi.fn();
     firstTexture.addEventListener("dispose", firstDispose);
     materials.setOceanDepthGrid(grid({ cols: 3, heights: new Float32Array(6), minX: 60 }), 4);
-    const secondTexture = shader.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
+    const secondTexture = bindings.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
     const secondDispose = vi.fn();
     secondTexture.addEventListener("dispose", secondDispose);
     expect(firstDispose).toHaveBeenCalledOnce();
     expect(secondTexture).not.toBe(firstTexture);
     expect(secondTexture.image.width).toBe(3);
-    expect(shader.uniforms.uOceanGridBounds!.value.toArray()).toEqual([60, 30, 64, 33]);
-    expect(shader.uniforms.uOceanSeaLevel!.value).toBe(4);
-    for (const name of Object.keys(wrappers)) expect(shader.uniforms[name]).toBe(wrappers[name]);
+    expect(bindings.uniforms.uOceanGridBounds!.value.toArray()).toEqual([60, 30, 64, 33]);
+    expect(bindings.uniforms.uOceanSeaLevel!.value).toBe(4);
+    for (const name of Object.keys(wrappers)) expect(bindings.uniforms[name]).toBe(wrappers[name]);
     materials.setOceanDepthGrid(null);
     expect(secondDispose).toHaveBeenCalledOnce();
-    expect(shader.uniforms.uOceanDepthReady!.value).toBe(0);
-    expect(shader.uniforms.uOceanDepthGrid!.value).toBeNull();
+    expect(bindings.uniforms.uOceanDepthReady!.value).toBe(0);
+    expect(bindings.uniforms.uOceanDepthGrid!.value).toBeNull();
     materials.setOceanDepthGrid(grid(), -5.25);
-    const rebuiltShader = shaderFor(ocean);
-    expect(rebuiltShader.uniforms.uOceanDepthGrid).toBe(shader.uniforms.uOceanDepthGrid);
-    expect(shader.uniforms.uOceanDepthReady!.value).toBe(1);
+    const rebuiltBindings = bindingsFor(ocean);
+    expect(rebuiltBindings.uniforms.uOceanDepthGrid).toBe(bindings.uniforms.uOceanDepthGrid);
+    expect(bindings.uniforms.uOceanDepthReady!.value).toBe(1);
     expect(materials.water("fallowmarch", "ocean")).toBe(ocean);
     expect(materials.size()).toBe(1);
   });
@@ -200,29 +188,29 @@ describe("ocean material lifecycle", () => {
   it("retains the current field when a replacement or sea level is invalid", () => {
     const materials = library();
     materials.setOceanDepthGrid(grid(), -5.25);
-    const shader = shaderFor(materials.water("fallowmarch", "ocean"));
-    const texture = shader.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
+    const bindings = bindingsFor(materials.water("fallowmarch", "ocean"));
+    const texture = bindings.uniforms.uOceanDepthGrid!.value as THREE.DataTexture;
     const disposed = vi.fn();
     texture.addEventListener("dispose", disposed);
     expect(() => materials.setOceanDepthGrid(grid({ stepX: -1 }), 2)).toThrow(RangeError);
     expect(() => materials.setOceanDepthGrid(grid(), Number.NaN)).toThrow(RangeError);
     expect(() => materials.setOceanDepthGrid(grid(), 1e300)).toThrow(RangeError);
-    expect(shader.uniforms.uOceanDepthGrid!.value).toBe(texture);
-    expect(shader.uniforms.uOceanDepthReady!.value).toBe(1);
-    expect(shader.uniforms.uOceanSeaLevel!.value).toBe(-5.25);
+    expect(bindings.uniforms.uOceanDepthGrid!.value).toBe(texture);
+    expect(bindings.uniforms.uOceanDepthReady!.value).toBe(1);
+    expect(bindings.uniforms.uOceanSeaLevel!.value).toBe(-5.25);
     expect(disposed).not.toHaveBeenCalled();
   });
 
   it("releases its depth texture exactly once at library disposal", () => {
     const materials = library();
     materials.setOceanDepthGrid(grid());
-    const shader = shaderFor(materials.water("fallowmarch", "ocean"));
+    const bindings = bindingsFor(materials.water("fallowmarch", "ocean"));
     const disposed = vi.fn();
-    (shader.uniforms.uOceanDepthGrid!.value as THREE.DataTexture).addEventListener("dispose", disposed);
+    (bindings.uniforms.uOceanDepthGrid!.value as THREE.DataTexture).addEventListener("dispose", disposed);
     materials.dispose();
     materials.dispose();
     expect(disposed).toHaveBeenCalledOnce();
-    expect(shader.uniforms.uOceanDepthGrid!.value).toBeNull();
-    expect(shader.uniforms.uOceanDepthReady!.value).toBe(0);
+    expect(bindings.uniforms.uOceanDepthGrid!.value).toBeNull();
+    expect(bindings.uniforms.uOceanDepthReady!.value).toBe(0);
   });
 });

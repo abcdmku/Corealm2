@@ -2,6 +2,9 @@ import * as THREE from "three";
 import { expect, it, vi } from "vitest";
 import { MaterialLibrary } from "../game/src/render/materials.js";
 import { EntityViews } from "../game/src/render/entityViews.js";
+import { MeshPhysicalNodeMaterial } from "three/webgpu";
+import { uniform, vec3 } from "three/tsl";
+import { createContainedTroughWater } from "../game/src/render/containedTroughWater.js";
 
 it("preserves authored source/detail, caches the candidate, and restores exact material identity", () => {
   const library = new MaterialLibrary();
@@ -16,6 +19,7 @@ it("preserves authored source/detail, caches the candidate, and restores exact m
   expect(library.forContainedTrough("corealm_water_trough", timber)).toBe(timber);
   expect(library.containedTroughWater(source)).toBe(candidate);
   expect(candidate.normalMap).toBe(source.normalMap);
+  expect((candidate as unknown as MeshPhysicalNodeMaterial).isMeshPhysicalNodeMaterial).toBe(true);
   expect(candidate.vertexColors).toBe(source.vertexColors);
   expect(candidate.transmission).toBe(0);
   expect(source.transmission).toBe(.94); expect(source.roughness).toBe(.085);
@@ -35,4 +39,22 @@ it("preserves authored source/detail, caches the candidate, and restores exact m
   expect(mesh.material).toBe(source);
   library.dispose(); expect(sourceDispose).not.toHaveBeenCalled();
   source.normalMap.dispose(); source.dispose(); timber.dispose(); geometry.dispose();
+});
+
+it("retains an authored node ripple graph while making an independent opaque material", () => {
+  const source = new MeshPhysicalNodeMaterial({ transmission: .94, roughness: .085, vertexColors: true });
+  const clock = uniform(0);
+  source.normalNode = vec3(clock.sin().mul(.02), 0, 1).normalize();
+  source.positionNode = vec3(0, clock.sin().mul(.003), 0);
+  source.normalMap = new THREE.Texture();
+  const candidate = createContainedTroughWater(source);
+  expect(candidate).not.toBe(source);
+  expect(candidate.normalNode).toBe(source.normalNode);
+  expect(candidate.positionNode).toBe(source.positionNode);
+  expect(candidate.normalMap).toBe(source.normalMap);
+  expect(candidate.clearcoatNormalMap).toBe(source.normalMap);
+  expect(candidate.transmission).toBe(0);
+  expect(candidate.color.getHexString()).toBe("4b6861");
+  expect(source.transmission).toBe(.94);
+  candidate.dispose(); source.normalMap.dispose(); source.dispose();
 });

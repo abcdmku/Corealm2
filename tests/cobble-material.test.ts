@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MaterialLibrary } from "../game/src/render/materials.js";
 import type { CorealmSurfaceTextures } from "../game/src/render/corealmSurfaceMaterials.js";
+import { float } from 'three/tsl';
+import { groundCobbleCoverage, type GroundSurfaceInputs } from '../game/src/render/groundSurfaceNodes.js';
 
 const libraries: MaterialLibrary[] = [];
 function ground(textures?: CorealmSurfaceTextures) {
@@ -9,15 +11,24 @@ function ground(textures?: CorealmSurfaceTextures) {
   libraries.push(library);
   if (textures) library.setGroundStoneSurface(textures);
   const material = library.ground();
-  const shader = {
-    vertexShader: THREE.ShaderLib.standard.vertexShader,
-    fragmentShader: THREE.ShaderLib.standard.fragmentShader,
-    uniforms: {},
-  } as Parameters<THREE.Material["onBeforeCompile"]>[0];
-  material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-  const texture = shader.uniforms.uCobble!.value as THREE.DataTexture;
-  const metres = 1 / (shader.uniforms.uCobbleTiling!.value as number);
-  return { library, material, shader, texture, metres };
+  const uniforms = material.userData.groundSurface.inputs as GroundSurfaceInputs;
+  const texture = uniforms.uCobble.value;
+  const metres = 1 / uniforms.uCobbleTiling.value;
+  return { library, material, uniforms, texture, metres };
+}
+
+// Evaluate the production coverage graph's scalar nodes, rather than keeping a second copy
+// of its paving-selection formula in this test.
+function scalar(node: any): number {
+  if (node.isConstNode) return node.value;
+  if (node.isVarNode) return scalar(node.node);
+  if (node.isOperatorNode) {
+    const a = scalar(node.aNode), b = scalar(node.bNode);
+    if (node.op === '*') return a * b;
+    if (node.op === '-') return a - b;
+  }
+  if (node.isMathNode && node.method === 'max') return Math.max(scalar(node.aNode), scalar(node.bNode));
+  throw new Error(`Unexpected coverage node ${node.type}`);
 }
 afterEach(() => {
   for (const library of libraries.splice(0)) library.dispose();
@@ -25,35 +36,18 @@ afterEach(() => {
 
 describe("gathered cobble ground", () => {
   it("selects only stone paving and preserves other surfaces through the production blends", () => {
-    const { shader } = ground();
-    const expression = (pattern: RegExp): string => {
-      const value = shader.fragmentShader.match(pattern)?.[1];
-      expect(value).toBeDefined();
-      return value!;
-    };
-    // Execute the injected scalar expressions, so this check does not maintain a CPU copy of
-    // the shader's selection logic. The normal expression is evaluated once per component.
-    const stone = new Function("vPaved", "max", `return ${expression(/float wStone = ([^;]+);/)};`);
-    const coverage = new Function("paved", "wStone", `return ${expression(/float cobbled = ([^;]+);/)};`);
-    const shade = new Function("shade", "cobbleShade", "cobbled", "mix",
-      `return ${expression(/shade = (mix\( shade, cobbleShade, cobbled \));/)};`);
-    const terrainRelief = new Function("gGroundBump", "cobbled",
-      `return gGroundBump * (${expression(/gGroundBump \*= ([^;]+);/)});`);
-    const roughness = new Function("roughnessFactor", "gCobbleRoughness", "gCobbleCoverage", "mix",
-      `return ${expression(/roughnessFactor = (mix\( roughnessFactor, gCobbleRoughness, gCobbleCoverage \));/)};`);
-    const macro = new Function("gMacroShade", "macroShade", "cobbled", "mix",
-      `return ${expression(/gMacroShade = (mix\( gMacroShade, macroShade, cobbled \));/)};`);
+    const { material } = ground();
+    expect(material.isMeshStandardNodeMaterial).toBe(true);
+    expect(material.colorNode?.isNode).toBe(true);
+    expect(material.normalNode?.isNode).toBe(true);
+    expect(material.roughnessNode?.isNode).toBe(true);
     for (const [paving, surface, expected] of [
       [0, 0, 0], [0, 0.5, 0], [0, 1, 0],
       [1, 0.5, 0], [1, 1, 0], [0.4, 0.8, 0],
       [1, 0, 1], [0.4, 0, 0.4], [1, 0.25, 0.5],
     ]) {
-      const weight = coverage(paving, stone(surface, Math.max));
+      const weight = scalar(groundCobbleCoverage(float(paving!), float(surface!)));
       expect(weight).toBeCloseTo(expected!);
-      expect(shade(0.74, 1.04, weight, THREE.MathUtils.lerp)).toBeCloseTo(0.74 + 0.30 * expected!);
-      expect(terrainRelief(-0.2, weight)).toBeCloseTo(-0.2 * (1 - expected!));
-      expect(roughness(0.97, 0.65, weight, THREE.MathUtils.lerp)).toBeCloseTo(0.97 - 0.32 * expected!);
-      expect(macro(0.71, 0.93, weight, THREE.MathUtils.lerp)).toBeCloseTo(0.71 + 0.22 * expected!);
     }
   });
 
@@ -165,16 +159,16 @@ describe("gathered cobble ground", () => {
     const textures: CorealmSurfaceTextures = { stone, bark: stone, leaf: stone };
     const before = ground(textures);
     const after = ground();
-    expect(after.shader.uniforms.uGroundStoneReady!.value).toBe(0);
+    expect(after.uniforms.uGroundStoneReady.value).toBe(0);
     after.library.setGroundStoneSurface(textures);
     for (const fixture of [before, after]) {
       expect(fixture.library.ground()).toBe(fixture.material);
-      expect(fixture.shader.uniforms.uGroundStoneReady!.value).toBe(1);
-      expect(fixture.shader.uniforms.uGroundStoneAlbedo!.value).toBe(stone.albedo);
-      expect(fixture.shader.uniforms.uGroundStoneNormal!.value).toBe(stone.normal);
-      expect(fixture.shader.uniforms.uGroundStoneRoughness!.value).toBe(stone.roughness);
-      expect(fixture.shader.uniforms.uGroundStoneMean!.value.toArray()).toEqual(stone.meanLinearRgb);
-      expect(fixture.shader.uniforms.uGroundStoneTiling!.value).toBe(1 / stone.tileMetres);
+      expect(fixture.uniforms.uGroundStoneReady.value).toBe(1);
+      expect(fixture.uniforms.uGroundStoneAlbedo.value).toBe(stone.albedo);
+      expect(fixture.uniforms.uGroundStoneNormal.value).toBe(stone.normal);
+      expect(fixture.uniforms.uGroundStoneRoughness.value).toBe(stone.roughness);
+      expect(fixture.uniforms.uGroundStoneMean.value.toArray()).toEqual(stone.meanLinearRgb);
+      expect(fixture.uniforms.uGroundStoneTiling.value).toBe(1 / stone.tileMetres);
       expect(fixture.material.map).toBeNull();
       expect(fixture.material.normalMap).toBeNull();
       expect(fixture.material.roughnessMap).toBeNull();

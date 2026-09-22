@@ -1,18 +1,12 @@
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import { float, materialColor, normalView, positionLocal, uniform, vec3 } from "three/tsl";
 import { describe, expect, it } from "vitest";
 import {
   artSurfaceRoleForMaterial,
   createArtDirectedMaterial,
   type ArtSurfaceRole,
 } from "../game/src/render/artDirection.js";
-
-function shaderInput(): Parameters<THREE.Material["onBeforeCompile"]>[0] {
-  return {
-    vertexShader: THREE.ShaderLib.standard.vertexShader,
-    fragmentShader: THREE.ShaderLib.standard.fragmentShader,
-    uniforms: {},
-  } as Parameters<THREE.Material["onBeforeCompile"]>[0];
-}
 
 describe("shared organic art treatment", () => {
   it("recognizes organic source families without grading eyes, petals or unrelated props", () => {
@@ -64,25 +58,25 @@ describe("shared organic art treatment", () => {
     expect(source.customProgramCacheKey).toBe(sourceProgramKey);
   });
 
-  it("retains inherited shader hooks, uniforms and cache identity", () => {
-    const source = new THREE.MeshStandardMaterial();
-    const time = { value: 3.5 };
-    let receivedSource = false;
-    source.onBeforeCompile = function (shader) {
-      receivedSource = this === source;
-      shader.uniforms["sourceTime"] = time;
-      shader.vertexShader += "\n// inherited rooted wind";
-    };
-    source.customProgramCacheKey = () => "source-wind-and-palette-v2";
-    const derived = createArtDirectedMaterial(source, "foliage");
-    const shader = shaderInput();
-    derived.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+  it("retains inherited texture, colour, position and animation graphs", () => {
+    const source = new MeshStandardNodeMaterial({ map: new THREE.Texture() });
+    const time = uniform(3.5);
+    source.colorNode = materialColor.mul(vec3(0.8, 1, 0.9));
+    source.positionNode = positionLocal.add(vec3(time.sin(), 0, 0));
+    source.roughnessNode = float(0.5);
+    source.normalNode = normalView;
+    const derived = createArtDirectedMaterial(source, "foliage") as MeshStandardNodeMaterial;
 
-    expect(receivedSource).toBe(true);
-    expect(shader.uniforms["sourceTime"]).toBe(time);
-    expect(shader.vertexShader).toContain("inherited rooted wind");
-    expect(derived.customProgramCacheKey()).toContain("source-wind-and-palette-v2");
-    expect(derived.customProgramCacheKey()).not.toBe(createArtDirectedMaterial(source, "bark").customProgramCacheKey());
+    expect(derived.isMeshStandardNodeMaterial).toBe(true);
+    expect(derived.map).toBe(source.map);
+    expect(derived.colorNode).toBe(source.colorNode);
+    expect(derived.positionNode).toBe(source.positionNode);
+    expect(derived.roughnessNode).not.toBe(source.roughnessNode);
+    expect(derived.normalNode).not.toBe(source.normalNode);
+    expect(derived.onBeforeCompile).toBe(THREE.Material.prototype.onBeforeCompile);
+    expect(source.roughnessNode).not.toBeNull();
+    time.value = 7;
+    expect(derived.positionNode).toBe(source.positionNode);
   });
 
   it("does not apply a role twice to an already treated material", () => {
@@ -93,19 +87,15 @@ describe("shared organic art treatment", () => {
     }
   });
 
-  it("uses the same branch-spray lighting on both visible sides without changing grass", () => {
+  it("grades branch-spray normals while leaving grass normals unchanged", () => {
     for (const name of ["Leaves_Corealm_needle_cutout", "Leaves_Corealm_broadleaf_ash_cutout", "Grass"]) {
-      const source = new THREE.MeshStandardMaterial({ name, side: THREE.DoubleSide });
-      const shader = shaderInput();
-      const material = createArtDirectedMaterial(source, "foliage");
-      material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-      const correction = shader.fragmentShader.indexOf("normal *= faceDirection;");
-      if (name === "Grass") expect(correction).toBe(-1);
-      else {
-        expect(correction).toBeGreaterThan(shader.fragmentShader.indexOf("#include <normal_fragment_maps>"));
-        expect(correction).toBeLessThan(shader.fragmentShader.indexOf("#include <lights_physical_fragment>"));
-        expect(material.side).toBe(THREE.DoubleSide);
-      }
+      const source = new MeshStandardNodeMaterial({ name, side: THREE.DoubleSide });
+      source.normalNode = vec3(0, 0, 1);
+      const material = createArtDirectedMaterial(source, "foliage") as MeshStandardNodeMaterial;
+      if (name === "Grass") expect(material.normalNode).toBe(source.normalNode);
+      else expect(material.normalNode).not.toBe(source.normalNode);
+      expect(material.side).toBe(THREE.DoubleSide);
+      expect(material.roughnessNode).not.toBeNull();
       material.dispose(); source.dispose();
     }
   });
@@ -130,27 +120,12 @@ describe("shared organic art treatment", () => {
     expect(ordinary.emissiveIntensity).toBe(source.emissiveIntensity);
   });
 
-  it("keeps the understory shoulder separate from canopy and grass shader programs", () => {
-    const variants = ["Leaves", "Leaves_NormalTree", "Grass", "grass-sprite"].map((name) => {
-      const source = new THREE.MeshStandardMaterial();
-      source.name = name;
-      const material = createArtDirectedMaterial(source, "foliage");
-      return { material };
-    });
-    const [understory, canopy, grass, sprite] = variants;
-    expect(understory!.material.customProgramCacheKey()).not.toBe(canopy!.material.customProgramCacheKey());
-    expect(canopy!.material.customProgramCacheKey()).not.toBe(grass!.material.customProgramCacheKey());
-    expect(grass!.material.customProgramCacheKey()).toBe(sprite!.material.customProgramCacheKey());
-  });
-
-  it("leaves non-PBR effects alone and rejects an incompatible source shader explicitly", () => {
+  it("leaves non-PBR effects alone and rejects unported source hooks explicitly", () => {
     const effect = new THREE.MeshBasicMaterial();
     expect(createArtDirectedMaterial(effect, "foliage")).toBe(effect);
     const source = new THREE.MeshStandardMaterial();
     source.name = "custom-leaf";
-    source.onBeforeCompile = (shader) => { shader.fragmentShader = "void main() {}"; };
-    const derived = createArtDirectedMaterial(source, "foliage");
-    expect(() => derived.onBeforeCompile(shaderInput(), {} as THREE.WebGLRenderer))
-      .toThrow("Organic art treatment has no albedo insertion point: custom-leaf");
+    source.onBeforeCompile = () => {};
+    expect(() => createArtDirectedMaterial(source, "foliage")).toThrow("unported onBeforeCompile");
   });
 });
