@@ -176,7 +176,6 @@ export function describeAvailability(
   skillLabel: (skill: SkillId) => string = defaultSkillLabel,
 ): Availability {
   if (interaction === "inspect") return { enabled: true };
-  if (entity.meta?.remotePlayer === true && interaction === "trade") return { enabled: false, reason: "Player trading is not available yet" };
 
   if (entity.state === "depleted" && HARVEST_VERBS.includes(interaction)) {
     return { enabled: false, reason: "Depleted — it will respawn" };

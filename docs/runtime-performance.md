@@ -39,6 +39,13 @@ regressions passed. All 356 rebuilt world-record hashes and the navigation paylo
 Timing data and screenshots remain disposable under `test-results/`. Download time, first-use
 graphics work and main-thread scene construction still limit startup; this does not claim zero stalls.
 
+Integration with main's loot and trading changes passed typecheck, the production build, 83 focused
+tests and hardware gameplay smoke. Join timing was variable: two unprofiled runs exceeded the
+150 ms gate with maximum observed intervals of 187 and 197 ms. The diagnostic run passed at
+71 ms, and the final unprofiled run passed at 63 ms with a 33.3 ms maximum RAF interval. All
+four runs passed movement, replication, complete remote actors and equipment changes without
+runtime errors. The passing repeats do not establish that the intermittent join spike is fixed.
+
 ## Menu responsiveness
 
 Menu handlers and Three.js frame submission share the browser's main thread. Local simulation

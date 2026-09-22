@@ -14,6 +14,7 @@ import {
   type ChatMessage, type CommandOutcome, type GameApi, type GameCommand, type OnlinePlayer, type PartyView,
   type SemanticEntity, type SocialView,
 } from "../contracts.js";
+import { TradePanel } from "./tradePanel.js";
 import { keybindings, type Unregister } from "../input/keyboard.js";
 import { ContextMenu, notify, setEntityMenuEntries, type ContextMenuItem } from "./contextMenu.js";
 import { createUiIcon } from "./icons.js";
@@ -22,7 +23,7 @@ import { parseChatInput, type ChatTarget } from "./chatCommands.js";
 import { addTrackerSection } from "./questTracker.js";
 import "./styles/social.css";
 
-type SocialApi = Pick<GameApi, "inspect" | "getSkills"> & { submit(command: GameCommand): Promise<CommandOutcome> };
+type SocialApi = Pick<GameApi, "inspect" | "getSkills" | "getInventory"> & { submit(command: GameCommand): Promise<CommandOutcome> };
 
 const empty = (): SocialView => ({ party: null, invitations: [], messages: [] });
 const REMOTE_PREFIX = "remote:";
@@ -40,6 +41,7 @@ function partySection(): HTMLElement {
 }
 
 export class MultiplayerSocial {
+  private readonly tradePanel: TradePanel;
   private readonly bar = document.createElement("form");
   private readonly channelButton = document.createElement("button");
   private readonly input = document.createElement("input");
@@ -62,6 +64,7 @@ export class MultiplayerSocial {
   private unbindEnter: Unregister | null = null;
 
   constructor(private readonly api: SocialApi) {
+    this.tradePanel = new TradePanel(api, command => this.submit(command));
     this.menu = new ContextMenu({ api: api as GameApi });
 
     this.bar.className = "chatbar";
@@ -125,6 +128,7 @@ export class MultiplayerSocial {
       this.unbindEnter = null;
       setEntityMenuEntries(null);
       this.menu.close();
+      this.tradePanel.update(null, this.playerId);
       this.input.blur();
       this.renderSection();
     }
@@ -132,6 +136,7 @@ export class MultiplayerSocial {
 
   clear(): void {
     this.state = empty();
+    this.tradePanel.update(null, this.playerId);
     this.input.value = "";
     this.target = { channel: "nearby" };
     this.replyTo = null;
@@ -149,6 +154,7 @@ export class MultiplayerSocial {
     this.playerId = playerId;
     if (!state) return;
     this.state = state;
+    this.tradePanel.update(state.trade ?? null, playerId);
     for (const message of state.messages) {
       if (this.seenMessages.has(message.id)) continue;
       this.seenMessages.add(message.id);
@@ -315,6 +321,7 @@ export class MultiplayerSocial {
     const playerId = entity.id.slice(REMOTE_PREFIX.length);
     const blocker = this.inviteBlocker(playerId);
     return [
+      { id: "player-trade", label: `Trade with ${entity.name}`, enabled: true, onSelect: () => void this.submit({ method: "trade", args: [{ kind: "request", playerId }] }) },
       { id: "party-invite", label: `Invite ${entity.name} to party`, enabled: blocker === null,
         ...(blocker ? { reason: blocker } : {}), onSelect: () => void this.invite(playerId, entity.name) },
       { id: "whisper", label: `Whisper ${entity.name}`, enabled: true, onSelect: () => this.whisper(entity.name) },

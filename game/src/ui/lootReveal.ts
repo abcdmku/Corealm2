@@ -162,7 +162,7 @@ export class LootReveal {
       }));
       const label = `Take ${itemName(stack.itemId)} x ${stack.quantity.toLocaleString("en-US")}${stack.partyId ? " - party round robin" : ""}`;
       cell.setAttribute("aria-label", label);
-      if (stack.partyId) { cell.dataset.partyLoot = "true"; cell.title = "Anyone can collect. Sent to the next eligible party member."; }
+      if (stack.partyId) { cell.dataset.partyLoot = "true"; cell.title = "Party members can collect. Sent to the next eligible party member."; }
       cell.addEventListener("click", () => this.take(stackIndex, stack.stackId));
       return cell;
     });

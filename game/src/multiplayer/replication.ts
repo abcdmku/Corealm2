@@ -121,7 +121,7 @@ export class Replicator {
       const entity = privateEntity ?? world.entities.get(id)!;
       if (!sameCombatRealm(entity.regionId, player.store.get().player.regionId)) return;
       const pile = world.shared.lootPiles[id];
-      if (pile?.ownerOnly && pile.ownerId !== this.playerId) return;
+      if (pile && !world.social.canLoot(this.playerId, id)) return;
       if (entity.archetype === "recovery_cache" && player.store.get().world.recoveryCache?.id !== id) return;
       let cached = privateEntity ? undefined : entityCache.get(id);
       if (!cached) { cached = { json: JSON.stringify(entity), value: entity }; if (!privateEntity) entityCache.set(id, cached); }
@@ -282,6 +282,14 @@ function validateUpdate(update: WorldUpdate, playerId?: string):void {
         || message.channel === "whisper" && (!text(message.toId) || !text(message.toName)))
       || social.invitations.some(invite => !invite || !text(invite.partyId) || !text(invite.leaderName) || !finite(invite.expiresAtMs)))
       throw new SessionFailure("INVALID_MESSAGE", "Invalid social update");
+    const trade = social.trade;
+    if (trade != null && (!text(trade.id) || !integer(trade.revision) || trade.revision < 0 || !finite(trade.expiresAtMs)
+      || !Array.isArray(trade.participants) || trade.participants.length !== 2
+      || trade.participants.some(member => !member || !text(member.id) || !text(member.name) || typeof member.accepted !== "boolean"
+        || !Array.isArray(member.items) || member.items.length > 29 || member.items.some(item => !item || !text(item.itemId)
+          || !integer(item.quantity) || item.quantity < 1 || item.quantity > 1_000_000))
+      || new Set(trade.participants.map(member => member.id)).size !== 2
+      || playerId && !trade.participants.some(member => member.id === playerId))) throw new SessionFailure("INVALID_MESSAGE", "Invalid trade update");
     const party = social.party;
     if (party !== null && (!party || !text(party.id) || !text(party.leaderId) || !text(party.nextLootId)
       || !Array.isArray(party.members) || party.members.length < 1 || party.members.length > 8

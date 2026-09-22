@@ -263,13 +263,11 @@ export class InventoryPanel implements ManagedPanel {
       });
     }
 
-    // Listed, not hidden: `GameApi` has no drop path yet, and a player who never sees the action
-    // cannot learn it exists. It comes back to life the round the contract grows one.
-    items.push({
-      id: "drop",
-      label: `Drop ${name}`,
-      enabled: false,
-      reason: "Dropping is not available yet",
+    for (const quantity of [...new Set([1, stack.quantity])]) items.push({
+      id: `drop-${quantity}`, label: quantity === 1 ? `Drop ${name}` : `Drop all ${name} (${quantity})`, enabled: true,
+      onSelect: () => { void this.ctx.api.submit?.({ method: "dropItem", args: [stack.itemId, quantity] }).then(outcome => {
+        if (outcome.status !== "accepted") notify(outcome.error.message, "error");
+      }).catch(() => notify("Drop outcome unknown. Reconnect before retrying.", "error")); },
     });
 
     items.push({

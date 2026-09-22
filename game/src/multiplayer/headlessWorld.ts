@@ -14,6 +14,7 @@ import { HeadlessPlayer } from "./headlessPlayer.js";
 import { isStaticScenery } from "./replicatedEntities.js";
 import { SessionFailure } from "./protocol.js";
 import { PublicActions } from "./publicActions.js";
+import { WorldExchange } from "./exchange.js";
 import { WorldSocial } from "./social.js";
 import { spawnGroupOf, spawnSignature, type SpawnPlan } from "./spawnPlan.js";
 import type { CompiledWorld } from "../content/worldData.js";
@@ -54,6 +55,7 @@ const ENEMY_SELECTION_RADIUS = 60;
 
 export class HeadlessWorld {
   readonly social: WorldSocial;
+  readonly exchange = new WorldExchange(this);
   readonly actions = new PublicActions();
   readonly clock = new SimClock();
   readonly entities: EntityStore;
@@ -165,12 +167,13 @@ export class HeadlessWorld {
       ownsEnemy: (enemyId) => this.targets.get(enemyId) === id,
       shareKill: (enemy, skill, xp, atMs) => this.social.shareKill(id, enemy, skill, xp, atMs),
       assignLoot: (_enemy, items) => this.social.tagLoot(id, items),
+      canLoot: pileId => this.social.canLoot(id, pileId),
       transferLoot: (stack, pile) => this.social.collect(id, stack, pile) });
     player.events.subscribe(event => {
       this.actions.event(player.store.get(), event);
       // Death restores health and placement before events flush, so next tick cannot detect it
       // from health alone. Release the old fight at its actual death boundary.
-      if (event.type === "player.died") this.releaseEnemyTargets(id, event.atMs);
+      if (event.type === "player.died") { this.releaseEnemyTargets(id, event.atMs); this.exchange.cancel(id); }
     });
     player.combat.onEnemyProvoked((enemyId, at) => {
       const entity = this.entities.get(enemyId);
@@ -356,6 +359,7 @@ export class HeadlessWorld {
   }
   leave(id: string): void {
     this.social.disconnect(id);
+    this.exchange.cancel(id);
     const leaving = this.players.get(id); if (leaving) this.actions.leave(leaving.store.get());
     this.players.get(id)?.suspend(); if (this.active.delete(id)) this.membershipVersion++; this.spatial.remove(id);
     this.releaseEnemyTargets(id, this.clock.elapsedMs);
@@ -363,6 +367,8 @@ export class HeadlessWorld {
   execute(id: string, command: GameCommand): Result<unknown> {
     const player = this.players.get(id);
     if (!player || !this.active.has(id)) throw new SessionFailure("SESSION_EXPIRED", "Player is not connected");
+    if (command.method === "trade") return this.exchange.command(id, command.args[0]);
+    if (command.method === "dropItem") return this.exchange.drop(id, ...command.args);
     if (command.method === "chat") return this.social.chat(id, ...command.args);
     if (command.method === "party") return this.social.command(id, ...command.args);
     if (command.method === "who") return this.social.who(id);
@@ -370,6 +376,7 @@ export class HeadlessWorld {
   }
   tick(): void {
     this.social.tick();
+    this.exchange.tick();
     this.ports.beforeTick?.(this);
     let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
     for (const id of this.active) {
