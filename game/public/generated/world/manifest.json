@@ -1,7 +1,7 @@
 {
   "format": "corealm-world",
   "version": 1,
-  "revision": "66a5774930321f320e76fd35f9e8277c1a6cc28a8d1b1a5945ff34c919377f16",
+  "revision": "f50bb93ec4ecc2fd1596532d4ce42237d8fae774b49045de9d2f73e4bd1a536d",
   "scope": "game/1337/world",
   "tiles": [
     "-6:-5",
@@ -343,14 +343,14 @@
   ],
   "records": {
     "terrain/world": {
-      "file": "6805606d807de8b1f34fd5ffaaf2f5d095b2d673b42c9fa647b06da2112f8358.world",
-      "sha256": "6805606d807de8b1f34fd5ffaaf2f5d095b2d673b42c9fa647b06da2112f8358",
-      "bytes": 15297032
+      "file": "28d9e41cbf532081fe22e9823f9eca92462c0a1a50c299502348b4cfde6b450f.world",
+      "sha256": "28d9e41cbf532081fe22e9823f9eca92462c0a1a50c299502348b4cfde6b450f",
+      "bytes": 15298799
     },
     "terrain/fairy": {
-      "file": "6c2d6ff6ed0a1dbf568953b05df2b73b4f4ae589e14d273311a37e17a17b35a3.world",
-      "sha256": "6c2d6ff6ed0a1dbf568953b05df2b73b4f4ae589e14d273311a37e17a17b35a3",
-      "bytes": 9924875
+      "file": "1f5dc2ebf3322227872a45fed20845faca8abdded4482e0b46b943882ee415ed.world",
+      "sha256": "1f5dc2ebf3322227872a45fed20845faca8abdded4482e0b46b943882ee415ed",
+      "bytes": 9929418
     },
     "assembly/semantic": {
       "file": "06489ed8f16147a4e12f7e69ac34f756bfa6928cdcefc5da4e2efe63629bdb8f.world",
