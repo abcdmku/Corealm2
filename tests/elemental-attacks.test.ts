@@ -111,7 +111,7 @@ describe("elemental attacks", () => {
       expect(poses.some(p=>p.z>8)).toBe(true);expect(poses.some(p=>p.z< -8)).toBe(true);
       const crestHeights=poses.filter((_,i)=>i>=8*81&&i<9*81).map(p=>p.y);
       expect(Math.max(...crestHeights)-Math.min(...crestHeights)).toBeGreaterThan(1);
-      expect((vfx.group.getObjectByName("elemental-fluid-wave") as THREE.InstancedMesh).count).toBe(0);
+      expect((vfx.group.getObjectByName("elemental-fluid-wave") as THREE.Mesh<THREE.InstancedBufferGeometry>).geometry.instanceCount).toBe(0);
       const outer=vfx.group.userData["elementalArt"].waterFinale.radius;
       const collision=vfx.group.getObjectByName("elemental-deluge-turbulent-collision") as THREE.Mesh<THREE.BoxGeometry>;
       expect(collision.visible).toBe(false);
@@ -134,7 +134,7 @@ describe("elemental attacks", () => {
         expect(sections.getX(indices.getX(i))).toBe(sections.getX(indices.getX(i+1)));
         expect(sections.getX(indices.getX(i))).toBe(sections.getX(indices.getX(i+2)));
       }
-      expect((vfx.group.getObjectByName("elemental-fluid-jet") as THREE.InstancedMesh).count).toBe(0);
+      expect((vfx.group.getObjectByName("elemental-fluid-jet") as THREE.Mesh<THREE.InstancedBufferGeometry>).geometry.instanceCount).toBe(0);
       const drops=vfx.group.getObjectByName("elemental-3d-deluge-droplets") as THREE.Mesh<THREE.InstancedBufferGeometry,THREE.ShaderMaterial>;
       expect(drops.visible).toBe(true);
       expect(drops.geometry.instanceCount).toBeGreaterThan(2000);
@@ -335,8 +335,8 @@ describe("elemental attacks", () => {
         expect(foot).toBeGreaterThan(.6);expect(scale.x*foot*2).toBeGreaterThan(11);
       }else{
         expect(mesh.count).toBe(0);
-        const spiral=vfx.group.getObjectByName("elemental-air-current-spiral") as THREE.InstancedMesh;
-        expect(spiral.count).toBeGreaterThan(0);
+        const spiral=vfx.group.getObjectByName("elemental-air-current-spiral") as THREE.Mesh<THREE.InstancedBufferGeometry> & { getMatrixAt(index: number, matrix: THREE.Matrix4): void };
+        expect(spiral.geometry.instanceCount).toBeGreaterThan(0);
         spiral.getMatrixAt(0,matrix);scale.setFromMatrixScale(matrix);
         expect(scale.y).toBeLessThan(3.2);expect(scale.x).toBeGreaterThan(4);
       }

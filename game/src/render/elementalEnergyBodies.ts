@@ -7,6 +7,7 @@ import { registerElementalRefraction } from "./elementalRefraction.js";
 import { MeshBasicNodeMaterial } from "three/webgpu";
 import { Fn, If, abs, atan, attribute, cross, dot, float, max, mix, modelNormalMatrix, normalize, positionGeometry, positionView, pow, sin, smoothstep, step, uniform, varying, vec2, vec3, vec4 } from "three/tsl";
 import { authoredFlow, clockUniform, flameColor, flameDetail, matterNoise3 } from "./elementalNodes.js";
+import { acquireEffectMaterial, releaseEffectMaterial } from "./sharedEffectMaterial.js";
 
 /** Swept, tapered 3D volumes provide the principal silhouette above the fine spark layer. */
 export class ElementalEnergyBodies {
@@ -60,11 +61,11 @@ export class ElementalEnergyBodies {
     ).setUsage(THREE.DynamicDrawUsage);
     geometry.setAttribute("bodyTint", this.tint);
     geometry.instanceCount = 0;
-    let material: THREE.Material;
+    const material = acquireEffectMaterial(`elemental-energy:${element}:${magical}`, () => {
     if(element === "earth" || magical) {
       const node = new MeshBasicNodeMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,
         blending:element === "fire" ? THREE.NormalBlending : THREE.AdditiveBlending});
-      const time=clockUniform(this.clock),emission=uniform(0);
+      const time=clockUniform(),emission=uniform(0);
       node.userData["magicEmissionPass"]=emission;
       const a=attribute("curveA","vec4" as const),b=attribute("curveB","vec4" as const),c=attribute("curveC","vec4" as const),d=attribute("curveD","vec4" as const),tint=attribute("bodyTint","vec4" as const);
       const u=positionGeometry.y,v=float(1).sub(u);
@@ -104,9 +105,12 @@ export class ElementalEnergyBodies {
         }
         alpha.lessThan(.006).discard();return vec4(color.mul(.17),alpha.mul(.55));
       })();
-      material=node;
-    } else material=element === "water" ? createElementalLiquidMaterial(this.clock) : createElementalMatterMaterial(element,this.clock);
+      return node;
+    }
+    return element === "water" ? createElementalLiquidMaterial() : createElementalMatterMaterial(element);
+    });
     this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.userData.effectClock = this.clock;
     this.mesh.name = element === "earth" ? "elemental-energy-bodies" : `elemental-matter-${element}`;
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 12;
@@ -165,6 +169,6 @@ export class ElementalEnergyBodies {
     this.unregisterRefraction?.();
     this.mesh.removeFromParent();
     this.mesh.geometry.dispose();
-    this.mesh.material.dispose();
+    releaseEffectMaterial(this.mesh.material);
   }
 }

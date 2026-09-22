@@ -4,7 +4,7 @@ import { createElementalRefractionMaterial } from "./elementalRefraction.js";
 import { clockUniform } from "./elementalNodes.js";
 
 /** Refracting streams and splashes use the same curved spatial geometry as their attack path. */
-export function createElementalLiquidMaterial(clock: { value: number }) {
+export function createElementalLiquidMaterial(clock?: { value: number }) {
   const time=clockUniform(clock),a=attribute("curveA","vec4" as const),b=attribute("curveB","vec4" as const),c=attribute("curveC","vec4" as const),d=attribute("curveD","vec4" as const),tint=attribute("bodyTint","vec4" as const);
   const u=positionGeometry.y,v=float(1).sub(u);
   const tangent=normalize(b.xyz.sub(a.xyz).mul(v.mul(v).mul(3)).add(c.xyz.sub(b.xyz).mul(v.mul(u).mul(6))).add(d.xyz.sub(c.xyz).mul(u.mul(u).mul(3))));

@@ -5,7 +5,7 @@ import { isolateMagicEmission } from "./magicGlow.js";
 import { authoredFlow, clockUniform } from "./elementalNodes.js";
 
 /** Lit elemental matter: its surface carries the shape, with emission confined to hot or wet detail. */
-export function createElementalMatterMaterial(element: "wind" | "water" | "fire", clock: { value: number }): MeshStandardNodeMaterial {
+export function createElementalMatterMaterial(element: "wind" | "water" | "fire", clock?: { value: number }): MeshStandardNodeMaterial {
   const material = new MeshStandardNodeMaterial({ color: 0xffffff, roughness: element === "water" ? .3 : element === "wind" ? .8 : .65,
     metalness: 0, transparent: true, depthWrite: false, side: THREE.FrontSide });
   const time=clockUniform(clock),a=attribute("curveA","vec4" as const),b=attribute("curveB","vec4" as const),c=attribute("curveC","vec4" as const),d=attribute("curveD","vec4" as const),tint=attribute("bodyTint","vec4" as const);
