@@ -15,6 +15,7 @@ import { SqliteWorldStorage } from "../game/src/multiplayer/sqliteStorage.js";
 import { startAuthoredTestHost } from "./lib/authoredTestHost.js";
 import { startGameServer } from "./lib/server.js";
 import { installTestDeadline } from "./lib/deadline.js";
+import type { BootTelemetrySnapshot } from "../game/src/perf/bootTelemetry.js";
 
 /**
  * Narrow browser reproduction for a second-player join stalling the first player and/or making
@@ -214,6 +215,7 @@ type PageRecord = {
   trace: BrowserTrace;
   network: NetworkTrace;
   graphics: { phase: string; backend: GraphicsBackendState | null; preparation: GraphicsPreparationState | null }[];
+  failureDiagnostic?: Record<string, unknown>;
 };
 
 type JoinMotionHandle = {
@@ -885,6 +887,34 @@ async function recordGraphics(record: PageRecord, phase: string): Promise<void> 
   record.graphics.push({ phase, ...state });
 }
 
+async function recordFailureDiagnostic(record: PageRecord): Promise<void> {
+  try {
+    record.failureDiagnostic = await record.page.evaluate(() => {
+      const telemetry = Reflect.get(window, "__corealmBootTelemetry") as { snapshot(): BootTelemetrySnapshot } | undefined;
+      const boot = telemetry?.snapshot();
+      const debug = Reflect.get(window, "__gameDebug") as { getState?(): { ready?: boolean }; getPerformanceTimings?(): {
+        backend?: GraphicsBackendState; preparation?: GraphicsPreparationState;
+      } } | undefined;
+      const timings = debug?.getPerformanceTimings?.();
+      return {
+        url: location.href,
+        status: document.querySelector("#boot-screen")?.textContent?.trim().slice(0, 2000) ?? null,
+        worldPhase: document.querySelector("#multiplayer-selector")?.getAttribute("data-phase") ?? null,
+        debugAvailable: Boolean(debug), ready: debug?.getState?.().ready ?? false,
+        backend: timings?.backend ?? null, preparation: timings?.preparation ?? null,
+        boot: boot ? {
+          elapsedMs: boot.generatedAtMs, firstPlayableMs: boot.firstPlayableMs,
+          marks: boot.marks.slice(-12).map(({ name, atMs }) => ({ name, atMs })),
+          activeSpans: boot.activeSpans.slice(-12).map(({ name, elapsedMs }) => ({ name, elapsedMs })),
+          recentSpans: boot.spans.slice(-12).map(({ name, durationMs, outcome, error }) => ({ name, durationMs, outcome, error })),
+        } : null,
+      };
+    });
+  } catch (error) {
+    record.failureDiagnostic = { error: pageSafeError(error) };
+  }
+}
+
 async function openPage(name: string, endpoint: string, game: { url: string }): Promise<PageRecord> {
   const context = await browser!.newContext({ viewport: { width: 1280, height: 800 } });
   await installBrowserInstrumentation(context, name);
@@ -996,7 +1026,9 @@ try {
   if (urlIndex >= 0 && !url) throw new Error('--url requires the existing game server URL');
   game = url ? { url, close: async () => {} } : await startGameServer();
   browser = await chromium.launch({ headless: true, ...(channel ? { channel } : {}),
-    args: ["--use-angle=d3d11", "--disable-background-timer-throttling", "--disable-renderer-backgrounding"] });
+    args: [...(process.platform === "win32" ? ["--use-angle=d3d11"] : []),
+      "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio",
+      "--disable-background-timer-throttling", "--disable-renderer-backgrounding"] });
   // Browser initialization is independent; keep server startup plus two real world boots inside
   // the authored gate's budget. The actual player joins below remain strictly sequential.
   const [alice, bob] = await Promise.all([openPage("alice", endpoint, game), openPage("bob", endpoint, game)]);
@@ -1200,6 +1232,7 @@ try {
 } catch (error) {
   failure = pageSafeError(error);
   errors.push({ page: "harness", source: "fatal", message: failure });
+  await Promise.all(pages.map(recordFailureDiagnostic));
   for (const record of pages) {
     await record.page.screenshot({ path: `${out}/${record.name}-failure.png`, timeout: 3000 }).catch(() => {});
   }
@@ -1262,6 +1295,7 @@ try {
       name: record.name,
       network: record.network,
       graphics: record.graphics,
+      failureDiagnostic: record.failureDiagnostic ?? null,
       trace: traceSummary(record.trace),
     })),
   };
