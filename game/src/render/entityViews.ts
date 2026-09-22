@@ -1317,7 +1317,7 @@ interface ViewRecord {
   signature: string;
   /** Where this entity is DRAWN. Equal to `target` unless `syncMotion` is interpolating. */
   position: THREE.Vector3;
-  /** The last position semantics reported. */
+  /** Latest presentation target, or the raw tick position when no motion source is installed. */
   target: THREE.Vector3;
   /** The one before that, so a render frame can interpolate between the two. */
   previous: THREE.Vector3;
@@ -2225,23 +2225,12 @@ export class EntityViews {
     }
   }
 
-  /**
-   * Position-and-facing refresh for the archetypes that move, cheap enough to call every frame.
-   *
-   * CORRECTION: this said "OPT-IN and currently uncalled". `app/loop.ts:381` now calls it every
-   * render frame with `this.renderAlpha`, and that is what the numbers below are measured against.
-   * `sync` runs at 4 Hz (loop.ts:266 returns early until 250 ms have passed) while
-   * `EnemyAI.stepToward` writes a position every 100 ms sim tick, so three of every four enemy
-   * movement steps used to be invisible and the fourth a 40 cm jump. A moving entity is now drawn
-   * between the last two ticks instead of at the last one.
-   *
-   * Structure — asset, tier, state, add and remove — is still `sync`'s job at whatever cadence the
-   * loop likes. This only moves things that already exist, so calling it is always safe and never
-   * allocates a group.
-   *
-   * `alpha` is clamped to 0..1. Passing 1 (the default) is "no interpolation, just the current
-   * position at full rate", which on its own already removes three quarters of the stepping.
-   */
+  private motionSource: ((id: string) => { position: Vec3; facingRad: number } | null) | null = null;
+  /** Presentation-only transforms. Semantic positions remain authoritative for picking and gameplay. */
+  setMotionSource(source: typeof this.motionSource): void { this.motionSource = source; }
+
+  /** Refresh resident transforms every frame. Session poses are already interpolated; explicit
+   * alpha blends raw tick positions for direct render callers. Structure stays with sync(). */
   syncMotion(entities: readonly SemanticEntity[], alpha = 1, deferPalette = false): void {
     if (this.records.size === 0) return;
     const blend = Math.min(1, Math.max(0, alpha));
@@ -2256,14 +2245,16 @@ export class EntityViews {
       if (record.fade >= 1) continue;
 
       const view = entity.view;
+      const pose = this.motionSource?.(entity.id);
+      const position = pose?.position ?? entity.position;
       // Refreshed here rather than in `sync`, because `sync` runs at 4 Hz and this runs every
       // render frame: a creature that started chasing has to change gait on the frame it starts,
       // not up to a quarter of a second later.
       record.pursuing = isPursuing(entity);
       if (view?.gaitSpeedMps !== undefined) record.gaitSpeedMps = view.gaitSpeedMps;
-      const rotationY = view?.rotationY ?? record.targetRotationY;
-      const dx = entity.position[0] - record.target.x;
-      const dz = entity.position[2] - record.target.z;
+      const rotationY = pose?.facingRad ?? view?.rotationY ?? record.targetRotationY;
+      const dx = position[0] - record.target.x;
+      const dz = position[2] - record.target.z;
       const tickRolled = crossedSimTick(blend, record.lastAlpha);
       record.lastAlpha = blend;
       const moved = Math.hypot(dx, dz) > MOVING_EPSILON;
@@ -2273,7 +2264,7 @@ export class EntityViews {
         // syncOne already retained the previous target for a structural step. Copying its new
         // target again would erase the interpolation span and falsely settle the gait this tick.
         if (moved) record.previous.copy(record.target);
-        record.target.set(entity.position[0], entity.position[1], entity.position[2]);
+        record.target.set(position[0], position[1], position[2]);
         record.settledTicks = 0;
         // Re-arm the hold here too. Without it, calling this every frame consumes the position
         // change before `sync` ever sees one, `updateMoving` decays the counter to zero, and the
@@ -2319,12 +2310,14 @@ export class EntityViews {
       }
       record.rotationTargetPending = false;
 
-      record.position.lerpVectors(record.previous, record.target, blend);
+      // A network pose is already interpolated, including purely vertical movement.
+      if (pose) record.target.set(...position);
+      record.position.lerpVectors(record.previous, record.target, pose ? 1 : blend);
       if (this.scene.meshHeightAt) {
         record.position.y = interpolatedGroundHeight(record.previous.toArray(), record.target.toArray(),
           record.position.toArray(), (x, z) => this.scene.meshHeightAt!(x, z));
       }
-      record.rotationY = shortestArc(record.previousRotationY, record.targetRotationY, blend);
+      record.rotationY = shortestArc(record.previousRotationY, record.targetRotationY, pose ? 1 : blend);
 
       if (record.unique) {
         this.placeUnique(record);
@@ -2413,6 +2406,8 @@ export class EntityViews {
 
   private syncOne(entity: SemanticEntity): void {
     const view = entity.view!;
+    const pose = this.motionSource?.(entity.id);
+    const position = pose?.position ?? entity.position;
     let assetsReady = true;
     for (const assetId of this.assetIdsForEntity(entity)) {
       if (this.missing.has(assetId)) continue;
@@ -2465,7 +2460,7 @@ export class EntityViews {
     const silhouette = TIERED_ARCHETYPES.has(entity.archetype) ? tierSilhouetteScale(tier) : 1;
     const scale = (view.scale ?? 1) * silhouette;
     const scaleAxes = view.scaleAxes ?? NO_BUILD;
-    const rotationY = view.rotationY ?? 0;
+    const rotationY = pose?.facingRad ?? view.rotationY ?? 0;
     const normal = view.groundNormal ?? null;
     // A fishing proxy sits on solved water. Tilting it toward terrain below the pool would cant
     // the surface ripple and turn the authored water offset into a diagonal displacement.
@@ -2476,8 +2471,8 @@ export class EntityViews {
     // Movement has to be decided BEFORE the signature, because it is part of it: an enemy that
     // stops walking stops changing position, so a signature built from position alone would never
     // notice the stop and the walk pose would stick forever.
-    const moving = this.updateMoving(entity);
-    const signature = `${groupKey}|${spent ? 1 : 0}|${moving ? 1 : 0}|${round(entity.position[0])},${round(entity.position[1])},${round(entity.position[2])}|${round(rotationY)}|${round(scale)}|${scaleAxes.map(round).join(",")}|${round(waterOffset)}|${tiltKey(normal, tilt)}`;
+    const moving = this.updateMoving(entity, position);
+    const signature = `${groupKey}|${spent ? 1 : 0}|${moving ? 1 : 0}|${round(position[0])},${round(position[1])},${round(position[2])}|${round(rotationY)}|${round(scale)}|${scaleAxes.map(round).join(",")}|${round(waterOffset)}|${tiltKey(normal, tilt)}`;
 
     let existing = this.records.get(entity.id);
     let previousAppearance: ViewRecord | null = null;
@@ -2515,7 +2510,7 @@ export class EntityViews {
     this.replacementGroupKeys.delete(entity.id);
 
     record.signature = signature;
-    record.target.set(entity.position[0], entity.position[1], entity.position[2]);
+    record.target.set(position[0], position[1], position[2]);
     record.position.copy(record.target);
     if (rotationY !== record.targetRotationY) {
       record.previousRotationY = record.targetRotationY;
@@ -2564,12 +2559,12 @@ export class EntityViews {
    * Only `MOVING_ARCHETYPES` are tracked. Everything else in the world is placed once at boot and
    * never moves again, and paying a vector compare per ore node per sync buys nothing.
    */
-  private updateMoving(entity: SemanticEntity): boolean {
+  private updateMoving(entity: SemanticEntity, position = entity.position): boolean {
     if (!MOVING_ARCHETYPES.has(entity.archetype)) return false;
     const record = this.records.get(entity.id);
     if (!record) return false;
-    const dx = entity.position[0] - record.target.x;
-    const dz = entity.position[2] - record.target.z;
+    const dx = position[0] - record.target.x;
+    const dz = position[2] - record.target.z;
     if (Math.hypot(dx, dz) > MOVING_EPSILON) {
       record.previous.copy(record.target);
       record.motionTargetPending = true;
@@ -6059,16 +6054,17 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
             ? "instanced-static"
             : null;
     const rotationY = record.rotationY;
+    const semantic = this.motionSource ? this.activeSet.get(entityId) : undefined;
 
     return {
       entityId,
       liveRig: rig !== null,
       terrainContact: rig ? terrainRigSnapshot(rig.root) : group?.animationLod?.terrainSnapshot(record.slot) ?? null,
       path,
-      semanticPosition: [record.target.x, record.target.y, record.target.z],
+      semanticPosition: semantic ? [...semantic.position] : [record.target.x, record.target.y, record.target.z],
       drawnPosition: [record.position.x, record.position.y, record.position.z],
       drawnStrideScale: Math.abs(record.scale * record.build[2] * record.scaleAxes[2]),
-      semanticRotationY: record.targetRotationY,
+      semanticRotationY: semantic?.view?.rotationY ?? record.targetRotationY,
       drawnRotationY: rotationY,
       facing: [Math.sin(rotationY), 0, Math.cos(rotationY)],
       motion: record.playback ? record.motion : bakedMotion,

@@ -25,13 +25,16 @@ export function webSocketTransport(socket: WebSocket): SessionTransport {
   socket.addEventListener("close", () => listener?.closed());
   socket.addEventListener("error", () => listener?.failed());
   return {
-    remote: true, joinTimeoutMs: 5000, ackTimeoutMs: 5000,
+    remote: true, joinTimeoutMs: 5000, ackTimeoutMs: 5000, silenceTimeoutMs: 5000,
     get open() { return socket.readyState === WebSocket.OPEN; },
     send(message) {
       const text = JSON.stringify(message);
-      if (socket.readyState === WebSocket.CONNECTING) held.push(text); else socket.send(text);
+      if (socket.bufferedAmount + text.length > MAX_OUTBOUND_BYTES) throw new SessionFailure("BACKLOG", "World connection is not draining commands");
+      if (socket.readyState === WebSocket.CONNECTING) held.push(text);
+      else if (socket.readyState === WebSocket.OPEN) socket.send(text);
+      else throw new SessionFailure("SESSION_EXPIRED", "World connection is closed");
     },
-    close(code, reason) { socket.close(code, reason); },
+    close(code, reason) { held.length = 0; socket.close(code, reason); },
     listen(next) { listener = next; },
     whenClosed: () => new Promise<void>((resolve) => {
       if (socket.readyState === WebSocket.CLOSED) { resolve(); return; }

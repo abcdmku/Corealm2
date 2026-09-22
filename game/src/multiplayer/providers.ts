@@ -1,5 +1,5 @@
 import type { SessionError, SessionPhase, WorldDescriptor, WorldProvider, WorldSession, WorldUpdate } from "../contracts.js";
-import { compatible, descriptor, SessionFailure } from "./protocol.js";
+import { compatible, descriptor, LOCAL_ENDPOINT, SessionFailure } from "./protocol.js";
 
 export class ProviderRegistry {
   private readonly providers = new Map<string, WorldProvider>();
@@ -35,8 +35,20 @@ export class SessionController {
   constructor(private readonly providers: ProviderRegistry, private readonly ports: SessionControllerPorts) {}
   get session(): WorldSession | null { return this.current; }
   async join(input: WorldDescriptor): Promise<void> {
+    return this.connect(input, 0);
+  }
+  private scheduleReconnect(world: WorldDescriptor, generation: number, attempt: number): void {
+    if (generation !== this.generation || this.reconnectTimer) return;
+    const delay = Math.min(8000, 500 * 2 ** Math.min(attempt - 1, 4));
+    this.ports.phase("reconnecting", "Connection lost. Reconnecting…");
+    this.reconnectTimer = setTimeout(() => {
+      this.reconnectTimer = null;
+      if (generation === this.generation) void this.connect(world, attempt);
+    }, delay);
+  }
+  private async connect(input: WorldDescriptor, recoveryAttempt: number): Promise<void> {
     const generation = ++this.generation;
-    if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+    if (this.reconnectTimer) clearTimeout(this.reconnectTimer); this.reconnectTimer = null;
     this.abort?.abort(); this.abort = new AbortController();
     const signal = this.abort.signal;
     const prior = this.current; this.current = null;
@@ -55,28 +67,45 @@ export class SessionController {
       const session = await provider.connect(world, credentials, signal);
       if (generation !== this.generation) { await session.close(); return; }
       this.current = session;
-      this.unsubscribeStatus = session.subscribeStatus?.((phase) => {
-        if (generation !== this.generation || phase !== "reconnecting") return;
-        this.ports.phase("reconnecting", "Connection lost. Reconnecting…");
-        this.reconnectTimer = setTimeout(() => { if (generation === this.generation) void this.join(world); }, 500);
+      let disconnected = false;
+      this.unsubscribeStatus = session.subscribeStatus?.((phase, failure) => {
+        if (generation !== this.generation || disconnected || phase === "connected") return;
+        disconnected = true;
+        this.unsubscribe?.(); this.unsubscribe = null;
+        this.current = null;
+        // Release the dead session before another admission, including a manual retry after
+        // a terminal error. The picker must not mistake a retained dead session for a login.
+        this.teardown = this.teardown.catch(() => {}).then(() => session.close()).catch(() => {});
+        if (!failure || retryable(failure)) this.scheduleReconnect(world, generation, 1);
+        else this.ports.phase("unavailable", failure.message, failure);
       }) ?? null;
       // Providers must replay their validated initial snapshot to new subscribers.
       this.unsubscribe = session.subscribe((update) => {
-        if (generation !== this.generation || update.sessionId !== session.id) return;
+        if (generation !== this.generation || disconnected || update.sessionId !== session.id) return;
         this.ports.apply(update);
       });
-      this.ports.phase("connected");
+      if (!disconnected) this.ports.phase("connected");
     } catch (error) {
       if (generation !== this.generation) return;
       const failure: SessionError = error instanceof SessionFailure ? { code: error.code, message: error.message }
         : { code: "UNAVAILABLE", message: "Could not join this world" };
+      if (this.current) {
+        const failed = this.current; this.current = null;
+        this.unsubscribe?.(); this.unsubscribe = null;
+        this.unsubscribeStatus?.(); this.unsubscribeStatus = null;
+        await failed.close().catch(() => {});
+        if (generation !== this.generation) return;
+      }
+      if (recoveryAttempt > 0 && input.endpoint !== LOCAL_ENDPOINT && retryable(failure)) {
+        this.scheduleReconnect(input, generation, recoveryAttempt + 1); return;
+      }
       this.ports.phase(failure.code === "FULL" ? "full" : failure.code === "INCOMPATIBLE" ? "incompatible" : "unavailable",
         failure.message, failure);
     }
   }
   async leave(): Promise<void> {
     const generation = ++this.generation; this.abort?.abort(); this.abort = null;
-    if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+    if (this.reconnectTimer) clearTimeout(this.reconnectTimer); this.reconnectTimer = null;
     this.unsubscribeStatus?.(); this.unsubscribeStatus = null;
     const prior = this.current; this.current = null;
     this.unsubscribe?.(); this.unsubscribe = null;
@@ -87,4 +116,8 @@ export class SessionController {
     await this.ports.offline();
     if (generation === this.generation) this.ports.phase("offline");
   }
+}
+
+function retryable(failure: SessionError): boolean {
+  return ["UNAVAILABLE", "FULL", "BACKLOG", "RATE_LIMITED", "DUPLICATE_LOGIN", "OUT_OF_ORDER"].includes(failure.code);
 }

@@ -159,6 +159,18 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   const remote = new Map<string, SemanticEntity>(); const entities = new Map<string, SemanticEntity>();
   ports.sceneryChanges?.(current=>replicatedEntities.capture(structuredClone(current.filter(isStaticScenery))));
   const interpolation = new Map<string, ActorInterpolation>();
+  const entityInterpolation = new Map<string, ActorInterpolation>();
+  // Leave 40 ms for ordinary packet jitter. If updates stop, actors settle at the last
+  // authoritative target instead of extrapolating into walls or past combat targets.
+  const motionInterval = (ticks = 1) => ticks * 100 / ports.clock.timeScale + 40;
+  // Both structural updates and render frames sample here. Neither writes a drawn pose back
+  // into the authoritative entity store, and structural sync cannot undo interpolation.
+  ports.views.setMotionSource(id => {
+    const motion = id.startsWith("remote:") ? interpolation.get(id.slice(7)) : entityInterpolation.get(id);
+    if (!motion) return null;
+    const now = performance.now();
+    return { position: motion.sample(now), facingRad: motion.facing(now) };
+  });
   const publicPlayers = new Map<string, RemotePlayer>();
   const motionTicks = new Map<string, number>();
   const actionHistory: { sequence: number; type: string; playerId: string; receivedAt: number }[] = [];
@@ -167,6 +179,10 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   let simplifyCrowds = options.crowds === true;
   const prediction=new MovementPrediction(ports.movement);
   let online = false; let lastUpdate: WorldUpdate | null = null;
+  let connected = false;
+  let frozenPose: ReturnType<MovementPrediction["sample"]> = null;
+  const connectionNotice = new SessionNotice();
+  let hadConnection = false;
   // This thread never simulates, joined or not. Between sessions the game simply waits, as it does
   // while a connection is being made.
   const workerLocal = selector.local?.provider ?? null;
@@ -176,6 +192,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   let lastSteer = -Infinity; let steering = false;
   let lastDirection = [0,0];
   const steer = (input: DirectInput) => {
+    if (!connected) return;
     prediction.input(input);
     const now = performance.now(); const moving = input.forward !== 0 || input.strafe !== 0;
     const scale = Math.max(1, Math.hypot(input.forward, input.strafe));
@@ -201,13 +218,28 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       // selector's `rebase` port performs before it ever reaches this check.
     },
     clear() {
-      social?.clear(); remote.clear(); interpolation.clear(); publicPlayers.clear(); motionTicks.clear();
+      social?.clear(); remote.clear(); publicPlayers.clear(); motionTicks.clear();
       actionHistory.length=0; visibleIds=[]; crowdDetail.clear(); entities.clear();
       // Connection teardown invalidates network state, not the last complete scene. Keep its
       // frozen views through authentication, retries and failures. A valid snapshot replaces
       // the semantic set below and reconciles views once; leaving restores the offline set.
     },
-    phase(phase) {
+    phase(phase, message) {
+      if (connected && phase !== "connected") {
+        const now = performance.now();
+        frozenPose = ports.traversal?.current() ?? prediction.sample(now);
+        for (const motion of interpolation.values()) motion.freeze(now);
+        for (const motion of entityInterpolation.values()) motion.freeze(now);
+      }
+      connected = phase === "connected";
+      if (connected) { hadConnection = true; frozenPose = null; connectionNotice.clear(); }
+      else if (hadConnection && (phase === "reconnecting" || phase === "unavailable" || phase === "full" || phase === "incompatible")) {
+        connectionNotice.show(message ?? "Connection lost. Reconnecting…");
+      }
+      if (phase === "offline") {
+        frozenPose = null; lastUpdate = null; interpolation.clear(); entityInterpolation.clear();
+        connectionNotice.clear(); hadConnection = false;
+      }
       social?.connected(phase === "connected");
       if(phase!=="connected") {ports.traversal?.reset(); traversing=false;}
       if(phase!=="connected")prediction.clear();
@@ -219,6 +251,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       online = phase !== "offline";
       ports.loop.sessionChanged();
       ports.movement.setDirectInputSink(online ? steer : null); steering = false;
+      lastSteer = -Infinity; lastDirection = [0, 0];
       const session=phase === "connected" ? selector.controller.session : null;
       // A publish on the server offers a refresh and nothing more. Play carries on with the catalog this session joined with.
       contentUpdates?.(); contentUpdates = session?.subscribeContent?.(() => contentNotice.show()) ?? null;
@@ -245,7 +278,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       lastUpdate = update;
       receivedAt = performance.now();
       if (update.snapshot) firstSnapshotAt ??= receivedAt;
-      if (update.snapshot) { remote.clear(); interpolation.clear(); publicPlayers.clear(); motionTicks.clear(); entities.clear(); replicatedEntities.reset(); }
+      if (update.snapshot) { remote.clear(); interpolation.clear(); entityInterpolation.clear(); publicPlayers.clear(); motionTicks.clear(); entities.clear(); replicatedEntities.reset(); }
       if (update.privateState) ports.store.replace(composeSessionState(update.privateState, { nodes: {}, enemies: {}, lootPiles: {} }, ports.store.get().settings));
       for (const player of update.players) {
         const previous = publicPlayers.get(player.id);
@@ -254,7 +287,12 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
         if (!motion) { motion = new ActorInterpolation(player.position, player.facingRad); interpolation.set(player.id, motion); }
         if (!previous || previous.position.some((value, axis) => value !== player.position[axis]) || previous.facingRad !== player.facingRad) {
           const resuming = previous?.presentation?.pose === "idle" && player.presentation?.pose !== "idle";
-          motion.push(player.position, performance.now(), player.facingRad, resuming ? 100 : (update.tick - (motionTicks.get(player.id) ?? update.tick - 1)) * 100);
+          if (previous && (previous.regionId !== player.regionId || previous.health <= 0 && player.health > 0)) {
+            motion.reset(player.position, player.facingRad, receivedAt);
+          } else {
+            const ticks = resuming ? 1 : Math.min(5, update.tick - (motionTicks.get(player.id) ?? update.tick - 1));
+            motion.push(player.position, receivedAt, player.facingRad, motionInterval(ticks));
+          }
           motionTicks.set(player.id, update.tick);
         }
         remote.set(player.id, {
@@ -266,8 +304,19 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       }); }
       for (const id of update.removedPlayers) { remote.delete(id); interpolation.delete(id); publicPlayers.delete(id); motionTicks.delete(id); }
       social?.update(update.social, ports.store.get().player.id);
-      for (const entity of update.entities) { entities.set(entity.id, entity); replicatedEntities.upsert(entity); }
-      for (const id of update.removedEntities) { entities.delete(id); replicatedEntities.remove(id); }
+      for (const entity of update.entities) {
+        const previous = entities.get(entity.id);
+        if (entity.view && ["enemy", "boss", "npc"].includes(entity.archetype)) {
+          let motion = entityInterpolation.get(entity.id);
+          const facing = entity.view.rotationY ?? 0;
+          if (!motion) { motion = new ActorInterpolation(entity.position, facing); entityInterpolation.set(entity.id, motion); }
+          else if (previous && (previous.regionId !== entity.regionId || (previous.state === "dead") !== (entity.state === "dead") || previous.view?.assetId !== entity.view.assetId)) {
+            motion.reset(entity.position, facing, receivedAt);
+          } else motion.push(entity.position, receivedAt, facing, motionInterval());
+        } else entityInterpolation.delete(entity.id);
+        entities.set(entity.id, entity); replicatedEntities.upsert(entity);
+      }
+      for (const id of update.removedEntities) { entities.delete(id); entityInterpolation.delete(id); replicatedEntities.remove(id); }
       const visible=visibleRemotePlayers(remote.values(),ports.store.get().player.position);
       const nextVisible = new Set(visible.map(entity => entity.id.slice("remote:".length)));
       for (const id of visibleIds) if (!nextVisible.has(id)) ports.entities.remove(`remote:${id}`);
@@ -275,14 +324,6 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
       const simplified = simplifyCrowds ? crowdDetail.select(visible, ports.store.get().player.position) : new Set<string>();
       for (const entity of visible) {
         const drawn = structuredClone(entity);
-        // Structural sync writes the drawn transform immediately. Keep it on the same
-        // presentation timeline as animation frames instead of jumping to the server pose.
-        const motion = interpolation.get(entity.id.slice("remote:".length));
-        if (motion) {
-          const now = performance.now();
-          drawn.position = motion.sample(now);
-          if (drawn.view) drawn.view.rotationY = motion.facing(now);
-        }
         if (drawn.view) drawn.view.crowd = simplified.has(entity.id);
         upsertReplicatedEntity(ports.entities, drawn);
       }
@@ -300,7 +341,7 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
         ports.traversal?.end(String(stopped?.data.reason??"completed"),ports.store.get().player.position);
       }
       traversing=traversal!==null;
-      prediction.reconcile(ports.store.get(),performance.now(),update.simMs,update.acknowledgedCommand);
+      prediction.reconcile(ports.store.get(),performance.now(),update.simMs,update.acknowledgedCommand,update.snapshot ? frozenPose : null);
       for (const event of update.events ?? []) ports.events.emit(event.type, event.data, event.entityId, event.atMs);
       for (const action of update.actions ?? []) {
         ports.loop.handleWorldAction(action, performance.now());
@@ -343,18 +384,16 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   }
   const animate = (now: number) => {
     // Debug time control moves the host's pace, and the page's clock mirrors it: presentation time stands still while paused and runs at the scale.
-    const simNow = (lastUpdate?.simMs??0) + (ports.clock.paused ? 0 : Math.min(100, (now - receivedAt) * ports.clock.timeScale));
+    const simNow = (lastUpdate?.simMs??0) + (!connected || ports.clock.paused ? 0 : Math.max(0, Math.min(100, (now - receivedAt) * ports.clock.timeScale)));
     prediction.setPace(ports.clock.paused, ports.clock.timeScale);
     ports.loop.setRemotePresentationTime(simNow);
-    const traversal = ports.traversal ? ports.traversal.current() : online && lastUpdate
+    const traversal = !connected ? null : ports.traversal ? ports.traversal.current() : lastUpdate
       ? replicatedTraversal(ports.store.get(), id => ports.entities.get(id),simNow) : null;
     ports.loop.setRemoteTraversal(traversal);
-    ports.loop.setRemotePose(traversal ?? prediction.sample(now));
+    ports.loop.setRemotePose(connected ? traversal ?? prediction.sample(now) : frozenPose);
     for (const id of visibleIds) {
       const entity = ports.entities.get(`remote:${id}`), motion = interpolation.get(id);
       if (entity && motion) {
-        ports.entities.setPosition(entity.id, motion.sample(now));
-        if (entity.view) entity.view.rotationY = motion.facing(now);
         const presentation = publicPlayers.get(id)?.presentation, t = presentation?.traversal;
         const obstacle = t ? ports.entities.get(t.entityId) : undefined;
         const crossing=t&&obstacle ? sampleTraversal(obstacle,t.entry,t.exit,1-(t.endsAtMs-simNow)/(obstacle.obstacle?.durationMs??3000)) : null;
@@ -368,6 +407,9 @@ export async function installBrowserSession(ports: BrowserSessionPorts, options:
   };
   frame = requestAnimationFrame(animate);
   window.addEventListener("blur", () => { if (online) steer({ forward: 0, strafe: 0, cameraYaw: 0 }); });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") steer({ forward: 0, strafe: 0, cameraYaw: 0 });
+  });
   if (workerLocal) {
     // The worker's store writes behind, and a worker hears neither of these. Hidden is the last moment a phone reliably gives.
     document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") workerLocal.flush(); });

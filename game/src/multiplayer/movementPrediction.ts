@@ -39,10 +39,10 @@ export class MovementPrediction {
   }
   constructor(source:Movement){this.movement=source.createPrediction(this.events);}
   input(value:DirectInput):void{this.held={...value};this.movement.setDirectInput(this.held);}
-  reconcile(state:GameState,now:number,simMs:number,acknowledgedCommand=0):void{
+  reconcile(state:GameState,now:number,simMs:number,acknowledgedCommand=0,heldPose:{position:Vec3;facingRad:number}|null=null):void{
     // Preserve the pose actually on screen, including the remaining correction.
     // Using the raw predicted state here caused a fresh snap on every server tick.
-    const drawn=this.sample(now),prior=drawn?.position,next=state.player.position;
+    const drawn=this.sample(now)??heldPose,prior=drawn?.position,next=state.player.position;
     const movement=state.player.movement;
     const pathKey=JSON.stringify([movement.mode,movement.path,movement.destination,movement.destinationEntityId]);
     if(this.state&&pathKey!==this.pathKey)this.movement.replaceIntent(this.state,simMs,true);
@@ -64,6 +64,8 @@ export class MovementPrediction {
   setPace(paused:boolean,timeScale:number):void{this.paused=paused;this.timeScale=timeScale;}
   sample(now:number):{position:Vec3;facingRad:number}|null{
     if(!this.state)return null;
+    // Network callbacks can sample after the timestamp captured by the next RAF callback.
+    now=Math.max(now,this.lastFrame);
     const delta=this.paused?0:Math.max(0,Math.min(50,now-this.lastFrame))*this.timeScale;this.lastFrame=now;
     if(now-this.lastUpdate<=250){
       for (let elapsed = 0; elapsed < delta;) {

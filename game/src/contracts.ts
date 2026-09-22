@@ -190,7 +190,7 @@ export interface WorldSession {
   readonly catalog?: SessionCatalog;
   command(command: GameCommand): Promise<CommandOutcome>;
   subscribe(listener: (update: WorldUpdate) => void): () => void;
-  subscribeStatus?(listener: (phase: SessionPhase) => void): () => void;
+  subscribeStatus?(listener: (phase: SessionPhase, failure?: SessionError) => void): () => void;
   /** The server published content while this session was open. The session stays on the catalog it joined with. */
   subscribeContent?(listener: (revision: string) => void): () => void;
   close(): Promise<void>;

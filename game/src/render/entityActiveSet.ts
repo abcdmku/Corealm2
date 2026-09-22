@@ -207,6 +207,7 @@ export class EntityActiveSet {
   has(entityId: EntityId): boolean {
     return this.entities.has(entityId);
   }
+  get(entityId: EntityId): SemanticEntity | undefined { return this.entities.get(entityId); }
 
   isSelected(entityId: EntityId): boolean {
     return this.selected().some((entity) => entity.id === entityId);
