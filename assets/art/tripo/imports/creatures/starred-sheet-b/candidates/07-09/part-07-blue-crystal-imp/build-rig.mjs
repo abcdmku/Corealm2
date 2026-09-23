@@ -11,6 +11,7 @@ const folder = new URL('.', import.meta.url);
 const sourcePath = new URL('../../../base/part-07.glb', folder);
 const outputPath = new URL('blue-crystal-imp-rigged-candidate.glb', folder);
 const slug = 'part-07-blue-crystal-imp';
+const targetHeight = 1.65;
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const hash = value => createHash('sha256').update(Buffer.from(value.buffer, value.byteOffset, value.byteLength)).digest('hex');
 const sourceBytes = await readFile(sourcePath);
@@ -20,12 +21,16 @@ const mesh = root.listMeshes()[0], primitive = mesh?.listPrimitives()[0];
 const meshNode = root.listNodes().find(node => node.getMesh() === mesh);
 if (!scene || !primitive || !meshNode || root.listSkins().length || root.listAnimations().length) throw new Error('Expected the extracted, static, unskinned imp GLB.');
 const originalWorldMatrix = new Matrix4().fromArray(meshNode.getWorldMatrix());
+const boundsOf=(matrix,stream)=>{const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];for(let i=0;i<stream.length;i+=3){const p=new Vector3(stream[i],stream[i+1],stream[i+2]).applyMatrix4(matrix);for(let a=0;a<3;a++){min[a]=Math.min(min[a],p.getComponent(a));max[a]=Math.max(max[a],p.getComponent(a));}}return{min,max};};
 const positions = Float32Array.from(primitive.getAttribute('POSITION').getArray());
 const normals = Float32Array.from(primitive.getAttribute('NORMAL').getArray());
 const uvs = Float32Array.from(primitive.getAttribute('TEXCOORD_0').getArray());
 const indices = primitive.getIndices().getArray().slice();
 const tangents = primitive.getAttribute('TANGENT') ? Float32Array.from(primitive.getAttribute('TANGENT').getArray()) : null;
 const sourceHashes = { positions: hash(positions), normals: hash(normals), uvs: hash(uvs), indices: hash(indices), ...(tangents ? { tangents: hash(tangents) } : {}) };
+const sourceWorldBounds=boundsOf(originalWorldMatrix,positions);
+const sourceHeight=sourceWorldBounds.max[1]-sourceWorldBounds.min[1];
+const scaleFactor=targetHeight/sourceHeight;
 const bounds = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
 for (let i = 0; i < positions.length; i += 3) for (let axis = 0; axis < 3; axis++) {
   bounds.min[axis] = Math.min(bounds.min[axis], positions[i + axis]); bounds.max[axis] = Math.max(bounds.max[axis], positions[i + axis]);
@@ -51,7 +56,7 @@ for(const bone of bones) bone.local = bone.parent ? bone.p.map((v,i)=>v-byName.g
 const sourceTransform = { translation: meshNode.getTranslation(), rotation: meshNode.getRotation(), scale: meshNode.getScale() };
 const parent = meshNode.getParentNode(); if(parent) parent.removeChild(meshNode); else scene.removeChild(meshNode);
 meshNode.setTranslation([0,0,0]).setRotation([0,0,0,1]).setScale([1,1,1]);
-const presentation = doc.createNode('ImpPresentation').setTranslation(sourceTransform.translation).setRotation(sourceTransform.rotation).setScale(sourceTransform.scale);
+const presentation = doc.createNode('ImpPresentation').setTranslation(sourceTransform.translation.map(v=>v*scaleFactor)).setRotation(sourceTransform.rotation).setScale(sourceTransform.scale.map(v=>v*scaleFactor));
 const armature = doc.createNode('ImpArmature'); scene.addChild(presentation); presentation.addChild(armature); armature.addChild(meshNode);
 const joints = new Map();
 for(const bone of bones){const node=doc.createNode(bone.name).setTranslation(bone.local); joints.set(bone.name,node); (bone.parent?joints.get(bone.parent):armature).addChild(node);}
@@ -75,28 +80,34 @@ function addClip(name,duration,tracks){const animation=doc.createAnimation(name)
 const q=(axis,...angles)=>angles.map(a=>quat(axis,a));
 const cyc=[0,.25,.5,.75,1];const cycle=(dur)=>cyc.map(t=>t*dur);
 addClip('Idle',2.4,[{node:'mixamorigSpine1',times:cycle(2.4),values:q('z',0,.018,0,-.018,0)},{node:'mixamorigHead',times:cycle(2.4),values:q('x',0,.012,0,-.012,0)},{node:'mixamorigLeftArm',times:cycle(2.4),values:q('z',-.025,-.04,-.025,-.01,-.025)},{node:'mixamorigRightArm',times:cycle(2.4),values:q('z',.025,.04,.025,.01,.025)}]);
-addClip('Walk',1.1,[{node:'mixamorigLeftArm',times:cycle(1.1),values:q('z',-.22,0,.22,0,-.22)},{node:'mixamorigRightArm',times:cycle(1.1),values:q('z',.22,0,-.22,0,.22)},{node:'mixamorigLeftUpLeg',times:cycle(1.1),values:q('z',-.20,0,.20,0,-.20)},{node:'mixamorigRightUpLeg',times:cycle(1.1),values:q('z',.20,0,-.20,0,.20)},{node:'mixamorigSpine1',times:cycle(1.1),values:q('x',.025,0,-.025,0,.025)}]);
-addClip('Run',.72,[{node:'mixamorigLeftArm',times:cycle(.72),values:q('z',-.43,0,.43,0,-.43)},{node:'mixamorigRightArm',times:cycle(.72),values:q('z',.43,0,-.43,0,.43)},{node:'mixamorigLeftUpLeg',times:cycle(.72),values:q('z',-.36,0,.36,0,-.36)},{node:'mixamorigRightUpLeg',times:cycle(.72),values:q('z',.36,0,-.36,0,.36)},{node:'mixamorigSpine1',times:cycle(.72),values:q('x',.09,.04,0,.04,.09)}]);
+addClip('Walk',1.1,[{node:'mixamorigHips',path:'translation',times:cycle(1.1),values:cyc.map((t,i)=>bones[0].p.map((v,a)=>a===1?v+(i>0&&i<4?.012:0):v))},{node:'mixamorigLeftArm',times:cycle(1.1),values:q('z',-.22,0,.22,0,-.22)},{node:'mixamorigRightArm',times:cycle(1.1),values:q('z',.22,0,-.22,0,.22)},{node:'mixamorigLeftUpLeg',times:cycle(1.1),values:q('z',-.20,0,.20,0,-.20)},{node:'mixamorigRightUpLeg',times:cycle(1.1),values:q('z',.20,0,-.20,0,.20)},{node:'mixamorigSpine1',times:cycle(1.1),values:q('x',.025,0,-.025,0,.025)}]);
+addClip('Run',.72,[{node:'mixamorigHips',path:'translation',times:cycle(.72),values:cyc.map((t,i)=>bones[0].p.map((v,a)=>a===1?v+(i>0&&i<4?.012:0):v))},{node:'mixamorigLeftArm',times:cycle(.72),values:q('z',-.43,0,.43,0,-.43)},{node:'mixamorigRightArm',times:cycle(.72),values:q('z',.43,0,-.43,0,.43)},{node:'mixamorigLeftUpLeg',times:cycle(.72),values:q('z',-.36,0,.36,0,-.36)},{node:'mixamorigRightUpLeg',times:cycle(.72),values:q('z',.36,0,-.36,0,.36)},{node:'mixamorigSpine1',times:cycle(.72),values:q('x',.09,.04,0,.04,.09)}]);
 const one=[0,.18,.38,.62,1];addClip('Attack',.85,[{node:'mixamorigSpine1',times:one.map(t=>t*.85),values:q('x',0,.08,-.20,-.12,0)},{node:'mixamorigLeftArm',times:one.map(t=>t*.85),values:q('z',-.08,-.48,-.62,.34,-.08)},{node:'mixamorigRightArm',times:one.map(t=>t*.85),values:q('z',.08,.28,.42,-.50,.08)},{node:'mixamorigLeftForeArm',times:one.map(t=>t*.85),values:q('z',0,-.14,-.28,.24,0)},{node:'mixamorigHead',times:one.map(t=>t*.85),values:q('x',0,-.05,.12,.04,0)}]);
 const short=[0,.1,.24,.38,.5];addClip('Hit',.5,[{node:'mixamorigSpine1',times:short,values:q('x',0,.20,.08,-.03,0)},{node:'mixamorigHead',times:short,values:q('x',0,-.17,-.06,.02,0)},{node:'mixamorigLeftArm',times:short,values:q('z',0,-.32,-.18,-.03,0)},{node:'mixamorigRightArm',times:short,values:q('z',0,.32,.18,.03,0)}]);
-const death=[0,.35,.8,1.35,1.9];addClip('Death',1.9,[{node:'mixamorigHips',path:'translation',times:death,values:[bones[0].p,at(0,.50),at(0,.46),at(0,.32),at(0,.30)]},{node:'mixamorigSpine1',times:death,values:q('z',0,-.08,-.20,-.42,-.42)},{node:'mixamorigHead',times:death,values:q('x',0,.08,.18,.30,.30)},{node:'mixamorigLeftArm',times:death,values:q('z',0,-.20,-.50,-.65,-.65)},{node:'mixamorigRightArm',times:death,values:q('z',0,.20,.50,.65,.65)},{node:'mixamorigLeftUpLeg',times:death,values:q('z',0,-.10,-.22,-.32,-.32)},{node:'mixamorigRightUpLeg',times:death,values:q('z',0,.10,.22,.32,.32)}]);
+const death=[0,.35,.8,1.35,1.9];addClip('Death',1.9,[{node:'mixamorigHips',path:'translation',times:death,values:[bones[0].p,at(0,.45),at(0,.45),at(0,.45),at(0,.45)]},{node:'mixamorigSpine1',times:death,values:q('z',0,-.08,-.20,-.42,-.42)},{node:'mixamorigHead',times:death,values:q('x',0,.08,.18,.30,.30)},{node:'mixamorigLeftArm',times:death,values:q('z',0,-.20,-.50,-.65,-.65)},{node:'mixamorigRightArm',times:death,values:q('z',0,.20,.50,.65,.65)},{node:'mixamorigLeftUpLeg',times:death,values:q('z',0,-.10,-.22,-.32,-.32)},{node:'mixamorigRightUpLeg',times:death,values:q('z',0,.10,.22,.32,.32)}]);
 const sourceTextures=[];for(const texture of root.listTextures()){const image=texture.getImage(),m=await sharp(image).metadata();sourceTextures.push({name:texture.getName(),width:m.width,height:m.height,sha256:createHash('sha256').update(image).digest('hex')});}
 const bytes=await io.writeBinary(doc);await writeFile(outputPath,bytes);const check=(await io.readBinary(bytes)).getRoot(),cp=check.listMeshes()[0].listPrimitives()[0],cs=check.listSkins()[0];const outputHashes={positions:hash(cp.getAttribute('POSITION').getArray()),normals:hash(cp.getAttribute('NORMAL').getArray()),uvs:hash(cp.getAttribute('TEXCOORD_0').getArray()),indices:hash(cp.getIndices().getArray()),...(cp.getAttribute('TANGENT')?{tangents:hash(cp.getAttribute('TANGENT').getArray())}:{})};
 const checkedMeshNode=check.listNodes().find(node=>node.getMesh()===check.listMeshes()[0]);
 const checkedWorldMatrix=new Matrix4().fromArray(checkedMeshNode.getWorldMatrix());
-const boundsOf=(matrix,stream)=>{const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];for(let i=0;i<stream.length;i+=3){const p=new Vector3(stream[i],stream[i+1],stream[i+2]).applyMatrix4(matrix);for(let a=0;a<3;a++){min[a]=Math.min(min[a],p.getComponent(a));max[a]=Math.max(max[a],p.getComponent(a));}}return{min,max};};
-const sourceWorldBounds=boundsOf(originalWorldMatrix,positions),candidateWorldBounds=boundsOf(checkedWorldMatrix,cp.getAttribute('POSITION').getArray());
-const worldMatrixDelta=Math.max(...originalWorldMatrix.elements.map((v,i)=>Math.abs(v-checkedWorldMatrix.elements[i])));
+const candidateWorldBounds=boundsOf(checkedWorldMatrix,cp.getAttribute('POSITION').getArray());
+const expectedWorldMatrix=originalWorldMatrix.clone();for(let i=0;i<15;i++)expectedWorldMatrix.elements[i]*=scaleFactor;
+const worldMatrixDelta=Math.max(...expectedWorldMatrix.elements.map((v,i)=>Math.abs(v-checkedWorldMatrix.elements[i])));
+const expectedBounds={min:sourceWorldBounds.min.map(v=>v*scaleFactor),max:sourceWorldBounds.max.map(v=>v*scaleFactor)};
+const maxBoundsDelta=Math.max(...expectedBounds.min.map((v,i)=>Math.abs(v-candidateWorldBounds.min[i])),...expectedBounds.max.map((v,i)=>Math.abs(v-candidateWorldBounds.max[i])));
 const candidateHeight=candidateWorldBounds.max[1]-candidateWorldBounds.min[1];
-if(worldMatrixDelta>1e-6||Math.abs(candidateHeight-(sourceWorldBounds.max[1]-sourceWorldBounds.min[1]))>0.01||Math.abs((candidateWorldBounds.min[0]+candidateWorldBounds.max[0])/2)>.01||Math.abs((candidateWorldBounds.min[2]+candidateWorldBounds.max[2])/2)>.01||Math.abs(candidateWorldBounds.min[1])>.01)throw new Error(`Presentation transform no longer preserves centered grounded 1m source bounds: ${JSON.stringify({sourceWorldBounds,candidateWorldBounds,worldMatrixDelta,candidateHeight})}`);
+if(worldMatrixDelta>1e-6||maxBoundsDelta>1e-5||Math.abs(candidateHeight-targetHeight)>0.01||Math.abs(candidateWorldBounds.min[1])>0.01)throw new Error(`Presentation scale or grounded bounds verification failed: ${JSON.stringify({sourceWorldBounds,candidateWorldBounds,expectedBounds,scaleFactor,targetHeight,worldMatrixDelta,maxBoundsDelta,candidateHeight})}`);
 if(JSON.stringify(sourceHashes)!==JSON.stringify(outputHashes)||distributed<positions.length/3*.60||maxWeightError>1e-5)throw new Error(`Geometry or weight verification failed: hashes=${JSON.stringify({sourceHashes,outputHashes})}, distributed=${distributed}/${positions.length/3}, weightError=${maxWeightError}`);
 const animations=check.listAnimations().map(a=>({name:a.getName(),channels:a.listChannels().length,duration:Math.max(...a.listSamplers().flatMap(s=>Array.from(s.getInput().getArray())))}));
 if(animations.map(a=>a.name).join(',')!=='Idle,Walk,Run,Attack,Hit,Death')throw new Error('Required clip sequence is missing.');
 for(const a of check.listAnimations())for(const ch of a.listChannels())if(!cs.listJoints().includes(ch.getTargetNode()))throw new Error('Clip targets an unskinned node.');
 const runtimeTextures=[];for(const t of check.listTextures()){const m=await sharp(t.getImage()).metadata();if(m.width>2048||m.height>2048)throw new Error('Runtime map exceeds 2K.');runtimeTextures.push({name:t.getName(),width:m.width,height:m.height,sha256:createHash('sha256').update(t.getImage()).digest('hex')});}
 if(sourceTextures.map(x=>x.sha256).join(',')!==runtimeTextures.map(x=>x.sha256).join(','))throw new Error('Embedded PBR texture bytes changed during rigging.');
-const report={schema:'corealm-starred-sheet-rigging/1',part:slug,sourceSha256,candidateSha256:createHash('sha256').update(bytes).digest('hex'),sourceGeometryHashes:sourceHashes,outputGeometryHashes:outputHashes,worldTransform:{maxMatrixDelta:worldMatrixDelta,sourceBounds:sourceWorldBounds,candidateBounds:candidateWorldBounds,height:candidateHeight,centeredGroundedSourceBounds:true},vertices:positions.length/3,triangles:indices.length/3,rig:{type:'Mixamo-named compact imp humanoid',bones:bones.map(({name,parent})=>({name,parent})),joints:bones.length,influencesPerVertex:4,verticesWithDistributedWeights:distributed,maxWeightSumError:maxWeightError,bindSpace:'source local mesh coordinates',deformationReview:'pending root visual acceptance'},animations,textures:{source:sourceTextures,runtime:runtimeTextures},holds:['The source is a static creature sheet extraction without authored motion; clips are custom motion authored for the imp silhouette.','Weight deformation and visual clip quality need root browser review.'],retopology:false,review:{"rigAcceptance":false,"design":"Provisional compact crystal imp with a forward leaning torso. Retain the crystalline silhouette and review deformation before production use.","designStatus":"provisional-held-for-root-review","labAccepted":false,"motionAcceptance":false,"productionReady":false}};
+const report={schema:'corealm-starred-sheet-rigging/1',part:slug,sourceSha256,candidateSha256:createHash('sha256').update(bytes).digest('hex'),sourceGeometryHashes:sourceHashes,outputGeometryHashes:outputHashes,worldTransform:{maxMatrixDelta:worldMatrixDelta,sourceHeight,targetHeight,scaleFactor,sourceBounds:sourceWorldBounds,outputBounds:candidateWorldBounds,outputHeight:candidateHeight,centeredGrounded:true},vertices:positions.length/3,triangles:indices.length/3,rig:{type:'Mixamo-named compact imp humanoid',bones:bones.map(({name,parent})=>({name,parent})),joints:bones.length,influencesPerVertex:4,verticesWithDistributedWeights:distributed,maxWeightSumError:maxWeightError,bindSpace:'source local mesh coordinates',deformationReview:'pending root visual acceptance'},animations,textures:{source:sourceTextures,runtime:runtimeTextures},holds:['The source is a static creature sheet extraction without authored motion; clips are custom motion authored for the imp silhouette.','Weight deformation and visual clip quality need root browser review.'],retopology:false,review:{"rigAcceptance":false,"design":"Provisional compact crystal imp with a forward leaning torso. Retain the crystalline silhouette and review deformation before production use.","designStatus":"provisional-held-for-root-review","labAccepted":false,"motionAcceptance":false,"productionReady":false}};
 await writeFile(new URL('manifest.json',folder),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+
+
+
+
 
 
 

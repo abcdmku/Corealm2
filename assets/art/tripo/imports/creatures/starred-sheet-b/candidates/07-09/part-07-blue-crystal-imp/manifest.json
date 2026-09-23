@@ -2,7 +2,7 @@
   "schema": "corealm-starred-sheet-rigging/1",
   "part": "part-07-blue-crystal-imp",
   "sourceSha256": "c1dde7500dd43fe9bb1bec9d62ae957a40e11262dcbe7e4f30c4b134f2e523c2",
-  "candidateSha256": "35a46dcfc68bf99d0a16884c430504bd3014e203ccf748018a4bcf4603e7a1d6",
+  "candidateSha256": "bc68717ffcb4545f3ed501016b8e84b853a1af9e4fc9c6c73e44df17df603acb",
   "sourceGeometryHashes": {
     "positions": "67e71e94b3da20b957ec1910291ca1629e25a2b96a405d790df083f0c6eb42ff",
     "normals": "6610bcf0fcb4f73c6d8f93bc61a02eb2b9780bfa92472af6a74bdecc77db6ae2",
@@ -17,6 +17,9 @@
   },
   "worldTransform": {
     "maxMatrixDelta": 0,
+    "sourceHeight": 0.3183594048023224,
+    "targetHeight": 1.65,
+    "scaleFactor": 5.182821600714223,
     "sourceBounds": {
       "min": [
         -0.14453125,
@@ -29,20 +32,20 @@
         0.1630859375
       ]
     },
-    "candidateBounds": {
+    "outputBounds": {
       "min": [
-        -0.14453125,
+        -0.7490796844782275,
         0,
-        -0.1630859375
+        -0.8452453196477298
       ],
       "max": [
-        0.14453125,
-        0.3183594048023224,
-        0.1630859375
+        0.7490796844782275,
+        1.65,
+        0.8452453196477298
       ]
     },
-    "height": 0.3183594048023224,
-    "centeredGroundedSourceBounds": true
+    "outputHeight": 1.65,
+    "centeredGrounded": true
   },
   "vertices": 2866,
   "triangles": 1683,
@@ -153,12 +156,12 @@
     },
     {
       "name": "Walk",
-      "channels": 5,
+      "channels": 6,
       "duration": 1.100000023841858
     },
     {
       "name": "Run",
-      "channels": 5,
+      "channels": 6,
       "duration": 0.7200000286102295
     },
     {
