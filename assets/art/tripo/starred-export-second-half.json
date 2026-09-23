@@ -85,8 +85,31 @@
                        "prompt":  "red dragon with large wings and beige underbelly, detailed scales, four legs, long tail",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/d20f1d55-1dce-46f6-b4e4-375769915b1f.glb",
+                                    "bytes":  25878008,
+                                    "sha256":  "a4e053f8f0df3aef8c1503fcbcb47988f656d3b009cdfe8c382b703db7b96ef0",
+                                    "faces":  9327,
+                                    "vertices":  6649,
+                                    "meshes":  1,
+                                    "skins":  1,
+                                    "joints":  49,
+                                    "animations":  0,
+                                    "embeddedImages":  3,
+                                    "textures":  3,
+                                    "materials":  1,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                       },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "dragon+3d+model.glb",
+                                      "result":  "Download verified in Downloads"
+                       }
                    },
                    {
                        "order":  24,
