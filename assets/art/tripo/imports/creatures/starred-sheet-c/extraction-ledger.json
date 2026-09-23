@@ -1,0 +1,385 @@
+{
+  "schema": "corealm-starred-sheet-creature-extraction/1",
+  "source": {
+    "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+    "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+    "bytes": 27349376,
+    "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredStatus": "unstarred in Collected; included from My Assets under user’s three-sheet request",
+    "designReview": "Sheet C: adult proportions and threatening claws. All nine parts are staged for root review; C2 has a cute-presentation hold."
+  },
+  "method": "Preserved source triangles and UV/material assignments by selecting existing triangle faces and compacting only each part’s referenced vertex attributes. No retopology. Grid assignment uses triangle-centroid 3-means on source X and Y; row-major output follows top-to-bottom rows and left-to-right columns. Each part is translated by one uniform origin offset so its bounds begin at ground Y=0 and its horizontal center is at the origin.",
+  "sourceGeometry": {
+    "meshCount": 1,
+    "primitiveCount": 1,
+    "vertices": 34238,
+    "triangles": 18401,
+    "retopology": false,
+    "positionsCenteredPerPart": true
+  },
+  "grid": {
+    "horizontalCenters": [
+      -0.35062073855027703,
+      -0.002865788794141064,
+      0.34443269340372823
+    ],
+    "verticalCentersBottomToTop": [
+      0.20752788155356025,
+      0.5470620317370138,
+      0.8590149074363538
+    ],
+    "verticalCentersTopToBottom": [
+      0.8590149074363538,
+      0.5470620317370138,
+      0.20752788155356025
+    ]
+  },
+  "sourceTextures": [
+    {
+      "name": "demon+creature+3d+model_basecolor.jpg",
+      "width": 8192,
+      "height": 8192,
+      "mimeType": "image/jpeg",
+      "format": "jpeg",
+      "bytes": 11930620,
+      "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+    },
+    {
+      "name": "demon+creature+3d+model_rm.png",
+      "width": 4096,
+      "height": 4096,
+      "mimeType": "image/png",
+      "format": "png",
+      "bytes": 12863099,
+      "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+    },
+    {
+      "name": "demon+creature+3d+model_normal.jpg",
+      "width": 4096,
+      "height": 4096,
+      "mimeType": "image/jpeg",
+      "format": "jpeg",
+      "bytes": 1237111,
+      "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+    }
+  ],
+  "parts": [
+    {
+      "part": 1,
+      "displayName": "Red Horned Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon/base.glb",
+      "sha256": "20aef52b346729e30cd9499c50eff066d364385b9b03c3ae1f3c9707e8ae0164",
+      "vertices": 5476,
+      "triangles": 2972,
+      "bounds": {
+        "min": [
+          -0.130859375,
+          0,
+          -0.0830078125
+        ],
+        "max": [
+          0.130859375,
+          0.296875,
+          0.0830078125
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          -0.4755859375,
+          0.69921875,
+          -0.2119140326976776
+        ],
+        "max": [
+          -0.2138672024011612,
+          0.99609375,
+          -0.045898403972387314
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 2,
+      "displayName": "Pale Lavender Long-Ear Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/base.glb",
+      "sha256": "6d6eebae4dae96dc35fb2f6ed95d0b03c691e381dafcb9c93519fa5d90c75519",
+      "vertices": 1628,
+      "triangles": 883,
+      "bounds": {
+        "min": [
+          -0.1337890625,
+          0,
+          -0.0605468712747097
+        ],
+        "max": [
+          0.1337890625,
+          0.306640625,
+          0.0605468712747097
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          -0.1337890774011612,
+          0.69140625,
+          -0.2099609375
+        ],
+        "max": [
+          0.1337890475988388,
+          0.998046875,
+          -0.0888671949505806
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 3,
+      "displayName": "Woodland Antler Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/base.glb",
+      "sha256": "77fff0752bef0ea2972ad07d1082e413dc3155298eb9165efeaac298d522c69e",
+      "vertices": 6285,
+      "triangles": 3411,
+      "bounds": {
+        "min": [
+          -0.142578125,
+          0,
+          -0.0966796949505806
+        ],
+        "max": [
+          0.142578125,
+          0.30859375,
+          0.0966796949505806
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          0.2021484225988388,
+          0.6894531846046448,
+          -0.24707037210464478
+        ],
+        "max": [
+          0.4873046875,
+          0.9980469346046448,
+          -0.05371098592877388
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 4,
+      "displayName": "Magma Spike Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
+      "sha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
+      "vertices": 5257,
+      "triangles": 2775,
+      "bounds": {
+        "min": [
+          -0.1416015774011612,
+          0,
+          -0.16015625
+        ],
+        "max": [
+          0.1416015774011612,
+          0.349609375,
+          0.16015625
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          -0.4873046875,
+          0.359375,
+          -0.20214837789535522
+        ],
+        "max": [
+          -0.2041015326976776,
+          0.708984375,
+          0.11816410720348358
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 5,
+      "displayName": "Ivory Spike Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/05-ivory-spike-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/05-ivory-spike-demon/base.glb",
+      "sha256": "e77c1ba240227a1132890896c3f9fa78779316a95a80bffb8cbcc16b110fa4ff",
+      "vertices": 2864,
+      "triangles": 1525,
+      "bounds": {
+        "min": [
+          -0.1396484375,
+          0,
+          -0.1591796875
+        ],
+        "max": [
+          0.1396484375,
+          0.3593749701976776,
+          0.1591796875
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          -0.1416015326976776,
+          0.3613281548023224,
+          -0.2001953125
+        ],
+        "max": [
+          0.1376953423023224,
+          0.720703125,
+          0.1181640625
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 6,
+      "displayName": "Purple Cyclops Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/base.glb",
+      "sha256": "61c616190f018f20a19edf0f8d6f3a9304440c1790fc812614f91868c9e3488f",
+      "vertices": 3130,
+      "triangles": 1667,
+      "bounds": {
+        "min": [
+          -0.1396484225988388,
+          0,
+          -0.162109375
+        ],
+        "max": [
+          0.1396484225988388,
+          0.349609375,
+          0.162109375
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          0.2041015923023224,
+          0.3730469346046448,
+          -0.2021484673023224
+        ],
+        "max": [
+          0.4833984375,
+          0.7226563096046448,
+          0.12207026779651642
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 7,
+      "displayName": "Ice Spike Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/07-ice-spike-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/07-ice-spike-demon/base.glb",
+      "sha256": "b5ba1b04601cbd18b97f8a152d5933a810841e61b50429c90fe2524cedd401e2",
+      "vertices": 3363,
+      "triangles": 1752,
+      "bounds": {
+        "min": [
+          -0.140625,
+          0,
+          -0.126953125
+        ],
+        "max": [
+          0.140625,
+          0.39453125,
+          0.126953125
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          -0.4853515028953552,
+          0,
+          -0.00683588208630681
+        ],
+        "max": [
+          -0.20410150289535522,
+          0.39453125,
+          0.24707037210464478
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 8,
+      "displayName": "Tan Bull-Horn Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon/base.glb",
+      "sha256": "6f56531550849c443e728ce255502f57e265612835072fa1630d9d7282d975dd",
+      "vertices": 2239,
+      "triangles": 1210,
+      "bounds": {
+        "min": [
+          -0.140625,
+          0,
+          -0.1230468824505806
+        ],
+        "max": [
+          0.140625,
+          0.392578125,
+          0.1230468824505806
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          -0.14160150289535522,
+          2.9802322387695312e-8,
+          -0.000976543000433594
+        ],
+        "max": [
+          0.13964849710464478,
+          0.3925781548023224,
+          0.2451172173023224
+        ]
+      },
+      "pbrTextureCount": 3
+    },
+    {
+      "part": 9,
+      "displayName": "Brown Many-Horn Demon",
+      "folder": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/09-brown-many-horn-demon",
+      "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/09-brown-many-horn-demon/base.glb",
+      "sha256": "2b4f39dbd4b1c72e1d5a9a0065056a6fbce936dce7e53496e8f9475d04c042e3",
+      "vertices": 4088,
+      "triangles": 2206,
+      "bounds": {
+        "min": [
+          -0.140625,
+          0,
+          -0.1220703125
+        ],
+        "max": [
+          0.140625,
+          0.3750000298023224,
+          0.1220703125
+        ]
+      },
+      "sourceBounds": {
+        "min": [
+          0.20019537210464478,
+          0.003906279802322388,
+          -0.0009765877621248364
+        ],
+        "max": [
+          0.4814453721046448,
+          0.3789063096046448,
+          0.2431640326976776
+        ]
+      },
+      "pbrTextureCount": 3
+    }
+  ],
+  "extractedTriangles": 18401,
+  "acceptance": {
+    "sourceProvenance": true,
+    "extraction": true,
+    "sourceDesign": false,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

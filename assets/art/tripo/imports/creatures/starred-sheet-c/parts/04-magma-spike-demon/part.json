@@ -1,0 +1,136 @@
+{
+  "part": 4,
+  "displayName": "Magma Spike Demon",
+  "status": "extracted-candidate-pending-root-review",
+  "reviewHold": null,
+  "source": {
+    "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+    "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+    "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredStatus": "in My Assets; not starred in Collected at extraction time",
+    "sourceCell": {
+      "row": 2,
+      "column": 1
+    },
+    "triangleCount": 2775,
+    "vertexCount": 5257,
+    "sourceBounds": {
+      "min": [
+        -0.4873046875,
+        0.359375,
+        -0.20214837789535522
+      ],
+      "max": [
+        -0.2041015326976776,
+        0.708984375,
+        0.11816410720348358
+      ]
+    },
+    "sourcePositionOffset": [
+      -0.3457031100988388,
+      0.359375,
+      -0.04199213534593582
+    ],
+    "attributeHashes": {
+      "POSITION": "95e9bbba560bdf9c8cdd1e35120cdd49c77e5585ccf092902d3328a763ede78d",
+      "NORMAL": "c5e38c4321118a92b3dcd31edf053aa09cf82151de6a073d029a7259121eb7ea",
+      "TEXCOORD_0": "a6ebdb3af0505543e0832e87b3415f62038a6d78470bb03c8628686051ce8f47"
+    },
+    "triangleIndexHash": "4653c28aa2df41800b750b11fd8433ded431437540865218e85e4c6830c74974",
+    "pbrTextures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 11930620,
+        "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "format": "png",
+        "bytes": 12863099,
+        "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 1237111,
+        "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+      }
+    ],
+    "skin": "none",
+    "animations": []
+  },
+  "extracted": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
+    "sha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
+    "bytes": 6861092,
+    "geometry": {
+      "vertices": 5257,
+      "triangles": 2775,
+      "bounds": {
+        "min": [
+          -0.1416015774011612,
+          0,
+          -0.16015625
+        ],
+        "max": [
+          0.1416015774011612,
+          0.349609375,
+          0.16015625
+        ]
+      },
+      "retopology": false,
+      "triangleConnectivityPreserved": true,
+      "attributeHashes": {
+        "POSITION": "67b6f8747905af7e900480aba37fabf1473f860913a5ae0a86a3f8f74ac5e663",
+        "NORMAL": "c5e38c4321118a92b3dcd31edf053aa09cf82151de6a073d029a7259121eb7ea",
+        "TEXCOORD_0": "a6ebdb3af0505543e0832e87b3415f62038a6d78470bb03c8628686051ce8f47"
+      },
+      "indexHash": "894867ede6f9ff572a1decde503bafccb9a6a75bdd0eebdf8cb4b06f85dbfb1d"
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "acceptance": {
+      "extraction": true,
+      "sourceDesign": true,
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "part": 5,
+  "displayName": "Ivory Spike Demon",
+  "status": "extracted-candidate-pending-root-review",
+  "reviewHold": null,
+  "source": {
+    "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+    "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+    "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredStatus": "in My Assets; not starred in Collected at extraction time",
+    "sourceCell": {
+      "row": 2,
+      "column": 2
+    },
+    "triangleCount": 1525,
+    "vertexCount": 2864,
+    "sourceBounds": {
+      "min": [
+        -0.1416015326976776,
+        0.3613281548023224,
+        -0.2001953125
+      ],
+      "max": [
+        0.1376953423023224,
+        0.720703125,
+        0.1181640625
+      ]
+    },
+    "sourcePositionOffset": [
+      -0.0019530951976776123,
+      0.3613281548023224,
+      -0.041015625
+    ],
+    "attributeHashes": {
+      "POSITION": "27b8bade9389e61bc33516947cc7890d919c484e7cebefa9019964ac456b6090",
+      "NORMAL": "bcba8fdc11d64410e41309e84f2aed1a80a41199c0137271d23073b692cccb89",
+      "TEXCOORD_0": "b5e770ee95c5ce47199093770e7aa9773c1044bca24a1da9efbfcb914decf9fb"
+    },
+    "triangleIndexHash": "366e2a39f17e1543a93cd2c665b18c1dc2e4d1f52eebc717726c1d40c37b16c3",
+    "pbrTextures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 11930620,
+        "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "format": "png",
+        "bytes": 12863099,
+        "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 1237111,
+        "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+      }
+    ],
+    "skin": "none",
+    "animations": []
+  },
+  "extracted": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/05-ivory-spike-demon/base.glb",
+    "sha256": "e77c1ba240227a1132890896c3f9fa78779316a95a80bffb8cbcc16b110fa4ff",
+    "bytes": 6769512,
+    "geometry": {
+      "vertices": 2864,
+      "triangles": 1525,
+      "bounds": {
+        "min": [
+          -0.1396484375,
+          0,
+          -0.1591796875
+        ],
+        "max": [
+          0.1396484375,
+          0.3593749701976776,
+          0.1591796875
+        ]
+      },
+      "retopology": false,
+      "triangleConnectivityPreserved": true,
+      "attributeHashes": {
+        "POSITION": "a2cb906b93eb9e10361192603c099e3ca7a82f7a83a47d69df5bfcc40ddb5fe2",
+        "NORMAL": "bcba8fdc11d64410e41309e84f2aed1a80a41199c0137271d23073b692cccb89",
+        "TEXCOORD_0": "b5e770ee95c5ce47199093770e7aa9773c1044bca24a1da9efbfcb914decf9fb"
+      },
+      "indexHash": "8ebf0ca2e42439885157d0df8f1bd63c1476c607c27e7778dda7fb7d11cb2a71"
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "acceptance": {
+      "extraction": true,
+      "sourceDesign": true,
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  }
+}

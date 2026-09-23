@@ -1,0 +1,136 @@
+{
+  "part": 6,
+  "displayName": "Purple Cyclops Demon",
+  "status": "extracted-candidate-pending-root-review",
+  "reviewHold": null,
+  "source": {
+    "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+    "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+    "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredStatus": "in My Assets; not starred in Collected at extraction time",
+    "sourceCell": {
+      "row": 2,
+      "column": 3
+    },
+    "triangleCount": 1667,
+    "vertexCount": 3130,
+    "sourceBounds": {
+      "min": [
+        0.2041015923023224,
+        0.3730469346046448,
+        -0.2021484673023224
+      ],
+      "max": [
+        0.4833984375,
+        0.7226563096046448,
+        0.12207026779651642
+      ]
+    },
+    "sourcePositionOffset": [
+      0.3437500149011612,
+      0.3730469346046448,
+      -0.040039099752902985
+    ],
+    "attributeHashes": {
+      "POSITION": "e14768b28aaa1b99536641cacb040438e474d2805e9e99654bce90376ea7f55f",
+      "NORMAL": "ade1f40e7af515a9d0c891c56c716596c1461ca7435fe0e91af07221769daaa3",
+      "TEXCOORD_0": "886b4c94ede7a3d31124fb9ddf95b1e6cbc0fc8198a32a0faab30a11404d139c"
+    },
+    "triangleIndexHash": "8f4147e85d33d8ebe123a81efaea8c4d3a2cfdae48616c7b5c3fb9ff8c5e2582",
+    "pbrTextures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 11930620,
+        "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "format": "png",
+        "bytes": 12863099,
+        "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 1237111,
+        "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+      }
+    ],
+    "skin": "none",
+    "animations": []
+  },
+  "extracted": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/base.glb",
+    "sha256": "61c616190f018f20a19edf0f8d6f3a9304440c1790fc812614f91868c9e3488f",
+    "bytes": 6779732,
+    "geometry": {
+      "vertices": 3130,
+      "triangles": 1667,
+      "bounds": {
+        "min": [
+          -0.1396484225988388,
+          0,
+          -0.162109375
+        ],
+        "max": [
+          0.1396484225988388,
+          0.349609375,
+          0.162109375
+        ]
+      },
+      "retopology": false,
+      "triangleConnectivityPreserved": true,
+      "attributeHashes": {
+        "POSITION": "f0744a7cefe975c4ab261106cb46615a4136b83cde78f38a6dfdae6db55a48e0",
+        "NORMAL": "ade1f40e7af515a9d0c891c56c716596c1461ca7435fe0e91af07221769daaa3",
+        "TEXCOORD_0": "886b4c94ede7a3d31124fb9ddf95b1e6cbc0fc8198a32a0faab30a11404d139c"
+      },
+      "indexHash": "6c7901d6e14d039b291dc3c4dbed489eb9d04350296c660781e0536ea2097093"
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "acceptance": {
+      "extraction": true,
+      "sourceDesign": true,
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  }
+}

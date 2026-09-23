@@ -1,0 +1,136 @@
+{
+  "part": 1,
+  "displayName": "Red Horned Demon",
+  "status": "extracted-candidate-pending-root-review",
+  "reviewHold": null,
+  "source": {
+    "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+    "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+    "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredStatus": "in My Assets; not starred in Collected at extraction time",
+    "sourceCell": {
+      "row": 1,
+      "column": 1
+    },
+    "triangleCount": 2972,
+    "vertexCount": 5476,
+    "sourceBounds": {
+      "min": [
+        -0.4755859375,
+        0.69921875,
+        -0.2119140326976776
+      ],
+      "max": [
+        -0.2138672024011612,
+        0.99609375,
+        -0.045898403972387314
+      ]
+    },
+    "sourcePositionOffset": [
+      -0.3447265699505806,
+      0.69921875,
+      -0.12890621833503246
+    ],
+    "attributeHashes": {
+      "POSITION": "5a49f2a4526fcd8b9f97b71d3966b6972d7b0fb3961c280a7b4137277f80e3be",
+      "NORMAL": "49147e783dd9a79f32d8b2e220e6411f5a2232f618e72dbc1bc79a20d80c0e28",
+      "TEXCOORD_0": "cd0c1d8cfbf26a773b081a10747ca1378b3c5320d0cdb071b84f2f215c42ac9e"
+    },
+    "triangleIndexHash": "4babe31d93be5c07786ed6f099d4cc99462cc7ea173a77afbf1b8f17806c92d9",
+    "pbrTextures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 11930620,
+        "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "format": "png",
+        "bytes": 12863099,
+        "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 1237111,
+        "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+      }
+    ],
+    "skin": "none",
+    "animations": []
+  },
+  "extracted": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon/base.glb",
+    "sha256": "20aef52b346729e30cd9499c50eff066d364385b9b03c3ae1f3c9707e8ae0164",
+    "bytes": 6870448,
+    "geometry": {
+      "vertices": 5476,
+      "triangles": 2972,
+      "bounds": {
+        "min": [
+          -0.130859375,
+          0,
+          -0.0830078125
+        ],
+        "max": [
+          0.130859375,
+          0.296875,
+          0.0830078125
+        ]
+      },
+      "retopology": false,
+      "triangleConnectivityPreserved": true,
+      "attributeHashes": {
+        "POSITION": "8685e9ee305a1216455a0e9c516b761981d107847eb4816de69f0505781d716d",
+        "NORMAL": "49147e783dd9a79f32d8b2e220e6411f5a2232f618e72dbc1bc79a20d80c0e28",
+        "TEXCOORD_0": "cd0c1d8cfbf26a773b081a10747ca1378b3c5320d0cdb071b84f2f215c42ac9e"
+      },
+      "indexHash": "6e517a1a286674603c1671891bd68ed29e1bcfe1213015f589b1e835e48b72dc"
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "acceptance": {
+      "extraction": true,
+      "sourceDesign": true,
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  }
+}

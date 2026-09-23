@@ -1,0 +1,136 @@
+{
+  "part": 9,
+  "displayName": "Brown Many-Horn Demon",
+  "status": "extracted-candidate-pending-root-review",
+  "reviewHold": null,
+  "source": {
+    "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+    "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+    "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredStatus": "in My Assets; not starred in Collected at extraction time",
+    "sourceCell": {
+      "row": 3,
+      "column": 3
+    },
+    "triangleCount": 2206,
+    "vertexCount": 4088,
+    "sourceBounds": {
+      "min": [
+        0.20019537210464478,
+        0.003906279802322388,
+        -0.0009765877621248364
+      ],
+      "max": [
+        0.4814453721046448,
+        0.3789063096046448,
+        0.2431640326976776
+      ]
+    },
+    "sourcePositionOffset": [
+      0.3408203721046448,
+      0.003906279802322388,
+      0.12109372246777639
+    ],
+    "attributeHashes": {
+      "POSITION": "086e9a2ba532869b1bbcdf49f6fea4e2838ae84bcb5e358b0425c1855082ff88",
+      "NORMAL": "05522f6d2935a19cd5838676754040001d33b3142193776077ebd57ec060ef6d",
+      "TEXCOORD_0": "3b5c0b29e53671dc12c117616774766e72d12157608c138e5b15cb02a1505f60"
+    },
+    "triangleIndexHash": "0d353e3b0315b46c49738c19cc320875d0d0cb53d5d76c819727d112965cc070",
+    "pbrTextures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 11930620,
+        "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "format": "png",
+        "bytes": 12863099,
+        "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 1237111,
+        "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+      }
+    ],
+    "skin": "none",
+    "animations": []
+  },
+  "extracted": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/09-brown-many-horn-demon/base.glb",
+    "sha256": "2b4f39dbd4b1c72e1d5a9a0065056a6fbce936dce7e53496e8f9475d04c042e3",
+    "bytes": 6816844,
+    "geometry": {
+      "vertices": 4088,
+      "triangles": 2206,
+      "bounds": {
+        "min": [
+          -0.140625,
+          0,
+          -0.1220703125
+        ],
+        "max": [
+          0.140625,
+          0.3750000298023224,
+          0.1220703125
+        ]
+      },
+      "retopology": false,
+      "triangleConnectivityPreserved": true,
+      "attributeHashes": {
+        "POSITION": "7d4045bcb140cd4eb892ce064edb48d9d0a28cddcb8aad2fb3d94af2b84a82c3",
+        "NORMAL": "05522f6d2935a19cd5838676754040001d33b3142193776077ebd57ec060ef6d",
+        "TEXCOORD_0": "3b5c0b29e53671dc12c117616774766e72d12157608c138e5b15cb02a1505f60"
+      },
+      "indexHash": "bfd308c1004f40165ed8ba9b07931ece6acceca797c99ff472954e7d963a2ee5"
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "acceptance": {
+      "extraction": true,
+      "sourceDesign": true,
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  }
+}

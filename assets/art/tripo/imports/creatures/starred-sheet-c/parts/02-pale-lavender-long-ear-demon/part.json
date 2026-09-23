@@ -1,0 +1,136 @@
+{
+  "part": 2,
+  "displayName": "Pale Lavender Long-Ear Demon",
+  "status": "extracted-candidate-pending-root-review",
+  "reviewHold": "C2 held for cute presentation; root visual review required.",
+  "source": {
+    "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+    "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+    "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredStatus": "in My Assets; not starred in Collected at extraction time",
+    "sourceCell": {
+      "row": 1,
+      "column": 2
+    },
+    "triangleCount": 883,
+    "vertexCount": 1628,
+    "sourceBounds": {
+      "min": [
+        -0.1337890774011612,
+        0.69140625,
+        -0.2099609375
+      ],
+      "max": [
+        0.1337890475988388,
+        0.998046875,
+        -0.0888671949505806
+      ]
+    },
+    "sourcePositionOffset": [
+      -1.4901161193847656e-8,
+      0.69140625,
+      -0.1494140662252903
+    ],
+    "attributeHashes": {
+      "POSITION": "73bb8ee2da6e72461110fd0dea255960b8b4dc494b04d5acd71035bc1328127d",
+      "NORMAL": "8fbd603dc2ba833e0e1ee40a7d810235df646ddb02dd73a71c5029050890b90c",
+      "TEXCOORD_0": "129079575e9a1794ab5c3cd8d822c3b0376305161ad8e0e97301d62bfdf4cb27"
+    },
+    "triangleIndexHash": "6097b458fee3b4baa84f3198487fd34db89b8635d9fda9910c78b1dac4380f7a",
+    "pbrTextures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 11930620,
+        "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "format": "png",
+        "bytes": 12863099,
+        "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "format": "jpeg",
+        "bytes": 1237111,
+        "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+      }
+    ],
+    "skin": "none",
+    "animations": []
+  },
+  "extracted": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/base.glb",
+    "sha256": "6d6eebae4dae96dc35fb2f6ed95d0b03c691e381dafcb9c93519fa5d90c75519",
+    "bytes": 6722260,
+    "geometry": {
+      "vertices": 1628,
+      "triangles": 883,
+      "bounds": {
+        "min": [
+          -0.1337890625,
+          0,
+          -0.0605468712747097
+        ],
+        "max": [
+          0.1337890625,
+          0.306640625,
+          0.0605468712747097
+        ]
+      },
+      "retopology": false,
+      "triangleConnectivityPreserved": true,
+      "attributeHashes": {
+        "POSITION": "b953a4e35f9883cdba5bf423ea61bec7d9b0002187243090fd0efa26c8620efe",
+        "NORMAL": "8fbd603dc2ba833e0e1ee40a7d810235df646ddb02dd73a71c5029050890b90c",
+        "TEXCOORD_0": "129079575e9a1794ab5c3cd8d822c3b0376305161ad8e0e97301d62bfdf4cb27"
+      },
+      "indexHash": "e65a7c27ab1f5d68003531f306c1446830830bdd257a81883707fb153fab8505"
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "acceptance": {
+      "extraction": true,
+      "sourceDesign": true,
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  }
+}
