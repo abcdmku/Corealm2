@@ -84220,6 +84220,525 @@
           "test-results/starred-correct-worktree/cinder-walk-01.png"
         ]
       }
+    },
+    {
+      "id": "corealm_item_kaldite_helm",
+      "file": "models/items/kaldite_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_helm",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "bytes": 22496920,
+      "size": {
+        "x": 0.2411865070462227,
+        "y": 0.30849599838256836,
+        "z": 0.33784177899360657
+      },
+      "base": {
+        "x": -0.12059319019317627,
+        "y": 1.510624647140503,
+        "z": -0.15672603249549866
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_helm",
+        "wearable": true
+      },
+      "itemId": "kaldite_helm",
+      "sha256": "3898502bbdfdafc4fcaf68b8985adf804e56cbc371dedf1849601405ab186829",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 546,
+      "drawCalls": 2,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "c91a272",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/cobalt/candidate/models/items/kaldite_helm.glb",
+        "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+        "importConfigSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8662165,
+            "sha256": "da753deb094405d570ae2427feed86e44391fe077c890c5f9303544b08a0dbaf",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6734838,
+            "sha256": "59f7821c7a045d577f7af69458771de2dd75467fe84fb4107d3c6954c75cea66",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7043397,
+            "sha256": "5e56d5adebea545878d837703c3ce4f80305be58f7965a6da4783446df3e5eae",
+            "role": "normal"
+          }
+        ],
+        "fit": {
+          "method": "Bind-pose neutral source bake, nonuniform native-male scale (X/Z 1.85, Y 1.8, +0.02 m Y), geometry-based triangle segmentation, ±56° arm corrections around the native upper-arm anchors, and a piecewise lateral lower-leg/boot fit to native joint spacing; item output vertices receive the production native skin.",
+          "armRotationDegrees": {
+            "left": 56.001,
+            "right": -56.001
+          },
+          "triangleAssignments": {
+            "kaldite_helm": 546,
+            "kaldite_plate": 1169,
+            "kaldite_gauntlets": 1438,
+            "kaldite_greaves": 1359,
+            "kaldite_boots": 479
+          },
+          "originalTrianglesAssignedOnce": 4991,
+          "sourceMaps8192DownsampledToRuntime": 2048
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/cobalt-staged-front.png",
+          "test-results/crownsilver-fit-lab/cobalt-staged-rear.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_plate",
+      "file": "models/items/kaldite_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_plate",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "bytes": 22578520,
+      "size": {
+        "x": 0.993142157793045,
+        "y": 0.517675518989563,
+        "z": 0.3640381097793579
+      },
+      "base": {
+        "x": -0.4965023100376129,
+        "y": 1.052714467048645,
+        "z": -0.18021240830421448
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.95,
+            "maxY": 1.52
+          }
+        ]
+      },
+      "itemId": "kaldite_plate",
+      "sha256": "78630409f56d830e25d4e30e87605657a6f4b4fe27665bb4ca81b3234bb3e8fd",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 1169,
+      "drawCalls": 17,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "c91a272",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/cobalt/candidate/models/items/kaldite_plate.glb",
+        "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+        "importConfigSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8662165,
+            "sha256": "da753deb094405d570ae2427feed86e44391fe077c890c5f9303544b08a0dbaf",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6734838,
+            "sha256": "59f7821c7a045d577f7af69458771de2dd75467fe84fb4107d3c6954c75cea66",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7043397,
+            "sha256": "5e56d5adebea545878d837703c3ce4f80305be58f7965a6da4783446df3e5eae",
+            "role": "normal"
+          }
+        ],
+        "fit": {
+          "method": "Bind-pose neutral source bake, nonuniform native-male scale (X/Z 1.85, Y 1.8, +0.02 m Y), geometry-based triangle segmentation, ±56° arm corrections around the native upper-arm anchors, and a piecewise lateral lower-leg/boot fit to native joint spacing; item output vertices receive the production native skin.",
+          "armRotationDegrees": {
+            "left": 56.001,
+            "right": -56.001
+          },
+          "triangleAssignments": {
+            "kaldite_helm": 546,
+            "kaldite_plate": 1169,
+            "kaldite_gauntlets": 1438,
+            "kaldite_greaves": 1359,
+            "kaldite_boots": 479
+          },
+          "originalTrianglesAssignedOnce": 4991,
+          "sourceMaps8192DownsampledToRuntime": 2048
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/cobalt-staged-front.png",
+          "test-results/crownsilver-fit-lab/cobalt-staged-rear.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_gauntlets",
+      "file": "models/items/kaldite_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_gauntlets",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "bytes": 22606252,
+      "size": {
+        "x": 1.750963270664215,
+        "y": 0.2282038927078247,
+        "z": 0.2556397020816803
+      },
+      "base": {
+        "x": -0.877503514289856,
+        "y": 1.30980384349823,
+        "z": -0.1634296327829361
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_gauntlets",
+        "wearable": true
+      },
+      "itemId": "kaldite_gauntlets",
+      "sha256": "5c80d1ea1d0d089b03f596b201084c308a1ccd303d42e22de5574b810bffa822",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 1438,
+      "drawCalls": 10,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "c91a272",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/cobalt/candidate/models/items/kaldite_gauntlets.glb",
+        "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+        "importConfigSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8662165,
+            "sha256": "da753deb094405d570ae2427feed86e44391fe077c890c5f9303544b08a0dbaf",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6734838,
+            "sha256": "59f7821c7a045d577f7af69458771de2dd75467fe84fb4107d3c6954c75cea66",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7043397,
+            "sha256": "5e56d5adebea545878d837703c3ce4f80305be58f7965a6da4783446df3e5eae",
+            "role": "normal"
+          }
+        ],
+        "fit": {
+          "method": "Bind-pose neutral source bake, nonuniform native-male scale (X/Z 1.85, Y 1.8, +0.02 m Y), geometry-based triangle segmentation, ±56° arm corrections around the native upper-arm anchors, and a piecewise lateral lower-leg/boot fit to native joint spacing; item output vertices receive the production native skin.",
+          "armRotationDegrees": {
+            "left": 56.001,
+            "right": -56.001
+          },
+          "triangleAssignments": {
+            "kaldite_helm": 546,
+            "kaldite_plate": 1169,
+            "kaldite_gauntlets": 1438,
+            "kaldite_greaves": 1359,
+            "kaldite_boots": 479
+          },
+          "originalTrianglesAssignedOnce": 4991,
+          "sourceMaps8192DownsampledToRuntime": 2048
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/cobalt-staged-front.png",
+          "test-results/crownsilver-fit-lab/cobalt-staged-rear.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_greaves",
+      "file": "models/items/kaldite_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_greaves",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "bytes": 22596744,
+      "size": {
+        "x": 0.4495933949947357,
+        "y": 0.9079104661941528,
+        "z": 0.36223143339157104
+      },
+      "base": {
+        "x": -0.2247941941022873,
+        "y": 0.186112642288208,
+        "z": -0.1892455667257309
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.25,
+            "maxY": 1.08
+          }
+        ]
+      },
+      "itemId": "kaldite_greaves",
+      "sha256": "5867ae6bbed6a0bb085205416c86f70fc58f67d0c01ede635ffe594138c30b2d",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 1359,
+      "drawCalls": 19,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "c91a272",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/cobalt/candidate/models/items/kaldite_greaves.glb",
+        "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+        "importConfigSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8662165,
+            "sha256": "da753deb094405d570ae2427feed86e44391fe077c890c5f9303544b08a0dbaf",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6734838,
+            "sha256": "59f7821c7a045d577f7af69458771de2dd75467fe84fb4107d3c6954c75cea66",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7043397,
+            "sha256": "5e56d5adebea545878d837703c3ce4f80305be58f7965a6da4783446df3e5eae",
+            "role": "normal"
+          }
+        ],
+        "fit": {
+          "method": "Bind-pose neutral source bake, nonuniform native-male scale (X/Z 1.85, Y 1.8, +0.02 m Y), geometry-based triangle segmentation, ±56° arm corrections around the native upper-arm anchors, and a piecewise lateral lower-leg/boot fit to native joint spacing; item output vertices receive the production native skin.",
+          "armRotationDegrees": {
+            "left": 56.001,
+            "right": -56.001
+          },
+          "triangleAssignments": {
+            "kaldite_helm": 546,
+            "kaldite_plate": 1169,
+            "kaldite_gauntlets": 1438,
+            "kaldite_greaves": 1359,
+            "kaldite_boots": 479
+          },
+          "originalTrianglesAssignedOnce": 4991,
+          "sourceMaps8192DownsampledToRuntime": 2048
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/cobalt-staged-front.png",
+          "test-results/crownsilver-fit-lab/cobalt-staged-rear.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_boots",
+      "file": "models/items/kaldite_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "bytes": 22511424,
+      "size": {
+        "x": 0.3800720274448395,
+        "y": 0.2487301342189312,
+        "z": 0.33784180879592896
+      },
+      "base": {
+        "x": -0.19003617763519287,
+        "y": 0.019999731332063675,
+        "z": -0.14859604835510254
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_boots",
+        "wearable": true
+      },
+      "itemId": "kaldite_boots",
+      "sha256": "5311d4c3d09d57d018e35767c590b29a30535710cf0be58c1f9ca341d6c8d3b2",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 479,
+      "drawCalls": 7,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "c91a272",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/cobalt/candidate/models/items/kaldite_boots.glb",
+        "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+        "importConfigSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8662165,
+            "sha256": "da753deb094405d570ae2427feed86e44391fe077c890c5f9303544b08a0dbaf",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6734838,
+            "sha256": "59f7821c7a045d577f7af69458771de2dd75467fe84fb4107d3c6954c75cea66",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7043397,
+            "sha256": "5e56d5adebea545878d837703c3ce4f80305be58f7965a6da4783446df3e5eae",
+            "role": "normal"
+          }
+        ],
+        "fit": {
+          "method": "Bind-pose neutral source bake, nonuniform native-male scale (X/Z 1.85, Y 1.8, +0.02 m Y), geometry-based triangle segmentation, ±56° arm corrections around the native upper-arm anchors, and a piecewise lateral lower-leg/boot fit to native joint spacing; item output vertices receive the production native skin.",
+          "armRotationDegrees": {
+            "left": 56.001,
+            "right": -56.001
+          },
+          "triangleAssignments": {
+            "kaldite_helm": 546,
+            "kaldite_plate": 1169,
+            "kaldite_gauntlets": 1438,
+            "kaldite_greaves": 1359,
+            "kaldite_boots": 479
+          },
+          "originalTrianglesAssignedOnce": 4991,
+          "sourceMaps8192DownsampledToRuntime": 2048
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/cobalt/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/cobalt-staged-front.png",
+          "test-results/crownsilver-fit-lab/cobalt-staged-rear.png"
+        ]
+      }
     }
   ]
 }
