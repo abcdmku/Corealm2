@@ -2127,7 +2127,7 @@
   },
   {
     "id": "redbrush_fox_t1",
-    "name": "Redbrush Prowler",
+    "name": "Vetchrunner",
     "family": "redbrush_fox",
     "availability": "world",
     "level": 1,
@@ -2185,7 +2185,7 @@
       "scale": 1,
       "regionId": "fallowmarch",
       "activity": "forage",
-      "description": "A russet hedge fox with a dark-tipped brush. It forages for field mice along thorny margins and bites only when cornered.",
+      "description": "A small russet field-runner with dark-tipped ears, bristled cheeks, and a banded brush tail. It searches the Fallowmarch hedges for seeds and beetles, fleeing from danger unless cornered.",
       "kind": "basic"
     }
   },
@@ -3075,7 +3075,7 @@
   },
   {
     "id": "marchfield_turkey_t1",
-    "name": "Turkey",
+    "name": "Ryecrest",
     "family": "marchfield_turkey",
     "availability": "world",
     "level": 1,
@@ -3133,7 +3133,7 @@
       "scale": 1,
       "regionId": "fallowmarch",
       "activity": "forage",
-      "description": "A broad fan-tailed bird with a bare neck and hanging wattle. Struts around its feeding yard and pecks back when attacked.",
+      "description": "A compact russet-and-gold field bird with a raised feather crest and sturdy running legs. It pecks for grain along the Fallowmarch field margins and darts away when threatened.",
       "kind": "basic"
     }
   },

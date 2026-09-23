@@ -122,7 +122,7 @@
   },
   {
     "id": "regional_redbrush_fox_patrol",
-    "name": "Redbrush Prowler",
+    "name": "Vetchrunner",
     "activity": "patrol",
     "members": [
       {
@@ -232,7 +232,7 @@
   },
   {
     "id": "redbrush_fox_t1_forage",
-    "name": "Redbrush Prowler",
+    "name": "Vetchrunner",
     "activity": "forage",
     "members": [
       {
@@ -265,7 +265,7 @@
   },
   {
     "id": "marchfield_turkey_t1_forage",
-    "name": "Turkey",
+    "name": "Ryecrest",
     "activity": "forage",
     "members": [
       {
