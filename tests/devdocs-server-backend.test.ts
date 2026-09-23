@@ -42,7 +42,7 @@ function fakeServer(overrides: Record<string, { status: number; body: unknown }>
     if (override) return response(override.status, override.body);
     if (route === "/admin/content/sources") return response(200, { revision: REVISION, revisions: REVISIONS, sources });
     if (route === `/admin/content/catalog/${REVISION}`) return response(200, { revision: REVISION, tables: { items: [{ id: "worn_sword", attack: 3 }], enemies: [] } });
-    if (url === "https://cdn.test/pack/assets/manifest.json") return response(200, { assets: [{ id: "sword_model" }] });
+    if (url === "https://cdn.test/pack/assets/manifest.json") return response(200, { assets: [{ id: "sword_model", file: "models/sword_model.glb" }] });
     return response(404, { error: { code: "not_found", message: "No such admin endpoint" } });
   };
   return { calls, fetch: answer as unknown as typeof globalThis.fetch };
@@ -127,13 +127,40 @@ describe("reads", () => {
     expect((await backend.collection("compiled-items")).data).toEqual([{ id: "worn_sword", attack: 3 }]);
   });
 
+  it("prefers a valid same-origin development asset mount", async () => {
+    const server = fakeServer({
+      "/dev-assets/assets/manifest.json": { status: 200, body: { assets: [{ id: "fresh_model", file: "models/fresh_model.glb" }] } },
+    });
+    const backend = createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch });
+    const assets = await backend.collection("assets");
+
+    expect(assets.data).toContainEqual({ id: "fresh_model", file: "models/fresh_model.glb" });
+    expect(backend.assetBaseUrl).toBe(`${SESSION.server}/dev-assets/`);
+    expect(server.calls.some(call => call.url === `${SESSION.server}/dev-assets/assets/manifest.json`)).toBe(true);
+    expect(server.calls.some(call => call.url.startsWith(DESCRIPTOR.assetBaseUrl))).toBe(false);
+  });
+
+  it("falls back to the published asset host when the development manifest is invalid", async () => {
+    const server = fakeServer({
+      "/dev-assets/assets/manifest.json": { status: 200, body: { assets: [{ id: "missing_file" }] } },
+    });
+    const backend = createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch });
+    const assets = await backend.collection("assets");
+
+    expect(assets.data).toContainEqual({ id: "sword_model", file: "models/sword_model.glb" });
+    expect(backend.assetBaseUrl).toBe(DESCRIPTOR.assetBaseUrl);
+    expect(server.calls.some(call => call.url === `${SESSION.server}/dev-assets/assets/manifest.json`)).toBe(true);
+    expect(server.calls.some(call => call.url === `${DESCRIPTOR.assetBaseUrl}assets/manifest.json`)).toBe(true);
+  });
+
   it("presents the session as a bearer token on every admin request", async () => {
     const server = fakeServer();
     await createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch }).collections();
-    const admin = server.calls.filter(call => call.url.startsWith(SESSION.server));
+    const admin = server.calls.filter(call => call.url.startsWith(`${SESSION.server}/admin/`));
     expect(admin.map(call => call.url)).toEqual([`${SESSION.server}/admin/content/sources`, `${SESSION.server}/admin/content/catalog/${REVISION}`]);
     for (const call of admin) expect(call.headers.Authorization).toBe("Bearer cas_secret");
-    // The asset manifest is a public file on another host and must not carry the admin session.
+    // Both asset hosts are public files and must not carry the admin session.
+    expect(server.calls.find(call => call.url.startsWith("https://play.test/dev-assets/"))?.headers.Authorization).toBeUndefined();
     expect(server.calls.find(call => call.url.startsWith("https://cdn.test"))?.headers.Authorization).toBeUndefined();
   });
 

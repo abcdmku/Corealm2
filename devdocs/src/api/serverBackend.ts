@@ -65,7 +65,7 @@ function diagnostics(problems: unknown): ApiDiagnostic[] {
 export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   const call = ports.fetch ?? globalThis.fetch.bind(globalThis);
   const { session, descriptor } = ports;
-  const assetBaseUrl = descriptor.assetBaseUrl;
+  let assetBaseUrl = descriptor.assetBaseUrl;
   let pending: Promise<Snapshot> | undefined;
 
   async function admin<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -78,14 +78,34 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     return response.json() as Promise<T>;
   }
 
-  /** The asset manifest the server validates publishes against, from the host it points clients at. */
+  function manifestAssets(value: unknown): unknown[] | undefined {
+    if (!record(value) || !Array.isArray(value.assets) || value.assets.length === 0) return undefined;
+    if (!value.assets.every(asset => record(asset) && typeof asset.id === "string" && typeof asset.file === "string")) return undefined;
+    return value.assets;
+  }
+
+  /** Prefer the same-origin development asset mount when this deployment provides one. */
+  async function developmentManifest(): Promise<unknown[] | undefined> {
+    try {
+      const base = new URL("/dev-assets/", session.server).href;
+      const response = await call(new URL("assets/manifest.json", base).href, { credentials: "omit" });
+      if (!response.ok) return undefined;
+      const assets = manifestAssets(await response.json());
+      if (!assets) return undefined;
+      assetBaseUrl = base;
+      return assets;
+    } catch { return undefined; }
+  }
+
+  /** The asset manifest, preferring the same-origin development mount over the published host. */
   async function manifest(): Promise<unknown[]> {
-    const url = assetBaseUrl ? `${assetBaseUrl.replace(/\/*$/, "/")}assets/manifest.json` : "assets/manifest.json";
+    const development = await developmentManifest();
+    if (development) return development;
+    const url = descriptor.assetBaseUrl ? `${descriptor.assetBaseUrl.replace(/\/*$/, "/")}assets/manifest.json` : "assets/manifest.json";
     try {
       const response = await call(url, { credentials: "omit" });
       if (!response.ok) return [];
-      const body = await response.json() as { assets?: unknown };
-      return Array.isArray(body.assets) ? body.assets : [];
+      return manifestAssets(await response.json()) ?? [];
     } catch { return []; }
   }
 
@@ -122,7 +142,7 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   return {
     kind: "server",
     label: descriptor.name,
-    assetBaseUrl,
+    get assetBaseUrl() { return assetBaseUrl; },
     // No checkout behind a live server: no git, no request queue, no authoring notes beside the
     // content, no asset import, and formulas ship compiled into the release rather than being edited.
     capabilities: { write: true, meta: false, requests: false, git: false, bulk: false, assets: false, formulas: false, publish: true },
