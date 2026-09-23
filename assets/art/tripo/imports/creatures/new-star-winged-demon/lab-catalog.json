@@ -18,8 +18,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6610816,
-      "sha256": "dfe02ad4bd3f88d453c1a0ef519f9fef9cd03ffa9448116c8c614993796f91dd",
+      "bytes": 6618240,
+      "sha256": "971af0f5e3ec2467d2ff81d8c0c9cc414c1a4a1065c69200c60771c88153a8ba",
       "size": {
         "x": 2.0582031250000004,
         "y": 2.1957032561302188,
@@ -62,7 +62,7 @@
         "sourceFile": "assets/art/tripo/exports/c6dd592c-41cc-469a-b889-a3b8182909d4.glb",
         "sourceSha256": "0ba042d2ef67f6acb03ca58158c5b306debce1dcfff6539ce948b35d3f9cc871",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-winged-demon/vesperwing-ravager-native-rig-candidate.glb",
-        "candidateSha256": "dfe02ad4bd3f88d453c1a0ef519f9fef9cd03ffa9448116c8c614993796f91dd",
+        "candidateSha256": "971af0f5e3ec2467d2ff81d8c0c9cc414c1a4a1065c69200c60771c88153a8ba",
         "rigMethod": "Replaced root-only skin with 29-joint Unity Generic winged-humanoid rig and anatomically gated four-influence weights. Mesh positions, normals, UVs, indices and authored texture imagery preserved; runtime PBR maps downsampled to 2K.",
         "sourceRigFailure": "virtually all vertices used Hips with malformed inverse binds",
         "textures": [

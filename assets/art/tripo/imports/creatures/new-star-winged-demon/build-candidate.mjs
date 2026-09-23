@@ -243,15 +243,18 @@ function sampledTimes(duration, step) {
   return times;
 }
 const clipMetrics = [];
+const clipTrackSets = new Map();
 function addClip(name, duration, tracks) {
   // The source mesh is authored in a spread-arm pose. Apply one guard pose in each gameplay
   // clip's baseline, then layer the action's own rotations on top of that same folded stance.
-  const guardAngles = { Shoulder: .54, UpperArm: .08, Forearm: .34, Hand: .04 };
+  const guardAngles = { Shoulder: .64, UpperArm: .10, Forearm: .40, Hand: .05 };
   for (const suffix of ['L', 'R']) {
     const side = suffix === 'L' ? -1 : 1;
     for (const [part, angle] of Object.entries(guardAngles)) {
       const node = `${part}_${suffix}`;
-      const baseline = quat('z', -side * angle);
+      const baseline = part === 'Forearm'
+        ? multiplyQuaternions(quat('z', -side * angle), quat('y', -side * .36))
+        : quat('z', -side * angle);
       const existing = tracks.find(track => track.node === node && (track.path ?? 'rotation') === 'rotation');
       if (existing) {
         existing.values = existing.values.map(value => multiplyQuaternions(baseline, value));
@@ -260,6 +263,7 @@ function addClip(name, duration, tracks) {
       }
     }
   }
+  clipTrackSets.set(name, tracks);
   const animation = doc.createAnimation(name);
   for (const track of tracks) {
     assert(jointNodes.has(track.node), `Clip ${name} targets absent joint ${track.node}.`);
@@ -274,7 +278,7 @@ function addClip(name, duration, tracks) {
 }
 function wingTracks(times, { period, amplitude, multipliers = () => 1, spread = () => 0, sweep = () => 0 }) {
   return bones.filter(bone => bone.group === 'wing').map(bone => {
-    const taper = [1, .76, .50, .28][bone.wingSegment];
+    const taper = [1, .72, .50, .34][bone.wingSegment];
     const phase = bone.wingSegment * .11 + (bone.side < 0 ? 0 : period * .13);
     return {
       node: bone.name,
@@ -289,53 +293,65 @@ function wingTracks(times, { period, amplitude, multipliers = () => 1, spread = 
 }
 const suffixes = ['L', 'R'];
 const idleTimes = sampledTimes(1.20, .10);
-const idleTracks = wingTracks(idleTimes, { period: .82, amplitude: .075, spread: () => -.06, sweep: () => .015 });
+const idleTracks = wingTracks(idleTimes, { period: .96, amplitude: .19, spread: () => -.06, sweep: () => .02 });
 idleTracks.push(
   { node: 'VesperRoot', path: 'translation', times: [0, .30, .60, .90, 1.20], values: [[0, .070, 0], [0, .082, 0], [0, .070, 0], [0, .058, 0], [0, .070, 0]] },
   { node: 'Spine', times: [0, .30, .60, .90, 1.20], values: [quat('x', -.012), quat('x', .015), quat('x', -.01), quat('x', .013), quat('x', -.012)] },
   { node: 'Head', times: [0, .30, .60, .90, 1.20], values: [quat('y', -.012), quat('y', .018), quat('y', .025), quat('y', -.015), quat('y', -.012)] },
 );
 for (const side of suffixes) {
-  idleTracks.push({ node: `Shoulder_${side}`, times: [0, .30, .60, .90, 1.20], values: [quat('x', 0), quat('x', .018), quat('x', 0), quat('x', -.014), quat('x', 0)] });
-  idleTracks.push({ node: `Hand_${side}`, times: [0, .30, .60, .90, 1.20], values: [quat('z', 0), quat('z', side === 'L' ? .014 : -.014), quat('z', 0), quat('z', side === 'L' ? -.01 : .01), quat('z', 0)] });
+  const sign = side === 'L' ? -1 : 1;
+  const bodyWave = idleTimes.map(time => Math.sin(time / 1.20 * Math.PI * 2));
+  idleTracks.push({ node: `Shoulder_${side}`, times: idleTimes, values: bodyWave.map(value => multiplyQuaternions(quat('z', -sign * .075 * value), quat('x', .025 * value))) });
+  idleTracks.push({ node: `UpperArm_${side}`, times: idleTimes, values: bodyWave.map(value => quat('z', -sign * .045 * value)) });
+  idleTracks.push({ node: `Forearm_${side}`, times: idleTimes, values: bodyWave.map(value => multiplyQuaternions(quat('z', -sign * .09 * value), quat('y', -sign * .07 * value))) });
+  idleTracks.push({ node: `Hand_${side}`, times: idleTimes, values: bodyWave.map(value => quat('z', sign * .035 * value)) });
+  const legWave = idleTimes.map(time => Math.sin(time / 1.20 * Math.PI * 2 + (sign < 0 ? 0 : Math.PI)));
+  idleTracks.push({ node: `UpperLeg_${side}`, times: idleTimes, values: legWave.map(value => quat('x', -.07 + value * .07)) });
+  idleTracks.push({ node: `LowerLeg_${side}`, times: idleTimes, values: legWave.map(value => quat('x', .10 + Math.max(0, -value) * .10)) });
+  idleTracks.push({ node: `Foot_${side}`, times: idleTimes, values: legWave.map(value => quat('x', .02 - value * .045)) });
 }
 addClip('Idle', 1.20, idleTracks);
 
 // Slow airy approach: legs tuck into the wing stroke while the guard stays folded in front.
 const walkTimes = sampledTimes(1.0, .125);
-const walkTracks = wingTracks(walkTimes, { period: .90, amplitude: .09, spread: () => -.20, sweep: () => -.04 });
+const walkTracks = wingTracks(walkTimes, { period: .84, amplitude: .30, spread: () => -.20, sweep: () => -.04 });
 walkTracks.push({ node: 'VesperRoot', path: 'translation', times: [0, .25, .5, .75, 1], values: [[0, .060, 0], [0, .070, .012], [0, .060, 0], [0, .050, -.012], [0, .060, 0]] });
 walkTracks.push({ node: 'Chest', times: [0, .25, .5, .75, 1], values: [quat('y', -.025), quat('y', .020), quat('y', .025), quat('y', -.02), quat('y', -.025)] });
 for (const side of [-1, 1]) {
   const suffix = side < 0 ? 'L' : 'R';
   const phase = side < 0 ? 0 : Math.PI;
   const cycle = walkTimes.map(time => Math.sin((time + (phase / (Math.PI * 2))) * Math.PI * 2));
-  walkTracks.push({ node: `UpperLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', -.24 + value * .09)) });
-  walkTracks.push({ node: `LowerLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .48 + Math.max(0, -value) * .12)) });
-  walkTracks.push({ node: `Foot_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .08 - value * .06)) });
-  walkTracks.push({ node: `UpperArm_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', -value * .11)) });
-  walkTracks.push({ node: `Forearm_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .045 + Math.max(0, value) * .08)) });
+  walkTracks.push({ node: `UpperLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', -.28 + value * .20)) });
+  walkTracks.push({ node: `LowerLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .42 + Math.max(0, -value) * .28)) });
+  walkTracks.push({ node: `Foot_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .10 - value * .08)) });
+  walkTracks.push({ node: `Shoulder_${suffix}`, times: walkTimes, values: cycle.map(value => multiplyQuaternions(quat('z', -side * value * .14), quat('x', -value * .08))) });
+  walkTracks.push({ node: `UpperArm_${suffix}`, times: walkTimes, values: cycle.map(value => multiplyQuaternions(quat('z', -side * value * .14), quat('x', -value * .11))) });
+  walkTracks.push({ node: `Forearm_${suffix}`, times: walkTimes, values: cycle.map(value => multiplyQuaternions(quat('z', side * Math.max(0, value) * .15), quat('x', .045 + Math.max(0, value) * .08))) });
 }
 addClip('Walk', 1, walkTracks);
 
 // Run transitions toward flight: legs tuck on the recovery beat, wings beat faster and the torso leans forward.
-const runTimes = sampledTimes(.72, .06);
-const runTracks = wingTracks(runTimes, { period: .34, amplitude: .31, spread: () => -.10, sweep: () => -.12 });
-runTracks.push({ node: 'VesperRoot', path: 'translation', times: [0, .18, .36, .54, .72], values: [[0, .045, 0], [0, .070, .012], [0, .095, .028], [0, .065, .014], [0, .035, 0]] });
-runTracks.push({ node: 'Chest', times: [0, .18, .36, .54, .72], values: [quat('x', .025), quat('x', -.16), quat('x', -.19), quat('x', -.11), quat('x', .025)] });
+const runTimes = sampledTimes(.78, .065);
+const runKeyTimes = [0, .195, .39, .585, .78];
+const runTracks = wingTracks(runTimes, { period: .78, amplitude: .46, spread: () => -.10, sweep: () => -.12 });
+runTracks.push({ node: 'VesperRoot', path: 'translation', times: runKeyTimes, values: [[0, .050, 0], [0, .080, .012], [0, .095, .028], [0, .080, .014], [0, .050, 0]] });
+runTracks.push({ node: 'Chest', times: runKeyTimes, values: [quat('x', .025), quat('x', -.16), quat('x', -.19), quat('x', -.11), quat('x', .025)] });
 for (const side of [-1, 1]) {
   const suffix = side < 0 ? 'L' : 'R';
   const phase = side < 0 ? 0 : Math.PI;
-  const cycle = runTimes.map(time => Math.sin((time / .36) * Math.PI * 2 + phase));
-  runTracks.push({ node: `UpperLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', -.34 + value * .20)) });
-  runTracks.push({ node: `LowerLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', .48 + Math.max(0, -value) * .30)) });
-  runTracks.push({ node: `Foot_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', .12 - value * .13)) });
-  runTracks.push({ node: `Shoulder_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', -.16 + value * .08)) });
+  const cycle = runTimes.map(time => Math.sin((time / .39) * Math.PI * 2 + phase));
+  runTracks.push({ node: `UpperLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', -.36 + value * .55)) });
+  runTracks.push({ node: `LowerLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', .45 + Math.max(0, -value) * .48)) });
+  runTracks.push({ node: `Foot_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', .14 - value * .20)) });
+  runTracks.push({ node: `Shoulder_${suffix}`, times: runTimes, values: cycle.map(value => multiplyQuaternions(quat('z', -side * value * .18), quat('x', -.16 + value * .08))) });
+  runTracks.push({ node: `UpperArm_${suffix}`, times: runTimes, values: cycle.map(value => quat('z', -side * value * .15)) });
+  runTracks.push({ node: `Forearm_${suffix}`, times: runTimes, values: cycle.map(value => multiplyQuaternions(quat('z', side * Math.max(0, value) * .18), quat('x', .08 + Math.max(0, value) * .12))) });
 }
-addClip('Run', .72, runTracks);
+addClip('Run', .78, runTracks);
 
 const attackTimes = [0, .16, .34, .52, .72, .92];
-const attackTracks = wingTracks(attackTimes, { period: .42, amplitude: .16, multipliers: time => time >= .16 && time <= .52 ? 1.3 : .7, spread: time => time >= .16 && time <= .52 ? -.34 : -.10, sweep: () => -.08 });
+const attackTracks = wingTracks(attackTimes, { period: .72, amplitude: .24, multipliers: time => time >= .16 && time <= .52 ? 1.15 : .65, spread: time => time >= .16 && time <= .52 ? -.48 : -.10, sweep: time => time >= .16 && time <= .52 ? .10 : -.04 });
 attackTracks.push(
   { node: 'Chest', times: attackTimes, values: [quat('x', 0), quat('y', -.12), quat('x', -.20), quat('x', .25), quat('x', .08), quat('x', 0)] },
   { node: 'Neck', times: attackTimes, values: [quat('x', 0), quat('x', -.10), quat('x', -.30), quat('x', .14), quat('x', .05), quat('x', 0)] },
@@ -348,6 +364,14 @@ attackTracks.push({ node: 'Forearm_R', times: attackTimes, values: [quat('x', 0)
 attackTracks.push({ node: 'Hand_R', times: attackTimes, values: [quat('x', 0), quat('x', -.12), quat('x', -.38), quat('x', -.10), quat('x', -.04), quat('x', 0)] });
 attackTracks.push({ node: 'Shoulder_L', times: attackTimes, values: [quat('x', 0), quat('x', .08), quat('x', .19), quat('x', .05), quat('x', 0), quat('x', 0)] });
 attackTracks.push({ node: 'UpperArm_L', times: attackTimes, values: [quat('x', 0), quat('x', .10), quat('x', .24), quat('x', .05), quat('x', 0), quat('x', 0)] });
+for (const node of ['Shoulder_R', 'UpperArm_R', 'Forearm_R', 'Hand_R']) {
+  const scale = node === 'Shoulder_R' ? 1 : node === 'UpperArm_R' ? .78 : node === 'Forearm_R' ? .62 : .28;
+  const action = [0, -.18, -.88, -.56, -.18, 0].map(value => quat('y', value * scale));
+  const track = attackTracks.find(entry => entry.node === node);
+  if (track) track.values = track.values.map((value, index) => multiplyQuaternions(action[index], value));
+  else attackTracks.push({ node, times: attackTimes, values: action });
+}
+attackTracks.push({ node: 'VesperRoot', path: 'translation', times: attackTimes, values: [[0, .070, 0], [0, .082, .04], [0, .088, .18], [0, .065, .12], [0, .060, .04], [0, .070, 0]] });
 addClip('Attack', .92, attackTracks);
 
 const hitTimes = [0, .07, .17, .30, .46];
@@ -370,7 +394,7 @@ const deathTracks = wingTracks(deathTimes, {
   sweep: time => .02 + .30 * Math.max(0, Math.min(1, (time - .16) / .60)),
 });
 deathTracks.push(
-  { node: 'VesperRoot', path: 'translation', times: deathTimes, values: [[0, 0, 0], [0, .018, 0], [0, .024, 0], [0, .012, 0], [0, 0, 0], [0, 0, 0]] },
+  { node: 'VesperRoot', path: 'translation', times: deathTimes, values: [[0, .070, 0], [0, .080, 0], [0, .040, 0], [0, .010, 0], [0, 0, 0], [0, 0, 0]] },
   { node: 'Hips', times: deathTimes, values: [quat('x', 0), quat('x', .05), quat('x', .20), quat('x', .38), quat('x', .42), quat('x', .42)] },
   { node: 'Spine', times: deathTimes, values: [quat('x', 0), quat('x', -.06), quat('x', -.18), quat('x', -.33), quat('x', -.36), quat('x', -.36)] },
   { node: 'Neck', times: deathTimes, values: [quat('z', 0), quat('z', .06), quat('z', -.12), quat('z', -.26), quat('z', -.29), quat('z', -.29)] },
@@ -385,6 +409,127 @@ for (const side of [-1, 1]) {
 }
 addClip('Death', 1.48, deathTracks);
 assert.deepEqual(clipMetrics.map(clip => clip.name), ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death']);
+
+const normalizeQuaternion = q => {
+  const length = Math.hypot(...q) || 1;
+  return q.map(value => value / length);
+};
+function slerpQuaternion(a, b, t) {
+  let right = b;
+  let dot = a.reduce((sum, value, index) => sum + value * right[index], 0);
+  if (dot < 0) { right = right.map(value => -value); dot = -dot; }
+  if (dot > .9995) return normalizeQuaternion(a.map((value, index) => value + (right[index] - value) * t));
+  const theta = Math.acos(Math.max(-1, Math.min(1, dot)));
+  const sine = Math.sin(theta);
+  const leftWeight = Math.sin((1 - t) * theta) / sine;
+  const rightWeight = Math.sin(t * theta) / sine;
+  return a.map((value, index) => value * leftWeight + right[index] * rightWeight);
+}
+function rotateVector(q, value) {
+  const u = q.slice(0, 3), cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const uv = cross(u, value), uuv = cross(u, uv);
+  return value.map((entry, axis) => entry + 2 * (q[3] * uv[axis] + uuv[axis]));
+}
+function sampleTrack(track, time) {
+  if (!track) return undefined;
+  if (time <= track.times[0]) return track.values[0];
+  if (time >= track.times.at(-1)) return track.values.at(-1);
+  let next = 1;
+  while (track.times[next] < time) next++;
+  const previous = next - 1;
+  const fraction = (time - track.times[previous]) / (track.times[next] - track.times[previous]);
+  return (track.path ?? 'rotation') === 'translation'
+    ? track.values[previous].map((value, axis) => value + (track.values[next][axis] - value) * fraction)
+    : slerpQuaternion(track.values[previous], track.values[next], fraction);
+}
+function evaluatePose(clipName, time) {
+  const tracks = clipTrackSets.get(clipName);
+  const byTargetPath = new Map(tracks.map(track => [`${track.node}:${track.path ?? 'rotation'}`, track]));
+  const transforms = new Map();
+  for (const bone of bones) {
+    const parent = bone.parent ? transforms.get(bone.parent) : null;
+    const localRotation = sampleTrack(byTargetPath.get(`${bone.name}:rotation`), time) ?? [0, 0, 0, 1];
+    const localTranslation = sampleTrack(byTargetPath.get(`${bone.name}:translation`), time) ?? bone.local;
+    transforms.set(bone.name, parent
+      ? { rotation: normalizeQuaternion(multiplyQuaternions(parent.rotation, localRotation)), position: parent.position.map((value, axis) => value + rotateVector(parent.rotation, localTranslation)[axis]) }
+      : { rotation: localRotation, position: localTranslation });
+  }
+  return transforms;
+}
+function skinPosition(vertex, transforms) {
+  const sourcePoint = [sourcePositions[vertex * 3], sourcePositions[vertex * 3 + 1], sourcePositions[vertex * 3 + 2]];
+  const result = [0, 0, 0];
+  for (let slot = 0; slot < 4; slot++) {
+    const jointIndex = jointValues[vertex * 4 + slot], weight = weightValues[vertex * 4 + slot];
+    if (weight <= 0) continue;
+    const bone = bones[jointIndex], transform = transforms.get(bone.name);
+    const relative = sourcePoint.map((value, axis) => value - bone.p[axis]);
+    const rotated = rotateVector(transform.rotation, relative);
+    for (let axis = 0; axis < 3; axis++) result[axis] += (transform.position[axis] + rotated[axis]) * weight;
+  }
+  const rootOffset = transforms.get('VesperRoot').position;
+  return result.map((value, axis) => (value - rootOffset[axis]) * uniformScale);
+}
+const weightedVertexGroups = { wing: [], arm: [], leg: [] };
+for (let vertex = 0; vertex < vertexCount; vertex++) {
+  const totals = { wing: 0, arm: 0, leg: 0 };
+  for (let slot = 0; slot < 4; slot++) {
+    const bone = bones[jointValues[vertex * 4 + slot]], weight = weightValues[vertex * 4 + slot];
+    if (bone.group === 'wing') totals.wing += weight;
+    if (['arm', 'hand'].includes(bone.group)) totals.arm += weight;
+    if (['leg', 'foot'].includes(bone.group)) totals.leg += weight;
+  }
+  const x = sourcePositions[vertex * 3], y = sourcePositions[vertex * 3 + 1];
+  if (totals.wing > .48 && Math.abs(x) > .08 && y > .58) weightedVertexGroups.wing.push(vertex);
+  if (totals.arm > .45 && Math.abs(x) > .10 && y > .36 && y < .90) weightedVertexGroups.arm.push(vertex);
+  if (totals.leg > .45 && y < .57) weightedVertexGroups.leg.push(vertex);
+}
+for (const [group, vertices] of Object.entries(weightedVertexGroups)) assert(vertices.length >= 12, `Insufficient ${group} vertices for deformation verification.`);
+function motionDelta(clipName, start, end, vertices) {
+  const from = evaluatePose(clipName, start), to = evaluatePose(clipName, end);
+  const distances = vertices.map(vertex => {
+    const a = skinPosition(vertex, from), b = skinPosition(vertex, to);
+    return Math.hypot(...a.map((value, axis) => value - b[axis]));
+  }).sort((a, b) => a - b);
+  return { vertices: vertices.length, meanMeters: distances.reduce((sum, value) => sum + value, 0) / distances.length, p95Meters: distances[Math.floor((distances.length - 1) * .95)], maxMeters: distances.at(-1) };
+}
+function verticalBounds(clipName) {
+  const duration = clipMetrics.find(clip => clip.name === clipName).seconds;
+  const minimum = { value: Infinity, time: 0 }, maximum = { value: -Infinity, time: 0 };
+  const samples = 41;
+  for (let sample = 0; sample < samples; sample++) {
+    const time = duration * sample / (samples - 1), pose = evaluatePose(clipName, time);
+    const rootY = pose.get('VesperRoot').position[1] * uniformScale;
+    for (let vertex = 0; vertex < vertexCount; vertex++) {
+      const y = skinPosition(vertex, pose)[1] + rootY;
+      if (y < minimum.value) Object.assign(minimum, { value: y, time });
+      if (y > maximum.value) Object.assign(maximum, { value: y, time });
+    }
+  }
+  return { sampleCount: samples, minWorldY: minimum.value, minAtSeconds: minimum.time, maxWorldY: maximum.value, maxAtSeconds: maximum.time };
+}
+const deformationMetrics = {
+  Idle: { wing: motionDelta('Idle', .02, .26, weightedVertexGroups.wing), arm: motionDelta('Idle', .02, .26, weightedVertexGroups.arm), leg: motionDelta('Idle', .02, .26, weightedVertexGroups.leg) },
+  Walk: { wing: motionDelta('Walk', .02, .23, weightedVertexGroups.wing), arm: motionDelta('Walk', .02, .23, weightedVertexGroups.arm), leg: motionDelta('Walk', .02, .23, weightedVertexGroups.leg) },
+  Run: { wing: motionDelta('Run', .02, .41, weightedVertexGroups.wing), arm: motionDelta('Run', .02, .20, weightedVertexGroups.arm), leg: motionDelta('Run', .10, .295, weightedVertexGroups.leg) },
+  Attack: { arm: motionDelta('Attack', .16, .48, weightedVertexGroups.arm), wing: motionDelta('Attack', .16, .48, weightedVertexGroups.wing) },
+};
+const verticalEnvelopes = Object.fromEntries(['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].map(name => [name, verticalBounds(name)]));
+console.log(JSON.stringify({ deformationMetrics, weightedVertexCounts: Object.fromEntries(Object.entries(weightedVertexGroups).map(([group, vertices]) => [group, vertices.length])) }, null, 2));
+assert(deformationMetrics.Idle.wing.p95Meters > .045, `Idle wings barely deform: ${deformationMetrics.Idle.wing.p95Meters}m.`);
+assert(deformationMetrics.Idle.arm.p95Meters > .04, `Idle guard arms barely move: ${deformationMetrics.Idle.arm.p95Meters}m.`);
+assert(deformationMetrics.Idle.leg.p95Meters > .015, `Idle legs barely flex: ${deformationMetrics.Idle.leg.p95Meters}m.`);
+assert(deformationMetrics.Walk.wing.p95Meters > .08, `Walk wings barely deform: ${deformationMetrics.Walk.wing.p95Meters}m.`);
+assert(deformationMetrics.Walk.arm.p95Meters > .06, `Walk guard arms barely move: ${deformationMetrics.Walk.arm.p95Meters}m.`);
+assert(deformationMetrics.Walk.leg.p95Meters > .04, `Walk legs barely deform: ${deformationMetrics.Walk.leg.p95Meters}m.`);
+assert(deformationMetrics.Run.wing.p95Meters > .12, `Run wings barely deform: ${deformationMetrics.Run.wing.p95Meters}m.`);
+assert(deformationMetrics.Run.arm.p95Meters > .08, `Run guard arms barely move: ${deformationMetrics.Run.arm.p95Meters}m.`);
+assert(deformationMetrics.Run.leg.p95Meters > .08, `Run legs barely deform: ${deformationMetrics.Run.leg.p95Meters}m.`);
+assert(deformationMetrics.Attack.arm.p95Meters > .14, `Attack arm barely moves: ${deformationMetrics.Attack.arm.p95Meters}m.`);
+for (const [clip, envelope] of Object.entries(verticalEnvelopes)) {
+  assert(envelope.minWorldY >= -.025, `${clip} sinks below the ground plane: y=${envelope.minWorldY}m at ${envelope.minAtSeconds}s.`);
+  assert(envelope.maxWorldY <= 2.65, `${clip} exceeds the intended hover envelope: y=${envelope.maxWorldY}m.`);
+}
 
 // Preserve image-authored maps and channel meaning. Only reduce runtime dimensions to 2K.
 const material = root.listMaterials()[0];
@@ -499,9 +644,10 @@ for (const animation of checkRoot.listAnimations()) {
 
 const riggingVerification = {
   sourceRig: { joints: sourceJointCount, dominantJointHistogram: sourceDominantJointHistogram, rootDominantVertices: sourceRootWeightFailure, note: 'Tripo output is unusable as exported: virtually every vertex is weighted to Hips, with malformed inverse-bind values. Reconstructed a Y-up Generic winged-humanoid skeleton and distributed weights over existing vertices.' },
-  candidateRig: { profile: 'Unity-compatible glTF Generic Y-up skeleton; no Humanoid avatar retargeting required', joints: bones.length, hierarchy: Object.fromEntries(bones.map(bone => [bone.name, bone.parent])), restPositions: Object.fromEntries(bones.map(bone => [bone.name, bone.p])), weightedVerticesByJoint: Object.fromEntries(bones.map((bone, index) => [bone.name, jointInfluenceCounts[index]])), multiWeightedVertexRatio: multiWeightedRatio, maxWeightSumError: readbackMaxWeightError, bodyGroupsWithWeights: ['torso', 'arm', 'leg', 'wing'], guardPose: { sideMirroredShoulderDownDegrees: 31, sideMirroredForearmBendDegrees: 19, appliedInEveryClip: true }, topologyChanged: false, positionsChanged: false, normalsChanged: false, uvChanged: false, indicesChanged: false },
-  animationCheck: clipMetrics.map(clip => ({ ...clip, targetsOnlySkinJoints: true, guardArmJointsPresent: true, intent: ({ Idle: 'Low hover above ground with relaxed lowered arms, restrained wing beats, subtle head scan and chest motion.', Walk: 'Airborne slow approach with lowered guard, tucked knees and measured wingbeats.', Run: 'Fast aerial dart with lowered guard, accelerated wingbeats, tucked legs and a short lift.', Attack: 'One heavy forward right-claw sweep from the lowered guard, chest and head follow-through, left wing braced wide.', Hit: 'Brief torso recoil from the lowered guard, head snap and uneven wing stutter.', Death: 'Knees buckle, torso slumps and wings fold while the base descends to the ground plane.' })[clip.name] })),
-  groundAndHover: { bindPoseGroundY: bounds.min[1], idleRootOffsetY: [.058, .082], walkRootOffsetY: [.050, .070], runRootOffsetY: [.035, .095], deathRootOffsetY: [0, .024], flightStyle: 'hovering alert Idle and airborne Walk/Run; Death settles to ground' },
+  candidateRig: { profile: 'Unity-compatible glTF Generic Y-up skeleton; no Humanoid avatar retargeting required', joints: bones.length, hierarchy: Object.fromEntries(bones.map(bone => [bone.name, bone.parent])), restPositions: Object.fromEntries(bones.map(bone => [bone.name, bone.p])), weightedVerticesByJoint: Object.fromEntries(bones.map((bone, index) => [bone.name, jointInfluenceCounts[index]])), multiWeightedVertexRatio: multiWeightedRatio, maxWeightSumError: readbackMaxWeightError, bodyGroupsWithWeights: ['torso', 'arm', 'leg', 'wing'], guardPose: { sideMirroredShoulderDownDegrees: 36.7, sideMirroredUpperArmDownDegrees: 5.7, sideMirroredForearmDownDegrees: 22.9, forearmForwardYawDegrees: 20.6, combinedSideProfileDegrees: 65.3, appliedInEveryClip: true }, topologyChanged: false, positionsChanged: false, normalsChanged: false, uvChanged: false, indicesChanged: false },
+  animationCheck: clipMetrics.map(clip => ({ ...clip, targetsOnlySkinJoints: true, guardArmJointsPresent: true, intent: ({ Idle: 'Low hover with a relaxed guard, slow wingbeat, subtle arm flex and leg drift.', Walk: 'Airborne approach with measured wingbeats, a moving guard, tucked knees and ankle motion.', Run: 'Closed .78-second aerial wing stroke, bent-leg tuck/recovery, guard counter-sway and small lift.', Attack: 'Forward lunge with a right-claw sweep, chest follow-through and left-wing brace.', Hit: 'Brief torso recoil from the lowered guard, head snap and uneven wing stutter.', Death: 'Knees buckle, torso slumps and wings fold while the base descends to the ground plane.' })[clip.name] })),
+  animationDeformation: deformationMetrics,
+  groundAndHover: { bindPoseGroundY: bounds.min[1], idleRootOffsetY: [.058, .082], walkRootOffsetY: [.050, .070], runRootOffsetY: [.050, .095], deathRootOffsetY: [0, .080], verticalEnvelopes, flightStyle: 'hovering alert Idle and airborne Walk/Run; Death settles to ground' },
 };
 await writeFile(`${here}/rigging-verification.json`, JSON.stringify(riggingVerification, null, 2));
 
@@ -537,6 +683,7 @@ const catalog = {
     textures: runtimeTextureMetrics,
     pbrChannels: { roughnessRange, metallicRange, materialFactors: { roughness: material.getRoughnessFactor(), metalness: material.getMetallicFactor() } },
     animationSlots: riggingVerification.animationCheck,
+    animationDeformation: riggingVerification.animationDeformation,
     groundAndHover: riggingVerification.groundAndHover,
   },
   acceptance: { sourceDesignReview: false, rig: true, animation: true, pbr: true, labAccepted: false, worldIntegrated: false },

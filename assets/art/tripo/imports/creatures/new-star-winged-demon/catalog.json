@@ -76,8 +76,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-winged-demon/vesperwing-ravager-native-rig-candidate.glb",
-    "sha256": "dfe02ad4bd3f88d453c1a0ef519f9fef9cd03ffa9448116c8c614993796f91dd",
-    "bytes": 6610816,
+    "sha256": "971af0f5e3ec2467d2ff81d8c0c9cc414c1a4a1065c69200c60771c88153a8ba",
+    "bytes": 6618240,
     "productionTarget": "game/public/assets/models/fairy-crown/creature_vesperwing_ravager.glb",
     "geometry": {
       "vertices": 6990,
@@ -310,8 +310,11 @@
         "wing"
       ],
       "guardPose": {
-        "sideMirroredShoulderDownDegrees": 31,
-        "sideMirroredForearmBendDegrees": 19,
+        "sideMirroredShoulderDownDegrees": 36.7,
+        "sideMirroredUpperArmDownDegrees": 5.7,
+        "sideMirroredForearmDownDegrees": 22.9,
+        "forearmForwardYawDegrees": 20.6,
+        "combinedSideProfileDegrees": 65.3,
         "appliedInEveryClip": true
       },
       "topologyChanged": false,
@@ -367,14 +370,14 @@
       {
         "name": "Idle",
         "seconds": 1.2,
-        "channels": 19,
+        "channels": 25,
         "paths": [
           "rotation",
           "translation"
         ],
         "targetsOnlySkinJoints": true,
         "guardArmJointsPresent": true,
-        "intent": "Low hover above ground with relaxed lowered arms, restrained wing beats, subtle head scan and chest motion."
+        "intent": "Low hover with a relaxed guard, slow wingbeat, subtle arm flex and leg drift."
       },
       {
         "name": "Walk",
@@ -386,11 +389,11 @@
         ],
         "targetsOnlySkinJoints": true,
         "guardArmJointsPresent": true,
-        "intent": "Airborne slow approach with lowered guard, tucked knees and measured wingbeats."
+        "intent": "Airborne approach with measured wingbeats, a moving guard, tucked knees and ankle motion."
       },
       {
         "name": "Run",
-        "seconds": 0.72,
+        "seconds": 0.78,
         "channels": 24,
         "paths": [
           "rotation",
@@ -398,18 +401,19 @@
         ],
         "targetsOnlySkinJoints": true,
         "guardArmJointsPresent": true,
-        "intent": "Fast aerial dart with lowered guard, accelerated wingbeats, tucked legs and a short lift."
+        "intent": "Closed .78-second aerial wing stroke, bent-leg tuck/recovery, guard counter-sway and small lift."
       },
       {
         "name": "Attack",
         "seconds": 0.92,
-        "channels": 20,
+        "channels": 21,
         "paths": [
-          "rotation"
+          "rotation",
+          "translation"
         ],
         "targetsOnlySkinJoints": true,
         "guardArmJointsPresent": true,
-        "intent": "One heavy forward right-claw sweep from the lowered guard, chest and head follow-through, left wing braced wide."
+        "intent": "Forward lunge with a right-claw sweep, chest follow-through and left-wing brace."
       },
       {
         "name": "Hit",
@@ -435,6 +439,82 @@
         "intent": "Knees buckle, torso slumps and wings fold while the base descends to the ground plane."
       }
     ],
+    "animationDeformation": {
+      "Idle": {
+        "wing": {
+          "vertices": 46,
+          "meanMeters": 0.1365562806525938,
+          "p95Meters": 0.23216338993311697,
+          "maxMeters": 0.3069001231197501
+        },
+        "arm": {
+          "vertices": 1663,
+          "meanMeters": 0.04844220805467385,
+          "p95Meters": 0.0740227757558687,
+          "maxMeters": 0.07913742144501903
+        },
+        "leg": {
+          "vertices": 790,
+          "meanMeters": 0.011465125482181558,
+          "p95Meters": 0.021541257415995118,
+          "maxMeters": 0.027585636609412063
+        }
+      },
+      "Walk": {
+        "wing": {
+          "vertices": 46,
+          "meanMeters": 0.19087299103896407,
+          "p95Meters": 0.3352431055620943,
+          "maxMeters": 0.4150840045952927
+        },
+        "arm": {
+          "vertices": 1663,
+          "meanMeters": 0.07073908289597057,
+          "p95Meters": 0.12524739835826365,
+          "maxMeters": 0.14699954123389064
+        },
+        "leg": {
+          "vertices": 790,
+          "meanMeters": 0.03300885204320846,
+          "p95Meters": 0.06088675988501599,
+          "maxMeters": 0.08113512624051179
+        }
+      },
+      "Run": {
+        "wing": {
+          "vertices": 46,
+          "meanMeters": 0.21719891904669741,
+          "p95Meters": 0.3056573583099798,
+          "maxMeters": 0.47537400859784334
+        },
+        "arm": {
+          "vertices": 1663,
+          "meanMeters": 0.05471708755348658,
+          "p95Meters": 0.09214640107460195,
+          "maxMeters": 0.11658640007127938
+        },
+        "leg": {
+          "vertices": 790,
+          "meanMeters": 0.1716810259455465,
+          "p95Meters": 0.30769859262425114,
+          "maxMeters": 0.35822491392200473
+        }
+      },
+      "Attack": {
+        "arm": {
+          "vertices": 1663,
+          "meanMeters": 0.1397933517038264,
+          "p95Meters": 0.3899695173307933,
+          "maxMeters": 0.447455791658514
+        },
+        "wing": {
+          "vertices": 46,
+          "meanMeters": 0.09645719560722293,
+          "p95Meters": 0.20228289127808644,
+          "maxMeters": 0.24510276894983404
+        }
+      }
+    },
     "groundAndHover": {
       "bindPoseGroundY": 0,
       "idleRootOffsetY": [
@@ -446,13 +526,57 @@
         0.07
       ],
       "runRootOffsetY": [
-        0.035,
+        0.05,
         0.095
       ],
       "deathRootOffsetY": [
         0,
-        0.024
+        0.08
       ],
+      "verticalEnvelopes": {
+        "Idle": {
+          "sampleCount": 41,
+          "minWorldY": 0.11113170358812943,
+          "minAtSeconds": 0.9,
+          "maxWorldY": 2.3775472377531934,
+          "maxAtSeconds": 0.3
+        },
+        "Walk": {
+          "sampleCount": 41,
+          "minWorldY": 0.06506016994479168,
+          "minAtSeconds": 0.75,
+          "maxWorldY": 2.349757782935257,
+          "maxAtSeconds": 0.25
+        },
+        "Run": {
+          "sampleCount": 41,
+          "minWorldY": 0.08300819351446276,
+          "minAtSeconds": 0.741,
+          "maxWorldY": 2.3767567815550463,
+          "maxAtSeconds": 0.39
+        },
+        "Attack": {
+          "sampleCount": 41,
+          "minWorldY": 0.13238500098634515,
+          "minAtSeconds": 0.713,
+          "maxWorldY": 2.3683171847810316,
+          "maxAtSeconds": 0.161
+        },
+        "Hit": {
+          "sampleCount": 41,
+          "minWorldY": -2.785186442269328e-17,
+          "minAtSeconds": 0,
+          "maxWorldY": 2.3447979691554335,
+          "maxAtSeconds": 0.069
+        },
+        "Death": {
+          "sampleCount": 41,
+          "minWorldY": 0.06212638058797843,
+          "minAtSeconds": 1.184,
+          "maxWorldY": 2.379757197291131,
+          "maxAtSeconds": 0.185
+        }
+      },
       "flightStyle": "hovering alert Idle and airborne Walk/Run; Death settles to ground"
     }
   },
