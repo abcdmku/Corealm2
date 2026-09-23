@@ -18,6 +18,11 @@ const pinnedBaseHashes: Record<string, string> = {
   "part-02-lavender-bat-ear-imp": "37cdca6f0262b607e6b3b3b77bdb5dc9abc5460bd78d512dbbb692bb7ad7dc4f",
   "part-03-green-antler-imp": "9df3356d04266ac63acd48a8014d69780f5f4fe0eb49ec94ef1306327e7746e1",
 };
+const requestedHeights: Record<string, number> = {
+  "part-01-red-bone-mask-imp": 1.3,
+  "part-02-lavender-bat-ear-imp": 0.9,
+  "part-03-green-antler-imp": 1.0,
+};
 const sourcePath = path.join(folder, "base.glb");
 const motionPath = path.join(repo, "game/public/assets/models/animation/animation_library_1.glb");
 const outputPath = path.join(folder, `${id}-native-rig-candidate.glb`);
@@ -30,6 +35,7 @@ const arrayHash = (array: ArrayLike<number> & { buffer?: ArrayBufferLike; byteOf
   return sha256(Buffer.from(array.buffer, array.byteOffset, array.byteLength));
 };
 if (!pinnedBaseHashes[id]) throw new Error(`No reviewed extraction hash is pinned for ${id}.`);
+if (!requestedHeights[id]) throw new Error(`No requested presentation height is configured for ${id}.`);
 
 const sourceBytes = await readFile(sourcePath);
 const sourceHash = sha256(sourceBytes);
@@ -54,6 +60,9 @@ if (Math.max(scaleX, scaleY, scaleZ) - Math.min(scaleX, scaleY, scaleZ) > 1e-6 |
 }
 const normalizerScale = scaleY;
 const normalizerTranslationY = originalTransform.elements[13]!;
+const presentationScale = requestedHeights[id]!;
+const finalWorldScale = normalizerScale * presentationScale;
+const finalTranslationY = normalizerTranslationY * presentationScale;
 if (!(normalizerScale > 0)) throw new Error("Invalid extracted normalization scale.");
 const toNormalized = originalTransform;
 const toRaw = originalTransform.clone().invert();
@@ -236,11 +245,12 @@ for (const clip of root.listAnimations()) {
     if (channel.getTargetNode() !== motionGround || channel.getTargetPath() !== "translation") continue;
     const values = channel.getSampler().getOutput()!.getArray()!;
     for (let i = 1; i < values.length; i += 3) {
-      values[i] = values[i]! * normalizerScale - normalizerTranslationY + 0.001 * (1 - normalizerScale);
+      values[i] = values[i]! * finalWorldScale - finalTranslationY + 0.001 * (1 - finalWorldScale);
     }
   }
 }
-const presentation = doc.createNode(`${id}_Presentation`).setMatrix(originalTransform.toArray());
+const presentationMatrix = new Matrix4().makeScale(presentationScale, presentationScale, presentationScale).multiply(originalTransform);
+const presentation = doc.createNode(`${id}_Presentation`).setMatrix(presentationMatrix.toArray());
 for (const child of [...motionGround.listChildren()]) { motionGround.removeChild(child); presentation.addChild(child); }
 motionGround.addChild(presentation);
 
@@ -294,12 +304,31 @@ for (const clip of checkRoot.listAnimations()) {
     applyClip(clip, time);
     const bounds = deformedBounds(check);
     if (![...bounds.min, ...bounds.max].every(Number.isFinite)) throw new Error(`${clip.getName()} produced non-finite skinned bounds at ${time}s.`);
-    deformationSamples.push({ clip: clip.getName(), seconds: Number(time.toFixed(4)), bounds });
+    deformationSamples.push({ clip: clip.getName(), seconds: Number(time.toFixed(4)), bounds, height: Number((bounds.max[1]! - bounds.min[1]!).toFixed(6)) });
   }
 }
 restorePose(finalPose);
-const bindBounds = deformationSamples.find(sample => sample.clip === "Idle" && sample.seconds === 0)?.bounds;
 const sourceBounds = deformedBounds(check);
+const bindBounds = sourceBounds;
+const perClipBounds = clips.map(clip => {
+  const samples = deformationSamples.filter(sample => sample.clip === clip.name);
+  return {
+    name: clip.name,
+    sampleCount: samples.length,
+    minimumY: Math.min(...samples.map(sample => sample.bounds.min[1]!)),
+    maximumY: Math.max(...samples.map(sample => sample.bounds.max[1]!)),
+    minimumHeight: Math.min(...samples.map(sample => sample.height)),
+    maximumHeight: Math.max(...samples.map(sample => sample.height)),
+    samples: samples.map(sample => ({ seconds: sample.seconds, bounds: sample.bounds, height: sample.height })),
+  };
+});
+const measuredBindHeight = bindBounds ? bindBounds.max[1]! - bindBounds.min[1]! : NaN;
+const measuredOutputHeight = sourceBounds.max[1]! - sourceBounds.min[1]!;
+if (Math.abs(measuredBindHeight - requestedHeights[id]!) > 0.005 || Math.abs(measuredOutputHeight - requestedHeights[id]!) > 0.005) {
+  throw new Error(`Scaled bind/output height does not meet ${requestedHeights[id]} m: ${measuredBindHeight}/${measuredOutputHeight}.`);
+}
+const grounded = sourceBounds.min[1]! >= -0.005 && perClipBounds.every(clip => clip.minimumY >= -0.005);
+if (!grounded) throw new Error(`Presentation scaling left sampled motion below the floor: ${JSON.stringify({ bindBounds, perClipBounds })}`);
 const report = {
   schema: "corealm-starred-sheet-creature-rigging/1",
   id,
@@ -307,7 +336,19 @@ const report = {
   source: { file: path.relative(repo, sourcePath).replaceAll(path.sep, "/"), sha256: sourceHash, geometryHashes, triangleCornerAttributesSha256: sourceTriangleHash, textures: sourceMaps },
   candidate: { file: path.relative(repo, outputPath).replaceAll(path.sep, "/"), sha256: candidateHash, bytes: outputBytes.length,
     geometryHashes: outputGeometryHashes, triangleCornerAttributesSha256: outputTriangleHash, sourceGeometryPreserved: true,
-    bounds: sourceBounds, textures: checkMaps, animationClips: clips, deformationSamples },
+    presentationHeightMeters: Number((sourceBounds.max[1]! - sourceBounds.min[1]!).toFixed(6)), presentationScale,
+    bounds: sourceBounds, textures: checkMaps, animationClips: clips, perClipBounds, deformationSamples },
+  scaleReview: {
+    targetHeightMeters: requestedHeights[id],
+    measuredBindHeightMeters: Number(measuredBindHeight.toFixed(6)),
+    measuredOutputHeightMeters: Number(measuredOutputHeight.toFixed(6)),
+    grounded,
+    groundedBindBounds: bindBounds,
+    groundedOutputBounds: sourceBounds,
+    perClipAnimatedBounds: Object.fromEntries(perClipBounds.map(clip => [clip.name, {
+      minimumY: clip.minimumY, maximumY: clip.maximumY, minimumHeight: clip.minimumHeight, maximumHeight: clip.maximumHeight, samples: clip.samples,
+    }])),
+  },
   rig: { ...rigQuality, maximumWeightSumError: maxWeightSumError, jointNames, bindBounds, method: "Existing animation-library humanoid skeleton mapped to Mixamo semantic names; original extraction transform retained as a shared presentation parent; four nearest limb/torso/head segments blended in normalized source space." },
   motionSource: { file: path.relative(repo, motionPath).replaceAll(path.sep, "/"), sha256: motionHash,
     retarget: { method: retarget.method, restoredJoints: retarget.restoredJoints, mappedJoints: retarget.mappedJoints, translationScale: retarget.translationScale,

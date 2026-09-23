@@ -2,7 +2,7 @@
   "schema": "corealm-starred-sheet-rigging/1",
   "part": "part-07-blue-crystal-imp",
   "sourceSha256": "4c91f18740d2006022fe24526d178dc263f31b2650ab271dbc5494899285ed70",
-  "candidateSha256": "91d0fa168f9dec8c5d7b6d27e16a7d4566659f28778eeb7f95cb51efaf14e5f3",
+  "candidateSha256": "1efa19a143994c0ac0474f35707e23400553857c5de0afa98a8e3381d4624f4e",
   "sourceGeometryHashes": {
     "positions": "c953557a2e1ed796545f147ec1dddd50b42d339970b1cae1fbd496dfbbae20ba",
     "normals": "b2a3d87fcb1798512ff54b71ca6af3ab53feb8478a5fc56c6a0b7acf8a56f97e",
@@ -15,9 +15,9 @@
     "uvs": "4639178cc73da9d45218631e091992ce97bace7daccf7dbea306369c089e39d4",
     "indices": "ee8a2abf77064ffdd6b4de9cacfb3e8f1f4ded99486d52ca28d5104ed37c4bd5"
   },
-  "worldTransform": {
-    "maxMatrixDelta": 0,
-    "sourceBounds": {
+  "scaleReview": {
+    "targetHeightMeters": 1.4,
+    "groundedBindBounds": {
       "min": [
         -0.4024999809265136,
         0,
@@ -29,20 +29,132 @@
         0.3175000190734863
       ]
     },
-    "candidateBounds": {
+    "groundedOutputBounds": {
       "min": [
-        -0.4024999809265136,
+        -0.5634999732971189,
         0,
-        -0.31750001907348635
+        -0.4445000267028808
       ],
       "max": [
-        0.4024999809265137,
-        1,
-        0.3175000190734863
+        0.5634999732971192,
+        1.4,
+        0.4445000267028808
       ]
     },
-    "height": 1,
-    "centeredGroundedOneMeter": true
+    "measuredHeightMeters": 1.4,
+    "grounded": true,
+    "sixClipGroundingVerified": true,
+    "animatedClips": [
+      {
+        "name": "Idle",
+        "frames": 33,
+        "bounds": {
+          "min": [
+            -0.5661985595449635,
+            -7.640293194287426e-18,
+            -0.44608913379050613
+          ],
+          "max": [
+            0.5746190511652506,
+            1.4046364035956138,
+            0.4468151110765951
+          ]
+        },
+        "height": 1.4046364035956138,
+        "grounded": true
+      },
+      {
+        "name": "Walk",
+        "frames": 33,
+        "bounds": {
+          "min": [
+            -0.5948414724282289,
+            -0.0010033610726488782,
+            -0.44797828556260694
+          ],
+          "max": [
+            0.6046937274077259,
+            1.4109185387549665,
+            0.44577222752030704
+          ]
+        },
+        "height": 1.4119218998276155,
+        "grounded": true
+      },
+      {
+        "name": "Run",
+        "frames": 36,
+        "bounds": {
+          "min": [
+            -0.6287115346979246,
+            -0.0017130500727662473,
+            -0.4445000138729858
+          ],
+          "max": [
+            0.6406569664965858,
+            1.405376020941734,
+            0.45392363487819387
+          ]
+        },
+        "height": 1.4070890710145003,
+        "grounded": true
+      },
+      {
+        "name": "Attack",
+        "frames": 36,
+        "bounds": {
+          "min": [
+            -0.7215495671214751,
+            -7.640293194287426e-18,
+            -0.48605410979735053
+          ],
+          "max": [
+            0.6453031202210489,
+            1.4187080196673405,
+            0.45820794957206656
+          ]
+        },
+        "height": 1.4187080196673405,
+        "grounded": true
+      },
+      {
+        "name": "Hit",
+        "frames": 36,
+        "bounds": {
+          "min": [
+            -0.6177473134029847,
+            -7.640293194287426e-18,
+            -0.4514447060217965
+          ],
+          "max": [
+            0.6269428714252404,
+            1.4035325655274515,
+            0.4929015288478412
+          ]
+        },
+        "height": 1.4035325655274515,
+        "grounded": true
+      },
+      {
+        "name": "Death",
+        "frames": 36,
+        "bounds": {
+          "min": [
+            -0.6679852251727931,
+            -7.640293194287426e-18,
+            -0.471032966586701
+          ],
+          "max": [
+            0.6186323940887154,
+            1.5247085997010208,
+            0.4445000301189736
+          ]
+        },
+        "height": 1.5247085997010208,
+        "grounded": true
+      }
+    ],
+    "visualAcceptance": false
   },
   "vertices": 3915,
   "triangles": 2150,
@@ -63,12 +175,12 @@
     },
     {
       "name": "Walk",
-      "channels": 5,
+      "channels": 6,
       "duration": 1.100000023841858
     },
     {
       "name": "Run",
-      "channels": 5,
+      "channels": 6,
       "duration": 0.7200000286102295
     },
     {

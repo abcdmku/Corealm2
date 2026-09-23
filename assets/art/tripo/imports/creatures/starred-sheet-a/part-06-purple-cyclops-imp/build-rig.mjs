@@ -8,10 +8,13 @@ import sharp from 'sharp';
 import { Matrix4 } from 'three';
 import { retargetHumanoid } from '../../../../../../../tools/tripo-creatures/retarget.ts';
 import { deformedBounds } from '../../../../../../../tools/creature-motion/validate-deformation.ts';
+import { applyClip, duration, restorePose, storedPose } from '../../../../../../../tools/creature-motion/pose.ts';
 
 const folder = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(folder, '../../../../../../../');
 const id = path.basename(folder);
+const targetHeightMeters = ({ 'part-04-magma-imp': 1.5, 'part-05-ivory-bone-imp': 1.5, 'part-06-purple-cyclops-imp': 1.6 })[id];
+if (!targetHeightMeters) throw new Error(`No approved scale target for ${id}.`);
 const sourcePath = path.join(folder, 'base.glb');
 const outputPath = path.join(folder, `${id}-native-rig-candidate.glb`);
 const reportPath = path.join(folder, 'rigging-verification.json');
@@ -51,7 +54,10 @@ const geometryHashes = { positions: hashArray(positions), normals: hashArray(nor
 // while a shared armature holds the unchanged mesh-local vertex coordinates.
 const sourceOffset = { translation: meshNode.getTranslation(), rotation: meshNode.getRotation(), scale: meshNode.getScale() };
 meshNode.setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
-const presentation = doc.createNode(`${id}_Presentation`).setTranslation(sourceOffset.translation).setRotation(sourceOffset.rotation).setScale(sourceOffset.scale);
+const presentation = doc.createNode(`${id}_Presentation`)
+  .setTranslation(sourceOffset.translation.map(value => value * targetHeightMeters))
+  .setRotation(sourceOffset.rotation)
+  .setScale(sourceOffset.scale.map(value => value * targetHeightMeters));
 const rig = doc.createNode('Armature');
 for (const child of [...scene.listChildren()]) scene.removeChild(child);
 scene.addChild(presentation);
@@ -140,14 +146,35 @@ const motionHash = sha256(motionBytes);
 const retarget = retargetHumanoid(doc, await io.readBinary(motionBytes));
 for (const animation of [...root.listAnimations()]) if (!['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].includes(animation.getName())) animation.dispose();
 retarget.clips = retarget.clips.filter(clip => ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].includes(clip.name));
-// retargetHumanoid expects a unit mesh frame. Rebase the inverse binds to the preserved
-// presentation transform after retargeting so GPU skinning restores the transformed bind pose.
+// Retarget in the unchanged mesh-local frame. The presentation root carries the source
+// centering transform and requested creature height without rewriting vertex arrays.
+const ground = scene.listChildren().find(node => node.getName() === 'corealm_motion_ground');
+if (!ground) throw new Error('The motion retargeter did not create its shared ground root.');
+// The retargeter authored its bind in source-local coordinates. Rebase inverse binds to
+// the moved presentation root so the unchanged geometry lands at the requested world size.
 const inverseBindAccessor = skin.getInverseBindMatrices();
 const meshWorld = new Matrix4().fromArray(meshNode.getWorldMatrix());
 for (let i = 0; i < skin.listJoints().length; i++) {
   const jointWorld = new Matrix4().fromArray(skin.listJoints()[i].getWorldMatrix());
   inverseBindAccessor.setElement(i, jointWorld.invert().multiply(meshWorld).toArray());
 }
+// Recompute each root ground correction after the final presentation scale. The source
+// retargeter measured the raw local mesh; these keys must lift the scaled world mesh.
+const retargetPose = storedPose(doc);
+for (const animation of root.listAnimations()) {
+  const channel = animation.listChannels().find(item => item.getTargetNode() === ground && item.getTargetPath() === 'translation');
+  if (!channel) throw new Error(`${animation.getName()} has no ground translation channel.`);
+  const times = channel.getSampler().getInput().getArray();
+  const output = channel.getSampler().getOutput();
+  for (let key = 0; key < times.length; key++) {
+    restorePose(retargetPose);
+    applyClip(animation, Number(times[key]));
+    ground.setTranslation([0, 0, 0]);
+    const minY = deformedBounds(doc).min[1];
+    output.setElement(key, [0, -minY + .001, 0]);
+  }
+}
+restorePose(retargetPose);
 if (root.listAnimations().map(animation => animation.getName()).join(',') !== 'Idle,Walk,Run,Attack,Hit,Death') {
   throw new Error(`Unexpected clip list: ${root.listAnimations().map(animation => animation.getName()).join(',')}`);
 }
@@ -198,10 +225,30 @@ for (let i = 0; i < checkWeights.length; i += 4) weightTotals.push(checkWeights[
 if (weightTotals.some(value => Math.abs(value - 1) > 1e-5) || [...checkJoints].some(value => value >= checkRoot.listSkins()[0].listJoints().length)) throw new Error('Serialized skin weights or joint indices are invalid.');
 const bindBounds = deformedBounds(check);
 const worldHeight = bindBounds.max[1] - bindBounds.min[1];
-if (Math.abs(worldHeight - 1) > 1e-4 || Math.abs(bindBounds.min[1]) > 1e-4 ||
+if (Math.abs(worldHeight - targetHeightMeters) > 1e-4 || Math.abs(bindBounds.min[1]) > 1e-4 ||
     Math.abs(bindBounds.min[0] + bindBounds.max[0]) > 1e-4 || Math.abs(bindBounds.min[2] + bindBounds.max[2]) > 1e-4) {
-  throw new Error(`Moved source transform did not preserve the centered, grounded 1 m presentation: ${JSON.stringify(bindBounds)}.`);
+  throw new Error(`Scaled presentation root did not produce centered, grounded ${targetHeightMeters} m bounds: ${JSON.stringify(bindBounds)}.`);
 }
+const clipPose = storedPose(check);
+const animatedBounds = checkRoot.listAnimations().map(animation => {
+  const seconds = duration(animation), steps = Math.max(1, Math.ceil(seconds * 30));
+  const envelope = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
+  let minimumFrameGroundY = Infinity;
+  for (let frame = 0; frame <= steps; frame++) {
+    restorePose(clipPose);
+    applyClip(animation, seconds * frame / steps);
+    const frameBounds = deformedBounds(check);
+    minimumFrameGroundY = Math.min(minimumFrameGroundY, frameBounds.min[1]);
+    for (let axis = 0; axis < 3; axis++) {
+      envelope.min[axis] = Math.min(envelope.min[axis], frameBounds.min[axis]);
+      envelope.max[axis] = Math.max(envelope.max[axis], frameBounds.max[axis]);
+    }
+  }
+  const height = envelope.max[1] - envelope.min[1];
+  if (minimumFrameGroundY < -1e-4) throw new Error(`${animation.getName()} clips below ground after scale: ${minimumFrameGroundY}.`);
+  return { name: animation.getName(), seconds, samples: steps + 1, min: envelope.min, max: envelope.max, envelopeHeightMeters: height, minimumFrameGroundY, grounded: minimumFrameGroundY >= -1e-4 };
+});
+restorePose(clipPose);
 const serializedMaps = checkRoot.listTextures().map(texture => ({ name: texture.getName(), sha256: sha256(texture.getImage()) }));
 if (serializedMaps.length !== mapEvidence.length || serializedMaps.some((map, index) => map.sha256 !== mapEvidence[index].runtimeSha256)) {
   throw new Error('Serialized candidate texture map hashes do not match the verified maps.');
@@ -209,12 +256,13 @@ if (serializedMaps.length !== mapEvidence.length || serializedMaps.some((map, in
 const provenance = {
   asset: id, status: 'rigged-candidate-awaiting-visual-and-lab-review', source: { file: 'base.glb', sha256: sourceHash, bytes: sourceBytes.length, meshNodeTranslation: sourceOffset },
   mesh: { vertices: positions.length / 3, triangles: indices.length / 3, sourceGeometryHashes: geometryHashes, candidateGeometryHashes: checkGeometry, exactMatch: true },
-  normalization: { sourceBounds: bounds, sourceHeight: extent[1], movedMeshTransformToPresentationRoot: sourceOffset, addedScale: false, outputBounds: bindBounds, outputHeight: worldHeight, grounded: Math.abs(bindBounds.min[1]) <= 1e-4, centeredXZ: Math.abs(bindBounds.min[0] + bindBounds.max[0]) <= 1e-4 && Math.abs(bindBounds.min[2] + bindBounds.max[2]) <= 1e-4 },
+  normalization: { sourceBounds: bounds, sourceHeight: extent[1], movedMeshTransformToPresentationRoot: sourceOffset, targetHeightMeters, presentationScale: sourceOffset.scale.map(value => value * targetHeightMeters), outputBounds: bindBounds, outputHeight: worldHeight, grounded: Math.abs(bindBounds.min[1]) <= 1e-4, centeredXZ: Math.abs(bindBounds.min[0] + bindBounds.max[0]) <= 1e-4 && Math.abs(bindBounds.min[2] + bindBounds.max[2]) <= 1e-4 },
+  scaleReview: { targetHeightMeters, grounded: true, bindOutputBounds: bindBounds, clips: animatedBounds },
   rig: { method: '22-bone Mixamo-compatible humanoid chain; four Gaussian capsule influences per vertex with lateral limb and face zones', joints: bones.map(bone => bone.name), maxWeightSumError, minWeightSum: Math.min(...weightTotals), maxWeightSum: Math.max(...weightTotals), bindBounds },
   motions: { library: path.relative(repo, motionPath).replaceAll(path.sep, '/'), sha256: motionHash, retarget, clips, durations },
   maps: { count: mapEvidence.length, maxDimension: 2048, maps: mapEvidence, serializedMatches: true, serializedHashes: serializedMaps },
   candidate: { file: path.basename(outputPath), bytes: outputBytes.length, sha256: sha256(outputBytes) },
-  verification: { geometryExact: true, weightSumsValid: true, sixClips: clips.map(clip => clip.name).join(',') === 'Idle,Walk,Run,Attack,Hit,Death', mapLimitValid: mapEvidence.every(map => Math.max(...map.runtimeDimensions) <= 2048) },
+  verification: { geometryExact: true, weightSumsValid: true, sixClips: clips.map(clip => clip.name).join(',') === 'Idle,Walk,Run,Attack,Hit,Death', mapLimitValid: mapEvidence.every(map => Math.max(...map.runtimeDimensions) <= 2048), visualAcceptance: false, labAcceptance: false },
 };
 await writeFile(reportPath, `${JSON.stringify(provenance, null, 2)}\n`);
 console.log(JSON.stringify({ candidate: outputPath, report: reportPath, vertices: provenance.mesh.vertices, triangles: provenance.mesh.triangles, clips: durations, sha256: provenance.candidate.sha256 }, null, 2));
