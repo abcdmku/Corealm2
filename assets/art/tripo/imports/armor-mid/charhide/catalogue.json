@@ -10,7 +10,7 @@
   },
   "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\32235679-13e4-46ec-8a0a-40ddbecd11d7.glb",
   "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
-  "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+  "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
   "textureSize": 2048,
   "assets": [
     {
@@ -25,20 +25,20 @@
         "charhide_hood",
         "head"
       ],
-      "bytes": 16592156,
+      "bytes": 16592200,
       "itemModel": {
         "itemId": "charhide_hood",
         "wearable": true
       },
       "size": {
-        "x": 0.6314208507537842,
+        "x": 0.46430663764476776,
         "y": 0.28725576400756836,
-        "z": 0.46430662274360657
+        "z": 0.6314208209514618
       },
       "base": {
-        "x": -0.32926034927368164,
+        "x": -0.23260492086410522,
         "y": 1.7218410968780518,
-        "z": -0.27260491251945496
+        "z": -0.34216049313545227
       },
       "animations": [],
       "materials": [
@@ -46,9 +46,9 @@
       ],
       "itemId": "charhide_hood",
       "status": "pending",
-      "sha256": "d62232db8b9db1325d86f49ff055f1f6479e6cd903b431e486cec2725438ec36",
+      "sha256": "d7f031252e9953743159935f569657c798a26d5338e6d71d60400035dabca9cf",
       "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
-      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 515,
       "drawCalls": 1
     },
@@ -64,20 +64,20 @@
         "charhide_robe",
         "torso"
       ],
-      "bytes": 16716280,
+      "bytes": 16716316,
       "itemModel": {
         "itemId": "charhide_robe",
         "wearable": true
       },
       "size": {
-        "x": 1.1284574270248413,
+        "x": 1.4359062910079956,
         "y": 1.298071801662445,
-        "z": 0.8825565278530121
+        "z": 0.5627684742212296
       },
       "base": {
-        "x": -0.5981946587562561,
+        "x": -0.7192150354385376,
         "y": 0.3071288466453552,
-        "z": -0.5418070554733276
+        "z": -0.3692599833011627
       },
       "animations": [],
       "materials": [
@@ -85,9 +85,9 @@
       ],
       "itemId": "charhide_robe",
       "status": "pending",
-      "sha256": "926663c5c67c5ecd6ec801a263845832def95e464827ea66773f7c9099a5f1c2",
+      "sha256": "2751348ecb9a53b52b30faa58f3934d7c06ec45e750c343024b1f1af90462d4a",
       "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
-      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 2518,
       "drawCalls": 7
     },
@@ -103,20 +103,20 @@
         "charhide_wraps",
         "arms"
       ],
-      "bytes": 16587992,
+      "bytes": 16588040,
       "itemModel": {
         "itemId": "charhide_wraps",
         "wearable": true
       },
       "size": {
-        "x": 1.3418844938278198,
-        "y": 0.25199437141418457,
-        "z": 0.8907641172409058
+        "x": 1.638437569141388,
+        "y": 0.12009692192077637,
+        "z": 0.10885119624435902
       },
       "base": {
-        "x": -0.7063546180725098,
-        "y": 0.9175978899002075,
-        "z": -0.546836793422699
+        "x": -0.8192187547683716,
+        "y": 1.3550357818603516,
+        "z": -0.08888167142868042
       },
       "animations": [],
       "materials": [
@@ -124,9 +124,9 @@
       ],
       "itemId": "charhide_wraps",
       "status": "pending",
-      "sha256": "f62d3fb01e7bfa6b01b68126c386bdbeda35e87f5c135a1f4e5def2f9aefecc9",
+      "sha256": "4313e871d8f6de154f512ae2b5cca6f7403dac7936ec0eeb365250eb5cc1520a",
       "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
-      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 522,
       "drawCalls": 2
     },
@@ -142,20 +142,20 @@
         "charhide_leggings",
         "legs"
       ],
-      "bytes": 16599896,
+      "bytes": 16599940,
       "itemModel": {
         "itemId": "charhide_leggings",
         "wearable": true
       },
       "size": {
-        "x": 0.2929926961660385,
+        "x": 0.32032589614391327,
         "y": 0.6829101741313934,
-        "z": 0.51218281686306
+        "z": 0.339648574590683
       },
       "base": {
-        "x": -0.1565774381160736,
+        "x": -0.16016289591789246,
         "y": 0.37849143147468567,
-        "z": -0.29609134793281555
+        "z": -0.19582277536392212
       },
       "animations": [],
       "materials": [
@@ -163,9 +163,9 @@
       ],
       "itemId": "charhide_leggings",
       "status": "pending",
-      "sha256": "413f11fb21d6d0ef400dbe0ba0e83b9bf18ef91725dc3e87db26fec7fa35f407",
+      "sha256": "8585794cee7ea74450ff94ec189b6f90d896da628a972e167a8b70659bb6c75a",
       "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
-      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 578,
       "drawCalls": 1
     },
@@ -181,20 +181,20 @@
         "charhide_boots",
         "feet"
       ],
-      "bytes": 16657460,
+      "bytes": 16657508,
       "itemModel": {
         "itemId": "charhide_boots",
         "wearable": true
       },
       "size": {
-        "x": 0.28713929653167725,
+        "x": 0.40487685799598694,
         "y": 0.439013978838922,
-        "z": 0.6296146810054779
+        "z": 0.33151886612176895
       },
       "base": {
-        "x": -0.13836660981178284,
+        "x": -0.2024383693933487,
         "y": -1.1026859425555813e-7,
-        "z": -0.3548072576522827
+        "z": -0.21298587322235107
       },
       "animations": [],
       "materials": [
@@ -202,9 +202,9 @@
       ],
       "itemId": "charhide_boots",
       "status": "pending",
-      "sha256": "790f2fe13679537efe7fdab95e48b310f4c77f39c2a70aa2bed4e1cc47954316",
+      "sha256": "97d66d48f8998dc28f2c41997ee8a296d3bcd4d7f51099ba6a9c02a8c85cedfe",
       "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
-      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 1185,
       "drawCalls": 1
     }

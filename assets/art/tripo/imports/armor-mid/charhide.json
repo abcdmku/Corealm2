@@ -5,19 +5,19 @@
   "textureSize": 2048,
   "alignment": {
     "space": "native-male-t-pose",
-    "reviewedBy": "armor_fit_mid: numbered source-triangle projections and native joint landmarks; pending root lab acceptance",
+    "reviewedBy": "armor_fit_mid: packed Mixamo bind landmarks confirm X lateral and Y up match base_male; pending root normal-camera lab acceptance",
     "matrix": [
+      1.85,
+      0,
+      0,
       0,
       0,
       1.85,
       0,
       0,
+      0,
+      0,
       1.85,
-      0,
-      0,
-      -1.85,
-      0,
-      0,
       0,
       0,
       0,
@@ -7374,17 +7374,17 @@
       "feet": 1185
     },
     "sourceExport": "Packed 8K rigged Tripo GLB. The source bind pose is recovered from its 65 inverse-bind matrices; importer preserves source triangle topology, bakes the fit, then attaches the native 65-joint runtime skin. Original base-color, normal, and packed metallic-roughness maps are retained and resized to 2K runtime maps.",
-    "orientation": "Y-up/+X-forward, Z lateral. Node translations baked, then -90deg Y rotation and 1.85 scale, Z -0.04m.",
+    "orientation": "Packed source and native base_male share a Y-up, X-left/right bind basis; preserve XYZ axes with no yaw, uniform 1.85 scale, and Z -0.04m offset. This keeps source chest and native chest facing the same direction.",
     "fit": "Measured relaxed shoulder/wrist anchors map to native T pose. Fused sleeves blend at shoulder. Leg/boot stance narrows to native centers. Wizard hats raise to clear native forehead.",
     "sourceShoulder": [
-      0.02,
-      0.78,
-      0.11
+      0.0332,
+      0.8141,
+      -0.0059
     ],
     "sourceWrist": [
-      0.018,
-      0.53,
-      0.226
+      0.2143,
+      0.5356,
+      0.0276
     ],
     "slotNote": "Pants/boots and sleeves/gloves split only at existing triangle boundaries.",
     "validation": "All 5,318 assigned triangles and the 60-triangle face/neck omission are explicit source triangle selections. Root owns the final full-set normal-camera lab gate.",
