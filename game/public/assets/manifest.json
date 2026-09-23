@@ -25328,336 +25328,524 @@
     {
       "id": "creature_lava_golem",
       "file": "models/creature/creature_lava_golem.glb",
-      "pack": "corealm-rpg-gavlig-lava-golem-clean",
+      "pack": "corealm-starred-creatures",
       "category": "character",
-      "is": "lava golem",
+      "is": "Fire Golem",
       "tags": [
         "creature",
         "rpg",
-        "lava_golem"
+        "lava_golem",
+        "fire-golem",
+        "ashlands",
+        "t20",
+        "magma-spike-demon",
+        "demon",
+        "starred",
+        "tripo"
       ],
-      "bytes": 1275852,
-      "sha256": "0a54a15bacdc355293120e788000a237e74bcc430038aa465a8fb27359a22837",
+      "bytes": 6979044,
+      "sha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
       "size": {
-        "x": 1.851119520119564,
-        "y": 2.815492736961961,
-        "z": 1.1630494568568968
+        "x": 1.9451221559105851,
+        "y": 2.2,
+        "z": 1.0865853914400427
       },
       "base": {
-        "x": -0.9431082959644478,
-        "y": 0.003000000452914528,
-        "z": -0.6299987111562713
+        "x": -0.9725610779552926,
+        "y": 0,
+        "z": 0.013414608559957367
       },
       "groundY": 0,
-      "triangles": 5502,
+      "triangles": 2519,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
-        "animal_rpg_lava_golem_lava_authored_0_golem_mat"
+        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
       ],
-      "walkClipSeconds": 1.6666666269302368,
-      "runClipSeconds": 1.1494252599518875,
-      "attackSeconds": 2,
-      "contactNormalized": 0.52,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.92,
       "sourceProvenance": {
-        "author": "gavlig",
-        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
-        "source": "https://opengameart.org/content/lava-golem",
-        "sourceAssets": [
-          "golem_clean.blend",
-          "golem_emit.png"
-        ],
-        "sourcePacks": [
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
+        "sourceSha256": "b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
+        "candidateSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+        "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
+        "textures": [
           {
-            "id": "gavlig-lava-golem-clean",
-            "author": "gavlig",
-            "license": "CC0-1.0",
-            "source": "https://opengameart.org/content/lava-golem",
-            "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
-            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 2107997
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4025092
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 524633
           }
         ],
-        "sourceRecords": [
-          {
-            "archive": "golem_clean.blend.zip",
-            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
-            "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
-            "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
-          }
-        ],
-        "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+        "candidateStatus": "accepted-production-lab",
+        "sourceFiltering": "Four detached C1 row-boundary shards removed (256 triangles); retained C4 mesh topology, UVs, normals, and PBR maps unchanged.",
+        "candidateDisplayName": "Magma Spike Demon",
+        "productionIdentity": "Fire Golem",
+        "acceptanceEvidence": "Accepted in production lab after C4 shard removal: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
       },
       "metadata": {
-        "id": "lava_golem",
-        "family": "lava_golem",
-        "revision": "lava-golem-source-review-1",
-        "height": 2.803028340222869,
-        "dimensions": [
-          4.094039258665499,
-          2.803028340222869,
-          1.163049782082837
-        ],
-        "rig": "authored-71-bone-lava-golem",
-        "vertices": 3337,
-        "triangles": 5502,
-        "source": "https://opengameart.org/content/lava-golem",
-        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
-        "provenance": {
-          "author": "gavlig",
-          "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
-          "source": "https://opengameart.org/content/lava-golem",
-          "sourceAssets": [
-            "golem_clean.blend",
-            "golem_emit.png"
-          ],
-          "sourcePacks": [
-            {
-              "id": "gavlig-lava-golem-clean",
-              "author": "gavlig",
-              "license": "CC0-1.0",
-              "source": "https://opengameart.org/content/lava-golem",
-              "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
-              "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
-            }
-          ],
-          "sourceRecords": [
-            {
-              "archive": "golem_clean.blend.zip",
-              "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
-              "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
-              "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
-            }
-          ],
-          "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+        "family": "ashlands_fire_golem",
+        "candidateDisplayName": "Magma Spike Demon",
+        "heightM": 2.2,
+        "dimensionsM": {
+          "width": 1.9451221559105851,
+          "height": 2.2,
+          "depth": 1.0865853914400427
         },
-        "textureBindings": [
-          {
-            "materialName": "lava_authored_0_golem_mat",
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-color.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-normal.png",
-            "emissivePath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\golem_emit.png",
-            "emissiveTexCoord": 0,
-            "emissiveStrength": 0.9434782266616821,
-            "flipY": false
-          }
-        ],
-        "sourceMaterial": {
-          "originalEmitSlot": {
-            "index": 3,
-            "mapto": 65,
-            "uv": "active UV layer",
-            "texCoord": 0,
-            "emitfac": 0.9434782266616821,
-            "colfac": 1,
-            "offset": [
-              0,
-              0,
-              0
-            ],
-            "scale": [
-              1,
-              1,
-              1
-            ],
-            "evidence": "test-results/lava-golem-source/legacy-material-slots.json"
-          },
-          "replacementRock": {
-            "author": "Corealm project original procedural implementation",
-            "script": "tools/rpg-bestiary/lava-golem-source/bake-rock.mjs",
-            "inputs": "geometry positions/UVs and deterministic 3D noise only; no third-party texture images"
-          },
-          "specular": "Removed source photography not used or reinterpreted as roughness",
-          "textures": [
-            {
-              "materialName": "lava_authored_0_golem_mat",
-              "baseColorPath": {
-                "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-color.png",
-                "sha256": "00547f846e383f95b16da5d0a4dafc2a618fc117627e762f081ba64c6a673b8b"
-              },
-              "normalPath": {
-                "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-normal.png",
-                "sha256": "2924fe60cd7b1bb31904345fe0fd677ac0c77d58d42153a7453b13bcbfbf8a60"
-              },
-              "emissivePath": {
-                "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\golem_emit.png",
-                "sha256": "1e3d17d34ce2df1f04ddc2e756d80f3a83a3e5d062b42b5b1de33467e3dd36c9"
-              },
-              "emissiveTexCoord": 0,
-              "emissiveStrength": 0.9434782266616821,
-              "flipY": false
-            }
+        "bounds": {
+          "min": [
+            -0.9725610779552926,
+            0,
+            0.013414608559957367
+          ],
+          "max": [
+            0.9725610779552926,
+            2.2,
+            1.1
           ]
         },
-        "clipSources": {
-          "Idle": "native idle0â€“300 at60fps",
-          "Walk": "native walk0â€“100 at60fps",
-          "Run": "native Walk retimed1.45x; no native run",
-          "Attack": "native smash0â€“120 at60fps",
-          "Hit": "idle-derived0.6s with authored spine recoil; no native hit",
-          "HitLeft": "same derivative with positive lateral spine turn",
-          "HitRight": "same derivative with negative lateral spine turn",
-          "Death": "authored1.6s forward collapse from original idle pose with spine curl; no native death"
+        "rig": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
+        "sourceSkinned": true,
+        "boneCount": 22,
+        "vertices": 4722,
+        "triangles": 2519,
+        "source": {
+          "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
+          "sha256": "b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3",
+          "bytes": 6840908,
+          "starredModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+          "starredCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+          "starredDisplayName": "demon creature 3d model",
+          "geometry": {
+            "vertices": 4722,
+            "triangles": 2519,
+            "bounds": {
+              "min": [
+                -0.1416015774011612,
+                0,
+                0.0019531212747097015
+              ],
+              "max": [
+                0.1416015774011612,
+                0.3203125,
+                0.16015625
+              ]
+            },
+            "positionsPreserved": true,
+            "indicesPreserved": true,
+            "retopology": false,
+            "retainedTopology": true,
+            "removedForeignComponents": 4,
+            "removedForeignTriangles": 256
+          },
+          "preliminaryDesignReview": "Removed four detached row-boundary foreign shard components assigned from the adjacent C1 cell (256 triangles); remaining C4 geometry, UVs, normals, PBR and topology are preserved without retopology. Rig and motion remain staged for root lab review.",
+          "textures": [
+            {
+              "name": "demon+creature+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+            },
+            {
+              "name": "demon+creature+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/png",
+              "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+            },
+            {
+              "name": "demon+creature+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+            }
+          ],
+          "sourceSkin": "none",
+          "filtering": {
+            "method": "Removed four detached C1 row-boundary shards by welded spatial connected component; preserved all remaining triangles and source vertex attributes without retopology.",
+            "originalExtractedSha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
+            "removedComponents": [
+              {
+                "triangles": 57
+              },
+              {
+                "triangles": 67
+              },
+              {
+                "triangles": 61
+              },
+              {
+                "triangles": 71
+              }
+            ]
+          },
+          "sourceAnimations": []
         },
-        "attackContact": 0.52,
-        "attackContactSource": "Provisional native smash phase0.52; requires production contact review",
-        "animationFloorChecks": [
-          {
-            "clip": "Idle",
-            "rawMinFloor": 9.566345446354596e-8,
-            "maxAlignment": 0.0029999043365455365,
-            "minFloor": 0.003000000452914528,
-            "firstSize": [
-              1.851119520119564,
-              2.815492736961961,
-              1.1630494568568968
-            ],
-            "lastSize": [
-              1.8511194064022622,
-              2.815492734892595,
-              1.1630494793421382
-            ]
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
+          "sha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+          "bytes": 6979044,
+          "productionTarget": "game/public/assets/models/creature/creature_magma_spike_demon.glb",
+          "geometry": {
+            "vertices": 4722,
+            "triangles": 2519,
+            "nativeBounds": {
+              "min": [
+                -0.1416015774011612,
+                0,
+                0.0019531212747097015
+              ],
+              "max": [
+                0.1416015774011612,
+                0.3203125,
+                0.16015625
+              ]
+            },
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "uvsPreserved": true,
+            "indicesPreserved": true,
+            "scaleFactor": 6.86829268292683,
+            "targetHeightMeters": 2.2
           },
-          {
-            "clip": "Walk",
-            "rawMinFloor": -0.012261837588512375,
-            "maxAlignment": 0.015261837588512375,
-            "minFloor": 0.0029106294623949813,
-            "firstSize": [
-              1.814483775503637,
-              2.7296527245846636,
-              1.785774518557567
+          "rig": {
+            "type": "Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",
+            "joints": [
+              {
+                "name": "mixamorigHips",
+                "parent": null,
+                "position": [
+                  0,
+                  0.14276785714285714,
+                  -0.044494629953987896
+                ]
+              },
+              {
+                "name": "mixamorigSpine",
+                "parent": "mixamorigHips",
+                "position": [
+                  0,
+                  0.17388392857142856,
+                  -0.03460693440865725
+                ]
+              },
+              {
+                "name": "mixamorigSpine1",
+                "parent": "mixamorigSpine",
+                "position": [
+                  0,
+                  0.2104910714285714,
+                  -0.02966308663599193
+                ]
+              },
+              {
+                "name": "mixamorigSpine2",
+                "parent": "mixamorigSpine1",
+                "position": [
+                  0,
+                  0.2470982142857143,
+                  -0.02719116274965927
+                ]
+              },
+              {
+                "name": "mixamorigNeck",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  0,
+                  0.2910267857142857,
+                  -0.019775391090661287
+                ]
+              },
+              {
+                "name": "mixamorigHead",
+                "parent": "mixamorigNeck",
+                "position": [
+                  0,
+                  0.3203125,
+                  -0.017303467204328626
+                ]
+              },
+              {
+                "name": "mixamorigLeftShoulder",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  -0.07167487251169886,
+                  0.2470982142857143,
+                  -0.02719116274965927
+                ]
+              },
+              {
+                "name": "mixamorigLeftArm",
+                "parent": "mixamorigLeftShoulder",
+                "position": [
+                  -0.10489005733419346,
+                  0.21598214285714284,
+                  -0.017303467204328626
+                ]
+              },
+              {
+                "name": "mixamorigLeftForeArm",
+                "parent": "mixamorigLeftArm",
+                "position": [
+                  -0.12761623642326872,
+                  0.1629017857142857,
+                  0.002471923886332661
+                ]
+              },
+              {
+                "name": "mixamorigLeftHand",
+                "parent": "mixamorigLeftForeArm",
+                "position": [
+                  -0.1416015774011612,
+                  0.11897321428571428,
+                  0.017303467204328626
+                ]
+              },
+              {
+                "name": "mixamorigRightShoulder",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  0.07167487251169886,
+                  0.2470982142857143,
+                  -0.02719116274965927
+                ]
+              },
+              {
+                "name": "mixamorigRightArm",
+                "parent": "mixamorigRightShoulder",
+                "position": [
+                  0.10489005733419346,
+                  0.21598214285714284,
+                  -0.017303467204328626
+                ]
+              },
+              {
+                "name": "mixamorigRightForeArm",
+                "parent": "mixamorigRightArm",
+                "position": [
+                  0.12761623642326872,
+                  0.1629017857142857,
+                  0.002471923886332661
+                ]
+              },
+              {
+                "name": "mixamorigRightHand",
+                "parent": "mixamorigRightForeArm",
+                "position": [
+                  0.1416015774011612,
+                  0.11897321428571428,
+                  0.017303467204328626
+                ]
+              },
+              {
+                "name": "mixamorigLeftUpLeg",
+                "parent": "mixamorigHips",
+                "position": [
+                  -0.050696861044860174,
+                  0.12080357142857143,
+                  -0.042022706067655236
+                ]
+              },
+              {
+                "name": "mixamorigLeftLeg",
+                "parent": "mixamorigLeftUpLeg",
+                "position": [
+                  -0.05768953153380641,
+                  0.06040178571428571,
+                  -0.02719116274965927
+                ]
+              },
+              {
+                "name": "mixamorigLeftFoot",
+                "parent": "mixamorigLeftLeg",
+                "position": [
+                  -0.05768953153380641,
+                  0.02013392857142857,
+                  0.002471923886332661
+                ]
+              },
+              {
+                "name": "mixamorigLeftToeBase",
+                "parent": "mixamorigLeftFoot",
+                "position": [
+                  -0.05768953153380641,
+                  0.012812500000000001,
+                  0.04696655384032056
+                ]
+              },
+              {
+                "name": "mixamorigRightUpLeg",
+                "parent": "mixamorigHips",
+                "position": [
+                  0.050696861044860174,
+                  0.12080357142857143,
+                  -0.042022706067655236
+                ]
+              },
+              {
+                "name": "mixamorigRightLeg",
+                "parent": "mixamorigRightUpLeg",
+                "position": [
+                  0.05768953153380641,
+                  0.06040178571428571,
+                  -0.02719116274965927
+                ]
+              },
+              {
+                "name": "mixamorigRightFoot",
+                "parent": "mixamorigRightLeg",
+                "position": [
+                  0.05768953153380641,
+                  0.02013392857142857,
+                  0.002471923886332661
+                ]
+              },
+              {
+                "name": "mixamorigRightToeBase",
+                "parent": "mixamorigRightFoot",
+                "position": [
+                  0.05768953153380641,
+                  0.012812500000000001,
+                  0.04696655384032056
+                ]
+              }
             ],
-            "lastSize": [
-              1.8144837619162715,
-              2.7296527344279085,
-              1.7857745487159478
-            ]
+            "influencesPerVertex": 4,
+            "verticesWithDistributedWeights": 4722,
+            "maximumWeightSumError": 3.725290298461914e-8,
+            "method": "Model-specific four-weight skin from anatomical bone-segment distance fields; no fallback to one root joint."
           },
-          {
-            "clip": "Run",
-            "rawMinFloor": -0.01217951851821733,
-            "maxAlignment": 0.01517951851821733,
-            "minFloor": 0.002677727298468463,
-            "firstSize": [
-              1.814483775503637,
-              2.7296527245846636,
-              1.785774518557567
-            ],
-            "lastSize": [
-              1.8144837769159847,
-              2.7296527243126465,
-              1.7857745208064886
-            ]
-          },
-          {
-            "clip": "Attack",
-            "rawMinFloor": 9.566345446354596e-8,
-            "maxAlignment": 0.0029999043365455365,
-            "minFloor": 0.003000000452914528,
-            "firstSize": [
-              1.8529005558081244,
-              2.815492736961961,
-              1.163049493578511
-            ],
-            "lastSize": [
-              1.8278524474977256,
-              2.815492734892595,
-              1.1630494793421382
-            ]
-          },
-          {
-            "clip": "Hit",
-            "rawMinFloor": 9.566345446354596e-8,
-            "maxAlignment": 0.0029999043365455365,
-            "minFloor": 0.003000000452914528,
-            "firstSize": [
-              1.851119520119564,
-              2.815492736961961,
-              1.1630494568568968
-            ],
-            "lastSize": [
-              1.8511195200251775,
-              2.815492737423849,
-              1.1630494561227391
-            ]
-          },
-          {
-            "clip": "HitLeft",
-            "rawMinFloor": 9.566345446354596e-8,
-            "maxAlignment": 0.0029999043365455365,
-            "minFloor": 0.003000000452914528,
-            "firstSize": [
-              1.851119520119564,
-              2.815492736961961,
-              1.1630494568568968
-            ],
-            "lastSize": [
-              1.8511195200251775,
-              2.815492737423849,
-              1.1630494561227391
-            ]
-          },
-          {
-            "clip": "HitRight",
-            "rawMinFloor": 9.566345446354596e-8,
-            "maxAlignment": 0.0029999043365455365,
-            "minFloor": 0.003000000452914528,
-            "firstSize": [
-              1.851119520119564,
-              2.815492736961961,
-              1.1630494568568968
-            ],
-            "lastSize": [
-              1.8511195200251775,
-              2.815492737423849,
-              1.1630494561227391
-            ]
-          },
-          {
-            "clip": "Death",
-            "rawMinFloor": -0.2948923558718015,
-            "maxAlignment": 0.2978923558718015,
-            "minFloor": 0.002999979607113623,
-            "firstSize": [
-              1.8511194064022622,
-              2.815492734892595,
-              1.1630494793421382
-            ],
-            "lastSize": [
-              1.929528280393466,
-              1.280807215267135,
-              2.770033855732418
-            ]
+          "textures": [
+            {
+              "name": "demon+creature+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "bytes": 2107997,
+              "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+            },
+            {
+              "name": "demon+creature+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/png",
+              "bytes": 4025092,
+              "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+            },
+            {
+              "name": "demon+creature+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "bytes": 524633,
+              "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+            }
+          ],
+          "packedMetallicChannelRange": [
+            0.00392156862745098,
+            0.09803921568627451
+          ],
+          "animations": [
+            {
+              "name": "Idle",
+              "seconds": 2.8,
+              "channels": 3
+            },
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "channels": 7
+            },
+            {
+              "name": "Run",
+              "seconds": 0.72,
+              "channels": 8
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.92,
+              "channels": 5
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.46,
+              "channels": 5
+            },
+            {
+              "name": "Death",
+              "seconds": 1.45,
+              "channels": 9
+            }
+          ],
+          "acceptance": {
+            "rig": true,
+            "animation": true,
+            "textures": true,
+            "labAccepted": true,
+            "worldIntegrated": false
           }
-        ],
-        "approval": "candidate-needs-production-visual-and-motion-review",
+        },
+        "pbr": {
+          "baseColor": true,
+          "packedMetallicRoughness": true,
+          "normal": true,
+          "allMapsMaximum": 2048
+        },
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-geometry-estimate",
-          "source": "tools/rpg-bestiary/replacement-inventory/user-golem-gaits.json",
-          "visualContactAccepted": false
-        }
+        "animationAcceptance": "Accepted in production lab after C4 shard removal: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
       },
       "acceptance": {
-        "exported": true,
-        "labAccepted": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
         "worldIntegrated": false
       },
-      "impliedWalkMps": 1.825079,
-      "impliedRunMps": 2.646375,
-      "locomotionPolicy": "speed-matched"
+      "bounds": {
+        "min": [
+          -0.9725610779552926,
+          0,
+          0.013414608559957367
+        ],
+        "max": [
+          0.9725610779552926,
+          2.2,
+          1.1
+        ]
+      }
     },
     {
       "id": "creature_shale_elemental",
@@ -70695,632 +70883,530 @@
     {
       "id": "creature_starroot_guardian",
       "file": "models/fairy-crown/creature_starroot_guardian.glb",
-      "pack": "corealm-rpg-forest-monster-current",
+      "pack": "corealm-starred-creatures",
       "category": "character",
       "is": "starroot guardian",
       "tags": [
         "creature",
         "faeholme",
         "regional_variant",
-        "starroot_guardian"
+        "starroot_guardian",
+        "woodland-antler-demon",
+        "demon",
+        "t60",
+        "starred",
+        "tripo"
       ],
-      "bytes": 1631632,
-      "sha256": "99fc9e76a5ce8f8c111f00de9307179702651950775c1719e0f081728f15df10",
+      "bytes": 7071676,
+      "sha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
       "size": {
-        "x": 1.9257664885209114,
-        "y": 2.684829119684765,
-        "z": 1.715155658432283
+        "x": 1.709493670886076,
+        "y": 1.85,
+        "z": 1.1591773045213916
       },
       "base": {
-        "x": -1.0169737920668296,
-        "y": 0.0029999999999992567,
-        "z": -0.8571462969220508
+        "x": -0.854746835443038,
+        "y": 0,
+        "z": -0.5795886522606958
       },
       "groundY": 0,
-      "triangles": 7520,
+      "triangles": 3411,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
-        "animal_rpg_briar_harrow_heartwood",
-        "animal_rpg_briar_harrow_inner_fibres"
+        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
       ],
-      "walkClipSeconds": 1.9333332777023315,
-      "runClipSeconds": 1.3333332538604736,
-      "attackSeconds": 1.4500000476837158,
-      "contactNormalized": 0.4,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.92,
       "sourceProvenance": {
-        "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-        "license": "CC0-1.0",
-        "source": "https://opengameart.org/content/forest-monster",
-        "sourceAssets": [
-          "forest-monster-final.blend",
-          "Monster",
-          "Tree"
-        ],
-        "sourcePacks": [
+        "author": "Corealm candidate rig reconstruction",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/base.glb",
+        "sourceSha256": "77fff0752bef0ea2972ad07d1082e413dc3155298eb9165efeaac298d522c69e",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/woodland-antler-demon-rigged.glb",
+        "candidateSha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
+        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container.",
+        "textures": [
           {
-            "id": "forest-monster-current",
-            "author": "ÄŒestmÃ­r Dammer (CDmir)",
-            "license": "CC0-1.0",
-            "source": "https://opengameart.org/content/forest-monster",
-            "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 2107997
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4025092
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 524633
           }
         ],
-        "sourceRecords": [
-          {
-            "archive": "forest-monster_0.7z",
-            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-            "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-            "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
-          }
-        ],
-        "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
+        "candidateStatus": "accepted-production-lab",
+        "candidateDisplayName": "Woodland Antler Demon",
+        "productionIdentity": "Starroot Guardian",
+        "acceptanceEvidence": "Accepted in production lab: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
       },
       "metadata": {
-        "id": "briar_harrow",
-        "family": "briar_harrow",
-        "revision": "forest-monster-source-review-1",
-        "height": 2.684829119684765,
-        "dimensions": [
-          1.9257664885209114,
-          2.684829119684765,
-          1.715155658432283
-        ],
-        "rig": "authored-76-bone-forest-monster",
-        "meshCount": 2,
-        "vertices": 4527,
-        "triangles": 6582,
-        "attackContact": 0.4,
-        "attackContactSource": "Author Licenses.txt marks native strike frames10â€“15 of30; midpoint12 used",
-        "source": "https://opengameart.org/content/forest-monster",
-        "license": "CC0-1.0",
-        "provenance": {
-          "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-          "license": "CC0-1.0",
-          "source": "https://opengameart.org/content/forest-monster",
-          "sourceAssets": [
-            "forest-monster-final.blend",
-            "Monster",
-            "Tree"
+        "family": "faeholme_woodland_creature",
+        "candidateDisplayName": "Woodland Antler Demon",
+        "heightM": 1.85,
+        "dimensionsM": {
+          "width": 1.709493670886076,
+          "height": 1.85,
+          "depth": 1.1591773045213916
+        },
+        "bounds": {
+          "min": [
+            -0.854746835443038,
+            0,
+            -0.5795886522606958
           ],
-          "sourcePacks": [
+          "max": [
+            0.854746835443038,
+            1.85,
+            0.5795886522606958
+          ]
+        },
+        "rig": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container.",
+        "sourceSkinned": true,
+        "boneCount": 22,
+        "vertices": 6285,
+        "triangles": 3411,
+        "source": {
+          "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/base.glb",
+          "sha256": "77fff0752bef0ea2972ad07d1082e413dc3155298eb9165efeaac298d522c69e",
+          "bytes": 6901620,
+          "modelSource": {
+            "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+            "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+            "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+            "starredStatus": "in My Assets; not starred in Collected at extraction time",
+            "sourceCell": {
+              "row": 1,
+              "column": 3
+            },
+            "triangleCount": 3411,
+            "vertexCount": 6285,
+            "sourceBounds": {
+              "min": [
+                0.2021484225988388,
+                0.6894531846046448,
+                -0.24707037210464478
+              ],
+              "max": [
+                0.4873046875,
+                0.9980469346046448,
+                -0.05371098592877388
+              ]
+            },
+            "sourcePositionOffset": [
+              0.3447265550494194,
+              0.6894531846046448,
+              -0.15039067901670933
+            ],
+            "attributeHashes": {
+              "POSITION": "962e7c220cb53ca983270814b09d4b36475bf0c1833659dc5d4808a53f768760",
+              "NORMAL": "60eaf97577d5be53fe549a54259d8bf61d4e05fd487808b0f3831efaa2c24ae4",
+              "TEXCOORD_0": "67fe047b71f5435fc6f9bbaafb87e72accae7dcaa7c7e0ff7a493d85d6af4252"
+            },
+            "triangleIndexHash": "2a6053c4b687f41b10c6b0873f64f18876fda4caee22d6eb5976c214985d1409",
+            "pbrTextures": [
+              {
+                "name": "demon+creature+3d+model_basecolor.jpg",
+                "width": 8192,
+                "height": 8192,
+                "mimeType": "image/jpeg",
+                "format": "jpeg",
+                "bytes": 11930620,
+                "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+              },
+              {
+                "name": "demon+creature+3d+model_rm.png",
+                "width": 4096,
+                "height": 4096,
+                "mimeType": "image/png",
+                "format": "png",
+                "bytes": 12863099,
+                "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+              },
+              {
+                "name": "demon+creature+3d+model_normal.jpg",
+                "width": 4096,
+                "height": 4096,
+                "mimeType": "image/jpeg",
+                "format": "jpeg",
+                "bytes": 1237111,
+                "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+              }
+            ],
+            "skin": "none",
+            "animations": []
+          },
+          "geometry": {
+            "vertices": 6285,
+            "triangles": 3411,
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "uvsPreserved": true,
+            "indicesPreserved": true,
+            "retopology": false
+          },
+          "textures": [
             {
-              "id": "forest-monster-current",
-              "author": "ÄŒestmÃ­r Dammer (CDmir)",
-              "license": "CC0-1.0",
-              "source": "https://opengameart.org/content/forest-monster",
-              "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
+              "name": "demon+creature+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+            },
+            {
+              "name": "demon+creature+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+            },
+            {
+              "name": "demon+creature+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
             }
           ],
-          "sourceRecords": [
+          "sourceSkin": "none",
+          "sourceAnimations": []
+        },
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/woodland-antler-demon-rigged.glb",
+          "sha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
+          "bytes": 7071676,
+          "productionTarget": "game/public/assets/models/creature/creature_woodland_antler_demon.glb",
+          "rig": {
+            "type": "Mixamo-named humanoid glTF skin",
+            "rootScale": [
+              5.9949367088607595,
+              5.9949367088607595,
+              5.9949367088607595
+            ],
+            "scaleFactor": 5.9949367088607595,
+            "targetHeightMeters": 1.85,
+            "joints": [
+              {
+                "name": "mixamorigHips",
+                "parent": null,
+                "position": [
+                  0,
+                  0.148125,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigSpine",
+                "parent": "mixamorigHips",
+                "position": [
+                  0,
+                  0.1820703125,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigSpine1",
+                "parent": "mixamorigSpine",
+                "position": [
+                  0,
+                  0.216015625,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigSpine2",
+                "parent": "mixamorigSpine1",
+                "position": [
+                  0,
+                  0.24070312500000002,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigNeck",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  0,
+                  0.265390625,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigHead",
+                "parent": "mixamorigNeck",
+                "position": [
+                  0,
+                  0.28390625,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftShoulder",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  -0.057031250000000006,
+                  0.2376171875,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftArm",
+                "parent": "mixamorigLeftShoulder",
+                "position": [
+                  -0.0883984375,
+                  0.2067578125,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftForeArm",
+                "parent": "mixamorigLeftArm",
+                "position": [
+                  -0.11406250000000001,
+                  0.16664062500000001,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftHand",
+                "parent": "mixamorigLeftForeArm",
+                "position": [
+                  -0.1226171875,
+                  0.141953125,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigRightShoulder",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  0.057031250000000006,
+                  0.2376171875,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigRightArm",
+                "parent": "mixamorigRightShoulder",
+                "position": [
+                  0.0883984375,
+                  0.2067578125,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigRightForeArm",
+                "parent": "mixamorigRightArm",
+                "position": [
+                  0.11406250000000001,
+                  0.16664062500000001,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigRightHand",
+                "parent": "mixamorigRightForeArm",
+                "position": [
+                  0.1226171875,
+                  0.141953125,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftUpLeg",
+                "parent": "mixamorigHips",
+                "position": [
+                  -0.0370703125,
+                  0.12035156250000001,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftLeg",
+                "parent": "mixamorigLeftUpLeg",
+                "position": [
+                  -0.039921875,
+                  0.052460937500000006,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftFoot",
+                "parent": "mixamorigLeftLeg",
+                "position": [
+                  -0.039921875,
+                  0.018515625,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigLeftToeBase",
+                "parent": "mixamorigLeftFoot",
+                "position": [
+                  -0.039921875,
+                  0.01080078125,
+                  0.018515625
+                ]
+              },
+              {
+                "name": "mixamorigRightUpLeg",
+                "parent": "mixamorigHips",
+                "position": [
+                  0.0370703125,
+                  0.12035156250000001,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigRightLeg",
+                "parent": "mixamorigRightUpLeg",
+                "position": [
+                  0.039921875,
+                  0.052460937500000006,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigRightFoot",
+                "parent": "mixamorigRightLeg",
+                "position": [
+                  0.039921875,
+                  0.018515625,
+                  0
+                ]
+              },
+              {
+                "name": "mixamorigRightToeBase",
+                "parent": "mixamorigRightFoot",
+                "position": [
+                  0.039921875,
+                  0.01080078125,
+                  0.018515625
+                ]
+              }
+            ],
+            "influencesPerVertex": 4,
+            "verticesWithDistributedWeights": 6285,
+            "maximumWeightSumError": 0,
+            "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container."
+          },
+          "textures": [
             {
-              "archive": "forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-              "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-              "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
+              "name": "demon+creature+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "bytes": 2107997,
+              "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+            },
+            {
+              "name": "demon+creature+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/png",
+              "bytes": 4025092,
+              "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+            },
+            {
+              "name": "demon+creature+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "bytes": 524633,
+              "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
             }
           ],
-          "modifications": "Hollow rooted torso, removed leaf canopy, bowed upper trunk and broad hooked forearms; rooted arch grows from shoulders into the back. Coordinated nonlinear skin and bind-joint refit; revised articulated body motion; source action contacts retained; whole weighted surface ground correction. New Corealm wood/chitin materials generated with builtin imagegen and JPEG-encoded at quality 90 for runtime; source PNGs and prompts retained in art/biome-creatures/forest.",
-          "sourceModifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
-        },
-        "textureBindings": [
-          {
-            "materialName": "animal_rpg_briar_harrow_heartwood",
-            "textureName": "briar_harrow_heartwood_albedo",
-            "mimeType": "image/jpeg",
-            "sha256": "c66b6a0aec8d06beb9f76d1ffc61040093a8fa3fcb843b9d48a922809b880cef",
-            "sourcePath": "art/biome-creatures/forest/heartwood-albedo.png"
-          }
-        ],
-        "sourceOcclusion": {
-          "aoPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-AO.png",
-          "sha256": "c7dfa8616a5b044ab48c00ad0256b9538c1266dd6733d4b24d4a94fdff5eef83",
-          "active": false,
-          "reason": "Original Blender 2.75 Material/MTex pointers contain no AO binding. Monster has only diffuse, normal and specular slots. The AO image is retained from the current archive as unused source data; no runtime occlusion binding or inferred strength is added.",
-          "evidence": "test-results/forest-monster-source/legacy-material-slots.json",
-          "inspectionMethod": "Direct original-file SDNA decode with inspect_legacy_ao.mjs"
-        },
-        "sourceAlpha": {
-          "material": "Tree",
-          "mode": "MASK",
-          "cutoff": 0.5,
-          "channel": "baseColorTexture.a",
-          "textureSha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940",
-          "sourceConvention": "Original MATree diffuse MTex mapto129 = color1 + alpha128; alphafac1. PNG has102618 fully transparent texels and42145 partial-alpha texels.",
-          "translation": "Source alpha translated to production cutout threshold0.5; threshold is a runtime choice, not claimed as an original Blender value.",
-          "evidence": "test-results/forest-alpha-repair/alpha-evidence.json",
-          "textureBytesModified": false
-        },
-        "textureChannels": [
-          {
-            "materialName": "forest_authored_0_Monster",
-            "baseColorPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-skin1.png",
-              "sha256": "8ecf0c8f4b70feefa40fdc6d61fde2b8327ce8bf40053977a4e6d6c995eccf2f"
+          "animations": [
+            {
+              "name": "Idle",
+              "seconds": 2.8,
+              "channels": 2
             },
-            "normalPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-norm.png",
-              "sha256": "98a90aaf5e6c08db2eec60a520fa4960b97753ff4a4d3ff8987d8b8d7652e439"
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "channels": 7
             },
-            "specularPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-spec.png",
-              "sha256": "2cf0f13a2e1b505453d70637b2fcec51ba2650504efafbecf24f2050fd763538"
+            {
+              "name": "Run",
+              "seconds": 0.72,
+              "channels": 7
             },
-            "flipY": false
-          },
-          {
-            "materialName": "forest_authored_1_Tree",
-            "baseColorPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree.png",
-              "sha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940"
+            {
+              "name": "Attack",
+              "seconds": 0.92,
+              "channels": 4
             },
-            "normalPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-norm.png",
-              "sha256": "6a178f5479a7401c8bf8ca994abf3b515bc9fc525afadee049b7d66e699e5c29"
+            {
+              "name": "Hit",
+              "seconds": 0.46,
+              "channels": 3
             },
-            "specularPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-spec.png",
-              "sha256": "722067474adb7b2e96f1719449e54db3854828a3fc8a43dff82789d03917da46"
-            },
-            "flipY": false
-          }
-        ],
-        "clipSources": {
-          "Idle": {
-            "take": "Idle",
-            "frames": [
-              0,
-              190
-            ]
-          },
-          "Walk": {
-            "take": "Walk",
-            "frames": [
-              0,
-              40
-            ]
-          },
-          "Run": {
-            "take": "Walk",
-            "frames": [
-              0,
-              40
-            ],
-            "derivative": "1.45x native Walk tempo; no authored running take"
-          },
-          "Attack": {
-            "take": "Attack",
-            "frames": [
-              0,
-              30
-            ],
-            "contactFrames": [
-              10,
-              15
-            ]
-          },
-          "Hit": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "compressed to 0.6s with 0.10rad Spine2 recoil"
-          },
-          "HitLeft": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "same recoil plus +0.16rad directional Spine2 turn"
-          },
-          "HitRight": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "same recoil plus -0.16rad directional Spine2 turn"
-          },
-          "Death": {
-            "take": "Dying",
-            "frames": [
-              0,
-              35
-            ]
+            {
+              "name": "Death",
+              "seconds": 1.45,
+              "channels": 5
+            }
+          ],
+          "acceptance": {
+            "rig": true,
+            "animation": true,
+            "textures": true,
+            "labAccepted": true,
+            "worldIntegrated": false
           }
         },
-        "animationFloorChecks": [
-          {
-            "clip": "Idle",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.030557655718908,
-            "firstBounds": [
-              -1.049471848914935,
-              0.0029999999992796483,
-              -1.6199505099890523,
-              0.9675774980876151,
-              4.021234333076601,
-              0.7728246161599515
-            ]
-          },
-          {
-            "clip": "Walk",
-            "rawMinFloor": 0.01813139636374765,
-            "maximumLift": 0,
-            "minFloor": 0.0028914848962731457,
-            "maxHeight": 3.5706791980244534,
-            "firstBounds": [
-              -1.189548130842616,
-              0.0029999985307447383,
-              -0.8615581221131342,
-              1.0606916061536253,
-              3.450180122793115,
-              1.885922921411111
-            ]
-          },
-          {
-            "clip": "Run",
-            "rawMinFloor": 0.01645777156997795,
-            "maximumLift": 0,
-            "minFloor": -0.0013766797493177108,
-            "maxHeight": 3.570509281016618,
-            "firstBounds": [
-              -1.189548130842616,
-              0.0029999985307447383,
-              -0.8615581221131342,
-              1.0606916061536253,
-              3.450180122793115,
-              1.885922921411111
-            ]
-          },
-          {
-            "clip": "Attack",
-            "rawMinFloor": 0.058748393274765574,
-            "maximumLift": 0,
-            "minFloor": 0.0015529289089054668,
-            "maxHeight": 4.036798488158019,
-            "firstBounds": [
-              -1.0494718648157368,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "Hit",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.021234316953496,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "HitLeft",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.023456017869573,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "HitRight",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.021234316953496,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "Death",
-            "rawMinFloor": -0.13215362212044202,
-            "maximumLift": 0.13515362212044202,
-            "minFloor": 0.0019174360814546432,
-            "maxHeight": 4.021234329992012,
-            "firstBounds": [
-              -1.0494718628300377,
-              0.0029999999414600503,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234329992012,
-              0.7728246485105749
-            ]
-          }
-        ],
-        "exportNotes": "Blender4.5.11 forced sampling preserves evaluated source constraints; source vertices with >4 weights reduced to top4 and renormalized for production glTF path",
-        "approval": "candidate-awaiting-production-browser-review",
+        "pbr": {
+          "baseColor": true,
+          "packedMetallicRoughness": true,
+          "normal": true,
+          "allMapsMaximum": 2048
+        },
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-geometry-estimate",
-          "source": "tools/rpg-bestiary/replacement-inventory/complete-source-gaits.json",
-          "visualContactAccepted": false,
-          "contactReview": "Strong stride agreement. Brief whole-geometry floor interpolation undershoots reach -3.84 mm Walk and -4.27 mm Run; inspect contact before visual acceptance."
-        },
-        "redesign": {
-          "sourceAssetId": "creature_mossback_sentinel",
-          "sourceSha256": "4a167c124d5987959af011c4e4f8a46355e0e87ecd1ba39ef431e0038ed196a0",
-          "generator": "tools/biome-creatures/forest/build.mjs",
-          "design": "Hollow rooted torso, removed leaf canopy, bowed upper trunk and broad hooked forearms; rooted arch grows from shoulders into the back.",
-          "changedVertices": 4523,
-          "removedTriangles": 1670,
-          "newTriangles": 2608,
-          "createdParts": [
-            "hollow_trunk_interior",
-            "rooted_shoulder_-1",
-            "rooted_shoulder_1"
-          ],
-          "clipTimeMultiplier": 1.16,
-          "motionChanges": [
-            {
-              "clip": "Idle",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Idle",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Walk",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Walk",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Run",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Run",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Attack",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Attack",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Hit",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Hit",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitRight",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitRight",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Death",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Death",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            }
-          ],
-          "textures": [
-            "art/biome-creatures/forest/heartwood-albedo.png",
-            "art/biome-creatures/forest/chitin-albedo.png"
-          ],
-          "sampledBounds": {
-            "idleBounds": {
-              "min": [
-                -1.0169737920668296,
-                0.0029999999999992567,
-                -0.8571462969220508
-              ],
-              "max": [
-                0.9087926964540818,
-                2.687829119684764,
-                0.8580093615102321
-              ]
-            },
-            "clips": [
-              {
-                "name": "Idle",
-                "duration": 9.183333396911621,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "Walk",
-                "duration": 1.9333332777023315,
-                "minY": 0.0029999805849970492,
-                "maxY": 0.0030000178038648603,
-                "rawMin": -0.1918550972173937,
-                "samples": 49
-              },
-              {
-                "name": "Run",
-                "duration": 1.3333332538604736,
-                "minY": 0.002999974036390074,
-                "maxY": 0.003000006979609282,
-                "rawMin": -0.1947854450286381,
-                "samples": 49
-              },
-              {
-                "name": "Attack",
-                "duration": 1.4500000476837158,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0030000296112026037,
-                "rawMin": -0.045954113287780984,
-                "samples": 49
-              },
-              {
-                "name": "Hit",
-                "duration": 0.6960000395774841,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "HitLeft",
-                "duration": 0.6960000395774841,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "HitRight",
-                "duration": 0.6960000395774841,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "Death",
-                "duration": 1.6916667222976685,
-                "minY": 0.0029999525164988716,
-                "maxY": 0.003000106564727656,
-                "rawMin": -0.31256752599253995,
-                "samples": 49
-              }
-            ]
-          }
-        },
-        "sourceProvenance": {
-          "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-          "license": "CC0-1.0",
-          "source": "https://opengameart.org/content/forest-monster",
-          "sourceAssets": [
-            "forest-monster-final.blend",
-            "Monster",
-            "Tree"
-          ],
-          "sourcePacks": [
-            {
-              "id": "forest-monster-current",
-              "author": "ÄŒestmÃ­r Dammer (CDmir)",
-              "license": "CC0-1.0",
-              "source": "https://opengameart.org/content/forest-monster",
-              "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
-            }
-          ],
-          "sourceRecords": [
-            {
-              "archive": "forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-              "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-              "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
-            }
-          ],
-          "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
-        },
-        "fairyCrownVariant": {
-          "sourceAssetId": "creature_briar_harrow",
-          "sourceSha256": "178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932",
-          "generator": "tools/fairy-crown-creatures/build.mjs",
-          "geometrySkinMotionUnchanged": true,
-          "regionId": "faeholme",
-          "materialRecipe": {
-            "look": "tree",
-            "body": [
-              0.37,
-              0.2,
-              0.56
-            ],
-            "accent": [
-              0.18,
-              0.9,
-              0.82
-            ],
-            "glow": [
-              0.016,
-              0.065,
-              0.054
-            ]
-          },
-          "scope": "Existing source geometry, normals, UVs, skin, skeleton, animation and texture pixels preserved. Material factors only; scale belongs to species data."
-        }
+        "animationAcceptance": "Accepted in production lab: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
       },
       "acceptance": {
-        "exported": true,
-        "labAccepted": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
         "worldIntegrated": false
       },
-      "impliedWalkMps": 0.671994827586207,
-      "impliedRunMps": 0.9743931034482759,
-      "locomotionPolicy": "speed-matched"
+      "bounds": {
+        "min": [
+          -0.854746835443038,
+          0,
+          -0.5795886522606958
+        ],
+        "max": [
+          0.854746835443038,
+          1.85,
+          0.5795886522606958
+        ]
+      }
     },
     {
       "id": "creature_amethyst_sovereign",
