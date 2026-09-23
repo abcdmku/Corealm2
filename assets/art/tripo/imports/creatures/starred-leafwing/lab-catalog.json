@@ -1,0 +1,112 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_lantern_sprite",
+      "file": "models/fairy-crown/creature_lantern_sprite.glb",
+      "pack": "corealm-starred-fairy-candidates",
+      "category": "character",
+      "is": "Ambervein Leafwing (starred rig candidate)",
+      "tags": [
+        "creature",
+        "fairy",
+        "flying",
+        "insect",
+        "leaf-wing",
+        "T30",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6249424,
+      "sha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
+      "size": {
+        "x": 0.98779296875,
+        "y": 0.9604492783546448,
+        "z": 0.70751953125
+      },
+      "base": {
+        "x": -0.493896484375,
+        "y": 0,
+        "z": -0.353759765625
+      },
+      "bounds": {
+        "min": [
+          -0.493896484375,
+          0,
+          -0.353759765625
+        ],
+        "max": [
+          0.493896484375,
+          0.9604492783546448,
+          0.353759765625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 3754,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_1303a990-d810-4a13-ab58-362ba9055702"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Smart Mesh P2.0",
+        "prompt": "Winged fantasy creature with leaf-like translucent wings, teal and gold body, highly detailed skin and joints.",
+        "sourceModelId": "0a131c51-bd21-487b-8973-5ac00f8521bc",
+        "publicProjectId": "98776da4-a10d-4974-910d-adba0888e99b",
+        "sourceFile": "assets/art/tripo/exports/0a131c51-bd21-487b-8973-5ac00f8521bc.glb",
+        "sourceSha256": "6309d5df42b63f7d13f2863d42b943200059fb8cb2197a8cc5a6135de755f2a8",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
+        "candidateSha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
+        "rigMethod": "33-joint insect-specific wing/body/antenna/six-leg Y-up skeleton with normalized four-influence weights; original mesh positions, normals, UVs and image-generated base/PBR textures retained.",
+        "textures": [
+          {
+            "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_basecolor.jpg",
+            "role": "base color",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1620675,
+            "sha256": "278cde30bedfd189172c8c6e865bd4527a9421d145406c7f2dfe44b7303f88b3"
+          },
+          {
+            "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_rm.png",
+            "role": "packed metallic-roughness",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3500274,
+            "sha256": "aeba40aec1528712d0dadccb5b64bf9460c510db7f7219e1d3def826900504cd"
+          },
+          {
+            "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_normal.jpg",
+            "role": "normal",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 779254,
+            "sha256": "48aa4af92baeded01711c6d8859159f85e7f9296342dc9bf842a970d59e038ac"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_lantern_sprite": "ambervein-leafwing-native-rig.glb"
+  }
+}

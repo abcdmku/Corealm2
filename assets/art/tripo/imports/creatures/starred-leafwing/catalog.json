@@ -1,0 +1,476 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_ambervein_leafwing",
+  "displayName": "Ambervein Leafwing",
+  "tier": "T30 fairy ecology; optional T60 dusk-glade variant after world review",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/0a131c51-bd21-487b-8973-5ac00f8521bc.glb",
+    "sha256": "6309d5df42b63f7d13f2863d42b943200059fb8cb2197a8cc5a6135de755f2a8",
+    "bytes": 25021796,
+    "modelId": "0a131c51-bd21-487b-8973-5ac00f8521bc",
+    "publicProjectId": "98776da4-a10d-4974-910d-adba0888e99b",
+    "starredCard": true,
+    "prompt": "Winged fantasy creature with leaf-like translucent wings, teal and gold body, highly detailed skin and joints.",
+    "generator": "Tripo P2.0, 8K PBR export",
+    "visualReview": "Astra-low accepted the amber/teal flying leafwing for the Fairy region. Public Tripo preview confirmed four leaf wings, six legs, upright Y-up orientation, head/antennae above thorax, tapered abdomen, and wingsheet plane aligned to X/Y.",
+    "geometry": {
+      "vertices": 2682,
+      "triangles": 3754,
+      "bounds": {
+        "min": [
+          -0.493896484375,
+          0,
+          -0.353759765625
+        ],
+        "max": [
+          0.493896484375,
+          0.9604492783546448,
+          0.353759765625
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "sourceRig": {
+      "joints": 38,
+      "sourceWeights": "Every source vertex was fully weighted to joint 0; no usable articulation or animation clips."
+    },
+    "textures": [
+      {
+        "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_basecolor.jpg",
+        "role": "base color",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "sha256": "23629e9407471280e3b91a05c573483930dc0e04e536c471d80251a10e0073b2"
+      },
+      {
+        "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_rm.png",
+        "role": "packed metallic-roughness",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/png",
+        "sha256": "db25d111178aa3f8a29a2b9fd9e10f154d5b3da3246b1ab138c96d0c1a92f247"
+      },
+      {
+        "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_normal.jpg",
+        "role": "normal",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/jpeg",
+        "sha256": "5914bbe661ab16cfc8c7034b07227b79ef828690b57ceab797f6583afbb97a62"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
+    "sha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
+    "bytes": 6249424,
+    "productionTarget": "game/public/assets/models/fairy-crown/creature_ambervein_leafwing.glb",
+    "geometry": {
+      "vertices": 2682,
+      "triangles": 3754,
+      "positionDelta": 0,
+      "normalDelta": 0,
+      "uvDelta": 0,
+      "indexMismatches": 0,
+      "retopology": false
+    },
+    "rig": {
+      "profile": "Y-up non-humanoid glTF Generic insect rig; inspect Generic import path in Unity",
+      "jointCount": 33,
+      "boneNames": [
+        "LeafwingRoot",
+        "Thorax",
+        "Neck",
+        "Head",
+        "AbdomenBase",
+        "AbdomenMid",
+        "AbdomenTip",
+        "Antenna_L",
+        "Antenna_R",
+        "WingUpperRoot_L",
+        "WingUpperMid_L",
+        "WingUpperTip_L",
+        "WingLowerRoot_L",
+        "WingLowerMid_L",
+        "WingLowerTip_L",
+        "WingUpperRoot_R",
+        "WingUpperMid_R",
+        "WingUpperTip_R",
+        "WingLowerRoot_R",
+        "WingLowerMid_R",
+        "WingLowerTip_R",
+        "LegFrontCoxa_L",
+        "LegFrontDistal_L",
+        "LegMidCoxa_L",
+        "LegMidDistal_L",
+        "LegHindCoxa_L",
+        "LegHindDistal_L",
+        "LegFrontCoxa_R",
+        "LegFrontDistal_R",
+        "LegMidCoxa_R",
+        "LegMidDistal_R",
+        "LegHindCoxa_R",
+        "LegHindDistal_R"
+      ],
+      "parentHierarchy": {
+        "LeafwingRoot": null,
+        "Thorax": "LeafwingRoot",
+        "Neck": "Thorax",
+        "Head": "Neck",
+        "AbdomenBase": "LeafwingRoot",
+        "AbdomenMid": "AbdomenBase",
+        "AbdomenTip": "AbdomenMid",
+        "Antenna_L": "Head",
+        "Antenna_R": "Head",
+        "WingUpperRoot_L": "Thorax",
+        "WingUpperMid_L": "WingUpperRoot_L",
+        "WingUpperTip_L": "WingUpperMid_L",
+        "WingLowerRoot_L": "Thorax",
+        "WingLowerMid_L": "WingLowerRoot_L",
+        "WingLowerTip_L": "WingLowerMid_L",
+        "WingUpperRoot_R": "Thorax",
+        "WingUpperMid_R": "WingUpperRoot_R",
+        "WingUpperTip_R": "WingUpperMid_R",
+        "WingLowerRoot_R": "Thorax",
+        "WingLowerMid_R": "WingLowerRoot_R",
+        "WingLowerTip_R": "WingLowerMid_R",
+        "LegFrontCoxa_L": "Thorax",
+        "LegFrontDistal_L": "LegFrontCoxa_L",
+        "LegMidCoxa_L": "Thorax",
+        "LegMidDistal_L": "LegMidCoxa_L",
+        "LegHindCoxa_L": "AbdomenBase",
+        "LegHindDistal_L": "LegHindCoxa_L",
+        "LegFrontCoxa_R": "Thorax",
+        "LegFrontDistal_R": "LegFrontCoxa_R",
+        "LegMidCoxa_R": "Thorax",
+        "LegMidDistal_R": "LegMidCoxa_R",
+        "LegHindCoxa_R": "AbdomenBase",
+        "LegHindDistal_R": "LegHindCoxa_R"
+      },
+      "restPositions": {
+        "LeafwingRoot": [
+          0,
+          0,
+          0
+        ],
+        "Thorax": [
+          0,
+          0.555,
+          0
+        ],
+        "Neck": [
+          0,
+          0.675,
+          0.02
+        ],
+        "Head": [
+          0,
+          0.758,
+          0.042
+        ],
+        "AbdomenBase": [
+          0,
+          0.425,
+          -0.02
+        ],
+        "AbdomenMid": [
+          0,
+          0.285,
+          -0.055
+        ],
+        "AbdomenTip": [
+          0,
+          0.155,
+          -0.092
+        ],
+        "Antenna_L": [
+          -0.043,
+          0.888,
+          0.05
+        ],
+        "Antenna_R": [
+          0.043,
+          0.888,
+          0.05
+        ],
+        "WingUpperRoot_L": [
+          -0.098,
+          0.628,
+          -0.006
+        ],
+        "WingUpperMid_L": [
+          -0.286,
+          0.79,
+          -0.004
+        ],
+        "WingUpperTip_L": [
+          -0.482,
+          0.923,
+          0.002
+        ],
+        "WingLowerRoot_L": [
+          -0.096,
+          0.51,
+          -0.006
+        ],
+        "WingLowerMid_L": [
+          -0.306,
+          0.424,
+          0.006
+        ],
+        "WingLowerTip_L": [
+          -0.486,
+          0.328,
+          0.021
+        ],
+        "WingUpperRoot_R": [
+          0.098,
+          0.628,
+          -0.006
+        ],
+        "WingUpperMid_R": [
+          0.286,
+          0.79,
+          -0.004
+        ],
+        "WingUpperTip_R": [
+          0.482,
+          0.923,
+          0.002
+        ],
+        "WingLowerRoot_R": [
+          0.096,
+          0.51,
+          -0.006
+        ],
+        "WingLowerMid_R": [
+          0.306,
+          0.424,
+          0.006
+        ],
+        "WingLowerTip_R": [
+          0.486,
+          0.328,
+          0.021
+        ],
+        "LegFrontCoxa_L": [
+          -0.104,
+          0.495,
+          0.075
+        ],
+        "LegFrontDistal_L": [
+          -0.252,
+          0.356,
+          0.205
+        ],
+        "LegMidCoxa_L": [
+          -0.098,
+          0.408,
+          -0.004
+        ],
+        "LegMidDistal_L": [
+          -0.284,
+          0.294,
+          -0.028
+        ],
+        "LegHindCoxa_L": [
+          -0.082,
+          0.315,
+          -0.035
+        ],
+        "LegHindDistal_L": [
+          -0.318,
+          0.061,
+          -0.187
+        ],
+        "LegFrontCoxa_R": [
+          0.104,
+          0.495,
+          0.075
+        ],
+        "LegFrontDistal_R": [
+          0.252,
+          0.356,
+          0.205
+        ],
+        "LegMidCoxa_R": [
+          0.098,
+          0.408,
+          -0.004
+        ],
+        "LegMidDistal_R": [
+          0.284,
+          0.294,
+          -0.028
+        ],
+        "LegHindCoxa_R": [
+          0.082,
+          0.315,
+          -0.035
+        ],
+        "LegHindDistal_R": [
+          0.318,
+          0.061,
+          -0.187
+        ]
+      },
+      "weighting": "Four-influence normalized skin using distance to model-specific thorax, antenna, tapered abdomen, bilateral upper/lower leaf-wing and six-leg segment chains. Wing sheet gate is based on the inspected source view; original source root-only skin discarded.",
+      "weightedVerticesByJoint": {
+        "LeafwingRoot": 956,
+        "Thorax": 2275,
+        "Neck": 635,
+        "Head": 362,
+        "AbdomenBase": 1601,
+        "AbdomenMid": 598,
+        "AbdomenTip": 638,
+        "Antenna_L": 50,
+        "Antenna_R": 82,
+        "WingUpperRoot_L": 23,
+        "WingUpperMid_L": 176,
+        "WingUpperTip_L": 101,
+        "WingLowerRoot_L": 5,
+        "WingLowerMid_L": 162,
+        "WingLowerTip_L": 90,
+        "WingUpperRoot_R": 23,
+        "WingUpperMid_R": 180,
+        "WingUpperTip_R": 101,
+        "WingLowerRoot_R": 5,
+        "WingLowerMid_R": 164,
+        "WingLowerTip_R": 95,
+        "LegFrontCoxa_L": 355,
+        "LegFrontDistal_L": 618,
+        "LegMidCoxa_L": 54,
+        "LegMidDistal_L": 87,
+        "LegHindCoxa_L": 26,
+        "LegHindDistal_L": 68,
+        "LegFrontCoxa_R": 382,
+        "LegFrontDistal_R": 617,
+        "LegMidCoxa_R": 52,
+        "LegMidDistal_R": 88,
+        "LegHindCoxa_R": 22,
+        "LegHindDistal_R": 37
+      },
+      "multiWeightedVertexRatio": 1,
+      "maximumWeightSumError": 4.470348358154297e-8
+    },
+    "textures": [
+      {
+        "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_basecolor.jpg",
+        "role": "base color",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1620675,
+        "sha256": "278cde30bedfd189172c8c6e865bd4527a9421d145406c7f2dfe44b7303f88b3"
+      },
+      {
+        "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_rm.png",
+        "role": "packed metallic-roughness",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 3500274,
+        "sha256": "aeba40aec1528712d0dadccb5b64bf9460c510db7f7219e1d3def826900504cd"
+      },
+      {
+        "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_normal.jpg",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 779254,
+        "sha256": "48aa4af92baeded01711c6d8859159f85e7f9296342dc9bf842a970d59e038ac"
+      }
+    ],
+    "pbrChannels": {
+      "roughnessRange": [
+        0.03529411764705882,
+        1
+      ],
+      "metallicRange": [
+        0,
+        0.4
+      ],
+      "materialFactors": {
+        "roughness": 1,
+        "metalness": 1
+      }
+    },
+    "animationSlots": [
+      {
+        "name": "Idle",
+        "seconds": 0.96,
+        "channels": 23,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "intent": "hovering idle with continuous asymmetric upper/lower leaf-wing beats, antennae and small body drift"
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 19,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "intent": "Walk slot is an airborne glide with steady paired wing beats and tucked legs; no footfall cycle"
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 20,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "intent": "Run slot is a fast aerial dart with higher-frequency wing beats and tucked legs; no ground gait"
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.9,
+        "channels": 22,
+        "paths": [
+          "rotation"
+        ],
+        "intent": "front-leg jab with neck/head lunge, abdomen countercurl and wing flare"
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 23,
+        "paths": [
+          "rotation"
+        ],
+        "intent": "brief asymmetrical body recoil and wing stutter"
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 31,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "intent": "wing fold, antenna/leg curl and controlled body drop"
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometryPreserved": true,
+    "runtimeTextures2K": true,
+    "rig": false,
+    "animation": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

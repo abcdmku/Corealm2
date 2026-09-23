@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "6c16621afbd0581a1a0a8819e80beb43b2ff02a93d0ad8075d7373c9a8ee5d3a",
+  "revision": "1109488a924c49e8c87dd0df8b36042384cf4c7e09b5bd15f7efcf8ef13a8151",
   "formulaRevision": "64718a7f813df0116ef2d306f66b6c1a94054e1527a8ad3e79e60efefb836136",
   "tables": {
     "items": [
@@ -24763,7 +24763,7 @@
       },
       {
         "id": "redbrush_fox_t1",
-        "name": "Redbrush Prowler",
+        "name": "Vetchrunner",
         "family": "redbrush_fox",
         "availability": "world",
         "level": 1,
@@ -24774,7 +24774,7 @@
           "scale": 1,
           "regionId": "fallowmarch",
           "activity": "forage",
-          "description": "A russet hedge fox with a dark-tipped brush. It forages for field mice along thorny margins and bites only when cornered.",
+          "description": "A small russet field-runner with dark-tipped ears, bristled cheeks, and a banded brush tail. It searches the Fallowmarch hedges for seeds and beetles, fleeing from danger unless cornered.",
           "kind": "basic"
         },
         "adjustments": {
@@ -25711,7 +25711,7 @@
       },
       {
         "id": "marchfield_turkey_t1",
-        "name": "Turkey",
+        "name": "Ryecrest",
         "family": "marchfield_turkey",
         "availability": "world",
         "level": 1,
@@ -25722,7 +25722,7 @@
           "scale": 1,
           "regionId": "fallowmarch",
           "activity": "forage",
-          "description": "A broad fan-tailed bird with a bare neck and hanging wattle. Struts around its feeding yard and pecks back when attacked.",
+          "description": "A compact russet-and-gold field bird with a raised feather crest and sturdy running legs. It pecks for grain along the Fallowmarch field margins and darts away when threatened.",
           "kind": "basic"
         },
         "adjustments": {
@@ -47821,6 +47821,18 @@
               "assetId": "base_male",
               "dialogueRootId": "bel_root",
               "questIds": []
+            },
+            {
+              "id": "npc_slayer_garek",
+              "name": "Master Garek",
+              "position": [
+                -166,
+                -104
+              ],
+              "facingRad": 0.7,
+              "assetId": "base_male",
+              "dialogueRootId": "slayer_garek_root",
+              "questIds": []
             }
           ],
           "walls": [
@@ -50641,6 +50653,18 @@
               "facingRad": 1.95,
               "assetId": "base_male",
               "dialogueRootId": "hale_root",
+              "questIds": []
+            },
+            {
+              "id": "npc_slayer_vardan",
+              "name": "Master Vardan",
+              "position": [
+                151,
+                -66
+              ],
+              "facingRad": 3.05,
+              "assetId": "base_male",
+              "dialogueRootId": "slayer_vardan_root",
               "questIds": []
             }
           ],
@@ -55283,6 +55307,18 @@
               "assetId": "npc_fey_nightshade",
               "dialogueRootId": "fey_path_courier_root",
               "questIds": []
+            },
+            {
+              "id": "npc_slayer_aevra",
+              "name": "Master Aevra",
+              "position": [
+                2090,
+                -108
+              ],
+              "facingRad": 2.3,
+              "assetId": "npc_fey_nightshade",
+              "dialogueRootId": "slayer_aevra_root",
+              "questIds": []
             }
           ],
           "props": [
@@ -56443,7 +56479,7 @@
       },
       {
         "id": "regional_redbrush_fox_patrol",
-        "name": "Redbrush Prowler",
+        "name": "Vetchrunner",
         "activity": "patrol",
         "members": [
           {
@@ -56553,7 +56589,7 @@
       },
       {
         "id": "redbrush_fox_t1_forage",
-        "name": "Redbrush Prowler",
+        "name": "Vetchrunner",
         "activity": "forage",
         "members": [
           {
@@ -56586,7 +56622,7 @@
       },
       {
         "id": "marchfield_turkey_t1_forage",
-        "name": "Turkey",
+        "name": "Ryecrest",
         "activity": "forage",
         "members": [
           {
@@ -79463,6 +79499,42 @@
         "questIds": [],
         "locationId": "highcairn_outpost",
         "catalog": "base"
+      },
+      {
+        "id": "npc_slayer_garek",
+        "name": "Master Garek",
+        "regionId": "fallowmarch",
+        "settlementId": "coldbrace",
+        "role": "Starter-area slayer master. Teaches new hunters to read the Hunts board and keep to targets within reach.",
+        "voice": "Plain-spoken and patient. Treats caution as a skill, never mocks a new hunter, and gives practical field advice.",
+        "dialogueRootId": "slayer_garek_root",
+        "questIds": [],
+        "locationId": "town_entrance",
+        "catalog": "base"
+      },
+      {
+        "id": "npc_slayer_vardan",
+        "name": "Master Vardan",
+        "regionId": "karrowmoor",
+        "settlementId": "highcairn",
+        "role": "Wilderness slayer master. Prepares experienced hunters for the threats beyond the Highland road.",
+        "voice": "Measured and unsentimental. Gives risk plainly, values preparation and withdrawal as much as a kill.",
+        "dialogueRootId": "slayer_vardan_root",
+        "questIds": [],
+        "locationId": "highcairn_outpost",
+        "catalog": "base"
+      },
+      {
+        "id": "npc_slayer_aevra",
+        "name": "Master Aevra",
+        "regionId": "gloamgarden",
+        "settlementId": "lantern_rest",
+        "role": "Fairyland slayer master and trail reader. Teaches visitors to distinguish a passing wonder from a territorial threat.",
+        "voice": "Calm and observant. Treats the strange as part of the living world, gives precise cautions, and never calls a creature wicked without evidence.",
+        "dialogueRootId": "slayer_aevra_root",
+        "questIds": [],
+        "locationId": "lantern_rest_square",
+        "catalog": "base"
       }
     ],
     "quests": [
@@ -83884,6 +83956,183 @@
           {
             "id": "hale_mouth#bye",
             "text": "That is all for now.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_garek_root",
+        "speaker": "Master Garek",
+        "text": "Master Garek. I teach new hunters to read a contract before they take one. Small targets still punish carelessness. What do you need?",
+        "options": [
+          {
+            "id": "slayer_garek_root#board",
+            "text": "How do I take a hunt?",
+            "next": "slayer_garek_board"
+          },
+          {
+            "id": "slayer_garek_root#start",
+            "text": "Where should a new hunter begin?",
+            "next": "slayer_garek_start"
+          },
+          {
+            "id": "slayer_garek_root#bye",
+            "text": "That is all for now.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_garek_board",
+        "speaker": "Master Garek",
+        "text": "Open the Journal and choose Hunts. Refresh the board if it has no offers, then accept one. You can carry one active hunt. It tracks your credited kills in the named region; once the count is met, claim the reward on that same tab. The board only offers enemies you can currently reach.",
+        "options": [
+          {
+            "id": "slayer_garek_board#back",
+            "text": "Something else.",
+            "next": "slayer_garek_root"
+          },
+          {
+            "id": "slayer_garek_board#bye",
+            "text": "Thank you.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_garek_start",
+        "speaker": "Master Garek",
+        "text": "Take a target close to your own level and stay where you have an open way out. If you cannot find a suitable offer, improve your combat skill or open another route before you try again. Returning alive is part of the lesson.",
+        "options": [
+          {
+            "id": "slayer_garek_start#board",
+            "text": "How do I take a hunt?",
+            "next": "slayer_garek_board"
+          },
+          {
+            "id": "slayer_garek_start#bye",
+            "text": "I will keep that in mind.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_vardan_root",
+        "speaker": "Master Vardan",
+        "text": "Master Vardan. The wilderness does not care what you meant to fight. The Hunts board can offer a wilderness target once it considers you ready and the route reachable. I do not promise what the board has not shown you.",
+        "options": [
+          {
+            "id": "slayer_vardan_root#board",
+            "text": "How do I check for a wilderness hunt?",
+            "next": "slayer_vardan_board"
+          },
+          {
+            "id": "slayer_vardan_root#keep",
+            "text": "What should I expect at the Black Keep?",
+            "next": "slayer_vardan_keep"
+          },
+          {
+            "id": "slayer_vardan_root#bye",
+            "text": "That is all for now.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_vardan_board",
+        "speaker": "Master Vardan",
+        "text": "Open Journal, then Hunts, and refresh the offers. A wilderness contract appears only when its targets are registered, reachable, and within the board's combat range. Take one contract at a time. Read the region and target names before you accept; the keep is no place to discover you prepared for the wrong enemy.",
+        "options": [
+          {
+            "id": "slayer_vardan_board#back",
+            "text": "Something else.",
+            "next": "slayer_vardan_root"
+          },
+          {
+            "id": "slayer_vardan_board#bye",
+            "text": "Understood.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_vardan_keep",
+        "speaker": "Master Vardan",
+        "text": "The Black Keep has an approach, a gate, and a court. The dead hold the walls and the court. Use the named route in the Locations journal, check your food and equipment before the gate, and do not cross the threshold just because the first guard fell.",
+        "options": [
+          {
+            "id": "slayer_vardan_keep#board",
+            "text": "How do I check for a wilderness hunt?",
+            "next": "slayer_vardan_board"
+          },
+          {
+            "id": "slayer_vardan_keep#bye",
+            "text": "I will prepare first.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_aevra_root",
+        "speaker": "Master Aevra",
+        "text": "I am Aevra, trail reader for the gardens. Some lights are travelers, some blossoms are watching you, and a quiet path may only be quiet for a moment. What would you like to know?",
+        "options": [
+          {
+            "id": "slayer_aevra_root#trails",
+            "text": "What should I watch for in the gardens?",
+            "next": "slayer_aevra_trails"
+          },
+          {
+            "id": "slayer_aevra_root#contracts",
+            "text": "Can I take a fairy hunt contract?",
+            "next": "slayer_aevra_contracts"
+          },
+          {
+            "id": "slayer_aevra_root#bye",
+            "text": "That is all for now.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_aevra_trails",
+        "speaker": "Master Aevra",
+        "text": "Lantern sprites drift along the lit paths. Moonpetal stalkers defend their beds, and the deeper dewglass weavers keep to the shaded trellises. Watch a creature before you approach it. A forager may ignore you; the one guarding a bloom may not.",
+        "options": [
+          {
+            "id": "slayer_aevra_trails#back",
+            "text": "Can I take a fairy hunt contract?",
+            "next": "slayer_aevra_contracts"
+          },
+          {
+            "id": "slayer_aevra_trails#bye",
+            "text": "I will observe before I move.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "slayer_aevra_contracts",
+        "speaker": "Master Aevra",
+        "text": "Not for the fairy lands yet. The current Hunts board covers reachable targets in the mainland regions; it does not issue contracts for Faeholme or Gloamgarden. You can still inspect a local creature and learn its habits, but I will not pretend there is a contract when there is none.",
+        "options": [
+          {
+            "id": "slayer_aevra_contracts#back",
+            "text": "Tell me about the local trails.",
+            "next": "slayer_aevra_trails"
+          },
+          {
+            "id": "slayer_aevra_contracts#bye",
+            "text": "Thank you for being clear.",
             "next": null
           }
         ],
@@ -92120,7 +92369,7 @@
         "id": "redbrush_fox_t1",
         "definition": {
           "id": "redbrush_fox_t1",
-          "name": "Redbrush Prowler",
+          "name": "Vetchrunner",
           "family": "redbrush_fox",
           "availability": "world",
           "level": 1,
@@ -92131,7 +92380,7 @@
             "scale": 1,
             "regionId": "fallowmarch",
             "activity": "forage",
-            "description": "A russet hedge fox with a dark-tipped brush. It forages for field mice along thorny margins and bites only when cornered.",
+            "description": "A small russet field-runner with dark-tipped ears, bristled cheeks, and a banded brush tail. It searches the Fallowmarch hedges for seeds and beetles, fleeing from danger unless cornered.",
             "kind": "basic"
           },
           "adjustments": {
@@ -92184,7 +92433,7 @@
         },
         "enemy": {
           "id": "redbrush_fox_t1",
-          "name": "Redbrush Prowler",
+          "name": "Vetchrunner",
           "family": "redbrush_fox",
           "tier": 1,
           "maxHealth": 6,
@@ -92373,10 +92622,10 @@
           "scale": 1,
           "regionId": "fallowmarch",
           "activity": "forage",
-          "description": "A russet hedge fox with a dark-tipped brush. It forages for field mice along thorny margins and bites only when cornered.",
+          "description": "A small russet field-runner with dark-tipped ears, bristled cheeks, and a banded brush tail. It searches the Fallowmarch hedges for seeds and beetles, fleeing from danger unless cornered.",
           "stats": {
             "id": "redbrush_fox_t1",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "family": "redbrush_fox",
             "tier": 1,
             "maxHealth": 6,
@@ -96072,7 +96321,7 @@
         "id": "marchfield_turkey_t1",
         "definition": {
           "id": "marchfield_turkey_t1",
-          "name": "Turkey",
+          "name": "Ryecrest",
           "family": "marchfield_turkey",
           "availability": "world",
           "level": 1,
@@ -96083,7 +96332,7 @@
             "scale": 1,
             "regionId": "fallowmarch",
             "activity": "forage",
-            "description": "A broad fan-tailed bird with a bare neck and hanging wattle. Struts around its feeding yard and pecks back when attacked.",
+            "description": "A compact russet-and-gold field bird with a raised feather crest and sturdy running legs. It pecks for grain along the Fallowmarch field margins and darts away when threatened.",
             "kind": "basic"
           },
           "adjustments": {
@@ -96136,7 +96385,7 @@
         },
         "enemy": {
           "id": "marchfield_turkey_t1",
-          "name": "Turkey",
+          "name": "Ryecrest",
           "family": "marchfield_turkey",
           "tier": 1,
           "maxHealth": 6,
@@ -96317,10 +96566,10 @@
           "scale": 1,
           "regionId": "fallowmarch",
           "activity": "forage",
-          "description": "A broad fan-tailed bird with a bare neck and hanging wattle. Struts around its feeding yard and pecks back when attacked.",
+          "description": "A compact russet-and-gold field bird with a raised feather crest and sturdy running legs. It pecks for grain along the Fallowmarch field margins and darts away when threatened.",
           "stats": {
             "id": "marchfield_turkey_t1",
-            "name": "Turkey",
+            "name": "Ryecrest",
             "family": "marchfield_turkey",
             "tier": 1,
             "maxHealth": 6,
@@ -170640,7 +170889,7 @@
         },
         "enemy": {
           "id": "regional_redbrush_fox",
-          "name": "Redbrush Prowler",
+          "name": "Vetchrunner",
           "family": "redbrush_fox",
           "tier": 1,
           "maxHealth": 6,
@@ -170829,10 +171078,10 @@
           "scale": 1,
           "regionId": "fallowmarch",
           "activity": "forage",
-          "description": "A russet hedge fox with a dark-tipped brush. It forages for field mice along thorny margins and bites only when cornered.",
+          "description": "A small russet field-runner with dark-tipped ears, bristled cheeks, and a banded brush tail. It searches the Fallowmarch hedges for seeds and beetles, fleeing from danger unless cornered.",
           "stats": {
             "id": "regional_redbrush_fox",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "family": "redbrush_fox",
             "tier": 1,
             "maxHealth": 6,
@@ -203926,7 +204175,7 @@
       },
       {
         "id": "redbrush_fox_t1",
-        "name": "Redbrush Prowler",
+        "name": "Vetchrunner",
         "family": "redbrush_fox",
         "tier": 1,
         "maxHealth": 6,
@@ -205248,7 +205497,7 @@
       },
       {
         "id": "marchfield_turkey_t1",
-        "name": "Turkey",
+        "name": "Ryecrest",
         "family": "marchfield_turkey",
         "tier": 1,
         "maxHealth": 6,
@@ -229697,7 +229946,7 @@
       },
       {
         "id": "regional_redbrush_fox",
-        "name": "Redbrush Prowler",
+        "name": "Vetchrunner",
         "family": "redbrush_fox",
         "tier": 1,
         "maxHealth": 6,
@@ -240390,10 +240639,10 @@
         "scale": 1,
         "regionId": "fallowmarch",
         "activity": "forage",
-        "description": "A russet hedge fox with a dark-tipped brush. It forages for field mice along thorny margins and bites only when cornered.",
+        "description": "A small russet field-runner with dark-tipped ears, bristled cheeks, and a banded brush tail. It searches the Fallowmarch hedges for seeds and beetles, fleeing from danger unless cornered.",
         "stats": {
           "id": "redbrush_fox_t1",
-          "name": "Redbrush Prowler",
+          "name": "Vetchrunner",
           "family": "redbrush_fox",
           "tier": 1,
           "maxHealth": 6,
@@ -241832,10 +242081,10 @@
         "scale": 1,
         "regionId": "fallowmarch",
         "activity": "forage",
-        "description": "A broad fan-tailed bird with a bare neck and hanging wattle. Struts around its feeding yard and pecks back when attacked.",
+        "description": "A compact russet-and-gold field bird with a raised feather crest and sturdy running legs. It pecks for grain along the Fallowmarch field margins and darts away when threatened.",
         "stats": {
           "id": "marchfield_turkey_t1",
-          "name": "Turkey",
+          "name": "Ryecrest",
           "family": "marchfield_turkey",
           "tier": 1,
           "maxHealth": 6,
@@ -263723,6 +263972,18 @@
                 "assetId": "base_male",
                 "dialogueRootId": "bel_root",
                 "questIds": []
+              },
+              {
+                "id": "npc_slayer_garek",
+                "name": "Master Garek",
+                "position": [
+                  -166,
+                  -104
+                ],
+                "facingRad": 0.7,
+                "assetId": "base_male",
+                "dialogueRootId": "slayer_garek_root",
+                "questIds": []
               }
             ],
             "walls": [
@@ -266543,6 +266804,18 @@
                 "facingRad": 1.95,
                 "assetId": "base_male",
                 "dialogueRootId": "hale_root",
+                "questIds": []
+              },
+              {
+                "id": "npc_slayer_vardan",
+                "name": "Master Vardan",
+                "position": [
+                  151,
+                  -66
+                ],
+                "facingRad": 3.05,
+                "assetId": "base_male",
+                "dialogueRootId": "slayer_vardan_root",
                 "questIds": []
               }
             ],
@@ -271185,6 +271458,18 @@
                 "assetId": "npc_fey_nightshade",
                 "dialogueRootId": "fey_path_courier_root",
                 "questIds": []
+              },
+              {
+                "id": "npc_slayer_aevra",
+                "name": "Master Aevra",
+                "position": [
+                  2090,
+                  -108
+                ],
+                "facingRad": 2.3,
+                "assetId": "npc_fey_nightshade",
+                "dialogueRootId": "slayer_aevra_root",
+                "questIds": []
               }
             ],
             "props": [
@@ -272345,7 +272630,7 @@
         },
         {
           "id": "regional_redbrush_fox_patrol",
-          "name": "Redbrush Prowler",
+          "name": "Vetchrunner",
           "activity": "patrol",
           "members": [
             {
@@ -272455,7 +272740,7 @@
         },
         {
           "id": "redbrush_fox_t1_forage",
-          "name": "Redbrush Prowler",
+          "name": "Vetchrunner",
           "activity": "forage",
           "members": [
             {
@@ -272488,7 +272773,7 @@
         },
         {
           "id": "marchfield_turkey_t1_forage",
-          "name": "Turkey",
+          "name": "Ryecrest",
           "activity": "forage",
           "members": [
             {
@@ -294823,7 +295108,7 @@
           {
             "id": "regional_redbrush_fox",
             "family": "redbrush_fox",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "tier": 1,
             "assetId": "creature_redbrush_fox",
             "scale": 1,
@@ -294961,7 +295246,7 @@
           {
             "id": "redbrush_fox_residents",
             "family": "redbrush_fox",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "tier": 1,
             "assetId": "creature_redbrush_fox",
             "scale": 1,
@@ -295006,7 +295291,7 @@
           {
             "id": "marchfield_turkey_residents",
             "family": "marchfield_turkey",
-            "name": "Turkey",
+            "name": "Ryecrest",
             "tier": 1,
             "assetId": "creature_marchfield_turkey",
             "scale": 1,
@@ -295021,7 +295306,7 @@
           {
             "id": "population_palewood_south_harrow",
             "family": "redbrush_fox",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "tier": 1,
             "assetId": "creature_redbrush_fox",
             "scale": 1,
@@ -295096,7 +295381,7 @@
           {
             "id": "population_northern_march_harrows",
             "family": "redbrush_fox",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "tier": 1,
             "assetId": "creature_redbrush_fox",
             "scale": 1,
@@ -311811,7 +312096,7 @@
           "scale": 1,
           "stats": {
             "id": "regional_redbrush_fox",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "family": "redbrush_fox",
             "tier": 1,
             "maxHealth": 6,
@@ -312820,7 +313105,7 @@
           "scale": 1,
           "stats": {
             "id": "redbrush_fox_t1",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "family": "redbrush_fox",
             "tier": 1,
             "maxHealth": 6,
@@ -313273,7 +313558,7 @@
           "scale": 1,
           "stats": {
             "id": "marchfield_turkey_t1",
-            "name": "Turkey",
+            "name": "Ryecrest",
             "family": "marchfield_turkey",
             "tier": 1,
             "maxHealth": 6,
@@ -313453,7 +313738,7 @@
           "scale": 1,
           "stats": {
             "id": "redbrush_fox_t1",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "family": "redbrush_fox",
             "tier": 1,
             "maxHealth": 6,
@@ -314198,7 +314483,7 @@
           "scale": 1,
           "stats": {
             "id": "redbrush_fox_t1",
-            "name": "Redbrush Prowler",
+            "name": "Vetchrunner",
             "family": "redbrush_fox",
             "tier": 1,
             "maxHealth": 6,
