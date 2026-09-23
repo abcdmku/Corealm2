@@ -83279,16 +83279,16 @@
         "head",
         "tripo-armor-approved"
       ],
-      "bytes": 3639276,
+      "bytes": 17194988,
       "size": {
-        "x": 0.44633784890174866,
-        "y": 0.3405078649520874,
-        "z": 0.4636230915784836
+        "x": 0.4463377147912979,
+        "y": 0.34050774574279785,
+        "z": 0.46362295746803284
       },
       "base": {
-        "x": -0.22196045517921448,
-        "y": 1.7385936975479126,
-        "z": -0.24789546430110931
+        "x": -0.2219603806734085,
+        "y": 1.738593578338623,
+        "z": -0.24789535999298096
       },
       "animations": [],
       "materials": [
@@ -83297,6 +83297,62 @@
       "itemModel": {
         "itemId": "marchhide_hood",
         "wearable": true
+      },
+      "itemId": "marchhide_hood",
+      "sha256": "97c8d6404f3494e16ee383a4eac9988c3fb88fbc4a411dc31466c7e0adc6f7a6",
+      "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+      "configSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+      "triangles": 740,
+      "drawCalls": 3,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "4ce09e0",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_hood.glb",
+        "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
+        "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+        "candidateSha256": "97c8d6404f3494e16ee383a4eac9988c3fb88fbc4a411dc31466c7e0adc6f7a6",
+        "importConfigSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7327736,
+            "sha256": "d09e409956b5eb624e085d0d9da8ca02c66213644f36a5bbeaca9434a94103fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4312031,
+            "sha256": "c0f29cda4fe3d286ce1558aadd6e880fcf08bd0caea9af8bdc00f82c7325e779",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5488618,
+            "sha256": "61081b5c51d42a475ac428f3cd20b8ac927edf195652ea42c976ce116c331874",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/marchhide-closer-front-try.png",
+          "test-results/armor-production-verify/marchhide-closer-rear.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-04.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-09.png"
+        ]
       }
     },
     {
@@ -83312,16 +83368,16 @@
         "torso",
         "tripo-armor-approved"
       ],
-      "bytes": 3656008,
+      "bytes": 17211720,
       "size": {
-        "x": 1.4813153743743896,
-        "y": 0.7582813501358032,
-        "z": 0.3388671875
+        "x": 1.4813158512115479,
+        "y": 0.7582810521125793,
+        "z": 0.3388671725988388
       },
       "base": {
-        "x": -0.7406575679779053,
-        "y": 0.7825391292572021,
-        "z": -0.20150871574878693
+        "x": -0.74065762758255,
+        "y": 0.7825391888618469,
+        "z": -0.20150868594646454
       },
       "animations": [],
       "materials": [
@@ -83336,6 +83392,62 @@
             "minY": 0.95,
             "maxY": 1.52
           }
+        ]
+      },
+      "itemId": "marchhide_robe",
+      "sha256": "6879eef5554f260e5a629e7aab1c6eb092b627224c65046344090d9a0e6fb3cc",
+      "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+      "configSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+      "triangles": 1008,
+      "drawCalls": 5,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "4ce09e0",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_robe.glb",
+        "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
+        "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+        "candidateSha256": "6879eef5554f260e5a629e7aab1c6eb092b627224c65046344090d9a0e6fb3cc",
+        "importConfigSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7327736,
+            "sha256": "d09e409956b5eb624e085d0d9da8ca02c66213644f36a5bbeaca9434a94103fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4312031,
+            "sha256": "c0f29cda4fe3d286ce1558aadd6e880fcf08bd0caea9af8bdc00f82c7325e779",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5488618,
+            "sha256": "61081b5c51d42a475ac428f3cd20b8ac927edf195652ea42c976ce116c331874",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/marchhide-closer-front-try.png",
+          "test-results/armor-production-verify/marchhide-closer-rear.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-04.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-09.png"
         ]
       }
     },
@@ -83352,16 +83464,16 @@
         "arms",
         "tripo-armor-approved"
       ],
-      "bytes": 3640536,
+      "bytes": 17196244,
       "size": {
-        "x": 1.7178675532341003,
-        "y": 0.1287367343902588,
-        "z": 0.1618645277339965
+        "x": 1.7178672552108765,
+        "y": 0.12873661518096924,
+        "z": 0.16186450351960957
       },
       "base": {
-        "x": -0.8589339852333069,
+        "x": -0.8589339256286621,
         "y": 1.3959097862243652,
-        "z": -0.16488687694072723
+        "z": -0.16488690674304962
       },
       "animations": [],
       "materials": [
@@ -83370,6 +83482,62 @@
       "itemModel": {
         "itemId": "marchhide_wraps",
         "wearable": true
+      },
+      "itemId": "marchhide_wraps",
+      "sha256": "0730ea78836316ad03028b118207cab9108a7b461ae59d506dcdcef24b15869c",
+      "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+      "configSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+      "triangles": 720,
+      "drawCalls": 2,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "4ce09e0",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_wraps.glb",
+        "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
+        "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+        "candidateSha256": "0730ea78836316ad03028b118207cab9108a7b461ae59d506dcdcef24b15869c",
+        "importConfigSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7327736,
+            "sha256": "d09e409956b5eb624e085d0d9da8ca02c66213644f36a5bbeaca9434a94103fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4312031,
+            "sha256": "c0f29cda4fe3d286ce1558aadd6e880fcf08bd0caea9af8bdc00f82c7325e779",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5488618,
+            "sha256": "61081b5c51d42a475ac428f3cd20b8ac927edf195652ea42c976ce116c331874",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/marchhide-closer-front-try.png",
+          "test-results/armor-production-verify/marchhide-closer-rear.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-04.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-09.png"
+        ]
       }
     },
     {
@@ -83385,16 +83553,16 @@
         "legs",
         "tripo-armor-approved"
       ],
-      "bytes": 3641540,
+      "bytes": 17197244,
       "size": {
-        "x": 0.7186513245105743,
-        "y": 0.7672654241323471,
-        "z": 0.3962399587035179
+        "x": 0.71865114569664,
+        "y": 0.7672653347253799,
+        "z": 0.39623989909887314
       },
       "base": {
-        "x": -0.35570022463798523,
-        "y": 0.23269541561603546,
-        "z": -0.27572718262672424
+        "x": -0.35570016503334045,
+        "y": 0.23269550502300262,
+        "z": -0.2757270932197571
       },
       "animations": [],
       "materials": [
@@ -83409,6 +83577,62 @@
             "minY": 0.25,
             "maxY": 1.02
           }
+        ]
+      },
+      "itemId": "marchhide_leggings",
+      "sha256": "a3768f98eb4f5a5efa520c366b86f472d7c6c170b819994ff8843a7a81215c88",
+      "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+      "configSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+      "triangles": 933,
+      "drawCalls": 1,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "4ce09e0",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_leggings.glb",
+        "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
+        "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+        "candidateSha256": "a3768f98eb4f5a5efa520c366b86f472d7c6c170b819994ff8843a7a81215c88",
+        "importConfigSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7327736,
+            "sha256": "d09e409956b5eb624e085d0d9da8ca02c66213644f36a5bbeaca9434a94103fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4312031,
+            "sha256": "c0f29cda4fe3d286ce1558aadd6e880fcf08bd0caea9af8bdc00f82c7325e779",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5488618,
+            "sha256": "61081b5c51d42a475ac428f3cd20b8ac927edf195652ea42c976ce116c331874",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/marchhide-closer-front-try.png",
+          "test-results/armor-production-verify/marchhide-closer-rear.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-04.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-09.png"
         ]
       }
     },
@@ -83425,16 +83649,16 @@
         "feet",
         "tripo-armor-approved"
       ],
-      "bytes": 3649836,
+      "bytes": 17205548,
       "size": {
-        "x": 0.4016161113977432,
-        "y": 0.29648416310548775,
-        "z": 0.26718756556510925
+        "x": 0.40161603689193726,
+        "y": 0.29648451147355104,
+        "z": 0.2671876400709152
       },
       "base": {
         "x": -0.20080800354480743,
-        "y": -2.0563602376455492e-8,
-        "z": -0.17278705537319183
+        "y": -2.795246984987898e-7,
+        "z": -0.17278701066970825
       },
       "animations": [],
       "materials": [
@@ -83443,6 +83667,62 @@
       "itemModel": {
         "itemId": "marchhide_boots",
         "wearable": true
+      },
+      "itemId": "marchhide_boots",
+      "sha256": "70dfb4029e1a46fde16850f64187c5a786fd61db2aafdc83969abfaee4adb230",
+      "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+      "configSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+      "triangles": 901,
+      "drawCalls": 3,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "4ce09e0",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-early/marchhide/candidate/models/items/marchhide_boots.glb",
+        "sourceFile": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
+        "sourceSha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372",
+        "candidateSha256": "70dfb4029e1a46fde16850f64187c5a786fd61db2aafdc83969abfaee4adb230",
+        "importConfigSha256": "2f90772d59a7cf8975c091280ef50fa686e1476fb2ca6d01ad8383ca9aeaeb54",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7327736,
+            "sha256": "d09e409956b5eb624e085d0d9da8ca02c66213644f36a5bbeaca9434a94103fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4312031,
+            "sha256": "c0f29cda4fe3d286ce1558aadd6e880fcf08bd0caea9af8bdc00f82c7325e779",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5488618,
+            "sha256": "61081b5c51d42a475ac428f3cd20b8ac927edf195652ea42c976ce116c331874",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-early/marchhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/marchhide-closer-front-try.png",
+          "test-results/armor-production-verify/marchhide-closer-rear.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-04.png",
+          "test-results/armor-production-verify/marchhide-activeplay-walk-final-09.png"
+        ]
       }
     },
     {
