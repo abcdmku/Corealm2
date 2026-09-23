@@ -12,7 +12,7 @@ import {
 import { tierSilhouetteScale } from "../core/math.js";
 import { enemyCombatLevel } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
-import { creatureById } from '../content/creatureData.js';
+import { creatureById, creaturesAvailableIn } from '../content/creatureData.js';
 import { CREATURE_SPECIES } from "../content/creatureSpecies.js";
 import { RPG_BESTIARY, RPG_BESTIARY_REVIEW_BY_ID } from "../content/rpgBestiary.js";
 import { CREATURE_REDESIGNS } from "../content/creatureRedesign.js";
@@ -136,7 +136,7 @@ const TARGET_SOURCE_BY_KEY = new Map<string, TargetSource>();
 // Explicit candidate IDs are available to review tools without entering the normal catalogue.
 const REVIEW_CREATURES = new Map([...RPG_BESTIARY_REVIEW_BY_ID.values(), ...CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS, ...FOREST_CREATURE_REDESIGNS,
   ...WILDERNESS_CREATURE_SPECIES, ...REGIONAL_BOSS_SPECIES, ...WILDERNESS_DRAGON_CANDIDATES,
-  ...FAIRY_CROWN_SPECIES, ...CROWNWARD_DRAGON_SPECIES].map(species => [species.id, species]));
+  ...FAIRY_CROWN_SPECIES, ...CROWNWARD_DRAGON_SPECIES, ...creaturesAvailableIn('lab')].map(species => [species.id, species]));
 const REVIEW_KEEPERS = new Set<string>(WILDERNESS_RUNE_KEEPERS.map(keeper => keeper.id));
 const STAGED_SOURCES: readonly CreatureTargetSource[] = [...REVIEW_CREATURES.values()].map((species) => ({
   kind: "creature",
