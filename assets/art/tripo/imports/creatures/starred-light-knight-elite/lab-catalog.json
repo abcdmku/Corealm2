@@ -1,0 +1,94 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_ivory_castellan",
+      "file": "models/creature/creature_ivory_castellan.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "Ivory Castellan",
+      "tags": [
+        "creature",
+        "humanoid",
+        "knight",
+        "crownward",
+        "t40",
+        "starred",
+        "rig-candidate",
+        "material-held"
+      ],
+      "bytes": 2042692,
+      "sha256": "2ba950501ff3d7a4bf1eef89eca8ece915448214e81332326742606aa7731ba7",
+      "size": {
+        "x": 0.998046875,
+        "y": 0.9902344346046448,
+        "z": 0.24804693460464478
+      },
+      "base": {
+        "x": -0.4990234375,
+        "y": 0,
+        "z": -0.12402346730232239
+      },
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.12402346730232239
+        ],
+        "max": [
+          0.4990234375,
+          0.9902344346046448,
+          0.12402346730232239
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4574,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_5e287d2d-2a0b-4c21-954c-9628e9affaf7_material"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.74,
+      "attackSeconds": 0.92,
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "ae5cec06-0458-43a9-a16e-ee9aadbd4d91",
+        "sourceCardId": "03614ce2-9922-4e76-93e9-c906adf800ed",
+        "sourceFile": "assets/art/tripo/exports/03614ce2-9922-4e76-93e9-c906adf800ed.glb",
+        "sourceSha256": "f21a1e9b7cd30944395a0f94fa71b6582ab8d5dd2286ca5457f90c6a60194853",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-light-knight-elite/ivory-castellan-native-rig-candidate.glb",
+        "candidateSha256": "2ba950501ff3d7a4bf1eef89eca8ece915448214e81332326742606aa7731ba7",
+        "rigMethod": "Mixamo-named anatomical four-weight skeleton fitted to the original T-pose mesh; topology and UVs unchanged.",
+        "textures": [
+          {
+            "name": "03614ce2-9922-4e76-93e9-c906adf800ed_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1377126
+          }
+        ],
+        "materialStatus": "Base color only; metallic-roughness and normal maps absent. Held pending Tripo PBR generation and neutral/angled light review.",
+        "candidateStatus": "awaiting-root-lab-review; material-held"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_ivory_castellan": "./ivory-castellan-native-rig-candidate.glb"
+  }
+}

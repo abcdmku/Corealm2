@@ -1,0 +1,348 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_ivory_castellan",
+  "displayName": "Ivory Castellan",
+  "status": "awaiting-root-lab-review; material-held",
+  "accepted": false,
+  "pbr": "held-maps-absent",
+  "materialReview": "PBR HOLD: Tripo export embeds only an 8192x8192 base-color JPEG. It has no metallic-roughness, normal, occlusion or emissive texture. Do not describe this as PBR-ready or promote until layered metal/roughness and tangent-space normal maps are generated and their rendered response is reviewed.",
+  "pbrPlan": "Return to the starred Tripo project and generate PBR maps for the approved source. Verify a non-flat packed metallic-roughness map and tangent-space normal map, downsample both to 2K, then inspect the plate, cloth, leather, and trim under neutral and angled light in the production lab.",
+  "source": {
+    "file": "assets/art/tripo/exports/03614ce2-9922-4e76-93e9-c906adf800ed.glb",
+    "sha256": "f21a1e9b7cd30944395a0f94fa71b6582ab8d5dd2286ca5457f90c6a60194853",
+    "bytes": 13915544,
+    "starredModelId": "ae5cec06-0458-43a9-a16e-ee9aadbd4d91",
+    "starredCardId": "03614ce2-9922-4e76-93e9-c906adf800ed",
+    "starredDisplayName": "medieval knight armor 3d model light",
+    "prompt": "armor-clad knight in full plate armor with gold trim and white tabard",
+    "sourceGenerator": "Tripo P1, skeleton enabled",
+    "geometry": {
+      "vertices": 7241,
+      "triangles": 4574,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.12402346730232239
+        ],
+        "max": [
+          0.4990234375,
+          0.9902344346046448,
+          0.12402346730232239
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "uvPreserved": true,
+      "retopology": false
+    },
+    "preliminaryDesignReview": "Astra-low accepted as Crownward T40 Ivory Castellan visual; white/gold plate, white tabard and restrained dark steel details fit the regional elite knight role.",
+    "textures": [
+      {
+        "name": "03614ce2-9922-4e76-93e9-c906adf800ed_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "sha256": "5c05edd0fd734a3861fd452cfc1d081f9fec91ce6fbc5c763c4f0250312f7bb4"
+      }
+    ],
+    "sourceMaterial": {
+      "metallicFactor": 0,
+      "roughnessFactor": 0.5,
+      "pbrMaps": {
+        "metallicRoughness": false,
+        "normal": false,
+        "occlusion": false,
+        "emissive": false
+      }
+    },
+    "sourceSkin": {
+      "joints": 64,
+      "sourceSingleInfluenceVertices": 7241,
+      "sourceHipOnlyVertices": 7222,
+      "sourceWeights": "Single-joint rigid weights are replaced with the model-specific anatomical four-weight skin."
+    },
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-light-knight-elite/ivory-castellan-native-rig-candidate.glb",
+    "sha256": "2ba950501ff3d7a4bf1eef89eca8ece915448214e81332326742606aa7731ba7",
+    "bytes": 2042692,
+    "productionTarget": "game/public/assets/models/creature/creature_ivory_castellan.glb",
+    "geometry": {
+      "vertices": 7241,
+      "triangles": 4574,
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "uvPreserved": true
+    },
+    "rig": {
+      "type": "Mixamo-named Unity Humanoid-mappable glTF skin",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.375,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.465,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.565,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.675,
+            -0.008
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.825,
+            -0.018
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.92,
+            -0.018
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.12,
+            0.755,
+            -0.008
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.27,
+            0.785,
+            -0.008
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.405,
+            0.785,
+            -0.004
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.472,
+            0.78,
+            0.002
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.12,
+            0.755,
+            -0.008
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.27,
+            0.785,
+            -0.008
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.405,
+            0.785,
+            -0.004
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.472,
+            0.78,
+            0.002
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.1,
+            0.27,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.102,
+            0.145,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.102,
+            0.055,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.102,
+            0.032,
+            0.095
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.1,
+            0.27,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.102,
+            0.145,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.102,
+            0.055,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.102,
+            0.032,
+            0.095
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 7241,
+      "maximumWeightSumError": 4.332468961365521e-8,
+      "method": "Model-specific four-weight anatomical skin fitted to the T-pose; source mesh, UVs, indices and atlas are retained without retopology."
+    },
+    "textures": [
+      {
+        "name": "03614ce2-9922-4e76-93e9-c906adf800ed_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1377126
+      }
+    ],
+    "material": {
+      "metallicFactor": 0,
+      "roughnessFactor": 0.5,
+      "pbrMaps": {
+        "metallicRoughness": false,
+        "normal": false,
+        "occlusion": false,
+        "emissive": false
+      },
+      "status": "held; PBR maps absent"
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 5
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 7
+      },
+      {
+        "name": "Run",
+        "seconds": 0.74,
+        "channels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 5
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 9
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
