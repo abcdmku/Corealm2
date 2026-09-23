@@ -1,0 +1,157 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_boss_cinderwake",
+  "displayName": "Emberbank Brute",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_emberbank_brute_2b3179ac_8k_rigged.glb",
+    "archive": "assets/art/tripo/imports/creatures/emberbank-brute/source-original.glb",
+    "sha256": "3368af107a2b4afcfee27c18f2da9e6a113679123fc7691cdeecd9012d31383b",
+    "bytes": 20161336,
+    "provenance": {
+      "sourceImageId": "ec644492-32d4-4cac-914f-079adef1e98d",
+      "modelId": "2b3179ac-d360-4e46-83fb-69681850ab0c",
+      "reviewStatus": "approved"
+    },
+    "geometry": {
+      "vertices": 4331,
+      "triangles": 6969,
+      "bounds": {
+        "min": [
+          -0.275634765625,
+          0,
+          -0.1345214694738388
+        ],
+        "max": [
+          0.275634765625,
+          0.9995117783546448,
+          0.1345214694738388
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "uvPreserved": true,
+      "retopology": false
+    },
+    "originalRig": {
+      "joints": 54,
+      "animations": 0,
+      "weightMass": "99.9769% Hips",
+      "finding": "All joint nodes were collapsed at origin; reconstructed bind-pose transforms from the source inverse-bind matrices."
+    },
+    "textures": [
+      {
+        "name": "corealm_emberbank_brute_2b3179ac_8k_rigged_basecolor.jpg",
+        "sourceWidth": 8192,
+        "sourceHeight": 8192,
+        "sourceSha256": "a7c974c8166bf7b64b3c70a65e4f585e96fd2b771a88479eb9bce66bdd143630",
+        "runtime": {
+          "width": 2048,
+          "height": 2048,
+          "sha256": "1408bfd4285140c5d33ce63e4154a6d6bdde28f31cdc32fcbb3343b3cc6e5b67",
+          "mapType": "baseColor"
+        }
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/emberbank-brute/emberbank-brute-native-rig-candidate.glb",
+    "sha256": "4354c8395529806b7303cf6d64a53fa90c2d5da12038b47bc813140177876250",
+    "bytes": 2303940,
+    "geometry": {
+      "maxPositionDelta": 0,
+      "indexMismatches": 0,
+      "uvMismatches": 0
+    },
+    "rig": {
+      "joints": 54,
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 4331,
+      "maxWeightSumError": 4.470348358154297e-8,
+      "method": "Recovered the source bind pose from inverse-bind matrices; rebuilt four normalized anatomical influences using spatially gated distances to Mixamo bone segments.",
+      "weightMassByJoint": {
+        "mixamorig:Hips": 658.466,
+        "mixamorig:LeftUpLeg": 42.736,
+        "mixamorig:LeftLeg": 216.213,
+        "mixamorig:LeftFoot": 299.413,
+        "mixamorig:LeftToeBase": 283.057,
+        "mixamorig:RightUpLeg": 84.638,
+        "mixamorig:RightLeg": 272.669,
+        "mixamorig:RightFoot": 176.909,
+        "mixamorig:RightToeBase": 226.754,
+        "mixamorig:Spine": 470.688,
+        "mixamorig:Spine1": 346.46,
+        "mixamorig:Spine2": 321.372,
+        "mixamorig:LeftShoulder": 8.895,
+        "mixamorig:LeftArm": 42.412,
+        "mixamorig:LeftForeArm": 21.379,
+        "mixamorig:LeftHand": 6.58,
+        "mixamorig:Neck": 149.558,
+        "mixamorig:Head": 471.311,
+        "mixamorig:RightShoulder": 47.26,
+        "mixamorig:RightArm": 118.008,
+        "mixamorig:RightForeArm": 51.784,
+        "mixamorig:RightHand": 14.438
+      }
+    },
+    "textures": [
+      {
+        "name": "corealm_emberbank_brute_2b3179ac_8k_rigged_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mapType": "baseColor",
+        "sha256": "1408bfd4285140c5d33ce63e4154a6d6bdde28f31cdc32fcbb3343b3cc6e5b67"
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "duration": 2.8,
+        "channels": 3
+      },
+      {
+        "name": "Walk",
+        "duration": 1.05,
+        "channels": 8
+      },
+      {
+        "name": "Run",
+        "duration": 0.72,
+        "channels": 8
+      },
+      {
+        "name": "Attack",
+        "duration": 0.96,
+        "channels": 5
+      },
+      {
+        "name": "Hit",
+        "duration": 0.44,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "duration": 1.5,
+        "channels": 9
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  },
+  "hold": {
+    "runtimeAnimation": "held pending root animation acceptance",
+    "runtimeFace": "not established by source review",
+    "productionPromotionAllowed": false,
+    "sourceTextureContainsOnly": [
+      "baseColor"
+    ]
+  }
+}

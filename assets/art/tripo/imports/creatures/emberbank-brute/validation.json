@@ -1,0 +1,27 @@
+{
+  "sourceSha256": "3368af107a2b4afcfee27c18f2da9e6a113679123fc7691cdeecd9012d31383b",
+  "candidateSha256": "4354c8395529806b7303cf6d64a53fa90c2d5da12038b47bc813140177876250",
+  "maxGeometryDelta": 0,
+  "indexMismatches": 0,
+  "uvMismatches": 0,
+  "vertices": 4331,
+  "triangles": 6969,
+  "joints": 54,
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Attack",
+    "Hit",
+    "Death"
+  ],
+  "verticesWithDistributedWeights": 4331,
+  "maxWeightSumError": 4.470348358154297e-8,
+  "texture": {
+    "width": 2048,
+    "height": 2048,
+    "mapType": "baseColor",
+    "sourcePixelContentRetainedViaDownsample": true
+  },
+  "sourceArchiveExact": true
+}
