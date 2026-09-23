@@ -132,5 +132,24 @@
       "labAccepted": false,
       "worldIntegrated": false
     }
+  },
+  "riggedCandidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/09-brown-many-horn-demon/brown-many-horn-demon-native-rig.glb",
+    "sha256": "ba7d294897eff17c78b8d9b052435856d4668766c3142a856289e45144904790",
+    "bytes": 6935244,
+    "presentation": {
+      "targetHeightMeters": 2.35,
+      "scaleFactor": 6.266666168636785,
+      "scaleNode": "BrownManyHornDemonArmature",
+      "uniform": true,
+      "neutralGroundY": 0
+    },
+    "acceptance": {
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
   }
 }

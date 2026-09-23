@@ -17,28 +17,28 @@
         "candidate",
         "T30-T40"
       ],
-      "bytes": 6889036,
-      "sha256": "5e72034e014c427d85f1d4a966bf16d88bd01ee30a58b0ff52bc1f9ef9acc5c1",
+      "bytes": 6889096,
+      "sha256": "a14b1f0b50922f3df1017185dec77d193f5784bba52a01d2bb7ddb52e3428c1d",
       "size": {
-        "x": 0.28125,
-        "y": 0.39453125,
-        "z": 0.25390625
+        "x": 1.318811881188119,
+        "y": 1.8500000000000003,
+        "z": 1.1905940594059408
       },
       "base": {
-        "x": -0.140625,
+        "x": -0.6594059405940595,
         "y": 0,
-        "z": -0.126953125
+        "z": -0.5952970297029704
       },
       "bounds": {
         "min": [
-          -0.140625,
+          -0.6594059405940595,
           0,
-          -0.126953125
+          -0.5952970297029704
         ],
         "max": [
-          0.140625,
-          0.39453125,
-          0.126953125
+          0.6594059405940595,
+          1.8500000000000003,
+          0.5952970297029704
         ]
       },
       "groundY": 0,
@@ -54,13 +54,20 @@
       "materials": [
         "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
       ],
+      "presentation": {
+        "targetHeightMeters": 1.85,
+        "scaleFactor": 4.68910891089109,
+        "neutralGroundedHeightMeters": 1.85,
+        "uniformRootScale": 4.68910891089109,
+        "scaleNode": "IceSpikeDemonArmature"
+      },
       "sourceProvenance": {
         "author": "Corealm candidate rig reconstruction",
         "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/07-ice-spike-demon/base.glb",
         "sourceSha256": "b5ba1b04601cbd18b97f8a152d5933a810841e61b50429c90fe2524cedd401e2",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/07-ice-spike-demon/ice-spike-demon-native-rig.glb",
-        "candidateSha256": "5e72034e014c427d85f1d4a966bf16d88bd01ee30a58b0ff52bc1f9ef9acc5c1",
+        "candidateSha256": "a14b1f0b50922f3df1017185dec77d193f5784bba52a01d2bb7ddb52e3428c1d",
         "rigMethod": "Four highest model-specific bone-segment distance weights with anatomical lateral and vertical gates; original geometry retained.",
         "textures": [
           {

@@ -63,9 +63,16 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/09-brown-many-horn-demon/brown-many-horn-demon-native-rig.glb",
-    "sha256": "456afee189d894bb8ca3cefce76e3a931d64fe254699914e53be08c19fdf5aff",
-    "bytes": 6935180,
+    "sha256": "ba7d294897eff17c78b8d9b052435856d4668766c3142a856289e45144904790",
+    "bytes": 6935244,
     "productionTarget": "game/public/assets/models/creature/creature_brown_many_horn_demon.glb",
+    "presentation": {
+      "targetHeightMeters": 2.35,
+      "scaleFactor": 6.266666168636785,
+      "neutralGroundedHeightMeters": 2.35,
+      "uniformRootScale": 6.266666168636785,
+      "scaleNode": "BrownManyHornDemonArmature"
+    },
     "geometry": {
       "vertices": 4088,
       "triangles": 2206,

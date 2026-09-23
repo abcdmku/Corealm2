@@ -132,5 +132,24 @@
       "labAccepted": false,
       "worldIntegrated": false
     }
+  },
+  "riggedCandidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon/tan-bull-horn-demon-native-rig.glb",
+    "sha256": "f4311fd02b3f717264708f3ab3af13b22f212fc6698279ffdb50996f0806f234",
+    "bytes": 6819712,
+    "presentation": {
+      "targetHeightMeters": 2.05,
+      "scaleFactor": 5.221890547263681,
+      "scaleNode": "TanBullHornDemonArmature",
+      "uniform": true,
+      "neutralGroundY": 0
+    },
+    "acceptance": {
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
   }
 }

@@ -17,28 +17,28 @@
         "candidate",
         "T35-T45"
       ],
-      "bytes": 6819648,
-      "sha256": "171e5bbdc4de3651809a1fc9afc8550e85bfb0692f69a58da1ffdd319d632796",
+      "bytes": 6819712,
+      "sha256": "f4311fd02b3f717264708f3ab3af13b22f212fc6698279ffdb50996f0806f234",
       "size": {
-        "x": 0.28125,
-        "y": 0.392578125,
-        "z": 0.2460937649011612
+        "x": 1.4686567164179103,
+        "y": 2.05,
+        "z": 1.2850747046779043
       },
       "base": {
-        "x": -0.140625,
+        "x": -0.7343283582089551,
         "y": 0,
-        "z": -0.1230468824505806
+        "z": -0.6425373523389522
       },
       "bounds": {
         "min": [
-          -0.140625,
+          -0.7343283582089551,
           0,
-          -0.1230468824505806
+          -0.6425373523389522
         ],
         "max": [
-          0.140625,
-          0.392578125,
-          0.1230468824505806
+          0.7343283582089551,
+          2.05,
+          0.6425373523389522
         ]
       },
       "groundY": 0,
@@ -54,13 +54,20 @@
       "materials": [
         "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
       ],
+      "presentation": {
+        "targetHeightMeters": 2.05,
+        "scaleFactor": 5.221890547263681,
+        "neutralGroundedHeightMeters": 2.05,
+        "uniformRootScale": 5.221890547263681,
+        "scaleNode": "TanBullHornDemonArmature"
+      },
       "sourceProvenance": {
         "author": "Corealm candidate rig reconstruction",
         "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon/base.glb",
         "sourceSha256": "6f56531550849c443e728ce255502f57e265612835072fa1630d9d7282d975dd",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon/tan-bull-horn-demon-native-rig.glb",
-        "candidateSha256": "171e5bbdc4de3651809a1fc9afc8550e85bfb0692f69a58da1ffdd319d632796",
+        "candidateSha256": "f4311fd02b3f717264708f3ab3af13b22f212fc6698279ffdb50996f0806f234",
         "rigMethod": "Four highest model-specific bone-segment distance weights with anatomical lateral and vertical gates; original geometry retained.",
         "textures": [
           {

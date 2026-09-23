@@ -63,9 +63,16 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/07-ice-spike-demon/ice-spike-demon-native-rig.glb",
-    "sha256": "5e72034e014c427d85f1d4a966bf16d88bd01ee30a58b0ff52bc1f9ef9acc5c1",
-    "bytes": 6889036,
+    "sha256": "a14b1f0b50922f3df1017185dec77d193f5784bba52a01d2bb7ddb52e3428c1d",
+    "bytes": 6889096,
     "productionTarget": "game/public/assets/models/creature/creature_ice_spike_demon.glb",
+    "presentation": {
+      "targetHeightMeters": 1.85,
+      "scaleFactor": 4.68910891089109,
+      "neutralGroundedHeightMeters": 1.85,
+      "uniformRootScale": 4.68910891089109,
+      "scaleNode": "IceSpikeDemonArmature"
+    },
     "geometry": {
       "vertices": 3363,
       "triangles": 1752,

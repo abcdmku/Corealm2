@@ -63,9 +63,16 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon/tan-bull-horn-demon-native-rig.glb",
-    "sha256": "171e5bbdc4de3651809a1fc9afc8550e85bfb0692f69a58da1ffdd319d632796",
-    "bytes": 6819648,
+    "sha256": "f4311fd02b3f717264708f3ab3af13b22f212fc6698279ffdb50996f0806f234",
+    "bytes": 6819712,
     "productionTarget": "game/public/assets/models/creature/creature_tan_bull_horn_demon.glb",
+    "presentation": {
+      "targetHeightMeters": 2.05,
+      "scaleFactor": 5.221890547263681,
+      "neutralGroundedHeightMeters": 2.05,
+      "uniformRootScale": 5.221890547263681,
+      "scaleNode": "TanBullHornDemonArmature"
+    },
     "geometry": {
       "vertices": 2239,
       "triangles": 1210,
