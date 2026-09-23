@@ -81,33 +81,40 @@ for (const side of ['Left', 'Right']) {
 }
 
 const joints = skin.listJoints();
-const inverseBind = skin.getInverseBindMatrices()?.getArray();
-if (!inverseBind || inverseBind.length !== joints.length * 16 || joints.length !== 66) {
+const inverseBindAccessor = skin.getInverseBindMatrices();
+const sourceInverseBind = inverseBindAccessor?.getArray();
+if (!sourceInverseBind || sourceInverseBind.length !== joints.length * 16 || joints.length !== 66) {
   throw new Error('Expected the source 66-joint skin with one inverse-bind matrix per joint.');
 }
 const identity = new Matrix4();
-const worldBind = joints.map((_, index) => new Matrix4().fromArray(Array.from(inverseBind.slice(index * 16, index * 16 + 16))).invert());
+const sourceWorldBind = joints.map((_, index) => new Matrix4().fromArray(Array.from(sourceInverseBind.slice(index * 16, index * 16 + 16))).invert());
 const indexByNode = new Map(joints.map((node, index) => [node, index]));
 const oldNameByNode = new Map(joints.map((node) => [node, node.getName()]));
-const localBind = [];
-const bonePosition = [];
-const boneRotation = [];
-const boneScale = [];
+const parentIndex = joints.map((node) => indexByNode.get(node.getParentNode()));
+const sourceHipsIndex = joints.findIndex((node) => oldNameByNode.get(node) === 'Hips');
+if (sourceHipsIndex < 0) throw new Error('The starred Garek skeleton has no Hips joint.');
+const sourceHipsPosition = new Vector3().setFromMatrixPosition(sourceWorldBind[sourceHipsIndex]);
+// Tripo's recovered bind lateral axis is Z, while the unchanged Garek mesh spans X at shoulder
+// height. Put the same named joints into the mesh frame and rebuild their bind matrices; otherwise
+// the arms receive almost no forearm/hand influence and the source animations twist the wrong axis.
+const bonePosition = sourceWorldBind.map((world) => {
+  const source = new Vector3().setFromMatrixPosition(world);
+  return new Vector3(source.z - sourceHipsPosition.z, source.y, source.x - sourceHipsPosition.x);
+});
+const bindWorld = bonePosition.map((position) => new Matrix4().compose(position, new Quaternion(), new Vector3(1, 1, 1)));
 for (let index = 0; index < joints.length; index++) {
   const node = joints[index];
-  const parentIndex = indexByNode.get(node.getParentNode());
-  const parentWorld = parentIndex === undefined ? identity : worldBind[parentIndex];
-  const local = parentWorld.clone().invert().multiply(worldBind[index]);
+  const parent = parentIndex[index];
+  const local = parent === undefined ? bindWorld[index] : bindWorld[parent].clone().invert().multiply(bindWorld[index]);
   const position = new Vector3(), rotation = new Quaternion(), scale = new Vector3();
   local.decompose(position, rotation, scale);
   if (![...position, ...rotation, ...scale].every(Number.isFinite)) throw new Error(`Invalid reconstructed bind for ${node.getName()}.`);
-  localBind[index] = local;
-  bonePosition[index] = new Vector3().setFromMatrixPosition(worldBind[index]);
-  boneRotation[index] = rotation.normalize();
-  boneScale[index] = scale;
   node.setTranslation(position.toArray()).setRotation(rotation.toArray()).setScale(scale.toArray());
   node.setName(renamedBones[oldNameByNode.get(node)] ?? `MasterGarek_${oldNameByNode.get(node)}`);
 }
+const candidateInverseBind = new Float32Array(joints.length * 16);
+for (let index = 0; index < joints.length; index++) candidateInverseBind.set(bindWorld[index].clone().invert().toArray(), index * 16);
+inverseBindAccessor.setArray(candidateInverseBind).setType('MAT4');
 skin.setName('MasterGarek_Mixamo_Humanoid').setSkeleton(joints.find((node) => !indexByNode.has(node.getParentNode())));
 mesh.setName('MasterGarekMesh');
 const armature = root.listNodes().find((node) => node.getName() === 'Armature');
@@ -115,7 +122,6 @@ if (armature) armature.setName('MasterGarek_Armature');
 const meshNode = root.listNodes().find((node) => node.getMesh() === mesh);
 if (meshNode) meshNode.setName('MasterGarek_MeshNode');
 
-const parentIndex = joints.map((node) => indexByNode.get(node.getParentNode()));
 const jointByOldName = new Map(joints.map((node, index) => [oldNameByNode.get(node), { node, index }]));
 function segmentDistance(point, start, end) {
   const vector = end.clone().sub(start);
@@ -142,11 +148,11 @@ for (let vertex = 0; vertex < positionValues.length / 3; vertex++) {
     const isFinger = /_(Thumb|Index|Middle|Ring|Pinky)/.test(name);
     const side = name.startsWith('Left_') ? -1 : name.startsWith('Right_') ? 1 : 0;
     if (side) {
-      const sideValue = side * z;
+      const sideValue = side * x;
       gate *= 0.025 + 0.975 / (1 + Math.exp(-(sideValue + 0.006) / (isFinger ? 0.018 : 0.035)));
     }
     if (isFinger) {
-      gate *= y > 0.61 && y < 0.82 && Math.abs(z) > 0.33 ? 1 : 0.01;
+      gate *= y > 0.61 && y < 0.82 && Math.abs(x) > 0.33 ? 1 : 0.01;
     } else if (name.includes('Eye')) {
       gate *= y > 0.80 && x > 0.015 ? 1 : 0.008;
     } else if (name === 'Head') {
@@ -219,15 +225,14 @@ const material = root.listMaterials()[0];
 material.setName('MasterGarek_2K_PBR');
 
 const jointIndexByOldName = new Map(joints.map((node, index) => [oldNameByNode.get(node), index]));
-const restLocalQuaternion = joints.map((_, index) => {
-  const p = new Vector3(), q = new Quaternion(), s = new Vector3();
-  localBind[index].decompose(p, q, s);
-  return q.normalize();
-});
+const restLocalQuaternion = joints.map(() => new Quaternion());
 function axisQuaternion(axis, angle) {
-  const vector = axis === 'x' ? new Vector3(1, 0, 0) : axis === 'y' ? new Vector3(0, 1, 0) : new Vector3(0, 0, 1);
-  return new Quaternion().setFromAxisAngle(vector, angle);
+  // Animation poses are written in the Tripo bind frame. Convert x/z axes into the mesh frame.
+  const mapped = axis === 'x' ? ['z', -1] : axis === 'z' ? ['x', 1] : ['y', 1];
+  const vector = mapped[0] === 'x' ? new Vector3(1, 0, 0) : mapped[0] === 'y' ? new Vector3(0, 1, 0) : new Vector3(0, 0, 1);
+  return new Quaternion().setFromAxisAngle(vector, angle * mapped[1]);
 }
+const remapMotionOffset = ([x, y, z]) => [z, y, -x];
 function combinedDelta(axes = []) {
   const result = new Quaternion();
   for (const [axis, angle] of axes) result.premultiply(axisQuaternion(axis, angle));
@@ -249,7 +254,7 @@ function addClip(name, duration, times, pose, hipOffset = () => [0, 0, 0]) {
         ? desiredWorld[index].clone()
         : desiredWorld[parent].clone().invert().multiply(desiredWorld[index]).normalize();
     }
-    return { time, localRotations, hipTranslation: new Vector3(...joints[jointIndexByOldName.get('Hips')].getTranslation()).add(new Vector3(...hipOffset(time))).toArray() };
+    return { time, localRotations, hipTranslation: new Vector3(...joints[jointIndexByOldName.get('Hips')].getTranslation()).add(new Vector3(...remapMotionOffset(hipOffset(time)))).toArray() };
   });
   const buffer = root.listBuffers()[0];
   let trackCount = 0;
@@ -384,7 +389,8 @@ const checkUvs = checkPrimitive.getAttribute('TEXCOORD_0')?.getArray();
 const checkJoints = checkPrimitive.getAttribute('JOINTS_0')?.getArray();
 const checkWeights = checkPrimitive.getAttribute('WEIGHTS_0')?.getArray();
 const checkSkin = checkRoot.listSkins()[0];
-if (!checkPositions || !checkIndices || !checkUvs || !checkJoints || !checkWeights || !checkSkin) throw new Error('The candidate export lost geometry, UVs, or skin data.');
+const checkInverseBind = checkSkin?.getInverseBindMatrices()?.getArray();
+if (!checkPositions || !checkIndices || !checkUvs || !checkJoints || !checkWeights || !checkSkin || !checkInverseBind) throw new Error('The candidate export lost geometry, UVs, or skin data.');
 let maxPositionDelta = 0, indexMismatches = 0, uvMismatches = 0, verticesWithDistributedWeights = 0;
 for (let i = 0; i < originalPositions.length; i++) maxPositionDelta = Math.max(maxPositionDelta, Math.abs(originalPositions[i] - checkPositions[i]));
 for (let i = 0; i < originalIndices.length; i++) if (originalIndices[i] !== checkIndices[i]) indexMismatches++;
@@ -417,7 +423,7 @@ for (let index = 0; index < checkJointsList.length; index++) {
 }
 let bindTransformMaxError = 0, bindPoseMaxVertexDelta = 0;
 for (let index = 0; index < checkJointsList.length; index++) {
-  const expectedWorld = new Matrix4().fromArray(Array.from(inverseBind.slice(index * 16, index * 16 + 16))).invert();
+  const expectedWorld = new Matrix4().fromArray(Array.from(checkInverseBind.slice(index * 16, index * 16 + 16))).invert();
   const error = checkBindWorld[index].clone().multiply(expectedWorld.clone().invert());
   for (let element = 0; element < 16; element++) bindTransformMaxError = Math.max(bindTransformMaxError, Math.abs(error.elements[element] - identity.elements[element]));
 }
@@ -427,8 +433,8 @@ for (let vertex = 0; vertex < checkPositions.length / 3; vertex++) {
   for (let slot = 0; slot < 4; slot++) {
     const influence = vertex * 4 + slot;
     const joint = checkJoints[influence], weight = checkWeights[influence];
-    const sourceInverseBind = new Matrix4().fromArray(Array.from(inverseBind.slice(joint * 16, joint * 16 + 16)));
-    const skinnedBindPoint = sourcePoint.clone().applyMatrix4(sourceInverseBind).applyMatrix4(checkBindWorld[joint]);
+    const inverseBind = new Matrix4().fromArray(Array.from(checkInverseBind.slice(joint * 16, joint * 16 + 16)));
+    const skinnedBindPoint = sourcePoint.clone().applyMatrix4(inverseBind).applyMatrix4(checkBindWorld[joint]);
     deformed.addScaledVector(skinnedBindPoint, weight);
   }
   bindPoseMaxVertexDelta = Math.max(bindPoseMaxVertexDelta, deformed.distanceTo(sourcePoint));
@@ -454,7 +460,7 @@ const candidate = {
     sourceTriangleCount: indexValues.length / 3,
     sourceJointCount: joints.length,
     initialRigProblems: ['All 7,860 vertices weighted 100% to Hips.', 'Every source joint node has identity TRS; inverse bind matrices contain the bind-space joint transforms.', 'No animations were present.'],
-    sourceSkin: 'Tripo 66-joint humanoid skeleton, preserved and given reconstructed bind TRS.',
+    sourceSkin: 'Tripo 66-joint humanoid hierarchy, preserved with lateral Z remapped into the mesh X axis and rebuilt inverse binds.',
     geometry: { vertices: positionValues.length / 3, triangles: indexValues.length / 3, positionsPreserved: maxPositionDelta === 0, indicesPreserved: indexMismatches === 0, uvsPreserved: uvMismatches === 0, retopology: false },
     textures: sourceTextureMetrics,
     pbr: pbrMetrics,
@@ -473,9 +479,11 @@ const candidate = {
       maximumWeightSumError,
       bindTransformMaxError,
       bindPoseMaxVertexDelta,
-      bones: joints.map((node, index) => ({ name: node.getName(), parent: parentIndex[index] === undefined ? null : joints[parentIndex[index]].getName(), bindPosition: bonePosition[index].toArray() })),
-      inverseBindsPreserved: true,
-      method: 'Recovered rest-world joint transforms by inverting the source inverse-bind matrices, restored each joint local TRS, then assigned four normalized anatomy-gated segment-distance influences per vertex.',
+      bones: joints.map((node, index) => ({ name: node.getName(), parent: parentIndex[index] === undefined ? null : joints[parentIndex[index]].getName(), bindPosition: bonePosition[index].toArray(), weightedVertices: weightedVertexCounts[index] })),
+      sourceInverseBindsPreserved: false,
+      inverseBindsRebuilt: true,
+      coordinateRemap: 'Recovered source binds, mapped lateral Z into mesh X and body-center X into mesh depth Z, rebuilt identity-orientation humanoid binds and remapped the authored motion axes.',
+      method: 'Recovered rest-world joint positions from the source inverse binds, mapped the source lateral Z axis into mesh X, rebuilt joint transforms and inverse binds in the unchanged mesh frame, then assigned four normalized anatomy-gated segment-distance influences per vertex.',
     },
     textures: sourceTextureMetrics.map((texture) => ({ ...texture, runtimeWidth: texture.width, runtimeHeight: texture.height })),
     material: { name: material.getName(), baseColorTexture: baseColorTexture.getName(), metallicRoughnessTexture: packedMetalRoughTexture.getName(), normalTexture: normalTexture.getName(), baseColorFactor: material.getBaseColorFactor(), metallicFactor: material.getMetallicFactor(), roughnessFactor: material.getRoughnessFactor() },

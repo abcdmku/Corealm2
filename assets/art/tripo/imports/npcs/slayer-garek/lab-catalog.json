@@ -25,8 +25,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 7065812,
-      "sha256": "470b5c15761af13cae18862a0ff199483dfdb2d215df1946addd8396550624fd",
+      "bytes": 7061616,
+      "sha256": "ebfb639953ca3aaa1d635b21d0520e2706b6070b86d4e6bf8b68980942877510",
       "size": {
         "x": 0.998046875,
         "y": 0.9550782442092896,
@@ -70,9 +70,9 @@
         "sourceFile": "assets/art/tripo/exports/5e176d0c-cd1b-4b6c-833a-df6c5abd9f46.glb",
         "sourceSha256": "380ce2c187999399fa9943b6d4a50f12ed0802ed4edaad648d3f071548ab7a0d",
         "candidateFile": "assets/art/tripo/imports/npcs/slayer-garek/master-garek-native-rig-candidate.glb",
-        "candidateSha256": "470b5c15761af13cae18862a0ff199483dfdb2d215df1946addd8396550624fd",
+        "candidateSha256": "ebfb639953ca3aaa1d635b21d0520e2706b6070b86d4e6bf8b68980942877510",
         "candidateStatus": "awaiting-root-lab-review",
-        "rigAuthoring": "Recovered rest-world joint transforms by inverting the source inverse-bind matrices, restored each joint local TRS, then assigned four normalized anatomy-gated segment-distance influences per vertex.",
+        "rigAuthoring": "Recovered rest-world joint positions from the source inverse binds, mapped the source lateral Z axis into mesh X, rebuilt joint transforms and inverse binds in the unchanged mesh frame, then assigned four normalized anatomy-gated segment-distance influences per vertex.",
         "prompt": "green goblin with tattered leather armor, belts, and accessories."
       },
       "candidateReview": {
