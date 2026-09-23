@@ -17,8 +17,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 7040120,
-      "sha256": "99db0179804a0492b8f0862b902f004dfad072922cec429e7dcef9b0a6b8d831",
+      "bytes": 7057224,
+      "sha256": "a9d79f9dc1799bb23b1a75e5b2247672437488117c1361d9d7dcf425446472cc",
       "size": {
         "x": 0.998046875,
         "y": 0.9980466961860657,
@@ -62,8 +62,8 @@
         "sourceFile": "assets/art/tripo/exports/98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0.glb",
         "sourceSha256": "44603b348523d0cf683da09da8a38058785e156ea5194858d093848ba917c9e1",
         "candidateFile": "assets/art/tripo/imports/npcs/slayer-aevra/aevra-wings-native-rig.glb",
-        "candidateSha256": "99db0179804a0492b8f0862b902f004dfad072922cec429e7dcef9b0a6b8d831",
-        "rigMethod": "Mixamo-named body bones recovered from source inverse binds, with four upper/lower wing chains weighted on the unchanged source topology.",
+        "candidateSha256": "a9d79f9dc1799bb23b1a75e5b2247672437488117c1361d9d7dcf425446472cc",
+        "rigMethod": "Mixamo-named body joints refitted to the source mesh proportions, with anatomy-gated arm weights and four upper/lower wing chains on the unchanged source topology. Every clip preserves a relaxed arm baseline.",
         "textures": [
           {
             "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_basecolor.jpg",

@@ -84,8 +84,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/npcs/slayer-aevra/aevra-wings-native-rig.glb",
-    "sha256": "99db0179804a0492b8f0862b902f004dfad072922cec429e7dcef9b0a6b8d831",
-    "bytes": 7040120,
+    "sha256": "a9d79f9dc1799bb23b1a75e5b2247672437488117c1361d9d7dcf425446472cc",
+    "bytes": 7057224,
     "productionTarget": "game/public/assets/models/character/npc_slayer_aevra.glb",
     "geometry": {
       "vertices": 8103,
@@ -167,14 +167,14 @@
         "AevraWingRLowerTip"
       ],
       "wingInfluencedVertices": {
-        "LUpper": 425,
-        "RUpper": 662,
+        "LUpper": 423,
+        "RUpper": 591,
         "LLower": 17,
         "RLower": 106
       },
       "verticesWithDistributedWeights": 7904,
       "maximumWeightSumError": 4.470348358154297e-8,
-      "method": "Rest transforms recovered from Tripo inverse-bind matrices; source root-only weights replaced by four-influence, anatomy-gated weights. Four upper/lower wing chains receive vertex weights from the existing mesh silhouette. No retopology."
+      "method": "Unity-compatible rest transforms fitted to the source mesh proportions; source root-only weights replaced by centerline-gated four-influence limb weights and silhouette-gated upper/lower wing chains. Relaxed arm pose and readable wing/gait keys are embedded in every action clip. No retopology."
     },
     "textures": [
       {
@@ -225,37 +225,37 @@
       {
         "name": "Idle",
         "seconds": 2.4,
-        "channels": 10
+        "channels": 16
       },
       {
         "name": "Walk",
         "seconds": 1.16,
-        "channels": 15
+        "channels": 19
       },
       {
         "name": "Run",
         "seconds": 0.74,
-        "channels": 15
+        "channels": 19
       },
       {
         "name": "Attack",
         "seconds": 0.96,
-        "channels": 12
+        "channels": 15
       },
       {
         "name": "Hit",
         "seconds": 0.48,
-        "channels": 11
+        "channels": 16
       },
       {
         "name": "Death",
         "seconds": 1.45,
-        "channels": 14
+        "channels": 18
       },
       {
         "name": "Talk",
         "seconds": 1.42,
-        "channels": 12
+        "channels": 15
       }
     ]
   },
