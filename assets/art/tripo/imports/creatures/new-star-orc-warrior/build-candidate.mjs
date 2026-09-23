@@ -170,6 +170,8 @@ for (let vertex = 0; vertex < positions.length / 3; vertex++) {
   maxWeightSumError = Math.max(maxWeightSumError, Math.abs(sum - 1));
 }
 if (verticesWithDistributedWeights < positions.length / 3 * 0.30) throw new Error(`Too few vertices have useful skin blends: ${verticesWithDistributedWeights}.`);
+const jointWeightCoverage = boneSpec.map((bone) => ({ name:bone.name, weightedVertices:perJoint[bone.index] }));
+if (jointWeightCoverage.some((joint) => joint.weightedVertices === 0)) throw new Error(`A primary body joint received no weighted vertices: ${jointWeightCoverage.filter((joint) => joint.weightedVertices === 0).map((joint) => joint.name).join(', ')}.`);
 primitive.setAttribute('JOINTS_0', doc.createAccessor('RedmarchOrcWarrior_Joints').setArray(joints).setType(Accessor.Type.VEC4).setBuffer(root.listBuffers()[0]));
 primitive.setAttribute('WEIGHTS_0', doc.createAccessor('RedmarchOrcWarrior_Weights').setArray(weights).setType(Accessor.Type.VEC4).setBuffer(root.listBuffers()[0]));
 
@@ -304,7 +306,8 @@ const sourceTextures = [], runtimeTextures = [];
 for (const texture of root.listTextures()) {
   const bytes = texture.getImage();
   const meta = await sharp(bytes).metadata();
-  sourceTextures.push({ name: texture.getName(), width: meta.width, height: meta.height, mime: texture.getMimeType(), sha256: createHash('sha256').update(bytes).digest('hex') });
+  const sourceSha256 = createHash('sha256').update(bytes).digest('hex');
+  sourceTextures.push({ name: texture.getName(), width: meta.width, height: meta.height, mime: texture.getMimeType(), sha256: sourceSha256 });
   if (meta.width > 2048 || meta.height > 2048) {
     const dataTexture = texture === metallicRoughnessTexture || texture === normalTexture;
     texture.setImage(await sharp(bytes).resize(2048, 2048, { fit:'inside', withoutEnlargement:true, kernel:dataTexture?'linear':'lanczos3' })
@@ -312,7 +315,7 @@ for (const texture of root.listTextures()) {
   }
   const resized = await sharp(texture.getImage()).metadata();
   if (resized.width > 2048 || resized.height > 2048) throw new Error(`Runtime source map exceeds 2K: ${texture.getName()}`);
-  runtimeTextures.push({ name:texture.getName(), width:resized.width, height:resized.height, mime:texture.getMimeType(), bytes:texture.getImage().length });
+  runtimeTextures.push({ name:texture.getName(), width:resized.width, height:resized.height, mime:texture.getMimeType(), bytes:texture.getImage().length, sha256:createHash('sha256').update(texture.getImage()).digest('hex'), sourceSha256 });
 }
 const pbrImage = await sharp(metallicRoughnessTexture.getImage()).removeAlpha().resize(128,128).raw().toBuffer();
 const pbrRange = { roughness:[Infinity,-Infinity], metallic:[Infinity,-Infinity] };
@@ -322,6 +325,128 @@ for (let i = 0; i < pbrImage.length; i += 3) {
   pbrRange.metallic[0] = Math.min(pbrRange.metallic[0],metallic); pbrRange.metallic[1] = Math.max(pbrRange.metallic[1],metallic);
 }
 if (pbrRange.roughness[1] - pbrRange.roughness[0] < 0.05 || pbrRange.metallic[1] - pbrRange.metallic[0] < 0.03) throw new Error(`Source packed PBR map lacks useful material variation: ${JSON.stringify(pbrRange)}.`);
+
+// Sample the serialized glTF skinning equation on CPU. Besides detecting bad
+// binds, this catches feet and bodies passing through the floor between keys.
+const skinMotion = (document, animation) => {
+  const model = document.getRoot();
+  const nodes = model.listNodes();
+  const meshNode = nodes.find((node) => node.getMesh() === model.listMeshes()[0]);
+  const skin = model.listSkins()[0];
+  const primitive = model.listMeshes()[0].listPrimitives()[0];
+  const positions = primitive.getAttribute('POSITION').getArray();
+  const jointIndices = primitive.getAttribute('JOINTS_0').getArray();
+  const jointWeights = primitive.getAttribute('WEIGHTS_0').getArray();
+  const inverseBindValues = skin.getInverseBindMatrices().getArray();
+  if (!meshNode || !skin || !positions || !jointIndices || !jointWeights || !inverseBindValues) throw new Error('CPU motion review cannot resolve the source skinned mesh.');
+  const widthFor = (path) => path === 'rotation' ? 4 : 3;
+  const tracks = animation ? animation.listChannels().map((channel) => {
+    const sampler = channel.getSampler();
+    const times = sampler.getInput().getArray();
+    const values = sampler.getOutput().getArray();
+    const path = channel.getTargetPath();
+    const width = widthFor(path);
+    if (!times?.length || !values?.length || values.length !== times.length * width || !['rotation','translation','scale'].includes(path)) throw new Error(`Invalid ${animation.getName()} channel for CPU motion review.`);
+    if (sampler.getInterpolation() !== 'LINEAR') throw new Error(`${animation.getName()} uses unsupported ${sampler.getInterpolation()} interpolation in CPU motion review.`);
+    return { node:channel.getTargetNode(), path, width, times, values };
+  }) : [];
+  const duration = tracks.reduce((end, track) => Math.max(end, track.times[track.times.length - 1]), 0);
+  const sampleTimes = animation ? new Set([...Array.from({length:Math.ceil(duration * 120) + 1}, (_, i) => Math.min(duration, i / 120)), ...tracks.flatMap((track) => Array.from(track.times))]) : new Set([0]);
+  const orderedTimes = [...sampleTimes].sort((a, b) => a - b);
+  const bindPoses = new Map(nodes.map((node) => [node, { translation:node.getTranslation(), rotation:node.getRotation(), scale:node.getScale() }]));
+  const source = new Vector3(), transformed = new Vector3(), skinned = new Vector3();
+  const jointMatrices = new Array(skin.listJoints().length);
+  const result = [];
+  for (const time of orderedTimes) {
+    const pose = new Map([...bindPoses].map(([node, transform]) => [node, { translation:[...transform.translation], rotation:[...transform.rotation], scale:[...transform.scale] }]));
+    for (const track of tracks) {
+      let right = 0;
+      while (right < track.times.length - 1 && track.times[right + 1] < time) right++;
+      const left = right, next = Math.min(right + 1, track.times.length - 1);
+      const span = track.times[next] - track.times[left];
+      const amount = span > 0 ? Math.max(0, Math.min(1, (time - track.times[left]) / span)) : 0;
+      const a = Array.from(track.values.slice(left * track.width, (left + 1) * track.width));
+      const b = Array.from(track.values.slice(next * track.width, (next + 1) * track.width));
+      let value;
+      if (track.path === 'rotation') value = new Quaternion(...a).slerp(new Quaternion(...b), amount).normalize().toArray();
+      else value = a.map((component, index) => component + (b[index] - component) * amount);
+      pose.get(track.node)[track.path] = value;
+    }
+    const worlds = new Map();
+    const worldMatrix = (node) => {
+      const known = worlds.get(node);
+      if (known) return known;
+      const transform = pose.get(node);
+      let matrix = new Matrix4().compose(new Vector3(...transform.translation), new Quaternion(...transform.rotation), new Vector3(...transform.scale));
+      const parent = node.getParentNode();
+      if (parent?.constructor.name === 'Node') matrix = worldMatrix(parent).clone().multiply(matrix);
+      worlds.set(node, matrix);
+      return matrix;
+    };
+    const meshWorld = worldMatrix(meshNode);
+    const inverseMeshWorld = meshWorld.clone().invert();
+    for (let joint = 0; joint < skin.listJoints().length; joint++) {
+      jointMatrices[joint] = inverseMeshWorld.clone().multiply(worldMatrix(skin.listJoints()[joint])).multiply(new Matrix4().fromArray(inverseBindValues.slice(joint * 16, joint * 16 + 16)));
+    }
+    let minY = Infinity, maxY = -Infinity;
+    const deformed = new Float32Array(positions.length);
+    for (let vertex = 0; vertex < positions.length / 3; vertex++) {
+      source.fromArray(positions.slice(vertex * 3, vertex * 3 + 3));
+      skinned.set(0, 0, 0);
+      for (let slot = 0; slot < 4; slot++) {
+        const offset = vertex * 4 + slot, weight = jointWeights[offset];
+        if (!weight) continue;
+        const matrix = jointMatrices[jointIndices[offset]];
+        if (!matrix) throw new Error(`Invalid joint ${jointIndices[offset]} while sampling ${animation?.getName() ?? 'bind pose'}.`);
+        transformed.copy(source).applyMatrix4(matrix).multiplyScalar(weight);
+        skinned.add(transformed);
+      }
+      skinned.applyMatrix4(meshWorld);
+      if (![skinned.x, skinned.y, skinned.z].every(Number.isFinite)) throw new Error(`Nonfinite deformed vertex in ${animation?.getName() ?? 'bind pose'}.`);
+      deformed.set([skinned.x, skinned.y, skinned.z], vertex * 3);
+      minY = Math.min(minY, skinned.y);
+      maxY = Math.max(maxY, skinned.y);
+    }
+    result.push({ time, minY, maxY, deformed });
+  }
+  const first = result[0].deformed;
+  const maxMotionRmsMeters = Math.max(...result.map((frame) => {
+    let sum = 0;
+    for (let i = 0; i < first.length; i += 3) {
+      const dx = frame.deformed[i] - first[i], dy = frame.deformed[i + 1] - first[i + 1], dz = frame.deformed[i + 2] - first[i + 2];
+      sum += dx * dx + dy * dy + dz * dz;
+    }
+    return Math.sqrt(sum / (first.length / 3));
+  }));
+  return { duration, samples:result, maxMotionRmsMeters };
+};
+
+const armatureNode = root.listNodes().find((node) => node.getName() === 'Armature');
+const motionReview = [];
+const bindReview = skinMotion(doc, null);
+if (Math.abs(bindReview.samples[0].minY) > 0.005) throw new Error(`Recovered bind pose is not grounded: ${bindReview.samples[0].minY.toFixed(5)} m.`);
+for (const animation of root.listAnimations()) {
+  let review = skinMotion(doc, animation);
+  const maximumGroundCorrectionMeters = Math.max(...review.samples.map((frame) => Math.max(0, 0.003 - frame.minY)));
+  if (maximumGroundCorrectionMeters > 0.005) {
+    if (maximumGroundCorrectionMeters > 0.40) throw new Error(`${animation.getName()} needs an excessive ${maximumGroundCorrectionMeters.toFixed(3)} m root lift; inspect its weights or pose.`);
+    const times = review.samples.map((frame) => frame.time);
+    const baseTranslation = armatureNode.getTranslation();
+    const values = review.samples.map((frame) => [baseTranslation[0], baseTranslation[1] + Math.max(0, 0.003 - frame.minY), baseTranslation[2]]);
+    const input = doc.createAccessor(`${animation.getName()}_GroundCorrection_times`).setArray(Float32Array.from(times)).setType(Accessor.Type.SCALAR).setBuffer(root.listBuffers()[0]);
+    const output = doc.createAccessor(`${animation.getName()}_GroundCorrection_values`).setArray(Float32Array.from(values.flat())).setType(Accessor.Type.VEC3).setBuffer(root.listBuffers()[0]);
+    const sampler = doc.createAnimationSampler(`${animation.getName()}_GroundCorrection`).setInput(input).setOutput(output).setInterpolation('LINEAR');
+    animation.addSampler(sampler);
+    animation.addChannel(doc.createAnimationChannel(`${animation.getName()}_GroundCorrection`).setTargetNode(armatureNode).setTargetPath('translation').setSampler(sampler));
+    review = skinMotion(doc, animation);
+  }
+  const minimumFrameGroundY = Math.min(...review.samples.map((frame) => frame.minY));
+  if (minimumFrameGroundY < -0.005) throw new Error(`${animation.getName()} sinks below ground by ${(-minimumFrameGroundY).toFixed(4)} m after serialized ground correction.`);
+  if (review.maxMotionRmsMeters < 0.02) throw new Error(`${animation.getName()} has only ${review.maxMotionRmsMeters.toFixed(4)} m of weighted-mesh movement.`);
+  const maximumFrameY = Math.max(...review.samples.map((frame) => frame.maxY));
+  motionReview.push({ name:animation.getName(), seconds:review.duration, samples:review.samples.length, minY:Number(minimumFrameGroundY.toFixed(5)), maxY:Number(maximumFrameY.toFixed(5)), heightMeters:Number((maximumFrameY - minimumFrameGroundY).toFixed(5)), maximumGroundCorrectionMeters:Number((maximumGroundCorrectionMeters > 0.005 ? maximumGroundCorrectionMeters : 0).toFixed(5)), maxMotionRmsMeters:Number(review.maxMotionRmsMeters.toFixed(5)), grounded:minimumFrameGroundY >= -0.005 });
+}
+for (const clip of tracks) clip.channels = root.listAnimations().find((animation) => animation.getName() === clip.name).listChannels().length;
 
 const outputBytes = await io.writeBinary(doc);
 await writeFile(candidatePath,outputBytes);
@@ -387,6 +512,30 @@ for (const animation of checkRoot.listAnimations()) {
     if (!values || values.length < components * 2 || values.length % components !== 0 || values.some((value) => !Number.isFinite(value))) throw new Error(`Animation ${animation.getName()} has a degenerate channel.`);
   }
 }
+const outputTextures = new Map(checkRoot.listTextures().map((texture) => [texture.getName(), texture.getImage()]));
+for (const texture of runtimeTextures) {
+  const image = outputTextures.get(texture.name);
+  if (!image || createHash('sha256').update(image).digest('hex') !== texture.sha256) throw new Error(`Serialized PBR map changed or disappeared: ${texture.name}.`);
+}
+const serializedMotionReview = checkRoot.listAnimations().map((animation) => {
+  const review = skinMotion(check, animation);
+  const minimumFrameGroundY = Math.min(...review.samples.map((frame) => frame.minY));
+  if (minimumFrameGroundY < -0.005 || review.maxMotionRmsMeters < 0.02) throw new Error(`Serialized ${animation.getName()} failed its weighted deformation or grounding review.`);
+  const maximumFrameY = Math.max(...review.samples.map((frame) => frame.maxY));
+  return { name:animation.getName(), seconds:review.duration, samples:review.samples.length, minY:Number(minimumFrameGroundY.toFixed(5)), maxY:Number(maximumFrameY.toFixed(5)), heightMeters:Number((maximumFrameY - minimumFrameGroundY).toFixed(5)), maximumGroundCorrectionMeters:motionReview.find((entry) => entry.name === animation.getName()).maximumGroundCorrectionMeters, maxMotionRmsMeters:Number(review.maxMotionRmsMeters.toFixed(5)), grounded:true };
+});
+const highestGroundCorrectionClip = [...serializedMotionReview].sort((a,b) => b.maximumGroundCorrectionMeters - a.maximumGroundCorrectionMeters)[0];
+const motionAudit = {
+  method:'CPU glTF skinning with serialized clips sampled at 120 Hz plus every authored key time',
+  sampleRateHz:120,
+  groundClearanceMeters:0.003,
+  bindPoseGroundY:Number(bindReview.samples[0].minY.toFixed(5)),
+  clips:serializedMotionReview,
+  highestRootCorrectionMeters:highestGroundCorrectionClip.maximumGroundCorrectionMeters,
+  rootCorrectionRisk:highestGroundCorrectionClip.maximumGroundCorrectionMeters > 0.20
+    ? `${highestGroundCorrectionClip.name} needs ${highestGroundCorrectionClip.maximumGroundCorrectionMeters.toFixed(3)} m of root lift; root lab review must confirm the pose still reads cleanly.`
+    : null,
+};
 
 const makeBounds = (scale) => ({ min: bounds.min.map((value)=>value*scale), max:bounds.max.map((value)=>value*scale) });
 const scaledBounds = makeBounds(instanceScale);
@@ -394,13 +543,14 @@ const assetId = 'creature_redmarch_orc_warrior';
 const candidate = {
   schema:'corealm-creature-native-rig-candidate/1', id:assetId, displayName:'Redmarch Orc Warrior', status:'awaiting-root-lab-review', accepted:false,
   source:{ file:sourcePath, sha256:sourceHash, bytes:sourceBytes.length, starredModelId:starredModelUuid, starredCardId:cardStorageUuid,
-    starredDisplayName:'orc warrior 3d model', format:'Tripo P1 GLB, 2K texture export', geometry:{vertices:positions.length/3,triangles:indices.length/3,bounds,positionsPreserved:true,normalsPreserved:true,indicesPreserved:true,uvsPreserved:true,retopology:false},
+     starredDisplayName:'orc warrior 3d model', prompt:'muscular gray orc with spiked leather armor and tusked mouth, barbarian fantasy figure.', format:'Tripo P1 GLB, 2K texture export', geometry:{vertices:positions.length/3,triangles:indices.length/3,bounds,positionsPreserved:true,normalsPreserved:true,indicesPreserved:true,uvsPreserved:true,retopology:false},
     sourceSkin:{joints:sourceJoints.length,clips:0,repair:'Recovered joint transforms from retained inverse-bind matrices, detected and corrected the source skeleton’s 90° Y frame offset relative to the mesh, then recalculated inverse binds. Source nodes were identity and 7101/7103 vertices were root-dominant; anatomy-aware 4-weight map rebuilt for the existing 60-joint Unity Humanoid skeleton.'}, textures:sourceTextures },
   candidate:{ file:candidatePath,sha256:candidateHash,bytes:outputBytes.length,productionTarget:`game/public/assets/models/creature/${assetId}.glb`,
     geometry:{vertices:positions.length/3,triangles:indices.length/3,bounds:scaledBounds,sourceBounds:bounds,instanceScale,positionsPreserved:true,indicesPreserved:true,uvsPreserved:true},
-    rig:{type:'Recovered Tripo skeleton with Mixamo-named Unity Humanoid body joints',joints:sourceJoints.length,influencesPerVertex:4,verticesWithDistributedWeights,sourceRootDominantVertices:rootDominantVertices,maximumWeightSumError:outputWeightError,maximumBindPoseMatrixError:maximumBindError,method:'Recovered joint transforms from source inverse binds, corrected the 90° Y skeleton-to-mesh frame offset, and recalculated inverse bind matrices. Repaired source skin attributes with four-weight anatomical distance fields fitted to the existing skeleton landmarks.'},
+    rig:{type:'Recovered Tripo skeleton with Mixamo-named Unity Humanoid body joints',joints:sourceJoints.length,influencesPerVertex:4,verticesWithDistributedWeights,sourceRootDominantVertices:rootDominantVertices,jointWeightCoverage,maximumWeightSumError:outputWeightError,maximumBindPoseMatrixError:maximumBindError,method:'Recovered joint transforms from source inverse binds, corrected the 90° Y skeleton-to-mesh frame offset, and recalculated inverse bind matrices. Repaired source skin attributes with four-weight anatomical distance fields fitted to the existing skeleton landmarks.'},
     motionPose:'All clips begin in a compact warrior guard with lowered upper arms and bent forearms; Idle holds the guard with subtle breathing, locomotion preserves it while swinging limbs, and Attack visibly drives the right arm forward before returning to guard.',
-    textures:runtimeTextures,pbrRange,metallicFactor:material.getMetallicFactor(),roughnessFactor:material.getRoughnessFactor(),pbr:'Retains the starred model base-color, metallic-roughness, and normal maps; maps are capped at 2K runtime resolution. No recolor applied.',animations:tracks,
+     textures:runtimeTextures,pbrRange,metallicFactor:material.getMetallicFactor(),roughnessFactor:material.getRoughnessFactor(),pbr:'Retains the starred model base-color, metallic-roughness, and normal maps; maps are capped at 2K runtime resolution. No recolor applied.',animations:tracks,
+      motionReview:motionAudit,
   },
   placementSuggestion:{tier:'T10-T20',region:'temperate marchland or settled wilderness edge',reason:'Medium humanoid orc warrior silhouette. Validate relative size, aggression, and materials in the normal-camera feature lab before placement.'},
   acceptance:{sourceDesignAudit:false,geometry:true,rig:false,animation:false,textures:false,labAccepted:false,worldIntegrated:false},
@@ -412,8 +562,8 @@ const labAsset = {
   size:{x:(scaledBounds.max[0]-scaledBounds.min[0]),y:(scaledBounds.max[1]-scaledBounds.min[1]),z:(scaledBounds.max[2]-scaledBounds.min[2])},
   base:{x:scaledBounds.min[0],y:scaledBounds.min[1],z:scaledBounds.min[2]},bounds:scaledBounds,groundY:scaledBounds.min[1],triangles:indices.length/3,
   animations:tracks.map((clip)=>clip.name),materials:root.listMaterials().map((entry)=>entry.getName()),
-  sourceProvenance:{author:'Starred Tripo P1 source, inverse-bind skeleton recovery and model-specific skin repair',sourceModelId:starredModelUuid,sourceCardId:cardStorageUuid,sourceFile:sourcePath,sourceSha256:sourceHash,candidateFile:candidatePath,candidateSha256:candidateHash,rigMethod:'Source inverse-bind matrices recovered the 60 joint transforms; detected and corrected their 90° Y frame offset relative to the mesh, then recalculated inverse binds. Mixamo names added to Humanoid body joints; original source vertices, triangles and UVs kept; anatomically gated 4-weight map repaired.',textures:runtimeTextures,candidateStatus:'awaiting-root-lab-review'},
+  sourceProvenance:{author:'Starred Tripo P1 source, inverse-bind skeleton recovery and model-specific skin repair',sourceModelId:starredModelUuid,sourceCardId:cardStorageUuid,sourceFile:sourcePath,sourceSha256:sourceHash,sourcePrompt:'muscular gray orc with spiked leather armor and tusked mouth, barbarian fantasy figure.',candidateFile:candidatePath,candidateSha256:candidateHash,rigMethod:'Source inverse-bind matrices recovered the 60 joint transforms; detected and corrected their 90° Y frame offset relative to the mesh, then recalculated inverse binds. Mixamo names added to Humanoid body joints; original source vertices, triangles and UVs kept; anatomically gated 4-weight map repaired.',textures:runtimeTextures,motionReview:motionAudit,candidateStatus:'awaiting-root-lab-review'},
   acceptance:{assetAudit:false,rigAccepted:false,motionAccepted:false,texturesAccepted:false,labAccepted:false,worldIntegrated:false},
 };
 await writeFile(`${baseDir}/lab-catalog.json`,JSON.stringify({schema:'corealm-lab-asset-candidates/1',files:{[assetId]:candidatePath.split('/').at(-1)},assets:[labAsset]},null,2)+'\n');
-console.log(JSON.stringify({candidatePath,candidateHash,bytes:outputBytes.length,vertices:positions.length/3,triangles:indices.length/3,sourceRootDominantVertices:rootDominantVertices,verticesWithDistributedWeights,skinJoints:sourceJoints.length,maxWeightSumError:outputWeightError,maximumBindPoseMatrixError:maximumBindError,instanceScale,pbrRange,textures:runtimeTextures,clips:tracks},null,2));
+console.log(JSON.stringify({candidatePath,candidateHash,bytes:outputBytes.length,vertices:positions.length/3,triangles:indices.length/3,sourceRootDominantVertices:rootDominantVertices,verticesWithDistributedWeights,skinJoints:sourceJoints.length,maxWeightSumError:outputWeightError,maximumBindPoseMatrixError:maximumBindError,instanceScale,pbrRange,textures:runtimeTextures,clips:tracks,motionReview,serializedMotionReview},null,2));

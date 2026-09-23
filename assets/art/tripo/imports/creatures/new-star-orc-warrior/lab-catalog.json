@@ -20,8 +20,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6709248,
-      "sha256": "8c5d854979c4a4ab1011400b62a51564ef01fb14128dffd4d19cbd20da988005",
+      "bytes": 6720388,
+      "sha256": "fad3e722f7ed2073dcbd50233d05528f97086e99b0dc85a2c78d4e3992e162b5",
       "size": {
         "x": 1.6966796874999999,
         "y": 1.5638672888278962,
@@ -63,8 +63,9 @@
         "sourceCardId": "aef7ab50-0aad-4de6-8f33-6e1a4ec8d407",
         "sourceFile": "assets/art/tripo/exports/45852960-86da-44f7-9030-9b3fe2a1512e.glb",
         "sourceSha256": "4455c0ecff6f8aab48403103b33f284c450cf5d63c8413dd909524f5dc795e6d",
+        "sourcePrompt": "muscular gray orc with spiked leather armor and tusked mouth, barbarian fantasy figure.",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-orc-warrior/orc-warrior-rigged-candidate.glb",
-        "candidateSha256": "8c5d854979c4a4ab1011400b62a51564ef01fb14128dffd4d19cbd20da988005",
+        "candidateSha256": "fad3e722f7ed2073dcbd50233d05528f97086e99b0dc85a2c78d4e3992e162b5",
         "rigMethod": "Source inverse-bind matrices recovered the 60 joint transforms; detected and corrected their 90° Y frame offset relative to the mesh, then recalculated inverse binds. Mixamo names added to Humanoid body joints; original source vertices, triangles and UVs kept; anatomically gated 4-weight map repaired.",
         "textures": [
           {
@@ -72,23 +73,105 @@
             "width": 2048,
             "height": 2048,
             "mime": "image/jpeg",
-            "bytes": 936790
+            "bytes": 936790,
+            "sha256": "97ace7c51d4327c27fa9915393942e04d95e632dbd1d4df659fc56005405bc0f",
+            "sourceSha256": "97ace7c51d4327c27fa9915393942e04d95e632dbd1d4df659fc56005405bc0f"
           },
           {
             "name": "orc+warrior+3d+model_rm.png",
             "width": 2048,
             "height": 2048,
             "mime": "image/png",
-            "bytes": 4627309
+            "bytes": 4627309,
+            "sha256": "45424b29cc0e36fb24e91f3b1cdb146c9f314afa317c3960734d34e877fba106",
+            "sourceSha256": "45424b29cc0e36fb24e91f3b1cdb146c9f314afa317c3960734d34e877fba106"
           },
           {
             "name": "orc+warrior+3d+model_normal.jpg",
             "width": 2048,
             "height": 2048,
             "mime": "image/jpeg",
-            "bytes": 462175
+            "bytes": 462175,
+            "sha256": "2b189a4a116fbdda82735d94db9e947efc599d4ec512c4aad860997986ec01d9",
+            "sourceSha256": "2b189a4a116fbdda82735d94db9e947efc599d4ec512c4aad860997986ec01d9"
           }
         ],
+        "motionReview": {
+          "method": "CPU glTF skinning with serialized clips sampled at 120 Hz plus every authored key time",
+          "sampleRateHz": 120,
+          "groundClearanceMeters": 0.003,
+          "bindPoseGroundY": 0,
+          "clips": [
+            {
+              "name": "Idle",
+              "seconds": 2.4000000953674316,
+              "samples": 292,
+              "minY": 0,
+              "maxY": 1.56246,
+              "heightMeters": 1.56246,
+              "maximumGroundCorrectionMeters": 0,
+              "maxMotionRmsMeters": 0.02359,
+              "grounded": true
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.0199999809265137,
+              "samples": 241,
+              "minY": 0.003,
+              "maxY": 1.63138,
+              "heightMeters": 1.62838,
+              "maximumGroundCorrectionMeters": 0.05582,
+              "maxMotionRmsMeters": 0.25684,
+              "grounded": true
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6800000071525574,
+              "samples": 162,
+              "minY": 0.003,
+              "maxY": 1.64487,
+              "heightMeters": 1.64187,
+              "maximumGroundCorrectionMeters": 0.06042,
+              "maxMotionRmsMeters": 0.28615,
+              "grounded": true
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.8999999761581421,
+              "samples": 211,
+              "minY": 0.003,
+              "maxY": 1.56757,
+              "heightMeters": 1.56457,
+              "maximumGroundCorrectionMeters": 0.0336,
+              "maxMotionRmsMeters": 0.35377,
+              "grounded": true
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.46000000834465027,
+              "samples": 110,
+              "minY": 0.003,
+              "maxY": 1.56671,
+              "heightMeters": 1.56371,
+              "maximumGroundCorrectionMeters": 0.01661,
+              "maxMotionRmsMeters": 0.11506,
+              "grounded": true
+            },
+            {
+              "name": "Death",
+              "seconds": 1.399999976158142,
+              "samples": 326,
+              "minY": 0.003,
+              "maxY": 1.56895,
+              "heightMeters": 1.56595,
+              "maximumGroundCorrectionMeters": 0.35726,
+              "maxMotionRmsMeters": 0.47844,
+              "grounded": true
+            }
+          ],
+          "highestRootCorrectionMeters": 0.35726,
+          "rootCorrectionRisk": "Death needs 0.357 m of root lift; root lab review must confirm the pose still reads cleanly."
+        },
         "candidateStatus": "awaiting-root-lab-review"
       },
       "acceptance": {

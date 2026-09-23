@@ -11,6 +11,7 @@
     "starredModelId": "45852960-86da-44f7-9030-9b3fe2a1512e",
     "starredCardId": "aef7ab50-0aad-4de6-8f33-6e1a4ec8d407",
     "starredDisplayName": "orc warrior 3d model",
+    "prompt": "muscular gray orc with spiked leather armor and tusked mouth, barbarian fantasy figure.",
     "format": "Tripo P1 GLB, 2K texture export",
     "geometry": {
       "vertices": 7103,
@@ -64,8 +65,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-orc-warrior/orc-warrior-rigged-candidate.glb",
-    "sha256": "8c5d854979c4a4ab1011400b62a51564ef01fb14128dffd4d19cbd20da988005",
-    "bytes": 6709248,
+    "sha256": "fad3e722f7ed2073dcbd50233d05528f97086e99b0dc85a2c78d4e3992e162b5",
+    "bytes": 6720388,
     "productionTarget": "game/public/assets/models/creature/creature_redmarch_orc_warrior.glb",
     "geometry": {
       "vertices": 7103,
@@ -105,6 +106,96 @@
       "influencesPerVertex": 4,
       "verticesWithDistributedWeights": 7103,
       "sourceRootDominantVertices": 7101,
+      "jointWeightCoverage": [
+        {
+          "name": "mixamorigHips",
+          "weightedVertices": 853
+        },
+        {
+          "name": "mixamorigSpine",
+          "weightedVertices": 1973
+        },
+        {
+          "name": "mixamorigSpine1",
+          "weightedVertices": 6058
+        },
+        {
+          "name": "mixamorigSpine2",
+          "weightedVertices": 4723
+        },
+        {
+          "name": "mixamorigNeck",
+          "weightedVertices": 1347
+        },
+        {
+          "name": "mixamorigHead",
+          "weightedVertices": 1787
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "weightedVertices": 82
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "weightedVertices": 1407
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "weightedVertices": 1746
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "weightedVertices": 1260
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "weightedVertices": 61
+        },
+        {
+          "name": "mixamorigRightArm",
+          "weightedVertices": 570
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "weightedVertices": 1277
+        },
+        {
+          "name": "mixamorigRightHand",
+          "weightedVertices": 1164
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "weightedVertices": 436
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "weightedVertices": 781
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "weightedVertices": 523
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "weightedVertices": 291
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "weightedVertices": 472
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "weightedVertices": 803
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "weightedVertices": 511
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "weightedVertices": 287
+        }
+      ],
       "maximumWeightSumError": 4.470348358154297e-8,
       "maximumBindPoseMatrixError": 0.000006453108242931993,
       "method": "Recovered joint transforms from source inverse binds, corrected the 90° Y skeleton-to-mesh frame offset, and recalculated inverse bind matrices. Repaired source skin attributes with four-weight anatomical distance fields fitted to the existing skeleton landmarks."
@@ -116,21 +207,27 @@
         "width": 2048,
         "height": 2048,
         "mime": "image/jpeg",
-        "bytes": 936790
+        "bytes": 936790,
+        "sha256": "97ace7c51d4327c27fa9915393942e04d95e632dbd1d4df659fc56005405bc0f",
+        "sourceSha256": "97ace7c51d4327c27fa9915393942e04d95e632dbd1d4df659fc56005405bc0f"
       },
       {
         "name": "orc+warrior+3d+model_rm.png",
         "width": 2048,
         "height": 2048,
         "mime": "image/png",
-        "bytes": 4627309
+        "bytes": 4627309,
+        "sha256": "45424b29cc0e36fb24e91f3b1cdb146c9f314afa317c3960734d34e877fba106",
+        "sourceSha256": "45424b29cc0e36fb24e91f3b1cdb146c9f314afa317c3960734d34e877fba106"
       },
       {
         "name": "orc+warrior+3d+model_normal.jpg",
         "width": 2048,
         "height": 2048,
         "mime": "image/jpeg",
-        "bytes": 462175
+        "bytes": 462175,
+        "sha256": "2b189a4a116fbdda82735d94db9e947efc599d4ec512c4aad860997986ec01d9",
+        "sourceSha256": "2b189a4a116fbdda82735d94db9e947efc599d4ec512c4aad860997986ec01d9"
       }
     ],
     "pbrRange": {
@@ -155,29 +252,105 @@
       {
         "name": "Walk",
         "seconds": 1.02,
-        "channels": 12
+        "channels": 13
       },
       {
         "name": "Run",
         "seconds": 0.68,
-        "channels": 12
+        "channels": 13
       },
       {
         "name": "Attack",
         "seconds": 0.9,
-        "channels": 8
+        "channels": 9
       },
       {
         "name": "Hit",
         "seconds": 0.46,
-        "channels": 10
+        "channels": 11
       },
       {
         "name": "Death",
         "seconds": 1.4,
-        "channels": 12
+        "channels": 13
       }
-    ]
+    ],
+    "motionReview": {
+      "method": "CPU glTF skinning with serialized clips sampled at 120 Hz plus every authored key time",
+      "sampleRateHz": 120,
+      "groundClearanceMeters": 0.003,
+      "bindPoseGroundY": 0,
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 2.4000000953674316,
+          "samples": 292,
+          "minY": 0,
+          "maxY": 1.56246,
+          "heightMeters": 1.56246,
+          "maximumGroundCorrectionMeters": 0,
+          "maxMotionRmsMeters": 0.02359,
+          "grounded": true
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.0199999809265137,
+          "samples": 241,
+          "minY": 0.003,
+          "maxY": 1.63138,
+          "heightMeters": 1.62838,
+          "maximumGroundCorrectionMeters": 0.05582,
+          "maxMotionRmsMeters": 0.25684,
+          "grounded": true
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6800000071525574,
+          "samples": 162,
+          "minY": 0.003,
+          "maxY": 1.64487,
+          "heightMeters": 1.64187,
+          "maximumGroundCorrectionMeters": 0.06042,
+          "maxMotionRmsMeters": 0.28615,
+          "grounded": true
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8999999761581421,
+          "samples": 211,
+          "minY": 0.003,
+          "maxY": 1.56757,
+          "heightMeters": 1.56457,
+          "maximumGroundCorrectionMeters": 0.0336,
+          "maxMotionRmsMeters": 0.35377,
+          "grounded": true
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.46000000834465027,
+          "samples": 110,
+          "minY": 0.003,
+          "maxY": 1.56671,
+          "heightMeters": 1.56371,
+          "maximumGroundCorrectionMeters": 0.01661,
+          "maxMotionRmsMeters": 0.11506,
+          "grounded": true
+        },
+        {
+          "name": "Death",
+          "seconds": 1.399999976158142,
+          "samples": 326,
+          "minY": 0.003,
+          "maxY": 1.56895,
+          "heightMeters": 1.56595,
+          "maximumGroundCorrectionMeters": 0.35726,
+          "maxMotionRmsMeters": 0.47844,
+          "grounded": true
+        }
+      ],
+      "highestRootCorrectionMeters": 0.35726,
+      "rootCorrectionRisk": "Death needs 0.357 m of root lift; root lab review must confirm the pose still reads cleanly."
+    }
   },
   "placementSuggestion": {
     "tier": "T10-T20",
