@@ -3,7 +3,7 @@
   "recordedOn": "2026-09-23",
   "task": "Crosswalk and export-status ledger for five newly starred armor and wizard models assigned to new-stars-export-b.",
   "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
-  "overallStatus": "blocked_chrome_ERR_BLOCKED_BY_CLIENT",
+  "overallStatus": "partial_local_archive",
   "requestedExportSettings": {
     "format": "GLB",
     "textureResolution": "8k Current",
@@ -13,7 +13,7 @@
   "browserBlock": {
     "stage": "Tripo export completed and redirected to the signed tripo-data.rg1.data.tripo3d.com GLB attachment URL; Chrome displayed ERR_BLOCKED_BY_CLIENT.",
     "workaroundAttempted": false,
-    "note": "No blocked page or download restriction was bypassed. The first assigned model was the only export attempted; remaining models were not attempted after the same browser-level block." 
+    "note": "Initial Chrome download was blocked; no restriction was bypassed. A later Tripo UI retry downloaded the first item successfully. Four additional items are not yet recorded locally."
   },
   "localFileCheck": {
     "checkedOn": "2026-09-23",
@@ -21,7 +21,8 @@
       "C:/Users/Borg/Downloads",
       "assets/art/tripo/exports"
     ],
-    "matchingGLBsFound": false
+    "matchingGLBsFound": true,
+    "matchingGLBsCount": 1
   },
   "items": [
     {
@@ -44,11 +45,15 @@
         "textureResolution": "8k Current",
         "exportSkeleton": "enabled in UI; output rig unverified",
         "packUV": false,
-        "status": "blocked_chrome_ERR_BLOCKED_BY_CLIENT",
-        "localFile": null,
+        "status": "archived_verified",
+        "localFile": "assets/art/tripo/exports/32235679-13e4-46ec-8a0a-40ddbecd11d7.glb",
         "archivePath": "assets/art/tripo/exports/32235679-13e4-46ec-8a0a-40ddbecd11d7.glb",
-        "sizeBytes": null,
-        "sha256": null
+        "sizeBytes": 5785552,
+        "sha256": "5968d92b13d6a14624bd740995b4de10f30ce59d0bd7eb826edf24cbef43bc2f",
+        "downloadedFileName": "fantasy+wizard+3d+model (8).glb",
+        "exportedAtLocal": "2026-09-23T05:29:03-05:00",
+        "identificationEvidence": "Unique 05:29 local arrival confirmed for project 32235679-13e4-46ec-8a0a-40ddbecd11d7; 10 fantasy_wizard_3d_model base-color maps average deep reddish-brown, matching the burgundy leather coat prompt.",
+        "settingsApplied": true
       }
     },
     {
