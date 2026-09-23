@@ -1,0 +1,111 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_vesperwing_ravager",
+      "file": "models/wilderness/creature_vesperwing_ravager.glb",
+      "pack": "corealm-starred-wilderness-candidates",
+      "category": "character",
+      "is": "Vesperwing Ravager (starred P1 rig candidate)",
+      "tags": [
+        "creature",
+        "wilderness",
+        "winged",
+        "demon",
+        "T60+",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6598648,
+      "sha256": "7d40bd8107122f52ff4a2121d0d550443d2bb848ebd9af31fa9ad016ed445864",
+      "size": {
+        "x": 2.0582031250000004,
+        "y": 2.1957032561302188,
+        "z": 1.4394532561302187
+      },
+      "base": {
+        "x": -1.0291015625000002,
+        "y": 0,
+        "z": -0.7197266280651093
+      },
+      "bounds": {
+        "min": [
+          -1.0291015625000002,
+          0,
+          -0.7197266280651093
+        ],
+        "max": [
+          1.0291015625000002,
+          2.1957032561302188,
+          0.7197266280651093
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4818,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_dd18f1e9-89c0-4bb0-be5a-c8e75f12f0c7_material"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo P1 Smart Mesh",
+        "cardStorageId": "8aa88436-4da9-47ad-9d6c-be5789a33ce5",
+        "sourceModelId": "c6dd592c-41cc-469a-b889-a3b8182909d4",
+        "sourceFile": "assets/art/tripo/exports/c6dd592c-41cc-469a-b889-a3b8182909d4.glb",
+        "sourceSha256": "0ba042d2ef67f6acb03ca58158c5b306debce1dcfff6539ce948b35d3f9cc871",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-winged-demon/vesperwing-ravager-native-rig-candidate.glb",
+        "candidateSha256": "7d40bd8107122f52ff4a2121d0d550443d2bb848ebd9af31fa9ad016ed445864",
+        "rigMethod": "Replaced root-only skin with 29-joint Unity Generic winged-humanoid rig and anatomically gated four-influence weights. Mesh positions, normals, UVs, indices and authored texture imagery preserved; runtime PBR maps downsampled to 2K.",
+        "sourceRigFailure": "virtually all vertices used Hips with malformed inverse binds",
+        "textures": [
+          {
+            "name": "fantasy+winged+demon+3d+model_basecolor.jpg",
+            "role": "base color (sRGB)",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1087447,
+            "sha256": "8f56e844213388cdfd762db8bebe7e44e54f83f73c262eb67512e8a75f70c829"
+          },
+          {
+            "name": "fantasy+winged+demon+3d+model_rm.png",
+            "role": "packed metallic-roughness (linear; G=roughness, B=metalness)",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3822197,
+            "sha256": "69bca056f84fd55e0644a0cca9e82481688561731232c70684f3dc8e09607a20"
+          },
+          {
+            "name": "fantasy+winged+demon+3d+model_normal.jpg",
+            "role": "tangent-space normal (linear)",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 1002750,
+            "sha256": "4627baf2d88a4cd6d5d5dfd6c5c3fdb542e4def7be462b935f34fbf457c94f54"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_vesperwing_ravager": "vesperwing-ravager-native-rig-candidate.glb"
+  }
+}

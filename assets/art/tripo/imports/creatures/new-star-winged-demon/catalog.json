@@ -1,0 +1,456 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_vesperwing_ravager",
+  "displayName": "Vesperwing Ravager",
+  "tier": "T60+ Wilderness aerial predator; keep above starter and ordinary field creatures",
+  "region": "Wilderness",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/c6dd592c-41cc-469a-b889-a3b8182909d4.glb",
+    "sha256": "0ba042d2ef67f6acb03ca58158c5b306debce1dcfff6539ce948b35d3f9cc871",
+    "bytes": 20092996,
+    "cardStorageId": "8aa88436-4da9-47ad-9d6c-be5789a33ce5",
+    "projectId": "c6dd592c-41cc-469a-b889-a3b8182909d4",
+    "starredCard": true,
+    "generator": "Tripo P1 Smart Mesh, exported from starred source with 8K base color and 4K PBR maps",
+    "geometry": {
+      "vertices": 6990,
+      "triangles": 4818,
+      "bounds": {
+        "min": [
+          -0.4677734375,
+          0,
+          -0.3271484673023224
+        ],
+        "max": [
+          0.4677734375,
+          0.9980469346046448,
+          0.3271484673023224
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "sourceRig": {
+      "joints": 54,
+      "dominantJointHistogram": {
+        "Hips": 6987,
+        "Chest": 3
+      },
+      "rootDominantVertices": 6987,
+      "note": "Tripo output is unusable as exported: virtually every vertex is weighted to Hips, with malformed inverse-bind values. Reconstructed a Y-up Generic winged-humanoid skeleton and distributed weights over existing vertices."
+    },
+    "textures": [
+      {
+        "name": "fantasy+winged+demon+3d+model_basecolor.jpg",
+        "role": "base color (sRGB)",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "bytes": 7294586,
+        "sha256": "42f6a5fd7dae3e6c3dc60a761bfd109be5c7179074969a090ff09d395a5115d1"
+      },
+      {
+        "name": "fantasy+winged+demon+3d+model_rm.png",
+        "role": "packed metallic-roughness (linear; G=roughness, B=metalness)",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/png",
+        "bytes": 11577415,
+        "sha256": "a43b465e6d705e32e6c09677f43a55a89189328525d6d4d56e14c79bb8a992d1"
+      },
+      {
+        "name": "fantasy+winged+demon+3d+model_normal.jpg",
+        "role": "tangent-space normal (linear)",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/jpeg",
+        "bytes": 762081,
+        "sha256": "4a1c0bdf2949f99e4db6f8535d648e6a162876a13f3ad0452cd3a5e588b8aa76"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-winged-demon/vesperwing-ravager-native-rig-candidate.glb",
+    "sha256": "7d40bd8107122f52ff4a2121d0d550443d2bb848ebd9af31fa9ad016ed445864",
+    "bytes": 6598648,
+    "productionTarget": "game/public/assets/models/wilderness/creature_vesperwing_ravager.glb",
+    "geometry": {
+      "vertices": 6990,
+      "triangles": 4818,
+      "positionDelta": 0,
+      "normalDelta": 0,
+      "uvDelta": 0,
+      "indexMismatches": 0,
+      "scale": 2.2,
+      "retopology": false
+    },
+    "rig": {
+      "profile": "Unity-compatible glTF Generic Y-up skeleton; no Humanoid avatar retargeting required",
+      "joints": 29,
+      "hierarchy": {
+        "VesperRoot": null,
+        "Hips": "VesperRoot",
+        "Spine": "Hips",
+        "Chest": "Spine",
+        "Neck": "Chest",
+        "Head": "Neck",
+        "Jaw": "Head",
+        "Shoulder_L": "Chest",
+        "UpperArm_L": "Shoulder_L",
+        "Forearm_L": "UpperArm_L",
+        "Hand_L": "Forearm_L",
+        "UpperLeg_L": "Hips",
+        "LowerLeg_L": "UpperLeg_L",
+        "Foot_L": "LowerLeg_L",
+        "WingRoot_L": "Chest",
+        "WingInner_L": "WingRoot_L",
+        "WingOuter_L": "WingInner_L",
+        "WingTip_L": "WingOuter_L",
+        "Shoulder_R": "Chest",
+        "UpperArm_R": "Shoulder_R",
+        "Forearm_R": "UpperArm_R",
+        "Hand_R": "Forearm_R",
+        "UpperLeg_R": "Hips",
+        "LowerLeg_R": "UpperLeg_R",
+        "Foot_R": "LowerLeg_R",
+        "WingRoot_R": "Chest",
+        "WingInner_R": "WingRoot_R",
+        "WingOuter_R": "WingInner_R",
+        "WingTip_R": "WingOuter_R"
+      },
+      "restPositions": {
+        "VesperRoot": [
+          0,
+          0,
+          0
+        ],
+        "Hips": [
+          0,
+          0.455,
+          0.205
+        ],
+        "Spine": [
+          0,
+          0.535,
+          0.205
+        ],
+        "Chest": [
+          0,
+          0.665,
+          0.19
+        ],
+        "Neck": [
+          0,
+          0.79,
+          0.205
+        ],
+        "Head": [
+          0,
+          0.88,
+          0.215
+        ],
+        "Jaw": [
+          0,
+          0.837,
+          0.27
+        ],
+        "Shoulder_L": [
+          -0.115,
+          0.712,
+          0.174
+        ],
+        "UpperArm_L": [
+          -0.215,
+          0.62,
+          0.2
+        ],
+        "Forearm_L": [
+          -0.315,
+          0.535,
+          0.235
+        ],
+        "Hand_L": [
+          -0.354,
+          0.482,
+          0.255
+        ],
+        "UpperLeg_L": [
+          -0.078,
+          0.285,
+          0.215
+        ],
+        "LowerLeg_L": [
+          -0.075,
+          0.103,
+          0.22
+        ],
+        "Foot_L": [
+          -0.075,
+          0.045,
+          0.285
+        ],
+        "WingRoot_L": [
+          -0.105,
+          0.72,
+          -0.085
+        ],
+        "WingInner_L": [
+          -0.235,
+          0.835,
+          -0.145
+        ],
+        "WingOuter_L": [
+          -0.365,
+          0.875,
+          -0.175
+        ],
+        "WingTip_L": [
+          -0.448,
+          0.72,
+          -0.125
+        ],
+        "Shoulder_R": [
+          0.115,
+          0.712,
+          0.174
+        ],
+        "UpperArm_R": [
+          0.215,
+          0.62,
+          0.2
+        ],
+        "Forearm_R": [
+          0.315,
+          0.535,
+          0.235
+        ],
+        "Hand_R": [
+          0.354,
+          0.482,
+          0.255
+        ],
+        "UpperLeg_R": [
+          0.078,
+          0.285,
+          0.215
+        ],
+        "LowerLeg_R": [
+          0.075,
+          0.103,
+          0.22
+        ],
+        "Foot_R": [
+          0.075,
+          0.045,
+          0.285
+        ],
+        "WingRoot_R": [
+          0.105,
+          0.72,
+          -0.085
+        ],
+        "WingInner_R": [
+          0.235,
+          0.835,
+          -0.145
+        ],
+        "WingOuter_R": [
+          0.365,
+          0.875,
+          -0.175
+        ],
+        "WingTip_R": [
+          0.448,
+          0.72,
+          -0.125
+        ]
+      },
+      "weightedVerticesByJoint": {
+        "VesperRoot": 880,
+        "Hips": 2693,
+        "Spine": 2611,
+        "Chest": 4494,
+        "Neck": 2505,
+        "Head": 1803,
+        "Jaw": 1904,
+        "Shoulder_L": 849,
+        "UpperArm_L": 877,
+        "Forearm_L": 644,
+        "Hand_L": 18,
+        "UpperLeg_L": 1005,
+        "LowerLeg_L": 550,
+        "Foot_L": 301,
+        "WingRoot_L": 1134,
+        "WingInner_L": 64,
+        "WingOuter_L": 21,
+        "WingTip_L": 79,
+        "Shoulder_R": 860,
+        "UpperArm_R": 892,
+        "Forearm_R": 668,
+        "Hand_R": 21,
+        "UpperLeg_R": 938,
+        "LowerLeg_R": 550,
+        "Foot_R": 319,
+        "WingRoot_R": 1110,
+        "WingInner_R": 69,
+        "WingOuter_R": 21,
+        "WingTip_R": 80
+      },
+      "multiWeightedVertexRatio": 1,
+      "maxWeightSumError": 4.470348358154297e-8,
+      "bodyGroupsWithWeights": [
+        "torso",
+        "arm",
+        "leg",
+        "wing"
+      ],
+      "topologyChanged": false,
+      "positionsChanged": false,
+      "normalsChanged": false,
+      "uvChanged": false,
+      "indicesChanged": false
+    },
+    "textures": [
+      {
+        "name": "fantasy+winged+demon+3d+model_basecolor.jpg",
+        "role": "base color (sRGB)",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1087447,
+        "sha256": "8f56e844213388cdfd762db8bebe7e44e54f83f73c262eb67512e8a75f70c829"
+      },
+      {
+        "name": "fantasy+winged+demon+3d+model_rm.png",
+        "role": "packed metallic-roughness (linear; G=roughness, B=metalness)",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 3822197,
+        "sha256": "69bca056f84fd55e0644a0cca9e82481688561731232c70684f3dc8e09607a20"
+      },
+      {
+        "name": "fantasy+winged+demon+3d+model_normal.jpg",
+        "role": "tangent-space normal (linear)",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 1002750,
+        "sha256": "4627baf2d88a4cd6d5d5dfd6c5c3fdb542e4def7be462b935f34fbf457c94f54"
+      }
+    ],
+    "pbrChannels": {
+      "roughnessRange": [
+        0.10588235294117647,
+        0.6235294117647059
+      ],
+      "metallicRange": [
+        0,
+        0.12549019607843137
+      ],
+      "materialFactors": {
+        "roughness": 1,
+        "metalness": 1
+      }
+    },
+    "animationSlots": [
+      {
+        "name": "Idle",
+        "seconds": 1.2,
+        "channels": 15,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "targetsOnlySkinJoints": true,
+        "intent": "Low hover above ground with restrained wing beats, subtle head scan and chest motion."
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 20,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "targetsOnlySkinJoints": true,
+        "intent": "Grounded measured stalk with opposing knees, arms and shoulder counter-swing; raised wings balance the gait."
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 18,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "targetsOnlySkinJoints": true,
+        "intent": "Accelerating forward with faster wing beats, leg tuck and small takeoff lift that returns to ground."
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 18,
+        "paths": [
+          "rotation"
+        ],
+        "targetsOnlySkinJoints": true,
+        "intent": "One heavy forward right-claw sweep with chest and head follow-through, left wing braced wide."
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 13,
+        "paths": [
+          "rotation"
+        ],
+        "targetsOnlySkinJoints": true,
+        "intent": "Brief torso recoil, head snap and uneven wing stutter."
+      },
+      {
+        "name": "Death",
+        "seconds": 1.48,
+        "channels": 21,
+        "paths": [
+          "rotation",
+          "translation"
+        ],
+        "targetsOnlySkinJoints": true,
+        "intent": "Knees buckle, torso slumps and wings fold while the base remains at the ground plane."
+      }
+    ],
+    "groundAndHover": {
+      "bindPoseGroundY": 0,
+      "idleRootOffsetY": [
+        0.058,
+        0.082
+      ],
+      "walkRootOffsetY": [
+        0,
+        0
+      ],
+      "runRootOffsetY": [
+        0,
+        0.035
+      ],
+      "deathRootOffsetY": [
+        0,
+        0.024
+      ],
+      "flightStyle": "hovering alert Idle, grounded stalking Walk, short takeoff lift on Run"
+    }
+  },
+  "acceptance": {
+    "sourceDesignReview": false,
+    "rig": true,
+    "animation": true,
+    "pbr": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

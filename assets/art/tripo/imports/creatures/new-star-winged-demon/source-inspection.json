@@ -1,0 +1,417 @@
+{
+  "source": {
+    "file": "assets/art/tripo/exports/c6dd592c-41cc-469a-b889-a3b8182909d4.glb",
+    "sha256": "0ba042d2ef67f6acb03ca58158c5b306debce1dcfff6539ce948b35d3f9cc871",
+    "bytes": 20092996
+  },
+  "scene": "",
+  "meshCount": 1,
+  "primitiveCount": 1,
+  "meshNode": "tripo_node_dd18f1e9-89c0-4bb0-be5a-c8e75f12f0c7",
+  "vertices": 6990,
+  "triangles": 4818,
+  "bounds": {
+    "min": [
+      -0.4677734375,
+      0,
+      -0.3271484673023224
+    ],
+    "max": [
+      0.4677734375,
+      0.9980469346046448,
+      0.3271484673023224
+    ],
+    "size": [
+      0.935546875,
+      0.9980469346046448,
+      0.6542969346046448
+    ]
+  },
+  "normals": {
+    "min": 0.9999999228156,
+    "max": 1.000000145974035,
+    "mean": 1.0000000381494314
+  },
+  "uvPairs": 6990,
+  "skin": {
+    "name": "skin",
+    "joints": 54,
+    "weightedVertices": 6990,
+    "perJoint": [
+      {
+        "name": "Hips",
+        "parent": "Armature",
+        "vertices": 6987,
+        "totalWeight": 6987
+      },
+      {
+        "name": "Spine",
+        "parent": "Hips",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Chest",
+        "parent": "Spine",
+        "vertices": 3,
+        "totalWeight": 3
+      },
+      {
+        "name": "UpperChest",
+        "parent": "Chest",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Neck",
+        "parent": "UpperChest",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Neck_Twist_A",
+        "parent": "Neck",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Head",
+        "parent": "Neck",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_Eye",
+        "parent": "Head",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_Eye",
+        "parent": "Head",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_Shoulder",
+        "parent": "UpperChest",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_UpperArm",
+        "parent": "Left_Shoulder",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_LowerArm",
+        "parent": "Left_UpperArm",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_Hand",
+        "parent": "Left_LowerArm",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_ThumbProximal",
+        "parent": "Left_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_ThumbIntermediate",
+        "parent": "Left_ThumbProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_ThumbDistal",
+        "parent": "Left_ThumbIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_ThumbDistalEnd",
+        "parent": "Left_ThumbDistal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_IndexProximal",
+        "parent": "Left_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_IndexIntermediate",
+        "parent": "Left_IndexProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_IndexDistal",
+        "parent": "Left_IndexIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_IndexDistalEnd",
+        "parent": "Left_IndexDistal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_MiddleProximal",
+        "parent": "Left_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_MiddleIntermediate",
+        "parent": "Left_MiddleProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_MiddleDistal",
+        "parent": "Left_MiddleIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_RingProximal",
+        "parent": "Left_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_PinkyProximal",
+        "parent": "Left_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_PinkyIntermediate",
+        "parent": "Left_PinkyProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_PinkyDistal",
+        "parent": "Left_PinkyIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_Shoulder",
+        "parent": "UpperChest",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_UpperArm",
+        "parent": "Right_Shoulder",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_LowerArm",
+        "parent": "Right_UpperArm",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_Hand",
+        "parent": "Right_LowerArm",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_ThumbProximal",
+        "parent": "Right_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_ThumbIntermediate",
+        "parent": "Right_ThumbProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_ThumbDistal",
+        "parent": "Right_ThumbIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_IndexProximal",
+        "parent": "Right_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_IndexIntermediate",
+        "parent": "Right_IndexProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_IndexDistal",
+        "parent": "Right_IndexIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_MiddleProximal",
+        "parent": "Right_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_MiddleIntermediate",
+        "parent": "Right_MiddleProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_MiddleDistal",
+        "parent": "Right_MiddleIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_MiddleDistalEnd",
+        "parent": "Right_MiddleDistal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_RingProximal",
+        "parent": "Right_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_PinkyProximal",
+        "parent": "Right_Hand",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_PinkyIntermediate",
+        "parent": "Right_PinkyProximal",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_PinkyDistal",
+        "parent": "Right_PinkyIntermediate",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_UpperLeg",
+        "parent": "Hips",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_LowerLeg",
+        "parent": "Left_UpperLeg",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_Foot",
+        "parent": "Left_LowerLeg",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Left_Toes",
+        "parent": "Left_Foot",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_UpperLeg",
+        "parent": "Hips",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_LowerLeg",
+        "parent": "Right_UpperLeg",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_Foot",
+        "parent": "Right_LowerLeg",
+        "vertices": 0,
+        "totalWeight": 0
+      },
+      {
+        "name": "Right_Toes",
+        "parent": "Right_Foot",
+        "vertices": 0,
+        "totalWeight": 0
+      }
+    ],
+    "maxAbsInverseBind": 2.1035366171874034e+37,
+    "maxAbsInverseBindFinite": true
+  },
+  "animations": [],
+  "materials": [
+    {
+      "name": "tripo_node_dd18f1e9-89c0-4bb0-be5a-c8e75f12f0c7_material",
+      "baseColor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metalness": 1,
+      "roughness": 1,
+      "baseTexture": "fantasy+winged+demon+3d+model_basecolor.jpg",
+      "mrTexture": "fantasy+winged+demon+3d+model_rm.png",
+      "normalTexture": "fantasy+winged+demon+3d+model_normal.jpg",
+      "emissive": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "fantasy+winged+demon+3d+model_basecolor.jpg",
+      "mime": "image/jpeg",
+      "width": 8192,
+      "height": 8192,
+      "bytes": 7294586,
+      "sha256": "42f6a5fd7dae3e6c3dc60a761bfd109be5c7179074969a090ff09d395a5115d1"
+    },
+    {
+      "name": "fantasy+winged+demon+3d+model_rm.png",
+      "mime": "image/png",
+      "width": 4096,
+      "height": 4096,
+      "bytes": 11577415,
+      "sha256": "a43b465e6d705e32e6c09677f43a55a89189328525d6d4d56e14c79bb8a992d1"
+    },
+    {
+      "name": "fantasy+winged+demon+3d+model_normal.jpg",
+      "mime": "image/jpeg",
+      "width": 4096,
+      "height": 4096,
+      "bytes": 762081,
+      "sha256": "4a1c0bdf2949f99e4db6f8535d648e6a162876a13f3ad0452cd3a5e588b8aa76"
+    }
+  ]
+}
