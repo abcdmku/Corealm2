@@ -1,0 +1,281 @@
+{
+  "schema": "corealm-creature-family-candidates/1",
+  "variants": [
+    {
+      "id": "creature_voidstone_colossus",
+      "name": "Voidstone Colossus",
+      "status": "awaiting-root-lab-review",
+      "sourceFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/volcanic-titan-native-rig-candidate.glb",
+      "sourceSha256": "bb1ed4a448d1e30257e43e3ba2e640712a7cc8d9f99b23827f77f6d576b8dfa5",
+      "sourceModelId": "31b1d1f3-ebd9-4c67-b3f8-846da3211c81",
+      "sourceCardId": "a02869b7-f9ba-456a-80b0-1d9b6d6770f1",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/voidstone-colossus-candidate.glb",
+      "sha256": "bf7b02c8559030dad7c7743e1f82cfba328d4a9120856e3e0efb4731665f036f",
+      "bytes": 16693008,
+      "atlas": {
+        "file": "assets/art/tripo/imports/creatures/audit-volcanic-golems/textures/voidstone-basecolor.png",
+        "sha256": "f01bf98227cf1e22c4ed1fb8da7ccd23a8f6ab8dd3f1a153e98f97f0408728fc",
+        "runtimeSha256": "050732ca75bd0412cbdd474e80577d4c0ee1be4fed0b6b9cc037f04974ba2140",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "method": "imagegen edit of source UV atlas"
+      },
+      "geometry": {
+        "vertices": 5897,
+        "triangles": 8502,
+        "originalPositionsPreserved": true,
+        "addedGeometry": false
+      },
+      "rig": {
+        "joints": 22,
+        "distributedVertices": 5897,
+        "maximumWeightSumError": 4.470348358154297e-8
+      },
+      "size": {
+        "x": 2.289845309381237,
+        "y": 2.8,
+        "z": 0.9661676646706586
+      },
+      "bounds": {
+        "min": [
+          -1.1449226546906186,
+          0,
+          -0.4830838323353293
+        ],
+        "max": [
+          1.1449226546906186,
+          2.8,
+          0.4830838323353293
+        ]
+      },
+      "death": {
+        "seconds": 1.8200000524520874,
+        "settleAtSeconds": 0.69,
+        "holdSeconds": 1.1300000524520875,
+        "samples": 111,
+        "initial": {
+          "minY": 0.0029999915639652383,
+          "maxY": 2.8029999279448803
+        },
+        "final": {
+          "minY": 0.003000014478167893,
+          "maxY": 1.0898333379106284
+        },
+        "heightAtOneSecond": 1.0868333234324605,
+        "finalHeightRatio": 0.3881547671880399,
+        "floorRange": [
+          0.002999954494968796,
+          0.003000059519405585
+        ]
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3,
+          "channels": 3
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3200000524520874,
+          "channels": 10
+        },
+        {
+          "name": "Run",
+          "seconds": 1.0399999618530273,
+          "channels": 10
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2400000095367432,
+          "channels": 9
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5199999809265137,
+          "channels": 5
+        },
+        {
+          "name": "Death",
+          "seconds": 1.8200000524520874,
+          "channels": 9
+        }
+      ],
+      "textures": [
+        {
+          "name": "Voidstone Colossus layered image-generated atlas",
+          "mimeType": "image/png",
+          "bytes": 9053685,
+          "sha256": "050732ca75bd0412cbdd474e80577d4c0ee1be4fed0b6b9cc037f04974ba2140"
+        },
+        {
+          "name": "volcanic+titan+3d+model_Clone1_rm.png",
+          "mimeType": "image/png",
+          "bytes": 3447534,
+          "sha256": "06dc444e4fa5b215295106f8f81ac4c59f6269e3289dd030ba1eb9b8b5e2b210"
+        },
+        {
+          "name": "volcanic+titan+3d+model_Clone1_normal.jpg",
+          "mimeType": "image/png",
+          "bytes": 3080625,
+          "sha256": "be7d4616fef8f5578252cfa72a5342e1022c88834fd9ac80aac42c803521194e"
+        },
+        {
+          "name": "Voidstone Colossus restrained source-aligned emission",
+          "mimeType": "image/png",
+          "bytes": 502010,
+          "sha256": "783565b0fed86473f35d75cb6a3341ac1faf93d4111cda92bb9bb7debb5ad68f"
+        }
+      ],
+      "identity": "Angular black-crystal void titan with a readable face and sparse violet starlight fractures.",
+      "scope": "Also used by the Hollow Star 233 boss group; that encounter retains its own content identity.",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_ashseal_warden",
+      "name": "Ashseal Warden",
+      "status": "awaiting-root-lab-review",
+      "sourceFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/cooling-crust-golem-native-rig-candidate.glb",
+      "sourceSha256": "6f7c57b19a7cedaf5b4c17a02a6211a3215a8c034a967468dfd6813f3d29f067",
+      "sourceModelId": "dd3fdc88-4fd6-49ff-955f-ed85c4085d41",
+      "sourceCardId": "7bc8f67b-072b-48d0-b11b-05325bf66bc2",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/ashseal-warden-candidate.glb",
+      "sha256": "410735d0deb4efe5d2214f8b79cf54beb85f50bc3d2cb1b1262e2223b9fa2025",
+      "bytes": 16837344,
+      "atlas": {
+        "file": "assets/art/tripo/imports/creatures/audit-volcanic-golems/textures/ashseal-basecolor.png",
+        "sha256": "cdb79c9a1314bcda7c5139d09609016a705cd3fe4f330fe056d2c0de55995bb7",
+        "runtimeSha256": "1ca4ba8236ca8054df29f8f84247e34308462f04bb521cb46c46812627821994",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "method": "imagegen edit of source UV atlas"
+      },
+      "geometry": {
+        "vertices": 5643,
+        "triangles": 8467,
+        "originalPositionsPreserved": true,
+        "addedGeometry": false
+      },
+      "rig": {
+        "joints": 22,
+        "distributedVertices": 5643,
+        "maximumWeightSumError": 4.470348358154297e-8
+      },
+      "size": {
+        "x": 1.9633516784139549,
+        "y": 1.9,
+        "z": 0.827974638730649
+      },
+      "bounds": {
+        "min": [
+          -0.9816758392069774,
+          0,
+          -0.4139873193653245
+        ],
+        "max": [
+          0.9816758392069774,
+          1.9,
+          0.4139873193653245
+        ]
+      },
+      "death": {
+        "seconds": 1.8200000524520874,
+        "settleAtSeconds": 0.69,
+        "holdSeconds": 1.1300000524520875,
+        "samples": 111,
+        "initial": {
+          "minY": 0.0029999780330502066,
+          "maxY": 1.9029999389774384
+        },
+        "final": {
+          "minY": 0.0029999917976559908,
+          "maxY": 0.8985394222109186
+        },
+        "heightAtOneSecond": 0.8955394304132627,
+        "finalHeightRatio": 0.4713365520113685,
+        "floorRange": [
+          0.0029999630779160603,
+          0.0030000616753957567
+        ]
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3,
+          "channels": 3
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1399999856948853,
+          "channels": 10
+        },
+        {
+          "name": "Run",
+          "seconds": 0.8799999952316284,
+          "channels": 10
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2400000095367432,
+          "channels": 9
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5199999809265137,
+          "channels": 5
+        },
+        {
+          "name": "Death",
+          "seconds": 1.8200000524520874,
+          "channels": 9
+        }
+      ],
+      "textures": [
+        {
+          "name": "Ashseal Warden layered image-generated atlas",
+          "mimeType": "image/png",
+          "bytes": 9562503,
+          "sha256": "1ca4ba8236ca8054df29f8f84247e34308462f04bb521cb46c46812627821994"
+        },
+        {
+          "name": "lava+golem+3d+model_Clone1_rm.png",
+          "mimeType": "image/png",
+          "bytes": 4107033,
+          "sha256": "e77d941b5dbd1b386dd2c7fee7b19db4a20be96395089c7078495820ebddbba2"
+        },
+        {
+          "name": "lava+golem+3d+model_Clone1_normal.jpg",
+          "mimeType": "image/png",
+          "bytes": 2377010,
+          "sha256": "dbd5df0fbbfcde9d9a43e3b5763d1c62404fb0e30f65eb82a7237488e52de9c4"
+        },
+        {
+          "name": "Ashseal Warden restrained source-aligned emission",
+          "mimeType": "image/png",
+          "bytes": 341789,
+          "sha256": "46b0b7baa750afad77c98810deba554d2030b2c0273036de88ce034dad8bbf34"
+        }
+      ],
+      "identity": "Broad cooling-crust stone golem with a readable face, layered char and subtle sealing marks.",
+      "scope": "One ordinary Ashseal Warden identity.",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

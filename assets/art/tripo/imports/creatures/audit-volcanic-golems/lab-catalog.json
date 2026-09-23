@@ -1,0 +1,164 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_voidstone_colossus",
+      "file": "models/creature/creature_voidstone_colossus.glb",
+      "pack": "corealm-tripo-audit-volcanic-golems",
+      "category": "character",
+      "is": "Voidstone Colossus",
+      "tags": [
+        "creature",
+        "colossus",
+        "black-crystal",
+        "void",
+        "starred",
+        "skinned",
+        "image-generated-texture"
+      ],
+      "bytes": 16693008,
+      "sha256": "bf7b02c8559030dad7c7743e1f82cfba328d4a9120856e3e0efb4731665f036f",
+      "size": {
+        "x": 2.289845309381237,
+        "y": 2.8,
+        "z": 0.9661676646706586
+      },
+      "base": {
+        "x": -1.1449226546906186,
+        "y": 0,
+        "z": -0.4830838323353293
+      },
+      "bounds": {
+        "min": [
+          -1.1449226546906186,
+          0,
+          -0.4830838323353293
+        ],
+        "max": [
+          1.1449226546906186,
+          2.8,
+          0.4830838323353293
+        ]
+      },
+      "groundY": 0,
+      "triangles": 8502,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Voidstone Colossus layered PBR"
+      ],
+      "walkClipSeconds": 1.3200000524520874,
+      "runClipSeconds": 1.0399999618530273,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/volcanic-titan-native-rig-candidate.glb",
+        "sourceSha256": "bb1ed4a448d1e30257e43e3ba2e640712a7cc8d9f99b23827f77f6d576b8dfa5",
+        "sourceModelId": "31b1d1f3-ebd9-4c67-b3f8-846da3211c81",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/textures/voidstone-basecolor.png",
+        "atlasSha256": "f01bf98227cf1e22c4ed1fb8da7ccd23a8f6ab8dd3f1a153e98f97f0408728fc",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/voidstone-colossus-candidate.glb",
+        "candidateSha256": "bf7b02c8559030dad7c7743e1f82cfba328d4a9120856e3e0efb4731665f036f"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_ashseal_warden",
+      "file": "models/creature/creature_ashseal_warden.glb",
+      "pack": "corealm-tripo-audit-volcanic-golems",
+      "category": "character",
+      "is": "Ashseal Warden",
+      "tags": [
+        "creature",
+        "golem",
+        "ashseal",
+        "charred-stone",
+        "cooling-crust",
+        "starred",
+        "skinned",
+        "image-generated-texture"
+      ],
+      "bytes": 16837344,
+      "sha256": "410735d0deb4efe5d2214f8b79cf54beb85f50bc3d2cb1b1262e2223b9fa2025",
+      "size": {
+        "x": 1.9633516784139549,
+        "y": 1.9,
+        "z": 0.827974638730649
+      },
+      "base": {
+        "x": -0.9816758392069774,
+        "y": 0,
+        "z": -0.4139873193653245
+      },
+      "bounds": {
+        "min": [
+          -0.9816758392069774,
+          0,
+          -0.4139873193653245
+        ],
+        "max": [
+          0.9816758392069774,
+          1.9,
+          0.4139873193653245
+        ]
+      },
+      "groundY": 0,
+      "triangles": 8467,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Ashseal Warden layered PBR"
+      ],
+      "walkClipSeconds": 1.1399999856948853,
+      "runClipSeconds": 0.8799999952316284,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/cooling-crust-golem-native-rig-candidate.glb",
+        "sourceSha256": "6f7c57b19a7cedaf5b4c17a02a6211a3215a8c034a967468dfd6813f3d29f067",
+        "sourceModelId": "dd3fdc88-4fd6-49ff-955f-ed85c4085d41",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/textures/ashseal-basecolor.png",
+        "atlasSha256": "cdb79c9a1314bcda7c5139d09609016a705cd3fe4f330fe056d2c0de55995bb7",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-volcanic-golems/ashseal-warden-candidate.glb",
+        "candidateSha256": "410735d0deb4efe5d2214f8b79cf54beb85f50bc3d2cb1b1262e2223b9fa2025"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_voidstone_colossus": "voidstone-colossus-candidate.glb",
+    "creature_ashseal_warden": "ashseal-warden-candidate.glb"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-user-tripo-rock-golem-quarry-warden",
+    "name": "Corealm User Rock Golem Quarry Warden",
+    "author": "User / Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-rock-golem/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "dff4b920d289032c9d8736e0945fb9765abff0be8a1e1c004281c48c820ac76c"
+  },
+  "assets": [
+    {
+      "id": "creature_boss_ordrun",
+      "file": "models/creature/creature_boss_ordrun.glb",
+      "pack": "corealm-user-tripo-rock-golem-quarry-warden",
+      "category": "character",
+      "is": "Quarry Warden",
+      "tags": [
+        "creature",
+        "boss",
+        "quarrykeeper",
+        "ordrun",
+        "stone",
+        "golem",
+        "user-supplied",
+        "tripo"
+      ],
+      "bytes": 6379036,
+      "sha256": "e7cddf2be93661efc2fed0ed7632064f7f4f50bb588717a940a73368ec62f083",
+      "size": {
+        "x": 4.111953370571136,
+        "y": 2.9210154381805737,
+        "z": 1.2472655022144319
+      },
+      "base": {
+        "x": -2.0559772992134095,
+        "y": -3.0432284631842776e-7,
+        "z": -0.6236326897144318
+      },
+      "bounds": {
+        "min": [
+          -2.0559772992134095,
+          -3.0432284631842776e-7,
+          -0.6236326897144318
+        ],
+        "max": [
+          2.055976071357727,
+          2.9210151338577273,
+          0.6236328125
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4771,
+      "vertices": 7424,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_bbd22f72-6f7c-40b1-8994-12e1fd1c0674"
+      ],
+      "walkClipSeconds": 1.08,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.02,
+      "contactNormalized": 0.4215686274509804,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": "definition-speed; authored in-place animation",
+      "metadata": {
+        "is": "User-supplied stone-skinned golem",
+        "walkClipSeconds": 1.08,
+        "runClipSeconds": 0.72,
+        "attackSeconds": 1.02,
+        "contactNormalized": 0.4215686274509804,
+        "contactSeconds": 0.43,
+        "contactBasis": "Authored forward right-arm crushing punch, chest drive and +Z hip lunge peak at 0.43 s.",
+        "gamePresentationScale": 0.8691519590640763,
+        "renderedIdleHeightMeters": 2.5178247482043066
+      },
+      "sourceProvenance": {
+        "author": "User-supplied rigged Tripo GLB",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-rock-golem/rock-golem-user-original.glb",
+        "sourceSha256": "372e1318cb41ba5008699dc8a9b0300fbb62e1a9b20441dd2b36acb68753bc80",
+        "sourceBytes": 6344616,
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rock-golem/quarry-warden-user-rock-golem-candidate.glb",
+        "candidateSha256": "e7cddf2be93661efc2fed0ed7632064f7f4f50bb588717a940a73368ec62f083",
+        "rigMethod": "Kept original 67-joint skin, four influence slots, source weights and bind matrices; authored eight action clips on existing skeleton.",
+        "geometryPreserved": true,
+        "pbrTexturesPreserved": true,
+        "textures": [
+          {
+            "name": "tripo_image_bbd22f72-6f7c-40b1-8994-12e1fd1c0674_2",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 947841,
+            "sha256": "3e16bea9730f3d92a380fb205413275ca8e9adf78a8d97f5a6a81bc74163843f"
+          },
+          {
+            "name": "tripo_image_bbd22f72-6f7c-40b1-8994-12e1fd1c0674_0",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1434269,
+            "sha256": "5621d05746966041a6810cb43a29412e580da6ba8d0cec54d37ed8cf0689be7c"
+          },
+          {
+            "name": "tripo_image_bbd22f72-6f7c-40b1-8994-12e1fd1c0674_1",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 3524391,
+            "sha256": "e07ae36ff193838e9bbfa492940fc7388d2715444fa1b1c89b54d2409264cab6"
+          }
+        ],
+        "nativeScale": 4.12,
+        "floorCorrectionGenerator": "assets/art/tripo/imports/creatures/audit-user-rock-golem/audit-motion.mjs",
+        "floorCorrectionSha256": "9512709901f4b7b01c59dd59de6ecab242082e5d0c72be0a0776aaafddd13a39",
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-rock-golem/motion-audit.json",
+        "cpuMotionSamplesPerClip": 193,
+        "deathFinalHeightRatio": 0.56981351290243,
+        "maximumPenetrationMeters": 0
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rock-golem/quarry-warden-user-rock-golem-candidate.glb"
+    }
+  ],
+  "files": {
+    "creature_boss_ordrun": "C:/Users/Borg/Documents/GitHub/Corealm2/assets/art/tripo/imports/creatures/audit-user-rock-golem/quarry-warden-user-rock-golem-candidate.glb"
+  }
+}

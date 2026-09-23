@@ -1,0 +1,230 @@
+{
+  "schema": "corealm-creature-family-candidates/1",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-native-rig-candidate.glb",
+    "sha256": "b27a5ac2272d822a9d6457399238f9b9a1eba5b131c089a97a493cad9c25de16",
+    "bytes": 14370932,
+    "tripoModelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+    "rawExport": "assets/art/tripo/exports/corealm_strata_delver_707c39cd_8k_rigged.glb",
+    "rawExportSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
+    "originalBaseColor": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-basecolor-2k.jpg",
+    "originalNormal": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-normal-2k.png",
+    "originalOrm": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-orm-2k.png"
+  },
+  "variants": [
+    {
+      "id": "creature_slag_crawler",
+      "name": "Slag Crawler",
+      "status": "awaiting-root-lab-review",
+      "sourceFile": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-native-rig-candidate.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-delver-family/slag-crawler-candidate.glb",
+      "sha256": "0c2f33f44e6792a7e2f03eaeb8883dc25e9444db175672184551c5efcecb7154",
+      "bytes": 22020900,
+      "atlas": {
+        "file": "assets/art/tripo/imports/creatures/audit-delver-family/textures/slag-basecolor.png",
+        "sourceSha256": "8bdac782c8efd4792c4e730a865dbf96de89df371e576da3151a5518078f81f8",
+        "runtimeSha256": "b68ae57cc2d0b140802de503e862fa25cce7639369c4da2d7ab80826d9cc39f4",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "method": "imagegen edit of source UV atlas"
+      },
+      "geometry": {
+        "sourceVertices": 3238,
+        "sourceTriangles": 5310,
+        "addedPlateTriangles": 0,
+        "uvLayoutPreserved": true
+      },
+      "rig": {
+        "vertices": 3238,
+        "joints": 10,
+        "distributedVertices": 2520,
+        "rootDominatedVertices": 0,
+        "maximumWeightSumError": 4.470348358154297e-8
+      },
+      "uniformScale": 1.3153968237547713,
+      "bodyHeight": 0.72,
+      "bounds": {
+        "min": [
+          -0.39982154432975836,
+          0,
+          -0.6573772700747111
+        ],
+        "max": [
+          0.39982154432975836,
+          0.72,
+          0.6573772700747111
+        ]
+      },
+      "size": {
+        "x": 0.7996430886595167,
+        "y": 0.72,
+        "z": 1.3147545401494223
+      },
+      "textures": [
+        {
+          "name": "Slag Crawler layered image-generated atlas",
+          "mimeType": "image/png",
+          "bytes": 9863715,
+          "sha256": "b68ae57cc2d0b140802de503e862fa25cce7639369c4da2d7ab80826d9cc39f4"
+        },
+        {
+          "name": "Strata Delver 2K image-derived stone normal",
+          "mimeType": "image/png",
+          "bytes": 8642616,
+          "sha256": "8a3ed17b05ac95bfbfbc0ce88a3493d84e6f006e55035e6b219fd4b981bf88cb"
+        },
+        {
+          "name": "Strata Delver 2K occlusion-roughness-metallic",
+          "mimeType": "image/png",
+          "bytes": 3160169,
+          "sha256": "782ee0a7ca0832444bd4cf4be258d14eef79817d253d47f4f8feb5f78d047988"
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.200000047683716
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.5199999809265137
+        },
+        {
+          "name": "Run",
+          "seconds": 0.8799999952316284
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.7799999713897705
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.46000000834465027
+        },
+        {
+          "name": "Death",
+          "seconds": 1.7200000286102295
+        }
+      ],
+      "identity": "Young compact mineral crawler with cooling slag crust, soot and fine molten seams.",
+      "intendedTier": "roughly level 20-28",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_cinderback_crag",
+      "name": "Cinderback Crag",
+      "status": "awaiting-root-lab-review",
+      "sourceFile": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-native-rig-candidate.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-delver-family/cinderback-crag-candidate.glb",
+      "sha256": "e73c4934d6c140fbe1b3eb247cfd47853ec0e6da505b5e7a7c67444ef92ee1fb",
+      "bytes": 22454584,
+      "atlas": {
+        "file": "assets/art/tripo/imports/creatures/audit-delver-family/textures/crag-basecolor.png",
+        "sourceSha256": "ac86829568bd072e5b6ef3e4aa41638d254e652e19d4f7f74dae6b0d21c438ff",
+        "runtimeSha256": "e30cc5a817aab299f1d6fc0e654677c2b8959133545420ff597473a360cfac48",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "method": "imagegen edit of source UV atlas"
+      },
+      "geometry": {
+        "sourceVertices": 3238,
+        "sourceTriangles": 5310,
+        "addedPlateTriangles": 0,
+        "uvLayoutPreserved": true
+      },
+      "rig": {
+        "vertices": 3238,
+        "joints": 10,
+        "distributedVertices": 2520,
+        "rootDominatedVertices": 0,
+        "maximumWeightSumError": 4.470348358154297e-8
+      },
+      "uniformScale": 3.1057980560876546,
+      "bodyHeight": 1.7,
+      "bounds": {
+        "min": [
+          -0.9440230907785961,
+          0,
+          -1.5521407765652904
+        ],
+        "max": [
+          0.9440230907785961,
+          1.7,
+          1.5521407765652904
+        ]
+      },
+      "size": {
+        "x": 1.8880461815571923,
+        "y": 1.7,
+        "z": 3.1042815531305807
+      },
+      "textures": [
+        {
+          "name": "Cinderback Crag layered image-generated atlas",
+          "mimeType": "image/png",
+          "bytes": 10297572,
+          "sha256": "e30cc5a817aab299f1d6fc0e654677c2b8959133545420ff597473a360cfac48"
+        },
+        {
+          "name": "Strata Delver 2K image-derived stone normal",
+          "mimeType": "image/png",
+          "bytes": 8642616,
+          "sha256": "8a3ed17b05ac95bfbfbc0ce88a3493d84e6f006e55035e6b219fd4b981bf88cb"
+        },
+        {
+          "name": "Strata Delver 2K occlusion-roughness-metallic",
+          "mimeType": "image/png",
+          "bytes": 3160169,
+          "sha256": "782ee0a7ca0832444bd4cf4be258d14eef79817d253d47f4f8feb5f78d047988"
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 4
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.899999976158142
+        },
+        {
+          "name": "Run",
+          "seconds": 1.100000023841858
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.9749999642372131
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.574999988079071
+        },
+        {
+          "name": "Death",
+          "seconds": 2.1500000953674316
+        }
+      ],
+      "identity": "Mature heavy mineral crawler with naturally layered basalt ridges and deep ember fissures.",
+      "intendedTier": "roughly level 70-90",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

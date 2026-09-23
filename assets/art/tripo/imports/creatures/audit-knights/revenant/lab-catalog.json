@@ -1,0 +1,142 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_revenant",
+      "file": "models/creature/creature_revenant.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Waygrave Warden",
+      "tags": [
+        "creature",
+        "humanoid",
+        "undead",
+        "wilderness",
+        "T50",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 9510856,
+      "sha256": "f488e43a7fb4d9af40a5c8f4b8f62d161aab839199c961ab0f14ae64a9009b63",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-knights/revenant/waygrave-warden-native-rig.glb",
+      "size": {
+        "x": 0.8951904296875001,
+        "y": 1.8490965694189072,
+        "z": 0.46340332031250003
+      },
+      "base": {
+        "x": -0.44759521484375003,
+        "y": 0,
+        "z": -0.23170166015625002
+      },
+      "bounds": {
+        "min": [
+          -0.44759521484375003,
+          0,
+          -0.23170166015625002
+        ],
+        "max": [
+          0.44759521484375003,
+          1.8490965694189072,
+          0.23170166015625002
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5281,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_ea698eea-c8db-4411-bf58-be20d0369be9"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "97940d41-9ad5-42a0-83f1-ed40797a2c62",
+        "sourceImageId": "547d71b5-ee5f-477e-a03c-fd53e5b94c1d",
+        "sourceFile": "assets/art/tripo/exports/corealm_revenant_97940d41_8k_rigged.glb",
+        "sourceSha256": "5873f96218a1610a204aa1b19340be0e2ca263c842727c9db44c391aefcf251b",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-knights/revenant/waygrave-warden-native-rig.glb",
+        "candidateSha256": "f488e43a7fb4d9af40a5c8f4b8f62d161aab839199c961ab0f14ae64a9009b63",
+        "rigMethod": "22-joint Mixamo-named humanoid rig built over the approved pose; the malformed source skeleton was removed, while original mesh positions, normals, indices and UVs remain exact.",
+        "textures": [
+          {
+            "name": "corealm_revenant_97940d41_8k_rigged_basecolor.jpg",
+            "role": "base-color",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1296078
+          },
+          {
+            "name": "corealm_revenant_97940d41_8k_rigged_rm.png",
+            "role": "metallic-roughness",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4120820
+          },
+          {
+            "name": "corealm_revenant_97940d41_8k_rigged_normal.jpg",
+            "role": "normal",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3654011
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review",
+        "originalCandidateFile": "assets/art/tripo/imports/creatures/starred-revenant/waygrave-warden-native-rig.glb",
+        "productionSha256": "c20da925ab713f8dae7e73ad85d41584d6063c25647249e17b1040bad90f1bdb",
+        "review": "Same corrected 22-joint candidate, staged here by exact copy. Distinct from current production and from malformed raw Tripo bind. Level 81 needs an elite variant.",
+        "textureOverride": {
+          "file": "assets/art/tripo/imports/creatures/audit-knights/revenant/runtime-atlas.jpg",
+          "sha256": "467b5ab774ff072bdb88a1b9370a72a46535b848935934e1170f9c431798d164",
+          "width": 2048,
+          "height": 2048,
+          "imagegenCoverage": 0.86
+        },
+        "deathFloorProof": {
+          "method": "All weighted mesh vertices skinned against each Death pose; hip-Y correction keyed at 97 frames and independently checked at 193 frames.",
+          "scaleY": 1,
+          "duration": 1.4500000476837158,
+          "minBefore": -0.19366113272859778,
+          "minAfter": 0.005955292815933341,
+          "floorTarget": 0.006,
+          "startHeight": 0.9995116810807607,
+          "finalHeight": 0.5072975283902325,
+          "finalHeightRatio": 0.5075453723979467
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.4666666666666667,
+      "metadata": {
+        "is": "Ashen waygrave revenant with ragged gravecloth",
+        "walkClipSeconds": 1,
+        "runClipSeconds": 0.72,
+        "attackSeconds": 0.9,
+        "contactNormalized": 0.4666666666666667,
+        "contactBasis": "0.42 s authored Attack key has maximum right-arm thrust and forward hip reach in the 0.90 s clip.",
+        "variantNote": "Use smaller subdued armor at level 28 and stronger visibly undead elite at level 81."
+      }
+    }
+  ],
+  "files": {
+    "creature_revenant": "waygrave-warden-native-rig.glb"
+  }
+}

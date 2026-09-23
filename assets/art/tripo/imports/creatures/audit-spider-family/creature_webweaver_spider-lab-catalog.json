@@ -1,0 +1,81 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_webweaver_spider",
+      "file": "briar-weaver-sixleg-candidate.glb",
+      "pack": "corealm-tripo-creature-candidates",
+      "category": "character",
+      "is": "Briar Weaver six-leg candidate",
+      "tags": [
+        "creature",
+        "six-legged",
+        "candidate"
+      ],
+      "bytes": 7907620,
+      "sha256": "08447c1618fa00b0f73f113126a33ca0cd1fafad84166c8b25c3db9f7933de27",
+      "size": {
+        "x": 0.79248046875,
+        "y": 0.8608357906341553,
+        "z": 0.9916992783546448
+      },
+      "bounds": {
+        "min": [
+          -0.396240234375,
+          0,
+          -0.4958496391773224
+        ],
+        "max": [
+          0.396240234375,
+          0.8608357906341553,
+          0.4958496391773224
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "gaitCalibration": {
+        "status": "pending-world-speed-fit",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "materials": [
+        "animal_webweaver_spider_layered_shell"
+      ],
+      "presentation": {
+        "suggestedScale": 0.499514546999992,
+        "suggestedHeightMeters": 0.43,
+        "habitat": "low-level woodland bramble"
+      },
+      "sourceProvenance": {
+        "candidate": "assets/art/tripo/imports/creatures/starred-vaultweaver/starred-vaultweaver-candidate.glb",
+        "candidateSha256": "6106cba2cdcd4a0366dcdcd71f8a0ac79bd87a424bed83dfee9a207a9dc08d9a",
+        "tripoModel": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "tripoExport": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "tripoExportSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "originalReference": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "originalReferenceSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "anatomy": "six walking legs and two short mouth palps; not a spider"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_webweaver_spider": "briar-weaver-sixleg-candidate.glb"
+  }
+}

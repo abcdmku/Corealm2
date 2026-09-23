@@ -1,0 +1,143 @@
+{
+  "schema": "corealm-creature-candidate/1",
+  "id": "fairy_garden_sapling_gloamgarden",
+  "name": "Briar Sapling",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "projectId": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+    "preview": "assets/art/tripo/imports/creatures/audit-corrected-sapling/source-preview.glb",
+    "sha256": "d35b0a4b431470e6f0018d61541c834918c9adb3cb3eaef0234340831d93b6fe",
+    "triangles": 5350,
+    "vertices": 3555,
+    "joints": 65,
+    "maps": [
+      "baseColor 8192",
+      "normal 4096",
+      "metallicRoughness 4096"
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/audit-corrected-sapling/audit-corrected-sapling-animated-candidate.glb",
+    "sha256": "bab29545467142f55292977c8b8905b2a0549a629393ccbbd5c7a77fbf93b9b4",
+    "bytes": 5715188,
+    "clips": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "normalizationScale": 2.5,
+    "bounds": {
+      "min": [
+        -0.939330925039518,
+        6.70258639182074e-8,
+        -0.5950927738598023
+      ],
+      "max": [
+        0.9393311100972278,
+        2.498779297392167,
+        0.5950926262924235
+      ]
+    }
+  },
+  "retarget": {
+    "library": "game/public/assets/models/animation/animation_library_1.glb",
+    "librarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+    "result": {
+      "restoredJoints": 65,
+      "mappedJoints": 52,
+      "yawDegrees": -89.99998520615291,
+      "translationScale": 0.4390178556226925,
+      "bindBounds": {
+        "min": [
+          -0.37573237001580717,
+          2.681034565126883e-8,
+          -0.23803710954392093
+        ],
+        "max": [
+          0.3757324440388913,
+          0.9995117189568667,
+          0.23803705051696938
+        ]
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "sourceTake": "Idle_Loop",
+          "seconds": 2.5,
+          "samples": 76,
+          "maximumGroundCorrection": 0.05106165566113313
+        },
+        {
+          "name": "Walk",
+          "sourceTake": "Walk_Loop",
+          "seconds": 1.3333333730697632,
+          "samples": 42,
+          "maximumGroundCorrection": 0.14418064028987493
+        },
+        {
+          "name": "Run",
+          "sourceTake": "Jog_Fwd_Loop",
+          "seconds": 0.9333333373069763,
+          "samples": 30,
+          "maximumGroundCorrection": 0.09437847873147069
+        },
+        {
+          "name": "Attack",
+          "sourceTake": "Punch_Jab",
+          "seconds": 0.8666666746139526,
+          "samples": 28,
+          "maximumGroundCorrection": 0.05105722567532677
+        },
+        {
+          "name": "Hit",
+          "sourceTake": "Hit_Chest",
+          "seconds": 0.3333333432674408,
+          "samples": 12,
+          "maximumGroundCorrection": 0.05121821438841051,
+          "directional": false,
+          "note": "Native frontal hit; left/right are explicit runtime aliases"
+        },
+        {
+          "name": "HitLeft",
+          "sourceTake": "Hit_Chest",
+          "seconds": 0.3333333432674408,
+          "samples": 12,
+          "maximumGroundCorrection": 0.05121821438841051,
+          "directional": false,
+          "note": "Native frontal hit; left/right are explicit runtime aliases"
+        },
+        {
+          "name": "HitRight",
+          "sourceTake": "Hit_Chest",
+          "seconds": 0.3333333432674408,
+          "samples": 12,
+          "maximumGroundCorrection": 0.05121821438841051,
+          "directional": false,
+          "note": "Native frontal hit; left/right are explicit runtime aliases"
+        },
+        {
+          "name": "Death",
+          "sourceTake": "Death01",
+          "seconds": 2.4000000953674316,
+          "samples": 74,
+          "maximumGroundCorrection": 0.17430683554208018
+        }
+      ],
+      "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding"
+    }
+  },
+  "acceptance": {
+    "sourceIdentityVerified": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "texturesAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

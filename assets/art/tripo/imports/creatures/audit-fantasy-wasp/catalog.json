@@ -1,0 +1,329 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "family": "fantasy_briar_wasp",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/corealm_fantasy_briar_wasp_p1_2k_pbr_rigged.glb",
+    "sha256": "3dd649afd566f094d69d8d11e8a9b6c5145c9466b0789c0d1a5e6ec8b478979c",
+    "bytes": 2842432,
+    "tripoProjectId": "78a332eb-c1a4-486b-85e5-27dad940f8f6",
+    "generation": "Second four-image concept batch, first image; Tripo P1.0 Fast; 2K PBR; Rig Other; GLB with skeleton",
+    "generationCredits": {
+      "concepts": 0,
+      "model": 35,
+      "texture": 30,
+      "pbr": 5,
+      "rig": 20,
+      "total": 90
+    },
+    "geometry": {
+      "vertices": 7850,
+      "triangles": 5116,
+      "bounds": {
+        "min": [
+          -0.4072270393371582,
+          1.1669857258311822e-7,
+          -0.4892575442790985
+        ],
+        "max": [
+          0.4072261452674866,
+          0.9980471134185791,
+          0.48925837874412537
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "joints": 37,
+      "animations": 0,
+      "neutralBoneVertices": 2941,
+      "finding": "Native Tripo wing chains are weighted, but most leg chains have zero weighted vertices; rebuilt a full six-leg and paired-wing rig."
+    },
+    "textures": [
+      {
+        "name": "corealm_fantasy_briar_wasp_p1_2k_pbr_rigged_normal",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "d992e54ddfa880d081d8d19a1aa0d070b77e29b3bb3ac7bf4d20c169f5be2033"
+      },
+      {
+        "name": "corealm_fantasy_briar_wasp_p1_2k_pbr_rigged_basecolor",
+        "role": "base color",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "8c5398d3a88caf0466ebddd3747fb287389cf12fa1609e87fb685c43f9e64a34"
+      },
+      {
+        "name": "corealm_fantasy_briar_wasp_p1_2k_pbr_rigged_rm",
+        "role": "packed metallic-roughness",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "31363169c8a2671023a4026583029e0198be7431e1a8386db3be4e7cc5a44f1e"
+      }
+    ]
+  },
+  "candidate": {
+    "baseFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/briar-wasp-native-rig.glb",
+    "baseSha256": "4e9850fa344a7be5a5e35dea206617e1aaa21ac5aedfa007564b8f3bf606abac",
+    "vertices": 7850,
+    "triangles": 5116,
+    "geometryDelta": {
+      "positionDelta": 0,
+      "normalDelta": 0,
+      "uvDelta": 0,
+      "indexMismatches": 0
+    },
+    "jointCount": 33,
+    "weightedVerticesByJoint": {
+      "WaspRoot": 788,
+      "Thorax": 5093,
+      "Neck": 3901,
+      "Head": 1990,
+      "AbdomenBase": 1333,
+      "AbdomenMid": 1122,
+      "AbdomenTip": 679,
+      "Antenna_L": 731,
+      "Antenna_R": 626,
+      "WingUpperRoot_L": 28,
+      "WingUpperMid_L": 482,
+      "WingUpperTip_L": 330,
+      "WingLowerRoot_L": 507,
+      "WingLowerMid_L": 1026,
+      "WingLowerTip_L": 374,
+      "WingUpperRoot_R": 26,
+      "WingUpperMid_R": 513,
+      "WingUpperTip_R": 325,
+      "WingLowerRoot_R": 658,
+      "WingLowerMid_R": 1418,
+      "WingLowerTip_R": 409,
+      "LegFrontCoxa_L": 1225,
+      "LegFrontDistal_L": 374,
+      "LegMidCoxa_L": 1413,
+      "LegMidDistal_L": 933,
+      "LegHindCoxa_L": 415,
+      "LegHindDistal_L": 388,
+      "LegFrontCoxa_R": 966,
+      "LegFrontDistal_R": 438,
+      "LegMidCoxa_R": 1258,
+      "LegMidDistal_R": 966,
+      "LegHindCoxa_R": 335,
+      "LegHindDistal_R": 330
+    },
+    "multiWeightedVertexRatio": 1,
+    "maximumWeightSumError": 4.470348358154297e-8,
+    "sourceForward": "-X",
+    "gameForward": "+Z",
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 0.96,
+        "channels": 23,
+        "paths": [
+          "rotation",
+          "translation"
+        ]
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 19,
+        "paths": [
+          "rotation",
+          "translation"
+        ]
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 20,
+        "paths": [
+          "rotation",
+          "translation"
+        ]
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.9,
+        "channels": 23,
+        "paths": [
+          "rotation",
+          "translation"
+        ]
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 23,
+        "paths": [
+          "rotation"
+        ]
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 31,
+        "paths": [
+          "rotation",
+          "translation"
+        ]
+      }
+    ],
+    "pbrChannels": {
+      "roughnessRange": [
+        0.34509803921568627,
+        0.7843137254901961
+      ],
+      "metallicRange": [
+        0,
+        0.1411764705882353
+      ]
+    },
+    "variants": [
+      {
+        "id": "creature_field_wasp",
+        "displayName": "Field Wasp",
+        "sourceFile": "field_basecolor_2k.png",
+        "heightFactor": 1,
+        "presentationScale": 0.45,
+        "level": 1,
+        "region": "fallowmarch",
+        "file": "creature_field_wasp.glb",
+        "bytes": 8135644,
+        "sha256": "ace7a91840805866a9ae75d9d2a9173659cd957fd197e7383c6c2dc14353cb47",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/field_basecolor_2k.png",
+        "atlasSha256": "077c1be8c2831e0e11739c11823bde76b75e47bf7e0b00004f97f1d11daceadc",
+        "size": {
+          "x": 0.9785159230232239,
+          "y": 0.9980469967200065,
+          "z": 0.8144531846046448
+        },
+        "bounds": {
+          "min": [
+            -0.48925837874412537,
+            0,
+            -0.4072261452674866
+          ],
+          "max": [
+            0.4892575442790985,
+            0.9980469967200065,
+            0.4072270393371582
+          ]
+        },
+        "expectedDrawnHeight": 0.449
+      },
+      {
+        "id": "creature_heath_wasp",
+        "displayName": "Heath Wasp",
+        "sourceFile": "heath_basecolor_2k.png",
+        "heightFactor": 1,
+        "presentationScale": 0.45,
+        "level": 1,
+        "region": "fallowmarch",
+        "file": "creature_heath_wasp.glb",
+        "bytes": 8128612,
+        "sha256": "8d55e45cfe9802a06c6528b2885eafcfdc9cd9aaf24a8080cf482bc12bb5d52c",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/heath_basecolor_2k.png",
+        "atlasSha256": "aec5b76d14f68c1ea17162e96e94950971467e8a5d66b08a461ac9ae0782e98a",
+        "size": {
+          "x": 0.9785159230232239,
+          "y": 0.9980469967200065,
+          "z": 0.8144531846046448
+        },
+        "bounds": {
+          "min": [
+            -0.48925837874412537,
+            0,
+            -0.4072261452674866
+          ],
+          "max": [
+            0.4892575442790985,
+            0.9980469967200065,
+            0.4072270393371582
+          ]
+        },
+        "expectedDrawnHeight": 0.449
+      },
+      {
+        "id": "creature_reed_wasp",
+        "displayName": "Slatewing Wasp",
+        "sourceFile": "slatewing_basecolor_2k.png",
+        "heightFactor": 1,
+        "presentationScale": 0.45,
+        "level": 1,
+        "region": "fallowmarch",
+        "file": "creature_reed_wasp.glb",
+        "bytes": 8500912,
+        "sha256": "18af8bbf78d38bd06a1c7a7cecee87382e19d0d6ccbd95f13019b22ac788dbdf",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/slatewing_basecolor_2k.png",
+        "atlasSha256": "b23f0f48c7674f7b1a33ae109bdc84a5d70ff06ebe9a7be04417baabacc43244",
+        "size": {
+          "x": 0.9785159230232239,
+          "y": 0.9980469967200065,
+          "z": 0.8144531846046448
+        },
+        "bounds": {
+          "min": [
+            -0.48925837874412537,
+            0,
+            -0.4072261452674866
+          ],
+          "max": [
+            0.4892575442790985,
+            0.9980469967200065,
+            0.4072270393371582
+          ]
+        },
+        "expectedDrawnHeight": 0.449
+      },
+      {
+        "id": "creature_marsh_wasp",
+        "displayName": "Marsh Wasp",
+        "sourceFile": "marsh_basecolor_2k.png",
+        "heightFactor": 0.8,
+        "presentationScale": 1,
+        "level": 5,
+        "region": "vellenwood",
+        "file": "creature_marsh_wasp.glb",
+        "bytes": 8417952,
+        "sha256": "96551f2a490cb1ed5a687d13186e1327828be07670d8de8f682404f0b4513c88",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/marsh_basecolor_2k.png",
+        "atlasSha256": "25b7ed3a20fa5c057eda9ed1e99897625a790173fe3198737354fb85923f27fb",
+        "size": {
+          "x": 0.7828127384185791,
+          "y": 0.7984375973760053,
+          "z": 0.6515625476837159
+        },
+        "bounds": {
+          "min": [
+            -0.39140670299530034,
+            0,
+            -0.3257809162139893
+          ],
+          "max": [
+            0.3914060354232788,
+            0.7984375973760053,
+            0.3257816314697266
+          ]
+        },
+        "expectedDrawnHeight": 0.798
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometryPreserved": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

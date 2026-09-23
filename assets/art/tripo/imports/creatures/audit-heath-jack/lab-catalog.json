@@ -1,0 +1,85 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_heath_jack",
+      "file": "models/creature/creature_heath_jack.glb",
+      "pack": "corealm-heath-hare-candidate",
+      "category": "character",
+      "is": "Heath Jack",
+      "tags": [
+        "creature",
+        "heath",
+        "hare",
+        "quadruped",
+        "image-generated-texture",
+        "candidate"
+      ],
+      "bytes": 2580956,
+      "sha256": "593fd2c70be6458115e3f5070ac357feac7c364bcf8ceebb7010d8de408f459b",
+      "triangles": 2446,
+      "size": {
+        "x": 0.49519718521378914,
+        "y": 0.7504922677510689,
+        "z": 1.1537988029097703
+      },
+      "base": {
+        "x": -0.247586380198078,
+        "y": -0.010076552726526728,
+        "z": -0.4567093997322179
+      },
+      "bounds": {
+        "min": [
+          -0.247586380198078,
+          -0.010076552726526728,
+          -0.4567093997322179
+        ],
+        "max": [
+          0.24761080501571114,
+          0.7404157150245422,
+          0.6970894031775523
+        ]
+      },
+      "groundY": -0.010076552726526728,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "animal_rabbit_mat"
+      ],
+      "walkClipSeconds": 0.6333333253860474,
+      "runClipSeconds": 0.4333333373069763,
+      "attackSeconds": 0.6600000262260437,
+      "sourceProvenance": {
+        "sourceAssetId": "animal_rabbit",
+        "sourceFile": "game/public/assets/models/animal/animal_rabbit.glb",
+        "sourceSha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+        "imagegenAtlas": "assets/art/tripo/imports/creatures/audit-heath-jack/heath-hare-imagegen-atlas.png",
+        "imagegenSha256": "0197ebe29e23ee3f069c2a7897330c0d473fc764ad92d108488dbc6b0462c9f8",
+        "runtimeAtlas": "assets/art/tripo/imports/creatures/audit-heath-jack/heath-hare-runtime-atlas.jpg",
+        "runtimeAtlasSha256": "434098bb76c2d3182555c34e0888c74f01dc31a3a25ba403e25d0988f59f38cf",
+        "originalGeometryRigAndClipsPreserved": true,
+        "uniformScaleFactor": 1.7045454545454546,
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_heath_jack": "heath-hare-candidate.glb"
+  }
+}

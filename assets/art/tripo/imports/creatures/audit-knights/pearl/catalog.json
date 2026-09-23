@@ -1,0 +1,571 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_pearl_knight",
+  "displayName": "Crownward Pearl Knight",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "sourceComparison": {
+    "productionSha256": "710803cf7333cff199899631d5ff765e46096bf02db96646fe793beb20e32ac1",
+    "productionTriangles": 29484,
+    "candidateDiffers": true,
+    "assessment": "Detailed white and gold plate now has image-generated nacre, iridescent shell grain and ivory embroidery. Runtime geometry is scaled to 2.30 m after existing presentation scale; Death ends in sideways collapse with weighted floor clearance. Sword and shield remain optional."
+  },
+  "source": {
+    "file": "assets/art/tripo/exports/3255ba4a-055e-446b-9c47-0266c347710a.glb",
+    "sha256": "9f0cb9c3eedc9645957e9bdd921b6ad44ad62a560325e42078505ff4dd452ba4",
+    "bytes": 33515588,
+    "starredModelId": "7449b4c6-86b9-44e4-a26b-5f02e3c00a72",
+    "starredCardId": "3255ba4a-055e-446b-9c47-0266c347710a",
+    "starredDisplayName": "medieval knight 3d model light",
+    "geometry": {
+      "vertices": 7637,
+      "triangles": 4697,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.11621097475290298
+        ],
+        "max": [
+          0.4990234375,
+          0.990234375,
+          0.11621097475290298
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "uvsPreserved": true,
+      "retopology": false
+    },
+    "preliminaryDesignReview": "Astra-low approved the source as a medieval white-and-gold plate knight for regular Crownward T40 patrols.",
+    "sourceSkin": "none; Tripo individual export did not offer Export Skeleton",
+    "sourceAnimations": [],
+    "textures": [
+      {
+        "name": "3255ba4a-055e-446b-9c47-0266c347710a_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "sha256": "c174cc54f1e7b6e8cf836ca9e7af9ec872d9631d91ae56dbd16f841f6adee536"
+      },
+      {
+        "name": "3255ba4a-055e-446b-9c47-0266c347710a_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/png",
+        "sha256": "972ada24c5c3c1fd4b417465091e19b6b4cec5b0f0cf2894bb55999f655b3c43"
+      },
+      {
+        "name": "3255ba4a-055e-446b-9c47-0266c347710a_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/jpeg",
+        "sha256": "ea1eedb45383ad905507d4a6eeb636363b240ed6f4c1009137d536ad078f193b"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/audit-knights/pearl/pearl-patrol-knight-native-rig.glb",
+    "sha256": "dfef5da02e81556b6bb01ebe070df94d0aff9a09b69d10cbb3b17306f3ceec37",
+    "bytes": 11111708,
+    "productionTarget": "game/public/assets/models/fairy-crown/creature_pearl_knight.glb",
+    "geometry": {
+      "vertices": 7637,
+      "triangles": 4697,
+      "bounds": {
+        "min": [
+          -2.2854652404785156,
+          0,
+          -0.5322318077087402
+        ],
+        "max": [
+          2.2854652404785156,
+          4.535150527954102,
+          0.5322318077087402
+        ]
+      },
+      "nativeScale": 4.579875785272639,
+      "positionsPreserved": false,
+      "proportionsPreserved": true,
+      "indicesPreserved": true,
+      "uvsPreserved": true
+    },
+    "rig": {
+      "type": "Mixamo-named Unity Humanoid glTF skin",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            1.6716546616245134,
+            -0.05495850942327167
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            2.129642240151777,
+            -0.05495850942327167
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            2.5876298186790407,
+            -0.09159751570545278
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            3.0914161550590316,
+            -0.10991701884654334
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            3.6639006282181117,
+            -0.11449689463181599
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            4.098988827819012,
+            -0.10075726727599806
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.4808869574536271,
+            3.274611186469937,
+            -0.10075726727599806
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -1.1220695673917966,
+            3.4349068389544795,
+            -0.0824377641349075
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -1.6716546616245134,
+            3.4349068389544795,
+            -0.05495850942327167
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -2.083843482299051,
+            3.4349068389544795,
+            -0.022899378926363196
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.4808869574536271,
+            3.274611186469937,
+            -0.10075726727599806
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            1.1220695673917966,
+            3.4349068389544795,
+            -0.0824377641349075
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            1.6716546616245134,
+            3.4349068389544795,
+            -0.05495850942327167
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            2.083843482299051,
+            3.4349068389544795,
+            -0.022899378926363196
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.4121888206745375,
+            1.396862114508155,
+            -0.04579875785272639
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.4808869574536271,
+            0.7327801256436223,
+            -0.018319503141090557
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.4808869574536271,
+            0.2518931681899952,
+            0.06869813677908959
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.4808869574536271,
+            0.1602956524845424,
+            0.33433093232490263
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.4121888206745375,
+            1.396862114508155,
+            -0.04579875785272639
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.4808869574536271,
+            0.7327801256436223,
+            -0.018319503141090557
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.4808869574536271,
+            0.2518931681899952,
+            0.06869813677908959
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.4808869574536271,
+            0.1602956524845424,
+            0.33433093232490263
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "distributedVertices": 7637,
+      "maximumWeightSumError": 4.6566128730773926e-8,
+      "method": "Source-specific four-weight distance fields fitted to the original T-pose; a close, slightly bent guard bind tucks the arms and keeps the wrist aligned with the glove. All six clips begin from that pose. Original topology and UVs remain untouched; 2.3 m rendered height after 0.5071496596541646 definition.scale.",
+      "offlineDeformationProof": {
+        "method": "Offline four-weight linear blend of scaled source vertices using generated guard node transforms and neutral inverse binds; no browser or renderer involved.",
+        "diagnosis": "The source is a lateral T-pose; the earlier guard transforms, especially a 0.68 rad forearm rotation, caused the bowed arms and hooked glove silhouette. The revised pose aligns the wrist and moves the arm vertices inward. Source mesh, weights, topology and UVs are unchanged.",
+        "nativeScaleMeters": 4.535150435807086,
+        "poseParametersRadians": {
+          "shoulder": 1.7,
+          "upperArm": 0.1,
+          "forearm": 0.02
+        },
+        "sides": {
+          "left": {
+            "arm": {
+              "vertices": 1432,
+              "sourceMeanAbsX": 1.357,
+              "guardMeanAbsX": 0.6246,
+              "sourceBoundsXY": [
+                -2.2855,
+                -0.4786,
+                3.3097,
+                3.8285
+              ],
+              "guardBoundsXY": [
+                -0.9471,
+                -0.3601,
+                1.4933,
+                3.4958
+              ]
+            },
+            "forearm": {
+              "vertices": 901,
+              "sourceMeanAbsX": 1.392,
+              "guardMeanAbsX": 0.637,
+              "sourceBoundsXY": [
+                -2.0439,
+                -0.8364,
+                3.3991,
+                3.7927
+              ],
+              "guardBoundsXY": [
+                -0.9471,
+                -0.3813,
+                1.6619,
+                2.9327
+              ]
+            },
+            "hand": {
+              "vertices": 565,
+              "sourceMeanAbsX": 1.9705,
+              "guardMeanAbsX": 0.4718,
+              "sourceBoundsXY": [
+                -2.2855,
+                -1.3999,
+                3.4528,
+                3.6854
+              ],
+              "guardBoundsXY": [
+                -0.674,
+                -0.3601,
+                1.4933,
+                2.3424
+              ]
+            }
+          },
+          "right": {
+            "arm": {
+              "vertices": 1461,
+              "sourceMeanAbsX": 1.353,
+              "guardMeanAbsX": 0.6261,
+              "sourceBoundsXY": [
+                0.4786,
+                2.2855,
+                3.2918,
+                3.8285
+              ],
+              "guardBoundsXY": [
+                0.3601,
+                0.9473,
+                1.4933,
+                3.4958
+              ]
+            },
+            "forearm": {
+              "vertices": 910,
+              "sourceMeanAbsX": 1.3847,
+              "guardMeanAbsX": 0.6394,
+              "sourceBoundsXY": [
+                0.8364,
+                2.0439,
+                3.3991,
+                3.7927
+              ],
+              "guardBoundsXY": [
+                0.3813,
+                0.9473,
+                1.6619,
+                2.9327
+              ]
+            },
+            "hand": {
+              "vertices": 569,
+              "sourceMeanAbsX": 1.9727,
+              "guardMeanAbsX": 0.4701,
+              "sourceBoundsXY": [
+                1.3999,
+                2.2855,
+                3.4528,
+                3.6854
+              ],
+              "guardBoundsXY": [
+                0.3601,
+                0.674,
+                1.4933,
+                2.3424
+              ]
+            }
+          }
+        },
+        "wristAlignmentErrorRadians": 0,
+        "allMotionStartsMatchGuard": true
+      }
+    },
+    "textures": [
+      {
+        "name": "3255ba4a-055e-446b-9c47-0266c347710a_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1498265,
+        "sha256": "92b2f5dcdbb04148dd5966716f751c54bdebc81d9c0e6556ab7104e72d7bb603"
+      },
+      {
+        "name": "3255ba4a-055e-446b-9c47-0266c347710a_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 8213988,
+        "sha256": "cde931dc1f23077b07293d51f5d572b58656394eef37ad16566aeb72c22bab46"
+      },
+      {
+        "name": "3255ba4a-055e-446b-9c47-0266c347710a_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 781042,
+        "sha256": "9abdb6f7643c165fe73a4136032596730025dd33c1ce3c192329dab42d84b32c"
+      }
+    ],
+    "textureOverride": {
+      "file": "assets/art/tripo/imports/creatures/audit-knights/pearl/runtime-atlas.jpg",
+      "sha256": "92b2f5dcdbb04148dd5966716f751c54bdebc81d9c0e6556ab7104e72d7bb603",
+      "width": 2048,
+      "height": 2048,
+      "imagegenCoverage": 0.78
+    },
+    "renderedHeightMeters": 2.3,
+    "gamePresentationScale": 0.5071496596541646,
+    "metallicChannelRange": [
+      0,
+      1
+    ],
+    "roughnessChannelRange": [
+      0.0784313725490196,
+      0.9921568627450981
+    ],
+    "pbr": "Image-generated pearl nacre, silver and ivory base-color details aligned to the original UV atlas; original Tripo packed metallic-roughness and normal maps retained at 2K.",
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.6,
+        "channels": 9,
+        "maxGuardStartErrorRadians": 0
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 11,
+        "maxGuardStartErrorRadians": 0
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 12,
+        "maxGuardStartErrorRadians": 0
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.78,
+        "channels": 10,
+        "maxGuardStartErrorRadians": 0
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.6,
+        "channels": 13,
+        "maxGuardStartErrorRadians": 0
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 13,
+        "maxGuardStartErrorRadians": 0
+      }
+    ],
+    "offlineMotionProof": {
+      "method": "Skin and inverse-bind matrices from the exported GLB were evaluated offline at sampled clip times; per-vertex displacement is measured against the exported guard bind pose before the creature definition scale.",
+      "nativeUnits": "meters at 4.535 m model height",
+      "proposedCreatureScale": 0.5071496596541646,
+      "clips": {
+        "Walk": {
+          "phase": 0.25,
+          "wholeMeanMeters": 0.203,
+          "legMeanMeters": 0.306,
+          "legMaxMeters": 0.774,
+          "armMeanMeters": 0.202,
+          "armMaxMeters": 0.366,
+          "torsoMeanMeters": 0.137,
+          "torsoMaxMeters": 0.173
+        },
+        "Run": {
+          "phase": 0.25,
+          "wholeMeanMeters": 0.405,
+          "legMeanMeters": 0.579,
+          "legMaxMeters": 1.369,
+          "armMeanMeters": 0.398,
+          "armMaxMeters": 0.631,
+          "torsoMeanMeters": 0.3,
+          "torsoMaxMeters": 0.348
+        },
+        "Attack": {
+          "phase": 0.36,
+          "wholeMeanMeters": 0.551,
+          "legMeanMeters": 0.404,
+          "legMaxMeters": 0.544,
+          "armMeanMeters": 0.708,
+          "armMaxMeters": 1.163,
+          "torsoMeanMeters": 0.488,
+          "torsoMaxMeters": 1.049
+        },
+        "Hit": {
+          "phase": 0.13,
+          "wholeMeanMeters": 0.613,
+          "legMeanMeters": 0.497,
+          "legMaxMeters": 0.751,
+          "armMeanMeters": 0.732,
+          "armMaxMeters": 1.376,
+          "torsoMeanMeters": 0.568,
+          "torsoMaxMeters": 0.941
+        }
+      },
+      "thresholdsPassed": true
+    },
+    "deathFloorProof": {
+      "method": "All weighted mesh vertices skinned against each Death pose; hip-Y correction keyed at 97 frames and independently checked at 193 frames.",
+      "scaleY": 1,
+      "duration": 1.4500000476837158,
+      "minBefore": -0.6577916836898176,
+      "minAfter": 0.0058731055985539625,
+      "floorTarget": 0.006,
+      "startHeight": 4.535150255940133,
+      "finalHeight": 2.278911136865374,
+      "finalHeightRatio": 0.5024995883830883
+    }
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

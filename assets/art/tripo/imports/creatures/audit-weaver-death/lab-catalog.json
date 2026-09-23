@@ -1,0 +1,964 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_hollowroot_spider",
+      "file": "creature_hollowroot_spider-death-collapse.glb",
+      "pack": "corealm-tripo-audit-sixleg-weavers",
+      "category": "character",
+      "is": "Rootweaver six-leg",
+      "tags": [
+        "creature",
+        "six-legged"
+      ],
+      "bytes": 7716832,
+      "sha256": "6bc65f8028762ba52d89e539429533f5e66091b9476157622781d4d1fc62f6af",
+      "size": {
+        "x": 0.79248046875,
+        "y": 0.8608357906341553,
+        "z": 0.9916992783546448
+      },
+      "base": {
+        "x": -0.396240234375,
+        "y": 0,
+        "z": -0.4958496391773224
+      },
+      "bounds": {
+        "min": [
+          -0.396240234375,
+          0,
+          -0.4958496391773224
+        ],
+        "max": [
+          0.396240234375,
+          0.8608357906341553,
+          0.4958496391773224
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_hollowroot_spider_layered_shell"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "sourceFile": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_hollowroot_spider-death-collapse.glb",
+        "candidateSha256": "6bc65f8028762ba52d89e539429533f5e66091b9476157622781d4d1fc62f6af",
+        "texture": {
+          "generatedAtlas": "rootweaver-generated-atlas.png",
+          "generatedSha256": "740d27460ae407f303c588a7735446cac9110dbee3765102e58a184eabfa3f89",
+          "generatedDimensions": "1254x1254",
+          "runtimeAtlas": "creature_hollowroot_spider-basecolor-2k.jpg",
+          "runtimeSha256": "0b4ffae87fad4e81c44514d2851169cc00be33e39c4c40c9fd600b47a39d8151",
+          "runtimeDimensions": "2048x2048",
+          "method": "imagegen edit of the exact source UV atlas; generated island alignment requires root visual review"
+        },
+        "deathRepair": {
+          "sourceCandidate": "assets/art/tripo/imports/creatures/audit-spider-family/rootweaver-sixleg-candidate.glb",
+          "sourceCandidateSha256": "acfaf1cbb6a08c866e323ed9d9aa01616f75a23d444c9c57e2da88edb68acc10",
+          "method": "Shared six-leg collapse: body descends, carapace tilts, all 24 leg joints curl, root receives measured floor correction.",
+          "onlyDeathClipChanged": true
+        }
+      },
+      "metadata": {
+        "family": "hollowroot_spider",
+        "rig": "authored non-humanoid arthropod skeleton",
+        "anatomy": "six articulated walking legs",
+        "height": 0.8608357906341553,
+        "presentation": {
+          "suggestedScale": 1.0454955634883554,
+          "suggestedHeightMeters": 0.9,
+          "habitat": "forest root shelter"
+        },
+        "attackContact": {
+          "seconds": 0.42,
+          "normalized": 0.4772727298588792
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "source": "Tripo Studio mesh and image-generated material, Corealm-authored rig and motion",
+        "deathRepair": {
+          "sourceTopY": 0.860835775630727,
+          "samples": [
+            {
+              "seconds": 0,
+              "minY": 0.007999999779560162,
+              "maxY": 0.8688357746304867,
+              "height": 0.8608357748509265
+            },
+            {
+              "seconds": 0.28,
+              "minY": 0.01022802070165205,
+              "maxY": 0.8016943110413609,
+              "height": 0.7914662903397088
+            },
+            {
+              "seconds": 0.48,
+              "minY": 0.0068526696806674075,
+              "maxY": 0.7107594759211199,
+              "height": 0.7039068062404524
+            },
+            {
+              "seconds": 0.72,
+              "minY": 0.0076234711710173935,
+              "maxY": 0.6257123908284538,
+              "height": 0.6180889196574364
+            },
+            {
+              "seconds": 1,
+              "minY": 0.007999982524601034,
+              "maxY": 0.6251025427283976,
+              "height": 0.6171025602037966
+            },
+            {
+              "seconds": 1.38,
+              "minY": 0.007999980663808456,
+              "maxY": 0.6237558715265973,
+              "height": 0.6157558908627888
+            },
+            {
+              "seconds": 1.55,
+              "minY": 0.007999998135270388,
+              "maxY": 0.6231504877893141,
+              "height": 0.6151504896540437
+            }
+          ],
+          "maximumFloorLift": 0.10694391358459648,
+          "legChannels": 24
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "motionAccepted": false
+      },
+      "locomotionPolicy": null,
+      "measuredGait": null
+    },
+    {
+      "id": "creature_webweaver_spider",
+      "file": "creature_webweaver_spider-death-collapse.glb",
+      "pack": "corealm-tripo-audit-sixleg-weavers",
+      "category": "character",
+      "is": "Briar Weaver six-leg",
+      "tags": [
+        "creature",
+        "six-legged"
+      ],
+      "bytes": 7909216,
+      "sha256": "8d5925214e98e543a9b0dff12df6b96e79d3471389a9517d2e19fd125bb4da9a",
+      "size": {
+        "x": 0.79248046875,
+        "y": 0.8608357906341553,
+        "z": 0.9916992783546448
+      },
+      "base": {
+        "x": -0.396240234375,
+        "y": 0,
+        "z": -0.4958496391773224
+      },
+      "bounds": {
+        "min": [
+          -0.396240234375,
+          0,
+          -0.4958496391773224
+        ],
+        "max": [
+          0.396240234375,
+          0.8608357906341553,
+          0.4958496391773224
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_webweaver_spider_layered_shell"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "sourceFile": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_webweaver_spider-death-collapse.glb",
+        "candidateSha256": "8d5925214e98e543a9b0dff12df6b96e79d3471389a9517d2e19fd125bb4da9a",
+        "texture": {
+          "generatedAtlas": "webweaver-generated-atlas.png",
+          "generatedSha256": "acbaf6c6d8a515106a27c559ca0852179542c9fd8fe16c5da50dd57eb4273f48",
+          "generatedDimensions": "1254x1254",
+          "runtimeAtlas": "creature_webweaver_spider-basecolor-2k.jpg",
+          "runtimeSha256": "b15f4b2b03fc6fd2ef26572db9e47debecdb43d9938685b12d6b3d2dab17ff21",
+          "runtimeDimensions": "2048x2048",
+          "method": "imagegen edit of the exact source UV atlas; generated island alignment requires root visual review"
+        },
+        "deathRepair": {
+          "sourceCandidate": "assets/art/tripo/imports/creatures/audit-spider-family/briar-weaver-sixleg-candidate.glb",
+          "sourceCandidateSha256": "08447c1618fa00b0f73f113126a33ca0cd1fafad84166c8b25c3db9f7933de27",
+          "method": "Shared six-leg collapse: body descends, carapace tilts, all 24 leg joints curl, root receives measured floor correction.",
+          "onlyDeathClipChanged": true
+        }
+      },
+      "metadata": {
+        "family": "webweaver_spider",
+        "rig": "authored non-humanoid arthropod skeleton",
+        "anatomy": "six articulated walking legs",
+        "height": 0.8608357906341553,
+        "presentation": {
+          "suggestedScale": 0.499514546999992,
+          "suggestedHeightMeters": 0.43,
+          "habitat": "low-level woodland bramble"
+        },
+        "attackContact": {
+          "seconds": 0.42,
+          "normalized": 0.4772727298588792
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "source": "Tripo Studio mesh and image-generated material, Corealm-authored rig and motion",
+        "deathRepair": {
+          "sourceTopY": 0.860835775630727,
+          "samples": [
+            {
+              "seconds": 0,
+              "minY": 0.007999999779560162,
+              "maxY": 0.8688357746304867,
+              "height": 0.8608357748509265
+            },
+            {
+              "seconds": 0.28,
+              "minY": 0.01022802070165205,
+              "maxY": 0.8016943110413609,
+              "height": 0.7914662903397088
+            },
+            {
+              "seconds": 0.48,
+              "minY": 0.0068526696806674075,
+              "maxY": 0.7107594759211199,
+              "height": 0.7039068062404524
+            },
+            {
+              "seconds": 0.72,
+              "minY": 0.0076234711710173935,
+              "maxY": 0.6257123908284538,
+              "height": 0.6180889196574364
+            },
+            {
+              "seconds": 1,
+              "minY": 0.007999982524601034,
+              "maxY": 0.6251025427283976,
+              "height": 0.6171025602037966
+            },
+            {
+              "seconds": 1.38,
+              "minY": 0.007999980663808456,
+              "maxY": 0.6237558715265973,
+              "height": 0.6157558908627888
+            },
+            {
+              "seconds": 1.55,
+              "minY": 0.007999998135270388,
+              "maxY": 0.6231504877893141,
+              "height": 0.6151504896540437
+            }
+          ],
+          "maximumFloorLift": 0.10694391358459648,
+          "legChannels": 24
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "motionAccepted": false
+      },
+      "locomotionPolicy": null,
+      "measuredGait": null
+    },
+    {
+      "id": "creature_blind_cave_weaver",
+      "file": "creature_blind_cave_weaver-death-collapse.glb",
+      "pack": "corealm-tripo-audit-sixleg-weavers",
+      "category": "character",
+      "is": "Blind Cave Weaver six-leg",
+      "tags": [
+        "creature",
+        "six-legged"
+      ],
+      "bytes": 7185516,
+      "sha256": "2b77018bf02036560decbf7ac5d5d5dfe81cd4bf0c96b83bb98ccb4ce1512409",
+      "size": {
+        "x": 0.79248046875,
+        "y": 0.8608357906341553,
+        "z": 0.9916992783546448
+      },
+      "base": {
+        "x": -0.396240234375,
+        "y": 0,
+        "z": -0.4958496391773224
+      },
+      "bounds": {
+        "min": [
+          -0.396240234375,
+          0,
+          -0.4958496391773224
+        ],
+        "max": [
+          0.396240234375,
+          0.8608357906341553,
+          0.4958496391773224
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_blind_cave_weaver_layered_shell"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "sourceFile": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_blind_cave_weaver-death-collapse.glb",
+        "candidateSha256": "2b77018bf02036560decbf7ac5d5d5dfe81cd4bf0c96b83bb98ccb4ce1512409",
+        "texture": {
+          "sourceAtlas": "assets/art/tripo/imports/creatures/starred-vaultweaver/starred-vaultweaver-candidate.glb",
+          "sourceAtlasSha256": "a22c3f6c082b0992f6746ce7bc28267983c5e4238b34460e51e56d70ff9eb52c",
+          "runtimeDimensions": "2048x2048",
+          "method": "unchanged image-generated layered mineral atlas from approved Tripo source"
+        },
+        "deathRepair": {
+          "sourceCandidate": "assets/art/tripo/imports/creatures/audit-spider-family/blind-cave-weaver-sixleg-candidate.glb",
+          "sourceCandidateSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+          "method": "Shared six-leg collapse: body descends, carapace tilts, all 24 leg joints curl, root receives measured floor correction.",
+          "onlyDeathClipChanged": true
+        }
+      },
+      "metadata": {
+        "family": "blind_cave_weaver",
+        "rig": "authored non-humanoid arthropod skeleton",
+        "anatomy": "six articulated walking legs",
+        "height": 0.8608357906341553,
+        "presentation": {
+          "suggestedScale": 0.8131632160464985,
+          "suggestedHeightMeters": 0.7,
+          "habitat": "ivory stone cavern"
+        },
+        "attackContact": {
+          "seconds": 0.42,
+          "normalized": 0.4772727298588792
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "source": "Tripo Studio mesh and image-generated material, Corealm-authored rig and motion",
+        "deathRepair": {
+          "sourceTopY": 0.860835775630727,
+          "samples": [
+            {
+              "seconds": 0,
+              "minY": 0.007999999779560162,
+              "maxY": 0.8688357746304867,
+              "height": 0.8608357748509265
+            },
+            {
+              "seconds": 0.28,
+              "minY": 0.01022802070165205,
+              "maxY": 0.8016943110413609,
+              "height": 0.7914662903397088
+            },
+            {
+              "seconds": 0.48,
+              "minY": 0.0068526696806674075,
+              "maxY": 0.7107594759211199,
+              "height": 0.7039068062404524
+            },
+            {
+              "seconds": 0.72,
+              "minY": 0.0076234711710173935,
+              "maxY": 0.6257123908284538,
+              "height": 0.6180889196574364
+            },
+            {
+              "seconds": 1,
+              "minY": 0.007999982524601034,
+              "maxY": 0.6251025427283976,
+              "height": 0.6171025602037966
+            },
+            {
+              "seconds": 1.38,
+              "minY": 0.007999980663808456,
+              "maxY": 0.6237558715265973,
+              "height": 0.6157558908627888
+            },
+            {
+              "seconds": 1.55,
+              "minY": 0.007999998135270388,
+              "maxY": 0.6231504877893141,
+              "height": 0.6151504896540437
+            }
+          ],
+          "maximumFloorLift": 0.10694391358459648,
+          "legChannels": 24
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "motionAccepted": false
+      },
+      "locomotionPolicy": null,
+      "measuredGait": null
+    },
+    {
+      "id": "creature_moonweave_spider",
+      "file": "creature_moonweave_spider-death-collapse.glb",
+      "pack": "corealm-tripo-audit-weaver-variants",
+      "category": "character",
+      "is": "Moonweaver six-leg",
+      "tags": [
+        "creature",
+        "six-legged"
+      ],
+      "bytes": 7720504,
+      "sha256": "f72348dd9253ea3ee2667a0946f75df218612ed1692d174b6d647a7cee9615f1",
+      "size": {
+        "x": 0.47883458451618877,
+        "y": 0.5201364126930991,
+        "z": 0.5992070853997946
+      },
+      "base": {
+        "x": -0.23941729225809438,
+        "y": 0,
+        "z": -0.2996035426998973
+      },
+      "bounds": {
+        "min": [
+          -0.23941729225809438,
+          0,
+          -0.2996035426998973
+        ],
+        "max": [
+          0.23941729225809438,
+          0.5201364126930991,
+          0.2996035426998973
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_moonweave_spider_layered_shell"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "sourceFile": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "correctedSourceFile": "assets/art/tripo/imports/creatures/audit-spider-family/blind-cave-weaver-sixleg-candidate.glb",
+        "correctedSourceSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_moonweave_spider-death-collapse.glb",
+        "candidateSha256": "f72348dd9253ea3ee2667a0946f75df218612ed1692d174b6d647a7cee9615f1",
+        "texture": {
+          "generatedAtlas": "moonweave/moonweaver-basecolor.png",
+          "generatedSha256": "7d1c4c1be586cbc0b581f099859351ae775623519cc699e59e06b280dc47cc17",
+          "generatedDimensions": "2048x2048",
+          "runtimeAtlas": "creature_moonweave_spider-basecolor-2k.jpg",
+          "runtimeSha256": "84e807372d57274fee3b58f1a94c8b59fa8a6dac63f9e81bd54de9da1f05f4c7",
+          "runtimeDimensions": "2048x2048",
+          "method": "imagegen edit of the exact source UV atlas; generated island alignment requires root visual review"
+        },
+        "deathRepair": {
+          "sourceCandidate": "assets/art/tripo/imports/creatures/audit-weaver-variants/moonweaver-sixleg-candidate.glb",
+          "sourceCandidateSha256": "1b656917fa777ab18af1f64eb24eb6513975eb45b42a7593fd4de68d01499471",
+          "method": "Shared six-leg collapse: body descends, carapace tilts, all 24 leg joints curl, root receives measured floor correction.",
+          "onlyDeathClipChanged": true
+        }
+      },
+      "metadata": {
+        "family": "moonweave_spider",
+        "rig": "custom six-leg arthropod",
+        "anatomy": "six articulated walking legs",
+        "height": 0.5201364126930991,
+        "presentation": {
+          "sceneScale": 0.6042225687548703,
+          "rawAssetHeightMeters": 0.5201364126930991,
+          "existingSpeciesScale": 0.82,
+          "desiredInGameHeightMeters": 0.4265118584083412,
+          "habitat": "moonlit woodland"
+        },
+        "attackContact": {
+          "seconds": 0.42,
+          "normalized": 0.4772727298588792
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "source": "Tripo Studio mesh and PBR maps; imagegen edited 2K albedo; Corealm rig and motion",
+        "deathRepair": {
+          "sourceTopY": 0.5201364036276891,
+          "samples": [
+            {
+              "seconds": 0,
+              "minY": 0.007999999966600195,
+              "maxY": 0.5281364031714023,
+              "height": 0.5201364032048021
+            },
+            {
+              "seconds": 0.28,
+              "minY": 0.009346220117214669,
+              "maxY": 0.48756801526101917,
+              "height": 0.47822179514380453
+            },
+            {
+              "seconds": 0.48,
+              "minY": 0.007306754864207335,
+              "maxY": 0.432623133545371,
+              "height": 0.4253163786811637
+            },
+            {
+              "seconds": 0.72,
+              "minY": 0.007772494005977924,
+              "maxY": 0.3812357687389151,
+              "height": 0.3734632747329372
+            },
+            {
+              "seconds": 1,
+              "minY": 0.007999989675713753,
+              "maxY": 0.38086728376585716,
+              "height": 0.3728672940901434
+            },
+            {
+              "seconds": 1.38,
+              "minY": 0.007999990148795561,
+              "maxY": 0.38005359623045165,
+              "height": 0.3720536060816561
+            },
+            {
+              "seconds": 1.55,
+              "minY": 0.008000000705447131,
+              "maxY": 0.37968780971362803,
+              "height": 0.3716878090081809
+            }
+          ],
+          "maximumFloorLift": 0.11218406781532256,
+          "legChannels": 24
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "motionAccepted": false
+      }
+    },
+    {
+      "id": "creature_amethyst_spider",
+      "file": "creature_amethyst_spider-death-collapse.glb",
+      "pack": "corealm-tripo-audit-weaver-variants",
+      "category": "character",
+      "is": "Amethyst Weaver six-leg",
+      "tags": [
+        "creature",
+        "six-legged"
+      ],
+      "bytes": 8030284,
+      "sha256": "40b393967230092e9bab43b4e0f19ac687d71adf5ccf374505aa10cb10287d4e",
+      "size": {
+        "x": 0.47883458451618877,
+        "y": 0.5201364126930991,
+        "z": 0.5992070853997946
+      },
+      "base": {
+        "x": -0.23941729225809438,
+        "y": 0,
+        "z": -0.2996035426998973
+      },
+      "bounds": {
+        "min": [
+          -0.23941729225809438,
+          0,
+          -0.2996035426998973
+        ],
+        "max": [
+          0.23941729225809438,
+          0.5201364126930991,
+          0.2996035426998973
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_amethyst_spider_layered_shell"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "sourceFile": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "correctedSourceFile": "assets/art/tripo/imports/creatures/audit-spider-family/blind-cave-weaver-sixleg-candidate.glb",
+        "correctedSourceSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_amethyst_spider-death-collapse.glb",
+        "candidateSha256": "40b393967230092e9bab43b4e0f19ac687d71adf5ccf374505aa10cb10287d4e",
+        "texture": {
+          "generatedAtlas": "amethyst/amethyst-weaver-basecolor.png",
+          "generatedSha256": "4926f4425246be9d3c8e7708ec85add7a0768a30c3f12c301c866ee429ab66c6",
+          "generatedDimensions": "2048x2048",
+          "runtimeAtlas": "creature_amethyst_spider-basecolor-2k.jpg",
+          "runtimeSha256": "7dc83035a293ecf0c51b0fd3dc9400098312fa90787a8d269290f622f2c5eb09",
+          "runtimeDimensions": "2048x2048",
+          "method": "imagegen edit of the exact source UV atlas; generated island alignment requires root visual review"
+        },
+        "deathRepair": {
+          "sourceCandidate": "assets/art/tripo/imports/creatures/audit-weaver-variants/amethyst-weaver-sixleg-candidate.glb",
+          "sourceCandidateSha256": "f8d621ea2e4dbc8caf332c36f03ab8abb44be6d0a9d95ece580ab3193897507e",
+          "method": "Shared six-leg collapse: body descends, carapace tilts, all 24 leg joints curl, root receives measured floor correction.",
+          "onlyDeathClipChanged": true
+        }
+      },
+      "metadata": {
+        "family": "amethyst_spider",
+        "rig": "custom six-leg arthropod",
+        "anatomy": "six articulated walking legs",
+        "height": 0.5201364126930991,
+        "presentation": {
+          "sceneScale": 0.6042225687548703,
+          "rawAssetHeightMeters": 0.5201364126930991,
+          "existingSpeciesScale": 0.72,
+          "desiredInGameHeightMeters": 0.3744982171390313,
+          "habitat": "amethyst cavern"
+        },
+        "attackContact": {
+          "seconds": 0.42,
+          "normalized": 0.4772727298588792
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "source": "Tripo Studio mesh and PBR maps; imagegen edited 2K albedo; Corealm rig and motion",
+        "deathRepair": {
+          "sourceTopY": 0.5201364036276891,
+          "samples": [
+            {
+              "seconds": 0,
+              "minY": 0.007999999966600195,
+              "maxY": 0.5281364031714023,
+              "height": 0.5201364032048021
+            },
+            {
+              "seconds": 0.28,
+              "minY": 0.009346220117214669,
+              "maxY": 0.48756801526101917,
+              "height": 0.47822179514380453
+            },
+            {
+              "seconds": 0.48,
+              "minY": 0.007306754864207335,
+              "maxY": 0.432623133545371,
+              "height": 0.4253163786811637
+            },
+            {
+              "seconds": 0.72,
+              "minY": 0.007772494005977924,
+              "maxY": 0.3812357687389151,
+              "height": 0.3734632747329372
+            },
+            {
+              "seconds": 1,
+              "minY": 0.007999989675713753,
+              "maxY": 0.38086728376585716,
+              "height": 0.3728672940901434
+            },
+            {
+              "seconds": 1.38,
+              "minY": 0.007999990148795561,
+              "maxY": 0.38005359623045165,
+              "height": 0.3720536060816561
+            },
+            {
+              "seconds": 1.55,
+              "minY": 0.008000000705447131,
+              "maxY": 0.37968780971362803,
+              "height": 0.3716878090081809
+            }
+          ],
+          "maximumFloorLift": 0.11218406781532256,
+          "legChannels": 24
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "motionAccepted": false
+      }
+    },
+    {
+      "id": "creature_dewglass_weaver",
+      "file": "creature_dewglass_weaver-death-collapse.glb",
+      "pack": "corealm-tripo-audit-weaver-variants",
+      "category": "character",
+      "is": "Dewglass Weaver six-leg",
+      "tags": [
+        "creature",
+        "six-legged"
+      ],
+      "bytes": 7903028,
+      "sha256": "459d5bcabb2c795eef85bb616e18b0dfedd7e4a699818de5122463a3b09489d0",
+      "size": {
+        "x": 0.8600647053600557,
+        "y": 0.9342494986696231,
+        "z": 1.0762732726892426
+      },
+      "base": {
+        "x": -0.4300323526800279,
+        "y": 0,
+        "z": -0.5381366363446213
+      },
+      "bounds": {
+        "min": [
+          -0.4300323526800279,
+          0,
+          -0.5381366363446213
+        ],
+        "max": [
+          0.4300323526800279,
+          0.9342494986696231,
+          0.5381366363446213
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_dewglass_weaver_layered_shell"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "sourceFile": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "correctedSourceFile": "assets/art/tripo/imports/creatures/audit-spider-family/blind-cave-weaver-sixleg-candidate.glb",
+        "correctedSourceSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_dewglass_weaver-death-collapse.glb",
+        "candidateSha256": "459d5bcabb2c795eef85bb616e18b0dfedd7e4a699818de5122463a3b09489d0",
+        "texture": {
+          "generatedAtlas": "dewglass/dewglass-generated-atlas.png",
+          "generatedSha256": "5e248cceb3fea25e2c86aa2ff0296ac314a3cc852d7b1c98045c37793151f37a",
+          "generatedDimensions": "1254x1254",
+          "runtimeAtlas": "creature_dewglass_weaver-basecolor-2k.jpg",
+          "runtimeSha256": "ae771c8932bebb4b8c9ee234a8545083e342dfd0b3420c90649715d73b541994",
+          "runtimeDimensions": "2048x2048",
+          "method": "imagegen edit of the exact source UV atlas; generated island alignment requires root visual review"
+        },
+        "deathRepair": {
+          "sourceCandidate": "assets/art/tripo/imports/creatures/audit-weaver-variants/dewglass-weaver-sixleg-candidate.glb",
+          "sourceCandidateSha256": "454620355583b7b68dd2e2991cd99fd8cdcd14560cd38bb1cff40cd8c59a8bba",
+          "method": "Shared six-leg collapse: body descends, carapace tilts, all 24 leg joints curl, root receives measured floor correction.",
+          "onlyDeathClipChanged": true
+        }
+      },
+      "metadata": {
+        "family": "dewglass_weaver",
+        "rig": "custom six-leg arthropod",
+        "anatomy": "six articulated walking legs",
+        "height": 0.9342494986696231,
+        "presentation": {
+          "sceneScale": 1.0852818956114567,
+          "rawAssetHeightMeters": 0.9342494986696231,
+          "existingSpeciesScale": 0.7086123195731177,
+          "desiredInGameHeightMeters": 0.662020704312304,
+          "habitat": "Gloamgarden fairy region"
+        },
+        "attackContact": {
+          "seconds": 0.42,
+          "normalized": 0.4772727298588792
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "source": "Tripo Studio mesh and PBR maps; imagegen edited 2K albedo; Corealm rig and motion",
+        "deathRepair": {
+          "sourceTopY": 0.9342494823866742,
+          "samples": [
+            {
+              "seconds": 0,
+              "minY": 0.007999999845451963,
+              "maxY": 0.942249481375418,
+              "height": 0.934249481529966
+            },
+            {
+              "seconds": 0.28,
+              "minY": 0.01041802955511206,
+              "maxY": 0.8693820654234558,
+              "height": 0.8589640358683437
+            },
+            {
+              "seconds": 0.48,
+              "minY": 0.006754816401052633,
+              "maxY": 0.7706921294006109,
+              "height": 0.7639373129995582
+            },
+            {
+              "seconds": 0.72,
+              "minY": 0.0075913606592735786,
+              "maxY": 0.678392075046145,
+              "height": 0.6708007143868714
+            },
+            {
+              "seconds": 1,
+              "minY": 0.007999981614809956,
+              "maxY": 0.6777302179440812,
+              "height": 0.6697302363292712
+            },
+            {
+              "seconds": 1.38,
+              "minY": 0.0079999795953255,
+              "maxY": 0.6762687000694259,
+              "height": 0.6682687204741004
+            },
+            {
+              "seconds": 1.55,
+              "minY": 0.007999998556786722,
+              "maxY": 0.6756116880594548,
+              "height": 0.6676116895026681
+            }
+          ],
+          "maximumFloorLift": 0.10631527030983946,
+          "legChannels": 24
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "motionAccepted": false
+      }
+    }
+  ],
+  "files": {
+    "creature_hollowroot_spider": "creature_hollowroot_spider-death-collapse.glb",
+    "creature_webweaver_spider": "creature_webweaver_spider-death-collapse.glb",
+    "creature_blind_cave_weaver": "creature_blind_cave_weaver-death-collapse.glb",
+    "creature_moonweave_spider": "creature_moonweave_spider-death-collapse.glb",
+    "creature_amethyst_spider": "creature_amethyst_spider-death-collapse.glb",
+    "creature_dewglass_weaver": "creature_dewglass_weaver-death-collapse.glb"
+  }
+}

@@ -1,0 +1,346 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-fantasy-briar-wasp-p1",
+    "name": "Fantasy briar wasp P1",
+    "author": "Corealm",
+    "source": "Tripo P1 source and image-generated variant atlases",
+    "license": "LicenseRef-Tripo-Generated"
+  },
+  "assets": [
+    {
+      "id": "creature_field_wasp",
+      "file": "models/creature/creature_field_wasp.glb",
+      "pack": "corealm-fantasy-briar-wasp-p1",
+      "category": "character",
+      "is": "Field Wasp",
+      "tags": [
+        "creature",
+        "insect",
+        "wasp",
+        "flying",
+        "tripo-p1",
+        "candidate",
+        "t1"
+      ],
+      "bytes": 8135644,
+      "sha256": "ace7a91840805866a9ae75d9d2a9173659cd957fd197e7383c6c2dc14353cb47",
+      "size": {
+        "x": 0.9785159230232239,
+        "y": 0.9980469967200065,
+        "z": 0.8144531846046448
+      },
+      "base": {
+        "x": -0.48925837874412537,
+        "y": 0,
+        "z": -0.4072261452674866
+      },
+      "bounds": {
+        "min": [
+          -0.48925837874412537,
+          0,
+          -0.4072261452674866
+        ],
+        "max": [
+          0.4892575442790985,
+          0.9980469967200065,
+          0.4072270393371582
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5116,
+      "vertices": 7850,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_aa7dacd2-7d0c-46bd-b291-0481e715709b"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "modelId": "78a332eb-c1a4-486b-85e5-27dad940f8f6",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/corealm_fantasy_briar_wasp_p1_2k_pbr_rigged.glb",
+        "sourceSha256": "3dd649afd566f094d69d8d11e8a9b6c5145c9466b0789c0d1a5e6ec8b478979c",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/field_basecolor_2k.png",
+        "atlasSha256": "077c1be8c2831e0e11739c11823bde76b75e47bf7e0b00004f97f1d11daceadc",
+        "originalNormalAndOrmRetained": true
+      },
+      "metadata": {
+        "is": "Field Wasp",
+        "tags": [
+          "wasp",
+          "fallowmarch"
+        ],
+        "contactNormalized": 0.5
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_heath_wasp",
+      "file": "models/creature/creature_heath_wasp.glb",
+      "pack": "corealm-fantasy-briar-wasp-p1",
+      "category": "character",
+      "is": "Heath Wasp",
+      "tags": [
+        "creature",
+        "insect",
+        "wasp",
+        "flying",
+        "tripo-p1",
+        "candidate",
+        "t1"
+      ],
+      "bytes": 8128612,
+      "sha256": "8d55e45cfe9802a06c6528b2885eafcfdc9cd9aaf24a8080cf482bc12bb5d52c",
+      "size": {
+        "x": 0.9785159230232239,
+        "y": 0.9980469967200065,
+        "z": 0.8144531846046448
+      },
+      "base": {
+        "x": -0.48925837874412537,
+        "y": 0,
+        "z": -0.4072261452674866
+      },
+      "bounds": {
+        "min": [
+          -0.48925837874412537,
+          0,
+          -0.4072261452674866
+        ],
+        "max": [
+          0.4892575442790985,
+          0.9980469967200065,
+          0.4072270393371582
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5116,
+      "vertices": 7850,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_aa7dacd2-7d0c-46bd-b291-0481e715709b"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "modelId": "78a332eb-c1a4-486b-85e5-27dad940f8f6",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/corealm_fantasy_briar_wasp_p1_2k_pbr_rigged.glb",
+        "sourceSha256": "3dd649afd566f094d69d8d11e8a9b6c5145c9466b0789c0d1a5e6ec8b478979c",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/heath_basecolor_2k.png",
+        "atlasSha256": "aec5b76d14f68c1ea17162e96e94950971467e8a5d66b08a461ac9ae0782e98a",
+        "originalNormalAndOrmRetained": true
+      },
+      "metadata": {
+        "is": "Heath Wasp",
+        "tags": [
+          "wasp",
+          "fallowmarch"
+        ],
+        "contactNormalized": 0.5
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_reed_wasp",
+      "file": "models/creature/creature_reed_wasp.glb",
+      "pack": "corealm-fantasy-briar-wasp-p1",
+      "category": "character",
+      "is": "Slatewing Wasp",
+      "tags": [
+        "creature",
+        "insect",
+        "wasp",
+        "flying",
+        "tripo-p1",
+        "candidate",
+        "t1"
+      ],
+      "bytes": 8500912,
+      "sha256": "18af8bbf78d38bd06a1c7a7cecee87382e19d0d6ccbd95f13019b22ac788dbdf",
+      "size": {
+        "x": 0.9785159230232239,
+        "y": 0.9980469967200065,
+        "z": 0.8144531846046448
+      },
+      "base": {
+        "x": -0.48925837874412537,
+        "y": 0,
+        "z": -0.4072261452674866
+      },
+      "bounds": {
+        "min": [
+          -0.48925837874412537,
+          0,
+          -0.4072261452674866
+        ],
+        "max": [
+          0.4892575442790985,
+          0.9980469967200065,
+          0.4072270393371582
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5116,
+      "vertices": 7850,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_aa7dacd2-7d0c-46bd-b291-0481e715709b"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "modelId": "78a332eb-c1a4-486b-85e5-27dad940f8f6",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/corealm_fantasy_briar_wasp_p1_2k_pbr_rigged.glb",
+        "sourceSha256": "3dd649afd566f094d69d8d11e8a9b6c5145c9466b0789c0d1a5e6ec8b478979c",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/slatewing_basecolor_2k.png",
+        "atlasSha256": "b23f0f48c7674f7b1a33ae109bdc84a5d70ff06ebe9a7be04417baabacc43244",
+        "originalNormalAndOrmRetained": true
+      },
+      "metadata": {
+        "is": "Slatewing Wasp",
+        "tags": [
+          "wasp",
+          "fallowmarch"
+        ],
+        "contactNormalized": 0.5
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_marsh_wasp",
+      "file": "models/creature/creature_marsh_wasp.glb",
+      "pack": "corealm-fantasy-briar-wasp-p1",
+      "category": "character",
+      "is": "Marsh Wasp",
+      "tags": [
+        "creature",
+        "insect",
+        "wasp",
+        "flying",
+        "tripo-p1",
+        "candidate",
+        "t5"
+      ],
+      "bytes": 8417952,
+      "sha256": "96551f2a490cb1ed5a687d13186e1327828be07670d8de8f682404f0b4513c88",
+      "size": {
+        "x": 0.7828127384185791,
+        "y": 0.7984375973760053,
+        "z": 0.6515625476837159
+      },
+      "base": {
+        "x": -0.39140670299530034,
+        "y": 0,
+        "z": -0.3257809162139893
+      },
+      "bounds": {
+        "min": [
+          -0.39140670299530034,
+          0,
+          -0.3257809162139893
+        ],
+        "max": [
+          0.3914060354232788,
+          0.7984375973760053,
+          0.3257816314697266
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5116,
+      "vertices": 7850,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_aa7dacd2-7d0c-46bd-b291-0481e715709b"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "modelId": "78a332eb-c1a4-486b-85e5-27dad940f8f6",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/corealm_fantasy_briar_wasp_p1_2k_pbr_rigged.glb",
+        "sourceSha256": "3dd649afd566f094d69d8d11e8a9b6c5145c9466b0789c0d1a5e6ec8b478979c",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/textures/marsh_basecolor_2k.png",
+        "atlasSha256": "25b7ed3a20fa5c057eda9ed1e99897625a790173fe3198737354fb85923f27fb",
+        "originalNormalAndOrmRetained": true
+      },
+      "metadata": {
+        "is": "Marsh Wasp",
+        "tags": [
+          "wasp",
+          "vellenwood"
+        ],
+        "contactNormalized": 0.5
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_field_wasp": "creature_field_wasp.glb",
+    "creature_heath_wasp": "creature_heath_wasp.glb",
+    "creature_reed_wasp": "creature_reed_wasp.glb",
+    "creature_marsh_wasp": "creature_marsh_wasp.glb"
+  }
+}

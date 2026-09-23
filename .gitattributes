@@ -22,3 +22,7 @@ art/item-models/source-snapshots/*.ts text eol=lf
 tools/build-bedded-shortcuts.ts text eol=lf
 tools/build-boulder04-shortcuts.ts text eol=lf
 tools/build-rock09-shortcuts.ts text eol=lf
+
+# Creature generator hashes must remain identical across checkouts.
+assets/art/tripo/imports/creatures/**/*.mjs -text whitespace=cr-at-eol
+assets/art/tripo/imports/creatures/**/*.ts -text whitespace=cr-at-eol

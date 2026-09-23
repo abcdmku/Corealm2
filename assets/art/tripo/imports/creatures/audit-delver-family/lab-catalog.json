@@ -1,0 +1,161 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_slag_crawler",
+      "file": "models/creature/creature_slag_crawler.glb",
+      "pack": "corealm-tripo-mineral-crawlers",
+      "category": "character",
+      "is": "Slag Crawler",
+      "tags": [
+        "creature",
+        "mineral",
+        "crawler",
+        "six-legged",
+        "slag",
+        "cooling-crust",
+        "image-generated-texture"
+      ],
+      "bytes": 22020900,
+      "sha256": "0c2f33f44e6792a7e2f03eaeb8883dc25e9444db175672184551c5efcecb7154",
+      "size": {
+        "x": 0.7996430886595167,
+        "y": 0.72,
+        "z": 1.3147545401494223
+      },
+      "base": {
+        "x": -0.39982154432975836,
+        "y": 0,
+        "z": -0.6573772700747111
+      },
+      "bounds": {
+        "min": [
+          -0.39982154432975836,
+          0,
+          -0.6573772700747111
+        ],
+        "max": [
+          0.39982154432975836,
+          0.72,
+          0.6573772700747111
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5310,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Slag Crawler layered mineral PBR"
+      ],
+      "walkClipSeconds": 1.5199999809265137,
+      "runClipSeconds": 0.8799999952316284,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-native-rig-candidate.glb",
+        "sourceSha256": "b27a5ac2272d822a9d6457399238f9b9a1eba5b131c089a97a493cad9c25de16",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-delver-family/textures/slag-basecolor.png",
+        "atlasSha256": "8bdac782c8efd4792c4e730a865dbf96de89df371e576da3151a5518078f81f8",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-delver-family/slag-crawler-candidate.glb",
+        "candidateSha256": "0c2f33f44e6792a7e2f03eaeb8883dc25e9444db175672184551c5efcecb7154"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_cinderback_crag",
+      "file": "models/creature/creature_cinderback_crag.glb",
+      "pack": "corealm-tripo-mineral-crawlers",
+      "category": "character",
+      "is": "Cinderback Crag",
+      "tags": [
+        "creature",
+        "mineral",
+        "crawler",
+        "six-legged",
+        "basalt",
+        "ember-fissures",
+        "image-generated-texture"
+      ],
+      "bytes": 22454584,
+      "sha256": "e73c4934d6c140fbe1b3eb247cfd47853ec0e6da505b5e7a7c67444ef92ee1fb",
+      "size": {
+        "x": 1.8880461815571923,
+        "y": 1.7,
+        "z": 3.1042815531305807
+      },
+      "base": {
+        "x": -0.9440230907785961,
+        "y": 0,
+        "z": -1.5521407765652904
+      },
+      "bounds": {
+        "min": [
+          -0.9440230907785961,
+          0,
+          -1.5521407765652904
+        ],
+        "max": [
+          0.9440230907785961,
+          1.7,
+          1.5521407765652904
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5310,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Cinderback Crag layered mineral PBR"
+      ],
+      "walkClipSeconds": 1.899999976158142,
+      "runClipSeconds": 1.100000023841858,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-native-rig-candidate.glb",
+        "sourceSha256": "b27a5ac2272d822a9d6457399238f9b9a1eba5b131c089a97a493cad9c25de16",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-delver-family/textures/crag-basecolor.png",
+        "atlasSha256": "ac86829568bd072e5b6ef3e4aa41638d254e652e19d4f7f74dae6b0d21c438ff",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-delver-family/cinderback-crag-candidate.glb",
+        "candidateSha256": "e73c4934d6c140fbe1b3eb247cfd47853ec0e6da505b5e7a7c67444ef92ee1fb"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_slag_crawler": "slag-crawler-candidate.glb",
+    "creature_cinderback_crag": "cinderback-crag-candidate.glb"
+  }
+}

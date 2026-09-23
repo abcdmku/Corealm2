@@ -1,0 +1,95 @@
+{
+  "sourceFile": "assets/art/tripo/imports/creatures/audit-user-rock-golem/rock-golem-user-original.glb",
+  "sourceSha256": "372e1318cb41ba5008699dc8a9b0300fbb62e1a9b20441dd2b36acb68753bc80",
+  "sourceBytes": 6344616,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rock-golem/quarry-warden-user-rock-golem-candidate.glb",
+  "candidateSha256": "e7cddf2be93661efc2fed0ed7632064f7f4f50bb588717a940a73368ec62f083",
+  "candidateBytes": 6379036,
+  "geometryPreserved": true,
+  "sourceSkinAndWeightsPreserved": true,
+  "pbrTexturesPreserved": true,
+  "vertices": 7424,
+  "triangles": 4771,
+  "joints": 67,
+  "sourceHeight": 0.7089843,
+  "nativeScale": 4.12,
+  "gameScale": 0.8691519590640763,
+  "renderedHeight": 2.538806184357572,
+  "textures": [
+    {
+      "name": "tripo_image_bbd22f72-6f7c-40b1-8994-12e1fd1c0674_2",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 947841,
+      "sha256": "3e16bea9730f3d92a380fb205413275ca8e9adf78a8d97f5a6a81bc74163843f"
+    },
+    {
+      "name": "tripo_image_bbd22f72-6f7c-40b1-8994-12e1fd1c0674_0",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1434269,
+      "sha256": "5621d05746966041a6810cb43a29412e580da6ba8d0cec54d37ed8cf0689be7c"
+    },
+    {
+      "name": "tripo_image_bbd22f72-6f7c-40b1-8994-12e1fd1c0674_1",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 3524391,
+      "sha256": "e07ae36ff193838e9bbfa492940fc7388d2715444fa1b1c89b54d2409264cab6"
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4,
+      "channels": 4
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.08,
+      "channels": 8
+    },
+    {
+      "name": "Run",
+      "seconds": 0.72,
+      "channels": 8
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.02,
+      "channels": 7
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.5,
+      "channels": 5
+    },
+    {
+      "name": "HitLeft",
+      "seconds": 0.5,
+      "channels": 5
+    },
+    {
+      "name": "HitRight",
+      "seconds": 0.5,
+      "channels": 5
+    },
+    {
+      "name": "Death",
+      "seconds": 1.5,
+      "channels": 10
+    }
+  ],
+  "contactSeconds": 0.43,
+  "contactNormalized": 0.4215686274509804,
+  "status": "awaiting-root-lab-review",
+  "floorCorrectionWorldMeters": {
+    "Walk": 0.009153497051323274,
+    "Run": 0.007973118887777382,
+    "Attack": 0.12040430162906415,
+    "Hit": 0.07123409735487658,
+    "HitLeft": 0.07123409735487658,
+    "HitRight": 0.07123409735487658,
+    "Death": 0.37578614369481456
+  }
+}

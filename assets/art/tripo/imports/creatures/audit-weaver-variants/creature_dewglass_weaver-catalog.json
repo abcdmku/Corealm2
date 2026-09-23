@@ -1,0 +1,170 @@
+{
+  "id": "creature_dewglass_weaver",
+  "displayName": "Dewglass Weaver",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "candidate": "assets/art/tripo/imports/creatures/audit-spider-family/blind-cave-weaver-sixleg-candidate.glb",
+    "candidateSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+    "tripoModel": "0ea08166-294b-467b-982b-8f3c1891eee3",
+    "tripoExport": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+    "tripoExportSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+    "originalReference": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+    "originalReferenceSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+    "anatomy": "six walking legs and two short mouth palps; not a spider"
+  },
+  "candidate": {
+    "file": "dewglass-weaver-sixleg-candidate.glb",
+    "sha256": "454620355583b7b68dd2e2991cd99fd8cdcd14560cd38bb1cff40cd8c59a8bba",
+    "bytes": 7901428,
+    "size": {
+      "x": 0.8600647053600557,
+      "y": 0.9342494986696231,
+      "z": 1.0762732726892426
+    },
+    "bounds": {
+      "min": [
+        -0.4300323526800279,
+        0,
+        -0.5381366363446213
+      ],
+      "max": [
+        0.4300323526800279,
+        0.9342494986696231,
+        0.5381366363446213
+      ]
+    },
+    "triangles": 5400,
+    "rig": {
+      "type": "authored non-humanoid arthropod skeleton",
+      "joints": [
+        "VaultweaverRoot",
+        "BodyCore",
+        "Carapace",
+        "Hood",
+        "SilkSac",
+        "ForeL_Hip",
+        "ForeL_Knee",
+        "ForeL_Ankle",
+        "ForeL_Foot",
+        "ForeR_Hip",
+        "ForeR_Knee",
+        "ForeR_Ankle",
+        "ForeR_Foot",
+        "MidL_Hip",
+        "MidL_Knee",
+        "MidL_Ankle",
+        "MidL_Foot",
+        "MidR_Hip",
+        "MidR_Knee",
+        "MidR_Ankle",
+        "MidR_Foot",
+        "HindL_Hip",
+        "HindL_Knee",
+        "HindL_Ankle",
+        "HindL_Foot",
+        "HindR_Hip",
+        "HindR_Knee",
+        "HindR_Ankle",
+        "HindR_Foot"
+      ],
+      "jointCount": 29,
+      "legPairs": [
+        "fore",
+        "mid",
+        "hind"
+      ],
+      "pairedPalps": "Kept with the hood/body weights; no isolated joints were accepted because the visible source geometry did not align with the first conservative palp paths.",
+      "basis": "Y-up, X lateral, +Z hood/front",
+      "weights": "Per-vertex distances to model-fitted six-leg polylines with body/leg spatial gating; normalized 4-influence skin. Source mesh, indices, normals and UVs retained."
+    },
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "Death"
+    ],
+    "walkClipSeconds": 1.0800000429153442,
+    "runClipSeconds": 0.7200000286102295,
+    "attackSeconds": 0.8799999952316284,
+    "contactNormalized": 0.4772727298588792,
+    "attackContactSeconds": 0.42,
+    "gaitCalibration": {
+      "status": "pending-world-speed-fit",
+      "impliedWalkMps": null,
+      "impliedRunMps": null
+    },
+    "sourceHeight": 0.8608357906341553,
+    "presentation": {
+      "sceneScale": 1.0852818956114567,
+      "rawAssetHeightMeters": 0.9342494986696231,
+      "existingSpeciesScale": 0.7086123195731177,
+      "desiredInGameHeightMeters": 0.662020704312304,
+      "habitat": "Gloamgarden fairy region"
+    },
+    "texture": {
+      "generatedAtlas": "dewglass/dewglass-generated-atlas.png",
+      "generatedSha256": "5e248cceb3fea25e2c86aa2ff0296ac314a3cc852d7b1c98045c37793151f37a",
+      "generatedDimensions": "1254x1254",
+      "runtimeAtlas": "creature_dewglass_weaver-basecolor-2k.jpg",
+      "runtimeSha256": "ae771c8932bebb4b8c9ee234a8545083e342dfd0b3420c90649715d73b541994",
+      "runtimeDimensions": "2048x2048",
+      "method": "imagegen edit of the exact source UV atlas; generated island alignment requires root visual review"
+    },
+    "floorCorrection": {
+      "Idle": {
+        "beforeMinY": 0.001999987647501178,
+        "afterMinY": 0.001999987647501178,
+        "maximumBodyLift": 1.2352498801604384e-8
+      },
+      "Walk": {
+        "beforeMinY": 0.001999979715585051,
+        "afterMinY": 0.001999979715585051,
+        "maximumBodyLift": 2.028441492551991e-8
+      },
+      "Run": {
+        "beforeMinY": 0.0019999740486192712,
+        "afterMinY": 0.0019999740486192712,
+        "maximumBodyLift": 2.5951380711042304e-8
+      },
+      "Attack": {
+        "beforeMinY": 0.0019999855754379427,
+        "afterMinY": 0.0019999855754379427,
+        "maximumBodyLift": 1.4424562044812461e-8
+      },
+      "Hit": {
+        "beforeMinY": 0.001999986106425278,
+        "afterMinY": 0.001999986106425278,
+        "maximumBodyLift": 1.3893574735135417e-8
+      },
+      "Death": {
+        "beforeMinY": 0.001999985780986479,
+        "afterMinY": 0.001999985780986479,
+        "maximumBodyLift": 1.4219013522165369e-8
+      }
+    },
+    "serializedValidation": {
+      "skinJointOrderPreserved": true,
+      "texture2K": true,
+      "sixClips": true,
+      "minimumFloorYByClip": {
+        "Idle": 0.0021705503852795763,
+        "Walk": 0.0021705417769146062,
+        "Run": 0.002170535626659242,
+        "Attack": 0.0021705481365068605,
+        "Hit": 0.002170548712777802,
+        "Death": 0.002170548359584966
+      }
+    }
+  },
+  "acceptance": {
+    "imageAudit": false,
+    "geometryAudit": false,
+    "textureAudit": false,
+    "motionAudit": false,
+    "labReview": false,
+    "productionReady": false
+  }
+}

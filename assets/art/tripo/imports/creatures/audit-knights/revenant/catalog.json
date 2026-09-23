@@ -1,0 +1,456 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_revenant",
+  "displayName": "Waygrave Warden",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_revenant_97940d41_8k_rigged.glb",
+    "sha256": "5873f96218a1610a204aa1b19340be0e2ca263c842727c9db44c391aefcf251b",
+    "bytes": 26908564,
+    "starredModelId": "97940d41-9ad5-42a0-83f1-ed40797a2c62",
+    "starred": true,
+    "starredDisplayName": "revenant",
+    "sourceImageId": "547d71b5-ee5f-477e-a03c-fd53e5b94c1d",
+    "imageReview": {
+      "verdict": "approved",
+      "reviewer": "wild_audit (gpt-6-astra low); face_audit_crown"
+    },
+    "prompt": "Revenant, a wilderness fallen road warden returned to duty. Adult human warrior with balanced average muscular build, weathered olive-gray skin, stern intact face and short coarse dark hair. Low round iron helmet open at face with a dented nasal guard. Worn dark rust chain shirt, split brown leather skirt, practical steel bracers and thick walking boots. Old moss stitched through the shoulder strap, faded red cloth wraps and pale salt stains. Both hands empty and clearly visible. Undead through stillness and cold gray eyes, not a skeleton or zombie gore. Grounded veteran silhouette, no huge pauldrons, no spikes.",
+    "geometry": {
+      "vertices": 3536,
+      "triangles": 5281,
+      "bounds": {
+        "min": [
+          -0.241943359375,
+          0,
+          -0.125244140625
+        ],
+        "max": [
+          0.241943359375,
+          0.9995116591453552,
+          0.125244140625
+        ]
+      },
+      "scaledBounds": {
+        "min": [
+          -0.44759521484375003,
+          0,
+          -0.23170166015625002
+        ],
+        "max": [
+          0.44759521484375003,
+          1.8490965694189072,
+          0.23170166015625002
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false,
+      "modelScale": 1.85
+    },
+    "textures": [
+      {
+        "name": "corealm_revenant_97940d41_8k_rigged_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "sha256": "2d5139ed495ad9aef790af6012ad4287de1d2cd26c73cabdcc52d3e834cba743"
+      },
+      {
+        "name": "corealm_revenant_97940d41_8k_rigged_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/png",
+        "sha256": "b8ebbfe4c23ada47fe9cc898191cba5a80fdccc5308affa0eda0dc9e2588c2dd"
+      },
+      {
+        "name": "corealm_revenant_97940d41_8k_rigged_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/jpeg",
+        "sha256": "2bfadd25fee4254598132dd22dc6a999c03c17508c535f3c6329346a20a2c66b"
+      }
+    ],
+    "sourceSkin": {
+      "joints": 54,
+      "allWeightMassOnHips": true,
+      "inverseBindMaxAbs": 2.1035366171874034e+37,
+      "discardedBecause": "Source inverse binds are corrupt and the GLB has no source rest transforms or clips."
+    },
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/audit-knights/revenant/waygrave-warden-native-rig.glb",
+    "sha256": "f488e43a7fb4d9af40a5c8f4b8f62d161aab839199c961ab0f14ae64a9009b63",
+    "bytes": 9510856,
+    "productionTarget": "game/public/assets/models/creature/creature_revenant.glb",
+    "geometry": {
+      "vertices": 3536,
+      "triangles": 5281,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "boundsMeters": {
+        "min": [
+          -0.44759521484375003,
+          0,
+          -0.23170166015625002
+        ],
+        "max": [
+          0.44759521484375003,
+          1.8490965694189072,
+          0.23170166015625002
+        ]
+      }
+    },
+    "rig": {
+      "type": "Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.405,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.49,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.585,
+            -0.004
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.68,
+            -0.002
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.785,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.89,
+            0.006
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.118,
+            0.69,
+            -0.004
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.157,
+            0.605,
+            0.002
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.19,
+            0.465,
+            0.014
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.198,
+            0.31,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.118,
+            0.69,
+            -0.004
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.157,
+            0.605,
+            0.002
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.19,
+            0.465,
+            0.014
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.198,
+            0.31,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.074,
+            0.345,
+            -0.002
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.075,
+            0.185,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.075,
+            0.05,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.075,
+            0.03,
+            0.067
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.074,
+            0.345,
+            -0.002
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.075,
+            0.185,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.075,
+            0.05,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.075,
+            0.03,
+            0.067
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 3536,
+      "perJointVertexInfluences": {
+        "mixamorigHips": 604,
+        "mixamorigSpine": 2048,
+        "mixamorigSpine1": 2344,
+        "mixamorigSpine2": 1939,
+        "mixamorigNeck": 1283,
+        "mixamorigHead": 834,
+        "mixamorigLeftShoulder": 185,
+        "mixamorigLeftArm": 405,
+        "mixamorigLeftForeArm": 388,
+        "mixamorigLeftHand": 349,
+        "mixamorigRightShoulder": 164,
+        "mixamorigRightArm": 344,
+        "mixamorigRightForeArm": 384,
+        "mixamorigRightHand": 341,
+        "mixamorigLeftUpLeg": 156,
+        "mixamorigLeftLeg": 483,
+        "mixamorigLeftFoot": 375,
+        "mixamorigLeftToeBase": 252,
+        "mixamorigRightUpLeg": 151,
+        "mixamorigRightLeg": 486,
+        "mixamorigRightFoot": 376,
+        "mixamorigRightToeBase": 253
+      },
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "method": "Model-specific 22-joint upright bind and four-influence anatomical distance weights; corrupt Tripo skin discarded, mesh topology retained."
+    },
+    "textures": [
+      {
+        "name": "corealm_revenant_97940d41_8k_rigged_basecolor.jpg",
+        "role": "base-color",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1296078
+      },
+      {
+        "name": "corealm_revenant_97940d41_8k_rigged_rm.png",
+        "role": "metallic-roughness",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4120820
+      },
+      {
+        "name": "corealm_revenant_97940d41_8k_rigged_normal.jpg",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 3654011
+      }
+    ],
+    "packedMetallicChannelRange": [
+      0,
+      0.8745098039215686
+    ],
+    "sourceMaterialFactors": {
+      "metallic": 1,
+      "roughness": 1,
+      "normalScale": 1
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 3
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 9
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.9,
+        "channels": 7
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 9
+      }
+    ],
+    "pbr": "Image-generated ashen undead skin, pale eyes and layered ragged gravecloth aligned to source UV atlas; original packed PBR and normal maps retained.",
+    "textureOverride": {
+      "file": "assets/art/tripo/imports/creatures/audit-knights/revenant/runtime-atlas.jpg",
+      "sha256": "467b5ab774ff072bdb88a1b9370a72a46535b848935934e1170f9c431798d164",
+      "width": 2048,
+      "height": 2048,
+      "imagegenCoverage": 0.86
+    },
+    "deathFloorProof": {
+      "method": "All weighted mesh vertices skinned against each Death pose; hip-Y correction keyed at 97 frames and independently checked at 193 frames.",
+      "scaleY": 1,
+      "duration": 1.4500000476837158,
+      "minBefore": -0.19366113272859778,
+      "minAfter": 0.005955292815933341,
+      "floorTarget": 0.006,
+      "startHeight": 0.9995116810807607,
+      "finalHeight": 0.5072975283902325,
+      "finalHeightRatio": 0.5075453723979467
+    }
+  },
+  "integrationTarget": {
+    "assetId": "creature_revenant",
+    "definitionIds": [
+      "revenant_t50",
+      "black_keep_court_guard"
+    ],
+    "regionId": "wilderness",
+    "tier": 50,
+    "suggestedDisplayName": "Waygrave Warden"
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  },
+  "sourceReuse": {
+    "originalCandidateFile": "assets/art/tripo/imports/creatures/starred-revenant/waygrave-warden-native-rig.glb",
+    "originalCandidateSha256": "94119acd75068537978b5db054af71dc535088a09665bf117add2acbf134bb72",
+    "stagingMethod": "byte-identical copy of existing corrected native rig; source Tripo skin is corrupt",
+    "productionSha256": "c20da925ab713f8dae7e73ad85d41584d6063c25647249e17b1040bad90f1bdb",
+    "productionTriangles": 15550,
+    "sourceComparedToProduction": true,
+    "review": "Detailed chainmail, straps and worn cloth; intact grey face reads undead subtly. Suitable as an armored revenant base, but level 28 and 81 need distinct scale/gear variants."
+  }
+}

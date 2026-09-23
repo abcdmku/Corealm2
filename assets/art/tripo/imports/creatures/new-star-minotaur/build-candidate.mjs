@@ -7,6 +7,7 @@ import { Matrix4, Quaternion, Vector3 } from 'three';
 
 const baseDir = 'assets/art/tripo/imports/creatures/new-star-minotaur';
 const sourcePath = 'assets/art/tripo/exports/501ffade-8115-427c-8616-e2791cfb40f6.glb';
+const nativePreviewPath = baseDir + '/redmane-native-preview.glb';
 const candidatePath = baseDir + '/redmane-breaker-native-rig.glb';
 const sourceExpectedSha256 = 'c69d605643fc9041fc02611e08c8d30a78c111e2bde20868e8e2366587e26b7c';
 const cardId = 'f4934bef-8282-4dd6-b0b8-bc6072f4be3b';
@@ -24,6 +25,8 @@ const attrHash = (accessor) => {
 };
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const sourceBytes = await readFile(sourcePath);
+const nativePreviewBytes = await readFile(nativePreviewPath);
+const nativePreviewSha256 = sha(nativePreviewBytes);
 const sourceSha256 = sha(sourceBytes);
 if (sourceSha256 !== sourceExpectedSha256 || sourceBytes.length !== 4478576) {
   throw new Error('Minotaur source hash or byte length changed: ' + sourceSha256 + ' (' + sourceBytes.length + ' bytes).');
@@ -88,32 +91,28 @@ const X = (fraction) => center[0] + width * fraction;
 const Z = (fraction) => center[2] + depth * fraction;
 const presentationScale = targetHeightMeters / height;
 
-// The source model has a 24-joint hierarchy, but every vertex is fully weighted to
-// bone_0 and there are no clips. Replace those unusable influences with an anatomical
-// Unity Humanoid skin while retaining every source position, normal, UV, index and map.
+// The source is a crouched four-legged bull, facing -X. Its three visible hoof
+// clusters are near (-.34, ±.05), (+.21,+.36), (+.37,-.35) in XZ; the close
+// front pair overlaps in projection. The Tripo skeleton has no useful joint
+// transforms or weights, so place four leg chains on the actual sculpt.
 const bones = [
-  { name: 'mixamorigHips', parent: null, p: [center[0], Y(0.40), center[2]], sigma: height * 0.13, group: 'torso' },
-  { name: 'mixamorigSpine', parent: 'mixamorigHips', p: [center[0], Y(0.49), Z(0.03)], sigma: height * 0.13, group: 'torso' },
-  { name: 'mixamorigSpine1', parent: 'mixamorigSpine', p: [center[0], Y(0.58), Z(0.07)], sigma: height * 0.14, group: 'torso' },
-  { name: 'mixamorigSpine2', parent: 'mixamorigSpine1', p: [center[0], Y(0.67), Z(0.08)], sigma: height * 0.13, group: 'torso' },
-  { name: 'mixamorigNeck', parent: 'mixamorigSpine2', p: [center[0], Y(0.77), Z(0.10)], sigma: height * 0.09, group: 'torso' },
-  { name: 'mixamorigHead', parent: 'mixamorigNeck', p: [center[0], Y(0.85), Z(0.14)], sigma: height * 0.15, group: 'head' },
-  { name: 'mixamorigLeftShoulder', parent: 'mixamorigSpine2', p: [X(-0.18), Y(0.69), Z(0.07)], sigma: width * 0.13, group: 'leftArm', side: -1 },
-  { name: 'mixamorigLeftArm', parent: 'mixamorigLeftShoulder', p: [X(-0.31), Y(0.67), Z(0.07)], sigma: width * 0.13, group: 'leftArm', side: -1 },
-  { name: 'mixamorigLeftForeArm', parent: 'mixamorigLeftArm', p: [X(-0.43), Y(0.63), Z(0.06)], sigma: width * 0.12, group: 'leftArm', side: -1 },
-  { name: 'mixamorigLeftHand', parent: 'mixamorigLeftForeArm', p: [X(-0.49), Y(0.59), Z(0.08)], sigma: width * 0.12, group: 'leftArm', side: -1 },
-  { name: 'mixamorigRightShoulder', parent: 'mixamorigSpine2', p: [X(0.18), Y(0.69), Z(0.07)], sigma: width * 0.13, group: 'rightArm', side: 1 },
-  { name: 'mixamorigRightArm', parent: 'mixamorigRightShoulder', p: [X(0.31), Y(0.67), Z(0.07)], sigma: width * 0.13, group: 'rightArm', side: 1 },
-  { name: 'mixamorigRightForeArm', parent: 'mixamorigRightArm', p: [X(0.43), Y(0.63), Z(0.06)], sigma: width * 0.12, group: 'rightArm', side: 1 },
-  { name: 'mixamorigRightHand', parent: 'mixamorigRightForeArm', p: [X(0.49), Y(0.59), Z(0.08)], sigma: width * 0.12, group: 'rightArm', side: 1 },
-  { name: 'mixamorigLeftUpLeg', parent: 'mixamorigHips', p: [X(-0.17), Y(0.34), Z(0.00)], sigma: width * 0.15, group: 'leftLeg', side: -1 },
-  { name: 'mixamorigLeftLeg', parent: 'mixamorigLeftUpLeg', p: [X(-0.22), Y(0.17), Z(0.00)], sigma: width * 0.14, group: 'leftLeg', side: -1 },
-  { name: 'mixamorigLeftFoot', parent: 'mixamorigLeftLeg', p: [X(-0.36), Y(0.055), Z(0.10)], sigma: width * 0.13, group: 'leftLeg', side: -1 },
-  { name: 'mixamorigLeftToeBase', parent: 'mixamorigLeftFoot', p: [X(-0.36), Y(0.025), Z(0.25)], sigma: width * 0.13, group: 'leftLeg', side: -1 },
-  { name: 'mixamorigRightUpLeg', parent: 'mixamorigHips', p: [X(0.17), Y(0.34), Z(0.00)], sigma: width * 0.15, group: 'rightLeg', side: 1 },
-  { name: 'mixamorigRightLeg', parent: 'mixamorigRightUpLeg', p: [X(0.22), Y(0.17), Z(0.00)], sigma: width * 0.14, group: 'rightLeg', side: 1 },
-  { name: 'mixamorigRightFoot', parent: 'mixamorigRightLeg', p: [X(0.36), Y(0.055), Z(0.10)], sigma: width * 0.13, group: 'rightLeg', side: 1 },
-  { name: 'mixamorigRightToeBase', parent: 'mixamorigRightFoot', p: [X(0.36), Y(0.025), Z(0.25)], sigma: width * 0.13, group: 'rightLeg', side: 1 },
+  { name: 'BullRoot', parent: null, p: [0, Y(.46), 0], sigma: .22, group: 'body' },
+  { name: 'BullRump', parent: 'BullRoot', p: [.19, Y(.49), 0], sigma: .20, group: 'body' },
+  { name: 'BullShoulders', parent: 'BullRoot', p: [-.22, Y(.57), 0], sigma: .20, group: 'body' },
+  { name: 'BullNeck', parent: 'BullShoulders', p: [-.34, Y(.70), 0], sigma: .14, group: 'head' },
+  { name: 'BullHead', parent: 'BullNeck', p: [-.34, Y(.80), 0], sigma: .22, group: 'head' },
+  { name: 'FrontLeftUpper', parent: 'BullShoulders', p: [-.29, Y(.44), .10], sigma: .13, group: 'front', side: 1 },
+  { name: 'FrontLeftLower', parent: 'FrontLeftUpper', p: [-.32, Y(.20), .09], sigma: .12, group: 'front', side: 1 },
+  { name: 'FrontLeftHoof', parent: 'FrontLeftLower', p: [-.33, Y(.04), .08], sigma: .10, group: 'front', side: 1 },
+  { name: 'FrontRightUpper', parent: 'BullShoulders', p: [-.29, Y(.44), -.10], sigma: .13, group: 'front', side: -1 },
+  { name: 'FrontRightLower', parent: 'FrontRightUpper', p: [-.35, Y(.20), -.08], sigma: .12, group: 'front', side: -1 },
+  { name: 'FrontRightHoof', parent: 'FrontRightLower', p: [-.37, Y(.04), -.06], sigma: .10, group: 'front', side: -1 },
+  { name: 'HindLeftUpper', parent: 'BullRump', p: [.21, Y(.40), .25], sigma: .17, group: 'hind', side: 1 },
+  { name: 'HindLeftLower', parent: 'HindLeftUpper', p: [.22, Y(.20), .33], sigma: .14, group: 'hind', side: 1 },
+  { name: 'HindLeftHoof', parent: 'HindLeftLower', p: [.21, Y(.04), .37], sigma: .11, group: 'hind', side: 1 },
+  { name: 'HindRightUpper', parent: 'BullRump', p: [.30, Y(.40), -.25], sigma: .17, group: 'hind', side: -1 },
+  { name: 'HindRightLower', parent: 'HindRightUpper', p: [.35, Y(.20), -.33], sigma: .14, group: 'hind', side: -1 },
+  { name: 'HindRightHoof', parent: 'HindRightLower', p: [.37, Y(.04), -.36], sigma: .11, group: 'hind', side: -1 },
 ];
 const boneByName = new Map(bones.map((bone, index) => [bone.name, { ...bone, index }]));
 for (const bone of bones) {
@@ -150,7 +149,7 @@ for (const bone of bones) {
   const parent = bone.parent ? jointNodes.get(bone.parent) : rigContainer;
   parent.addChild(node);
 }
-const skin = doc.createSkin('RedmaneBreaker_UnityHumanoid').setSkeleton(jointNodes.get('mixamorigHips'));
+const skin = doc.createSkin('RedmaneBreaker_Quadruped').setSkeleton(jointNodes.get('BullRoot'));
 for (const bone of bones) skin.addJoint(jointNodes.get(bone.name));
 const inverseBinds = new Float32Array(bones.length * 16);
 for (let i = 0; i < bones.length; i++) {
@@ -173,23 +172,22 @@ const influenceCounts = new Uint32Array(bones.length);
 let maximumWeightSumError = 0;
 for (let vertex = 0; vertex < vertexCount; vertex++) {
   const point = [positions[vertex * 3], positions[vertex * 3 + 1], positions[vertex * 3 + 2]];
-  const [x, y] = point;
+  const [x, y, z] = point;
   const yn = (y - bounds.min[1]) / height;
-  const lateral = (x - center[0]) / width;
   const candidates = [];
   for (const bone of bones) {
     let gate = 1;
     if (bone.group === 'head') {
-      gate = 0.02 + 0.98 / (1 + Math.exp(-(yn - 0.76) / 0.035));
-    } else if (bone.group === 'leftArm' || bone.group === 'rightArm') {
-      gate = yn > 0.33 && yn < 0.84 ? 1 : 0.012;
-      gate *= 0.02 + 0.98 / (1 + Math.exp(-((bone.side * lateral - 0.13) / 0.055)));
-    } else if (bone.group === 'leftLeg' || bone.group === 'rightLeg') {
-      gate = yn < 0.52 ? 1 : 0.008;
-      gate *= 0.02 + 0.98 / (1 + Math.exp(-((bone.side * lateral - 0.04) / 0.09)));
+      gate = 0.01 + 0.99 / (1 + Math.exp(-(yn - .64) / .055));
+      gate *= 0.02 + .98 / (1 + Math.exp((x + .13) / .06));
+    } else if (bone.group === 'front' || bone.group === 'hind') {
+      const front = bone.group === 'front';
+      gate = 0.005 + .995 / (1 + Math.exp((yn - (front ? .54 : .50)) / .055));
+      gate *= .002 + .998 / (1 + Math.exp((front ? x + .10 : .10 - x) / .055));
+      gate *= .005 + .995 / (1 + Math.exp((.015 - bone.side * z) / .025));
     } else {
-      const central = 0.08 + 0.92 / (1 + Math.exp((Math.abs(lateral) - 0.34) / 0.08));
-      gate = central * (yn < 0.90 ? 1 : 0.08);
+      gate = (.03 + .97 / (1 + Math.exp((.42 - yn) / .06)))
+        * (.08 + .92 / (1 + Math.exp((Math.abs(z) - .25) / .07)));
     }
     const parent = bone.parent ? boneByName.get(bone.parent) : null;
     const distance = segmentDistance(point, parent?.p ?? bone.p, bone.p);
@@ -255,9 +253,7 @@ const quat = (axis, angle) => {
   if (axis === 'y') return [0, sine, 0, cosine];
   return [0, 0, sine, cosine];
 };
-const phase = [0, 0.25, 0.5, 0.75, 1];
-const cycle = (offset, amount) => phase.map((t) => quat('x', Math.sin((t + offset) * Math.PI * 2) * amount));
-const idleArms = (side, angle) => side < 0 ? quat('z', angle) : quat('z', -angle);
+const phase = Array.from({ length: 17 }, (_, index) => index / 16);
 const clips = [];
 function addClip(name, seconds, tracks) {
   const animation = doc.createAnimation(name);
@@ -266,89 +262,60 @@ function addClip(name, seconds, tracks) {
       .setArray(Float32Array.from(track.times)).setType(Accessor.Type.SCALAR).setBuffer(buffer);
     const output = doc.createAccessor(name + '_' + track.node + '_' + (track.path ?? 'rotation') + '_value')
       .setArray(Float32Array.from(track.values.flat()))
-      .setType(track.path === 'translation' ? Accessor.Type.VEC3 : Accessor.Type.VEC4).setBuffer(buffer);
+      .setType(track.path === 'translation' || track.path === 'scale' ? Accessor.Type.VEC3 : Accessor.Type.VEC4).setBuffer(buffer);
     const sampler = doc.createAnimationSampler(name + '_' + track.node).setInput(input).setOutput(output).setInterpolation('LINEAR');
     animation.addSampler(sampler).addChannel(doc.createAnimationChannel(track.node + '_' + (track.path ?? 'rotation'))
       .setTargetNode(jointNodes.get(track.node)).setTargetPath(track.path ?? 'rotation').setSampler(sampler));
   }
   clips.push({ name, seconds, tracks });
 }
-const hY = Y(0.40), hZ = center[2];
-const hipsAt = (y, z = hZ) => [center[0], y, z];
-const armSides = [['mixamorigLeftShoulder', 'mixamorigLeftArm', 'mixamorigLeftForeArm', 'mixamorigLeftHand', -1], ['mixamorigRightShoulder', 'mixamorigRightArm', 'mixamorigRightForeArm', 'mixamorigRightHand', 1]];
-addClip('Idle', 3.0, [
-  ...armSides.flatMap(([shoulder, upper, fore, hand, side]) => [
-    { node: shoulder, times: [0, 0.75, 1.5, 2.25, 3], values: [idleArms(side, 0.72), idleArms(side, 0.73), idleArms(side, 0.71), idleArms(side, 0.72), idleArms(side, 0.72)] },
-    { node: upper, times: [0, 0.75, 1.5, 2.25, 3], values: [quat('x', 0), quat('x', -0.025), quat('x', 0), quat('x', 0.018), quat('x', 0)] },
-    { node: fore, times: [0, 0.75, 1.5, 2.25, 3], values: [quat('z', side * 0.12), quat('z', side * 0.13), quat('z', side * 0.12), quat('z', side * 0.11), quat('z', side * 0.12)] },
-    { node: hand, times: [0, 0.75, 1.5, 2.25, 3], values: [quat('x', 0), quat('x', 0.02), quat('x', 0), quat('x', -0.02), quat('x', 0)] },
-  ]),
-  { node: 'mixamorigSpine1', times: [0, 0.75, 1.5, 2.25, 3], values: [quat('x', 0), quat('x', 0.018), quat('x', 0), quat('x', -0.014), quat('x', 0)] },
-  { node: 'mixamorigSpine2', times: [0, 0.75, 1.5, 2.25, 3], values: [quat('z', 0), quat('z', 0.012), quat('z', 0), quat('z', -0.01), quat('z', 0)] },
-  { node: 'mixamorigHead', times: [0, 0.75, 1.5, 2.25, 3], values: [quat('x', 0), quat('x', -0.025), quat('x', 0.015), quat('x', 0), quat('x', 0)] },
+const rootRest = bones[0].p;
+const rootAt = (dy = 0, dx = 0) => [rootRest[0] + dx, rootRest[1] + dy, rootRest[2]];
+const legPairs = [
+  ['FrontLeftUpper', 'FrontLeftLower', 'FrontLeftHoof', 0],
+  ['FrontRightUpper', 'FrontRightLower', 'FrontRightHoof', 0],
+  ['HindLeftUpper', 'HindLeftLower', 'HindLeftHoof', .5],
+  ['HindRightUpper', 'HindRightLower', 'HindRightHoof', .5],
+];
+function gait(name, seconds, swing, knee, bob, baseLift) {
+  const times = phase.map(t => t * seconds);
+  addClip(name, seconds, [
+    { node: 'BullRoot', path: 'translation', times, values: phase.map(t => rootAt(baseLift + bob * (1 - Math.cos(4 * Math.PI * t)) / 2, .025 * Math.sin(2 * Math.PI * t))) },
+    { node: 'BullShoulders', times, values: phase.map(t => quat('z', .07 * Math.sin(4 * Math.PI * t))) },
+    { node: 'BullHead', times, values: phase.map(t => quat('z', .09 * Math.sin(4 * Math.PI * t))) },
+    ...legPairs.flatMap(([upper, lower, hoof, offset]) => [
+      { node: upper, times, values: phase.map(t => quat('z', Math.cos(2 * Math.PI * (t + offset)) * swing)) },
+      { node: lower, times, values: phase.map(t => quat('z', -Math.max(0, Math.cos(2 * Math.PI * (t + offset))) * knee)) },
+      { node: hoof, times, values: phase.map(t => quat('z', Math.max(0, Math.cos(2 * Math.PI * (t + offset))) * knee * .45)) },
+    ]),
+  ]);
+}
+addClip('Idle', 3, [
+  { node: 'BullRoot', path: 'translation', times: [0, .75, 1.5, 2.25, 3], values: [rootAt(), rootAt(.006), rootAt(), rootAt(.005), rootAt()] },
+  { node: 'BullShoulders', times: [0, .75, 1.5, 2.25, 3], values: [0,.018,0,-.014,0].map(v => quat('z',v)) },
+  { node: 'BullHead', times: [0, .75, 1.5, 2.25, 3], values: [0,-.025,.015,.025,0].map(v => quat('z',v)) },
 ]);
-addClip('Walk', 1.12, [
-  { node: 'mixamorigHips', path: 'translation', times: phase.map((t) => t * 1.12), values: [[...hipsAt(hY)], [...hipsAt(hY + 0.025)], [...hipsAt(hY)], [...hipsAt(hY + 0.012)], [...hipsAt(hY)]] },
-  { node: 'mixamorigLeftUpLeg', times: phase.map((t) => t * 1.12), values: cycle(0, 0.14) },
-  { node: 'mixamorigRightUpLeg', times: phase.map((t) => t * 1.12), values: cycle(0.5, 0.14) },
-  { node: 'mixamorigLeftLeg', times: phase.map((t) => t * 1.12), values: phase.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.12)) },
-  { node: 'mixamorigRightLeg', times: phase.map((t) => t * 1.12), values: phase.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.12)) },
-  ...armSides.flatMap(([shoulder, upper, fore, , side]) => [
-    { node: shoulder, times: phase.map((t) => t * 1.12), values: phase.map((t) => idleArms(side, 0.72 + Math.sin((t + (side < 0 ? 0.5 : 0)) * Math.PI * 2) * 0.08)) },
-    { node: upper, times: phase.map((t) => t * 1.12), values: cycle(side < 0 ? 0.5 : 0, 0.13) },
-    { node: fore, times: phase.map((t) => t * 1.12), values: phase.map((t) => quat('z', side * (0.12 + Math.max(0, Math.sin(t * Math.PI * 2)) * 0.18))) },
-  ]),
+gait('Walk', 1.12, .23, .16, 0, .016);
+gait('Run', .76, .36, .27, .012, .013);
+addClip('Attack', .95, [
+  { node: 'BullRoot', path: 'translation', times: [0,.20,.43,.70,.95], values: [rootAt(),rootAt(.018,.045),rootAt(.025,-.16),rootAt(.025,-.05),rootAt()] },
+  { node: 'BullShoulders', times: [0,.20,.43,.70,.95], values: [0,-.12,.20,.08,0].map(v => quat('z',v)) },
+  { node: 'BullNeck', times: [0,.20,.43,.70,.95], values: [0,-.18,.38,.12,0].map(v => quat('z',v)) },
+  { node: 'BullHead', times: [0,.20,.43,.70,.95], values: [0,-.15,.32,.10,0].map(v => quat('z',v)) },
+  ...legPairs.map(([upper]) => ({ node: upper, times: [0,.20,.43,.70,.95], values: [0,.04,-.07,-.02,0].map(v => quat('z',v)) })),
 ]);
-addClip('Run', 0.76, [
-  { node: 'mixamorigHips', path: 'translation', times: phase.map((t) => t * 0.76), values: [[...hipsAt(hY)], [...hipsAt(hY + 0.055)], [...hipsAt(hY)], [...hipsAt(hY + 0.035)], [...hipsAt(hY)]] },
-  { node: 'mixamorigLeftUpLeg', times: phase.map((t) => t * 0.76), values: cycle(0, 0.30) },
-  { node: 'mixamorigRightUpLeg', times: phase.map((t) => t * 0.76), values: cycle(0.5, 0.30) },
-  { node: 'mixamorigLeftLeg', times: phase.map((t) => t * 0.76), values: phase.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.28)) },
-  { node: 'mixamorigRightLeg', times: phase.map((t) => t * 0.76), values: phase.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.28)) },
-  ...armSides.flatMap(([shoulder, upper, fore, , side]) => [
-    { node: shoulder, times: phase.map((t) => t * 0.76), values: phase.map((t) => idleArms(side, 0.72 + Math.sin((t + (side < 0 ? 0.5 : 0)) * Math.PI * 2) * 0.13)) },
-    { node: upper, times: phase.map((t) => t * 0.76), values: cycle(side < 0 ? 0.5 : 0, 0.30) },
-    { node: fore, times: phase.map((t) => t * 0.76), values: phase.map((t) => quat('z', side * (0.12 + Math.max(0, Math.sin(t * Math.PI * 2)) * 0.30))) },
-  ]),
-  { node: 'mixamorigSpine1', times: phase.map((t) => t * 0.76), values: phase.map((t) => quat('x', 0.025 + Math.sin(t * Math.PI * 2) * 0.045)) },
-]);
-addClip('Attack', 1.0, [
-  { node: 'mixamorigHips', path: 'translation', times: [0, 0.20, 0.46, 0.72, 1], values: [hipsAt(hY), hipsAt(hY + 0.015, hZ - 0.07), hipsAt(hY - 0.005, hZ + 0.16), hipsAt(hY, hZ + 0.04), hipsAt(hY)] },
-  { node: 'mixamorigSpine1', times: [0, 0.20, 0.46, 0.72, 1], values: [quat('x', 0), quat('x', -0.24), quat('x', 0.35), quat('x', 0.16), quat('x', 0)] },
-  { node: 'mixamorigSpine2', times: [0, 0.20, 0.46, 0.72, 1], values: [quat('x', 0), quat('x', -0.12), quat('x', 0.24), quat('x', 0.08), quat('x', 0)] },
-  { node: 'mixamorigNeck', times: [0, 0.20, 0.46, 0.72, 1], values: [quat('x', 0), quat('x', -0.18), quat('x', 0.28), quat('x', 0.08), quat('x', 0)] },
-  { node: 'mixamorigHead', times: [0, 0.20, 0.46, 0.72, 1], values: [quat('x', 0), quat('x', -0.24), quat('x', 0.42), quat('x', 0.16), quat('x', 0)] },
-  ...armSides.flatMap(([shoulder, upper, fore, , side]) => [
-    { node: shoulder, times: [0, 0.20, 0.46, 0.72, 1], values: [idleArms(side, 0.72), idleArms(side, 1.02), idleArms(side, 0.40), idleArms(side, 0.56), idleArms(side, 0.72)] },
-    { node: upper, times: [0, 0.20, 0.46, 0.72, 1], values: [quat('x', 0), quat('x', -0.18), quat('x', 0.12), quat('x', 0.08), quat('x', 0)] },
-    { node: fore, times: [0, 0.20, 0.46, 0.72, 1], values: [quat('z', side * 0.12), quat('z', side * 0.36), quat('z', side * 0.10), quat('z', side * 0.08), quat('z', side * 0.12)] },
-  ]),
-]);
-addClip('Hit', 0.48, [
-  { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.48], values: [hipsAt(hY), hipsAt(hY + 0.01, hZ - 0.10), hipsAt(hY, hZ - 0.04), hipsAt(hY)] },
-  { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.48], values: [quat('z', 0), quat('z', 0.23), quat('z', -0.08), quat('z', 0)] },
-  { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.48], values: [quat('x', 0), quat('x', -0.20), quat('x', 0.06), quat('x', 0)] },
-  { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.48], values: [quat('z', 0), quat('z', -0.20), quat('z', 0.05), quat('z', 0)] },
-  ...armSides.map(([shoulder, , fore, , side]) => ({ node: shoulder, times: [0, 0.08, 0.20, 0.48], values: [idleArms(side, 0.72), idleArms(side, 0.92), idleArms(side, 0.70), idleArms(side, 0.72)] })),
-  ...armSides.map(([, , fore, , side]) => ({ node: fore, times: [0, 0.08, 0.20, 0.48], values: [quat('z', side * 0.12), quat('z', side * 0.24), quat('z', side * 0.10), quat('z', side * 0.12)] })),
+addClip('Hit', .48, [
+  { node: 'BullRoot', path: 'translation', times: [0,.08,.20,.48], values: [rootAt(),rootAt(.025,.07),rootAt(.015,.025),rootAt()] },
+  { node: 'BullShoulders', times: [0,.08,.20,.48], values: [0,-.20,.07,0].map(v => quat('z',v)) },
+  { node: 'BullHead', times: [0,.08,.20,.48], values: [0,-.25,.08,0].map(v => quat('z',v)) },
 ]);
 addClip('Death', 1.55, [
-  { node: 'mixamorigHips', path: 'translation', times: [0, 0.22, 0.65, 1.05, 1.55], values: [hipsAt(hY), hipsAt(hY), hipsAt(hY), hipsAt(hY), hipsAt(hY)] },
-  { node: 'mixamorigHips', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('z', 0), quat('z', 0.01), quat('z', 0.015), quat('z', 0.015), quat('z', 0.015)] },
-  { node: 'mixamorigSpine1', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', 0.12), quat('x', 0.30), quat('x', 0.40), quat('x', 0.40)] },
-  { node: 'mixamorigSpine2', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', 0.10), quat('x', 0.22), quat('x', 0.26), quat('x', 0.26)] },
-  { node: 'mixamorigHead', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', 0.12), quat('x', 0.28), quat('x', 0.34), quat('x', 0.34)] },
-  { node: 'mixamorigLeftUpLeg', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', -0.05), quat('x', -0.12), quat('x', -0.14), quat('x', -0.14)] },
-  { node: 'mixamorigRightUpLeg', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', 0.04), quat('x', 0.10), quat('x', 0.12), quat('x', 0.12)] },
-  { node: 'mixamorigLeftLeg', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', -0.08), quat('x', -0.18), quat('x', -0.22), quat('x', -0.22)] },
-  { node: 'mixamorigRightLeg', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', 0.06), quat('x', 0.14), quat('x', 0.18), quat('x', 0.18)] },
-  { node: 'mixamorigLeftFoot', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', 0.13), quat('x', 0.30), quat('x', 0.36), quat('x', 0.36)] },
-  { node: 'mixamorigRightFoot', times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', -0.10), quat('x', -0.24), quat('x', -0.30), quat('x', -0.30)] },
-  ...armSides.flatMap(([shoulder, upper, fore, , side]) => [
-    { node: shoulder, times: [0, 0.22, 0.65, 1.05, 1.55], values: [idleArms(side, 0.72), idleArms(side, 0.90), idleArms(side, 1.12), idleArms(side, 1.15), idleArms(side, 1.15)] },
-    { node: upper, times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('x', 0), quat('x', 0.08), quat('x', 0.36), quat('x', 0.40), quat('x', 0.40)] },
-    { node: fore, times: [0, 0.22, 0.65, 1.05, 1.55], values: [quat('z', side * 0.12), quat('z', side * 0.18), quat('z', side * 0.30), quat('z', side * 0.32), quat('z', side * 0.32)] },
-  ]),
+  { node: 'BullRoot', path: 'translation', times: [0,.22,.65,1.05,1.55], values: [rootAt(),rootAt(),rootAt(),rootAt(),rootAt()] },
+  { node: 'BullRoot', path: 'scale', times: [0,.22,.65,1.05,1.55], values: [[1,1,1],[1,.96,1],[1,.80,1],[1,.70,1],[1,.70,1]] },
+  { node: 'BullRoot', times: [0,.22,.65,1.05,1.55], values: [0,.08,.23,.35,.35].map(v => quat('x',v)) },
+  { node: 'BullNeck', times: [0,.22,.65,1.05,1.55], values: [0,.08,.28,.42,.42].map(v => quat('z',v)) },
+  { node: 'BullHead', times: [0,.22,.65,1.05,1.55], values: [0,.10,.24,.32,.32].map(v => quat('z',v)) },
+  ...legPairs.map(([upper], i) => ({ node: upper, times: [0,.22,.65,1.05,1.55], values: [0,.06,.13,.20,.20].map(v => quat('z', v * (i < 2 ? 1 : -1))) })),
 ]);
 
 // Sample all clips through the actual linear skin weights so obvious frozen poses,
@@ -359,11 +326,11 @@ function interpolate(track, time) {
   let i = 0;
   while (i < track.times.length - 2 && track.times[i + 1] < time) i++;
   const amount = (time - track.times[i]) / (track.times[i + 1] - track.times[i]);
-  if (track.path === 'translation') return track.values[i].map((value, axis) => value + (track.values[i + 1][axis] - value) * amount);
+  if (track.path === 'translation' || track.path === 'scale') return track.values[i].map((value, axis) => value + (track.values[i + 1][axis] - value) * amount);
   return new Quaternion(...track.values[i]).slerp(new Quaternion(...track.values[i + 1]), amount).toArray();
 }
 function sampleSkin(clip, time) {
-  const pose = new Map(bones.map((bone) => [bone.name, { translation: [...bone.local], rotation: [0, 0, 0, 1] }]));
+  const pose = new Map(bones.map((bone) => [bone.name, { translation: [...bone.local], rotation: [0, 0, 0, 1], scale: [1, 1, 1] }]));
   for (const track of clip.tracks) {
     const value = interpolate(track, time);
     pose.get(track.node)[track.path ?? 'rotation'] = value;
@@ -371,13 +338,16 @@ function sampleSkin(clip, time) {
   const worldByName = new Map();
   for (const bone of bones) {
     const localPose = pose.get(bone.name);
-    const localMatrix = new Matrix4().compose(new Vector3(...localPose.translation), new Quaternion(...localPose.rotation), new Vector3(1, 1, 1));
+    const localMatrix = new Matrix4().compose(new Vector3(...localPose.translation), new Quaternion(...localPose.rotation), new Vector3(...localPose.scale));
     const parent = bone.parent ? worldByName.get(bone.parent) : null;
     worldByName.set(bone.name, parent ? parent.clone().multiply(localMatrix) : localMatrix);
   }
   const matrices = bones.map((bone, index) => worldByName.get(bone.name).clone().multiply(new Matrix4().fromArray(Array.from(inverseBinds.slice(index * 16, index * 16 + 16)))));
   const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
   let maxDisplacement = 0, movedVertices = 0;
+  const contactVertices = [2, 6254, 7681]; // front, left hind, right hind hoof tips
+  const contacts = {};
+  const deformed = new Float32Array(positions.length);
   for (let vertex = 0; vertex < vertexCount; vertex++) {
     const source = new Vector3(positions[vertex * 3], positions[vertex * 3 + 1], positions[vertex * 3 + 2]);
     const out = new Vector3();
@@ -389,13 +359,46 @@ function sampleSkin(clip, time) {
     maxDisplacement = Math.max(maxDisplacement, displacement);
     if (displacement > 1e-4) movedVertices++;
     min[0] = Math.min(min[0], out.x);
+    deformed.set(out.toArray(), vertex * 3);
+    if (contactVertices.includes(vertex)) contacts[vertex] = out.toArray();
     min[1] = Math.min(min[1], out.y); min[2] = Math.min(min[2], out.z);
     max[0] = Math.max(max[0], out.x); max[1] = Math.max(max[1], out.y); max[2] = Math.max(max[2], out.z);
   }
-  return { time, maximumVertexDisplacement: maxDisplacement, movedVertices, bounds: { min, max } };
+  let maximumEdgeStretchRatio = 1, maximumEdgeLengthGain = 0, worstEdge = null;
+  for (let i = 0; i < indices.length; i += 3) {
+    for (const [a, b] of [[indices[i], indices[i + 1]], [indices[i + 1], indices[i + 2]], [indices[i + 2], indices[i]]]) {
+      const rest = Math.hypot(...[0, 1, 2].map(axis => positions[a * 3 + axis] - positions[b * 3 + axis]));
+      if (rest < .01) continue;
+      const posed = Math.hypot(...[0, 1, 2].map(axis => deformed[a * 3 + axis] - deformed[b * 3 + axis]));
+      maximumEdgeStretchRatio = Math.max(maximumEdgeStretchRatio, posed / rest);
+      if (posed - rest > maximumEdgeLengthGain) {
+        maximumEdgeLengthGain = posed - rest;
+        worstEdge = { a, b, rest, posed, sourceA: Array.from(positions.slice(a * 3, a * 3 + 3)), sourceB: Array.from(positions.slice(b * 3, b * 3 + 3)) };
+      }
+    }
+  }
+  return { time, maximumVertexDisplacement: maxDisplacement, movedVertices, maximumEdgeStretchRatio, maximumEdgeLengthGain, worstEdge, contacts, bounds: { min, max } };
 }
+// Follow the irregular sculpted hooves rather than lifting the whole beast by
+// a fixed amount. At each walk key the lowest hoof meets the authored floor.
+// This preserves one planted contact as the paired front/rear legs exchange load.
+const walkClip = clips.find(clip => clip.name === 'Walk');
+const walkRootTrack = walkClip.tracks.find(track => track.node === 'BullRoot' && track.path === 'translation');
+for (let index = 0; index < walkRootTrack.times.length; index++) {
+  walkRootTrack.values[index][1] -= sampleSkin(walkClip, walkRootTrack.times[index]).bounds.min[1];
+}
+root.listAccessors().find(accessor => accessor.getName() === 'Walk_BullRoot_translation_value')
+  .setArray(Float32Array.from(walkRootTrack.values.flat()));
+const deathClip = clips.find(clip => clip.name === 'Death');
+const deathRootTrack = deathClip.tracks.find(track => track.node === 'BullRoot' && track.path === 'translation');
+for (let index = 0; index < deathRootTrack.times.length; index++) {
+  deathRootTrack.values[index][1] -= sampleSkin(deathClip, deathRootTrack.times[index]).bounds.min[1];
+}
+root.listAccessors().find(accessor => accessor.getName() === 'Death_BullRoot_translation_value')
+  .setArray(Float32Array.from(deathRootTrack.values.flat()));
+
 const sampledMotions = clips.map((clip) => {
-  const samples = Array.from({ length: 9 }, (_, index) => sampleSkin(clip, clip.seconds * index / 8));
+  const samples = Array.from({ length: 33 }, (_, index) => sampleSkin(clip, clip.seconds * index / 32));
   return {
     name: clip.name,
     seconds: clip.seconds,
@@ -403,20 +406,58 @@ const sampledMotions = clips.map((clip) => {
     sampledPoses: samples.length,
     maximumVertexDisplacement: Math.max(...samples.map((sample) => sample.maximumVertexDisplacement)),
     maximumMovedVertices: Math.max(...samples.map((sample) => sample.movedVertices)),
+    maximumEdgeStretchRatio: Math.max(...samples.map((sample) => sample.maximumEdgeStretchRatio)),
+    maximumEdgeLengthGain: Math.max(...samples.map((sample) => sample.maximumEdgeLengthGain)),
+    worstEdge: samples.reduce((best, sample) => sample.maximumEdgeLengthGain > best.maximumEdgeLengthGain ? sample : best).worstEdge,
     minimumGroundY: Math.min(...samples.map((sample) => sample.bounds.min[1])),
+    contactTravel: Object.fromEntries([2, 6254, 7681].map(vertex => {
+      const points = samples.map(sample => sample.contacts[vertex]);
+      return [vertex, Math.max(...points.flatMap(a => points.map(b => Math.hypot(...a.map((value, axis) => value - b[axis])))))];
+    })),
+    contactVelocity: Object.fromEntries([2, 6254, 7681].map(vertex => {
+      const steps = [];
+      for (let index = 1; index < samples.length; index++) {
+        const from = samples[index - 1].contacts[vertex], to = samples[index].contacts[vertex];
+        const backwardMps = (to[0] - from[0]) * presentationScale * 32 / clip.seconds;
+        const verticalMps = Math.abs(to[1] - from[1]) * presentationScale * 32 / clip.seconds;
+        if (Math.max(from[1], to[1]) < .01 && backwardMps > 0 && verticalMps < .1 * backwardMps + .03) steps.push(backwardMps);
+      }
+      steps.sort((a, b) => a - b);
+      const median = steps.length ? steps[Math.floor(steps.length / 2)] : null;
+      return [vertex, { stanceSamples: steps.length, medianMps: median, p10Mps: steps.length ? steps[Math.floor(steps.length * .1)] : null, p90Mps: steps.length ? steps[Math.floor(steps.length * .9)] : null }];
+    })),
+    samples: samples.map((sample) => ({ time: sample.time, groundY: sample.bounds.min[1], ceilingY: sample.bounds.max[1] })),
     sweptBounds: {
       min: [0, 1, 2].map((axis) => Math.min(...samples.map((sample) => sample.bounds.min[axis]))),
       max: [0, 1, 2].map((axis) => Math.max(...samples.map((sample) => sample.bounds.max[axis]))),
     },
   };
 });
+const deathStart = sampleSkin(deathClip, 0), deathFinal = sampleSkin(deathClip, deathClip.seconds);
+const deathPoseVerification = {
+  startBounds: deathStart.bounds,
+  finalBounds: deathFinal.bounds,
+  finalRootTranslation: deathRootTrack.values.at(-1),
+  finalRootScale: deathClip.tracks.find(track => track.node === 'BullRoot' && track.path === 'scale').values.at(-1),
+  horizontalCenterShift: [0, 2].map(axis =>
+    (deathFinal.bounds.min[axis] + deathFinal.bounds.max[axis] - deathStart.bounds.min[axis] - deathStart.bounds.max[axis]) / 2),
+};
 for (const motion of sampledMotions) {
   if (motion.maximumVertexDisplacement < 0.01 || motion.maximumMovedVertices < vertexCount * 0.25) {
     throw new Error(motion.name + ' does not produce enough actual skin deformation.');
   }
+  if (motion.maximumEdgeLengthGain > .05) {
+    throw new Error(motion.name + ' stretches a mesh edge by more than .05 source units: ' + JSON.stringify(motion.worstEdge));
+  }
+}
+for (const name of ['Walk', 'Run']) {
+  const motion = sampledMotions.find(entry => entry.name === name);
+  if (Math.min(...Object.values(motion.contactTravel)) < .10) {
+    throw new Error(name + ' does not move every sampled hoof at least .10 source units through its full cycle.');
+  }
 }
 const worstPenetration = Math.min(...sampledMotions.map((motion) => motion.minimumGroundY));
-if (worstPenetration < -0.18) throw new Error('Animation falls more than 0.18m below the rest floor: ' + worstPenetration + '; ' + JSON.stringify(sampledMotions.map((motion) => ({ name: motion.name, minY: motion.sweptBounds.min[1], maxY: motion.sweptBounds.max[1] }))));
+  if (worstPenetration < -0.004) throw new Error('Animation passes more than 1cm through the floor after presentation scale: ' + worstPenetration + ' ' + JSON.stringify(sampledMotions.map(m => ({ name: m.name, floor: m.minimumGroundY }))));
 
 const outputBytes = await io.writeBinary(doc);
 await writeFile(candidatePath, outputBytes);
@@ -456,7 +497,7 @@ const animationNames = checkRoot.listAnimations().map((animation) => animation.g
 if (requiredClips.some((name) => !animationNames.includes(name))) throw new Error('Exported creature is missing a gameplay clip.');
 for (const animation of checkRoot.listAnimations()) {
   for (const channel of animation.listChannels()) {
-    if (!checkSkin.listJoints().includes(channel.getTargetNode())) throw new Error(animation.getName() + ' targets a node outside the exported humanoid skin.');
+    if (!checkSkin.listJoints().includes(channel.getTargetNode())) throw new Error(animation.getName() + ' targets a node outside the exported quadruped skin.');
   }
 }
 
@@ -470,7 +511,14 @@ const geometry = {
   indicesPreserved: true,
   retopology: false,
 };
-const rigMethod = 'Mixamo-named Unity Humanoid skeleton with four normalized anatomical influences per vertex; source had 100% bone_0 weighting, so only JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt.';
+const rigMethod = 'Four-leg bull skeleton with anatomically partitioned front and hind hoof weights; source had 100% bone_0 weighting, so JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt.';
+const gaitCalibration = {
+  status: 'uncalibrated',
+  impliedWalkMps: null,
+  impliedRunMps: null,
+  reason: 'Grounded backward-sole velocity is sparse and inconsistent: the 33-pose Walk sample has 8, 4 and 0 usable stance intervals at the three sampled hooves; Run has 2, 0 and 0. No defensible speed scalar follows from this clip.',
+  metadataToRemoveOnPromotion: ['impliedWalkMps', 'impliedRunMps'],
+};
 const catalog = {
   schema: 'corealm-creature-native-rig-candidate/1',
   id: assetId,
@@ -489,6 +537,11 @@ const catalog = {
     geometry,
     sourceSkin: { jointCount: 24, rootWeightedVertices, vertexCount, allVerticesWeightedToBoneZero: rootWeightedVertices === vertexCount },
     sourceAnimations: [],
+    nativePreview: {
+      file: nativePreviewPath, sha256: nativePreviewSha256, bytes: nativePreviewBytes.length,
+      rigJoints: 41, clips: 0,
+      assessment: 'Rejected for motion: hoof-height vertices are fully weighted to a high head-area bone or neutral_bone.',
+    },
     textures: sourceTextureMetrics,
   },
   candidate: {
@@ -499,7 +552,7 @@ const catalog = {
     presentation: { targetHeightMeters, scaleFactor: presentationScale, uniformRootScale: presentationScale, scaleNode: 'RedmaneBreakerArmature' },
     geometry: { vertices: vertexCount, triangles: triangleCount, positionsPreserved: true, normalsPreserved: true, uvsPreserved: true, indicesPreserved: true },
     rig: {
-      type: 'Mixamo-named Unity Humanoid glTF skin',
+      type: 'Anatomical quadruped glTF skin',
       joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })),
       influencesPerVertex: 4,
       verticesWithDistributedWeights: distributedVertices,
@@ -510,10 +563,13 @@ const catalog = {
     textures: runtimeTextureMetrics,
     packedMetallicChannelRange: metallicRange,
     animations: clips.map((clip) => ({ name: clip.name, seconds: clip.seconds, channels: clip.tracks.length })),
+    motionTiming: { walkClipSeconds: 1.12, runClipSeconds: .76, attackSeconds: .95, attackContactNormalized: .43 / .95 },
+    gaitCalibration,
     motionVerification: sampledMotions,
+    deathPoseVerification,
   },
   suggestedTier,
-  suggestedRegionFit: 'Highland border or upper Wilderness; large aggressive humanoid belongs well above the starter region.',
+  suggestedRegionFit: 'Highland border or upper Wilderness; large aggressive bull belongs well above the starter region.',
   acceptance: { sourceDesignAudit: false, geometry: true, rig: false, animation: false, textures: false, labAccepted: false, worldIntegrated: false },
 };
 await writeFile(baseDir + '/catalog.json', JSON.stringify(catalog, null, 2) + '\n');
@@ -529,7 +585,7 @@ const labAsset = {
   pack: 'corealm-starred-creatures',
   category: 'character',
   is: displayName,
-  tags: ['creature', 'humanoid', 'minotaur', 'redmane', 'T40-T50', 'starred', 'tripo', 'candidate'],
+  tags: ['creature', 'quadruped', 'bull', 'minotaur', 'redmane', 'T40-T50', 'starred', 'tripo', 'candidate'],
   bytes: outputBytes.length,
   sha256: candidateSha256,
   size: { x: scaledSize[0], y: scaledSize[1], z: scaledSize[2] },
@@ -538,10 +594,21 @@ const labAsset = {
   groundY: scaledBounds.min[1],
   triangles: triangleCount,
   animations: requiredClips,
+  walkClipSeconds: 1.12,
+  runClipSeconds: .76,
+  attackSeconds: .95,
+  attackContactNormalized: .43 / .95,
+  gaitCalibration,
   materials: root.listMaterials().map((entry) => entry.getName()),
   presentation: { targetHeightMeters, scaleFactor: presentationScale, uniformRootScale: presentationScale, scaleNode: 'RedmaneBreakerArmature' },
   sourceProvenance: { author: 'Corealm candidate rig reconstruction', sourceModelId: modelId, sourceCardId: cardId, sourceFile: sourcePath, sourceSha256, candidateFile: candidatePath, candidateSha256, rigMethod, textures: runtimeTextureMetrics, candidateStatus: 'awaiting-root-lab-review' },
   acceptance: { assetAudit: true, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };
 await writeFile(baseDir + '/lab-catalog.json', JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset], files: { [assetId]: 'redmane-breaker-native-rig.glb' } }, null, 2) + '\n');
+const badgerLabAsset = { ...labAsset, id: 'creature_rootdelve_badger' };
+await writeFile(baseDir + '/as-badger.lab-catalog.json', JSON.stringify({
+  schema: 'corealm-lab-asset-candidates/1',
+  assets: [badgerLabAsset],
+  files: { creature_rootdelve_badger: 'redmane-breaker-native-rig.glb' },
+}, null, 2) + '\n');
 console.log(JSON.stringify({ candidatePath, bytes: outputBytes.length, candidateSha256, vertices: vertexCount, triangles: triangleCount, sourceRootWeightedVertices: rootWeightedVertices, joints: bones.length, distributedVertices, maximumWeightSumError: checkedWeightError, presentationScale, runtimeTextureMetrics, motionVerification: sampledMotions, worstPenetration }, null, 2));

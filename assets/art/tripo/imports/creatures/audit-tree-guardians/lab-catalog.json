@@ -1,0 +1,125 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fantasy_monster_03",
+      "file": "thorn-sovereign-candidate.glb",
+      "pack": "corealm-tripo-audit-tree-guardians",
+      "category": "character",
+      "is": "Thorn Sovereign",
+      "tags": [
+        "creature",
+        "forest",
+        "tree",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6777004,
+      "sha256": "2b7c8ed10b15d1fda4922288ccbd8ac652adb6fafa74befbbf15df6f47980271",
+      "triangles": 4478,
+      "size": {
+        "x": 1.6553711284675097,
+        "y": 2.198925686452363,
+        "z": 0.735839854912416
+      },
+      "base": {
+        "x": -0.8276855707377369,
+        "y": 1.6757904537993173e-9,
+        "z": -0.367919919494847
+      },
+      "groundY": 1.6757904537993173e-9,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.275,
+      "materials": [
+        "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1"
+      ],
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/starred-grove-guardian/models/creature_starroot_guardian.glb",
+        "sha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+        "tripoProjectId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "triangles": 4478,
+        "vertices": 2828,
+        "rigJoints": 54
+      },
+      "candidateReview": {
+        "cpuMotionChecked": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_guardian_03_gloamgarden",
+      "file": "gloam-sovereign-candidate.glb",
+      "pack": "corealm-tripo-audit-tree-guardians",
+      "category": "character",
+      "is": "Gloamgarden Thorn Sovereign",
+      "tags": [
+        "creature",
+        "forest",
+        "tree",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 7069288,
+      "sha256": "4ea94483c9e3e6f1d02365030003318d343f18ccfd5cc87a443ee68aeb213fde",
+      "triangles": 4478,
+      "size": {
+        "x": 2.483056692701264,
+        "y": 3.2983885296785447,
+        "z": 1.1037597823686238
+      },
+      "base": {
+        "x": -1.2415283561066048,
+        "y": 2.5136853094962113e-9,
+        "z": -0.5518798792422703
+      },
+      "groundY": 2.5136853094962113e-9,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.275,
+      "materials": [
+        "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1"
+      ],
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/starred-grove-guardian/models/creature_starroot_guardian.glb",
+        "sha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+        "tripoProjectId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "triangles": 4478,
+        "vertices": 2828,
+        "rigJoints": 54
+      },
+      "candidateReview": {
+        "cpuMotionChecked": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fantasy_monster_03": "thorn-sovereign-candidate.glb",
+    "fairy_guardian_03_gloamgarden": "gloam-sovereign-candidate.glb"
+  }
+}

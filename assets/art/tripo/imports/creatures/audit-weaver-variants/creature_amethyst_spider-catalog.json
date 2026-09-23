@@ -1,0 +1,170 @@
+{
+  "id": "creature_amethyst_spider",
+  "displayName": "Amethyst Weaver",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "candidate": "assets/art/tripo/imports/creatures/audit-spider-family/blind-cave-weaver-sixleg-candidate.glb",
+    "candidateSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+    "tripoModel": "0ea08166-294b-467b-982b-8f3c1891eee3",
+    "tripoExport": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+    "tripoExportSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+    "originalReference": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+    "originalReferenceSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+    "anatomy": "six walking legs and two short mouth palps; not a spider"
+  },
+  "candidate": {
+    "file": "amethyst-weaver-sixleg-candidate.glb",
+    "sha256": "f8d621ea2e4dbc8caf332c36f03ab8abb44be6d0a9d95ece580ab3193897507e",
+    "bytes": 8028684,
+    "size": {
+      "x": 0.47883458451618877,
+      "y": 0.5201364126930991,
+      "z": 0.5992070853997946
+    },
+    "bounds": {
+      "min": [
+        -0.23941729225809438,
+        0,
+        -0.2996035426998973
+      ],
+      "max": [
+        0.23941729225809438,
+        0.5201364126930991,
+        0.2996035426998973
+      ]
+    },
+    "triangles": 5400,
+    "rig": {
+      "type": "authored non-humanoid arthropod skeleton",
+      "joints": [
+        "VaultweaverRoot",
+        "BodyCore",
+        "Carapace",
+        "Hood",
+        "SilkSac",
+        "ForeL_Hip",
+        "ForeL_Knee",
+        "ForeL_Ankle",
+        "ForeL_Foot",
+        "ForeR_Hip",
+        "ForeR_Knee",
+        "ForeR_Ankle",
+        "ForeR_Foot",
+        "MidL_Hip",
+        "MidL_Knee",
+        "MidL_Ankle",
+        "MidL_Foot",
+        "MidR_Hip",
+        "MidR_Knee",
+        "MidR_Ankle",
+        "MidR_Foot",
+        "HindL_Hip",
+        "HindL_Knee",
+        "HindL_Ankle",
+        "HindL_Foot",
+        "HindR_Hip",
+        "HindR_Knee",
+        "HindR_Ankle",
+        "HindR_Foot"
+      ],
+      "jointCount": 29,
+      "legPairs": [
+        "fore",
+        "mid",
+        "hind"
+      ],
+      "pairedPalps": "Kept with the hood/body weights; no isolated joints were accepted because the visible source geometry did not align with the first conservative palp paths.",
+      "basis": "Y-up, X lateral, +Z hood/front",
+      "weights": "Per-vertex distances to model-fitted six-leg polylines with body/leg spatial gating; normalized 4-influence skin. Source mesh, indices, normals and UVs retained."
+    },
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "Death"
+    ],
+    "walkClipSeconds": 1.0800000429153442,
+    "runClipSeconds": 0.7200000286102295,
+    "attackSeconds": 0.8799999952316284,
+    "contactNormalized": 0.4772727298588792,
+    "attackContactSeconds": 0.42,
+    "gaitCalibration": {
+      "status": "pending-world-speed-fit",
+      "impliedWalkMps": null,
+      "impliedRunMps": null
+    },
+    "sourceHeight": 0.8608357906341553,
+    "presentation": {
+      "sceneScale": 0.6042225687548703,
+      "rawAssetHeightMeters": 0.5201364126930991,
+      "existingSpeciesScale": 0.72,
+      "desiredInGameHeightMeters": 0.3744982171390313,
+      "habitat": "amethyst cavern"
+    },
+    "texture": {
+      "generatedAtlas": "amethyst/amethyst-weaver-basecolor.png",
+      "generatedSha256": "4926f4425246be9d3c8e7708ec85add7a0768a30c3f12c301c866ee429ab66c6",
+      "generatedDimensions": "2048x2048",
+      "runtimeAtlas": "creature_amethyst_spider-basecolor-2k.jpg",
+      "runtimeSha256": "7dc83035a293ecf0c51b0fd3dc9400098312fa90787a8d269290f622f2c5eb09",
+      "runtimeDimensions": "2048x2048",
+      "method": "imagegen edit of the exact source UV atlas; generated island alignment requires root visual review"
+    },
+    "floorCorrection": {
+      "Idle": {
+        "beforeMinY": 0.001999987647501144,
+        "afterMinY": 0.001999987647501144,
+        "maximumBodyLift": 1.2352498857115535e-8
+      },
+      "Walk": {
+        "beforeMinY": 0.001999979715585006,
+        "afterMinY": 0.001999979715585006,
+        "maximumBodyLift": 2.0284415036542214e-8
+      },
+      "Run": {
+        "beforeMinY": 0.0019999740486192847,
+        "afterMinY": 0.0019999740486192847,
+        "maximumBodyLift": 2.5951380711042304e-8
+      },
+      "Attack": {
+        "beforeMinY": 0.001999985575438005,
+        "afterMinY": 0.001999985575438005,
+        "maximumBodyLift": 1.442456198930131e-8
+      },
+      "Hit": {
+        "beforeMinY": 0.001999986106425265,
+        "afterMinY": 0.001999986106425265,
+        "maximumBodyLift": 1.3893574735135417e-8
+      },
+      "Death": {
+        "beforeMinY": 0.0019999857809864068,
+        "afterMinY": 0.0019999857809864068,
+        "maximumBodyLift": 1.421901357767652e-8
+      }
+    },
+    "serializedValidation": {
+      "skinJointOrderPreserved": true,
+      "texture2K": true,
+      "sixClips": true,
+      "minimumFloorYByClip": {
+        "Idle": 0.0012084376738511512,
+        "Walk": 0.0012084328812084074,
+        "Run": 0.0012084294570998222,
+        "Attack": 0.001208436421863839,
+        "Hit": 0.0012084367426983252,
+        "Death": 0.0012084365460608222
+      }
+    }
+  },
+  "acceptance": {
+    "imageAudit": false,
+    "geometryAudit": false,
+    "textureAudit": false,
+    "motionAudit": false,
+    "labReview": false,
+    "productionReady": false
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fairy_garden_sporekin_faeholme",
+      "file": "models/fairy-garden/fairy_garden_sporekin_faeholme.glb",
+      "pack": "corealm-tripo-audit-corrected",
+      "category": "character",
+      "is": "Duskcap Sporekin",
+      "tags": [
+        "creature",
+        "fairy",
+        "fungal",
+        "humanoid",
+        "faeholme",
+        "t60",
+        "starred",
+        "tripo",
+        "skinned",
+        "fairy-garden",
+        "image-generated-texture",
+        "candidate"
+      ],
+      "bytes": 7085464,
+      "sha256": "e3a7408805749eb791085993693115addc8fed6d1c4f2125955b8c67acae4bd3",
+      "triangles": 4438,
+      "size": {
+        "x": 1.744384842921401,
+        "y": 2.498779397294199,
+        "z": 0.8142084976201399
+      },
+      "base": {
+        "x": -0.8721924010676967,
+        "y": -1.0734991408368147e-7,
+        "z": -0.40710451223060523
+      },
+      "bounds": {
+        "min": [
+          -0.8721924010676967,
+          -1.0734991408368147e-7,
+          -0.40710451223060523
+        ],
+        "max": [
+          0.8721924418537044,
+          2.498779289944285,
+          0.4071039853895347
+        ]
+      },
+      "groundY": -1.0734991408368147e-7,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.26,
+      "materials": [
+        "Material_tripo_node_4eff212d-4569-40bb-b95e-77228ab6ff9c"
+      ],
+      "sourceProvenance": {
+        "projectId": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-corrected-sporekin/source-preview.glb",
+        "sourceSha256": "3276852eee55fe65f3100d47cb2720996e4c172f6d235206f2ca480f09d5acd5",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-corrected-sporekin/audit-corrected-sporekin-animated-candidate.glb",
+        "candidateSha256": "e3a7408805749eb791085993693115addc8fed6d1c4f2125955b8c67acae4bd3",
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "metadata": {
+        "source": {
+          "projectId": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+          "file": "assets/art/tripo/imports/creatures/audit-corrected-sporekin/source-preview.glb",
+          "sha256": "3276852eee55fe65f3100d47cb2720996e4c172f6d235206f2ca480f09d5acd5",
+          "vertices": 2858,
+          "triangles": 4438,
+          "rigJoints": 65,
+          "originalClips": 0,
+          "originalTextures": {
+            "baseColor": [
+              8192,
+              8192
+            ],
+            "normal": [
+              4096,
+              4096
+            ],
+            "metallicRoughness": [
+              4096,
+              4096
+            ]
+          }
+        },
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/audit-corrected-sporekin/audit-corrected-sporekin-animated-candidate.glb",
+          "sha256": "e3a7408805749eb791085993693115addc8fed6d1c4f2125955b8c67acae4bd3",
+          "uniformSceneRootScale": 2.5,
+          "sceneRoot": "corealm_motion_ground",
+          "rig": "Retained weighted 65-joint Tripo Mixamo skin; inverse-bind rest pose restored",
+          "motionSource": "game/public/assets/models/animation/animation_library_1.glb",
+          "motionSourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.039270726347803375
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.06489519171372576
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.04783536561391503
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.039529119621167945
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.039839292193727005,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.039839292193727005,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.039839292193727005,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.12550037158599167
+            }
+          ],
+          "runtimeTextureMaximumDimension": 2048,
+          "contact": {
+            "normalized": 0.26,
+            "seconds": 0.2253333353996277,
+            "method": "Measured peak forward reach of right hand relative to hips across 201 Attack samples; timing proxy pending gameplay review"
+          }
+        }
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_sporekin_faeholme": "audit-corrected-sporekin-animated-candidate.glb"
+  }
+}

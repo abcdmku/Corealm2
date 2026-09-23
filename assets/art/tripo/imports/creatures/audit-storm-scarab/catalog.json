@@ -1,0 +1,685 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_boss_tempest_roc",
+  "displayName": "Storm Scarab",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+    "sha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+    "bytes": 16766828,
+    "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+    "batchId": "flint-mandible",
+    "sourceImage": "assets/art/tripo/references/stone-flint-mandible.png",
+    "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+    "sourceImageSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+    "sourceAudit": {
+      "verdict": "approved-for-flint-mandible",
+      "stormScarabFit": "pending-root-review"
+    },
+    "imageApproval": {
+      "verdict": "approved-for-flint-mandible",
+      "stormScarabFit": "pending-root-review",
+      "sourceReferencePinned": true
+    },
+    "topology": {
+      "vertices": 2649,
+      "triangles": 4178,
+      "retopology": false
+    },
+    "originalRig": {
+      "skinJoints": 8,
+      "clips": 0,
+      "bone0WeightFraction": 0.9999999890131179,
+      "restTransforms": "identity"
+    },
+    "sourceMaterial": {
+      "name": "Material_tripo_node_c0d8de42-f212-4372-abfb-08beda541e22",
+      "baseColorMap": "8192x8192",
+      "metallicRoughnessMap": false,
+      "normalMap": false,
+      "occlusionMap": false,
+      "sha256": "7b18f12d74a471fd889a7af758179a4696389c998b6b65de9832e2751477cc84"
+    }
+  },
+  "candidate": {
+    "file": "storm-scarab-native-rig-candidate.glb",
+    "sha256": "6c81ca884b9ce3cffc51c7569f377d070f0a9dda1c39abbc200ceba9e57abb43",
+    "bytes": 13793624,
+    "vertices": 2649,
+    "triangles": 4178,
+    "bounds": {
+      "min": [
+        -0.64892578125,
+        0,
+        -0.99951171875
+      ],
+      "max": [
+        0.64892578125,
+        1.4130859375,
+        0.99951171875
+      ]
+    },
+    "size": {
+      "x": 1.2978515625,
+      "y": 1.4130859375,
+      "z": 1.9990234375
+    },
+    "groundY": 0,
+    "walkClipSeconds": 1.12,
+    "runClipSeconds": 0.72,
+    "attackSeconds": 0.86,
+    "contactNormalized": 0.5,
+    "gaitCalibration": {
+      "status": "pending-world-speed-fit",
+      "impliedWalkMps": null,
+      "impliedRunMps": null
+    },
+    "presentation": {
+      "sceneScale": 2,
+      "suggestedScale": 1,
+      "suggestedHeightMeters": 1.4130859375,
+      "role": "level-23 mid boss, 1.4 meter shell height"
+    },
+    "rig": {
+      "type": "custom six-leg stone beetle",
+      "jointCount": 30,
+      "boneNames": [
+        "ScarabRoot",
+        "BodyCore",
+        "Carapace",
+        "Head",
+        "Mandible",
+        "Abdomen",
+        "FrontLeft_Hip",
+        "FrontLeft_Femur",
+        "FrontLeft_Tibia",
+        "FrontLeft_Tarsus",
+        "FrontRight_Hip",
+        "FrontRight_Femur",
+        "FrontRight_Tibia",
+        "FrontRight_Tarsus",
+        "MiddleLeft_Hip",
+        "MiddleLeft_Femur",
+        "MiddleLeft_Tibia",
+        "MiddleLeft_Tarsus",
+        "MiddleRight_Hip",
+        "MiddleRight_Femur",
+        "MiddleRight_Tibia",
+        "MiddleRight_Tarsus",
+        "RearLeft_Hip",
+        "RearLeft_Femur",
+        "RearLeft_Tibia",
+        "RearLeft_Tarsus",
+        "RearRight_Hip",
+        "RearRight_Femur",
+        "RearRight_Tibia",
+        "RearRight_Tarsus"
+      ],
+      "legPairs": [
+        "Front",
+        "Middle",
+        "Rear"
+      ],
+      "basis": "Y-up, X lateral, +Z toward head and mandible",
+      "weights": "Four normalized influences from model-space body regions and nearest six-leg rig segments. Original positions, normals, UVs and indices are retained."
+    },
+    "textures": [
+      {
+        "name": "StormScarab_BaseColor_2K",
+        "role": "base-color",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 1738056,
+        "sha256": "8ec8eb0171e6b4d3157f9de53ff72c2bdcaacc37147caf62c5294e11571ed6d7",
+        "file": "assets/art/tripo/imports/creatures/audit-storm-scarab/textures/storm-scarab-basecolor-2k.jpg"
+      },
+      {
+        "name": "StormScarab_Normal_2K",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 7854396,
+        "sha256": "9ac919b4373201b102bf1d6c5b35716af18ce57f9700c2dc45eea27e893c91cc",
+        "file": "assets/art/tripo/imports/creatures/audit-storm-scarab/textures/storm-scarab-normal-2k.png"
+      },
+      {
+        "name": "StormScarab_ORM_2K",
+        "role": "occlusion-roughness-metallic",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 3864398,
+        "sha256": "6e7e60caa6055d42f561b3e074be19680808e35c72d2bd8d51ee887e56d88454",
+        "file": "assets/art/tripo/imports/creatures/audit-storm-scarab/textures/storm-scarab-orm-2k.png"
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 28
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.12,
+        "channels": 27
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 27
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.86,
+        "channels": 9
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.44,
+        "channels": 9
+      },
+      {
+        "name": "Death",
+        "seconds": 1.62,
+        "channels": 17
+      }
+    ],
+    "validation": {
+      "sourcePositionsNormalsUvsIndicesPreserved": true,
+      "sourceVertices": 2649,
+      "sourceTriangles": 4178,
+      "sourceWeightBone0Fraction": 0.9999999890131179,
+      "normalizedFourSlotWeights": true,
+      "maxWeightSumError": 4.470348358154297e-8,
+      "distributedVertices": 2643,
+      "activeJointVertexCounts": {
+        "ScarabRoot": 0,
+        "BodyCore": 2649,
+        "Carapace": 946,
+        "Head": 1248,
+        "Mandible": 486,
+        "Abdomen": 899,
+        "FrontLeft_Hip": 295,
+        "FrontLeft_Femur": 177,
+        "FrontLeft_Tibia": 158,
+        "FrontLeft_Tarsus": 94,
+        "FrontRight_Hip": 327,
+        "FrontRight_Femur": 181,
+        "FrontRight_Tibia": 158,
+        "FrontRight_Tarsus": 94,
+        "MiddleLeft_Hip": 108,
+        "MiddleLeft_Femur": 118,
+        "MiddleLeft_Tibia": 106,
+        "MiddleLeft_Tarsus": 93,
+        "MiddleRight_Hip": 108,
+        "MiddleRight_Femur": 118,
+        "MiddleRight_Tibia": 106,
+        "MiddleRight_Tarsus": 93,
+        "RearLeft_Hip": 118,
+        "RearLeft_Femur": 132,
+        "RearLeft_Tibia": 143,
+        "RearLeft_Tarsus": 84,
+        "RearRight_Hip": 132,
+        "RearRight_Femur": 143,
+        "RearRight_Tibia": 144,
+        "RearRight_Tarsus": 78
+      },
+      "activeJointWeightMass": {
+        "ScarabRoot": 0,
+        "BodyCore": 823.04601,
+        "Carapace": 235.47534,
+        "Head": 235.64244,
+        "Mandible": 107.39579,
+        "Abdomen": 84.65716,
+        "FrontLeft_Hip": 43.36035,
+        "FrontLeft_Femur": 57.76914,
+        "FrontLeft_Tibia": 65.97109,
+        "FrontLeft_Tarsus": 48.31683,
+        "FrontRight_Hip": 44.12245,
+        "FrontRight_Femur": 57.8006,
+        "FrontRight_Tibia": 65.97333,
+        "FrontRight_Tarsus": 48.31438,
+        "MiddleLeft_Hip": 22.83724,
+        "MiddleLeft_Femur": 53.38608,
+        "MiddleLeft_Tibia": 36.27822,
+        "MiddleLeft_Tarsus": 69.56131,
+        "MiddleRight_Hip": 22.83772,
+        "MiddleRight_Femur": 53.37817,
+        "MiddleRight_Tibia": 36.27823,
+        "MiddleRight_Tarsus": 69.56129,
+        "RearLeft_Hip": 16.38651,
+        "RearLeft_Femur": 66.33126,
+        "RearLeft_Tibia": 52.90139,
+        "RearLeft_Tarsus": 47.18441,
+        "RearRight_Hip": 16.42761,
+        "RearRight_Femur": 65.10228,
+        "RearRight_Tibia": 73.76735,
+        "RearRight_Tarsus": 28.93603
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 2.8,
+          "channels": 28
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.12,
+          "channels": 27
+        },
+        {
+          "name": "Run",
+          "seconds": 0.72,
+          "channels": 27
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.86,
+          "channels": 9
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.44,
+          "channels": 9
+        },
+        {
+          "name": "Death",
+          "seconds": 1.62,
+          "channels": 17
+        }
+      ],
+      "runtimeMapsAll2K": true,
+      "serializedJointOrderMatchesRig": true,
+      "sceneScale": 2,
+      "motionChecks": [
+        {
+          "clip": "Idle",
+          "minFloor": -1.4305114719839872e-8,
+          "floorSamples": [
+            -1.4305114719839872e-8,
+            0.00399999385433551,
+            0.008000002076581926,
+            0.012000060464448492,
+            0.016000068123644438,
+            0.012000059578891968,
+            0.008000000787630569,
+            0.003999992968778994
+          ],
+          "bodyVerticalRange": 0.016301199408810807,
+          "legExcursions": {
+            "FrontLeft": 0.018016056470293015,
+            "FrontRight": 0.018691369901609686,
+            "MiddleLeft": 0.019374202608321508,
+            "MiddleRight": 0.016954840362537013,
+            "RearLeft": 0.01798893495562925,
+            "RearRight": 0.01695742329862833
+          },
+          "weightedVertexMotion": {
+            "FrontLeft": {
+              "vertices": 202,
+              "maximumMeters": 0.02401168237573727,
+              "meanMeters": 0.018928281766746893,
+              "movingOver2cm": 86
+            },
+            "FrontRight": {
+              "vertices": 202,
+              "maximumMeters": 0.02695127722050336,
+              "meanMeters": 0.01941710664071502,
+              "movingOver2cm": 78
+            },
+            "MiddleLeft": {
+              "vertices": 188,
+              "maximumMeters": 0.029788335616017833,
+              "meanMeters": 0.020002797174877525,
+              "movingOver2cm": 90
+            },
+            "MiddleRight": {
+              "vertices": 188,
+              "maximumMeters": 0.02269546066932431,
+              "meanMeters": 0.018566664165726065,
+              "movingOver2cm": 63
+            },
+            "RearLeft": {
+              "vertices": 193,
+              "maximumMeters": 0.023295561812546328,
+              "meanMeters": 0.019122745222515124,
+              "movingOver2cm": 64
+            },
+            "RearRight": {
+              "vertices": 194,
+              "maximumMeters": 0.025944647824369445,
+              "meanMeters": 0.017465294863791486,
+              "movingOver2cm": 48
+            }
+          }
+        },
+        {
+          "clip": "Walk",
+          "minFloor": -1.4305114719839872e-8,
+          "floorSamples": [
+            -1.4305114719839872e-8,
+            0.015999988189765262,
+            0.03199999068464547,
+            0.04800004387306936,
+            0.06400004654676342,
+            0.048000042715035905,
+            0.031999987823622504,
+            0.015999987031732263
+          ],
+          "bodyVerticalRange": 0.06415022909234258,
+          "legExcursions": {
+            "FrontLeft": 0.0981791329032525,
+            "FrontRight": 0.11733726265624847,
+            "MiddleLeft": 0.1206301250619277,
+            "MiddleRight": 0.09090385609811942,
+            "RearLeft": 0.09059121358335465,
+            "RearRight": 0.09292540773974453
+          },
+          "weightedVertexMotion": {
+            "FrontLeft": {
+              "vertices": 202,
+              "maximumMeters": 0.18154412653228272,
+              "meanMeters": 0.11434514146630002,
+              "movingOver2cm": 202
+            },
+            "FrontRight": {
+              "vertices": 202,
+              "maximumMeters": 0.2049244276017559,
+              "meanMeters": 0.1206090786462294,
+              "movingOver2cm": 202
+            },
+            "MiddleLeft": {
+              "vertices": 188,
+              "maximumMeters": 0.22596117133159851,
+              "meanMeters": 0.12203449998711793,
+              "movingOver2cm": 188
+            },
+            "MiddleRight": {
+              "vertices": 188,
+              "maximumMeters": 0.18987014340172628,
+              "meanMeters": 0.1175133317787285,
+              "movingOver2cm": 188
+            },
+            "RearLeft": {
+              "vertices": 193,
+              "maximumMeters": 0.17714702839604485,
+              "meanMeters": 0.11452015684374424,
+              "movingOver2cm": 193
+            },
+            "RearRight": {
+              "vertices": 194,
+              "maximumMeters": 0.1865758994519623,
+              "meanMeters": 0.09543127250188341,
+              "movingOver2cm": 194
+            }
+          }
+        },
+        {
+          "clip": "Run",
+          "minFloor": -1.4305114719839872e-8,
+          "floorSamples": [
+            -1.4305114719839872e-8,
+            0.02799998161693444,
+            0.05599997753898338,
+            0.08400002455690726,
+            0.11200002079188064,
+            0.08400003345786629,
+            0.05599999231518048,
+            0.027999990517893262
+          ],
+          "bodyVerticalRange": 0.11220177820772514,
+          "legExcursions": {
+            "FrontLeft": 0.14766281800247755,
+            "FrontRight": 0.19472403975865216,
+            "MiddleLeft": 0.19888347343350316,
+            "MiddleRight": 0.1358248310214444,
+            "RearLeft": 0.14041931129749613,
+            "RearRight": 0.1592369264748749
+          },
+          "weightedVertexMotion": {
+            "FrontLeft": {
+              "vertices": 202,
+              "maximumMeters": 0.2661095222519939,
+              "meanMeters": 0.177613350976354,
+              "movingOver2cm": 202
+            },
+            "FrontRight": {
+              "vertices": 202,
+              "maximumMeters": 0.32142046366043564,
+              "meanMeters": 0.1977124382332434,
+              "movingOver2cm": 202
+            },
+            "MiddleLeft": {
+              "vertices": 188,
+              "maximumMeters": 0.3525614365376352,
+              "meanMeters": 0.199220525612364,
+              "movingOver2cm": 188
+            },
+            "MiddleRight": {
+              "vertices": 188,
+              "maximumMeters": 0.2771864933819424,
+              "meanMeters": 0.18202120490669407,
+              "movingOver2cm": 188
+            },
+            "RearLeft": {
+              "vertices": 193,
+              "maximumMeters": 0.26025223818542914,
+              "meanMeters": 0.18012037886597743,
+              "movingOver2cm": 193
+            },
+            "RearRight": {
+              "vertices": 194,
+              "maximumMeters": 0.2953443516616672,
+              "meanMeters": 0.16133943728377645,
+              "movingOver2cm": 194
+            }
+          }
+        },
+        {
+          "clip": "Attack",
+          "minFloor": -0.029999985084111464,
+          "floorSamples": [
+            -1.4305114719839872e-8,
+            -0.014999999694613148,
+            -0.029999985084111464,
+            0.025000018619953428,
+            0.08000002465275785,
+            0.040000004785697034,
+            -1.4305114719839872e-8,
+            -1.4305114719839872e-8
+          ],
+          "bodyVerticalRange": 0.1122009225188455,
+          "legExcursions": {
+            "FrontLeft": 0.196439618290268,
+            "FrontRight": 0.1964379146459582,
+            "MiddleLeft": 0.16986865785951563,
+            "MiddleRight": 0.1699885195663834,
+            "RearLeft": 0.17046145653889366,
+            "RearRight": 0.17008866468348305
+          },
+          "weightedVertexMotion": {
+            "FrontLeft": {
+              "vertices": 202,
+              "maximumMeters": 0.22507523830630474,
+              "meanMeters": 0.19525584826512463,
+              "movingOver2cm": 202
+            },
+            "FrontRight": {
+              "vertices": 202,
+              "maximumMeters": 0.22507524549315722,
+              "meanMeters": 0.19525362030644766,
+              "movingOver2cm": 202
+            },
+            "MiddleLeft": {
+              "vertices": 188,
+              "maximumMeters": 0.17003958841515487,
+              "meanMeters": 0.16980733395885533,
+              "movingOver2cm": 188
+            },
+            "MiddleRight": {
+              "vertices": 188,
+              "maximumMeters": 0.17007339122838755,
+              "meanMeters": 0.1699849543297596,
+              "movingOver2cm": 188
+            },
+            "RearLeft": {
+              "vertices": 193,
+              "maximumMeters": 0.17333618343239227,
+              "meanMeters": 0.17052745552081813,
+              "movingOver2cm": 193
+            },
+            "RearRight": {
+              "vertices": 194,
+              "maximumMeters": 0.17067619750590685,
+              "meanMeters": 0.17010210048199353,
+              "movingOver2cm": 194
+            }
+          }
+        },
+        {
+          "clip": "Hit",
+          "minFloor": -0.0009441456484352707,
+          "floorSamples": [
+            -1.4305114719839872e-8,
+            0.0035158907134618072,
+            0.005383246868123477,
+            0.05192308872721259,
+            0.010411850530453943,
+            0.004287653805211063,
+            -0.0009441456484352707,
+            -0.0004836092421529728
+          ],
+          "bodyVerticalRange": 0.08834543729109934,
+          "legExcursions": {
+            "FrontLeft": 0.1541976459591821,
+            "FrontRight": 0.19684443385936415,
+            "MiddleLeft": 0.1809374369642078,
+            "MiddleRight": 0.20229818075180883,
+            "RearLeft": 0.18950725766942803,
+            "RearRight": 0.20041822703242723
+          },
+          "weightedVertexMotion": {
+            "FrontLeft": {
+              "vertices": 202,
+              "maximumMeters": 0.17042448673120594,
+              "meanMeters": 0.15524645271220605,
+              "movingOver2cm": 202
+            },
+            "FrontRight": {
+              "vertices": 202,
+              "maximumMeters": 0.2390091214964986,
+              "meanMeters": 0.19379182952499677,
+              "movingOver2cm": 202
+            },
+            "MiddleLeft": {
+              "vertices": 188,
+              "maximumMeters": 0.20410076949063025,
+              "meanMeters": 0.18096489098734736,
+              "movingOver2cm": 188
+            },
+            "MiddleRight": {
+              "vertices": 188,
+              "maximumMeters": 0.25180971902354815,
+              "meanMeters": 0.19937839364848003,
+              "movingOver2cm": 188
+            },
+            "RearLeft": {
+              "vertices": 193,
+              "maximumMeters": 0.2098340366217388,
+              "meanMeters": 0.18956576497453972,
+              "movingOver2cm": 193
+            },
+            "RearRight": {
+              "vertices": 194,
+              "maximumMeters": 0.24032202881036813,
+              "meanMeters": 0.19892645847779208,
+              "movingOver2cm": 194
+            }
+          }
+        },
+        {
+          "clip": "Death",
+          "minFloor": -0.023467746001603812,
+          "floorSamples": [
+            -1.4305114719839872e-8,
+            0.0033554819399946715,
+            -0.0001466051019287514,
+            -0.004267825336593474,
+            0.004753428675743391,
+            -0.023467746001603812,
+            0.0016174241086838585,
+            0.0016174359928126083
+          ],
+          "bodyVerticalRange": 0.48266555736706795,
+          "legExcursions": {
+            "FrontLeft": 0.5773060155702354,
+            "FrontRight": 0.9413578820401173,
+            "MiddleLeft": 0.6146507135111924,
+            "MiddleRight": 1.2089722090674768,
+            "RearLeft": 0.6868366297702938,
+            "RearRight": 1.2911737460219974
+          },
+          "weightedVertexMotion": {
+            "FrontLeft": {
+              "vertices": 202,
+              "maximumMeters": 0.7352592377128152,
+              "meanMeters": 0.563926760443087,
+              "movingOver2cm": 202
+            },
+            "FrontRight": {
+              "vertices": 202,
+              "maximumMeters": 1.2338866781919184,
+              "meanMeters": 0.9320422644011995,
+              "movingOver2cm": 202
+            },
+            "MiddleLeft": {
+              "vertices": 188,
+              "maximumMeters": 0.8079007205971948,
+              "meanMeters": 0.601956695821448,
+              "movingOver2cm": 188
+            },
+            "MiddleRight": {
+              "vertices": 188,
+              "maximumMeters": 1.5748129897097574,
+              "meanMeters": 1.191076507662318,
+              "movingOver2cm": 188
+            },
+            "RearLeft": {
+              "vertices": 193,
+              "maximumMeters": 0.8450967729202719,
+              "meanMeters": 0.68612507883991,
+              "movingOver2cm": 193
+            },
+            "RearRight": {
+              "vertices": 194,
+              "maximumMeters": 1.6031694680438566,
+              "meanMeters": 1.2778546946096694,
+              "movingOver2cm": 194
+            }
+          }
+        }
+      ]
+    }
+  },
+  "acceptance": {
+    "imageAudit": false,
+    "geometryAudit": false,
+    "textureAudit": false,
+    "rigAudit": false,
+    "animationAudit": false,
+    "rootLabReview": false,
+    "productionReady": false,
+    "worldIntegrated": false,
+    "status": "pending-root-lab-review"
+  },
+  "notes": [
+    "Candidate only. It is not wired to a production manifest or final world.",
+    "The approved Tripo source has no packed PBR maps. The original layered 8K stone base color is retained as a 2K runtime albedo; aligned 2K tangent normal and ORM maps are derived from its painted mineral relief.",
+    "The source mesh remains the same 2,649 vertices and 4,178 triangles. The unusable identity-rest, bone_0-dominated source skin was replaced with a spatially weighted body and six-leg rig.",
+    "The model uses a neutral rough, non-metallic mineral material. The same source is staged for Flint Mandible; species duplication and lack of storm-specific art need root review."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_stone_golem",
+      "file": "stone-golem-candidate.glb",
+      "pack": "corealm-tripo-audit-stone",
+      "category": "character",
+      "is": "Stone Golem candidate",
+      "tags": [
+        "creature",
+        "stone",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 16044264,
+      "sha256": "caf39d17de252708879a8bbb6addb0580a696aff1bbc93d1ed6b2f667f1d2b2a",
+      "triangles": 6778,
+      "size": {
+        "x": 1.330581189504979,
+        "y": 2.100000053501497,
+        "z": 0.6822177810411457
+      },
+      "base": {
+        "x": -0.6652904645281321,
+        "y": -6.38256236209956e-8,
+        "z": -0.3411089041050331
+      },
+      "groundY": -6.38256236209956e-8,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "candidateReview": {
+        "cpuMotionChecked": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_stone_golem": "stone-golem-candidate.glb"
+  }
+}

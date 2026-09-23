@@ -1,0 +1,165 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "sourceRoot": "assets/art/tripo/imports/creatures/audit-leafwing-variants",
+  "destinationRoot": "game/public/assets",
+  "pack": {
+    "id": "corealm-leafwing-imp-candidates",
+    "name": "Leafwing imp candidates",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-leafwing-variants/build-candidate.mjs",
+    "generatorSha256": "85666690601157b74781a7f50e822dc66010c4f8d54a468aad6a1b41f2208d9b",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "assets": [
+    {
+      "id": "fairy_garden_imp_faeholme",
+      "file": "models/fairy-garden/fairy_garden_imp_faeholme.glb",
+      "candidateFile": "fairy_garden_imp_faeholme.glb",
+      "pack": "corealm-leafwing-imp-candidates",
+      "category": "character",
+      "is": "Twilight Imp",
+      "tags": [
+        "creature",
+        "fairy",
+        "flying",
+        "insect",
+        "imagegen-variant",
+        "candidate"
+      ],
+      "bytes": 11612192,
+      "sha256": "80fffe56d949444e3c1c44c1d1b309577a4f9d9571c9bc3b273cfab9b3bcaa21",
+      "size": {
+        "x": 0.98779296875,
+        "y": 0.9604492783546448,
+        "z": 0.70751953125
+      },
+      "base": {
+        "x": -0.493896484375,
+        "y": 0,
+        "z": -0.353759765625
+      },
+      "bounds": {
+        "min": [
+          -0.493896484375,
+          0,
+          -0.353759765625
+        ],
+        "max": [
+          0.493896484375,
+          0.9604492783546448,
+          0.353759765625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 3754,
+      "vertices": 2682,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_1303a990-d810-4a13-ab58-362ba9055702"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
+        "sourceSha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-leafwing-variants/textures/fairy_garden_imp_faeholme-basecolor.png",
+        "atlasSha256": "dfec467d37e95da3ed0f38e3beb4c6a2b4b76028fb4bc30c3476f32e98abba88",
+        "originalNormalAndOrmRetained": true,
+        "rigMethod": "Existing 33-joint leafwing skeleton and full skin weights; staged Death end pose lays body and wings against ground."
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_garden_imp_gloamgarden",
+      "file": "models/fairy-garden/fairy_garden_imp_gloamgarden.glb",
+      "candidateFile": "fairy_garden_imp_gloamgarden.glb",
+      "pack": "corealm-leafwing-imp-candidates",
+      "category": "character",
+      "is": "Lantern Imp",
+      "tags": [
+        "creature",
+        "fairy",
+        "flying",
+        "insect",
+        "imagegen-variant",
+        "candidate"
+      ],
+      "bytes": 11465052,
+      "sha256": "09c620c98d6e9f565fc26ddf060cb7977f7b75dcf17bc93dd55e578b75c2c2bd",
+      "size": {
+        "x": 0.98779296875,
+        "y": 0.9604492783546448,
+        "z": 0.70751953125
+      },
+      "base": {
+        "x": -0.493896484375,
+        "y": 0,
+        "z": -0.353759765625
+      },
+      "bounds": {
+        "min": [
+          -0.493896484375,
+          0,
+          -0.353759765625
+        ],
+        "max": [
+          0.493896484375,
+          0.9604492783546448,
+          0.353759765625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 3754,
+      "vertices": 2682,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_1303a990-d810-4a13-ab58-362ba9055702"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
+        "sourceSha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-leafwing-variants/textures/fairy_garden_imp_gloamgarden-basecolor.png",
+        "atlasSha256": "eb776e8edc605941e4d7550c71edd3422cbb7afe7e66a414da5d2cf7e04272f0",
+        "originalNormalAndOrmRetained": true,
+        "rigMethod": "Existing 33-joint leafwing skeleton and full skin weights; staged Death end pose lays body and wings against ground."
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "apply": false,
+  "prerequisite": "Root lab browser state and screenshot acceptance for both variants and Death end poses."
+}

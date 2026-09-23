@@ -1,0 +1,91 @@
+{
+  "schema": "corealm-leafwing-variant-candidates/1",
+  "accepted": false,
+  "status": "awaiting-root-lab-review",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
+    "sha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6"
+  },
+  "targets": [
+    {
+      "id": "fairy_garden_imp_faeholme",
+      "name": "Twilight Imp",
+      "level": 60,
+      "region": "faeholme",
+      "actorScale": 0.6317306745889465,
+      "atlas": "fairy_garden_imp_faeholme-basecolor.png",
+      "file": "fairy_garden_imp_faeholme.glb",
+      "bytes": 11612192,
+      "sha256": "80fffe56d949444e3c1c44c1d1b309577a4f9d9571c9bc3b273cfab9b3bcaa21",
+      "atlasPath": "assets/art/tripo/imports/creatures/audit-leafwing-variants/textures/fairy_garden_imp_faeholme-basecolor.png",
+      "atlasSha256": "dfec467d37e95da3ed0f38e3beb4c6a2b4b76028fb4bc30c3476f32e98abba88",
+      "normalSha256": "48aa4af92baeded01711c6d8859159f85e7f9296342dc9bf842a970d59e038ac",
+      "roughnessSha256": "aeba40aec1528712d0dadccb5b64bf9460c510db7f7219e1d3def826900504cd",
+      "dimensions": {
+        "x": 0.98779296875,
+        "y": 0.9604492783546448,
+        "z": 0.70751953125
+      },
+      "bounds": {
+        "min": [
+          -0.493896484375,
+          0,
+          -0.353759765625
+        ],
+        "max": [
+          0.493896484375,
+          0.9604492783546448,
+          0.353759765625
+        ]
+      },
+      "expectedDrawnHeight": 0.607
+    },
+    {
+      "id": "fairy_garden_imp_gloamgarden",
+      "name": "Lantern Imp",
+      "level": 30,
+      "region": "gloamgarden",
+      "actorScale": 0.6692449684857222,
+      "atlas": "fairy_garden_imp_gloamgarden-basecolor.png",
+      "file": "fairy_garden_imp_gloamgarden.glb",
+      "bytes": 11465052,
+      "sha256": "09c620c98d6e9f565fc26ddf060cb7977f7b75dcf17bc93dd55e578b75c2c2bd",
+      "atlasPath": "assets/art/tripo/imports/creatures/audit-leafwing-variants/textures/fairy_garden_imp_gloamgarden-basecolor.png",
+      "atlasSha256": "eb776e8edc605941e4d7550c71edd3422cbb7afe7e66a414da5d2cf7e04272f0",
+      "normalSha256": "48aa4af92baeded01711c6d8859159f85e7f9296342dc9bf842a970d59e038ac",
+      "roughnessSha256": "aeba40aec1528712d0dadccb5b64bf9460c510db7f7219e1d3def826900504cd",
+      "dimensions": {
+        "x": 0.98779296875,
+        "y": 0.9604492783546448,
+        "z": 0.70751953125
+      },
+      "bounds": {
+        "min": [
+          -0.493896484375,
+          0,
+          -0.353759765625
+        ],
+        "max": [
+          0.493896484375,
+          0.9604492783546448,
+          0.353759765625
+        ]
+      },
+      "expectedDrawnHeight": 0.643
+    }
+  ],
+  "exclusions": [
+    "creature_lantern_sprite",
+    "creature_orchid_reaper",
+    "fairy_guardian_08_faeholme",
+    "fantasy_monster_08"
+  ],
+  "acceptance": {
+    "geometryPreserved": true,
+    "rigValidated": false,
+    "animationValidated": false,
+    "texturesReviewed": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

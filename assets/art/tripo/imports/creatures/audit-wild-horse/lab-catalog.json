@@ -1,0 +1,88 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_marchwild_horse",
+      "file": "models/creature/creature_marchwild_horse.glb",
+      "pack": "lyndon-realtime-ranchers-cc0",
+      "category": "character",
+      "is": "wild horse",
+      "tags": [
+        "animal",
+        "hoofed",
+        "horse",
+        "cc0",
+        "source-rigged"
+      ],
+      "bytes": 17883112,
+      "sha256": "a1833942247dbca63cc23ee63931917dec18aeb43691a35a593a3b9210ac163d",
+      "triangles": 14986,
+      "size": {
+        "x": 0.9703096752354877,
+        "y": 2.4,
+        "z": 3.6212834576420314
+      },
+      "base": {
+        "x": -0.48515483761774386,
+        "y": 0.0,
+        "z": -1.8106417288210157
+      },
+      "bounds": {
+        "min": [
+          -0.48515483761774386,
+          0.0,
+          -1.8106417288210157
+        ],
+        "max": [
+          0.48515483761774386,
+          2.4,
+          1.8106417288210157
+        ]
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "skinned": true,
+      "walkClipSeconds": 1.2,
+      "runClipSeconds": 0.7666666666666667,
+      "attackSeconds": 0.9666666666666667,
+      "sourceProvenance": {
+        "nativeBlend": "art/rebuild/candidates/finish-quadrupeds/source-hoofed/riggedHorse.blend",
+        "nativeBlendSha256": "9cca670b93a74d50e89263e50d55ab035a6c46aa7d2b21e354bdac6987037f4a",
+        "staticReviewGlb": "art/rebuild/candidates/finish-quadrupeds/source-hoofed/horse-source-static.glb",
+        "staticReviewSha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782",
+        "licenseEvidence": "art/rebuild/candidates/finish-quadrupeds/source-hoofed/LICENSE.md",
+        "license": "CC0-1.0",
+        "originalAuthor": "Lyndon Daniels",
+        "rigAuthor": "ChadM"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_marchwild_horse": "wild-horse-candidate.glb"
+  },
+  "pack": {
+    "id": "lyndon-realtime-ranchers-cc0",
+    "name": "Realtime Rancher horse",
+    "author": "Lyndon Daniels; rig by ChadM",
+    "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+    "license": "CC0-1.0"
+  },
+  "reviewOnly": true
+}

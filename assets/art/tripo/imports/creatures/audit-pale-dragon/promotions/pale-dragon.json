@@ -1,0 +1,416 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "packs": [
+    {
+      "id": "corealm-tripo-audit-pale-dragon",
+      "name": "Corealm Tripo Pale Dragon",
+      "author": "Corealm / Tripo Studio",
+      "source": "assets/art/tripo/imports/creatures/audit-pale-dragon/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "661ae1d908618d4003cf66a59d2f06349530beb3a92a21d59788f09fcce344aa"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_quarry_nightmare",
+      "file": "models/creature/creature_quarry_nightmare.glb",
+      "pack": "corealm-tripo-audit-pale-dragon",
+      "category": "character",
+      "is": "Pale Dragon",
+      "tags": [
+        "creature",
+        "monster",
+        "dragon",
+        "grounded",
+        "quarry",
+        "tripo",
+        "young-dragon"
+      ],
+      "bytes": 9484684,
+      "sha256": "8e87b00f82a35e6931e1444d5f47938d5a54479146c5b4716152076ca8687c83",
+      "size": {
+        "x": 2.498736508855065,
+        "y": 1.7321720007750132,
+        "z": 2.4572756778303724
+      },
+      "base": {
+        "x": -1.2493683440776109,
+        "y": 0.000003373301490181518,
+        "z": -1.2286376634227192
+      },
+      "bounds": {
+        "min": [
+          -1.2493683440776109,
+          0.000003373301490181518,
+          -1.2286376634227192
+        ],
+        "max": [
+          1.249368164777454,
+          1.7321753740765033,
+          1.228638014407653
+        ]
+      },
+      "groundY": 0.000003373301490181518,
+      "triangles": 9327,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_b74a5991-5338-46fb-b9f4-8ada6f37a507"
+      ],
+      "sourceProvenance": {
+        "sourceAssetId": "creature_starred_red_dragon",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-red-dragon/starred-red-dragon_candidate.glb",
+        "sourceSha256": "1f5af3e449e12a048dd980ae719b158ea674f71a4f33dbe44b83752c2fd7b49d",
+        "tripoSourceFile": "assets/art/tripo/exports/d20f1d55-1dce-46f6-b4e4-375769915b1f.glb",
+        "tripoSourceSha256": "a4e053f8f0df3aef8c1503fcbcb47988f656d3b009cdfe8c382b703db7b96ef0",
+        "sourceImageFile": "assets/art/tripo/refs/crown-wild-red-dragon.png",
+        "sourceImageSha256": "7938d512e86acba10ed37cfe8767193ad8a066e0b71891ca0f5e4a664b550d99",
+        "imagegenFile": "assets/art/tripo/imports/creatures/audit-pale-dragon/pale-quarry-scales-imagegen.png",
+        "imagegenSha256": "daa75776faf4efaceaf446a20d42da04752a8619eff9212bd13ca6df9c933276",
+        "runtimeTextureFile": "assets/art/tripo/imports/creatures/audit-pale-dragon/pale-quarry-scales-runtime.jpg",
+        "runtimeTextureSha256": "1454f20f2a994977dee7d3b63a2b8ca5f1bfd531068e78b778175431e605c9b6",
+        "builderFile": "assets/art/tripo/imports/creatures/audit-pale-dragon/build-candidate.mjs",
+        "builderSha256": "661ae1d908618d4003cf66a59d2f06349530beb3a92a21d59788f09fcce344aa",
+        "changes": "Approved six-limb dragon geometry and 41-joint skin retained; parent scale 2.5, layered image-generated quarry albedo, Death falls and curls. Other five clips and normal/metallic-roughness maps retained.",
+        "productionBeforeSha256": "6f91b9e2870d6342fb4e116dc42a2f350599792ce5cb8cbcb1f91a19d4ce4c14"
+      },
+      "impliedWalkMps": 0.7413,
+      "impliedRunMps": 2.5441,
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 1,
+      "attackSeconds": 1.2000000476837158,
+      "contactNormalized": 0.72,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.3333333730697632,
+            "sampledFootBones": 2,
+            "stanceSamples": 69,
+            "measuredStanceMps": 0.7251697653774144,
+            "feet": [
+              {
+                "bone": "L_feet",
+                "minY": 0.11726341297358223,
+                "maxY": 0.4088604212114812,
+                "strideZ": 0.44876437022600224,
+                "contactSamples": 35,
+                "stanceMedianMps": 1.0161493779503787
+              },
+              {
+                "bone": "R_feet",
+                "minY": 0.11736822080052889,
+                "maxY": 0.3349052191065508,
+                "strideZ": 0.35410238075117106,
+                "contactSamples": 34,
+                "stanceMedianMps": 0.6128531097456431
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 1,
+            "sampledFootBones": 2,
+            "stanceSamples": 36,
+            "measuredStanceMps": 2.4270724623531557,
+            "feet": [
+              {
+                "bone": "L_feet",
+                "minY": 0.15792693112967815,
+                "maxY": 1.1532941088654138,
+                "strideZ": 1.0562418311551107,
+                "contactSamples": 18,
+                "stanceMedianMps": 3.325221687219443
+              },
+              {
+                "bone": "R_feet",
+                "minY": 0.1275997590692168,
+                "maxY": 1.1091765421259114,
+                "strideZ": 1.1656833772880917,
+                "contactSamples": 18,
+                "stanceMedianMps": 2.1646693323441433
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 1.3333333730697632,
+            "maxTranslationGap": 1.0164395367051604e-19,
+            "maxRotationGapRadians": 0.0006652822875251844,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.3333333730697632,
+            "maxTranslationGap": 7.152557373046875e-7,
+            "maxRotationGapRadians": 0.0006617140284494645,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 1,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0007112807683394136,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "quarry_nightmare",
+        "is": "an albino plated ground dragon with a hooked skull, heavy foreclaws and a long tail",
+        "tags": [
+          "creature",
+          "monster",
+          "dragon",
+          "grounded",
+          "quarry"
+        ],
+        "provenance": {
+          "publisher": "Dungeon Mason",
+          "package": "Dragon for Boss Monster PBR",
+          "sourceFolder": "FourEvilDragonsPBR",
+          "mesh": "Assets/FourEvilDragonsPBR/Mesh/DragonTheNightmareMesh.fbx",
+          "material": "DragonNightmare/AlbinoPBR",
+          "textureResolution": 2048,
+          "scale": 0.45,
+          "facing": "+Z",
+          "clips": {
+            "Idle": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/idle01.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                40
+              ],
+              "fps": 30
+            },
+            "Walk": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/walk.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                40
+              ],
+              "fps": 30
+            },
+            "Run": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/run.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                30
+              ],
+              "fps": 30
+            },
+            "Attack": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/Basic Attack.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                36
+              ],
+              "fps": 30
+            },
+            "Hit": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/getHit.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                42
+              ],
+              "fps": 30
+            },
+            "Death": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/die.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                57
+              ],
+              "fps": 30
+            }
+          },
+          "directionalHits": "Source getHit plus signed chest and neck recoil; forelimb world transforms compensated at every 30 Hz source sample",
+          "rootMotion": "Root X/Z fixed to mesh rest translation, source Y compression preserved",
+          "grounding": {
+            "method": "Actual skinned minimum sampled at 120 Hz; upward-only Root Y correction with 2 mm clearance",
+            "clips": {
+              "Idle": {
+                "minimumBeforeM": -0.000018286767841282914,
+                "maximumCorrectionM": 0.002018286767841283,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Walk": {
+                "minimumBeforeM": -0.09374020204473738,
+                "maximumCorrectionM": 0.09574020204473738,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Run": {
+                "minimumBeforeM": -0.05533773401568225,
+                "maximumCorrectionM": 0.05733773401568225,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Attack": {
+                "minimumBeforeM": -0.061453092842534446,
+                "maximumCorrectionM": 0.06345309284253445,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Hit": {
+                "minimumBeforeM": -0.16465195162925517,
+                "maximumCorrectionM": 0.16665195162925517,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "HitLeft": {
+                "minimumBeforeM": -0.1646517234576912,
+                "maximumCorrectionM": 0.1666517234576912,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "HitRight": {
+                "minimumBeforeM": -0.16465161281599422,
+                "maximumCorrectionM": 0.16665161281599422,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Death": {
+                "minimumBeforeM": -0.0723864257667371,
+                "maximumCorrectionM": 0.0743864257667371,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              }
+            }
+          },
+          "gaitMeasurement": "Median backward hind-foot velocity in lowest 35% of each foot height range, 120 samples per clip, final .45 scale",
+          "license": "Standard Unity Asset Store EULA"
+        },
+        "attackSeconds": 1.2,
+        "contactNormalized": 0.72,
+        "contactWindowNormalized": [
+          0.66,
+          0.82
+        ],
+        "gaitFootBones": [
+          "L_feet",
+          "R_feet"
+        ],
+        "impliedWalkMps": 0.7413,
+        "impliedRunMps": 2.5441,
+        "walkClipSeconds": 1.3333333333333333,
+        "runClipSeconds": 1,
+        "notes": [
+          "All required clips use authored ground motions; no flight or jump clips are imported.",
+          "Both same-named forelimb branches bind by FBX Model identity and full ancestry before export.",
+          "Loaded FBX is already metre scale; outer .45 scale preserves the authored rig proportions.",
+          "Native 2048px albedo and tangent normal retained; Unity metal/smoothness and AO packed into glTF ORM.",
+          "Three FBXLoader retains the strongest four skin influences; exported weights are normalized.",
+          "Per-sample root height corrections keep the posed skinned mesh above ground while retaining source rotation and articulation.",
+          "Attack contact is provisionally authored strike frames 24â€“30; root lab gameplay and screenshot acceptance still required."
+        ],
+        "boneNames": [
+          "Root",
+          "Spine01",
+          "Spine02",
+          "Chest",
+          "Neck01",
+          "Neck02",
+          "Head",
+          "UpperHead01",
+          "UpperHead02",
+          "Tongue01",
+          "Tongue02",
+          "Tongue03",
+          "Tongue04",
+          "Jaw01",
+          "Jaw02",
+          "Jaw03",
+          "L_Shoulder01",
+          "L_Shoulder02",
+          "R_Shoulder01",
+          "R_Shoulder02",
+          "R_UpperArm",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Index01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02__R_Index03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Middle01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02__R_Middle03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Pinky01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02__R_Pinky03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_armHorn",
+          "R_UpperArm1",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Index01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02__R_Index03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Middle01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02__R_Middle03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Pinky01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02__R_Pinky03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_armHorn",
+          "Tail01",
+          "Tail02",
+          "Tail03",
+          "Tail04",
+          "L_UpperLeg",
+          "L_Lowerleg01",
+          "L_LowerLeg02",
+          "L_feet",
+          "L_Toe_Middle01",
+          "L_Toe_Middle02",
+          "L_Toe_Pinky01",
+          "L_Toe_Pinky02",
+          "L_Toe_Index01",
+          "L_Toe_Index02",
+          "R_UpperReg",
+          "R_Rowerleg01",
+          "R_RowerReg02",
+          "R_feet",
+          "R_Toe_Middle01",
+          "R_Toe_Middle02",
+          "R_Toe_Pinky01",
+          "R_Toe_Pinky02",
+          "R_Toe_Index01",
+          "R_Toe_Index02"
+        ],
+        "authoringModule": "tools/creature-expansion/monsters.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-pale-dragon/pale-dragon-candidate.glb"
+    }
+  ]
+}

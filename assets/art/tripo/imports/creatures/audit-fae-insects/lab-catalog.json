@@ -1,0 +1,274 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-tripo-audit-fae-insects",
+    "name": "Corealm Tripo fairy insect corrections",
+    "author": "Corealm / Tripo Studio",
+    "source": "assets/art/tripo/imports/creatures/audit-fae-insects/audit-motion.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "4fbc3b846401b650eee0e8d6551d0c6b200ee77240055b9508e19c80fbb45dbe"
+  },
+  "assets": [
+    {
+      "id": "creature_lantern_sprite",
+      "file": "models/fairy-crown/creature_lantern_sprite.glb",
+      "pack": "corealm-tripo-audit-fae-insects",
+      "category": "character",
+      "is": "Ambervein Leafwing as Lantern Sprite",
+      "tags": [
+        "creature",
+        "fairy",
+        "tripo",
+        "candidate",
+        "flying",
+        "leaf-wing"
+      ],
+      "bytes": 6249340,
+      "sha256": "af0db1d6e1b74ad64aef3e9fc4a8d19706ceb786232af22998cd29d2c7e7ffb2",
+      "size": {
+        "x": 0.98779296875,
+        "y": 0.9604492783546448,
+        "z": 0.70751953125
+      },
+      "base": {
+        "x": -0.493896484375,
+        "y": 0,
+        "z": -0.353759765625
+      },
+      "bounds": {
+        "min": [
+          -0.493896484375,
+          0,
+          -0.353759765625
+        ],
+        "max": [
+          0.493896484375,
+          0.9604492783546448,
+          0.353759765625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 3754,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_1303a990-d810-4a13-ab58-362ba9055702"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Smart Mesh P2.0",
+        "prompt": "Winged fantasy creature with leaf-like translucent wings, teal and gold body, highly detailed skin and joints.",
+        "sourceModelId": "0a131c51-bd21-487b-8973-5ac00f8521bc",
+        "publicProjectId": "98776da4-a10d-4974-910d-adba0888e99b",
+        "sourceFile": "assets/art/tripo/exports/0a131c51-bd21-487b-8973-5ac00f8521bc.glb",
+        "sourceSha256": "6309d5df42b63f7d13f2863d42b943200059fb8cb2197a8cc5a6135de755f2a8",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-fae-insects/lantern-sprite-candidate.glb",
+        "candidateSha256": "af0db1d6e1b74ad64aef3e9fc4a8d19706ceb786232af22998cd29d2c7e7ffb2",
+        "rigMethod": "33-joint insect-specific wing/body/antenna/six-leg Y-up skeleton with normalized four-influence weights; original mesh positions, normals, UVs and image-generated base/PBR textures retained.",
+        "textures": [
+          {
+            "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_basecolor.jpg",
+            "role": "base color",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1620675,
+            "sha256": "278cde30bedfd189172c8c6e865bd4527a9421d145406c7f2dfe44b7303f88b3"
+          },
+          {
+            "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_rm.png",
+            "role": "packed metallic-roughness",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3500274,
+            "sha256": "aeba40aec1528712d0dadccb5b64bf9460c510db7f7219e1d3def826900504cd"
+          },
+          {
+            "name": "0a131c51-bd21-487b-8973-5ac00f8521bc_normal.jpg",
+            "role": "normal",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 779254,
+            "sha256": "48aa4af92baeded01711c6d8859159f85e7f9296342dc9bf842a970d59e038ac"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review",
+        "originalCandidateFile": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
+        "originalCandidateSha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
+        "correction": "Per-clip root translation sampled at 65 points to keep weighted geometry at least 6 mm above ground. Death adds a forward collapse; the small leafwing crumples as its wings fold. Original mesh, skin weights, UVs and 2K layered PBR maps unchanged.",
+        "correctionGenerator": "assets/art/tripo/imports/creatures/audit-fae-insects/audit-motion.mjs",
+        "correctionGeneratorSha256": "4fbc3b846401b650eee0e8d6551d0c6b200ee77240055b9508e19c80fbb45dbe"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8999999761581421,
+      "contactNormalized": 0.4,
+      "metadata": {
+        "family": "lantern_sprite",
+        "rig": "33-joint fantasy insect with four articulated leaf wings and six legs",
+        "source": "Approved Tripo Studio image-generated detailed mesh and layered 2K PBR maps; Corealm native rig and motion; floor-clearance correction.",
+        "presentation": {
+          "rawAssetHeightMeters": 0.9604492783546448,
+          "existingSpeciesScale": 0.58,
+          "desiredInGameHeightMeters": 0.5570605814456939,
+          "habitat": "Gloamgarden"
+        },
+        "attackContact": {
+          "seconds": 0.35999999046325687,
+          "normalized": 0.4
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "description": "airborne glide and dart; no terrestrial footfall",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "floorClearance": {
+          "minimumMeters": 0.006,
+          "sampleCountPerClip": 65
+        },
+        "deathPose": {
+          "finalHeightRatioMaximum": 0.6,
+          "posture": "forward-fallen and crumpled wingfold"
+        }
+      }
+    },
+    {
+      "id": "creature_orchid_reaper",
+      "file": "models/fairy-crown/creature_orchid_reaper.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-orchid-reaper/orchid-reaper-native-rig-candidate.glb",
+      "pack": "corealm-tripo-audit-fae-insects",
+      "category": "character",
+      "is": "Orchid Reaper",
+      "tags": [
+        "creature",
+        "fairy",
+        "tripo",
+        "candidate",
+        "botanical",
+        "orchid",
+        "scythe-arms"
+      ],
+      "bytes": 4978604,
+      "sha256": "668b4e2918c9318ee1b7891102a2764eb1c5974b8cd2f0c9a08ce8a4e41ed7e3",
+      "size": {
+        "x": 1.6730827593881146,
+        "y": 2.4,
+        "z": 0.7820225651800087
+      },
+      "base": {
+        "x": -0.8365413796940573,
+        "y": 0,
+        "z": -0.39101128259000434
+      },
+      "bounds": {
+        "min": [
+          -0.8365413796940573,
+          0,
+          -0.39101128259000434
+        ],
+        "max": [
+          0.8365413796940573,
+          2.4,
+          0.39101128259000434
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5868,
+      "vertices": 3666,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_99450afb-d5cc-4b0b-a4b0-ceb41d478f24"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "starredOrder": 18,
+        "sourceModelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+        "sourceCardId": "3a2edc1d-6bda-4fc8-99fb-0d6bf673801c",
+        "sourceImageId": "6a942b74-b3c2-4b55-9b4d-13bf186a7c6a",
+        "sourceFile": "assets/art/tripo/exports/4c599d13-d2e0-4099-93f0-79bf17056049.glb",
+        "sourceSha256": "7f44b831fbc2b743c7156d4a45420e0b7948aae50cc635a49b8b5d40446da0d1",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-fae-insects/orchid-reaper-candidate.glb",
+        "candidateSha256": "668b4e2918c9318ee1b7891102a2764eb1c5974b8cd2f0c9a08ce8a4e41ed7e3",
+        "rigMethod": "Model-specific four-influence weights gated by source bounds and segment distance. The solid corrected lower face is held to one head joint; no mouth, jaw or facial-slit controls are added. Outer petals and the curved forearm scythe blades have separate chains.",
+        "texturePolicy": "Preserve the approved image-generated layered base color, metallic-roughness and normal maps; reduce each to a 2K runtime map.",
+        "targetCreature": "orchid_reaper_t60",
+        "candidateStatus": "awaiting-root-lab-review",
+        "originalCandidateFile": "assets/art/tripo/imports/creatures/starred-orchid-reaper/orchid-reaper-native-rig-candidate.glb",
+        "originalCandidateSha256": "87606581c03b2e83b478e1c702411a26e4e98762b28493d1573219a14b60c4bf",
+        "correction": "Per-clip root translation sampled at 65 points to keep weighted geometry at least 6 mm above ground. Death adds a forward collapse; the small leafwing crumples as its wings fold. Original mesh, skin weights, UVs and 2K layered PBR maps unchanged.",
+        "correctionGenerator": "assets/art/tripo/imports/creatures/audit-fae-insects/audit-motion.mjs",
+        "correctionGeneratorSha256": "4fbc3b846401b650eee0e8d6551d0c6b200ee77240055b9508e19c80fbb45dbe"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1.0499999523162842,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
+      "contactNormalized": 0.5,
+      "metadata": {
+        "family": "orchid_reaper",
+        "rig": "29-joint botanical biped with articulated orchid crown and scythe arms",
+        "source": "Approved Tripo Studio image-generated detailed mesh and layered 2K PBR maps; Corealm native rig and motion; floor-clearance correction.",
+        "presentation": {
+          "rawAssetHeightMeters": 2.4,
+          "existingSpeciesScale": 0.85,
+          "desiredInGameHeightMeters": 2.04,
+          "habitat": "Faeholme"
+        },
+        "attackContact": {
+          "seconds": 0.4300000071525574,
+          "normalized": 0.5
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "description": "alternating biped walk and run; world speed uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "floorClearance": {
+          "minimumMeters": 0.006,
+          "sampleCountPerClip": 65
+        },
+        "deathPose": {
+          "finalHeightRatioMaximum": 0.6,
+          "posture": "forward-fallen botanical biped"
+        }
+      }
+    }
+  ],
+  "files": {
+    "creature_lantern_sprite": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-fae-insects\\lantern-sprite-candidate.glb",
+    "creature_orchid_reaper": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-fae-insects\\orchid-reaper-candidate.glb"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_mossback_sentinel",
+      "file": "mossback-sentinel-candidate.glb",
+      "pack": "corealm-tripo-audit-forest",
+      "category": "character",
+      "is": "Mossback Sentinel",
+      "tags": [
+        "creature",
+        "forest",
+        "tree",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6722656,
+      "sha256": "408520782610022cae9fdb32fee7771cb2b76b36d8bd13bbb6eb569f0e04d6e8",
+      "triangles": 4478,
+      "size": {
+        "x": 1.617749057365975,
+        "y": 2.1489501026693545,
+        "z": 0.7191162218462246
+      },
+      "base": {
+        "x": -0.8088745350391516,
+        "y": 1.6377041661684225e-9,
+        "z": -0.3595581031426912
+      },
+      "groundY": 1.6377041661684225e-9,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.275,
+      "materials": [
+        "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1"
+      ],
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/starred-grove-guardian/models/creature_starroot_guardian.glb",
+        "sha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+        "tripoProjectId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "triangles": 4478,
+        "vertices": 2828,
+        "rigJoints": 54
+      },
+      "candidateReview": {
+        "cpuMotionChecked": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_garden_sapling_faeholme",
+      "file": "starroot-tender-candidate.glb",
+      "pack": "corealm-tripo-audit-forest",
+      "category": "character",
+      "is": "Starroot Tender",
+      "tags": [
+        "creature",
+        "forest",
+        "tree",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6610912,
+      "sha256": "0f6efb8c229aa8ee4d7b1ba5af0ed333c3184ac9948eee30344e300b9b5c89df",
+      "triangles": 4478,
+      "size": {
+        "x": 5.173034776460967,
+        "y": 6.871642770163636,
+        "z": 2.2994995466012997
+      },
+      "base": {
+        "x": -2.586517408555427,
+        "y": 5.236844288604599e-9,
+        "z": -1.1497497484213963
+      },
+      "groundY": 5.236844288604599e-9,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.275,
+      "materials": [
+        "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1"
+      ],
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/starred-grove-guardian/models/creature_starroot_guardian.glb",
+        "sha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+        "tripoProjectId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "triangles": 4478,
+        "vertices": 2828,
+        "rigJoints": 54
+      },
+      "candidateReview": {
+        "cpuMotionChecked": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_mossback_sentinel": "mossback-sentinel-candidate.glb",
+    "fairy_garden_sapling_faeholme": "starroot-tender-candidate.glb"
+  }
+}

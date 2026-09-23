@@ -1,0 +1,612 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "packs": [
+    {
+      "id": "corealm-tripo-audit-banshee-death",
+      "name": "Corealm Tripo Banshee Death",
+      "author": "Corealm / Tripo Studio",
+      "source": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "82081fadce65efc44707e6455e840016508f790c1eb3e647c4be35851e711384"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_banshee",
+      "file": "models/creature/creature_banshee.glb",
+      "pack": "corealm-tripo-audit-banshee-death",
+      "category": "character",
+      "is": "banshee",
+      "tags": [
+        "creature",
+        "rpg",
+        "banshee",
+        "humanoid",
+        "wilderness",
+        "spectral",
+        "T50",
+        "starred",
+        "tripo",
+        "death-collapse"
+      ],
+      "bytes": 7622472,
+      "sha256": "71c30518dd5d15dc62e6dcf178cdc6dd0fa2b4c1dc7085e18e4b90cc59f85aa5",
+      "size": {
+        "x": 1.184326171875,
+        "y": 1.4992661476135254,
+        "z": 0.7141114175319672
+      },
+      "base": {
+        "x": -0.5921630859375,
+        "y": 0,
+        "z": -0.3570557087659836
+      },
+      "groundY": -0.24,
+      "triangles": 4474,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_d27177e7-a092-4057-95a4-898130bcbc61"
+      ],
+      "walkClipSeconds": 1.15,
+      "runClipSeconds": 0.78,
+      "attackSeconds": 0.96,
+      "sourceProvenance": {
+        "sourceAssetId": "creature_banshee",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-undead-family/banshee-motion-polish.glb",
+        "sourceSha256": "e5eee04aa258239fd134a563573208e7acc27daf7726406c7a88f2e2d4fb954c",
+        "tripoSourceFile": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
+        "tripoSourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
+        "builderFile": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs",
+        "builderSha256": "82081fadce65efc44707e6455e840016508f790c1eb3e647c4be35851e711384",
+        "changes": "Only Death animation accessors changed: sideways core collapse, lowering, inward shroud fold, and trailing mist ribbons. Other clips, rig, geometry, materials, and textures retained.",
+        "productionBeforeSha256": "8caa1e48cae71a704ab825d142c6d03b36a47fe23295ca0559e11e7b5f7ac19e"
+      },
+      "metadata": {
+        "family": "wilderness_banshee",
+        "candidateDisplayName": "Banshee",
+        "heightM": 1.4992661476135254,
+        "dimensionsM": {
+          "width": 1.184326171875,
+          "height": 1.4992661476135254,
+          "depth": 0.7141114175319672
+        },
+        "bounds": {
+          "min": [
+            -0.5921630859375,
+            0,
+            -0.3570557087659836
+          ],
+          "max": [
+            0.5921630859375,
+            1.4992661476135254,
+            0.3570557087659836
+          ]
+        },
+        "rig": "Mixamo-named Unity Humanoid plus spectral shroud joints",
+        "sourceSkinned": true,
+        "boneCount": 30,
+        "sourceVertices": 3161,
+        "triangles": 4474,
+        "source": {
+          "file": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
+          "sha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
+          "bytes": 30781040,
+          "starredModelId": "956635da-08fc-4770-905e-5bee385bcaf9",
+          "starredCardId": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8",
+          "starredDisplayName": "fantasy female character 3d model",
+          "sourceImageId": "142a84c7-ce68-4a9a-be9e-d607c555beca",
+          "sourceImageFile": "assets/art/tripo/refs/crown-wild-banshee-v2.png",
+          "sourceImageSha256": "938263bc97ceab41557c0e90f32a80dc699bb1ecbd941543570857feb2f5d402",
+          "prompt": "Banshee, a floating wilderness mourning ghost for a serious medieval RPG. Full adult female upper body with balanced anatomy, stern long face with closed eyes and gray lavender skin, mouth slightly open in a solemn breath. Dense dark hair forms two broad swept-back locks joined into a short heavy braid. Faded midnight-blue burial gown with a woven silver hem. The empty lower gown opens into three broad curling ribbons of pale blue mist that taper in open air, unmistakably hovering above the ground, no legs or feet beneath. Proportionate arms separated from torso, wrapped forearms and relaxed visible hands. Restrained lavender light at throat, quiet mournful menace, no exposed bones, no gore, no shredded rag cloud.",
+          "generator": "Tripo P2.0 Smart Mesh",
+          "sourceImageAudit": {
+            "reviewer": "wild_audit (gpt-6-astra low)",
+            "verdict": "approved",
+            "reasons": [
+              "Unmistakably floating female ghost",
+              "Dress dissolves into translucent tails without corpse or gore"
+            ]
+          },
+          "geometryAudit": {
+            "reviewer": "Astra-low",
+            "verdict": "approved",
+            "review": "Close front/rear review confirms intact human face, floating smoky skirt and no anatomy defects."
+          },
+          "geometry": {
+            "vertices": 3161,
+            "triangles": 4474,
+            "bounds": {
+              "min": [
+                -0.394775390625,
+                0,
+                -0.2380371391773224
+              ],
+              "max": [
+                0.394775390625,
+                0.9995107650756836,
+                0.2380371391773224
+              ]
+            },
+            "positionsPreserved": true,
+            "indicesPreserved": true,
+            "retopology": false
+          },
+          "sourceSkin": {
+            "joints": 54,
+            "rootWeightedVertices": 3160,
+            "status": "discarded; 99.97% of source vertices use the root joint and inverse bind matrices are corrupt"
+          },
+          "sourceAnimations": [],
+          "textures": [
+            {
+              "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_basecolor.jpg",
+              "width": 8192,
+              "height": 8192,
+              "mimeType": "image/jpeg",
+              "bytes": 17117140,
+              "sha256": "2756988df9186166cf4d054314e474c0ccd80bf11a82b03076d9134dd89f41d6"
+            },
+            {
+              "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_rm.png",
+              "width": 4096,
+              "height": 4096,
+              "mimeType": "image/png",
+              "bytes": 11471211,
+              "sha256": "2631cfc320b48e8c8c09006a3d7b428e614a9a1e78d1b3d6070efe85d826c82c"
+            },
+            {
+              "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_normal.jpg",
+              "width": 4096,
+              "height": 4096,
+              "mimeType": "image/jpeg",
+              "bytes": 1952402,
+              "sha256": "888a6b225a3d099fc7d3ddfed940284bc8f72f84666870ae2cda937da649fc98"
+            }
+          ]
+        },
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/starred-banshee/banshee-native-rig-candidate.glb",
+          "sha256": "8caa1e48cae71a704ab825d142c6d03b36a47fe23295ca0559e11e7b5f7ac19e",
+          "bytes": 7625616,
+          "productionTarget": "game/public/assets/models/creature/creature_banshee.glb",
+          "geometry": {
+            "vertices": 3161,
+            "triangles": 4474,
+            "positionsPreserved": true,
+            "indicesPreserved": true,
+            "uvPreserved": true,
+            "normalsPreserved": true
+          },
+          "presentation": {
+            "method": "Uniform armature-root scale; source vertices and topology stay unchanged.",
+            "uniformScale": 1.5,
+            "heightMeters": 1.4992661476135254,
+            "targetHeightMeters": 1.5,
+            "floorClearanceMeters": 0.24
+          },
+          "rig": {
+            "type": "Mixamo-named Unity Humanoid plus spectral shroud joints",
+            "jointCount": 30,
+            "joints": [
+              {
+                "name": "BansheeRoot",
+                "parent": null,
+                "restPosition": [
+                  0,
+                  0,
+                  0
+                ],
+                "role": "root"
+              },
+              {
+                "name": "mixamorigHips",
+                "parent": "BansheeRoot",
+                "restPosition": [
+                  -0.055,
+                  0.47,
+                  0.01
+                ],
+                "role": "core"
+              },
+              {
+                "name": "mixamorigSpine",
+                "parent": "mixamorigHips",
+                "restPosition": [
+                  -0.055,
+                  0.565,
+                  0.01
+                ],
+                "role": "core"
+              },
+              {
+                "name": "mixamorigSpine1",
+                "parent": "mixamorigSpine",
+                "restPosition": [
+                  -0.06,
+                  0.66,
+                  0.025
+                ],
+                "role": "core"
+              },
+              {
+                "name": "mixamorigSpine2",
+                "parent": "mixamorigSpine1",
+                "restPosition": [
+                  -0.06,
+                  0.75,
+                  0.035
+                ],
+                "role": "core"
+              },
+              {
+                "name": "mixamorigNeck",
+                "parent": "mixamorigSpine2",
+                "restPosition": [
+                  -0.068,
+                  0.835,
+                  0.03
+                ],
+                "role": "core"
+              },
+              {
+                "name": "mixamorigHead",
+                "parent": "mixamorigNeck",
+                "restPosition": [
+                  -0.068,
+                  0.92,
+                  0.02
+                ],
+                "role": "head"
+              },
+              {
+                "name": "mixamorigLeftShoulder",
+                "parent": "mixamorigSpine2",
+                "restPosition": [
+                  0.018,
+                  0.735,
+                  0.035
+                ],
+                "role": "leftArm"
+              },
+              {
+                "name": "mixamorigLeftArm",
+                "parent": "mixamorigLeftShoulder",
+                "restPosition": [
+                  0.082,
+                  0.65,
+                  0.055
+                ],
+                "role": "leftArm"
+              },
+              {
+                "name": "mixamorigLeftForeArm",
+                "parent": "mixamorigLeftArm",
+                "restPosition": [
+                  0.15,
+                  0.53,
+                  0.08
+                ],
+                "role": "leftArm"
+              },
+              {
+                "name": "mixamorigLeftHand",
+                "parent": "mixamorigLeftForeArm",
+                "restPosition": [
+                  0.19,
+                  0.425,
+                  0.1
+                ],
+                "role": "leftArm"
+              },
+              {
+                "name": "mixamorigRightShoulder",
+                "parent": "mixamorigSpine2",
+                "restPosition": [
+                  -0.148,
+                  0.725,
+                  0.035
+                ],
+                "role": "rightArm"
+              },
+              {
+                "name": "mixamorigRightArm",
+                "parent": "mixamorigRightShoulder",
+                "restPosition": [
+                  -0.222,
+                  0.64,
+                  0.052
+                ],
+                "role": "rightArm"
+              },
+              {
+                "name": "mixamorigRightForeArm",
+                "parent": "mixamorigRightArm",
+                "restPosition": [
+                  -0.29,
+                  0.51,
+                  0.06
+                ],
+                "role": "rightArm"
+              },
+              {
+                "name": "mixamorigRightHand",
+                "parent": "mixamorigRightForeArm",
+                "restPosition": [
+                  -0.322,
+                  0.405,
+                  0.075
+                ],
+                "role": "rightArm"
+              },
+              {
+                "name": "mixamorigLeftUpLeg",
+                "parent": "mixamorigHips",
+                "restPosition": [
+                  0.005,
+                  0.425,
+                  0.01
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "mixamorigLeftLeg",
+                "parent": "mixamorigLeftUpLeg",
+                "restPosition": [
+                  0.01,
+                  0.3,
+                  0.01
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "mixamorigLeftFoot",
+                "parent": "mixamorigLeftLeg",
+                "restPosition": [
+                  0.015,
+                  0.18,
+                  0.02
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "mixamorigLeftToeBase",
+                "parent": "mixamorigLeftFoot",
+                "restPosition": [
+                  0.015,
+                  0.115,
+                  0.065
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "mixamorigRightUpLeg",
+                "parent": "mixamorigHips",
+                "restPosition": [
+                  -0.125,
+                  0.425,
+                  0.005
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "mixamorigRightLeg",
+                "parent": "mixamorigRightUpLeg",
+                "restPosition": [
+                  -0.135,
+                  0.3,
+                  0.005
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "mixamorigRightFoot",
+                "parent": "mixamorigRightLeg",
+                "restPosition": [
+                  -0.145,
+                  0.18,
+                  0.015
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "mixamorigRightToeBase",
+                "parent": "mixamorigRightFoot",
+                "restPosition": [
+                  -0.145,
+                  0.115,
+                  0.06
+                ],
+                "role": "hiddenLeg"
+              },
+              {
+                "name": "BansheeShroudRoot",
+                "parent": "mixamorigHips",
+                "restPosition": [
+                  -0.055,
+                  0.42,
+                  0.005
+                ],
+                "role": "shroudCore"
+              },
+              {
+                "name": "BansheeShroudMid",
+                "parent": "BansheeShroudRoot",
+                "restPosition": [
+                  -0.045,
+                  0.275,
+                  0.005
+                ],
+                "role": "shroudCore"
+              },
+              {
+                "name": "BansheeShroudHem",
+                "parent": "BansheeShroudMid",
+                "restPosition": [
+                  -0.025,
+                  0.145,
+                  0.005
+                ],
+                "role": "shroudCore"
+              },
+              {
+                "name": "BansheeMistRibbonL",
+                "parent": "BansheeShroudMid",
+                "restPosition": [
+                  -0.225,
+                  0.175,
+                  0.02
+                ],
+                "role": "shroudLeft"
+              },
+              {
+                "name": "BansheeMistTipL",
+                "parent": "BansheeMistRibbonL",
+                "restPosition": [
+                  -0.33,
+                  0.135,
+                  0.05
+                ],
+                "role": "shroudLeft"
+              },
+              {
+                "name": "BansheeMistRibbonR",
+                "parent": "BansheeShroudMid",
+                "restPosition": [
+                  0.19,
+                  0.15,
+                  0.055
+                ],
+                "role": "shroudRight"
+              },
+              {
+                "name": "BansheeMistTipR",
+                "parent": "BansheeMistRibbonR",
+                "restPosition": [
+                  0.315,
+                  0.06,
+                  0.07
+                ],
+                "role": "shroudRight"
+              }
+            ],
+            "influencesPerVertex": 4,
+            "verticesWithDistributedWeights": 3161,
+            "maximumWeightSumError": 4.563480615615845e-8,
+            "verticesWithMistInfluence": 1014,
+            "method": "Model-specific region-gated four-influence weights; legs remain mapped inside the hollow gown and unweighted; lower mist ribbons use independent shroud joints."
+          },
+          "textures": [
+            {
+              "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/jpeg",
+              "bytes": 1962353,
+              "sha256": "99c114e3521ec3023f920f26b34452aa56e394e04fb887cfca7eb5ff527bb7f2"
+            },
+            {
+              "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/png",
+              "bytes": 4204904,
+              "sha256": "1be37db9a94a2ee23474368f449d54b8b757c284cae9992347aa875d7ca59687"
+            },
+            {
+              "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/jpeg",
+              "bytes": 1112696,
+              "sha256": "8b73a3033ff15806882f0adbbf5f2198ccfead2ac79413c8e08d692fcd45051e"
+            }
+          ],
+          "pbr": {
+            "baseColor": true,
+            "packedMetallicRoughness": true,
+            "normal": true,
+            "metallicChannelRange": [
+              0,
+              0.792156862745098
+            ],
+            "allMapsMaximum": 2048
+          },
+          "animations": [
+            {
+              "name": "Idle",
+              "seconds": 3,
+              "channels": 8
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.15,
+              "channels": 9
+            },
+            {
+              "name": "Run",
+              "seconds": 0.78,
+              "channels": 9
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.96,
+              "channels": 10
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.48,
+              "channels": 7
+            },
+            {
+              "name": "Death",
+              "seconds": 1.5,
+              "channels": 9
+            }
+          ],
+          "locomotion": "Walk and Run are floating hover-glide cycles with no foot contact or gait animation; Death dissipates upward while the shroud stays suspended."
+        },
+        "pbr": {
+          "baseColor": true,
+          "packedMetallicRoughness": true,
+          "normal": true,
+          "metallicChannelRange": [
+            0,
+            0.792156862745098
+          ],
+          "allMapsMaximum": 2048
+        },
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "animationAcceptance": "Accepted in production lab: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check. Hover locomotion and upward dissipation are preserved."
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "bounds": {
+        "min": [
+          -0.5921630859375,
+          0,
+          -0.3570557087659836
+        ],
+        "max": [
+          0.5921630859375,
+          1.4992661476135254,
+          0.3570557087659836
+        ]
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-banshee-death/banshee-death-collapse.glb"
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_banshee",
+      "file": "models/creature/creature_banshee.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "banshee",
+      "tags": [
+        "creature",
+        "rpg",
+        "banshee",
+        "humanoid",
+        "wilderness",
+        "spectral",
+        "T50",
+        "starred",
+        "tripo",
+        "candidate",
+        "undead-polish"
+      ],
+      "bytes": 7622472,
+      "sha256": "e5eee04aa258239fd134a563573208e7acc27daf7726406c7a88f2e2d4fb954c",
+      "triangles": 4474,
+      "size": {
+        "x": 1.1843261625488912,
+        "y": 1.499266183289598,
+        "z": 0.7141114161445137
+      },
+      "base": {
+        "x": -0.5921630838735769,
+        "y": -4.248807920540751e-9,
+        "z": -0.3570557124437823
+      },
+      "bounds": {
+        "min": [
+          -0.5921630838735769,
+          -4.248807920540751e-9,
+          -0.3570557124437823
+        ],
+        "max": [
+          0.5921630786753144,
+          1.49926617904079,
+          0.3570557037007314
+        ]
+      },
+      "groundY": -0.24,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_d27177e7-a092-4057-95a4-898130bcbc61"
+      ],
+      "walkClipSeconds": 1.149999976158142,
+      "runClipSeconds": 0.7799999713897705,
+      "attackSeconds": 0.9599999785423279,
+      "sourceProvenance": {
+        "sourceAssetId": "creature_banshee",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-banshee/banshee-native-rig-candidate.glb",
+        "sourceSha256": "8caa1e48cae71a704ab825d142c6d03b36a47fe23295ca0559e11e7b5f7ac19e",
+        "tripoSourceFile": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
+        "tripoSourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
+        "changes": "Preserved repaired skin, source geometry and 2K PBR maps; amplified hover, shroud drift and visible claw attack rotations."
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_grave_lantern",
+      "file": "models/creature/creature_grave_lantern.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "Ashen Ghoul",
+      "tags": [
+        "creature",
+        "rpg",
+        "grave_ghoul",
+        "candidate",
+        "undead-polish"
+      ],
+      "bytes": 7056360,
+      "sha256": "ee086dab38d297e55b4ad1070f00ac0ed38b94183eeb7180e4f3b5e01dccc9e0",
+      "triangles": 16001,
+      "size": {
+        "x": 0.7705184027513425,
+        "y": 1.0652261727719385,
+        "z": 0.7126008935355386
+      },
+      "base": {
+        "x": -0.35418571424251133,
+        "y": 0.0009999999783805431,
+        "z": -0.2678679766459788
+      },
+      "bounds": {
+        "min": [
+          -0.35418571424251133,
+          0.0009999999783805431,
+          -0.2678679766459788
+        ],
+        "max": [
+          0.4163326885088312,
+          1.066226172750319,
+          0.4447329168895598
+        ]
+      },
+      "groundY": 0.0009999999783805431,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_grave_lantern_grave_lantern_desiccated_mouth",
+        "animal_rpg_grave_lantern_grave_lantern_exposed_teeth",
+        "animal_rpg_grave_lantern_ghoul_keratin_claws",
+        "animal_rpg_grave_lantern_grave_lantern_source_base_male_MI_Hair_1",
+        "animal_rpg_grave_lantern_grave_lantern_source_base_male_MI_Eyes",
+        "animal_rpg_grave_lantern_grave_lantern_source_base_male_MI_Superhero_Male",
+        "animal_rpg_grave_lantern_grave_lantern_source_outfit_male_peasant_legs_MI_Peasant"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 1.7999999523162842,
+      "sourceProvenance": {
+        "sourceAssetId": "creature_grave_lantern",
+        "sourceFile": "game/public/assets/models/creature/creature_grave_lantern.glb",
+        "sourceSha256": "5c76cf2b9fc1d45209be755b35a05328b8c047d4794bf7c8086d137c44d380e1",
+        "sourceRigAndGeometryPreserved": true,
+        "sourceAnimationsPreserved": true,
+        "sourcePack": "corealm-rpg-universal-base-characters",
+        "sourceLicense": "CC0-1.0",
+        "imagegenSkin": "assets/art/tripo/imports/creatures/audit-undead-family/ashen-ghoul-skin-imagegen.png",
+        "imagegenSkinSha256": "fe8e83923f9b6327563dd981d61dc8f8f06041bd6559d681c47747889144c8b7",
+        "imagegenCloth": "assets/art/tripo/imports/creatures/audit-undead-family/ashen-ghoul-cloth-imagegen.png",
+        "imagegenClothSha256": "f143477c3d53355523ad60e371d65b279971b743b8b8674ddab8736b2dd8c138",
+        "runtimeSkinSha256": "08bb2391981cfc916ed3d3ec69e595c04b2d71e095cb69adeb27cb5604cf416c",
+        "runtimeClothSha256": "000d1346a03c9aa233767ce44971e52f15c594895016c29ea7ea34184a575c5a",
+        "changes": "Layered ash-gray lesions, burnt umber fissures, soot, ember crevices and charred frayed cloth; original UVs, rig and eight clips retained."
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_banshee": "banshee-motion-polish.glb",
+    "creature_grave_lantern": "ashen-ghoul-polish.glb"
+  }
+}

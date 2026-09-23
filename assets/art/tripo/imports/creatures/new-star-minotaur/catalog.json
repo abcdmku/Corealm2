@@ -41,6 +41,14 @@
       "allVerticesWeightedToBoneZero": true
     },
     "sourceAnimations": [],
+    "nativePreview": {
+      "file": "assets/art/tripo/imports/creatures/new-star-minotaur/redmane-native-preview.glb",
+      "sha256": "e4a1d2445c91cf326f252e4d281c6d30d6c3aec8bdeee58d4684618f26d9db7d",
+      "bytes": 4092668,
+      "rigJoints": 41,
+      "clips": 0,
+      "assessment": "Rejected for motion: hoof-height vertices are fully weighted to a high head-area bone or neutral_bone."
+    },
     "textures": [
       {
         "name": "minotaur+3d+model_basecolor.jpg",
@@ -70,8 +78,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-minotaur/redmane-breaker-native-rig.glb",
-    "sha256": "7f7c8510eb4a3357288beec3a238698edd82adff59b7689c499794ea8d12a1cd",
-    "bytes": 4709040,
+    "sha256": "61dc138490e52dc0ed46e44233833efd3e76445b2b13e6b9787fb1435e16b4a5",
+    "bytes": 4704776,
     "productionTarget": "game/public/assets/models/creature/creature_redmane_breaker.glb",
     "presentation": {
       "targetHeightMeters": 2.2,
@@ -88,211 +96,166 @@
       "indicesPreserved": true
     },
     "rig": {
-      "type": "Mixamo-named Unity Humanoid glTF skin",
+      "type": "Anatomical quadruped glTF skin",
       "joints": [
         {
-          "name": "mixamorigHips",
+          "name": "BullRoot",
           "parent": null,
           "position": [
             0,
-            0.36328125,
+            0.4177734375,
             0
           ]
         },
         {
-          "name": "mixamorigSpine",
-          "parent": "mixamorigHips",
+          "name": "BullRump",
+          "parent": "BullRoot",
           "position": [
-            0,
+            0.19,
             0.44501953125,
-            0.02994140625
-          ]
-        },
-        {
-          "name": "mixamorigSpine1",
-          "parent": "mixamorigSpine",
-          "position": [
-            0,
-            0.5267578125,
-            0.06986328125
-          ]
-        },
-        {
-          "name": "mixamorigSpine2",
-          "parent": "mixamorigSpine1",
-          "position": [
-            0,
-            0.60849609375,
-            0.07984375
-          ]
-        },
-        {
-          "name": "mixamorigNeck",
-          "parent": "mixamorigSpine2",
-          "position": [
-            0,
-            0.69931640625,
-            0.0998046875
-          ]
-        },
-        {
-          "name": "mixamorigHead",
-          "parent": "mixamorigNeck",
-          "position": [
-            0,
-            0.77197265625,
-            0.1397265625
-          ]
-        },
-        {
-          "name": "mixamorigLeftShoulder",
-          "parent": "mixamorigSpine2",
-          "position": [
-            -0.16558591604232786,
-            0.6266601562499999,
-            0.06986328125
-          ]
-        },
-        {
-          "name": "mixamorigLeftArm",
-          "parent": "mixamorigLeftShoulder",
-          "position": [
-            -0.2851757442951202,
-            0.60849609375,
-            0.06986328125
-          ]
-        },
-        {
-          "name": "mixamorigLeftForeArm",
-          "parent": "mixamorigLeftArm",
-          "position": [
-            -0.3955663549900055,
-            0.57216796875,
-            0.0598828125
-          ]
-        },
-        {
-          "name": "mixamorigLeftHand",
-          "parent": "mixamorigLeftForeArm",
-          "position": [
-            -0.45076166033744813,
-            0.5358398437499999,
-            0.07984375
-          ]
-        },
-        {
-          "name": "mixamorigRightShoulder",
-          "parent": "mixamorigSpine2",
-          "position": [
-            0.16558591604232786,
-            0.6266601562499999,
-            0.06986328125
-          ]
-        },
-        {
-          "name": "mixamorigRightArm",
-          "parent": "mixamorigRightShoulder",
-          "position": [
-            0.2851757442951202,
-            0.60849609375,
-            0.06986328125
-          ]
-        },
-        {
-          "name": "mixamorigRightForeArm",
-          "parent": "mixamorigRightArm",
-          "position": [
-            0.3955663549900055,
-            0.57216796875,
-            0.0598828125
-          ]
-        },
-        {
-          "name": "mixamorigRightHand",
-          "parent": "mixamorigRightForeArm",
-          "position": [
-            0.45076166033744813,
-            0.5358398437499999,
-            0.07984375
-          ]
-        },
-        {
-          "name": "mixamorigLeftUpLeg",
-          "parent": "mixamorigHips",
-          "position": [
-            -0.1563866984844208,
-            0.30878906250000004,
             0
           ]
         },
         {
-          "name": "mixamorigLeftLeg",
-          "parent": "mixamorigLeftUpLeg",
+          "name": "BullShoulders",
+          "parent": "BullRoot",
           "position": [
-            -0.2023827862739563,
-            0.15439453125000002,
+            -0.22,
+            0.5176757812499999,
             0
           ]
         },
         {
-          "name": "mixamorigLeftFoot",
-          "parent": "mixamorigLeftLeg",
+          "name": "BullNeck",
+          "parent": "BullShoulders",
           "position": [
-            -0.3311718320846557,
-            0.049951171875,
-            0.0998046875
-          ]
-        },
-        {
-          "name": "mixamorigLeftToeBase",
-          "parent": "mixamorigLeftFoot",
-          "position": [
-            -0.3311718320846557,
-            0.022705078125,
-            0.24951171875
-          ]
-        },
-        {
-          "name": "mixamorigRightUpLeg",
-          "parent": "mixamorigHips",
-          "position": [
-            0.1563866984844208,
-            0.30878906250000004,
+            -0.34,
+            0.6357421875,
             0
           ]
         },
         {
-          "name": "mixamorigRightLeg",
-          "parent": "mixamorigRightUpLeg",
+          "name": "BullHead",
+          "parent": "BullNeck",
           "position": [
-            0.2023827862739563,
-            0.15439453125000002,
+            -0.34,
+            0.7265625,
             0
           ]
         },
         {
-          "name": "mixamorigRightFoot",
-          "parent": "mixamorigRightLeg",
+          "name": "FrontLeftUpper",
+          "parent": "BullShoulders",
           "position": [
-            0.3311718320846557,
-            0.049951171875,
-            0.0998046875
+            -0.29,
+            0.399609375,
+            0.1
           ]
         },
         {
-          "name": "mixamorigRightToeBase",
-          "parent": "mixamorigRightFoot",
+          "name": "FrontLeftLower",
+          "parent": "FrontLeftUpper",
           "position": [
-            0.3311718320846557,
-            0.022705078125,
-            0.24951171875
+            -0.32,
+            0.181640625,
+            0.09
+          ]
+        },
+        {
+          "name": "FrontLeftHoof",
+          "parent": "FrontLeftLower",
+          "position": [
+            -0.33,
+            0.036328125,
+            0.08
+          ]
+        },
+        {
+          "name": "FrontRightUpper",
+          "parent": "BullShoulders",
+          "position": [
+            -0.29,
+            0.399609375,
+            -0.1
+          ]
+        },
+        {
+          "name": "FrontRightLower",
+          "parent": "FrontRightUpper",
+          "position": [
+            -0.35,
+            0.181640625,
+            -0.08
+          ]
+        },
+        {
+          "name": "FrontRightHoof",
+          "parent": "FrontRightLower",
+          "position": [
+            -0.37,
+            0.036328125,
+            -0.06
+          ]
+        },
+        {
+          "name": "HindLeftUpper",
+          "parent": "BullRump",
+          "position": [
+            0.21,
+            0.36328125,
+            0.25
+          ]
+        },
+        {
+          "name": "HindLeftLower",
+          "parent": "HindLeftUpper",
+          "position": [
+            0.22,
+            0.181640625,
+            0.33
+          ]
+        },
+        {
+          "name": "HindLeftHoof",
+          "parent": "HindLeftLower",
+          "position": [
+            0.21,
+            0.036328125,
+            0.37
+          ]
+        },
+        {
+          "name": "HindRightUpper",
+          "parent": "BullRump",
+          "position": [
+            0.3,
+            0.36328125,
+            -0.25
+          ]
+        },
+        {
+          "name": "HindRightLower",
+          "parent": "HindRightUpper",
+          "position": [
+            0.35,
+            0.181640625,
+            -0.33
+          ]
+        },
+        {
+          "name": "HindRightHoof",
+          "parent": "HindRightLower",
+          "position": [
+            0.37,
+            0.036328125,
+            -0.36
           ]
         }
       ],
       "influencesPerVertex": 4,
       "verticesWithDistributedWeights": 7896,
-      "maximumWeightSumError": 4.470348358154297e-8,
-      "method": "Mixamo-named Unity Humanoid skeleton with four normalized anatomical influences per vertex; source had 100% bone_0 weighting, so only JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt."
+      "maximumWeightSumError": 4.511093720793724e-8,
+      "method": "Four-leg bull skeleton with anatomically partitioned front and hind hoof weights; source had 100% bone_0 weighting, so JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt."
     },
     "material": {
       "metallicFactor": 0.08,
@@ -333,165 +296,1481 @@
       {
         "name": "Idle",
         "seconds": 3,
-        "channels": 11
+        "channels": 3
       },
       {
         "name": "Walk",
         "seconds": 1.12,
-        "channels": 11
+        "channels": 15
       },
       {
         "name": "Run",
         "seconds": 0.76,
-        "channels": 12
+        "channels": 15
       },
       {
         "name": "Attack",
-        "seconds": 1,
-        "channels": 11
+        "seconds": 0.95,
+        "channels": 8
       },
       {
         "name": "Hit",
         "seconds": 0.48,
-        "channels": 8
+        "channels": 3
       },
       {
         "name": "Death",
         "seconds": 1.55,
-        "channels": 17
+        "channels": 9
       }
     ],
+    "motionTiming": {
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.76,
+      "attackSeconds": 0.95,
+      "attackContactNormalized": 0.45263157894736844
+    },
+    "gaitCalibration": {
+      "status": "uncalibrated",
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "reason": "Grounded backward-sole velocity is sparse and inconsistent: the 33-pose Walk sample has 8, 4 and 0 usable stance intervals at the three sampled hooves; Run has 2, 0 and 0. No defensible speed scalar follows from this clip.",
+      "metadataToRemoveOnPromotion": [
+        "impliedWalkMps",
+        "impliedRunMps"
+      ]
+    },
     "motionVerification": [
       {
         "name": "Idle",
         "seconds": 3,
-        "channels": 11,
-        "sampledPoses": 9,
-        "maximumVertexDisplacement": 0.2103254450697713,
-        "maximumMovedVertices": 5644,
-        "minimumGroundY": -1.227806104579851e-9,
+        "channels": 3,
+        "sampledPoses": 33,
+        "maximumVertexDisplacement": 0.010765993435886235,
+        "maximumMovedVertices": 7896,
+        "maximumEdgeStretchRatio": 1.0692838834084608,
+        "maximumEdgeLengthGain": 0.001564294839846922,
+        "worstEdge": {
+          "a": 2610,
+          "b": 2606,
+          "rest": 0.06289544768235389,
+          "posed": 0.06445974252220081,
+          "sourceA": [
+            0.2900390625,
+            0.509765625,
+            -0.1201171725988388
+          ],
+          "sourceB": [
+            0.2861328125,
+            0.4472656548023224,
+            -0.1142577975988388
+          ]
+        },
+        "minimumGroundY": -5.517976671766154e-10,
+        "contactTravel": {
+          "2": 0.017338861630541443,
+          "6254": 0.006000000193242164,
+          "7681": 0.005999999979176218
+        },
+        "contactVelocity": {
+          "2": {
+            "stanceSamples": 16,
+            "medianMps": 0.030108208643866412,
+            "p10Mps": 0.0233081579677762,
+            "p90Mps": 0.030255241943539457
+          },
+          "6254": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          },
+          "7681": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          }
+        },
+        "samples": [
+          {
+            "time": 0,
+            "groundY": -5.517976671766154e-10,
+            "ceilingY": 0.9082031405749799
+          },
+          {
+            "time": 0.09375,
+            "groundY": 0.00032126528784095175,
+            "ceilingY": 0.9091030946670764
+          },
+          {
+            "time": 0.1875,
+            "groundY": 0.0006451507581795709,
+            "ceilingY": 0.9100023684800779
+          },
+          {
+            "time": 0.28125,
+            "groundY": 0.0009716591447976403,
+            "ceilingY": 0.9109009609419563
+          },
+          {
+            "time": 0.375,
+            "groundY": 0.0013007936935048813,
+            "ceilingY": 0.9117988709912384
+          },
+          {
+            "time": 0.46875,
+            "groundY": 0.0016325576102589414,
+            "ceilingY": 0.9126960975770291
+          },
+          {
+            "time": 0.5625,
+            "groundY": 0.001966954061083379,
+            "ceilingY": 0.9135926396590346
+          },
+          {
+            "time": 0.65625,
+            "groundY": 0.002303986171988168,
+            "ceilingY": 0.9144884962075845
+          },
+          {
+            "time": 0.75,
+            "groundY": 0.002643657028890887,
+            "ceilingY": 0.9153836662036545
+          },
+          {
+            "time": 0.84375,
+            "groundY": 0.002303986171988168,
+            "ceilingY": 0.9145277115519217
+          },
+          {
+            "time": 0.9375,
+            "groundY": 0.001966954061083379,
+            "ceilingY": 0.9136710064526272
+          },
+          {
+            "time": 1.03125,
+            "groundY": 0.0016325576102589414,
+            "ceilingY": 0.9128135505067466
+          },
+          {
+            "time": 1.125,
+            "groundY": 0.0013007936935048813,
+            "ceilingY": 0.9119553433320288
+          },
+          {
+            "time": 1.21875,
+            "groundY": 0.0009716591447976403,
+            "ceilingY": 0.9110963845631554
+          },
+          {
+            "time": 1.3125,
+            "groundY": 0.0006451507581795709,
+            "ceilingY": 0.9102366738518988
+          },
+          {
+            "time": 1.40625,
+            "groundY": 0.00032126528784095175,
+            "ceilingY": 0.9093762108672777
+          },
+          {
+            "time": 1.5,
+            "groundY": -5.517976671766154e-10,
+            "ceilingY": 0.9085149952957114
+          },
+          {
+            "time": 1.59375,
+            "groundY": 0.000625189508626431,
+            "ceilingY": 0.9089983380180766
+          },
+          {
+            "time": 1.6875,
+            "groundY": 0.0012501895238241295,
+            "ceilingY": 0.90948127104116
+          },
+          {
+            "time": 1.78125,
+            "groundY": 0.001875189539021773,
+            "ceilingY": 0.9099637950031324
+          },
+          {
+            "time": 1.875,
+            "groundY": 0.0025001895542194155,
+            "ceilingY": 0.9104459105459423
+          },
+          {
+            "time": 1.96875,
+            "groundY": 0.003125189569417059,
+            "ceilingY": 0.9109276183153061
+          },
+          {
+            "time": 2.0625,
+            "groundY": 0.0037501895846147023,
+            "ceilingY": 0.9114089189606989
+          },
+          {
+            "time": 2.15625,
+            "groundY": 0.004375189599812401,
+            "ceilingY": 0.911889813135345
+          },
+          {
+            "time": 2.25,
+            "groundY": 0.005000189615010045,
+            "ceilingY": 0.9123703014962057
+          },
+          {
+            "time": 2.34375,
+            "groundY": 0.004375189599812401,
+            "ceilingY": 0.9118508900257356
+          },
+          {
+            "time": 2.4375,
+            "groundY": 0.0037501895846147023,
+            "ceilingY": 0.9113310552555288
+          },
+          {
+            "time": 2.53125,
+            "groundY": 0.003125189569417059,
+            "ceilingY": 0.9108107968806407
+          },
+          {
+            "time": 2.625,
+            "groundY": 0.0025001895542194155,
+            "ceilingY": 0.9102901146005872
+          },
+          {
+            "time": 2.71875,
+            "groundY": 0.001875189539021773,
+            "ceilingY": 0.9097690081193426
+          },
+          {
+            "time": 2.8125,
+            "groundY": 0.0012501895238241295,
+            "ceilingY": 0.909247477145335
+          },
+          {
+            "time": 2.90625,
+            "groundY": 0.000625189508626431,
+            "ceilingY": 0.9087255213914406
+          },
+          {
+            "time": 3,
+            "groundY": -5.517976671766154e-10,
+            "ceilingY": 0.9082031405749799
+          }
+        ],
         "sweptBounds": {
           "min": [
-            -0.4486998089927927,
-            -1.227806104579851e-9,
-            -0.4990234449162319
+            -0.46300914900097273,
+            -5.517976671766154e-10,
+            -0.49902343059297977
           ],
           "max": [
-            0.4580765453696613,
-            0.9098092407501284,
-            0.5035322028229405
+            0.4599608642207903,
+            0.9153836662036545,
+            0.49902344679503585
           ]
         }
       },
       {
         "name": "Walk",
         "seconds": 1.12,
-        "channels": 11,
-        "sampledPoses": 9,
-        "maximumVertexDisplacement": 0.2348171754289558,
+        "channels": 15,
+        "sampledPoses": 33,
+        "maximumVertexDisplacement": 0.10874242323681288,
         "maximumMovedVertices": 7896,
-        "minimumGroundY": -0.014773655088491232,
+        "maximumEdgeStretchRatio": 1.8751794483805213,
+        "maximumEdgeLengthGain": 0.022235189789727078,
+        "worstEdge": {
+          "a": 343,
+          "b": 341,
+          "rest": 0.06111128065297662,
+          "posed": 0.0833464704427037,
+          "sourceA": [
+            -0.0888671725988388,
+            0.3554687798023224,
+            -0.13183586299419403
+          ],
+          "sourceB": [
+            -0.1181640475988388,
+            0.3027344048023224,
+            -0.14160148799419403
+          ]
+        },
+        "minimumGroundY": -0.0007082357710438743,
+        "contactTravel": {
+          "2": 0.20254709711807165,
+          "6254": 0.14816234901295086,
+          "7681": 0.14403592059934467
+        },
+        "contactVelocity": {
+          "2": {
+            "stanceSamples": 8,
+            "medianMps": 1.1395769360378647,
+            "p10Mps": 0.16071455748460867,
+            "p90Mps": 1.4086135348626305
+          },
+          "6254": {
+            "stanceSamples": 4,
+            "medianMps": 0.691571313710239,
+            "p10Mps": 0.14262851569391924,
+            "p90Mps": 0.6936451159776876
+          },
+          "7681": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          }
+        },
+        "samples": [
+          {
+            "time": 0,
+            "groundY": -1.3265701246027e-10,
+            "ceilingY": 0.9200137473022911
+          },
+          {
+            "time": 0.035,
+            "groundY": -0.00010986908619340995,
+            "ceilingY": 0.9260828336028096
+          },
+          {
+            "time": 0.07,
+            "groundY": 6.316828272818196e-11,
+            "ceilingY": 0.9320339815890213
+          },
+          {
+            "time": 0.10500000000000001,
+            "groundY": -0.00003110401415103284,
+            "ceilingY": 0.9338525274140818
+          },
+          {
+            "time": 0.14,
+            "groundY": 1.0559663202949364e-10,
+            "ceilingY": 0.9356497117364403
+          },
+          {
+            "time": 0.17500000000000002,
+            "groundY": -0.0003114653602562541,
+            "ceilingY": 0.931555162716205
+          },
+          {
+            "time": 0.21000000000000002,
+            "groundY": -8.232364504157677e-11,
+            "ceilingY": 0.9274392521932682
+          },
+          {
+            "time": 0.24500000000000002,
+            "groundY": -0.0007082357710438743,
+            "ceilingY": 0.9178801658060005
+          },
+          {
+            "time": 0.28,
+            "groundY": -2.2351736386245847e-11,
+            "ceilingY": 0.9082031411044258
+          },
+          {
+            "time": 0.31500000000000006,
+            "groundY": -0.0002069325778134884,
+            "ceilingY": 0.9057787642682829
+          },
+          {
+            "time": 0.35000000000000003,
+            "groundY": -3.566868102267521e-10,
+            "ceilingY": 0.9032462679774886
+          },
+          {
+            "time": 0.385,
+            "groundY": -0.00014803312428458316,
+            "ceilingY": 0.9018082507279632
+          },
+          {
+            "time": 0.42000000000000004,
+            "groundY": -3.607150034126933e-10,
+            "ceilingY": 0.9003529312989859
+          },
+          {
+            "time": 0.45500000000000007,
+            "groundY": -0.00006556546193270015,
+            "ceilingY": 0.9013412241459994
+          },
+          {
+            "time": 0.49000000000000005,
+            "groundY": -3.793994942848433e-10,
+            "ceilingY": 0.9023122148135608
+          },
+          {
+            "time": 0.525,
+            "groundY": -0.000008038209140978781,
+            "ceilingY": 0.9053134003359845
+          },
+          {
+            "time": 0.56,
+            "groundY": -3.889791245329835e-10,
+            "ceilingY": 0.9082064664037568
+          },
+          {
+            "time": 0.5950000000000001,
+            "groundY": -0.000008038209140923589,
+            "ceilingY": 0.9113803894117685
+          },
+          {
+            "time": 0.6300000000000001,
+            "groundY": -3.7939946942392337e-10,
+            "ceilingY": 0.9144363741054732
+          },
+          {
+            "time": 0.665,
+            "groundY": -0.00006556546193269636,
+            "ceilingY": 0.9159691598232048
+          },
+          {
+            "time": 0.7000000000000001,
+            "groundY": -3.607150088608092e-10,
+            "ceilingY": 0.9174805840382346
+          },
+          {
+            "time": 0.7350000000000001,
+            "groundY": -0.00014803312428460596,
+            "ceilingY": 0.9164361864051686
+          },
+          {
+            "time": 0.77,
+            "groundY": -3.5668681173108263e-10,
+            "ceilingY": 0.915370427269401
+          },
+          {
+            "time": 0.805,
+            "groundY": -0.00020693257781348933,
+            "ceilingY": 0.9118457533440669
+          },
+          {
+            "time": 0.8400000000000001,
+            "groundY": -2.235173323805037e-11,
+            "ceilingY": 0.9082031411044258
+          },
+          {
+            "time": 0.8750000000000001,
+            "groundY": 0.0006258583082575091,
+            "ceilingY": 0.9048876301242127
+          },
+          {
+            "time": 0.9100000000000001,
+            "groundY": -5.12299947474297e-10,
+            "ceilingY": 0.9014639996893482
+          },
+          {
+            "time": 0.9450000000000001,
+            "groundY": 0.0014107036563952295,
+            "ceilingY": 0.9020706664457971
+          },
+          {
+            "time": 0.9800000000000001,
+            "groundY": 4.6521685962860567e-10,
+            "ceilingY": 0.9026600310227938
+          },
+          {
+            "time": 1.0150000000000001,
+            "groundY": -0.00011459124894317619,
+            "ceilingY": 0.9059989882254686
+          },
+          {
+            "time": 1.05,
+            "groundY": 3.191615527723972e-10,
+            "ceilingY": 0.9093206432486911
+          },
+          {
+            "time": 1.0850000000000002,
+            "groundY": 0.0016067412331197558,
+            "ceilingY": 0.9147212550028168
+          },
+          {
+            "time": 1.12,
+            "groundY": -1.3265701074926346e-10,
+            "ceilingY": 0.9200137473022911
+          }
+        ],
         "sweptBounds": {
           "min": [
-            -0.44778048741560467,
-            -0.014773655088491232,
-            -0.5133721674787333
+            -0.5278081969650464,
+            -0.0007082357710438743,
+            -0.49902343059297977
           ],
           "max": [
-            0.4582665678179574,
-            0.9332031208636764,
-            0.49946305748100206
+            0.5054726891047983,
+            0.9356497117364403,
+            0.49902344679503585
           ]
         }
       },
       {
         "name": "Run",
         "seconds": 0.76,
-        "channels": 12,
-        "sampledPoses": 9,
-        "maximumVertexDisplacement": 0.29674094494184977,
+        "channels": 15,
+        "sampledPoses": 33,
+        "maximumVertexDisplacement": 0.16715076708015034,
         "maximumMovedVertices": 7896,
-        "minimumGroundY": -0.03720212203543565,
+        "maximumEdgeStretchRatio": 2.287686603377012,
+        "maximumEdgeLengthGain": 0.032566196737296646,
+        "worstEdge": {
+          "a": 343,
+          "b": 341,
+          "rest": 0.06111128065297662,
+          "posed": 0.09367747739027327,
+          "sourceA": [
+            -0.0888671725988388,
+            0.3554687798023224,
+            -0.13183586299419403
+          ],
+          "sourceB": [
+            -0.1181640475988388,
+            0.3027344048023224,
+            -0.14160148799419403
+          ]
+        },
+        "minimumGroundY": -0.0031482317866200252,
+        "contactTravel": {
+          "2": 0.2803419031263318,
+          "6254": 0.21547313780840424,
+          "7681": 0.21065610294970077
+        },
+        "contactVelocity": {
+          "2": {
+            "stanceSamples": 2,
+            "medianMps": 1.4438603517248778,
+            "p10Mps": 1.4381943212294428,
+            "p90Mps": 1.4438603517248778
+          },
+          "6254": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          },
+          "7681": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          }
+        },
+        "samples": [
+          {
+            "time": 0,
+            "groundY": -0.0006207042102203923,
+            "ceilingY": 0.9212031406718375
+          },
+          {
+            "time": 0.02375,
+            "groundY": -0.0015213840057756636,
+            "ceilingY": 0.9250587625862375
+          },
+          {
+            "time": 0.0475,
+            "groundY": -0.0031482317866200252,
+            "ceilingY": 0.9287964461863307
+          },
+          {
+            "time": 0.07125000000000001,
+            "groundY": -0.002254847182469277,
+            "ceilingY": 0.9320663547928498
+          },
+          {
+            "time": 0.095,
+            "groundY": -0.0011632970684000838,
+            "ceilingY": 0.935314901896667
+          },
+          {
+            "time": 0.11875,
+            "groundY": 0.002806723759191695,
+            "ceilingY": 0.9363089955115792
+          },
+          {
+            "time": 0.14250000000000002,
+            "groundY": 0.007993414846140724,
+            "ceilingY": 0.9372817276237898
+          },
+          {
+            "time": 0.16625,
+            "groundY": 0.01552845863898426,
+            "ceilingY": 0.9353014033496706
+          },
+          {
+            "time": 0.19,
+            "groundY": 0.02499999948312695,
+            "ceilingY": 0.9332031407612443
+          },
+          {
+            "time": 0.21375,
+            "groundY": 0.023098784459988884,
+            "ceilingY": 0.9292344142738866
+          },
+          {
+            "time": 0.2375,
+            "groundY": 0.02218480756254171,
+            "ceilingY": 0.9251575683318773
+          },
+          {
+            "time": 0.26125,
+            "groundY": 0.020802567294154733,
+            "ceilingY": 0.9216810598343739
+          },
+          {
+            "time": 0.28500000000000003,
+            "groundY": 0.020119588923550483,
+            "ceilingY": 0.9181872491574182
+          },
+          {
+            "time": 0.30875,
+            "groundY": 0.01915916316369743,
+            "ceilingY": 0.9174384191156445
+          },
+          {
+            "time": 0.3325,
+            "groundY": 0.018151750261677466,
+            "ceilingY": 0.9166722868944186
+          },
+          {
+            "time": 0.35625,
+            "groundY": 0.01773659399890969,
+            "ceilingY": 0.9189917735104537
+          },
+          {
+            "time": 0.38,
+            "groundY": 0.01735881940392786,
+            "ceilingY": 0.9212031406718375
+          },
+          {
+            "time": 0.40375,
+            "groundY": 0.017736593998909693,
+            "ceilingY": 0.9250587625862375
+          },
+          {
+            "time": 0.4275,
+            "groundY": 0.018151750261677486,
+            "ceilingY": 0.9287964461863307
+          },
+          {
+            "time": 0.45125,
+            "groundY": 0.01915916316369738,
+            "ceilingY": 0.9320663547928498
+          },
+          {
+            "time": 0.475,
+            "groundY": 0.0201195889235505,
+            "ceilingY": 0.935314901896667
+          },
+          {
+            "time": 0.49875,
+            "groundY": 0.020802567294154722,
+            "ceilingY": 0.9363089955115792
+          },
+          {
+            "time": 0.5225,
+            "groundY": 0.022184807562541712,
+            "ceilingY": 0.9372817276237898
+          },
+          {
+            "time": 0.54625,
+            "groundY": 0.023098784459988878,
+            "ceilingY": 0.9353014033496706
+          },
+          {
+            "time": 0.5700000000000001,
+            "groundY": 0.024999999483126957,
+            "ceilingY": 0.9332031407612443
+          },
+          {
+            "time": 0.59375,
+            "groundY": 0.024053582698045216,
+            "ceilingY": 0.9292344142738866
+          },
+          {
+            "time": 0.6175,
+            "groundY": 0.02207294400593172,
+            "ceilingY": 0.9251575683318773
+          },
+          {
+            "time": 0.64125,
+            "groundY": 0.014902751245035267,
+            "ceilingY": 0.9216810598343739
+          },
+          {
+            "time": 0.665,
+            "groundY": 0.008992145620400061,
+            "ceilingY": 0.9181872491574182
+          },
+          {
+            "time": 0.68875,
+            "groundY": 0.005047481034343643,
+            "ceilingY": 0.9174384191156445
+          },
+          {
+            "time": 0.7125,
+            "groundY": 0.0016738076703277911,
+            "ceilingY": 0.9166722868944186
+          },
+          {
+            "time": 0.73625,
+            "groundY": 0.0004911976549782954,
+            "ceilingY": 0.9189917735104537
+          },
+          {
+            "time": 0.76,
+            "groundY": -0.0006207042102203923,
+            "ceilingY": 0.9212031406718375
+          }
+        ],
         "sweptBounds": {
           "min": [
-            -0.44778048741560467,
-            -0.03720212203543565,
-            -0.519793804174479
+            -0.5671488186020687,
+            -0.0031482317866200252,
+            -0.49902343059297977
           ],
           "max": [
-            0.4588009627292589,
-            0.9650379856779344,
-            0.5263618762183881
+            0.5287349025885238,
+            0.9372817276237898,
+            0.49902344679503585
           ]
         }
       },
       {
         "name": "Attack",
-        "seconds": 1,
-        "channels": 11,
-        "sampledPoses": 9,
-        "maximumVertexDisplacement": 0.4762305723792217,
+        "seconds": 0.95,
+        "channels": 8,
+        "sampledPoses": 33,
+        "maximumVertexDisplacement": 0.3293180581293908,
         "maximumMovedVertices": 7896,
-        "minimumGroundY": -0.004230770501917685,
+        "maximumEdgeStretchRatio": 3.361112644461244,
+        "maximumEdgeLengthGain": 0.036571802834388545,
+        "worstEdge": {
+          "a": 6861,
+          "b": 6862,
+          "rest": 0.05777421663183219,
+          "posed": 0.09434601946622073,
+          "sourceA": [
+            0.07714849710464478,
+            0.810546875,
+            0.4072266221046448
+          ],
+          "sourceB": [
+            0.028320372104644775,
+            0.8359375,
+            0.3896484971046448
+          ]
+        },
+        "minimumGroundY": -5.517976671766154e-10,
+        "contactTravel": {
+          "2": 0.08466801889166889,
+          "6254": 0.2311713480652897,
+          "7681": 0.22967820114207785
+        },
+        "contactVelocity": {
+          "2": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          },
+          "6254": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          },
+          "7681": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          }
+        },
+        "samples": [
+          {
+            "time": 0,
+            "groundY": -5.517976671766154e-10,
+            "ceilingY": 0.9082031405749799
+          },
+          {
+            "time": 0.0296875,
+            "groundY": 0.0023419811837550875,
+            "ceilingY": 0.908100666849017
+          },
+          {
+            "time": 0.059375,
+            "groundY": 0.0046965762602782755,
+            "ceilingY": 0.9079102798865968
+          },
+          {
+            "time": 0.08906249999999999,
+            "groundY": 0.007063992767240252,
+            "ceilingY": 0.9076389310879234
+          },
+          {
+            "time": 0.11875,
+            "groundY": 0.00944424739452171,
+            "ceilingY": 0.9072937442021
+          },
+          {
+            "time": 0.1484375,
+            "groundY": 0.011837355474596719,
+            "ceilingY": 0.906881985560074
+          },
+          {
+            "time": 0.17812499999999998,
+            "groundY": 0.014243330979845698,
+            "ceilingY": 0.9064110337711143
+          },
+          {
+            "time": 0.20781249999999998,
+            "groundY": 0.016422029778163993,
+            "ceilingY": 0.9083370148234172
+          },
+          {
+            "time": 0.2375,
+            "groundY": 0.017979497886132782,
+            "ceilingY": 0.9168969626807812
+          },
+          {
+            "time": 0.26718749999999997,
+            "groundY": 0.019610426817999748,
+            "ceilingY": 0.9250361815368744
+          },
+          {
+            "time": 0.296875,
+            "groundY": 0.0189171031075254,
+            "ceilingY": 0.9326319487457563
+          },
+          {
+            "time": 0.3265625,
+            "groundY": 0.014059897638930714,
+            "ceilingY": 0.9395707540325983
+          },
+          {
+            "time": 0.35624999999999996,
+            "groundY": 0.009707034369817968,
+            "ceilingY": 0.9457515868045925
+          },
+          {
+            "time": 0.3859375,
+            "groundY": 0.005864811411570622,
+            "ceilingY": 0.9510888699087393
+          },
+          {
+            "time": 0.41562499999999997,
+            "groundY": 0.002201222871173069,
+            "ceilingY": 0.9555149510157597
+          },
+          {
+            "time": 0.4453125,
+            "groundY": 0.0011829409361245628,
+            "ceilingY": 0.9568534093967725
+          },
+          {
+            "time": 0.475,
+            "groundY": 0.0025030929329584966,
+            "ceilingY": 0.9558597645642626
+          },
+          {
+            "time": 0.5046875,
+            "groundY": 0.0038700022837300464,
+            "ceilingY": 0.9547391552766729
+          },
+          {
+            "time": 0.5343749999999999,
+            "groundY": 0.005283520234094118,
+            "ceilingY": 0.9534938634633506
+          },
+          {
+            "time": 0.5640625,
+            "groundY": 0.006656627145111807,
+            "ceilingY": 0.9521265927133985
+          },
+          {
+            "time": 0.59375,
+            "groundY": 0.00801183276283053,
+            "ceilingY": 0.9506404566134415
+          },
+          {
+            "time": 0.6234375,
+            "groundY": 0.009413187714253249,
+            "ceilingY": 0.9490389653547874
+          },
+          {
+            "time": 0.653125,
+            "groundY": 0.010860533612117817,
+            "ceilingY": 0.9473260106688115
+          },
+          {
+            "time": 0.6828124999999999,
+            "groundY": 0.012353707878026202,
+            "ceilingY": 0.945505849156614
+          },
+          {
+            "time": 0.7124999999999999,
+            "groundY": 0.012524093890054466,
+            "ceilingY": 0.9426488273594945
+          },
+          {
+            "time": 0.7421875,
+            "groundY": 0.010848569159652424,
+            "ceilingY": 0.9384539792091819
+          },
+          {
+            "time": 0.771875,
+            "groundY": 0.00920466192553011,
+            "ceilingY": 0.9342256702016226
+          },
+          {
+            "time": 0.8015625,
+            "groundY": 0.007592282011644707,
+            "ceilingY": 0.9299647625914611
+          },
+          {
+            "time": 0.8312499999999999,
+            "groundY": 0.006011337284752932,
+            "ceilingY": 0.9256721440120905
+          },
+          {
+            "time": 0.8609374999999999,
+            "groundY": 0.004461733660920651,
+            "ceilingY": 0.9213487264119922
+          },
+          {
+            "time": 0.890625,
+            "groundY": 0.002943375112156188,
+            "ceilingY": 0.9169954449625861
+          },
+          {
+            "time": 0.9203125,
+            "groundY": 0.001456163673161314,
+            "ceilingY": 0.9126132569389723
+          },
+          {
+            "time": 0.95,
+            "groundY": -5.517976671766154e-10,
+            "ceilingY": 0.9082031405749799
+          }
+        ],
         "sweptBounds": {
           "min": [
-            -0.45870489535790754,
-            -0.004230770501917685,
-            -0.5414526346823172
+            -0.6493810783245072,
+            -5.517976671766154e-10,
+            -0.49902343059297977
           ],
           "max": [
-            0.45917641216360555,
-            0.9665651510224876,
-            0.5975932075293829
+            0.4986560932464191,
+            0.9568534093967725,
+            0.49902344679503585
           ]
         }
       },
       {
         "name": "Hit",
         "seconds": 0.48,
-        "channels": 8,
-        "sampledPoses": 9,
-        "maximumVertexDisplacement": 0.30023028077694036,
+        "channels": 3,
+        "sampledPoses": 33,
+        "maximumVertexDisplacement": 0.14441095929745495,
         "maximumMovedVertices": 7896,
-        "minimumGroundY": -1.227806104579851e-9,
+        "maximumEdgeStretchRatio": 1.85632238409232,
+        "maximumEdgeLengthGain": 0.014538118413319312,
+        "worstEdge": {
+          "a": 2868,
+          "b": 2869,
+          "rest": 0.06849874080010268,
+          "posed": 0.08303685921342199,
+          "sourceA": [
+            -0.1357421576976776,
+            0.3242187798023224,
+            -0.024413984268903732
+          ],
+          "sourceB": [
+            -0.2021484076976776,
+            0.3105469048023224,
+            -0.034179601818323135
+          ]
+        },
+        "minimumGroundY": -5.517976671766154e-10,
+        "contactTravel": {
+          "2": 0.10881664462458712,
+          "6254": 0.07052014320826841,
+          "7681": 0.07052014069227484
+        },
+        "contactVelocity": {
+          "2": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          },
+          "6254": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          },
+          "7681": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          }
+        },
+        "samples": [
+          {
+            "time": 0,
+            "groundY": -5.517976671766154e-10,
+            "ceilingY": 0.9082031405749799
+          },
+          {
+            "time": 0.015,
+            "groundY": 0.004687689607411222,
+            "ceilingY": 0.9081949612595178
+          },
+          {
+            "time": 0.03,
+            "groundY": 0.009375189721393656,
+            "ceilingY": 0.9079462407043226
+          },
+          {
+            "time": 0.045,
+            "groundY": 0.014062689835376093,
+            "ceilingY": 0.9074744899331859
+          },
+          {
+            "time": 0.06,
+            "groundY": 0.01875018994935847,
+            "ceilingY": 0.9067977885046985
+          },
+          {
+            "time": 0.075,
+            "groundY": 0.023437690063340906,
+            "ceilingY": 0.9059346820703514
+          },
+          {
+            "time": 0.09,
+            "groundY": 0.024166856747738177,
+            "ceilingY": 0.9081467479060509
+          },
+          {
+            "time": 0.105,
+            "groundY": 0.022916856717342886,
+            "ceilingY": 0.9118360970211595
+          },
+          {
+            "time": 0.12,
+            "groundY": 0.02166685668694755,
+            "ceilingY": 0.9153725208177801
+          },
+          {
+            "time": 0.135,
+            "groundY": 0.020416856656552258,
+            "ceilingY": 0.9187428953924777
+          },
+          {
+            "time": 0.15,
+            "groundY": 0.019166856626156917,
+            "ceilingY": 0.9219343981642621
+          },
+          {
+            "time": 0.16499999999999998,
+            "groundY": 0.017916856595761633,
+            "ceilingY": 0.9249345649850348
+          },
+          {
+            "time": 0.18,
+            "groundY": 0.012050610484246795,
+            "ceilingY": 0.9277313459719809
+          },
+          {
+            "time": 0.195,
+            "groundY": 0.005087214074696177,
+            "ceilingY": 0.9303131597642255
+          },
+          {
+            "time": 0.21,
+            "groundY": 0.002751502112408325,
+            "ceilingY": 0.9303215623012691
+          },
+          {
+            "time": 0.22499999999999998,
+            "groundY": 0.0025358299476603047,
+            "ceilingY": 0.9291155050874318
+          },
+          {
+            "time": 0.24,
+            "groundY": 0.002327594033567959,
+            "ceilingY": 0.9279066982391109
+          },
+          {
+            "time": 0.255,
+            "groundY": 0.0021267859982357774,
+            "ceilingY": 0.9266951553171398
+          },
+          {
+            "time": 0.27,
+            "groundY": 0.001933397365313311,
+            "ceilingY": 0.9254808899616472
+          },
+          {
+            "time": 0.285,
+            "groundY": 0.0017474195541150963,
+            "ceilingY": 0.9242639158913539
+          },
+          {
+            "time": 0.3,
+            "groundY": 0.0015688438797409844,
+            "ceilingY": 0.9230442469028679
+          },
+          {
+            "time": 0.315,
+            "groundY": 0.0013976615531985273,
+            "ceilingY": 0.9218218968699738
+          },
+          {
+            "time": 0.32999999999999996,
+            "groundY": 0.0012338636815263397,
+            "ceilingY": 0.920596879742921
+          },
+          {
+            "time": 0.345,
+            "groundY": 0.0010774412679192228,
+            "ceilingY": 0.9193692095477056
+          },
+          {
+            "time": 0.36,
+            "groundY": 0.0009283852118548578,
+            "ceilingY": 0.9181389003853516
+          },
+          {
+            "time": 0.375,
+            "groundY": 0.0007866863092217116,
+            "ceilingY": 0.9169059664311859
+          },
+          {
+            "time": 0.39,
+            "groundY": 0.000652335252448083,
+            "ceilingY": 0.9156704219341117
+          },
+          {
+            "time": 0.40499999999999997,
+            "groundY": 0.0005253226306336875,
+            "ceilingY": 0.9144322812158782
+          },
+          {
+            "time": 0.42,
+            "groundY": 0.0004056389296814827,
+            "ceilingY": 0.9131915586703462
+          },
+          {
+            "time": 0.435,
+            "groundY": 0.00029327453243132884,
+            "ceilingY": 0.9119482687627505
+          },
+          {
+            "time": 0.44999999999999996,
+            "groundY": 0.0001882197187958277,
+            "ceilingY": 0.9107024260289608
+          },
+          {
+            "time": 0.46499999999999997,
+            "groundY": 0.00009046466589654897,
+            "ceilingY": 0.9094540450747364
+          },
+          {
+            "time": 0.48,
+            "groundY": -5.517976671766154e-10,
+            "ceilingY": 0.9082031405749799
+          }
+        ],
         "sweptBounds": {
           "min": [
-            -0.44814459554710645,
-            -1.227806104579851e-9,
-            -0.57852142975084
+            -0.4605888054475055,
+            -5.517976671766154e-10,
+            -0.49902343059297977
           ],
           "max": [
-            0.4580669513938636,
-            0.9096823239158052,
-            0.4990234246231886
+            0.5262108629867879,
+            0.9303215623012691,
+            0.49902344679503585
           ]
         }
       },
       {
         "name": "Death",
         "seconds": 1.55,
-        "channels": 17,
-        "sampledPoses": 9,
-        "maximumVertexDisplacement": 0.3971623740016958,
+        "channels": 9,
+        "sampledPoses": 33,
+        "maximumVertexDisplacement": 0.30403461715097824,
         "maximumMovedVertices": 7896,
-        "minimumGroundY": -0.02282812320986066,
+        "maximumEdgeStretchRatio": 2.5563771949906537,
+        "maximumEdgeLengthGain": 0.02528073781726861,
+        "worstEdge": {
+          "a": 1922,
+          "b": 1923,
+          "rest": 0.026130973647226774,
+          "posed": 0.051411711464495385,
+          "sourceA": [
+            -0.24902336299419403,
+            0.4960938096046448,
+            0.3564453721046448
+          ],
+          "sourceB": [
+            -0.24707023799419403,
+            0.521484375,
+            0.3623047471046448
+          ]
+        },
+        "minimumGroundY": -0.0010010529050294037,
+        "contactTravel": {
+          "2": 0.18017203243388755,
+          "6254": 0.1444760913267094,
+          "7681": 0.30287087788160977
+        },
+        "contactVelocity": {
+          "2": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          },
+          "6254": {
+            "stanceSamples": 1,
+            "medianMps": 2.7761197972950984e-15,
+            "p10Mps": 2.7761197972950984e-15,
+            "p90Mps": 2.7761197972950984e-15
+          },
+          "7681": {
+            "stanceSamples": 0,
+            "medianMps": null,
+            "p10Mps": null,
+            "p90Mps": null
+          }
+        },
+        "samples": [
+          {
+            "time": 0,
+            "groundY": 5.222291421910832e-17,
+            "ceilingY": 0.9082031411267776
+          },
+          {
+            "time": 0.0484375,
+            "groundY": 0.00019930325085717196,
+            "ceilingY": 0.9075257143197148
+          },
+          {
+            "time": 0.096875,
+            "groundY": 0.0005747178709552832,
+            "ceilingY": 0.9066671224279639
+          },
+          {
+            "time": 0.1453125,
+            "groundY": 0.00023897420543238078,
+            "ceilingY": 0.9056302020039186
+          },
+          {
+            "time": 0.19375,
+            "groundY": 0.00003543247181504852,
+            "ceilingY": 0.9044179689859647
+          },
+          {
+            "time": 0.2421875,
+            "groundY": -0.00020713525196187031,
+            "ceilingY": 0.8990349140987802
+          },
+          {
+            "time": 0.290625,
+            "groundY": -0.0005784977261231287,
+            "ceilingY": 0.888762620082874
+          },
+          {
+            "time": 0.3390625,
+            "groundY": -0.000830790668434116,
+            "ceilingY": 0.8783429472005838
+          },
+          {
+            "time": 0.3875,
+            "groundY": -0.0009697242320209308,
+            "ceilingY": 0.8677840287689825
+          },
+          {
+            "time": 0.43593750000000003,
+            "groundY": -0.0010010529050294037,
+            "ceilingY": 0.8570941900160376
+          },
+          {
+            "time": 0.484375,
+            "groundY": -0.0009305693432663465,
+            "ceilingY": 0.8462819399435437
+          },
+          {
+            "time": 0.5328125,
+            "groundY": -0.0007640981905835724,
+            "ceilingY": 0.8353559625557567
+          },
+          {
+            "time": 0.58125,
+            "groundY": -0.0005074898923401427,
+            "ceilingY": 0.8243251074795668
+          },
+          {
+            "time": 0.6296875000000001,
+            "groundY": -0.0001666145072891468,
+            "ceilingY": 0.813198380004275
+          },
+          {
+            "time": 0.678125,
+            "groundY": -0.0001411783475545897,
+            "ceilingY": 0.8042420259719085
+          },
+          {
+            "time": 0.7265625,
+            "groundY": -0.00032869794822697386,
+            "ceilingY": 0.7968523740267622
+          },
+          {
+            "time": 0.775,
+            "groundY": -0.00044855285882543423,
+            "ceilingY": 0.7894082061689146
+          },
+          {
+            "time": 0.8234375,
+            "groundY": -0.0005039045301221604,
+            "ceilingY": 0.7819140687142344
+          },
+          {
+            "time": 0.8718750000000001,
+            "groundY": -0.0004979205855030545,
+            "ceilingY": 0.7743745399955634
+          },
+          {
+            "time": 0.9203125,
+            "groundY": -0.00043377176385506834,
+            "ceilingY": 0.7667942271926826
+          },
+          {
+            "time": 0.96875,
+            "groundY": -0.0003146288725286171,
+            "ceilingY": 0.7591777631029056
+          },
+          {
+            "time": 1.0171875000000001,
+            "groundY": -0.00014365975263739766,
+            "ceilingY": 0.7533620333806164
+          },
+          {
+            "time": 1.065625,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.1140625,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.1625,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.2109375,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.2593750000000001,
+            "groundY": -7.058932604236302e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.3078125,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.35625,
+            "groundY": -7.058932604236302e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.4046875,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.453125,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.5015625000000001,
+            "groundY": -7.058942909004219e-11,
+            "ceilingY": 0.7500423102423405
+          },
+          {
+            "time": 1.55,
+            "groundY": -7.058930102634342e-11,
+            "ceilingY": 0.7500423102423405
+          }
+        ],
         "sweptBounds": {
           "min": [
-            -0.44778048741560467,
-            -0.02282812320986066,
-            -0.5204711369558737
+            -0.46870618600512576,
+            -0.0010010529050294037,
+            -0.49902343059297977
           ],
           "max": [
-            0.4580448988130813,
-            0.9448891271578792,
-            0.5081753852047346
+            0.4679852005621758,
+            0.9082031411267776,
+            0.5452467549134548
           ]
         }
       }
-    ]
+    ],
+    "deathPoseVerification": {
+      "startBounds": {
+        "min": [
+          -0.45996088755675896,
+          5.222291421910832e-17,
+          -0.49902343059297977
+        ],
+        "max": [
+          0.4599608642207903,
+          0.9082031411267776,
+          0.49902344679503585
+        ]
+      },
+      "finalBounds": {
+        "min": [
+          -0.4687061860051257,
+          -7.058930102634342e-11,
+          -0.4889030238088109
+        ],
+        "max": [
+          0.4679852005621758,
+          0.7500423102423405,
+          0.5441328386154065
+        ]
+      },
+      "finalRootTranslation": [
+        0,
+        0.4269650265441474,
+        0
+      ],
+      "finalRootScale": [
+        1,
+        0.7,
+        1
+      ],
+      "horizontalCenterShift": [
+        -0.0003604810534906244,
+        0.02761489930226979
+      ]
+    }
   },
   "suggestedTier": "T40-T50",
-  "suggestedRegionFit": "Highland border or upper Wilderness; large aggressive humanoid belongs well above the starter region.",
+  "suggestedRegionFit": "Highland border or upper Wilderness; large aggressive bull belongs well above the starter region.",
   "acceptance": {
     "sourceDesignAudit": false,
     "geometry": true,

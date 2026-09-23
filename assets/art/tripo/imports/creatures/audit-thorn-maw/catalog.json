@@ -1,0 +1,212 @@
+{
+  "schema": "corealm-creature-candidate/1",
+  "id": "creature_thorn_maw",
+  "status": "awaiting-root-lab-review",
+  "source": {
+    "modelId": "1ef82040-8e4f-47e1-b2c5-4e3b1d61a311",
+    "operatorId": "9d8f609d-e20f-49d0-983d-d3125e7c215a",
+    "file": "sources/1ef82040-source.glb",
+    "sha256": "b3f07d37ea1361185afbe73401985b3c1caa19163339ff7fb6c1ac8eeacc2816",
+    "bytes": 9044524,
+    "prompt": "plant monster with purple open maw, teal bulbous body, clawed legs, thorny vines and sharp teeth",
+    "imageMap": {
+      "dimensions": [
+        8192,
+        8192
+      ],
+      "sha256": "8a9aad5c19df4d41f75aec7e4b5d325b5fd65e52cb065f7e68a53389f6e149a1"
+    },
+    "vertices": 8285,
+    "triangles": 5631
+  },
+  "candidate": {
+    "file": "thorn-maw-candidate.glb",
+    "productionFile": "models/creature/creature_thorn_maw.glb",
+    "sha256": "3f5309ce41e4efd41b78eee471d7de573dcd5827f448d765ca3f00177229a1d8",
+    "bytes": 911168,
+    "geometryAndUvPreserved": true,
+    "scale": 1.6,
+    "groundOffset": 0.7996093750000001,
+    "colorMap": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "originalLayeredSourcePreserved": true
+    },
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "point": [
+          0,
+          -0.06,
+          0
+        ],
+        "influencedVertices": 0
+      },
+      {
+        "name": "Bulb",
+        "parent": "Root",
+        "point": [
+          0,
+          -0.05,
+          0
+        ],
+        "influencedVertices": 7168
+      },
+      {
+        "name": "Stalk",
+        "parent": "Bulb",
+        "point": [
+          0,
+          0.12,
+          0
+        ],
+        "influencedVertices": 2599
+      },
+      {
+        "name": "Maw",
+        "parent": "Stalk",
+        "point": [
+          0,
+          0.27,
+          0.05
+        ],
+        "influencedVertices": 1713
+      },
+      {
+        "name": "UpperLip",
+        "parent": "Maw",
+        "point": [
+          0,
+          0.37,
+          0.19
+        ],
+        "influencedVertices": 449
+      },
+      {
+        "name": "LowerLip",
+        "parent": "Maw",
+        "point": [
+          0,
+          0.2,
+          0.2
+        ],
+        "influencedVertices": 564
+      },
+      {
+        "name": "PetalLeft",
+        "parent": "Stalk",
+        "point": [
+          -0.28,
+          0.02,
+          0.1
+        ],
+        "influencedVertices": 1099
+      },
+      {
+        "name": "PetalRight",
+        "parent": "Stalk",
+        "point": [
+          0.28,
+          0.02,
+          0.1
+        ],
+        "influencedVertices": 619
+      },
+      {
+        "name": "FrontLeftRoot",
+        "parent": "Bulb",
+        "point": [
+          -0.18,
+          -0.2,
+          0.18
+        ],
+        "influencedVertices": 1264
+      },
+      {
+        "name": "FrontLeftFoot",
+        "parent": "FrontLeftRoot",
+        "point": [
+          -0.34,
+          -0.42,
+          0.31
+        ],
+        "influencedVertices": 883
+      },
+      {
+        "name": "FrontRightRoot",
+        "parent": "Bulb",
+        "point": [
+          0.18,
+          -0.2,
+          0.18
+        ],
+        "influencedVertices": 944
+      },
+      {
+        "name": "FrontRightFoot",
+        "parent": "FrontRightRoot",
+        "point": [
+          0.34,
+          -0.42,
+          0.31
+        ],
+        "influencedVertices": 778
+      },
+      {
+        "name": "RearLeftRoot",
+        "parent": "Bulb",
+        "point": [
+          -0.18,
+          -0.2,
+          -0.18
+        ],
+        "influencedVertices": 1290
+      },
+      {
+        "name": "RearLeftFoot",
+        "parent": "RearLeftRoot",
+        "point": [
+          -0.34,
+          -0.42,
+          -0.31
+        ],
+        "influencedVertices": 890
+      },
+      {
+        "name": "RearRightRoot",
+        "parent": "Bulb",
+        "point": [
+          0.18,
+          -0.2,
+          -0.18
+        ],
+        "influencedVertices": 852
+      },
+      {
+        "name": "RearRightFoot",
+        "parent": "RearRightRoot",
+        "point": [
+          0.34,
+          -0.42,
+          -0.31
+        ],
+        "influencedVertices": 686
+      }
+    ],
+    "clips": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "Death"
+    ]
+  },
+  "limitations": [
+    "Source is a single continuous mesh; jaw and petals are deformed by spatial skin weights, not separate rigid pieces.",
+    "Motion and material appearance await root feature lab review."
+  ]
+}

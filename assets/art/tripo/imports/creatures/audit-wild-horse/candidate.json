@@ -1,0 +1,60 @@
+{
+  "id": "creature_marchwild_horse",
+  "identity": "Genuine CC0 horse; Lyndon Daniels body/textures, ChadM source rig adapted",
+  "source": {
+    "nativeBlend": "art/rebuild/candidates/finish-quadrupeds/source-hoofed/riggedHorse.blend",
+    "nativeBlendSha256": "9cca670b93a74d50e89263e50d55ab035a6c46aa7d2b21e354bdac6987037f4a",
+    "staticReviewGlb": "art/rebuild/candidates/finish-quadrupeds/source-hoofed/horse-source-static.glb",
+    "staticReviewSha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782",
+    "licenseEvidence": "art/rebuild/candidates/finish-quadrupeds/source-hoofed/LICENSE.md",
+    "license": "CC0-1.0",
+    "originalAuthor": "Lyndon Daniels",
+    "rigAuthor": "ChadM"
+  },
+  "candidate": "wild-horse-candidate.glb",
+  "sha256": "a1833942247dbca63cc23ee63931917dec18aeb43691a35a593a3b9210ac163d",
+  "bytes": 17883112,
+  "sourceMeshObjects": [
+    "BezierCurve",
+    "BezierCurve.005",
+    "Plane",
+    "Sphere",
+    "Sphere.002"
+  ],
+  "restHeightMeters": 2.4,
+  "restBounds": {
+    "min": [
+      -0.48515483761774386,
+      0.0,
+      -1.8106417288210157
+    ],
+    "max": [
+      0.48515483761774386,
+      2.4,
+      1.8106417288210157
+    ]
+  },
+  "sourceNormalizationScale": 0.2502531187886256,
+  "nativeBones": 19,
+  "repairedSkins": [
+    "mane",
+    "tail",
+    "left eye",
+    "right eye"
+  ],
+  "clipsSeconds": {
+    "Idle": 2.0,
+    "Walk": 1.2,
+    "Run": 0.7666666666666667,
+    "Attack": 0.9666666666666667,
+    "Hit": 0.5666666666666667,
+    "HitLeft": 0.5666666666666667,
+    "HitRight": 0.5666666666666667,
+    "Death": 1.6
+  },
+  "attackContactPhase": 0.46,
+  "pending": [
+    "Root lab motion/screenshot acceptance",
+    "Root production integration"
+  ]
+}

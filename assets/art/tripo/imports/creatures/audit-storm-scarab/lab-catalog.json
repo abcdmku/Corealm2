@@ -1,0 +1,93 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_boss_tempest_roc",
+      "file": "storm-scarab-native-rig-candidate.glb",
+      "pack": "corealm-tripo-creature-candidates",
+      "category": "character",
+      "is": "Storm Scarab six-leg stone beetle candidate",
+      "tags": [
+        "creature",
+        "boss",
+        "storm-scarab",
+        "arthropod",
+        "mineral-shell",
+        "six-legged",
+        "candidate"
+      ],
+      "bytes": 13793624,
+      "sha256": "6c81ca884b9ce3cffc51c7569f377d070f0a9dda1c39abbc200ceba9e57abb43",
+      "size": {
+        "x": 1.2978515625,
+        "y": 1.4130859375,
+        "z": 1.9990234375
+      },
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.86,
+      "contactNormalized": 0.5,
+      "gaitCalibration": {
+        "status": "pending-world-speed-fit",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "presentation": {
+        "sceneScale": 2,
+        "suggestedScale": 1,
+        "suggestedHeightMeters": 1.4130859375
+      },
+      "base": {
+        "x": -0.64892578125,
+        "y": 0,
+        "z": -0.99951171875
+      },
+      "bounds": {
+        "min": [
+          -0.64892578125,
+          0,
+          -0.99951171875
+        ],
+        "max": [
+          0.64892578125,
+          1.4130859375,
+          0.99951171875
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4178,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_storm_scarab_fangstone"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "batchId": "flint-mandible",
+        "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+        "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+        "sourceFile": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+        "sourceSha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+        "sourceImage": "assets/art/tripo/references/stone-flint-mandible.png",
+        "sourceImageSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+        "candidateFile": "storm-scarab-native-rig-candidate.glb",
+        "candidateSha256": "6c81ca884b9ce3cffc51c7569f377d070f0a9dda1c39abbc200ceba9e57abb43",
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_boss_tempest_roc": "storm-scarab-native-rig-candidate.glb"
+  }
+}

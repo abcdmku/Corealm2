@@ -9,7 +9,8 @@
       "is": "Redmane Breaker",
       "tags": [
         "creature",
-        "humanoid",
+        "quadruped",
+        "bull",
         "minotaur",
         "redmane",
         "T40-T50",
@@ -17,8 +18,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 4709040,
-      "sha256": "7f7c8510eb4a3357288beec3a238698edd82adff59b7689c499794ea8d12a1cd",
+      "bytes": 4704776,
+      "sha256": "61dc138490e52dc0ed46e44233833efd3e76445b2b13e6b9787fb1435e16b4a5",
       "size": {
         "x": 2.2283868080057125,
         "y": 2.2,
@@ -51,6 +52,20 @@
         "Hit",
         "Death"
       ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.76,
+      "attackSeconds": 0.95,
+      "attackContactNormalized": 0.45263157894736844,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null,
+        "reason": "Grounded backward-sole velocity is sparse and inconsistent: the 33-pose Walk sample has 8, 4 and 0 usable stance intervals at the three sampled hooves; Run has 2, 0 and 0. No defensible speed scalar follows from this clip.",
+        "metadataToRemoveOnPromotion": [
+          "impliedWalkMps",
+          "impliedRunMps"
+        ]
+      },
       "materials": [
         "tripo_node_1c617616-9def-4e08-b787-2fc2cdeefd0f_material"
       ],
@@ -67,8 +82,8 @@
         "sourceFile": "assets/art/tripo/exports/501ffade-8115-427c-8616-e2791cfb40f6.glb",
         "sourceSha256": "c69d605643fc9041fc02611e08c8d30a78c111e2bde20868e8e2366587e26b7c",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-minotaur/redmane-breaker-native-rig.glb",
-        "candidateSha256": "7f7c8510eb4a3357288beec3a238698edd82adff59b7689c499794ea8d12a1cd",
-        "rigMethod": "Mixamo-named Unity Humanoid skeleton with four normalized anatomical influences per vertex; source had 100% bone_0 weighting, so only JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt.",
+        "candidateSha256": "61dc138490e52dc0ed46e44233833efd3e76445b2b13e6b9787fb1435e16b4a5",
+        "rigMethod": "Four-leg bull skeleton with anatomically partitioned front and hind hoof weights; source had 100% bone_0 weighting, so JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt.",
         "textures": [
           {
             "name": "minotaur+3d+model_basecolor.jpg",

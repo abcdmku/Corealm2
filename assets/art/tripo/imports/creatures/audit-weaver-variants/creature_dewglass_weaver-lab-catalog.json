@@ -1,0 +1,88 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_dewglass_weaver",
+      "file": "dewglass-weaver-sixleg-candidate.glb",
+      "pack": "corealm-tripo-creature-candidates",
+      "category": "character",
+      "is": "Dewglass Weaver six-leg candidate",
+      "tags": [
+        "creature",
+        "six-legged",
+        "candidate"
+      ],
+      "bytes": 7901428,
+      "sha256": "454620355583b7b68dd2e2991cd99fd8cdcd14560cd38bb1cff40cd8c59a8bba",
+      "size": {
+        "x": 0.8600647053600557,
+        "y": 0.9342494986696231,
+        "z": 1.0762732726892426
+      },
+      "bounds": {
+        "min": [
+          -0.4300323526800279,
+          0,
+          -0.5381366363446213
+        ],
+        "max": [
+          0.4300323526800279,
+          0.9342494986696231,
+          0.5381366363446213
+        ]
+      },
+      "base": {
+        "x": -0.4300323526800279,
+        "y": 0,
+        "z": -0.5381366363446213
+      },
+      "groundY": 0,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.0800000429153442,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.4772727298588792,
+      "gaitCalibration": {
+        "status": "pending-world-speed-fit",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "materials": [
+        "animal_dewglass_weaver_layered_shell"
+      ],
+      "presentation": {
+        "sceneScale": 1.0852818956114567,
+        "rawAssetHeightMeters": 0.9342494986696231,
+        "existingSpeciesScale": 0.7086123195731177,
+        "desiredInGameHeightMeters": 0.662020704312304,
+        "habitat": "Gloamgarden fairy region"
+      },
+      "sourceProvenance": {
+        "candidate": "assets/art/tripo/imports/creatures/audit-spider-family/blind-cave-weaver-sixleg-candidate.glb",
+        "candidateSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+        "tripoModel": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "tripoExport": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+        "tripoExportSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+        "originalReference": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+        "originalReferenceSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+        "anatomy": "six walking legs and two short mouth palps; not a spider"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_dewglass_weaver": "dewglass-weaver-sixleg-candidate.glb"
+  }
+}

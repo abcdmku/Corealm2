@@ -1,0 +1,135 @@
+{
+  "id": "creature_blind_cave_weaver",
+  "displayName": "Blind Cave Weaver",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "candidate": "assets/art/tripo/imports/creatures/starred-vaultweaver/starred-vaultweaver-candidate.glb",
+    "candidateSha256": "6106cba2cdcd4a0366dcdcd71f8a0ac79bd87a424bed83dfee9a207a9dc08d9a",
+    "tripoModel": "0ea08166-294b-467b-982b-8f3c1891eee3",
+    "tripoExport": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+    "tripoExportSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+    "originalReference": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+    "originalReferenceSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+    "anatomy": "six walking legs and two short mouth palps; not a spider"
+  },
+  "candidate": {
+    "file": "blind-cave-weaver-sixleg-candidate.glb",
+    "sha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+    "bytes": 7183920,
+    "triangles": 5400,
+    "rig": {
+      "type": "authored non-humanoid arthropod skeleton",
+      "joints": [
+        "VaultweaverRoot",
+        "BodyCore",
+        "Carapace",
+        "Hood",
+        "SilkSac",
+        "ForeL_Hip",
+        "ForeL_Knee",
+        "ForeL_Ankle",
+        "ForeL_Foot",
+        "ForeR_Hip",
+        "ForeR_Knee",
+        "ForeR_Ankle",
+        "ForeR_Foot",
+        "MidL_Hip",
+        "MidL_Knee",
+        "MidL_Ankle",
+        "MidL_Foot",
+        "MidR_Hip",
+        "MidR_Knee",
+        "MidR_Ankle",
+        "MidR_Foot",
+        "HindL_Hip",
+        "HindL_Knee",
+        "HindL_Ankle",
+        "HindL_Foot",
+        "HindR_Hip",
+        "HindR_Knee",
+        "HindR_Ankle",
+        "HindR_Foot"
+      ],
+      "jointCount": 29,
+      "legPairs": [
+        "fore",
+        "mid",
+        "hind"
+      ],
+      "pairedPalps": "Kept with the hood/body weights; no isolated joints were accepted because the visible source geometry did not align with the first conservative palp paths.",
+      "basis": "Y-up, X lateral, +Z hood/front",
+      "weights": "Per-vertex distances to model-fitted six-leg polylines with body/leg spatial gating; normalized 4-influence skin. Source mesh, indices, normals and UVs retained."
+    },
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "Death"
+    ],
+    "walkClipSeconds": 1.0800000429153442,
+    "runClipSeconds": 0.7200000286102295,
+    "attackSeconds": 0.8799999952316284,
+    "contactNormalized": 0.4772727298588792,
+    "attackContactSeconds": 0.42,
+    "gaitCalibration": {
+      "status": "pending-world-speed-fit",
+      "impliedWalkMps": null,
+      "impliedRunMps": null
+    },
+    "sourceHeight": 0.8608357906341553,
+    "presentation": {
+      "suggestedScale": 0.8131632160464985,
+      "suggestedHeightMeters": 0.7,
+      "habitat": "ivory stone cavern"
+    },
+    "texture": {
+      "sourceAtlas": "assets/art/tripo/imports/creatures/starred-vaultweaver/starred-vaultweaver-candidate.glb",
+      "sourceAtlasSha256": "a22c3f6c082b0992f6746ce7bc28267983c5e4238b34460e51e56d70ff9eb52c",
+      "runtimeDimensions": "2048x2048",
+      "method": "unchanged image-generated layered mineral atlas from approved Tripo source"
+    },
+    "floorCorrection": {
+      "Idle": {
+        "beforeMinY": -0.005788234519605068,
+        "afterMinY": 0.001999987647501116,
+        "maximumBodyLift": 0.007788234519605086
+      },
+      "Walk": {
+        "beforeMinY": -0.04755953574528877,
+        "afterMinY": 0.0019999797155850546,
+        "maximumBodyLift": 0.04955953574528876
+      },
+      "Run": {
+        "beforeMinY": -0.08404005185189471,
+        "afterMinY": 0.0019999740486194096,
+        "maximumBodyLift": 0.08604005185189467
+      },
+      "Attack": {
+        "beforeMinY": -0.007379613479132133,
+        "afterMinY": 0.0019999855754379912,
+        "maximumBodyLift": 0.009379613479132132
+      },
+      "Hit": {
+        "beforeMinY": -0.03277090270009413,
+        "afterMinY": 0.001999986106425278,
+        "maximumBodyLift": 0.03477090270009414
+      },
+      "Death": {
+        "beforeMinY": -0.015864403466544674,
+        "afterMinY": 0.001999985780986514,
+        "maximumBodyLift": 0.017864403466544665
+      }
+    }
+  },
+  "acceptance": {
+    "imageAudit": false,
+    "geometryAudit": false,
+    "textureAudit": false,
+    "motionAudit": false,
+    "labReview": false,
+    "productionReady": false
+  }
+}

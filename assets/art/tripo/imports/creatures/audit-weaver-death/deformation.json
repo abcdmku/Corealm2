@@ -1,0 +1,320 @@
+[
+  {
+    "id": "creature_hollowroot_spider",
+    "file": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_hollowroot_spider-death-collapse.glb",
+    "sha256": "6bc65f8028762ba52d89e539429533f5e66091b9476157622781d4d1fc62f6af",
+    "bytes": 7716832,
+    "sourceSha256": "acfaf1cbb6a08c866e323ed9d9aa01616f75a23d444c9c57e2da88edb68acc10",
+    "sourceTopY": 0.860835775630727,
+    "deathSamples": [
+      {
+        "seconds": 0,
+        "minY": 0.007999999779560162,
+        "maxY": 0.8688357746304867,
+        "height": 0.8608357748509265
+      },
+      {
+        "seconds": 0.28,
+        "minY": 0.01022802070165205,
+        "maxY": 0.8016943110413609,
+        "height": 0.7914662903397088
+      },
+      {
+        "seconds": 0.48,
+        "minY": 0.0068526696806674075,
+        "maxY": 0.7107594759211199,
+        "height": 0.7039068062404524
+      },
+      {
+        "seconds": 0.72,
+        "minY": 0.0076234711710173935,
+        "maxY": 0.6257123908284538,
+        "height": 0.6180889196574364
+      },
+      {
+        "seconds": 1,
+        "minY": 0.007999982524601034,
+        "maxY": 0.6251025427283976,
+        "height": 0.6171025602037966
+      },
+      {
+        "seconds": 1.38,
+        "minY": 0.007999980663808456,
+        "maxY": 0.6237558715265973,
+        "height": 0.6157558908627888
+      },
+      {
+        "seconds": 1.55,
+        "minY": 0.007999998135270388,
+        "maxY": 0.6231504877893141,
+        "height": 0.6151504896540437
+      }
+    ],
+    "maximumFloorLift": 0.10694391358459648
+  },
+  {
+    "id": "creature_webweaver_spider",
+    "file": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_webweaver_spider-death-collapse.glb",
+    "sha256": "8d5925214e98e543a9b0dff12df6b96e79d3471389a9517d2e19fd125bb4da9a",
+    "bytes": 7909216,
+    "sourceSha256": "08447c1618fa00b0f73f113126a33ca0cd1fafad84166c8b25c3db9f7933de27",
+    "sourceTopY": 0.860835775630727,
+    "deathSamples": [
+      {
+        "seconds": 0,
+        "minY": 0.007999999779560162,
+        "maxY": 0.8688357746304867,
+        "height": 0.8608357748509265
+      },
+      {
+        "seconds": 0.28,
+        "minY": 0.01022802070165205,
+        "maxY": 0.8016943110413609,
+        "height": 0.7914662903397088
+      },
+      {
+        "seconds": 0.48,
+        "minY": 0.0068526696806674075,
+        "maxY": 0.7107594759211199,
+        "height": 0.7039068062404524
+      },
+      {
+        "seconds": 0.72,
+        "minY": 0.0076234711710173935,
+        "maxY": 0.6257123908284538,
+        "height": 0.6180889196574364
+      },
+      {
+        "seconds": 1,
+        "minY": 0.007999982524601034,
+        "maxY": 0.6251025427283976,
+        "height": 0.6171025602037966
+      },
+      {
+        "seconds": 1.38,
+        "minY": 0.007999980663808456,
+        "maxY": 0.6237558715265973,
+        "height": 0.6157558908627888
+      },
+      {
+        "seconds": 1.55,
+        "minY": 0.007999998135270388,
+        "maxY": 0.6231504877893141,
+        "height": 0.6151504896540437
+      }
+    ],
+    "maximumFloorLift": 0.10694391358459648
+  },
+  {
+    "id": "creature_blind_cave_weaver",
+    "file": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_blind_cave_weaver-death-collapse.glb",
+    "sha256": "2b77018bf02036560decbf7ac5d5d5dfe81cd4bf0c96b83bb98ccb4ce1512409",
+    "bytes": 7185516,
+    "sourceSha256": "8b317eb1391d29932ce5704de6a14a0d084b1b7aca0bdafeb2e8e5ef02d7ccaa",
+    "sourceTopY": 0.860835775630727,
+    "deathSamples": [
+      {
+        "seconds": 0,
+        "minY": 0.007999999779560162,
+        "maxY": 0.8688357746304867,
+        "height": 0.8608357748509265
+      },
+      {
+        "seconds": 0.28,
+        "minY": 0.01022802070165205,
+        "maxY": 0.8016943110413609,
+        "height": 0.7914662903397088
+      },
+      {
+        "seconds": 0.48,
+        "minY": 0.0068526696806674075,
+        "maxY": 0.7107594759211199,
+        "height": 0.7039068062404524
+      },
+      {
+        "seconds": 0.72,
+        "minY": 0.0076234711710173935,
+        "maxY": 0.6257123908284538,
+        "height": 0.6180889196574364
+      },
+      {
+        "seconds": 1,
+        "minY": 0.007999982524601034,
+        "maxY": 0.6251025427283976,
+        "height": 0.6171025602037966
+      },
+      {
+        "seconds": 1.38,
+        "minY": 0.007999980663808456,
+        "maxY": 0.6237558715265973,
+        "height": 0.6157558908627888
+      },
+      {
+        "seconds": 1.55,
+        "minY": 0.007999998135270388,
+        "maxY": 0.6231504877893141,
+        "height": 0.6151504896540437
+      }
+    ],
+    "maximumFloorLift": 0.10694391358459648
+  },
+  {
+    "id": "creature_moonweave_spider",
+    "file": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_moonweave_spider-death-collapse.glb",
+    "sha256": "f72348dd9253ea3ee2667a0946f75df218612ed1692d174b6d647a7cee9615f1",
+    "bytes": 7720504,
+    "sourceSha256": "1b656917fa777ab18af1f64eb24eb6513975eb45b42a7593fd4de68d01499471",
+    "sourceTopY": 0.5201364036276891,
+    "deathSamples": [
+      {
+        "seconds": 0,
+        "minY": 0.007999999966600195,
+        "maxY": 0.5281364031714023,
+        "height": 0.5201364032048021
+      },
+      {
+        "seconds": 0.28,
+        "minY": 0.009346220117214669,
+        "maxY": 0.48756801526101917,
+        "height": 0.47822179514380453
+      },
+      {
+        "seconds": 0.48,
+        "minY": 0.007306754864207335,
+        "maxY": 0.432623133545371,
+        "height": 0.4253163786811637
+      },
+      {
+        "seconds": 0.72,
+        "minY": 0.007772494005977924,
+        "maxY": 0.3812357687389151,
+        "height": 0.3734632747329372
+      },
+      {
+        "seconds": 1,
+        "minY": 0.007999989675713753,
+        "maxY": 0.38086728376585716,
+        "height": 0.3728672940901434
+      },
+      {
+        "seconds": 1.38,
+        "minY": 0.007999990148795561,
+        "maxY": 0.38005359623045165,
+        "height": 0.3720536060816561
+      },
+      {
+        "seconds": 1.55,
+        "minY": 0.008000000705447131,
+        "maxY": 0.37968780971362803,
+        "height": 0.3716878090081809
+      }
+    ],
+    "maximumFloorLift": 0.11218406781532256
+  },
+  {
+    "id": "creature_amethyst_spider",
+    "file": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_amethyst_spider-death-collapse.glb",
+    "sha256": "40b393967230092e9bab43b4e0f19ac687d71adf5ccf374505aa10cb10287d4e",
+    "bytes": 8030284,
+    "sourceSha256": "f8d621ea2e4dbc8caf332c36f03ab8abb44be6d0a9d95ece580ab3193897507e",
+    "sourceTopY": 0.5201364036276891,
+    "deathSamples": [
+      {
+        "seconds": 0,
+        "minY": 0.007999999966600195,
+        "maxY": 0.5281364031714023,
+        "height": 0.5201364032048021
+      },
+      {
+        "seconds": 0.28,
+        "minY": 0.009346220117214669,
+        "maxY": 0.48756801526101917,
+        "height": 0.47822179514380453
+      },
+      {
+        "seconds": 0.48,
+        "minY": 0.007306754864207335,
+        "maxY": 0.432623133545371,
+        "height": 0.4253163786811637
+      },
+      {
+        "seconds": 0.72,
+        "minY": 0.007772494005977924,
+        "maxY": 0.3812357687389151,
+        "height": 0.3734632747329372
+      },
+      {
+        "seconds": 1,
+        "minY": 0.007999989675713753,
+        "maxY": 0.38086728376585716,
+        "height": 0.3728672940901434
+      },
+      {
+        "seconds": 1.38,
+        "minY": 0.007999990148795561,
+        "maxY": 0.38005359623045165,
+        "height": 0.3720536060816561
+      },
+      {
+        "seconds": 1.55,
+        "minY": 0.008000000705447131,
+        "maxY": 0.37968780971362803,
+        "height": 0.3716878090081809
+      }
+    ],
+    "maximumFloorLift": 0.11218406781532256
+  },
+  {
+    "id": "creature_dewglass_weaver",
+    "file": "assets/art/tripo/imports/creatures/audit-weaver-death/creature_dewglass_weaver-death-collapse.glb",
+    "sha256": "459d5bcabb2c795eef85bb616e18b0dfedd7e4a699818de5122463a3b09489d0",
+    "bytes": 7903028,
+    "sourceSha256": "454620355583b7b68dd2e2991cd99fd8cdcd14560cd38bb1cff40cd8c59a8bba",
+    "sourceTopY": 0.9342494823866742,
+    "deathSamples": [
+      {
+        "seconds": 0,
+        "minY": 0.007999999845451963,
+        "maxY": 0.942249481375418,
+        "height": 0.934249481529966
+      },
+      {
+        "seconds": 0.28,
+        "minY": 0.01041802955511206,
+        "maxY": 0.8693820654234558,
+        "height": 0.8589640358683437
+      },
+      {
+        "seconds": 0.48,
+        "minY": 0.006754816401052633,
+        "maxY": 0.7706921294006109,
+        "height": 0.7639373129995582
+      },
+      {
+        "seconds": 0.72,
+        "minY": 0.0075913606592735786,
+        "maxY": 0.678392075046145,
+        "height": 0.6708007143868714
+      },
+      {
+        "seconds": 1,
+        "minY": 0.007999981614809956,
+        "maxY": 0.6777302179440812,
+        "height": 0.6697302363292712
+      },
+      {
+        "seconds": 1.38,
+        "minY": 0.0079999795953255,
+        "maxY": 0.6762687000694259,
+        "height": 0.6682687204741004
+      },
+      {
+        "seconds": 1.55,
+        "minY": 0.007999998556786722,
+        "maxY": 0.6756116880594548,
+        "height": 0.6676116895026681
+      }
+    ],
+    "maximumFloorLift": 0.10631527030983946
+  }
+]
