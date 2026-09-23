@@ -1,6 +1,6 @@
 ﻿{
-    "packed8kVariantStatus":  "in_progress",
-    "packed8kVariantsArchived":  3,
+    "packed8kVariantStatus":  "complete",
+    "packed8kVariantsArchived":  5,
     "status":  "local-archive-complete",
     "scope":  "Newly starred armor and wizard models",
     "sourceInventory":  {
@@ -41,6 +41,7 @@
                        "packed8kVariant":  {
                            "status":  "archived_verified",
                            "sourceProjectId":  "d8d97261-b328-4f2f-ad0f-e091bc0dc366",
+                           "identificationEvidence":  "Tripo UI agent confirmed project d8d97261-b328-4f2f-ad0f-e091bc0dc366 -> packed8k_d8d97261.glb with success toast at 2026-09-23T05:45:29-05:00; embedded PBR image names carry the matching packed8k project prefix.",
                            "archivePath":  "assets/art/tripo/exports/packed-8k/d8d97261-b328-4f2f-ad0f-e091bc0dc366.glb",
                            "downloadedFileName":  "packed8k_d8d97261.glb",
                            "recordedAtLocal":  "2026-09-23T05:45:29-05:00",
@@ -115,6 +116,7 @@
                        "packed8kVariant":  {
                            "status":  "archived_verified",
                            "sourceProjectId":  "7971b96b-dc57-46e0-8b60-f3c054478f6d",
+                           "identificationEvidence":  "Tripo UI agent confirmed project 7971b96b-dc57-46e0-8b60-f3c054478f6d -> packed8k_7971b96b.glb with success toast at 2026-09-23T05:47:49-05:00; embedded PBR image names carry the matching packed8k project prefix.",
                            "archivePath":  "assets/art/tripo/exports/packed-8k/7971b96b-dc57-46e0-8b60-f3c054478f6d.glb",
                            "downloadedFileName":  "packed8k_7971b96b.glb",
                            "recordedAtLocal":  "2026-09-23T05:47:49-05:00",
@@ -189,6 +191,7 @@
                        "packed8kVariant":  {
                            "status":  "archived_verified",
                            "sourceProjectId":  "2c2428b5-e674-47c1-9c14-118d298cc833",
+                           "identificationEvidence":  "Tripo UI agent confirmed project 2c2428b5-e674-47c1-9c14-118d298cc833 -> packed8k_2c2428b5.glb with success toast at 2026-09-23T05:50:12-05:00; embedded PBR image names carry the matching packed8k project prefix.",
                            "archivePath":  "assets/art/tripo/exports/packed-8k/2c2428b5-e674-47c1-9c14-118d298cc833.glb",
                            "downloadedFileName":  "packed8k_2c2428b5.glb",
                            "recordedAtLocal":  "2026-09-23T05:50:12-05:00",
@@ -259,7 +262,61 @@
                        "localFilePresent":  true,
                        "sha256":  "e9f372a5e917fe0c6cf0094ad46c85f7bc6b744a947cfcdf0ec76bc21c15fae4",
                        "prompt":  "ornate fantasy wizard outfit with blue and cream robes, gold embroidery, wide-brim hat, belt, and gauntlets.",
-                       "fileSizeBytes":  5577056
+                       "fileSizeBytes":  5577056,
+                       "packed8kVariant":  {
+                           "status":  "archived_verified",
+                           "sourceProjectId":  "30c7ea5f-b99f-4402-932e-bbe2df49a888",
+                           "identificationEvidence":  "Tripo UI agent confirmed project 30c7ea5f-b99f-4402-932e-bbe2df49a888 -> packed8k_30c7ea5f.glb with success toast at 2026-09-23T05:51:55-05:00; embedded PBR image names carry the matching packed8k project prefix.",
+                           "archivePath":  "assets/art/tripo/exports/packed-8k/30c7ea5f-b99f-4402-932e-bbe2df49a888.glb",
+                           "downloadedFileName":  "packed8k_30c7ea5f.glb",
+                           "recordedAtLocal":  "2026-09-23T05:51:55-05:00",
+                           "exportSettings":  {
+                               "format":  "GLB",
+                               "textureResolution":  "8k Current",
+                               "packUV":  true,
+                               "exportSkeleton":  true
+                           },
+                           "actualTextureDimensions":  {
+                               "baseColor":  [
+                                   {
+                                       "name":  "packed8k_30c7ea5f_basecolor",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "metallicRoughness":  [
+                                   {
+                                       "name":  "packed8k_30c7ea5f_rm",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "normal":  [
+                                   {
+                                       "name":  "packed8k_30c7ea5f_normal",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ]
+                           },
+                           "meshIdentity":  {
+                               "meshCount":  17,
+                               "primitiveCount":  17,
+                               "triangleCount":  5287,
+                               "skinCount":  1,
+                               "skinJointCount":  65,
+                               "matchesOriginal":  {
+                                   "positionAttributeMultiset":  false,
+                                   "normalFingerprint":  true,
+                                   "indexConnectivity":  false,
+                                   "uvLayoutFingerprint":  false,
+                                   "skinInfluenceFingerprints":  true
+                               },
+                               "note":  "Pack UV variant is a distinct Tripo output. Mesh, primitive, triangle, and skin counts match the original archive; normal and skin influence fingerprints match, while POSITION, UV, and index fingerprints differ."
+                           },
+                           "sizeBytes":  24319576,
+                           "sha256":  "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e"
+                       }
                    },
                    {
                        "cardStorageId":  "d4f92181-f7c4-4005-844d-019c41e856ec",
@@ -281,7 +338,61 @@
                        "localFilePresent":  true,
                        "sha256":  "94422e79e3b97696c450e243c26852ce45858cb458e69e800bea565943915da0",
                        "prompt":  "ornate lavender and silver wizard robe with wide-brim hat, detailed embroidery and boots",
-                       "fileSizeBytes":  8130684
+                       "fileSizeBytes":  8130684,
+                       "packed8kVariant":  {
+                           "status":  "archived_verified",
+                           "sourceProjectId":  "57209cfb-970b-40cc-8103-70e99181986f",
+                           "identificationEvidence":  "Tripo UI agent confirmed project 57209cfb-970b-40cc-8103-70e99181986f -> packed8k_57209cfb.glb with success toast at 2026-09-23T05:54:10-05:00; embedded PBR image names carry the matching packed8k project prefix.",
+                           "archivePath":  "assets/art/tripo/exports/packed-8k/57209cfb-970b-40cc-8103-70e99181986f.glb",
+                           "downloadedFileName":  "packed8k_57209cfb.glb",
+                           "recordedAtLocal":  "2026-09-23T05:54:10-05:00",
+                           "exportSettings":  {
+                               "format":  "GLB",
+                               "textureResolution":  "8k Current",
+                               "packUV":  true,
+                               "exportSkeleton":  true
+                           },
+                           "actualTextureDimensions":  {
+                               "baseColor":  [
+                                   {
+                                       "name":  "packed8k_57209cfb_basecolor",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "metallicRoughness":  [
+                                   {
+                                       "name":  "packed8k_57209cfb_rm",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "normal":  [
+                                   {
+                                       "name":  "packed8k_57209cfb_normal",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ]
+                           },
+                           "meshIdentity":  {
+                               "meshCount":  20,
+                               "primitiveCount":  20,
+                               "triangleCount":  4922,
+                               "skinCount":  1,
+                               "skinJointCount":  65,
+                               "matchesOriginal":  {
+                                   "positionAttributeMultiset":  false,
+                                   "normalFingerprint":  true,
+                                   "indexConnectivity":  false,
+                                   "uvLayoutFingerprint":  false,
+                                   "skinInfluenceFingerprints":  true
+                               },
+                               "note":  "Pack UV variant is a distinct Tripo output. Mesh, primitive, triangle, and skin counts match the original archive; normal and skin influence fingerprints match, while POSITION, UV, and index fingerprints differ."
+                           },
+                           "sizeBytes":  26893652,
+                           "sha256":  "a6357ee73a1430febe1cd272928a341a763a6c4bdde515c567bae3ba8efb9216"
+                       }
                    }
                ],
     "batchExport":  {
