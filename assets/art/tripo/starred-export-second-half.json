@@ -482,7 +482,15 @@
                                              "fileName":  "25db860e-0f12-4f86-a905-cb477f699694.glb",
                                              "result":  "Chrome ERR_BLOCKED_BY_CLIENT on signed Tripo download URL; refresh did not produce local file",
                                              "downloadPresent":  false
-                                         }
+                                         },
+                       "alternateExportAttempt":  {
+                                                      "route":  "Detail Edit -\u003e Edit in Workspace -\u003e toolbar Export",
+                                                      "format":  "GLB",
+                                                      "textureResolution":  "8K Current",
+                                                      "skeletonToggle":  "on",
+                                                      "result":  "Chrome ERR_BLOCKED_BY_CLIENT on signed Tripo URL; no file in Downloads or exports",
+                                                      "downloadPresent":  false
+                                                  }
                    },
                    {
                        "order":  36,
@@ -638,8 +646,39 @@
                        "prompt":  "ornate purple armored knight suit with etched gold filigree and full plate armor",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/6a9b3421-2e78-420f-8d13-5f04c5d68ee1.glb",
+                                    "bytes":  8291464,
+                                    "sha256":  "59ccf05c1f8d13a7dd132bbb717e8936bed25aa1f0b0d81e70b1b8ed437e3a4a",
+                                    "faces":  5066,
+                                    "vertices":  6079,
+                                    "meshes":  32,
+                                    "skins":  1,
+                                    "joints":  33,
+                                    "animations":  0,
+                                    "embeddedImages":  96,
+                                    "textures":  96,
+                                    "materials":  32,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                                },
+                       "exportAttempt":  {
+                                             "route":  "Collected card detail -\u003e direct Export",
+                                             "format":  "GLB",
+                                             "textureResolution":  "8K Current",
+                                             "skeletonToggle":  "on",
+                                             "result":  "Chrome ERR_BLOCKED_BY_CLIENT on signed Tripo URL; no local file"
+                                         },
+                       "export":  {
+                                      "route":  "Detail Edit -\u003e Edit in Workspace -\u003e toolbar Export",
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "6a9b3421-2e78-420f-8d13-5f04c5d68ee1.glb",
+                                      "result":  "Download verified in Downloads after workspace export"
+                                  }
                    }
                ]
 }
