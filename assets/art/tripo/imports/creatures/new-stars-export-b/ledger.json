@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "batch": "new-stars-export-b",
+  "createdAt": "2026-09-23",
+  "source": "Tripo Collected cards matched by card storage UUID and verified against each detail page title, prompt, project UUID, and PBR label.",
+  "assets": [
+    {
+      "cardStorageUuid": "aef7ab50-0aad-4de6-8f33-6e1a4ec8d407",
+      "title": "Orc Warrior 3d Model",
+      "prompt": "muscular gray orc with spiked leather armor and tusked mouth, barbarian fantasy figure.",
+      "projectUuid": "45852960-86da-44f7-9030-9b3fe2a1512e",
+      "file": "assets/art/tripo/exports/45852960-86da-44f7-9030-9b3fe2a1512e.glb",
+      "bytes": 6490100,
+      "sha256": "4455c0ecff6f8aab48403103b33f284c450cf5d63c8413dd909524f5dc795e6d",
+      "triangles": 4672,
+      "meshCount": 1,
+      "material": "Tripo P1.0 PBR",
+      "maps": [
+        { "role": "baseColor", "resolution": "2048x2048" },
+        { "role": "metallicRoughness", "resolution": "2048x2048" },
+        { "role": "normal", "resolution": "2048x2048" }
+      ],
+      "skeletonExportEnabled": true,
+      "skinJoints": 60,
+      "animations": [],
+      "export": "GLB at current source 2K; higher 4K and 8K options were disabled."
+    },
+    {
+      "cardStorageUuid": "b723120e-b183-40db-b613-5514965a2238",
+      "title": "Demon Creature 3d Model",
+      "prompt": "demon creature with elongated limbs and sharp claws in dark purple and beige color scheme",
+      "projectUuid": "acc8f6a7-0d0d-4ae6-8f27-f4e86fb28734",
+      "file": "assets/art/tripo/exports/acc8f6a7-0d0d-4ae6-8f27-f4e86fb28734.glb",
+      "bytes": 5082484,
+      "sha256": "7e3a7fccd31c24b69843009ba285388833403fb67823bb05bbf52735dd926d0b",
+      "triangles": 4912,
+      "meshCount": 1,
+      "material": "Tripo P1.0 PBR",
+      "maps": [
+        { "role": "baseColor", "resolution": "2048x2048" },
+        { "role": "metallicRoughness", "resolution": "2048x2048" },
+        { "role": "normal", "resolution": "2048x2048" }
+      ],
+      "skeletonExportEnabled": true,
+      "skinJoints": 56,
+      "animations": [],
+      "export": "GLB at current source 2K; higher 4K and 8K options were disabled."
+    },
+    {
+      "cardStorageUuid": "af6d578f-d3c2-4bf0-8178-ac92a20b34d8",
+      "title": "Dark Armored Demon 3d Model",
+      "prompt": "humanoid demon-like armored creature with purple crystalline accents, dark armor, sharp claws",
+      "projectUuid": "e1b8c030-b812-4b78-b4d7-4216e8a4a603",
+      "file": "assets/art/tripo/exports/e1b8c030-b812-4b78-b4d7-4216e8a4a603.glb",
+      "bytes": 6209832,
+      "sha256": "47e61408d8d25a4e7140cdd3ec2c4b61eae18d95ed626b60e4e32f4404d4ec34",
+      "triangles": 4878,
+      "meshCount": 1,
+      "material": "Tripo P1.0 PBR",
+      "maps": [
+        { "role": "baseColor", "resolution": "2048x2048" },
+        { "role": "metallicRoughness", "resolution": "2048x2048" },
+        { "role": "normal", "resolution": "2048x2048" }
+      ],
+      "skeletonExportEnabled": true,
+      "skinJoints": 67,
+      "animations": ["walk"],
+      "export": "GLB at current source 2K; selected the available Walk clip. Chrome redirected the Tripo export to ERR_BLOCKED_BY_CLIENT after Tripo reported success; this file was retrieved from that same generated export URL and verified."
+    },
+    {
+      "cardStorageUuid": "a5a3ecc1-6aaf-4b47-9e0c-34785b5f0bf1",
+      "title": "Ogre Humanoid 3d Model",
+      "prompt": "ogre humanoid creature with tattered loincloth, gray textured skin, muscular build, standing pose",
+      "projectUuid": "3b76bc22-c899-46f8-b518-3873e4244072",
+      "file": "assets/art/tripo/exports/3b76bc22-c899-46f8-b518-3873e4244072.glb",
+      "bytes": 3651048,
+      "sha256": "c71d79a06ca73f62f3e3b7b57d6d00acf0508008e8f98a78dc1ce36255178b51",
+      "triangles": 5484,
+      "meshCount": 1,
+      "material": "Tripo P1.0 PBR",
+      "maps": [
+        { "role": "baseColor", "resolution": "2048x2048" },
+        { "role": "metallicRoughness", "resolution": "2048x2048" },
+        { "role": "normal", "resolution": "2048x2048" }
+      ],
+      "skeletonExportEnabled": false,
+      "skinJoints": 0,
+      "animations": [],
+      "export": "GLB at current source 2K. Tripo did not offer an Export Skeleton control for this card; rigging remains required."
+    },
+    {
+      "cardStorageUuid": "8aa88436-4da9-47ad-9d6c-be5789a33ce5",
+      "title": "Fantasy Winged Demon 3d Model",
+      "prompt": "winged fantasy demoness character with purple armor, crystal accents, and lavender skin",
+      "projectUuid": "c6dd592c-41cc-469a-b889-a3b8182909d4",
+      "file": "assets/art/tripo/exports/c6dd592c-41cc-469a-b889-a3b8182909d4.glb",
+      "bytes": 20092996,
+      "sha256": "0ba042d2ef67f6acb03ca58158c5b306debce1dcfff6539ce948b35d3f9cc871",
+      "triangles": 4818,
+      "meshCount": 1,
+      "material": "Tripo P1.0 PBR",
+      "maps": [
+        { "role": "baseColor", "resolution": "8192x8192" },
+        { "role": "metallicRoughness", "resolution": "4096x4096" },
+        { "role": "normal", "resolution": "4096x4096" }
+      ],
+      "skeletonExportEnabled": true,
+      "skinJoints": 54,
+      "animations": [],
+      "export": "GLB at current source 8K PBR; Export Skeleton remained enabled."
+    }
+  ]
+}
