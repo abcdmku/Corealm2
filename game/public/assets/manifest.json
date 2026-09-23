@@ -45823,1145 +45823,740 @@
     {
       "id": "creature_boss_tideworn",
       "file": "models/creature/creature_boss_tideworn.glb",
-      "pack": "corealm-rpg-beetle-golem-animated",
+      "pack": "corealm-starred-creatures",
       "category": "character",
       "is": "tideworn regional boss",
       "tags": [
         "creature",
         "rpg",
-        "beetle_golem"
+        "cave_ogre",
+        "tideworn",
+        "ogre",
+        "level40",
+        "starred",
+        "tripo"
       ],
-      "bytes": 4680084,
-      "sha256": "dbf656ffd7bafb26cfc9332e01ddea43ad41ecf1fdba9b4d238652a18874a47c",
+      "bytes": 3763524,
+      "sha256": "39281349a927147ec89cb7befa854a89b8cd6ca3579c24254946fa486ca587b0",
       "size": {
-        "x": 4.05168197258333,
-        "y": 2.194181423393954,
-        "z": 3.1004102540555953
+        "x": 1.73996985754854,
+        "y": 3.141783029001074,
+        "z": 0.9652836312195081
       },
       "base": {
-        "x": -2.3187548372748616,
-        "y": 0.003,
-        "z": -1.2003755047415452
+        "x": -0.86998492877427,
+        "y": 0,
+        "z": -0.48264181560975405
       },
       "groundY": 0,
-      "triangles": 4318,
+      "triangles": 5484,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
-        "animal_rpg_boss_tideworn_animal_rpg_flint_mandible_flint_mandible_original_rock",
-        "animal_rpg_boss_tideworn_anatomy",
-        "animal_rpg_boss_tideworn_eroded_edges"
+        "Material_tripo_node_94501d8d-ca00-41eb-89e9-79ea066821f3"
       ],
-      "walkClipSeconds": 2.1666667461395264,
-      "runClipSeconds": 1.5166665315628052,
-      "attackSeconds": 2.7083330154418945,
-      "contactNormalized": 0.246153864211586,
+      "walkClipSeconds": 1.25,
+      "runClipSeconds": 0.82,
+      "attackSeconds": 1.18,
       "sourceProvenance": {
-        "url": "https://opengameart.org/content/beetle-golem-animated",
-        "originalUrl": "https://opengameart.org/content/beetle-golem-0",
-        "author": "killyoverdrive",
-        "animator": "Dm3d",
-        "license": "CC-BY-SA-3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-        "attribution": "Beetle Golem by killyoverdrive, animated by Dm3d. https://opengameart.org/content/beetle-golem-animated. CC BY-SA 3.0. Converted from original Blender file; native rig and texture channels retained, four-influence skinning conversion, 2.55m scale, floor correction and runtime clip aliases. This adapted creature asset is CC BY-SA 3.0.",
-        "sourceFiles": [
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "3b76bc22-c899-46f8-b518-3873e4244072",
+        "sourceCardId": "a5a3ecc1-6aaf-4b47-9e0c-34785b5f0bf1",
+        "sourceFile": "assets/art/tripo/exports/3b76bc22-c899-46f8-b518-3873e4244072.glb",
+        "sourceSha256": "c71d79a06ca73f62f3e3b7b57d6d00acf0508008e8f98a78dc1ce36255178b51",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-ogre/rookback-ogre-native-rig-candidate.glb",
+        "candidateSha256": "39281349a927147ec89cb7befa854a89b8cd6ca3579c24254946fa486ca587b0",
+        "rigMethod": "Mixamo-named anatomical humanoid skeleton fitted to the original Ogre mesh with four normalized influences per vertex; exact source topology, positions, normals, UVs, and embedded PBR maps are preserved.",
+        "textures": [
           {
-            "file": "test-results\\beetle-golem-source\\BeetleGolem_v3.blend",
-            "sha256": "cb730dd5dcf0f25835bd276dfd6bf38cb1d55a1d4ccefa7e94391ee0ce412c42"
+            "name": "ogre+humanoid+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 378942
           },
           {
-            "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-0.png",
-            "channel": "normal",
-            "sha256": "516f569f7585fbe8e4fc18f3dbcb787099071804f4b278d43b41d6f5834bd61b",
-            "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
+            "name": "ogre+humanoid+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 2862789
           },
           {
-            "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-1.png",
-            "channel": "baseColor",
-            "sha256": "abbbe89a271914b78ef00e185e675cde11975804cec91b76966fc97bf9153da0",
-            "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
+            "name": "ogre+humanoid+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 227308
           }
         ],
-        "modifications": "Blender Z-up to glTF Y-up conversion, original packed color/normal maps with flipped rows for glTF, original animation poses sampled at48Hz with native24fps action timing, normalization and floor correction. No grafts or authored body edits.",
-        "weightReduction": {
-          "sourceMaximum": 11,
-          "runtimeMaximum": 4,
-          "maxDiscardedFraction": 0.3299691569392338,
-          "affectedControlVertices": 57,
-          "method": "Select four of native influences and nonnegative refit across 102 poses of six native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
-          "refitVertices": 57,
-          "measuredError": {
-            "maxMeters": 0.02129224173061006,
-            "rmsMeters": 0.0013836408772174699,
-            "samples": 491040
-          }
-        }
+        "presentationAdjustment": {
+          "previousObservedCaveOgreSlotHeightMeters": 1.862,
+          "targetCaveOgreSlotHeightMeters": 2.25,
+          "method": "Uniform rig-container scale only"
+        },
+        "candidateStatus": "accepted-production-lab",
+        "candidateDisplayName": "Rookback Ogre",
+        "productionIdentity": "Cave Ogre",
+        "acceptanceEvidence": "Accepted in production lab: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check. At the existing Tideworn species scale, the Rookback Ogre is approximately 2.25 m and grounded."
       },
       "metadata": {
-        "family": "tideworn",
-        "height": 2.194181423393954,
-        "rig": "original-beetle-golem-29-joint",
-        "source": "Beetle Golem by killyoverdrive, animated by Dm3d",
-        "license": "CC-BY-SA-3.0",
-        "floorCorrection": {
-          "Idle": {
-            "samples": 227,
-            "maximumLift": 0.003
-          },
-          "Walk": {
-            "samples": 182,
-            "maximumLift": 0.06502400440219003
-          },
-          "Run": {
-            "samples": 151,
-            "maximumLift": 0.06502400393667573
-          },
-          "Attack": {
-            "samples": 227,
-            "maximumLift": 0.01980238207800322
-          },
-          "Hit": {
-            "samples": 135,
-            "maximumLift": 0.00901283736081326
-          },
-          "HitLeft": {
-            "samples": 135,
-            "maximumLift": 0.00901283736081326
-          },
-          "HitRight": {
-            "samples": 135,
-            "maximumLift": 0.005026277767537943
-          },
-          "Death": {
-            "samples": 249,
-            "maximumLift": 0.2649231781752194
-          }
+        "family": "tideworn_ogre",
+        "candidateDisplayName": "Rookback Ogre",
+        "productionDisplayName": "Cave Ogre",
+        "heightM": 3.141783029001074,
+        "dimensionsM": {
+          "width": 1.73996985754854,
+          "height": 3.141783029001074,
+          "depth": 0.9652836312195081
         },
-        "sourceFacts": {
-          "controlVertices": 312,
-          "triangles": 620,
-          "bones": 29,
-          "armaturePreserveVolume": false,
-          "animationNames": [
-            "Attack1",
-            "Attack2",
-            "Death",
-            "Hurt1",
-            "Hurt2",
-            "Idle_Heavy",
-            "Idle_Normal",
-            "OLD_AnimationLine",
-            "Sleep_End",
-            "Sleep_Idle",
-            "Sleep_Start",
-            "Walk"
+        "bounds": {
+          "min": [
+            -0.86998492877427,
+            0,
+            -0.48264181560975405
           ],
-          "nativeReconstructionCheck": {
-            "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
-            "maxMeters": 9.812850387658198e-7,
-            "rmsMeters": 2.509723778297731e-7,
-            "samples": 33480
-          }
+          "max": [
+            0.86998492877427,
+            3.141783029001074,
+            0.48264181560975405
+          ]
         },
-        "provenance": {
-          "url": "https://opengameart.org/content/beetle-golem-animated",
-          "originalUrl": "https://opengameart.org/content/beetle-golem-0",
-          "author": "killyoverdrive",
-          "animator": "Dm3d",
-          "license": "CC-BY-SA-3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-          "attribution": "Beetle Golem by killyoverdrive, animated by Dm3d. https://opengameart.org/content/beetle-golem-animated. CC BY-SA 3.0. Converted from original Blender file; native rig and texture channels retained, four-influence skinning conversion, 2.55m scale, floor correction and runtime clip aliases. This adapted creature asset is CC BY-SA 3.0.",
-          "sourceFiles": [
-            {
-              "file": "test-results\\beetle-golem-source\\BeetleGolem_v3.blend",
-              "sha256": "cb730dd5dcf0f25835bd276dfd6bf38cb1d55a1d4ccefa7e94391ee0ce412c42"
-            },
-            {
-              "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-0.png",
-              "channel": "normal",
-              "sha256": "516f569f7585fbe8e4fc18f3dbcb787099071804f4b278d43b41d6f5834bd61b",
-              "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
-            },
-            {
-              "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-1.png",
-              "channel": "baseColor",
-              "sha256": "abbbe89a271914b78ef00e185e675cde11975804cec91b76966fc97bf9153da0",
-              "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
-            }
-          ],
-          "modifications": "An eroded shore colossus with a vaulted wave-cut shell and one enormous split crushing claw. Low layered back shelves and a sunken frontal mouth separate it from the high-domed storm scarab. The crushing side leads its attack. New anatomical surfaces are part of the animated skin. Whole skeleton and surfaces receive a coordinated bind refit. Accepted source texture art retained with new surface UVs; native source license and attribution retained.",
-          "weightReduction": {
-            "sourceMaximum": 11,
-            "runtimeMaximum": 4,
-            "maxDiscardedFraction": 0.3299691569392338,
-            "affectedControlVertices": 57,
-            "method": "Select four of native influences and nonnegative refit across 102 poses of six native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
-            "refitVertices": 57,
-            "measuredError": {
-              "maxMeters": 0.02129224173061006,
-              "rmsMeters": 0.0013836408772174699,
-              "samples": 491040
-            }
-          },
-          "sourceModifications": "Blender Z-up to glTF Y-up conversion, original packed color/normal maps with flipped rows for glTF, original animation poses sampled at48Hz with native24fps action timing, normalization and floor correction. No grafts or authored body edits."
-        },
-        "textureBindings": [
+        "rig": "Mixamo-named anatomical humanoid skeleton fitted to the original Ogre mesh with four normalized influences per vertex; exact source topology, positions, normals, UVs, and embedded PBR maps are preserved.",
+        "sourceSkinned": true,
+        "boneCount": [
           {
-            "materialName": "animal_rpg_boss_tideworn_animal_rpg_flint_mandible_flint_mandible_original_rock",
-            "textureName": "boss_tideworn_weathered_stone",
-            "mimeType": "image/png",
-            "sha256": "4e159e12b6b22fb8d1d7a7c5f51e786534dd74d7daf74cc3396dad24ac93a878",
-            "sourcePath": "Embedded accepted creature_vault_custodian texture; source asset SHA-256 8b3f2c0cc153b02765b162014e8d3a2b363ebe0162cdf563a83311c44e45a6c5"
+            "name": "mixamorigHips",
+            "parent": null,
+            "position": [
+              0,
+              0.44484375000000004,
+              -0.004791259765625
+            ]
           },
           {
-            "materialName": "animal_rpg_boss_tideworn_anatomy",
-            "textureName": "boss_tideworn_weathered_stone",
-            "mimeType": "image/png",
-            "sha256": "4e159e12b6b22fb8d1d7a7c5f51e786534dd74d7daf74cc3396dad24ac93a878",
-            "sourcePath": "Embedded accepted creature_vault_custodian texture; source asset SHA-256 8b3f2c0cc153b02765b162014e8d3a2b363ebe0162cdf563a83311c44e45a6c5"
+            "name": "mixamorigSpine",
+            "parent": "mixamorigHips",
+            "position": [
+              0,
+              0.541796875,
+              0.004791259765625
+            ]
           },
           {
-            "materialName": "animal_rpg_boss_tideworn_eroded_edges",
-            "textureName": "boss_tideworn_weathered_stone",
-            "mimeType": "image/png",
-            "sha256": "4e159e12b6b22fb8d1d7a7c5f51e786534dd74d7daf74cc3396dad24ac93a878",
-            "sourcePath": "Embedded accepted creature_vault_custodian texture; source asset SHA-256 8b3f2c0cc153b02765b162014e8d3a2b363ebe0162cdf563a83311c44e45a6c5"
+            "name": "mixamorigSpine1",
+            "parent": "mixamorigSpine",
+            "position": [
+              0,
+              0.6558593749999999,
+              0.033538818359375
+            ]
+          },
+          {
+            "name": "mixamorigSpine2",
+            "parent": "mixamorigSpine1",
+            "position": [
+              0,
+              0.7699218750000001,
+              0.014373779296875
+            ]
+          },
+          {
+            "name": "mixamorigNeck",
+            "parent": "mixamorigSpine2",
+            "position": [
+              0,
+              0.9067968750000001,
+              0.038330078125
+            ]
+          },
+          {
+            "name": "mixamorigHead",
+            "parent": "mixamorigNeck",
+            "position": [
+              0,
+              0.998046875,
+              0.052703857421875
+            ]
+          },
+          {
+            "name": "mixamorigLeftShoulder",
+            "parent": "mixamorigSpine2",
+            "position": [
+              -0.13988956404320985,
+              0.7699218750000001,
+              0.014373779296875
+            ]
+          },
+          {
+            "name": "mixamorigLeftArm",
+            "parent": "mixamorigLeftShoulder",
+            "position": [
+              -0.20471643518518515,
+              0.67296875,
+              0.038330078125
+            ]
+          },
+          {
+            "name": "mixamorigLeftForeArm",
+            "parent": "mixamorigLeftArm",
+            "position": [
+              -0.24907166280864193,
+              0.507578125,
+              0.0574951171875
+            ]
+          },
+          {
+            "name": "mixamorigLeftHand",
+            "parent": "mixamorigLeftForeArm",
+            "position": [
+              -0.2763671875,
+              0.370703125,
+              0.06707763671875
+            ]
+          },
+          {
+            "name": "mixamorigRightShoulder",
+            "parent": "mixamorigSpine2",
+            "position": [
+              0.13988956404320985,
+              0.7699218750000001,
+              0.014373779296875
+            ]
+          },
+          {
+            "name": "mixamorigRightArm",
+            "parent": "mixamorigRightShoulder",
+            "position": [
+              0.20471643518518515,
+              0.67296875,
+              0.038330078125
+            ]
+          },
+          {
+            "name": "mixamorigRightForeArm",
+            "parent": "mixamorigRightArm",
+            "position": [
+              0.24907166280864193,
+              0.507578125,
+              0.0574951171875
+            ]
+          },
+          {
+            "name": "mixamorigRightHand",
+            "parent": "mixamorigRightForeArm",
+            "position": [
+              0.2763671875,
+              0.370703125,
+              0.06707763671875
+            ]
+          },
+          {
+            "name": "mixamorigLeftUpLeg",
+            "parent": "mixamorigHips",
+            "position": [
+              -0.09894627700617283,
+              0.37640625,
+              -0.004791259765625
+            ]
+          },
+          {
+            "name": "mixamorigLeftLeg",
+            "parent": "mixamorigLeftUpLeg",
+            "position": [
+              -0.11259403935185185,
+              0.188203125,
+              0.004791259765625
+            ]
+          },
+          {
+            "name": "mixamorigLeftFoot",
+            "parent": "mixamorigLeftLeg",
+            "position": [
+              -0.11259403935185185,
+              0.062734375,
+              0.014373779296875
+            ]
+          },
+          {
+            "name": "mixamorigLeftToeBase",
+            "parent": "mixamorigLeftFoot",
+            "position": [
+              -0.11259403935185185,
+              0.039921875,
+              0.091033935546875
+            ]
+          },
+          {
+            "name": "mixamorigRightUpLeg",
+            "parent": "mixamorigHips",
+            "position": [
+              0.09894627700617283,
+              0.37640625,
+              -0.004791259765625
+            ]
+          },
+          {
+            "name": "mixamorigRightLeg",
+            "parent": "mixamorigRightUpLeg",
+            "position": [
+              0.11259403935185185,
+              0.188203125,
+              0.004791259765625
+            ]
+          },
+          {
+            "name": "mixamorigRightFoot",
+            "parent": "mixamorigRightLeg",
+            "position": [
+              0.11259403935185185,
+              0.062734375,
+              0.014373779296875
+            ]
+          },
+          {
+            "name": "mixamorigRightToeBase",
+            "parent": "mixamorigRightFoot",
+            "position": [
+              0.11259403935185185,
+              0.039921875,
+              0.091033935546875
+            ]
           }
         ],
-        "clipProvenance": [
-          {
-            "name": "Idle",
-            "source": "Idle_Normal",
-            "firstFrame": 0,
-            "lastFrame": 50,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Native action"
+        "vertices": 3565,
+        "triangles": 5484,
+        "presentationAdjustment": {
+          "method": "Uniform rig-container scale only",
+          "previousNeutralHeightMeters": 2.6,
+          "previousObservedCaveOgreSlotHeightMeters": 1.862,
+          "calibratedExistingSlotScale": 0.7161538461538461,
+          "targetCaveOgreSlotHeightMeters": 2.25,
+          "expectedHeightAtExistingSlotScaleMeters": 2.25,
+          "sourceGeometryOrTextureChanges": false
+        },
+        "source": {
+          "file": "assets/art/tripo/exports/3b76bc22-c899-46f8-b518-3873e4244072.glb",
+          "sha256": "c71d79a06ca73f62f3e3b7b57d6d00acf0508008e8f98a78dc1ce36255178b51",
+          "bytes": 3651048,
+          "starredModelId": "3b76bc22-c899-46f8-b518-3873e4244072",
+          "starredCardId": "a5a3ecc1-6aaf-4b47-9e0c-34785b5f0bf1",
+          "starredDisplayName": "ogre humanoid 3d model",
+          "geometry": {
+            "vertices": 3565,
+            "triangles": 5484,
+            "bounds": {
+              "min": [
+                -0.2763671875,
+                0,
+                -0.1533203125
+              ],
+              "max": [
+                0.2763671875,
+                0.998046875,
+                0.1533203125
+              ]
+            },
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "uvsPreserved": true,
+            "indicesPreserved": true,
+            "retopology": false
           },
-          {
-            "name": "Walk",
-            "source": "Walk",
-            "firstFrame": 0,
-            "lastFrame": 40,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Native action"
+          "sourceSkin": "none",
+          "sourceAnimations": [],
+          "textures": [
+            {
+              "name": "ogre+humanoid+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "sha256": "57c4c8cbd73be19a3e521399583ecfbda6a36373d62a3f3fa7aa557803bb11ef"
+            },
+            {
+              "name": "ogre+humanoid+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/png",
+              "sha256": "86f3be83953b9294d73fbb34c6f3db1c69b0f24e92e979f87467ff7a36e19e7d"
+            },
+            {
+              "name": "ogre+humanoid+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "sha256": "9ca6afe4d21370d8aeba261b9af6aa0256119085c1aad397cb387eb561a19048"
+            }
+          ]
+        },
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/new-star-ogre/rookback-ogre-native-rig-candidate.glb",
+          "sha256": "39281349a927147ec89cb7befa854a89b8cd6ca3579c24254946fa486ca587b0",
+          "bytes": 3763524,
+          "productionTarget": "game/public/assets/models/creature/creature_rookback_ogre.glb",
+          "geometry": {
+            "vertices": 3565,
+            "triangles": 5484,
+            "nativeBounds": {
+              "min": [
+                -0.2763671875,
+                0,
+                -0.1533203125
+              ],
+              "max": [
+                0.2763671875,
+                0.998046875,
+                0.1533203125
+              ]
+            },
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "uvsPreserved": true,
+            "indicesPreserved": true,
+            "scaleFactor": 3.147931332384638,
+            "targetHeightMeters": 3.141783029001074
           },
-          {
-            "name": "Run",
-            "source": "Walk",
-            "firstFrame": 0,
-            "lastFrame": 40,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Faster source Walk at1/0.7speed; no native Run"
+          "presentationAdjustment": {
+            "method": "Uniform rig-container scale only",
+            "previousNeutralHeightMeters": 2.6,
+            "previousObservedCaveOgreSlotHeightMeters": 1.862,
+            "calibratedExistingSlotScale": 0.7161538461538461,
+            "targetCaveOgreSlotHeightMeters": 2.25,
+            "expectedHeightAtExistingSlotScaleMeters": 2.25,
+            "sourceGeometryOrTextureChanges": false
           },
-          {
-            "name": "Attack",
-            "source": "Attack1",
-            "firstFrame": 0,
-            "lastFrame": 50,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Native action"
+          "rig": {
+            "type": "Mixamo-named Unity Humanoid mapping candidate",
+            "joints": [
+              {
+                "name": "mixamorigHips",
+                "parent": null,
+                "position": [
+                  0,
+                  0.44484375000000004,
+                  -0.004791259765625
+                ]
+              },
+              {
+                "name": "mixamorigSpine",
+                "parent": "mixamorigHips",
+                "position": [
+                  0,
+                  0.541796875,
+                  0.004791259765625
+                ]
+              },
+              {
+                "name": "mixamorigSpine1",
+                "parent": "mixamorigSpine",
+                "position": [
+                  0,
+                  0.6558593749999999,
+                  0.033538818359375
+                ]
+              },
+              {
+                "name": "mixamorigSpine2",
+                "parent": "mixamorigSpine1",
+                "position": [
+                  0,
+                  0.7699218750000001,
+                  0.014373779296875
+                ]
+              },
+              {
+                "name": "mixamorigNeck",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  0,
+                  0.9067968750000001,
+                  0.038330078125
+                ]
+              },
+              {
+                "name": "mixamorigHead",
+                "parent": "mixamorigNeck",
+                "position": [
+                  0,
+                  0.998046875,
+                  0.052703857421875
+                ]
+              },
+              {
+                "name": "mixamorigLeftShoulder",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  -0.13988956404320985,
+                  0.7699218750000001,
+                  0.014373779296875
+                ]
+              },
+              {
+                "name": "mixamorigLeftArm",
+                "parent": "mixamorigLeftShoulder",
+                "position": [
+                  -0.20471643518518515,
+                  0.67296875,
+                  0.038330078125
+                ]
+              },
+              {
+                "name": "mixamorigLeftForeArm",
+                "parent": "mixamorigLeftArm",
+                "position": [
+                  -0.24907166280864193,
+                  0.507578125,
+                  0.0574951171875
+                ]
+              },
+              {
+                "name": "mixamorigLeftHand",
+                "parent": "mixamorigLeftForeArm",
+                "position": [
+                  -0.2763671875,
+                  0.370703125,
+                  0.06707763671875
+                ]
+              },
+              {
+                "name": "mixamorigRightShoulder",
+                "parent": "mixamorigSpine2",
+                "position": [
+                  0.13988956404320985,
+                  0.7699218750000001,
+                  0.014373779296875
+                ]
+              },
+              {
+                "name": "mixamorigRightArm",
+                "parent": "mixamorigRightShoulder",
+                "position": [
+                  0.20471643518518515,
+                  0.67296875,
+                  0.038330078125
+                ]
+              },
+              {
+                "name": "mixamorigRightForeArm",
+                "parent": "mixamorigRightArm",
+                "position": [
+                  0.24907166280864193,
+                  0.507578125,
+                  0.0574951171875
+                ]
+              },
+              {
+                "name": "mixamorigRightHand",
+                "parent": "mixamorigRightForeArm",
+                "position": [
+                  0.2763671875,
+                  0.370703125,
+                  0.06707763671875
+                ]
+              },
+              {
+                "name": "mixamorigLeftUpLeg",
+                "parent": "mixamorigHips",
+                "position": [
+                  -0.09894627700617283,
+                  0.37640625,
+                  -0.004791259765625
+                ]
+              },
+              {
+                "name": "mixamorigLeftLeg",
+                "parent": "mixamorigLeftUpLeg",
+                "position": [
+                  -0.11259403935185185,
+                  0.188203125,
+                  0.004791259765625
+                ]
+              },
+              {
+                "name": "mixamorigLeftFoot",
+                "parent": "mixamorigLeftLeg",
+                "position": [
+                  -0.11259403935185185,
+                  0.062734375,
+                  0.014373779296875
+                ]
+              },
+              {
+                "name": "mixamorigLeftToeBase",
+                "parent": "mixamorigLeftFoot",
+                "position": [
+                  -0.11259403935185185,
+                  0.039921875,
+                  0.091033935546875
+                ]
+              },
+              {
+                "name": "mixamorigRightUpLeg",
+                "parent": "mixamorigHips",
+                "position": [
+                  0.09894627700617283,
+                  0.37640625,
+                  -0.004791259765625
+                ]
+              },
+              {
+                "name": "mixamorigRightLeg",
+                "parent": "mixamorigRightUpLeg",
+                "position": [
+                  0.11259403935185185,
+                  0.188203125,
+                  0.004791259765625
+                ]
+              },
+              {
+                "name": "mixamorigRightFoot",
+                "parent": "mixamorigRightLeg",
+                "position": [
+                  0.11259403935185185,
+                  0.062734375,
+                  0.014373779296875
+                ]
+              },
+              {
+                "name": "mixamorigRightToeBase",
+                "parent": "mixamorigRightFoot",
+                "position": [
+                  0.11259403935185185,
+                  0.039921875,
+                  0.091033935546875
+                ]
+              }
+            ],
+            "influencesPerVertex": 4,
+            "verticesWithDistributedWeights": 3565,
+            "maximumWeightSumError": 4.307366907596588e-8,
+            "method": "Ogre-specific anatomical bone-segment distance weights with left/right and upper/lower body gates. Source skin was absent."
           },
-          {
-            "name": "Hit",
-            "source": "Hurt1",
-            "firstFrame": 0,
-            "lastFrame": 30,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Alias of native Hurt1; directional native Hurt1/Hurt2 retained as HitLeft/HitRight"
+          "textures": [
+            {
+              "name": "ogre+humanoid+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "bytes": 378942,
+              "sha256": "57c4c8cbd73be19a3e521399583ecfbda6a36373d62a3f3fa7aa557803bb11ef"
+            },
+            {
+              "name": "ogre+humanoid+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/png",
+              "bytes": 2862789,
+              "sha256": "86f3be83953b9294d73fbb34c6f3db1c69b0f24e92e979f87467ff7a36e19e7d"
+            },
+            {
+              "name": "ogre+humanoid+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "bytes": 227308,
+              "sha256": "9ca6afe4d21370d8aeba261b9af6aa0256119085c1aad397cb387eb561a19048"
+            }
+          ],
+          "pbrChannelRanges": {
+            "roughness": [
+              0.403921568627451,
+              1
+            ],
+            "metallic": [
+              0,
+              0.2980392156862745
+            ]
           },
-          {
-            "name": "HitLeft",
-            "source": "Hurt1",
-            "firstFrame": 0,
-            "lastFrame": 30,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Native action"
-          },
-          {
-            "name": "HitRight",
-            "source": "Hurt2",
-            "firstFrame": 0,
-            "lastFrame": 30,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Native action"
-          },
-          {
-            "name": "Death",
-            "source": "Death",
-            "firstFrame": 0,
-            "lastFrame": 55,
-            "fps": 24,
-            "sampleFps": 48,
-            "derivation": "Native action"
+          "animations": [
+            {
+              "name": "Idle",
+              "seconds": 3,
+              "channels": 5
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.25,
+              "channels": 8
+            },
+            {
+              "name": "Run",
+              "seconds": 0.82,
+              "channels": 8
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.18,
+              "channels": 6
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "channels": 6
+            },
+            {
+              "name": "Death",
+              "seconds": 1.65,
+              "channels": 9
+            }
+          ],
+          "acceptance": {
+            "rig": true,
+            "animation": true,
+            "textures": true,
+            "labAccepted": true,
+            "worldIntegrated": false
           }
-        ],
-        "sourceAnimationCount": 11,
-        "attackContact": 0.5,
-        "animationAcceptance": "candidate-needs-production-browser-review",
-        "revision": "beetle-golem-source-1",
+        },
+        "pbr": {
+          "baseColor": true,
+          "packedMetallicRoughness": true,
+          "normal": true,
+          "allMapsMaximum": 2048,
+          "channelRanges": {
+            "roughness": [
+              0.403921568627451,
+              1
+            ],
+            "metallic": [
+              0,
+              0.2980392156862745
+            ]
+          }
+        },
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "source": "assets/art/regional-bosses/gait-calibration.json",
-          "status": "measured-weighted-sole",
-          "visualContactAccepted": false
-        },
-        "redesign": {
-          "sourceAssetId": "creature_flint_mandible",
-          "sourceSha256": "6491536848dbceecfa57805ee7b88d8a9e32fe18285ebfd35d93c9bc953287a5",
-          "generator": "tools/regional-bosses/build.mjs",
-          "design": "An eroded shore colossus with a vaulted wave-cut shell and one enormous split crushing claw. Low layered back shelves and a sunken frontal mouth separate it from the high-domed storm scarab. The crushing side leads its attack.",
-          "deformedVertices": 1800,
-          "removedTriangles": 158,
-          "addedTriangles": 3856,
-          "parts": [
-            {
-              "name": "articulated_neck",
-              "joint": "beetle_4_Bone_003",
-              "triangles": 384
-            },
-            {
-              "name": "eroded_wave_shelf_0",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 80
-            },
-            {
-              "name": "shell_waterline_0",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 384
-            },
-            {
-              "name": "eroded_wave_shelf_1",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 80
-            },
-            {
-              "name": "shell_waterline_1",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 384
-            },
-            {
-              "name": "eroded_wave_shelf_2",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 80
-            },
-            {
-              "name": "shell_waterline_2",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 384
-            },
-            {
-              "name": "eroded_wave_shelf_3",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 80
-            },
-            {
-              "name": "shell_waterline_3",
-              "joint": "beetle_3_Bone_002",
-              "triangles": 384
-            },
-            {
-              "name": "crushing_claw_outer",
-              "joint": "beetle_17_Bone_001_R_003",
-              "triangles": 384
-            },
-            {
-              "name": "crushing_claw_inner",
-              "joint": "beetle_20_Bone_001_R_006",
-              "triangles": 384
-            },
-            {
-              "name": "sunken_cranium",
-              "joint": "beetle_5_Bone_004",
-              "triangles": 80
-            },
-            {
-              "name": "short_feeding_hook_-1",
-              "joint": "beetle_5_Bone_004",
-              "triangles": 384
-            },
-            {
-              "name": "short_feeding_hook_1",
-              "joint": "beetle_5_Bone_004",
-              "triangles": 384
-            }
-          ],
-          "motionEdits": [
-            {
-              "clip": "Hit",
-              "joint": "beetle_2_Bone_001",
-              "amplitude": 0.2,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.2,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_6_Bone_001_L",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_7_Bone_001_L_001",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_8_Bone_001_L_002",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_9_Bone_001_L_003",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_10_Bone_001_L_004",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_11_Bone_001_L_005",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_12_Bone_001_L_006",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_13_Bone_001_L_007",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_14_Bone_001_R",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_15_Bone_001_R_001",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_16_Bone_001_R_002",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_17_Bone_001_R_003",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_18_Bone_001_R_004",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_19_Bone_001_R_005",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_20_Bone_001_R_006",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_21_Bone_001_R_007",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_2_Bone_001",
-              "amplitude": 0.2,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.2,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_6_Bone_001_L",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_7_Bone_001_L_001",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_8_Bone_001_L_002",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_9_Bone_001_L_003",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_10_Bone_001_L_004",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_11_Bone_001_L_005",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_12_Bone_001_L_006",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_13_Bone_001_L_007",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_14_Bone_001_R",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_15_Bone_001_R_001",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_16_Bone_001_R_002",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_17_Bone_001_R_003",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_18_Bone_001_R_004",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_19_Bone_001_R_005",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_20_Bone_001_R_006",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_21_Bone_001_R_007",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_2_Bone_001",
-              "amplitude": 0.2,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.2,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_6_Bone_001_L",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_7_Bone_001_L_001",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_8_Bone_001_L_002",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_9_Bone_001_L_003",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_10_Bone_001_L_004",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_11_Bone_001_L_005",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_12_Bone_001_L_006",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_13_Bone_001_L_007",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_14_Bone_001_R",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_15_Bone_001_R_001",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_16_Bone_001_R_002",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_17_Bone_001_R_003",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_18_Bone_001_R_004",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_19_Bone_001_R_005",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_20_Bone_001_R_006",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_21_Bone_001_R_007",
-              "amplitude": 0.28,
-              "kind": "braced heavy claw relative to native idle"
-            },
-            {
-              "clip": "Idle",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "Idle",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Walk",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.035
-            },
-            {
-              "clip": "Walk",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Run",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.035
-            },
-            {
-              "clip": "Run",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Attack",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.14
-            },
-            {
-              "clip": "Attack",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.095
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "Hit",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "HitRight",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Death",
-              "joint": "beetle_3_Bone_002",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "Death",
-              "joint": "beetle_5_Bone_004",
-              "amplitude": 0.025
-            }
-          ],
-          "attachmentRepairs": [
-            {
-              "part": "complete replacement cranium",
-              "joint": "beetle_5_Bone_004",
-              "change": "Removed the full original distal jaw surface, including the detached side plate; refitted its pivot to the authored skull centre and added an overlapping articulated neck."
-            }
-          ],
-          "clipTimeMultiplier": 1.25,
-          "measurement": {
-            "size": {
-              "x": 4.05168197258333,
-              "y": 2.194181423393954,
-              "z": 3.1004102540555953
-            },
-            "base": {
-              "x": -2.3187548372748616,
-              "y": 0.003,
-              "z": -1.2003755047415452
-            },
-            "animatedMin": [
-              -2.60051032094482,
-              0.002999999999999999,
-              -2.4632194839426558
-            ],
-            "animatedMax": [
-              1.975660687972951,
-              3.1960410663110164,
-              2.4546512589606517
-            ],
-            "clips": [
-              {
-                "name": "Idle",
-                "duration": 2.7083330154418945,
-                "samples": 164,
-                "min": [
-                  -2.3242787913949576,
-                  0.003,
-                  -1.2360648512499064
-                ],
-                "max": [
-                  1.7377360914645168,
-                  2.197659430731498,
-                  1.9209678863287678
-                ],
-                "minCorrection": 1.3986259600994033e-8,
-                "maxCorrection": 1.3986259662576717e-8
-              },
-              {
-                "name": "Walk",
-                "duration": 2.1666667461395264,
-                "samples": 132,
-                "min": [
-                  -2.3453145684875203,
-                  0.002999999999999999,
-                  -1.245344633316873
-                ],
-                "max": [
-                  1.7498773990072853,
-                  2.2793678914531816,
-                  1.9274922668385392
-                ],
-                "minCorrection": -0.025489500627942897,
-                "maxCorrection": 0.009633651488144247
-              },
-              {
-                "name": "Run",
-                "duration": 1.5166665315628052,
-                "samples": 92,
-                "min": [
-                  -2.3453071834913715,
-                  0.002999999999999999,
-                  -1.2453443198782692
-                ],
-                "max": [
-                  1.7498680095323274,
-                  2.2793901400405634,
-                  1.927475211054901
-                ],
-                "minCorrection": -0.025419754379666155,
-                "maxCorrection": 0.009610744703379182
-              },
-              {
-                "name": "Attack",
-                "duration": 2.7083330154418945,
-                "samples": 164,
-                "min": [
-                  -2.347581864664858,
-                  0.002999999999999999,
-                  -1.9878416312936007
-                ],
-                "max": [
-                  1.975660687972951,
-                  2.324323287878808,
-                  2.4546512589606517
-                ],
-                "minCorrection": -0.000001415707179727374,
-                "maxCorrection": 0.09364944295210123
-              },
-              {
-                "name": "Hit",
-                "duration": 1.625,
-                "samples": 99,
-                "min": [
-                  -2.329690388130121,
-                  0.002999999999999999,
-                  -1.3353831594171521
-                ],
-                "max": [
-                  1.7329271195922713,
-                  2.3542427885677286,
-                  1.9227636906962047
-                ],
-                "minCorrection": -0.03736554734102332,
-                "maxCorrection": 0.1740878076521944
-              },
-              {
-                "name": "HitLeft",
-                "duration": 1.625,
-                "samples": 99,
-                "min": [
-                  -2.329690388130121,
-                  0.002999999999999999,
-                  -1.3353831594171521
-                ],
-                "max": [
-                  1.7329271195922713,
-                  2.3542427885677286,
-                  1.9227636906962047
-                ],
-                "minCorrection": -0.03736554734102332,
-                "maxCorrection": 0.1740878076521944
-              },
-              {
-                "name": "HitRight",
-                "duration": 1.625,
-                "samples": 99,
-                "min": [
-                  -2.3531133222669744,
-                  0.002999999999999999,
-                  -1.3679755464947683
-                ],
-                "max": [
-                  1.7344397224899324,
-                  2.3932625883550287,
-                  1.9181281133940646
-                ],
-                "minCorrection": -0.062410025161071386,
-                "maxCorrection": 0.13345466967856667
-              },
-              {
-                "name": "Death",
-                "duration": 2.9791667461395264,
-                "samples": 180,
-                "min": [
-                  -2.60051032094482,
-                  0.002999999999999999,
-                  -2.4632194839426558
-                ],
-                "max": [
-                  1.8605439735203997,
-                  3.1960410663110164,
-                  1.900034749329985
-                ],
-                "minCorrection": 1.5763580206787364e-9,
-                "maxCorrection": 0.9824862283426582
-              }
-            ],
-            "method": "Complete weighted surface sampled at 60 Hz or finer. Native skeletal tracks retained; whole-body correction closes ground gaps."
-          }
-        },
-        "id": "boss_tideworn",
-        "dimensions": [
-          4.05168197258333,
-          2.194181423393954,
-          3.1004102540555953
-        ],
-        "sourceProvenance": {
-          "url": "https://opengameart.org/content/beetle-golem-animated",
-          "originalUrl": "https://opengameart.org/content/beetle-golem-0",
-          "author": "killyoverdrive",
-          "animator": "Dm3d",
-          "license": "CC-BY-SA-3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-          "attribution": "Beetle Golem by killyoverdrive, animated by Dm3d. https://opengameart.org/content/beetle-golem-animated. CC BY-SA 3.0. Converted from original Blender file; native rig and texture channels retained, four-influence skinning conversion, 2.55m scale, floor correction and runtime clip aliases. This adapted creature asset is CC BY-SA 3.0.",
-          "sourceFiles": [
-            {
-              "file": "test-results\\beetle-golem-source\\BeetleGolem_v3.blend",
-              "sha256": "cb730dd5dcf0f25835bd276dfd6bf38cb1d55a1d4ccefa7e94391ee0ce412c42"
-            },
-            {
-              "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-0.png",
-              "channel": "normal",
-              "sha256": "516f569f7585fbe8e4fc18f3dbcb787099071804f4b278d43b41d6f5834bd61b",
-              "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
-            },
-            {
-              "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-1.png",
-              "channel": "baseColor",
-              "sha256": "abbbe89a271914b78ef00e185e675cde11975804cec91b76966fc97bf9153da0",
-              "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
-            }
-          ],
-          "modifications": "Blender Z-up to glTF Y-up conversion, original packed color/normal maps with flipped rows for glTF, original animation poses sampled at48Hz with native24fps action timing, normalization and floor correction. No grafts or authored body edits.",
-          "weightReduction": {
-            "sourceMaximum": 11,
-            "runtimeMaximum": 4,
-            "maxDiscardedFraction": 0.3299691569392338,
-            "affectedControlVertices": 57,
-            "method": "Select four of native influences and nonnegative refit across 102 poses of six native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
-            "refitVertices": 57,
-            "measuredError": {
-              "maxMeters": 0.02129224173061006,
-              "rmsMeters": 0.0013836408772174699,
-              "samples": 491040
-            }
-          }
-        },
-        "stoneTextureSource": {
-          "assetId": "creature_vault_custodian",
-          "assetSha256": "8b3f2c0cc153b02765b162014e8d3a2b363ebe0162cdf563a83311c44e45a6c5",
-          "textureSha256": "4e159e12b6b22fb8d1d7a7c5f51e786534dd74d7daf74cc3396dad24ac93a878",
-          "provenance": {
-            "sourceAssets": [
-              "base_male",
-              "outfit_male_knight_chest",
-              "outfit_male_knight_legs",
-              "outfit_male_knight_boots",
-              "outfit_male_knight_gloves",
-              "outfit_male_knight_pauldron",
-              "outfit_male_knight_helmet",
-              "animation_library_1"
-            ],
-            "sourceFiles": [
-              {
-                "file": "game/public/assets/models/character/base_male.glb",
-                "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
-                "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
-                "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
-                "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
-                "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
-                "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
-                "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
-              },
-              {
-                "file": "game/public/assets/models/animation/animation_library_1.glb",
-                "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-              }
-            ],
-            "author": "Quaternius",
-            "license": "CC0-1.0",
-            "sourcePacks": [
-              {
-                "id": "universal-base-characters",
-                "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-              },
-              {
-                "id": "modular-character-outfits-fantasy",
-                "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
-              },
-              {
-                "id": "universal-animation-library",
-                "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-              }
-            ],
-            "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
-            "materialRevision": {
-              "kind": "material-only",
-              "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
-              "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
-              "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
-              "sourceColor": {
-                "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
-                "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
-              },
-              "sourceNormal": {
-                "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
-                "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
-                "bytesUnchanged": true,
-                "materialNormalScale": 0.45
-              },
-              "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
-              "channels": {
-                "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
-                "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
-                "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
-                "normal": "Original normal PNG unchanged; material strength 0.45"
-              },
-              "statistics": {
-                "roughness": [
-                  0.5804073725490195,
-                  0.85
-                ],
-                "metalness": [
-                  0.35,
-                  0.88
-                ],
-                "oxidePixelFraction": 0.17180252075195312,
-                "oxidePixelDefinition": "oxide > 0",
-                "meanAlbedo": [
-                  87.97062683105469,
-                  92.02383422851562,
-                  96.99153137207031
-                ]
-              },
-              "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
-              "status": "candidate-needs-production-material-review",
-              "parameters": {
-                "cleanBase": [
-                  90.34351673687486,
-                  95.03340705201711,
-                  100.51249754864389
-                ],
-                "grainAmplitude": 12,
-                "oxideLuminanceCutoff": 0.739,
-                "oxideFade": 0.16,
-                "oxideMaxMix": 0.55,
-                "patina": [
-                  104,
-                  72,
-                  52
-                ]
-              }
-            }
-          }
-        }
+        "animationAcceptance": "Accepted in production lab: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check. At the existing Tideworn species scale, the Rookback Ogre is approximately 2.25 m and grounded."
       },
       "acceptance": {
-        "exported": true,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
         "worldIntegrated": false
       },
-      "impliedWalkMps": 0.8568121734569194,
-      "impliedRunMps": 1.224015542578496,
-      "locomotionPolicy": "speed-matched"
+      "bounds": {
+        "min": [
+          -0.86998492877427,
+          0,
+          -0.48264181560975405
+        ],
+        "max": [
+          0.86998492877427,
+          3.141783029001074,
+          0.48264181560975405
+        ]
+      }
     },
     {
       "id": "creature_boss_ordrun",
