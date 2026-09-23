@@ -1,0 +1,606 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_vetchrunner",
+  "status": "root-lab-reviewed",
+  "accepted": true,
+  "source": {
+    "file": "../starter-t1-images/exports/vetchrunner.glb",
+    "sha256": "418362b4539c41711a98da2871646649358f163f27ef44c90d36955628a64f1d",
+    "bytes": 26549616,
+    "vertices": 2926,
+    "triangles": 4068,
+    "sourceImageId": "b589d56f-eaf7-4f04-92d8-cbbf75f82f2f",
+    "sourceModelId": "d45e1741-b2eb-4ae6-b98a-8fdb18bd4fdf",
+    "generator": "Tripo Smart Mesh P2.0",
+    "imageGenerator": "Tripo GPT Image 2.5",
+    "approvedGeometryAndMapsPreserved": true,
+    "textures": [
+      {
+        "name": "serval+3d+model_basecolor.jpg",
+        "role": "base color",
+        "dimensions": [
+          8192,
+          8192
+        ],
+        "mime": "image/jpeg",
+        "sha256": "9e23350cfa64c9c1ba272cf3311a8152e6319f5c5f7208c4669d92d7032d676c"
+      },
+      {
+        "name": "serval+3d+model_rm.png",
+        "role": "packed metallic-roughness",
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "mime": "image/png",
+        "sha256": "5cb8eb1ec40882f4c7968b7c38210593d750210df16d9a0c3e5398278323e763"
+      },
+      {
+        "name": "serval+3d+model_normal.jpg",
+        "role": "normal",
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "mime": "image/jpeg",
+        "sha256": "bd639a88bcc52af5300f4df13abbff1958d1347d49898da84235220cbc74f84b"
+      }
+    ],
+    "existingTripoSkinDiscarded": true
+  },
+  "candidate": {
+    "file": "vetchrunner-native-rig-candidate.glb",
+    "sha256": "ccf1fd460d30bd96573a4492ebf2c7bf56717c26d59588e08cd2bed181e6fddc",
+    "bytes": 5827640,
+    "vertices": 2926,
+    "triangles": 4068,
+    "joints": [
+      {
+        "name": "VetchRoot",
+        "index": 0,
+        "parent": null,
+        "restPosition": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "Pelvis",
+        "index": 1,
+        "parent": "VetchRoot",
+        "restPosition": [
+          0,
+          0.3,
+          -0.07
+        ]
+      },
+      {
+        "name": "SpineMid",
+        "index": 2,
+        "parent": "Pelvis",
+        "restPosition": [
+          0,
+          0.348,
+          0.085
+        ]
+      },
+      {
+        "name": "Chest",
+        "index": 3,
+        "parent": "SpineMid",
+        "restPosition": [
+          0,
+          0.365,
+          0.26
+        ]
+      },
+      {
+        "name": "Neck",
+        "index": 4,
+        "parent": "Chest",
+        "restPosition": [
+          0,
+          0.402,
+          0.365
+        ]
+      },
+      {
+        "name": "Head",
+        "index": 5,
+        "parent": "Neck",
+        "restPosition": [
+          0,
+          0.432,
+          0.445
+        ]
+      },
+      {
+        "name": "TailBase",
+        "index": 6,
+        "parent": "Pelvis",
+        "restPosition": [
+          0,
+          0.27,
+          -0.225
+        ]
+      },
+      {
+        "name": "TailMid",
+        "index": 7,
+        "parent": "TailBase",
+        "restPosition": [
+          0,
+          0.252,
+          -0.32
+        ]
+      },
+      {
+        "name": "TailEnd",
+        "index": 8,
+        "parent": "TailMid",
+        "restPosition": [
+          0,
+          0.244,
+          -0.412
+        ]
+      },
+      {
+        "name": "TailTip",
+        "index": 9,
+        "parent": "TailEnd",
+        "restPosition": [
+          0,
+          0.246,
+          -0.478
+        ]
+      },
+      {
+        "name": "ForeUpper_L",
+        "index": 10,
+        "parent": "Chest",
+        "restPosition": [
+          -0.06,
+          0.302,
+          0.3
+        ]
+      },
+      {
+        "name": "ForeLower_L",
+        "index": 11,
+        "parent": "ForeUpper_L",
+        "restPosition": [
+          -0.081,
+          0.164,
+          0.35
+        ]
+      },
+      {
+        "name": "ForeWrist_L",
+        "index": 12,
+        "parent": "ForeLower_L",
+        "restPosition": [
+          -0.082,
+          0.064,
+          0.392
+        ]
+      },
+      {
+        "name": "ForePaw_L",
+        "index": 13,
+        "parent": "ForeWrist_L",
+        "restPosition": [
+          -0.083,
+          0.023,
+          0.405
+        ]
+      },
+      {
+        "name": "ForeUpper_R",
+        "index": 14,
+        "parent": "Chest",
+        "restPosition": [
+          0.06,
+          0.302,
+          0.3
+        ]
+      },
+      {
+        "name": "ForeLower_R",
+        "index": 15,
+        "parent": "ForeUpper_R",
+        "restPosition": [
+          0.081,
+          0.164,
+          0.35
+        ]
+      },
+      {
+        "name": "ForeWrist_R",
+        "index": 16,
+        "parent": "ForeLower_R",
+        "restPosition": [
+          0.082,
+          0.064,
+          0.392
+        ]
+      },
+      {
+        "name": "ForePaw_R",
+        "index": 17,
+        "parent": "ForeWrist_R",
+        "restPosition": [
+          0.083,
+          0.023,
+          0.405
+        ]
+      },
+      {
+        "name": "HindUpper_L",
+        "index": 18,
+        "parent": "Pelvis",
+        "restPosition": [
+          -0.057,
+          0.286,
+          0.015
+        ]
+      },
+      {
+        "name": "HindLower_L",
+        "index": 19,
+        "parent": "HindUpper_L",
+        "restPosition": [
+          -0.093,
+          0.151,
+          -0.052
+        ]
+      },
+      {
+        "name": "HindHock_L",
+        "index": 20,
+        "parent": "HindLower_L",
+        "restPosition": [
+          -0.104,
+          0.071,
+          -0.022
+        ]
+      },
+      {
+        "name": "HindPaw_L",
+        "index": 21,
+        "parent": "HindHock_L",
+        "restPosition": [
+          -0.108,
+          0.023,
+          0.033
+        ]
+      },
+      {
+        "name": "HindUpper_R",
+        "index": 22,
+        "parent": "Pelvis",
+        "restPosition": [
+          0.057,
+          0.286,
+          0.015
+        ]
+      },
+      {
+        "name": "HindLower_R",
+        "index": 23,
+        "parent": "HindUpper_R",
+        "restPosition": [
+          0.093,
+          0.151,
+          -0.052
+        ]
+      },
+      {
+        "name": "HindHock_R",
+        "index": 24,
+        "parent": "HindLower_R",
+        "restPosition": [
+          0.104,
+          0.071,
+          -0.022
+        ]
+      },
+      {
+        "name": "HindPaw_R",
+        "index": 25,
+        "parent": "HindHock_R",
+        "restPosition": [
+          0.108,
+          0.023,
+          0.033
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "name": "serval+3d+model_basecolor.jpg",
+        "role": "base-color-lanczos",
+        "original": [
+          8192,
+          8192
+        ],
+        "runtime": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg",
+        "bytes": 885534
+      },
+      {
+        "name": "serval+3d+model_rm.png",
+        "role": "packed-metallic-roughness-box-filtered",
+        "original": [
+          4096,
+          4096
+        ],
+        "runtime": [
+          2048,
+          2048
+        ],
+        "mime": "image/png",
+        "bytes": 3798904
+      },
+      {
+        "name": "serval+3d+model_normal.jpg",
+        "role": "normal-renormalized",
+        "original": [
+          4096,
+          4096
+        ],
+        "runtime": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg",
+        "bytes": 819757
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 4
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.15,
+        "channels": 14
+      },
+      {
+        "name": "Run",
+        "seconds": 0.78,
+        "channels": 16
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.82,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.42,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 14
+      }
+    ]
+  },
+  "rig": {
+    "basis": "Y-up, +Z toward muzzle, X across shoulders",
+    "weightMethod": "spatially gated anatomical influence fields fitted to source mesh bounds, four normalized influences per vertex; no bone_0 fallback",
+    "bind": "translation-only rest matrices from the authored joint hierarchy; inverse bind matrices computed from those joint rest positions"
+  },
+  "validation": {
+    "mesh": {
+      "vertices": 2926,
+      "triangles": 4068,
+      "sourcePositionMaxDelta": 0,
+      "indexMismatches": 0,
+      "restBounds": [
+        [
+          -0.1516113579273224,
+          0,
+          -0.499755859375
+        ],
+        [
+          0.1516113579273224,
+          0.5151289701461792,
+          0.499755859375
+        ]
+      ]
+    },
+    "skin": {
+      "joints": 26,
+      "maxJointIndex": 25,
+      "fourSlotsPerVertex": true,
+      "verticesWithMultipleInfluences": 2926,
+      "maxWeightSumError": 4.6100467443466187e-8,
+      "minimumNonzeroWeight": 0.0007236434612423182,
+      "influenceVertexCounts": [
+        0,
+        972,
+        1919,
+        2134,
+        1341,
+        1084,
+        111,
+        100,
+        69,
+        46,
+        118,
+        402,
+        314,
+        297,
+        119,
+        392,
+        318,
+        305,
+        120,
+        169,
+        300,
+        257,
+        113,
+        161,
+        293,
+        250
+      ]
+    },
+    "inverseBind": {
+      "count": 26,
+      "finiteAndInvertible": true,
+      "minimumAbsDeterminant": 1,
+      "maximumTranslationMatrixDelta": 1.478195188475695e-8
+    },
+    "animation": {
+      "clips": [
+        {
+          "name": "Idle",
+          "channels": 4,
+          "sampledPoses": 9,
+          "maximumVertexDisplacement": 0.01027,
+          "maximumVerticesMoved": 2531,
+          "sweptBounds": {
+            "min": [
+              -0.1516113584859649,
+              -0.0003136713613298595,
+              -0.5013947168627604
+            ],
+            "max": [
+              0.1516113586333178,
+              0.5186038450861953,
+              0.5003503671978298
+            ]
+          }
+        },
+        {
+          "name": "Walk",
+          "channels": 14,
+          "sampledPoses": 10,
+          "maximumVertexDisplacement": 0.16828,
+          "maximumVerticesMoved": 2924,
+          "sweptBounds": {
+            "min": [
+              -0.1516113584859649,
+              -0.016794181915749423,
+              -0.5010982452927413
+            ],
+            "max": [
+              0.1516113586333178,
+              0.522241917105344,
+              0.5617029946721002
+            ]
+          }
+        },
+        {
+          "name": "Run",
+          "channels": 16,
+          "sampledPoses": 9,
+          "maximumVertexDisplacement": 0.22032,
+          "maximumVerticesMoved": 2926,
+          "sweptBounds": {
+            "min": [
+              -0.1516113584859649,
+              -0.021402306434251412,
+              -0.5005211617168249
+            ],
+            "max": [
+              0.1516113586333178,
+              0.5151289667111756,
+              0.5947819524920307
+            ]
+          }
+        },
+        {
+          "name": "Attack",
+          "channels": 6,
+          "sampledPoses": 11,
+          "maximumVertexDisplacement": 0.13258,
+          "maximumVerticesMoved": 2926,
+          "sweptBounds": {
+            "min": [
+              -0.1516113584859649,
+              -5.766108784527567e-10,
+              -0.4997558613904185
+            ],
+            "max": [
+              0.1516113586333178,
+              0.5151289667111756,
+              0.6062296578711143
+            ]
+          }
+        },
+        {
+          "name": "Hit",
+          "channels": 5,
+          "sampledPoses": 11,
+          "maximumVertexDisplacement": 0.16878,
+          "maximumVerticesMoved": 2926,
+          "sweptBounds": {
+            "min": [
+              -0.1516113584859649,
+              -0.0205069327843885,
+              -0.5462576425410686
+            ],
+            "max": [
+              0.1516113586333178,
+              0.618255484483096,
+              0.4997558767880987
+            ]
+          }
+        },
+        {
+          "name": "Death",
+          "channels": 14,
+          "sampledPoses": 12,
+          "maximumVertexDisplacement": 0.23401,
+          "maximumVerticesMoved": 2926,
+          "sweptBounds": {
+            "min": [
+              -0.1516113584859649,
+              -0.039004474489534965,
+              -0.4997558613904185
+            ],
+            "max": [
+              0.1516113586333178,
+              0.5151289667111756,
+              0.5393475600036585
+            ]
+          }
+        }
+      ],
+      "sampledKeyframes": 284,
+      "allChannelsTargetRigJoints": true
+    },
+    "textures": [
+      {
+        "name": "serval+3d+model_basecolor.jpg",
+        "mime": "image/jpeg",
+        "embeddedBytes": 885534
+      },
+      {
+        "name": "serval+3d+model_rm.png",
+        "mime": "image/png",
+        "embeddedBytes": 3798904
+      },
+      {
+        "name": "serval+3d+model_normal.jpg",
+        "mime": "image/jpeg",
+        "embeddedBytes": 819757
+      }
+    ]
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "labAccepted": true,
+    "worldIntegrated": false,
+    "evidence": "Root visual review in the production creature lab: grounded T1 silhouette, live Walk/Run/Attack/Hit semantic clips, no errors."
+  }
+}

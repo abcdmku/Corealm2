@@ -1,0 +1,203 @@
+{
+  "pack": {
+    "id": "corealm-tripo-creatures",
+    "name": "Corealm Tripo creature candidates",
+    "author": "Corealm",
+    "source": "Tripo Studio generated creatures and Corealm rig/material adaptation",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "assets": [
+    {
+      "id": "creature_redbrush_fox",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Vetchrunner reviewed native quadruped rig",
+      "tags": [
+        "mammal",
+        "quadruped",
+        "canid",
+        "fallowmarch",
+        "tripo",
+        "root-lab-reviewed"
+      ],
+      "bytes": 5827640,
+      "sha256": "ccf1fd460d30bd96573a4492ebf2c7bf56717c26d59588e08cd2bed181e6fddc",
+      "size": {
+        "x": 0.3032227158546448,
+        "y": 0.5151289701461792,
+        "z": 0.99951171875
+      },
+      "base": {
+        "x": -0.1516113579273224,
+        "y": 0,
+        "z": -0.499755859375
+      },
+      "bounds": {
+        "min": [
+          -0.1516113579273224,
+          0,
+          -0.499755859375
+        ],
+        "max": [
+          0.1516113579273224,
+          0.5151289701461792,
+          0.499755859375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4068,
+      "vertices": 2926,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_594945d0-c85f-41d1-9f66-57e9fe55c33f_material"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Smart Mesh P2.0",
+        "imageGenerator": "Tripo GPT Image 2.5",
+        "sourceImageId": "b589d56f-eaf7-4f04-92d8-cbbf75f82f2f",
+        "sourceModelId": "d45e1741-b2eb-4ae6-b98a-8fdb18bd4fdf",
+        "sourceFile": "assets/art/tripo/imports/creatures/starter-t1-images/exports/vetchrunner.glb",
+        "sourceSha256": "418362b4539c41711a98da2871646649358f163f27ef44c90d36955628a64f1d",
+        "sourceTextures": [
+          {
+            "name": "serval+3d+model_basecolor.jpg",
+            "role": "base color",
+            "dimensions": [
+              8192,
+              8192
+            ],
+            "mime": "image/jpeg",
+            "sha256": "9e23350cfa64c9c1ba272cf3311a8152e6319f5c5f7208c4669d92d7032d676c"
+          },
+          {
+            "name": "serval+3d+model_rm.png",
+            "role": "packed metallic-roughness",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "mime": "image/png",
+            "sha256": "5cb8eb1ec40882f4c7968b7c38210593d750210df16d9a0c3e5398278323e763"
+          },
+          {
+            "name": "serval+3d+model_normal.jpg",
+            "role": "normal",
+            "dimensions": [
+              4096,
+              4096
+            ],
+            "mime": "image/jpeg",
+            "sha256": "bd639a88bcc52af5300f4df13abbff1958d1347d49898da84235220cbc74f84b"
+          }
+        ],
+        "candidateFile": "assets/art/tripo/imports/creatures/vetchrunner-native-rig/vetchrunner-native-rig-candidate.glb",
+        "candidateSha256": "ccf1fd460d30bd96573a4492ebf2c7bf56717c26d59588e08cd2bed181e6fddc",
+        "candidateStatus": "root-lab-reviewed-promoted",
+        "rigAuthoring": "explicit 26-joint quadruped skeleton and spatially gated four-influence skin; original Tripo skeleton/inverse binds discarded"
+      },
+      "candidateReview": {
+        "accepted": true,
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "rig": {
+        "preset": "custom quadruped",
+        "jointCount": 26,
+        "boneNames": [
+          "VetchRoot",
+          "Pelvis",
+          "SpineMid",
+          "Chest",
+          "Neck",
+          "Head",
+          "TailBase",
+          "TailMid",
+          "TailEnd",
+          "TailTip",
+          "ForeUpper_L",
+          "ForeLower_L",
+          "ForeWrist_L",
+          "ForePaw_L",
+          "ForeUpper_R",
+          "ForeLower_R",
+          "ForeWrist_R",
+          "ForePaw_R",
+          "HindUpper_L",
+          "HindLower_L",
+          "HindHock_L",
+          "HindPaw_L",
+          "HindUpper_R",
+          "HindLower_R",
+          "HindHock_R",
+          "HindPaw_R"
+        ],
+        "basis": "Y-up, +Z toward muzzle, X across shoulders"
+      },
+      "animationMetadata": [
+        {
+          "name": "Idle",
+          "seconds": 3,
+          "channels": 4,
+          "targetPaths": [
+            "rotation"
+          ]
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.149999976158142,
+          "channels": 14,
+          "targetPaths": [
+            "rotation"
+          ]
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7799999713897705,
+          "channels": 16,
+          "targetPaths": [
+            "rotation"
+          ]
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8199999928474426,
+          "channels": 6,
+          "targetPaths": [
+            "translation",
+            "rotation"
+          ]
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.41999998688697815,
+          "channels": 5,
+          "targetPaths": [
+            "translation",
+            "rotation"
+          ]
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5499999523162842,
+          "channels": 14,
+          "targetPaths": [
+            "translation",
+            "rotation"
+          ]
+        }
+      ]
+    }
+  ],
+  "files": {
+    "creature_redbrush_fox": "vetchrunner-native-rig-candidate.glb"
+  }
+}
