@@ -57,7 +57,7 @@ function meshes(object: THREE.Object3D): THREE.Mesh[] {
   return result;
 }
 
-function materialState(material: THREE.MeshStandardMaterial): unknown {
+function materialState(material: THREE.MeshStandardMaterial, includeCacheKey = true): unknown {
   const shader = {
     vertexShader: "",
     fragmentShader: "#include <color_fragment>\n#include <roughnessmap_fragment>",
@@ -80,7 +80,7 @@ function materialState(material: THREE.MeshStandardMaterial): unknown {
     side: material.side,
     maps: MAP_FIELDS.map(field => material[field]?.uuid),
     shader: shader.fragmentShader,
-    cacheKey: material.customProgramCacheKey(),
+    ...(includeCacheKey ? { cacheKey: material.customProgramCacheKey() } : {}),
   };
 }
 
@@ -162,7 +162,10 @@ describe("prepared icon assets", () => {
       kind: "asset", assetId: appearance.assetId, gearAppearance: appearance,
     });
 
-    expect(materials(icon).map(materialState)).toEqual(materials(expected).map(materialState));
+    // NodeMaterial cache keys include per-node ids, so equivalent separately-created treatments
+    // cannot compare those keys. Keep the render-affecting material state comparison deterministic.
+    expect(materials(icon).map(material => materialState(material, false)))
+      .toEqual(materials(expected).map(material => materialState(material, false)));
     expect(materials(icon)[0]).not.toBe(source.material);
     expect(materialState(source.material)).toEqual(sourceBefore);
     expect(source.children).toHaveLength(0);
