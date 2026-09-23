@@ -118,12 +118,12 @@ function TripoProgress() {
     { title: "Held", rows: held, tone: "warn" as const },
   ].filter(group => group.rows.length > 0);
   if (!groups.length) return null;
-  return <section aria-labelledby="tripo-progress-title" className="mb-3 rounded-md border border-border bg-card px-3 py-2.5">
-    <header className="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-      <h2 id="tripo-progress-title" className="text-[13px] font-semibold">Tripo progress</h2>
-      <span className="text-[11px] text-faint">From docs/asset-review.md{TRIPO_STATUS.updated ? ` - updated ${TRIPO_STATUS.updated}` : ""}</span>
-    </header>
-    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+  return <details className="mb-2 rounded-md border border-border bg-card px-3 py-2.5">
+    <summary className="flex cursor-pointer flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[13px]">
+      <span className="font-semibold">Tripo progress</span>
+      <span className="text-[11px] text-faint">{TRIPO_STATUS.rows.length} tracked records across {groups.length} status groups{TRIPO_STATUS.updated ? ` · updated ${TRIPO_STATUS.updated}` : ""}</span>
+    </summary>
+    <div className="grid grid-cols-1 gap-3 pt-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {groups.map(group => {
         const rows = <ul className="space-y-1.5">
           {group.rows.map(row => <li key={`${row.status}:${row.assets}`} className="min-w-0 text-xs">
@@ -145,7 +145,7 @@ function TripoProgress() {
         </section>;
       })}
     </div>
-  </section>;
+  </details>;
 }
 
 export default function ModelsView({ recordId, navigate }: ViewProps) {
@@ -202,9 +202,9 @@ function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
     <div className={TOOLBAR}>
       <SearchInput label="Search models" shortcut placeholder="Search id, file, tag…" value={search} onChange={setSearch} onEnter={() => { const first = filtered[0]; if (first) open(first.id); }} />
       <span className={COUNT}>{filtered.length === rows.length ? rows.length : `${filtered.length} of ${rows.length}`}</span>
-      <Button asChild variant="secondary" size="xs" title="Start npm run assets:review, then inspect current and staged models">
+      {import.meta.env.DEV && <Button asChild variant="secondary" size="xs" title="Start npm run assets:review, then inspect current and staged models">
         <a href="http://127.0.0.1:4186/review/" target="_blank" rel="noreferrer"><ExternalLink />Asset review</a>
-      </Button>
+      </Button>}
       <Segmented aria-label="Layout">
         <Button variant="segment" size="xs" aria-label="Grid" title="Grid" aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /></Button>
         <Button variant="segment" size="xs" aria-label="List" title="List" aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /></Button>
