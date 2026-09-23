@@ -83870,34 +83870,83 @@
         "tripo-authored",
         "dewglass_helm",
         "head",
-        "tripo-armor-approved"
+        "tripo-armor-approved",
+        "tier-30",
+        "martial"
       ],
-      "bytes": 2960288,
+      "bytes": 3513996,
       "itemModel": {
         "itemId": "dewglass_helm",
         "wearable": true
       },
       "size": {
-        "x": 0.2321533039212227,
-        "y": 0.28273940086364746,
-        "z": 0.29538580775260925
+        "x": 0.2321532815694809,
+        "y": 0.2827392816543579,
+        "z": 0.29538577795028687
       },
       "base": {
-        "x": -0.11607645452022552,
-        "y": 1.5663563013076782,
-        "z": -0.15756595134735107
+        "x": -0.11607643961906433,
+        "y": 1.5663570165634155,
+        "z": -0.15756593644618988
       },
       "animations": [],
       "materials": [
         "Material"
       ],
       "itemId": "dewglass_helm",
-      "status": "pending",
-      "sha256": "8fd19deed11f43ae781a46f4127e300bf54c5c69babf8abe2f5286ebe280a18c",
-      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
-      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "sha256": "980ff414cd73bb8f5268dc3044a46673abe9afbe61be1ee82dde961590eaa591",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
       "triangles": 266,
-      "drawCalls": 1
+      "drawCalls": 1,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "f2087a6",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/dewglass/models/items/dewglass_helm.glb",
+        "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+        "importConfigSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1086605,
+            "sha256": "5d86926536df5bb3fb166fab60209ac3561353d1c9e7e626f82f4cac764f18fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1192273,
+            "sha256": "62cd24cb5c934f66a9d684ad1eb68dcff3a461c9e1fcfd4e251481e68d4853b2",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1196478,
+            "sha256": "b2a5109524e876c582ffff5be6c9c529735ac14613f9008b2bea4b910eb8632c",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/dewglass-staged-rear.png",
+          "test-results/armor-production-verify/dewglass-staged-opposite.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-04.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-09.png"
+        ]
+      }
     },
     {
       "id": "corealm_item_dewglass_plate",
@@ -83910,34 +83959,83 @@
         "tripo-authored",
         "dewglass_plate",
         "torso",
-        "tripo-armor-approved"
+        "tripo-armor-approved",
+        "tier-30",
+        "martial"
       ],
-      "bytes": 3113548,
+      "bytes": 3667288,
       "itemModel": {
         "itemId": "dewglass_plate",
         "wearable": true
       },
       "size": {
-        "x": 1.5246346592903137,
-        "y": 0.9286140203475952,
-        "z": 0.35491348803043365
+        "x": 1.5246334671974182,
+        "y": 0.9286139607429504,
+        "z": 0.3549134209752083
       },
       "base": {
-        "x": -0.7623157501220703,
-        "y": 0.7325912714004517,
-        "z": -0.24993035197257996
+        "x": -0.7623151540756226,
+        "y": 0.7325919270515442,
+        "z": -0.24993030726909637
       },
       "animations": [],
       "materials": [
         "Material"
       ],
       "itemId": "dewglass_plate",
-      "status": "pending",
-      "sha256": "6173073c26d0a16c09df6e2a75d2df5e6789a6e9a2b3f598f5661a1e58602e95",
-      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
-      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "sha256": "eae897bd61031e1f7410e78d4fd07fba41e874843db311dd3719f8bbee23ef2b",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
       "triangles": 2300,
-      "drawCalls": 22
+      "drawCalls": 22,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "f2087a6",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/dewglass/models/items/dewglass_plate.glb",
+        "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+        "importConfigSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1086605,
+            "sha256": "5d86926536df5bb3fb166fab60209ac3561353d1c9e7e626f82f4cac764f18fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1192273,
+            "sha256": "62cd24cb5c934f66a9d684ad1eb68dcff3a461c9e1fcfd4e251481e68d4853b2",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1196478,
+            "sha256": "b2a5109524e876c582ffff5be6c9c529735ac14613f9008b2bea4b910eb8632c",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/dewglass-staged-rear.png",
+          "test-results/armor-production-verify/dewglass-staged-opposite.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-04.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-09.png"
+        ]
+      }
     },
     {
       "id": "corealm_item_dewglass_gauntlets",
@@ -83950,21 +84048,23 @@
         "tripo-authored",
         "dewglass_gauntlets",
         "arms",
-        "tripo-armor-approved"
+        "tripo-armor-approved",
+        "tier-30",
+        "martial"
       ],
-      "bytes": 2992364,
+      "bytes": 3546068,
       "itemModel": {
         "itemId": "dewglass_gauntlets",
         "wearable": true
       },
       "size": {
-        "x": 1.7728618383407593,
-        "y": 0.12092602252960205,
-        "z": 0.1515833212324651
+        "x": 1.7728607058525085,
+        "y": 0.1209259033203125,
+        "z": 0.15158343767689075
       },
       "base": {
-        "x": -0.8864383101463318,
-        "y": 1.3643780946731567,
+        "x": -0.8864377737045288,
+        "y": 1.3643783330917358,
         "z": -0.1517767757177353
       },
       "animations": [],
@@ -83972,12 +84072,59 @@
         "Material"
       ],
       "itemId": "dewglass_gauntlets",
-      "status": "pending",
-      "sha256": "5662cbd194e9ada17833c6d7a604b50ca647d93faef5fd291e445f0b525c8540",
-      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
-      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "sha256": "8f4d3afa74aed335c3ae321dcd26d8cdad21b46b695aa697f4bdfb650884b38c",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
       "triangles": 686,
-      "drawCalls": 2
+      "drawCalls": 2,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "f2087a6",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/dewglass/models/items/dewglass_gauntlets.glb",
+        "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+        "importConfigSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1086605,
+            "sha256": "5d86926536df5bb3fb166fab60209ac3561353d1c9e7e626f82f4cac764f18fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1192273,
+            "sha256": "62cd24cb5c934f66a9d684ad1eb68dcff3a461c9e1fcfd4e251481e68d4853b2",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1196478,
+            "sha256": "b2a5109524e876c582ffff5be6c9c529735ac14613f9008b2bea4b910eb8632c",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/dewglass-staged-rear.png",
+          "test-results/armor-production-verify/dewglass-staged-opposite.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-04.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-09.png"
+        ]
+      }
     },
     {
       "id": "corealm_item_dewglass_greaves",
@@ -83990,21 +84137,23 @@
         "tripo-authored",
         "dewglass_greaves",
         "legs",
-        "tripo-armor-approved"
+        "tripo-armor-approved",
+        "tier-30",
+        "martial"
       ],
-      "bytes": 3024240,
+      "bytes": 3577980,
       "itemModel": {
         "itemId": "dewglass_greaves",
         "wearable": true
       },
       "size": {
-        "x": 0.34256458282470703,
+        "x": 0.34256455302238464,
         "y": 0.6847167313098907,
-        "z": 0.25383303314447403
+        "z": 0.2538330480456352
       },
       "base": {
-        "x": -0.17128203809261322,
-        "y": 0.4317861497402191,
+        "x": -0.17128202319145203,
+        "y": 0.43178674578666687,
         "z": -0.1705297827720642
       },
       "animations": [],
@@ -84012,12 +84161,59 @@
         "Material"
       ],
       "itemId": "dewglass_greaves",
-      "status": "pending",
-      "sha256": "08171791d411c52fe15f29da2bde664141ee9f91e4d070ab57df485b43cea6cb",
-      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
-      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "sha256": "e830e4bb0527b4868287a639f694fd35b1c253281cd8648f38cbc1bf4ba77333",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
       "triangles": 778,
-      "drawCalls": 13
+      "drawCalls": 13,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "f2087a6",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/dewglass/models/items/dewglass_greaves.glb",
+        "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+        "importConfigSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1086605,
+            "sha256": "5d86926536df5bb3fb166fab60209ac3561353d1c9e7e626f82f4cac764f18fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1192273,
+            "sha256": "62cd24cb5c934f66a9d684ad1eb68dcff3a461c9e1fcfd4e251481e68d4853b2",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1196478,
+            "sha256": "b2a5109524e876c582ffff5be6c9c529735ac14613f9008b2bea4b910eb8632c",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/dewglass-staged-rear.png",
+          "test-results/armor-production-verify/dewglass-staged-opposite.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-04.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-09.png"
+        ]
+      }
     },
     {
       "id": "corealm_item_dewglass_boots",
@@ -84030,21 +84226,23 @@
         "tripo-authored",
         "dewglass_boots",
         "feet",
-        "tripo-armor-approved"
+        "tripo-armor-approved",
+        "tier-30",
+        "martial"
       ],
-      "bytes": 2997196,
+      "bytes": 3550924,
       "itemModel": {
         "itemId": "dewglass_boots",
         "wearable": true
       },
       "size": {
-        "x": 0.42584413290023804,
-        "y": 0.5645742453634739,
-        "z": 0.34416770935058594
+        "x": 0.42584407329559326,
+        "y": 0.5645742669696574,
+        "z": 0.3441677391529083
       },
       "base": {
-        "x": -0.21293802559375763,
-        "y": 4.1350722312927246e-7,
+        "x": -0.21293799579143524,
+        "y": 0.0000010475521321495762,
         "z": -0.2021460235118866
       },
       "animations": [],
@@ -84052,12 +84250,59 @@
         "Material"
       ],
       "itemId": "dewglass_boots",
-      "status": "pending",
-      "sha256": "7def639fd646e19a256b85d50d220200df0bdd47e2e71a4ee26adfe42c7a4f96",
-      "sourceSha256": "eac3a4e28e1417335faef0f455c51a63be4dad8be2580d2bf3da5bf0c29c6d51",
-      "configSha256": "557494d78d4866c60fa81dd314cd2288c59b8b8a8ebd9c31c4d7281253a2b4c3",
+      "sha256": "481049481c90e084e28111c6a95a8d7c9e7b53c8ec0b460e86c759d210ed01f2",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
       "triangles": 726,
-      "drawCalls": 6
+      "drawCalls": 6,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "f2087a6",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/dewglass/models/items/dewglass_boots.glb",
+        "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+        "importConfigSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1086605,
+            "sha256": "5d86926536df5bb3fb166fab60209ac3561353d1c9e7e626f82f4cac764f18fd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1192273,
+            "sha256": "62cd24cb5c934f66a9d684ad1eb68dcff3a461c9e1fcfd4e251481e68d4853b2",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1196478,
+            "sha256": "b2a5109524e876c582ffff5be6c9c529735ac14613f9008b2bea4b910eb8632c",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/dewglass/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/dewglass-staged-rear.png",
+          "test-results/armor-production-verify/dewglass-staged-opposite.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-04.png",
+          "test-results/armor-production-verify/dewglass-activeplay-walk-09.png"
+        ]
+      }
     },
     {
       "id": "corealm_item_cindersteel_helm",
