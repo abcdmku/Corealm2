@@ -86591,6 +86591,441 @@
           "test-results/armor-production-verify/crownhide-staged-walk-09.png"
         ]
       }
+    },
+    {
+      "id": "corealm_item_crownsilver_helm",
+      "file": "models/items/crownsilver_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 20834380,
+      "itemModel": {
+        "itemId": "crownsilver_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.2140868529677391,
+        "y": 0.28725576400756836,
+        "z": 0.3242919147014618
+      },
+      "base": {
+        "x": -0.10704338550567627,
+        "y": 1.5618406534194946,
+        "z": -0.18498288094997406
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_helm",
+      "triangles": 386,
+      "drawCalls": 1,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_helm",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "sha256": "55220e7d552f89d8c0eaf111c534ad4ffa8a14299da24a0356a7190d0ab143a2",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "e3c7e0d",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownsilver/models/items/crownsilver_helm.glb",
+        "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+        "importConfigSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8426307,
+            "sha256": "aa00c3333e159cd366e9689d45dfc5c59bfeac9d346b945dce2464fa1bc38be2",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5672268,
+            "sha256": "ca37f207626cb00db86b72e1a05e2531aa603da701c3d1d16fc875cb28ba187c",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6682371,
+            "sha256": "5b94f658bc155778b536c007575e80ab687789af71d3752b14f4fb8531aceb5d",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownsilver-2k-front.png",
+          "test-results/armor-production-verify/crownsilver-2k-rear.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-04.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownsilver_plate",
+      "file": "models/items/crownsilver_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 21009904,
+      "itemModel": {
+        "itemId": "crownsilver_plate",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.4364466667175293,
+        "y": 1.0126221776008606,
+        "z": 0.39565427601337433
+      },
+      "base": {
+        "x": -0.7182233333587646,
+        "y": 0.6269050240516663,
+        "z": -0.23195555806159973
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_plate",
+      "triangles": 2284,
+      "drawCalls": 36,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_plate",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "sha256": "382da971959448102ada4be681ec68c9a74b0d8f0192ec766333479c3d283e82",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "e3c7e0d",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownsilver/models/items/crownsilver_plate.glb",
+        "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+        "importConfigSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8426307,
+            "sha256": "aa00c3333e159cd366e9689d45dfc5c59bfeac9d346b945dce2464fa1bc38be2",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5672268,
+            "sha256": "ca37f207626cb00db86b72e1a05e2531aa603da701c3d1d16fc875cb28ba187c",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6682371,
+            "sha256": "5b94f658bc155778b536c007575e80ab687789af71d3752b14f4fb8531aceb5d",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownsilver-2k-front.png",
+          "test-results/armor-production-verify/crownsilver-2k-rear.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-04.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownsilver_gauntlets",
+      "file": "models/items/crownsilver_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 20851840,
+      "itemModel": {
+        "itemId": "crownsilver_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7329779267311096,
+        "y": 0.12519168853759766,
+        "z": 0.13375074043869972
+      },
+      "base": {
+        "x": -0.8664895296096802,
+        "y": 1.3702391386032104,
+        "z": -0.15603066980838776
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_gauntlets",
+      "triangles": 748,
+      "drawCalls": 2,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_gauntlets",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "sha256": "21e57ee56c7b25a815d59de4a146fb4a0a1075b3ed6829be25c6b26c390e9cc5",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "e3c7e0d",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownsilver/models/items/crownsilver_gauntlets.glb",
+        "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+        "importConfigSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8426307,
+            "sha256": "aa00c3333e159cd366e9689d45dfc5c59bfeac9d346b945dce2464fa1bc38be2",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5672268,
+            "sha256": "ca37f207626cb00db86b72e1a05e2531aa603da701c3d1d16fc875cb28ba187c",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6682371,
+            "sha256": "5b94f658bc155778b536c007575e80ab687789af71d3752b14f4fb8531aceb5d",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownsilver-2k-front.png",
+          "test-results/armor-production-verify/crownsilver-2k-rear.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-04.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownsilver_greaves",
+      "file": "models/items/crownsilver_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 20874588,
+      "itemModel": {
+        "itemId": "crownsilver_greaves",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.3497413545846939,
+        "y": 0.9403564631938934,
+        "z": 0.260156475007534
+      },
+      "base": {
+        "x": -0.1748712807893753,
+        "y": 0.09665587544441223,
+        "z": -0.1723366528749466
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_greaves",
+      "triangles": 824,
+      "drawCalls": 14,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_greaves",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "sha256": "ac956a7b32d432bdc880841744134088493061a01527ffcf49e7d607981a3e63",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "e3c7e0d",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownsilver/models/items/crownsilver_greaves.glb",
+        "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+        "importConfigSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8426307,
+            "sha256": "aa00c3333e159cd366e9689d45dfc5c59bfeac9d346b945dce2464fa1bc38be2",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5672268,
+            "sha256": "ca37f207626cb00db86b72e1a05e2531aa603da701c3d1d16fc875cb28ba187c",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6682371,
+            "sha256": "5b94f658bc155778b536c007575e80ab687789af71d3752b14f4fb8531aceb5d",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownsilver-2k-front.png",
+          "test-results/armor-production-verify/crownsilver-2k-rear.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-04.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownsilver_boots",
+      "file": "models/items/crownsilver_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 20838608,
+      "itemModel": {
+        "itemId": "crownsilver_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44600045680999756,
+        "y": 0.1887942501642641,
+        "z": 0.33693860471248627
+      },
+      "base": {
+        "x": -0.22300054132938385,
+        "y": 6.469703350830969e-8,
+        "z": -0.18859624862670898
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_boots",
+      "triangles": 370,
+      "drawCalls": 6,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "sha256": "00fca20082174407a75ab765d26ddf2ab660cebf1e5ce2750e715152f24f6754",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "e3c7e0d",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownsilver/models/items/crownsilver_boots.glb",
+        "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+        "importConfigSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8426307,
+            "sha256": "aa00c3333e159cd366e9689d45dfc5c59bfeac9d346b945dce2464fa1bc38be2",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5672268,
+            "sha256": "ca37f207626cb00db86b72e1a05e2531aa603da701c3d1d16fc875cb28ba187c",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6682371,
+            "sha256": "5b94f658bc155778b536c007575e80ab687789af71d3752b14f4fb8531aceb5d",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownsilver/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownsilver-2k-front.png",
+          "test-results/armor-production-verify/crownsilver-2k-rear.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-04.png",
+          "test-results/armor-production-verify/crownsilver-2k-walk-09.png"
+        ]
+      }
     }
   ]
 }
