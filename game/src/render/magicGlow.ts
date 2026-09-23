@@ -19,6 +19,13 @@ export interface MagicGlowPreparation {
   readonly meshes: ReadonlyMap<THREE.Object3D, PreparedMesh>;
 }
 
+type OcclusionPreparationDiagnostic = {
+  backend: "native" | "webgl-fallback";
+  candidateProxies: number;
+  preparedProxies: number;
+  deduplicatedProxies: number;
+};
+
 function preparationContext(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, target: THREE.RenderTarget): string {
   const lights: string[] = [];
   scene.traverseVisible(object => {
@@ -97,6 +104,9 @@ export class MagicGlow {
   private readonly composite: THREE.QuadMesh;
   private readonly occlusionMaterials = new Map<THREE.Material, { version: number; material: THREE.Material }>();
   private readonly occlusionObjects = new WeakMap<THREE.Object3D, THREE.Object3D>();
+  private lastOcclusionPreparation: OcclusionPreparationDiagnostic = {
+    backend: "native", candidateProxies: 0, preparedProxies: 0, deduplicatedProxies: 0,
+  };
   private frameTarget: THREE.RenderTarget | null = null;
   private activeMeshes = 0;
   private rendered = false;
@@ -158,7 +168,62 @@ export class MagicGlow {
 
   snapshot() {
     return { enabled: this.enabled, activeMeshes: this.activeMeshes, rendered: this.rendered, hdr: true,
-      width: this.target.width, height: this.target.height };
+      width: this.target.width, height: this.target.height,
+      occlusionPreparation: { ...this.lastOcclusionPreparation } };
+  }
+
+  /** Only plain static meshes share a compiler variant. Keep per-object bindings separate. */
+  private canShareOcclusionShader(mesh: THREE.Mesh): boolean {
+    const binding = mesh as THREE.Mesh & {
+      isSkinnedMesh?: boolean;
+      isInstancedMesh?: boolean;
+      isBatchedMesh?: boolean;
+      skeleton?: object;
+      instanceMatrix?: object;
+      morphTexture?: object | null;
+      morphTargetInfluences?: readonly number[];
+    };
+    return mesh.type === "Mesh"
+      && !binding.isSkinnedMesh && !binding.isInstancedMesh && !binding.isBatchedMesh
+      && !binding.skeleton && !binding.instanceMatrix && !binding.morphTexture
+      && !binding.morphTargetInfluences?.length
+      && Object.keys(mesh.geometry.morphAttributes).length === 0
+      && mesh.onBeforeRender === THREE.Object3D.prototype.onBeforeRender
+      && mesh.onAfterRender === THREE.Object3D.prototype.onAfterRender;
+  }
+
+  /** Repeated placements with the same geometry, materials and mesh features compile identically. */
+  private deduplicateOcclusionProxies(objects: readonly THREE.Object3D[]): THREE.Object3D[] {
+    const variants = new Map<THREE.BufferGeometry, Set<string>>();
+    const materialIds = new WeakMap<THREE.Material, number>();
+    let nextMaterialId = 1;
+    const materialId = (material: THREE.Material): number => {
+      let id = materialIds.get(material);
+      if (id === undefined) { id = nextMaterialId++; materialIds.set(material, id); }
+      return id;
+    };
+    const unique: THREE.Object3D[] = [];
+    for (const object of objects) {
+      const mesh = object as THREE.Mesh;
+      if (!this.canShareOcclusionShader(mesh)) { unique.push(object); continue; }
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const materialKey = materials.map(material => `${materialId(material)}:${material.version}`).join(",");
+      const objectBindings = mesh as THREE.Mesh & {
+        customDepthMaterial?: THREE.Material;
+        customDistanceMaterial?: THREE.Material;
+      };
+      const shadowMaterials = [objectBindings.customDepthMaterial, objectBindings.customDistanceMaterial]
+        .map(material => material ? `${materialId(material)}:${material.version}` : "-").join(",");
+      const variant = [mesh.type, mesh.receiveShadow, mesh.castShadow, mesh.frustumCulled, mesh.renderOrder,
+        shadowMaterials,
+        materialKey, materials.length].join(":");
+      let keys = variants.get(mesh.geometry);
+      if (!keys) { keys = new Set(); variants.set(mesh.geometry, keys); }
+      if (keys.has(variant)) continue;
+      keys.add(variant);
+      unique.push(object);
+    }
+    return unique;
   }
 
   private nativeDepthReuse(renderer: THREE.WebGPURenderer): boolean {
@@ -179,6 +244,8 @@ export class MagicGlow {
         const mesh = object as THREE.Mesh;
         if (mesh.isMesh && mesh.material && selected.has(mesh) && mesh.layers.test(camera.layers) && !samePreparedMesh(mesh, reusable)) objects.push(mesh);
       });
+      this.lastOcclusionPreparation = { backend: "native", candidateProxies: objects.length,
+        preparedProxies: objects.length, deduplicatedProxies: 0 };
       // Actual draw identities and the main target's depth/stencil/sample format are reused.
       // Ordinary world geometry never enters the emission preparation queue.
       if (objects.length) await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: output, batchSize });
@@ -206,7 +273,10 @@ export class MagicGlow {
       proxy.children = []; proxy.matrixWorldAutoUpdate = false;
       objects.push(proxy);
     });
-    await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: this.target, batchSize });
+    const preparedObjects = this.deduplicateOcclusionProxies(objects);
+    this.lastOcclusionPreparation = { backend: "webgl-fallback", candidateProxies: objects.length,
+      preparedProxies: preparedObjects.length, deduplicatedProxies: objects.length - preparedObjects.length };
+    await prepareShaderMeshes(renderer, scene, camera, preparedObjects, { renderTarget: this.target, batchSize });
   }
 
   /** Exercise the actual depth-aware bloom pyramid before the first visible spell. */
