@@ -30570,7 +30570,7 @@
         "motionAccepted": true,
         "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": false
+        "worldIntegrated": true
       },
       "bounds": {
         "min": [
