@@ -15,6 +15,7 @@ import {
   itemIconFiles,
 } from "../tools/generate-item-icons.js";
 import { isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
+import { readIconMaster } from "../devdocs/server/handlers/icons.js";
 
 describe("3D item icon catalog", () => {
   it("covers every item explicitly", () => {
@@ -100,4 +101,17 @@ describe("generated item icon files", () => {
       }
     }));
   }, 30_000);
+
+  it("serves the Aurora Frostweave aliases from their dedicated 256px masters", async () => {
+    const aliases = ["boots", "hood", "leggings", "robe", "wraps"] as const;
+    for (const slot of aliases) {
+      const alias = `aurora_frostweave_${slot}.png`;
+      const expected = await readFile(`art/aurora/icons/256/frostweave_${slot}.png`);
+      const response = await readIconMaster({ method: "GET", url: `/__devdocs/icons/${alias}` });
+
+      expect(response.status, alias).toBe(200);
+      expect(response.headers["Content-Type"], alias).toBe("image/png");
+      expect(Buffer.from(response.body), alias).toEqual(expected);
+    }
+  });
 });
