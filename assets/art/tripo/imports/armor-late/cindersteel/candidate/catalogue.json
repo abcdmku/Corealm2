@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-tripo-armor",
+    "name": "Corealm Tripo armor",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/import-tripo.ts"
+  },
+  "source": "C:\\Users\\Borg\\Downloads\\medieval+knight+armor+3d+model (2).glb",
+  "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
+  "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
+  "textureSize": 1024,
+  "assets": [
+    {
+      "id": "corealm_item_cindersteel_helm",
+      "file": "models/items/cindersteel_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "cindersteel_helm",
+        "head"
+      ],
+      "bytes": 2425056,
+      "itemModel": {
+        "itemId": "cindersteel_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.23791290819644928,
+        "y": 0.3387596607208252,
+        "z": 0.3496582955121994
+      },
+      "base": {
+        "x": -0.11842074990272522,
+        "y": 1.520331859588623,
+        "z": -0.16633929312229156
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "cindersteel_helm",
+      "status": "pending",
+      "sha256": "d4d92fea7b06c8741163c84f171b4f28ef5245331da8a16dd1a63d0d46dd3d4f",
+      "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
+      "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
+      "triangles": 554,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_cindersteel_plate",
+      "file": "models/items/cindersteel_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "cindersteel_plate",
+        "torso"
+      ],
+      "bytes": 2562776,
+      "itemModel": {
+        "itemId": "cindersteel_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.01,
+            "maxY": 1.51
+          }
+        ]
+      },
+      "size": {
+        "x": 1.0642252564430237,
+        "y": 0.9536136984825134,
+        "z": 0.4326566308736801
+      },
+      "base": {
+        "x": -0.5321118235588074,
+        "y": 0.6775186657905579,
+        "z": -0.2569585144519806
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "cindersteel_plate",
+      "status": "pending",
+      "sha256": "99b06bda673238dbe708777070bbc5d8c20d343c85f8d08032ab650a48bb16ae",
+      "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
+      "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
+      "triangles": 1935,
+      "drawCalls": 9
+    },
+    {
+      "id": "corealm_item_cindersteel_gauntlets",
+      "file": "models/items/cindersteel_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "cindersteel_gauntlets",
+        "arms"
+      ],
+      "bytes": 2505256,
+      "itemModel": {
+        "itemId": "cindersteel_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7302007675170898,
+        "y": 0.20793485641479492,
+        "z": 0.19980522245168686
+      },
+      "base": {
+        "x": -0.8651005029678345,
+        "y": 1.3544265031814575,
+        "z": -0.2192683070898056
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "cindersteel_gauntlets",
+      "status": "pending",
+      "sha256": "a295cf4165e93a785d66f286b9cf66fdbc061a2d4ad81db4d68e7751f8f92b12",
+      "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
+      "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
+      "triangles": 1348,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_cindersteel_greaves",
+      "file": "models/items/cindersteel_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "cindersteel_greaves",
+        "legs"
+      ],
+      "bytes": 2461644,
+      "itemModel": {
+        "itemId": "cindersteel_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.12,
+            "maxY": 1.02
+          }
+        ]
+      },
+      "size": {
+        "x": 0.3666980266571045,
+        "y": 0.8746003061532974,
+        "z": 0.2915332540869713
+      },
+      "base": {
+        "x": -0.18335029482841492,
+        "y": 0.08718656003475189,
+        "z": -0.1748683601617813
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "cindersteel_greaves",
+      "status": "pending",
+      "sha256": "b6654fa49424d002463a2ff77bf6fee4ff23164a995022c1ebf67200fe32835a",
+      "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
+      "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
+      "triangles": 912,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_cindersteel_boots",
+      "file": "models/items/cindersteel_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "cindersteel_boots",
+        "feet"
+      ],
+      "bytes": 2433092,
+      "itemModel": {
+        "itemId": "cindersteel_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4088987410068512,
+        "y": 0.16620149444788623,
+        "z": 0.33240245282649994
+      },
+      "base": {
+        "x": -0.20444956421852112,
+        "y": -5.1967798953000965e-8,
+        "z": -0.17668478190898895
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "cindersteel_boots",
+      "status": "pending",
+      "sha256": "64b3aab3e8e85ef8851342fd6f4039a0271330fffbdcf43eb212a6889693fa7a",
+      "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
+      "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
+      "triangles": 450,
+      "drawCalls": 6
+    }
+  ],
+  "pbrRetune": {
+    "profile": "masked-charcoal-iron-v1",
+    "generator": {
+      "file": "assets/art/tripo/imports/armor-late/cindersteel/candidate/retune-pbr.mjs",
+      "sha256": "0bb750e2c4ff9b378898d9fefc67115efcf5db904c22b9d5da1abcd42355f39e"
+    },
+    "sourceMaps": {
+      "baseColorSha256": "69a56cb2e646a429c4f8f6d469c7dea14844b887ead0b6a9b74117da1fce3547",
+      "metallicRoughnessSha256": "72191689c5cf80599d6bc2b23e2a13049e43be4af9b4d177f2f9a593a0b22799",
+      "normalSha256": "f10abc82d8df698fad38cb54009896bd0c02e33cb5e38d581074c115233b1069"
+    },
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "resolutionNote": "Source exports are 1K; keep these maps at 1K until the requested 8K masters are downloaded.",
+    "channels": {
+      "roughness": "G",
+      "metalness": "B",
+      "redPreserved": true
+    },
+    "target": {
+      "roughness": 0.3607843137254902,
+      "metalness": 0.803921568627451
+    },
+    "mask": {
+      "rule": "(1 - smoothstep(0.12, 0.23, chroma)) * smoothstep(28, 50, light) * (1 - smoothstep(0.13, 0.26, redExcess))",
+      "intent": "neutral charcoal steel receives metal response; warm copper, leather, and cloth remain dielectric and rough"
+    },
+    "stats": {
+      "size": [
+        1024,
+        1024
+      ],
+      "confidenceMean": 0.207,
+      "coverageAtLeast50": 0.203,
+      "coverageAtLeast80": 0.155,
+      "mapMetalness": {
+        "count": 1048576,
+        "mean": 0.237,
+        "p10": 0.02,
+        "p50": 0.122,
+        "p90": 0.804
+      },
+      "mapRoughness": {
+        "count": 1048576,
+        "mean": 0.642,
+        "p10": 0.361,
+        "p50": 0.631,
+        "p90": 0.949
+      },
+      "steelMetalness": {
+        "count": 170272,
+        "mean": 0.769,
+        "p10": 0.698,
+        "p50": 0.804,
+        "p90": 0.804
+      },
+      "steelRoughness": {
+        "count": 170272,
+        "mean": 0.374,
+        "p10": 0.361,
+        "p50": 0.361,
+        "p90": 0.396
+      },
+      "warmStrapMetalness": {
+        "count": 573623,
+        "mean": 0.087,
+        "p10": 0.016,
+        "p50": 0.09,
+        "p90": 0.153
+      },
+      "warmStrapRoughness": {
+        "count": 573623,
+        "mean": 0.758,
+        "p10": 0.561,
+        "p50": 0.741,
+        "p90": 0.965
+      }
+    },
+    "geometryPreserved": true,
+    "rigJointCounts": {
+      "cindersteel_helm": [
+        65
+      ],
+      "cindersteel_plate": [
+        65
+      ],
+      "cindersteel_gauntlets": [
+        65
+      ],
+      "cindersteel_greaves": [
+        65
+      ],
+      "cindersteel_boots": [
+        65
+      ]
+    }
+  }
+}
