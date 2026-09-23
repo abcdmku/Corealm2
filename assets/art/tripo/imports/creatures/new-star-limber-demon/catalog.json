@@ -1,0 +1,391 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_gloamreach_harrower",
+  "displayName": "Gloamreach Harrower",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/acc8f6a7-0d0d-4ae6-8f27-f4e86fb28734.glb",
+    "sha256": "7e3a7fccd31c24b69843009ba285388833403fb67823bb05bbf52735dd926d0b",
+    "bytes": 5082484,
+    "modelSource": "Tripo P1, user-starred",
+    "tripoCardStorageUuid": "b723120e-b183-40db-b613-5514965a2238",
+    "geometry": {
+      "vertices": 7543,
+      "triangles": 4912,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "sourceSkin": {
+      "joints": 56,
+      "animations": 0,
+      "weightsWithFullHipsInfluence": 7459
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "mime": "image/jpeg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "752466c2dcb725fba35a8cbb6dc5dc81fe020edf75cdacd60b97f9e2151f2d09",
+        "slots": [
+          "baseColor"
+        ]
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "mime": "image/png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "e41ce1e1f5809a41894a62694687c871302d3bcb77eac0f6718ab68d4af4811b",
+        "slots": [
+          "metallicRoughness"
+        ]
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "mime": "image/jpeg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a281278f2ac38a6753e322fa992f8aed527ac149a81be1035391257eef2cade3",
+        "slots": [
+          "normal"
+        ]
+      }
+    ],
+    "materialFactors": {
+      "baseColor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallic": 1,
+      "roughness": 1,
+      "normalScale": 1
+    }
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-limber-demon/gloamreach-harrower-rigged.glb",
+    "sha256": "917ad6f5b79fbb0d78504043f69d4e25342286bc8e235f35a39b81eac0fb95e7",
+    "bytes": 5116296,
+    "productionTarget": "game/public/assets/models/creature/creature_gloamreach_harrower.glb",
+    "presentation": {
+      "scale": 2,
+      "sourceForwardAxis": "+X",
+      "unityForwardAxis": "+Z",
+      "yawRadians": -1.5707963267948966,
+      "size": {
+        "x": 1.26171875,
+        "y": 1.628906011581421,
+        "z": 1.99609375
+      },
+      "groundCorrection": "60 Hz sampled per-clip root translation; preserves floor contact during custom motion"
+    },
+    "rig": {
+      "type": "Unity Humanoid compatible glTF skin with Mixamo bone names",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "bindPosition": [
+            0.06042860813991544,
+            0.43646624684333796,
+            -0.00194917634493487
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "bindPosition": [
+            0.08382029810353406,
+            0.4793510365814521,
+            -0.0019491932950687933
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "bindPosition": [
+            0.09941482710301129,
+            0.5300332107468799,
+            -0.0019491834319921087
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "bindPosition": [
+            0.11890790264624602,
+            0.5846138414128719,
+            -0.0019491755730413499
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "bindPosition": [
+            0.18908314965236225,
+            0.6508905220134918,
+            -0.001949153587283696
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "bindPosition": [
+            0.24366385362494847,
+            0.678180857942267,
+            -0.001949160001227307
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "bindPosition": [
+            0.16179280158820106,
+            0.6119042825684,
+            0.01754394223538275
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "bindPosition": [
+            0.15789405430535847,
+            0.6664849384268959,
+            0.09551632962594099
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "bindPosition": [
+            0.1539955285455324,
+            0.6586877153363454,
+            0.22806941030335423
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "bindPosition": [
+            0.15389249533324673,
+            0.6640548078887445,
+            0.3393784074380304
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "bindPosition": [
+            0.16179278317676826,
+            0.6119042328939821,
+            -0.021442247898355957
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "bindPosition": [
+            0.15789417271034092,
+            0.6664848562184726,
+            -0.09551600965397335
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "bindPosition": [
+            0.15399554850313218,
+            0.6586876826408109,
+            -0.22806908213538143
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "bindPosition": [
+            0.1538925489994643,
+            0.6621018480629488,
+            -0.3462445731051008
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "bindPosition": [
+            0.0721244856995828,
+            0.42477037709994686,
+            0.04093565616571783
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "bindPosition": [
+            0.11500929176853038,
+            0.26882560058092164,
+            0.10331354271371172
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "bindPosition": [
+            0.033138330722174404,
+            0.13237392961551206,
+            0.10331344140523754
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "bindPosition": [
+            0.09551623009519553,
+            0.04270566507458056,
+            0.13450238762727393
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "bindPosition": [
+            0.07212448924084933,
+            0.4247704587453249,
+            -0.04483401270192916
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "bindPosition": [
+            0.1150093064359494,
+            0.26882558396421363,
+            -0.11111048293203263
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "bindPosition": [
+            0.03313827162379448,
+            0.13237392239480783,
+            -0.11111051474579615
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "bindPosition": [
+            0.09551621659371202,
+            0.042705605649283766,
+            -0.13840084053636553
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 7543,
+      "maximumWeightSumError": 0,
+      "method": "Recover Tripo anatomical landmarks from inverse-bind matrices, rebuild a compact Mixamo-named humanoid, then assign four normalized influences by model-local landmark segment distance with separate left/right arm and leg gates.",
+      "sourceRigRepair": "Tripo nodes were flattened to zero transforms and 7,459/7,543 source vertices were rigidly bound to Hips. Reconstructed fresh bind matrices and model-specific distributed weights."
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "mime": "image/jpeg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "752466c2dcb725fba35a8cbb6dc5dc81fe020edf75cdacd60b97f9e2151f2d09",
+        "slots": [
+          "baseColor"
+        ],
+        "bytes": 779362
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "mime": "image/png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "e41ce1e1f5809a41894a62694687c871302d3bcb77eac0f6718ab68d4af4811b",
+        "slots": [
+          "metallicRoughness"
+        ],
+        "bytes": 3423963
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "mime": "image/jpeg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a281278f2ac38a6753e322fa992f8aed527ac149a81be1035391257eef2cade3",
+        "slots": [
+          "normal"
+        ],
+        "bytes": 388047
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 3.200000047683716,
+        "minimumWorldY": 0.005999999697732309,
+        "maximumWorldY": 1.6359263744993378,
+        "maximumGroundLift": 0.006031327186741118,
+        "visibleSampledMotion": 0.02635360741797499
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.1200000047683716,
+        "minimumWorldY": 0.005999995577983943,
+        "maximumWorldY": 1.6706154368995072,
+        "maximumGroundLift": 0.02064772487594557,
+        "visibleSampledMotion": 0.2648399803046827
+      },
+      {
+        "name": "Run",
+        "seconds": 0.7599999904632568,
+        "minimumWorldY": 0.005999993043053222,
+        "maximumWorldY": 1.680802325477776,
+        "maximumGroundLift": 0.019287562496763666,
+        "visibleSampledMotion": 0.4804560458251221
+      },
+      {
+        "name": "Attack",
+        "seconds": 1.0199999809265137,
+        "minimumWorldY": 0.005999995564842188,
+        "maximumWorldY": 1.6535211637758427,
+        "maximumGroundLift": 0.09944044173224895,
+        "visibleSampledMotion": 0.2949131966770941
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.5199999809265137,
+        "minimumWorldY": 0.005999998554263364,
+        "maximumWorldY": 1.6543012615435102,
+        "maximumGroundLift": 0.043007297284803646,
+        "visibleSampledMotion": 0.3125367963333561
+      },
+      {
+        "name": "Death",
+        "seconds": 1.75,
+        "minimumWorldY": 0.0059999379965304245,
+        "maximumWorldY": 1.85966447879959,
+        "maximumGroundLift": 0.5776931011963803,
+        "visibleSampledMotion": 1.2640853926113977
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": false,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

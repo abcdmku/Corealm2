@@ -1,0 +1,112 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_gloamreach_harrower",
+      "file": "models/creature/creature_gloamreach_harrower.glb",
+      "pack": "corealm-new-starred-creatures",
+      "category": "character",
+      "is": "Gloamreach Harrower",
+      "tags": [
+        "creature",
+        "humanoid",
+        "demon",
+        "wilderness",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 5116296,
+      "sha256": "917ad6f5b79fbb0d78504043f69d4e25342286bc8e235f35a39b81eac0fb95e7",
+      "size": {
+        "x": 1.26171875,
+        "y": 1.628906011581421,
+        "z": 1.99609375
+      },
+      "base": {
+        "x": -0.630859375,
+        "y": 0,
+        "z": -0.998046875
+      },
+      "bounds": {
+        "min": [
+          -0.630859375,
+          0,
+          -0.998046875
+        ],
+        "max": [
+          0.630859375,
+          1.628906011581421,
+          0.998046875
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4912,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_8ee3aeff-66b3-46c9-9a32-4e7d30840c96_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceFile": "assets/art/tripo/exports/acc8f6a7-0d0d-4ae6-8f27-f4e86fb28734.glb",
+        "sourceSha256": "7e3a7fccd31c24b69843009ba285388833403fb67823bb05bbf52735dd926d0b",
+        "cardStorageUuid": "b723120e-b183-40db-b613-5514965a2238",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-limber-demon/gloamreach-harrower-rigged.glb",
+        "candidateSha256": "917ad6f5b79fbb0d78504043f69d4e25342286bc8e235f35a39b81eac0fb95e7",
+        "rigMethod": "Recover Tripo anatomical landmarks from inverse-bind matrices, rebuild a compact Mixamo-named humanoid, then assign four normalized influences by model-local landmark segment distance with separate left/right arm and leg gates.",
+        "textures": [
+          {
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "mime": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "sha256": "752466c2dcb725fba35a8cbb6dc5dc81fe020edf75cdacd60b97f9e2151f2d09",
+            "slots": [
+              "baseColor"
+            ],
+            "bytes": 779362
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "mime": "image/png",
+            "width": 2048,
+            "height": 2048,
+            "sha256": "e41ce1e1f5809a41894a62694687c871302d3bcb77eac0f6718ab68d4af4811b",
+            "slots": [
+              "metallicRoughness"
+            ],
+            "bytes": 3423963
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "mime": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "sha256": "a281278f2ac38a6753e322fa992f8aed527ac149a81be1035391257eef2cade3",
+            "slots": [
+              "normal"
+            ],
+            "bytes": 388047
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "sourceDesignAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
