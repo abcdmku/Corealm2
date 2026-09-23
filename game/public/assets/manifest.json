@@ -86156,6 +86156,441 @@
           "test-results/armor-production-verify/mistweave-walk-09.png"
         ]
       }
+    },
+    {
+      "id": "corealm_item_crownhide_hood",
+      "file": "models/items/crownhide_hood.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 16407020,
+      "itemModel": {
+        "itemId": "crownhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.5058495402336121,
+        "y": 0.28996598720550537,
+        "z": 0.5419910550117493
+      },
+      "base": {
+        "x": -0.252474844455719,
+        "y": 1.5591305494308472,
+        "z": -0.2978973090648651
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownhide_hood",
+      "triangles": 572,
+      "drawCalls": 1,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownhide_hood",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "sha256": "53ab02082751c48f04fb8c7a4830f0e26993e53962534a5c2c12a4c910a844a5",
+      "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "dc13e97",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownhide/models/items/crownhide_hood.glb",
+        "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+        "importConfigSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6160740,
+            "sha256": "a00ab04211543545043ba3fc9cfbf65d2745ddf5891b3a3f8848ebdb09cd9bb5",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5632418,
+            "sha256": "37be6bca02a4f3d4f12b9ad9be6a8a8666f235f6ce3f582ae8142bee300882e9",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4560771,
+            "sha256": "9a504e1b0b206a94d3a44a1780b5e6f828ebc3bb0dbe1065e13bd66e0789cd5e",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownhide-staged-front.png",
+          "test-results/armor-production-verify/crownhide-staged-rear.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-04.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownhide_robe",
+      "file": "models/items/crownhide_robe.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 16543716,
+      "itemModel": {
+        "itemId": "crownhide_robe",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.9078368246555328,
+        "y": 1.404663473367691,
+        "z": 0.4841794818639755
+      },
+      "base": {
+        "x": -0.4539186656475067,
+        "y": 0.19963344931602478,
+        "z": -0.3240942060947418
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownhide_robe",
+      "triangles": 2804,
+      "drawCalls": 11,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownhide_robe",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "sha256": "c3f0f29b5dede44e7aa72b40583655a0c100d24f152a8f3bb1f2121d622395b3",
+      "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "dc13e97",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownhide/models/items/crownhide_robe.glb",
+        "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+        "importConfigSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6160740,
+            "sha256": "a00ab04211543545043ba3fc9cfbf65d2745ddf5891b3a3f8848ebdb09cd9bb5",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5632418,
+            "sha256": "37be6bca02a4f3d4f12b9ad9be6a8a8666f235f6ce3f582ae8142bee300882e9",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4560771,
+            "sha256": "9a504e1b0b206a94d3a44a1780b5e6f828ebc3bb0dbe1065e13bd66e0789cd5e",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownhide-staged-front.png",
+          "test-results/armor-production-verify/crownhide-staged-rear.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-04.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownhide_wraps",
+      "file": "models/items/crownhide_wraps.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 16431000,
+      "itemModel": {
+        "itemId": "crownhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.8319515585899353,
+        "y": 0.16440439224243164,
+        "z": 0.11201511416584253
+      },
+      "base": {
+        "x": -0.41597267985343933,
+        "y": 0.8229246139526367,
+        "z": -0.012452111579477787
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownhide_wraps",
+      "triangles": 835,
+      "drawCalls": 2,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownhide_wraps",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "sha256": "bb27d45c7ac192503370e7e32a7b5b1272bb514000a260770258383b9c13fb87",
+      "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "dc13e97",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownhide/models/items/crownhide_wraps.glb",
+        "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+        "importConfigSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6160740,
+            "sha256": "a00ab04211543545043ba3fc9cfbf65d2745ddf5891b3a3f8848ebdb09cd9bb5",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5632418,
+            "sha256": "37be6bca02a4f3d4f12b9ad9be6a8a8666f235f6ce3f582ae8142bee300882e9",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4560771,
+            "sha256": "9a504e1b0b206a94d3a44a1780b5e6f828ebc3bb0dbe1065e13bd66e0789cd5e",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownhide-staged-front.png",
+          "test-results/armor-production-verify/crownhide-staged-rear.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-04.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownhide_leggings",
+      "file": "models/items/crownhide_leggings.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 16389752,
+      "itemModel": {
+        "itemId": "crownhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4308837652206421,
+        "y": 0.4471435546875,
+        "z": 0.21950680017471313
+      },
+      "base": {
+        "x": -0.21544191241264343,
+        "y": 0.49230921268463135,
+        "z": -0.09284430742263794
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownhide_leggings",
+      "triangles": 209,
+      "drawCalls": 1,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownhide_leggings",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "sha256": "688fe3c3ed4ab187cb6fd9a28986a9a1c16a287a386910685f34e89bb1548fd4",
+      "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "dc13e97",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownhide/models/items/crownhide_leggings.glb",
+        "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+        "importConfigSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6160740,
+            "sha256": "a00ab04211543545043ba3fc9cfbf65d2745ddf5891b3a3f8848ebdb09cd9bb5",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5632418,
+            "sha256": "37be6bca02a4f3d4f12b9ad9be6a8a8666f235f6ce3f582ae8142bee300882e9",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4560771,
+            "sha256": "9a504e1b0b206a94d3a44a1780b5e6f828ebc3bb0dbe1065e13bd66e0789cd5e",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownhide-staged-front.png",
+          "test-results/armor-production-verify/crownhide-staged-rear.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-04.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_crownhide_boots",
+      "file": "models/items/crownhide_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "bytes": 16430912,
+      "itemModel": {
+        "itemId": "crownhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.6260009109973907,
+        "y": 0.5320552222075321,
+        "z": 0.27551983296871185
+      },
+      "base": {
+        "x": -0.31300047039985657,
+        "y": 9.614802820578916e-8,
+        "z": -0.1416306495666504
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownhide_boots",
+      "triangles": 867,
+      "drawCalls": 2,
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownhide_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "sha256": "4125eb9076f5be4cab4655991b48fdc60e7baff077e8593a742a0b98021b1ddc",
+      "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "dc13e97",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/crownhide/models/items/crownhide_boots.glb",
+        "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
+        "importConfigSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6160740,
+            "sha256": "a00ab04211543545043ba3fc9cfbf65d2745ddf5891b3a3f8848ebdb09cd9bb5",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5632418,
+            "sha256": "37be6bca02a4f3d4f12b9ad9be6a8a8666f235f6ce3f582ae8142bee300882e9",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4560771,
+            "sha256": "9a504e1b0b206a94d3a44a1780b5e6f828ebc3bb0dbe1065e13bd66e0789cd5e",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/crownhide-staged-front.png",
+          "test-results/armor-production-verify/crownhide-staged-rear.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-04.png",
+          "test-results/armor-production-verify/crownhide-staged-walk-09.png"
+        ]
+      }
     }
   ]
 }
