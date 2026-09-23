@@ -1,0 +1,103 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_brown_many_horn_demon",
+      "file": "models/creature/creature_brown_many_horn_demon.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Brown Many-Horn Demon",
+      "tags": [
+        "creature",
+        "demon",
+        "humanoid",
+        "many-horn",
+        "starred-sheet-c",
+        "tripo",
+        "candidate",
+        "T45-T55"
+      ],
+      "bytes": 6935180,
+      "sha256": "456afee189d894bb8ca3cefce76e3a931d64fe254699914e53be08c19fdf5aff",
+      "size": {
+        "x": 0.28125,
+        "y": 0.3750000298023224,
+        "z": 0.244140625
+      },
+      "base": {
+        "x": -0.140625,
+        "y": 0,
+        "z": -0.1220703125
+      },
+      "bounds": {
+        "min": [
+          -0.140625,
+          0,
+          -0.1220703125
+        ],
+        "max": [
+          0.140625,
+          0.3750000298023224,
+          0.1220703125
+        ]
+      },
+      "groundY": 0,
+      "triangles": 2206,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/09-brown-many-horn-demon/base.glb",
+        "sourceSha256": "2b4f39dbd4b1c72e1d5a9a0065056a6fbce936dce7e53496e8f9475d04c042e3",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/09-brown-many-horn-demon/brown-many-horn-demon-native-rig.glb",
+        "candidateSha256": "456afee189d894bb8ca3cefce76e3a931d64fe254699914e53be08c19fdf5aff",
+        "rigMethod": "Four highest model-specific bone-segment distance weights with anatomical lateral and vertical gates; original geometry retained.",
+        "textures": [
+          {
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 2107997,
+            "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png",
+            "bytes": 4025092,
+            "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 524633,
+            "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

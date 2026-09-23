@@ -1,0 +1,353 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_tan_bull_horn_demon",
+  "displayName": "Tan Bull-Horn Demon",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon/base.glb",
+    "sha256": "6f56531550849c443e728ce255502f57e265612835072fa1630d9d7282d975dd",
+    "bytes": 6745724,
+    "starredModelId": null,
+    "starredCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredDisplayName": "Tan Bull-Horn Demon",
+    "geometry": {
+      "vertices": 2239,
+      "triangles": 1210,
+      "bounds": {
+        "min": [
+          -0.140625,
+          0,
+          -0.1230468824505806
+        ],
+        "max": [
+          0.140625,
+          0.392578125,
+          0.1230468824505806
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "sourceSkin": "none",
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/08-tan-bull-horn-demon/tan-bull-horn-demon-native-rig.glb",
+    "sha256": "171e5bbdc4de3651809a1fc9afc8550e85bfb0692f69a58da1ffdd319d632796",
+    "bytes": 6819648,
+    "productionTarget": "game/public/assets/models/creature/creature_tan_bull_horn_demon.glb",
+    "geometry": {
+      "vertices": 2239,
+      "triangles": 1210,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "type": "Mixamo-named humanoid glTF skin fitted to extracted upright demon anatomy",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.15310546875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.19236328125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.235546875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.27873046874999996,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.3219140625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.35724609375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.135,
+            0.27873046874999996,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.185625,
+            0.25517578125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.2053125,
+            0.20021484375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.21375,
+            0.15310546875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.135,
+            0.27873046874999996,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.185625,
+            0.25517578125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.2053125,
+            0.20021484375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.21375,
+            0.15310546875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.07875000000000001,
+            0.12562500000000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.0815625,
+            0.06281250000000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.0815625,
+            0.017666015625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.0815625,
+            0.009814453125,
+            0.06890625417232514
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.07875000000000001,
+            0.12562500000000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.0815625,
+            0.06281250000000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.0815625,
+            0.017666015625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.0815625,
+            0.009814453125,
+            0.06890625417232514
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 559.75,
+      "maximumWeightSumError": 2.9802322387695312e-8,
+      "method": "Four highest model-specific bone-segment distance weights with anatomical lateral and vertical gates; original geometry retained."
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 2107997,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4025092,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 524633,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 3
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 6
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 7
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 4
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 4
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 6
+      }
+    ]
+  },
+  "suggestedTier": "T35-T45",
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
