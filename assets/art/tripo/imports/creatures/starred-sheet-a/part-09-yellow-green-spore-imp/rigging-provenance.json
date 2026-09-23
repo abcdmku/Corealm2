@@ -1,0 +1,137 @@
+{
+  "schema": "corealm-starred-sheet-rigging/1",
+  "part": "part-09-yellow-green-spore-imp",
+  "sourceSha256": "9a981f8508b4aa6d515a039ead6cf0d26eb606c2eaf7a757ff8cf6865491c02b",
+  "candidateSha256": "7c8beff51e872d4ee0e3cc267c6dcad6fddc8dca6c8db3fd333a58a62655785d",
+  "sourceGeometryHashes": {
+    "positions": "76c3ef79c986ea1d238baffb4f89050648842e2c0fbab361aa6065dbb5187177",
+    "normals": "e08af4195647fb697deae8d4d3f3848f8a5082b54a0641c6f8eb0d5a96552f65",
+    "uvs": "1b8545e51d7b493da6271b77f8a384b1f60a7d33de1efa986d989def417d5528",
+    "indices": "635b125adc07663b734c026e836e28cffcc328aeef927a025764f88d48ca9560"
+  },
+  "outputGeometryHashes": {
+    "positions": "76c3ef79c986ea1d238baffb4f89050648842e2c0fbab361aa6065dbb5187177",
+    "normals": "e08af4195647fb697deae8d4d3f3848f8a5082b54a0641c6f8eb0d5a96552f65",
+    "uvs": "1b8545e51d7b493da6271b77f8a384b1f60a7d33de1efa986d989def417d5528",
+    "indices": "635b125adc07663b734c026e836e28cffcc328aeef927a025764f88d48ca9560"
+  },
+  "worldTransform": {
+    "maxMatrixDelta": 0,
+    "sourceBounds": {
+      "min": [
+        -0.39108909825322385,
+        0,
+        -0.3688118533286026
+      ],
+      "max": [
+        0.3910890982532239,
+        1,
+        0.36881185332860267
+      ]
+    },
+    "candidateBounds": {
+      "min": [
+        -0.39108909825322385,
+        0,
+        -0.3688118533286026
+      ],
+      "max": [
+        0.3910890982532239,
+        1,
+        0.36881185332860267
+      ]
+    },
+    "height": 1,
+    "centeredGroundedOneMeter": true
+  },
+  "vertices": 5942,
+  "triangles": 3473,
+  "rig": {
+    "type": "Mixamo-named compact imp humanoid",
+    "joints": 22,
+    "influencesPerVertex": 4,
+    "verticesWithDistributedWeights": 5942,
+    "maxWeightSumError": 0,
+    "bindSpace": "source local mesh coordinates",
+    "deformationReview": "pending root visual acceptance"
+  },
+  "animations": [
+    {
+      "name": "Idle",
+      "channels": 4,
+      "duration": 2.4000000953674316
+    },
+    {
+      "name": "Walk",
+      "channels": 5,
+      "duration": 1.100000023841858
+    },
+    {
+      "name": "Run",
+      "channels": 5,
+      "duration": 0.7200000286102295
+    },
+    {
+      "name": "Attack",
+      "channels": 5,
+      "duration": 0.8500000238418579
+    },
+    {
+      "name": "Hit",
+      "channels": 4,
+      "duration": 0.5
+    },
+    {
+      "name": "Death",
+      "channels": 7,
+      "duration": 1.899999976158142
+    }
+  ],
+  "textures": {
+    "source": [
+      {
+        "name": "monster+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+      },
+      {
+        "name": "monster+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+      },
+      {
+        "name": "monster+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+      }
+    ],
+    "runtime": [
+      {
+        "name": "monster+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+      },
+      {
+        "name": "monster+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+      },
+      {
+        "name": "monster+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+      }
+    ]
+  },
+  "holds": [
+    "The source is a static creature sheet extraction without authored motion; clips are custom motion authored for the imp silhouette.",
+    "Weight deformation and visual clip quality need root browser review."
+  ],
+  "retopology": false
+}
