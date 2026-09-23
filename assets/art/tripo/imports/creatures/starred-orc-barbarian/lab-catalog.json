@@ -97,5 +97,8 @@
         "worldIntegrated": false
       }
     }
-  ]
+  ],
+  "files": {
+    "creature_stonejaw_marauder": "stonejaw-marauder-native-rig.glb"
+  }
 }
