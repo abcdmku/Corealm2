@@ -10,7 +10,7 @@
   },
   "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\armor-mid\\sources\\mistweave.glb",
   "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
-  "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+  "configSha256": "e0f71630df29f8df4802cacc0cd0d399cf6026256a3598f91cf6ac88538e832d",
   "textureSize": 2048,
   "assets": [
     {
@@ -32,12 +32,12 @@
       },
       "size": {
         "x": 0.4832763969898224,
-        "y": 0.3694579601287842,
+        "y": 0.36945807933807373,
         "z": 0.6368408203125
       },
       "base": {
         "x": -0.25970458984375,
-        "y": 1.6996386051177979,
+        "y": 1.72463858127594,
         "z": -0.31144776940345764
       },
       "animations": [],
@@ -46,9 +46,9 @@
       ],
       "itemId": "mistweave_hood",
       "status": "pending",
-      "sha256": "04f8c078d771b8c2ade6dcfa37087d8e14854b82f4b9516b6bb60af4c9ad969d",
+      "sha256": "1c9252260cb4faaebba31cb1aaff344d9ffd8c5fd9275b5efa8fb88dfa3bcdcc",
       "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
-      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "configSha256": "e0f71630df29f8df4802cacc0cd0d399cf6026256a3598f91cf6ac88538e832d",
       "triangles": 412,
       "drawCalls": 1
     },
@@ -87,7 +87,7 @@
       "status": "pending",
       "sha256": "d24beb60c97b61802edfeccc6e40abf819f3508542ea204cf54f0bce2a122938",
       "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
-      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "configSha256": "e0f71630df29f8df4802cacc0cd0d399cf6026256a3598f91cf6ac88538e832d",
       "triangles": 1538,
       "drawCalls": 5
     },
@@ -126,7 +126,7 @@
       "status": "pending",
       "sha256": "f2a88212fd8802484574965d7344460604dfb6e6d285ae7e1a30f5ad5c077f7d",
       "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
-      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "configSha256": "e0f71630df29f8df4802cacc0cd0d399cf6026256a3598f91cf6ac88538e832d",
       "triangles": 954,
       "drawCalls": 4
     },
@@ -165,7 +165,7 @@
       "status": "pending",
       "sha256": "5a29fcf193fef2920caf081cdcc5d3a10754e3a97b387be916ac2252f30a9b99",
       "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
-      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "configSha256": "e0f71630df29f8df4802cacc0cd0d399cf6026256a3598f91cf6ac88538e832d",
       "triangles": 1107,
       "drawCalls": 2
     },
@@ -204,7 +204,7 @@
       "status": "pending",
       "sha256": "d4c1a79c7d8a7ca9c63542e80e3e217c6a31d424f3439c058fc9269324ce0ca2",
       "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
-      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "configSha256": "e0f71630df29f8df4802cacc0cd0d399cf6026256a3598f91cf6ac88538e832d",
       "triangles": 911,
       "drawCalls": 8
     }

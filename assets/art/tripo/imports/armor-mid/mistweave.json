@@ -1387,7 +1387,7 @@
         1.0,
         0.0,
         0.0,
-        0.22,
+        0.245,
         0.0,
         1.0
       ]
@@ -2545,7 +2545,7 @@
     },
     "sourceExport": "Segmented export is unskinned with 1K-2K PBR images. Correct 8K rig export remains pending. Importer applies native 65-joint binding.",
     "orientation": "Y-up/+X-forward, Z lateral. Node translations baked, then -90deg Y rotation and 1.85 scale, Z -0.04m.",
-    "fit": "Measured relaxed shoulder/wrist anchors map to native T pose. Fused sleeves blend at shoulder. Leg/boot stance narrows to native centers. Wizard hats raise to clear native forehead.",
+    "fit": "Measured relaxed shoulder/wrist anchors map to native T pose. Fused sleeves blend at shoulder. Leg/boot stance narrows to native centers. Mistweave hood raised +0.025m after rigid-head scalp SAT reduced 66 intersections to 0; root lab acceptance pending.",
     "sourceShoulder": [
       0.04,
       0.755,
