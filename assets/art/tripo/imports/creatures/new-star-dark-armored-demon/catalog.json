@@ -1,0 +1,206 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_gloamplate_reaver",
+  "displayName": "Gloamplate Reaver",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/e1b8c030-b812-4b78-b4d7-4216e8a4a603.glb",
+    "sha256": "47e61408d8d25a4e7140cdd3ec2c4b61eae18d95ed626b60e4e32f4404d4ec34",
+    "bytes": 6209832,
+    "starredModelId": "af6d578f-d3c2-4bf0-8178-ac92a20b34d8",
+    "starredCardId": "af6d578f-d3c2-4bf0-8178-ac92a20b34d8",
+    "starredDisplayName": "dark armored demon 3d model",
+    "generator": "Tripo P1.0 PBR",
+    "exportSettings": "GLB, 2K source maps, Export Skeleton enabled, Walk animation selected",
+    "prompt": "humanoid demon-like armored creature with purple crystalline accents, dark armor, sharp claws",
+    "sourceSkin": "Tripo-exported 67-joint humanoid glTF skin with vertex weights and inverse bind matrices",
+    "sourceAnimations": [
+      {
+        "name": "walk",
+        "channels": 201,
+        "seconds": 2.3333332538604736,
+        "interpolation": [
+          "LINEAR",
+          "STEP"
+        ],
+        "interpolationRepair": "converted 178 STEP samplers to LINEAR while preserving source keys",
+        "verifiedRetainedAs": "Walk"
+      }
+    ],
+    "geometry": {
+      "vertices": 3837,
+      "triangles": 4878,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          -5.960464477539063e-8,
+          -0.3017578125
+        ],
+        "max": [
+          0.49902331829071045,
+          0.8417971134185791,
+          0.3017577528953552
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "skinWeightsPreserved": true,
+      "retopology": false
+    },
+    "textures": [
+      {
+        "name": "dark_armored_demon_3d_model_normal",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 414875,
+        "sha256": "690f755469b26cd3b40bdc6f2f75f4fd5118fad343fed42e84c9cc3ddccc7972"
+      },
+      {
+        "name": "dark_armored_demon_3d_model_basecolor",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 910942,
+        "sha256": "97dd6b65d164904455fa99636bc5c58d9cc37f9fefcdf50118cfffca40d480c4"
+      },
+      {
+        "name": "dark_armored_demon_3d_model_rm",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4562484,
+        "sha256": "308d1f14e5d1d32de24c008f95a022b9197c403ec9104c03ef274fe661cd51c4"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-dark-armored-demon/gloamplate-reaver-native-rig-candidate.glb",
+    "sha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
+    "bytes": 6354500,
+    "productionTarget": "game/public/assets/models/wilderness/creature_gloamplate_reaver.glb",
+    "geometry": {
+      "vertices": 3837,
+      "triangles": 4878,
+      "bounds": {
+        "min": [
+          -1.4222167968750001,
+          0,
+          -0.860009765625
+        ],
+        "max": [
+          1.4222164571285247,
+          2.3991217732429506,
+          0.8600095957517624
+        ]
+      },
+      "size": [
+        2.844433254003525,
+        2.3991219431161883,
+        1.7200193613767625
+      ],
+      "nativeScale": 2.85,
+      "sourcePositionArraysPreserved": true,
+      "proportionsPreserved": true,
+      "indicesPreserved": true,
+      "uvsPreserved": true
+    },
+    "rig": {
+      "type": "Tripo source skin with Unity/Mixamo Humanoid joint naming",
+      "joints": 67,
+      "weightsPerVertex": 4,
+      "inverseBindMatrices": true,
+      "skeletonRoot": "mixamorigHips",
+      "meshSkinWeightsPreserved": true,
+      "method": "Retained source skin, weights and inverse binds; renamed the existing humanoid chain to Unity/Mixamo conventions without changing mesh topology or bind weights."
+    },
+    "textures": [
+      {
+        "name": "dark_armored_demon_3d_model_normal",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 414875,
+        "sha256": "690f755469b26cd3b40bdc6f2f75f4fd5118fad343fed42e84c9cc3ddccc7972"
+      },
+      {
+        "name": "dark_armored_demon_3d_model_basecolor",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 910942,
+        "sha256": "97dd6b65d164904455fa99636bc5c58d9cc37f9fefcdf50118cfffca40d480c4"
+      },
+      {
+        "name": "dark_armored_demon_3d_model_rm",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4562484,
+        "sha256": "308d1f14e5d1d32de24c008f95a022b9197c403ec9104c03ef274fe661cd51c4"
+      }
+    ],
+    "metallicRange": [
+      0,
+      0.9294117647058824
+    ],
+    "roughnessRange": [
+      0,
+      0.803921568627451
+    ],
+    "pbr": "Original image-generated 2K base-color, metallic-roughness and normal maps are retained byte-for-byte. PBR channel ranges are verified; final material response awaits the root visual lab.",
+    "animations": [
+      {
+        "name": "Walk",
+        "seconds": 2.3333332538604736,
+        "channels": 201,
+        "retainedSourceKeys": true,
+        "interpolationRepair": "converted 178 STEP samplers to LINEAR",
+        "varyingChannels": 23
+      },
+      {
+        "name": "Run",
+        "seconds": 1.8199999380111695,
+        "channels": 201,
+        "varyingChannels": 23
+      },
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 8,
+        "varyingChannels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 1,
+        "channels": 10,
+        "varyingChannels": 10
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.52,
+        "channels": 9,
+        "varyingChannels": 9
+      },
+      {
+        "name": "Death",
+        "seconds": 1.65,
+        "channels": 14,
+        "varyingChannels": 14
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": false,
+    "geometry": true,
+    "sourceWalkRetained": true,
+    "rig": false,
+    "animation": false,
+    "pbr": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

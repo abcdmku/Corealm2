@@ -1,0 +1,142 @@
+{
+  "source": {
+    "bytes": 6209832,
+    "sha256": "47e61408d8d25a4e7140cdd3ec2c4b61eae18d95ed626b60e4e32f4404d4ec34",
+    "vertices": 3837,
+    "triangles": 4878,
+    "attributes": {
+      "POSITION": "c44f900eb20f82d014f625a19c3dfa09ca687d37c657a0c1abea9985cb1492d8",
+      "NORMAL": "6c7192cd1ccbd691e6ca848fea8856808196c51849b09982e3fcc57b50d59381",
+      "TEXCOORD_0": "fe55a3aec4f257984487f6150a4c3435e7fd6dd6d2af93466b5b315bca6d8ba2",
+      "JOINTS_0": "346664fe4095faf365bd0ed33de1d6975eaf0d3de9980fe9e8e20143198db119",
+      "WEIGHTS_0": "b4ee6c834390c9625f2340b750c6bec8c0109324757aab7d9ad2ac24b0643c36",
+      "indices": "159c5dd1d312c10033caa7949825eb71c19ff65a540c553de1b52d743b1228b6"
+    },
+    "textures": [
+      {
+        "name": "dark_armored_demon_3d_model_normal",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 414875,
+        "sha256": "690f755469b26cd3b40bdc6f2f75f4fd5118fad343fed42e84c9cc3ddccc7972"
+      },
+      {
+        "name": "dark_armored_demon_3d_model_basecolor",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 910942,
+        "sha256": "97dd6b65d164904455fa99636bc5c58d9cc37f9fefcdf50118cfffca40d480c4"
+      },
+      {
+        "name": "dark_armored_demon_3d_model_rm",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4562484,
+        "sha256": "308d1f14e5d1d32de24c008f95a022b9197c403ec9104c03ef274fe661cd51c4"
+      }
+    ]
+  },
+  "candidate": {
+    "bytes": 6354500,
+    "sha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
+    "vertices": 3837,
+    "triangles": 4878,
+    "attributesPreserved": true,
+    "sourceMapsPreservedByteForByte": true,
+    "skins": 1,
+    "joints": 67,
+    "clips": [
+      {
+        "name": "Walk",
+        "seconds": 2.3333332538604736,
+        "channels": 201,
+        "retainedSourceKeys": true,
+        "interpolationRepair": "converted 178 STEP samplers to LINEAR",
+        "varyingChannels": 23
+      },
+      {
+        "name": "Run",
+        "seconds": 1.8199999380111695,
+        "channels": 201,
+        "varyingChannels": 23
+      },
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 8,
+        "varyingChannels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 1,
+        "channels": 10,
+        "varyingChannels": 10
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.52,
+        "channels": 9,
+        "varyingChannels": 9
+      },
+      {
+        "name": "Death",
+        "seconds": 1.65,
+        "channels": 14,
+        "varyingChannels": 14
+      }
+    ],
+    "clipMotion": [
+      {
+        "name": "Walk",
+        "varyingChannels": 23
+      },
+      {
+        "name": "Run",
+        "varyingChannels": 23
+      },
+      {
+        "name": "Idle",
+        "varyingChannels": 8
+      },
+      {
+        "name": "Attack",
+        "varyingChannels": 10
+      },
+      {
+        "name": "Hit",
+        "varyingChannels": 9
+      },
+      {
+        "name": "Death",
+        "varyingChannels": 14
+      }
+    ],
+    "scale": 2.85,
+    "size": [
+      2.844433254003525,
+      2.3991219431161883,
+      1.7200193613767625
+    ],
+    "metallicRange": [
+      0,
+      0.9294117647058824
+    ],
+    "roughnessRange": [
+      0,
+      0.803921568627451
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": false,
+    "geometry": true,
+    "sourceWalkRetained": true,
+    "rig": false,
+    "animation": false,
+    "pbr": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

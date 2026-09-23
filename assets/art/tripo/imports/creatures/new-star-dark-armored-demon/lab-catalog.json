@@ -1,0 +1,133 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-starred-creatures",
+    "name": "Corealm starred creatures",
+    "author": "Corealm",
+    "source": "Starred Tripo exports with preserved source rig and animations",
+    "license": "LicenseRef-Tripo-Generated"
+  },
+  "files": {
+    "creature_gloamplate_reaver": "gloamplate-reaver-native-rig-candidate.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_gloamplate_reaver",
+      "file": "models/wilderness/creature_gloamplate_reaver.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Gloamplate Reaver starred T60 Wilderness candidate",
+      "tags": [
+        "creature",
+        "humanoid",
+        "demon",
+        "armored",
+        "purple-crystal",
+        "wilderness",
+        "t60",
+        "starred",
+        "tripo",
+        "candidate",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 6354500,
+      "sha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
+      "vertices": 3837,
+      "triangles": 4878,
+      "size": {
+        "x": 2.844433254003525,
+        "y": 2.3991219431161883,
+        "z": 1.7200193613767625
+      },
+      "base": {
+        "x": -1.4222167968750001,
+        "y": 0,
+        "z": -0.860009765625
+      },
+      "bounds": {
+        "min": [
+          -1.4222167968750001,
+          0,
+          -0.860009765625
+        ],
+        "max": [
+          1.4222164571285247,
+          2.3991217732429506,
+          0.8600095957517624
+        ]
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_1f15dc44-c555-4cd0-943c-bf148b2e9a5d"
+      ],
+      "sourceProvenance": {
+        "author": "Starred Tripo source mesh, source rig and Walk keyframes retained; STEP timing repaired and five Corealm clips added",
+        "sourceModelId": "e1b8c030-b812-4b78-b4d7-4216e8a4a603",
+        "sourceCardId": "af6d578f-d3c2-4bf0-8178-ac92a20b34d8",
+        "sourceFile": "assets/art/tripo/exports/e1b8c030-b812-4b78-b4d7-4216e8a4a603.glb",
+        "sourceSha256": "47e61408d8d25a4e7140cdd3ec2c4b61eae18d95ed626b60e4e32f4404d4ec34",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-dark-armored-demon/gloamplate-reaver-native-rig-candidate.glb",
+        "candidateSha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
+        "rigMethod": "Tripo-exported 67-bone humanoid skin and original Walk gait retained; Mixamo/Unity bone naming added; Idle, Run, Attack, Hit and Death authored on the same weighted skeleton.",
+        "sourcePrompt": "humanoid demon-like armored creature with purple crystalline accents, dark armor, sharp claws",
+        "textures": [
+          {
+            "name": "dark_armored_demon_3d_model_normal",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 414875,
+            "sha256": "690f755469b26cd3b40bdc6f2f75f4fd5118fad343fed42e84c9cc3ddccc7972"
+          },
+          {
+            "name": "dark_armored_demon_3d_model_basecolor",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 910942,
+            "sha256": "97dd6b65d164904455fa99636bc5c58d9cc37f9fefcdf50118cfffca40d480c4"
+          },
+          {
+            "name": "dark_armored_demon_3d_model_rm",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png",
+            "bytes": 4562484,
+            "sha256": "308d1f14e5d1d32de24c008f95a022b9197c403ec9104c03ef274fe661cd51c4"
+          }
+        ],
+        "pbr": {
+          "metallicRange": [
+            0,
+            0.9294117647058824
+          ],
+          "roughnessRange": [
+            0,
+            0.803921568627451
+          ],
+          "baseColor": true,
+          "normal": true,
+          "metallicRoughness": true
+        },
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
