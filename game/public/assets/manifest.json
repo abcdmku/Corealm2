@@ -76598,85 +76598,117 @@
     {
       "id": "corealm_item_starhide_hood",
       "file": "models/items/starhide_hood.glb",
-      "pack": "corealm-icon-item-models",
+      "pack": "corealm-tripo-armor",
       "category": "outfit",
       "is": "item",
       "tags": [
         "item-model",
-        "icon-authored",
+        "tripo-authored",
         "starhide_hood",
         "head",
-        "reference-tailored-candidate",
-        "tier50-70-tailored-approved"
+        "tripo-armor-approved"
       ],
-      "bytes": 25775912,
+      "bytes": 15423324,
       "size": {
-        "x": 0.334848016500473,
-        "y": 0.43008952021857816,
-        "z": 0.3303585146425044
+        "x": 0.5846557021141052,
+        "y": 0.39960920810699463,
+        "z": 0.6510186195373535
       },
       "base": {
-        "x": -0.16739431023597717,
-        "y": 1.4520220756530762,
-        "z": -0.2383631318807602
+        "x": -0.3173034191131592,
+        "y": 1.6094828844070435,
+        "z": -0.3501351475715637
       },
       "animations": [],
       "materials": [
-        "dragonhide-close-twill-cloth",
-        "dragonhide-soft-dark-lining",
-        "dragonhide-chased-antique-gold",
-        "dragonhide-fine-stitch-thread",
-        "dragonhide-scute-1-pebbled-hide",
-        "dragonhide-scute-2-pebbled-hide",
-        "dragonhide-scute-3-pebbled-hide",
-        "dragonhide-scute-4-pebbled-hide",
-        "dragonhide-scute-5-pebbled-hide",
-        "dragonhide-scute-6-pebbled-hide",
-        "dragonhide-polished-inset-stone"
+        "Material"
       ],
       "itemModel": {
         "itemId": "starhide_hood",
         "wearable": true
+      },
+      "itemId": "starhide_hood",
+      "sha256": "9fe4525746096053ddcc3c6458e23ea8777a023dba3a14dbf5a18d2c28374a62",
+      "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+      "triangles": 569,
+      "drawCalls": 5,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "68c4758",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-late/starhide/candidate/models/items/starhide_hood.glb",
+        "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+        "importConfigSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5937565,
+            "sha256": "b11675e1fe768b6e4a097a885b9aa1fd4130056c87e59581fdb7b8239413e4bd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4469292,
+            "sha256": "f85095edf87f25553e7651ec9f447e47d4f72de277ca923164a45d7eb5579ab6",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4948928,
+            "sha256": "07dc428b6ee13d786876b3810328164cbeccfd4323ed4a561a0c27a3a824b3d1",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/starhide-staged-front.png",
+          "test-results/crownsilver-fit-lab/starhide-staged-rear.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-04.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-09.png"
+        ]
       }
     },
     {
       "id": "corealm_item_starhide_robe",
       "file": "models/items/starhide_robe.glb",
-      "pack": "corealm-icon-item-models",
+      "pack": "corealm-tripo-armor",
       "category": "outfit",
       "is": "item",
       "tags": [
         "item-model",
-        "icon-authored",
+        "tripo-authored",
         "starhide_robe",
         "torso",
-        "reference-tailored-candidate",
-        "tier50-70-tailored-approved"
+        "tripo-armor-approved"
       ],
-      "bytes": 32690644,
+      "bytes": 15565284,
       "size": {
-        "x": 0.8009696900844574,
-        "y": 1.3115841448307037,
-        "z": 0.5321832150220871
+        "x": 0.8902874886989594,
+        "y": 1.4449512362480164,
+        "z": 0.88731449842453
       },
       "base": {
-        "x": -0.40159836411476135,
-        "y": 0.28281912207603455,
-        "z": -0.2913333773612976
+        "x": -0.4079568684101105,
+        "y": 0.17074257135391235,
+        "z": -0.48365724086761475
       },
       "animations": [],
       "materials": [
-        "dragonhide-close-twill-cloth",
-        "dragonhide-soft-dark-lining",
-        "dragonhide-chased-antique-gold",
-        "dragonhide-scute-1-pebbled-hide",
-        "dragonhide-scute-2-pebbled-hide",
-        "dragonhide-scute-3-pebbled-hide",
-        "dragonhide-scute-4-pebbled-hide",
-        "dragonhide-scute-5-pebbled-hide",
-        "dragonhide-scute-6-pebbled-hide",
-        "dragonhide-polished-inset-stone",
-        "dragonhide-fine-stitch-thread"
+        "Material"
       ],
       "itemModel": {
         "itemId": "starhide_robe",
@@ -76684,142 +76716,332 @@
         "bodyCoverage": [
           {
             "region": "torso",
-            "minY": 1.02,
-            "maxY": 1.48
+            "minY": 1.01,
+            "maxY": 1.51
           }
+        ]
+      },
+      "itemId": "starhide_robe",
+      "sha256": "2b0d6772bd0e09e777962db2c180a2e0a25838520c2b55da1add524f10adc463",
+      "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+      "triangles": 2263,
+      "drawCalls": 29,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "68c4758",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-late/starhide/candidate/models/items/starhide_robe.glb",
+        "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+        "importConfigSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5937565,
+            "sha256": "b11675e1fe768b6e4a097a885b9aa1fd4130056c87e59581fdb7b8239413e4bd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4469292,
+            "sha256": "f85095edf87f25553e7651ec9f447e47d4f72de277ca923164a45d7eb5579ab6",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4948928,
+            "sha256": "07dc428b6ee13d786876b3810328164cbeccfd4323ed4a561a0c27a3a824b3d1",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/starhide-staged-front.png",
+          "test-results/crownsilver-fit-lab/starhide-staged-rear.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-04.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-09.png"
         ]
       }
     },
     {
       "id": "corealm_item_starhide_leggings",
       "file": "models/items/starhide_leggings.glb",
-      "pack": "corealm-icon-item-models",
+      "pack": "corealm-tripo-armor",
       "category": "outfit",
       "is": "item",
       "tags": [
         "item-model",
-        "icon-authored",
+        "tripo-authored",
         "starhide_leggings",
         "legs",
-        "reference-tailored-candidate",
-        "tier50-70-tailored-approved"
+        "tripo-armor-approved"
       ],
-      "bytes": 27563876,
+      "bytes": 15387880,
       "size": {
-        "x": 0.45343121886253357,
-        "y": 0.9668442830443382,
-        "z": 0.30603696405887604
+        "x": 0.21378035843372345,
+        "y": 0.5394728183746338,
+        "z": 0.3914355933666229
       },
       "base": {
-        "x": -0.22671560943126678,
-        "y": 0.1114824190735817,
-        "z": -0.1744154840707779
+        "x": -0.10861020535230637,
+        "y": 0.45046937465667725,
+        "z": -0.23571766912937164
       },
       "animations": [],
       "materials": [
-        "dragonhide-close-twill-cloth",
-        "dragonhide-soft-dark-lining",
-        "dragonhide-fine-stitch-thread",
-        "dragonhide-chased-antique-gold",
-        "dragonhide-scute-1-pebbled-hide",
-        "dragonhide-scute-2-pebbled-hide",
-        "dragonhide-scute-3-pebbled-hide",
-        "dragonhide-scute-4-pebbled-hide",
-        "dragonhide-scute-5-pebbled-hide",
-        "dragonhide-scute-6-pebbled-hide",
-        "dragonhide-polished-inset-stone"
+        "Material"
       ],
       "itemModel": {
         "itemId": "starhide_leggings",
-        "wearable": true
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.12,
+            "maxY": 1.02
+          }
+        ]
+      },
+      "itemId": "starhide_leggings",
+      "sha256": "1ceed5a2e626ae065b618291773bee89fbb8e956d84531c7ea95e4302f0ef49d",
+      "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+      "triangles": 178,
+      "drawCalls": 1,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "68c4758",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-late/starhide/candidate/models/items/starhide_leggings.glb",
+        "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+        "importConfigSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5937565,
+            "sha256": "b11675e1fe768b6e4a097a885b9aa1fd4130056c87e59581fdb7b8239413e4bd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4469292,
+            "sha256": "f85095edf87f25553e7651ec9f447e47d4f72de277ca923164a45d7eb5579ab6",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4948928,
+            "sha256": "07dc428b6ee13d786876b3810328164cbeccfd4323ed4a561a0c27a3a824b3d1",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/starhide-staged-front.png",
+          "test-results/crownsilver-fit-lab/starhide-staged-rear.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-04.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-09.png"
+        ]
       }
     },
     {
       "id": "corealm_item_starhide_boots",
       "file": "models/items/starhide_boots.glb",
-      "pack": "corealm-icon-item-models",
+      "pack": "corealm-tripo-armor",
       "category": "outfit",
       "is": "item",
       "tags": [
         "item-model",
-        "icon-authored",
+        "tripo-authored",
         "starhide_boots",
         "feet",
-        "reference-tailored-candidate",
-        "tier50-70-tailored-approved"
+        "tripo-armor-approved"
       ],
-      "bytes": 29780752,
+      "bytes": 15437516,
       "size": {
-        "x": 0.44934019446372986,
-        "y": 0.512465201318264,
-        "z": 0.3673715442419052
+        "x": 0.3753293603658676,
+        "y": 0.4858891014754789,
+        "z": 0.5821583569049835
       },
       "base": {
-        "x": -0.22467009723186493,
-        "y": -0.03400000184774399,
-        "z": -0.18540067970752716
+        "x": -0.21141144633293152,
+        "y": 1.2472271748720232e-7,
+        "z": -0.3310792148113251
       },
       "animations": [],
       "materials": [
-        "dragonhide-close-twill-cloth",
-        "dragonhide-soft-dark-lining",
-        "dragonhide-chased-antique-gold",
-        "dragonhide-fine-stitch-thread",
-        "dragonhide-scute-1-pebbled-hide",
-        "dragonhide-scute-2-pebbled-hide",
-        "dragonhide-scute-3-pebbled-hide",
-        "dragonhide-scute-4-pebbled-hide",
-        "dragonhide-scute-5-pebbled-hide",
-        "dragonhide-scute-6-pebbled-hide",
-        "dragonhide-polished-inset-stone",
-        "dragonhide-stacked-dark-leather-sole"
+        "Material"
       ],
       "itemModel": {
         "itemId": "starhide_boots",
         "wearable": true
+      },
+      "itemId": "starhide_boots",
+      "sha256": "24c85a66306e675c74e95a4b65bb6e316beb23f3d3f08e1c69fc6b79ac13e8d6",
+      "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+      "triangles": 820,
+      "drawCalls": 6,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "68c4758",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-late/starhide/candidate/models/items/starhide_boots.glb",
+        "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+        "importConfigSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5937565,
+            "sha256": "b11675e1fe768b6e4a097a885b9aa1fd4130056c87e59581fdb7b8239413e4bd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4469292,
+            "sha256": "f85095edf87f25553e7651ec9f447e47d4f72de277ca923164a45d7eb5579ab6",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4948928,
+            "sha256": "07dc428b6ee13d786876b3810328164cbeccfd4323ed4a561a0c27a3a824b3d1",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/starhide-staged-front.png",
+          "test-results/crownsilver-fit-lab/starhide-staged-rear.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-04.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-09.png"
+        ]
       }
     },
     {
       "id": "corealm_item_starhide_wraps",
       "file": "models/items/starhide_wraps.glb",
-      "pack": "corealm-icon-item-models",
+      "pack": "corealm-tripo-armor",
       "category": "outfit",
       "is": "item",
       "tags": [
         "item-model",
-        "icon-authored",
+        "tripo-authored",
         "starhide_wraps",
         "arms",
-        "reference-tailored-candidate",
-        "tier50-70-tailored-approved"
+        "tripo-armor-approved"
       ],
-      "bytes": 28427704,
+      "bytes": 15427380,
       "size": {
-        "x": 1.861922025680542,
-        "y": 0.15540504455566406,
-        "z": 0.16914807073771954
+        "x": 1.4834250211715698,
+        "y": 0.29418379068374634,
+        "z": 0.8750064373016357
       },
       "base": {
-        "x": -0.930961012840271,
-        "y": 1.3656517267227173,
-        "z": -0.14003944396972656
+        "x": -0.7582005262374878,
+        "y": 0.9764880537986755,
+        "z": -0.5785208940505981
       },
       "animations": [],
       "materials": [
-        "dragonhide-close-twill-cloth",
-        "dragonhide-soft-dark-lining",
-        "dragonhide-chased-antique-gold",
-        "dragonhide-fine-stitch-thread",
-        "dragonhide-scute-1-pebbled-hide",
-        "dragonhide-scute-2-pebbled-hide",
-        "dragonhide-scute-3-pebbled-hide",
-        "dragonhide-scute-4-pebbled-hide",
-        "dragonhide-scute-5-pebbled-hide",
-        "dragonhide-scute-6-pebbled-hide"
+        "Material"
       ],
       "itemModel": {
         "itemId": "starhide_wraps",
         "wearable": true
+      },
+      "itemId": "starhide_wraps",
+      "sha256": "5a84e5b2900a483bb18bd3d9a1fa80a8d6b4cbc0a3b45bf1efc5ad2bea962348",
+      "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+      "triangles": 831,
+      "drawCalls": 2,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "68c4758",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-late/starhide/candidate/models/items/starhide_wraps.glb",
+        "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
+        "importConfigSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 5937565,
+            "sha256": "b11675e1fe768b6e4a097a885b9aa1fd4130056c87e59581fdb7b8239413e4bd",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4469292,
+            "sha256": "f85095edf87f25553e7651ec9f447e47d4f72de277ca923164a45d7eb5579ab6",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4948928,
+            "sha256": "07dc428b6ee13d786876b3810328164cbeccfd4323ed4a561a0c27a3a824b3d1",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-late/starhide/candidate/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/crownsilver-fit-lab/starhide-staged-front.png",
+          "test-results/crownsilver-fit-lab/starhide-staged-rear.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-04.png",
+          "test-results/crownsilver-fit-lab/starhide-walk-09.png"
+        ]
       }
     },
     {
