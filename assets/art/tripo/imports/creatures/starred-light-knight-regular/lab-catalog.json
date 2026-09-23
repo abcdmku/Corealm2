@@ -20,8 +20,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 11071788,
-      "sha256": "b1e97ad18a88c3bc539f6f36c1485b7d2d5a72d61a7dc9d5ec1e19ea9b6948be",
+      "bytes": 11074828,
+      "sha256": "adf64ceb17440985db47d012e81b8979b40daceaa285a91ffb175992dc7c4013",
       "size": {
         "x": 3.326035499572754,
         "y": 3.299999952316284,
@@ -64,7 +64,7 @@
         "sourceFile": "assets/art/tripo/exports/3255ba4a-055e-446b-9c47-0266c347710a.glb",
         "sourceSha256": "9f0cb9c3eedc9645957e9bdd921b6ad44ad62a560325e42078505ff4dd452ba4",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
-        "candidateSha256": "b1e97ad18a88c3bc539f6f36c1485b7d2d5a72d61a7dc9d5ec1e19ea9b6948be",
+        "candidateSha256": "adf64ceb17440985db47d012e81b8979b40daceaa285a91ffb175992dc7c4013",
         "rigMethod": "22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; close guard bind pose and aligned gloves carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.",
         "offlineDeformationProof": {
           "method": "Offline four-weight linear blend of scaled source vertices using generated guard node transforms and neutral inverse binds; no browser or renderer involved.",
@@ -185,6 +185,54 @@
           },
           "wristAlignmentErrorRadians": 0,
           "allMotionStartsMatchGuard": true
+        },
+        "offlineMotionProof": {
+          "method": "Skin and inverse-bind matrices from the exported GLB were evaluated offline at sampled clip times; per-vertex displacement is measured against the exported guard bind pose before the creature definition scale.",
+          "nativeUnits": "meters at 3.30 m model height",
+          "currentCreatureScale": 0.507,
+          "clips": {
+            "Walk": {
+              "phase": 0.25,
+              "wholeMeanMeters": 0.148,
+              "legMeanMeters": 0.223,
+              "legMaxMeters": 0.563,
+              "armMeanMeters": 0.147,
+              "armMaxMeters": 0.266,
+              "torsoMeanMeters": 0.1,
+              "torsoMaxMeters": 0.126
+            },
+            "Run": {
+              "phase": 0.25,
+              "wholeMeanMeters": 0.295,
+              "legMeanMeters": 0.421,
+              "legMaxMeters": 0.996,
+              "armMeanMeters": 0.29,
+              "armMaxMeters": 0.459,
+              "torsoMeanMeters": 0.218,
+              "torsoMaxMeters": 0.253
+            },
+            "Attack": {
+              "phase": 0.36,
+              "wholeMeanMeters": 0.401,
+              "legMeanMeters": 0.294,
+              "legMaxMeters": 0.396,
+              "armMeanMeters": 0.515,
+              "armMaxMeters": 0.846,
+              "torsoMeanMeters": 0.355,
+              "torsoMaxMeters": 0.763
+            },
+            "Hit": {
+              "phase": 0.13,
+              "wholeMeanMeters": 0.446,
+              "legMeanMeters": 0.362,
+              "legMaxMeters": 0.547,
+              "armMeanMeters": 0.533,
+              "armMaxMeters": 1.001,
+              "torsoMeanMeters": 0.413,
+              "torsoMaxMeters": 0.685
+            }
+          },
+          "thresholdsPassed": true
         },
         "textures": [
           {

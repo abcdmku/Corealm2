@@ -60,8 +60,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
-    "sha256": "b1e97ad18a88c3bc539f6f36c1485b7d2d5a72d61a7dc9d5ec1e19ea9b6948be",
-    "bytes": 11071788,
+    "sha256": "adf64ceb17440985db47d012e81b8979b40daceaa285a91ffb175992dc7c4013",
+    "bytes": 11074828,
     "productionTarget": "game/public/assets/models/fairy-crown/creature_pearl_knight.glb",
     "geometry": {
       "vertices": 7637,
@@ -464,14 +464,14 @@
       },
       {
         "name": "Attack",
-        "seconds": 0.92,
-        "channels": 8,
+        "seconds": 0.78,
+        "channels": 10,
         "maxGuardStartErrorRadians": 0
       },
       {
         "name": "Hit",
-        "seconds": 0.46,
-        "channels": 10,
+        "seconds": 0.6,
+        "channels": 13,
         "maxGuardStartErrorRadians": 0
       },
       {
@@ -480,7 +480,55 @@
         "channels": 13,
         "maxGuardStartErrorRadians": 0
       }
-    ]
+    ],
+    "offlineMotionProof": {
+      "method": "Skin and inverse-bind matrices from the exported GLB were evaluated offline at sampled clip times; per-vertex displacement is measured against the exported guard bind pose before the creature definition scale.",
+      "nativeUnits": "meters at 3.30 m model height",
+      "currentCreatureScale": 0.507,
+      "clips": {
+        "Walk": {
+          "phase": 0.25,
+          "wholeMeanMeters": 0.148,
+          "legMeanMeters": 0.223,
+          "legMaxMeters": 0.563,
+          "armMeanMeters": 0.147,
+          "armMaxMeters": 0.266,
+          "torsoMeanMeters": 0.1,
+          "torsoMaxMeters": 0.126
+        },
+        "Run": {
+          "phase": 0.25,
+          "wholeMeanMeters": 0.295,
+          "legMeanMeters": 0.421,
+          "legMaxMeters": 0.996,
+          "armMeanMeters": 0.29,
+          "armMaxMeters": 0.459,
+          "torsoMeanMeters": 0.218,
+          "torsoMaxMeters": 0.253
+        },
+        "Attack": {
+          "phase": 0.36,
+          "wholeMeanMeters": 0.401,
+          "legMeanMeters": 0.294,
+          "legMaxMeters": 0.396,
+          "armMeanMeters": 0.515,
+          "armMaxMeters": 0.846,
+          "torsoMeanMeters": 0.355,
+          "torsoMaxMeters": 0.763
+        },
+        "Hit": {
+          "phase": 0.13,
+          "wholeMeanMeters": 0.446,
+          "legMeanMeters": 0.362,
+          "legMaxMeters": 0.547,
+          "armMeanMeters": 0.533,
+          "armMaxMeters": 1.001,
+          "torsoMeanMeters": 0.413,
+          "torsoMaxMeters": 0.685
+        }
+      },
+      "thresholdsPassed": true
+    }
   },
   "acceptance": {
     "sourceDesignAudit": true,

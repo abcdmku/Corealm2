@@ -237,53 +237,70 @@ addClip('Idle', 2.6, [
   { node: 'mixamorigRightForeArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0, 0.012, 0, -0.012, 0].map((amount) => guardForeArm(-1, amount)) },
 ]);
 addClip('Walk', 1.0, [
-  { node: 'mixamorigHips', path: 'translation', times: phases, values: hipsY([0.365, 0.376, 0.365, 0.376, 0.365]) },
-  { node: 'mixamorigLeftUpLeg', times: phases, values: swing(0, 0.30) },
-  { node: 'mixamorigRightUpLeg', times: phases, values: swing(0.5, 0.30) },
-  { node: 'mixamorigLeftLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.18)) },
-  { node: 'mixamorigRightLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.18)) },
-  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => guardShoulder(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.035)) },
-  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => guardShoulder(-1, Math.sin(t * Math.PI * 2) * 0.035)) },
-  { node: 'mixamorigLeftArm', times: phases, values: phases.map((t) => guardArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.075)) },
-  { node: 'mixamorigRightArm', times: phases, values: phases.map((t) => guardArm(-1, Math.sin(t * Math.PI * 2) * 0.075)) },
-  { node: 'mixamorigLeftForeArm', times: phases, values: phases.map((t) => guardForeArm(1, 0, Math.sin((t + 0.5) * Math.PI * 2) * 0.04)) },
-  { node: 'mixamorigRightForeArm', times: phases, values: phases.map((t) => guardForeArm(-1, 0, Math.sin(t * Math.PI * 2) * 0.04)) },
+  // The first pass used a 0.30 rad thigh swing and only 0.18 rad knee flex;
+  // both were mostly hidden by the plated skirt at the game's 1.67 m scale.
+  { node: 'mixamorigHips', path: 'translation', times: phases, values: hipsY([0.365, 0.395, 0.365, 0.395, 0.365]) },
+  { node: 'mixamorigLeftUpLeg', times: phases, values: swing(0, 0.46) },
+  { node: 'mixamorigRightUpLeg', times: phases, values: swing(0.5, 0.46) },
+  { node: 'mixamorigLeftLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.34)) },
+  { node: 'mixamorigRightLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.34)) },
+  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => guardShoulder(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.06)) },
+  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => guardShoulder(-1, Math.sin(t * Math.PI * 2) * 0.06)) },
+  { node: 'mixamorigLeftArm', times: phases, values: phases.map((t) => guardArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.17)) },
+  { node: 'mixamorigRightArm', times: phases, values: phases.map((t) => guardArm(-1, Math.sin(t * Math.PI * 2) * 0.17)) },
+  { node: 'mixamorigLeftForeArm', times: phases, values: phases.map((t) => guardForeArm(1, 0, Math.sin((t + 0.5) * Math.PI * 2) * 0.10)) },
+  { node: 'mixamorigRightForeArm', times: phases, values: phases.map((t) => guardForeArm(-1, 0, Math.sin(t * Math.PI * 2) * 0.10)) },
 ]);
 addClip('Run', 0.72, [
-  { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t * 0.72), values: hipsY([0.365, 0.390, 0.365, 0.390, 0.365]) },
-  { node: 'mixamorigLeftUpLeg', times: phases.map((t) => t * 0.72), values: swing(0, 0.58) },
-  { node: 'mixamorigRightUpLeg', times: phases.map((t) => t * 0.72), values: swing(0.5, 0.58) },
-  { node: 'mixamorigLeftLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.46)) },
-  { node: 'mixamorigRightLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.46)) },
-  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardShoulder(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.055)) },
-  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardShoulder(-1, Math.sin(t * Math.PI * 2) * 0.055)) },
-  { node: 'mixamorigLeftArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.12)) },
-  { node: 'mixamorigRightArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardArm(-1, Math.sin(t * Math.PI * 2) * 0.12)) },
-  { node: 'mixamorigLeftForeArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardForeArm(1, 0, Math.sin((t + 0.5) * Math.PI * 2) * 0.06)) },
-  { node: 'mixamorigRightForeArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardForeArm(-1, 0, Math.sin(t * Math.PI * 2) * 0.06)) },
-  { node: 'mixamorigSpine1', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', 0.025 + Math.sin(t * Math.PI * 2) * 0.025)) },
+  { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t * 0.72), values: hipsY([0.365, 0.430, 0.365, 0.430, 0.365]) },
+  { node: 'mixamorigLeftUpLeg', times: phases.map((t) => t * 0.72), values: swing(0, 0.78) },
+  { node: 'mixamorigRightUpLeg', times: phases.map((t) => t * 0.72), values: swing(0.5, 0.78) },
+  { node: 'mixamorigLeftLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.67)) },
+  { node: 'mixamorigRightLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.67)) },
+  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardShoulder(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.10)) },
+  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardShoulder(-1, Math.sin(t * Math.PI * 2) * 0.10)) },
+  { node: 'mixamorigLeftArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.28)) },
+  { node: 'mixamorigRightArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardArm(-1, Math.sin(t * Math.PI * 2) * 0.28)) },
+  { node: 'mixamorigLeftForeArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardForeArm(1, 0, Math.sin((t + 0.5) * Math.PI * 2) * 0.17)) },
+  { node: 'mixamorigRightForeArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardForeArm(-1, 0, Math.sin(t * Math.PI * 2) * 0.17)) },
+  { node: 'mixamorigSpine1', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', 0.055 + Math.sin(t * Math.PI * 2) * 0.035)) },
 ]);
-addClip('Attack', 0.92, [
-  { node: 'mixamorigHips', path: 'translation', times: [0, 0.18, 0.48, 0.72, 0.92], values: [[0, 0.365, -0.012], [0, 0.365, -0.028], [0, 0.355, 0.025], [0, 0.365, 0.010], [0, 0.365, -0.012]] },
-  { node: 'mixamorigSpine1', times: [0, 0.18, 0.48, 0.72, 0.92], values: [quat('y', 0), quat('y', -0.14), quat('y', 0.14), quat('y', 0.06), quat('y', 0)] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.02, 0.06, 0.02, 0].map((amount) => guardShoulder(1, amount)) },
-  { node: 'mixamorigRightShoulder', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, -0.12, -0.20, -0.06, 0].map((amount) => guardShoulder(-1, amount)) },
-  { node: 'mixamorigRightArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.10, 0.32, 0.12, 0].map((amount, index) => guardArm(-1, amount, [0, 0.10, 0.28, 0.12, 0][index])) },
-  { node: 'mixamorigRightForeArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, -0.04, -0.16, -0.06, 0].map((amount) => guardForeArm(-1, amount)) },
-  { node: 'mixamorigLeftArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.06, 0.16, 0.06, 0].map((amount) => guardArm(1, amount)) },
-  { node: 'mixamorigLeftForeArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.02, 0.05, 0.02, 0].map((amount) => guardForeArm(1, amount)) },
+addClip('Attack', 0.78, [
+  // A short backswing, a committed slash by 0.28 s, then recovery. The impact
+  // previously started at 0.48 s and was only a 0.32 rad elbow/shoulder sweep.
+  { node: 'mixamorigHips', path: 'translation', times: [0, 0.10, 0.28, 0.46, 0.78], values: [[0, 0.365, -0.012], [0, 0.365, -0.075], [0, 0.350, 0.075], [0, 0.365, 0.035], [0, 0.365, -0.012]] },
+  { node: 'mixamorigHips', times: [0, 0.10, 0.28, 0.46, 0.78], values: [quat('y', 0), quat('y', -0.12), quat('y', 0.18), quat('y', 0.08), quat('y', 0)] },
+  { node: 'mixamorigSpine1', times: [0, 0.10, 0.28, 0.46, 0.78], values: [
+    multiplyQuat(quat('x', 0), quat('y', 0)),
+    multiplyQuat(quat('x', -0.10), quat('y', -0.22)),
+    multiplyQuat(quat('x', 0.14), quat('y', 0.34)),
+    multiplyQuat(quat('x', 0.06), quat('y', 0.13)),
+    multiplyQuat(quat('x', 0), quat('y', 0)),
+  ] },
+  { node: 'mixamorigSpine2', times: [0, 0.10, 0.28, 0.46, 0.78], values: [quat('y', 0), quat('y', -0.16), quat('y', 0.26), quat('y', 0.10), quat('y', 0)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.10, 0.28, 0.46, 0.78], values: [0, -0.10, 0.16, 0.06, 0].map((amount) => guardShoulder(1, amount)) },
+  { node: 'mixamorigRightShoulder', times: [0, 0.10, 0.28, 0.46, 0.78], values: [0, -0.28, 0.18, 0.08, 0].map((amount) => guardShoulder(-1, amount)) },
+  { node: 'mixamorigRightArm', times: [0, 0.10, 0.28, 0.46, 0.78], values: [0, -0.48, 0.78, 0.26, 0].map((amount, index) => guardArm(-1, amount, [0, -0.38, 0.58, 0.20, 0][index])) },
+  { node: 'mixamorigRightForeArm', times: [0, 0.10, 0.28, 0.46, 0.78], values: [0, -0.72, -0.12, -0.34, 0].map((amount, index) => guardForeArm(-1, amount, [0, -0.22, 0.18, 0.10, 0][index])) },
+  { node: 'mixamorigLeftArm', times: [0, 0.10, 0.28, 0.46, 0.78], values: [0, -0.20, 0.18, 0.08, 0].map((amount) => guardArm(1, amount)) },
+  { node: 'mixamorigLeftForeArm', times: [0, 0.10, 0.28, 0.46, 0.78], values: [0, -0.24, 0.06, 0.02, 0].map((amount) => guardForeArm(1, amount)) },
 ]);
-addClip('Hit', 0.46, [
-  { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.46], values: [[0, 0.365, -0.012], [0, 0.360, -0.040], [0, 0.363, -0.025], [0, 0.365, -0.012]] },
-  { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.20), quat('z', -0.08), quat('z', 0)] },
-  { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.46], values: [quat('x', 0), quat('x', -0.13), quat('x', 0.05), quat('x', 0)] },
-  { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.13), quat('z', -0.035), quat('z', 0)] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.46], values: [0, 0.07, 0.02, 0].map((amount) => guardShoulder(1, amount)) },
-  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.46], values: [0, -0.08, -0.03, 0].map((amount) => guardShoulder(-1, amount)) },
-  { node: 'mixamorigLeftArm', times: [0, 0.08, 0.20, 0.46], values: [0, 0.08, 0.04, 0].map((amount) => guardArm(1, amount)) },
-  { node: 'mixamorigLeftForeArm', times: [0, 0.08, 0.20, 0.46], values: [0, 0.06, 0.02, 0].map((amount) => guardForeArm(1, amount)) },
-  { node: 'mixamorigRightArm', times: [0, 0.08, 0.20, 0.46], values: [0, -0.12, -0.04, 0].map((amount) => guardArm(-1, amount)) },
-  { node: 'mixamorigRightForeArm', times: [0, 0.08, 0.20, 0.46], values: [0, -0.06, -0.02, 0].map((amount) => guardForeArm(-1, amount)) },
+addClip('Hit', 0.60, [
+  // A quick armored recoil with a readable shoulder/torso flinch, recovering
+  // through the middle of the clip instead of a barely visible 0.20 rad twitch.
+  { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.34, 0.60], values: [[0, 0.365, -0.012], [0, 0.340, -0.115], [0, 0.355, -0.055], [0, 0.365, -0.025], [0, 0.365, -0.012]] },
+  { node: 'mixamorigHips', times: [0, 0.08, 0.20, 0.34, 0.60], values: [quat('z', 0), quat('z', -0.14), quat('z', 0.04), quat('z', 0.02), quat('z', 0)] },
+  { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.34, 0.60], values: [quat('z', 0), quat('z', 0.38), quat('z', -0.13), quat('z', -0.05), quat('z', 0)] },
+  { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.34, 0.60], values: [quat('x', 0), quat('x', -0.25), quat('x', 0.09), quat('x', 0.03), quat('x', 0)] },
+  { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.34, 0.60], values: [quat('z', 0), quat('z', 0.26), quat('z', -0.08), quat('z', -0.03), quat('z', 0)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, 0.22, 0.04, 0.02, 0].map((amount) => guardShoulder(1, amount)) },
+  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, -0.24, -0.04, -0.02, 0].map((amount) => guardShoulder(-1, amount)) },
+  { node: 'mixamorigLeftArm', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, 0.38, 0.10, 0.04, 0].map((amount) => guardArm(1, amount)) },
+  { node: 'mixamorigLeftForeArm', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, 0.27, 0.06, 0.02, 0].map((amount) => guardForeArm(1, amount)) },
+  { node: 'mixamorigRightArm', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, -0.40, -0.11, -0.04, 0].map((amount) => guardArm(-1, amount)) },
+  { node: 'mixamorigRightForeArm', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, -0.28, -0.07, -0.02, 0].map((amount) => guardForeArm(-1, amount)) },
+  { node: 'mixamorigLeftUpLeg', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, 0.18, 0.04, 0.01, 0].map((amount) => quat('x', amount)) },
+  { node: 'mixamorigRightUpLeg', times: [0, 0.08, 0.20, 0.34, 0.60], values: [0, -0.18, -0.04, -0.01, 0].map((amount) => quat('x', amount)) },
 ]);
 addClip('Death', 1.45, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.22, 0.65, 1.05, 1.45], values: [[0, 0.365, -0.012], [0, 0.345, -0.020], [0, 0.245, -0.030], [0, 0.205, -0.030], [0, 0.205, -0.030]] },
@@ -449,9 +466,145 @@ for (let vertex = 0; vertex < positions.length / 3; vertex += 1) {
 const clipNames = checkRoot.listAnimations().map((animation) => animation.getName());
 const requiredClips = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
 if (requiredClips.some((name) => !clipNames.includes(name))) throw new Error('Generated knight is missing a required action clip.');
-for (const animation of checkRoot.listAnimations()) for (const channel of animation.listChannels()) {
-  if (!outSkin.listJoints().includes(channel.getTargetNode())) throw new Error(`${animation.getName()} targets a non-joint node.`);
+for (const animation of checkRoot.listAnimations()) {
+  const targets = new Set();
+  for (const channel of animation.listChannels()) {
+    if (!outSkin.listJoints().includes(channel.getTargetNode())) throw new Error(`${animation.getName()} targets a non-joint node.`);
+    const key = `${channel.getTargetNode().getName()}:${channel.getTargetPath()}`;
+    if (targets.has(key)) throw new Error(`${animation.getName()} has duplicate ${key} channels.`);
+    targets.add(key);
+  }
 }
+
+// Evaluate the exported skin itself at animation times, then compare each pose
+// with the exported guard bind. This catches clips that have valid channels but
+// barely move the actual weighted armor vertices.
+const outputJoints = outSkin.listJoints();
+const jointIndex = new Map(outputJoints.map((node, index) => [node, index]));
+const inverseBinds = outSkin.getInverseBindMatrices()?.getArray();
+if (!inverseBinds) throw new Error('Generated knight skin has no inverse bind matrices.');
+const interpolateQuaternion = (a, b, t) => {
+  let dot = a.reduce((sum, value, index) => sum + value * b[index], 0);
+  if (dot < 0) { b = b.map((value) => -value); dot = -dot; }
+  if (dot > 0.9995) {
+    const values = a.map((value, index) => value + (b[index] - value) * t);
+    const length = Math.hypot(...values);
+    return values.map((value) => value / length);
+  }
+  const angle = Math.acos(Math.min(1, dot));
+  const denominator = Math.sin(angle);
+  return a.map((value, index) => (Math.sin((1 - t) * angle) * value + Math.sin(t * angle) * b[index]) / denominator);
+};
+function skinnedPose(animation, time) {
+  const localPosition = outputJoints.map((node) => [...node.getTranslation()]);
+  const localRotation = outputJoints.map((node) => [...node.getRotation()]);
+  if (animation) for (const channel of animation.listChannels()) {
+    const index = jointIndex.get(channel.getTargetNode());
+    const sampler = channel.getSampler();
+    const times = sampler.getInput().getArray();
+    const values = sampler.getOutput().getArray();
+    const path = channel.getTargetPath();
+    const stride = path === 'rotation' ? 4 : 3;
+    let upper = 1;
+    while (upper < times.length - 1 && times[upper] < time) upper += 1;
+    const lower = Math.max(0, upper - 1);
+    const fraction = Math.max(0, Math.min(1, (time - times[lower]) / (times[upper] - times[lower] || 1)));
+    const from = Array.from(values.slice(lower * stride, (lower + 1) * stride));
+    const to = Array.from(values.slice(upper * stride, (upper + 1) * stride));
+    if (path === 'rotation') localRotation[index] = interpolateQuaternion(from, to, fraction);
+    else if (path === 'translation') localPosition[index] = from.map((value, axis) => value + (to[axis] - value) * fraction);
+    else throw new Error(`Unsupported ${animation.getName()} target path ${path}.`);
+  }
+  const worldPosition = [], worldRotation = [];
+  for (let index = 0; index < outputJoints.length; index += 1) {
+    const parentIndex = jointIndex.get(outputJoints[index].getParentNode());
+    if (parentIndex === undefined) {
+      worldPosition[index] = localPosition[index];
+      worldRotation[index] = localRotation[index];
+    } else {
+      const offset = rotateVector(worldRotation[parentIndex], localPosition[index]);
+      worldPosition[index] = offset.map((value, axis) => value + worldPosition[parentIndex][axis]);
+      worldRotation[index] = multiplyQuat(worldRotation[parentIndex], localRotation[index]);
+    }
+  }
+  const deformed = new Float32Array(outPositions.length);
+  for (let vertex = 0; vertex < outPositions.length / 3; vertex += 1) {
+    const source = [outPositions[vertex * 3], outPositions[vertex * 3 + 1], outPositions[vertex * 3 + 2]];
+    const output = [0, 0, 0];
+    for (let slot = 0; slot < 4; slot += 1) {
+      const offset = vertex * 4 + slot;
+      const index = outJoints[offset], weight = outWeights[offset];
+      if (weight <= 0) continue;
+      const matrix = inverseBinds.slice(index * 16, index * 16 + 16);
+      const bindPoint = [
+        matrix[0] * source[0] + matrix[4] * source[1] + matrix[8] * source[2] + matrix[12],
+        matrix[1] * source[0] + matrix[5] * source[1] + matrix[9] * source[2] + matrix[13],
+        matrix[2] * source[0] + matrix[6] * source[1] + matrix[10] * source[2] + matrix[14],
+      ];
+      const rotated = rotateVector(worldRotation[index], bindPoint);
+      for (let axis = 0; axis < 3; axis += 1) output[axis] += (rotated[axis] + worldPosition[index][axis]) * weight;
+    }
+    deformed.set(output, vertex * 3);
+  }
+  return deformed;
+}
+const bindPose = skinnedPose(null, 0);
+function measureMotion(animation, phase) {
+  const duration = Math.max(...animation.listSamplers().flatMap((sampler) => Array.from(sampler.getInput().getArray())));
+  const deformed = skinnedPose(animation, duration * phase);
+  const regions = { whole: [], legs: [], arms: [], torso: [] };
+  for (let vertex = 0; vertex < outPositions.length / 3; vertex += 1) {
+    const delta = Math.hypot(...[0, 1, 2].map((axis) => deformed[vertex * 3 + axis] - bindPose[vertex * 3 + axis]));
+    let legWeight = 0, armWeight = 0;
+    for (let slot = 0; slot < 4; slot += 1) {
+      const weight = outWeights[vertex * 4 + slot];
+      const name = outputJoints[outJoints[vertex * 4 + slot]].getName();
+      if (/UpLeg|Leg|Foot|ToeBase/.test(name)) legWeight += weight;
+      if (/Shoulder|Arm|ForeArm|Hand/.test(name)) armWeight += weight;
+    }
+    regions.whole.push(delta);
+    if (legWeight >= 0.20) regions.legs.push(delta);
+    if (armWeight >= 0.20) regions.arms.push(delta);
+    if (legWeight < 0.20 && armWeight < 0.20) regions.torso.push(delta);
+  }
+  const stats = (values) => ({
+    vertices: values.length,
+    meanMeters: Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(3)),
+    maxMeters: Number(Math.max(...values).toFixed(3)),
+  });
+  return Object.fromEntries(Object.entries(regions).filter(([, values]) => values.length).map(([name, values]) => [name, stats(values)]));
+}
+const motionProof = Object.fromEntries(checkRoot.listAnimations().map((animation) => {
+  const samples = animation.getName() === 'Attack'
+    ? [0.13, 0.36, 0.59]
+    : animation.getName() === 'Hit'
+      ? [0.13, 0.33, 0.57]
+      : [0.25, 0.50, 0.75];
+  return [animation.getName(), samples.map((phase) => ({ phase, ...measureMotion(animation, phase) }))];
+}));
+const motionSummary = {
+  method: 'Skin and inverse-bind matrices from the exported GLB were evaluated offline at sampled clip times; per-vertex displacement is measured against the exported guard bind pose before the creature definition scale.',
+  nativeUnits: 'meters at 3.30 m model height',
+  currentCreatureScale: 0.507,
+  clips: Object.fromEntries(['Walk', 'Run', 'Attack', 'Hit'].map((name) => {
+    const sample = motionProof[name].find((entry) => entry.phase === ({ Walk: 0.25, Run: 0.25, Attack: 0.36, Hit: 0.13 })[name]);
+    const result = { phase: sample.phase, wholeMeanMeters: sample.whole.meanMeters };
+    if (sample.legs) result.legMeanMeters = sample.legs.meanMeters, result.legMaxMeters = sample.legs.maxMeters;
+    if (sample.arms) result.armMeanMeters = sample.arms.meanMeters, result.armMaxMeters = sample.arms.maxMeters;
+    if (sample.torso) result.torsoMeanMeters = sample.torso.meanMeters, result.torsoMaxMeters = sample.torso.maxMeters;
+    return [name, result];
+  })),
+  thresholdsPassed: true,
+};
+const requireMotion = (name, phase, region, minimum) => {
+  const sample = motionProof[name].find((entry) => entry.phase === phase);
+  const maximum = sample?.[region]?.maxMeters;
+  if (!(maximum >= minimum)) throw new Error(`${name} ${region} displacement at phase ${phase} is ${maximum} m; expected >= ${minimum} m.`);
+};
+requireMotion('Walk', 0.25, 'legs', 0.48);
+requireMotion('Run', 0.25, 'legs', 0.78);
+requireMotion('Attack', 0.36, 'arms', 0.60);
+requireMotion('Hit', 0.13, 'torso', 0.40);
 
 const candidate = {
   schema: 'corealm-creature-native-rig-candidate/1',
@@ -484,6 +637,7 @@ const candidate = {
     roughnessChannelRange: roughRange,
     pbr: 'Original Tripo base color, packed metallic-roughness and normal maps; image-generated source art is retained and downsampled to 2K for runtime.',
     animations: clips,
+    offlineMotionProof: motionSummary,
   },
   acceptance: { sourceDesignAudit: true, geometry: true, rig: false, animation: false, textures: false, labAccepted: false, worldIntegrated: false },
 };
@@ -514,6 +668,7 @@ const labAsset = {
     candidateSha256: candidateHash,
     rigMethod: '22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; close guard bind pose and aligned gloves carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.',
     offlineDeformationProof: guardPoseProof,
+    offlineMotionProof: motionSummary,
     textures: runtimeTextures,
     candidateStatus: 'awaiting-root-lab-review',
   },
@@ -524,4 +679,4 @@ await writeFile(`${baseDir}/lab-catalog.json`, JSON.stringify({
   files: { creature_pearl_knight: 'pearl-patrol-knight-native-rig.glb' },
   assets: [labAsset],
 }, null, 2) + '\n');
-console.log(JSON.stringify({ candidatePath, bytes: bytes.length, sha256: candidateHash, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, distributedVertices, metallicChannelRange: metalRange, roughnessChannelRange: roughRange, clips, offlineDeformationProof: guardPoseProof, runtimeTextures }, null, 2));
+console.log(JSON.stringify({ candidatePath, bytes: bytes.length, sha256: candidateHash, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, distributedVertices, metallicChannelRange: metalRange, roughnessChannelRange: roughRange, clips, offlineDeformationProof: guardPoseProof, offlineMotionProof: { summary: motionSummary, samples: motionProof }, runtimeTextures }, null, 2));
