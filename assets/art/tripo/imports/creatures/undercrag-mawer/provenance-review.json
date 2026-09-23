@@ -1,0 +1,76 @@
+{
+  "candidate": "creature_boss_tideworn",
+  "displayName": "Undercrag Mawer",
+  "status": "ready-for-root-lab-review",
+  "acceptance": {
+    "visualAccepted": false,
+    "promotable": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  },
+  "approvedImageModelLink": {
+    "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+    "modelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+    "verifiedTextureModelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+    "verifiedTextureUrl": "https://studio.tripo3d.ai/workspace/texture/31201699-cc20-4688-88cf-f29f8eb754cb",
+    "imageAudit": {
+      "verdict": "approved",
+      "reviewer": "stone_audit (gpt-6-astra low)",
+      "reason": "Balanced living cave humanoid with distinct broad muzzle and cupped ears, layered taupe skin and pale mineral shoulder deposits; mature, grounded RPG design."
+    },
+    "faceAudit": {
+      "verdict": "approved",
+      "reviewer": "face_audit_field_stone",
+      "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+      "reason": "Intact deliberate face; no missing-face void, exposed genital detail or destroyed facial opening."
+    },
+    "evidence": [
+      "assets/art/tripo/batches/creatures-stone.json: cave-ogre",
+      "assets/art/tripo/imports/content-bindings.json: image/model binding",
+      "assets/art/tripo/exports/individual-export-ledger.json: 31201699-cc20-4688-88cf-f29f8eb754cb"
+    ]
+  },
+  "sourceExport": {
+    "file": "assets/art/tripo/exports/corealm_undercrag_mawer_31201699_8k_rigged.glb",
+    "sha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+    "bytes": 18895004,
+    "triangles": 7080,
+    "vertices": 4198,
+    "skins": 1,
+    "mixamoJoints": 54,
+    "sourceWeighting": "4197 of 4198 vertices (99.976%) are Hips-dominant; source has no animation clips",
+    "sourceBaseColor": {
+      "dimensions": "8192x8192",
+      "sha256": "5fa4144336b9576130d0c03301c904ad3d5f3f72a4fe6433d421714ebe29c722"
+    }
+  },
+  "candidateProcessing": {
+    "geometryBasisRepair": {
+      "degrees": 90,
+      "method": "Closest-point match to the original static export before skin repair or retargeting",
+      "reference": "C:/Users/Borg/Downloads/humanoid+ape+3d+model.glb",
+      "referenceSha256": "77cea807a7b6a18d1c12d54ae847baa9159461378b5a0dcd0ea85c4a9bbf8a3f",
+      "rmsMeters": 0.0000002838,
+      "maximumMeters": 0.0000004912
+    },
+    "weightRepair": "Rebuilt four-influence skin weights from the recovered 54-joint bind pose and nearest anatomical bone segments; candidate now distributes weights across torso, arms, hands, legs and feet. This remains subject to visual motion review.",
+    "motion": {
+      "method": "Retargeted current native humanoid library after inverse-bind rest-pose recovery",
+      "clips": ["Idle", "Walk", "Run", "Attack", "Hit", "HitLeft", "HitRight", "Death"],
+      "directionalHit": false,
+      "note": "HitLeft and HitRight are explicit aliases of the native frontal Hit take."
+    }
+  },
+  "runtimeMaterial": {
+    "profile": "dielectric-stone-organic",
+    "authoredBaseColorPreserved": true,
+    "sourceTextureRetainedAt8192": true,
+    "runtimeNormalAndRoughnessMaps": "2048 maximum dimension",
+    "metallicFactor": 0,
+    "metallicChannel": "zero for every texel",
+    "roughnessFactor": 1,
+    "roughnessMapRange": [0.8784, 0.9765],
+    "normalScale": 0.28
+  },
+  "rootReviewRequired": "Inspect normal-camera appearance and Idle, Walk, Run, Attack, Hit and Death in the existing creature lab. Keep acceptance flags false until that review passes."
+}

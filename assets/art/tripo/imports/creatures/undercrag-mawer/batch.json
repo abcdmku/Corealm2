@@ -1,0 +1,24 @@
+{
+  "output": "assets/art/tripo/imports/creatures/undercrag-mawer",
+  "entries": [
+    {
+      "id": "creature_boss_tideworn",
+      "name": "Undercrag Mawer",
+      "source": "assets/art/tripo/exports/corealm_undercrag_mawer_31201699_8k_rigged.glb",
+      "expectedSourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+      "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+      "modelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "stone_audit (gpt-6-astra low); face_audit_field_stone"
+      },
+      "heightMeters": 2.4,
+      "yawDegrees": 0,
+      "orientationVerified": true,
+      "requirePbrMaps": false,
+      "retargetHumanoid": true,
+      "repairHumanoidWeights": true,
+      "geometryReference": "C:/Users/Borg/Downloads/humanoid+ape+3d+model.glb"
+    }
+  ]
+}

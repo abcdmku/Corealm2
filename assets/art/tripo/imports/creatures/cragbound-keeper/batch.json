@@ -1,0 +1,24 @@
+﻿{
+    "output":  "assets/art/tripo/imports/creatures/cragbound-keeper",
+    "entries":  [
+                    {
+                        "id":  "creature_stone_golem",
+                        "name":  "Cragbound Keeper",
+                        "source":  "assets/art/tripo/exports/corealm_cragbound_keeper_00725e73_8k_rigged.glb",
+                        "expectedSourceSha256":  "3413ffb590eb0a4dcd005035819addc8c2b3aaf5cd25f99a26de458dcc6a93b4",
+                        "sourceImageId":  "b480f1bd-80ee-4069-9da5-8fc47fd6b9f9",
+                        "modelId":  "00725e73-acb0-4633-a8b7-ee04d7c576e9",
+                        "imageReview":  {
+                                            "verdict":  "approved",
+                                            "reviewer":  "face_audit_field_stone; stone_audit"
+                                        },
+                        "heightMeters":  3.2,
+                        "yawDegrees":  0,
+                        "orientationVerified":  true,
+                        "requirePbrMaps":  false,
+                        "retargetHumanoid":  true,
+                        "repairHumanoidWeights":  true,
+                        "geometryBasisDegrees":  90
+                    }
+                ]
+}

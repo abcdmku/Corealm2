@@ -1,0 +1,859 @@
+{
+  "assets": [
+    {
+      "id": "creature_boss_tideworn",
+      "file": "models/creature/creature_boss_tideworn.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Undercrag Mawer",
+      "tags": [
+        "creature",
+        "tripo"
+      ],
+      "bytes": 10968396,
+      "sha256": "34da520bbabbabc3c8b529a5d150b6cef418a375db8fd8f78d8c057fb810bb82",
+      "triangles": 7080,
+      "size": {
+        "x": 1.3729359434596615,
+        "y": 2.399999999999998,
+        "z": 0.8453338366256584
+      },
+      "base": {
+        "x": -0.686467971729831,
+        "y": -1.701035519123845e-16,
+        "z": -0.4226669183128276
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_7b068e67-ef5f-4104-9e09-fe35fefaf24b"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio",
+        "modelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+        "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+        "sourceFile": "sources/creature_boss_tideworn-fe89fbf98079.glb",
+        "sourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+        "basisRepair": {
+          "degrees": 90,
+          "rms": 2.8384323795425024e-7,
+          "maximum": 4.911205774073403e-7,
+          "samples": 247,
+          "testedRotations": [
+            {
+              "degrees": 90,
+              "rms": 2.8384323795425024e-7,
+              "maximum": 4.911205774073403e-7,
+              "samples": 247
+            },
+            {
+              "degrees": -90,
+              "rms": 0.043961466982385254,
+              "maximum": 0.13623232263704993,
+              "samples": 247
+            },
+            {
+              "degrees": 180,
+              "rms": 0.08783602272937659,
+              "maximum": 0.20911362924516202,
+              "samples": 247
+            },
+            {
+              "degrees": 0,
+              "rms": 0.08926403993537424,
+              "maximum": 0.21564191016270218,
+              "samples": 247
+            }
+          ],
+          "method": "Closest-point comparison against original static export, before any skeleton or motion transformations",
+          "sourceFile": "C:/Users/Borg/Downloads/humanoid+ape+3d+model.glb",
+          "sourceSha256": "77cea807a7b6a18d1c12d54ae847baa9159461378b5a0dcd0ea85c4a9bbf8a3f"
+        },
+        "materialTreatment": null,
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 4198,
+          "dominantJointVertices": {
+            "RightHand": 377,
+            "RightForeArm": 82,
+            "RightArm": 155,
+            "RightShoulder": 80,
+            "Neck": 405,
+            "Head": 671,
+            "Spine2": 37,
+            "Spine1": 31,
+            "Spine": 59,
+            "Hips": 105,
+            "RightUpLeg": 428,
+            "LeftUpLeg": 327,
+            "LeftArm": 155,
+            "LeftShoulder": 110,
+            "RightLeg": 234,
+            "RightFoot": 124,
+            "RightToeBase": 26,
+            "LeftLeg": 171,
+            "LeftFoot": 51,
+            "LeftToeBase": 153,
+            "LeftForeArm": 82,
+            "LeftHand": 335
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": -89.99997258943013,
+          "translationScale": 0.5894008430357138,
+          "bindBounds": {
+            "min": [
+              -0.2858886841022817,
+              3.513347668693465e-8,
+              -0.1760251529008055
+            ],
+            "max": [
+              0.285888659751136,
+              0.999511798071396,
+              0.17602531098118773
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.047513730523515554
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.08392011978091415
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.1457928799462841
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.05336458141399375
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.05011552524374848,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.05011552524374848,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.05011552524374848,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.1538286514079766
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "runtimePbrTreatment": {
+          "profile": "dielectric-stone-organic",
+          "baseColorPreserved": true,
+          "baseColorSha256": "9caabf28ae12b115cb97ea213eaa200f39e6f3465d7f653b4b7c199e0050f32a",
+          "originalSourceTexture": "8192x8192 in sources/*.glb; unchanged",
+          "runtimeMaps": {
+            "maxDimension": 2048,
+            "normal": "Undercrag layered skin and mineral microrelief normal",
+            "metallicRoughness": "Undercrag dielectric roughness, no metal"
+          },
+          "metallicFactor": 0,
+          "metallicChannel": "B=0 throughout; no metallic mask or metal sheen",
+          "roughnessFactor": 1,
+          "roughnessChannel": {
+            "G": {
+              "min": 0.8784,
+              "generatedMean": 0.9545,
+              "max": 0.9765
+            }
+          },
+          "normalScale": 0.28,
+          "normalRelief": {
+            "meanSlope": 0.4292,
+            "maxSlope": 0.55,
+            "method": "Subtle high-pass relief from the authored layered albedo; no base-color recolor"
+          },
+          "sourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+          "candidateSha256": "34da520bbabbabc3c8b529a5d150b6cef418a375db8fd8f78d8c057fb810bb82",
+          "candidateBytes": 10968396
+        }
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": {
+          "profile": "dielectric-stone-organic",
+          "baseColorPreserved": true,
+          "baseColorSha256": "9caabf28ae12b115cb97ea213eaa200f39e6f3465d7f653b4b7c199e0050f32a",
+          "originalSourceTexture": "8192x8192 in sources/*.glb; unchanged",
+          "runtimeMaps": {
+            "maxDimension": 2048,
+            "normal": "Undercrag layered skin and mineral microrelief normal",
+            "metallicRoughness": "Undercrag dielectric roughness, no metal"
+          },
+          "metallicFactor": 0,
+          "metallicChannel": "B=0 throughout; no metallic mask or metal sheen",
+          "roughnessFactor": 1,
+          "roughnessChannel": {
+            "G": {
+              "min": 0.8784,
+              "generatedMean": 0.9545,
+              "max": 0.9765
+            }
+          },
+          "normalScale": 0.28,
+          "normalRelief": {
+            "meanSlope": 0.4292,
+            "maxSlope": 0.55,
+            "method": "Subtle high-pass relief from the authored layered albedo; no base-color recolor"
+          },
+          "sourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+          "candidateSha256": "34da520bbabbabc3c8b529a5d150b6cef418a375db8fd8f78d8c057fb810bb82",
+          "candidateBytes": 10968396
+        },
+        "animationAcceptance": "pending-production-lab"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_boss_tideworn": "models/creature_boss_tideworn.glb"
+  },
+  "packs": [
+    {
+      "id": "corealm-tripo-creatures",
+      "name": "Tripo generated creature assets",
+      "author": "Corealm",
+      "source": "https://studio.tripo3d.ai/",
+      "license": "LicenseRef-Tripo-Generated"
+    }
+  ],
+  "imports": [
+    {
+      "id": "creature_boss_tideworn",
+      "name": "Undercrag Mawer",
+      "modelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+      "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+      "sourceFile": "sources/creature_boss_tideworn-fe89fbf98079.glb",
+      "downloadedFilename": "corealm_undercrag_mawer_31201699_8k_rigged.glb",
+      "sourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+      "sourceBytes": 18895004,
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "stone_audit (gpt-6-astra low); face_audit_field_stone"
+      },
+      "source": {
+        "triangles": 7080,
+        "textures": [
+          {
+            "name": "corealm_undercrag_mawer_31201699_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 18565246,
+            "sha256": "5fa4144336b9576130d0c03301c904ad3d5f3f72a4fe6433d421714ebe29c722"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_7b068e67-ef5f-4104-9e09-fe35fefaf24b",
+            "baseColor": "corealm_undercrag_mawer_31201699_8k_rigged_basecolor.jpg",
+            "normal": null,
+            "metallicRoughness": null,
+            "emissive": null
+          }
+        ],
+        "clips": [],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_7b068e67-ef5f-4104-9e09-fe35fefaf24b",
+            "vertices": 4198,
+            "joints": [
+              {
+                "name": "mixamorig:RightHandIndex1",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:RightHandIndex2",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 4197
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.297590005454972,
+            -0.5407514572143557,
+            -0.17407304643588342
+          ],
+          "max": [
+            0.3034582436000964,
+            0.4587603211402893,
+            0.177977686352801
+          ]
+        },
+        "problems": [
+          "100% of vertices use one joint; exported limb weights are unusable"
+        ]
+      },
+      "basisRepair": {
+        "degrees": 90,
+        "rms": 2.8384323795425024e-7,
+        "maximum": 4.911205774073403e-7,
+        "samples": 247,
+        "testedRotations": [
+          {
+            "degrees": 90,
+            "rms": 2.8384323795425024e-7,
+            "maximum": 4.911205774073403e-7,
+            "samples": 247
+          },
+          {
+            "degrees": -90,
+            "rms": 0.043961466982385254,
+            "maximum": 0.13623232263704993,
+            "samples": 247
+          },
+          {
+            "degrees": 180,
+            "rms": 0.08783602272937659,
+            "maximum": 0.20911362924516202,
+            "samples": 247
+          },
+          {
+            "degrees": 0,
+            "rms": 0.08926403993537424,
+            "maximum": 0.21564191016270218,
+            "samples": 247
+          }
+        ],
+        "method": "Closest-point comparison against original static export, before any skeleton or motion transformations",
+        "sourceFile": "C:/Users/Borg/Downloads/humanoid+ape+3d+model.glb",
+        "sourceSha256": "77cea807a7b6a18d1c12d54ae847baa9159461378b5a0dcd0ea85c4a9bbf8a3f"
+      },
+      "materialTreatment": null,
+      "weightRepair": {
+        "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+        "vertices": 4198,
+        "dominantJointVertices": {
+          "RightHand": 377,
+          "RightForeArm": 82,
+          "RightArm": 155,
+          "RightShoulder": 80,
+          "Neck": 405,
+          "Head": 671,
+          "Spine2": 37,
+          "Spine1": 31,
+          "Spine": 59,
+          "Hips": 105,
+          "RightUpLeg": 428,
+          "LeftUpLeg": 327,
+          "LeftArm": 155,
+          "LeftShoulder": 110,
+          "RightLeg": 234,
+          "RightFoot": 124,
+          "RightToeBase": 26,
+          "LeftLeg": 171,
+          "LeftFoot": 51,
+          "LeftToeBase": 153,
+          "LeftForeArm": 82,
+          "LeftHand": 335
+        },
+        "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+        "requiresVisualReview": true
+      },
+      "retarget": {
+        "restoredJoints": 54,
+        "mappedJoints": 52,
+        "yawDegrees": -89.99997258943013,
+        "translationScale": 0.5894008430357138,
+        "bindBounds": {
+          "min": [
+            -0.2858886841022817,
+            3.513347668693465e-8,
+            -0.1760251529008055
+          ],
+          "max": [
+            0.285888659751136,
+            0.999511798071396,
+            0.17602531098118773
+          ]
+        },
+        "clips": [
+          {
+            "name": "Idle",
+            "sourceTake": "Idle_Loop",
+            "seconds": 2.5,
+            "samples": 76,
+            "maximumGroundCorrection": 0.047513730523515554
+          },
+          {
+            "name": "Walk",
+            "sourceTake": "Walk_Loop",
+            "seconds": 1.3333333730697632,
+            "samples": 42,
+            "maximumGroundCorrection": 0.08392011978091415
+          },
+          {
+            "name": "Run",
+            "sourceTake": "Jog_Fwd_Loop",
+            "seconds": 0.9333333373069763,
+            "samples": 30,
+            "maximumGroundCorrection": 0.1457928799462841
+          },
+          {
+            "name": "Attack",
+            "sourceTake": "Punch_Jab",
+            "seconds": 0.8666666746139526,
+            "samples": 28,
+            "maximumGroundCorrection": 0.05336458141399375
+          },
+          {
+            "name": "Hit",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.05011552524374848,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitLeft",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.05011552524374848,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitRight",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.05011552524374848,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "Death",
+            "sourceTake": "Death01",
+            "seconds": 2.4000000953674316,
+            "samples": 74,
+            "maximumGroundCorrection": 0.1538286514079766
+          }
+        ],
+        "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+        "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+      },
+      "readyForLab": true,
+      "reasons": [],
+      "runtime": {
+        "triangles": 7080,
+        "textures": [
+          {
+            "name": "corealm_undercrag_mawer_31201699_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1545349,
+            "sha256": "9caabf28ae12b115cb97ea213eaa200f39e6f3465d7f653b4b7c199e0050f32a"
+          },
+          {
+            "name": "Undercrag layered skin and mineral microrelief normal",
+            "mimeType": "image/png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 7365815,
+            "sha256": "a4ba1d0c9e0f7fe4db708da8783f4b2040fc99ea230eb887e2fe5983112af476"
+          },
+          {
+            "name": "Undercrag dielectric roughness, no metal",
+            "mimeType": "image/png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1178597,
+            "sha256": "745d6e7f2e4a096c973766e6dbbe84e907858164b64a0f6899cf3aadc5fae156"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_7b068e67-ef5f-4104-9e09-fe35fefaf24b",
+            "baseColor": "corealm_undercrag_mawer_31201699_8k_rigged_basecolor.jpg",
+            "normal": "Undercrag layered skin and mineral microrelief normal",
+            "metallicRoughness": "Undercrag dielectric roughness, no metal",
+            "emissive": null
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_7b068e67-ef5f-4104-9e09-fe35fefaf24b",
+            "vertices": 4198,
+            "joints": [
+              {
+                "name": "mixamorig:RightHand",
+                "vertices": 407
+              },
+              {
+                "name": "mixamorig:RightForeArm",
+                "vertices": 189
+              },
+              {
+                "name": "mixamorig:RightArm",
+                "vertices": 244
+              },
+              {
+                "name": "mixamorig:RightShoulder",
+                "vertices": 151
+              },
+              {
+                "name": "mixamorig:Spine2",
+                "vertices": 171
+              },
+              {
+                "name": "mixamorig:Neck",
+                "vertices": 1087
+              },
+              {
+                "name": "mixamorig:Head",
+                "vertices": 1095
+              },
+              {
+                "name": "mixamorig:Spine1",
+                "vertices": 111
+              },
+              {
+                "name": "mixamorig:Spine",
+                "vertices": 164
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 217
+              },
+              {
+                "name": "mixamorig:RightUpLeg",
+                "vertices": 503
+              },
+              {
+                "name": "mixamorig:LeftUpLeg",
+                "vertices": 458
+              },
+              {
+                "name": "mixamorig:LeftArm",
+                "vertices": 236
+              },
+              {
+                "name": "mixamorig:LeftForeArm",
+                "vertices": 188
+              },
+              {
+                "name": "mixamorig:LeftShoulder",
+                "vertices": 231
+              },
+              {
+                "name": "mixamorig:RightLeg",
+                "vertices": 356
+              },
+              {
+                "name": "mixamorig:RightFoot",
+                "vertices": 292
+              },
+              {
+                "name": "mixamorig:RightToeBase",
+                "vertices": 124
+              },
+              {
+                "name": "mixamorig:LeftLeg",
+                "vertices": 322
+              },
+              {
+                "name": "mixamorig:LeftFoot",
+                "vertices": 189
+              },
+              {
+                "name": "mixamorig:LeftToeBase",
+                "vertices": 182
+              },
+              {
+                "name": "mixamorig:LeftHand",
+                "vertices": 386
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.686467971729831,
+            -1.701035519123845e-16,
+            -0.4226669183128276
+          ],
+          "max": [
+            0.6864679717298307,
+            2.399999999999998,
+            0.4226669183128308
+          ]
+        },
+        "problems": [],
+        "file": "models/creature_boss_tideworn.glb",
+        "sha256": "34da520bbabbabc3c8b529a5d150b6cef418a375db8fd8f78d8c057fb810bb82",
+        "bytes": 10968396,
+        "scale": 2.40117234132948
+      },
+      "runtimePbrTreatment": {
+        "profile": "dielectric-stone-organic",
+        "baseColorPreserved": true,
+        "baseColorSha256": "9caabf28ae12b115cb97ea213eaa200f39e6f3465d7f653b4b7c199e0050f32a",
+        "originalSourceTexture": "8192x8192 in sources/*.glb; unchanged",
+        "runtimeMaps": {
+          "maxDimension": 2048,
+          "normal": "Undercrag layered skin and mineral microrelief normal",
+          "metallicRoughness": "Undercrag dielectric roughness, no metal"
+        },
+        "metallicFactor": 0,
+        "metallicChannel": "B=0 throughout; no metallic mask or metal sheen",
+        "roughnessFactor": 1,
+        "roughnessChannel": {
+          "G": {
+            "min": 0.8784,
+            "generatedMean": 0.9545,
+            "max": 0.9765
+          }
+        },
+        "normalScale": 0.28,
+        "normalRelief": {
+          "meanSlope": 0.4292,
+          "maxSlope": 0.55,
+          "method": "Subtle high-pass relief from the authored layered albedo; no base-color recolor"
+        },
+        "sourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+        "candidateSha256": "34da520bbabbabc3c8b529a5d150b6cef418a375db8fd8f78d8c057fb810bb82",
+        "candidateBytes": 10968396
+      }
+    }
+  ],
+  "heldCandidates": [],
+  "visualAccepted": false,
+  "promotable": false
+}

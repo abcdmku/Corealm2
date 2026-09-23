@@ -1,0 +1,24 @@
+{
+  "output": "assets/art/tripo/imports/creatures/grove-brute-t5",
+  "entries": [
+    {
+      "id": "creature_boss_mossbound",
+      "name": "Grove Brute",
+      "source": "assets/art/tripo/exports/corealm_grove_brute_07e65df7_8k_rigged.glb",
+      "expectedSourceSha256": "5244b9a7b9b7dc8f9e5d4da470323c0d417206b94312eb9e7749fc9a3f27d7b0",
+      "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+      "modelId": "07e65df7-8ccb-4a73-872a-54d1229da86c",
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
+      },
+      "heightMeters": 2.65,
+      "yawDegrees": 0,
+      "orientationVerified": true,
+      "requirePbrMaps": false,
+      "retargetHumanoid": true,
+      "repairHumanoidWeights": true,
+      "geometryBasisDegrees": 90
+    }
+  ]
+}
