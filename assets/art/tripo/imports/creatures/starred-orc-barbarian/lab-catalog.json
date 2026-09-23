@@ -1,0 +1,101 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_stonejaw_marauder",
+      "file": "models/creature/creature_stonejaw_marauder.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Stonejaw Marauder",
+      "tags": [
+        "creature",
+        "humanoid",
+        "orc",
+        "martial",
+        "T10-T20",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 7565672,
+      "sha256": "6e31289d7fc7281b121b215b40e5d88e6357785a8932af791c406666949cb72f",
+      "size": {
+        "x": 0.955078125,
+        "y": 0.998046875,
+        "z": 0.732421875
+      },
+      "base": {
+        "x": -0.4775390625,
+        "y": 0,
+        "z": -0.3662109375
+      },
+      "bounds": {
+        "min": [
+          -0.4775390625,
+          0,
+          -0.3662109375
+        ],
+        "max": [
+          0.4775390625,
+          0.998046875,
+          0.3662109375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4976,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_c58d8735-eae6-47f5-9f8d-3cf599d0bfab_material.001"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "976e7fe5-366f-400d-8653-71e3e1c8c6b4",
+        "sourceCardId": "1aafb2b0-2ec1-429e-9997-dda6f53d94c7",
+        "sourceFile": "assets/art/tripo/exports/corealm_stonejaw_marauder_976e7fe5.glb",
+        "sourceSha256": "b1a8f9d1c7b90ccc64ae31a1dc7dead8e4ba6d90de8ffd0651c5d3dd5640012c",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-orc-barbarian/stonejaw-marauder-native-rig.glb",
+        "candidateSha256": "6e31289d7fc7281b121b215b40e5d88e6357785a8932af791c406666949cb72f",
+        "rigMethod": "Mixamo-named humanoid skeleton with spatially gated anatomical weights; original mesh indices, positions, UVs, and image-derived maps are retained.",
+        "textures": [
+          {
+            "name": "orc+barbarian+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 888248
+          },
+          {
+            "name": "orc+barbarian+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3876868
+          },
+          {
+            "name": "orc+barbarian+3d+model_normal.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 2261633
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,347 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_stonejaw_marauder",
+  "displayName": "Stonejaw Marauder",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_stonejaw_marauder_976e7fe5.glb",
+    "sha256": "b1a8f9d1c7b90ccc64ae31a1dc7dead8e4ba6d90de8ffd0651c5d3dd5640012c",
+    "bytes": 22631496,
+    "starredModelId": "976e7fe5-366f-400d-8653-71e3e1c8c6b4",
+    "starredCardId": "1aafb2b0-2ec1-429e-9997-dda6f53d94c7",
+    "starredDisplayName": "orc barbarian 3d model",
+    "geometry": {
+      "vertices": 8089,
+      "triangles": 4976,
+      "bounds": {
+        "min": [
+          -0.4775390625,
+          0,
+          -0.3662109375
+        ],
+        "max": [
+          0.4775390625,
+          0.998046875,
+          0.3662109375
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "preliminaryDesignReview": "Astra-low accepted as a T10-20 fantasy brute; the source is posed with a hammer and needs hand/weapon motion review.",
+    "textures": [
+      {
+        "name": "orc+barbarian+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "sha256": "d9b7d468381c11990dcaec0449c2ca8f2a8fe757811761a8417b905fbb3b6f0a"
+      },
+      {
+        "name": "orc+barbarian+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/png",
+        "sha256": "a782e0c71b75a2462127393cce50b1aed54d5dbe21c2588a5d07118f6707538f"
+      },
+      {
+        "name": "orc+barbarian+3d+model_normal.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "sha256": "442ba0443b70f1765eed531bf1d7a100610614e5c0562c1f385c86c512cefc27"
+      }
+    ],
+    "sourceSkin": "none",
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-orc-barbarian/stonejaw-marauder-native-rig.glb",
+    "sha256": "6e31289d7fc7281b121b215b40e5d88e6357785a8932af791c406666949cb72f",
+    "bytes": 7565672,
+    "productionTarget": "game/public/assets/models/creature/creature_stonejaw_marauder.glb",
+    "geometry": {
+      "vertices": 8089,
+      "triangles": 4976,
+      "positionsPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "type": "Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.39,
+            -0.09
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.475,
+            -0.07
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.575,
+            -0.06
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.675,
+            -0.055
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.795,
+            -0.04
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.875,
+            -0.035
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.205,
+            0.675,
+            -0.055
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.3,
+            0.59,
+            -0.035
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.365,
+            0.445,
+            0.005
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.405,
+            0.325,
+            0.035
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.205,
+            0.675,
+            -0.055
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.3,
+            0.59,
+            -0.035
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.365,
+            0.445,
+            0.005
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.405,
+            0.325,
+            0.035
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.145,
+            0.33,
+            -0.085
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.165,
+            0.165,
+            -0.055
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.165,
+            0.055,
+            0.005
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.165,
+            0.035,
+            0.095
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.145,
+            0.33,
+            -0.085
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.165,
+            0.165,
+            -0.055
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.165,
+            0.055,
+            0.005
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.165,
+            0.035,
+            0.095
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 8089,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "method": "Model-specific four-weight skin from anatomical bone-segment distance fields; no fallback to one root joint."
+    },
+    "textures": [
+      {
+        "name": "orc+barbarian+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 888248
+      },
+      {
+        "name": "orc+barbarian+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 3876868
+      },
+      {
+        "name": "orc+barbarian+3d+model_normal.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 2261633
+      }
+    ],
+    "packedMetallicChannelRange": [
+      0,
+      0.1411764705882353
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 3
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 7
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 5
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 9
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
