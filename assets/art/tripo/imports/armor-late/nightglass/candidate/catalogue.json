@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-tripo-armor",
+    "name": "Corealm Tripo armor",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/import-tripo.ts"
+  },
+  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
+  "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
+  "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+  "textureSize": 2048,
+  "assets": [
+    {
+      "id": "corealm_item_nightglass_helm",
+      "file": "models/items/nightglass_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "nightglass_helm",
+        "head"
+      ],
+      "bytes": 19986756,
+      "itemModel": {
+        "itemId": "nightglass_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.27756498754024506,
+        "y": 0.333310604095459,
+        "z": 0.38938315212726593
+      },
+      "base": {
+        "x": -0.14092591404914856,
+        "y": 1.525781273841858,
+        "z": -0.16405969858169556
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "nightglass_helm",
+      "status": "pending",
+      "sha256": "dc8db60b949d8483f904d2b2e1dc3a860175ff65e6614674d15b092ae1fa3095",
+      "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
+      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "triangles": 244,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_nightglass_plate",
+      "file": "models/items/nightglass_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "nightglass_plate",
+        "torso"
+      ],
+      "bytes": 20087544,
+      "itemModel": {
+        "itemId": "nightglass_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.01,
+            "maxY": 1.51
+          }
+        ]
+      },
+      "size": {
+        "x": 1.0475046038627625,
+        "y": 1.0671387910842896,
+        "z": 0.4385596215724945
+      },
+      "base": {
+        "x": -0.5237523317337036,
+        "y": 0.5639940500259399,
+        "z": -0.2537793219089508
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "nightglass_plate",
+      "status": "pending",
+      "sha256": "c2ade4a0d1565a7b291e31c8addf404d1438412d348f195cfd79062725c46af0",
+      "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
+      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "triangles": 1433,
+      "drawCalls": 13
+    },
+    {
+      "id": "corealm_item_nightglass_gauntlets",
+      "file": "models/items/nightglass_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "nightglass_gauntlets",
+        "arms"
+      ],
+      "bytes": 20048288,
+      "itemModel": {
+        "itemId": "nightglass_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7647147178649902,
+        "y": 0.18127155303955078,
+        "z": 0.2118419148027897
+      },
+      "base": {
+        "x": -0.882357656955719,
+        "y": 1.3611676692962646,
+        "z": -0.2717164158821106
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "nightglass_gauntlets",
+      "status": "pending",
+      "sha256": "62eeaeaaf314e4dd46bdef5a36cca6988619bf64fb23614b7c6b19d44939b93f",
+      "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
+      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "triangles": 1121,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_nightglass_greaves",
+      "file": "models/items/nightglass_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "nightglass_greaves",
+        "legs"
+      ],
+      "bytes": 20097992,
+      "itemModel": {
+        "itemId": "nightglass_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.12,
+            "maxY": 1.02
+          }
+        ]
+      },
+      "size": {
+        "x": 0.4414896219968796,
+        "y": 1.003563940525055,
+        "z": 0.3360358476638794
+      },
+      "base": {
+        "x": -0.22074492275714874,
+        "y": 0.1671099066734314,
+        "z": -0.18667493760585785
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "nightglass_greaves",
+      "status": "pending",
+      "sha256": "20e0feedb2fe929fab637395ce3a09a74fdf69b358f46f7df84b6d506e372e11",
+      "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
+      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "triangles": 1377,
+      "drawCalls": 13
+    },
+    {
+      "id": "corealm_item_nightglass_boots",
+      "file": "models/items/nightglass_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "nightglass_boots",
+        "feet"
+      ],
+      "bytes": 20049776,
+      "itemModel": {
+        "itemId": "nightglass_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4266621619462967,
+        "y": 0.2797264712876313,
+        "z": 0.3714550584554672
+      },
+      "base": {
+        "x": -0.21333163976669312,
+        "y": 5.704337127099279e-7,
+        "z": -0.20211449265480042
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "nightglass_boots",
+      "status": "pending",
+      "sha256": "552e661f9eb363d2bc4505d9463c220e95adf4382f302295bd184ccc323c6c98",
+      "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
+      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "triangles": 830,
+      "drawCalls": 7
+    }
+  ]
+}

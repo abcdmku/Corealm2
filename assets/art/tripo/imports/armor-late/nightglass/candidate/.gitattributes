@@ -1,0 +1,2 @@
+*.glb -text
+*.json text eol=lf
