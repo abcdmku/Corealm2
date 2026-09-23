@@ -1,4 +1,4 @@
-﻿{
+{
     "schemaVersion":  1,
     "sourceInventory":  "assets/art/tripo/starred-inventory-2026-09-22.json",
     "scope":  "User-starred Tripo Collected cards 21-40; raw GLBs are local source archives and excluded from this commit",
@@ -474,8 +474,24 @@
                        "prompt":  "dark gray fantasy wizard outfit with fur trim cloak, belt, gloves, and hat",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/a80a8846-c91f-448f-9bb1-1811952a78e5.glb",
+                                    "bytes":  8004016,
+                                    "sha256":  "cb12abb3f0e08269ac0db6448061fecd73d97819d63bb3ef93143615ec95a31a",
+                                    "faces":  5255,
+                                    "vertices":  5136,
+                                    "meshes":  18,
+                                    "skins":  1,
+                                    "joints":  23,
+                                    "animations":  0,
+                                    "embeddedImages":  54,
+                                    "textures":  54,
+                                    "materials":  18,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                                }
                    },
                    {
                        "order":  39,
@@ -487,8 +503,24 @@
                        "prompt":  "dark armored wizard character wearing a scale-textured coat, belt, gauntlets and wide-brim hat.",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/68a8dcc3-ab41-4de1-8651-614e032a4cff.glb",
+                                    "bytes":  9327520,
+                                    "sha256":  "4d70168dde330438f0d233085ed5489b5b668f761b2db1c5ea1bf7c371868544",
+                                    "faces":  5153,
+                                    "vertices":  6421,
+                                    "meshes":  9,
+                                    "skins":  1,
+                                    "joints":  39,
+                                    "animations":  0,
+                                    "embeddedImages":  27,
+                                    "textures":  27,
+                                    "materials":  9,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                                }
                    },
                    {
                        "order":  40,
