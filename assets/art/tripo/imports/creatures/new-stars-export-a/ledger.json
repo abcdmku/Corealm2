@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "exportDate": "2026-09-23",
+  "workflow": {
+    "source": "User-starred Tripo assets, opened from My Assets in an isolated Chrome tab",
+    "format": "GLB",
+    "textureResolution": "2K Current (source cards report 2K PBR, Tripo P1.0)",
+    "exportSkeleton": true,
+    "animationClipsExported": [],
+    "notes": "All five UI exports completed successfully. Tripo's export modal contained the skinned mesh but no animation clips. Canonical raw exports are copied under assets/art/tripo/exports using each model page UUID."
+  },
+  "assets": [
+    {
+      "cardStorageId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+      "title": "Werewolf Character 3d Model",
+      "modelPageUrl": "https://studio.tripo3d.ai/3d-model/werewolf-warrior-creature-with-gray-fur-leather-armor-and-skull-ador-57fc524c-107c-4711-ad29-7219e29eed9f",
+      "projectId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+      "prompt": "werewolf warrior creature with gray fur, leather armor, and skull adornment",
+      "modelPageStats": { "triangles": 4760, "vertices": 8047 },
+      "export": {
+        "status": "downloaded-and-verified",
+        "downloadName": "werewolf character 3d model.glb",
+        "repoPath": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
+        "bytes": 6544240,
+        "sha256": "02EB10038296893B44E2BB3BC29298ADFC9CD7DE0F51C8A4D7C05203C31BBE4D",
+        "meshes": 1,
+        "primitives": 1,
+        "materials": 1,
+        "textures": 3,
+        "embeddedImages": [ "baseColor.jpg", "rm.png", "normal.jpg" ],
+        "skinJointCount": 62,
+        "animationNames": []
+      }
+    },
+    {
+      "cardStorageId": "e5fa04f1-b25d-4a4e-a8fb-0ca2cbc5da73",
+      "title": "Fantasy Flying Rat 3d Model",
+      "modelPageUrl": "https://studio.tripo3d.ai/3d-model/flying-rat-creature-with-fur-bat-like-wings-large-red-eyes-sharp-te-390315e8-2a4d-4bf5-a9bd-8906016dfde4",
+      "projectId": "390315e8-2a4d-4bf5-a9bd-8906016dfde4",
+      "prompt": "flying rat creature with fur, bat-like wings, large red eyes, sharp teeth, long tail",
+      "modelPageStats": { "triangles": 4837, "vertices": 7985 },
+      "export": {
+        "status": "downloaded-and-verified",
+        "downloadName": "fantasy flying rat 3d model.glb",
+        "repoPath": "assets/art/tripo/exports/390315e8-2a4d-4bf5-a9bd-8906016dfde4.glb",
+        "bytes": 5772452,
+        "sha256": "D400661F2AEA193DBB55590BF45655984DBDA444601FB08860368453B60A13F3",
+        "meshes": 1,
+        "primitives": 1,
+        "materials": 1,
+        "textures": 3,
+        "embeddedImages": [ "baseColor.jpg", "rm.png", "normal.jpg" ],
+        "skinJointCount": 19,
+        "animationNames": [],
+        "notes": "A separate same-title download with 17 joints remains in Downloads. The canonical repository export is the 19-joint file listed here."
+      }
+    },
+    {
+      "cardStorageId": "f4934bef-8282-4dd6-b0b8-bc6072f4be3b",
+      "title": "Minotaur 3d Model",
+      "modelPageUrl": "https://studio.tripo3d.ai/3d-model/horned-minotaur-with-beige-horns-red-brown-mane-muscular-build-shar-501ffade-8115-427c-8616-e2791cfb40f6",
+      "projectId": "501ffade-8115-427c-8616-e2791cfb40f6",
+      "prompt": "horned minotaur with beige horns, red-brown mane, muscular build, sharp fangs, low-poly texture",
+      "modelPageStats": { "triangles": 5169, "vertices": 7896 },
+      "export": {
+        "status": "downloaded-and-verified",
+        "downloadName": "minotaur 3d model.glb",
+        "repoPath": "assets/art/tripo/exports/501ffade-8115-427c-8616-e2791cfb40f6.glb",
+        "bytes": 4478576,
+        "sha256": "C69D605643FC9041FC02611E08C8D30A78C111E2BDE20868E8E2366587E26B7C",
+        "meshes": 1,
+        "primitives": 1,
+        "materials": 1,
+        "textures": 3,
+        "embeddedImages": [ "baseColor.jpg", "rm.png", "normal.jpg" ],
+        "skinJointCount": 24,
+        "animationNames": []
+      }
+    },
+    {
+      "cardStorageId": "3c2e7cf1-8b90-4ae5-b1ef-7c21ed5a84b8",
+      "title": "Demon Creature 3d Model",
+      "modelPageUrl": "https://studio.tripo3d.ai/3d-model/demon-creature-with-jagged-armored-exoskeleton-horned-helmet-red-eye-e75eed94-f770-4fc3-83f2-d812e898b0ee",
+      "projectId": "e75eed94-f770-4fc3-83f2-d812e898b0ee",
+      "prompt": "demon creature with jagged armored exoskeleton, horned helmet, red eyes, dark gray texture, beige spikes, muscular build, fantasy monster",
+      "modelPageStats": { "triangles": 5077, "vertices": 4116 },
+      "export": {
+        "status": "downloaded-and-verified",
+        "downloadName": "demon creature 3d model (2).glb",
+        "repoPath": "assets/art/tripo/exports/e75eed94-f770-4fc3-83f2-d812e898b0ee.glb",
+        "bytes": 5183432,
+        "sha256": "6531B664FC404C5DEE25DC21BA6177061AF0BBC0A46BF830B20F1FF61CC96F02",
+        "meshes": 1,
+        "primitives": 1,
+        "materials": 1,
+        "textures": 3,
+        "embeddedImages": [ "baseColor.jpg", "rm.png", "normal.jpg" ],
+        "skinJointCount": 57,
+        "animationNames": []
+      }
+    },
+    {
+      "cardStorageId": "52a15641-5c78-4f7b-a7c4-691f03f57b1a",
+      "title": "Grim Reaper 3d Model",
+      "modelPageUrl": "https://studio.tripo3d.ai/3d-model/dark-hooded-skeletal-demon-with-red-eyes-jagged-bone-armor-tattered-68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae",
+      "projectId": "68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae",
+      "prompt": "dark hooded skeletal demon with red eyes, jagged bone armor, tattered cloak, chained waist, clawed feet",
+      "modelPageStats": { "triangles": 4595, "vertices": 7030 },
+      "export": {
+        "status": "downloaded-and-verified",
+        "downloadName": "grim reaper 3d model.glb",
+        "repoPath": "assets/art/tripo/exports/68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae.glb",
+        "bytes": 6498992,
+        "sha256": "B66926A4BA2C2A9BB45D1C9AF1D0558E4ED8676FE4D575AC5F291888C11BA248",
+        "meshes": 1,
+        "primitives": 1,
+        "materials": 1,
+        "textures": 3,
+        "embeddedImages": [ "baseColor.jpg", "rm.png", "normal.jpg" ],
+        "skinJointCount": 59,
+        "animationNames": []
+      }
+    }
+  ]
+}
