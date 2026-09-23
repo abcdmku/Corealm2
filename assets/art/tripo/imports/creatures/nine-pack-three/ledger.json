@@ -1,0 +1,99 @@
+{
+  "schema": "corealm-prior-tripo-creature-backlog/1",
+  "label": "Prior-batch creature backlog; separate from the user's new 3x3 starred sheets",
+  "updatedAt": "2026-09-23",
+  "scope": "Reconciles the nine previously tracked creature models assigned to pack three. It does not record extraction of the new composite sheets.",
+  "policy": "Keep accepted and user-approved designs intact. Do not build candidates from denied facial sources. All staged candidates remain unaccepted until root lab review.",
+  "assets": [
+    {
+      "name": "Vaultweaver",
+      "status": "candidate-awaiting-root-lab-review",
+      "source": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+      "sourceModelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+      "candidate": "assets/art/tripo/imports/creatures/starred-vaultweaver/starred-vaultweaver-candidate.glb",
+      "candidateCatalog": "assets/art/tripo/imports/creatures/starred-vaultweaver/catalog.json",
+      "candidateEvidence": "Existing six-leg native rig, six clips, and 2K color/normal/metallic-roughness maps; topology preserved. Root visual/motion acceptance remains pending."
+    },
+    {
+      "name": "Kilnback",
+      "status": "held-no-approved-matching-model-export",
+      "approvedReference": "assets/art/tripo/references/marsh-ash-kiln-marrow-v3.png",
+      "latestApprovedModelId": "beb307c7-cb3b-4a71-be1f-9f5a20023530",
+      "availableOlderModelId": "5ea95bfb-957b-449b-89c4-f15cf02ed09d",
+      "availableOlderModelDisposition": "Facial review denied; do not rig or promote this export.",
+      "candidate": null,
+      "next": "Wait for a matching approved/starred model export."
+    },
+    {
+      "name": "Cinder Latcher",
+      "status": "held-no-approved-matching-model-export",
+      "approvedReference": "assets/art/tripo/references/marsh-ash-slag-crawler-v3.png",
+      "latestApprovedModelId": "61822a59-0ed6-4485-9032-988a4da00369",
+      "availableOlderModelId": "1b2d9e2d-84e9-4cda-93d9-721c6eac36c2",
+      "availableOlderModelDisposition": "Facial review denied; do not rig or promote this export.",
+      "candidate": null,
+      "next": "Wait for a matching approved/starred model export."
+    },
+    {
+      "name": "Heath Knucker",
+      "status": "held-provenance-mismatch",
+      "source": "assets/art/tripo/exports/corealm_heath_knucker_0f74b416_8k_rigged.glb",
+      "sourceModelId": "0f74b416-840b-419a-8f5d-c4cfc0a80a02",
+      "candidate": null,
+      "hold": "docs/asset-review.md records that the Tripo preview is a mechanical leopard, unlike the approved russet-and-cream humanoid image. Source skin weights are nearly all on Hips and there are no clips. Do not promote without a matching verified model."
+    },
+    {
+      "name": "Bramble Tiller",
+      "status": "production-integrated-and-world-accepted",
+      "sourceModelId": "0900292c-ef73-40f9-864d-1f289df395f5",
+      "productionAssetId": "creature_briar_harrow",
+      "productionSource": "assets/art/tripo/imports/creatures/bramble-tiller-t10/sources/creature_briar_harrow-2663d6ba545d.glb",
+      "evidence": "T10 Vellenwood normal-camera proof and six-motion/PBR review are recorded in docs/asset-review.md. This star is the same creature; do not add a duplicate population."
+    },
+    {
+      "name": "Hedge Clasper",
+      "status": "held-facial-review-denied",
+      "source": "assets/art/tripo/exports/corealm_hedge_clasper_43f50f53_8k_rigged.glb",
+      "sourceModelId": "43f50f53-5a1d-49f7-9d8c-34d502d4ec4d",
+      "candidate": null,
+      "hold": "The archived model matches the denied open pitcher-face revision. No approved matching model export is recorded; do not rig or promote it."
+    },
+    {
+      "name": "Banshee",
+      "status": "candidate-awaiting-root-lab-review",
+      "source": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
+      "sourceModelId": "956635da-08fc-4770-905e-5bee385bcaf9",
+      "candidate": "assets/art/tripo/imports/creatures/starred-banshee/banshee-native-rig-candidate.glb",
+      "candidateCatalog": "assets/art/tripo/imports/creatures/starred-banshee/catalog.json",
+      "candidateEvidence": "Existing face/silhouette-approved candidate preserves geometry and UVs, repairs the source weights, and includes six hover clips plus 2K base-color/normal/metallic-roughness maps. Not accepted or wired by this backlog pass."
+    },
+    {
+      "name": "Pallid Shade",
+      "status": "candidate-awaiting-root-lab-review-user-approved-as-is",
+      "source": "assets/art/tripo/exports/bee97dff-f4bc-415f-85f5-7166421b3cf4.glb",
+      "sourceModelId": "bee97dff-f4bc-415f-85f5-7166421b3cf4",
+      "candidate": "assets/art/tripo/imports/creatures/starred-shade/ashveil-wraith-native-rig.glb",
+      "candidateCatalog": "assets/art/tripo/imports/creatures/starred-shade/catalog.json",
+      "userDirection": "Keep the exact starred shade as-is, including its smooth face with the vertical split. No face replacement or mesh edits.",
+      "candidateEvidence": "Existing candidate preserves mesh/UV/topology and includes six hover clips plus 2K base-color/normal/metallic-roughness maps. Root visual/motion acceptance remains pending."
+    },
+    {
+      "name": "Chainbound Archon",
+      "status": "candidate-preparation-in-progress",
+      "approvedReference": "assets/art/tripo/refs/crown-wild-chainbound-archon.png",
+      "sourceModelId": "7b60bf75-4990-476d-8087-c32e36aac850",
+      "sourceArchiveStatus": "The batch record lists an exported GLB in Downloads; no matching raw source is archived under assets/art/tripo/exports yet.",
+      "productionAssetId": "creature_chainbound_archon",
+      "candidate": null,
+      "note": "Existing game asset is the authored Chainbound Archon baseline. Any Tripo derivative stays isolated as a candidate until root review."
+    }
+  ],
+  "relatedExistingWork": [
+    {
+      "name": "Dewglass Weaver",
+      "status": "candidate-awaiting-root-lab-review",
+      "candidateCatalog": "assets/art/tripo/imports/creatures/starred-dewglass-weaver/catalog.json",
+      "note": "Already has a staged six-leg candidate and is not one of these nine; do not duplicate it here or in game."
+    }
+  ]
+}
