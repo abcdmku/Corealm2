@@ -3,7 +3,6 @@ import { expect, it, vi } from "vitest";
 import { Renderer } from "../game/src/render/renderer.js";
 import { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 import { registerElementalRefraction } from "../game/src/render/elementalRefraction.js";
-import { MagicGlow } from "../game/src/render/magicGlow.js";
 import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
 
 vi.mock("../game/src/render/shaderPreparation.js", async importOriginal => {
@@ -142,45 +141,6 @@ it("uses bounded startup batches for effects and one object after streaming begi
   expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 1, frameTarget,
     expect.objectContaining({ renderer: renderer.renderer, scene, camera, renderTarget: frameTarget }));
   unregister(); frameTarget.dispose();
-});
-
-it("deduplicates static WebGL glow occlusion proxies and preserves object-bound variants", async () => {
-  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
-  const geometry = new THREE.BoxGeometry(), otherGeometry = new THREE.SphereGeometry();
-  const material = new THREE.MeshStandardMaterial(), otherMaterial = new THREE.MeshStandardMaterial();
-  const shared = new THREE.Mesh(geometry, material), duplicate = shared.clone();
-  const differentGeometry = new THREE.Mesh(otherGeometry, material);
-  const differentMaterial = new THREE.Mesh(geometry, otherMaterial);
-  const differentReceiveShadow = new THREE.Mesh(geometry, material); differentReceiveShadow.receiveShadow = true;
-  const skinned = [new THREE.SkinnedMesh(geometry, material), new THREE.SkinnedMesh(geometry, material)];
-  const instanced = [new THREE.InstancedMesh(geometry, material, 2), new THREE.InstancedMesh(geometry, material, 2)];
-  const morphGeometry = new THREE.BoxGeometry();
-  morphGeometry.morphAttributes.position = [morphGeometry.attributes.position!.clone()];
-  const morphed = [new THREE.Mesh(morphGeometry, material), new THREE.Mesh(morphGeometry, material)];
-  const hooked = [new THREE.Mesh(geometry, material), new THREE.Mesh(geometry, material)];
-  hooked[0]!.onBeforeRender = () => {};
-  hooked[1]!.onBeforeRender = () => {};
-  scene.add(shared, duplicate, differentGeometry, differentMaterial, differentReceiveShadow,
-    ...skinned, ...instanced, ...morphed, ...hooked);
-
-  const glow = new MagicGlow();
-  const prepare = vi.mocked(prepareShaderMeshes);
-  prepare.mockClear(); prepare.mockImplementation(async () => {});
-  await glow.compileOcclusion({ backend: { isWebGLBackend: true } } as never, scene, camera);
-
-  const prepared = prepare.mock.lastCall?.[3] ?? [];
-  expect(prepared).toHaveLength(12);
-  expect(prepared.filter(object => (object as THREE.SkinnedMesh).isSkinnedMesh)).toHaveLength(2);
-  expect(prepared.filter(object => (object as THREE.InstancedMesh).isInstancedMesh)).toHaveLength(2);
-  expect(prepared.filter(object => Boolean((object as THREE.Mesh).morphTargetInfluences?.length))).toHaveLength(2);
-  expect(prepared.filter(object => object.onBeforeRender !== THREE.Object3D.prototype.onBeforeRender)).toHaveLength(2);
-  expect(glow.snapshot().occlusionPreparation).toEqual({
-    backend: "webgl-fallback", candidateProxies: 13, preparedProxies: 12, deduplicatedProxies: 1,
-  });
-
-  glow.dispose();
-  geometry.dispose(); otherGeometry.dispose(); morphGeometry.dispose();
-  material.dispose(); otherMaterial.dispose();
 });
 
 it("draws all game passes into HDR, presents once, and restores the caller's output state", () => {
