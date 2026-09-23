@@ -69,8 +69,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
-    "sha256": "e6e6c54df368ed1c0c53b5461aead1d5f29a0adbf7af97952f4465eb37517ff5",
-    "bytes": 8674360,
+    "sha256": "24147ab805b3a4987a50b28e81b25c1df80dd3d86541edec299208fc6ee0f6fe",
+    "bytes": 8681228,
     "productionTarget": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
     "geometry": {
       "vertices": 6153,
@@ -379,32 +379,32 @@
       {
         "name": "Idle",
         "seconds": 2.8,
-        "channels": 6
+        "channels": 8
       },
       {
         "name": "Walk",
         "seconds": 1,
-        "channels": 10
+        "channels": 12
       },
       {
         "name": "Run",
         "seconds": 0.72,
-        "channels": 11
+        "channels": 13
       },
       {
         "name": "Attack",
         "seconds": 0.92,
-        "channels": 8
+        "channels": 10
       },
       {
         "name": "Hit",
         "seconds": 0.46,
-        "channels": 8
+        "channels": 10
       },
       {
         "name": "Death",
         "seconds": 1.45,
-        "channels": 12
+        "channels": 14
       }
     ]
   },

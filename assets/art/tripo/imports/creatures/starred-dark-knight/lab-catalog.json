@@ -21,8 +21,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 8674360,
-      "sha256": "e6e6c54df368ed1c0c53b5461aead1d5f29a0adbf7af97952f4465eb37517ff5",
+      "bytes": 8681228,
+      "sha256": "24147ab805b3a4987a50b28e81b25c1df80dd3d86541edec299208fc6ee0f6fe",
       "size": {
         "x": 1.6168359375,
         "y": 1.5915233409404757,
@@ -66,7 +66,7 @@
         "sourceFile": "assets/art/tripo/exports/8f2d7a21-7419-4337-ae73-570e04c16499.glb",
         "sourceSha256": "1cd47dbf8c637cf9d8f121ef5acaff0429f19ee01fa77cb2304e73e87169f121",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
-        "candidateSha256": "e6e6c54df368ed1c0c53b5461aead1d5f29a0adbf7af97952f4465eb37517ff5",
+        "candidateSha256": "24147ab805b3a4987a50b28e81b25c1df80dd3d86541edec299208fc6ee0f6fe",
         "rigMethod": "Mixamo-named humanoid skeleton plus three cape joints; atlas color/PBR review places low-metallic, high-roughness burgundy cloth on the positive-Z back sheet. Original mesh positions, normals, indices, UVs and image-generated maps are retained.",
         "textures": [
           {

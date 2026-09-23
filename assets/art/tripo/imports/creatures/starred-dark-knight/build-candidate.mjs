@@ -196,6 +196,8 @@ const phases = [0, 0.25, 0.5, 0.75, 1];
 const cycleAngles = (phase, amount) => phases.map((t) => quat('x', Math.sin((t + phase) * Math.PI * 2) * amount));
 const hips = (heights, forward = 0) => phases.map((_, i) => [0, heights[i], forward]);
 addClip('Idle', 2.8, [
+  { node: 'mixamorigLeftShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 0.62), quat('z', 0.66), quat('z', 0.62), quat('z', 0.58), quat('z', 0.62)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', -0.62), quat('z', -0.66), quat('z', -0.62), quat('z', -0.58), quat('z', -0.62)] },
   { node: 'mixamorigSpine1', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 0), quat('z', 0.018), quat('z', 0), quat('z', -0.018), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('x', 0), quat('x', -0.015), quat('x', 0), quat('x', 0.012), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('y', -0.025), quat('y', 0.015), quat('y', 0.035), quat('y', -0.015), quat('y', -0.025)] },
@@ -205,6 +207,8 @@ addClip('Idle', 2.8, [
 ]);
 addClip('Walk', 1.0, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t), values: hips([0.430, 0.445, 0.430, 0.445, 0.430]) },
+  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => quat('z', 0.48 + Math.sin(t * Math.PI * 2) * 0.25)) },
+  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => quat('z', -0.48 - Math.sin(t * Math.PI * 2) * 0.25)) },
   { node: 'mixamorigLeftUpLeg', times: phases, values: cycleAngles(0, 0.34) },
   { node: 'mixamorigRightUpLeg', times: phases, values: cycleAngles(0.5, 0.34) },
   { node: 'mixamorigLeftLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.22)) },
@@ -217,6 +221,8 @@ addClip('Walk', 1.0, [
 ]);
 addClip('Run', 0.72, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t * 0.72), values: hips([0.430, 0.465, 0.430, 0.465, 0.430]) },
+  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', 0.50 + Math.sin(t * Math.PI * 2) * 0.34)) },
+  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', -0.50 - Math.sin(t * Math.PI * 2) * 0.34)) },
   { node: 'mixamorigLeftUpLeg', times: phases.map((t) => t * 0.72), values: cycleAngles(0, 0.68) },
   { node: 'mixamorigRightUpLeg', times: phases.map((t) => t * 0.72), values: cycleAngles(0.5, 0.68) },
   { node: 'mixamorigLeftLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.62)) },
@@ -230,6 +236,8 @@ addClip('Run', 0.72, [
 ]);
 addClip('Attack', 0.92, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.18, 0.50, 0.72, 0.92], values: [[0, 0.430, 0], [0, 0.430, 0.012], [0, 0.420, 0.060], [0, 0.430, 0.030], [0, 0.430, 0]] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 0.62), quat('z', 0.72), quat('z', 0.48), quat('z', 0.42), quat('z', 0.62)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', -0.62), quat('z', -0.22), quat('z', 0.30), quat('z', -0.10), quat('z', -0.62)] },
   { node: 'mixamorigSpine1', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('y', 0), quat('y', -0.28), quat('y', 0.24), quat('y', 0.10), quat('y', 0)] },
   { node: 'mixamorigRightArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 0), quat('z', 0.78), quat('z', -0.18), quat('z', -0.28), quat('z', 0)] },
   { node: 'mixamorigRightForeArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('x', 0), quat('x', 0.60), quat('x', -0.92), quat('x', -0.30), quat('x', 0)] },
@@ -240,6 +248,8 @@ addClip('Attack', 0.92, [
 ]);
 addClip('Hit', 0.46, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.46], values: [[0, 0.430, 0], [0, 0.425, -0.035], [0, 0.428, -0.012], [0, 0.430, 0]] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0.62), quat('z', 0.92), quat('z', 0.54), quat('z', 0.62)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', -0.62), quat('z', -0.32), quat('z', -0.72), quat('z', -0.62)] },
   { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.28), quat('z', -0.10), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.46], values: [quat('x', 0), quat('x', -0.16), quat('x', 0.06), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.20), quat('z', -0.05), quat('z', 0)] },
@@ -250,6 +260,8 @@ addClip('Hit', 0.46, [
 ]);
 addClip('Death', 1.45, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.22, 0.65, 1.05, 1.45], values: [[0, 0.430, 0], [0, 0.400, -0.015], [0, 0.315, -0.025], [0, 0.275, -0.025], [0, 0.275, -0.025]] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0.62), quat('z', 0.78), quat('z', 0.95), quat('z', 0.90), quat('z', 0.90)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', -0.62), quat('z', -0.48), quat('z', -0.28), quat('z', -0.25), quat('z', -0.25)] },
   { node: 'mixamorigHips', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0), quat('z', -0.08), quat('z', -0.26), quat('z', -0.34), quat('z', -0.34)] },
   { node: 'mixamorigSpine1', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.14), quat('x', 0.28), quat('x', 0.34), quat('x', 0.34)] },
   { node: 'mixamorigSpine2', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.12), quat('x', 0.22), quat('x', 0.24), quat('x', 0.24)] },
@@ -453,5 +465,5 @@ const labAsset = {
   },
   acceptance: { assetAudit: true, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };
-await writeFile(`${baseDir}/lab-catalog.json`, JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset] }, null, 2) + '\n');
+await writeFile(`${baseDir}/lab-catalog.json`, JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', files: { creature_skeleton_soldier: 'black-keep-knight-native-rig.glb' }, assets: [labAsset] }, null, 2) + '\n');
 console.log(JSON.stringify({ candidatePath, bytes: outputBytes.length, candidateSha256, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, clips: clips.map(({ name, seconds }) => ({ name, seconds })), runtimeTextureMetrics, verticesWithDistributedWeights, verticesWithCapeWeight, maximumWeightSumError, maxPositionDelta, maxNormalDelta, maxUvDelta, indexMismatches }, null, 2));
