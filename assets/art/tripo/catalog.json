@@ -409,7 +409,7 @@
   },
   "exportWorkflow": {
     "preferred": "Use 2K creature textures for new models; keep existing higher-resolution source exports unchanged. Armor retains its separate 8K source target. Export GLB with Skeleton enabled and Pack UV disabled when present.",
-    "rigPreset": "For new humanoids, evaluate Unity Humanoid Compatible against the game's motion importer before using it. Tripo exposes that preset only under Humanoid; quadrupeds and birds need a validated nonhumanoid rig with distributed weights, valid inverse binds, and real animation clips.",
+    "rigPreset": "Use Tripo Humanoid Mixamo for new bipeds routed through Corealm's current weight-repair and animation retargeter. Unity Humanoid Compatible is available in Tripo but its different bone convention is not supported by that importer; pilot it only after a validated rig-profile mapping. Quadrupeds and birds need a validated nonhumanoid rig with distributed weights, valid inverse binds, and real animation clips.",
     "automation": "Unsegmented creature exports downloaded through the UI. Some segmented armor exports still reach ERR_BLOCKED_BY_CLIENT.",
     "sourceValidation": "Preserve downloaded originals. Inspect embedded texture dimensions, source identity, skin weights and inverse bind matrices before importing. Several rig-page GLBs contain unusable root-only weights and require correction.",
     "segmentedTextureCaveat": "The available armor exports have reduced per-part textures despite selecting 8K; these are not accepted as preserved 8K masters."
