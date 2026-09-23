@@ -1,0 +1,35 @@
+﻿{
+    "batch":  "starter-t1-images",
+    "scope":  "Starter T1 image batch with separate model audit gates; Vetchrunner and Ryecrest art approved, model approval pending.",
+    "generator":  "Tripo Studio GPT Image 2.5",
+    "entries":  [
+                    {
+                        "name":  "Vetchrunner",
+                        "sourceImageId":  "b589d56f-eaf7-4f04-92d8-cbbf75f82f2f",
+                        "workspaceUrl":  "https://studio.tripo3d.ai/workspace/generate-image",
+                        "sourceImageUrl":  "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/b589d56f-eaf7-4f04-92d8-cbbf75f82f2f/image.png",
+                        "imageFile":  "vetchrunner.png",
+                        "imageModel":  "GPT Image 2.5",
+                        "aspectRatio":  "4:3",
+                        "createdAtLocal":  "2026-09-22 20:11",
+                        "prompt":  "FALLOWMARCH STARTER WILDLIFE 01 — VETCHRUNNER. One original small quadruped for a grounded medieval RPG: a healthy adult seed and beetle forager of windy Fallowmarch field borders. Foxlike alert posture and sweeping tail, yet a distinct fantasy species. Balanced athletic body, short sturdy legs, broad three-toed paws, compact wedge muzzle with a blunt nose, low rounded ears, small deep-set amber eyes, closed mouth and a serious calm expression. Medium russet tail with a pale blunt tip kept clear of the legs. Dense short velvet coat with fine directional fur detail: layered russet, weathered wheat-gold and peat-brown, cream throat and cheek strokes, charcoal lower legs and scattered dark teardrop dapples. Slightly ridged brow and wider gripping forepaws are the only anatomical variations. Natural matte materials with intricate color variation. Moderate mature proportions, neither bulky nor thin. Clear shoulder, hip and knee joints; all four weight-bearing legs and feet fully visible and separated for quadruped rigging. One whole creature in a three-quarter front standing pose, centered on a plain neutral warm light-gray studio background, soft even light. No scenery, props, equipment, text, panels or extra creatures. No huge eyes, smile, horns, spikes, dinosaur or reptile anatomy.",
+                        "reviewStatus":  "approved image by independent Astra-low auditor",
+                        "notes":  "Downloaded original source image from Tripo. The direct CDN URL is recorded without its temporary signed query parameters.",
+                        "acceptanceScope":  "Image/art approval only; model anatomy, topology, UV/materials, rig and motion remain unapproved until model audit."
+                    },
+                    {
+                        "name":  "Ryecrest",
+                        "sourceImageId":  "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+                        "workspaceUrl":  "https://studio.tripo3d.ai/workspace/generate-image",
+                        "sourceImageUrl":  "https://tripo-data.rg1.data.tripo3d.com/generate-image/20260923/fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b/image.png",
+                        "imageFile":  "ryecrest.png",
+                        "imageModel":  "GPT Image 2.5",
+                        "aspectRatio":  "4:3",
+                        "createdAtLocal":  "2026-09-22 20:19",
+                        "prompt":  "FALLOWMARCH STARTER WILDLIFE 02 — RYECREST. One original adult groundbird species for a serious medieval RPG, gleaning spilled grain and grasshoppers along Fallowmarch field margins. Compact forward-leaning body with a deep but balanced breast, short sturdy neck and strong runner legs; a clear land bird, not a tall wader. Short broad seed-cracking bill with shallow keratin ridges, small dark amber side-set eyes, complete natural bird face and closed beak. A low backward sweep of layered crown feathers and a short tidy fan tail create a distinct readable silhouette. Exactly two weight-bearing legs, each with three forward toes and a small rear toe; show both hocks, feet and claws clearly separated. Two wings folded close against the flanks, each wing reads as one clean feathered limb ready for later rigging, with no other limbs. Healthy moderate adult proportions, neither bulky nor spindly. Layered natural plumage in muted olive-brown, weathered rye-gold and warm umber, a pale cream throat, russet wing bars and charcoal feather tips, fine overlapping feather detail with varied matte sheen. Serious alert neutral expression. One whole bird in a three-quarter front standing pose, centered, full body visible, plain warm light-gray studio background, soft even light. No field scenery, straw, props, armor, text, panels, extra creatures, huge eyes, grin, horns, spikes, dinosaur anatomy or machinery.",
+                        "reviewStatus":  "approved image by independent Astra-low auditor",
+                        "notes":  "Downloaded original source image from Tripo. Direct CDN URL recorded without temporary signed query parameters.",
+                        "acceptanceScope":  "Image/art approval only; model anatomy, topology, UV/materials, rig and motion remain unapproved until model audit."
+                    }
+                ]
+}
