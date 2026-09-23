@@ -298,7 +298,8 @@ addClip('Hit', 0.48, [
   { node: 'BansheeShroudMid', times: [0, 0.08, 0.22, 0.48], values: [q('x', 0), q('x', -0.18), q('x', 0.06), q('x', 0)] },
 ]);
 addClip('Death', 1.5, [
-  { node: 'BansheeRoot', path: 'translation', times: [0, 0.25, 0.65, 1.05, 1.5], values: [[0, 0, 0], [0, 0.045, 0], [0, 0.065, -0.025], [0, -0.005, -0.045], [0, -0.075, -0.055]] },
+  // The ghost keeps its levitation while its upper body and mist unwind; death fades upward instead of falling onto the floor.
+  { node: 'BansheeRoot', path: 'translation', times: [0, 0.25, 0.65, 1.05, 1.5], values: [[0, 0, 0], [0, 0.040, 0], [0, 0.075, -0.025], [0, 0.060, -0.045], [0, 0.050, -0.055]] },
   { node: 'mixamorigHips', times: [0, 0.25, 0.65, 1.05, 1.5], values: [q('z', 0), q('z', -0.06), q('z', -0.16), q('z', -0.28), q('z', -0.28)] },
   { node: 'mixamorigSpine1', times: [0, 0.25, 0.65, 1.05, 1.5], values: [q('x', 0), q('x', -0.04), q('x', -0.12), q('x', -0.20), q('x', -0.20)] },
   { node: 'mixamorigHead', times: [0, 0.25, 0.65, 1.05, 1.5], values: [q('z', 0), q('z', 0.08), q('z', 0.20), q('z', 0.34), q('z', 0.34)] },
@@ -427,7 +428,7 @@ const candidate = {
     textures: runtimeTextures,
     pbr: { baseColor: true, packedMetallicRoughness: true, normal: true, metallicChannelRange: metallicRange, allMapsMaximum: 2048 },
     animations: clips,
-    locomotion: 'Walk and Run are floating hover-glide cycles with no foot contact or gait animation.',
+    locomotion: 'Walk and Run are floating hover-glide cycles with no foot contact or gait animation; Death dissipates upward while the shroud stays suspended.',
   },
   acceptance: { imageAudit: true, geometry: true, rig: false, animations: false, textures: false, labAccepted: false, worldIntegrated: false },
 };
@@ -445,7 +446,8 @@ const labAsset = {
   size: { x: bounds.max[0] - bounds.min[0], y: bounds.max[1] - bounds.min[1], z: bounds.max[2] - bounds.min[2] },
   base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] },
   bounds,
-  groundY: -0.10,
+  // Native skirt tips reach y=0, so this anchor lifts the entire model 20 cm from the floor in production.
+  groundY: -0.20,
   triangles: indices.length / 3,
   vertices: positions.length / 3,
   animations: clips.map(({ name }) => name),

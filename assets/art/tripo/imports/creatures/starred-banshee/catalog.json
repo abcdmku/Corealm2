@@ -83,7 +83,7 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-banshee/banshee-native-rig-candidate.glb",
-    "sha256": "dee7be3dd505b7e6721eb51d367b8d54ca28ce6891d07c2d54f8eefb973582cf",
+    "sha256": "795768ae41d62dd7be4326c26c8a97e69df845dfd53b97fbff89c5c28fef79b2",
     "bytes": 7625592,
     "productionTarget": "game/public/assets/models/creature/creature_banshee.glb",
     "geometry": {
@@ -473,7 +473,7 @@
         "channels": 9
       }
     ],
-    "locomotion": "Walk and Run are floating hover-glide cycles with no foot contact or gait animation."
+    "locomotion": "Walk and Run are floating hover-glide cycles with no foot contact or gait animation; Death dissipates upward while the shroud stays suspended."
   },
   "acceptance": {
     "imageAudit": true,
