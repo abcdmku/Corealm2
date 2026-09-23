@@ -1,7 +1,7 @@
 {
     "source":  "Tripo Assets \u003e Model \u003e Collected",
     "collectedStarCount":  20,
-    "inventoryStatus":  "Cards 1â€“11 reconciled. Orc (card 1) and cards 2,4â€“11 are downloaded, copied to stable paths where required, and GLB v2 header/length verified. Card 3 individual export was blocked by Chrome ERR_BLOCKED_BY_CLIENT and remains pending. Cards 12â€“20 are outside this ledger scope and delegated to the other exporter.",
+    "inventoryStatus":  "Cards 1–11 reconciled. Orc and cards 2,4–11 verified; card 3 individual export was blocked by Chrome ERR_BLOCKED_BY_CLIENT, and one exact 1-card Batch Export produced no local file. Cards 12–20 are outside this ledger scope and delegated to the other exporter.",
     "uuidMeaning":  "models.uuid is the Tripo Collected card/storage UUID. publicModelUuid is the UUID in the visible /3d-model detail URL; workspace/generation UUIDs were not verified.",
     "exportRoute":  "Assets \u003e Model \u003e Collected \u003e individual model detail \u003e Export. Two earlier 10-card batch exports reported success but produced no local files.",
     "exportSettings":  {
@@ -59,7 +59,26 @@
                                                   "downloadsVerified":  9,
                                                   "chromeBlockedCard":  "b504d4a4-346b-431d-a26a-732877ead6ad",
                                                   "note":  "Card 3 redirected to the Tripo CDN GLB URL and Chrome displayed its blocked page. No alternate surface or workaround was used; no retry was made.",
-                                                  "chromeError":  "ERR_BLOCKED_BY_CLIENT"
+                                                  "chromeError":  "ERR_BLOCKED_BY_CLIENT",
+                                                  "alternateCard3Batch":  {
+                                                                              "submitted":  true,
+                                                                              "result":  "No local GLB appeared. Stop after this single alternate-route attempt.",
+                                                                              "skeletonControlAvailable":  false,
+                                                                              "checkedAtLocal":  "2026-09-22 23:28 CDT",
+                                                                              "localFileObserved":  false,
+                                                                              "uiResult":  "Export (1) became disabled and remained disabled at the final check; no completion toast or blocked CDN tab matched this card.",
+                                                                              "selectedCard":  "Red Dragon Clone1 (dragon 3d model_Clone1; detail URL UUID 407b29db-cbbc-4104-9a88-7be7c3d952b0)",
+                                                                              "format":  "GLB",
+                                                                              "selectedCardCount":  1,
+                                                                              "matchingFilenamesChecked":  [
+                                                                                                               "b504d4a4-346b-431d-a26a-732877ead6ad.glb",
+                                                                                                               "dragon 3d model_Clone1.glb"
+                                                                                                           ],
+                                                                              "textureResolutionControlAvailable":  false,
+                                                                              "refreshedCollectedTab":  true,
+                                                                              "route":  "My Assets \u003e Manage \u003e Batch Export",
+                                                                              "downloadDirectory":  "C:\\Users\\Borg\\Downloads"
+                                                                          }
                                               }
                            },
     "models":  [
@@ -111,8 +130,27 @@
                        "sha256":  null,
                        "downloadedFilename":  null,
                        "status":  "blocked_by_client",
-                       "result":  "Individual Export submitted; Chrome redirected to the Tripo CDN GLB URL and displayed ERR_BLOCKED_BY_CLIENT. No local file appeared. Stopped after this browser block.",
-                       "sizeBytes":  null
+                       "sizeBytes":  null,
+                       "alternateBatchExport":  {
+                                                    "submitted":  true,
+                                                    "result":  "No local GLB appeared. Stop after this single alternate-route attempt.",
+                                                    "skeletonControlAvailable":  false,
+                                                    "checkedAtLocal":  "2026-09-22 23:28 CDT",
+                                                    "localFileObserved":  false,
+                                                    "uiResult":  "Export (1) became disabled and remained disabled at the final check; no completion toast or blocked CDN tab matched this card.",
+                                                    "selectedCard":  "Red Dragon Clone1 (dragon 3d model_Clone1; detail URL UUID 407b29db-cbbc-4104-9a88-7be7c3d952b0)",
+                                                    "format":  "GLB",
+                                                    "selectedCardCount":  1,
+                                                    "matchingFilenamesChecked":  [
+                                                                                     "b504d4a4-346b-431d-a26a-732877ead6ad.glb",
+                                                                                     "dragon 3d model_Clone1.glb"
+                                                                                 ],
+                                                    "textureResolutionControlAvailable":  false,
+                                                    "refreshedCollectedTab":  true,
+                                                    "route":  "My Assets \u003e Manage \u003e Batch Export",
+                                                    "downloadDirectory":  "C:\\Users\\Borg\\Downloads"
+                                                },
+                       "result":  "Individual Export was blocked by Chrome ERR_BLOCKED_BY_CLIENT. One refreshed, exact 1-card Batch Export was also submitted; it stayed disabled and produced no local file. Left pending."
                    },
                    {
                        "uuid":  "8ddfe280-fd81-4eee-a91a-5cf2c42e769e",
