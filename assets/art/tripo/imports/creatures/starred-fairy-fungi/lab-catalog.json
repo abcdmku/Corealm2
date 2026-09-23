@@ -1,0 +1,588 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fairy_garden_sporekin_faeholme",
+      "file": "models/fairy-garden/fairy_garden_sporekin_faeholme.glb",
+      "pack": "corealm-starred-fairy-candidates",
+      "category": "character",
+      "is": "Duskcap Sporekin (starred fungal fairy candidate)",
+      "tags": [
+        "creature",
+        "fairy",
+        "fungal",
+        "humanoid",
+        "Faeholme",
+        "T60",
+        "starred",
+        "tripo",
+        "skinned",
+        "candidate"
+      ],
+      "bytes": 8099580,
+      "sha256": "5f9468ca786b5db9d5a1218c1e752106b8f1022ec3cee78eee7010862283ddb1",
+      "size": {
+        "x": 0.49658203125,
+        "y": 0.9995120167732239,
+        "z": 0.29931640625
+      },
+      "base": {
+        "x": -0.248291015625,
+        "y": 0,
+        "z": -0.149658203125
+      },
+      "bounds": {
+        "min": [
+          -0.248291015625,
+          0,
+          -0.149658203125
+        ],
+        "max": [
+          0.248291015625,
+          0.9995120167732239,
+          0.149658203125
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5258,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.2,
+      "runClipSeconds": 0.78,
+      "attackSeconds": 0.88,
+      "materials": [
+        "Material_tripo_node_abe0477c-f391-4642-b9fb-b7f8156edda4"
+      ],
+      "sourceProvenance": {
+        "sourceModelId": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+        "sourceCardId": "2f2c8e61-97e8-40b2-80f8-2ac990d55fe3",
+        "sourceFile": "assets/art/tripo/exports/7b895b19-d80b-4680-96b7-3f4cf63fa8a9.glb",
+        "sourceSha256": "cdc218bf28e19b40c3f9070d3375478795752ee618c52e9cc2cb71c6513f192f",
+        "approvedSourceImageId": "612f264c-74d2-48c4-bbc8-36680dd6127e",
+        "approvedSourceImagePath": "assets/art/tripo/refs/fairy-mooncap-sporekin-face-r3.png",
+        "approvedSourceImageSha256": "5883497c239eef155dc0a686240ae4f58dff3b4def488eaa6351351c6c593d62",
+        "sourceTitle": "alien creature 3d model",
+        "prompt": "alien creature with fungal head, textured brown-purple skin, beige plate-like exoskeleton, elongated limbs and clawed feet",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-fairy-fungi/duskcap-sporekin-native-rig-candidate.glb",
+        "candidateSha256": "5f9468ca786b5db9d5a1218c1e752106b8f1022ec3cee78eee7010862283ddb1",
+        "rigMethod": "26-joint Y-up fungal humanoid rig; original mesh, UVs and image-generated base-color/PBR maps preserved; 2K runtime maps.",
+        "textureMetrics": [
+          {
+            "name": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9_basecolor_runtime2k.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 733918,
+            "sha256": "db0346116ea8b7d5daa9d5ef565263ffb804e03270966cc4856b917241a68f94"
+          },
+          {
+            "name": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9_rm_runtime2k.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3411004,
+            "sha256": "7adf482739767e981d312e63de3fe73277204c33ef3ca7b240eb8596e97668e3"
+          },
+          {
+            "name": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9_normal_runtime2k.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3550416,
+            "sha256": "d3e46fff93ac6b2e8861b03243f60833d22d78bcc4107758da15c28e6ac79192"
+          }
+        ]
+      },
+      "metadata": {
+        "source": {
+          "file": "assets/art/tripo/exports/7b895b19-d80b-4680-96b7-3f4cf63fa8a9.glb",
+          "sha256": "cdc218bf28e19b40c3f9070d3375478795752ee618c52e9cc2cb71c6513f192f",
+          "bytes": 20106656,
+          "starredOrder": 15,
+          "starredProjectId": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+          "starredCardUuid": "2f2c8e61-97e8-40b2-80f8-2ac990d55fe3",
+          "sourceTitle": "alien creature 3d model",
+          "prompt": "alien creature with fungal head, textured brown-purple skin, beige plate-like exoskeleton, elongated limbs and clawed feet",
+          "sourceModelLabel": "8K PBR Tripo P2.0",
+          "approvedSourceImage": {
+            "id": "612f264c-74d2-48c4-bbc8-36680dd6127e",
+            "file": "assets/art/tripo/refs/fairy-mooncap-sporekin-face-r3.png",
+            "sha256": "5883497c239eef155dc0a686240ae4f58dff3b4def488eaa6351351c6c593d62",
+            "review": "Approved facial revision: intact ivory fungal face beneath mature gills; original textured body and limbs retained.",
+            "linkedTextureReferenceId": "74d01d72-e984-43f7-b8cb-9fab480b7081"
+          },
+          "sourceTopologyReportedByTripo": {
+            "faces": 4438,
+            "vertices": 2858
+          },
+          "sourceGeometryReadFromGlb": {
+            "vertices": 3395,
+            "triangles": 5258,
+            "bounds": {
+              "min": [
+                -0.248291015625,
+                0,
+                -0.149658203125
+              ],
+              "max": [
+                0.248291015625,
+                0.9995120167732239,
+                0.149658203125
+              ]
+            },
+            "positionsPreserved": true,
+            "indicesPreserved": true,
+            "normalsUvPreserved": true,
+            "retopology": false
+          },
+          "sourceRig": {
+            "joints": 0,
+            "rootDominantVertices": 3392,
+            "rootDominantRatio": 0.9991163475699558,
+            "animationClips": 0,
+            "disposition": "replaced; joint nodes were identity-transformed and over 95% of vertices were fully weighted to BoneRoot"
+          },
+          "sourceTextures": [
+            {
+              "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_basecolor.jpg",
+              "role": "base color",
+              "width": 8192,
+              "height": 8192,
+              "mime": "image/jpeg",
+              "bytes": 8216364,
+              "sha256": "2a5d5149274d133953bfb62bff26f41835557a85985e966f4754e22a7bd594a7"
+            },
+            {
+              "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_rm.png",
+              "role": "packed metallic-roughness",
+              "width": 4096,
+              "height": 4096,
+              "mime": "image/png",
+              "bytes": 10097018,
+              "sha256": "b09169af5aeb6b8739f267d64d78aa5f64eba3488e52036983066ae08a1e1605"
+            },
+            {
+              "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_normal.jpg",
+              "role": "normal",
+              "width": 4096,
+              "height": 4096,
+              "mime": "image/jpeg",
+              "bytes": 1530462,
+              "sha256": "b5b4f2c17d4349a5fa197bedd55484017947243bebdfe1f675062c512a27d956"
+            }
+          ]
+        },
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/starred-fairy-fungi/duskcap-sporekin-native-rig-candidate.glb",
+          "sha256": "5f9468ca786b5db9d5a1218c1e752106b8f1022ec3cee78eee7010862283ddb1",
+          "bytes": 8099580,
+          "vertices": 3395,
+          "triangles": 5258,
+          "positionsPreserved": true,
+          "indicesPreserved": true,
+          "normalsUvPreserved": true,
+          "maximumSourceAttributeDelta": 0,
+          "rig": {
+            "type": "Y-up Generic fungal humanoid, facing +Z",
+            "jointCount": 26,
+            "joints": [
+              {
+                "name": "DuskcapRoot",
+                "index": 0,
+                "parent": null,
+                "position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Pelvis",
+                "index": 1,
+                "parent": "DuskcapRoot",
+                "position": [
+                  0,
+                  0.35,
+                  0
+                ]
+              },
+              {
+                "name": "Abdomen",
+                "index": 2,
+                "parent": "Pelvis",
+                "position": [
+                  0,
+                  0.435,
+                  0
+                ]
+              },
+              {
+                "name": "Spine",
+                "index": 3,
+                "parent": "Abdomen",
+                "position": [
+                  0,
+                  0.515,
+                  0
+                ]
+              },
+              {
+                "name": "Chest",
+                "index": 4,
+                "parent": "Spine",
+                "position": [
+                  0,
+                  0.605,
+                  0
+                ]
+              },
+              {
+                "name": "Neck",
+                "index": 5,
+                "parent": "Chest",
+                "position": [
+                  0,
+                  0.715,
+                  0
+                ]
+              },
+              {
+                "name": "Head",
+                "index": 6,
+                "parent": "Neck",
+                "position": [
+                  0,
+                  0.81,
+                  0
+                ]
+              },
+              {
+                "name": "FungalCap",
+                "index": 7,
+                "parent": "Head",
+                "position": [
+                  0,
+                  0.91,
+                  0
+                ]
+              },
+              {
+                "name": "Clavicle_L",
+                "index": 8,
+                "parent": "Chest",
+                "position": [
+                  -0.075,
+                  0.62,
+                  0
+                ]
+              },
+              {
+                "name": "UpperArm_L",
+                "index": 9,
+                "parent": "Clavicle_L",
+                "position": [
+                  -0.132,
+                  0.535,
+                  0.002
+                ]
+              },
+              {
+                "name": "Forearm_L",
+                "index": 10,
+                "parent": "UpperArm_L",
+                "position": [
+                  -0.188,
+                  0.385,
+                  0.012
+                ]
+              },
+              {
+                "name": "Hand_L",
+                "index": 11,
+                "parent": "Forearm_L",
+                "position": [
+                  -0.222,
+                  0.245,
+                  0.045
+                ]
+              },
+              {
+                "name": "Thigh_L",
+                "index": 12,
+                "parent": "Pelvis",
+                "position": [
+                  -0.063,
+                  0.34,
+                  0
+                ]
+              },
+              {
+                "name": "Knee_L",
+                "index": 13,
+                "parent": "Thigh_L",
+                "position": [
+                  -0.082,
+                  0.205,
+                  0.005
+                ]
+              },
+              {
+                "name": "Ankle_L",
+                "index": 14,
+                "parent": "Knee_L",
+                "position": [
+                  -0.09,
+                  0.072,
+                  0.012
+                ]
+              },
+              {
+                "name": "Foot_L",
+                "index": 15,
+                "parent": "Ankle_L",
+                "position": [
+                  -0.092,
+                  0.036,
+                  0.07
+                ]
+              },
+              {
+                "name": "Toe_L",
+                "index": 16,
+                "parent": "Foot_L",
+                "position": [
+                  -0.092,
+                  0.018,
+                  0.132
+                ]
+              },
+              {
+                "name": "Clavicle_R",
+                "index": 17,
+                "parent": "Chest",
+                "position": [
+                  0.075,
+                  0.62,
+                  0
+                ]
+              },
+              {
+                "name": "UpperArm_R",
+                "index": 18,
+                "parent": "Clavicle_R",
+                "position": [
+                  0.132,
+                  0.535,
+                  0.002
+                ]
+              },
+              {
+                "name": "Forearm_R",
+                "index": 19,
+                "parent": "UpperArm_R",
+                "position": [
+                  0.188,
+                  0.385,
+                  0.012
+                ]
+              },
+              {
+                "name": "Hand_R",
+                "index": 20,
+                "parent": "Forearm_R",
+                "position": [
+                  0.222,
+                  0.245,
+                  0.045
+                ]
+              },
+              {
+                "name": "Thigh_R",
+                "index": 21,
+                "parent": "Pelvis",
+                "position": [
+                  0.063,
+                  0.34,
+                  0
+                ]
+              },
+              {
+                "name": "Knee_R",
+                "index": 22,
+                "parent": "Thigh_R",
+                "position": [
+                  0.082,
+                  0.205,
+                  0.005
+                ]
+              },
+              {
+                "name": "Ankle_R",
+                "index": 23,
+                "parent": "Knee_R",
+                "position": [
+                  0.09,
+                  0.072,
+                  0.012
+                ]
+              },
+              {
+                "name": "Foot_R",
+                "index": 24,
+                "parent": "Ankle_R",
+                "position": [
+                  0.092,
+                  0.036,
+                  0.07
+                ]
+              },
+              {
+                "name": "Toe_R",
+                "index": 25,
+                "parent": "Foot_R",
+                "position": [
+                  0.092,
+                  0.018,
+                  0.132
+                ]
+              }
+            ],
+            "weighting": "Four-influence normalized skin with signed-X limb gates, body-height bands and segment-distance weights; source root-only skin discarded.",
+            "influenceEntriesByJoint": {
+              "DuskcapRoot": 171,
+              "Pelvis": 1079,
+              "Abdomen": 412,
+              "Spine": 494,
+              "Chest": 1535,
+              "Neck": 796,
+              "Head": 1007,
+              "FungalCap": 719,
+              "Clavicle_L": 390,
+              "UpperArm_L": 760,
+              "Forearm_L": 635,
+              "Hand_L": 171,
+              "Thigh_L": 678,
+              "Knee_L": 432,
+              "Ankle_L": 296,
+              "Foot_L": 112,
+              "Toe_L": 66,
+              "Clavicle_R": 378,
+              "UpperArm_R": 767,
+              "Forearm_R": 699,
+              "Hand_R": 173,
+              "Thigh_R": 783,
+              "Knee_R": 528,
+              "Ankle_R": 329,
+              "Foot_R": 111,
+              "Toe_R": 59
+            },
+            "verticesWithMultipleInfluences": 3395,
+            "multiInfluenceRatio": 1,
+            "maximumWeightSumError": 4.470348358154297e-8
+          },
+          "animations": [
+            {
+              "name": "Idle",
+              "seconds": 2.4,
+              "channels": 13
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.2,
+              "channels": 21
+            },
+            {
+              "name": "Run",
+              "seconds": 0.78,
+              "channels": 21
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.88,
+              "channels": 14
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.52,
+              "channels": 12
+            },
+            {
+              "name": "Death",
+              "seconds": 1.62,
+              "channels": 25
+            }
+          ],
+          "runtimeTextures": [
+            {
+              "name": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9_basecolor_runtime2k.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/jpeg",
+              "bytes": 733918,
+              "sha256": "db0346116ea8b7d5daa9d5ef565263ffb804e03270966cc4856b917241a68f94"
+            },
+            {
+              "name": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9_rm_runtime2k.png",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/png",
+              "bytes": 3411004,
+              "sha256": "7adf482739767e981d312e63de3fe73277204c33ef3ca7b240eb8596e97668e3"
+            },
+            {
+              "name": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9_normal_runtime2k.png",
+              "width": 2048,
+              "height": 2048,
+              "mime": "image/png",
+              "bytes": 3550416,
+              "sha256": "d3e46fff93ac6b2e8861b03243f60833d22d78bcc4107758da15c28e6ac79192"
+            }
+          ],
+          "material": {
+            "metallicFactor": 1,
+            "roughnessFactor": 1,
+            "baseColor": "original layered brown-purple and beige image atlas, Lanczos reduced to 2K",
+            "normal": "original tangent-space normal image, reduced to 2K with vector averaging and renormalization",
+            "metallicRoughness": "original packed metallic-roughness image, reduced to 2K without channel changes",
+            "look": "preserved source color and organic exoskeleton; no recolor or texture replacement"
+          },
+          "intendedRole": {
+            "region": "Faeholme",
+            "tier": 60,
+            "activity": "forage",
+            "behaviour": "passive",
+            "level": 54,
+            "targetAssetId": "fairy_garden_sporekin_faeholme",
+            "rationale": "This T60 fungal fey slot matches the approved gilled cap, intact face and organic alien body; it avoids duplicating the independently staged T60 Orchid Reaper."
+          },
+          "validation": {
+            "serializedGlbReadBack": true,
+            "exactSourceGeometry": true,
+            "normalizedWeights": true,
+            "allSixClips": true,
+            "allRuntimeMaps2K": true,
+            "labAccepted": false,
+            "worldIntegrated": false
+          }
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_sporekin_faeholme": "duskcap-sporekin-native-rig-candidate.glb"
+  }
+}
