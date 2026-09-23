@@ -208,6 +208,11 @@ async function main(): Promise<void> {
       }
       case "observe":
         return observe(ids(command.entityIds));
+      case "bootTelemetry":
+        return driver.page!.evaluate(() => {
+          const hook = Reflect.get(window, "__corealmBootTelemetry") as { snapshot?: () => unknown } | undefined;
+          return typeof hook?.snapshot === "function" ? hook.snapshot() : null;
+        });
       case "waitForEntity": {
         const entityId = string(command.entityId, "entityId");
         const state = string(command.state, "state");
