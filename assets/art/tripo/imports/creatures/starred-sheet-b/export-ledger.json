@@ -1,0 +1,68 @@
+{
+  "schema": "corealm-tripo-starred-sheet-export/1",
+  "status": "downloaded-source-unrigged",
+  "source": {
+    "service": "Tripo Studio",
+    "collection": "Assets > Model > Collected",
+    "cardStorageUuid": "7d8ede80-cd10-4b2e-8b71-15c6aa28687e",
+    "projectUuid": "2dba7c96-0289-4979-8510-df23ce9577eb",
+    "publicModelUrl": "https://studio.tripo3d.ai/3d-model/nine-stylized-fantasy-monsters-with-horned-skulls-and-clawed-limbs-va-2dba7c96-0289-4979-8510-df23ce9577eb",
+    "workspaceUrl": "https://studio.tripo3d.ai/workspace/generate/fantasy-creature-3d-model-2dba7c96-0289-4979-8510-df23ce9577eb",
+    "displayName": "fantasy creature 3d model",
+    "prompt": "nine stylized fantasy monsters with horned skulls and clawed limbs, varied color schemes.",
+    "generator": "Tripo P1.0",
+    "quality": "8K PBR",
+    "topology": "triangle",
+    "faces": 19233,
+    "vertices": 32739,
+    "visibleCreatureCount": 9,
+    "layout": "3x3 sheet"
+  },
+  "export": {
+    "method": "individual workspace Export",
+    "format": "GLB",
+    "textureResolutionSelection": "8K Current",
+    "downloadDirectory": "C:\\Users\\Borg\\Downloads",
+    "downloadedFilename": "fantasy creature 3d model (2).glb",
+    "downloadedAtLocal": "2026-09-23T00:35:23-05:00",
+    "sizeBytes": 23675048,
+    "sha256": "7559D698AEA8FB679F6B63567A353E4F80D0AD91260133B70CF8220B10BEAC05",
+    "stablePath": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+    "glbVersion": 2,
+    "declaredLength": 23675048,
+    "meshCount": 1,
+    "materialCount": 1,
+    "triangleCount": 19233,
+    "positionVertices": 32739,
+    "skins": 0,
+    "animations": 0,
+    "textures": [
+      {
+        "role": "base color",
+        "filename": "fantasy+creature+3d+model_basecolor.jpg",
+        "mimeType": "image/jpeg",
+        "dimensions": "8192x8192",
+        "sizeBytes": 10117556
+      },
+      {
+        "role": "metallic-roughness",
+        "filename": "fantasy+creature+3d+model_rm.png",
+        "mimeType": "image/png",
+        "dimensions": "4096x4096",
+        "sizeBytes": 11492391
+      },
+      {
+        "role": "normal",
+        "filename": "fantasy+creature+3d+model_normal.jpg",
+        "mimeType": "image/jpeg",
+        "dimensions": "4096x4096",
+        "sizeBytes": 784527
+      }
+    ],
+    "localVerification": "GLB v2 header length, SHA-256, geometry counts, and embedded texture dimensions verified. A second byte-identical GLB is present in Downloads."
+  },
+  "notes": [
+    "The Collected card's 3x3 model preview visibly contains nine monsters.",
+    "The exported GLB packs the sheet into one mesh and contains no skin or animation clips; it remains a source for downstream creature extraction, rigging, and animation."
+  ]
+}
