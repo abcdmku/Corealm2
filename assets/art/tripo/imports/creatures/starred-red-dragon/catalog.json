@@ -1,0 +1,1048 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_starred_red_dragon",
+  "displayName": "Red Dragon of Crownward",
+  "status": "awaiting-root-image-and-lab-review",
+  "accepted": false,
+  "worldIntegrated": false,
+  "source": {
+    "file": "../../../exports/d20f1d55-1dce-46f6-b4e4-375769915b1f.glb",
+    "projectId": "d20f1d55-1dce-46f6-b4e4-375769915b1f",
+    "modelId": "d20f1d55-1dce-46f6-b4e4-375769915b1f",
+    "sourceImageId": "7be6e74e-3c63-4e8a-919f-cc6f415822d4",
+    "sourceImageSha256": "7938d512e86acba10ed37cfe8767193ad8a066e0b71891ca0f5e4a664b550d99",
+    "sourceBatch": "assets/art/tripo/batches/creatures-crown-wild.json",
+    "sourceBatchCreatureId": "red-dragon",
+    "sourceContentRole": "red dragon",
+    "starred": true,
+    "sourceImageFile": "assets/art/tripo/refs/crown-wild-red-dragon.png",
+    "sha256": "a4e053f8f0df3aef8c1503fcbcb47988f656d3b009cdfe8c382b703db7b96ef0",
+    "bytes": 25878008,
+    "vertices": 6649,
+    "triangles": 9327,
+    "sourceSkinJoints": 49,
+    "sourceAnimationCount": 0,
+    "sourceImageReview": {
+      "imageReview": "approved",
+      "facialReview": "approved",
+      "reviewer": "wild_audit / face_audit_crown",
+      "sourceImageId": "7be6e74e-3c63-4e8a-919f-cc6f415822d4",
+      "note": "The exact source image is approved in the Tripo batch ledger; candidate rest geometry and animation remain pending root visual and lab review."
+    },
+    "sourceMaps": [
+      {
+        "role": "normal",
+        "width": 4096,
+        "height": 4096,
+        "sha256": "84e9288e1052e7cc853ed1b7bd60009c6a13b975c250b16de29530f1a0ea8fec"
+      },
+      {
+        "role": "baseColor",
+        "width": 8192,
+        "height": 8192,
+        "sha256": "ea1da43806a1a460881360e277686196abc41c7e86ef0e84eb4d3dacedf97f44"
+      },
+      {
+        "role": "metallicRoughness",
+        "width": 4096,
+        "height": 4096,
+        "sha256": "37871b75f43ad32c23868c7bfbf658a6f7eac9f4a62bb977eaceeb32a74f3ea1"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "starred-red-dragon_candidate.glb",
+    "sha256": "1f5af3e449e12a048dd980ae719b158ea674f71a4f33dbe44b83752c2fd7b49d",
+    "bytes": 8409064,
+    "vertices": 6649,
+    "triangles": 9327,
+    "joints": [
+      {
+        "name": "DragonRoot",
+        "index": 0,
+        "parent": null,
+        "restPosition": [
+          0,
+          0,
+          0
+        ],
+        "kind": "root"
+      },
+      {
+        "name": "Pelvis",
+        "index": 1,
+        "parent": "DragonRoot",
+        "restPosition": [
+          0,
+          0.232,
+          0.035
+        ],
+        "kind": "body"
+      },
+      {
+        "name": "SpineRear",
+        "index": 2,
+        "parent": "Pelvis",
+        "restPosition": [
+          0,
+          0.258,
+          0.112
+        ],
+        "kind": "body"
+      },
+      {
+        "name": "SpineMid",
+        "index": 3,
+        "parent": "SpineRear",
+        "restPosition": [
+          0,
+          0.282,
+          0.185
+        ],
+        "kind": "body"
+      },
+      {
+        "name": "Chest",
+        "index": 4,
+        "parent": "SpineMid",
+        "restPosition": [
+          0,
+          0.303,
+          0.246
+        ],
+        "kind": "body"
+      },
+      {
+        "name": "NeckBase",
+        "index": 5,
+        "parent": "Chest",
+        "restPosition": [
+          0,
+          0.365,
+          0.315
+        ],
+        "kind": "body"
+      },
+      {
+        "name": "NeckMid",
+        "index": 6,
+        "parent": "NeckBase",
+        "restPosition": [
+          0,
+          0.438,
+          0.359
+        ],
+        "kind": "body"
+      },
+      {
+        "name": "Head",
+        "index": 7,
+        "parent": "NeckMid",
+        "restPosition": [
+          0,
+          0.51,
+          0.394
+        ],
+        "kind": "body"
+      },
+      {
+        "name": "Jaw",
+        "index": 8,
+        "parent": "Head",
+        "restPosition": [
+          0,
+          0.475,
+          0.445
+        ],
+        "kind": "jaw"
+      },
+      {
+        "name": "TailBase",
+        "index": 9,
+        "parent": "Pelvis",
+        "restPosition": [
+          0,
+          0.212,
+          -0.08
+        ],
+        "kind": "tail"
+      },
+      {
+        "name": "TailMid",
+        "index": 10,
+        "parent": "TailBase",
+        "restPosition": [
+          0,
+          0.158,
+          -0.225
+        ],
+        "kind": "tail"
+      },
+      {
+        "name": "TailEnd",
+        "index": 11,
+        "parent": "TailMid",
+        "restPosition": [
+          0,
+          0.112,
+          -0.366
+        ],
+        "kind": "tail"
+      },
+      {
+        "name": "TailTip",
+        "index": 12,
+        "parent": "TailEnd",
+        "restPosition": [
+          0,
+          0.124,
+          -0.468
+        ],
+        "kind": "tail"
+      },
+      {
+        "name": "ForeHip_L",
+        "index": 13,
+        "parent": "Chest",
+        "restPosition": [
+          -0.052,
+          0.302,
+          0.305
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "ForeUpper_L",
+        "index": 14,
+        "parent": "ForeHip_L",
+        "restPosition": [
+          -0.093,
+          0.238,
+          0.291
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "ForeLower_L",
+        "index": 15,
+        "parent": "ForeUpper_L",
+        "restPosition": [
+          -0.104,
+          0.13,
+          0.302
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "ForePaw_L",
+        "index": 16,
+        "parent": "ForeLower_L",
+        "restPosition": [
+          -0.122,
+          0.025,
+          0.357
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindHip_L",
+        "index": 17,
+        "parent": "Pelvis",
+        "restPosition": [
+          -0.038,
+          0.226,
+          0.037
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindUpper_L",
+        "index": 18,
+        "parent": "HindHip_L",
+        "restPosition": [
+          -0.086,
+          0.178,
+          0.096
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindLower_L",
+        "index": 19,
+        "parent": "HindUpper_L",
+        "restPosition": [
+          -0.094,
+          0.096,
+          0.019
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindPaw_L",
+        "index": 20,
+        "parent": "HindLower_L",
+        "restPosition": [
+          -0.12,
+          0.025,
+          0.05
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "WingShoulder_L",
+        "index": 21,
+        "parent": "Chest",
+        "restPosition": [
+          -0.066,
+          0.323,
+          0.208
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingArm_L",
+        "index": 22,
+        "parent": "WingShoulder_L",
+        "restPosition": [
+          -0.184,
+          0.43,
+          0.184
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingElbow_L",
+        "index": 23,
+        "parent": "WingArm_L",
+        "restPosition": [
+          -0.326,
+          0.538,
+          0.103
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingTip_L",
+        "index": 24,
+        "parent": "WingElbow_L",
+        "restPosition": [
+          -0.476,
+          0.58,
+          -0.006
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingFingerA_L",
+        "index": 25,
+        "parent": "WingElbow_L",
+        "restPosition": [
+          -0.438,
+          0.479,
+          0.227
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingFingerB_L",
+        "index": 26,
+        "parent": "WingArm_L",
+        "restPosition": [
+          -0.328,
+          0.366,
+          0.327
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "ForeHip_R",
+        "index": 27,
+        "parent": "Chest",
+        "restPosition": [
+          0.052,
+          0.302,
+          0.305
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "ForeUpper_R",
+        "index": 28,
+        "parent": "ForeHip_R",
+        "restPosition": [
+          0.093,
+          0.238,
+          0.291
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "ForeLower_R",
+        "index": 29,
+        "parent": "ForeUpper_R",
+        "restPosition": [
+          0.104,
+          0.13,
+          0.302
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "ForePaw_R",
+        "index": 30,
+        "parent": "ForeLower_R",
+        "restPosition": [
+          0.122,
+          0.025,
+          0.357
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindHip_R",
+        "index": 31,
+        "parent": "Pelvis",
+        "restPosition": [
+          0.038,
+          0.226,
+          0.037
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindUpper_R",
+        "index": 32,
+        "parent": "HindHip_R",
+        "restPosition": [
+          0.086,
+          0.178,
+          0.096
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindLower_R",
+        "index": 33,
+        "parent": "HindUpper_R",
+        "restPosition": [
+          0.094,
+          0.096,
+          0.019
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "HindPaw_R",
+        "index": 34,
+        "parent": "HindLower_R",
+        "restPosition": [
+          0.12,
+          0.025,
+          0.05
+        ],
+        "kind": "leg"
+      },
+      {
+        "name": "WingShoulder_R",
+        "index": 35,
+        "parent": "Chest",
+        "restPosition": [
+          0.066,
+          0.323,
+          0.208
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingArm_R",
+        "index": 36,
+        "parent": "WingShoulder_R",
+        "restPosition": [
+          0.184,
+          0.43,
+          0.184
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingElbow_R",
+        "index": 37,
+        "parent": "WingArm_R",
+        "restPosition": [
+          0.326,
+          0.538,
+          0.103
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingTip_R",
+        "index": 38,
+        "parent": "WingElbow_R",
+        "restPosition": [
+          0.476,
+          0.58,
+          -0.006
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingFingerA_R",
+        "index": 39,
+        "parent": "WingElbow_R",
+        "restPosition": [
+          0.438,
+          0.479,
+          0.227
+        ],
+        "kind": "wing"
+      },
+      {
+        "name": "WingFingerB_R",
+        "index": 40,
+        "parent": "WingArm_R",
+        "restPosition": [
+          0.328,
+          0.366,
+          0.327
+        ],
+        "kind": "wing"
+      }
+    ],
+    "maps": [
+      {
+        "role": "normal",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/png",
+        "sha256": "c3fe8a9d5e3f28c01138dad84cdc3f8de7dd3f05f30fdb1fd742517561b479cf",
+        "reduction": "linear resample then tangent-vector renormalization"
+      },
+      {
+        "role": "baseColor",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg",
+        "sha256": "6a5c65f6d0878edfe4c837b348054cf4d3fb5ebf320869c0560bfbcb1a8818f2",
+        "reduction": "Lanczos resample of source color map"
+      },
+      {
+        "role": "metallicRoughness",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/png",
+        "sha256": "7ad32bd6a5a390a65123102d4ddb09dba4cff5eac20ca5c0d5d062868764c9e8",
+        "reduction": "linear resample of source linear PBR channels"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "channels": 21,
+        "seconds": 2.4000000953674316,
+        "loop": true,
+        "source": "Corealm grounded quadruped and articulated dragon action authoring"
+      },
+      {
+        "name": "Walk",
+        "channels": 35,
+        "seconds": 1.1799999475479126,
+        "loop": true,
+        "source": "Corealm grounded quadruped and articulated dragon action authoring"
+      },
+      {
+        "name": "Run",
+        "channels": 36,
+        "seconds": 0.7400000095367432,
+        "loop": true,
+        "source": "Corealm grounded quadruped and articulated dragon action authoring"
+      },
+      {
+        "name": "Attack",
+        "channels": 25,
+        "seconds": 0.8999999761581421,
+        "loop": false,
+        "source": "Corealm grounded quadruped and articulated dragon action authoring"
+      },
+      {
+        "name": "Hit",
+        "channels": 23,
+        "seconds": 0.5400000214576721,
+        "loop": false,
+        "source": "Corealm grounded quadruped and articulated dragon action authoring"
+      },
+      {
+        "name": "Death",
+        "channels": 39,
+        "seconds": 1.6799999475479126,
+        "loop": false,
+        "source": "Corealm grounded quadruped and articulated dragon action authoring"
+      }
+    ]
+  },
+  "rig": {
+    "preset": "custom grounded six-limb draconic quadruped",
+    "basis": "Y-up, +Z-forward, X lateral; source body axis and foot-ground bounds preserved",
+    "jointCount": 41,
+    "weightMethod": "Four normalized Gaussian influences to nearest anatomical bone segments; central spine/tail/head surfaces map onto a continuous axial chain; mirrored forelegs, hindlegs and wing rays use separate chains.",
+    "weightedVertices": [
+      0,
+      1427,
+      1392,
+      486,
+      1981,
+      3329,
+      2188,
+      2166,
+      1671,
+      62,
+      274,
+      632,
+      567,
+      184,
+      366,
+      475,
+      272,
+      334,
+      368,
+      64,
+      278,
+      639,
+      568,
+      235,
+      360,
+      464,
+      265,
+      323,
+      358,
+      545,
+      672,
+      578,
+      500,
+      24,
+      178,
+      534,
+      436,
+      18,
+      178,
+      534,
+      436
+    ],
+    "jointWeightMass": [
+      0,
+      304,
+      153.392,
+      115.361,
+      178.97,
+      248.853,
+      487.302,
+      1133.541,
+      302.698,
+      13.803,
+      59.92,
+      132.802,
+      413.913,
+      34.364,
+      77.901,
+      117.192,
+      29.545,
+      121.718,
+      124.535,
+      14.105,
+      60.549,
+      134.103,
+      414.595,
+      44.402,
+      77.171,
+      115.607,
+      28.994,
+      115.512,
+      122.503,
+      81.016,
+      118.36,
+      217.129,
+      243.576,
+      5.067,
+      48.325,
+      120.412,
+      232.501,
+      3.945,
+      48.347,
+      120.465,
+      232.507
+    ],
+    "geometryPreserved": true,
+    "uvPreserved": true,
+    "topologyChanged": false,
+    "sourceWeightsReplaced": true,
+    "restBounds": [
+      [
+        -0.4997473359107971,
+        0.49974727630615234
+      ],
+      [
+        0.0000013495930488716112,
+        0.6928701400756836
+      ],
+      [
+        -0.4914550483226776,
+        0.49145519733428955
+      ]
+    ],
+    "validation": {
+      "positionMaxDelta": 0,
+      "normalMaxDelta": 0,
+      "uvMaxDelta": 0,
+      "indexMismatches": 0,
+      "maxWeightSumError": 4.440892098500626e-16,
+      "writtenMaxWeightSumError": 4.470348358154297e-8,
+      "writtenSkinJoints": 41,
+      "writtenTextureSizes": [
+        {
+          "role": "normal",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "role": "baseColor",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "role": "metallicRoughness",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "writtenAnimations": [
+        {
+          "name": "Idle",
+          "channels": 21,
+          "seconds": 2.4000000953674316,
+          "loop": true
+        },
+        {
+          "name": "Walk",
+          "channels": 35,
+          "seconds": 1.1799999475479126,
+          "loop": true
+        },
+        {
+          "name": "Run",
+          "channels": 36,
+          "seconds": 0.7400000095367432,
+          "loop": true
+        },
+        {
+          "name": "Attack",
+          "channels": 25,
+          "seconds": 0.8999999761581421,
+          "loop": false
+        },
+        {
+          "name": "Hit",
+          "channels": 23,
+          "seconds": 0.5400000214576721,
+          "loop": false
+        },
+        {
+          "name": "Death",
+          "channels": 39,
+          "seconds": 1.6799999475479126,
+          "loop": false
+        }
+      ],
+      "sampledDeformationBounds": [
+        {
+          "name": "Idle",
+          "min": [
+            -0.5094315595310853,
+            -0.002056776148593572,
+            -0.49157761507320136
+          ],
+          "max": [
+            0.509646539021481,
+            0.6991709450331965,
+            0.49730930656119604
+          ],
+          "maxVertexDisplacement": 0.034230734315433324,
+          "lowestPoint": {
+            "frame": 42,
+            "vertex": 879,
+            "source": [
+              -0.15942348539829254,
+              0.002443223027512431,
+              0.07104478776454926
+            ],
+            "deformed": [
+              -0.15942348493093597,
+              -0.002056776148593572,
+              0.07104478596432623
+            ],
+            "influences": [
+              {
+                "joint": "HindPaw_L",
+                "weight": 0.7699032425880432
+              },
+              {
+                "joint": "Pelvis",
+                "weight": 0.15778641402721405
+              },
+              {
+                "joint": "HindLower_L",
+                "weight": 0.06660672277212143
+              },
+              {
+                "joint": "SpineRear",
+                "weight": 0.005703603383153677
+              }
+            ]
+          }
+        },
+        {
+          "name": "Walk",
+          "min": [
+            -0.5122923839548669,
+            -0.0031272212924097114,
+            -0.4914733833623326
+          ],
+          "max": [
+            0.5122919102945818,
+            0.7003074033041403,
+            0.5009953200060552
+          ],
+          "maxVertexDisplacement": 0.1068424897978056,
+          "lowestPoint": {
+            "frame": 2,
+            "vertex": 3994,
+            "source": [
+              -0.17456009984016418,
+              0.0000013495930488716112,
+              0.3527830243110657
+            ],
+            "deformed": [
+              -0.17464534013528774,
+              -0.0031272212924097114,
+              0.3262897852083525
+            ],
+            "influences": [
+              {
+                "joint": "ForePaw_L",
+                "weight": 0.9795898795127869
+              },
+              {
+                "joint": "ForeLower_L",
+                "weight": 0.01997297629714012
+              },
+              {
+                "joint": "Chest",
+                "weight": 0.00021857066894881427
+              },
+              {
+                "joint": "NeckBase",
+                "weight": 0.00021857066894881427
+              }
+            ]
+          }
+        },
+        {
+          "name": "Run",
+          "min": [
+            -0.5218670585546316,
+            -0.0009826459416556158,
+            -0.4914733833623326
+          ],
+          "max": [
+            0.5218659810303894,
+            0.7046577440234348,
+            0.5306296004258906
+          ],
+          "maxVertexDisplacement": 0.17271051651677524,
+          "lowestPoint": {
+            "frame": 34,
+            "vertex": 3995,
+            "source": [
+              0.1745549440383911,
+              0.000008446719220955856,
+              0.3527831435203552
+            ],
+            "deformed": [
+              0.17460090490780628,
+              -0.0009826459416556158,
+              0.33825841431176706
+            ],
+            "influences": [
+              {
+                "joint": "ForePaw_R",
+                "weight": 0.979583740234375
+              },
+              {
+                "joint": "ForeLower_R",
+                "weight": 0.019978992640972137
+              },
+              {
+                "joint": "Chest",
+                "weight": 0.00021862279390916228
+              },
+              {
+                "joint": "NeckBase",
+                "weight": 0.00021862279390916228
+              }
+            ]
+          }
+        },
+        {
+          "name": "Attack",
+          "min": [
+            -0.5328035289603591,
+            -0.01941782290979989,
+            -0.4914550653690877
+          ],
+          "max": [
+            0.5328000491324697,
+            0.6971222322751096,
+            0.6116184022919423
+          ],
+          "maxVertexDisplacement": 0.30217922515308354,
+          "lowestPoint": {
+            "frame": 21,
+            "vertex": 4872,
+            "source": [
+              -0.1354982852935791,
+              0.002931795082986355,
+              0.39721664786338806
+            ],
+            "deformed": [
+              -0.13549828560977864,
+              -0.01941782290979989,
+              0.3784163981948576
+            ],
+            "influences": [
+              {
+                "joint": "ForePaw_L",
+                "weight": 0.9877238869667053
+              },
+              {
+                "joint": "ForeLower_L",
+                "weight": 0.011854161508381367
+              },
+              {
+                "joint": "Chest",
+                "weight": 0.0002109820197802037
+              },
+              {
+                "joint": "NeckBase",
+                "weight": 0.0002109820197802037
+              }
+            ]
+          }
+        },
+        {
+          "name": "Hit",
+          "min": [
+            -0.49974733763104434,
+            0.0000013493205960227629,
+            -0.5145856932251326
+          ],
+          "max": [
+            0.4997472659109816,
+            0.6931649257607261,
+            0.4914552057630612
+          ],
+          "maxVertexDisplacement": 0.21957350843016968,
+          "lowestPoint": {
+            "frame": 26,
+            "vertex": 3994,
+            "source": [
+              -0.17456009984016418,
+              0.0000013495930488716112,
+              0.3527830243110657
+            ],
+            "deformed": [
+              -0.17456009795650435,
+              0.0000013493205960227629,
+              0.35278303011956236
+            ],
+            "influences": [
+              {
+                "joint": "ForePaw_L",
+                "weight": 0.9795898795127869
+              },
+              {
+                "joint": "ForeLower_L",
+                "weight": 0.01997297629714012
+              },
+              {
+                "joint": "Chest",
+                "weight": 0.00021857066894881427
+              },
+              {
+                "joint": "NeckBase",
+                "weight": 0.00021857066894881427
+              }
+            ]
+          }
+        },
+        {
+          "name": "Death",
+          "min": [
+            -0.49974733763104434,
+            -0.010003723047964104,
+            -0.49625968269882087
+          ],
+          "max": [
+            0.4997472659109816,
+            0.7206126559641233,
+            0.5406624428196837
+          ],
+          "maxVertexDisplacement": 0.2515914559258759,
+          "lowestPoint": {
+            "frame": 46,
+            "vertex": 3994,
+            "source": [
+              -0.17456009984016418,
+              0.0000013495930488716112,
+              0.3527830243110657
+            ],
+            "deformed": [
+              -0.11467041390748953,
+              -0.010003723047964104,
+              0.3561772754698295
+            ],
+            "influences": [
+              {
+                "joint": "ForePaw_L",
+                "weight": 0.9795898795127869
+              },
+              {
+                "joint": "ForeLower_L",
+                "weight": 0.01997297629714012
+              },
+              {
+                "joint": "Chest",
+                "weight": 0.00021857066894881427
+              },
+              {
+                "joint": "NeckBase",
+                "weight": 0.00021857066894881427
+              }
+            ]
+          }
+        }
+      ],
+      "geometryMapContentOrigin": "Exact linked Tripo export maps; only resolution and vector-safe resampling changed for runtime."
+    }
+  },
+  "review": {
+    "candidateImageReview": "pending-root-review",
+    "candidateRigReview": "pending-root-lab-review",
+    "productionPromotionAllowed": false,
+    "worldIntegrationAllowed": false
+  }
+}

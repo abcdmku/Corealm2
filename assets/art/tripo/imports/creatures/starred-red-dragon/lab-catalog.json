@@ -1,0 +1,33 @@
+{
+  "schema": "corealm-creature-lab-candidate/1",
+  "status": "awaiting-root-image-and-lab-review",
+  "entries": [
+    {
+      "id": "creature_starred_red_dragon",
+      "modelFile": "starred-red-dragon_candidate.glb",
+      "sourceModelId": "d20f1d55-1dce-46f6-b4e4-375769915b1f",
+      "sourceSha256": "a4e053f8f0df3aef8c1503fcbcb47988f656d3b009cdfe8c382b703db7b96ef0",
+      "candidateSha256": "1f5af3e449e12a048dd980ae719b158ea674f71a4f33dbe44b83752c2fd7b49d",
+      "triangles": 9327,
+      "vertices": 6649,
+      "joints": 41,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "textureRoles": [
+        "normal",
+        "baseColor",
+        "metallicRoughness"
+      ],
+      "textureResolution": 2048,
+      "imageReview": "source-approved; candidate visual acceptance pending root review",
+      "rigReview": "pending-root-lab-review",
+      "accepted": false
+    }
+  ]
+}
