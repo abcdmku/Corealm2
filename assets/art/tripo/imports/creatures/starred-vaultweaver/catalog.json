@@ -1,0 +1,267 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_vaultweaver",
+  "displayName": "Vaultweaver",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_vaultweaver_0ea08166_8k_rigged.glb",
+    "sha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
+    "bytes": 35001116,
+    "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+    "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+    "sourceImageId": "4adea6eb-8436-4a07-9c52-9b71300f70bf",
+    "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+    "imageApproval": {
+      "reviewer": "marsh_audit / gpt-6-astra low",
+      "verdict": "approved",
+      "faceReview": "approved",
+      "starred": true
+    },
+    "geometryReview": {
+      "reviewer": "gpt-6-astra low",
+      "verdict": "accept",
+      "scope": "T20/T40 mineral shell, complete limbs, serious stone styling"
+    },
+    "triangleCount": 5400,
+    "topologyPreserved": true,
+    "originalRig": {
+      "joints": 29,
+      "validRestTransforms": false,
+      "rootOnlyWeightedVertices": 3435,
+      "nonRootWeightedVertices": 1,
+      "clips": 0
+    }
+  },
+  "candidate": {
+    "file": "starred-vaultweaver-candidate.glb",
+    "sha256": "ec6eae2623557f2fb801e25457a5c9ce113e40fa14a9c0ce6aec9230ca040c42",
+    "bytes": 7188512,
+    "vertices": 3436,
+    "triangles": 5400,
+    "bounds": {
+      "min": [
+        -0.396240234375,
+        0,
+        -0.4958496391773224
+      ],
+      "max": [
+        0.396240234375,
+        0.8608357906341553,
+        0.4958496391773224
+      ]
+    },
+    "size": {
+      "x": 0.79248046875,
+      "y": 0.8608357906341553,
+      "z": 0.9916992783546448
+    },
+    "groundY": 0,
+    "rig": {
+      "type": "authored non-humanoid arthropod skeleton",
+      "joints": [
+        "VaultweaverRoot",
+        "BodyCore",
+        "Carapace",
+        "Hood",
+        "SilkSac",
+        "ForeL_Hip",
+        "ForeL_Knee",
+        "ForeL_Ankle",
+        "ForeL_Foot",
+        "ForeR_Hip",
+        "ForeR_Knee",
+        "ForeR_Ankle",
+        "ForeR_Foot",
+        "MidL_Hip",
+        "MidL_Knee",
+        "MidL_Ankle",
+        "MidL_Foot",
+        "MidR_Hip",
+        "MidR_Knee",
+        "MidR_Ankle",
+        "MidR_Foot",
+        "HindL_Hip",
+        "HindL_Knee",
+        "HindL_Ankle",
+        "HindL_Foot",
+        "HindR_Hip",
+        "HindR_Knee",
+        "HindR_Ankle",
+        "HindR_Foot"
+      ],
+      "jointCount": 29,
+      "legPairs": [
+        "fore",
+        "mid",
+        "hind"
+      ],
+      "pairedPalps": "Kept with the hood/body weights; no isolated joints were accepted because the visible source geometry did not align with the first conservative palp paths.",
+      "basis": "Y-up, X lateral, +Z hood/front",
+      "weights": "Per-vertex distances to model-fitted six-leg polylines with body/leg spatial gating; normalized 4-influence skin. Source mesh, indices, normals and UVs retained."
+    },
+    "textures": [
+      {
+        "name": "corealm_vaultweaver_0ea08166_8k_rigged_basecolor.jpg",
+        "role": "base-color",
+        "source": "8192x8192",
+        "runtime": "2048x2048",
+        "mimeType": "image/jpeg",
+        "bytes": 1133675
+      },
+      {
+        "name": "corealm_vaultweaver_0ea08166_8k_rigged_rm.png",
+        "role": "metallic-roughness",
+        "source": "4096x4096",
+        "runtime": "2048x2048",
+        "mimeType": "image/png",
+        "bytes": 3075918
+      },
+      {
+        "name": "corealm_vaultweaver_0ea08166_8k_rigged_normal.jpg",
+        "role": "normal",
+        "source": "4096x4096",
+        "runtime": "2048x2048",
+        "mimeType": "image/jpeg",
+        "bytes": 2563666
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.6,
+        "channels": 26
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.08,
+        "channels": 26
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 26
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.88,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.48,
+        "channels": 10
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 28
+      }
+    ],
+    "validation": {
+      "exactSourcePositionsNormalsUVIndicesPreserved": true,
+      "normalizedFourSlotWeights": true,
+      "distributedVertices": 3436,
+      "activeJointVertexCounts": {
+        "VaultweaverRoot": 0,
+        "BodyCore": 3436,
+        "Carapace": 2662,
+        "Hood": 2402,
+        "SilkSac": 2065,
+        "ForeL_Hip": 84,
+        "ForeL_Knee": 263,
+        "ForeL_Ankle": 212,
+        "ForeL_Foot": 166,
+        "ForeR_Hip": 75,
+        "ForeR_Knee": 289,
+        "ForeR_Ankle": 197,
+        "ForeR_Foot": 163,
+        "MidL_Hip": 32,
+        "MidL_Knee": 102,
+        "MidL_Ankle": 141,
+        "MidL_Foot": 150,
+        "MidR_Hip": 25,
+        "MidR_Knee": 79,
+        "MidR_Ankle": 135,
+        "MidR_Foot": 150,
+        "HindL_Hip": 56,
+        "HindL_Knee": 83,
+        "HindL_Ankle": 167,
+        "HindL_Foot": 125,
+        "HindR_Hip": 60,
+        "HindR_Knee": 89,
+        "HindR_Ankle": 166,
+        "HindR_Foot": 124
+      },
+      "maximumWeightSumError": 4.339381121098995e-8,
+      "inverseBindMatricesFinite": true,
+      "pbrMapDimensions": [
+        [
+          2048,
+          2048
+        ],
+        [
+          2048,
+          2048
+        ],
+        [
+          2048,
+          2048
+        ]
+      ],
+      "sampledDeformations": [
+        {
+          "name": "Idle",
+          "maximumDisplacement": 0.0131,
+          "minimumY": -0.0058,
+          "maximumY": 0.862
+        },
+        {
+          "name": "Walk",
+          "maximumDisplacement": 0.1594,
+          "minimumY": -0.0476,
+          "maximumY": 0.8635
+        },
+        {
+          "name": "Run",
+          "maximumDisplacement": 0.3104,
+          "minimumY": -0.084,
+          "maximumY": 0.8735
+        },
+        {
+          "name": "Attack",
+          "maximumDisplacement": 0.0974,
+          "minimumY": -0.0076,
+          "maximumY": 0.8684
+        },
+        {
+          "name": "Hit",
+          "maximumDisplacement": 0.1156,
+          "minimumY": -0.0328,
+          "maximumY": 0.8608
+        },
+        {
+          "name": "Death",
+          "maximumDisplacement": 0.1032,
+          "minimumY": -0.0159,
+          "maximumY": 0.8608
+        }
+      ]
+    }
+  },
+  "acceptance": {
+    "imageApproved": true,
+    "geometryApproved": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "textureAccepted": false,
+    "labAccepted": false,
+    "promotable": false,
+    "worldIntegrated": false
+  },
+  "notes": [
+    "This is a lab candidate, not a production promotion. Root reviews Idle, Walk, Run, Attack, Hit and Death on the normal gameplay camera before any integration.",
+    "The approved Smart Mesh P2.0 topology, atlas, albedo, normal map and packed metallic-roughness map remain intact; only the broken skeleton, weights and clips were rebuilt.",
+    "Runtime source image maps are downsampled to 2K. The generated packed mineral PBR remains near-zero-metallic and rough; its generated material factors and surface maps are preserved."
+  ]
+}
