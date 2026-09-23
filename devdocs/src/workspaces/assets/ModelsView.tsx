@@ -62,8 +62,12 @@ function isRigRepairHeld(row: TripoStatusRow): boolean {
   return /rig repair/i.test(`${row.status} ${row.details}`);
 }
 
+function isImageDenied(row: TripoStatusRow): boolean {
+  return /image denied/i.test(row.status);
+}
+
 function isHeld(row: TripoStatusRow): boolean {
-  return /held|blocked/i.test(row.status) || isRigRepairHeld(row);
+  return /held|blocked/i.test(row.status) || isRigRepairHeld(row) || isImageDenied(row);
 }
 
 function TripoProgress() {
@@ -98,7 +102,7 @@ function TripoProgress() {
               <Badge variant={group.tone} className="h-4 px-1 text-[10px]">{row.status}</Badge>
               <span className="min-w-0 font-medium text-foreground">{row.assets}</span>
             </div>
-            {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{group.title === "Model review" ? "Model gate pending; not in game." : group.title === "Held" && isRigRepairHeld(row) ? "Held for rig repair; not in game." : tripoNote(row)}</p>}
+            {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{group.title === "Model review" ? "Model gate pending; not in game." : group.title === "Held" && isImageDenied(row) ? "Image denied; no model generated; not in game." : group.title === "Held" && isRigRepairHeld(row) ? "Held for rig repair; not in game." : tripoNote(row)}</p>}
           </li>)}
         </ul>
       </section>)}
