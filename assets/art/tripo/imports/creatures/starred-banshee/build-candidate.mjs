@@ -13,6 +13,8 @@ const sourceCardId = '88a36c89-9ab9-4471-a3df-f8158b6bd0a8';
 const sourceImageId = '142a84c7-ce68-4a9a-be9e-d607c555beca';
 const imageFile = 'assets/art/tripo/refs/crown-wild-banshee-v2.png';
 const imageShaExpected = '938263bc97ceab41557c0e90f32a80dc699bb1ecbd941543570857feb2f5d402';
+const presentationScale = 1.5;
+const hoverClearance = 0.24;
 
 await mkdir(ownerDir, { recursive: true });
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
@@ -45,6 +47,10 @@ for (let i = 0; i < positions.length; i += 3) for (let axis = 0; axis < 3; axis+
   bounds.min[axis] = Math.min(bounds.min[axis], positions[i + axis]);
   bounds.max[axis] = Math.max(bounds.max[axis], positions[i + axis]);
 }
+const presentationBounds = {
+  min: bounds.min.map((value) => value * presentationScale),
+  max: bounds.max.map((value) => value * presentationScale),
+};
 
 // Tripo left 99.97% of Banshee vertices on BoneRoot and its joint bind matrices are invalid.
 // Discard that unusable 54-joint skeleton, then rebuild weights against the approved floating silhouette.
@@ -79,7 +85,7 @@ for (const child of [...armature.listChildren()]) {
   child.getParentNode()?.removeChild(child);
   drop(child);
 }
-armature.setName('BansheeArmature').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
+armature.setName('BansheeArmature').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([presentationScale, presentationScale, presentationScale]);
 meshNode.setName('BansheeMesh').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
 
 // Y is up, +Z faces forward, and +X is the character's left. The pose-specific arm anchors
@@ -424,6 +430,7 @@ const candidate = {
     bytes: outputBytes.length,
     productionTarget: 'game/public/assets/models/creature/creature_banshee.glb',
     geometry: { vertices: positions.length / 3, triangles: indices.length / 3, positionsPreserved: true, indicesPreserved: true, uvPreserved: true, normalsPreserved: true },
+    presentation: { method: 'Uniform armature-root scale; source vertices and topology stay unchanged.', uniformScale: presentationScale, heightMeters: presentationBounds.max[1] - presentationBounds.min[1], targetHeightMeters: 1.5, floorClearanceMeters: hoverClearance },
     rig: { type: 'Mixamo-named Unity Humanoid plus spectral shroud joints', jointCount: bones.length, joints: bones.map(({ name, parent, p, group }) => ({ name, parent, restPosition: p, role: group })), influencesPerVertex: 4, verticesWithDistributedWeights, maximumWeightSumError: maxWeightSumError, verticesWithMistInfluence, method: 'Model-specific region-gated four-influence weights; legs remain mapped inside the hollow gown and unweighted; lower mist ribbons use independent shroud joints.' },
     textures: runtimeTextures,
     pbr: { baseColor: true, packedMetallicRoughness: true, normal: true, metallicChannelRange: metallicRange, allMapsMaximum: 2048 },
@@ -443,11 +450,11 @@ const labAsset = {
   tags: ['creature', 'humanoid', 'wilderness', 'spectral', 'T50', 'starred', 'tripo', 'candidate'],
   bytes: outputBytes.length,
   sha256: candidateSha256,
-  size: { x: bounds.max[0] - bounds.min[0], y: bounds.max[1] - bounds.min[1], z: bounds.max[2] - bounds.min[2] },
-  base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] },
-  bounds,
-  // Native skirt tips reach y=0, so this anchor lifts the entire model 20 cm from the floor in production.
-  groundY: -0.20,
+  size: { x: presentationBounds.max[0] - presentationBounds.min[0], y: presentationBounds.max[1] - presentationBounds.min[1], z: presentationBounds.max[2] - presentationBounds.min[2] },
+  base: { x: presentationBounds.min[0], y: presentationBounds.min[1], z: presentationBounds.min[2] },
+  bounds: presentationBounds,
+  // The lowest sampled pose dips about 4 cm after uniform scaling; this leaves ~20 cm of visible gap.
+  groundY: -hoverClearance,
   triangles: indices.length / 3,
   vertices: positions.length / 3,
   animations: clips.map(({ name }) => name),
@@ -461,7 +468,7 @@ const labAsset = {
     sourceSha256,
     candidateFile,
     candidateSha256,
-    rigMethod: 'Mixamo-named humanoid mapping with independent body, arm and mist ribbon chains; hover cycles contain no leg stride.',
+    rigMethod: 'Mixamo-named humanoid mapping with independent body, arm and mist ribbon chains; hover cycles contain no leg stride. The armature root is uniformly scaled to a 1.5 m presentation height.',
     texturePolicy: 'Exact approved 8K image-generated base color and Tripo PBR maps downsampled to 2K for runtime.',
     candidateStatus: 'awaiting-root-lab-review',
   },
@@ -473,4 +480,4 @@ await writeFile(`${ownerDir}/lab-catalog.json`, JSON.stringify({
   files: { creature_banshee: 'banshee-native-rig-candidate.glb' },
   assets: [labAsset],
 }, null, 2) + '\n');
-console.log(JSON.stringify({ candidateFile, candidateSha256, bytes: outputBytes.length, vertices: positions.length / 3, triangles: indices.length / 3, joints: bones.length, clips, runtimeTextures, verticesWithDistributedWeights, verticesWithMistInfluence, maximumWeightSumError: maxWeightSumError, geometryMismatches: { positionsChanged, indicesChanged, uvsChanged, normalsChanged }, sourceRootWeightedVertices, metallicRange }, null, 2));
+console.log(JSON.stringify({ candidateFile, candidateSha256, bytes: outputBytes.length, vertices: positions.length / 3, triangles: indices.length / 3, presentationScale, presentationHeightMeters: presentationBounds.max[1] - presentationBounds.min[1], hoverClearanceMeters: hoverClearance, joints: bones.length, clips, runtimeTextures, verticesWithDistributedWeights, verticesWithMistInfluence, maximumWeightSumError: maxWeightSumError, geometryMismatches: { positionsChanged, indicesChanged, uvsChanged, normalsChanged }, sourceRootWeightedVertices, metallicRange }, null, 2));

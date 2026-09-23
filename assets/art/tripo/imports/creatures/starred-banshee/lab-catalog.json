@@ -27,31 +27,31 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 7625592,
-      "sha256": "795768ae41d62dd7be4326c26c8a97e69df845dfd53b97fbff89c5c28fef79b2",
+      "bytes": 7625616,
+      "sha256": "8caa1e48cae71a704ab825d142c6d03b36a47fe23295ca0559e11e7b5f7ac19e",
       "size": {
-        "x": 0.78955078125,
-        "y": 0.9995107650756836,
-        "z": 0.4760742783546448
+        "x": 1.184326171875,
+        "y": 1.4992661476135254,
+        "z": 0.7141114175319672
       },
       "base": {
-        "x": -0.394775390625,
+        "x": -0.5921630859375,
         "y": 0,
-        "z": -0.2380371391773224
+        "z": -0.3570557087659836
       },
       "bounds": {
         "min": [
-          -0.394775390625,
+          -0.5921630859375,
           0,
-          -0.2380371391773224
+          -0.3570557087659836
         ],
         "max": [
-          0.394775390625,
-          0.9995107650756836,
-          0.2380371391773224
+          0.5921630859375,
+          1.4992661476135254,
+          0.3570557087659836
         ]
       },
-      "groundY": -0.2,
+      "groundY": -0.24,
       "triangles": 4474,
       "vertices": 3161,
       "animations": [
@@ -73,8 +73,8 @@
         "sourceFile": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
         "sourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-banshee/banshee-native-rig-candidate.glb",
-        "candidateSha256": "795768ae41d62dd7be4326c26c8a97e69df845dfd53b97fbff89c5c28fef79b2",
-        "rigMethod": "Mixamo-named humanoid mapping with independent body, arm and mist ribbon chains; hover cycles contain no leg stride.",
+        "candidateSha256": "8caa1e48cae71a704ab825d142c6d03b36a47fe23295ca0559e11e7b5f7ac19e",
+        "rigMethod": "Mixamo-named humanoid mapping with independent body, arm and mist ribbon chains; hover cycles contain no leg stride. The armature root is uniformly scaled to a 1.5 m presentation height.",
         "texturePolicy": "Exact approved 8K image-generated base color and Tripo PBR maps downsampled to 2K for runtime.",
         "candidateStatus": "awaiting-root-lab-review"
       },

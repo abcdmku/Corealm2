@@ -83,8 +83,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-banshee/banshee-native-rig-candidate.glb",
-    "sha256": "795768ae41d62dd7be4326c26c8a97e69df845dfd53b97fbff89c5c28fef79b2",
-    "bytes": 7625592,
+    "sha256": "8caa1e48cae71a704ab825d142c6d03b36a47fe23295ca0559e11e7b5f7ac19e",
+    "bytes": 7625616,
     "productionTarget": "game/public/assets/models/creature/creature_banshee.glb",
     "geometry": {
       "vertices": 3161,
@@ -93,6 +93,13 @@
       "indicesPreserved": true,
       "uvPreserved": true,
       "normalsPreserved": true
+    },
+    "presentation": {
+      "method": "Uniform armature-root scale; source vertices and topology stay unchanged.",
+      "uniformScale": 1.5,
+      "heightMeters": 1.4992661476135254,
+      "targetHeightMeters": 1.5,
+      "floorClearanceMeters": 0.24
     },
     "rig": {
       "type": "Mixamo-named Unity Humanoid plus spectral shroud joints",
