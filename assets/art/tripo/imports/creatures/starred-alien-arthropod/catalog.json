@@ -1,0 +1,306 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_vaultweaver",
+  "displayName": "Vaultweaver",
+  "identityProposal": {
+    "tier": 20,
+    "role": "Medium mineral-shell cave weaver; territorial when approached, otherwise part of the living cavern ecosystem.",
+    "biome": [
+      "limestone caves",
+      "chalk caverns",
+      "stone hollows"
+    ],
+    "combat": "Grounded six-leg approach, short front-palp strike, moderate aggression; retain a normal creature tier rather than a boss slot.",
+    "drops": [
+      "vault-shell chitin",
+      "mineral silk"
+    ]
+  },
+  "duplicateSourceWarning": "This is a newer archived export of the exact Tripo project already used by assets/art/tripo/imports/creatures/starred-vaultweaver/. Treat this candidate as a rig/export alternative; only one Vaultweaver version should enter production.",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+    "sha256": "0220508d90e4ed8fa4fbe06980fc266ed033e83a71aa84c0712579dfe9728fd8",
+    "bytes": 34961620,
+    "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+    "sourceImage": "assets/art/tripo/references/marsh-ash-blind-cave-weaver.png",
+    "sourceImageId": "4adea6eb-8436-4a07-9c52-9b71300f70bf",
+    "sourceImageSha256": "7c2b3a1ea0454f791e0d904be0045cb778d9a41704d7b785fc4687dd044d9406",
+    "imageApproval": {
+      "reviewer": "marsh_audit / gpt-6-astra low",
+      "verdict": "approved",
+      "faceReview": "approved",
+      "starred": true
+    },
+    "geometryReview": {
+      "reviewer": "gpt-6-astra low",
+      "verdict": "accept",
+      "scope": "T20/T40 mineral shell, complete limbs, serious stone styling"
+    },
+    "triangleCount": 5400,
+    "topologyPreserved": true,
+    "originalRig": {
+      "joints": 36,
+      "weightedJoints": 26,
+      "multijointVertices": 2411,
+      "clips": 0
+    },
+    "materialAudit": {
+      "sourceName": "tripo_mat_4b4a5455-ea69-4d74-b3ac-a492ac940d28",
+      "runtimeName": "animal_vaultweaver_mineral_shell",
+      "rendererRule": "animal_* materials preserve authored creature colors without the enemy tier-metal tint.",
+      "factors": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "metallic": 1,
+        "roughness": 1
+      },
+      "uvCount": 3436,
+      "uvSha256": "cbf55ea6144fd4bc2a179b9a370d87a30c3766dc5f55eea169b7994bb3b79ec3"
+    }
+  },
+  "candidate": {
+    "file": "vaultweaver-native-rig-candidate.glb",
+    "sha256": "47d4cbbac456937269394bdf8c42b7519c174e8d75edd5ed8d5b627e712519fb",
+    "bytes": 7142836,
+    "vertices": 3436,
+    "triangles": 5400,
+    "bounds": {
+      "min": [
+        -0.39623773097991943,
+        0.0000041546827560523525,
+        -0.4958495795726776
+      ],
+      "max": [
+        0.3962419331073761,
+        0.860836386680603,
+        0.4958503246307373
+      ]
+    },
+    "size": {
+      "x": 0.7924796640872955,
+      "y": 0.860832231997847,
+      "z": 0.9916999042034149
+    },
+    "groundY": 0.0000041546827560523525,
+    "rig": {
+      "type": "authored non-humanoid arthropod skeleton",
+      "joints": [
+        "VaultweaverRoot",
+        "BodyCore",
+        "Carapace",
+        "Hood",
+        "SilkSac",
+        "ForeL_Hip",
+        "ForeL_Knee",
+        "ForeL_Ankle",
+        "ForeL_Foot",
+        "ForeR_Hip",
+        "ForeR_Knee",
+        "ForeR_Ankle",
+        "ForeR_Foot",
+        "MidL_Hip",
+        "MidL_Knee",
+        "MidL_Ankle",
+        "MidL_Foot",
+        "MidR_Hip",
+        "MidR_Knee",
+        "MidR_Ankle",
+        "MidR_Foot",
+        "HindL_Hip",
+        "HindL_Knee",
+        "HindL_Ankle",
+        "HindL_Foot",
+        "HindR_Hip",
+        "HindR_Knee",
+        "HindR_Ankle",
+        "HindR_Foot"
+      ],
+      "jointCount": 29,
+      "legPairs": [
+        "fore",
+        "mid",
+        "hind"
+      ],
+      "pairedPalps": "Kept with the hood/body weights; no isolated joints were accepted because the visible source geometry did not align with the first conservative palp paths.",
+      "basis": "Y-up, X lateral, +Z hood/front",
+      "weights": "Per-vertex distances to model-fitted six-leg polylines with body/leg spatial gating; normalized 4-influence skin. Source mesh, indices, normals and UVs retained."
+    },
+    "textures": [
+      {
+        "name": "tripo_image_4b4a5455-ea69-4d74-b3ac-a492ac940d28_2",
+        "role": "normal",
+        "source": "4096x4096",
+        "sourceSha256": "77bdb4365fdd07a0dad61d21e0c562598156ee0f06ae2f1767074729e5421ce6",
+        "runtime": "2048x2048",
+        "runtimeSha256": "32eb721a60e1a1abd226ffe46165d0aa80f0906c139bf6989197210e8b8c5694",
+        "mimeType": "image/jpeg",
+        "bytes": 2563666
+      },
+      {
+        "name": "tripo_image_4b4a5455-ea69-4d74-b3ac-a492ac940d28_0",
+        "role": "base-color",
+        "source": "8192x8192",
+        "sourceSha256": "616374804b3cff89564e7eca4eb9e9002ce58cd4c6ee79a7258f55b6407b88b4",
+        "runtime": "2048x2048",
+        "runtimeSha256": "a22c3f6c082b0992f6746ce7bc28267983c5e4238b34460e51e56d70ff9eb52c",
+        "mimeType": "image/jpeg",
+        "bytes": 1133675
+      },
+      {
+        "name": "tripo_image_4b4a5455-ea69-4d74-b3ac-a492ac940d28_1",
+        "role": "metallic-roughness",
+        "source": "4096x4096",
+        "sourceSha256": "74e0370cb3da337c07c5b49cc7c09df3356b42e5bd5334a3b1724c4ed6dae737",
+        "runtime": "2048x2048",
+        "runtimeSha256": "2da9c0f1e5c4865a532f3d603c7c3d9f0a034b87ab02a9eafb79253cdcf4f1cc",
+        "mimeType": "image/png",
+        "bytes": 3075918
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.6,
+        "channels": 26
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.08,
+        "channels": 26
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 26
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.88,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.48,
+        "channels": 10
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 28
+      }
+    ],
+    "validation": {
+      "exactSourcePositionsNormalsUVIndicesPreserved": true,
+      "normalizedFourSlotWeights": true,
+      "distributedVertices": 3436,
+      "activeJointVertexCounts": {
+        "VaultweaverRoot": 0,
+        "BodyCore": 3436,
+        "Carapace": 2662,
+        "Hood": 2402,
+        "SilkSac": 2065,
+        "ForeL_Hip": 84,
+        "ForeL_Knee": 263,
+        "ForeL_Ankle": 212,
+        "ForeL_Foot": 166,
+        "ForeR_Hip": 75,
+        "ForeR_Knee": 289,
+        "ForeR_Ankle": 197,
+        "ForeR_Foot": 163,
+        "MidL_Hip": 32,
+        "MidL_Knee": 102,
+        "MidL_Ankle": 141,
+        "MidL_Foot": 150,
+        "MidR_Hip": 25,
+        "MidR_Knee": 79,
+        "MidR_Ankle": 135,
+        "MidR_Foot": 150,
+        "HindL_Hip": 56,
+        "HindL_Knee": 83,
+        "HindL_Ankle": 167,
+        "HindL_Foot": 125,
+        "HindR_Hip": 60,
+        "HindR_Knee": 89,
+        "HindR_Ankle": 166,
+        "HindR_Foot": 124
+      },
+      "maximumWeightSumError": 4.44706529378891e-8,
+      "inverseBindMatricesFinite": true,
+      "pbrMapDimensions": [
+        [
+          2048,
+          2048
+        ],
+        [
+          2048,
+          2048
+        ],
+        [
+          2048,
+          2048
+        ]
+      ],
+      "sampledDeformations": [
+        {
+          "name": "Idle",
+          "maximumDisplacement": 0.0131,
+          "minimumY": -0.0058,
+          "maximumY": 0.862
+        },
+        {
+          "name": "Walk",
+          "maximumDisplacement": 0.1594,
+          "minimumY": -0.0476,
+          "maximumY": 0.8635
+        },
+        {
+          "name": "Run",
+          "maximumDisplacement": 0.3104,
+          "minimumY": -0.084,
+          "maximumY": 0.8735
+        },
+        {
+          "name": "Attack",
+          "maximumDisplacement": 0.0974,
+          "minimumY": -0.0076,
+          "maximumY": 0.8684
+        },
+        {
+          "name": "Hit",
+          "maximumDisplacement": 0.1156,
+          "minimumY": -0.0328,
+          "maximumY": 0.8608
+        },
+        {
+          "name": "Death",
+          "maximumDisplacement": 0.1032,
+          "minimumY": -0.0159,
+          "maximumY": 0.8608
+        }
+      ]
+    }
+  },
+  "acceptance": {
+    "imageApproved": true,
+    "geometryApproved": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "textureAccepted": false,
+    "labAccepted": false,
+    "promotable": false,
+    "worldIntegrated": false
+  },
+  "notes": [
+    "This is a lab candidate, not a production promotion. Root reviews Idle, Walk, Run, Attack, Hit and Death on the normal gameplay camera before any integration.",
+    "A previous candidate exists under assets/art/tripo/imports/creatures/starred-vaultweaver/ from a separate export of this same starred image/model. This new folder uses the directly archived GLB export and should supersede or be compared against that candidate, never coexist as a duplicate creature.",
+    "The approved Smart Mesh P2.0 topology, atlas, albedo, normal map and packed metallic-roughness map remain intact; only the broken skeleton, weights and clips were rebuilt.",
+    "Runtime source image maps are downsampled to 2K. The generated packed mineral PBR remains near-zero-metallic and rough; its generated material factors and surface maps are preserved.",
+    "The source material name bypassed the renderer’s natural-creature tier-tint exemption; the runtime material now uses its animal_* creature prefix so the original layered mineral colors stay visible."
+  ]
+}

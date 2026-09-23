@@ -1,0 +1,189 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_slag_centipede",
+      "file": "models/creature/creature_slag_centipede.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "Vaultweaver (temporary T20 arthropod lab candidate)",
+      "tags": [
+        "creature",
+        "crawler",
+        "arthropod",
+        "cave",
+        "vaultweaver",
+        "mineral-shell",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 7142836,
+      "sha256": "47d4cbbac456937269394bdf8c42b7519c174e8d75edd5ed8d5b627e712519fb",
+      "size": {
+        "x": 0.7924796640872955,
+        "y": 0.860832231997847,
+        "z": 0.9916999042034149
+      },
+      "base": {
+        "x": -0.39623773097991943,
+        "y": 0.0000041546827560523525,
+        "z": -0.4958495795726776
+      },
+      "bounds": {
+        "min": [
+          -0.39623773097991943,
+          0.0000041546827560523525,
+          -0.4958495795726776
+        ],
+        "max": [
+          0.3962419331073761,
+          0.860836386680603,
+          0.4958503246307373
+        ]
+      },
+      "groundY": 0.0000041546827560523525,
+      "triangles": 5400,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_vaultweaver_mineral_shell"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "source": "Starred, image-approved Tripo P2.0 Vaultweaver; 5400 source triangles retained with new model-fitted six-leg rig.",
+        "sourceImageId": "4adea6eb-8436-4a07-9c52-9b71300f70bf",
+        "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+        "sourceSha256": "0220508d90e4ed8fa4fbe06980fc266ed033e83a71aa84c0712579dfe9728fd8",
+        "candidateFile": "vaultweaver-native-rig-candidate.glb",
+        "candidateSha256": "47d4cbbac456937269394bdf8c42b7519c174e8d75edd5ed8d5b627e712519fb"
+      },
+      "walkClipSeconds": 1.08,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.88,
+      "contactNormalized": 0.5,
+      "metadata": {
+        "is": "Vaultweaver",
+        "tags": [
+          "creature",
+          "crawler",
+          "arthropod",
+          "cave",
+          "vaultweaver",
+          "mineral-shell",
+          "skinned",
+          "articulated"
+        ],
+        "provenance": {
+          "sourceImageId": "4adea6eb-8436-4a07-9c52-9b71300f70bf",
+          "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
+          "sourceSha256": "0220508d90e4ed8fa4fbe06980fc266ed033e83a71aa84c0712579dfe9728fd8",
+          "candidateSha256": "47d4cbbac456937269394bdf8c42b7519c174e8d75edd5ed8d5b627e712519fb"
+        },
+        "attackSeconds": 0.88,
+        "contactNormalized": 0.5,
+        "impliedWalkMps": 0.3129251700680272,
+        "impliedRunMps": 0.9365244536940686,
+        "walkClipSeconds": 1.08,
+        "runClipSeconds": 0.72,
+        "notes": "An iron plated centipede with a flattened chain of articulated trunk segments, twenty walking legs and curved venom forcipules. Authored skeletal IK foot targets preserve straight stance travel; metachronal cycles. In-place clips, sealed loop endpoints, full directional hit reactions and a held collapse. Original painted chitin color, normal and roughness textures.",
+        "boneNames": [
+          "slag_centipede_root",
+          "slag_centipede_collar",
+          "slag_centipede_head",
+          "slag_centipede_forcipule_L",
+          "slag_centipede_antenna_-1_base",
+          "slag_centipede_antenna_-1_tip",
+          "slag_centipede_forcipule_R",
+          "slag_centipede_antenna_1_base",
+          "slag_centipede_antenna_1_tip",
+          "slag_centipede_trunk_01",
+          "slag_centipede_leg_L_01_coxa",
+          "slag_centipede_leg_L_01_tibia",
+          "slag_centipede_leg_L_01_tarsus",
+          "slag_centipede_leg_R_01_coxa",
+          "slag_centipede_leg_R_01_tibia",
+          "slag_centipede_leg_R_01_tarsus",
+          "slag_centipede_trunk_02",
+          "slag_centipede_leg_L_02_coxa",
+          "slag_centipede_leg_L_02_tibia",
+          "slag_centipede_leg_L_02_tarsus",
+          "slag_centipede_leg_R_02_coxa",
+          "slag_centipede_leg_R_02_tibia",
+          "slag_centipede_leg_R_02_tarsus",
+          "slag_centipede_trunk_03",
+          "slag_centipede_leg_L_03_coxa",
+          "slag_centipede_leg_L_03_tibia",
+          "slag_centipede_leg_L_03_tarsus",
+          "slag_centipede_leg_R_03_coxa",
+          "slag_centipede_leg_R_03_tibia",
+          "slag_centipede_leg_R_03_tarsus",
+          "slag_centipede_trunk_04",
+          "slag_centipede_leg_L_04_coxa",
+          "slag_centipede_leg_L_04_tibia",
+          "slag_centipede_leg_L_04_tarsus",
+          "slag_centipede_leg_R_04_coxa",
+          "slag_centipede_leg_R_04_tibia",
+          "slag_centipede_leg_R_04_tarsus",
+          "slag_centipede_trunk_05",
+          "slag_centipede_leg_L_05_coxa",
+          "slag_centipede_leg_L_05_tibia",
+          "slag_centipede_leg_L_05_tarsus",
+          "slag_centipede_leg_R_05_coxa",
+          "slag_centipede_leg_R_05_tibia",
+          "slag_centipede_leg_R_05_tarsus",
+          "slag_centipede_trunk_06",
+          "slag_centipede_leg_L_06_coxa",
+          "slag_centipede_leg_L_06_tibia",
+          "slag_centipede_leg_L_06_tarsus",
+          "slag_centipede_leg_R_06_coxa",
+          "slag_centipede_leg_R_06_tibia",
+          "slag_centipede_leg_R_06_tarsus",
+          "slag_centipede_trunk_07",
+          "slag_centipede_leg_L_07_coxa",
+          "slag_centipede_leg_L_07_tibia",
+          "slag_centipede_leg_L_07_tarsus",
+          "slag_centipede_leg_R_07_coxa",
+          "slag_centipede_leg_R_07_tibia",
+          "slag_centipede_leg_R_07_tarsus",
+          "slag_centipede_trunk_08",
+          "slag_centipede_leg_L_08_coxa",
+          "slag_centipede_leg_L_08_tibia",
+          "slag_centipede_leg_L_08_tarsus",
+          "slag_centipede_leg_R_08_coxa",
+          "slag_centipede_leg_R_08_tibia",
+          "slag_centipede_leg_R_08_tarsus",
+          "slag_centipede_trunk_09",
+          "slag_centipede_leg_L_09_coxa",
+          "slag_centipede_leg_L_09_tibia",
+          "slag_centipede_leg_L_09_tarsus",
+          "slag_centipede_leg_R_09_coxa",
+          "slag_centipede_leg_R_09_tibia",
+          "slag_centipede_leg_R_09_tarsus",
+          "slag_centipede_trunk_10",
+          "slag_centipede_leg_L_10_coxa",
+          "slag_centipede_leg_L_10_tibia",
+          "slag_centipede_leg_L_10_tarsus",
+          "slag_centipede_leg_R_10_coxa",
+          "slag_centipede_leg_R_10_tibia",
+          "slag_centipede_leg_R_10_tarsus",
+          "slag_centipede_tail_cercus_-1",
+          "slag_centipede_tail_cercus_1"
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_slag_centipede": "vaultweaver-native-rig-candidate.glb"
+  }
+}
