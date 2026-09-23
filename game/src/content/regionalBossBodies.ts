@@ -1,5 +1,6 @@
 import type { CreatureSpeciesDef } from './creatureSpecies.js';
 import { creatureRows } from './creatureData.js';
+import { tierSilhouetteScale } from '../core/math.js';
 
 /** Separate authored bodies preserve all seven saved encounter and orb identities. */
 export const REGIONAL_BOSS_BODIES = {
@@ -11,11 +12,12 @@ export const REGIONAL_BOSS_BODIES = {
   // the 3 Hz legibility ceiling in creatureMotionTiming. Drawing them larger lengthens the drawn
   // stride by the same factor and is the only fix that does not re-author the rig; it also settles
   // the oddity that both bosses rendered smaller than an ordinary 4.02 m mossback sentinel.
-  galeskin: { assetId: 'creature_boss_galeskin', scale: 1.35,
+  // Retiering changes only the authored multiplier; these ratios preserve the accepted drawn size.
+  galeskin: { assetId: 'creature_boss_galeskin', scale: 1.35 * tierSilhouetteScale(1) / tierSilhouetteScale(10),
     description: 'A wind-stripped elder with a split timber mantle, one heavy root forearm and a hollow wind-cut head.' },
-  rootheart: { assetId: 'creature_boss_rootheart', scale: 1.35,
+  rootheart: { assetId: 'creature_boss_rootheart', scale: 1.35 * tierSilhouetteScale(5) / tierSilhouetteScale(10),
     description: 'A walking cathedral tree with a split hollow trunk, load-bearing bough arches and a recessed heart chamber.' },
-  mossbound: { assetId: 'creature_boss_mossbound', scale: 1,
+  mossbound: { assetId: 'creature_boss_mossbound', scale: tierSilhouetteScale(5) / tierSilhouetteScale(10),
     description: 'A mature seed predator with interlocking woody pod valves, thick shoulder pods and an articulated root jaw.' },
   tideworn: { assetId: 'creature_boss_tideworn', scale: 1,
     description: 'A wave-eroded shore colossus with a low layered shell and an enormous split crushing claw.' },

@@ -7,7 +7,7 @@ import { REGIONS, ESSENCE_ALTAR_COURT_RADIUS, type Spot } from "../game/src/cont
 import { REGIONAL_PACKS, type RegionalPackDef } from "../game/src/content/regionalPacks.js";
 import { activatedRegionalPackIds, REGIONAL_PACK_ACTIVATION } from "../game/src/content/regionalPackActivation.js";
 import { createRpgRegionalPackCatalogue } from "../game/src/content/rpgRegionalPacks.js";
-import { BIOME_POPULATION_HABITATS } from "../game/src/content/biomePopulation.js";
+import { WORLD_PLACEMENTS } from "../game/src/content/worldData.js";
 import { resourceDef } from "../game/src/content/resources.js";
 import { WORLD_HABITATS, habitatForGroup, type HabitatDef } from "../game/src/content/worldHabitats.js";
 import { WORLD_SITES, worldSitePoint } from "../game/src/content/worldSites.js";
@@ -28,7 +28,8 @@ type Reservation = { id: string; distance: (point: Spot) => number; margin: numb
 type Rect = { centre: Spot; half: Spot; yaw: number };
 const assets = new Map(MANIFEST.assets.map((asset) => [asset.id, asset]));
 const packIds = new Set(REGIONAL_PACKS.map((pack) => pack.id));
-const populationIds = new Set(BIOME_POPULATION_HABITATS.map((habitat) => habitat.groupId));
+const compiledPopulationIds = new Set(WORLD_PLACEMENTS.filter(placement => placement.id.startsWith("population_"))
+  .map(placement => placement.id));
 // Match boot's accepted catalogue, including assignment overrides and native asset measurements.
 // The other source plans remain useful authoring candidates, but do not occupy the live world.
 const activatedPackIds = activatedRegionalPackIds();
@@ -37,7 +38,7 @@ const activeCatalogue = createRpgRegionalPackCatalogue((id) => {
   return asset ? { size: asset.size, base: asset.base } : null;
 }, activatedPackIds, REGIONAL_PACK_ACTIVATION.assignmentOverrides);
 // Once integrated, packs are checked against each other below, not counted a second time as
-// old content. Habitat identity uses groupId because its own id can have a habitat suffix.
+// existing world groups. Habitat identity uses groupId because its own id can have a habitat suffix.
 const existingHabitats = WORLD_HABITATS.filter((habitat) => !packIds.has(habitat.groupId) && !STARTER_SHARED_PACK_RESERVATIONS[habitat.groupId]);
 const surfaceGroups = REGIONS.flatMap((region) => region.enemyGroups)
   .filter((group) => !packIds.has(group.id) && !STARTER_SHARED_PACK_RESERVATIONS[group.id]);
@@ -182,7 +183,7 @@ function reserveHabitats(habitats: readonly HabitatDef[]): Reservation[] {
 const habitatReservations = reserveHabitats(existingHabitats);
 // Preserve the original source-plan gate against the original habitats. The accepted population
 // may use pockets held only by unactivated candidates; its live overlap gate follows below.
-const originalHabitatReservations = reserveHabitats(existingHabitats.filter(habitat => !populationIds.has(habitat.groupId)));
+const originalHabitatReservations = reserveHabitats(existingHabitats.filter(habitat => !compiledPopulationIds.has(habitat.groupId)));
 const fullyAnchoredGroups = surfaceGroups.filter((group) => !group.boss && !group.miniBoss
   && (habitatForGroup(group.id)?.anchors.length ?? 0) >= group.count);
 const fullyAnchoredIds = new Set(fullyAnchoredGroups.map((group) => group.id));
@@ -355,18 +356,18 @@ describe("regional pack source reservations", () => {
   it("checks activated production packs against every current habitat and the original world exclusions", () => {
     expect(activeCatalogue.packs.length).toBeGreaterThan(0);
     expect(activeCatalogue.packs.map(pack => pack.id).sort()).toEqual([...activatedPackIds].sort());
-    const newHabitats = existingHabitats.filter(habitat => populationIds.has(habitat.groupId));
-    expect(newHabitats.map(habitat => habitat.groupId).sort()).toEqual([...populationIds].sort());
+    const populationHabitats = existingHabitats.filter(habitat => compiledPopulationIds.has(habitat.groupId));
+    expect(populationHabitats.map(habitat => habitat.groupId).sort()).toEqual([...compiledPopulationIds].sort());
     expect(failures([
       ...habitatReservations, ...encounterReservations, ...roadReservations,
       ...waterReservations, ...siteReservations, ...resourceReservations,
       ...settlementReservations, ...routeAndLandmarkReservations, ...dungeonReservations,
     ], activeCatalogue.packs)).toEqual([]);
     // Accepted pack dressing is assembled separately at boot. Its native pieces must also leave
-    // the new population's full body-and-idle discs clear, even when a prop extends past its pack.
+    // compiled population body-and-idle discs clear, even when a prop extends past its pack.
     const activeDressing = activeCatalogue.habitats.flatMap(habitat => habitat.dressing.map(piece =>
       nativeBox(`${habitat.id}/${piece.id}`, piece.assetId, [piece.x, piece.z], piece.yaw, piece.scale)));
-    expect(failures(activeDressing, newHabitats)).toEqual([]);
+    expect(failures(activeDressing, populationHabitats)).toEqual([]);
   });
 
   it("keeps towns, composed native buildings and walls, landmarks, gates and shortcuts clear", () => {

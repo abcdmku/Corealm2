@@ -960,43 +960,43 @@
       {
         "index": 5,
         "offset": [
-          -0.8954231046625409,
-          -0.6421262691967229
+          5.629,
+          3.25
         ]
       },
       {
         "index": 6,
         "offset": [
-          0.10838610923042324,
-          -1.0965222903716665
+          0,
+          6.5
         ]
       },
       {
         "index": 7,
         "offset": [
-          1.0038092138929642,
-          -0.4543960211749152
+          -5.629,
+          3.25
         ]
       },
       {
         "index": 8,
         "offset": [
-          0.8954231046625409,
-          0.6421262691967229
+          -5.629,
+          -3.25
         ]
       },
       {
         "index": 9,
         "offset": [
-          -0.10838610923042324,
-          1.0965222903716665
+          0,
+          -6.5
         ]
       },
       {
         "index": 10,
         "offset": [
-          -1.0038092138929642,
-          0.4543960211749152
+          5.629,
+          -3.25
         ]
       }
     ],
@@ -1057,36 +1057,36 @@
       {
         "index": 5,
         "offset": [
-          -0.847097770650123,
-          -0.7046517217147823
+          5.2586,
+          3.8206
         ]
       },
       {
         "index": 6,
         "offset": [
-          0.18669740650040012,
-          -1.085934049729559
+          -2.0086,
+          6.1819
         ]
       },
       {
         "index": 7,
         "offset": [
-          1.0337951771505232,
-          -0.3812823280147626
+          -6.5,
+          0
         ]
       },
       {
         "index": 8,
         "offset": [
-          0.847097770650123,
-          0.7046517217147823
+          -2.0086,
+          -6.1819
         ]
       },
       {
         "index": 9,
         "offset": [
-          -0.18669740650040012,
-          1.085934049729559
+          5.2586,
+          -3.8206
         ]
       }
     ],
@@ -1865,7 +1865,7 @@
     "radius": 18,
     "formation": {
       "kind": "authored",
-      "spacing": 2.259867310600032,
+      "spacing": 3.8343272175240846,
       "rotation": 0
     },
     "anchorAdjustments": [
@@ -1921,43 +1921,43 @@
       {
         "index": 7,
         "offset": [
-          -1.2665042235425972,
-          1.871621573199917
+          -2.148883517479,
+          3.175588896465
         ]
       },
       {
         "index": 8,
         "offset": [
-          -2.2541239404334306,
-          -0.1610140449882067
+          -3.824582415055,
+          -0.273193267678
         ]
       },
       {
         "index": 9,
         "offset": [
-          -0.9876197168908334,
-          -2.032635618188152
+          -1.675698897574,
+          -3.448782164143
         ]
       },
       {
         "index": 10,
         "offset": [
-          1.2665042235425972,
-          -1.871621573199917
+          2.148883517479,
+          -3.175588896465
         ]
       },
       {
         "index": 11,
         "offset": [
-          2.2541239404334306,
-          0.1610140449882067
+          3.824582415055,
+          0.273193267678
         ]
       },
       {
         "index": 12,
         "offset": [
-          0.9876197168908334,
-          2.032635618188152
+          1.675698897574,
+          3.448782164143
         ]
       }
     ],
@@ -2113,7 +2113,7 @@
   },
   {
     "id": "population_palewood_south_harrow",
-    "encounterId": "briar_harrow_t1_patrol",
+    "encounterId": "redbrush_fox_t1_forage",
     "regionId": "fallowmarch",
     "centre": [
       -314,
@@ -2182,7 +2182,7 @@
   },
   {
     "id": "population_palewood_west_jacks",
-    "encounterId": "heath_jack_t1_patrol",
+    "encounterId": "granary_rat_t1_forage",
     "regionId": "fallowmarch",
     "centre": [
       -296,
@@ -2279,7 +2279,7 @@
   },
   {
     "id": "population_palewood_root_maws",
-    "encounterId": "thorn_maw_t1_patrol",
+    "encounterId": "grass_viper_t1_prowl",
     "regionId": "fallowmarch",
     "centre": [
       -290,
@@ -2362,7 +2362,7 @@
   },
   {
     "id": "population_northgate_fen_crawlers",
-    "encounterId": "fen_crawler_t1_patrol",
+    "encounterId": "creek_crab_t1_forage",
     "regionId": "fallowmarch",
     "centre": [
       -62,
@@ -2487,7 +2487,7 @@
   },
   {
     "id": "population_galeskin_south_jacks",
-    "encounterId": "heath_jack_t1_patrol",
+    "encounterId": "granary_rat_t1_forage",
     "regionId": "fallowmarch",
     "centre": [
       -308,
@@ -2598,7 +2598,7 @@
   },
   {
     "id": "population_northern_march_harrows",
-    "encounterId": "briar_harrow_t1_patrol",
+    "encounterId": "redbrush_fox_t1_forage",
     "regionId": "fallowmarch",
     "centre": [
       -224,
@@ -2681,7 +2681,7 @@
   },
   {
     "id": "population_bracken_north_striders",
-    "encounterId": "reed_strider_t1_patrol",
+    "encounterId": "reed_wasp_t1_prowl",
     "regionId": "fallowmarch",
     "centre": [
       -116,
@@ -2799,7 +2799,7 @@
   },
   {
     "id": "population_northgate_outer_jacks",
-    "encounterId": "heath_jack_t1_patrol",
+    "encounterId": "granary_rat_t1_forage",
     "regionId": "fallowmarch",
     "centre": [
       -62,
@@ -4173,15 +4173,15 @@
       {
         "index": 5,
         "offset": [
-          0.7478932512289305,
-          -2.2629396503505212
+          -4,
+          6
         ]
       },
       {
         "index": 6,
         "offset": [
-          2.3337098500490754,
-          -0.4837752702920568
+          4,
+          6
         ]
       }
     ],
@@ -4505,14 +4505,14 @@
   },
   {
     "id": "population_marchgate_root_maws",
-    "encounterId": "thorn_maw_t5_patrol",
+    "encounterId": "thorn_maw_t10_patrol",
     "regionId": "vellenwood",
     "centre": [
       28,
       52
     ],
     "count": 15,
-    "radius": 9.13071579057436,
+    "radius": 9.25,
     "formation": {
       "kind": "authored",
       "spacing": 2.6802045115926743,
@@ -4796,7 +4796,7 @@
   },
   {
     "id": "population_mossbound_south_harrows",
-    "encounterId": "briar_harrow_t5_patrol",
+    "encounterId": "briar_harrow_t10_patrol",
     "regionId": "vellenwood",
     "centre": [
       298,
@@ -5129,14 +5129,14 @@
   },
   {
     "id": "population_thornline_south_maws",
-    "encounterId": "thorn_maw_t5_patrol",
+    "encounterId": "thorn_maw_t10_patrol",
     "regionId": "vellenwood",
     "centre": [
       226,
       112
     ],
     "count": 15,
-    "radius": 9.130715790574362,
+    "radius": 9.25,
     "formation": {
       "kind": "authored",
       "spacing": 2.6802045115926743,
@@ -5254,7 +5254,7 @@
   },
   {
     "id": "population_rootheart_south_harrows",
-    "encounterId": "briar_harrow_t5_patrol",
+    "encounterId": "briar_harrow_t10_patrol",
     "regionId": "vellenwood",
     "centre": [
       304,
@@ -5406,7 +5406,7 @@
   },
   {
     "id": "population_hollowcut_east_harrows",
-    "encounterId": "briar_harrow_t5_patrol",
+    "encounterId": "briar_harrow_t10_patrol",
     "regionId": "vellenwood",
     "centre": [
       154,
@@ -5607,14 +5607,14 @@
   },
   {
     "id": "population_rootheart_east_maws",
-    "encounterId": "thorn_maw_t5_patrol",
+    "encounterId": "thorn_maw_t10_patrol",
     "regionId": "vellenwood",
     "centre": [
       334,
       184
     ],
     "count": 14,
-    "radius": 9.130715790574364,
+    "radius": 9.25,
     "formation": {
       "kind": "authored",
       "spacing": 2.6802045115926743,

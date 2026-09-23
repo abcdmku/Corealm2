@@ -437,11 +437,11 @@
     }
   },
   {
-    "id": "tempest_roc_t1",
+    "id": "tempest_roc_t10",
     "name": "Storm Scarab",
     "family": "tempest_roc",
     "availability": "world",
-    "level": 1,
+    "level": 10,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -510,6 +510,15 @@
     "availability": "world",
     "level": 5,
     "profileId": "skirmisher",
+    "presentation": {
+      "id": "deer",
+      "assetId": "animal_deer",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "graze",
+      "description": "A broad-antlered stag browses on duskoak shoots along shaded woodland margins and flees when approached.",
+      "kind": "basic"
+    },
     "adjustments": {
       "attackSpeedMs": 2400,
       "aggroRadius": 9,
@@ -826,11 +835,11 @@
     "baseId": "reaver_t1"
   },
   {
-    "id": "rootheart_t5",
+    "id": "rootheart_t10",
     "name": "Rootbound Colossus",
     "family": "rootheart",
     "availability": "world",
-    "level": 5,
+    "level": 10,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -1647,11 +1656,11 @@
     "baseId": "reaver_t1"
   },
   {
-    "id": "galeskin_t1",
+    "id": "galeskin_t10",
     "name": "Galeskin",
     "family": "galeskin",
     "availability": "world",
-    "level": 1,
+    "level": 10,
     "profileId": "boss",
     "adjustments": {
       "maxHealth": 52,
@@ -1725,11 +1734,11 @@
     }
   },
   {
-    "id": "mossbound_t5",
+    "id": "mossbound_t10",
     "name": "Forest Ogre",
     "family": "mossbound",
     "availability": "world",
-    "level": 5,
+    "level": 10,
     "profileId": "boss",
     "adjustments": {
       "maxHealth": 67,
@@ -2118,7 +2127,7 @@
   },
   {
     "id": "redbrush_fox_t1",
-    "name": "Red Fox",
+    "name": "Redbrush Prowler",
     "family": "redbrush_fox",
     "availability": "world",
     "level": 1,
@@ -2176,7 +2185,7 @@
       "scale": 1,
       "regionId": "fallowmarch",
       "activity": "forage",
-      "description": "A narrow hedge hunter with a broad brush tail. Forages near cover and bites only when provoked.",
+      "description": "A russet hedge fox with a dark-tipped brush. It forages for field mice along thorny margins and bites only when cornered.",
       "kind": "basic"
     }
   },
@@ -3602,7 +3611,7 @@
   },
   {
     "id": "grass_viper_t1",
-    "name": "Grass Viper",
+    "name": "Grassscale Viper",
     "family": "grass_viper",
     "availability": "world",
     "level": 1,
@@ -3636,7 +3645,7 @@
       "scale": 0.8,
       "regionId": "fallowmarch",
       "activity": "prowl",
-      "description": "A low grassland snake. Strikes when disturbed and lets passing travelers through.",
+      "description": "A slender green viper with faint grass-bright markings. It stays low in meadow cover and strikes only when disturbed.",
       "kind": "basic"
     }
   },
@@ -3722,7 +3731,7 @@
   },
   {
     "id": "reed_wasp_t1",
-    "name": "Reed Wasp",
+    "name": "Slatewing Wasp",
     "family": "reed_wasp",
     "availability": "world",
     "level": 1,
@@ -3756,7 +3765,7 @@
       "scale": 0.45,
       "regionId": "fallowmarch",
       "activity": "prowl",
-      "description": "A small slate-blue wasp with quiet translucent wings and a sharp sting.",
+      "description": "A small slate-blue wasp with a dark edge along its quiet wings. It nests among reeds and stings when approached.",
       "kind": "basic"
     }
   },
@@ -3858,7 +3867,7 @@
   },
   {
     "id": "granary_rat_t1",
-    "name": "Granary Rat",
+    "name": "Grainback Scavenger",
     "family": "granary_rat",
     "availability": "world",
     "level": 1,
@@ -3904,7 +3913,7 @@
       "scale": 1.8,
       "regionId": "fallowmarch",
       "activity": "forage",
-      "description": "A small scavenger around abandoned supplies. Retaliates with a bite.",
+      "description": "A compact rat with a pale line of grain dust across its back. It scavenges old stores and darts away from people.",
       "kind": "basic"
     }
   },
@@ -4444,7 +4453,7 @@
   },
   {
     "id": "briar_harrow_t10",
-    "name": "Briar Harrow",
+        "name": "Bramble Tiller",
     "family": "briar_harrow",
     "availability": "world",
     "level": 10,
@@ -4464,13 +4473,25 @@
           "id": "items",
           "name": "Items",
           "count": 1,
-          "drops": [],
-          "tables": [
+          "drops": [
             {
-              "tableId": "shared_earth_essence_2",
-              "rollId": "items"
+            "itemId": "duskoak_log",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 0.35
+            },
+            {
+              "itemId": "earth_essence",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 0.25
             }
-          ]
+          ],
+          "tables": []
         }
       ]
     },
@@ -4480,7 +4501,7 @@
       "scale": 0.85,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "A bowed, hollow trunk carried by root hands. Its shoulder roots turn inward around a dark body cavity, and its heavy arms sweep low across the forest floor.",
+      "description": "In woodland clearings, Bramble Tillers loosen packed soil with their hoe-shaped forearm shoots and clear growth crowding young trees. Green cambium and pale lichen mark their living bark. They push back when anyone tramples the roots they tend.",
       "kind": "basic"
     }
   },
@@ -5779,7 +5800,7 @@
     "adjustments": {
       "attackSpeedMs": 3800,
       "aggroRadius": 5,
-      "behaviour": "territorial",
+      "behaviour": "aggressive",
       "moveSpeedMps": 0.7260000000000001,
       "walkSpeedMps": 0.21120000000000003,
       "attackStyle": "melee",
@@ -13306,28 +13327,39 @@
     }
   },
   {
-    "id": "briar_harrow_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "briar_harrow_t10"
-  },
-  {
-    "id": "briar_harrow_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "briar_harrow_t10"
-  },
-  {
     "id": "briar_harrow_t20",
+    "name": "Bramble Tiller",
     "availability": "world",
     "level": 20,
-    "baseId": "briar_harrow_t10"
-  },
-  {
-    "id": "fen_crawler_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "fen_crawler_t10"
+    "baseId": "briar_harrow_t10",
+    "loot": {
+      "rolls": [
+        {
+          "id": "items",
+          "name": "Items",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "cinderpine_log",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 0.4
+            },
+            {
+              "itemId": "earth_essence",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 0.25
+            }
+          ],
+          "tables": []
+        }
+      ]
+    }
   },
   {
     "id": "fen_crawler_t5",
@@ -13363,12 +13395,6 @@
     "id": "thorn_maw_t1",
     "availability": "world",
     "level": 1,
-    "baseId": "thorn_maw_t10"
-  },
-  {
-    "id": "thorn_maw_t5",
-    "availability": "world",
-    "level": 5,
     "baseId": "thorn_maw_t10"
   },
   {
@@ -15650,11 +15676,11 @@
     }
   },
   {
-    "id": "boss_tempest_roc_t1",
+    "id": "boss_tempest_roc_t10",
     "name": "Storm Scarab",
     "family": "boss_tempest_roc",
     "availability": "lab",
-    "level": 1,
+    "level": 10,
     "profileId": "boss",
     "adjustments": {
       "maxHealth": 34,
@@ -15695,7 +15721,7 @@
     "presentation": {
       "id": "boss_tempest_roc",
       "assetId": "creature_boss_tempest_roc",
-      "scale": 1.1111111111111112,
+      "scale": 0.8691519590640763,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "A storm scarab with swept carapace shields, a crescent shovel cranium and inward-cutting stone mandibles.",
@@ -15703,11 +15729,11 @@
     }
   },
   {
-    "id": "boss_galeskin_t1",
+    "id": "boss_galeskin_t10",
     "name": "Galeskin",
     "family": "boss_galeskin",
     "availability": "lab",
-    "level": 1,
+    "level": 10,
     "profileId": "boss",
     "adjustments": {
       "maxHealth": 28,
@@ -16376,12 +16402,12 @@
   },
   {
     "id": "tempest_roc",
-    "baseId": "tempest_roc_t1",
+    "baseId": "tempest_roc_t10",
     "availability": "world",
     "presentation": {
       "id": "tempest_roc",
       "assetId": "creature_boss_tempest_roc",
-      "scale": 0.6944444444444444,
+      "scale": 0.5432199744150477,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "Storm Scarab",
@@ -16430,12 +16456,12 @@
   },
   {
     "id": "rootheart",
-    "baseId": "rootheart_t5",
+    "baseId": "rootheart_t10",
     "availability": "world",
     "presentation": {
       "id": "rootheart",
       "assetId": "creature_boss_rootheart",
-      "scale": 0.784792689585841,
+      "scale": 0.7333469654603144,
       "regionId": "vellenwood",
       "activity": "patrol",
       "description": "Rootbound Colossus",
@@ -16523,12 +16549,12 @@
   },
   {
     "id": "galeskin",
-    "baseId": "galeskin_t1",
+    "baseId": "galeskin_t10",
     "availability": "world",
     "presentation": {
       "id": "galeskin",
       "assetId": "creature_boss_galeskin",
-      "scale": 1.1538461538461537,
+      "scale": 0.9025808805665407,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
@@ -16538,12 +16564,12 @@
   },
   {
     "id": "mossbound",
-    "baseId": "mossbound_t5",
+    "baseId": "mossbound_t10",
     "availability": "world",
     "presentation": {
       "id": "mossbound",
       "assetId": "creature_boss_mossbound",
-      "scale": 0.7154805147221343,
+      "scale": 0.6685784300492895,
       "regionId": "vellenwood",
       "activity": "patrol",
       "description": "Forest Ogre",
@@ -16639,22 +16665,13 @@
     "id": "palewood_adders",
     "baseId": "viper_t1",
     "availability": "world",
-    "adjustments": {
-      "name": "Thorn Maw",
-      "family": "thorn_maw",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Thorn Maw",
-    "family": "thorn_maw",
-    "level": 1,
     "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
-      "regionId": "vellenwood",
+      "id": "palewood_viper",
+      "assetId": "animal_viper",
+      "scale": 0.8,
+      "regionId": "fallowmarch",
       "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
+      "description": "A slim grass-green viper hunts along the sunny margins of Palewood and strikes when disturbed.",
       "kind": "basic"
     }
   },
@@ -16662,24 +16679,6 @@
     "id": "regional_gloam_fox",
     "baseId": "gloam_fox_t1",
     "availability": "world",
-    "adjustments": {
-      "name": "Heath Jack",
-      "family": "heath_jack",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Heath Jack",
-    "family": "heath_jack",
-    "level": 1,
-    "presentation": {
-      "id": "heath_jack",
-      "assetId": "creature_heath_jack",
-      "scale": 1,
-      "regionId": "fallowmarch",
-      "activity": "patrol",
-      "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
-      "kind": "basic"
-    },
     "loot": {
       "rolls": [
         {
@@ -16725,24 +16724,6 @@
     "id": "regional_redbrush_fox",
     "baseId": "redbrush_fox_t1",
     "availability": "world",
-    "adjustments": {
-      "name": "Heath Jack",
-      "family": "heath_jack",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Heath Jack",
-    "family": "heath_jack",
-    "level": 1,
-    "presentation": {
-      "id": "heath_jack",
-      "assetId": "creature_heath_jack",
-      "scale": 1,
-      "regionId": "fallowmarch",
-      "activity": "patrol",
-      "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
-      "kind": "basic"
-    },
     "loot": {
       "rolls": [
         {
@@ -16787,135 +16768,32 @@
   {
     "id": "pack_fallowmarch_palewood_far_south_scrub",
     "baseId": "field_wasp_t1",
-    "availability": "world",
-    "adjustments": {
-      "name": "Thorn Maw",
-      "family": "thorn_maw",
-      "moveSpeedMps": 1.3
-    },
-    "name": "Thorn Maw",
-    "family": "thorn_maw",
-    "level": 1,
-    "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "pack_fallowmarch_palewood_heath_scrub",
     "baseId": "heath_wasp_t1",
-    "availability": "world",
-    "adjustments": {
-      "name": "Heath Jack",
-      "family": "heath_jack"
-    },
-    "name": "Heath Jack",
-    "family": "heath_jack",
-    "level": 1,
-    "presentation": {
-      "id": "heath_jack",
-      "assetId": "creature_heath_jack",
-      "scale": 1,
-      "regionId": "fallowmarch",
-      "activity": "patrol",
-      "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "pack_fallowmarch_palewood_reed_scrub",
     "baseId": "reed_wasp_t1",
-    "availability": "world",
-    "adjustments": {
-      "name": "Reed Strider",
-      "family": "reed_strider"
-    },
-    "name": "Reed Strider",
-    "family": "reed_strider",
-    "level": 1,
-    "presentation": {
-      "id": "reed_strider",
-      "assetId": "creature_reed_strider",
-      "scale": 1,
-      "regionId": "vellenwood",
-      "activity": "forage",
-      "description": "A six-legged wetland mimic with a raised reed-thin body, folded walking limbs, tapered abdomen and a long split feeding mask.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "pack_fallowmarch_bracken_northeast_spiders",
     "baseId": "briar_spider_t1",
-    "availability": "world",
-    "adjustments": {
-      "name": "Thorn Maw",
-      "family": "thorn_maw",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Thorn Maw",
-    "family": "thorn_maw",
-    "level": 1,
-    "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "marchwild_horse_residents",
     "baseId": "marchwild_horse_t5",
-    "availability": "world",
-    "adjustments": {
-      "name": "Briar Harrow",
-      "family": "briar_harrow",
-      "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Briar Harrow",
-    "family": "briar_harrow",
-    "level": 5,
-    "presentation": {
-      "id": "briar_harrow",
-      "assetId": "creature_briar_harrow",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "patrol",
-      "description": "A bowed, hollow trunk carried by root hands. Its shoulder roots turn inward around a dark body cavity, and its heavy arms sweep low across the forest floor.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "duskoak_stags",
     "baseId": "deer_t5",
-    "availability": "world",
-    "adjustments": {
-      "name": "Briar Harrow",
-      "family": "briar_harrow",
-      "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Briar Harrow",
-    "family": "briar_harrow",
-    "level": 5,
-    "presentation": {
-      "id": "briar_harrow",
-      "assetId": "creature_briar_harrow",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "patrol",
-      "description": "A bowed, hollow trunk carried by root hands. Its shoulder roots turn inward around a dark body cavity, and its heavy arms sweep low across the forest floor.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "bramble_hogs",
@@ -17155,47 +17033,12 @@
   {
     "id": "rootdelve_badger_residents",
     "baseId": "rootdelve_badger_t5",
-    "availability": "world",
-    "adjustments": {
-      "name": "Briar Harrow",
-      "family": "briar_harrow",
-      "moveSpeedMps": 1.2
-    },
-    "name": "Briar Harrow",
-    "family": "briar_harrow",
-    "level": 5,
-    "presentation": {
-      "id": "briar_harrow",
-      "assetId": "creature_briar_harrow",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "patrol",
-      "description": "A bowed, hollow trunk carried by root hands. Its shoulder roots turn inward around a dark body cavity, and its heavy arms sweep low across the forest floor.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "marsh_moose_residents",
     "baseId": "marsh_moose_t10",
-    "availability": "world",
-    "adjustments": {
-      "name": "Briar Harrow",
-      "family": "briar_harrow",
-      "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Briar Harrow",
-    "family": "briar_harrow",
-    "level": 10,
-    "presentation": {
-      "id": "briar_harrow",
-      "assetId": "creature_briar_harrow",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "patrol",
-      "description": "A bowed, hollow trunk carried by root hands. Its shoulder roots turn inward around a dark body cavity, and its heavy arms sweep low across the forest floor.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "bracken_tapir_residents",
@@ -17996,25 +17839,7 @@
   {
     "id": "kiln_salamander_residents",
     "baseId": "kiln_salamander_t20",
-    "availability": "world",
-    "adjustments": {
-      "name": "Slag Crawler",
-      "family": "slag_crawler",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Slag Crawler",
-    "family": "slag_crawler",
-    "level": 20,
-    "presentation": {
-      "id": "slag_crawler",
-      "assetId": "creature_slag_crawler",
-      "scale": 1,
-      "regionId": "kilnhalt",
-      "activity": "patrol",
-      "description": "An eight-legged furnace scavenger with overlapping slag plates, a shovel mouth and folding mandibles. Its body rocks over a low, heavy support gait.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "ashscale_monitor_residents",

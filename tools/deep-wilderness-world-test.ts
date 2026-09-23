@@ -545,16 +545,27 @@ try {
   if (band === 'regions') {
     const bosses = Object.entries(REGIONAL_BOSS_LEVELS);
     assert.equal(bosses.length, 7);
-    // Fallowmarch's ordinary residents already derive level 6 from their own stats, so its two
-    // tier-1 bosses are authored at 11 and 13 instead of the 3-5x band the tier 5+ regions use.
-    const tierOneBossLevels: Readonly<Record<string, number>> = { galeskin: 11, tempest_roc: 13 };
+    // Pin each boss's current tier tag and effective level, including large Vellenwood bosses
+    // whose tier changed while their intended combat level stayed fixed.
+    const expectedBossBalances: Readonly<Record<string, { tier: number; multiplier: number; level: number }>> = {
+      galeskin: { tier: 10, multiplier: 1.1, level: 11 },
+      tempest_roc: { tier: 10, multiplier: 1.3, level: 13 },
+      mossbound: { tier: 10, multiplier: 1.5, level: 15 },
+      rootheart: { tier: 10, multiplier: 2.5, level: 25 },
+      tideworn: { tier: 10, multiplier: 4, level: 40 },
+      ordrun: { tier: 10, multiplier: 5, level: 50 },
+      cinderwake: { tier: 20, multiplier: 4, level: 80 },
+    };
     // Ordrun's deferred cave is visited last so the six surface views share one world residency.
     bosses.sort(([a], [b]) => Number(a === 'ordrun') - Number(b === 'ordrun'));
     for (const [id, balance] of bosses) {
       stage = `regional boss ${id}`;
       const expectedLevel = balance.tier * balance.multiplier;
-      if (balance.tier >= 5) assert(balance.multiplier >= 3 && balance.multiplier <= 5, `${id}: expected 3-5× regional tier`);
-      else assert.equal(expectedLevel, tierOneBossLevels[id], `${id}: expected the authored tier-1 boss level`);
+      const expectedBalance = expectedBossBalances[id];
+      assert(expectedBalance, `${id}: expected regional boss balance is missing`);
+      assert.equal(balance.tier, expectedBalance.tier, `${id}: expected tier tag ${expectedBalance.tier}`);
+      assert.equal(balance.multiplier, expectedBalance.multiplier, `${id}: expected multiplier ${expectedBalance.multiplier}x`);
+      assert.equal(expectedLevel, expectedBalance.level, `${id}: expected effective combat level ${expectedBalance.level}`);
       const rows = groups.get(id) ?? []; assert.equal(rows.length, 1, `${id}: original boss must remain a singleton`);
       const actor = await debug<SemanticEntity>('getEntity', [rows[0]!.id]);
       const species = REGIONAL_BOSS_SPECIES.find(row => row.id === `boss_${id}`)!;

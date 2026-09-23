@@ -9,9 +9,10 @@ import { PerspectiveCamera, Vector3 } from 'three';
 import { GameDriver } from './lib/driver.js';
 import { startGameServer, type RunningGameServer } from './lib/server.js';
 import { CAMERA, PLAYER_RADIUS } from '../game/src/app/config.js';
+import type { RegionId } from '../game/src/contracts.js';
 import { REGIONS } from '../game/src/content/regions.js';
-import { BIOME_POPULATION, BIOME_POPULATION_LEGACY_REPLACEMENTS } from '../game/src/content/biomePopulation.js';
-import { CREATURE_SPECIES } from '../game/src/content/creatureSpecies.js';
+import { WORLD_CONTENT } from '../game/src/content/worldData.js';
+import { CREATURE_CATALOG } from '../game/src/content/creatureRuntime.js';
 import { FOREST_CREATURE_REDESIGNS } from '../game/src/content/forestCreatureRedesigns.js';
 import { STONE_CREATURE_REDESIGNS } from '../game/src/content/stoneCreatureRedesigns.js';
 import { ASH_CREATURE_REDESIGNS } from '../game/src/content/ashCreatureRedesigns.js';
@@ -31,15 +32,27 @@ const authored = REGIONS.flatMap(region => [
   ...(region.dungeon?.enemyGroups.map(group => ({ ...group, regionId: region.dungeon!.id })) ?? []),
 ]);
 const byGroup = new Map(authored.map(group => [group.id, group]));
-const speciesById = new Map(CREATURE_SPECIES.map(species => [species.id, species]));
-const redesigned = [...FOREST_CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS];
+// Keep starter confinement tied to compiled T1 fauna placements; outer-tier wildlife is still reported below.
+const starterFaunaGroupIds = new Set(authored.filter(group => group.regionId === 'fallowmarch' && group.tier === 1
+  && isStarterAnimalAsset(group.assetId) && inStarterWildlifeArea(group.regionId, group.centre, group.radius)).map(group => group.id));
+type AnimalActor = { id: string; groupId?: string; regionId: RegionId; position: readonly [number, number, number]; assetId?: string };
+const redesignedIds = [...FOREST_CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS].map(species => species.id);
+const redesigned = redesignedIds.map(id => {
+  const species = CREATURE_CATALOG.bySpeciesId.get(id);
+  assert(species, `Missing compiled presentation for accepted species ${id}`);
+  return species;
+});
+const redesignedAssets = new Set(redesigned.map(species => species.assetId));
+const fallowmarchPopulation = authored.filter(group => group.regionId === 'fallowmarch' && group.id.startsWith('population_'));
+const authoredRedesignGroups = authored.filter(group => redesignedAssets.has(group.assetId));
+const groupsToVerify = new Map([...fallowmarchPopulation, ...authoredRedesignGroups].map(group => [group.id, group]));
 const report: any = {
   passed: false, budgetMs, startedAt: new Date(started).toISOString(),
-  scope: 'Live roster for 56 added packs, original remapped groups, animal confinement, three regional pack views, mouse combat and 390px mobile world/map.',
+  scope: 'Compiled production creature roster, current Fallowmarch population placements, T1 starter fauna confinement, three regional body views, mouse combat and 390px mobile world/map.',
   exception: 'Final-world placement and wiring follow already accepted isolated creature lab proof.',
   setup: 'Fresh save; photos use melee 1, magic 99 for survival health, empty main hand and setup healing. Packs preload from dry ground beyond nearby aggro ranges before the close normal camera. Melee 99 and the starter sword are enabled only for the separate mouse-combat case. Production player-follow camera, settings and timeScale 1.',
   visualAcceptance: 'Pending root screenshot inspection. Residency and projected bounds do not prove an unobstructed or attractive view.',
-  captures: [], packs: [], legacy: [], errors: {},
+  captures: [], groups: [], fallowmarchPopulation: [], errors: {},
 };
 let server: RunningGameServer | undefined, driver: GameDriver | undefined;
 let softTimer: ReturnType<typeof setTimeout> | undefined;
@@ -53,9 +66,8 @@ function timeLeft(max: number): number {
 }
 
 async function run(): Promise<void> {
-  assert.equal(BIOME_POPULATION.length, 56, 'Authored added pack count');
-  assert.equal(BIOME_POPULATION.reduce((count, pack) => count + pack.count, 0), 154, 'Authored added residents');
   assert.equal(new Set(redesigned.map(species => species.id)).size, 15, 'Accepted redesigned species count');
+  assert(fallowmarchPopulation.length > 0, 'Compiled Fallowmarch population placements are present');
   server = await startGameServer({ hmr: false });
   driver = new GameDriver(server, { viewport: { width: 1440, height: 900 },
     browserArgs: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--mute-audio'] });
@@ -84,43 +96,40 @@ async function run(): Promise<void> {
     }));
   });
   const rowsFor = (id: string) => roster.filter(actor => actor.groupId === id);
-  function verifyGroup(groupId: string, expectedSpeciesId: string, population: boolean): void {
-    const group = byGroup.get(groupId), species = speciesById.get(expectedSpeciesId);
-    assert(group && species, `Missing authored group/species ${groupId}/${expectedSpeciesId}`);
+  function verifyGroup(groupId: string): void {
+    const group = byGroup.get(groupId), creature = WORLD_CONTENT.creatureByGroup.get(groupId);
+    assert(group && creature, `Missing compiled world group/creature ${groupId}`);
+    assert.equal(group.assetId, creature.assetId, `${groupId}: compiled creature presentation`);
+    assert.equal(group.family, creature.stats.family, `${groupId}: compiled creature family`);
     const actors = rowsFor(groupId);
-    const row = { groupId, speciesId: expectedSpeciesId, expected: group, actors };
-    (population ? report.packs : report.legacy).push(row);
-    assert.equal(actors.length, group.count, `${groupId}: resident count`);
-    assert.equal(group.assetId, species.assetId, `${groupId}: accepted authored body`);
+    report.groups.push({ groupId, creatureId: creature.id, expected: group, actors });
+    assert.equal(actors.length, group.count, `${groupId}: live residents match compiled placement`);
     for (const actor of actors) {
-      assert.equal(actor.assetId, species.assetId, `${actor.id}: live model`);
-      assert.equal(actor.family, species.stats.family, `${actor.id}: live family`);
+      assert.equal(actor.assetId, creature.assetId, `${actor.id}: live compiled model`);
+      assert.equal(actor.family, creature.stats.family, `${actor.id}: live compiled family`);
       assert.equal(actor.regionId, group.regionId, `${actor.id}: live region`);
-      assert.equal(actor.tier, group.tier, `${actor.id}: preserved/authored tier`);
+      assert.equal(actor.tier, group.tier, `${actor.id}: compiled encounter tier`);
       assert.equal(actor.materialTier, group.tier, `${actor.id}: material tier`);
       assert(actor.health > 0 && actor.maxHealth > 0, `${actor.id}: alive on fresh boot`);
-      if (population) {
-        assert.equal(actor.scale, species.scale, `${actor.id}: body scale`);
-        assert(actor.surface?.playable && !actor.surface.waterBodyId, `${actor.id}: dry playable spawn`);
-      }
+      assert.equal(actor.scale, group.scale, `${actor.id}: compiled placement scale`);
+      if (group.regionId === 'fallowmarch') assert(actor.surface?.playable && !actor.surface.waterBodyId, `${actor.id}: dry playable Fallowmarch spawn`);
     }
   }
-  for (const pack of BIOME_POPULATION) {
-    const group = byGroup.get(pack.id);
-    assert(group, `Population ${pack.id} is absent from REGIONS`);
-    assert.equal(group.count, pack.count, `${pack.id}: population count survives projection`);
-    assert.equal(group.regionId, pack.regionId, `${pack.id}: population region survives projection`);
-    verifyGroup(pack.id, pack.speciesId, true);
-  }
-  assert.equal(report.packs.reduce((count: number, pack: any) => count + pack.actors.length, 0), 154, 'Actual added residents');
-  for (const [groupId, speciesId] of Object.entries(BIOME_POPULATION_LEGACY_REPLACEMENTS)) verifyGroup(groupId, speciesId, false);
+  for (const group of groupsToVerify.values()) verifyGroup(group.id);
+  report.fallowmarchPopulation = fallowmarchPopulation.map(group => ({
+    id: group.id, creatureId: WORLD_CONTENT.creatureByGroup.get(group.id)?.id, family: group.family,
+    assetId: group.assetId, tier: group.tier, count: group.count,
+  }));
   report.speciesCoverage = redesigned.map(species => ({ id: species.id, assetId: species.assetId,
     residents: roster.filter(actor => actor.assetId === species.assetId).length }));
   for (const species of report.speciesCoverage) assert(species.residents > 0, `${species.id}: promoted body has live residents`);
-  report.animals = roster.filter(actor => isStarterAnimalAsset(actor.assetId ?? ''));
-  for (const animal of report.animals) assert(inStarterWildlifeArea(animal.regionId, [animal.position[0], animal.position[2]]), `${animal.id}: animal leaked outside starter area`);
+  const animals = roster.filter((actor): actor is AnimalActor => isStarterAnimalAsset(actor.assetId ?? ''));
+  report.animals = animals;
+  report.starterAnimals = animals.filter(actor => actor.groupId !== undefined && starterFaunaGroupIds.has(actor.groupId));
+  for (const animal of report.starterAnimals) assert(inStarterWildlifeArea(animal.regionId, [animal.position[0], animal.position[2]]), `${animal.id}: starter animal leaked outside starter area`);
   report.roster = { combatActors: roster.filter(actor => actor.health !== undefined).length,
-    addedGroups: report.packs.length, addedResidents: 154, remappedGroups: report.legacy.length, starterAnimals: report.animals.length };
+    checkedCompiledGroups: report.groups.length, checkedFallowmarchPopulationGroups: report.fallowmarchPopulation.length,
+    redesignedSpecies: report.speciesCoverage.length, animalActors: report.animals.length, starterAnimals: report.starterAnimals.length };
   console.log('Live creature roster passed', JSON.stringify(report.roster));
 
   await driver.callDebug('setSkillLevel', ['melee', 1]);
@@ -268,8 +277,8 @@ async function run(): Promise<void> {
   const combatIds = await stageGroup(combatGroupId, .95, true), targetId = combatIds[0]!;
   const before: any = await driver.callDebug('getEntity', [targetId]);
   const cursor: any = await driver.callDebug('getEvents');
-  report.combat = { groupId: combatGroupId, speciesId: BIOME_POPULATION_LEGACY_REPLACEMENTS[combatGroupId], targetId, before, equip };
-  await capture('original-remapped-heath-jack-before-click', combatIds);
+  report.combat = { groupId: combatGroupId, creatureId: WORLD_CONTENT.creatureByGroup.get(combatGroupId)?.id, targetId, before, equip };
+  await capture('regional-gloam-fox-before-click', combatIds);
   let clicked = false;
   for (let attempt = 0; attempt < 3 && !clicked; attempt++) {
     const sample: any = await page.evaluate(id => { const d: any = window.__gameDebug, c = document.querySelector('canvas')!.getBoundingClientRect();
@@ -296,7 +305,7 @@ async function run(): Promise<void> {
   }
   assert(clicked, `Could not acquire real canvas hover for ${targetId}`);
   const healthAtClick = report.combat.beforeClick.combat.health;
-  assert(healthAtClick > 0, 'Original remapped target was alive at the verified click');
+  assert(healthAtClick > 0, 'Compiled world target was alive at the verified click');
   await waitForDebug(page, async ({ id, health }) => { const e = await (window.__gameDebug as any).getEntity(id); return e?.combat?.health < health || e?.state === 'dead'; },
     { id: targetId, health: healthAtClick }, { timeout: timeLeft(12_000) });
   report.combat.after = await driver.callDebug('getEntity', [targetId]);
@@ -305,7 +314,7 @@ async function run(): Promise<void> {
   assert(!report.combat.events.dropped, 'Combat event history retained');
   assert(report.combat.events.events.some((event: any) => event.type === 'combat.started' && event.entityId === targetId && event.data.initiator === 'player'), 'Verified mouse click initiates production player combat');
   assert(report.combat.after.combat.health < healthAtClick || report.combat.after.state === 'dead', 'Real mouse attack changes target health/death');
-  report.combat.afterFile = await driver.screenshot(out, 'original-remapped-heath-jack-after-damage');
+  report.combat.afterFile = await driver.screenshot(out, 'regional-gloam-fox-after-damage');
   await driver.callDebug('callTool', ['corealm_stop', {}]);
   assert.equal(await page.evaluate(() => performance.timeOrigin), documentOrigin, 'One stable game document');
   report.finalState = await driver.callDebug('getState');

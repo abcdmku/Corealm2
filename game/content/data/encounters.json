@@ -67,7 +67,7 @@
   },
   {
     "id": "palewood_adders_patrol",
-    "name": "Thorn Maw",
+    "name": "Viper",
     "activity": "patrol",
     "members": [
       {
@@ -111,7 +111,7 @@
   },
   {
     "id": "regional_gloam_fox_patrol",
-    "name": "Heath Jack",
+    "name": "Gloam Fox",
     "activity": "patrol",
     "members": [
       {
@@ -122,7 +122,7 @@
   },
   {
     "id": "regional_redbrush_fox_patrol",
-    "name": "Heath Jack",
+    "name": "Redbrush Prowler",
     "activity": "patrol",
     "members": [
       {
@@ -133,7 +133,7 @@
   },
   {
     "id": "grass_viper_t1_prowl",
-    "name": "Grass Viper",
+    "name": "Grassscale Viper",
     "activity": "prowl",
     "members": [
       {
@@ -143,8 +143,19 @@
     ]
   },
   {
+    "id": "reed_wasp_t1_prowl",
+    "name": "Slatewing Wasp",
+    "activity": "prowl",
+    "members": [
+      {
+        "creatureId": "reed_wasp_t1",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "pack_fallowmarch_palewood_far_south_scrub_patrol",
-    "name": "Thorn Maw",
+    "name": "Field Wasp",
     "activity": "patrol",
     "members": [
       {
@@ -155,7 +166,7 @@
   },
   {
     "id": "pack_fallowmarch_palewood_heath_scrub_patrol",
-    "name": "Heath Jack",
+    "name": "Heath Wasp",
     "activity": "patrol",
     "members": [
       {
@@ -166,7 +177,7 @@
   },
   {
     "id": "pack_fallowmarch_palewood_reed_scrub_patrol",
-    "name": "Reed Strider",
+    "name": "Slatewing Wasp",
     "activity": "patrol",
     "members": [
       {
@@ -199,7 +210,7 @@
   },
   {
     "id": "granary_rat_t1_forage",
-    "name": "Granary Rat",
+    "name": "Grainback Scavenger",
     "activity": "forage",
     "members": [
       {
@@ -221,7 +232,7 @@
   },
   {
     "id": "redbrush_fox_t1_forage",
-    "name": "Red Fox",
+    "name": "Redbrush Prowler",
     "activity": "forage",
     "members": [
       {
@@ -232,7 +243,7 @@
   },
   {
     "id": "marchwild_horse_residents_patrol",
-    "name": "Briar Harrow",
+    "name": "Marchwild Horse",
     "activity": "patrol",
     "members": [
       {
@@ -264,63 +275,8 @@
     ]
   },
   {
-    "id": "briar_harrow_t1_patrol",
-    "name": "Briar Harrow",
-    "activity": "patrol",
-    "members": [
-      {
-        "creatureId": "briar_harrow_t1",
-        "weight": 1
-      }
-    ]
-  },
-  {
-    "id": "heath_jack_t1_patrol",
-    "name": "Heath Jack",
-    "activity": "patrol",
-    "members": [
-      {
-        "creatureId": "heath_jack_t1",
-        "weight": 1
-      }
-    ]
-  },
-  {
-    "id": "thorn_maw_t1_patrol",
-    "name": "Thorn Maw",
-    "activity": "patrol",
-    "members": [
-      {
-        "creatureId": "thorn_maw_t1",
-        "weight": 1
-      }
-    ]
-  },
-  {
-    "id": "fen_crawler_t1_patrol",
-    "name": "Fen Crawler",
-    "activity": "patrol",
-    "members": [
-      {
-        "creatureId": "fen_crawler_t1",
-        "weight": 1
-      }
-    ]
-  },
-  {
-    "id": "reed_strider_t1_patrol",
-    "name": "Reed Strider",
-    "activity": "patrol",
-    "members": [
-      {
-        "creatureId": "reed_strider_t1",
-        "weight": 1
-      }
-    ]
-  },
-  {
     "id": "duskoak_stags_patrol",
-    "name": "Briar Harrow",
+    "name": "Duskoak Stag",
     "activity": "patrol",
     "members": [
       {
@@ -452,7 +408,7 @@
   },
   {
     "id": "rootdelve_badger_residents_patrol",
-    "name": "Briar Harrow",
+    "name": "Rootdelve Badger",
     "activity": "patrol",
     "members": [
       {
@@ -463,8 +419,8 @@
   },
   {
     "id": "marsh_moose_residents_patrol",
-    "name": "Briar Harrow",
-    "activity": "patrol",
+    "name": "Moose",
+    "activity": "graze",
     "members": [
       {
         "creatureId": "marsh_moose_residents",
@@ -517,12 +473,12 @@
     ]
   },
   {
-    "id": "thorn_maw_t5_patrol",
+    "id": "thorn_maw_t10_patrol",
     "name": "Thorn Maw",
     "activity": "patrol",
     "members": [
       {
-        "creatureId": "thorn_maw_t5",
+        "creatureId": "thorn_maw_t10",
         "weight": 1
       }
     ]
@@ -550,12 +506,12 @@
     ]
   },
   {
-    "id": "briar_harrow_t5_patrol",
-    "name": "Briar Harrow",
+    "id": "briar_harrow_t10_patrol",
+    "name": "Bramble Tiller",
     "activity": "patrol",
     "members": [
       {
-        "creatureId": "briar_harrow_t5",
+        "creatureId": "briar_harrow_t10",
         "weight": 1
       }
     ]
@@ -969,8 +925,8 @@
   },
   {
     "id": "kiln_salamander_residents_patrol",
-    "name": "Slag Crawler",
-    "activity": "patrol",
+    "name": "Salamander",
+    "activity": "forage",
     "members": [
       {
         "creatureId": "kiln_salamander_residents",

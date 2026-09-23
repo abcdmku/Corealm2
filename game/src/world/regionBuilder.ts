@@ -409,7 +409,8 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     const region = REGIONS.find((entry) => entry.id === (site.regionId === 'wilderness' ? 'wilderness' : site.biomeId));
     const tier = coastalEncounterTier(site.regionId, site.spot[1], region?.tier ?? 1);
     const groups = region?.enemyGroups.filter((group) => !group.boss && !group.miniBoss
-      && !isStarterAnimalAsset(group.assetId) && (site.regionId !== 'wilderness' || group.tier === tier)) ?? [];
+      && !isStarterAnimalAsset(group.assetId) && (site.regionId !== 'wilderness' || group.tier === tier)
+      && enemyBlockFor(site.id, group.family, tier) !== undefined) ?? [];
     const coastalRng = new Rng(seed ^ variantSeed(site.id));
     const source = coastalRng.pick(groups);
     if (!source) continue;

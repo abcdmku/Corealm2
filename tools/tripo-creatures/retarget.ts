@@ -27,6 +27,69 @@ const rotation = (node: Node) => {
   return q.normalize();
 };
 
+function rotateGeometry(doc: Document, rotation: Matrix4) {
+  const transforms = new Map<Accessor, { semantic: string; local: Matrix4; normal: Matrix3 }>();
+  for (const node of doc.getRoot().listNodes()) {
+    const matrix = new Matrix4().fromArray(node.getWorldMatrix());
+    const local = matrix.clone().invert().multiply(rotation).multiply(matrix), normal = new Matrix3().getNormalMatrix(local);
+    for (const primitive of node.getMesh()?.listPrimitives() ?? []) {
+      for (const semantic of ["POSITION", "NORMAL", "TANGENT"]) {
+        const accessor = primitive.getAttribute(semantic); if (!accessor) continue;
+        const existing = transforms.get(accessor);
+        if (existing && (existing.semantic !== semantic || existing.local.elements.some((value, i) => Math.abs(value - local.elements[i]!) > 1e-10))) {
+          throw new Error(`Shared ${semantic} accessor requires conflicting geometry basis transforms`);
+        }
+        if (!existing) transforms.set(accessor, { semantic, local, normal });
+      }
+    }
+  }
+  // Validate every use before writing, so shared mesh instances cannot be partly transformed.
+  for (const [accessor, { semantic, local, normal }] of transforms) {
+    for (let vertex = 0; vertex < accessor.getCount(); vertex++) {
+      const values = accessor.getElement(vertex, []), p = new Vector3().fromArray(values);
+      if (semantic === "POSITION") p.applyMatrix4(local); else p.applyMatrix3(normal).normalize();
+      accessor.setElement(vertex, semantic === "TANGENT" ? [...p.toArray(), values[3]!] : p.toArray());
+    }
+  }
+}
+
+function geometrySymmetry(doc: Document) {
+  const points = doc.getRoot().listNodes().flatMap(node => {
+    const matrix = new Matrix4().fromArray(node.getWorldMatrix());
+    return node.getMesh()?.listPrimitives().flatMap(primitive => {
+      const positions = primitive.getAttribute("POSITION")!;
+      return Array.from({ length: positions.getCount() }, (_, i) => new Vector3().fromArray(positions.getElement(i, [])).applyMatrix4(matrix));
+    }) ?? [];
+  });
+  if (!points.length) throw new Error("No geometry available for symmetry check");
+  const min = new Vector3(Infinity, Infinity, Infinity), max = new Vector3(-Infinity, -Infinity, -Infinity);
+  for (const point of points) { min.min(point); max.max(point); }
+  const stride = Math.max(1, Math.floor(points.length / 256));
+  const measure = (axis: "x" | "z") => {
+    const center = (min[axis] + max[axis]) / 2, distances: number[] = [];
+    for (let i = 0; i < points.length; i += stride) {
+      const point = points[i]!.clone(); point[axis] = 2 * center - point[axis];
+      let nearest = Infinity;
+      for (const candidate of points) nearest = Math.min(nearest, point.distanceTo(candidate));
+      distances.push(nearest);
+    }
+    distances.sort((a, b) => a - b);
+    return { planeCenter: center, rms: Math.sqrt(distances.reduce((sum, value) => sum + value * value, 0) / distances.length),
+      p95: distances[Math.min(distances.length - 1, Math.floor(distances.length * .95))]!, max: distances[distances.length - 1]!, samples: distances.length };
+  };
+  return { x: measure("x"), z: measure("z") };
+}
+
+function bindLateralAxis(doc: Document) {
+  const skin = doc.getRoot().listSkins()[0], inverse = skin?.getInverseBindMatrices();
+  if (!skin || !inverse) throw new Error("No inverse binds available for basis check");
+  const joints = skin.listJoints(), left = joints.findIndex(joint => joint.getName().replace(/^mixamorig:/, "") === "LeftUpLeg"),
+    right = joints.findIndex(joint => joint.getName().replace(/^mixamorig:/, "") === "RightUpLeg");
+  if (left < 0 || right < 0) throw new Error("No bilateral leg binds available for basis check");
+  const bind = (index: number) => new Vector3().setFromMatrixPosition(new Matrix4().fromArray(inverse.getElement(index, [])).invert());
+  return bind(right).sub(bind(left)).normalize();
+}
+
 /** Tripo GLB exports can omit node TRS while preserving complete inverse binds. */
 export function restoreTripoBindPose(doc: Document) {
   const skin = doc.getRoot().listSkins()[0];
@@ -65,30 +128,24 @@ export function restoreGeometryBasis(doc: Document, reference: Document) {
   const fit = fits[0]!;
   if (fit.maximum > .0001 || fit.rms > .00002) throw new Error("Rigged geometry has no verified basis match to static source");
   const rotation = new Matrix4().makeRotationY(fit.degrees * Math.PI / 180);
-  const transforms = new Map<Accessor, { semantic: string; local: Matrix4; normal: Matrix3 }>();
-  for (const node of doc.getRoot().listNodes()) {
-    const matrix = new Matrix4().fromArray(node.getWorldMatrix());
-    const local = matrix.clone().invert().multiply(rotation).multiply(matrix), normal = new Matrix3().getNormalMatrix(local);
-    for (const primitive of node.getMesh()?.listPrimitives() ?? []) {
-      for (const semantic of ["POSITION", "NORMAL", "TANGENT"]) {
-        const accessor = primitive.getAttribute(semantic); if (!accessor) continue;
-        const existing = transforms.get(accessor);
-        if (existing && (existing.semantic !== semantic || existing.local.elements.some((value, i) => Math.abs(value - local.elements[i]!) > 1e-10))) {
-          throw new Error(`Shared ${semantic} accessor requires conflicting geometry basis transforms`);
-        }
-        if (!existing) transforms.set(accessor, { semantic, local, normal });
-      }
-    }
-  }
-  // Validate every use before writing, so shared mesh instances cannot be partly transformed.
-  for (const [accessor, { semantic, local, normal }] of transforms) {
-    for (let vertex = 0; vertex < accessor.getCount(); vertex++) {
-      const values = accessor.getElement(vertex, []), p = new Vector3().fromArray(values);
-      if (semantic === "POSITION") p.applyMatrix4(local); else p.applyMatrix3(normal).normalize();
-      accessor.setElement(vertex, semantic === "TANGENT" ? [...p.toArray(), values[3]!] : p.toArray());
-    }
-  }
+  rotateGeometry(doc, rotation);
   return { ...fit, testedRotations: fits, method: "Closest-point comparison against original static export, before any skeleton or motion transformations" };
+}
+
+/** Apply a verified source-to-bind geometry basis correction while retaining the source mesh topology. */
+export function applyGeometryBasisRotation(doc: Document, degrees: number) {
+  if (![90, -90, 180].includes(degrees)) throw new Error(`Unsupported geometry basis rotation ${degrees}`);
+  const sourceSymmetry = geometrySymmetry(doc), lateralAxis = bindLateralAxis(doc);
+  if (degrees === 90 && !(sourceSymmetry.x.rms < .02 && sourceSymmetry.x.rms * 2 < sourceSymmetry.z.rms && Math.abs(lateralAxis.z) > .85)) {
+    throw new Error("The +90 degree basis correction requires X-symmetric mesh geometry and a Z-aligned bilateral bind axis");
+  }
+  rotateGeometry(doc, new Matrix4().makeRotationY(degrees * Math.PI / 180));
+  const resultSymmetry = geometrySymmetry(doc);
+  if (degrees === 90 && !(resultSymmetry.z.rms < .02 && resultSymmetry.z.rms * 2 < resultSymmetry.x.rms)) {
+    throw new Error("Geometry basis rotation did not align the mesh symmetry plane to the bind-limb axis");
+  }
+  return { degrees, sourceSymmetry, bindLateralAxis: lateralAxis.toArray(), resultSymmetry,
+    method: "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology" };
 }
 
 /** Rebuild an export whose weight accessors collapsed onto Hips, using its actual anatomical joints. */

@@ -48,7 +48,7 @@ describe("familiar display names", () => {
     const byId = new Map(ENEMY_BLOCKS.map((enemy) => [enemy.id, enemy.name]));
     expect(byId.get("coyote_t5")).toBe("Forest Wolf");
     expect(byId.get("coyote_t10")).toBe("Dire Wolf");
-    expect(byId.get("tempest_roc_t1")).toBe("Storm Scarab");
+    expect(byId.get("tempest_roc_t10")).toBe("Storm Scarab");
     expect(byId.get("quarrykeeper_t10")).toBe("Quarry Warden");
     expect(byId.get("cinder_ravager_t20")).toBe("Armored Demon");
     expect(byId.get("gorge_mantis_t20")).toBe("Giant Mantis");

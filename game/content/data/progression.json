@@ -135,18 +135,6 @@
         "name": "Hide Wraps",
         "description": "Hide strips wound to the knuckle, fingertips left bare.",
         "familyId": "gear_hands_melee_0"
-      },
-      {
-        "id": "galeskin_sword",
-        "name": "Galeskin Sword",
-        "description": "Copper pattern, but the edge whistles on the backswing. A spare blade from Galeskin's guarded store.",
-        "familyId": "gear_mainHand_melee_2400"
-      },
-      {
-        "id": "galeskin_staff",
-        "name": "Galeskin Staff",
-        "description": "Pine scoured silver by Fallowmarch wind. The empty socket hums before a gust.",
-        "familyId": "gear_mainHand_magic_staff_3000"
       }
     ],
     "production": [
@@ -768,18 +756,6 @@
         "name": "Thick Hide Wraps",
         "description": "Wrapped to the second knuckle. Casting hand stays free.",
         "familyId": "gear_hands_melee_0"
-      },
-      {
-        "id": "mossbound_sword",
-        "name": "Forest Ogre Sword",
-        "description": "A Iron blade grown through with moss that will not die. It never rusts.",
-        "familyId": "gear_mainHand_melee_2400"
-      },
-      {
-        "id": "mossbound_staff",
-        "name": "Forest Ogre Staff",
-        "description": "Ash with a living green seam. Warm at the grip like a root in summer.",
-        "familyId": "gear_mainHand_magic_staff_3000"
       }
     ],
     "production": [
@@ -1459,6 +1435,78 @@
         "name": "Cave Ogre Staff",
         "description": "Oak bleached and salt-cured. The cage weeps a little in the cold.",
         "familyId": "gear_mainHand_magic_staff_3000"
+      },
+      {
+        "id": "galeskin_sword",
+        "name": "Galeskin Sword",
+        "description": "Copper pattern, but the edge whistles on the backswing. A spare blade from Galeskin's guarded store.",
+        "familyId": "gear_mainHand_melee_2400",
+        "adjustments": {
+          "value": 196,
+          "bonuses": {
+            "meleeAccuracy": 2,
+            "magicAccuracy": 0,
+            "defence": 0,
+            "health": 0,
+            "meleePower": 2,
+            "magicPower": 0,
+            "vitality": 0
+          }
+        }
+      },
+      {
+        "id": "galeskin_staff",
+        "name": "Galeskin Staff",
+        "description": "Pine scoured silver by Fallowmarch wind. The empty socket hums before a gust.",
+        "familyId": "gear_mainHand_magic_staff_3000",
+        "adjustments": {
+          "value": 167,
+          "bonuses": {
+            "meleeAccuracy": 0,
+            "magicAccuracy": 2,
+            "defence": 0,
+            "health": 0,
+            "meleePower": 0,
+            "magicPower": 1,
+            "vitality": 0
+          }
+        }
+      },
+      {
+        "id": "mossbound_sword",
+        "name": "Forest Ogre Sword",
+        "description": "A Iron blade grown through with moss that will not die. It never rusts.",
+        "familyId": "gear_mainHand_melee_2400",
+        "adjustments": {
+          "value": 979,
+          "bonuses": {
+            "meleeAccuracy": 9,
+            "magicAccuracy": 0,
+            "defence": 0,
+            "health": 0,
+            "meleePower": 9,
+            "magicPower": 0,
+            "vitality": 0
+          }
+        }
+      },
+      {
+        "id": "mossbound_staff",
+        "name": "Forest Ogre Staff",
+        "description": "Ash with a living green seam. Warm at the grip like a root in summer.",
+        "familyId": "gear_mainHand_magic_staff_3000",
+        "adjustments": {
+          "value": 836,
+          "bonuses": {
+            "meleeAccuracy": 0,
+            "magicAccuracy": 8,
+            "defence": 1,
+            "health": 0,
+            "meleePower": 2,
+            "magicPower": 7,
+            "vitality": 0
+          }
+        }
       }
     ],
     "production": [

@@ -34279,28 +34279,27 @@
     {
       "id": "creature_briar_harrow",
       "file": "models/creature/creature_briar_harrow.glb",
-      "pack": "corealm-rpg-forest-monster-current",
+      "pack": "corealm-tripo-creatures",
       "category": "character",
-      "is": "briar harrow",
+      "is": "Bramble Tiller",
       "tags": [
         "creature",
-        "rpg",
-        "mossback_sentinel"
+        "tripo"
       ],
-      "bytes": 1631444,
-      "sha256": "178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932",
+      "bytes": 15864308,
+      "sha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+      "triangles": 5821,
       "size": {
-        "x": 1.9257664885209114,
-        "y": 2.684829119684765,
-        "z": 1.715155658432283
+        "x": 2.126090594057813,
+        "y": 2.6848291196847613,
+        "z": 0.8197453641450971
       },
       "base": {
-        "x": -1.0169737920668296,
-        "y": 0.0029999999999992567,
-        "z": -0.8571462969220508
+        "x": -1.0630452970289055,
+        "y": -6.359279743677203e-15,
+        "z": -0.4098726820725485
       },
       "groundY": 0,
-      "triangles": 7520,
       "animations": [
         "Idle",
         "Walk",
@@ -34312,572 +34311,339 @@
         "Death"
       ],
       "materials": [
-        "animal_rpg_briar_harrow_heartwood",
-        "animal_rpg_briar_harrow_inner_fibres"
+        "Material_tripo_node_b8cc7017-0500-46fb-b90f-e7eba675552c"
       ],
-      "walkClipSeconds": 1.9333332777023315,
-      "runClipSeconds": 1.3333332538604736,
-      "attackSeconds": 1.4500000476837158,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
-        "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-        "license": "CC0-1.0",
-        "source": "https://opengameart.org/content/forest-monster",
-        "sourceAssets": [
-          "forest-monster-final.blend",
-          "Monster",
-          "Tree"
-        ],
-        "sourcePacks": [
-          {
-            "id": "forest-monster-current",
-            "author": "ÄŒestmÃ­r Dammer (CDmir)",
-            "license": "CC0-1.0",
-            "source": "https://opengameart.org/content/forest-monster",
-            "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
+        "generator": "Tripo Studio",
+        "modelId": "0900292c-ef73-40f9-864d-1f289df395f5",
+        "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+        "sourceFile": "assets/art/tripo/imports/creatures/bramble-tiller-t10/sources/creature_briar_harrow-2663d6ba545d.glb",
+        "sourceSha256": "2663d6ba545d0ceea22059a45f0b269384b9f0df1b56bb6f435ed7a2c1e60e12",
+        "sourceBytes": 20755572,
+        "sourceTriangles": 5821,
+        "imageReview": {
+          "verdict": "approved",
+          "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
+        },
+        "basisRepair": {
+          "degrees": 90,
+          "sourceSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.0058713591029612424,
+              "p95": 0.0009765625002582656,
+              "max": 0.05067554834748715,
+              "samples": 268
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.050787503467365935,
+              "p95": 0.13344456900777843,
+              "max": 0.16179200037951416,
+              "samples": 268
+            }
+          },
+          "bindLateralAxis": [
+            -5.351346255961352e-8,
+            -1.714590935685584e-7,
+            0.9999999999999838
+          ],
+          "resultSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.050787503467365935,
+              "p95": 0.13344456900777843,
+              "max": 0.16179200037951416,
+              "samples": 268
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.0058713591029612424,
+              "p95": 0.0009765625002582656,
+              "max": 0.05067554834748715,
+              "samples": 268
+            }
+          },
+          "method": "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology"
+        },
+        "materialTreatment": {
+          "profile": "bark-lichen",
+          "baseColorTexture": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+          "sourceBaseColorUnmodified": true,
+          "sourceBaseColor": {
+            "width": 8192,
+            "height": 8192,
+            "bytes": 20466545,
+            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
+          },
+          "runtimeBaseColor": {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 2413140,
+            "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+            "sourceMeanSrgb": [
+              0.3799,
+              0.3344,
+              0.2294
+            ],
+            "runtimeMeanSrgb": [
+              0.4251,
+              0.3719,
+              0.2432
+            ]
+          },
+          "colorGrade": {
+            "method": "Per-texel linear-light exposure lift with a warm residual bark grade, selective green foliage lift, and a restrained cream lift on pale lichen; no spatial filtering",
+            "maskWeights": {
+              "bark": 0.8367,
+              "paleLichen": 0.0637,
+              "foliage": 0.1092
+            }
+          },
+          "width": 2048,
+          "height": 2048,
+          "metallicFactor": 0,
+          "roughnessFactor": 1,
+          "normalScale": 0.45,
+          "relief": "Tangent-space normals from fine and broad high-pass luminance plus shallow green-moss relief, capped at a 1.2 tangent slope",
+          "roughness": {
+            "channel": "G",
+            "range": [
+              0.9,
+              0.99
+            ],
+            "mean": 0.9278,
+            "regions": "matte bark with slightly rougher green moss and pale lichen; local grain variation from the source atlas"
+          },
+          "metallic": {
+            "channel": "B",
+            "value": 0
+          },
+          "normalMap": {
+            "name": "Bramble layered bark and lichen relief normals",
+            "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+            "bytes": 10657505,
+            "meanSlope": 0.6319,
+            "maxSlope": 1.2
+          },
+          "roughnessMap": {
+            "name": "Bramble matte bark, moss and lichen roughness",
+            "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+            "bytes": 1967382
           }
-        ],
-        "sourceRecords": [
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 3748,
+          "dominantJointVertices": {
+            "RightToeBase": 163,
+            "RightFoot": 278,
+            "RightLeg": 251,
+            "RightUpLeg": 194,
+            "Spine": 83,
+            "Hips": 19,
+            "RightArm": 130,
+            "RightShoulder": 181,
+            "Spine1": 23,
+            "Spine2": 19,
+            "LeftArm": 129,
+            "LeftShoulder": 162,
+            "Neck": 135,
+            "Head": 318,
+            "LeftUpLeg": 190,
+            "RightHand": 253,
+            "RightForeArm": 140,
+            "LeftLeg": 246,
+            "LeftFoot": 275,
+            "LeftForeArm": 124,
+            "LeftToeBase": 170,
+            "LeftHand": 265
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": false,
+          "visualReview": "Accepted in production-backed normal-camera lab across Idle, Walk, Run, Attack, Hit and grounded Death."
+        },
+        "retarget": {
+          "restoredJoints": 48,
+          "mappedJoints": 52,
+          "yawDegrees": -90.00002603576044,
+          "translationScale": 0.5524593646707193,
+          "bindBounds": {
+            "min": [
+              -0.3957520073024176,
+              -1.4777267146976885e-7,
+              -0.15258796518018136
+            ],
+            "max": [
+              0.39575189746365746,
+              0.999511697018628,
+              0.1525879565082662
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.034935849811800514
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.057306802947060496
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.08136816575696057
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.03784997561800253
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.03674557728431698,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.03674557728431698,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.03674557728431698,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.11827181572890805
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "sourceTextures": [
           {
-            "archive": "forest-monster_0.7z",
-            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-            "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-            "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
+            "name": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 20466545,
+            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
           }
-        ],
-        "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
+        ]
       },
       "metadata": {
-        "id": "briar_harrow",
-        "family": "briar_harrow",
-        "revision": "forest-monster-source-review-1",
-        "height": 2.684829119684765,
-        "dimensions": [
-          1.9257664885209114,
-          2.684829119684765,
-          1.715155658432283
-        ],
-        "rig": "authored-76-bone-forest-monster",
-        "meshCount": 2,
-        "vertices": 4527,
-        "triangles": 6582,
-        "attackContact": 0.4,
-        "attackContactSource": "Author Licenses.txt marks native strike frames10â€“15 of30; midpoint12 used",
-        "source": "https://opengameart.org/content/forest-monster",
-        "license": "CC0-1.0",
-        "provenance": {
-          "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-          "license": "CC0-1.0",
-          "source": "https://opengameart.org/content/forest-monster",
-          "sourceAssets": [
-            "forest-monster-final.blend",
-            "Monster",
-            "Tree"
-          ],
-          "sourcePacks": [
-            {
-              "id": "forest-monster-current",
-              "author": "ÄŒestmÃ­r Dammer (CDmir)",
-              "license": "CC0-1.0",
-              "source": "https://opengameart.org/content/forest-monster",
-              "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
-            }
-          ],
-          "sourceRecords": [
-            {
-              "archive": "forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-              "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-              "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
-            }
-          ],
-          "modifications": "Hollow rooted torso, removed leaf canopy, bowed upper trunk and broad hooked forearms; rooted arch grows from shoulders into the back. Coordinated nonlinear skin and bind-joint refit; revised articulated body motion; source action contacts retained; whole weighted surface ground correction. New Corealm wood/chitin materials generated with builtin imagegen and JPEG-encoded at quality 90 for runtime; source PNGs and prompts retained in art/biome-creatures/forest.",
-          "sourceModifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
-        },
-        "textureBindings": [
-          {
-            "materialName": "animal_rpg_briar_harrow_heartwood",
-            "textureName": "briar_harrow_heartwood_albedo",
-            "mimeType": "image/jpeg",
-            "sha256": "c66b6a0aec8d06beb9f76d1ffc61040093a8fa3fcb843b9d48a922809b880cef",
-            "sourcePath": "art/biome-creatures/forest/heartwood-albedo.png"
-          }
-        ],
-        "sourceOcclusion": {
-          "aoPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-AO.png",
-          "sha256": "c7dfa8616a5b044ab48c00ad0256b9538c1266dd6733d4b24d4a94fdff5eef83",
-          "active": false,
-          "reason": "Original Blender 2.75 Material/MTex pointers contain no AO binding. Monster has only diffuse, normal and specular slots. The AO image is retained from the current archive as unused source data; no runtime occlusion binding or inferred strength is added.",
-          "evidence": "test-results/forest-monster-source/legacy-material-slots.json",
-          "inspectionMethod": "Direct original-file SDNA decode with inspect_legacy_ao.mjs"
-        },
-        "sourceAlpha": {
-          "material": "Tree",
-          "mode": "MASK",
-          "cutoff": 0.5,
-          "channel": "baseColorTexture.a",
-          "textureSha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940",
-          "sourceConvention": "Original MATree diffuse MTex mapto129 = color1 + alpha128; alphafac1. PNG has102618 fully transparent texels and42145 partial-alpha texels.",
-          "translation": "Source alpha translated to production cutout threshold0.5; threshold is a runtime choice, not claimed as an original Blender value.",
-          "evidence": "test-results/forest-alpha-repair/alpha-evidence.json",
-          "textureBytesModified": false
-        },
-        "textureChannels": [
-          {
-            "materialName": "forest_authored_0_Monster",
-            "baseColorPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-skin1.png",
-              "sha256": "8ecf0c8f4b70feefa40fdc6d61fde2b8327ce8bf40053977a4e6d6c995eccf2f"
-            },
-            "normalPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-norm.png",
-              "sha256": "98a90aaf5e6c08db2eec60a520fa4960b97753ff4a4d3ff8987d8b8d7652e439"
-            },
-            "specularPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-spec.png",
-              "sha256": "2cf0f13a2e1b505453d70637b2fcec51ba2650504efafbecf24f2050fd763538"
-            },
-            "flipY": false
-          },
-          {
-            "materialName": "forest_authored_1_Tree",
-            "baseColorPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree.png",
-              "sha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940"
-            },
-            "normalPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-norm.png",
-              "sha256": "6a178f5479a7401c8bf8ca994abf3b515bc9fc525afadee049b7d66e699e5c29"
-            },
-            "specularPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-spec.png",
-              "sha256": "722067474adb7b2e96f1719449e54db3854828a3fc8a43dff82789d03917da46"
-            },
-            "flipY": false
-          }
-        ],
-        "clipSources": {
-          "Idle": {
-            "take": "Idle",
-            "frames": [
-              0,
-              190
-            ]
-          },
-          "Walk": {
-            "take": "Walk",
-            "frames": [
-              0,
-              40
-            ]
-          },
-          "Run": {
-            "take": "Walk",
-            "frames": [
-              0,
-              40
-            ],
-            "derivative": "1.45x native Walk tempo; no authored running take"
-          },
-          "Attack": {
-            "take": "Attack",
-            "frames": [
-              0,
-              30
-            ],
-            "contactFrames": [
-              10,
-              15
-            ]
-          },
-          "Hit": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "compressed to 0.6s with 0.10rad Spine2 recoil"
-          },
-          "HitLeft": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "same recoil plus +0.16rad directional Spine2 turn"
-          },
-          "HitRight": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "same recoil plus -0.16rad directional Spine2 turn"
-          },
-          "Death": {
-            "take": "Dying",
-            "frames": [
-              0,
-              35
-            ]
-          }
-        },
-        "animationFloorChecks": [
-          {
-            "clip": "Idle",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.030557655718908,
-            "firstBounds": [
-              -1.049471848914935,
-              0.0029999999992796483,
-              -1.6199505099890523,
-              0.9675774980876151,
-              4.021234333076601,
-              0.7728246161599515
-            ]
-          },
-          {
-            "clip": "Walk",
-            "rawMinFloor": 0.01813139636374765,
-            "maximumLift": 0,
-            "minFloor": 0.0028914848962731457,
-            "maxHeight": 3.5706791980244534,
-            "firstBounds": [
-              -1.189548130842616,
-              0.0029999985307447383,
-              -0.8615581221131342,
-              1.0606916061536253,
-              3.450180122793115,
-              1.885922921411111
-            ]
-          },
-          {
-            "clip": "Run",
-            "rawMinFloor": 0.01645777156997795,
-            "maximumLift": 0,
-            "minFloor": -0.0013766797493177108,
-            "maxHeight": 3.570509281016618,
-            "firstBounds": [
-              -1.189548130842616,
-              0.0029999985307447383,
-              -0.8615581221131342,
-              1.0606916061536253,
-              3.450180122793115,
-              1.885922921411111
-            ]
-          },
-          {
-            "clip": "Attack",
-            "rawMinFloor": 0.058748393274765574,
-            "maximumLift": 0,
-            "minFloor": 0.0015529289089054668,
-            "maxHeight": 4.036798488158019,
-            "firstBounds": [
-              -1.0494718648157368,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "Hit",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.021234316953496,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "HitLeft",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.023456017869573,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "HitRight",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.021234316953496,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "Death",
-            "rawMinFloor": -0.13215362212044202,
-            "maximumLift": 0.13515362212044202,
-            "minFloor": 0.0019174360814546432,
-            "maxHeight": 4.021234329992012,
-            "firstBounds": [
-              -1.0494718628300377,
-              0.0029999999414600503,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234329992012,
-              0.7728246485105749
-            ]
-          }
-        ],
-        "exportNotes": "Blender4.5.11 forced sampling preserves evaluated source constraints; source vertices with >4 weights reduced to top4 and renormalized for production glTF path",
-        "approval": "candidate-awaiting-production-browser-review",
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
-          "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "status": "credible-geometry-estimate",
-          "source": "tools/rpg-bestiary/replacement-inventory/complete-source-gaits.json",
-          "visualContactAccepted": false,
-          "contactReview": "Strong stride agreement. Brief whole-geometry floor interpolation undershoots reach -3.84 mm Walk and -4.27 mm Run; inspect contact before visual acceptance."
-        },
-        "redesign": {
-          "sourceAssetId": "creature_mossback_sentinel",
-          "sourceSha256": "4a167c124d5987959af011c4e4f8a46355e0e87ecd1ba39ef431e0038ed196a0",
-          "generator": "tools/biome-creatures/forest/build.mjs",
-          "design": "Hollow rooted torso, removed leaf canopy, bowed upper trunk and broad hooked forearms; rooted arch grows from shoulders into the back.",
-          "changedVertices": 4523,
-          "removedTriangles": 1670,
-          "newTriangles": 2608,
-          "createdParts": [
-            "hollow_trunk_interior",
-            "rooted_shoulder_-1",
-            "rooted_shoulder_1"
-          ],
-          "clipTimeMultiplier": 1.16,
-          "motionChanges": [
-            {
-              "clip": "Idle",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Idle",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Walk",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Walk",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Run",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Run",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Attack",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Attack",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Hit",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Hit",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitRight",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "HitRight",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Death",
-              "joint": "forest_src_34_Spine2",
-              "amplitude": 0.04
-            },
-            {
-              "clip": "Death",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.04
-            }
-          ],
-          "textures": [
-            "art/biome-creatures/forest/heartwood-albedo.png",
-            "art/biome-creatures/forest/chitin-albedo.png"
-          ],
-          "sampledBounds": {
-            "idleBounds": {
-              "min": [
-                -1.0169737920668296,
-                0.0029999999999992567,
-                -0.8571462969220508
-              ],
-              "max": [
-                0.9087926964540818,
-                2.687829119684764,
-                0.8580093615102321
-              ]
-            },
-            "clips": [
-              {
-                "name": "Idle",
-                "duration": 9.183333396911621,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "Walk",
-                "duration": 1.9333332777023315,
-                "minY": 0.0029999805849970492,
-                "maxY": 0.0030000178038648603,
-                "rawMin": -0.1918550972173937,
-                "samples": 49
-              },
-              {
-                "name": "Run",
-                "duration": 1.3333332538604736,
-                "minY": 0.002999974036390074,
-                "maxY": 0.003000006979609282,
-                "rawMin": -0.1947854450286381,
-                "samples": 49
-              },
-              {
-                "name": "Attack",
-                "duration": 1.4500000476837158,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0030000296112026037,
-                "rawMin": -0.045954113287780984,
-                "samples": 49
-              },
-              {
-                "name": "Hit",
-                "duration": 0.6960000395774841,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "HitLeft",
-                "duration": 0.6960000395774841,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "HitRight",
-                "duration": 0.6960000395774841,
-                "minY": 0.0029999999999992567,
-                "maxY": 0.0029999999999992567,
-                "rawMin": 0.0029999823031490493,
-                "samples": 49
-              },
-              {
-                "name": "Death",
-                "duration": 1.6916667222976685,
-                "minY": 0.0029999525164988716,
-                "maxY": 0.003000106564727656,
-                "rawMin": -0.31256752599253995,
-                "samples": 49
-              }
+        "materialTreatment": {
+          "profile": "bark-lichen",
+          "baseColorTexture": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+          "sourceBaseColorUnmodified": true,
+          "sourceBaseColor": {
+            "width": 8192,
+            "height": 8192,
+            "bytes": 20466545,
+            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
+          },
+          "runtimeBaseColor": {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 2413140,
+            "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+            "sourceMeanSrgb": [
+              0.3799,
+              0.3344,
+              0.2294
+            ],
+            "runtimeMeanSrgb": [
+              0.4251,
+              0.3719,
+              0.2432
             ]
+          },
+          "colorGrade": {
+            "method": "Per-texel linear-light exposure lift with a warm residual bark grade, selective green foliage lift, and a restrained cream lift on pale lichen; no spatial filtering",
+            "maskWeights": {
+              "bark": 0.8367,
+              "paleLichen": 0.0637,
+              "foliage": 0.1092
+            }
+          },
+          "width": 2048,
+          "height": 2048,
+          "metallicFactor": 0,
+          "roughnessFactor": 1,
+          "normalScale": 0.45,
+          "relief": "Tangent-space normals from fine and broad high-pass luminance plus shallow green-moss relief, capped at a 1.2 tangent slope",
+          "roughness": {
+            "channel": "G",
+            "range": [
+              0.9,
+              0.99
+            ],
+            "mean": 0.9278,
+            "regions": "matte bark with slightly rougher green moss and pale lichen; local grain variation from the source atlas"
+          },
+          "metallic": {
+            "channel": "B",
+            "value": 0
+          },
+          "normalMap": {
+            "name": "Bramble layered bark and lichen relief normals",
+            "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+            "bytes": 10657505,
+            "meanSlope": 0.6319,
+            "maxSlope": 1.2
+          },
+          "roughnessMap": {
+            "name": "Bramble matte bark, moss and lichen roughness",
+            "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+            "bytes": 1967382
           }
         },
-        "sourceProvenance": {
-          "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-          "license": "CC0-1.0",
-          "source": "https://opengameart.org/content/forest-monster",
-          "sourceAssets": [
-            "forest-monster-final.blend",
-            "Monster",
-            "Tree"
-          ],
-          "sourcePacks": [
-            {
-              "id": "forest-monster-current",
-              "author": "ÄŒestmÃ­r Dammer (CDmir)",
-              "license": "CC0-1.0",
-              "source": "https://opengameart.org/content/forest-monster",
-              "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
-            }
-          ],
-          "sourceRecords": [
-            {
-              "archive": "forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-              "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-              "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
-            }
-          ],
-          "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
-        }
+        "animationAcceptance": "accepted-production-lab; six-motion normal-camera review passed, including grounded Death"
       },
       "acceptance": {
         "exported": true,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": true,
+        "priorTierWorldProofScope": "Fallowmarch population_palewood_south_harrow_1/_2 rendered creature_briar_harrow as Bramble Tiller; sampled-rig Walk/Idle, visible drawn bounds, zero errors. Normal-camera capture: test-results/tripo-lab/bramble-authored-south.png.",
+        "worldProofScope": "Vellenwood T10 authored world; test-results/tripo-lab/t10-bramble-world.png shows ready state with zero errors, 13 Bramble Tiller tier-10 actors, first three using creature_briar_harrow, drawn heights 2.708 to 2.832 m, and live Idle rigs."
       },
-      "impliedWalkMps": 0.671994827586207,
-      "impliedRunMps": 0.9743931034482759,
-      "locomotionPolicy": "speed-matched"
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526
     },
     {
       "id": "creature_fen_crawler",
@@ -44625,7 +44391,9 @@
       "acceptance": {
         "exported": true,
         "labAccepted": true,
-        "worldIntegrated": false
+        "worldIntegrated": true,
+        "priorTierWorldProofScope": "Fallowmarch local-world spawn at [-298.64,144.76]; live 3.814 m rig rendered in normal camera with no console, page, request or game errors.",
+        "worldProofScope": "Vellenwood T10 authored world; test-results/tripo-lab/t10-galeskin-world-visible.png shows ready state with zero errors, Galeskin tier 10 at level 11 using creature_boss_galeskin, with a 3.806 m drawn live rig."
       },
       "walkClipSeconds": 1.3333333730697632,
       "runClipSeconds": 0.9333333373069763,

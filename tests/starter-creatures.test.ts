@@ -1,15 +1,10 @@
 import { describe, expect, it } from "vitest";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { STARTER_CREATURES } from "../game/src/content/starterCreatures.js";
-import { STARTER_GROUPS, STARTER_HABITATS } from "../game/src/content/starterHabitats.js";
+import { STARTER_GROUPS } from "../game/src/content/starterHabitats.js";
 import { REGIONS } from "../game/src/content/regions.js";
-import { enemyBlockFor } from "../game/src/content/enemies.js";
 import { habitatForGroup } from "../game/src/content/worldHabitats.js";
-import { fantasyEncounter, FANTASY_ENCOUNTER_SPECIES } from "../game/src/content/fantasyEncounters.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
-import { populationGroup } from "../game/src/content/encounterPlacement.js";
-import { LEGACY_ENCOUNTER_PLACEMENT_OVERRIDES } from "../game/src/content/legacyEncounterPlacements.js";
-import { encounterActorId } from "../game/src/content/encounterPopulation.js";
 
 describe("starter creature integration", () => {
   it("uses established animal and insect sources with combat clips, never excluded platformer models", () => {

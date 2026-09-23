@@ -38,9 +38,16 @@ These combine rebuilt silhouettes, authored mesh additions and deformation chang
 
 All 54 ordinary nonstarter groups in the original areas use these accepted bodies. Seven original bosses also use the new bodies while retaining their combat families, phases, rewards and identities. Twelve starter animal groups and five human bandit groups remain. Source models are available separately in the feature lab for comparison.
 
-The 56 new biome packs add 154 residents. Together with the ruin haunts and restored original encounter counts, the core surface population rises from 327 to 509. The coastal generator adds another 234 residents. See [the population plan](./biome-population-plan.md) for regional counts and reservations.
+Current creature encounters are authored in `game/content/data/creatureDefinitions.json`,
+`encounters.json` and `placements.json`. The content compiler projects those tables into
+`game/content/compiled/catalog.json`, which `worldData.ts` exposes to the runtime. The former
+TypeScript population map and its separate totals are retired; see [the current population
+source](./biome-population-plan.md).
 
-`fantasyEncounters.ts` projects the authored occupants onto stable group IDs. Regional pack activation replaces remote natural wildlife while preserving existing fantasy assignments. Coastal generation excludes basic animal models. Original source bodies remain available under `source:` lab presets for animation regression checks.
+`fantasyEncounters.ts` keeps starter wildlife within the starting fields. Regional pack activation
+uses the current regional pack plan and its explicit assignment overrides. Coastal generation
+excludes basic animal models. Original source bodies remain available under `source:` lab presets
+for animation regression checks.
 
 The trap-line and Stone Cavern quests now count the new inhabitants. Save repair transfers earned kills and their stage baselines once, preserving progress through both roster revisions. Stable group aliases retain original balance, gold, all twenty-one expansion trophies and fox material. Existing hunt contracts continue to credit their remapped groups without crediting unrelated creatures that share a body.
 

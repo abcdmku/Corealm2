@@ -35,20 +35,20 @@
                           },
     "regionalBossLevels":  {
                                "galeskin":  {
-                                                "tier":  1,
-                                                "multiplier":  11
+                                                "tier":  10,
+                                                "multiplier":  1.1
                                             },
                                "tempest_roc":  {
-                                                   "tier":  1,
-                                                   "multiplier":  13
+                                                   "tier":  10,
+                                                   "multiplier":  1.3
                                                },
                                "mossbound":  {
-                                                 "tier":  5,
-                                                 "multiplier":  3
+                                                 "tier":  10,
+                                                 "multiplier":  1.5
                                              },
                                "rootheart":  {
-                                                 "tier":  5,
-                                                 "multiplier":  5
+                                                 "tier":  10,
+                                                 "multiplier":  2.5
                                              },
                                "tideworn":  {
                                                 "tier":  10,

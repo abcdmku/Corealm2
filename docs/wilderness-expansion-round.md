@@ -1,4 +1,9 @@
-# Wilderness expansion round
+# Wilderness expansion round — historical report
+
+> This is a snapshot of the earlier acceptance round. Population counts, roster claims and
+> evidence below describe that build, not the current world. Production encounters now come
+> from compiled creature definitions, encounters and placements; the TypeScript population map
+> and its audit command were retired. See the [current population source](./biome-population-plan.md).
 
 The requested work is a gradual northern transition, more authored ruins and dead trees,
 torch lighting and a local lava channel, completed fantasy creature art across the original
@@ -17,7 +22,6 @@ Both reported ready, with no browser errors. `game/src/contracts.ts` stays froze
 - Tree worker: `tools/wilderness-trees`, tree staging, art and focused tests.
 - Ruin worker: `wildernessRuins.ts`, ruin lab driver, design notes and tests.
 - Effects worker: `wildernessEffects.ts`, `wildernessLava.ts`, effects driver and tests.
-- Population worker: `biomePopulation.ts`, placement audit, plan and tests.
 
 Workers do not alter another worker's files or the shared manifest. The root registers
 staged candidates for the lab, reviews the rendered results, then promotes accepted assets
@@ -89,7 +93,6 @@ Reproduce the final focused world checks with:
 npx tsx tools/wilderness-expansion-world-test.ts
 npx tsx tools/wilderness-expansion-world-test.ts --ruins-only
 npx tsx tools/wilderness-world-test.ts
-npx tsx tools/biome-population-audit.ts --browser --require-assets --url=http://127.0.0.1:4173
 npx tsx tools/biome-creatures-world-test.ts
 npx tsx tools/regional-refinement-world-test.ts --cave-only
 ```

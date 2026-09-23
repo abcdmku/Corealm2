@@ -406,10 +406,10 @@ const WILDERNESS_REWARD_VISUALS: readonly {
 const RARE_WEAPON_VISUALS: readonly {
   id: ItemId; asset: WeaponAsset; tier: number; tint: number; accent?: number;
 }[] = [
-  { id: "galeskin_sword", asset: "miniboss_sword", tier: 1, tint: GALESKIN_TINT, accent: GALESKIN_TINT },
-  { id: "galeskin_staff", asset: "miniboss_staff", tier: 1, tint: GALESKIN_TINT, accent: GALESKIN_TINT },
-  { id: "mossbound_sword", asset: "miniboss_sword", tier: 5, tint: MOSSBOUND_TINT, accent: MOSSBOUND_OCHRE },
-  { id: "mossbound_staff", asset: "miniboss_staff", tier: 5, tint: MOSSBOUND_TINT, accent: MOSSBOUND_OCHRE },
+  { id: "galeskin_sword", asset: "miniboss_sword", tier: 10, tint: GALESKIN_TINT, accent: GALESKIN_TINT },
+  { id: "galeskin_staff", asset: "miniboss_staff", tier: 10, tint: GALESKIN_TINT, accent: GALESKIN_TINT },
+  { id: "mossbound_sword", asset: "miniboss_sword", tier: 10, tint: MOSSBOUND_TINT, accent: MOSSBOUND_OCHRE },
+  { id: "mossbound_staff", asset: "miniboss_staff", tier: 10, tint: MOSSBOUND_TINT, accent: MOSSBOUND_OCHRE },
   { id: "tideworn_sword", asset: "miniboss_sword", tier: 10, tint: TIDEWORN_TINT, accent: TIDEWORN_TEAL },
   { id: "tideworn_staff", asset: "miniboss_staff", tier: 10, tint: TIDEWORN_TINT, accent: TIDEWORN_TEAL },
   { id: "cinderwake_sword", asset: "miniboss_sword", tier: 20, tint: CINDERWAKE_TINT, accent: CINDERWAKE_CRIMSON },

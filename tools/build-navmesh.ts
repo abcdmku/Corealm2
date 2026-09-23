@@ -75,7 +75,6 @@ const SOURCE_GROUPS = {
     "game/src/app/boot.ts",
     "game/src/content/worldSites.ts",
     "game/src/content/worldHabitats.ts",
-    "game/src/content/biomePopulation.ts",
     "game/src/content/deepWildernessEncounters.ts",
     "game/src/content/encounterPlacement.ts",
     "game/src/content/encounterFootprints.ts",
