@@ -164,7 +164,8 @@ function skinMatrix(bake: SkinBake, vertex: number): Matrix4 {
       total += w[i]!;
     }
   }
-  result.elements = result.elements.map(value => value / total);
+  if (!Number.isFinite(total) || total <= 0) throw new Error(`vertex ${vertex}: source skin weights have no usable influence`);
+  for (let component = 0; component < 16; component++) result.elements[component] = result.elements[component]! / total;
   if (result.determinant() < 1e-12) throw new Error(`vertex ${vertex}: weighted skin pose collapses or reflects geometry`);
   return result;
 }
@@ -253,7 +254,9 @@ function corrections(part: AssignedPart, used: Set<number>): Map<number, Correct
       if (!Number.isFinite(weight) || weight < 0 || weight > 1) throw new Error(`vertex ${vertex}: invalid correction weight`);
       // The blended affine transform must stay invertible too.
       const blend = new Matrix4();
-      blend.elements = blend.elements.map((value, i) => value * (1 - weight) + transform.elements[i]! * weight);
+      for (let component = 0; component < 16; component++) {
+        blend.elements[component] = blend.elements[component]! * (1 - weight) + transform.elements[component]! * weight;
+      }
       if (Math.abs(blend.determinant()) < 1e-12) throw new Error(`vertex ${vertex}: degenerate blended correction`);
       result.set(vertex, { matrix: blend, normal: new Matrix3().getNormalMatrix(blend) });
     });
