@@ -54753,7 +54753,11 @@
         "motionAccepted": true,
         "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": false,
+        "worldIntegrated": true,
+        "worldEvidence": "test-results/gloamfang-ground/session.jsonl",
+        "worldEvidenceLabel": "gloamfang-world-proof",
+        "worldScreenshot": "test-results/gloamfang-ground/gloamfang-world-near-normal.png",
+        "worldProofScope": "Authored-world proof in Wilderness at (210, 11.133, 683): wilderness_petrified_grove_reavers_1 through _3 all resolved to creature_gloamfang_reaver, each with one drawn mesh; live-rig Idle and Walk confirmed; zero errors.",
         "labEvidence": "test-results/gloamfang-ground/session.jsonl",
         "labScreenshot": "test-results/gloamfang-ground/gloamfang-ground-idle-05.png",
         "labProofScope": "Direct exact-slot production review: normal-camera Idle screenshot; Walk, Run, Attack and Hit live-rig commands passed; all six clips were CPU-validated at 240 Hz."
