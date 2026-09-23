@@ -1,0 +1,1006 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_crownward_oathkeeper",
+  "displayName": "Crownward Oathkeeper",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "provenance": {
+    "batchId": "crown-knight",
+    "source": {
+      "file": "assets/art/tripo/exports/corealm_crownward_oathkeeper_f3b036f0_8k_rigged.glb",
+      "sha256": "c3a23753bac5be4d57c5127cc32280e5635a5c3b36fd0641abd7617b3e3be128",
+      "bytes": 34429788,
+      "modelId": "f3b036f0-e5a0-423e-bbce-4cd37cfbd51a",
+      "sourceImageId": "59ac6fb8-1bc6-4263-81a4-d21a548dc31a",
+      "approvedImage": "assets/art/tripo/refs/crown-wild-crown-knight.png",
+      "approvedImageSha256": "1b0967188b315b1ecf507d8299a07e4fee219f1d6b0eaece0a0ea25754c2b561",
+      "prompt": "Crownward Oathkeeper, a noble living medieval knight guarding a prosperous kingdom. Adult balanced athletic build and human proportions, practical closed greathelm with a straight narrow eye slit and flat crown, no sculpted face. Well-maintained silver steel plate over quilted deep blue cloth, softly worn steel edges and restrained engraved lines only at borders. Proportionate shoulder plates, overlapping elbow and knee armor conceals the articulation, practical five-finger gloves, solid walking sabatons. A simple ivory tabard divided below belt carries one small blue heraldic bar. Both hands empty, no sword or shield. Dignified neutral sentinel, no gold ornament, wings, horns or glowing eyes."
+    },
+    "sourceAudits": {
+      "image": "approved",
+      "intactFace": "approved",
+      "reviewedAgainstExactSourceImage": true
+    }
+  },
+  "source": {
+    "geometry": {
+      "vertices": 3774,
+      "triangles": 5427,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "skin": {
+      "joints": 54,
+      "vertices": 3774,
+      "hipsDominantVertices": 3772,
+      "hipsDominantVertexFraction": 0.99947,
+      "totalWeightMassOnHips": 0.99947,
+      "sourceJointTrsIdentity": true,
+      "sourceInverseBindMaxAbs": 1.8378e+37,
+      "disposition": "Replaced after inverse-bind reconstruction produced non-anatomical, numerically unstable joint positions; the exact source mesh remains unchanged.",
+      "sourceAnimations": 0
+    },
+    "textures": [
+      {
+        "name": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "bytes": 17420875,
+        "sha256": "afdc90c8eac1c4a83ab8406a8fc0338fd5e1692211c96f7d3c3bebc1378a0e43"
+      },
+      {
+        "name": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "bytes": 14420473,
+        "sha256": "dcb6078bc5b3ac65a35f28d2349b69207c7daa4762ede7c8904a4f67776bbb69"
+      },
+      {
+        "name": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "bytes": 2301856,
+        "sha256": "6360569d51a0a62331f23efc905dde363f1057222d25de2be64d4d95328c464d"
+      }
+    ],
+    "sourceAnimations": [],
+    "sourceExportEvidence": {
+      "skins": 1,
+      "clips": 0,
+      "baseColor": "8192x8192",
+      "normalAndPackedPbr": "4096x4096",
+      "sourceWeightsHipsDominant": true
+    }
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper/crownward-oathkeeper-native-rig-candidate.glb",
+    "sha256": "34d04e04afeecaef0065a88c7f3274722484b29ef4be064785e344d9ca5bc6be",
+    "bytes": 12868904,
+    "geometry": {
+      "vertices": 3774,
+      "triangles": 5427,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "presentation": {
+      "heightMeters": 1.9,
+      "scale": 1.9009281387205832,
+      "bounds": {
+        "min": [
+          -0.4144357258102822,
+          -5.5477148272985067e-17,
+          -0.20652173382096178
+        ],
+        "max": [
+          0.41443572298332904,
+          1.9000000000000001,
+          0.2065217368983754
+        ]
+      },
+      "groundY": 0
+    },
+    "rig": {
+      "method": "Replaced the unusable 54-joint Tripo skin with a 52-joint model-space Mixamo humanoid rig fitted to the source silhouette: 22 torso/limb joints and 30 finger joints. Source inverse binds are numerically corrupt. Four-influence weights are rebuilt from anatomical bone-segment distance fields and spatial body-region gates.",
+      "jointCount": 52,
+      "jointNames": [
+        "mixamorig:Hips",
+        "mixamorig:Spine",
+        "mixamorig:Spine1",
+        "mixamorig:Spine2",
+        "mixamorig:Neck",
+        "mixamorig:Head",
+        "mixamorig:LeftShoulder",
+        "mixamorig:LeftArm",
+        "mixamorig:LeftForeArm",
+        "mixamorig:LeftHand",
+        "mixamorig:RightShoulder",
+        "mixamorig:RightArm",
+        "mixamorig:RightForeArm",
+        "mixamorig:RightHand",
+        "mixamorig:LeftUpLeg",
+        "mixamorig:LeftLeg",
+        "mixamorig:LeftFoot",
+        "mixamorig:LeftToeBase",
+        "mixamorig:RightUpLeg",
+        "mixamorig:RightLeg",
+        "mixamorig:RightFoot",
+        "mixamorig:RightToeBase",
+        "mixamorig:LeftHandIndex1",
+        "mixamorig:LeftHandIndex2",
+        "mixamorig:LeftHandIndex3",
+        "mixamorig:LeftHandMiddle1",
+        "mixamorig:LeftHandMiddle2",
+        "mixamorig:LeftHandMiddle3",
+        "mixamorig:LeftHandRing1",
+        "mixamorig:LeftHandRing2",
+        "mixamorig:LeftHandRing3",
+        "mixamorig:LeftHandPinky1",
+        "mixamorig:LeftHandPinky2",
+        "mixamorig:LeftHandPinky3",
+        "mixamorig:LeftHandThumb1",
+        "mixamorig:LeftHandThumb2",
+        "mixamorig:LeftHandThumb3",
+        "mixamorig:RightHandIndex1",
+        "mixamorig:RightHandIndex2",
+        "mixamorig:RightHandIndex3",
+        "mixamorig:RightHandMiddle1",
+        "mixamorig:RightHandMiddle2",
+        "mixamorig:RightHandMiddle3",
+        "mixamorig:RightHandRing1",
+        "mixamorig:RightHandRing2",
+        "mixamorig:RightHandRing3",
+        "mixamorig:RightHandPinky1",
+        "mixamorig:RightHandPinky2",
+        "mixamorig:RightHandPinky3",
+        "mixamorig:RightHandThumb1",
+        "mixamorig:RightHandThumb2",
+        "mixamorig:RightHandThumb3"
+      ],
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.455,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.535,
+            -0.004
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.625,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.715,
+            -0.008
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.805,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.895,
+            -0.002
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.105,
+            0.755,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.15,
+            0.685,
+            -0.003
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.181,
+            0.565,
+            0.004
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.188,
+            0.475,
+            0.018
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.105,
+            0.755,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.15,
+            0.685,
+            -0.003
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.181,
+            0.565,
+            0.004
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.188,
+            0.475,
+            0.018
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.073,
+            0.42,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.083,
+            0.24,
+            -0.002
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.083,
+            0.07,
+            0.014
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.083,
+            0.035,
+            0.07
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.073,
+            0.42,
+            -0.006
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.083,
+            0.24,
+            -0.002
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.083,
+            0.07,
+            0.014
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.083,
+            0.035,
+            0.07
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandIndex1",
+          "parent": "mixamorigLeftHand",
+          "position": [
+            -0.198,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandIndex2",
+          "parent": "mixamorigLeftHandIndex1",
+          "position": [
+            -0.198,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandIndex3",
+          "parent": "mixamorigLeftHandIndex2",
+          "position": [
+            -0.198,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandMiddle1",
+          "parent": "mixamorigLeftHand",
+          "position": [
+            -0.192,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandMiddle2",
+          "parent": "mixamorigLeftHandMiddle1",
+          "position": [
+            -0.192,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandMiddle3",
+          "parent": "mixamorigLeftHandMiddle2",
+          "position": [
+            -0.192,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandRing1",
+          "parent": "mixamorigLeftHand",
+          "position": [
+            -0.185,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandRing2",
+          "parent": "mixamorigLeftHandRing1",
+          "position": [
+            -0.185,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandRing3",
+          "parent": "mixamorigLeftHandRing2",
+          "position": [
+            -0.185,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandPinky1",
+          "parent": "mixamorigLeftHand",
+          "position": [
+            -0.179,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandPinky2",
+          "parent": "mixamorigLeftHandPinky1",
+          "position": [
+            -0.179,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandPinky3",
+          "parent": "mixamorigLeftHandPinky2",
+          "position": [
+            -0.179,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandThumb1",
+          "parent": "mixamorigLeftHand",
+          "position": [
+            -0.173,
+            0.471,
+            0.027999999999999997
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandThumb2",
+          "parent": "mixamorigLeftHandThumb1",
+          "position": [
+            -0.16475,
+            0.45899999999999996,
+            0.038
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandThumb3",
+          "parent": "mixamorigLeftHandThumb2",
+          "position": [
+            -0.1595,
+            0.44699999999999995,
+            0.048
+          ]
+        },
+        {
+          "name": "mixamorigRightHandIndex1",
+          "parent": "mixamorigRightHand",
+          "position": [
+            0.198,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigRightHandIndex2",
+          "parent": "mixamorigRightHandIndex1",
+          "position": [
+            0.198,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigRightHandIndex3",
+          "parent": "mixamorigRightHandIndex2",
+          "position": [
+            0.198,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigRightHandMiddle1",
+          "parent": "mixamorigRightHand",
+          "position": [
+            0.192,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigRightHandMiddle2",
+          "parent": "mixamorigRightHandMiddle1",
+          "position": [
+            0.192,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigRightHandMiddle3",
+          "parent": "mixamorigRightHandMiddle2",
+          "position": [
+            0.192,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigRightHandRing1",
+          "parent": "mixamorigRightHand",
+          "position": [
+            0.185,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigRightHandRing2",
+          "parent": "mixamorigRightHandRing1",
+          "position": [
+            0.185,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigRightHandRing3",
+          "parent": "mixamorigRightHandRing2",
+          "position": [
+            0.185,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigRightHandPinky1",
+          "parent": "mixamorigRightHand",
+          "position": [
+            0.179,
+            0.45699999999999996,
+            0.037
+          ]
+        },
+        {
+          "name": "mixamorigRightHandPinky2",
+          "parent": "mixamorigRightHandPinky1",
+          "position": [
+            0.179,
+            0.44499999999999995,
+            0.046
+          ]
+        },
+        {
+          "name": "mixamorigRightHandPinky3",
+          "parent": "mixamorigRightHandPinky2",
+          "position": [
+            0.179,
+            0.43299999999999994,
+            0.05499999999999999
+          ]
+        },
+        {
+          "name": "mixamorigRightHandThumb1",
+          "parent": "mixamorigRightHand",
+          "position": [
+            0.173,
+            0.471,
+            0.027999999999999997
+          ]
+        },
+        {
+          "name": "mixamorigRightHandThumb2",
+          "parent": "mixamorigRightHandThumb1",
+          "position": [
+            0.16475,
+            0.45899999999999996,
+            0.038
+          ]
+        },
+        {
+          "name": "mixamorigRightHandThumb3",
+          "parent": "mixamorigRightHandThumb2",
+          "position": [
+            0.1595,
+            0.44699999999999995,
+            0.048
+          ]
+        }
+      ],
+      "distributedWeightVertices": 3774,
+      "maximumWeightSumError": 4.423782229423523e-8,
+      "inverseBindMatrixCount": 52,
+      "bindBoundsDelta": 4.4805173904372e-8,
+      "dominantWeightVerticesByJoint": {
+        "mixamorig:Hips": 229,
+        "mixamorig:Spine": 40,
+        "mixamorig:Spine1": 348,
+        "mixamorig:Spine2": 73,
+        "mixamorig:Neck": 47,
+        "mixamorig:Head": 376,
+        "mixamorig:LeftShoulder": 12,
+        "mixamorig:LeftArm": 289,
+        "mixamorig:LeftForeArm": 139,
+        "mixamorig:LeftHand": 291,
+        "mixamorig:RightShoulder": 0,
+        "mixamorig:RightArm": 281,
+        "mixamorig:RightForeArm": 174,
+        "mixamorig:RightHand": 281,
+        "mixamorig:LeftUpLeg": 33,
+        "mixamorig:LeftLeg": 280,
+        "mixamorig:LeftFoot": 231,
+        "mixamorig:LeftToeBase": 35,
+        "mixamorig:RightUpLeg": 26,
+        "mixamorig:RightLeg": 289,
+        "mixamorig:RightFoot": 211,
+        "mixamorig:RightToeBase": 60,
+        "mixamorig:LeftHandIndex1": 0,
+        "mixamorig:LeftHandIndex2": 0,
+        "mixamorig:LeftHandIndex3": 0,
+        "mixamorig:LeftHandMiddle1": 0,
+        "mixamorig:LeftHandMiddle2": 0,
+        "mixamorig:LeftHandMiddle3": 0,
+        "mixamorig:LeftHandRing1": 0,
+        "mixamorig:LeftHandRing2": 0,
+        "mixamorig:LeftHandRing3": 0,
+        "mixamorig:LeftHandPinky1": 0,
+        "mixamorig:LeftHandPinky2": 0,
+        "mixamorig:LeftHandPinky3": 0,
+        "mixamorig:LeftHandThumb1": 0,
+        "mixamorig:LeftHandThumb2": 0,
+        "mixamorig:LeftHandThumb3": 0,
+        "mixamorig:RightHandIndex1": 0,
+        "mixamorig:RightHandIndex2": 4,
+        "mixamorig:RightHandIndex3": 0,
+        "mixamorig:RightHandMiddle1": 0,
+        "mixamorig:RightHandMiddle2": 0,
+        "mixamorig:RightHandMiddle3": 0,
+        "mixamorig:RightHandRing1": 0,
+        "mixamorig:RightHandRing2": 2,
+        "mixamorig:RightHandRing3": 1,
+        "mixamorig:RightHandPinky1": 0,
+        "mixamorig:RightHandPinky2": 2,
+        "mixamorig:RightHandPinky3": 3,
+        "mixamorig:RightHandThumb1": 0,
+        "mixamorig:RightHandThumb2": 0,
+        "mixamorig:RightHandThumb3": 17
+      },
+      "weightedVertexInfluencesByJoint": {
+        "mixamorig:Hips": 1896,
+        "mixamorig:Spine": 1115,
+        "mixamorig:Spine1": 1179,
+        "mixamorig:Spine2": 1507,
+        "mixamorig:Neck": 277,
+        "mixamorig:Head": 421,
+        "mixamorig:LeftShoulder": 344,
+        "mixamorig:LeftArm": 586,
+        "mixamorig:LeftForeArm": 603,
+        "mixamorig:LeftHand": 408,
+        "mixamorig:RightShoulder": 364,
+        "mixamorig:RightArm": 606,
+        "mixamorig:RightForeArm": 650,
+        "mixamorig:RightHand": 468,
+        "mixamorig:LeftUpLeg": 489,
+        "mixamorig:LeftLeg": 670,
+        "mixamorig:LeftFoot": 505,
+        "mixamorig:LeftToeBase": 264,
+        "mixamorig:RightUpLeg": 414,
+        "mixamorig:RightLeg": 636,
+        "mixamorig:RightFoot": 500,
+        "mixamorig:RightToeBase": 267,
+        "mixamorig:LeftHandIndex1": 75,
+        "mixamorig:LeftHandIndex2": 0,
+        "mixamorig:LeftHandIndex3": 0,
+        "mixamorig:LeftHandMiddle1": 62,
+        "mixamorig:LeftHandMiddle2": 0,
+        "mixamorig:LeftHandMiddle3": 0,
+        "mixamorig:LeftHandRing1": 41,
+        "mixamorig:LeftHandRing2": 0,
+        "mixamorig:LeftHandRing3": 0,
+        "mixamorig:LeftHandPinky1": 27,
+        "mixamorig:LeftHandPinky2": 4,
+        "mixamorig:LeftHandPinky3": 0,
+        "mixamorig:LeftHandThumb1": 57,
+        "mixamorig:LeftHandThumb2": 38,
+        "mixamorig:LeftHandThumb3": 17,
+        "mixamorig:RightHandIndex1": 60,
+        "mixamorig:RightHandIndex2": 40,
+        "mixamorig:RightHandIndex3": 5,
+        "mixamorig:RightHandMiddle1": 53,
+        "mixamorig:RightHandMiddle2": 31,
+        "mixamorig:RightHandMiddle3": 8,
+        "mixamorig:RightHandRing1": 35,
+        "mixamorig:RightHandRing2": 23,
+        "mixamorig:RightHandRing3": 24,
+        "mixamorig:RightHandPinky1": 13,
+        "mixamorig:RightHandPinky2": 58,
+        "mixamorig:RightHandPinky3": 44,
+        "mixamorig:RightHandThumb1": 5,
+        "mixamorig:RightHandThumb2": 36,
+        "mixamorig:RightHandThumb3": 56
+      },
+      "nativeRestPoseJointCount": 52,
+      "nativeMappedJointCount": 52
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.5,
+        "channels": 54,
+        "sourceTake": "Idle_Loop"
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.3333333730697632,
+        "channels": 54,
+        "sourceTake": "Walk_Loop"
+      },
+      {
+        "name": "Run",
+        "seconds": 0.9333333373069763,
+        "channels": 54,
+        "sourceTake": "Jog_Fwd_Loop"
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.8666666746139526,
+        "channels": 54,
+        "sourceTake": "Punch_Jab"
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.3333333432674408,
+        "channels": 54,
+        "sourceTake": "Hit_Chest"
+      },
+      {
+        "name": "Death",
+        "seconds": 2.4000000953674316,
+        "channels": 54,
+        "sourceTake": "Death01"
+      }
+    ],
+    "motionEvidence": [
+      {
+        "name": "Idle",
+        "seconds": 2.5,
+        "sampledTimes": [
+          0,
+          0.625,
+          1.25,
+          1.875,
+          2.5
+        ],
+        "maximumBoundsChange": 0.07099819722287251
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.3333333730697632,
+        "sampledTimes": [
+          0,
+          0.3333,
+          0.6667,
+          1,
+          1.3333
+        ],
+        "maximumBoundsChange": 0.1634882744049762
+      },
+      {
+        "name": "Run",
+        "seconds": 0.9333333373069763,
+        "sampledTimes": [
+          0,
+          0.2333,
+          0.4667,
+          0.7,
+          0.9333
+        ],
+        "maximumBoundsChange": 0.27830802509088154
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.8666666746139526,
+        "sampledTimes": [
+          0,
+          0.2167,
+          0.4333,
+          0.65,
+          0.8667
+        ],
+        "maximumBoundsChange": 0.12370682044680664
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.3333333432674408,
+        "sampledTimes": [
+          0,
+          0.0833,
+          0.1667,
+          0.25,
+          0.3333
+        ],
+        "maximumBoundsChange": 0.09475647828647873
+      },
+      {
+        "name": "Death",
+        "seconds": 2.4000000953674316,
+        "sampledTimes": [
+          0,
+          0.6,
+          1.2,
+          1.8,
+          2.4
+        ],
+        "maximumBoundsChange": 0.7158988254636068
+      }
+    ],
+    "motionSource": {
+      "file": "game/public/assets/models/animation/animation_library_1.glb",
+      "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+      "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+      "yawDegrees": 0,
+      "translationScale": 0.4230869796120847,
+      "discardedAliases": [
+        "HitLeft",
+        "HitRight"
+      ]
+    },
+    "textures": [
+      {
+        "name": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_basecolor.jpg",
+        "runtimeName": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_basecolor.jpg",
+        "kind": "baseColor",
+        "channelMeaning": "sRGB base color",
+        "source": {
+          "width": 8192,
+          "height": 8192,
+          "mimeType": "image/jpeg",
+          "sha256": "afdc90c8eac1c4a83ab8406a8fc0338fd5e1692211c96f7d3c3bebc1378a0e43",
+          "channelStats": [
+            {
+              "min": 0,
+              "max": 241,
+              "mean": 102.31
+            },
+            {
+              "min": 0,
+              "max": 234,
+              "mean": 94.76
+            },
+            {
+              "min": 0,
+              "max": 226,
+              "mean": 90.36
+            }
+          ]
+        },
+        "runtime": {
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/jpeg",
+          "bytes": 1712397,
+          "sha256": "ee874654ea2f3f830bbba6010ab0cac11a4e5dececcd6089e60c7cdf42048528"
+        }
+      },
+      {
+        "name": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_rm.png",
+        "runtimeName": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_rm.png",
+        "kind": "metallicRoughness",
+        "channelMeaning": "glTF packed metallic-roughness: G=roughness, B=metallic",
+        "source": {
+          "width": 4096,
+          "height": 4096,
+          "mimeType": "image/png",
+          "sha256": "dcb6078bc5b3ac65a35f28d2349b69207c7daa4762ede7c8904a4f67776bbb69",
+          "channelStats": [
+            {
+              "min": 255,
+              "max": 255,
+              "mean": 255
+            },
+            {
+              "min": 56,
+              "max": 255,
+              "mean": 177.81
+            },
+            {
+              "min": 0,
+              "max": 67,
+              "mean": 16.24
+            }
+          ]
+        },
+        "runtime": {
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/png",
+          "bytes": 5890047,
+          "sha256": "dff3a61c1001b4c8343c847b78cf7f81a8e77ef1b26229edd292d49ab2a1e3f5"
+        }
+      },
+      {
+        "name": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_normal.jpg",
+        "runtimeName": "corealm_crownward_oathkeeper_f3b036f0_8k_rigged_normal.png",
+        "kind": "normal",
+        "channelMeaning": "tangent-space normal XYZ",
+        "source": {
+          "width": 4096,
+          "height": 4096,
+          "mimeType": "image/jpeg",
+          "sha256": "6360569d51a0a62331f23efc905dde363f1057222d25de2be64d4d95328c464d",
+          "channelStats": [
+            {
+              "min": 8,
+              "max": 247,
+              "mean": 127.28
+            },
+            {
+              "min": 6,
+              "max": 245,
+              "mean": 127.03
+            },
+            {
+              "min": 163,
+              "max": 255,
+              "mean": 251.27
+            }
+          ]
+        },
+        "runtime": {
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/png",
+          "bytes": 4502579,
+          "sha256": "9a1cb06e8243ec707dd4175943306b209e3c47263cc25770853a7ea5a256e799"
+        }
+      }
+    ],
+    "materialChannels": {
+      "baseColor": "approved image-generated layered albedo; source image retained, resized only",
+      "normal": "tangent-space XYZ normals; resized and vector-renormalized",
+      "metallicRoughness": "glTF G roughness and B metallic channels retained with data-aware resizing",
+      "runtimeMaximumDimension": 2048
+    }
+  },
+  "build": {
+    "command": "npx tsx assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper/build-candidate.ts",
+    "script": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper/build-candidate.ts"
+  },
+  "acceptance": {
+    "sourceDesignAccepted": false,
+    "geometryAccepted": false,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "texturesAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

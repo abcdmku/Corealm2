@@ -1,0 +1,65 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "files": {
+    "creature_crownward_oathkeeper": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper/crownward-oathkeeper-native-rig-candidate.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_crownward_oathkeeper",
+      "file": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper/crownward-oathkeeper-native-rig-candidate.glb",
+      "pack": "corealm-nine-pack-two-candidates",
+      "category": "character",
+      "is": "Crownward Oathkeeper candidate",
+      "tags": [
+        "creature",
+        "humanoid",
+        "knight",
+        "crownward",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 12868904,
+      "sha256": "34d04e04afeecaef0065a88c7f3274722484b29ef4be064785e344d9ca5bc6be",
+      "triangles": 5427,
+      "size": {
+        "x": 0.8288714487936113,
+        "y": 1.9000000000000001,
+        "z": 0.4130434707193372
+      },
+      "base": {
+        "x": -0.4144357258102822,
+        "y": -5.5477148272985067e-17,
+        "z": -0.20652173382096178
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_f899d0b1-6623-4871-8098-fc4ba39aa2ca"
+      ],
+      "sourceProvenance": {
+        "modelId": "f3b036f0-e5a0-423e-bbce-4cd37cfbd51a",
+        "sourceImageId": "59ac6fb8-1bc6-4263-81a4-d21a548dc31a",
+        "sourceFile": "assets/art/tripo/exports/corealm_crownward_oathkeeper_f3b036f0_8k_rigged.glb",
+        "sourceSha256": "c3a23753bac5be4d57c5127cc32280e5635a5c3b36fd0641abd7617b3e3be128",
+        "candidateFile": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper/crownward-oathkeeper-native-rig-candidate.glb",
+        "candidateSha256": "34d04e04afeecaef0065a88c7f3274722484b29ef4be064785e344d9ca5bc6be",
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

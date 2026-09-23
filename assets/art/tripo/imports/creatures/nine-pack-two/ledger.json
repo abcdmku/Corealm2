@@ -105,8 +105,16 @@
       "sourceGlb": "assets/art/tripo/exports/corealm_crownward_oathkeeper_f3b036f0_8k_rigged.glb",
       "sourceSha256": "c3a23753bac5be4d57c5127cc32280e5635a5c3b36fd0641abd7617b3e3be128",
       "audit": "approved-image-and-face-audit",
-      "status": "candidate-in-progress",
-      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper"
+      "status": "candidate-built-awaiting-root-lab",
+      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper",
+      "candidateFile": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper/crownward-oathkeeper-native-rig-candidate.glb",
+      "candidateSha256": "34d04e04afeecaef0065a88c7f3274722484b29ef4be064785e344d9ca5bc6be",
+      "candidateRigJoints": 52,
+      "candidateWeightedBodyJoints": 22,
+      "candidateClips": ["Idle", "Walk", "Run", "Attack", "Hit", "Death"],
+      "runtimeMaps": ["base-color 2048x2048 JPEG", "normal 2048x2048 PNG", "metallic-roughness 2048x2048 PNG"],
+      "acceptance": "pending-root-lab-review",
+      "rigRepairNote": "Source inverse binds were corrupt; final model-space bind has finite bounds, valid serialized joint indices and influence coverage across all 22 body joints."
     },
     {
       "name": "Revenant",
