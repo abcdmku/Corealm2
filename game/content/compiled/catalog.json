@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "4855544f141b483a43fd33bb98e4754fa87ba4cc4a25d164e6467b2c5f1275ed",
+  "revision": "e4ed9e890bab20ef1bab61a8b8d4975cd0bfe15f5fc68a0e535ee2aece77fd6a",
   "formulaRevision": "64718a7f813df0116ef2d306f66b6c1a94054e1527a8ad3e79e60efefb836136",
   "tables": {
     "items": [
@@ -35614,7 +35614,7 @@
       },
       {
         "id": "fire_golem_t20",
-        "name": "Fire Golem",
+        "name": "Kilncrust Golem",
         "family": "fire_golem",
         "availability": "world",
         "level": 20,
@@ -35625,7 +35625,7 @@
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
-          "description": "Fire Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
+          "description": "Kilncrust Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
           "bodyFamily": "golem",
           "rigFamily": "corealm_golem",
           "movement": "biped",
@@ -35671,7 +35671,24 @@
               "id": "items",
               "name": "Items",
               "count": 1,
-              "drops": [],
+              "drops": [
+                {
+                  "itemId": "emberite_ore",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.2
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ],
               "tables": [
                 {
                   "tableId": "shared_fire_essence_3",
@@ -42454,15 +42471,15 @@
         "loot": {
           "rolls": [
             {
-              "id": "guaranteed_molten_heart",
-              "name": "Guaranteed molten heart",
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
               "count": 1,
               "drops": [
                 {
-                  "itemId": "molten_heart",
+                  "itemId": "grave_thread",
                   "quantity": [
-                    5,
-                    9
+                    1,
+                    2
                   ],
                   "chance": 1
                 }
@@ -42493,8 +42510,8 @@
                 {
                   "itemId": "mind_rune",
                   "quantity": [
-                    24,
-                    40
+                    4,
+                    8
                   ],
                   "chance": 1
                 }
@@ -42509,8 +42526,8 @@
                 {
                   "itemId": "cosmic_rune",
                   "quantity": [
-                    24,
-                    40
+                    4,
+                    8
                   ],
                   "chance": 1
                 }
@@ -42525,98 +42542,10 @@
                 {
                   "itemId": "cindervein_ore",
                   "quantity": [
-                    3,
-                    6
-                  ],
-                  "chance": 1
-                }
-              ],
-              "tables": []
-            },
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "fire_opal",
-                  "quantity": [
                     1,
                     2
                   ],
-                  "chance": 0.35
-                },
-                {
-                  "itemId": "duskguard_plate",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "duskguard_greaves",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "duskguard_gauntlets",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "duskguard_boots",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_hood",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_robe",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_leggings",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_wraps",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_boots",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
+                  "chance": 1
                 }
               ],
               "tables": []
@@ -142773,7 +142702,7 @@
         "id": "fire_golem_t20",
         "definition": {
           "id": "fire_golem_t20",
-          "name": "Fire Golem",
+          "name": "Kilncrust Golem",
           "family": "fire_golem",
           "availability": "world",
           "level": 20,
@@ -142784,7 +142713,7 @@
             "scale": 1,
             "regionId": "kilnhalt",
             "activity": "patrol",
-            "description": "Fire Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
+            "description": "Kilncrust Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
             "bodyFamily": "golem",
             "rigFamily": "corealm_golem",
             "movement": "biped",
@@ -142830,7 +142759,24 @@
                 "id": "items",
                 "name": "Items",
                 "count": 1,
-                "drops": [],
+                "drops": [
+                  {
+                    "itemId": "emberite_ore",
+                    "quantity": [
+                      1,
+                      2
+                    ],
+                    "chance": 0.2
+                  },
+                  {
+                    "itemId": "fire_opal",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.04
+                  }
+                ],
                 "tables": [
                   {
                     "tableId": "shared_fire_essence_3",
@@ -142843,7 +142789,7 @@
         },
         "enemy": {
           "id": "fire_golem_t20",
-          "name": "Fire Golem",
+          "name": "Kilncrust Golem",
           "family": "fire_golem",
           "tier": 20,
           "maxHealth": 72,
@@ -142886,6 +142832,22 @@
               "count": 1,
               "drops": [
                 {
+                  "itemId": "emberite_ore",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.2
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                },
+                {
                   "itemId": "fire_essence",
                   "quantity": [
                     1,
@@ -142906,7 +142868,7 @@
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
-          "description": "Fire Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
+          "description": "Kilncrust Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
           "bodyFamily": "golem",
           "rigFamily": "corealm_golem",
           "movement": "biped",
@@ -142937,7 +142899,7 @@
           "acceptance": "candidate",
           "stats": {
             "id": "fire_golem_t20",
-            "name": "Fire Golem",
+            "name": "Kilncrust Golem",
             "family": "fire_golem",
             "tier": 20,
             "maxHealth": 72,
@@ -142979,6 +142941,22 @@
                 "name": "Items",
                 "count": 1,
                 "drops": [
+                  {
+                    "itemId": "emberite_ore",
+                    "quantity": [
+                      1,
+                      2
+                    ],
+                    "chance": 0.2
+                  },
+                  {
+                    "itemId": "fire_opal",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.04
+                  },
                   {
                     "itemId": "fire_essence",
                     "quantity": [
@@ -194490,15 +194468,15 @@
           "loot": {
             "rolls": [
               {
-                "id": "guaranteed_molten_heart",
-                "name": "Guaranteed molten heart",
+                "id": "guaranteed_grave_thread",
+                "name": "Guaranteed grave thread",
                 "count": 1,
                 "drops": [
                   {
-                    "itemId": "molten_heart",
+                    "itemId": "grave_thread",
                     "quantity": [
-                      5,
-                      9
+                      1,
+                      2
                     ],
                     "chance": 1
                   }
@@ -194529,8 +194507,8 @@
                   {
                     "itemId": "mind_rune",
                     "quantity": [
-                      24,
-                      40
+                      4,
+                      8
                     ],
                     "chance": 1
                   }
@@ -194545,8 +194523,8 @@
                   {
                     "itemId": "cosmic_rune",
                     "quantity": [
-                      24,
-                      40
+                      4,
+                      8
                     ],
                     "chance": 1
                   }
@@ -194561,98 +194539,10 @@
                   {
                     "itemId": "cindervein_ore",
                     "quantity": [
-                      3,
-                      6
-                    ],
-                    "chance": 1
-                  }
-                ],
-                "tables": []
-              },
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "fire_opal",
-                    "quantity": [
                       1,
                       2
                     ],
-                    "chance": 0.35
-                  },
-                  {
-                    "itemId": "duskguard_plate",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_greaves",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_gauntlets",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_boots",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_hood",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_robe",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_leggings",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_wraps",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_boots",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
+                    "chance": 1
                   }
                 ],
                 "tables": []
@@ -194700,15 +194590,15 @@
               ]
             },
             {
-              "id": "guaranteed_molten_heart",
-              "name": "Guaranteed molten heart",
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
               "count": 1,
               "drops": [
                 {
-                  "itemId": "molten_heart",
+                  "itemId": "grave_thread",
                   "quantity": [
-                    5,
-                    9
+                    1,
+                    2
                   ],
                   "chance": 1
                 }
@@ -194737,8 +194627,8 @@
                 {
                   "itemId": "mind_rune",
                   "quantity": [
-                    24,
-                    40
+                    4,
+                    8
                   ],
                   "chance": 1
                 }
@@ -194752,8 +194642,8 @@
                 {
                   "itemId": "cosmic_rune",
                   "quantity": [
-                    24,
-                    40
+                    4,
+                    8
                   ],
                   "chance": 1
                 }
@@ -194767,97 +194657,10 @@
                 {
                   "itemId": "cindervein_ore",
                   "quantity": [
-                    3,
-                    6
-                  ],
-                  "chance": 1
-                }
-              ]
-            },
-            {
-              "id": "items",
-              "name": "Items",
-              "count": 1,
-              "drops": [
-                {
-                  "itemId": "fire_opal",
-                  "quantity": [
                     1,
                     2
                   ],
-                  "chance": 0.35
-                },
-                {
-                  "itemId": "duskguard_plate",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "duskguard_greaves",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "duskguard_gauntlets",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "duskguard_boots",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_hood",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_robe",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_leggings",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_wraps",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
-                },
-                {
-                  "itemId": "tideweave_boots",
-                  "quantity": [
-                    1,
-                    1
-                  ],
-                  "chance": 0.0022222222222222222
+                  "chance": 1
                 }
               ]
             }
@@ -194913,15 +194716,15 @@
                 ]
               },
               {
-                "id": "guaranteed_molten_heart",
-                "name": "Guaranteed molten heart",
+                "id": "guaranteed_grave_thread",
+                "name": "Guaranteed grave thread",
                 "count": 1,
                 "drops": [
                   {
-                    "itemId": "molten_heart",
+                    "itemId": "grave_thread",
                     "quantity": [
-                      5,
-                      9
+                      1,
+                      2
                     ],
                     "chance": 1
                   }
@@ -194950,8 +194753,8 @@
                   {
                     "itemId": "mind_rune",
                     "quantity": [
-                      24,
-                      40
+                      4,
+                      8
                     ],
                     "chance": 1
                   }
@@ -194965,8 +194768,8 @@
                   {
                     "itemId": "cosmic_rune",
                     "quantity": [
-                      24,
-                      40
+                      4,
+                      8
                     ],
                     "chance": 1
                   }
@@ -194980,97 +194783,10 @@
                   {
                     "itemId": "cindervein_ore",
                     "quantity": [
-                      3,
-                      6
-                    ],
-                    "chance": 1
-                  }
-                ]
-              },
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "fire_opal",
-                    "quantity": [
                       1,
                       2
                     ],
-                    "chance": 0.35
-                  },
-                  {
-                    "itemId": "duskguard_plate",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_greaves",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_gauntlets",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_boots",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_hood",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_robe",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_leggings",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_wraps",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_boots",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
+                    "chance": 1
                   }
                 ]
               }
@@ -220589,7 +220305,7 @@
       },
       {
         "id": "fire_golem_t20",
-        "name": "Fire Golem",
+        "name": "Kilncrust Golem",
         "family": "fire_golem",
         "tier": 20,
         "maxHealth": 72,
@@ -220631,6 +220347,22 @@
             "name": "Items",
             "count": 1,
             "drops": [
+              {
+                "itemId": "emberite_ore",
+                "quantity": [
+                  1,
+                  2
+                ],
+                "chance": 0.2
+              },
+              {
+                "itemId": "fire_opal",
+                "quantity": [
+                  1,
+                  1
+                ],
+                "chance": 0.04
+              },
               {
                 "itemId": "fire_essence",
                 "quantity": [
@@ -238321,15 +238053,15 @@
             ]
           },
           {
-            "id": "guaranteed_molten_heart",
-            "name": "Guaranteed molten heart",
+            "id": "guaranteed_grave_thread",
+            "name": "Guaranteed grave thread",
             "count": 1,
             "drops": [
               {
-                "itemId": "molten_heart",
+                "itemId": "grave_thread",
                 "quantity": [
-                  5,
-                  9
+                  1,
+                  2
                 ],
                 "chance": 1
               }
@@ -238358,8 +238090,8 @@
               {
                 "itemId": "mind_rune",
                 "quantity": [
-                  24,
-                  40
+                  4,
+                  8
                 ],
                 "chance": 1
               }
@@ -238373,8 +238105,8 @@
               {
                 "itemId": "cosmic_rune",
                 "quantity": [
-                  24,
-                  40
+                  4,
+                  8
                 ],
                 "chance": 1
               }
@@ -238388,97 +238120,10 @@
               {
                 "itemId": "cindervein_ore",
                 "quantity": [
-                  3,
-                  6
-                ],
-                "chance": 1
-              }
-            ]
-          },
-          {
-            "id": "items",
-            "name": "Items",
-            "count": 1,
-            "drops": [
-              {
-                "itemId": "fire_opal",
-                "quantity": [
                   1,
                   2
                 ],
-                "chance": 0.35
-              },
-              {
-                "itemId": "duskguard_plate",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "duskguard_greaves",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "duskguard_gauntlets",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "duskguard_boots",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "tideweave_hood",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "tideweave_robe",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "tideweave_leggings",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "tideweave_wraps",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
-              },
-              {
-                "itemId": "tideweave_boots",
-                "quantity": [
-                  1,
-                  1
-                ],
-                "chance": 0.0022222222222222222
+                "chance": 1
               }
             ]
           }
@@ -259397,7 +259042,7 @@
         "scale": 1,
         "regionId": "kilnhalt",
         "activity": "patrol",
-        "description": "Fire Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
+        "description": "Kilncrust Golem inhabits cold kiln chambers. Uses furnace slam with 3.4 seconds between attacks.",
         "bodyFamily": "golem",
         "rigFamily": "corealm_golem",
         "movement": "biped",
@@ -259428,7 +259073,7 @@
         "acceptance": "candidate",
         "stats": {
           "id": "fire_golem_t20",
-          "name": "Fire Golem",
+          "name": "Kilncrust Golem",
           "family": "fire_golem",
           "tier": 20,
           "maxHealth": 72,
@@ -259470,6 +259115,22 @@
               "name": "Items",
               "count": 1,
               "drops": [
+                {
+                  "itemId": "emberite_ore",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.2
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                },
                 {
                   "itemId": "fire_essence",
                   "quantity": [
@@ -326554,15 +326215,15 @@
                 ]
               },
               {
-                "id": "guaranteed_molten_heart",
-                "name": "Guaranteed molten heart",
+                "id": "guaranteed_grave_thread",
+                "name": "Guaranteed grave thread",
                 "count": 1,
                 "drops": [
                   {
-                    "itemId": "molten_heart",
+                    "itemId": "grave_thread",
                     "quantity": [
-                      5,
-                      9
+                      1,
+                      2
                     ],
                     "chance": 1
                   }
@@ -326591,8 +326252,8 @@
                   {
                     "itemId": "mind_rune",
                     "quantity": [
-                      24,
-                      40
+                      4,
+                      8
                     ],
                     "chance": 1
                   }
@@ -326606,8 +326267,8 @@
                   {
                     "itemId": "cosmic_rune",
                     "quantity": [
-                      24,
-                      40
+                      4,
+                      8
                     ],
                     "chance": 1
                   }
@@ -326621,97 +326282,10 @@
                   {
                     "itemId": "cindervein_ore",
                     "quantity": [
-                      3,
-                      6
-                    ],
-                    "chance": 1
-                  }
-                ]
-              },
-              {
-                "id": "items",
-                "name": "Items",
-                "count": 1,
-                "drops": [
-                  {
-                    "itemId": "fire_opal",
-                    "quantity": [
                       1,
                       2
                     ],
-                    "chance": 0.35
-                  },
-                  {
-                    "itemId": "duskguard_plate",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_greaves",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_gauntlets",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "duskguard_boots",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_hood",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_robe",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_leggings",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_wraps",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
-                  },
-                  {
-                    "itemId": "tideweave_boots",
-                    "quantity": [
-                      1,
-                      1
-                    ],
-                    "chance": 0.0022222222222222222
+                    "chance": 1
                   }
                 ]
               }
