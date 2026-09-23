@@ -5,7 +5,7 @@
   "textureSize": 2048,
   "alignment": {
     "space": "native-male-t-pose",
-    "reviewedBy": "crownhide neutralized-source fit with +0.08m hood clearance; root normal-camera lab acceptance pending",
+    "reviewedBy": "crownhide neutralized-source fit with +0.16m hood clearance; root normal-camera lab acceptance pending",
     "matrix": [
       1.85,
       0,
@@ -1277,7 +1277,7 @@
         1,
         0,
         0,
-        0.08,
+        0.16,
         0,
         1
       ]
