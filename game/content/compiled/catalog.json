@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "95debdcb5a20b8f18e39436cd0e350eb96eec739e3faece3238419e01c01e3e9",
+  "revision": "3ca88e9f1ad8b5226170319252569a0f95a61c2bd12b9894f9643852b771deb0",
   "formulaRevision": "19af00d7ec6edb7ad551eb248d289f37f243afb497d117457f14bbe87f139db4",
   "tables": {
     "items": [
@@ -36034,6 +36034,38 @@
         }
       },
       {
+        "id": "briar_harrow_t1",
+        "baseId": "briar_harrow_t10",
+        "availability": "world",
+        "level": 1,
+        "adjustments": {
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "loot": {
+          "rolls": []
+        },
+        "retired": true
+      },
+      {
+        "id": "briar_harrow_t5",
+        "baseId": "briar_harrow_t10",
+        "availability": "world",
+        "level": 5,
+        "adjustments": {
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "loot": {
+          "rolls": []
+        },
+        "retired": true
+      },
+      {
         "id": "briar_harrow_t20",
         "baseId": "briar_harrow_t10",
         "name": "Bramble Tiller",
@@ -36067,6 +36099,22 @@
             }
           ]
         }
+      },
+      {
+        "id": "fen_crawler_t1",
+        "baseId": "fen_crawler_t10",
+        "availability": "world",
+        "level": 1,
+        "adjustments": {
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "loot": {
+          "rolls": []
+        },
+        "retired": true
       },
       {
         "id": "fen_crawler_t5",
@@ -36103,6 +36151,22 @@
         "baseId": "thorn_maw_t10",
         "availability": "world",
         "level": 1
+      },
+      {
+        "id": "thorn_maw_t5",
+        "baseId": "thorn_maw_t10",
+        "availability": "world",
+        "level": 5,
+        "adjustments": {
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "loot": {
+          "rolls": []
+        },
+        "retired": true
       },
       {
         "id": "thorn_maw_t20",
@@ -144258,6 +144322,210 @@
         "inheritedFields": []
       },
       {
+        "id": "briar_harrow_t1",
+        "definition": {
+          "id": "briar_harrow_t1",
+          "baseId": "briar_harrow_t10",
+          "availability": "world",
+          "level": 1,
+          "adjustments": {
+            "gold": [
+              0,
+              0
+            ]
+          },
+          "loot": {
+            "rolls": []
+          },
+          "retired": true
+        },
+        "enemy": {
+          "id": "briar_harrow_t1",
+          "name": "Bramble Tiller",
+          "family": "briar_harrow",
+          "tier": 1,
+          "maxHealth": 8,
+          "attackLevel": 1,
+          "defenceLevel": 1,
+          "accuracy": 1,
+          "armour": 2,
+          "magicArmour": 1,
+          "maxHit": 1,
+          "attackSpeedMs": 3400,
+          "aggroRadius": 7,
+          "behaviour": "territorial",
+          "moveSpeedMps": 1.2,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            0,
+            0
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": []
+        },
+        "availability": "world",
+        "assetId": "creature_briar_harrow",
+        "scale": 0.85,
+        "presentation": {
+          "id": "briar_harrow",
+          "assetId": "creature_briar_harrow",
+          "scale": 0.85,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "In woodland clearings, Bramble Tillers loosen packed soil with their hoe-shaped forearm shoots and clear growth crowding young trees. Green cambium and pale lichen mark their living bark. They push back when anyone tramples the roots they tend.",
+          "stats": {
+            "id": "briar_harrow_t1",
+            "name": "Bramble Tiller",
+            "family": "briar_harrow",
+            "tier": 1,
+            "maxHealth": 8,
+            "attackLevel": 1,
+            "defenceLevel": 1,
+            "accuracy": 1,
+            "armour": 2,
+            "magicArmour": 1,
+            "maxHit": 1,
+            "attackSpeedMs": 3400,
+            "aggroRadius": 7,
+            "behaviour": "territorial",
+            "moveSpeedMps": 1.2,
+            "walkSpeedMps": 0.4,
+            "gold": [
+              0,
+              0
+            ],
+            "attackStyle": "melee",
+            "attackRangeM": 1.8,
+            "lootRolls": []
+          }
+        },
+        "profileId": "brute",
+        "level": 1,
+        "adjustments": {
+          "attackSpeedMs": 3400,
+          "aggroRadius": 7,
+          "behaviour": "territorial",
+          "moveSpeedMps": 1.2,
+          "walkSpeedMps": 0.4,
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "retired": true,
+        "inheritedFields": [
+          "name",
+          "family",
+          "profileId",
+          "presentation"
+        ]
+      },
+      {
+        "id": "briar_harrow_t5",
+        "definition": {
+          "id": "briar_harrow_t5",
+          "baseId": "briar_harrow_t10",
+          "availability": "world",
+          "level": 5,
+          "adjustments": {
+            "gold": [
+              0,
+              0
+            ]
+          },
+          "loot": {
+            "rolls": []
+          },
+          "retired": true
+        },
+        "enemy": {
+          "id": "briar_harrow_t5",
+          "name": "Bramble Tiller",
+          "family": "briar_harrow",
+          "tier": 5,
+          "maxHealth": 24,
+          "attackLevel": 5,
+          "defenceLevel": 5,
+          "accuracy": 6,
+          "armour": 10,
+          "magicArmour": 5,
+          "maxHit": 3,
+          "attackSpeedMs": 3400,
+          "aggroRadius": 7,
+          "behaviour": "territorial",
+          "moveSpeedMps": 1.2,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            0,
+            0
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": []
+        },
+        "availability": "world",
+        "assetId": "creature_briar_harrow",
+        "scale": 0.85,
+        "presentation": {
+          "id": "briar_harrow",
+          "assetId": "creature_briar_harrow",
+          "scale": 0.85,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "In woodland clearings, Bramble Tillers loosen packed soil with their hoe-shaped forearm shoots and clear growth crowding young trees. Green cambium and pale lichen mark their living bark. They push back when anyone tramples the roots they tend.",
+          "stats": {
+            "id": "briar_harrow_t5",
+            "name": "Bramble Tiller",
+            "family": "briar_harrow",
+            "tier": 5,
+            "maxHealth": 24,
+            "attackLevel": 5,
+            "defenceLevel": 5,
+            "accuracy": 6,
+            "armour": 10,
+            "magicArmour": 5,
+            "maxHit": 3,
+            "attackSpeedMs": 3400,
+            "aggroRadius": 7,
+            "behaviour": "territorial",
+            "moveSpeedMps": 1.2,
+            "walkSpeedMps": 0.4,
+            "gold": [
+              0,
+              0
+            ],
+            "attackStyle": "melee",
+            "attackRangeM": 1.8,
+            "lootRolls": []
+          }
+        },
+        "profileId": "brute",
+        "level": 5,
+        "adjustments": {
+          "attackSpeedMs": 3400,
+          "aggroRadius": 7,
+          "behaviour": "territorial",
+          "moveSpeedMps": 1.2,
+          "walkSpeedMps": 0.4,
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "retired": true,
+        "inheritedFields": [
+          "name",
+          "family",
+          "profileId",
+          "presentation"
+        ]
+      },
+      {
         "id": "briar_harrow_t20",
         "definition": {
           "id": "briar_harrow_t20",
@@ -144449,6 +144717,108 @@
           "profileId",
           "presentation",
           "adjustments"
+        ]
+      },
+      {
+        "id": "fen_crawler_t1",
+        "definition": {
+          "id": "fen_crawler_t1",
+          "baseId": "fen_crawler_t10",
+          "availability": "world",
+          "level": 1,
+          "adjustments": {
+            "gold": [
+              0,
+              0
+            ]
+          },
+          "loot": {
+            "rolls": []
+          },
+          "retired": true
+        },
+        "enemy": {
+          "id": "fen_crawler_t1",
+          "name": "Fen Crawler",
+          "family": "fen_crawler",
+          "tier": 1,
+          "maxHealth": 7,
+          "attackLevel": 1,
+          "defenceLevel": 1,
+          "accuracy": 1,
+          "armour": 1,
+          "magicArmour": 1,
+          "maxHit": 1,
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            0,
+            0
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": []
+        },
+        "availability": "world",
+        "assetId": "creature_fen_crawler",
+        "scale": 1,
+        "presentation": {
+          "id": "fen_crawler",
+          "assetId": "creature_fen_crawler",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "prowl",
+          "description": "An eight-legged fen scavenger under a broad, overlapping carapace. Curved feeding blades frame a recessed mouth beneath its low front shield.",
+          "stats": {
+            "id": "fen_crawler_t1",
+            "name": "Fen Crawler",
+            "family": "fen_crawler",
+            "tier": 1,
+            "maxHealth": 7,
+            "attackLevel": 1,
+            "defenceLevel": 1,
+            "accuracy": 1,
+            "armour": 1,
+            "magicArmour": 1,
+            "maxHit": 1,
+            "attackSpeedMs": 2000,
+            "aggroRadius": 10,
+            "behaviour": "aggressive",
+            "moveSpeedMps": 1.6,
+            "walkSpeedMps": 0.4,
+            "gold": [
+              0,
+              0
+            ],
+            "attackStyle": "melee",
+            "attackRangeM": 1.8,
+            "lootRolls": []
+          }
+        },
+        "profileId": "skirmisher",
+        "level": 1,
+        "adjustments": {
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "retired": true,
+        "inheritedFields": [
+          "name",
+          "family",
+          "profileId",
+          "presentation"
         ]
       },
       {
@@ -145355,6 +145725,108 @@
           "presentation",
           "adjustments",
           "loot"
+        ]
+      },
+      {
+        "id": "thorn_maw_t5",
+        "definition": {
+          "id": "thorn_maw_t5",
+          "baseId": "thorn_maw_t10",
+          "availability": "world",
+          "level": 5,
+          "adjustments": {
+            "gold": [
+              0,
+              0
+            ]
+          },
+          "loot": {
+            "rolls": []
+          },
+          "retired": true
+        },
+        "enemy": {
+          "id": "thorn_maw_t5",
+          "name": "Thorn Maw",
+          "family": "thorn_maw",
+          "tier": 5,
+          "maxHealth": 21,
+          "attackLevel": 5,
+          "defenceLevel": 6,
+          "accuracy": 6,
+          "armour": 15,
+          "magicArmour": 10,
+          "maxHit": 3,
+          "attackSpeedMs": 3000,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.3,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            0,
+            0
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": []
+        },
+        "availability": "world",
+        "assetId": "creature_thorn_maw",
+        "scale": 0.85,
+        "presentation": {
+          "id": "thorn_maw",
+          "assetId": "creature_thorn_maw",
+          "scale": 0.85,
+          "regionId": "vellenwood",
+          "activity": "prowl",
+          "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
+          "stats": {
+            "id": "thorn_maw_t5",
+            "name": "Thorn Maw",
+            "family": "thorn_maw",
+            "tier": 5,
+            "maxHealth": 21,
+            "attackLevel": 5,
+            "defenceLevel": 6,
+            "accuracy": 6,
+            "armour": 15,
+            "magicArmour": 10,
+            "maxHit": 3,
+            "attackSpeedMs": 3000,
+            "aggroRadius": 7,
+            "behaviour": "aggressive",
+            "moveSpeedMps": 1.3,
+            "walkSpeedMps": 0.4,
+            "gold": [
+              0,
+              0
+            ],
+            "attackStyle": "melee",
+            "attackRangeM": 1.8,
+            "lootRolls": []
+          }
+        },
+        "profileId": "guardian",
+        "level": 5,
+        "adjustments": {
+          "attackSpeedMs": 3000,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.3,
+          "walkSpeedMps": 0.4,
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "gold": [
+            0,
+            0
+          ]
+        },
+        "retired": true,
+        "inheritedFields": [
+          "name",
+          "family",
+          "profileId",
+          "presentation"
         ]
       },
       {
@@ -220994,6 +221466,56 @@
         ]
       },
       {
+        "id": "briar_harrow_t1",
+        "name": "Bramble Tiller",
+        "family": "briar_harrow",
+        "tier": 1,
+        "maxHealth": 8,
+        "attackLevel": 1,
+        "defenceLevel": 1,
+        "accuracy": 1,
+        "armour": 2,
+        "magicArmour": 1,
+        "maxHit": 1,
+        "attackSpeedMs": 3400,
+        "aggroRadius": 7,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1.2,
+        "walkSpeedMps": 0.4,
+        "gold": [
+          0,
+          0
+        ],
+        "attackStyle": "melee",
+        "attackRangeM": 1.8,
+        "lootRolls": []
+      },
+      {
+        "id": "briar_harrow_t5",
+        "name": "Bramble Tiller",
+        "family": "briar_harrow",
+        "tier": 5,
+        "maxHealth": 24,
+        "attackLevel": 5,
+        "defenceLevel": 5,
+        "accuracy": 6,
+        "armour": 10,
+        "magicArmour": 5,
+        "maxHit": 3,
+        "attackSpeedMs": 3400,
+        "aggroRadius": 7,
+        "behaviour": "territorial",
+        "moveSpeedMps": 1.2,
+        "walkSpeedMps": 0.4,
+        "gold": [
+          0,
+          0
+        ],
+        "attackStyle": "melee",
+        "attackRangeM": 1.8,
+        "lootRolls": []
+      },
+      {
         "id": "briar_harrow_t20",
         "name": "Bramble Tiller",
         "family": "briar_harrow",
@@ -221056,6 +221578,31 @@
             ]
           }
         ]
+      },
+      {
+        "id": "fen_crawler_t1",
+        "name": "Fen Crawler",
+        "family": "fen_crawler",
+        "tier": 1,
+        "maxHealth": 7,
+        "attackLevel": 1,
+        "defenceLevel": 1,
+        "accuracy": 1,
+        "armour": 1,
+        "magicArmour": 1,
+        "maxHit": 1,
+        "attackSpeedMs": 2000,
+        "aggroRadius": 10,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.6,
+        "walkSpeedMps": 0.4,
+        "gold": [
+          0,
+          0
+        ],
+        "attackStyle": "melee",
+        "attackRangeM": 1.8,
+        "lootRolls": []
       },
       {
         "id": "fen_crawler_t5",
@@ -221392,6 +221939,31 @@
             ]
           }
         ]
+      },
+      {
+        "id": "thorn_maw_t5",
+        "name": "Thorn Maw",
+        "family": "thorn_maw",
+        "tier": 5,
+        "maxHealth": 21,
+        "attackLevel": 5,
+        "defenceLevel": 6,
+        "accuracy": 6,
+        "armour": 15,
+        "magicArmour": 10,
+        "maxHit": 3,
+        "attackSpeedMs": 3000,
+        "aggroRadius": 7,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.3,
+        "walkSpeedMps": 0.4,
+        "gold": [
+          0,
+          0
+        ],
+        "attackStyle": "melee",
+        "attackRangeM": 1.8,
+        "lootRolls": []
       },
       {
         "id": "thorn_maw_t20",
@@ -340902,6 +341474,24 @@
         "tier": 10
       }
     },
+    "enemies:briar_harrow_t1": {
+      "collection": "creatureDefinitions",
+      "id": "briar_harrow_t1",
+      "formula": "creature.combat",
+      "profile": "brute",
+      "inputs": {
+        "tier": 1
+      }
+    },
+    "enemies:briar_harrow_t5": {
+      "collection": "creatureDefinitions",
+      "id": "briar_harrow_t5",
+      "formula": "creature.combat",
+      "profile": "brute",
+      "inputs": {
+        "tier": 5
+      }
+    },
     "enemies:briar_harrow_t20": {
       "collection": "creatureDefinitions",
       "id": "briar_harrow_t20",
@@ -340909,6 +341499,15 @@
       "profile": "brute",
       "inputs": {
         "tier": 20
+      }
+    },
+    "enemies:fen_crawler_t1": {
+      "collection": "creatureDefinitions",
+      "id": "fen_crawler_t1",
+      "formula": "creature.combat",
+      "profile": "skirmisher",
+      "inputs": {
+        "tier": 1
       }
     },
     "enemies:fen_crawler_t5": {
@@ -340963,6 +341562,15 @@
       "profile": "guardian",
       "inputs": {
         "tier": 1
+      }
+    },
+    "enemies:thorn_maw_t5": {
+      "collection": "creatureDefinitions",
+      "id": "thorn_maw_t5",
+      "formula": "creature.combat",
+      "profile": "guardian",
+      "inputs": {
+        "tier": 5
       }
     },
     "enemies:thorn_maw_t20": {
