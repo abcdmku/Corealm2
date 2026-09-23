@@ -1,0 +1,299 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_flint_mandible",
+  "displayName": "Flint Mandible",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+    "sha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+    "bytes": 16766828,
+    "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+    "batchId": "flint-mandible",
+    "sourceImage": "assets/art/tripo/references/stone-flint-mandible.png",
+    "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+    "sourceImageSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+    "sourceAudit": {
+      "verdict": "approved",
+      "noOtherCandidateFound": true
+    },
+    "imageApproval": {
+      "verdict": "approved",
+      "sourceReferencePinned": true
+    },
+    "topology": {
+      "vertices": 2649,
+      "triangles": 4178,
+      "retopology": false
+    },
+    "originalRig": {
+      "skinJoints": 8,
+      "clips": 0,
+      "bone0WeightFraction": 0.9999999890131179,
+      "restTransforms": "identity"
+    },
+    "sourceMaterial": {
+      "name": "Material_tripo_node_c0d8de42-f212-4372-abfb-08beda541e22",
+      "baseColorMap": "8192x8192",
+      "metallicRoughnessMap": false,
+      "normalMap": false,
+      "occlusionMap": false,
+      "sha256": "7b18f12d74a471fd889a7af758179a4696389c998b6b65de9832e2751477cc84"
+    }
+  },
+  "candidate": {
+    "file": "flint-mandible-native-rig-candidate.glb",
+    "sha256": "3a799e93caf821e1bead35515e1816d77d738573a3befc0626cbf4e39ff7ac05",
+    "bytes": 13792528,
+    "vertices": 2649,
+    "triangles": 4178,
+    "bounds": {
+      "min": [
+        -0.324462890625,
+        0,
+        -0.499755859375
+      ],
+      "max": [
+        0.324462890625,
+        0.70654296875,
+        0.499755859375
+      ]
+    },
+    "size": {
+      "x": 0.64892578125,
+      "y": 0.70654296875,
+      "z": 0.99951171875
+    },
+    "groundY": 0,
+    "rig": {
+      "type": "custom six-leg burrower",
+      "jointCount": 30,
+      "boneNames": [
+        "FlintRoot",
+        "BodyCore",
+        "Carapace",
+        "Head",
+        "Mandible",
+        "Abdomen",
+        "FrontLeft_Hip",
+        "FrontLeft_Femur",
+        "FrontLeft_Tibia",
+        "FrontLeft_Tarsus",
+        "FrontRight_Hip",
+        "FrontRight_Femur",
+        "FrontRight_Tibia",
+        "FrontRight_Tarsus",
+        "MiddleLeft_Hip",
+        "MiddleLeft_Femur",
+        "MiddleLeft_Tibia",
+        "MiddleLeft_Tarsus",
+        "MiddleRight_Hip",
+        "MiddleRight_Femur",
+        "MiddleRight_Tibia",
+        "MiddleRight_Tarsus",
+        "RearLeft_Hip",
+        "RearLeft_Femur",
+        "RearLeft_Tibia",
+        "RearLeft_Tarsus",
+        "RearRight_Hip",
+        "RearRight_Femur",
+        "RearRight_Tibia",
+        "RearRight_Tarsus"
+      ],
+      "legPairs": [
+        "Front",
+        "Middle",
+        "Rear"
+      ],
+      "basis": "Y-up, X lateral, +Z toward head and mandible",
+      "weights": "Four normalized influences from model-space body regions and nearest six-leg rig segments. Original positions, normals, UVs and indices are retained."
+    },
+    "textures": [
+      {
+        "name": "FlintMandible_BaseColor_2K",
+        "role": "base-color",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 1738056,
+        "sha256": "8ec8eb0171e6b4d3157f9de53ff72c2bdcaacc37147caf62c5294e11571ed6d7",
+        "file": "assets/art/tripo/imports/creatures/nine-pack-two/flint-mandible/textures/flint-mandible-basecolor-2k.jpg"
+      },
+      {
+        "name": "FlintMandible_Normal_2K",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 7854396,
+        "sha256": "9ac919b4373201b102bf1d6c5b35716af18ce57f9700c2dc45eea27e893c91cc",
+        "file": "assets/art/tripo/imports/creatures/nine-pack-two/flint-mandible/textures/flint-mandible-normal-2k.png"
+      },
+      {
+        "name": "FlintMandible_ORM_2K",
+        "role": "occlusion-roughness-metallic",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 3864398,
+        "sha256": "6e7e60caa6055d42f561b3e074be19680808e35c72d2bd8d51ee887e56d88454",
+        "file": "assets/art/tripo/imports/creatures/nine-pack-two/flint-mandible/textures/flint-mandible-orm-2k.png"
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 28
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.12,
+        "channels": 27
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 27
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.86,
+        "channels": 7
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.44,
+        "channels": 9
+      },
+      {
+        "name": "Death",
+        "seconds": 1.62,
+        "channels": 17
+      }
+    ],
+    "validation": {
+      "sourcePositionsNormalsUvsIndicesPreserved": true,
+      "sourceVertices": 2649,
+      "sourceTriangles": 4178,
+      "sourceWeightBone0Fraction": 0.9999999890131179,
+      "normalizedFourSlotWeights": true,
+      "maxWeightSumError": 4.470348358154297e-8,
+      "distributedVertices": 2643,
+      "activeJointVertexCounts": {
+        "FlintRoot": 0,
+        "BodyCore": 2649,
+        "Carapace": 946,
+        "Head": 1248,
+        "Mandible": 486,
+        "Abdomen": 899,
+        "FrontLeft_Hip": 295,
+        "FrontLeft_Femur": 177,
+        "FrontLeft_Tibia": 158,
+        "FrontLeft_Tarsus": 94,
+        "FrontRight_Hip": 327,
+        "FrontRight_Femur": 181,
+        "FrontRight_Tibia": 158,
+        "FrontRight_Tarsus": 94,
+        "MiddleLeft_Hip": 108,
+        "MiddleLeft_Femur": 118,
+        "MiddleLeft_Tibia": 106,
+        "MiddleLeft_Tarsus": 93,
+        "MiddleRight_Hip": 108,
+        "MiddleRight_Femur": 118,
+        "MiddleRight_Tibia": 106,
+        "MiddleRight_Tarsus": 93,
+        "RearLeft_Hip": 118,
+        "RearLeft_Femur": 132,
+        "RearLeft_Tibia": 143,
+        "RearLeft_Tarsus": 84,
+        "RearRight_Hip": 132,
+        "RearRight_Femur": 143,
+        "RearRight_Tibia": 144,
+        "RearRight_Tarsus": 78
+      },
+      "activeJointWeightMass": {
+        "FlintRoot": 0,
+        "BodyCore": 823.04601,
+        "Carapace": 235.47534,
+        "Head": 235.64244,
+        "Mandible": 107.39579,
+        "Abdomen": 84.65716,
+        "FrontLeft_Hip": 43.36035,
+        "FrontLeft_Femur": 57.76914,
+        "FrontLeft_Tibia": 65.97109,
+        "FrontLeft_Tarsus": 48.31683,
+        "FrontRight_Hip": 44.12245,
+        "FrontRight_Femur": 57.8006,
+        "FrontRight_Tibia": 65.97333,
+        "FrontRight_Tarsus": 48.31438,
+        "MiddleLeft_Hip": 22.83724,
+        "MiddleLeft_Femur": 53.38608,
+        "MiddleLeft_Tibia": 36.27822,
+        "MiddleLeft_Tarsus": 69.56131,
+        "MiddleRight_Hip": 22.83772,
+        "MiddleRight_Femur": 53.37817,
+        "MiddleRight_Tibia": 36.27823,
+        "MiddleRight_Tarsus": 69.56129,
+        "RearLeft_Hip": 16.38651,
+        "RearLeft_Femur": 66.33126,
+        "RearLeft_Tibia": 52.90139,
+        "RearLeft_Tarsus": 47.18441,
+        "RearRight_Hip": 16.42761,
+        "RearRight_Femur": 65.10228,
+        "RearRight_Tibia": 73.76735,
+        "RearRight_Tarsus": 28.93603
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 2.8,
+          "channels": 28
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.12,
+          "channels": 27
+        },
+        {
+          "name": "Run",
+          "seconds": 0.72,
+          "channels": 27
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.86,
+          "channels": 7
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.44,
+          "channels": 9
+        },
+        {
+          "name": "Death",
+          "seconds": 1.62,
+          "channels": 17
+        }
+      ],
+      "runtimeMapsAll2K": true
+    }
+  },
+  "acceptance": {
+    "imageAudit": false,
+    "geometryAudit": false,
+    "textureAudit": false,
+    "rigAudit": false,
+    "animationAudit": false,
+    "rootLabReview": false,
+    "productionReady": false,
+    "worldIntegrated": false,
+    "status": "pending-root-lab-review"
+  },
+  "notes": [
+    "Candidate only. It is not wired to a production manifest or final world.",
+    "The approved Tripo source has no packed PBR maps. The original layered 8K stone base color is retained as a 2K runtime albedo; aligned 2K tangent normal and ORM maps are derived from its painted mineral relief.",
+    "The source mesh remains the same 2,649 vertices and 4,178 triangles. The unusable identity-rest, bone_0-dominated source skin was replaced with a spatially weighted body and six-leg rig.",
+    "The model uses a neutral rough, non-metallic mineral material. All visual, deformation, animation and feature-lab acceptance is pending the root review."
+  ]
+}

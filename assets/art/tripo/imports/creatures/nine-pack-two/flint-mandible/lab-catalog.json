@@ -1,0 +1,78 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_flint_mandible",
+      "file": "flint-mandible-native-rig-candidate.glb",
+      "pack": "corealm-tripo-creature-candidates",
+      "category": "character",
+      "is": "Flint Mandible six-leg burrower candidate",
+      "tags": [
+        "creature",
+        "burrower",
+        "arthropod",
+        "mineral-shell",
+        "six-legged",
+        "candidate"
+      ],
+      "bytes": 13792528,
+      "sha256": "3a799e93caf821e1bead35515e1816d77d738573a3befc0626cbf4e39ff7ac05",
+      "size": {
+        "x": 0.64892578125,
+        "y": 0.70654296875,
+        "z": 0.99951171875
+      },
+      "base": {
+        "x": -0.324462890625,
+        "y": 0,
+        "z": -0.499755859375
+      },
+      "bounds": {
+        "min": [
+          -0.324462890625,
+          0,
+          -0.499755859375
+        ],
+        "max": [
+          0.324462890625,
+          0.70654296875,
+          0.499755859375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4178,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_flint_mandible_fangstone"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "batchId": "flint-mandible",
+        "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+        "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+        "sourceFile": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+        "sourceSha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+        "sourceImage": "assets/art/tripo/references/stone-flint-mandible.png",
+        "sourceImageSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+        "candidateFile": "flint-mandible-native-rig-candidate.glb",
+        "candidateSha256": "3a799e93caf821e1bead35515e1816d77d738573a3befc0626cbf4e39ff7ac05",
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_flint_mandible": "flint-mandible-native-rig-candidate.glb"
+  }
+}
