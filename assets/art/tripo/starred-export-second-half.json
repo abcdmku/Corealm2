@@ -329,8 +329,24 @@
                        "prompt":  "ogre-like giant humanoid with weathered brown skin, torn leather loincloth, rugged muscular build, rough textured surface",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "not indicated",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/f0925563-0980-4f9a-b1ab-84c559184fbe.glb",
+                                    "bytes":  20161332,
+                                    "sha256":  "084512ebfb4b8013d5f5de01b4e3aabb152c03795a1dc3a2e89c2d8710cddf42",
+                                    "faces":  6969,
+                                    "vertices":  4331,
+                                    "meshes":  1,
+                                    "skins":  1,
+                                    "joints":  54,
+                                    "animations":  0,
+                                    "embeddedImages":  1,
+                                    "textures":  1,
+                                    "materials":  1,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  false,
+                                    "hasNormalMap":  false
+                                }
                    },
                    {
                        "order":  32,
@@ -342,8 +358,24 @@
                        "prompt":  "alien insect creature with layered green carapace and iridescent limbs, multi-legged exoskeleton in a fantasy design.",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/8906b179-31f4-48a4-a901-46811d5b8810.glb",
+                                    "bytes":  27182596,
+                                    "sha256":  "7cf2b5553b631c59b8f2b10792b52df053eae1671af92d8a385806a96fca8125",
+                                    "faces":  5460,
+                                    "vertices":  3555,
+                                    "meshes":  1,
+                                    "skins":  1,
+                                    "joints":  18,
+                                    "animations":  0,
+                                    "embeddedImages":  3,
+                                    "textures":  3,
+                                    "materials":  1,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                                }
                    },
                    {
                        "order":  33,
@@ -355,8 +387,24 @@
                        "prompt":  "ogre-like muscular humanoid with beige loincloth, leather belt and pouch, rugged textured skin",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "not indicated",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/7b1a3dab-6bf1-4e52-8e45-ebf5feec46f3.glb",
+                                    "bytes":  16841352,
+                                    "sha256":  "8e4113c6a3454dfe731a7665d5a5d50ac2ed134e7c3e3937ed1b1d8e75b0a2b9",
+                                    "faces":  6568,
+                                    "vertices":  4256,
+                                    "meshes":  1,
+                                    "skins":  1,
+                                    "joints":  54,
+                                    "animations":  0,
+                                    "embeddedImages":  1,
+                                    "textures":  1,
+                                    "materials":  1,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  false,
+                                    "hasNormalMap":  false
+                                }
                    },
                    {
                        "order":  34,
@@ -368,8 +416,24 @@
                        "prompt":  "muscular orc warrior figure with brown skin, primitive cloth wrap, rope belt, and rugged texture",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "not indicated",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/7b0e575a-3c3b-41d2-8235-0faafe23df66.glb",
+                                    "bytes":  17124108,
+                                    "sha256":  "28b86b7c87e7a75831620293387555fe607303bf0c5b85e00c1c2789588c775a",
+                                    "faces":  6566,
+                                    "vertices":  4150,
+                                    "meshes":  1,
+                                    "skins":  1,
+                                    "joints":  54,
+                                    "animations":  0,
+                                    "embeddedImages":  1,
+                                    "textures":  1,
+                                    "materials":  1,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  false,
+                                    "hasNormalMap":  false
+                                }
                    },
                    {
                        "order":  35,
