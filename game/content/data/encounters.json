@@ -1034,6 +1034,21 @@
     ]
   },
   {
+    "id": "population_emberfast_west_lanterns_patrol",
+    "name": "Emberfast Lantern Haunt",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "grave_lantern_t20",
+        "weight": 11
+      },
+      {
+        "creatureId": "banshee_t20",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "veil_reaper_t20_patrol",
     "name": "Veil Reaper",
     "activity": "patrol",
