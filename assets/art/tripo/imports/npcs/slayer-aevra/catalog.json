@@ -1,0 +1,271 @@
+{
+  "schema": "corealm-humanoid-native-rig-candidate/1",
+  "id": "npc_slayer_aevra",
+  "displayName": "Master Aevra",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0.glb",
+    "sha256": "44603b348523d0cf683da09da8a38058785e156ea5194858d093848ba917c9e1",
+    "bytes": 6790312,
+    "starredModelId": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0",
+    "starredProjectId": "4f8d5f1b-5840-40ca-ab7c-0336d059f779",
+    "starredDisplayName": "fairy slayer master",
+    "prompt": "fairy character with tattered brown leather outfit, wings, green skin, yellow eyes, fantasy creature",
+    "geometry": {
+      "vertices": 8103,
+      "triangles": 4714,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.2822265625
+        ],
+        "max": [
+          0.4990234375,
+          0.9980466961860657,
+          0.2822265625
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "normalsPreserved": true,
+      "uvPreserved": true,
+      "retopology": false
+    },
+    "sourceRig": {
+      "joints": 59,
+      "weightedVerticesByJoint": {
+        "Hips": 8093,
+        "Chest": 10
+      },
+      "hipsBindPosition": [
+        0.16958999617900006,
+        0.5321620106697077,
+        -0.0019493103498426808
+      ],
+      "sourceAnimations": []
+    },
+    "textures": [
+      {
+        "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1158648,
+        "sha256": "560ebf43adf9b90f03e345a9c66d11068901818b2ab171fd2563b5af25d606aa"
+      },
+      {
+        "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4720729,
+        "sha256": "a86a07296f9a1bad079c7925e3bf056a4125c2607bbe7f698073a6c6fbb7a10d"
+      },
+      {
+        "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 390673,
+        "sha256": "eeefac8e6b2b1f5b4643eafb1b8bae5052489ca047f38cbad0294b3bc19125f5"
+      }
+    ],
+    "pbr": {
+      "modelPreset": "P1",
+      "sourceTextures": [
+        "base-color",
+        "metallic-roughness",
+        "normal"
+      ],
+      "textureResolution": "2K"
+    }
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/npcs/slayer-aevra/aevra-wings-native-rig.glb",
+    "sha256": "99db0179804a0492b8f0862b902f004dfad072922cec429e7dcef9b0a6b8d831",
+    "bytes": 7040120,
+    "productionTarget": "game/public/assets/models/character/npc_slayer_aevra.glb",
+    "geometry": {
+      "vertices": 8103,
+      "triangles": 4714,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "type": "Mixamo-named humanoid plus eight articulated wing joints",
+      "joints": [
+        "mixamorigHips",
+        "mixamorigSpine",
+        "mixamorigSpine1",
+        "mixamorigSpine2",
+        "mixamorigNeck",
+        "mixamorigNeckTwist",
+        "mixamorigHead",
+        "mixamorigLeftEye",
+        "mixamorigRightEye",
+        "mixamorigLeftShoulder",
+        "mixamorigLeftArm",
+        "mixamorigLeftForeArm",
+        "mixamorigLeftHand",
+        "mixamorigLeftHandThumb1",
+        "mixamorigLeftHandThumb2",
+        "mixamorigLeftHandThumb3",
+        "mixamorigLeftHandThumb3End",
+        "mixamorigLeftHandIndex1",
+        "mixamorigLeftHandIndex2",
+        "mixamorigLeftHandIndex3",
+        "mixamorigLeftHandIndex3End",
+        "mixamorigLeftHandMiddle1",
+        "mixamorigLeftHandMiddle2",
+        "mixamorigLeftHandMiddle3",
+        "mixamorigLeftHandMiddle3End",
+        "mixamorigLeftHandRing1",
+        "mixamorigLeftHandPinky1",
+        "mixamorigLeftHandPinky2",
+        "mixamorigLeftHandPinky3",
+        "mixamorigLeftHandPinky3End",
+        "mixamorigRightShoulder",
+        "mixamorigRightArm",
+        "mixamorigRightForeArm",
+        "mixamorigRightHand",
+        "mixamorigRightHandThumb1",
+        "mixamorigRightHandThumb2",
+        "mixamorigRightHandThumb3",
+        "mixamorigRightHandThumb3End",
+        "mixamorigRightHandIndex1",
+        "mixamorigRightHandIndex2",
+        "mixamorigRightHandIndex3",
+        "mixamorigRightHandIndex3End",
+        "mixamorigRightHandMiddle1",
+        "mixamorigRightHandMiddle2",
+        "mixamorigRightHandMiddle3",
+        "mixamorigRightHandMiddle3End",
+        "mixamorigRightHandRing1",
+        "mixamorigRightHandPinky1",
+        "mixamorigRightHandPinky2",
+        "mixamorigRightHandPinky3",
+        "mixamorigRightHandPinky3End",
+        "mixamorigLeftUpLeg",
+        "mixamorigLeftLeg",
+        "mixamorigLeftFoot",
+        "mixamorigLeftToeBase",
+        "mixamorigRightUpLeg",
+        "mixamorigRightLeg",
+        "mixamorigRightFoot",
+        "mixamorigRightToeBase",
+        "AevraWingLUpperRoot",
+        "AevraWingLUpperTip",
+        "AevraWingRUpperRoot",
+        "AevraWingRUpperTip",
+        "AevraWingLLowerRoot",
+        "AevraWingLLowerTip",
+        "AevraWingRLowerRoot",
+        "AevraWingRLowerTip"
+      ],
+      "wingInfluencedVertices": {
+        "LUpper": 425,
+        "RUpper": 662,
+        "LLower": 17,
+        "RLower": 106
+      },
+      "verticesWithDistributedWeights": 7904,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "method": "Rest transforms recovered from Tripo inverse-bind matrices; source root-only weights replaced by four-influence, anatomy-gated weights. Four upper/lower wing chains receive vertex weights from the existing mesh silhouette. No retopology."
+    },
+    "textures": [
+      {
+        "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1158648,
+        "sha256": "560ebf43adf9b90f03e345a9c66d11068901818b2ab171fd2563b5af25d606aa"
+      },
+      {
+        "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4720729,
+        "sha256": "a86a07296f9a1bad079c7925e3bf056a4125c2607bbe7f698073a6c6fbb7a10d"
+      },
+      {
+        "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 390673,
+        "sha256": "eeefac8e6b2b1f5b4643eafb1b8bae5052489ca047f38cbad0294b3bc19125f5"
+      }
+    ],
+    "pbr": {
+      "baseColor": true,
+      "metallicRoughness": true,
+      "normal": true,
+      "channelRanges": {
+        "roughness": [
+          0.047058823529411764,
+          1
+        ],
+        "metallic": [
+          0,
+          0.24705882352941178
+        ]
+      },
+      "materialFactors": {
+        "metallic": 1,
+        "roughness": 1
+      }
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.4,
+        "channels": 10
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.16,
+        "channels": 15
+      },
+      {
+        "name": "Run",
+        "seconds": 0.74,
+        "channels": 15
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.96,
+        "channels": 12
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.48,
+        "channels": 11
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 14
+      },
+      {
+        "name": "Talk",
+        "seconds": 1.42,
+        "channels": 12
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": "pending-root-review",
+    "geometry": true,
+    "rig": false,
+    "motion": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

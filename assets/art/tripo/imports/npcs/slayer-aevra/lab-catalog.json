@@ -1,0 +1,108 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "npc_slayer_aevra",
+      "file": "models/character/npc_slayer_aevra.glb",
+      "pack": "corealm-starred-slayer-npcs",
+      "category": "character",
+      "is": "Master Aevra",
+      "tags": [
+        "npc",
+        "humanoid",
+        "fairy",
+        "slayer-master",
+        "gloamgarden",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 7040120,
+      "sha256": "99db0179804a0492b8f0862b902f004dfad072922cec429e7dcef9b0a6b8d831",
+      "size": {
+        "x": 0.998046875,
+        "y": 0.9980466961860657,
+        "z": 0.564453125
+      },
+      "base": {
+        "x": -0.4990234375,
+        "y": 0,
+        "z": -0.2822265625
+      },
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.2822265625
+        ],
+        "max": [
+          0.4990234375,
+          0.9980466961860657,
+          0.2822265625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4714,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "Talk"
+      ],
+      "materials": [
+        "tripo_node_3f4015cc-f7e9-46a2-8fba-d9c0109b3d32_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig repair",
+        "sourceModelId": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0",
+        "sourceProjectId": "4f8d5f1b-5840-40ca-ab7c-0336d059f779",
+        "sourceFile": "assets/art/tripo/exports/98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0.glb",
+        "sourceSha256": "44603b348523d0cf683da09da8a38058785e156ea5194858d093848ba917c9e1",
+        "candidateFile": "assets/art/tripo/imports/npcs/slayer-aevra/aevra-wings-native-rig.glb",
+        "candidateSha256": "99db0179804a0492b8f0862b902f004dfad072922cec429e7dcef9b0a6b8d831",
+        "rigMethod": "Mixamo-named body bones recovered from source inverse binds, with four upper/lower wing chains weighted on the unchanged source topology.",
+        "textures": [
+          {
+            "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1158648,
+            "sha256": "560ebf43adf9b90f03e345a9c66d11068901818b2ab171fd2563b5af25d606aa"
+          },
+          {
+            "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4720729,
+            "sha256": "a86a07296f9a1bad079c7925e3bf056a4125c2607bbe7f698073a6c6fbb7a10d"
+          },
+          {
+            "name": "98ca3c8c-f4de-43dc-9ba3-427d8a5bbfa0_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 390673,
+            "sha256": "eeefac8e6b2b1f5b4643eafb1b8bae5052489ca047f38cbad0294b3bc19125f5"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "npc_slayer_aevra": "aevra-wings-native-rig.glb"
+  }
+}
