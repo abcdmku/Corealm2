@@ -1,0 +1,113 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_redmane_breaker",
+      "file": "models/creature/creature_redmane_breaker.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Redmane Breaker",
+      "tags": [
+        "creature",
+        "humanoid",
+        "minotaur",
+        "redmane",
+        "T40-T50",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 4709040,
+      "sha256": "7f7c8510eb4a3357288beec3a238698edd82adff59b7689c499794ea8d12a1cd",
+      "size": {
+        "x": 2.2283868080057125,
+        "y": 2.2,
+        "z": 2.4176344086021504
+      },
+      "base": {
+        "x": -1.1141934040028563,
+        "y": 0,
+        "z": -1.2088172043010752
+      },
+      "bounds": {
+        "min": [
+          -1.1141934040028563,
+          0,
+          -1.2088172043010752
+        ],
+        "max": [
+          1.1141934040028563,
+          2.2,
+          1.2088172043010752
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5169,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_1c617616-9def-4e08-b787-2fc2cdeefd0f_material"
+      ],
+      "presentation": {
+        "targetHeightMeters": 2.2,
+        "scaleFactor": 2.4223655913978495,
+        "uniformRootScale": 2.4223655913978495,
+        "scaleNode": "RedmaneBreakerArmature"
+      },
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "501ffade-8115-427c-8616-e2791cfb40f6",
+        "sourceCardId": "f4934bef-8282-4dd6-b0b8-bc6072f4be3b",
+        "sourceFile": "assets/art/tripo/exports/501ffade-8115-427c-8616-e2791cfb40f6.glb",
+        "sourceSha256": "c69d605643fc9041fc02611e08c8d30a78c111e2bde20868e8e2366587e26b7c",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-minotaur/redmane-breaker-native-rig.glb",
+        "candidateSha256": "7f7c8510eb4a3357288beec3a238698edd82adff59b7689c499794ea8d12a1cd",
+        "rigMethod": "Mixamo-named Unity Humanoid skeleton with four normalized anatomical influences per vertex; source had 100% bone_0 weighting, so only JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt.",
+        "textures": [
+          {
+            "name": "minotaur+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 623882,
+            "sha256": "d90536339188f351f8ec15dabf6d03c44a9776cd02366637279c5be6029aa85b"
+          },
+          {
+            "name": "minotaur+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3129853,
+            "sha256": "a8cdaee8ffc0a065e1882fb6cf1a07cf05c375c3c26c35985f0b90f65883e694"
+          },
+          {
+            "name": "minotaur+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 214513,
+            "sha256": "f5aa2dc167750286311670051519dac96a28017d2f58b3103afe58bb5711e046"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_redmane_breaker": "redmane-breaker-native-rig.glb"
+  }
+}

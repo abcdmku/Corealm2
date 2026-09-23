@@ -1,0 +1,504 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_redmane_breaker",
+  "displayName": "Redmane Breaker",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/501ffade-8115-427c-8616-e2791cfb40f6.glb",
+    "sha256": "c69d605643fc9041fc02611e08c8d30a78c111e2bde20868e8e2366587e26b7c",
+    "bytes": 4478576,
+    "starredModelId": "501ffade-8115-427c-8616-e2791cfb40f6",
+    "starredCardId": "f4934bef-8282-4dd6-b0b8-bc6072f4be3b",
+    "starredDisplayName": "minotaur 3d model",
+    "generator": "Tripo P1",
+    "prompt": "horned minotaur with beige horns, red-brown mane, muscular build, sharp fangs, low-poly texture",
+    "geometry": {
+      "vertices": 7896,
+      "triangles": 5169,
+      "bounds": {
+        "min": [
+          -0.4599608778953552,
+          0,
+          -0.4990234375
+        ],
+        "max": [
+          0.4599608778953552,
+          0.908203125,
+          0.4990234375
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "sourceSkin": {
+      "jointCount": 24,
+      "rootWeightedVertices": 7896,
+      "vertexCount": 7896,
+      "allVerticesWeightedToBoneZero": true
+    },
+    "sourceAnimations": [],
+    "textures": [
+      {
+        "name": "minotaur+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 623882,
+        "sha256": "d90536339188f351f8ec15dabf6d03c44a9776cd02366637279c5be6029aa85b"
+      },
+      {
+        "name": "minotaur+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 3129853,
+        "sha256": "a8cdaee8ffc0a065e1882fb6cf1a07cf05c375c3c26c35985f0b90f65883e694"
+      },
+      {
+        "name": "minotaur+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 214513,
+        "sha256": "f5aa2dc167750286311670051519dac96a28017d2f58b3103afe58bb5711e046"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-minotaur/redmane-breaker-native-rig.glb",
+    "sha256": "7f7c8510eb4a3357288beec3a238698edd82adff59b7689c499794ea8d12a1cd",
+    "bytes": 4709040,
+    "productionTarget": "game/public/assets/models/creature/creature_redmane_breaker.glb",
+    "presentation": {
+      "targetHeightMeters": 2.2,
+      "scaleFactor": 2.4223655913978495,
+      "uniformRootScale": 2.4223655913978495,
+      "scaleNode": "RedmaneBreakerArmature"
+    },
+    "geometry": {
+      "vertices": 7896,
+      "triangles": 5169,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "type": "Mixamo-named Unity Humanoid glTF skin",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.36328125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.44501953125,
+            0.02994140625
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.5267578125,
+            0.06986328125
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.60849609375,
+            0.07984375
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.69931640625,
+            0.0998046875
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.77197265625,
+            0.1397265625
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.16558591604232786,
+            0.6266601562499999,
+            0.06986328125
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.2851757442951202,
+            0.60849609375,
+            0.06986328125
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.3955663549900055,
+            0.57216796875,
+            0.0598828125
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.45076166033744813,
+            0.5358398437499999,
+            0.07984375
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.16558591604232786,
+            0.6266601562499999,
+            0.06986328125
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.2851757442951202,
+            0.60849609375,
+            0.06986328125
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.3955663549900055,
+            0.57216796875,
+            0.0598828125
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.45076166033744813,
+            0.5358398437499999,
+            0.07984375
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.1563866984844208,
+            0.30878906250000004,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.2023827862739563,
+            0.15439453125000002,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.3311718320846557,
+            0.049951171875,
+            0.0998046875
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.3311718320846557,
+            0.022705078125,
+            0.24951171875
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.1563866984844208,
+            0.30878906250000004,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.2023827862739563,
+            0.15439453125000002,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.3311718320846557,
+            0.049951171875,
+            0.0998046875
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.3311718320846557,
+            0.022705078125,
+            0.24951171875
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 7896,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "method": "Mixamo-named Unity Humanoid skeleton with four normalized anatomical influences per vertex; source had 100% bone_0 weighting, so only JOINTS_0/WEIGHTS_0 and its unusable source skeleton were rebuilt."
+    },
+    "material": {
+      "metallicFactor": 0.08,
+      "roughnessFactor": 0.9,
+      "sourceMapsPreserved": true
+    },
+    "textures": [
+      {
+        "name": "minotaur+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 623882,
+        "sha256": "d90536339188f351f8ec15dabf6d03c44a9776cd02366637279c5be6029aa85b"
+      },
+      {
+        "name": "minotaur+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 3129853,
+        "sha256": "a8cdaee8ffc0a065e1882fb6cf1a07cf05c375c3c26c35985f0b90f65883e694"
+      },
+      {
+        "name": "minotaur+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 214513,
+        "sha256": "f5aa2dc167750286311670051519dac96a28017d2f58b3103afe58bb5711e046"
+      }
+    ],
+    "packedMetallicChannelRange": [
+      0,
+      0.09019607843137255
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 11
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.12,
+        "channels": 11
+      },
+      {
+        "name": "Run",
+        "seconds": 0.76,
+        "channels": 12
+      },
+      {
+        "name": "Attack",
+        "seconds": 1,
+        "channels": 11
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.48,
+        "channels": 8
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 17
+      }
+    ],
+    "motionVerification": [
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 11,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.2103254450697713,
+        "maximumMovedVertices": 5644,
+        "minimumGroundY": -1.227806104579851e-9,
+        "sweptBounds": {
+          "min": [
+            -0.4486998089927927,
+            -1.227806104579851e-9,
+            -0.4990234449162319
+          ],
+          "max": [
+            0.4580765453696613,
+            0.9098092407501284,
+            0.5035322028229405
+          ]
+        }
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.12,
+        "channels": 11,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.2348171754289558,
+        "maximumMovedVertices": 7896,
+        "minimumGroundY": -0.014773655088491232,
+        "sweptBounds": {
+          "min": [
+            -0.44778048741560467,
+            -0.014773655088491232,
+            -0.5133721674787333
+          ],
+          "max": [
+            0.4582665678179574,
+            0.9332031208636764,
+            0.49946305748100206
+          ]
+        }
+      },
+      {
+        "name": "Run",
+        "seconds": 0.76,
+        "channels": 12,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.29674094494184977,
+        "maximumMovedVertices": 7896,
+        "minimumGroundY": -0.03720212203543565,
+        "sweptBounds": {
+          "min": [
+            -0.44778048741560467,
+            -0.03720212203543565,
+            -0.519793804174479
+          ],
+          "max": [
+            0.4588009627292589,
+            0.9650379856779344,
+            0.5263618762183881
+          ]
+        }
+      },
+      {
+        "name": "Attack",
+        "seconds": 1,
+        "channels": 11,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.4762305723792217,
+        "maximumMovedVertices": 7896,
+        "minimumGroundY": -0.004230770501917685,
+        "sweptBounds": {
+          "min": [
+            -0.45870489535790754,
+            -0.004230770501917685,
+            -0.5414526346823172
+          ],
+          "max": [
+            0.45917641216360555,
+            0.9665651510224876,
+            0.5975932075293829
+          ]
+        }
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.48,
+        "channels": 8,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.30023028077694036,
+        "maximumMovedVertices": 7896,
+        "minimumGroundY": -1.227806104579851e-9,
+        "sweptBounds": {
+          "min": [
+            -0.44814459554710645,
+            -1.227806104579851e-9,
+            -0.57852142975084
+          ],
+          "max": [
+            0.4580669513938636,
+            0.9096823239158052,
+            0.4990234246231886
+          ]
+        }
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 17,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.3971623740016958,
+        "maximumMovedVertices": 7896,
+        "minimumGroundY": -0.02282812320986066,
+        "sweptBounds": {
+          "min": [
+            -0.44778048741560467,
+            -0.02282812320986066,
+            -0.5204711369558737
+          ],
+          "max": [
+            0.4580448988130813,
+            0.9448891271578792,
+            0.5081753852047346
+          ]
+        }
+      }
+    ]
+  },
+  "suggestedTier": "T40-T50",
+  "suggestedRegionFit": "Highland border or upper Wilderness; large aggressive humanoid belongs well above the starter region.",
+  "acceptance": {
+    "sourceDesignAudit": false,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
