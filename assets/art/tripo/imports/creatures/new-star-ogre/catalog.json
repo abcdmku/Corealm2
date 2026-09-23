@@ -60,8 +60,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-ogre/rookback-ogre-native-rig-candidate.glb",
-    "sha256": "04c767a1ed2467c15bfc1e0d3a0391d6a7c0891307a330092225c69ec60f6d4e",
-    "bytes": 3763528,
+    "sha256": "39281349a927147ec89cb7befa854a89b8cd6ca3579c24254946fa486ca587b0",
+    "bytes": 3763524,
     "productionTarget": "game/public/assets/models/creature/creature_rookback_ogre.glb",
     "geometry": {
       "vertices": 3565,
@@ -82,8 +82,17 @@
       "normalsPreserved": true,
       "uvsPreserved": true,
       "indicesPreserved": true,
-      "scaleFactor": 2.6050880626223094,
-      "targetHeightMeters": 2.6
+      "scaleFactor": 3.147931332384638,
+      "targetHeightMeters": 3.141783029001074
+    },
+    "presentationAdjustment": {
+      "method": "Uniform rig-container scale only",
+      "previousNeutralHeightMeters": 2.6,
+      "previousObservedCaveOgreSlotHeightMeters": 1.862,
+      "calibratedExistingSlotScale": 0.7161538461538461,
+      "targetCaveOgreSlotHeightMeters": 2.25,
+      "expectedHeightAtExistingSlotScaleMeters": 2.25,
+      "sourceGeometryOrTextureChanges": false
     },
     "rig": {
       "type": "Mixamo-named Unity Humanoid mapping candidate",

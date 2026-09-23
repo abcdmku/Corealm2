@@ -10,7 +10,11 @@ const candidatePath = `${baseDir}/rookback-ogre-native-rig-candidate.glb`;
 const expectedSourceSha256 = 'c71d79a06ca73f62f3e3b7b57d6d00acf0508008e8f98a78dc1ce36255178b51';
 const starredCardId = 'a5a3ecc1-6aaf-4b47-9e0c-34785b5f0bf1';
 const modelId = '3b76bc22-c899-46f8-b518-3873e4244072';
-const targetHeightMeters = 2.6;
+const previousTargetHeightMeters = 2.6;
+const previousObservedSlotHeightMeters = 1.862;
+const targetSlotHeightMeters = 2.25;
+const calibratedSlotScale = previousObservedSlotHeightMeters / previousTargetHeightMeters;
+const targetHeightMeters = targetSlotHeightMeters / calibratedSlotScale;
 await mkdir(baseDir, { recursive: true });
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
@@ -337,6 +341,15 @@ const candidate = {
     bytes: outputBytes.length,
     productionTarget: 'game/public/assets/models/creature/creature_rookback_ogre.glb',
     geometry: { vertices: positions.length / 3, triangles: indices.length / 3, nativeBounds: bounds, positionsPreserved: true, normalsPreserved: true, uvsPreserved: true, indicesPreserved: true, scaleFactor: targetScale, targetHeightMeters },
+    presentationAdjustment: {
+      method: 'Uniform rig-container scale only',
+      previousNeutralHeightMeters: previousTargetHeightMeters,
+      previousObservedCaveOgreSlotHeightMeters: previousObservedSlotHeightMeters,
+      calibratedExistingSlotScale: calibratedSlotScale,
+      targetCaveOgreSlotHeightMeters: targetSlotHeightMeters,
+      expectedHeightAtExistingSlotScaleMeters: targetHeightMeters * calibratedSlotScale,
+      sourceGeometryOrTextureChanges: false,
+    },
     rig: { type: 'Mixamo-named Unity Humanoid mapping candidate', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, verticesWithDistributedWeights: multiInfluenceVertices, maximumWeightSumError, method: 'Ogre-specific anatomical bone-segment distance weights with left/right and upper/lower body gates. Source skin was absent.' },
     textures: runtimeTextureMetrics,
     pbrChannelRanges: channelRanges,
@@ -362,9 +375,9 @@ const labAsset = {
   triangles: indices.length / 3,
   animations: clips.map((clip) => clip.name),
   materials: root.listMaterials().map((entry) => entry.getName()),
-  sourceProvenance: { author: 'Corealm candidate rig reconstruction', sourceModelId: modelId, sourceCardId: starredCardId, sourceFile: sourcePath, sourceSha256, candidateFile: candidatePath, candidateSha256, rigMethod: 'Mixamo-named anatomical humanoid skeleton fitted to the original Ogre mesh with four normalized influences per vertex; exact source topology, positions, normals, UVs, and embedded PBR maps are preserved.', textures: runtimeTextureMetrics, candidateStatus: 'awaiting-root-lab-review' },
+  sourceProvenance: { author: 'Corealm candidate rig reconstruction', sourceModelId: modelId, sourceCardId: starredCardId, sourceFile: sourcePath, sourceSha256, candidateFile: candidatePath, candidateSha256, rigMethod: 'Mixamo-named anatomical humanoid skeleton fitted to the original Ogre mesh with four normalized influences per vertex; exact source topology, positions, normals, UVs, and embedded PBR maps are preserved.', textures: runtimeTextureMetrics, presentationAdjustment: { previousObservedCaveOgreSlotHeightMeters: previousObservedSlotHeightMeters, targetCaveOgreSlotHeightMeters: targetSlotHeightMeters, method: 'Uniform rig-container scale only' }, candidateStatus: 'awaiting-root-lab-review' },
   acceptance: { assetAudit: true, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };
 await writeFile(`${baseDir}/lab-catalog.json`, `${JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset], files: { [labAsset.id]: 'rookback-ogre-native-rig-candidate.glb' } }, null, 2)}\n`);
 
-console.log(JSON.stringify({ candidatePath, candidateSha256, sourceSha256, targetHeightMeters, targetScale, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, multiInfluenceVertices, maximumWeightSumError, clips: clips.map(({ name, seconds }) => ({ name, seconds })), runtimeTextureMetrics, pbrChannelRanges: channelRanges, sourceGeometryUnchanged: true, sourcePbrImagesUnchanged: true, rootVisualAndMotionAcceptance: false }, null, 2));
+console.log(JSON.stringify({ candidatePath, candidateSha256, sourceSha256, targetHeightMeters, expectedHeightAtExistingSlotScaleMeters: targetHeightMeters * calibratedSlotScale, targetScale, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, multiInfluenceVertices, maximumWeightSumError, clips: clips.map(({ name, seconds }) => ({ name, seconds })), runtimeTextureMetrics, pbrChannelRanges: channelRanges, sourceGeometryUnchanged: true, sourcePbrImagesUnchanged: true, rootVisualAndMotionAcceptance: false }, null, 2));
