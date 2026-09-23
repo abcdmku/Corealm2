@@ -54494,8 +54494,8 @@
         "starred",
         "tripo"
       ],
-      "bytes": 6790012,
-      "sha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
+      "bytes": 6806404,
+      "sha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
       "size": {
         "x": 1.8809815950920246,
         "y": 1.8,
@@ -54543,7 +54543,7 @@
         "sourceFile": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
         "sourceSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
-        "candidateSha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
+        "candidateSha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
         "rigMethod": "Retained the 62-joint glTF hierarchy and source names for Unity Generic rig import; rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation, then uniformly scaled the armature to a grounded 1.80 m presentation. Source geometry, UVs and authored PBR maps are preserved.",
         "textures": [
           {
@@ -54670,8 +54670,8 @@
         },
         "candidate": {
           "file": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
-          "sha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
-          "bytes": 6790012,
+          "sha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
+          "bytes": 6806404,
           "geometry": {
             "vertices": 8047,
             "triangles": 4760,
