@@ -84961,6 +84961,441 @@
           "test-results/crownsilver-fit-lab/cobalt-staged-rear.png"
         ]
       }
+    },
+    {
+      "id": "corealm_item_mistweave_hood",
+      "file": "models/items/mistweave_hood.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "mistweave_hood",
+        "head",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3564912,
+      "size": {
+        "x": 0.4832763969898224,
+        "y": 0.3694579601287842,
+        "z": 0.6368408203125
+      },
+      "base": {
+        "x": -0.25970458984375,
+        "y": 1.6996386051177979,
+        "z": -0.31144776940345764
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "mistweave_hood",
+        "wearable": true
+      },
+      "itemId": "mistweave_hood",
+      "sha256": "04f8c078d771b8c2ade6dcfa37087d8e14854b82f4b9516b6bb60af4c9ad969d",
+      "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "triangles": 412,
+      "drawCalls": 1,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b653d90",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/mistweave/models/items/mistweave_hood.glb",
+        "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+        "importConfigSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1620456,
+            "sha256": "bc768d8ed1df23d5d5d627f9f3b961266885107d6a9b8d20b822afba8e74f2f7",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 844681,
+            "sha256": "146753a3a6d771f0a5b98580eda1fc000cc7162ef1e591e96c9f9b224808a968",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1062146,
+            "sha256": "de576074dd2fba8c7a814e0b3c5c341c5adad782665c1e4933c77e534d066c78",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/mistweave-staged-rear.png",
+          "test-results/armor-production-verify/mistweave-staged-front.png",
+          "test-results/armor-production-verify/mistweave-walk-04.png",
+          "test-results/armor-production-verify/mistweave-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_mistweave_robe",
+      "file": "models/items/mistweave_robe.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "mistweave_robe",
+        "torso",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3625860,
+      "size": {
+        "x": 1.0874083042144775,
+        "y": 0.8563477396965027,
+        "z": 0.4926137179136276
+      },
+      "base": {
+        "x": -0.5437043905258179,
+        "y": 0.6973633170127869,
+        "z": -0.18348030745983124
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "mistweave_robe",
+        "wearable": true
+      },
+      "itemId": "mistweave_robe",
+      "sha256": "d24beb60c97b61802edfeccc6e40abf819f3508542ea204cf54f0bce2a122938",
+      "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "triangles": 1538,
+      "drawCalls": 5,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b653d90",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/mistweave/models/items/mistweave_robe.glb",
+        "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+        "importConfigSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1620456,
+            "sha256": "bc768d8ed1df23d5d5d627f9f3b961266885107d6a9b8d20b822afba8e74f2f7",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 844681,
+            "sha256": "146753a3a6d771f0a5b98580eda1fc000cc7162ef1e591e96c9f9b224808a968",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1062146,
+            "sha256": "de576074dd2fba8c7a814e0b3c5c341c5adad782665c1e4933c77e534d066c78",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/mistweave-staged-rear.png",
+          "test-results/armor-production-verify/mistweave-staged-front.png",
+          "test-results/armor-production-verify/mistweave-walk-04.png",
+          "test-results/armor-production-verify/mistweave-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_mistweave_wraps",
+      "file": "models/items/mistweave_wraps.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "mistweave_wraps",
+        "arms",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3593620,
+      "size": {
+        "x": 1.7390368580818176,
+        "y": 0.11732900142669678,
+        "z": 0.12620677798986435
+      },
+      "base": {
+        "x": -0.869518518447876,
+        "y": 1.3678839206695557,
+        "z": -0.14697478711605072
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "mistweave_wraps",
+        "wearable": true
+      },
+      "itemId": "mistweave_wraps",
+      "sha256": "f2a88212fd8802484574965d7344460604dfb6e6d285ae7e1a30f5ad5c077f7d",
+      "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "triangles": 954,
+      "drawCalls": 4,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b653d90",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/mistweave/models/items/mistweave_wraps.glb",
+        "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+        "importConfigSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1620456,
+            "sha256": "bc768d8ed1df23d5d5d627f9f3b961266885107d6a9b8d20b822afba8e74f2f7",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 844681,
+            "sha256": "146753a3a6d771f0a5b98580eda1fc000cc7162ef1e591e96c9f9b224808a968",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1062146,
+            "sha256": "de576074dd2fba8c7a814e0b3c5c341c5adad782665c1e4933c77e534d066c78",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/mistweave-staged-rear.png",
+          "test-results/armor-production-verify/mistweave-staged-front.png",
+          "test-results/armor-production-verify/mistweave-walk-04.png",
+          "test-results/armor-production-verify/mistweave-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_mistweave_leggings",
+      "file": "models/items/mistweave_leggings.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "mistweave_leggings",
+        "legs",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3600120,
+      "size": {
+        "x": 0.9475837647914886,
+        "y": 1.0107872933149338,
+        "z": 0.6567424535751343
+      },
+      "base": {
+        "x": -0.4737917184829712,
+        "y": 0.15630264580249786,
+        "z": -0.4053933620452881
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "mistweave_leggings",
+        "wearable": true
+      },
+      "itemId": "mistweave_leggings",
+      "sha256": "5a29fcf193fef2920caf081cdcc5d3a10754e3a97b387be916ac2252f30a9b99",
+      "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "triangles": 1107,
+      "drawCalls": 2,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b653d90",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/mistweave/models/items/mistweave_leggings.glb",
+        "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+        "importConfigSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1620456,
+            "sha256": "bc768d8ed1df23d5d5d627f9f3b961266885107d6a9b8d20b822afba8e74f2f7",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 844681,
+            "sha256": "146753a3a6d771f0a5b98580eda1fc000cc7162ef1e591e96c9f9b224808a968",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1062146,
+            "sha256": "de576074dd2fba8c7a814e0b3c5c341c5adad782665c1e4933c77e534d066c78",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/mistweave-staged-rear.png",
+          "test-results/armor-production-verify/mistweave-staged-front.png",
+          "test-results/armor-production-verify/mistweave-walk-04.png",
+          "test-results/armor-production-verify/mistweave-walk-09.png"
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_mistweave_boots",
+      "file": "models/items/mistweave_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "mistweave_boots",
+        "feet",
+        "tripo-armor-approved"
+      ],
+      "bytes": 3598656,
+      "size": {
+        "x": 0.3727319985628128,
+        "y": 0.4164312928915024,
+        "z": 0.2836499363183975
+      },
+      "base": {
+        "x": -0.18636591732501984,
+        "y": -5.513429641723633e-7,
+        "z": -0.09464393556118011
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemModel": {
+        "itemId": "mistweave_boots",
+        "wearable": true
+      },
+      "itemId": "mistweave_boots",
+      "sha256": "d4c1a79c7d8a7ca9c63542e80e3e217c6a31d424f3439c058fc9269324ce0ca2",
+      "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+      "configSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+      "triangles": 911,
+      "drawCalls": 8,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b653d90",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/mistweave/models/items/mistweave_boots.glb",
+        "sourceSha256": "847c36d290c909bebf0fdb9015f4ec21f2f36bb1434b72ae9db79ab4a62dba99",
+        "importConfigSha256": "f1f57e1ebd3b0aba4dc5090948bce71f821c2a92a2f886cb7920aad88b96ca0d",
+        "sourceTextureSize": 2048,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1620456,
+            "sha256": "bc768d8ed1df23d5d5d627f9f3b961266885107d6a9b8d20b822afba8e74f2f7",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 844681,
+            "sha256": "146753a3a6d771f0a5b98580eda1fc000cc7162ef1e591e96c9f9b224808a968",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1062146,
+            "sha256": "de576074dd2fba8c7a814e0b3c5c341c5adad782665c1e4933c77e534d066c78",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/mistweave/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/mistweave-staged-rear.png",
+          "test-results/armor-production-verify/mistweave-staged-front.png",
+          "test-results/armor-production-verify/mistweave-walk-04.png",
+          "test-results/armor-production-verify/mistweave-walk-09.png"
+        ]
+      }
     }
   ]
 }
