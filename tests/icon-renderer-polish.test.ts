@@ -111,7 +111,7 @@ describe("prepared icon assets", () => {
     const sourceMesh = new THREE.Mesh(new THREE.BoxGeometry(), authored);
     sourceMesh.position.set(0.3, 0.2, 0.1);
     source.add(sourceMesh);
-    const before = authored.map(materialState);
+    const before = authored.map(material => materialState(material));
     const beforeTransform = graphTransforms(source);
 
     const icon = prepareItemIconAsset(source, {
@@ -130,7 +130,7 @@ describe("prepared icon assets", () => {
     expect(iconMesh.position.toArray()).toEqual(sourceMesh.position.toArray());
     expect(graphTransforms(source)).toEqual(beforeTransform);
     expect(sourceMesh.material).toBe(authored);
-    expect(authored.map(materialState)).toEqual(before);
+    expect(authored.map(material => materialState(material))).toEqual(before);
 
     materials(icon).forEach((material, index) => {
       const original = authored[index]!;
@@ -145,7 +145,7 @@ describe("prepared icon assets", () => {
       expect(material.side).toBe(original.side);
     });
     materials(icon)[0]!.color.setHex(0xffffff);
-    expect(authored.map(materialState)).toEqual(before);
+    expect(authored.map(material => materialState(material))).toEqual(before);
   });
 
   it.each([
@@ -183,7 +183,7 @@ describe("prepared icon assets", () => {
     gem.emissiveMap = null;
     const masked = authoredMaterial();
     const source = new THREE.Mesh(new THREE.BoxGeometry(), [steel, leather, gem, masked]);
-    const before = materials(source).map(materialState);
+    const before = materials(source).map(material => materialState(material));
 
     const icon = prepareItemIconAsset(source, {
       kind: "asset", assetId: appearance.assetId, gearAppearance: appearance,
@@ -201,7 +201,7 @@ describe("prepared icon assets", () => {
     expect(iconGem!.emissiveIntensity).toBe(0);
     expect(iconMasked!.emissiveMap).toBe(masked.emissiveMap);
     expect(iconMasked!.emissiveIntensity).toBeGreaterThan(0);
-    expect(materials(source).map(materialState)).toEqual(before);
+    expect(materials(source).map(material => materialState(material))).toEqual(before);
   });
 
   it.each([true, false])("attaches the production elemental socket with charge %s", charged => {
@@ -225,7 +225,8 @@ describe("prepared icon assets", () => {
     expect(iconOrb.scale.toArray()).toEqual(expectedOrb.scale.toArray());
     expect(iconOrb.castShadow).toBe(expectedOrb.castShadow);
     expect(iconOrb.receiveShadow).toBe(expectedOrb.receiveShadow);
-    expect(materials(iconOrb).map(materialState)).toEqual(materials(expectedOrb).map(materialState));
+    expect(materials(iconOrb).map(material => materialState(material)))
+      .toEqual(materials(expectedOrb).map(material => materialState(material)));
     expect(source.children).toHaveLength(1);
     expect(meshes(source).some(mesh => mesh.name.startsWith("magic-weapon-socket-"))).toBe(false);
   });
