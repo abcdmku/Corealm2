@@ -98,9 +98,9 @@ const multiplyQuat = (a, b) => [
 ];
 // The source is exported in a T-pose. These rotations tuck the pauldron,
 // upper arm, and gauntlet into a relaxed guard pose without changing its mesh.
-const guardShoulder = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (1.06 + roll)), quat('y', side * (0.06 + pitch)));
-const guardArm = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (0.50 + roll)), quat('y', side * (0.12 + pitch)));
-const guardForeArm = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (0.68 + roll)), quat('y', side * (0.18 + pitch)));
+const guardShoulder = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (1.70 + roll)), quat('y', side * (0.06 + pitch)));
+const guardArm = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (0.10 + roll)), quat('y', side * (0.12 + pitch)));
+const guardForeArm = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (0.02 + roll)), quat('y', side * (0.18 + pitch)));
 const bindRotation = (name) => {
   const side = name.includes('Left') ? 1 : -1;
   if (name.endsWith('Shoulder')) return guardShoulder(side);
@@ -194,7 +194,20 @@ primitive.setAttribute('JOINTS_0', doc.createAccessor('PearlPatrolKnight_Joints0
 primitive.setAttribute('WEIGHTS_0', doc.createAccessor('PearlPatrolKnight_Weights0').setArray(weights).setType(Accessor.Type.VEC4).setBuffer(buffer));
 
 const clips = [];
+const guardedArmChannels = [
+  'mixamorigLeftShoulder', 'mixamorigRightShoulder',
+  'mixamorigLeftArm', 'mixamorigRightArm',
+  'mixamorigLeftForeArm', 'mixamorigRightForeArm',
+];
+const quaternionError = (a, b) => 2 * Math.acos(Math.min(1, Math.abs(a.reduce((sum, value, index) => sum + value * b[index], 0))));
 function addClip(name, seconds, tracks) {
+  let maxGuardStartErrorRadians = 0;
+  for (const nodeName of guardedArmChannels) {
+    const track = tracks.find((entry) => entry.node === nodeName && (entry.path ?? 'rotation') === 'rotation');
+    if (!track) throw new Error(`${name} is missing its ${nodeName} guard-start track.`);
+    maxGuardStartErrorRadians = Math.max(maxGuardStartErrorRadians, quaternionError(track.values[0], bindRotation(nodeName)));
+  }
+  if (maxGuardStartErrorRadians > 1e-4) throw new Error(`${name} starts outside the relaxed guard pose by ${maxGuardStartErrorRadians} radians.`);
   const animation = doc.createAnimation(name);
   for (const track of tracks) {
     const path = track.path ?? 'rotation';
@@ -207,7 +220,7 @@ function addClip(name, seconds, tracks) {
     const sampler = doc.createAnimationSampler(`${name}_${track.node}_${path}`).setInput(input).setOutput(output).setInterpolation('LINEAR');
     animation.addSampler(sampler).addChannel(doc.createAnimationChannel(`${track.node}_${path}`).setTargetNode(nodes.get(track.node)).setTargetPath(path).setSampler(sampler));
   }
-  clips.push({ name, seconds, channels: tracks.length });
+  clips.push({ name, seconds, channels: tracks.length, maxGuardStartErrorRadians });
 }
 const phases = [0, 0.25, 0.5, 0.75, 1];
 const swing = (phase, magnitude) => phases.map((t) => quat('x', Math.sin((t + phase) * Math.PI * 2) * magnitude));
@@ -287,6 +300,93 @@ addClip('Death', 1.45, [
   { node: 'mixamorigLeftUpLeg', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', -0.06), quat('x', -0.18), quat('x', -0.18), quat('x', -0.18)] },
   { node: 'mixamorigRightUpLeg', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.06), quat('x', 0.18), quat('x', 0.18), quat('x', 0.18)] },
 ]);
+
+// Offline linear-blend skin proof: apply the guard bind transforms to the
+// T-pose vertices through the generated four-weight fields and neutral IBMs.
+const rotateVector = (rotation, vector) => {
+  const [x, y, z, w] = rotation;
+  const uv = [y * vector[2] - z * vector[1], z * vector[0] - x * vector[2], x * vector[1] - y * vector[0]];
+  const uuv = [y * uv[2] - z * uv[1], z * uv[0] - x * uv[2], x * uv[1] - y * uv[0]];
+  return vector.map((value, axis) => value + 2 * (w * uv[axis] + uuv[axis]));
+};
+const restWorld = new Map();
+for (const bone of bones) {
+  const parent = bone.parent ? restWorld.get(bone.parent) : { position: [0, 0, 0], rotation: [0, 0, 0, 1] };
+  restWorld.set(bone.name, {
+    position: parent.position.map((value, axis) => value + rotateVector(parent.rotation, bone.local)[axis]),
+    rotation: multiplyQuat(parent.rotation, bindRotation(bone.name)),
+  });
+}
+const makeRegionStats = () => ({ count: 0, sourceAbsX: 0, guardAbsX: 0, sourceMinX: Infinity, sourceMaxX: -Infinity, guardMinX: Infinity, guardMaxX: -Infinity, sourceMinY: Infinity, sourceMaxY: -Infinity, guardMinY: Infinity, guardMaxY: -Infinity });
+const poseRegions = {
+  left: { arm: makeRegionStats(), forearm: makeRegionStats(), hand: makeRegionStats() },
+  right: { arm: makeRegionStats(), forearm: makeRegionStats(), hand: makeRegionStats() },
+};
+const armJointIndices = {
+  left: new Set(bones.map((bone, index) => bone.group === 'leftArm' ? index : -1).filter((index) => index >= 0)),
+  right: new Set(bones.map((bone, index) => bone.group === 'rightArm' ? index : -1).filter((index) => index >= 0)),
+};
+const directJointIndices = {
+  left: { forearm: byName.get('mixamorigLeftForeArm').index, hand: byName.get('mixamorigLeftHand').index },
+  right: { forearm: byName.get('mixamorigRightForeArm').index, hand: byName.get('mixamorigRightHand').index },
+};
+const pushPosePoint = (region, source, guard) => {
+  region.count += 1;
+  region.sourceAbsX += Math.abs(source[0]);
+  region.guardAbsX += Math.abs(guard[0]);
+  region.sourceMinX = Math.min(region.sourceMinX, source[0]);
+  region.sourceMaxX = Math.max(region.sourceMaxX, source[0]);
+  region.guardMinX = Math.min(region.guardMinX, guard[0]);
+  region.guardMaxX = Math.max(region.guardMaxX, guard[0]);
+  region.sourceMinY = Math.min(region.sourceMinY, source[1]);
+  region.sourceMaxY = Math.max(region.sourceMaxY, source[1]);
+  region.guardMinY = Math.min(region.guardMinY, guard[1]);
+  region.guardMaxY = Math.max(region.guardMaxY, guard[1]);
+};
+for (let vertex = 0; vertex < positions.length / 3; vertex += 1) {
+  const source = [positions[vertex * 3], positions[vertex * 3 + 1], positions[vertex * 3 + 2]];
+  const guard = [0, 0, 0], groupWeight = { left: 0, right: 0 }, directWeight = { left: { forearm: 0, hand: 0 }, right: { forearm: 0, hand: 0 } };
+  for (let slot = 0; slot < 4; slot += 1) {
+    const offset = vertex * 4 + slot, jointIndex = joints[offset], weight = weights[offset], bone = bones[jointIndex];
+    const transform = restWorld.get(bone.name);
+    const relative = source.map((value, axis) => value - bone.p[axis]);
+    const transformed = rotateVector(transform.rotation, relative);
+    for (let axis = 0; axis < 3; axis += 1) guard[axis] += (transform.position[axis] + transformed[axis]) * weight;
+    for (const side of ['left', 'right']) {
+      if (armJointIndices[side].has(jointIndex)) groupWeight[side] += weight;
+      for (const region of ['forearm', 'hand']) if (directJointIndices[side][region] === jointIndex) directWeight[side][region] += weight;
+    }
+  }
+  for (const side of ['left', 'right']) {
+    if (groupWeight[side] > 0.25) pushPosePoint(poseRegions[side].arm, source, guard);
+    if (directWeight[side].forearm > 0.25) pushPosePoint(poseRegions[side].forearm, source, guard);
+    if (directWeight[side].hand > 0.25) pushPosePoint(poseRegions[side].hand, source, guard);
+  }
+}
+const summarizePoseRegion = (region) => ({
+  vertices: region.count,
+  sourceMeanAbsX: Number((region.sourceAbsX / region.count).toFixed(4)),
+  guardMeanAbsX: Number((region.guardAbsX / region.count).toFixed(4)),
+  sourceBoundsXY: [region.sourceMinX, region.sourceMaxX, region.sourceMinY, region.sourceMaxY].map((value) => Number(value.toFixed(4))),
+  guardBoundsXY: [region.guardMinX, region.guardMaxX, region.guardMinY, region.guardMaxY].map((value) => Number(value.toFixed(4))),
+});
+const guardPoseProof = {
+  method: 'Offline four-weight linear blend of scaled source vertices using generated guard node transforms and neutral inverse binds; no browser or renderer involved.',
+  diagnosis: 'The source is a lateral T-pose; the earlier guard transforms, especially a 0.68 rad forearm rotation, caused the bowed arms and hooked glove silhouette. The revised pose aligns the wrist and moves the arm vertices inward. Source mesh, weights, topology and UVs are unchanged.',
+  nativeScaleMeters: 3.3,
+  poseParametersRadians: { shoulder: 1.70, upperArm: 0.10, forearm: 0.02 },
+  sides: Object.fromEntries(Object.entries(poseRegions).map(([side, regions]) => [side, Object.fromEntries(Object.entries(regions).map(([name, stats]) => [name, summarizePoseRegion(stats)]))])),
+  wristAlignmentErrorRadians: Number(Math.max(...['left', 'right'].map((side) => quaternionError(restWorld.get(`mixamorig${side === 'left' ? 'Left' : 'Right'}ForeArm`).rotation, restWorld.get(`mixamorig${side === 'left' ? 'Left' : 'Right'}Hand`).rotation))).toFixed(6)),
+  allMotionStartsMatchGuard: clips.every((clip) => clip.maxGuardStartErrorRadians <= 1e-4),
+};
+for (const side of ['left', 'right']) {
+  const { arm, forearm, hand } = guardPoseProof.sides[side];
+  const furthestGuardX = Math.max(Math.abs(arm.guardBoundsXY[0]), Math.abs(arm.guardBoundsXY[1]));
+  if (arm.guardMeanAbsX >= arm.sourceMeanAbsX * 0.55 || furthestGuardX > 0.72) throw new Error(`${side} arm deformation remains too far outside the torso: ${JSON.stringify(arm)}.`);
+  if (hand.guardMeanAbsX >= hand.sourceMeanAbsX * 0.30 || hand.guardMeanAbsX >= forearm.guardMeanAbsX) throw new Error(`${side} glove deformation remains hooked/outward: ${JSON.stringify({ forearm, hand })}.`);
+  if (side === 'left' ? hand.guardBoundsXY[1] >= 0 : hand.guardBoundsXY[0] <= 0) throw new Error(`${side} glove crosses the body center in the guard bind pose.`);
+}
+if (guardPoseProof.wristAlignmentErrorRadians > 1e-4 || !guardPoseProof.allMotionStartsMatchGuard) throw new Error('Knight wrist alignment or animation guard starts are inconsistent.');
 
 const material = root.listMaterials()[0];
 const baseColorTexture = material?.getBaseColorTexture();
@@ -378,7 +478,7 @@ const candidate = {
     bytes: bytes.length,
     productionTarget: 'game/public/assets/models/fairy-crown/creature_pearl_knight.glb',
     geometry: { vertices: positions.length / 3, triangles: indices.length / 3, bounds, nativeScale: modelScale, positionsPreserved: false, proportionsPreserved: true, indicesPreserved: true, uvsPreserved: true },
-    rig: { type: 'Mixamo-named Unity Humanoid glTF skin', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, distributedVertices, maximumWeightSumError: maxWeightError, method: 'Source-specific four-weight distance fields fitted to the original T-pose; a relaxed guard bind rotation tucks shoulders, upper arms, and forearms close to the torso. All six clips begin from that pose. Original topology and UVs remain untouched; uniformly normalized to the existing 3.30 m source height.' },
+    rig: { type: 'Mixamo-named Unity Humanoid glTF skin', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, distributedVertices, maximumWeightSumError: maxWeightError, method: 'Source-specific four-weight distance fields fitted to the original T-pose; a close, slightly bent guard bind tucks the arms and keeps the wrist aligned with the glove. All six clips begin from that pose. Original topology and UVs remain untouched; uniformly normalized to the existing 3.30 m source height.', offlineDeformationProof: guardPoseProof },
     textures: runtimeTextures,
     metallicChannelRange: metalRange,
     roughnessChannelRange: roughRange,
@@ -412,7 +512,8 @@ const labAsset = {
     sourceSha256: sourceHash,
     candidateFile: candidatePath,
     candidateSha256: candidateHash,
-    rigMethod: '22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; relaxed guard bind pose carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.',
+    rigMethod: '22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; close guard bind pose and aligned gloves carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.',
+    offlineDeformationProof: guardPoseProof,
     textures: runtimeTextures,
     candidateStatus: 'awaiting-root-lab-review',
   },
@@ -423,4 +524,4 @@ await writeFile(`${baseDir}/lab-catalog.json`, JSON.stringify({
   files: { creature_pearl_knight: 'pearl-patrol-knight-native-rig.glb' },
   assets: [labAsset],
 }, null, 2) + '\n');
-console.log(JSON.stringify({ candidatePath, bytes: bytes.length, sha256: candidateHash, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, distributedVertices, metallicChannelRange: metalRange, roughnessChannelRange: roughRange, clips, runtimeTextures }, null, 2));
+console.log(JSON.stringify({ candidatePath, bytes: bytes.length, sha256: candidateHash, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, distributedVertices, metallicChannelRange: metalRange, roughnessChannelRange: roughRange, clips, offlineDeformationProof: guardPoseProof, runtimeTextures }, null, 2));

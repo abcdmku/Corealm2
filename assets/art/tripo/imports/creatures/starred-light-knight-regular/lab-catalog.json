@@ -20,8 +20,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 11071784,
-      "sha256": "3a8474d83aab6d703a880bfc49c6bae9ce939e6a6b4c36924d5e794096847857",
+      "bytes": 11071788,
+      "sha256": "b1e97ad18a88c3bc539f6f36c1485b7d2d5a72d61a7dc9d5ec1e19ea9b6948be",
       "size": {
         "x": 3.326035499572754,
         "y": 3.299999952316284,
@@ -64,8 +64,128 @@
         "sourceFile": "assets/art/tripo/exports/3255ba4a-055e-446b-9c47-0266c347710a.glb",
         "sourceSha256": "9f0cb9c3eedc9645957e9bdd921b6ad44ad62a560325e42078505ff4dd452ba4",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
-        "candidateSha256": "3a8474d83aab6d703a880bfc49c6bae9ce939e6a6b4c36924d5e794096847857",
-        "rigMethod": "22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; relaxed guard bind pose carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.",
+        "candidateSha256": "b1e97ad18a88c3bc539f6f36c1485b7d2d5a72d61a7dc9d5ec1e19ea9b6948be",
+        "rigMethod": "22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; close guard bind pose and aligned gloves carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.",
+        "offlineDeformationProof": {
+          "method": "Offline four-weight linear blend of scaled source vertices using generated guard node transforms and neutral inverse binds; no browser or renderer involved.",
+          "diagnosis": "The source is a lateral T-pose; the earlier guard transforms, especially a 0.68 rad forearm rotation, caused the bowed arms and hooked glove silhouette. The revised pose aligns the wrist and moves the arm vertices inward. Source mesh, weights, topology and UVs are unchanged.",
+          "nativeScaleMeters": 3.3,
+          "poseParametersRadians": {
+            "shoulder": 1.7,
+            "upperArm": 0.1,
+            "forearm": 0.02
+          },
+          "sides": {
+            "left": {
+              "arm": {
+                "vertices": 1432,
+                "sourceMeanAbsX": 0.9874,
+                "guardMeanAbsX": 0.4545,
+                "sourceBoundsXY": [
+                  -1.663,
+                  -0.3482,
+                  2.4083,
+                  2.7858
+                ],
+                "guardBoundsXY": [
+                  -0.6892,
+                  -0.2621,
+                  1.0866,
+                  2.5437
+                ]
+              },
+              "forearm": {
+                "vertices": 901,
+                "sourceMeanAbsX": 1.0129,
+                "guardMeanAbsX": 0.4635,
+                "sourceBoundsXY": [
+                  -1.4873,
+                  -0.6086,
+                  2.4734,
+                  2.7598
+                ],
+                "guardBoundsXY": [
+                  -0.6892,
+                  -0.2775,
+                  1.2092,
+                  2.134
+                ]
+              },
+              "hand": {
+                "vertices": 565,
+                "sourceMeanAbsX": 1.4338,
+                "guardMeanAbsX": 0.3433,
+                "sourceBoundsXY": [
+                  -1.663,
+                  -1.0186,
+                  2.5124,
+                  2.6817
+                ],
+                "guardBoundsXY": [
+                  -0.4905,
+                  -0.2621,
+                  1.0866,
+                  1.7044
+                ]
+              }
+            },
+            "right": {
+              "arm": {
+                "vertices": 1461,
+                "sourceMeanAbsX": 0.9845,
+                "guardMeanAbsX": 0.4556,
+                "sourceBoundsXY": [
+                  0.3482,
+                  1.663,
+                  2.3953,
+                  2.7858
+                ],
+                "guardBoundsXY": [
+                  0.2621,
+                  0.6893,
+                  1.0866,
+                  2.5437
+                ]
+              },
+              "forearm": {
+                "vertices": 910,
+                "sourceMeanAbsX": 1.0076,
+                "guardMeanAbsX": 0.4653,
+                "sourceBoundsXY": [
+                  0.6086,
+                  1.4873,
+                  2.4734,
+                  2.7598
+                ],
+                "guardBoundsXY": [
+                  0.2775,
+                  0.6893,
+                  1.2092,
+                  2.1339
+                ]
+              },
+              "hand": {
+                "vertices": 569,
+                "sourceMeanAbsX": 1.4354,
+                "guardMeanAbsX": 0.342,
+                "sourceBoundsXY": [
+                  1.0186,
+                  1.663,
+                  2.5124,
+                  2.6817
+                ],
+                "guardBoundsXY": [
+                  0.2621,
+                  0.4905,
+                  1.0866,
+                  1.7044
+                ]
+              }
+            }
+          },
+          "wristAlignmentErrorRadians": 0,
+          "allMotionStartsMatchGuard": true
+        },
         "textures": [
           {
             "name": "3255ba4a-055e-446b-9c47-0266c347710a_basecolor.jpg",
