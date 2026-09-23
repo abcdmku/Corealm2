@@ -17,8 +17,8 @@
         "tripo-p1",
         "candidate"
       ],
-      "bytes": 6913204,
-      "sha256": "99f77e2472d5b4ed56c0bdaae9ea5a8af27c54a58e021bf018d4bfd06dc09aa9",
+      "bytes": 7911984,
+      "sha256": "7b2da59d74e7989beb4f5daec4c3f534e3b9b1544ccc2ff7141d8c76fa27d8b9",
       "size": {
         "x": 0.994140625,
         "y": 0.9980469346046448,
@@ -50,7 +50,8 @@
         "Attack",
         "Hit",
         "Death",
-        "Interact"
+        "Interact",
+        "Talk"
       ],
       "materials": [
         "tripo_node_35cfd3b0-e799-45b9-a850-35a680b1d215_material"
@@ -63,7 +64,7 @@
         "sourceFile": "assets/art/tripo/exports/a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801.glb",
         "sourceSha256": "6206ba042f935f64e62ca152162170bdf30ab44b92b2dc64d566fb2cc4b8537b",
         "candidateFile": "assets/art/tripo/imports/npcs/slayer-vardan/master-vardan-p1-humanoid-candidate.glb",
-        "candidateSha256": "99f77e2472d5b4ed56c0bdaae9ea5a8af27c54a58e021bf018d4bfd06dc09aa9",
+        "candidateSha256": "7b2da59d74e7989beb4f5daec4c3f534e3b9b1544ccc2ff7141d8c76fa27d8b9",
         "textures": [
           {
             "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_basecolor.jpg",
@@ -80,8 +81,8 @@
             "width": 2048,
             "height": 2048,
             "mime": "image/png",
-            "bytes": 4429185,
-            "sha256": "4f6086dfa2578aa153f2aeb3284bc56a119ab19f4b38152f28eba715b0272e5a"
+            "bytes": 5419739,
+            "sha256": "792c2e6248821ef62f8f3a7fbbaf9ad719730963b13426dae6cebb2550488898"
           },
           {
             "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_normal.jpg",
@@ -93,7 +94,20 @@
             "sha256": "46ef4afd515502e2d94c188a63652be9756e18b54c93e2a6a726df14de45c1d7"
           }
         ],
-        "rigRepair": "Source weights collapsed every vertex to Hips; repaired to a Mixamo-named humanoid skin with articulated tail. Source mesh, UVs, and image-derived 2K PBR maps are unchanged.",
+        "rigRepair": "Source weights collapsed every vertex to Hips; repaired to a Mixamo-named humanoid skin with articulated tail. Source mesh, UVs, base color, and normal map are unchanged.",
+        "pbrRefinement": {
+          "method": "Neutral-silver base-color mask; generated blue/red/brown islands unchanged; silver roughness reduced while preserving high-frequency variation.",
+          "maskedTexels": 519723,
+          "maskedPercent": 12.39,
+          "roughnessRange": [
+            92,
+            140
+          ],
+          "metallicRange": [
+            144,
+            200
+          ]
+        },
         "candidateStatus": "awaiting-root-production-lab-review"
       },
       "acceptance": {

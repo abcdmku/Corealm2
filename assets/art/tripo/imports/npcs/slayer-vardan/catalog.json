@@ -89,8 +89,8 @@
   },
   "candidate": {
     "file": "master-vardan-p1-humanoid-candidate.glb",
-    "sha256": "99f77e2472d5b4ed56c0bdaae9ea5a8af27c54a58e021bf018d4bfd06dc09aa9",
-    "bytes": 6913204,
+    "sha256": "7b2da59d74e7989beb4f5daec4c3f534e3b9b1544ccc2ff7141d8c76fa27d8b9",
+    "bytes": 7911984,
     "productionTarget": "game/public/assets/models/npc/npc_slayer_vardan.glb",
     "geometry": {
       "vertices": 7610,
@@ -450,6 +450,39 @@
         }
       ]
     },
+    "pbrRefinement": {
+      "method": "Neutral-silver base-color mask; generated blue/red/brown islands unchanged; silver roughness reduced while preserving high-frequency variation.",
+      "maskedTexels": 519723,
+      "maskedPercent": 12.39,
+      "roughnessRange": [
+        92,
+        140
+      ],
+      "metallicRange": [
+        144,
+        200
+      ]
+    },
+    "packedPbrChannels": [
+      {
+        "channel": "occlusion",
+        "p10": 255,
+        "p50": 255,
+        "p90": 255
+      },
+      {
+        "channel": "roughness",
+        "p10": 125,
+        "p50": 153,
+        "p90": 236
+      },
+      {
+        "channel": "metallic",
+        "p10": 1,
+        "p50": 5,
+        "p90": 169
+      }
+    ],
     "textures": [
       {
         "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_basecolor.jpg",
@@ -466,8 +499,8 @@
         "width": 2048,
         "height": 2048,
         "mime": "image/png",
-        "bytes": 4429185,
-        "sha256": "4f6086dfa2578aa153f2aeb3284bc56a119ab19f4b38152f28eba715b0272e5a"
+        "bytes": 5419739,
+        "sha256": "792c2e6248821ef62f8f3a7fbbaf9ad719730963b13426dae6cebb2550488898"
       },
       {
         "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_normal.jpg",
@@ -521,6 +554,12 @@
         "seconds": 1.6,
         "samples": 33,
         "loop": false
+      },
+      {
+        "name": "Talk",
+        "seconds": 2.2,
+        "samples": 45,
+        "loop": true
       }
     ]
   },

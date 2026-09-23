@@ -72,6 +72,33 @@ const packedChannelRanges = [0, 1, 2].map((channel) => {
   return { channel: ['occlusion', 'roughness', 'metallic'][channel], p10: values[Math.floor(values.length * .1)], p50: values[Math.floor(values.length * .5)], p90: values[Math.floor(values.length * .9)] };
 });
 
+// Tripo exported a detailed, useful roughness map but almost no metallic response, even on the
+// neutral silver plate islands. Keep its generated base color, normal, and roughness detail; derive
+// a narrow metal mask only from low-saturation midtone/highlight texels so the blue scales, red
+// cloth, and brown leather retain their dielectric response.
+const { data: basePixels, info: baseInfo } = await sharp(baseColorTexture.getImage()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+const { data: pbrPixels, info: pbrInfo } = await sharp(metallicRoughnessTexture.getImage()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+if (baseInfo.width !== 2048 || baseInfo.height !== 2048 || baseInfo.channels !== 3 || pbrInfo.width !== baseInfo.width || pbrInfo.height !== baseInfo.height || pbrInfo.channels !== 3) {
+  throw new Error('Vardan PBR refinement expects aligned 2K RGB base-color and metallic-roughness maps.');
+}
+let metalMaskPixels = 0;
+for (let i = 0; i < pbrPixels.length; i += 3) {
+  const r = basePixels[i], g = basePixels[i + 1], b = basePixels[i + 2];
+  const hi = Math.max(r, g, b), lo = Math.min(r, g, b), luminance = .2126 * r + .7152 * g + .0722 * b;
+  const saturation = hi > 0 ? (hi - lo) / hi : 0;
+  const neutralMetal = Math.max(0, Math.min(1, (.32 - saturation) / .12))
+    * Math.max(0, Math.min(1, (luminance - 76) / 34))
+    * Math.max(0, Math.min(1, (250 - luminance) / 45));
+  if (neutralMetal <= .05) continue;
+  const sourceRoughness = pbrPixels[i + 1];
+  pbrPixels[i + 1] = Math.round(92 + Math.max(0, Math.min(1, (sourceRoughness - 136) / 92)) * 48);
+  pbrPixels[i + 2] = Math.max(pbrPixels[i + 2], Math.round(144 + neutralMetal * 56));
+  metalMaskPixels++;
+}
+if (metalMaskPixels < 10000) throw new Error(`Silver material mask is too small: ${metalMaskPixels} texels.`);
+metallicRoughnessTexture.setImage(await sharp(pbrPixels, { raw: pbrInfo }).png().toBuffer()).setMimeType('image/png');
+const pbrRefinement = { method: 'Neutral-silver base-color mask; generated blue/red/brown islands unchanged; silver roughness reduced while preserving high-frequency variation.', maskedTexels: metalMaskPixels, maskedPercent: +(100 * metalMaskPixels / (baseInfo.width * baseInfo.height)).toFixed(2), roughnessRange: [92, 140], metallicRange: [144, 200] };
+
 // The exported skin has no usable spatial bind: every vertex is assigned 100% to Hips.
 const sourceJoints = sourceSkin.listJoints();
 const sourceJointNames = new Map(sourceJoints.map((node) => [node.getName(), node]));
@@ -315,6 +342,15 @@ function poseAt(name, t, duration) {
     rotate('mixamorigRightForeArm', .10 * reach, -.34 * reach, -.08 * reach);
     rotate('mixamorigRightHand', .06 * reach, 0, .04 * reach);
     rotate('VardanTailBase', 0, .04 * reach, 0);
+  } else if (name === 'Talk') {
+    const phrase = Math.sin(phase);
+    const emphasis = Math.max(0, Math.sin(phase * 2));
+    rotate('mixamorigSpine1', .008 * phrase, 0, .006 * phrase);
+    rotate('mixamorigNeck', .018 * Math.sin(phase * 2), 0, 0);
+    rotate('mixamorigHead', .028 * Math.sin(phase * 2 + .4), .012 * phrase, 0);
+    rotate('mixamorigRightArm', 0, -.10 * emphasis, -.018 * emphasis);
+    rotate('mixamorigRightForeArm', .035 * emphasis, -.07 * emphasis, 0);
+    rotate('VardanTailMid', 0, .018 * phrase, 0);
   } else if (name === 'Hit') {
     const recoil = Math.max(0, Math.sin(Math.PI * Math.min(1, t / duration)));
     translate('mixamorigHips', 0, -.012 * recoil, -.045 * recoil);
@@ -352,6 +388,7 @@ const clips = [
   { name: 'Hit', seconds: .46, samples: 19, loop: false },
   { name: 'Death', seconds: 1.45, samples: 29, loop: false },
   { name: 'Interact', seconds: 1.6, samples: 33, loop: false },
+  { name: 'Talk', seconds: 2.2, samples: 45, loop: true },
 ];
 for (const clip of clips) {
   const animation = doc.createAnimation(clip.name);
@@ -417,9 +454,22 @@ for (const texture of outputTextures) {
   const metadata = await sharp(texture.getImage()).metadata();
   const source = sourceTextures.find((entry) => entry.name === texture.getName());
   const sha256 = createHash('sha256').update(texture.getImage()).digest('hex');
-  if (!source || source.sha256 !== sha256 || metadata.width !== 2048 || metadata.height !== 2048) throw new Error(`Texture changed during rig repair: ${texture.getName()}.`);
+  const isPbrMap = texture.getName().includes('_rm');
+  if (!source || (isPbrMap ? sha256 === source.sha256 : source.sha256 !== sha256) || metadata.width !== 2048 || metadata.height !== 2048) {
+    throw new Error(`Unexpected texture result after PBR refinement: ${texture.getName()}.`);
+  }
   outputTextureMetrics.push({ name: texture.getName(), role: source.name.includes('basecolor') ? 'base color' : source.name.includes('_rm') ? 'packed metallic-roughness' : 'normal', width: metadata.width, height: metadata.height, mime: texture.getMimeType(), bytes: texture.getImage().length, sha256 });
 }
+const candidateMr = checkedRoot.listTextures().find((texture) => texture.getName().includes('_rm'));
+if (!candidateMr) throw new Error('Candidate lost its packed metallic-roughness texture.');
+const candidatePackedBytes = await sharp(candidateMr.getImage()).removeAlpha().raw().toBuffer();
+const candidatePackedChannelRanges = [0, 1, 2].map((channel) => {
+  const values = [];
+  for (let i = channel; i < candidatePackedBytes.length; i += 3) values.push(candidatePackedBytes[i]);
+  values.sort((a, b) => a - b);
+  return { channel: ['occlusion', 'roughness', 'metallic'][channel], p10: values[Math.floor(values.length * .1)], p50: values[Math.floor(values.length * .5)], p90: values[Math.floor(values.length * .9)] };
+});
+if (candidatePackedChannelRanges[2].p90 < 140) throw new Error('Candidate metallic channel did not expose the generated silver plate islands.');
 const animationNames = checkedRoot.listAnimations().map((entry) => entry.getName());
 if (animationNames.join('|') !== clips.map((clip) => clip.name).join('|')) throw new Error(`Animation clips missing or out of order: ${animationNames}.`);
 for (const animation of checkedRoot.listAnimations()) for (const channel of animation.listChannels()) {
@@ -463,6 +513,8 @@ const candidate = {
       maximumWeightSumError: checkedWeightSumError,
       jointInfluenceVertexCounts: bones.map(({ name }, index) => ({ name, vertices: influenceVertices[index] })),
     },
+    pbrRefinement,
+    packedPbrChannels: candidatePackedChannelRanges,
     textures: outputTextureMetrics,
     animations: clips,
   },
@@ -496,7 +548,8 @@ const labAsset = {
     candidateFile: path.relative(repo, candidatePath).replaceAll('\\', '/'),
     candidateSha256,
     textures: outputTextureMetrics,
-    rigRepair: 'Source weights collapsed every vertex to Hips; repaired to a Mixamo-named humanoid skin with articulated tail. Source mesh, UVs, and image-derived 2K PBR maps are unchanged.',
+    rigRepair: 'Source weights collapsed every vertex to Hips; repaired to a Mixamo-named humanoid skin with articulated tail. Source mesh, UVs, base color, and normal map are unchanged.',
+    pbrRefinement,
     candidateStatus: 'awaiting-root-production-lab-review',
   },
   acceptance: { starredSource: true, geometryPreserved: true, rigAccepted: false, motionAccepted: false, pbrAccepted: false, labAccepted: false, worldIntegrated: false },
