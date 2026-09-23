@@ -1,0 +1,256 @@
+{
+  "schemaVersion": 1,
+  "starredOrderRange": {
+    "start": 12,
+    "end": 20
+  },
+  "exportMethod": "Tripo Assets > Collected > model detail > individual Export; GLB with the current texture resolution. Export Skeleton stayed at its displayed default when available.",
+  "verification": "Each download was matched to the active model detail page by its individual export action, found in Downloads, copied to the UUID-named archive path, and SHA256-checked. The browser download event was not used for verification.",
+  "items": [
+    {
+      "starredOrder": 12,
+      "tripoId": "8f2d7a21-7419-4337-ae73-570e04c16499",
+      "title": "dark fantasy armor 3d model",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/dark-armored-knight-wearing-black-metal-plate-armor-with-silver-trim-8f2d7a21-7419-4337-ae73-570e04c16499",
+      "prompt": "dark armored knight wearing black metal plate armor with silver trim, burgundy cape, spiked helmet, layered pauldrons, belt and ornate detailing",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P1.0",
+        "modelFamily": "Tripo P1.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 4305,
+        "vertices": 6153
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": 0
+      },
+      "download": {
+        "filename": "dark fantasy armor 3d model.glb",
+        "sizeBytes": 28673104,
+        "sha256": "1CD47DBF8C637CF9D8F121EF5ACAFF0429F19EE01FA77CB2304E73E87169F121",
+        "archivePath": "assets/art/tripo/exports/8f2d7a21-7419-4337-ae73-570e04c16499.glb"
+      }
+    },
+    {
+      "starredOrder": 13,
+      "tripoId": "31b1d1f3-ebd9-4c67-b3f8-846da3211c81",
+      "title": "volcanic titan 3d model_Clone1",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/p3-volcanic-titan-a-volcanic-titan-of-cosmic-magma-obsidian-and-st-31b1d1f3-ebd9-4c67-b3f8-846da3211c81",
+      "prompt": "P3 — Volcanic Titan: a volcanic titan of cosmic magma, obsidian and starlight cracks, an erupting radiant core, a storm of embers and cosmic heat.",
+      "source": {
+        "modelLabel": "4K·PBR·v3.1-20260211",
+        "modelFamily": "Tripo v3.1-20260211",
+        "textureResolution": "4K",
+        "pbr": true,
+        "faces": 8502,
+        "vertices": 5897
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "4k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": 0
+      },
+      "download": {
+        "filename": "volcanic titan 3d model_Clone1.glb",
+        "sizeBytes": 14460080,
+        "sha256": "E4D44B405AC8BEE621B8F3CC833B1CE4BA85461BEDBAF5109E02116D72FE26DB",
+        "archivePath": "assets/art/tripo/exports/31b1d1f3-ebd9-4c67-b3f8-846da3211c81.glb"
+      }
+    },
+    {
+      "starredOrder": 14,
+      "tripoId": "dd3fdc88-4fd6-49ff-955f-ed85c4085d41",
+      "title": "lava golem 3d model_Clone1",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/p1-cooling-crust-hulking-golem-of-cracked-black-obsidian-with-molte-dd3fdc88-4fd6-49ff-955f-ed85c4085d41",
+      "prompt": "P1 — Cooling Crust: hulking golem of cracked black obsidian with molten orange-red magma in deep seams, a glowing core, heavy fists.",
+      "source": {
+        "modelLabel": "4K·PBR·v3.1-20260211",
+        "modelFamily": "Tripo v3.1-20260211",
+        "textureResolution": "4K",
+        "pbr": true,
+        "faces": 8467,
+        "vertices": 5643
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "4k Current",
+        "exportSkeletonControl": "not displayed",
+        "animationCount": null
+      },
+      "download": {
+        "filename": "lava golem 3d model_Clone1.glb",
+        "sizeBytes": 15092052,
+        "sha256": "EB7A399F93838A1FB40CAAF87C35BDD64946C2510F9E582D4639689C03534EB1",
+        "archivePath": "assets/art/tripo/exports/dd3fdc88-4fd6-49ff-955f-ed85c4085d41.glb"
+      }
+    },
+    {
+      "starredOrder": 15,
+      "tripoId": "7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+      "title": "alien creature 3d model",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/alien-creature-with-fungal-head-textured-brown-purple-skin-beige-pla-7b895b19-d80b-4680-96b7-3f4cf63fa8a9",
+      "prompt": "alien creature with fungal head, textured brown-purple skin, beige plate-like exoskeleton, elongated limbs and clawed feet",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "modelFamily": "Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 4438,
+        "vertices": 2858
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": null
+      },
+      "download": {
+        "filename": "bee97dff-f4bc-415f-85f5-7166421b3cf4.glb",
+        "sizeBytes": 20106656,
+        "sha256": "CDC218BF28E19B40C3F9070D3375478795752EE618C52E9CC2CB71C6513F192F",
+        "archivePath": "assets/art/tripo/exports/7b895b19-d80b-4680-96b7-3f4cf63fa8a9.glb"
+      }
+    },
+    {
+      "starredOrder": 16,
+      "tripoId": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+      "title": "alien plant creature 3d model",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/green-plant-like-humanoid-creature-with-leaf-like-armor-bipedal-stanc-d1c16cfc-3f64-4e48-8205-9b53502184f8",
+      "prompt": "green plant-like humanoid creature with leaf-like armor, bipedal stance, textured skin and brown veins",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "modelFamily": "Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 5350,
+        "vertices": 3555
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": null
+      },
+      "download": {
+        "filename": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
+        "sizeBytes": 30781040,
+        "sha256": "5DF89799C3B9A27E0F151E2F93897DE852A8CC780255FF9997D7C38A543495C7",
+        "archivePath": "assets/art/tripo/exports/d1c16cfc-3f64-4e48-8205-9b53502184f8.glb"
+      }
+    },
+    {
+      "starredOrder": 17,
+      "tripoId": "4580db8d-f714-4acf-be53-33a2543e7090",
+      "title": "tree creature 3d model",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/tree-creature-with-mossy-vines-leaf-like-back-appendages-rugged-bark-4580db8d-f714-4acf-be53-33a2543e7090",
+      "prompt": "tree creature with mossy vines, leaf-like back appendages, rugged bark texture, plant-like limbs",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "modelFamily": "Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 4478,
+        "vertices": 2828
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": null
+      },
+      "download": {
+        "filename": "tree creature 3d model.glb",
+        "sizeBytes": 26956156,
+        "sha256": "47B5D6C821D36620D814D3F79AB073DD81A49DBB5305BA3825C62C48CE0B36F4",
+        "archivePath": "assets/art/tripo/exports/4580db8d-f714-4acf-be53-33a2543e7090.glb"
+      }
+    },
+    {
+      "starredOrder": 18,
+      "tripoId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+      "title": "fantasy creature 3d model",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/alien-creature-with-maroon-and-beige-exoskeleton-and-large-curved-claw-4c599d13-d2e0-4099-93f0-79bf17056049",
+      "prompt": "alien creature with maroon and beige exoskeleton and large curved claws",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "modelFamily": "Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 5868,
+        "vertices": 3666
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": null
+      },
+      "download": {
+        "filename": "fantasy creature 3d model.glb",
+        "sizeBytes": 18743680,
+        "sha256": "7F44B831FBC2B743C7156D4A45420E0B7948AAE50CC635A49B8B5D40446DA0D1",
+        "archivePath": "assets/art/tripo/exports/4c599d13-d2e0-4099-93f0-79bf17056049.glb"
+      }
+    },
+    {
+      "starredOrder": 19,
+      "tripoId": "0900292c-ef73-40f9-864d-1f289df395f5",
+      "title": "tree monster 3d model",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/tree-monster-with-bark-like-skin-moss-patches-leaves-sprouting-from-0900292c-ef73-40f9-864d-1f289df395f5",
+      "prompt": "tree monster with bark-like skin, moss patches, leaves sprouting from shoulders, rugged limbs, and gnarled roots for feet",
+      "source": {
+        "modelLabel": "8K·Tripo P2.0",
+        "modelFamily": "Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": false,
+        "faces": 5821,
+        "vertices": 3748
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": null
+      },
+      "download": {
+        "filename": "tree monster 3d model.glb",
+        "sizeBytes": 20755552,
+        "sha256": "96A8DC59554061B3CD2F4C1B48FFB1D69BC4EBA1F32FEC8D916E3656E51A6B7B",
+        "archivePath": "assets/art/tripo/exports/0900292c-ef73-40f9-864d-1f289df395f5.glb"
+      },
+      "existingGameSource": "assets/art/tripo/exports/corealm_bramble_tiller_0900292c_8k_rigged.glb"
+    },
+    {
+      "starredOrder": 20,
+      "tripoId": "0f74b416-840b-419a-8f5d-c4cfc0a80a02",
+      "title": "anthropomorphic leopard 3d model",
+      "modelUrl": "https://studio.tripo3d.ai/3d-model/anthropomorphic-leopard-humanoid-with-rope-belt-orange-fur-with-dark-0f74b416-840b-419a-8f5d-c4cfc0a80a02",
+      "prompt": "anthropomorphic leopard humanoid with rope belt, orange fur with dark spots, standing in neutral pose.",
+      "source": {
+        "modelLabel": "8K·Tripo P2.0",
+        "modelFamily": "Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": false,
+        "faces": 4269,
+        "vertices": 2684
+      },
+      "individualExportDialog": {
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeletonControl": "checked",
+        "animationCount": null
+      },
+      "download": {
+        "filename": "anthropomorphic leopard 3d model.glb",
+        "sizeBytes": 19076520,
+        "sha256": "2163D9F40DC010FD6F44507AA607C17D5DB6EE6CAC38A9E94FE809331FF5936E",
+        "archivePath": "assets/art/tripo/exports/0f74b416-840b-419a-8f5d-c4cfc0a80a02.glb"
+      },
+      "existingGameSource": "assets/art/tripo/exports/corealm_heath_knucker_0f74b416_8k_rigged.glb"
+    }
+  ]
+}
