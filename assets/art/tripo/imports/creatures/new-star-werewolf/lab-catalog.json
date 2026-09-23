@@ -1,0 +1,111 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_gloamfang_reaver",
+      "file": "models/creature/creature_gloamfang_reaver.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Gloamfang Reaver",
+      "tags": [
+        "creature",
+        "humanoid",
+        "lycanthrope",
+        "wilderness",
+        "T50+",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6784192,
+      "sha256": "9682c73757b76b06260a0b674e372e46165fe7b10509c7a16a8db643a019f727",
+      "size": {
+        "x": 0.998046875,
+        "y": 0.955078125,
+        "z": 0.310546875
+      },
+      "base": {
+        "x": -0.4990234375,
+        "y": 0,
+        "z": -0.1552734375
+      },
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.1552734375
+        ],
+        "max": [
+          0.4990234375,
+          0.955078125,
+          0.1552734375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4760,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_89cabffe-294e-403a-8a17-f533cf89b30b_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+        "sourceCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+        "sourceFile": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
+        "sourceSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
+        "candidateSha256": "9682c73757b76b06260a0b674e372e46165fe7b10509c7a16a8db643a019f727",
+        "rigMethod": "Retained 62-joint source names/hierarchy, rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation; preserved source geometry and authored 2K PBR maps.",
+        "textures": [
+          {
+            "name": "werewolf+character+3d+model_basecolor.jpg",
+            "role": "base color",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 997411,
+            "sha256": "acbc10be1e81bc09517b69b03ea34ec51b9354468fc26c0abad7143adc799705"
+          },
+          {
+            "name": "werewolf+character+3d+model_rm.png",
+            "role": "packed metallic-roughness",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4513611,
+            "sha256": "e10b63633c2177b81f1deac18913c8845656146c2f0951e0b254392c3fedf6c0"
+          },
+          {
+            "name": "werewolf+character+3d+model_normal.jpg",
+            "role": "normal",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 515342,
+            "sha256": "b31dcfe307e2af14f96c311f4c0a422d6baea3a7b8d6371c8abde6d89f9efd92"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "sourceDesignAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_gloamfang_reaver": "gloamfang-reaver-native-rig-candidate.glb"
+  }
+}

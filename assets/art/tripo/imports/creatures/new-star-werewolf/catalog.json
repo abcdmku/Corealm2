@@ -1,0 +1,1006 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_gloamfang_reaver",
+  "displayName": "Gloamfang Reaver",
+  "suggestedPlacement": "Wilderness, T50+; mid-sized humanoid hunter with stronger threat identity than starter fauna.",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
+    "sha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+    "bytes": 6544240,
+    "starredModelId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+    "starredCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+    "starredDisplayName": "werewolf character 3d model",
+    "generator": "Tripo starred GLB export; source texture sizes and map roles inspected from the file.",
+    "geometry": {
+      "vertices": 8047,
+      "triangles": 4760,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.1552734375
+        ],
+        "max": [
+          0.4990234375,
+          0.955078125,
+          0.1552734375
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "retopology": false
+    },
+    "designReview": "Image and placement review pending root normal-camera lab review.",
+    "textures": [
+      {
+        "name": "werewolf+character+3d+model_basecolor.jpg",
+        "role": "base color",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "acbc10be1e81bc09517b69b03ea34ec51b9354468fc26c0abad7143adc799705"
+      },
+      {
+        "name": "werewolf+character+3d+model_rm.png",
+        "role": "packed metallic-roughness",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "sha256": "e10b63633c2177b81f1deac18913c8845656146c2f0951e0b254392c3fedf6c0"
+      },
+      {
+        "name": "werewolf+character+3d+model_normal.jpg",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "b31dcfe307e2af14f96c311f4c0a422d6baea3a7b8d6371c8abde6d89f9efd92"
+      }
+    ],
+    "sourceSkin": {
+      "jointCount": 62,
+      "namesAndHierarchyPreserved": true,
+      "rootWeightedVertices": 8037,
+      "oneInfluenceVertices": 8047,
+      "diagnosis": "All joint nodes had identity rest transforms; 8,037 of 8,047 vertices were pinned to Hips and every vertex had only one influence. Bone transforms, inverse binds and spatial weights were rebuilt."
+    },
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
+    "sha256": "9682c73757b76b06260a0b674e372e46165fe7b10509c7a16a8db643a019f727",
+    "bytes": 6784192,
+    "productionTarget": "game/public/assets/models/creature/creature_gloamfang_reaver.glb",
+    "geometry": {
+      "vertices": 8047,
+      "triangles": 4760,
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true
+    },
+    "rig": {
+      "type": "62-joint glTF humanoid hierarchy retained for Unity Generic import; bone transforms and bind poses repaired",
+      "joints": [
+        {
+          "name": "Hips",
+          "parent": "Armature",
+          "position": [
+            0,
+            0.425,
+            -0.005
+          ],
+          "usedVertices": 2292
+        },
+        {
+          "name": "Spine",
+          "parent": "Hips",
+          "position": [
+            0,
+            0.49,
+            -0.005
+          ],
+          "usedVertices": 2225
+        },
+        {
+          "name": "Chest",
+          "parent": "Spine",
+          "position": [
+            0,
+            0.565,
+            -0.002
+          ],
+          "usedVertices": 1977
+        },
+        {
+          "name": "UpperChest",
+          "parent": "Chest",
+          "position": [
+            0,
+            0.645,
+            0
+          ],
+          "usedVertices": 3800
+        },
+        {
+          "name": "Neck",
+          "parent": "UpperChest",
+          "position": [
+            0,
+            0.735,
+            0
+          ],
+          "usedVertices": 1729
+        },
+        {
+          "name": "Neck_Twist_A",
+          "parent": "Neck",
+          "position": [
+            0,
+            0.785,
+            0
+          ],
+          "usedVertices": 2245
+        },
+        {
+          "name": "Head",
+          "parent": "Neck",
+          "position": [
+            0,
+            0.846,
+            0.005
+          ],
+          "usedVertices": 2112
+        },
+        {
+          "name": "Left_Eye",
+          "parent": "Head",
+          "position": [
+            0.027,
+            0.878,
+            0.095
+          ],
+          "usedVertices": 543
+        },
+        {
+          "name": "Right_Eye",
+          "parent": "Head",
+          "position": [
+            -0.027,
+            0.878,
+            0.095
+          ],
+          "usedVertices": 553
+        },
+        {
+          "name": "Left_Shoulder",
+          "parent": "UpperChest",
+          "position": [
+            0.112,
+            0.677,
+            0
+          ],
+          "usedVertices": 1004
+        },
+        {
+          "name": "Left_UpperArm",
+          "parent": "Left_Shoulder",
+          "position": [
+            0.238,
+            0.712,
+            0
+          ],
+          "usedVertices": 992
+        },
+        {
+          "name": "Left_LowerArm",
+          "parent": "Left_UpperArm",
+          "position": [
+            0.371,
+            0.744,
+            0.002
+          ],
+          "usedVertices": 1010
+        },
+        {
+          "name": "Left_Hand",
+          "parent": "Left_LowerArm",
+          "position": [
+            0.449,
+            0.75,
+            0.006
+          ],
+          "usedVertices": 853
+        },
+        {
+          "name": "Left_ThumbProximal",
+          "parent": "Left_Hand",
+          "position": [
+            0.438,
+            0.75,
+            0.076
+          ],
+          "usedVertices": 24
+        },
+        {
+          "name": "Left_ThumbIntermediate",
+          "parent": "Left_ThumbProximal",
+          "position": [
+            0.447,
+            0.75,
+            0.07904
+          ],
+          "usedVertices": 6
+        },
+        {
+          "name": "Left_ThumbDistal",
+          "parent": "Left_ThumbIntermediate",
+          "position": [
+            0.455,
+            0.75,
+            0.08208
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Left_ThumbDistalEnd",
+          "parent": "Left_ThumbDistal",
+          "position": [
+            0.461,
+            0.75,
+            0.08512
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Left_IndexProximal",
+          "parent": "Left_Hand",
+          "position": [
+            0.462,
+            0.75,
+            0.043
+          ],
+          "usedVertices": 22
+        },
+        {
+          "name": "Left_IndexIntermediate",
+          "parent": "Left_IndexProximal",
+          "position": [
+            0.476,
+            0.75,
+            0.044719999999999996
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Left_IndexDistal",
+          "parent": "Left_IndexIntermediate",
+          "position": [
+            0.489,
+            0.75,
+            0.04644
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Left_IndexDistalEnd",
+          "parent": "Left_IndexDistal",
+          "position": [
+            0.498,
+            0.75,
+            0.04816
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Left_MiddleProximal",
+          "parent": "Left_Hand",
+          "position": [
+            0.462,
+            0.75,
+            0.014
+          ],
+          "usedVertices": 59
+        },
+        {
+          "name": "Left_MiddleIntermediate",
+          "parent": "Left_MiddleProximal",
+          "position": [
+            0.476,
+            0.75,
+            0.01456
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Left_MiddleDistal",
+          "parent": "Left_MiddleIntermediate",
+          "position": [
+            0.489,
+            0.75,
+            0.015120000000000001
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Left_RingProximal",
+          "parent": "Left_Hand",
+          "position": [
+            0.462,
+            0.75,
+            -0.014
+          ],
+          "usedVertices": 130
+        },
+        {
+          "name": "Left_RingIntermediate",
+          "parent": "Left_RingProximal",
+          "position": [
+            0.476,
+            0.75,
+            -0.01456
+          ],
+          "usedVertices": 57
+        },
+        {
+          "name": "Left_RingDistal",
+          "parent": "Left_RingIntermediate",
+          "position": [
+            0.489,
+            0.75,
+            -0.015120000000000001
+          ],
+          "usedVertices": 35
+        },
+        {
+          "name": "Left_RingDistalEnd",
+          "parent": "Left_RingDistal",
+          "position": [
+            0.498,
+            0.75,
+            -0.015680000000000003
+          ],
+          "usedVertices": 32
+        },
+        {
+          "name": "Left_PinkyProximal",
+          "parent": "Left_Hand",
+          "position": [
+            0.462,
+            0.75,
+            -0.044
+          ],
+          "usedVertices": 278
+        },
+        {
+          "name": "Left_PinkyIntermediate",
+          "parent": "Left_PinkyProximal",
+          "position": [
+            0.476,
+            0.75,
+            -0.04576
+          ],
+          "usedVertices": 246
+        },
+        {
+          "name": "Left_PinkyDistal",
+          "parent": "Left_PinkyIntermediate",
+          "position": [
+            0.489,
+            0.75,
+            -0.04752
+          ],
+          "usedVertices": 90
+        },
+        {
+          "name": "Right_Shoulder",
+          "parent": "UpperChest",
+          "position": [
+            -0.112,
+            0.677,
+            0
+          ],
+          "usedVertices": 903
+        },
+        {
+          "name": "Right_UpperArm",
+          "parent": "Right_Shoulder",
+          "position": [
+            -0.238,
+            0.712,
+            0
+          ],
+          "usedVertices": 869
+        },
+        {
+          "name": "Right_LowerArm",
+          "parent": "Right_UpperArm",
+          "position": [
+            -0.371,
+            0.744,
+            0.002
+          ],
+          "usedVertices": 953
+        },
+        {
+          "name": "Right_Hand",
+          "parent": "Right_LowerArm",
+          "position": [
+            -0.449,
+            0.75,
+            0.006
+          ],
+          "usedVertices": 838
+        },
+        {
+          "name": "Right_ThumbProximal",
+          "parent": "Right_Hand",
+          "position": [
+            -0.438,
+            0.75,
+            0.076
+          ],
+          "usedVertices": 29
+        },
+        {
+          "name": "Right_ThumbIntermediate",
+          "parent": "Right_ThumbProximal",
+          "position": [
+            -0.447,
+            0.75,
+            0.07904
+          ],
+          "usedVertices": 8
+        },
+        {
+          "name": "Right_ThumbDistal",
+          "parent": "Right_ThumbIntermediate",
+          "position": [
+            -0.455,
+            0.75,
+            0.08208
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Right_ThumbDistalEnd",
+          "parent": "Right_ThumbDistal",
+          "position": [
+            -0.461,
+            0.75,
+            0.08512
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Right_IndexProximal",
+          "parent": "Right_Hand",
+          "position": [
+            -0.462,
+            0.75,
+            0.043
+          ],
+          "usedVertices": 26
+        },
+        {
+          "name": "Right_IndexIntermediate",
+          "parent": "Right_IndexProximal",
+          "position": [
+            -0.476,
+            0.75,
+            0.044719999999999996
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Right_IndexDistal",
+          "parent": "Right_IndexIntermediate",
+          "position": [
+            -0.489,
+            0.75,
+            0.04644
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Right_MiddleProximal",
+          "parent": "Right_Hand",
+          "position": [
+            -0.462,
+            0.75,
+            0.014
+          ],
+          "usedVertices": 49
+        },
+        {
+          "name": "Right_MiddleIntermediate",
+          "parent": "Right_MiddleProximal",
+          "position": [
+            -0.476,
+            0.75,
+            0.01456
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Right_MiddleDistal",
+          "parent": "Right_MiddleIntermediate",
+          "position": [
+            -0.489,
+            0.75,
+            0.015120000000000001
+          ],
+          "usedVertices": 0
+        },
+        {
+          "name": "Right_RingProximal",
+          "parent": "Right_Hand",
+          "position": [
+            -0.462,
+            0.75,
+            -0.014
+          ],
+          "usedVertices": 135
+        },
+        {
+          "name": "Right_RingIntermediate",
+          "parent": "Right_RingProximal",
+          "position": [
+            -0.476,
+            0.75,
+            -0.01456
+          ],
+          "usedVertices": 67
+        },
+        {
+          "name": "Right_RingDistal",
+          "parent": "Right_RingIntermediate",
+          "position": [
+            -0.489,
+            0.75,
+            -0.015120000000000001
+          ],
+          "usedVertices": 44
+        },
+        {
+          "name": "Right_RingDistalEnd",
+          "parent": "Right_RingDistal",
+          "position": [
+            -0.498,
+            0.75,
+            -0.015680000000000003
+          ],
+          "usedVertices": 40
+        },
+        {
+          "name": "Right_PinkyProximal",
+          "parent": "Right_Hand",
+          "position": [
+            -0.462,
+            0.75,
+            -0.044
+          ],
+          "usedVertices": 275
+        },
+        {
+          "name": "Right_PinkyIntermediate",
+          "parent": "Right_PinkyProximal",
+          "position": [
+            -0.476,
+            0.75,
+            -0.04576
+          ],
+          "usedVertices": 237
+        },
+        {
+          "name": "Right_PinkyDistal",
+          "parent": "Right_PinkyIntermediate",
+          "position": [
+            -0.489,
+            0.75,
+            -0.04752
+          ],
+          "usedVertices": 93
+        },
+        {
+          "name": "Left_UpperLeg",
+          "parent": "Hips",
+          "position": [
+            0.108,
+            0.374,
+            -0.004
+          ],
+          "usedVertices": 608
+        },
+        {
+          "name": "Left_LowerLeg",
+          "parent": "Left_UpperLeg",
+          "position": [
+            0.137,
+            0.194,
+            -0.002
+          ],
+          "usedVertices": 817
+        },
+        {
+          "name": "Left_Foot",
+          "parent": "Left_LowerLeg",
+          "position": [
+            0.15,
+            0.064,
+            0.008
+          ],
+          "usedVertices": 503
+        },
+        {
+          "name": "Left_Toes",
+          "parent": "Left_Foot",
+          "position": [
+            0.163,
+            0.033,
+            0.06
+          ],
+          "usedVertices": 407
+        },
+        {
+          "name": "Left_ToesEnd",
+          "parent": "Left_Toes",
+          "position": [
+            0.174,
+            0.028,
+            0.115
+          ],
+          "usedVertices": 339
+        },
+        {
+          "name": "Right_UpperLeg",
+          "parent": "Hips",
+          "position": [
+            -0.108,
+            0.374,
+            -0.004
+          ],
+          "usedVertices": 625
+        },
+        {
+          "name": "Right_LowerLeg",
+          "parent": "Right_UpperLeg",
+          "position": [
+            -0.137,
+            0.194,
+            -0.002
+          ],
+          "usedVertices": 793
+        },
+        {
+          "name": "Right_Foot",
+          "parent": "Right_LowerLeg",
+          "position": [
+            -0.15,
+            0.064,
+            0.008
+          ],
+          "usedVertices": 488
+        },
+        {
+          "name": "Right_Toes",
+          "parent": "Right_Foot",
+          "position": [
+            -0.163,
+            0.033,
+            0.06
+          ],
+          "usedVertices": 400
+        },
+        {
+          "name": "Right_ToesEnd",
+          "parent": "Right_Toes",
+          "position": [
+            -0.174,
+            0.028,
+            0.115
+          ],
+          "usedVertices": 328
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 8047,
+      "maximumWeightSumError": 0,
+      "method": "Model-specific four-weight spatial skin using anatomical gates and bone-segment distance fields; no retopology and no root-only fallback."
+    },
+    "textures": [
+      {
+        "name": "werewolf+character+3d+model_basecolor.jpg",
+        "role": "base color",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 997411,
+        "sha256": "acbc10be1e81bc09517b69b03ea34ec51b9354468fc26c0abad7143adc799705"
+      },
+      {
+        "name": "werewolf+character+3d+model_rm.png",
+        "role": "packed metallic-roughness",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4513611,
+        "sha256": "e10b63633c2177b81f1deac18913c8845656146c2f0951e0b254392c3fedf6c0"
+      },
+      {
+        "name": "werewolf+character+3d+model_normal.jpg",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 515342,
+        "sha256": "b31dcfe307e2af14f96c311f4c0a422d6baea3a7b8d6371c8abde6d89f9efd92"
+      }
+    ],
+    "packedRoughnessRange": [
+      0.043137254901960784,
+      1
+    ],
+    "packedMetallicRange": [
+      0,
+      0.1607843137254902
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.4,
+        "channels": 12
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 11
+      },
+      {
+        "name": "Run",
+        "seconds": 0.68,
+        "channels": 12
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.86,
+        "channels": 14
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.48,
+        "channels": 8
+      },
+      {
+        "name": "Death",
+        "seconds": 1.62,
+        "channels": 14
+      }
+    ],
+    "sampledMotion": [
+      {
+        "name": "Idle",
+        "midpoint": {
+          "bounds": {
+            "min": [
+              -0.47004904450611906,
+              0.00021709253075094875,
+              -0.14893547147950675
+            ],
+            "max": [
+              0.4686754449066848,
+              0.954971224909489,
+              0.164333182761276
+            ]
+          },
+          "maximumDisplacement": 0.24386638983537348,
+          "rmsDisplacement": 0.0806291211159531
+        },
+        "final": {
+          "bounds": {
+            "min": [
+              -0.47004904450611884,
+              0.00021709253075094875,
+              -0.14895440603930413
+            ],
+            "max": [
+              0.46867544490668456,
+              0.9549726017986793,
+              0.1643300080199953
+            ]
+          },
+          "maximumDisplacement": 0.24386638983537354,
+          "rmsDisplacement": 0.08062846491492895
+        }
+      },
+      {
+        "name": "Walk",
+        "midpoint": {
+          "bounds": {
+            "min": [
+              -0.4821043533711299,
+              1.5554119156785074e-18,
+              -0.13390071819566524
+            ],
+            "max": [
+              0.4808762348304794,
+              0.9536362109341835,
+              0.1843132113980141
+            ]
+          },
+          "maximumDisplacement": 0.21480490647991404,
+          "rmsDisplacement": 0.0729734354713372
+        },
+        "final": {
+          "bounds": {
+            "min": [
+              -0.48210435337112983,
+              6.69178879195319e-19,
+              -0.13390071819566524
+            ],
+            "max": [
+              0.48087623483047937,
+              0.9536362109341835,
+              0.1843132113980141
+            ]
+          },
+          "maximumDisplacement": 0.21480490647991404,
+          "rmsDisplacement": 0.0729734354713372
+        }
+      },
+      {
+        "name": "Run",
+        "midpoint": {
+          "bounds": {
+            "min": [
+              -0.48437469949039735,
+              -0.0039999999832362005,
+              -0.1318359100612264
+            ],
+            "max": [
+              0.4831314556071503,
+              0.9366749233732717,
+              0.24826851618585755
+            ]
+          },
+          "maximumDisplacement": 0.20556816659061614,
+          "rmsDisplacement": 0.08724667204196965
+        },
+        "final": {
+          "bounds": {
+            "min": [
+              -0.4843746994903974,
+              0,
+              -0.13183591006122639
+            ],
+            "max": [
+              0.4831314556071503,
+              0.9406749232824677,
+              0.24826851618585755
+            ]
+          },
+          "maximumDisplacement": 0.2015848553371661,
+          "rmsDisplacement": 0.08540386656492746
+        }
+      },
+      {
+        "name": "Attack",
+        "midpoint": {
+          "bounds": {
+            "min": [
+              -0.37043182342031267,
+              -0.011114062165588875,
+              -0.19139750637305425
+            ],
+            "max": [
+              0.46649290202960936,
+              0.9396081671769484,
+              0.40732346524327173
+            ]
+          },
+          "maximumDisplacement": 0.4881761048846412,
+          "rmsDisplacement": 0.1553424374241433
+        },
+        "final": {
+          "bounds": {
+            "min": [
+              -0.4793885948789635,
+              0,
+              -0.1415053553247104
+            ],
+            "max": [
+              0.47813035008387983,
+              0.9544910178796238,
+              0.17382703524893026
+            ]
+          },
+          "maximumDisplacement": 0.22357010897741397,
+          "rmsDisplacement": 0.07499823057720832
+        }
+      },
+      {
+        "name": "Hit",
+        "midpoint": {
+          "bounds": {
+            "min": [
+              -0.49049806303138305,
+              0,
+              -0.1478924294899186
+            ],
+            "max": [
+              0.4900559667816281,
+              0.9535629341211894,
+              0.16970995699724686
+            ]
+          },
+          "maximumDisplacement": 0.215003541384789,
+          "rmsDisplacement": 0.06530011183716905
+        },
+        "final": {
+          "bounds": {
+            "min": [
+              -0.47938859487896335,
+              0,
+              -0.15527343518624548
+            ],
+            "max": [
+              0.4781303500838798,
+              0.9550781010950686,
+              0.15527343692156137
+            ]
+          },
+          "maximumDisplacement": 0.22504791659018603,
+          "rmsDisplacement": 0.07494463139193387
+        }
+      },
+      {
+        "name": "Death",
+        "midpoint": {
+          "bounds": {
+            "min": [
+              -0.43359792387112317,
+              -0.007031763969623911,
+              -0.1017274269008874
+            ],
+            "max": [
+              0.5298545259590773,
+              0.8014421774471729,
+              0.3872931617975327
+            ]
+          },
+          "maximumDisplacement": 0.4604258830641957,
+          "rmsDisplacement": 0.24131109877206142
+        },
+        "final": {
+          "bounds": {
+            "min": [
+              -0.4242141524163563,
+              -0.011517502783453235,
+              -0.09721037091676359
+            ],
+            "max": [
+              0.5324889002471354,
+              0.7660472722241586,
+              0.40571271670046877
+            ]
+          },
+          "maximumDisplacement": 0.5178539407541172,
+          "rmsDisplacement": 0.2750910010598764
+        }
+      }
+    ]
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "sourceDesignAudit": false,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "texturesAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
