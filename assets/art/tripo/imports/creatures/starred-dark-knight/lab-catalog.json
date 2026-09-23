@@ -1,0 +1,103 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_skeleton_soldier",
+      "file": "models/creature/creature_skeleton_soldier.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Black Keep Knight",
+      "tags": [
+        "creature",
+        "humanoid",
+        "knight",
+        "wilderness",
+        "black-keep",
+        "T50",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 8674360,
+      "sha256": "e6e6c54df368ed1c0c53b5461aead1d5f29a0adbf7af97952f4465eb37517ff5",
+      "size": {
+        "x": 1.6168359375,
+        "y": 1.5915233409404757,
+        "z": 0.5410546875000001
+      },
+      "base": {
+        "x": -0.80841796875,
+        "y": 0,
+        "z": -0.27052734375000004
+      },
+      "bounds": {
+        "min": [
+          -0.80841796875,
+          0,
+          -0.27052734375000004
+        ],
+        "max": [
+          0.80841796875,
+          1.5915233409404757,
+          0.27052734375000004
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4305,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_ab275d74-5ee1-4be7-bb3e-49699aa13f45_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "8f2d7a21-7419-4337-ae73-570e04c16499",
+        "sourceCardId": "ee9e261b-ce0b-4393-8a95-f29e62aca233",
+        "prompt": "dark armored knight wearing black metal plate armor with silver trim, burgundy cape, spiked helmet, layered pauldrons, belt and ornate detailing",
+        "sourceFile": "assets/art/tripo/exports/8f2d7a21-7419-4337-ae73-570e04c16499.glb",
+        "sourceSha256": "1cd47dbf8c637cf9d8f121ef5acaff0429f19ee01fa77cb2304e73e87169f121",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
+        "candidateSha256": "e6e6c54df368ed1c0c53b5461aead1d5f29a0adbf7af97952f4465eb37517ff5",
+        "rigMethod": "Mixamo-named humanoid skeleton plus three cape joints; atlas color/PBR review places low-metallic, high-roughness burgundy cloth on the positive-Z back sheet. Original mesh positions, normals, indices, UVs and image-generated maps are retained.",
+        "textures": [
+          {
+            "name": "dark+fantasy+armor+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1115063
+          },
+          {
+            "name": "dark+fantasy+armor+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 6451089
+          },
+          {
+            "name": "dark+fantasy+armor+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 523262
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

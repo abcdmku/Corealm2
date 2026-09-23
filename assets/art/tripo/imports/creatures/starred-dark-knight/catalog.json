@@ -1,0 +1,420 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_skeleton_soldier",
+  "displayName": "Black Keep Knight",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/8f2d7a21-7419-4337-ae73-570e04c16499.glb",
+    "sha256": "1cd47dbf8c637cf9d8f121ef5acaff0429f19ee01fa77cb2304e73e87169f121",
+    "bytes": 28673104,
+    "starredModelId": "8f2d7a21-7419-4337-ae73-570e04c16499",
+    "starredCardId": "ee9e261b-ce0b-4393-8a95-f29e62aca233",
+    "starredDisplayName": "dark fantasy armor 3d model",
+    "prompt": "dark armored knight wearing black metal plate armor with silver trim, burgundy cape, spiked helmet, layered pauldrons, belt and ornate detailing",
+    "geometry": {
+      "vertices": 6153,
+      "triangles": 4305,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.1669921875
+        ],
+        "max": [
+          0.4990234375,
+          0.9824218153953552,
+          0.1669921875
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false,
+      "presentationScale": 1.62
+    },
+    "preliminaryDesignReview": "Astra-low approved the full-body medieval black plate and burgundy cape design. The source skin has invalid inverse binds and the source has no clips; this candidate rebuilds the rig while retaining all 4,305 source triangles.",
+    "textures": [
+      {
+        "name": "dark+fantasy+armor+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "sha256": "45e6540ca8a57a70a6697cfd8af631f2e0c38cfac6afcbeee5b8781d0fdd5897"
+      },
+      {
+        "name": "dark+fantasy+armor+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/png",
+        "sha256": "55d48610e6df2650b8b2ba7db03e17b6455f6dd57abed085c3d176ee38da7019"
+      },
+      {
+        "name": "dark+fantasy+armor+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/jpeg",
+        "sha256": "8dc5bd44fbb49fa69d67159c15286d77beb03578151cf3467902a236eddc589a"
+      }
+    ],
+    "sourceSkin": {
+      "joints": 63,
+      "sourceJointTranslations": "all identity transforms",
+      "sourceInverseBindMatrices": "invalid extreme values",
+      "sourceWeights": "Hips-dominant distribution; source rig unusable",
+      "rebuilt": true
+    },
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
+    "sha256": "e6e6c54df368ed1c0c53b5461aead1d5f29a0adbf7af97952f4465eb37517ff5",
+    "bytes": 8674360,
+    "productionTarget": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
+    "geometry": {
+      "vertices": 6153,
+      "triangles": 4305,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "presentationScale": 1.62
+    },
+    "rig": {
+      "type": "Mixamo-named humanoid glTF skin with three accessory cape joints for Unity Humanoid mapping review",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.43,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.515,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.61,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.7,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.785,
+            0.015
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.875,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.145,
+            0.705,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.205,
+            0.655,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.235,
+            0.505,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.245,
+            0.365,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.145,
+            0.705,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.205,
+            0.655,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.235,
+            0.505,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.245,
+            0.365,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.115,
+            0.38,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.125,
+            0.205,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.125,
+            0.052,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.125,
+            0.03,
+            0.095
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.115,
+            0.38,
+            -0.005
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.125,
+            0.205,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.125,
+            0.052,
+            0.025
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.125,
+            0.03,
+            0.095
+          ]
+        },
+        {
+          "name": "mixamorigCapeRoot",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.715,
+            0.072
+          ]
+        },
+        {
+          "name": "mixamorigCapeMid",
+          "parent": "mixamorigCapeRoot",
+          "position": [
+            0,
+            0.405,
+            0.12
+          ]
+        },
+        {
+          "name": "mixamorigCapeTip",
+          "parent": "mixamorigCapeMid",
+          "position": [
+            0,
+            0.125,
+            0.125
+          ]
+        }
+      ],
+      "finiteInverseBindMatrices": 25,
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 6153,
+      "verticesWithCapeWeight": 934,
+      "capeMaxWeight": 0.90912350494615,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "method": "Model-specific four-weight skin from anatomical bone-segment distance fields, lateral gates and a rear cape-sheet gate; no fallback to one root joint."
+    },
+    "textures": [
+      {
+        "name": "dark+fantasy+armor+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1115063
+      },
+      {
+        "name": "dark+fantasy+armor+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 6451089
+      },
+      {
+        "name": "dark+fantasy+armor+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 523262
+      }
+    ],
+    "packedPbrChannels": {
+      "metallicBlueRange": [
+        0,
+        1
+      ],
+      "roughnessGreenRange": [
+        0.34509803921568627,
+        1
+      ],
+      "sourceRedChannel": "constant 255; retained as original image data"
+    },
+    "materialRegions": {
+      "burgundyCloth": {
+        "count": 124,
+        "baseColor": [
+          43.16129032258065,
+          28.532258064516128,
+          28.153225806451612
+        ],
+        "metallic": 0.06654016445287789,
+        "roughness": 0.8917457305502838
+      },
+      "plateAndTrim": {
+        "count": 3440,
+        "baseColor": [
+          31.769186046511628,
+          31.41686046511628,
+          30.971511627906978
+        ],
+        "metallic": 0.49539785681714404,
+        "roughness": 0.5681862745098003
+      }
+    },
+    "materialResponse": "Retains the image-generated ORM map and applies its blue metallic channel to plate surfaces and low metallic/high roughness values to the burgundy cloth. No flat recolor or synthetic PBR mask was applied.",
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 6
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 10
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 11
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 8
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 8
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 12
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
