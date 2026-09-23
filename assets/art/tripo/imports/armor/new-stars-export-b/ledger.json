@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "recordedOn": "2026-09-23",
+  "task": "Crosswalk and export-status ledger for five newly starred armor and wizard models assigned to new-stars-export-b.",
+  "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
+  "overallStatus": "blocked_chrome_ERR_BLOCKED_BY_CLIENT",
+  "requestedExportSettings": {
+    "format": "GLB",
+    "textureResolution": "8k Current",
+    "exportSkeleton": true,
+    "packUV": false
+  },
+  "browserBlock": {
+    "stage": "Tripo export completed and redirected to the signed tripo-data.rg1.data.tripo3d.com GLB attachment URL; Chrome displayed ERR_BLOCKED_BY_CLIENT.",
+    "workaroundAttempted": false,
+    "note": "No blocked page or download restriction was bypassed. The first assigned model was the only export attempted; remaining models were not attempted after the same browser-level block." 
+  },
+  "localFileCheck": {
+    "checkedOn": "2026-09-23",
+    "locations": [
+      "C:/Users/Borg/Downloads",
+      "assets/art/tripo/exports"
+    ],
+    "matchingGLBsFound": false
+  },
+  "items": [
+    {
+      "collectionOrder": 58,
+      "cardStorageUuid": "a0a1de1f-8f13-4571-9701-3691ae196711",
+      "projectUuid": "32235679-13e4-46ec-8a0a-40ddbecd11d7",
+      "title": "fantasy wizard 3d model",
+      "prompt": "Wizard costume with wide-brim hat, long burgundy leather coat, belt, gloves, and boots.",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 5378,
+        "vertices": 6187
+      },
+      "modelDetailVerified": true,
+      "export": {
+        "attempted": true,
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": "enabled in UI; output rig unverified",
+        "packUV": false,
+        "status": "blocked_chrome_ERR_BLOCKED_BY_CLIENT",
+        "localFile": null,
+        "archivePath": "assets/art/tripo/exports/32235679-13e4-46ec-8a0a-40ddbecd11d7.glb",
+        "sizeBytes": null,
+        "sha256": null
+      }
+    },
+    {
+      "collectionOrder": 59,
+      "cardStorageUuid": "0c595d15-5feb-4b03-a546-fce22061ff4a",
+      "projectUuid": "cc618fd5-433e-4a90-978c-fd957504b5f3",
+      "title": "medieval knight 3d model",
+      "prompt": "Armored medieval knight with ornate blue-silver plate armor and detailed engravings",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 5005,
+        "vertices": 6942
+      },
+      "modelDetailVerified": true,
+      "export": {
+        "attempted": false,
+        "settingsApplied": false,
+        "requestedSettings": "GLB, 8k Current textures, Export Skeleton enabled, Pack UV off",
+        "status": "not_attempted_after_browser_block_handoff",
+        "localFile": null,
+        "archivePath": "assets/art/tripo/exports/cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
+        "sizeBytes": null,
+        "sha256": null
+      }
+    },
+    {
+      "collectionOrder": 60,
+      "cardStorageUuid": "391d737e-151d-4daa-9146-dcf18621a433",
+      "projectUuid": "7b4c8b39-7f3c-4fe6-a7d3-be22740f1064",
+      "title": "wizard robe 3d model",
+      "prompt": "blue wizard robe with wide-brim hat and belt, leather gloves and boots, denim-like fabric with beige inner lining",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 4302,
+        "vertices": 4080
+      },
+      "modelDetailVerified": true,
+      "export": {
+        "attempted": false,
+        "settingsApplied": false,
+        "requestedSettings": "GLB, 8k Current textures, Export Skeleton enabled, Pack UV off",
+        "status": "not_attempted_after_browser_block_handoff",
+        "localFile": null,
+        "archivePath": "assets/art/tripo/exports/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
+        "sizeBytes": null,
+        "sha256": null
+      }
+    },
+    {
+      "collectionOrder": 61,
+      "cardStorageUuid": "9e9b9c5c-f39e-403d-bf56-cb70f989980e",
+      "projectUuid": "b89790da-b432-4935-99ba-56ff49a4a3a4",
+      "title": "medieval knight 3d model",
+      "prompt": "ornate teal medieval knight armor with leaf-inspired engravings, full plate suit, metallic texture, helmet and gauntlets",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": 4756,
+        "vertices": 5498
+      },
+      "modelDetailVerified": true,
+      "export": {
+        "attempted": false,
+        "settingsApplied": false,
+        "requestedSettings": "GLB, 8k Current textures, Export Skeleton enabled, Pack UV off",
+        "status": "not_attempted_after_browser_block_handoff",
+        "localFile": null,
+        "archivePath": "assets/art/tripo/exports/b89790da-b432-4935-99ba-56ff49a4a3a4.glb",
+        "sizeBytes": null,
+        "sha256": null
+      }
+    },
+    {
+      "collectionOrder": 62,
+      "cardStorageUuid": "71d258fb-279a-4c4b-9590-1bcb5081980d",
+      "projectUuid": "a9956e9e-0576-47a0-877e-ee5d3a3b2bb5",
+      "title": "full plate armor 3d model",
+      "prompt": "full plate armor with blue steel plates, brown leather straps, and black undergarment visible in joints",
+      "source": {
+        "modelLabel": "8K·PBR·Tripo P2.0",
+        "textureResolution": "8K",
+        "pbr": true,
+        "faces": null,
+        "vertices": null
+      },
+      "modelDetailVerified": true,
+      "export": {
+        "attempted": false,
+        "settingsApplied": false,
+        "requestedSettings": "GLB, 8k Current textures, Export Skeleton enabled, Pack UV off",
+        "status": "not_attempted_after_browser_block_handoff",
+        "localFile": null,
+        "archivePath": "assets/art/tripo/exports/a9956e9e-0576-47a0-877e-ee5d3a3b2bb5.glb",
+        "sizeBytes": null,
+        "sha256": null
+      }
+    }
+  ]
+}
