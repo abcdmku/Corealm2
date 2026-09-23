@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-tripo-armor",
+    "name": "Corealm Tripo armor",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/import-tripo.ts"
+  },
+  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\32235679-13e4-46ec-8a0a-40ddbecd11d7.glb",
+  "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+  "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+  "textureSize": 2048,
+  "assets": [
+    {
+      "id": "corealm_item_charhide_hood",
+      "file": "models/items/charhide_hood.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_hood",
+        "head"
+      ],
+      "bytes": 16592156,
+      "itemModel": {
+        "itemId": "charhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.6314208507537842,
+        "y": 0.28725576400756836,
+        "z": 0.46430662274360657
+      },
+      "base": {
+        "x": -0.32926034927368164,
+        "y": 1.7218410968780518,
+        "z": -0.27260491251945496
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_hood",
+      "status": "pending",
+      "sha256": "d62232db8b9db1325d86f49ff055f1f6479e6cd903b431e486cec2725438ec36",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "triangles": 515,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_charhide_robe",
+      "file": "models/items/charhide_robe.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_robe",
+        "torso"
+      ],
+      "bytes": 16716280,
+      "itemModel": {
+        "itemId": "charhide_robe",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.1284574270248413,
+        "y": 1.298071801662445,
+        "z": 0.8825565278530121
+      },
+      "base": {
+        "x": -0.5981946587562561,
+        "y": 0.3071288466453552,
+        "z": -0.5418070554733276
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_robe",
+      "status": "pending",
+      "sha256": "926663c5c67c5ecd6ec801a263845832def95e464827ea66773f7c9099a5f1c2",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "triangles": 2518,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_charhide_wraps",
+      "file": "models/items/charhide_wraps.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_wraps",
+        "arms"
+      ],
+      "bytes": 16587992,
+      "itemModel": {
+        "itemId": "charhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.3418844938278198,
+        "y": 0.25199437141418457,
+        "z": 0.8907641172409058
+      },
+      "base": {
+        "x": -0.7063546180725098,
+        "y": 0.9175978899002075,
+        "z": -0.546836793422699
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_wraps",
+      "status": "pending",
+      "sha256": "f62d3fb01e7bfa6b01b68126c386bdbeda35e87f5c135a1f4e5def2f9aefecc9",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "triangles": 522,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_charhide_leggings",
+      "file": "models/items/charhide_leggings.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_leggings",
+        "legs"
+      ],
+      "bytes": 16599896,
+      "itemModel": {
+        "itemId": "charhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.2929926961660385,
+        "y": 0.6829101741313934,
+        "z": 0.51218281686306
+      },
+      "base": {
+        "x": -0.1565774381160736,
+        "y": 0.37849143147468567,
+        "z": -0.29609134793281555
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_leggings",
+      "status": "pending",
+      "sha256": "413f11fb21d6d0ef400dbe0ba0e83b9bf18ef91725dc3e87db26fec7fa35f407",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "triangles": 578,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_charhide_boots",
+      "file": "models/items/charhide_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "charhide_boots",
+        "feet"
+      ],
+      "bytes": 16657460,
+      "itemModel": {
+        "itemId": "charhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.28713929653167725,
+        "y": 0.439013978838922,
+        "z": 0.6296146810054779
+      },
+      "base": {
+        "x": -0.13836660981178284,
+        "y": -1.1026859425555813e-7,
+        "z": -0.3548072576522827
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "charhide_boots",
+      "status": "pending",
+      "sha256": "790f2fe13679537efe7fdab95e48b310f4c77f39c2a70aa2bed4e1cc47954316",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "17e30d26032b5ace3f7a86acfd01f4f32c8f2d0b656a3fcdbf78f274021f0cbd",
+      "triangles": 1185,
+      "drawCalls": 1
+    }
+  ]
+}
