@@ -346,7 +346,14 @@
                                     "hasBaseColorMap":  true,
                                     "hasMetallicRoughnessMap":  false,
                                     "hasNormalMap":  false
-                                }
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "f0925563-0980-4f9a-b1ab-84c559184fbe.glb",
+                                      "result":  "Download verified in Downloads"
+                                  }
                    },
                    {
                        "order":  32,
@@ -375,7 +382,14 @@
                                     "hasBaseColorMap":  true,
                                     "hasMetallicRoughnessMap":  true,
                                     "hasNormalMap":  true
-                                }
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "8906b179-31f4-48a4-a901-46811d5b8810.glb",
+                                      "result":  "Download verified in Downloads"
+                                  }
                    },
                    {
                        "order":  33,
@@ -404,7 +418,14 @@
                                     "hasBaseColorMap":  true,
                                     "hasMetallicRoughnessMap":  false,
                                     "hasNormalMap":  false
-                                }
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "7b1a3dab-6bf1-4e52-8e45-ebf5feec46f3.glb",
+                                      "result":  "Download verified in Downloads"
+                                  }
                    },
                    {
                        "order":  34,
@@ -433,7 +454,14 @@
                                     "hasBaseColorMap":  true,
                                     "hasMetallicRoughnessMap":  false,
                                     "hasNormalMap":  false
-                                }
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "7b0e575a-3c3b-41d2-8235-0faafe23df66.glb",
+                                      "result":  "Download verified in Downloads"
+                                  }
                    },
                    {
                        "order":  35,
