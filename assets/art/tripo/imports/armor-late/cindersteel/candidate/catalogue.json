@@ -25,7 +25,7 @@
         "cindersteel_helm",
         "head"
       ],
-      "bytes": 2425056,
+      "bytes": 3817424,
       "itemModel": {
         "itemId": "cindersteel_helm",
         "wearable": true
@@ -46,7 +46,7 @@
       ],
       "itemId": "cindersteel_helm",
       "status": "pending",
-      "sha256": "d4d92fea7b06c8741163c84f171b4f28ef5245331da8a16dd1a63d0d46dd3d4f",
+      "sha256": "3d71a01bd89615be3775d8e7e2de099bc48496dcb6690bccab15c4b8f7aad9ab",
       "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
       "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
       "triangles": 554,
@@ -64,7 +64,7 @@
         "cindersteel_plate",
         "torso"
       ],
-      "bytes": 2562776,
+      "bytes": 3955144,
       "itemModel": {
         "itemId": "cindersteel_plate",
         "wearable": true,
@@ -92,7 +92,7 @@
       ],
       "itemId": "cindersteel_plate",
       "status": "pending",
-      "sha256": "99b06bda673238dbe708777070bbc5d8c20d343c85f8d08032ab650a48bb16ae",
+      "sha256": "7ff912c76fd9029696cbba5ef78162ab18ed3ee01fa123f70bd6cf47fb6c6dce",
       "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
       "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
       "triangles": 1935,
@@ -110,7 +110,7 @@
         "cindersteel_gauntlets",
         "arms"
       ],
-      "bytes": 2505256,
+      "bytes": 3897624,
       "itemModel": {
         "itemId": "cindersteel_gauntlets",
         "wearable": true
@@ -131,7 +131,7 @@
       ],
       "itemId": "cindersteel_gauntlets",
       "status": "pending",
-      "sha256": "a295cf4165e93a785d66f286b9cf66fdbc061a2d4ad81db4d68e7751f8f92b12",
+      "sha256": "663958b94abef1be67999d27823003068f087eef2ab6d68646a2efdd8eaef7a1",
       "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
       "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
       "triangles": 1348,
@@ -149,7 +149,7 @@
         "cindersteel_greaves",
         "legs"
       ],
-      "bytes": 2461644,
+      "bytes": 3854012,
       "itemModel": {
         "itemId": "cindersteel_greaves",
         "wearable": true,
@@ -177,7 +177,7 @@
       ],
       "itemId": "cindersteel_greaves",
       "status": "pending",
-      "sha256": "b6654fa49424d002463a2ff77bf6fee4ff23164a995022c1ebf67200fe32835a",
+      "sha256": "93604b8d4352d4e1b1c813e929b0a9e45ef16a369de911ebb9bc5dde7aebe74f",
       "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
       "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
       "triangles": 912,
@@ -195,7 +195,7 @@
         "cindersteel_boots",
         "feet"
       ],
-      "bytes": 2433092,
+      "bytes": 3825460,
       "itemModel": {
         "itemId": "cindersteel_boots",
         "wearable": true
@@ -216,7 +216,7 @@
       ],
       "itemId": "cindersteel_boots",
       "status": "pending",
-      "sha256": "64b3aab3e8e85ef8851342fd6f4039a0271330fffbdcf43eb212a6889693fa7a",
+      "sha256": "4b17d9aa5f7bc82d77f34d1ef23f616994c9e32e4537b6d6e3691b4269b12ea7",
       "sourceSha256": "0d9a66e3ee067f7d5c0ce91241ab434bead75a515e5c319ced13d879b96d11ae",
       "configSha256": "62d8bd38739f3f97f1e3d4e5b427ad323d38aae9bd12f0ef08b458b504779399",
       "triangles": 450,
@@ -304,6 +304,118 @@
       }
     },
     "geometryPreserved": true,
+    "rigJointCounts": {
+      "cindersteel_helm": [
+        65
+      ],
+      "cindersteel_plate": [
+        65
+      ],
+      "cindersteel_gauntlets": [
+        65
+      ],
+      "cindersteel_greaves": [
+        65
+      ],
+      "cindersteel_boots": [
+        65
+      ]
+    }
+  },
+  "albedoRefinement": {
+    "profile": "cool-neutral-blackened-steel-lift-v1",
+    "generator": {
+      "file": "assets/art/tripo/imports/armor-late/cindersteel/candidate/refine-albedo.mjs",
+      "sha256": "2ebec5827fee69469ccd069a121d8ad82d84cc13c68750cc518ad16f56916e83"
+    },
+    "sourceBaseColorSha256": "69a56cb2e646a429c4f8f6d469c7dea14844b887ead0b6a9b74117da1fce3547",
+    "candidateBaseColorSha256": "e514e68735539b04a2f81f66c8031ca8f322cca770e44dae8dbbc97d97c68cb8",
+    "unchangedMetallicRoughnessSha256": "4663e19d7c091fb3619a4f1c2bf50f3c6e76ada91f906858ad9524b2cd882ec4",
+    "unchangedNormalSha256": "f10abc82d8df698fad38cb54009896bd0c02e33cb5e38d581074c115233b1069",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "mask": {
+      "rule": "(1 - smoothstep(0.12, 0.23, chroma)) * smoothstep(28, 50, light) * (1 - smoothstep(0.13, 0.26, redExcess))",
+      "method": "lift mask-selected pixels toward a cool neutral slate target; preserve per-pixel light variation and 35% of the original chroma residual"
+    },
+    "tone": {
+      "meanLift": 42,
+      "targetChannelBias": [
+        -10,
+        -2,
+        12
+      ],
+      "minimumMean": 92,
+      "maximumMean": 158,
+      "retainedChromaResidual": 0.35
+    },
+    "stats": {
+      "size": [
+        1024,
+        1024
+      ],
+      "maskConfidenceMean": 0.207,
+      "maskCoverageAtLeast80": 0.155,
+      "steelBefore": {
+        "count": 170272,
+        "meanRgb": [
+          74.4,
+          67.8,
+          67.6
+        ],
+        "meanLuma": 70,
+        "lumaP10P50P90": [
+          55.7,
+          68.7,
+          85.7
+        ]
+      },
+      "steelAfter": {
+        "count": 170272,
+        "meanRgb": [
+          102,
+          107.1,
+          120.2
+        ],
+        "meanLuma": 109.8,
+        "lumaP10P50P90": [
+          93.7,
+          109.7,
+          127
+        ]
+      },
+      "warmBefore": {
+        "count": 573623,
+        "meanRgb": [
+          57.6,
+          37.9,
+          35.3
+        ],
+        "meanLuma": 43.6,
+        "lumaP10P50P90": [
+          23,
+          39.7,
+          69.7
+        ]
+      },
+      "warmAfter": {
+        "count": 573623,
+        "meanRgb": [
+          57.6,
+          37.9,
+          35.4
+        ],
+        "meanLuma": 43.6,
+        "lumaP10P50P90": [
+          23,
+          39.7,
+          69.7
+        ]
+      }
+    },
+    "geometryUvAndRigPreserved": true,
     "rigJointCounts": {
       "cindersteel_helm": [
         65
