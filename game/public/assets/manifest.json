@@ -83939,7 +83939,7 @@
       "triangles": 926,
       "drawCalls": 2
     },
-    {
+        {
       "id": "corealm_item_charhide_hood",
       "file": "models/items/charhide_hood.glb",
       "pack": "corealm-tripo-armor",
@@ -83952,34 +83952,81 @@
         "head",
         "tripo-armor-approved"
       ],
-      "bytes": 875212,
+      "bytes": 16592200,
       "itemModel": {
         "itemId": "charhide_hood",
         "wearable": true
       },
       "size": {
-        "x": 0.46430669724941254,
-        "y": 0.2872556447982788,
-        "z": 0.631420910358429
+        "x": 0.46430663764476776,
+        "y": 0.28725576400756836,
+        "z": 0.6314208209514618
       },
       "base": {
-        "x": -0.2326049506664276,
-        "y": 1.721840739250183,
-        "z": -0.34216055274009705
+        "x": -0.23260492086410522,
+        "y": 1.7218410968780518,
+        "z": -0.34216049313545227
       },
       "animations": [],
       "materials": [
         "Material"
       ],
       "itemId": "charhide_hood",
-      "status": "pending",
-      "sha256": "77a1b23ff79368efd83321af4ccaec88c151ea6299506751e9136bc208739102",
-      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
-      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "sha256": "d7f031252e9953743159935f569657c798a26d5338e6d71d60400035dabca9cf",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 515,
-      "drawCalls": 1
+      "drawCalls": 1,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b967915",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/charhide/models/items/charhide_hood.glb",
+        "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+        "importConfigSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7533348,
+            "sha256": "ab4873ea654a5638c4f8f5ef4bfb89b3bbf7e19cc6b8ba87cf544cd6b5837ed1",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4413913,
+            "sha256": "2d16a1777bb6c9172b022b442bcd497055ffed19feb482312ad32283ffe57cab",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4586229,
+            "sha256": "f1d7673706e6ca4fb49983ad986b91ed049cc32dc74f578abe5e5b975da754d6",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/charhide-corrected-front.png",
+          "test-results/armor-production-verify/charhide-corrected-rear.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-04.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-09.png"
+        ]
+      }
     },
-    {
+        {
       "id": "corealm_item_charhide_robe",
       "file": "models/items/charhide_robe.glb",
       "pack": "corealm-tripo-armor",
@@ -83992,34 +84039,81 @@
         "torso",
         "tripo-armor-approved"
       ],
-      "bytes": 999316,
+      "bytes": 16716316,
       "itemModel": {
         "itemId": "charhide_robe",
         "wearable": true
       },
       "size": {
-        "x": 1.4359070658683777,
-        "y": 1.298071712255478,
-        "z": 0.5627685040235519
+        "x": 1.4359062910079956,
+        "y": 1.298071801662445,
+        "z": 0.5627684742212296
       },
       "base": {
-        "x": -0.7192153930664062,
-        "y": 0.3071284592151642,
-        "z": -0.3692600131034851
+        "x": -0.7192150354385376,
+        "y": 0.3071288466453552,
+        "z": -0.3692599833011627
       },
       "animations": [],
       "materials": [
         "Material"
       ],
       "itemId": "charhide_robe",
-      "status": "pending",
-      "sha256": "f6d7e048a16edbff6448dfda0a5b8e665d4259c63df47580197c6267ef0d255e",
-      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
-      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "sha256": "2751348ecb9a53b52b30faa58f3934d7c06ec45e750c343024b1f1af90462d4a",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 2518,
-      "drawCalls": 7
+      "drawCalls": 7,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b967915",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/charhide/models/items/charhide_robe.glb",
+        "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+        "importConfigSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7533348,
+            "sha256": "ab4873ea654a5638c4f8f5ef4bfb89b3bbf7e19cc6b8ba87cf544cd6b5837ed1",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4413913,
+            "sha256": "2d16a1777bb6c9172b022b442bcd497055ffed19feb482312ad32283ffe57cab",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4586229,
+            "sha256": "f1d7673706e6ca4fb49983ad986b91ed049cc32dc74f578abe5e5b975da754d6",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/charhide-corrected-front.png",
+          "test-results/armor-production-verify/charhide-corrected-rear.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-04.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-09.png"
+        ]
+      }
     },
-    {
+        {
       "id": "corealm_item_charhide_wraps",
       "file": "models/items/charhide_wraps.glb",
       "pack": "corealm-tripo-armor",
@@ -84032,34 +84126,81 @@
         "arms",
         "tripo-armor-approved"
       ],
-      "bytes": 871040,
+      "bytes": 16588040,
       "itemModel": {
         "itemId": "charhide_wraps",
         "wearable": true
       },
       "size": {
-        "x": 1.6384384036064148,
-        "y": 0.12009704113006592,
-        "z": 0.1088511049747467
+        "x": 1.638437569141388,
+        "y": 0.12009692192077637,
+        "z": 0.10885119624435902
       },
       "base": {
-        "x": -0.819219172000885,
-        "y": 1.3550355434417725,
-        "z": -0.08888161927461624
+        "x": -0.8192187547683716,
+        "y": 1.3550357818603516,
+        "z": -0.08888167142868042
       },
       "animations": [],
       "materials": [
         "Material"
       ],
       "itemId": "charhide_wraps",
-      "status": "pending",
-      "sha256": "41b74b6b653b52774828f2c9a1aa7b54e0448f1aa89d607d0ce076271e7f9035",
-      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
-      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "sha256": "4313e871d8f6de154f512ae2b5cca6f7403dac7936ec0eeb365250eb5cc1520a",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 522,
-      "drawCalls": 2
+      "drawCalls": 2,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b967915",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/charhide/models/items/charhide_wraps.glb",
+        "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+        "importConfigSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7533348,
+            "sha256": "ab4873ea654a5638c4f8f5ef4bfb89b3bbf7e19cc6b8ba87cf544cd6b5837ed1",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4413913,
+            "sha256": "2d16a1777bb6c9172b022b442bcd497055ffed19feb482312ad32283ffe57cab",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4586229,
+            "sha256": "f1d7673706e6ca4fb49983ad986b91ed049cc32dc74f578abe5e5b975da754d6",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/charhide-corrected-front.png",
+          "test-results/armor-production-verify/charhide-corrected-rear.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-04.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-09.png"
+        ]
+      }
     },
-    {
+        {
       "id": "corealm_item_charhide_leggings",
       "file": "models/items/charhide_leggings.glb",
       "pack": "corealm-tripo-armor",
@@ -84072,34 +84213,81 @@
         "legs",
         "tripo-armor-approved"
       ],
-      "bytes": 882952,
+      "bytes": 16599940,
       "itemModel": {
         "itemId": "charhide_leggings",
         "wearable": true
       },
       "size": {
-        "x": 0.32032594084739685,
-        "y": 0.6829100847244263,
+        "x": 0.32032589614391327,
+        "y": 0.6829101741313934,
         "z": 0.339648574590683
       },
       "base": {
-        "x": -0.16016292572021484,
-        "y": 0.37849104404449463,
-        "z": -0.19582274556159973
+        "x": -0.16016289591789246,
+        "y": 0.37849143147468567,
+        "z": -0.19582277536392212
       },
       "animations": [],
       "materials": [
         "Material"
       ],
       "itemId": "charhide_leggings",
-      "status": "pending",
-      "sha256": "e7253ea590420e75b1c2d7faf701ad9ced9ca6e14b35a7333ae8eb26f21f267c",
-      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
-      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "sha256": "8585794cee7ea74450ff94ec189b6f90d896da628a972e167a8b70659bb6c75a",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 578,
-      "drawCalls": 1
+      "drawCalls": 1,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b967915",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/charhide/models/items/charhide_leggings.glb",
+        "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+        "importConfigSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7533348,
+            "sha256": "ab4873ea654a5638c4f8f5ef4bfb89b3bbf7e19cc6b8ba87cf544cd6b5837ed1",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4413913,
+            "sha256": "2d16a1777bb6c9172b022b442bcd497055ffed19feb482312ad32283ffe57cab",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4586229,
+            "sha256": "f1d7673706e6ca4fb49983ad986b91ed049cc32dc74f578abe5e5b975da754d6",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/charhide-corrected-front.png",
+          "test-results/armor-production-verify/charhide-corrected-rear.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-04.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-09.png"
+        ]
+      }
     },
-    {
+        {
       "id": "corealm_item_charhide_boots",
       "file": "models/items/charhide_boots.glb",
       "pack": "corealm-tripo-armor",
@@ -84112,32 +84300,79 @@
         "feet",
         "tripo-armor-approved"
       ],
-      "bytes": 940512,
+      "bytes": 16657508,
       "itemModel": {
         "itemId": "charhide_boots",
         "wearable": true
       },
       "size": {
-        "x": 0.4048769026994705,
-        "y": 0.4390139773487931,
-        "z": 0.33151891082525253
+        "x": 0.40487685799598694,
+        "y": 0.439013978838922,
+        "z": 0.33151886612176895
       },
       "base": {
-        "x": -0.20243839919567108,
-        "y": -4.962086563864432e-7,
-        "z": -0.21298585832118988
+        "x": -0.2024383693933487,
+        "y": -1.1026859425555813e-7,
+        "z": -0.21298587322235107
       },
       "animations": [],
       "materials": [
         "Material"
       ],
       "itemId": "charhide_boots",
-      "status": "pending",
-      "sha256": "f30f1399df5ec064e8933b1320d274f1f24cdd9321c547ac19585811f71c6b28",
-      "sourceSha256": "d0e884ced50f535775206fdc9ed33f4087f66ef0ed166a5d51b29f0a692b73eb",
-      "configSha256": "4abd1e92c6f38fb0803e9574dfa43f4d42e17cd7bffb2bfd03a3cc8985983c61",
+      "sha256": "97d66d48f8998dc28f2c41997ee8a296d3bcd4d7f51099ba6a9c02a8c85cedfe",
+      "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+      "configSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
       "triangles": 1185,
-      "drawCalls": 1
+      "drawCalls": 1,
+      "provenance": {
+        "source": "Tripo GLB export",
+        "candidateCommit": "b967915",
+        "candidateCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "candidateFile": "assets/art/tripo/imports/armor-mid/charhide/models/items/charhide_boots.glb",
+        "sourceSha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f",
+        "importConfigSha256": "5f3d2a1938e296236f10c68db87a42447d3ea4bddbf76b6b82db2b050333ce6a",
+        "sourceTextureSize": 8192,
+        "runtimeSkinJoints": 65,
+        "runtimeTextureMaps": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 7533348,
+            "sha256": "ab4873ea654a5638c4f8f5ef4bfb89b3bbf7e19cc6b8ba87cf544cd6b5837ed1",
+            "role": "baseColor"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4413913,
+            "sha256": "2d16a1777bb6c9172b022b442bcd497055ffed19feb482312ad32283ffe57cab",
+            "role": "metallicRoughness"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4586229,
+            "sha256": "f1d7673706e6ca4fb49983ad986b91ed049cc32dc74f578abe5e5b975da754d6",
+            "role": "normal"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/armor-mid/charhide/catalogue.json",
+        "evidenceScreenshots": [
+          "test-results/armor-production-verify/charhide-corrected-front.png",
+          "test-results/armor-production-verify/charhide-corrected-rear.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-04.png",
+          "test-results/armor-production-verify/charhide-corrected-walk-09.png"
+        ]
+      }
     },
     {
       "id": "corealm_item_dewglass_helm",
