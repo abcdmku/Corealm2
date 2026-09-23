@@ -554,6 +554,10 @@ const labAsset = {
   },
   acceptance: { starredSource: true, geometryPreserved: true, rigAccepted: false, motionAccepted: false, pbrAccepted: false, labAccepted: false, worldIntegrated: false },
 };
-await writeFile(path.join(here, 'lab-catalog.json'), JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset] }, null, 2) + '\n');
+await writeFile(path.join(here, 'lab-catalog.json'), JSON.stringify({
+  schema: 'corealm-lab-asset-candidates/1',
+  assets: [labAsset],
+  files: { npc_slayer_vardan: path.basename(candidatePath) },
+}, null, 2) + '\n');
 
 console.log(JSON.stringify({ candidatePath: path.relative(repo, candidatePath).replaceAll('\\', '/'), candidateSha256, bytes: outputBytes.length, vertexCount, triangleCount, joints: bones.length, clips: clips.map(({ name, seconds }) => ({ name, seconds })), sourceWeightIndices: originalWeightSummary.uniqueJointIndices, distributedVertices: checkedDistributedVertices, tailInfluencedVertices: tailVertices, meanTailWeight: +(tailWeightSum / vertexCount).toFixed(4), maximumWeightSumError: checkedWeightSumError, textureMaps: outputTextureMetrics.map(({ role, width, height, bytes }) => ({ role, width, height, bytes })), geometryPreserved: { positionDelta, normalDelta, uvDelta, indexMismatches } }, null, 2));

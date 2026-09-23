@@ -120,5 +120,8 @@
         "worldIntegrated": false
       }
     }
-  ]
+  ],
+  "files": {
+    "npc_slayer_vardan": "master-vardan-p1-humanoid-candidate.glb"
+  }
 }
