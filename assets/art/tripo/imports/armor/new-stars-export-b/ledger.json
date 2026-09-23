@@ -5,7 +5,7 @@
   "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
   "overallStatus": "local_archive_complete",
   "packed8kVariantStatus": "in_progress",
-  "packed8kVariantsArchived": 1,
+  "packed8kVariantsArchived": 2,
   "requestedExportSettings": {
     "format": "GLB",
     "textureResolution": "8k Current",
@@ -56,6 +56,61 @@
         "exportedAtLocal": "2026-09-23T05:29:03-05:00",
         "identificationEvidence": "Unique 05:29 local arrival confirmed for project 32235679-13e4-46ec-8a0a-40ddbecd11d7; 10 fantasy_wizard_3d_model base-color maps average deep reddish-brown, matching the burgundy leather coat prompt.",
         "settingsApplied": true
+      },
+      "packed8kVariant": {
+        "status": "archived_verified",
+        "sourceProjectUuid": "32235679-13e4-46ec-8a0a-40ddbecd11d7",
+        "identificationEvidence": "Tripo UI agent confirmed project 32235679-13e4-46ec-8a0a-40ddbecd11d7 -> packed8k_32235679.glb with success toast at 2026-09-23T05:57:18-05:00; embedded PBR image names carry the matching packed8k project prefix.",
+        "archivePath": "assets/art/tripo/exports/packed-8k/32235679-13e4-46ec-8a0a-40ddbecd11d7.glb",
+        "downloadedFileName": "packed8k_32235679.glb",
+        "recordedAtLocal": "2026-09-23T05:57:18-05:00",
+        "exportSettings": {
+          "format": "GLB",
+          "textureResolution": "8k Current",
+          "packUV": true,
+          "exportSkeleton": true
+        },
+        "actualTextureDimensions": {
+          "baseColor": [
+            {
+              "name": "packed8k_32235679_basecolor",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "metallicRoughness": [
+            {
+              "name": "packed8k_32235679_rm",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "normal": [
+            {
+              "name": "packed8k_32235679_normal",
+              "width": 8192,
+              "height": 8192
+            }
+          ]
+        },
+        "meshIdentity": {
+          "meshCount": 10,
+          "primitiveCount": 10,
+          "triangleCount": 5378,
+          "skinCount": 1,
+          "skinJointCount": 65,
+          "matchesOriginal": {
+            "positionAttributeFingerprint": false,
+            "positionAttributeMultiset": false,
+            "normalFingerprint": false,
+            "indexConnectivity": false,
+            "uvLayoutFingerprint": false,
+            "skinInfluenceFingerprints": false
+          },
+          "note": "Mesh, primitive, triangle, and skin joint counts match the original archive, but the listed attribute fingerprints differ. This is recorded as a distinct Pack UV output; Tripo UI directly confirmed the exported source project."
+        },
+        "sizeBytes": 26300292,
+        "sha256": "b4a4d85aab881d5b1fcbfe00d0a86dce5a0285b92fb274dbb6d00edaa948cd6f"
       }
     },
     {
@@ -236,7 +291,8 @@
           "note": "Pack UV export changes index connectivity and UV layout; vertex position multiset, normals, skin influences, counts, and joint count match the original archive."
         },
         "sizeBytes": 33150900,
-        "sha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81"
+        "sha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+        "identificationEvidence": "Tripo UI agent confirmed the Pack UV ON probe belongs to project a9956e9e-0576-47a0-877e-ee5d3a3b2bb5 and downloaded packuv_probe_a9956e9e.glb at 2026-09-23T05:39:56-05:00; embedded PBR image names carry the matching probe prefix."
       }
     }
   ]
