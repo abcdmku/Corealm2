@@ -1,0 +1,185 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-starred-creatures",
+    "name": "Corealm starred creatures",
+    "author": "Corealm",
+    "source": "Tripo Studio source exports and Corealm candidate rig/material adaptation",
+    "license": "LicenseRef-Tripo-Generated"
+  },
+  "assets": [
+    {
+      "id": "creature_gloamwing_scourer",
+      "file": "models/creature/creature_gloamwing_scourer.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Gloamwing Scourer",
+      "tags": [
+        "creature",
+        "mammal",
+        "winged",
+        "fantasy",
+        "tripo-starred",
+        "candidate",
+        "skinned",
+        "articulated",
+        "t10"
+      ],
+      "bytes": 6021752,
+      "sha256": "c68ed9a49a2841af02a8b532fb065b5fd52caff15ba0471e56d8f3f3c4ed9432",
+      "size": {
+        "x": 0.8925780653953552,
+        "y": 0.998046875,
+        "z": 0.9980469346046448
+      },
+      "base": {
+        "x": -0.4462890326976776,
+        "y": 0,
+        "z": -0.4990234673023224
+      },
+      "bounds": {
+        "min": [
+          -0.4462890326976776,
+          0,
+          -0.4990234673023224
+        ],
+        "max": [
+          0.4462890326976776,
+          0.998046875,
+          0.4990234673023224
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4837,
+      "vertices": 7985,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Flying",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_3bd6f593-ebde-4907-a39f-49054ffa27bd_material"
+      ],
+      "walkClipSeconds": 1.08,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.74,
+      "contactNormalized": 0.53,
+      "sourceProvenance": {
+        "author": "Corealm flying-creature rig reconstruction",
+        "source": "User-starred Tripo P1 flying rat; 19-joint version selected by source hash; original mesh and layered PBR retained.",
+        "modelId": "390315e8-2a4d-4bf5-a9bd-8906016dfde4",
+        "cardStorageId": "e5fa04f1-b25d-4a4e-a8fb-0ca2cbc5da73",
+        "sourceSha256": "d400661f2aea193dbb55590bf45655984dbda444601fb08860368453b60a13f3",
+        "candidateFile": "gloamwing-scourer-native-rig-candidate.glb",
+        "candidateSha256": "c68ed9a49a2841af02a8b532fb065b5fd52caff15ba0471e56d8f3f3c4ed9432",
+        "rigMethod": "Four-influence anatomically gated capsule distances: flexible trunk and muzzle, paired hind legs and feet, chained bat-like wing shoulder/elbow/wrist/membrane digits, and segmented tail.",
+        "textures": [
+          {
+            "name": "fantasy+flying+rat+3d+model_basecolor.jpg",
+            "role": "base-color",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "mimeType": "image/jpeg",
+            "bytes": 1135077,
+            "sha256": "eaeea8098779a4a649799632a9d05b131c22d3b454b0e8e842e9f64daa59a296"
+          },
+          {
+            "name": "fantasy+flying+rat+3d+model_rm.png",
+            "role": "metallic-roughness",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "mimeType": "image/png",
+            "bytes": 3712194,
+            "sha256": "5277be6878f43adfd910275d48f37087373b87c79fc2424f1f8bbfc7eec6e61c"
+          },
+          {
+            "name": "fantasy+flying+rat+3d+model_normal.jpg",
+            "role": "normal",
+            "dimensions": [
+              2048,
+              2048
+            ],
+            "mimeType": "image/jpeg",
+            "bytes": 414190,
+            "sha256": "306736053a15fd5a09e11da5b3a1564a90cdea8240cc9ca5837e67f260cc76f2"
+          }
+        ]
+      },
+      "metadata": {
+        "is": "Gloamwing Scourer",
+        "tags": [
+          "creature",
+          "mammal",
+          "winged",
+          "fantasy",
+          "tripo-starred",
+          "candidate",
+          "t10"
+        ],
+        "walkClipSeconds": 1.08,
+        "runClipSeconds": 0.72,
+        "attackSeconds": 0.74,
+        "contactNormalized": 0.53,
+        "suggestedAirborneClip": "Flying",
+        "boneNames": [
+          "RatRoot",
+          "Pelvis",
+          "SpineLow",
+          "SpineMid",
+          "Chest",
+          "Neck",
+          "Head",
+          "Muzzle",
+          "Ear_L",
+          "Ear_R",
+          "ForeUpper_L",
+          "ForeLower_L",
+          "ForePaw_L",
+          "ForeUpper_R",
+          "ForeLower_R",
+          "ForePaw_R",
+          "WingShoulder_L",
+          "WingElbow_L",
+          "WingWrist_L",
+          "WingThumb_L",
+          "WingFingerA_L",
+          "WingFingerB_L",
+          "WingFingerC_L",
+          "WingShoulder_R",
+          "WingElbow_R",
+          "WingWrist_R",
+          "WingThumb_R",
+          "WingFingerA_R",
+          "WingFingerB_R",
+          "WingFingerC_R",
+          "TailBase",
+          "TailMid",
+          "TailEnd",
+          "TailTip",
+          "HindUpper_L",
+          "HindLower_L",
+          "HindFoot_L",
+          "HindUpper_R",
+          "HindLower_R",
+          "HindFoot_R"
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_gloamwing_scourer": "gloamwing-scourer-native-rig-candidate.glb"
+  }
+}

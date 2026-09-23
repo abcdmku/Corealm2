@@ -1,0 +1,559 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_gloamwing_scourer",
+  "displayName": "Gloamwing Scourer",
+  "status": "awaiting-root-visual-and-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/390315e8-2a4d-4bf5-a9bd-8906016dfde4.glb",
+    "sha256": "d400661f2aea193dbb55590bf45655984dbda444601fb08860368453b60a13f3",
+    "bytes": 5772452,
+    "starredModelId": "390315e8-2a4d-4bf5-a9bd-8906016dfde4",
+    "starredCardStorageId": "e5fa04f1-b25d-4a4e-a8fb-0ca2cbc5da73",
+    "title": "Fantasy Flying Rat 3d Model",
+    "prompt": "flying rat creature with fur, bat-like wings, large red eyes, sharp teeth, long tail",
+    "tripoExportRigJoints": 19,
+    "originalTripoSkinStatus": "invalid: 100 percent of vertices assigned to bone_0; every exported joint has identity local transform; zero animations",
+    "topology": {
+      "vertices": 7985,
+      "triangles": 4837,
+      "bounds": {
+        "min": [
+          -0.4990234673023224,
+          0,
+          -0.4462890326976776
+        ],
+        "max": [
+          0.4990234673023224,
+          0.998046875,
+          0.4462890326976776
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uvsPreserved": true,
+      "retopology": false
+    },
+    "textures": [
+      {
+        "name": "fantasy+flying+rat+3d+model_basecolor.jpg",
+        "role": "base-color",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg",
+        "bytes": 1135077,
+        "sha256": "eaeea8098779a4a649799632a9d05b131c22d3b454b0e8e842e9f64daa59a296"
+      },
+      {
+        "name": "fantasy+flying+rat+3d+model_rm.png",
+        "role": "metallic-roughness",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png",
+        "bytes": 3712194,
+        "sha256": "5277be6878f43adfd910275d48f37087373b87c79fc2424f1f8bbfc7eec6e61c"
+      },
+      {
+        "name": "fantasy+flying+rat+3d+model_normal.jpg",
+        "role": "normal",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg",
+        "bytes": 414190,
+        "sha256": "306736053a15fd5a09e11da5b3a1564a90cdea8240cc9ca5837e67f260cc76f2"
+      }
+    ],
+    "generator": "Tripo P1.0 Smart Mesh; exact canonical 19-joint export selected by the verified SHA-256"
+  },
+  "candidate": {
+    "file": "gloamwing-scourer-native-rig-candidate.glb",
+    "sha256": "c68ed9a49a2841af02a8b532fb065b5fd52caff15ba0471e56d8f3f3c4ed9432",
+    "bytes": 6021752,
+    "geometry": {
+      "vertices": 7985,
+      "triangles": 4837,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uvsPreserved": true
+    },
+    "rig": {
+      "type": "Unity Generic-ready flying mammal rig; import review required",
+      "jointCount": 40,
+      "jointNames": [
+        "RatRoot",
+        "Pelvis",
+        "SpineLow",
+        "SpineMid",
+        "Chest",
+        "Neck",
+        "Head",
+        "Muzzle",
+        "Ear_L",
+        "Ear_R",
+        "ForeUpper_L",
+        "ForeLower_L",
+        "ForePaw_L",
+        "ForeUpper_R",
+        "ForeLower_R",
+        "ForePaw_R",
+        "WingShoulder_L",
+        "WingElbow_L",
+        "WingWrist_L",
+        "WingThumb_L",
+        "WingFingerA_L",
+        "WingFingerB_L",
+        "WingFingerC_L",
+        "WingShoulder_R",
+        "WingElbow_R",
+        "WingWrist_R",
+        "WingThumb_R",
+        "WingFingerA_R",
+        "WingFingerB_R",
+        "WingFingerC_R",
+        "TailBase",
+        "TailMid",
+        "TailEnd",
+        "TailTip",
+        "HindUpper_L",
+        "HindLower_L",
+        "HindFoot_L",
+        "HindUpper_R",
+        "HindLower_R",
+        "HindFoot_R"
+      ],
+      "weightMethod": "Four-influence anatomically gated capsule distances: flexible trunk and muzzle, paired hind legs and feet, chained bat-like wing shoulder/elbow/wrist/membrane digits, and segmented tail."
+    },
+    "coordinateBasis": {
+      "sourceForward": "+X",
+      "sourceUp": "+Y",
+      "sourceWingSpan": "+/-Z",
+      "presentationYawDegrees": -90,
+      "gameForward": "+Z",
+      "axisMapping": "source (x, y, z) maps to game (-z, y, x)"
+    },
+    "material": {
+      "metallicFactor": 0.02,
+      "roughnessFactor": 0.88,
+      "texturePolicy": "Original image-generated layered 2K base-color, packed metallic-roughness and tangent-space normal maps retained byte-for-byte; metallic factor corrected for nonmetallic fur and leather membrane."
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "duration": 2.7,
+        "channels": 10,
+        "description": "Alert grounded rest with a restrained breath, a slight leather-wing settle, small ear turns and a slow counterweighted tail sway."
+      },
+      {
+        "name": "Walk",
+        "duration": 1.08,
+        "channels": 17,
+        "description": "Low cautious quadrupedal skitter with alternating fore and hind steps, compact folded wings and a balancing tail."
+      },
+      {
+        "name": "Run",
+        "duration": 0.72,
+        "channels": 17,
+        "description": "Fast low pounce stride with opposed fore and hind limbs, compacting elbows and broad wing-assisted balance."
+      },
+      {
+        "name": "Flying",
+        "duration": 1.02,
+        "channels": 22,
+        "description": "Airborne hover and travel loop with synchronized downstrokes, a compact recovery stroke, tucked feet and a counter-swinging tail."
+      },
+      {
+        "name": "Attack",
+        "duration": 0.74,
+        "channels": 9,
+        "description": "Short wing-assisted lunge with a committed forward head strike and a heavy closing downstroke."
+      },
+      {
+        "name": "Hit",
+        "duration": 0.42,
+        "channels": 7,
+        "description": "Brief asymmetric wing recoil, a chest flinch and a stabilizing tail whip."
+      },
+      {
+        "name": "Death",
+        "duration": 1.42,
+        "channels": 12,
+        "description": "The creature loses lift, folds its wings, drops its head and settles onto its side without a violent or gory pose."
+      }
+    ],
+    "productionTargetSuggestion": "game/public/assets/models/creature/creature_gloamwing_scourer.glb",
+    "suggestedTier": "T10",
+    "regionSuggestion": "Outer cave mouths or a purposeful dusk scavenger niche; root should choose final population and name after the style audit."
+  },
+  "validation": {
+    "sourceGeometry": {
+      "vertices": 7985,
+      "triangles": 4837,
+      "maxPositionDelta": 0,
+      "maxNormalDelta": 0,
+      "maxUvDelta": 0,
+      "indexMismatches": 0
+    },
+    "skin": {
+      "joints": 40,
+      "maxJointIndex": 39,
+      "normalized": true,
+      "maxWeightSumError": 9.723007678985596e-7,
+      "verticesWithMultipleInfluences": 7625,
+      "minimumNonzeroWeight": 0.00000102273203461678,
+      "influencedVertexCounts": [
+        {
+          "name": "RatRoot",
+          "vertices": 0
+        },
+        {
+          "name": "Pelvis",
+          "vertices": 1706
+        },
+        {
+          "name": "SpineLow",
+          "vertices": 1196
+        },
+        {
+          "name": "SpineMid",
+          "vertices": 5386
+        },
+        {
+          "name": "Chest",
+          "vertices": 6513
+        },
+        {
+          "name": "Neck",
+          "vertices": 1063
+        },
+        {
+          "name": "Head",
+          "vertices": 421
+        },
+        {
+          "name": "Muzzle",
+          "vertices": 0
+        },
+        {
+          "name": "Ear_L",
+          "vertices": 0
+        },
+        {
+          "name": "Ear_R",
+          "vertices": 0
+        },
+        {
+          "name": "TailBase",
+          "vertices": 633
+        },
+        {
+          "name": "TailMid",
+          "vertices": 637
+        },
+        {
+          "name": "TailEnd",
+          "vertices": 637
+        },
+        {
+          "name": "TailTip",
+          "vertices": 11
+        },
+        {
+          "name": "ForeUpper_L",
+          "vertices": 137
+        },
+        {
+          "name": "ForeLower_L",
+          "vertices": 137
+        },
+        {
+          "name": "ForePaw_L",
+          "vertices": 137
+        },
+        {
+          "name": "ForeUpper_R",
+          "vertices": 274
+        },
+        {
+          "name": "ForeLower_R",
+          "vertices": 632
+        },
+        {
+          "name": "ForePaw_R",
+          "vertices": 632
+        },
+        {
+          "name": "HindUpper_L",
+          "vertices": 328
+        },
+        {
+          "name": "HindLower_L",
+          "vertices": 324
+        },
+        {
+          "name": "HindFoot_L",
+          "vertices": 328
+        },
+        {
+          "name": "HindUpper_R",
+          "vertices": 100
+        },
+        {
+          "name": "HindLower_R",
+          "vertices": 100
+        },
+        {
+          "name": "HindFoot_R",
+          "vertices": 100
+        },
+        {
+          "name": "WingShoulder_L",
+          "vertices": 331
+        },
+        {
+          "name": "WingElbow_L",
+          "vertices": 1124
+        },
+        {
+          "name": "WingWrist_L",
+          "vertices": 169
+        },
+        {
+          "name": "WingThumb_L",
+          "vertices": 51
+        },
+        {
+          "name": "WingFingerA_L",
+          "vertices": 37
+        },
+        {
+          "name": "WingFingerB_L",
+          "vertices": 0
+        },
+        {
+          "name": "WingFingerC_L",
+          "vertices": 748
+        },
+        {
+          "name": "WingShoulder_R",
+          "vertices": 2087
+        },
+        {
+          "name": "WingElbow_R",
+          "vertices": 2958
+        },
+        {
+          "name": "WingWrist_R",
+          "vertices": 283
+        },
+        {
+          "name": "WingThumb_R",
+          "vertices": 990
+        },
+        {
+          "name": "WingFingerA_R",
+          "vertices": 0
+        },
+        {
+          "name": "WingFingerB_R",
+          "vertices": 12
+        },
+        {
+          "name": "WingFingerC_R",
+          "vertices": 219
+        }
+      ]
+    },
+    "inverseBind": {
+      "matrices": 40,
+      "maximumMatrixDelta": 2.8610229518832853e-8
+    },
+    "textures": [
+      {
+        "name": "fantasy+flying+rat+3d+model_basecolor.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "bytes": 1135077,
+        "sha256": "eaeea8098779a4a649799632a9d05b131c22d3b454b0e8e842e9f64daa59a296"
+      },
+      {
+        "name": "fantasy+flying+rat+3d+model_rm.png",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "bytes": 3712194,
+        "sha256": "5277be6878f43adfd910275d48f37087373b87c79fc2424f1f8bbfc7eec6e61c"
+      },
+      {
+        "name": "fantasy+flying+rat+3d+model_normal.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "bytes": 414190,
+        "sha256": "306736053a15fd5a09e11da5b3a1564a90cdea8240cc9ca5837e67f260cc76f2"
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.7,
+        "channels": 10,
+        "sampledPoses": 10,
+        "maximumVertexDisplacement": 0.0804,
+        "maximumVerticesMoved": 7928,
+        "sweptBounds": {
+          "min": [
+            -0.501626853096759,
+            -0.000024932363937934854,
+            -0.44628903269776793
+          ],
+          "max": [
+            0.5013878916820189,
+            0.9992780260376124,
+            0.4462890437027205
+          ]
+        }
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.08,
+        "channels": 17,
+        "sampledPoses": 10,
+        "maximumVertexDisplacement": 0.15046,
+        "maximumVerticesMoved": 7977,
+        "sweptBounds": {
+          "min": [
+            -0.5021546642371726,
+            -0.00014078762061331223,
+            -0.4462890326977679
+          ],
+          "max": [
+            0.5017337103675535,
+            0.9999099997749309,
+            0.4462890437027205
+          ]
+        }
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 17,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.26552,
+        "maximumVerticesMoved": 7970,
+        "sweptBounds": {
+          "min": [
+            -0.5020846740132788,
+            -0.0005013049619090415,
+            -0.44628903269776793
+          ],
+          "max": [
+            0.5014912107075308,
+            0.9999099997749309,
+            0.4462890437027205
+          ]
+        }
+      },
+      {
+        "name": "Flying",
+        "seconds": 1.02,
+        "channels": 22,
+        "sampledPoses": 9,
+        "maximumVertexDisplacement": 0.62647,
+        "maximumVerticesMoved": 7985,
+        "sweptBounds": {
+          "min": [
+            -0.4992128911516321,
+            1.427579714280514e-8,
+            -0.6903962227468659
+          ],
+          "max": [
+            0.49887245990874524,
+            1.274574987605413,
+            0.6016304827281638
+          ]
+        }
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.74,
+        "channels": 9,
+        "sampledPoses": 11,
+        "maximumVertexDisplacement": 0.15462,
+        "maximumVerticesMoved": 7985,
+        "sweptBounds": {
+          "min": [
+            -0.4991387585276727,
+            1.427579714280514e-8,
+            -0.446289032697768
+          ],
+          "max": [
+            0.5127827438259226,
+            1.0309538982729527,
+            0.5512890427713979
+          ]
+        }
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.42,
+        "channels": 7,
+        "sampledPoses": 11,
+        "maximumVertexDisplacement": 0.19022,
+        "maximumVerticesMoved": 7985,
+        "sweptBounds": {
+          "min": [
+            -0.49942856113341777,
+            -0.007288509165010283,
+            -0.476289032027222
+          ],
+          "max": [
+            0.5032500186259039,
+            1.0021409990382197,
+            0.4462890437027205
+          ]
+        }
+      },
+      {
+        "name": "Death",
+        "seconds": 1.42,
+        "channels": 12,
+        "sampledPoses": 12,
+        "maximumVertexDisplacement": 0.51361,
+        "maximumVerticesMoved": 7985,
+        "sweptBounds": {
+          "min": [
+            -0.49902348204625635,
+            -0.07735338539910663,
+            -0.4462890326977682
+          ],
+          "max": [
+            0.5851280108509853,
+            0.9980468942615023,
+            0.4462890437027205
+          ]
+        }
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceImageAudit": false,
+    "geometry": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "texturesAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
