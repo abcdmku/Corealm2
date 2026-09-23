@@ -4,8 +4,8 @@
   "task": "Crosswalk and export-status ledger for five newly starred armor and wizard models assigned to new-stars-export-b.",
   "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
   "overallStatus": "local_archive_complete",
-  "packed8kVariantStatus": "in_progress",
-  "packed8kVariantsArchived": 4,
+  "packed8kVariantStatus": "complete",
+  "packed8kVariantsArchived": 5,
   "requestedExportSettings": {
     "format": "GLB",
     "textureResolution": "8k Current",
@@ -317,6 +317,61 @@
         "downloadedFileName": "medieval+knight+3d+model (5).glb",
         "exportedAtLocal": "2026-09-23T05:36:28-05:00",
         "identificationEvidence": "Unique 05:36 local arrival confirmed for project b89790da-b432-4935-99ba-56ff49a4a3a4; 44 textured mesh/material pairs use medieval_knight_3d_model base-color maps with muted teal-green averages matching the prompt."
+      },
+      "packed8kVariant": {
+        "status": "archived_verified",
+        "sourceProjectUuid": "b89790da-b432-4935-99ba-56ff49a4a3a4",
+        "identificationEvidence": "Tripo UI agent confirmed project b89790da-b432-4935-99ba-56ff49a4a3a4 -> packed8k_b89790da.glb with success toast at 2026-09-23T06:02:34-05:00; embedded PBR image names carry the matching packed8k project prefix.",
+        "archivePath": "assets/art/tripo/exports/packed-8k/b89790da-b432-4935-99ba-56ff49a4a3a4.glb",
+        "downloadedFileName": "packed8k_b89790da.glb",
+        "recordedAtLocal": "2026-09-23T06:02:34-05:00",
+        "exportSettings": {
+          "format": "GLB",
+          "textureResolution": "8k Current",
+          "packUV": true,
+          "exportSkeleton": true
+        },
+        "actualTextureDimensions": {
+          "baseColor": [
+            {
+              "name": "packed8k_b89790da_basecolor",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "metallicRoughness": [
+            {
+              "name": "packed8k_b89790da_rm",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "normal": [
+            {
+              "name": "packed8k_b89790da_normal",
+              "width": 8192,
+              "height": 8192
+            }
+          ]
+        },
+        "meshIdentity": {
+          "meshCount": 44,
+          "primitiveCount": 44,
+          "triangleCount": 4756,
+          "skinCount": 1,
+          "skinJointCount": 65,
+          "matchesOriginal": {
+            "positionAttributeFingerprint": false,
+            "positionAttributeMultiset": false,
+            "normalFingerprint": true,
+            "indexConnectivity": false,
+            "uvLayoutFingerprint": false,
+            "skinInfluenceFingerprints": true
+          },
+          "note": "Mesh, primitive, triangle, and skin joint counts match the original archive. Normal and skin influence fingerprints match; POSITION, UV, and index fingerprints differ. This is recorded as a distinct Pack UV output confirmed by Tripo UI."
+        },
+        "sizeBytes": 29956108,
+        "sha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c"
       }
     },
     {
