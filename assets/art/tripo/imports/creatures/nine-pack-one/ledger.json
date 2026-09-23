@@ -1,0 +1,101 @@
+﻿{
+  "label": "prior-batch-backlog",
+  "pack": 1,
+  "updatedAt": "2026-09-23",
+  "scope": "Older in-progress creature imports only. The current starred creature work is organized as three composite sheets and is handled by separate leads. This ledger records reconciliation and candidate status; the root owns lab acceptance and production integration.",
+  "summary": {
+    "integrated": ["fallow-brute", "dewglass-reliquary-legacy-region-assets"],
+    "staged": ["grove-brute", "cragbound-keeper", "dewglass-weaver"],
+    "held": ["cairn-treader"],
+    "missing": ["emberbank-brute", "vault-custodian", "dewglass-reliquary-new-source"],
+    "excluded": ["thick-hide"]
+  },
+  "entries": [
+    {
+      "id": "thick-hide",
+      "status": "excluded",
+      "reason": "This is the Thick Hide armor family, not a creature. Source model 20da09df is indexed as a hooded wizard costume in the starred inventory and is bound under imports/armor-early/bramblehide/import.json. No creature extraction or rigging was started."
+    },
+    {
+      "id": "grove-brute",
+      "sourceImageId": "c3434bc8-dbf1-4254-ae0d-7374cd3680b7",
+      "modelId": "07e65df7-8ccb-4a73-872a-54d1229da86c",
+      "sourceImageReview": "approved",
+      "sourceSha256": "5244b9a7b9b7dc8f9e5d4da470323c0d417206b94312eb9e7749fc9a3f27d7b0",
+      "status": "staged-candidate-existing",
+      "candidate": "assets/art/tripo/imports/creatures/grove-brute-t5/models/creature_boss_mossbound.glb",
+      "animations": ["Idle", "Walk", "Run", "Attack", "Hit", "HitLeft", "HitRight", "Death"],
+      "production": "The public manifest still has a different older Mossbound regional boss asset. Existing source-matched candidate has repaired weights and animation metadata; do not duplicate. Runtime animation and face readability remain for root acceptance."
+    },
+    {
+      "id": "dewglass-reliquary",
+      "sourceImageId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+      "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+      "sourceImageReview": "approved",
+      "sourceSha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+      "status": "candidate-in-progress",
+      "production": "Two Fairy Garden Reliquary models with six clips are already in the public manifest, but their geometry/source is different (21,126 vertices versus 3,173 vertices in this source export). The approved d95af2cf export has no source-matched import candidate yet.",
+      "runtimeAnimationHold": true
+    },
+    {
+      "id": "cairn-treader",
+      "sourceImageId": "f1168b3e-6a08-4dae-b3cb-06521aed056f",
+      "modelId": "b410206c-139f-4849-b493-bec078ea8560",
+      "sourceImageReview": "denied",
+      "status": "held-denied-source",
+      "reason": "The exact source is denied: its approved replacement requirement is a recessed solid limestone face bridging the dominant oval void. Source is ineligible for model generation and production promotion is false. Leave the old public Cairn Treader asset untouched."
+    },
+    {
+      "id": "emberbank-brute",
+      "sourceImageId": "ec644492-32d4-4cac-914f-079adef1e98d",
+      "modelId": "2b3179ac-d360-4e46-83fb-69681850ab0c",
+      "sourceImageReview": "approved",
+      "sourceSha256": "3368af107a2b4afcfee27c18f2da9e6a113679123fc7691cdeecd9012d31383b",
+      "status": "candidate-in-progress",
+      "production": "The manifest contains an older Cinderwake boss with distinct multi-mesh geometry; there is no source-matched candidate for this export.",
+      "runtimeAnimationHold": true
+    },
+    {
+      "id": "vault-custodian",
+      "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+      "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+      "sourceImageReview": "approved",
+      "sourceSha256": "6b4817f773e179ca8845ee648be23159fd55efb5f240475e6015d1c2aecb1c5c",
+      "status": "candidate-in-progress",
+      "production": "A different older Vault Custodian model is in the public manifest; no source-matched Tripo import candidate exists for this export.",
+      "runtimeAnimationHold": true
+    },
+    {
+      "id": "fallow-brute",
+      "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+      "modelId": "37458f5d-edc4-443d-97f8-dad5716de47b",
+      "sourceImageReview": "approved",
+      "sourceSha256": "2adabf7f9db7a767db9e0760389edd191ac74ad1b454a121d94f19b9875b1503",
+      "status": "integrated",
+      "candidate": "assets/art/tripo/imports/creatures/fallow-brute-t1/models/creature_boss_galeskin.glb",
+      "production": "The source-matched candidate is already present in the public manifest with the six required clips plus directional hit aliases. Do not rebuild."
+    },
+    {
+      "id": "cragbound-keeper",
+      "sourceImageId": "b480f1bd-80ee-4069-9da5-8fc47fd6b9f9",
+      "modelId": "00725e73-acb0-4633-a8b7-ee04d7c576e9",
+      "sourceImageReview": "approved",
+      "sourceSha256": "3413ffb590eb0a4dcd005035819addc8c2b3aaf5cd25f99a26de458dcc6a93b4",
+      "status": "staged-candidate-existing",
+      "candidate": "assets/art/tripo/imports/creatures/cragbound-keeper/models/creature_stone_golem.glb",
+      "animations": ["Idle", "Walk", "Run", "Attack", "Hit", "HitLeft", "HitRight", "Death"],
+      "production": "The public manifest still has the different older stone golem geometry. Existing source-matched candidate has repaired weights and animation metadata; do not duplicate. Runtime animation and face readability remain for root acceptance."
+    },
+    {
+      "id": "dewglass-weaver",
+      "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+      "modelId": "3ead9c24-4f01-468d-9742-6995dc817118",
+      "sourceImageReview": "approved",
+      "sourceSha256": "93c742635c17f766e50c3e5f38ab8c3f303ea820cadc9197ba0601618740de88",
+      "status": "staged-candidate-existing",
+      "candidate": "assets/art/tripo/imports/creatures/starred-dewglass-weaver/dewglass-weaver-native-rig-candidate.glb",
+      "animations": ["Idle", "Walk", "Run", "Attack", "Hit", "Death"],
+      "production": "A separate custom six-leg candidate and an older production Dewglass Weaver asset already exist. Coordinate root acceptance; do not create a second candidate."
+    }
+  ]
+}

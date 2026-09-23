@@ -1,0 +1,584 @@
+{
+  "schema": "corealm-creature-candidate/1",
+  "id": "creature_leaf_sentinel",
+  "displayName": "Leaf Sentinel",
+  "status": "awaiting-root-lab-review",
+  "acceptance": {
+    "sourceImageApproved": true,
+    "geometryPreserved": true,
+    "textureGenerated": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "textureAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false,
+    "promotable": false
+  },
+  "source": {
+    "file": "assets/art/tripo/exports/d1c16cfc-3f64-4e48-8205-9b53502184f8.glb",
+    "sha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
+    "bytes": 30781040,
+    "modelId": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+    "projectUuid": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+    "prompt": "green plant-like humanoid creature with leaf-like armor, bipedal stance, textured skin and brown veins",
+    "generator": "Tripo P2.0, 8K PBR export",
+    "ledgerGeometry": {
+      "vertices": 3555,
+      "faces": 5350
+    },
+    "decodedGeometry": {
+      "vertices": 3161,
+      "triangles": 4474
+    },
+    "baseGeometry": {
+      "vertices": 3161,
+      "triangles": 4474,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uv": "TEXCOORD_0 retained byte-for-byte; no unwrap or retopology."
+    },
+    "originalSkin": "54-joint Tripo humanoid hierarchy discarded: the pinned GLB places nearly all vertices on BoneRoot and has no animation clips.",
+    "textures": [
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_basecolor.jpg",
+        "mimeType": "image/jpeg",
+        "dimensions": [
+          8192,
+          8192
+        ],
+        "bytes": 17117140
+      },
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_rm.png",
+        "mimeType": "image/png",
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "bytes": 11471211
+      },
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_normal.jpg",
+        "mimeType": "image/jpeg",
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "bytes": 1952402
+      }
+    ]
+  },
+  "candidate": {
+    "file": "leaf-sentinel-native-rig-candidate.glb",
+    "sha256": "903ee01ed2c6367f5f8a85e11bc67c62c5ca8a01a4d5f7a3800c190950f4ca60",
+    "bytes": 7806844,
+    "vertices": 3161,
+    "triangles": 4474,
+    "bounds": {
+      "min": [
+        -0.394775390625,
+        0,
+        -0.2380371391773224
+      ],
+      "max": [
+        0.394775390625,
+        0.9995107650756836,
+        0.2380371391773224
+      ]
+    },
+    "rig": {
+      "type": "authored non-humanoid plant creature rig",
+      "profile": "Unity Generic-ready glTF skeleton; no Humanoid mapping; importer review required",
+      "jointsCount": 25,
+      "jointNames": [
+        "SentinelRoot",
+        "RootCore",
+        "StemLower",
+        "StemUpper",
+        "NeckStem",
+        "FaceCrown",
+        "CrownTip",
+        "RootHip_L",
+        "RootKnee_L",
+        "RootAnkle_L",
+        "RootFoot_L",
+        "BoughShoulder_L",
+        "BoughElbow_L",
+        "BoughWrist_L",
+        "BoughHand_L",
+        "CrownLeaf_L",
+        "RootHip_R",
+        "RootKnee_R",
+        "RootAnkle_R",
+        "RootFoot_R",
+        "BoughShoulder_R",
+        "BoughElbow_R",
+        "BoughWrist_R",
+        "BoughHand_R",
+        "CrownLeaf_R"
+      ],
+      "parentHierarchy": {
+        "SentinelRoot": null,
+        "RootCore": "SentinelRoot",
+        "StemLower": "RootCore",
+        "StemUpper": "StemLower",
+        "NeckStem": "StemUpper",
+        "FaceCrown": "NeckStem",
+        "CrownTip": "FaceCrown",
+        "RootHip_L": "RootCore",
+        "RootKnee_L": "RootHip_L",
+        "RootAnkle_L": "RootKnee_L",
+        "RootFoot_L": "RootAnkle_L",
+        "BoughShoulder_L": "StemUpper",
+        "BoughElbow_L": "BoughShoulder_L",
+        "BoughWrist_L": "BoughElbow_L",
+        "BoughHand_L": "BoughWrist_L",
+        "CrownLeaf_L": "FaceCrown",
+        "RootHip_R": "RootCore",
+        "RootKnee_R": "RootHip_R",
+        "RootAnkle_R": "RootKnee_R",
+        "RootFoot_R": "RootAnkle_R",
+        "BoughShoulder_R": "StemUpper",
+        "BoughElbow_R": "BoughShoulder_R",
+        "BoughWrist_R": "BoughElbow_R",
+        "BoughHand_R": "BoughWrist_R",
+        "CrownLeaf_R": "FaceCrown"
+      },
+      "weighting": "Four-influence normalized spatial weights for the flexible plant stem, leaf crown, paired bough arms and root-like legs.",
+      "verticesWithMultipleInfluences": 3161,
+      "jointsWithWeights": [
+        {
+          "name": "SentinelRoot",
+          "vertices": 78
+        },
+        {
+          "name": "RootCore",
+          "vertices": 675
+        },
+        {
+          "name": "StemLower",
+          "vertices": 627
+        },
+        {
+          "name": "StemUpper",
+          "vertices": 897
+        },
+        {
+          "name": "NeckStem",
+          "vertices": 1143
+        },
+        {
+          "name": "FaceCrown",
+          "vertices": 1101
+        },
+        {
+          "name": "CrownTip",
+          "vertices": 938
+        },
+        {
+          "name": "RootHip_L",
+          "vertices": 594
+        },
+        {
+          "name": "RootKnee_L",
+          "vertices": 357
+        },
+        {
+          "name": "RootAnkle_L",
+          "vertices": 252
+        },
+        {
+          "name": "RootFoot_L",
+          "vertices": 93
+        },
+        {
+          "name": "BoughShoulder_L",
+          "vertices": 644
+        },
+        {
+          "name": "BoughElbow_L",
+          "vertices": 794
+        },
+        {
+          "name": "BoughWrist_L",
+          "vertices": 581
+        },
+        {
+          "name": "BoughHand_L",
+          "vertices": 436
+        },
+        {
+          "name": "CrownLeaf_L",
+          "vertices": 748
+        },
+        {
+          "name": "RootHip_R",
+          "vertices": 471
+        },
+        {
+          "name": "RootKnee_R",
+          "vertices": 484
+        },
+        {
+          "name": "RootAnkle_R",
+          "vertices": 353
+        },
+        {
+          "name": "RootFoot_R",
+          "vertices": 258
+        },
+        {
+          "name": "BoughShoulder_R",
+          "vertices": 116
+        },
+        {
+          "name": "BoughElbow_R",
+          "vertices": 251
+        },
+        {
+          "name": "BoughWrist_R",
+          "vertices": 237
+        },
+        {
+          "name": "BoughHand_R",
+          "vertices": 150
+        },
+        {
+          "name": "CrownLeaf_R",
+          "vertices": 366
+        }
+      ]
+    },
+    "textures": [
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_basecolor.jpg",
+        "role": "base-color",
+        "sourceDimensions": [
+          8192,
+          8192
+        ],
+        "runtimeDimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg",
+        "bytes": 1960967,
+        "sha256": "68b9423730e33525c832714836d5e1524ba0fb190fcbd884527952b324ec77e7"
+      },
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_rm.png",
+        "role": "metallic-roughness",
+        "sourceDimensions": [
+          4096,
+          4096
+        ],
+        "runtimeDimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png",
+        "bytes": 4333771,
+        "sha256": "a9f5df9d7ef0699e4ba8305e7a0f93a842cf6b7918b038720ca6d248d9a96703"
+      },
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_normal.jpg",
+        "role": "normal",
+        "sourceDimensions": [
+          4096,
+          4096
+        ],
+        "runtimeDimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg",
+        "bytes": 1156366,
+        "sha256": "85d8685f7a8b0e5d0aea67f2aee67de930bb63ec7f8e18eeae4121e1459ad83b"
+      }
+    ],
+    "imageGeneration": {
+      "file": "leaf-sentinel-imagegen-basecolor.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "output": "Layered jade and teal leaves, copper-brown veins, bark grain and moss details painted into the source atlas layout with face/eye islands retained."
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 2.4000000953674316,
+        "channels": 11,
+        "maximumDisplacement": 0.017973623927266775,
+        "maximumMovedVertices": 2607,
+        "sweptBounds": {
+          "min": [
+            -0.3973980338739118,
+            -8.049448743175864e-10,
+            -0.23803714272260582
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0003918580768643,
+            0.23803713935389093
+          ]
+        }
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.149999976158142,
+        "channels": 16,
+        "maximumDisplacement": 0.21853206224667404,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.3963889284493554,
+            -0.008423158370799709,
+            -0.26708203350096044
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0210362511264477,
+            0.2997692400410322
+          ]
+        }
+      },
+      {
+        "name": "Run",
+        "seconds": 0.8199999928474426,
+        "channels": 16,
+        "maximumDisplacement": 0.3513711614436484,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.3963625031646488,
+            -8.049448743175864e-10,
+            -0.27844825795826755
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0330362511240272,
+            0.36282538186147556
+          ]
+        }
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.7799999713897705,
+        "channels": 10,
+        "maximumDisplacement": 0.14832857873118246,
+        "maximumMovedVertices": 2813,
+        "sweptBounds": {
+          "min": [
+            -0.39477539538502027,
+            -8.049448743175864e-10,
+            -0.2401808925074266
+          ],
+          "max": [
+            0.39477539236256365,
+            0.9995107715845736,
+            0.24916611515070702
+          ]
+        }
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.47999998927116394,
+        "channels": 8,
+        "maximumDisplacement": 0.1593940410838417,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.39477539538502027,
+            -8.049448743175864e-10,
+            -0.23803714272260582
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0021383139389586,
+            0.23803713935389093
+          ]
+        }
+      },
+      {
+        "name": "Death",
+        "seconds": 1.600000023841858,
+        "channels": 17,
+        "maximumDisplacement": 0.8418413241196006,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.521655964569974,
+            -0.04572854738301631,
+            -0.23803714272260582
+          ],
+          "max": [
+            0.45391182871925095,
+            0.9995107715845736,
+            0.4606531112806223
+          ]
+        }
+      }
+    ],
+    "labTargetAssetId": "fairy_garden_sapling_gloamgarden",
+    "notes": [
+      "The exact #16 starred source prompt and UUID are retained. Its face, source topology, positions, normals, indices and UV atlas remain unchanged.",
+      "A new image-generated base-color map adds layered forest greens, leaf veins, bark grain, copper edges and moss while preserving the source atlas layout and face/eye details.",
+      "Base color, metallic-roughness and tangent-space normal maps are embedded at 2K. The source PBR roughness and normal detail are retained; the living leaf/bark material is dielectric.",
+      "The discarded root-only Tripo skin is replaced by a 25-joint Generic plant rig and six custom clips for idle, rooted locomotion, attack, hit recoil and collapse.",
+      "Lab staging targets the existing T30 Gloamgarden Briar Sapling tree-creature asset; production acceptance and world integration remain pending."
+    ]
+  },
+  "validation": {
+    "positionsMaxDelta": 0,
+    "normalsMaxDelta": 0,
+    "uvsMaxDelta": 0,
+    "indexMismatches": 0,
+    "maxWeightSumError": 4.284083843231201e-8,
+    "inverseBindMaxDelta": 2.1934509319976314e-8,
+    "textureDimensions": [
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_basecolor.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg"
+      },
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_rm.png",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png"
+      },
+      {
+        "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_normal.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg"
+      }
+    ],
+    "restPoseMaximumDisplacement": 3.894007815231468e-8,
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 2.4000000953674316,
+        "channels": 11,
+        "maximumDisplacement": 0.017973623927266775,
+        "maximumMovedVertices": 2607,
+        "sweptBounds": {
+          "min": [
+            -0.3973980338739118,
+            -8.049448743175864e-10,
+            -0.23803714272260582
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0003918580768643,
+            0.23803713935389093
+          ]
+        }
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.149999976158142,
+        "channels": 16,
+        "maximumDisplacement": 0.21853206224667404,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.3963889284493554,
+            -0.008423158370799709,
+            -0.26708203350096044
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0210362511264477,
+            0.2997692400410322
+          ]
+        }
+      },
+      {
+        "name": "Run",
+        "seconds": 0.8199999928474426,
+        "channels": 16,
+        "maximumDisplacement": 0.3513711614436484,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.3963625031646488,
+            -8.049448743175864e-10,
+            -0.27844825795826755
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0330362511240272,
+            0.36282538186147556
+          ]
+        }
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.7799999713897705,
+        "channels": 10,
+        "maximumDisplacement": 0.14832857873118246,
+        "maximumMovedVertices": 2813,
+        "sweptBounds": {
+          "min": [
+            -0.39477539538502027,
+            -8.049448743175864e-10,
+            -0.2401808925074266
+          ],
+          "max": [
+            0.39477539236256365,
+            0.9995107715845736,
+            0.24916611515070702
+          ]
+        }
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.47999998927116394,
+        "channels": 8,
+        "maximumDisplacement": 0.1593940410838417,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.39477539538502027,
+            -8.049448743175864e-10,
+            -0.23803714272260582
+          ],
+          "max": [
+            0.39477539236256365,
+            1.0021383139389586,
+            0.23803713935389093
+          ]
+        }
+      },
+      {
+        "name": "Death",
+        "seconds": 1.600000023841858,
+        "channels": 17,
+        "maximumDisplacement": 0.8418413241196006,
+        "maximumMovedVertices": 3161,
+        "sweptBounds": {
+          "min": [
+            -0.521655964569974,
+            -0.04572854738301631,
+            -0.23803714272260582
+          ],
+          "max": [
+            0.45391182871925095,
+            0.9995107715845736,
+            0.4606531112806223
+          ]
+        }
+      }
+    ]
+  }
+}

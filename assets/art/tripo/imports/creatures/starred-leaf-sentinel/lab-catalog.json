@@ -1,0 +1,139 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fairy_garden_sapling_gloamgarden",
+      "file": "models/fairy-garden/fairy_garden_sapling_gloamgarden.glb",
+      "pack": "corealm-rpg-forest-monster-current",
+      "category": "character",
+      "is": "Leaf Sentinel (starred T30 rig candidate)",
+      "tags": [
+        "creature",
+        "fairy",
+        "plant",
+        "tree",
+        "leaf-armor",
+        "gloamgarden",
+        "T30",
+        "starred",
+        "tripo",
+        "skinned",
+        "articulated",
+        "candidate"
+      ],
+      "bytes": 7806844,
+      "sha256": "903ee01ed2c6367f5f8a85e11bc67c62c5ca8a01a4d5f7a3800c190950f4ca60",
+      "size": {
+        "x": 0.78955078125,
+        "y": 0.9995107650756836,
+        "z": 0.4760742783546448
+      },
+      "base": {
+        "x": -0.394775390625,
+        "y": 0,
+        "z": -0.2380371391773224
+      },
+      "bounds": {
+        "min": [
+          -0.394775390625,
+          0,
+          -0.2380371391773224
+        ],
+        "max": [
+          0.394775390625,
+          0.9995107650756836,
+          0.2380371391773224
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4474,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_d27177e7-a092-4057-95a4-898130bcbc61"
+      ],
+      "walkClipSeconds": 1.149999976158142,
+      "runClipSeconds": 0.8199999928474426,
+      "attackSeconds": 0.7799999713897705,
+      "contactNormalized": 0.52,
+      "sourceProvenance": {
+        "generator": "Tripo P2.0, 8K PBR export",
+        "prompt": "green plant-like humanoid creature with leaf-like armor, bipedal stance, textured skin and brown veins",
+        "sourceModelId": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+        "projectUuid": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+        "sourceFile": "assets/art/tripo/exports/d1c16cfc-3f64-4e48-8205-9b53502184f8.glb",
+        "sourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
+        "candidateFile": "leaf-sentinel-native-rig-candidate.glb",
+        "candidateSha256": "903ee01ed2c6367f5f8a85e11bc67c62c5ca8a01a4d5f7a3800c190950f4ca60",
+        "rigMethod": "25-joint non-humanoid Generic plant rig with normalized four-influence stem, crown, branch-arm and root-leg skin weights; source mesh buffers preserved.",
+        "generatedBaseColor": "leaf-sentinel-imagegen-basecolor.png",
+        "textureMaps": [
+          {
+            "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_basecolor.jpg",
+            "role": "base-color",
+            "sourceDimensions": [
+              8192,
+              8192
+            ],
+            "runtimeDimensions": [
+              2048,
+              2048
+            ],
+            "mimeType": "image/jpeg",
+            "bytes": 1960967,
+            "sha256": "68b9423730e33525c832714836d5e1524ba0fb190fcbd884527952b324ec77e7"
+          },
+          {
+            "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_rm.png",
+            "role": "metallic-roughness",
+            "sourceDimensions": [
+              4096,
+              4096
+            ],
+            "runtimeDimensions": [
+              2048,
+              2048
+            ],
+            "mimeType": "image/png",
+            "bytes": 4333771,
+            "sha256": "a9f5df9d7ef0699e4ba8305e7a0f93a842cf6b7918b038720ca6d248d9a96703"
+          },
+          {
+            "name": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8_normal.jpg",
+            "role": "normal",
+            "sourceDimensions": [
+              4096,
+              4096
+            ],
+            "runtimeDimensions": [
+              2048,
+              2048
+            ],
+            "mimeType": "image/jpeg",
+            "bytes": 1156366,
+            "sha256": "85d8685f7a8b0e5d0aea67f2aee67de930bb63ec7f8e18eeae4121e1459ad83b"
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "geometryPreserved": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "textureAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_sapling_gloamgarden": "leaf-sentinel-native-rig-candidate.glb"
+  }
+}
