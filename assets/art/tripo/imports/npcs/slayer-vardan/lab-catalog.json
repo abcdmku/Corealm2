@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "npc_slayer_vardan",
-      "file": "models/npc/npc_slayer_vardan.glb",
+      "file": "models/character/npc_slayer_vardan.glb",
       "pack": "corealm-starred-npcs",
       "category": "character",
       "is": "Master Vardan starred Tripo P1 humanoid rig candidate",

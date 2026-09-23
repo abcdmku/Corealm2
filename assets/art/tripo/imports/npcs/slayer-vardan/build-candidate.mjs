@@ -501,7 +501,7 @@ const candidate = {
     file: path.basename(candidatePath),
     sha256: candidateSha256,
     bytes: outputBytes.length,
-    productionTarget: 'game/public/assets/models/npc/npc_slayer_vardan.glb',
+    productionTarget: 'game/public/assets/models/character/npc_slayer_vardan.glb',
     geometry: { vertices: vertexCount, triangles: triangleCount, positionsPreserved: true, normalsPreserved: true, uvPreserved: true, indicesPreserved: true },
     rig: {
       mapping: 'Mixamo-named Unity Humanoid-compatible skeleton, with a four-joint articulated tail.',
@@ -524,7 +524,7 @@ await writeFile(path.join(here, 'catalog.json'), JSON.stringify(candidate, null,
 
 const labAsset = {
   id: 'npc_slayer_vardan',
-  file: 'models/npc/npc_slayer_vardan.glb',
+  file: 'models/character/npc_slayer_vardan.glb',
   pack: 'corealm-starred-npcs',
   category: 'character',
   is: 'Master Vardan starred Tripo P1 humanoid rig candidate',

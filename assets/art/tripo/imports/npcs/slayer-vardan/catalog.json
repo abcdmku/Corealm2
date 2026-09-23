@@ -91,7 +91,7 @@
     "file": "master-vardan-p1-humanoid-candidate.glb",
     "sha256": "7b2da59d74e7989beb4f5daec4c3f534e3b9b1544ccc2ff7141d8c76fa27d8b9",
     "bytes": 7911984,
-    "productionTarget": "game/public/assets/models/npc/npc_slayer_vardan.glb",
+    "productionTarget": "game/public/assets/models/character/npc_slayer_vardan.glb",
     "geometry": {
       "vertices": 7610,
       "triangles": 4828,
