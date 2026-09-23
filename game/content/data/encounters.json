@@ -1848,6 +1848,17 @@
     ]
   },
   {
+    "id": "wilderness_petrified_grove_reavers_patrol",
+    "name": "Gloamfang Reaver",
+    "activity": "patrol",
+    "members": [
+      {
+        "creatureId": "gloamfang_reaver_t50",
+        "weight": 1
+      }
+    ]
+  },
+  {
     "id": "crownward_red_hatchling_t40_patrol",
     "name": "Red Dragon Whelp",
     "activity": "patrol",

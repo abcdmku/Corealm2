@@ -5707,7 +5707,7 @@
     "id": "gloamfang_reaver_t50",
     "name": "Gloamfang Reaver",
     "family": "gloamfang_reaver",
-    "availability": "lab",
+    "availability": "world",
     "level": 50,
     "profileId": "skirmisher",
     "adjustments": {

@@ -17242,6 +17242,48 @@
     "scaleMultiplier": 0.9247908744337896
   },
   {
+    "id": "wilderness_petrified_grove_reavers",
+    "encounterId": "wilderness_petrified_grove_reavers_patrol",
+    "regionId": "wilderness",
+    "centre": [
+      210,
+      695
+    ],
+    "count": 3,
+    "radius": 6,
+    "formation": {
+      "kind": "authored",
+      "spacing": 2.8,
+      "rotation": 0
+    },
+    "anchorAdjustments": [
+      {
+        "index": 0,
+        "offset": [
+          -2,
+          0
+        ]
+      },
+      {
+        "index": 1,
+        "offset": [
+          2,
+          0
+        ]
+      },
+      {
+        "index": 2,
+        "offset": [
+          0,
+          2.8
+        ]
+      }
+    ],
+    "dressing": [],
+    "habitatId": "wilderness_petrified_grove_reavers_habitat",
+    "scaleMultiplier": 1
+  },
+  {
     "id": "crownward_red_whelp_south",
     "encounterId": "crownward_red_hatchling_t40_patrol",
     "regionId": "crownward",
