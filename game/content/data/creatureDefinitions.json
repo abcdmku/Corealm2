@@ -2258,31 +2258,31 @@
     }
   },
   {
-    "id": "rootdelve_badger_t5",
-    "name": "Badger",
+    "id": "redmane_minotaur_t25",
+    "name": "Redmane Minotaur",
     "family": "rootdelve_badger",
     "availability": "world",
-    "level": 5,
+    "level": 25,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
-      "aggroRadius": 5,
+      "aggroRadius": 7,
       "behaviour": "territorial",
-      "moveSpeedMps": 1.25,
-      "walkSpeedMps": 0.4
+      "moveSpeedMps": 1.8,
+      "walkSpeedMps": 0.55
     },
     "loot": {
       "rolls": [
         {
-          "id": "items_1",
-          "name": "Items 1",
+          "id": "material_0",
+          "name": "emberhorn",
           "count": 1,
           "drops": [
             {
-              "itemId": "badger_bristle",
+              "itemId": "emberhorn",
               "quantity": [
                 1,
-                3
+                2
               ],
               "chance": 0.7
             }
@@ -2290,25 +2290,33 @@
           "tables": []
         },
         {
-          "id": "items_2",
-          "name": "Items 2",
+          "id": "material_1",
+          "name": "charhide",
           "count": 1,
           "drops": [
             {
-              "itemId": "bramble_hide",
+              "itemId": "charhide",
               "quantity": [
-                1,
-                1
+                2,
+                4
               ],
-              "chance": 0.35
-            },
+              "chance": 0.8
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "material_2",
+          "name": "cinder_tusk",
+          "count": 1,
+          "drops": [
             {
-              "itemId": "raw_venison",
+              "itemId": "cinder_tusk",
               "quantity": [
                 1,
                 1
               ],
-              "chance": 0.35
+              "chance": 0.3
             }
           ],
           "tables": []
@@ -2320,8 +2328,8 @@
       "assetId": "creature_rootdelve_badger",
       "scale": 1,
       "regionId": "vellenwood",
-      "activity": "forage",
-      "description": "A low, broad-footed root digger. Holds its ground with a sideways claw strike when provoked.",
+      "activity": "patrol",
+      "description": "A heavy red-maned minotaur with broad horns, plated shoulders and four powerful limbs. It guards the stump belt with a close horn charge.",
       "kind": "basic"
     }
   },
@@ -2449,7 +2457,7 @@
       "scale": 1,
       "regionId": "fallowmarch",
       "activity": "graze",
-      "description": "A long-legged grazer with a hanging mane and tail. Needs open grass and an escape lane; its tailhair binds fishing rods.",
+      "description": "A muscular bay horse with a full mane, dark points and pale socks. It grazes open grass and defends itself with a forward hoof strike.",
       "kind": "basic"
     }
   },
@@ -3295,7 +3303,7 @@
   },
   {
     "id": "hollowroot_spider_t5",
-    "name": "Giant Spider",
+    "name": "Rootweaver",
     "family": "hollowroot_spider",
     "availability": "world",
     "level": 5,
@@ -3341,7 +3349,7 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "prowl",
-      "description": "Eight legs surround a narrow waist and broad abdomen. A short-range root hunter with quick fang strikes.",
+      "description": "A six-legged woodland rootweaver with mottled bark armor, moss seams and hooked forelegs. It strikes with its plated mouth.",
       "kind": "basic"
     }
   },
@@ -3605,7 +3613,7 @@
       "scale": 1,
       "regionId": "karrowmoor",
       "activity": "patrol",
-      "description": "A lean raised ground dragon with long clawed legs, a horned head and a thin tail. Keeps to broad abandoned cuts.",
+      "description": "A young pale dragon with four clawed legs, broad veined wings and limestone-colored scales.",
       "kind": "basic"
     }
   },
@@ -3685,7 +3693,7 @@
       "scale": 0.45,
       "regionId": "fallowmarch",
       "activity": "prowl",
-      "description": "A small moss-green winged predator guarding scrub away from the farm.",
+      "description": "A small leaf-armored wasp with moss and amber chitin, veined petal wings and a hooked thorn stinger.",
       "kind": "basic"
     }
   },
@@ -3725,7 +3733,7 @@
       "scale": 0.45,
       "regionId": "fallowmarch",
       "activity": "prowl",
-      "description": "A tiny dusty-brown wasp sheltering in dry scrub. Attacks with a short stinger strike.",
+      "description": "Rust and heather markings cover this small thorn-tailed wasp. Its broad petal wings carry it between dry scrub nests.",
       "kind": "basic"
     }
   },
@@ -3765,7 +3773,7 @@
       "scale": 0.45,
       "regionId": "fallowmarch",
       "activity": "prowl",
-      "description": "A small slate-blue wasp with a dark edge along its quiet wings. It nests among reeds and stings when approached.",
+      "description": "A slate-blue fantasy wasp with copper-veined wings and a curled armored abdomen, guarding reed beds with its thorn stinger.",
       "kind": "basic"
     }
   },
@@ -3823,7 +3831,7 @@
   },
   {
     "id": "briar_spider_t1",
-    "name": "Briar Spider",
+    "name": "Briar Weaver",
     "family": "briar_spider",
     "availability": "world",
     "level": 1,
@@ -3861,7 +3869,7 @@
       "scale": 0.6,
       "regionId": "fallowmarch",
       "activity": "prowl",
-      "description": "A low bramble hunter. Short-range aggression and a quick mandible strike.",
+      "description": "A small six-legged briar weaver with amber and ivory shell markings, jointed searching legs and a quick snapping mouth.",
       "kind": "basic"
     }
   },
@@ -3971,7 +3979,7 @@
   },
   {
     "id": "gloam_fox_t1",
-    "name": "Gloam Fox",
+    "name": "Gloam Jackal",
     "family": "gloam_fox",
     "availability": "world",
     "level": 1,
@@ -3991,20 +3999,12 @@
           "count": 1,
           "drops": [
             {
-              "itemId": "fox_guardhair",
+              "itemId": "coarse_hide",
               "quantity": [
                 1,
                 2
               ],
               "chance": 0.65
-            },
-            {
-              "itemId": "coarse_hide",
-              "quantity": [
-                1,
-                1
-              ],
-              "chance": 0.35
             }
           ],
           "tables": []
@@ -4041,13 +4041,13 @@
       "scale": 1.08,
       "regionId": "fallowmarch",
       "activity": "forage",
-      "description": "Lilac dusk fur marks this shy hedge spirit.",
+      "description": "A small golden jackal with curled thorn horns, coarse fur and a dark dorsal ridge. It forages along the dusk hedges.",
       "kind": "basic"
     }
   },
   {
     "id": "moonweave_spider_t5",
-    "name": "Moonweave Spider",
+    "name": "Moonweaver",
     "family": "moonweave_spider",
     "availability": "world",
     "level": 5,
@@ -4083,33 +4083,33 @@
       "scale": 0.82,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "A jade woodland spider with a faintly luminous shell.",
+      "description": "A small six-legged weaver with moon-silver plates, jade seams and fine woven markings.",
       "bodyFamily": "spider",
-      "rigFamily": "corealm_spider",
+      "rigFamily": "corealm_tripo_sixleg_weaver",
       "movement": "arthropod",
       "habitat": "woodland web hollows",
       "respawnMs": 30000,
       "nativeSize": [
-        1.6,
-        0.520136,
-        1.353785
+        0.47883458451618877,
+        0.5201364126930991,
+        0.5992070853997946
       ],
       "nativeBase": [
-        -0.8,
-        0.003,
-        -0.625535
+        -0.23941729225809438,
+        0,
+        -0.2996035426998973
       ],
-      "nativeVisualRadius": 1.081826262622608,
-      "nativeBodyRadius": 0.8,
+      "nativeVisualRadius": 0.38351391452009526,
+      "nativeBodyRadius": 0.2996035426998973,
       "attack": {
         "action": "fang bite",
         "proposedMechanic": "melee",
         "recoveryMs": 900
       },
       "source": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/whole-insects/index.mjs"
+        "author": "Corealm / Tripo Studio",
+        "license": "LicenseRef-Corealm-Original",
+        "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -4253,7 +4253,7 @@
   },
   {
     "id": "amethyst_spider_t5",
-    "name": "Amethyst Spider",
+    "name": "Amethyst Weaver",
     "family": "amethyst_spider",
     "availability": "world",
     "level": 5,
@@ -4289,33 +4289,33 @@
       "scale": 0.72,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "A violet cave hunter with a mineral sheen.",
+      "description": "A small six-legged weaver with layered violet mineral plates and pale crystalline seams.",
       "bodyFamily": "spider",
-      "rigFamily": "corealm_spider",
+      "rigFamily": "corealm_tripo_sixleg_weaver",
       "movement": "arthropod",
       "habitat": "woodland web hollows",
       "respawnMs": 30000,
       "nativeSize": [
-        1.6,
-        0.520136,
-        1.353785
+        0.47883458451618877,
+        0.5201364126930991,
+        0.5992070853997946
       ],
       "nativeBase": [
-        -0.8,
-        0.003,
-        -0.625535
+        -0.23941729225809438,
+        0,
+        -0.2996035426998973
       ],
-      "nativeVisualRadius": 1.081826262622608,
-      "nativeBodyRadius": 0.8,
+      "nativeVisualRadius": 0.38351391452009526,
+      "nativeBodyRadius": 0.2996035426998973,
       "attack": {
         "action": "fang bite",
         "proposedMechanic": "melee",
         "recoveryMs": 900
       },
       "source": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/whole-insects/index.mjs"
+        "author": "Corealm / Tripo Studio",
+        "license": "LicenseRef-Corealm-Original",
+        "generator": "assets/art/tripo/imports/creatures/audit-weaver-variants/build-variants.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -4453,7 +4453,7 @@
   },
   {
     "id": "briar_harrow_t10",
-        "name": "Bramble Tiller",
+    "name": "Bramble Tiller",
     "family": "briar_harrow",
     "availability": "world",
     "level": 10,
@@ -4475,7 +4475,7 @@
           "count": 1,
           "drops": [
             {
-            "itemId": "duskoak_log",
+              "itemId": "duskoak_log",
               "quantity": [
                 1,
                 2
@@ -4627,7 +4627,7 @@
       "scale": 0.85,
       "regionId": "vellenwood",
       "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
+      "description": "A purple flower maw on a teal thorn bulb, carried by four hooked root legs. Toothed petals open around its central bite.",
       "kind": "basic"
     }
   },
@@ -4640,12 +4640,12 @@
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
-      "aggroRadius": 10,
-      "behaviour": "aggressive",
+      "aggroRadius": 4,
+      "behaviour": "territorial",
       "moveSpeedMps": 1.6,
       "walkSpeedMps": 0.4,
       "attackStyle": "melee",
-      "attackRangeM": 1.8
+      "attackRangeM": 1.1
     },
     "loot": {
       "rolls": [
@@ -4668,8 +4668,8 @@
       "assetId": "creature_heath_jack",
       "scale": 1,
       "regionId": "fallowmarch",
-      "activity": "patrol",
-      "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
+      "activity": "forage",
+      "description": "A small russet heath hare with tall ears, cream cheek fur and a charcoal saddle. It bounds through low cover and kicks when cornered.",
       "kind": "basic"
     }
   },
@@ -4753,7 +4753,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An eight-legged furnace scavenger with overlapping slag plates, a shovel mouth and folding mandibles. Its body rocks over a low, heavy support gait.",
+      "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
       "kind": "basic"
     }
   },
@@ -5047,7 +5047,7 @@
       "scale": 1,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "An eyeless cave hunter with a cleft abdomen, a low sensory hood and long searching forelegs. It feels for movement before lunging.",
+      "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
       "kind": "basic"
     }
   },
@@ -5496,7 +5496,7 @@
       "scale": 0.754334697009733,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "A low eight-legged furnace scavenger. Its split basalt mantle exposes molten seams between load-bearing plates.",
+      "description": "A massive mineral crawler with layered basalt armor and ember-lit fissures. Its heavy body settles low when slain.",
       "kind": "basic"
     }
   },
@@ -5612,7 +5612,7 @@
       "scale": 0.7340616505132458,
       "regionId": "wilderness",
       "activity": "graze",
-      "description": "A tall stone guardian with worn slate armour over a darker jointed body. Faint violet eyes sit beneath its heavy brow.",
+      "description": "A towering dark stone guardian with jagged obsidian armor and violet mineral seams.",
       "kind": "basic"
     }
   },
@@ -5670,7 +5670,7 @@
       "scale": 0.754334697009733,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "An ancient skeletal guard in a blackened helmet, carrying a sword and shield. Pale ribs and long bony limbs show beneath its equipment.",
+      "description": "A heavy stone guardian with cooled charcoal plates, scorched seals and faint embers in its joints.",
       "kind": "basic"
     }
   },
@@ -6165,7 +6165,7 @@
       "scale": 0.45666127261378686,
       "regionId": "gloamgarden",
       "activity": "forage",
-      "description": "A small winged garden spirit with a teal body and translucent lilac wings. Soft mint light gathers on its existing shell markings.",
+      "description": "A small fairy leafwing with amber-veined wings, teal shell and a curled tapering abdomen.",
       "kind": "basic"
     }
   },
@@ -6273,7 +6273,7 @@
       "scale": 0.7086123195731177,
       "regionId": "gloamgarden",
       "activity": "prowl",
-      "description": "A low teal crawler with lilac shell edges and long folded legs. Its feeding blades shine like wet glass beneath the front shield.",
+      "description": "An opal-blue six-legged fairy weaver with petal veins and a broad pearlescent shell.",
       "kind": "basic"
     }
   },
@@ -6475,7 +6475,7 @@
       "scale": 0.6317306745889465,
       "regionId": "faeholme",
       "activity": "patrol",
-      "description": "A drifting figure in orchid-purple woven robes and an ivory cowl. Teal light runs softly across its outstretched hands.",
+      "description": "A tall orchid hunter with a petal crown, overlapping flower plates and hooked scythe arms.",
       "kind": "basic"
     }
   },
@@ -7651,7 +7651,7 @@
       "scale": 0.6692449684857222,
       "regionId": "gloamgarden",
       "activity": "forage",
-      "description": "A small, one-eyed winged imp with pale membranes and curling horns.",
+      "description": "An amber leafwing with russet leaf veins, gold-green shell and a curled tapering abdomen.",
       "kind": "basic"
     }
   },
@@ -8154,7 +8154,7 @@
       "scale": 0.48308816292095913,
       "regionId": "faeholme",
       "activity": "forage",
-      "description": "A staff-carrying woodland fey with spore-dappled skin and fungal markings on its robes.",
+      "description": "A woodland fungal fey with an ivory face beneath a broad cap and layered mature gills.",
       "kind": "basic"
     },
     "baseId": "garden_sporekin_t30"
@@ -8239,10 +8239,10 @@
     "presentation": {
       "id": "garden_imp_t60",
       "assetId": "fairy_garden_imp_faeholme",
-      "scale": 0.6317306745889465,
+      "scale": 0.7896633432361831,
       "regionId": "faeholme",
       "activity": "forage",
-      "description": "A small, one-eyed winged imp with pale membranes and curling horns.",
+      "description": "A twilight leafwing with violet petals, dark indigo shell and fine silver-blue wing veins.",
       "kind": "basic"
     },
     "baseId": "garden_imp_t30"
@@ -8462,7 +8462,7 @@
       "scale": 0.3864705303367673,
       "regionId": "faeholme",
       "activity": "patrol",
-      "description": "A small walking tree with twisted root hands and light inside its bark.",
+      "description": "A tall walking tree guardian with twisted root hands and light inside its layered bark.",
       "kind": "basic"
     },
     "baseId": "garden_sapling_t30"
@@ -8988,7 +8988,7 @@
       "scale": 0.8691519590640763,
       "regionId": "fallowmarch",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     }
   },
@@ -9006,7 +9006,7 @@
       "scale": 0.8691519590640763,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "adjustments": {
@@ -9050,7 +9050,7 @@
       "scale": 0.8691519590640763,
       "regionId": "karrowmoor",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "adjustments": {
@@ -9094,7 +9094,7 @@
       "scale": 0.8691519590640763,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "adjustments": {
@@ -10261,10 +10261,10 @@
     "presentation": {
       "id": "guardian_03_kilnhalt",
       "assetId": "fantasy_monster_03",
-      "scale": 0.8156813803678377,
+      "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "baseId": "guardian_03_t10",
@@ -10613,10 +10613,10 @@
     "presentation": {
       "id": "guardian_03_wilderness",
       "assetId": "fantasy_monster_03",
-      "scale": 0.754334697009733,
+      "scale": 1.3,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "baseId": "guardian_03_t10",
@@ -10645,10 +10645,10 @@
     "presentation": {
       "id": "guardian_03_wilderness_t70",
       "assetId": "fantasy_monster_03",
-      "scale": 0.7340616505132458,
+      "scale": 1.65,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "baseId": "guardian_03_t10",
@@ -11125,10 +11125,10 @@
     "presentation": {
       "id": "guardian_03_crownward",
       "assetId": "fantasy_monster_03",
-      "scale": 0.7684085752335827,
+      "scale": 1.2,
       "regionId": "crownward",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "baseId": "guardian_03_t10",
@@ -11416,7 +11416,7 @@
       "scale": 0.7873470217479085,
       "regionId": "gloamgarden",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A towering Gloamgarden sovereign with moss-lined bark, flowering crown and hooked roots.",
       "kind": "basic"
     },
     "baseId": "guardian_03_t10",
@@ -11701,10 +11701,10 @@
     "presentation": {
       "id": "guardian_03_faeholme",
       "assetId": "fantasy_monster_03",
-      "scale": 0.743212558339937,
+      "scale": 1.45,
       "regionId": "faeholme",
       "activity": "patrol",
-      "description": "Fantasy Monster 03. A roaming Thorn Sovereign with a thirty-minute respawn.",
+      "description": "A thornwood sovereign crowned in dark petals, with layered bark armor and hooked root claws. Older sovereigns tower over their younger kin.",
       "kind": "basic"
     },
     "baseId": "guardian_03_t10",
@@ -11904,7 +11904,7 @@
   },
   {
     "id": "webweaver_spider_t5",
-    "name": "Webweaver Spider",
+    "name": "Briar Weaver",
     "family": "webweaver_spider",
     "availability": "world",
     "level": 5,
@@ -11940,33 +11940,33 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "Webweaver Spider inhabits woodland web hollows. Uses fang bite with 2 seconds between attacks.",
+      "description": "A small six-legged briar weaver with amber and ivory shell markings, jointed searching legs and a quick snapping mouth.",
       "bodyFamily": "spider",
-      "rigFamily": "corealm_spider",
+      "rigFamily": "tripo_sixleg_weaver",
       "movement": "arthropod",
       "habitat": "woodland web hollows",
       "respawnMs": 30000,
       "nativeSize": [
-        1.6,
-        0.520136,
-        1.353785
+        0.79248046875,
+        0.8608357906341553,
+        0.9916992783546448
       ],
       "nativeBase": [
-        -0.8,
-        0.003,
-        -0.625535
+        -0.396240234375,
+        0,
+        -0.4958496391773224
       ],
-      "nativeVisualRadius": 1.081826262622608,
-      "nativeBodyRadius": 0.8,
+      "nativeVisualRadius": 0.6347229222344468,
+      "nativeBodyRadius": 0.4958496391773224,
       "attack": {
         "action": "fang bite",
         "proposedMechanic": "melee",
         "recoveryMs": 900
       },
       "source": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/whole-insects/index.mjs"
+        "author": "Corealm / Tripo Studio",
+        "license": "LicenseRef-Corealm-Original",
+        "generator": "assets/art/tripo/imports/creatures/audit-spider-family/build-family.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -11994,7 +11994,16 @@
           "id": "items",
           "name": "Items",
           "count": 1,
-          "drops": [],
+          "drops": [
+            {
+              "itemId": "venom_gland",
+              "quantity": [
+                1,
+                3
+              ],
+              "chance": 0.7
+            }
+          ],
           "tables": [
             {
               "tableId": "shared_earth_essence_3",
@@ -12010,33 +12019,33 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "Marsh Wasp inhabits reedbank nest margins. Uses stinger strike with 2 seconds between attacks.",
+      "description": "A larger leaf-armored wasp with indigo petal wings, peat-dark chitin and a heavy hooked stinger. It patrols reedbank nest margins.",
       "bodyFamily": "wasp",
-      "rigFamily": "corealm_wasp",
+      "rigFamily": "fantasy_briar_wasp",
       "movement": "flying",
       "habitat": "reedbank nest margins",
       "respawnMs": 30000,
       "nativeSize": [
-        1.2,
-        1.882373,
-        2.482819
+        0.7828127384185791,
+        0.7984375973760053,
+        0.6515625476837159
       ],
       "nativeBase": [
-        -0.576492,
-        0.378816,
-        -0.751139
+        -0.39140670299530034,
+        0,
+        -0.3257809162139893
       ],
-      "nativeVisualRadius": 1.8405102141699732,
-      "nativeBodyRadius": 1.2414095,
+      "nativeVisualRadius": 0.5092468794638042,
+      "nativeBodyRadius": 0.39140636920928956,
       "attack": {
         "action": "stinger strike",
         "proposedMechanic": "melee",
         "recoveryMs": 900
       },
       "source": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/whole-insects/index.mjs"
+        "author": "Corealm / Tripo",
+        "license": "LicenseRef-Corealm-Original",
+        "generator": "assets/art/tripo/imports/creatures/audit-fantasy-wasp/build-candidate.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -12795,14 +12804,14 @@
       "habitat": "buried chapel rooms",
       "respawnMs": 30000,
       "nativeSize": [
-        0.649938,
-        1.869651,
-        1.265196
+        1.184326171875,
+        1.4992661476135254,
+        0.7141114175319672
       ],
       "nativeBase": [
-        -0.3706,
-        0.09,
-        -0.462466
+        -0.5921630859375,
+        0,
+        -0.3570557087659836
       ],
       "nativeVisualRadius": 0.8841492028498357,
       "nativeBodyRadius": 0.632598,
@@ -12812,9 +12821,9 @@
         "recoveryMs": 1260
       },
       "source": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/build.mjs"
+        "author": "Corealm / Tripo",
+        "license": "LicenseRef-Tripo-Generated",
+        "generator": "assets/art/tripo/imports/creatures/audit-banshee-death/build-candidate.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -12865,14 +12874,14 @@
       "habitat": "sealed tomb guards",
       "respawnMs": 30000,
       "nativeSize": [
-        0.748118,
-        1.723984,
-        0.516036
+        0.8951904296875001,
+        1.8490965694189072,
+        0.46340332031250003
       ],
       "nativeBase": [
-        -0.350503,
-        0.09,
-        -0.310453
+        -0.44759521484375003,
+        0,
+        -0.23170166015625002
       ],
       "nativeVisualRadius": 0.5044588718954202,
       "nativeBodyRadius": 0.374059,
@@ -12882,9 +12891,9 @@
         "recoveryMs": 1350
       },
       "source": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/build.mjs"
+        "author": "Corealm / Tripo",
+        "license": "LicenseRef-Tripo-Generated",
+        "generator": "assets/art/tripo/imports/creatures/starred-revenant/build-candidate.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -12928,33 +12937,33 @@
       "scale": 1,
       "regionId": "karrowmoor",
       "activity": "patrol",
-      "description": "Stone Golem inhabits abandoned quarry yards. Uses hammer fist with 3 seconds between attacks.",
+      "description": "A broad stone guardian with layered sediment, quartz seams and lichen patches. Its heavy arms drive a close crushing strike.",
       "bodyFamily": "golem",
-      "rigFamily": "corealm_golem",
+      "rigFamily": "tripo_native_guardian",
       "movement": "biped",
       "habitat": "abandoned quarry yards",
       "respawnMs": 30000,
       "nativeSize": [
-        1.511812,
-        2.140015,
-        1.193236
+        1.330581189504979,
+        2.100000053501497,
+        0.6822177810411457
       ],
       "nativeBase": [
-        -0.701402,
-        0.003,
-        -0.614629
+        -0.6652904645281321,
+        -6.38256236209956e-8,
+        -0.3411089041050331
       ],
-      "nativeVisualRadius": 1.01712003998594,
-      "nativeBodyRadius": 0.755906,
+      "nativeVisualRadius": 0.7476408567342326,
+      "nativeBodyRadius": 0.6652905947524895,
       "attack": {
         "action": "hammer fist",
         "proposedMechanic": "melee",
         "recoveryMs": 1350
       },
       "source": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/build.mjs"
+        "author": "Corealm",
+        "license": "LicenseRef-Corealm-Original",
+        "generator": "assets/art/tripo/imports/creatures/audit-stone-family/build-candidate.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -13295,33 +13304,33 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "Mossback Sentinel inhabits old woodland groves. Uses root-arm strike with 3.4 seconds between attacks.",
+      "description": "A walking grove sentinel with layered bark, moss seams and broad root feet. It protects old woodland with a heavy branch-arm strike.",
       "bodyFamily": "forest_creature",
-      "rigFamily": "corealm_forest_creature",
+      "rigFamily": "tripo_native_guardian",
       "movement": "biped",
       "habitat": "old woodland groves",
       "respawnMs": 30000,
       "nativeSize": [
-        2.017049,
-        4.018234,
-        2.392775
+        1.617749057365975,
+        2.1489501026693545,
+        0.7191162218462246
       ],
       "nativeBase": [
-        -1.049472,
-        0.003,
-        -1.619951
+        -0.8088745350391516,
+        1.6377041661684225e-9,
+        -0.3595581031426912
       ],
-      "nativeVisualRadius": 1.9301898148070828,
-      "nativeBodyRadius": 1.1963875,
+      "nativeVisualRadius": 0.885189266926979,
+      "nativeBodyRadius": 0.8088745286829875,
       "attack": {
         "action": "root-arm strike",
         "proposedMechanic": "melee",
         "recoveryMs": 1530
       },
       "source": {
-        "author": "Ã„Å’estmÃƒÂ­r Dammer (CDmir)",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/forest-monster-source/forest-monster.mjs"
+        "author": "Corealm",
+        "license": "LicenseRef-Corealm-Original",
+        "generator": "assets/art/tripo/imports/creatures/audit-forest-family/build-candidate.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -15564,37 +15573,37 @@
     },
     "presentation": {
       "id": "giant_rat",
-      "assetId": "creature_giant_rat",
-      "scale": 1,
+      "assetId": "animal_rat",
+      "scale": 2.2,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "Giant Rat inhabits old granaries and creek banks. Uses biting lunge with 2 seconds between attacks.",
       "bodyFamily": "rat",
-      "rigFamily": "corealm_rat",
+      "rigFamily": "animal_pack_rat",
       "movement": "quadruped",
       "habitat": "old granaries and creek banks",
       "respawnMs": 30000,
       "nativeSize": [
-        0.283358671,
-        0.34,
-        1.239349388
+        0.135,
+        0.139,
+        0.6
       ],
       "nativeBase": [
-        -0.141679335,
-        0.004,
-        -0.619674694
+        -0.068,
+        -0.001,
+        -0.36
       ],
-      "nativeVisualRadius": 0.6356648178351499,
-      "nativeBodyRadius": 0.619674694,
+      "nativeVisualRadius": 0.30749999999999994,
+      "nativeBodyRadius": 0.3,
       "attack": {
         "action": "biting lunge",
         "proposedMechanic": "melee",
         "recoveryMs": 900
       },
       "source": {
-        "author": "CDmir and TinyWorlds",
-        "license": "CC0-1.0",
-        "generator": "tools/rpg-bestiary/giant-rat-source/giant-rat.mjs"
+        "author": "janpec",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "generator": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702"
       },
       "acceptance": "candidate",
       "kind": "rpg"
@@ -15859,7 +15868,7 @@
       "scale": 0.8691519590640763,
       "regionId": "fallowmarch",
       "activity": "patrol",
-      "description": "A storm scarab with swept carapace shields, a crescent shovel cranium and inward-cutting stone mandibles.",
+      "description": "A heavy flint-shelled scarab with six jointed legs, amber seams and crushing stone mandibles.",
       "kind": "basic"
     }
   },
@@ -16124,7 +16133,7 @@
       "scale": 0.8691519590640763,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "A quarry fortress with twin open stone vaults, a slotted gate head, broken lintel shoulders and masonry crushing fists.",
+      "description": "A tusked stone-skinned quarry guardian with heavy rock shoulders, leather wraps and powerful hands.",
       "kind": "basic"
     }
   },
@@ -16545,7 +16554,7 @@
       "scale": 0.5432199744150477,
       "regionId": "fallowmarch",
       "activity": "patrol",
-      "description": "Storm Scarab",
+      "description": "A heavy flint-shelled scarab with six jointed legs, amber seams and crushing stone mandibles.",
       "kind": "basic"
     },
     "profileId": "boss"
@@ -16791,7 +16800,7 @@
       "scale": 0.5432199744150477,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "Quarry Warden",
+      "description": "A tusked stone-skinned quarry guardian with heavy rock shoulders, leather wraps and powerful hands.",
       "kind": "basic"
     },
     "profileId": "boss"
@@ -16957,22 +16966,13 @@
     "id": "deepwood_coyotes",
     "baseId": "coyote_t5",
     "availability": "world",
-    "adjustments": {
-      "name": "Heath Jack",
-      "family": "heath_jack",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Heath Jack",
-    "family": "heath_jack",
-    "level": 5,
     "presentation": {
-      "id": "heath_jack",
-      "assetId": "creature_heath_jack",
-      "scale": 1,
-      "regionId": "fallowmarch",
-      "activity": "patrol",
-      "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
+      "id": "coyote",
+      "assetId": "animal_coyote",
+      "scale": 1.45,
+      "regionId": "vellenwood",
+      "activity": "prowl",
+      "description": "Forest wolves hunt along the sheltered woodland edge.",
       "kind": "basic"
     }
   },
@@ -17022,8 +17022,6 @@
     "id": "rootfall_coneys",
     "baseId": "coney_t1",
     "availability": "world",
-    "name": "Thorn Maw",
-    "level": 5,
     "loot": {
       "rolls": [
         {
@@ -17040,20 +17038,13 @@
         }
       ]
     },
-    "adjustments": {
-      "name": "Thorn Maw",
-      "family": "thorn_maw",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
-    "family": "thorn_maw",
     "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
+      "id": "rootfall_coneys",
+      "assetId": "animal_rabbit",
+      "scale": 1,
       "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
+      "activity": "forage",
+      "description": "Small rabbits forage among the roots and flee when disturbed.",
       "kind": "basic"
     }
   },
@@ -17061,17 +17052,6 @@
     "id": "thornline_adders",
     "baseId": "viper_t1",
     "availability": "world",
-    "name": "Thorn Maw",
-    "level": 5,
-    "adjustments": {
-      "attackSpeedMs": 3000,
-      "aggroRadius": 8,
-      "behaviour": "territorial",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4,
-      "name": "Thorn Maw",
-      "family": "thorn_maw"
-    },
     "loot": {
       "rolls": [
         {
@@ -17088,38 +17068,20 @@
         }
       ]
     },
-    "family": "thorn_maw",
     "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
+      "id": "thornline_adders",
+      "assetId": "animal_viper",
+      "scale": 1,
       "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
+      "activity": "forage",
+      "description": "Low woodland vipers defend the thorn-lined verge with a quick bite.",
       "kind": "basic"
     }
   },
   {
     "id": "pack_vellenwood_marchgate_south_bramble",
     "baseId": "moonweave_spider_t5",
-    "availability": "world",
-    "adjustments": {
-      "name": "Thorn Maw",
-      "family": "thorn_maw",
-      "moveSpeedMps": 1.3
-    },
-    "name": "Thorn Maw",
-    "family": "thorn_maw",
-    "level": 5,
-    "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "pack_vellenwood_mossbound_west_bramble",
@@ -17145,29 +17107,11 @@
   {
     "id": "duskoak_lynx_residents",
     "baseId": "duskoak_lynx_t5",
-    "availability": "world",
-    "adjustments": {
-      "name": "Heath Jack",
-      "family": "heath_jack",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Heath Jack",
-    "family": "heath_jack",
-    "level": 5,
-    "presentation": {
-      "id": "heath_jack",
-      "assetId": "creature_heath_jack",
-      "scale": 1,
-      "regionId": "fallowmarch",
-      "activity": "patrol",
-      "description": "A long-armed heath scavenger in worn cloth. Its hollow carved face has open eye slits and a downturned cambium nose; its hands and knife move with quick, narrow cuts.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "rootdelve_badger_residents",
-    "baseId": "rootdelve_badger_t5",
+    "baseId": "redmane_minotaur_t25",
     "availability": "world"
   },
   {
@@ -17223,48 +17167,12 @@
   {
     "id": "quarry_snail_residents",
     "baseId": "quarry_snail_t5",
-    "availability": "world",
-    "adjustments": {
-      "name": "Thorn Maw",
-      "family": "thorn_maw",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Thorn Maw",
-    "family": "thorn_maw",
-    "level": 5,
-    "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "hollowroot_spider_residents",
     "baseId": "hollowroot_spider_t5",
-    "availability": "world",
-    "adjustments": {
-      "name": "Thorn Maw",
-      "family": "thorn_maw",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
-    "name": "Thorn Maw",
-    "family": "thorn_maw",
-    "level": 5,
-    "presentation": {
-      "id": "thorn_maw",
-      "assetId": "creature_thorn_maw",
-      "scale": 0.85,
-      "regionId": "vellenwood",
-      "activity": "prowl",
-      "description": "A rooted biped whose upper body is a split seedpod. Thick wooden jaw valves hinge around a hollow mouth while its heavy forearms drive a close crushing strike.",
-      "kind": "basic"
-    }
+    "availability": "world"
   },
   {
     "id": "highcairn_bears",
@@ -17637,7 +17545,7 @@
       "scale": 1,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "An eyeless cave hunter with a cleft abdomen, a low sensory hood and long searching forelegs. It feels for movement before lunging.",
+      "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
       "kind": "basic"
     }
   },
@@ -17660,7 +17568,7 @@
       "scale": 1,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "An eyeless cave hunter with a cleft abdomen, a low sensory hood and long searching forelegs. It feels for movement before lunging.",
+      "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
       "kind": "basic"
     }
   },
@@ -17726,7 +17634,7 @@
       "scale": 1,
       "regionId": "gravelmaw",
       "activity": "patrol",
-      "description": "An eyeless cave hunter with a cleft abdomen, a low sensory hood and long searching forelegs. It feels for movement before lunging.",
+      "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
       "kind": "basic"
     }
   },
@@ -17828,7 +17736,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An eight-legged furnace scavenger with overlapping slag plates, a shovel mouth and folding mandibles. Its body rocks over a low, heavy support gait.",
+      "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
       "kind": "basic"
     }
   },
@@ -17967,7 +17875,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An eight-legged furnace scavenger with overlapping slag plates, a shovel mouth and folding mandibles. Its body rocks over a low, heavy support gait.",
+      "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
       "kind": "basic"
     }
   },
@@ -18017,7 +17925,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An eight-legged furnace scavenger with overlapping slag plates, a shovel mouth and folding mandibles. Its body rocks over a low, heavy support gait.",
+      "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
       "kind": "basic"
     }
   },
@@ -18063,7 +17971,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An eight-legged furnace scavenger with overlapping slag plates, a shovel mouth and folding mandibles. Its body rocks over a low, heavy support gait.",
+      "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
       "kind": "basic"
     }
   },
@@ -20579,7 +20487,7 @@
       "scale": 0.7340616505132458,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "A winged deep-earth hunter with layered chitin, long antennae and hooked claws. Folded membranes rise behind its shoulders as it reaches for its prey.",
+      "description": "A towering dark stone guardian with jagged obsidian armor and violet mineral seams.",
       "kind": "basic"
     },
     "profileId": "boss",

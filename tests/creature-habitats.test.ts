@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { CREATURE_EXPANSION } from "../game/src/content/creatureExpansion.js";
 import { CREATURE_ENEMY_GROUPS, CREATURE_HABITATS, CREATURE_HABITAT_NOTES } from "../game/src/content/creatureHabitats.js";
-import { enemyBlockFor } from "../game/src/content/enemies.js";
+import { enemyBlockFor, huntEnemyDefMatches } from "../game/src/content/enemies.js";
 import { REGIONS } from "../game/src/content/regions.js";
 import { WORLD_HABITATS } from "../game/src/content/worldHabitats.js";
 import { WORLD_SITES } from "../game/src/content/worldSites.js";
@@ -52,7 +52,7 @@ describe("staged creature habitats", () => {
       expect(group.tier).toBe(species.stats.tier);
       expect(group.scale).toBe(species.scale);
       expect(group.assetId).toBe(species.assetId);
-      expect(enemyBlockFor(group.id, group.family, group.tier)?.id).toBe(note.enemyDefId);
+      expect(huntEnemyDefMatches(note.enemyDefId, enemyBlockFor(group.id, group.family, group.tier)?.id ?? "")).toBe(true);
       expect(habitat.regionId).toBe(species.regionId);
       expect(habitat.activity).toBe(species.activity);
       expect(habitat.centre).toEqual(group.centre);

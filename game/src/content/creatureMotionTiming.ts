@@ -1,5 +1,9 @@
 /** Authored attack contact poses from the base motion rebuild and exported creature expansion metadata. */
 export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNormalized: number }> = {
+  "creature_field_wasp": { seconds: 0.9, contactNormalized: 0.5 },
+  "creature_heath_wasp": { seconds: 0.9, contactNormalized: 0.5 },
+  "creature_reed_wasp": { seconds: 0.9, contactNormalized: 0.5 },
+  "creature_marsh_wasp": { seconds: 0.9, contactNormalized: 0.5 },
   "animal_aurochs": { seconds: 1.8, contactNormalized: 0.575 },
   "animal_bear": { seconds: 2.466667, contactNormalized: 0.15 },
   "animal_boar": { seconds: 0.7, contactNormalized: 0.7 },
@@ -29,9 +33,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "boss_rhino_water": { seconds: 1.233333, contactNormalized: 0.33229264631653577 },
   "creature_redbrush_fox": { seconds: 0.88, contactNormalized: 0.49 },
   "creature_duskoak_lynx": { seconds: 1.02, contactNormalized: 0.43 },
-  "creature_rootdelve_badger": { seconds: 1.1, contactNormalized: 0.46 },
   "creature_quillback_porcupine": { seconds: 1.16, contactNormalized: 0.54 },
-  "creature_marchwild_horse": { seconds: 1.18, contactNormalized: 0.46 },
   "creature_cairn_bighorn": { seconds: 1.05, contactNormalized: 0.46 },
   "creature_marsh_moose": { seconds: 1.23, contactNormalized: 0.47 },
   "creature_bracken_tapir": { seconds: 0.9, contactNormalized: 0.48 },
@@ -46,7 +48,6 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "creature_quarry_snail": { seconds: 1.5, contactNormalized: 0.48 },
   "creature_antler_beetle": { seconds: 1.1, contactNormalized: 0.5 },
   "creature_slag_centipede": { seconds: 0.94, contactNormalized: 0.5 },
-  "creature_hollowroot_spider": { seconds: 1.04, contactNormalized: 0.5 },
   "creature_cinder_ravager": { seconds: 2.333333, contactNormalized: 0.235 },
   "creature_basalt_drake": { seconds: 1.6, contactNormalized: 0.65 },
   "creature_gorge_mantis": { seconds: 1, contactNormalized: 0.316667 },
@@ -116,24 +117,19 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_goblin_shaman": 11.2634,
   "creature_gorge_mantis": 5.6667,
   "creature_grave_ghoul": 14.1415,
-  "creature_hollowroot_spider": 3.5357,
   "creature_iron_golem": 22.5261,
   "creature_kiln_salamander": 0.9316,
   "creature_lava_golem": 9.1254,
   "creature_marchfield_turkey": 1.8285,
-  "creature_marchwild_horse": 7.0213,
   "creature_marsh_moose": 7.0213,
   // creature_marsh_wasp: no measured stride
-  "creature_mossback_sentinel": 3.8976,
   "creature_plague_zombie": 4.0891,
-  "creature_quarry_nightmare": 7.6323,
   // creature_quarry_snail: stride 0.054 m/s is below the artefact floor
   "creature_quillback_porcupine": 2.6591,
   "creature_redbrush_fox": 2.16,
   "creature_reedbank_goose": 0.6933,
   "creature_reedjaw_crocodile": 2.9833,
   // creature_revenant: no measured stride
-  "creature_rootdelve_badger": 2.8636,
   "creature_scree_bustard": 2.184,
   "creature_shale_elemental": 9.4107,
   "creature_skeleton_archer": 5.1914,
@@ -141,8 +137,6 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_skeleton_soldier": 5.1914,
   "creature_slag_centipede": 1.7419,
   "creature_slateback_tortoise": 0.9091,
-  "creature_stone_golem": 22.5261,
-  "creature_webweaver_spider": 2.7324,
   // creature_wraith: no measured stride
   "creature_zombie": 4.0849,
   "miniboss_cinderwake": 19.0918,
@@ -156,7 +150,6 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
 
 // Material variants retain their source animation samples and cadence limits.
 for (const [variant, source] of [
-  ["gloam_fox", "redbrush_fox"], ["moonweave_spider", "webweaver_spider"],
   ["rimeback_tortoise", "slateback_tortoise"], ["cindercrest_salamander", "kiln_salamander"],
   ["amethyst_spider", "webweaver_spider"],
 ]) {
@@ -173,15 +166,11 @@ CREATURE_PURSUIT_CEILING_MPS["creature_hollow_bough"] = 3.4299;
 CREATURE_PURSUIT_CEILING_MPS["creature_briar_harrow"] = 3.8976;
 CREATURE_PURSUIT_CEILING_MPS["creature_fen_crawler"] = 2.8964;
 CREATURE_PURSUIT_CEILING_MPS["creature_reed_strider"] = 3.3336;
-CREATURE_PURSUIT_CEILING_MPS["creature_thorn_maw"] = 6.5016;
-CREATURE_PURSUIT_CEILING_MPS["creature_heath_jack"] = 11.2787;
 CREATURE_PURSUIT_CEILING_MPS["creature_kiln_marrow"] = 9.1254;
-CREATURE_PURSUIT_CEILING_MPS["creature_slag_crawler"] = 2.7324;
 CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
 CREATURE_PURSUIT_CEILING_MPS["creature_cairn_treader"] = 8.1089;
 CREATURE_PURSUIT_CEILING_MPS["creature_flint_mandible"] = 5.9942;
 CREATURE_PURSUIT_CEILING_MPS["creature_vault_custodian"] = 9.8903;
-CREATURE_PURSUIT_CEILING_MPS["creature_blind_cave_weaver"] = 3.1556;
 CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
 
 /**
@@ -203,11 +192,9 @@ CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
 CREATURE_PURSUIT_CEILING_MPS["creature_baby_red_dragon"] = 1.2841;
 CREATURE_PURSUIT_CEILING_MPS["creature_baby_black_dragon"] = 3.2393;
 CREATURE_PURSUIT_CEILING_MPS["creature_baby_lava_dragon"] = 1.2582;
-CREATURE_PURSUIT_CEILING_MPS["creature_cinderback_crag"] = 3.679;
 CREATURE_PURSUIT_CEILING_MPS["creature_red_wilderness_dragon"] = 3.5593;
 CREATURE_PURSUIT_CEILING_MPS["creature_rift_carapace"] = 4.0333;
 CREATURE_PURSUIT_CEILING_MPS["creature_basalt_maw"] = 6;
-CREATURE_PURSUIT_CEILING_MPS["creature_voidstone_colossus"] = 29.2839;
 CREATURE_PURSUIT_CEILING_MPS["creature_black_wilderness_dragon"] = 7.8385;
 CREATURE_PURSUIT_CEILING_MPS["creature_furnace_grazer"] = 6.3498;
 CREATURE_PURSUIT_CEILING_MPS["creature_purple_wilderness_dragon"] = 3.6817;
@@ -217,15 +204,10 @@ CREATURE_PURSUIT_CEILING_MPS["creature_purple_wilderness_dragon"] = 3.6817;
 // `creature_boss_rootheart` (1.291 m) do not, and are deliberately absent: pinning them would
 // drop both under the shared speed a boss has to keep. Their run cycles need the longer stride,
 // not a lower ceiling.
-CREATURE_PURSUIT_CEILING_MPS["creature_boss_tideworn"] = 5.5693;
-CREATURE_PURSUIT_CEILING_MPS["creature_boss_tempest_roc"] = 5.7844;
 CREATURE_PURSUIT_CEILING_MPS["creature_boss_mossbound"] = 6.6059;
-CREATURE_PURSUIT_CEILING_MPS["creature_boss_cinderwake"] = 9.6872;
-CREATURE_PURSUIT_CEILING_MPS["creature_boss_ordrun"] = 9.7581;
 CREATURE_PURSUIT_CEILING_MPS["creature_furnace_regent"] = 11.0199;
 CREATURE_PURSUIT_CEILING_MPS["creature_hollow_star"] = 10.8546;
 
-CREATURE_PURSUIT_CEILING_MPS["creature_ashseal_warden"] = 9.7587;
 CREATURE_PURSUIT_CEILING_MPS["creature_nightforge_marshal"] = 31.7487;
 
 CREATURE_PURSUIT_CEILING_MPS["creature_amethyst_dragon"] = 7.8385;
@@ -240,7 +222,6 @@ CREATURE_MOTION_TIMING["creature_grave_lantern"] = { seconds: 1.7999999523162842
 
 CREATURE_MOTION_TIMING["creature_furnace_grazer"] = { seconds: 1.600000023841858, contactNormalized: 0.65 };
 
-CREATURE_MOTION_TIMING["creature_ashseal_warden"] = { seconds: 1.5, contactNormalized: 0.4 };
 
 CREATURE_MOTION_TIMING["creature_furnace_regent"] = { seconds: 2, contactNormalized: 0.52 };
 
@@ -248,7 +229,6 @@ CREATURE_MOTION_TIMING["creature_chainbound_archon"] = { seconds: 0.5, contactNo
 
 CREATURE_MOTION_TIMING["creature_hollow_star"] = { seconds: 1, contactNormalized: 0.316667 };
 
-CREATURE_MOTION_TIMING["creature_voidstone_colossus"] = { seconds: 1.1266666650772095, contactNormalized: 0.38 };
 
 CREATURE_MOTION_TIMING["creature_kiln_marrow"] = { seconds: 2, contactNormalized: 0.52 };
 
@@ -257,16 +237,11 @@ CREATURE_MOTION_TIMING["creature_nightforge_marshal"] = { seconds: 1.12666666507
 // Fairy and Crownward skins retain source geometry and every animation channel. Keep this
 // static alias table independent of the species catalogue, which imports the combat registry.
 for (const [variant, source] of [
-  ['creature_pearl_knight', 'creature_nightforge_marshal'],
   ['creature_ivory_castellan', 'creature_nightforge_marshal'],
   ['creature_crown_hart', 'animal_deer'],
   ['creature_silverthorn_harrow', 'creature_briar_harrow'],
-  ['creature_lantern_sprite', 'creature_marsh_wasp'],
   ['creature_moonpetal_stalker', 'creature_heath_jack'],
-  ['creature_dewglass_weaver', 'creature_fen_crawler'],
   ['creature_bloomheart_matriarch', 'creature_boss_rootheart'],
-  ['creature_prismatic_sprite', 'creature_marsh_wasp'],
-  ['creature_orchid_reaper', 'creature_veil_reaper'],
   ['creature_starroot_guardian', 'creature_briar_harrow'],
   ['creature_amethyst_sovereign', 'creature_hollow_star'],
 ] as const) {
@@ -277,7 +252,7 @@ for (const [variant, source] of [
 // Imported fairy source clips and authored trial-pack contact poses.
 CREATURE_MOTION_TIMING["fantasy_monster_01"] = { seconds: 2, contactNormalized: 0.4 };
 CREATURE_MOTION_TIMING["fantasy_monster_02"] = { seconds: 2, contactNormalized: 0.4 };
-CREATURE_MOTION_TIMING["fantasy_monster_03"] = { seconds: 2, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_03"] = { seconds: 0.866666675, contactNormalized: 0.275 };
 CREATURE_MOTION_TIMING["fantasy_monster_04"] = { seconds: 2.3333332538604736, contactNormalized: 0.4 };
 CREATURE_MOTION_TIMING["fantasy_monster_05"] = { seconds: 2.3333332538604736, contactNormalized: 0.4 };
 CREATURE_MOTION_TIMING["fantasy_monster_06"] = { seconds: 2.3333332538604736, contactNormalized: 0.4 };
@@ -310,6 +285,11 @@ for (const region of ['gloamgarden', 'faeholme']) {
     ['drake', 'creature_baby_red_dragon'], ['wardling', 'fairy_monster_34'], ['petalguard', 'fairy_monster_31'],
   ] as const) {
     const id = `fairy_garden_${form}_${region}`;
+    // These imports use their own recovered native rigs and a retargeted jab.
+    if (id === 'fairy_garden_sporekin_faeholme' || id === 'fairy_garden_sapling_gloamgarden' || id === 'fairy_garden_sapling_faeholme') {
+      CREATURE_MOTION_TIMING[id] = { seconds: 0.866666675, contactNormalized: 0.26 };
+      continue;
+    }
     const timing = source.startsWith('fairy_monster_') ? { seconds: 1.1, contactNormalized: .5 } : CREATURE_MOTION_TIMING[source];
     if (timing) CREATURE_MOTION_TIMING[id] = { ...timing };
     const ceiling = CREATURE_PURSUIT_CEILING_MPS[source];
@@ -319,3 +299,50 @@ for (const region of ['gloamgarden', 'faeholme']) {
     CREATURE_MOTION_TIMING[`fairy_guardian_${number}_${region}`] = { ...CREATURE_MOTION_TIMING[`fantasy_monster_${number}`]! };
   }
 }
+
+// These skins still use the earlier rigs; replacement bodies have independent clips.
+CREATURE_PURSUIT_CEILING_MPS["creature_moonpetal_stalker"] = 11.2787;
+CREATURE_MOTION_TIMING["creature_rootdelve_badger"] = { seconds: 0.95, contactNormalized: 0.45263157894736844 };
+CREATURE_MOTION_TIMING["creature_marchwild_horse"] = { seconds: 0.966666639, contactNormalized: 0.46 };
+CREATURE_MOTION_TIMING["creature_heath_jack"] = { seconds: 0.660000026, contactNormalized: 0.43 };
+CREATURE_MOTION_TIMING["creature_boss_tempest_roc"] = { seconds: 0.86, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["creature_hollowroot_spider"] = { seconds: 0.879999995, contactNormalized: 0.47727272727272724 };
+CREATURE_MOTION_TIMING["creature_webweaver_spider"] = { seconds: 0.879999995, contactNormalized: 0.47727272727272724 };
+CREATURE_MOTION_TIMING["creature_blind_cave_weaver"] = { seconds: 0.879999995, contactNormalized: 0.47727272727272724 };
+CREATURE_MOTION_TIMING["creature_thorn_maw"] = { seconds: 0.85, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["creature_mossback_sentinel"] = { seconds: 0.866666675, contactNormalized: 0.275 };
+CREATURE_MOTION_TIMING["creature_stone_golem"] = { seconds: 0.866666675, contactNormalized: 0.275 };
+CREATURE_PURSUIT_CEILING_MPS["creature_heath_jack"] = 2.9071;
+CREATURE_MOTION_TIMING["creature_gloam_fox"] = { seconds: 0.82, contactNormalized: 0.60975609756 };
+CREATURE_MOTION_TIMING["creature_pearl_knight"] = { seconds: 0.78, contactNormalized: 0.358974358974359 };
+CREATURE_MOTION_TIMING["creature_revenant"] = { seconds: 0.9, contactNormalized: 0.466666666666667 };
+
+CREATURE_MOTION_TIMING["creature_slag_crawler"] = { seconds: 0.7799999713897705, contactNormalized: 0.3974358974358974 };
+
+CREATURE_MOTION_TIMING["creature_cinderback_crag"] = { seconds: 0.9749999642372131, contactNormalized: 0.3974358974358974 };
+
+CREATURE_MOTION_TIMING["creature_banshee"] = { seconds: 0.96, contactNormalized: 0.5 };
+
+CREATURE_MOTION_TIMING["creature_moonweave_spider"] = { seconds: 0.8799999952316284, contactNormalized: 0.4772727298588792 };
+
+CREATURE_MOTION_TIMING["creature_amethyst_spider"] = { seconds: 0.8799999952316284, contactNormalized: 0.4772727298588792 };
+
+CREATURE_MOTION_TIMING["creature_dewglass_weaver"] = { seconds: 0.8799999952316284, contactNormalized: 0.4772727298588792 };
+
+CREATURE_MOTION_TIMING["creature_lantern_sprite"] = { seconds: 0.8999999761581421, contactNormalized: 0.4 };
+
+CREATURE_MOTION_TIMING["creature_orchid_reaper"] = { seconds: 0.8600000143051147, contactNormalized: 0.5 };
+
+CREATURE_MOTION_TIMING["fairy_garden_imp_faeholme"] = { seconds: 0.9, contactNormalized: 0.5 };
+
+CREATURE_MOTION_TIMING["fairy_garden_imp_gloamgarden"] = { seconds: 0.9, contactNormalized: 0.5 };
+
+CREATURE_MOTION_TIMING["creature_boss_tideworn"] = { seconds: 0.8666666746139526, contactNormalized: 0.26666666666666666 };
+
+CREATURE_MOTION_TIMING["creature_boss_cinderwake"] = { seconds: 0.8666666746139526, contactNormalized: 0.26666666666666666 };
+
+CREATURE_MOTION_TIMING["creature_boss_ordrun"] = { seconds: 1.02, contactNormalized: 0.4215686274509804 };
+
+CREATURE_MOTION_TIMING["creature_voidstone_colossus"] = {"seconds":1.2400000095367432,"contactNormalized":0.5};
+
+CREATURE_MOTION_TIMING["creature_ashseal_warden"] = {"seconds":1.2400000095367432,"contactNormalized":0.5};

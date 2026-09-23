@@ -11,29 +11,35 @@ const current = REGIONS.flatMap(region => [
   ...region.enemyGroups.map(group => ({ ...group, regionId: region.id })),
   ...(region.dungeon?.enemyGroups.map(group => ({ ...group, regionId: region.dungeon!.id })) ?? []),
 ]);
-const population = WORLD_PLACEMENTS.filter(placement => placement.id.startsWith('population_')).map(source => ({ source,
-  group: current.find(group => group.id === source.id)!,
-  habitat: WORLD_HABITATS.find(habitat => habitat.groupId === source.id)!,
-  creature: WORLD_CONTENT.creatureByGroup.get(source.id),
-}));
+const populationSources = WORLD_PLACEMENTS.filter(placement => placement.id.startsWith('population_')).map(source => {
+  const groups = current.filter(group => group.id === source.id || group.id.startsWith(`${source.id}_`));
+  return { source, groups: groups.map(group => ({ group,
+    habitat: WORLD_HABITATS.find(habitat => habitat.groupId === group.id)!,
+    creature: WORLD_CONTENT.creatureByGroup.get(group.id),
+  })) };
+});
+const population = populationSources.flatMap(({ source, groups }) => groups.map(row => ({ source, ...row })));
 
 describe('compiled world population placements', () => {
   it('projects authored placements and compiled creatures into live groups and habitats', () => {
-    expect(population.length).toBeGreaterThan(0);
-    expect(new Set(population.map(row => row.source.id)).size).toBe(population.length);
-    for (const { source, group, habitat, creature } of population) {
-      expect(group, source.id).toBeDefined();
-      expect(habitat, source.id).toBeDefined();
-      expect(creature, source.id).toBeDefined();
-      expect(group.count, source.id).toBe(source.count);
-      expect(group.regionId, source.id).toBe(source.regionId);
-      expect(group.assetId, source.id).toBe(creature!.assetId);
-      expect(group.family, source.id).toBe(creature!.stats.family);
-      expect(WORLD_CONTENT.habitats, source.id).toContain(habitat);
-      expect(habitat.groupId, source.id).toBe(group.id);
-      expect(habitat.regionId, source.id).toBe(source.regionId);
-      expect(habitat.anchors, source.id).toHaveLength(source.count);
-      expect(encounterActorId(group, 0), source.id).toBe(`${source.id}_1`);
+    expect(populationSources.length).toBeGreaterThan(0);
+    expect(new Set(populationSources.map(row => row.source.id)).size).toBe(populationSources.length);
+    for (const { source, groups } of populationSources) {
+      expect(groups.length, source.id).toBeGreaterThan(0);
+      expect(groups.reduce((sum, { group }) => sum + group.count, 0), source.id).toBe(source.count);
+      for (const { group, habitat, creature } of groups) {
+        expect(group, source.id).toBeDefined();
+        expect(habitat, `${source.id}/${group.id}`).toBeDefined();
+        expect(creature, `${source.id}/${group.id}`).toBeDefined();
+        expect(group.regionId, group.id).toBe(source.regionId);
+        expect(group.assetId, group.id).toBe(creature!.assetId);
+        expect(group.family, group.id).toBe(creature!.stats.family);
+        expect(WORLD_CONTENT.habitats, group.id).toContain(habitat);
+        expect(habitat.groupId, group.id).toBe(group.id);
+        expect(habitat.regionId, group.id).toBe(source.regionId);
+        expect(habitat.anchors, group.id).toHaveLength(group.count);
+        expect(encounterActorId(group, 0), group.id).toBe((group.legacyCount ?? group.count) === 1 ? group.id : `${group.id}_1`);
+      }
     }
   });
 

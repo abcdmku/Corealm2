@@ -102,25 +102,9 @@ const UNCALIBRATED_REPLACEMENT_GAIT_HOLDS: Readonly<Record<string, UncalibratedR
     sha256: "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
     walkClipSeconds: 1.3333333730697632, runClipSeconds: 0.9333333373069763,
   },
-  creature_boss_tideworn: {
-    sha256: "39281349a927147ec89cb7befa854a89b8cd6ca3579c24254946fa486ca587b0",
-    walkClipSeconds: 1.25, runClipSeconds: 0.82,
-  },
-  creature_ashseal_warden: {
-    sha256: "2095a63a9398cb00321de863a432bd2d3932628f3ade512d8cc565361de7a5cc",
-    walkClipSeconds: null, runClipSeconds: null,
-  },
   creature_starroot_guardian: {
     sha256: "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
     walkClipSeconds: 1, runClipSeconds: 0.72,
-  },
-  fairy_garden_sapling_gloamgarden: {
-    sha256: "e64d6e4433d003353c6d4949bc6942121db9328e4d6e51f9fa3b5f36abe6794b",
-    walkClipSeconds: 1.149999976158142, runClipSeconds: 0.8199999928474426,
-  },
-  fairy_garden_sporekin_faeholme: {
-    sha256: "d202c96e3f5a3dbd718964669b24edd1cb80afb065b108a03d70e26bb2add0bb",
-    walkClipSeconds: 1.2, runClipSeconds: 0.78,
   },
 };
 beforeAll(async () => {

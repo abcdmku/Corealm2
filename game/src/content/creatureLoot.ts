@@ -6,7 +6,7 @@ import { RECIPE_DATA } from "./recipeData.js";
 export const CREATURE_TROPHY_BY_SPECIES = {
     redbrush_fox: "fox_guardhair",
     duskoak_lynx: "lynx_sinew",
-    rootdelve_badger: "badger_bristle",
+    rootdelve_badger: "emberhorn",
     quillback_porcupine: "porcupine_quill",
     marchwild_horse: "horse_tailhair",
     cairn_bighorn: "bighorn_fleece",

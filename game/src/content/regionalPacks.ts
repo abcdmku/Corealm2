@@ -158,7 +158,7 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "id": "rootdelve_badger_residents",
     "assetId": "creature_rootdelve_badger",
     "scale": 1,
-    "baseEnemyDefId": "rootdelve_badger_t5",
+    "baseEnemyDefId": "redmane_minotaur_t25",
     "activity": "forage",
     "nativeBodyRadius": 0.8969810831546783,
     "nativeVisualRadius": 0.9480502382399154
