@@ -1,0 +1,839 @@
+{
+  "schema": "corealm-starred-sheet-extraction/1",
+  "source": {
+    "file": "assets/art/tripo/exports/0956205f-6d69-4216-b4ef-afdb3fe2db07.glb",
+    "sha256": "05d9f5c1fcd1d7a7a04978ea00d9cae50c7b2d214a1cce9ee4f3038a97ce7f64",
+    "bytes": 26188952,
+    "starredProjectId": "0956205f-6d69-4216-b4ef-afdb3fe2db07",
+    "geometry": {
+      "nodes": 1,
+      "meshes": 1,
+      "primitives": 1,
+      "sourceVertices": 34977,
+      "sourceTriangles": 19536,
+      "skins": 0,
+      "clips": 0,
+      "retopology": false
+    },
+    "sourceMaterials": [
+      {
+        "name": "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material",
+        "baseColorTexture": "monster+3d+model_basecolor.jpg",
+        "normalTexture": "monster+3d+model_normal.jpg",
+        "metallicRoughnessTexture": "monster+3d+model_rm.png",
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "metallicFactor": 1,
+        "roughnessFactor": 1
+      }
+    ],
+    "sourceTextures": [
+      {
+        "name": "monster+3d+model_basecolor.jpg",
+        "mimeType": "image/jpeg",
+        "width": 8192,
+        "height": 8192,
+        "bytes": 11090239,
+        "sha256": "6d557cf601783c6960d229235f2c56a7b2e003d73f310d2d6d2d1d811014809c"
+      },
+      {
+        "name": "monster+3d+model_rm.png",
+        "mimeType": "image/png",
+        "width": 4096,
+        "height": 4096,
+        "bytes": 12815331,
+        "sha256": "6a6713ec88f83abc8f30e9544555b65f1c2643a9d7954f633f2af137b6de494a"
+      },
+      {
+        "name": "monster+3d+model_normal.jpg",
+        "mimeType": "image/jpeg",
+        "width": 4096,
+        "height": 4096,
+        "bytes": 927548,
+        "sha256": "b9077dcd5c3d5096ae5c26f41ea08dd0ed19dbeba58ceee8be03c7c035ea643f"
+      }
+    ]
+  },
+  "extraction": {
+    "method": "Partition source triangles by nearest X/Y cell center after deterministic three-cluster 1D k-means. Grid axes are X columns and Y-up rows; output order is the visually audited front view from top-left to bottom-right.",
+    "cellCenters": {
+      "xAscending": [
+        -0.3348433288435133,
+        -0.0003404274957730686,
+        0.33378940269142826
+      ],
+      "yAscending": [
+        0.23066060047244208,
+        0.5537818348737016,
+        0.8734750780619787
+      ]
+    },
+    "faceAssignment": "Each source triangle is assigned once by its centroid. Each candidate remaps only referenced source vertices while preserving each source triangle corner sequence and exact position, normal, and UV values.",
+    "runtimeTexturePolicy": {
+      "maxDimension": 2048,
+      "sourceMapPixelsArchivedInSourceGlb": true,
+      "candidateMapsAreResizedCopies": true
+    },
+    "noSkinOrAnimationClaim": true
+  },
+  "parts": [
+    {
+      "id": "part-01-red-bone-mask-imp",
+      "label": "Red bone-mask imp",
+      "row": 1,
+      "column": 1,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-01-red-bone-mask-imp/base.glb",
+      "candidateBytes": 6372156,
+      "candidateSha256": "3b03d6fc1f5ee86d676eea4c93047fa8b69b32a99a86678f7ecfe1af7a156b6b",
+      "vertices": 3181,
+      "triangles": 1720,
+      "sourceBounds": {
+        "min": [
+          -0.4951171875,
+          0.703125,
+          -0.1279296576976776
+        ],
+        "max": [
+          -0.1787109524011612,
+          0.994140625,
+          0.1259765923023224
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 3.43624161,
+        "translation": [
+          1.1577181464073643,
+          -2.4161073825503356,
+          0.003355602290006292
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.5436241354718303,
+          0,
+          -0.436241610738255
+        ],
+        "max": [
+          0.5436241354718305,
+          1,
+          0.436241610738255
+        ]
+      },
+      "sourceTriangleAttributesSha256": "4e880a3a0539968ce7850271a34591acd009a290a97324d3de92342defc0c627",
+      "candidateTriangleAttributesSha256": "4e880a3a0539968ce7850271a34591acd009a290a97324d3de92342defc0c627",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-02-lavender-bat-ear-imp",
+      "label": "Lavender bat-ear imp",
+      "row": 1,
+      "column": 2,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-02-lavender-bat-ear-imp/base.glb",
+      "candidateBytes": 6323348,
+      "candidateSha256": "37cdca6f0262b607e6b3b3b77bdb5dc9abc5460bd78d512dbbb692bb7ad7dc4f",
+      "vertices": 1798,
+      "triangles": 958,
+      "sourceBounds": {
+        "min": [
+          -0.1494140774011612,
+          0.703125,
+          -0.06542970985174179
+        ],
+        "max": [
+          0.1552734225988388,
+          0.9765625,
+          0.1337890326976776
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 3.65714286,
+        "translation": [
+          -0.01071423121861049,
+          -2.571428571428571,
+          -0.12499990463256835
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.5571428571428572,
+          0,
+          -0.36428570066179544
+        ],
+        "max": [
+          0.5571428571428572,
+          1,
+          0.36428570066179544
+        ]
+      },
+      "sourceTriangleAttributesSha256": "d677f27684236be79dd20f9c85dab19071e4bdea64b81d2277d3435492c6c248",
+      "candidateTriangleAttributesSha256": "d677f27684236be79dd20f9c85dab19071e4bdea64b81d2277d3435492c6c248",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-03-green-antler-imp",
+      "label": "Green antler/leaf imp",
+      "row": 1,
+      "column": 3,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-03-green-antler-imp/base.glb",
+      "candidateBytes": 6437292,
+      "candidateSha256": "9df3356d04266ac63acd48a8014d69780f5f4fe0eb49ec94ef1306327e7746e1",
+      "vertices": 5009,
+      "triangles": 2823,
+      "sourceBounds": {
+        "min": [
+          0.1806640475988388,
+          0.7050781846046448,
+          -0.14355474710464478
+        ],
+        "max": [
+          0.4912109375,
+          0.9980469346046448,
+          0.12792962789535522
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 3.41333333,
+        "translation": [
+          -1.1466666412353517,
+          -2.4066668701171876,
+          0.0266668701171875
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.5300000254313152,
+          0,
+          -0.4633333333333334
+        ],
+        "max": [
+          0.5300000254313151,
+          1,
+          0.4633333333333334
+        ]
+      },
+      "sourceTriangleAttributesSha256": "5a9060da5a671c7d459dc58a9e70d8ff83c5d9ee5440751fb0ebbb84f35b06a4",
+      "candidateTriangleAttributesSha256": "5a9060da5a671c7d459dc58a9e70d8ff83c5d9ee5440751fb0ebbb84f35b06a4",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-04-magma-imp",
+      "label": "Magma imp",
+      "row": 2,
+      "column": 1,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-04-magma-imp/base.glb",
+      "candidateBytes": 6359928,
+      "candidateSha256": "b82fba86f5bed98073203f9ea8af5c97080efa5438dc09cdca2a59cbbbb0b61b",
+      "vertices": 2837,
+      "triangles": 1522,
+      "sourceBounds": {
+        "min": [
+          -0.4931640625,
+          0.388671875,
+          -0.055664028972387314
+        ],
+        "max": [
+          -0.1728515475988388,
+          0.72265625,
+          0.1591797173023224
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 2.99415205,
+        "translation": [
+          0.9970760010836417,
+          -1.1637426900584795,
+          -0.1549708550436455
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.47953218605086123,
+          0,
+          -0.321637421323542
+        ],
+        "max": [
+          0.47953218605086123,
+          0.9999999999999998,
+          0.321637421323542
+        ]
+      },
+      "sourceTriangleAttributesSha256": "a914b53ac81dfdd36773a864c9064e60dfef8f5e22339351cd6cbd802b9889ca",
+      "candidateTriangleAttributesSha256": "a914b53ac81dfdd36773a864c9064e60dfef8f5e22339351cd6cbd802b9889ca",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-05-ivory-bone-imp",
+      "label": "Ivory bone imp",
+      "row": 2,
+      "column": 2,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-05-ivory-bone-imp/base.glb",
+      "candidateBytes": 6416244,
+      "candidateSha256": "4cfa47902a9c8c3a78cdccccf58b1f795d47ab02cc369ef37c3d7886786d2310",
+      "vertices": 4417,
+      "triangles": 2476,
+      "sourceBounds": {
+        "min": [
+          -0.1572265475988388,
+          0.3886719048023224,
+          -0.059570323675870895
+        ],
+        "max": [
+          0.1650390774011612,
+          0.7265625,
+          0.1591796875
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 2.95953783,
+        "translation": [
+          -0.011560738761834714,
+          -1.1502892069988984,
+          -0.14739884039366974
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.4768786547779815,
+          0,
+          -0.3236994670536696
+        ],
+        "max": [
+          0.4768786547779815,
+          1,
+          0.3236994670536696
+        ]
+      },
+      "sourceTriangleAttributesSha256": "d7fab7468dcfdf396e4b038bc79e0e3b94f300b1041fab5ddb5ce6145def24c7",
+      "candidateTriangleAttributesSha256": "d7fab7468dcfdf396e4b038bc79e0e3b94f300b1041fab5ddb5ce6145def24c7",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-06-purple-cyclops-imp",
+      "label": "Purple cyclops",
+      "row": 2,
+      "column": 3,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-06-purple-cyclops-imp/base.glb",
+      "candidateBytes": 6402496,
+      "candidateSha256": "3a76ba28ae907677b126b467182ce316067961090e396d1f5ebe0a54dd2beb17",
+      "vertices": 4035,
+      "triangles": 2217,
+      "sourceBounds": {
+        "min": [
+          0.1748047024011612,
+          0.3886719346046448,
+          -0.059570372104644775
+        ],
+        "max": [
+          0.4951171875,
+          0.7226563096046448,
+          0.15722650289535522
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 2.99415205,
+        "translation": [
+          -1.0029239989163583,
+          -1.1637428685238487,
+          -0.14619865194398757
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.47953214143451894,
+          0,
+          -0.32456140350877194
+        ],
+        "max": [
+          0.47953214143451883,
+          0.9999999999999998,
+          0.3245614035087719
+        ]
+      },
+      "sourceTriangleAttributesSha256": "71f24797d003a70bb819013cb8665f3fba28ac4b5b4b5149ac828327e3f5b5ae",
+      "candidateTriangleAttributesSha256": "71f24797d003a70bb819013cb8665f3fba28ac4b5b4b5149ac828327e3f5b5ae",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-07-blue-crystal-imp",
+      "label": "Blue crystal imp",
+      "row": 3,
+      "column": 1,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-07-blue-crystal-imp/base.glb",
+      "candidateBytes": 6398164,
+      "candidateSha256": "4c91f18740d2006022fe24526d178dc263f31b2650ab271dbc5494899285ed70",
+      "vertices": 3915,
+      "triangles": 2150,
+      "sourceBounds": {
+        "min": [
+          -0.4912109076976776,
+          0,
+          -0.12011714279651642
+        ],
+        "max": [
+          -0.1767577975988388,
+          0.390625,
+          0.12792974710464478
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 2.56,
+        "translation": [
+          0.8549999427795411,
+          0,
+          -0.010000133514404297
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.4024999809265136,
+          0,
+          -0.31750001907348635
+        ],
+        "max": [
+          0.4024999809265137,
+          1,
+          0.3175000190734863
+        ]
+      },
+      "sourceTriangleAttributesSha256": "14432db112a2557f8d459fc596db81a072ad0d152fdf29996a367ec05a21c38f",
+      "candidateTriangleAttributesSha256": "14432db112a2557f8d459fc596db81a072ad0d152fdf29996a367ec05a21c38f",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-08-rust-iron-spike-imp",
+      "label": "Rust/iron spike imp",
+      "row": 3,
+      "column": 2,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-08-rust-iron-spike-imp/base.glb",
+      "candidateBytes": 6398284,
+      "candidateSha256": "bbddbb7a976496393afc2deef08e7d72eef635684efcfb099d6e6d59111ca74e",
+      "vertices": 3907,
+      "triangles": 2197,
+      "sourceBounds": {
+        "min": [
+          -0.1513671725988388,
+          2.9802322387695312e-8,
+          -0.1064453125
+        ],
+        "max": [
+          0.1552734524011612,
+          0.3925781548023224,
+          0.1259765625
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 2.54726368,
+        "translation": [
+          -0.004975162335296175,
+          -7.591437344527363e-8,
+          -0.02487562189054726
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.39054726368159204,
+          0,
+          -0.2960199004975124
+        ],
+        "max": [
+          0.39054726368159204,
+          1,
+          0.2960199004975124
+        ]
+      },
+      "sourceTriangleAttributesSha256": "1616b4fa7f45591229a81e532e8a356dd07a2befc7792aa20137ca95ff707798",
+      "candidateTriangleAttributesSha256": "1616b4fa7f45591229a81e532e8a356dd07a2befc7792aa20137ca95ff707798",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    },
+    {
+      "id": "part-09-yellow-green-spore-imp",
+      "label": "Yellow-green spore imp",
+      "row": 3,
+      "column": 3,
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-a/part-09-yellow-green-spore-imp/base.glb",
+      "candidateBytes": 6471080,
+      "candidateSha256": "9a981f8508b4aa6d515a039ead6cf0d26eb606c2eaf7a757ff8cf6865491c02b",
+      "vertices": 5942,
+      "triangles": 3473,
+      "sourceBounds": {
+        "min": [
+          0.1787109524011612,
+          2.9802322387695312e-8,
+          -0.1591797173023224
+        ],
+        "max": [
+          0.4873047173023224,
+          0.3945313096046448,
+          0.1318359076976776
+        ]
+      },
+      "normalizedNodeTransform": {
+        "scale": 2.53465327,
+        "translation": [
+          -0.8440593988354826,
+          -7.553855400927297e-8,
+          0.034653538267416004
+        ],
+        "resultingHeightMeters": 1
+      },
+      "runtimeBounds": {
+        "min": [
+          -0.39108909825322385,
+          0,
+          -0.3688118533286026
+        ],
+        "max": [
+          0.3910890982532239,
+          1,
+          0.36881185332860267
+        ]
+      },
+      "sourceTriangleAttributesSha256": "6875a208b3e692eb1e238b1f76e1326063c3234bf3f84561c36ee36e467ddae4",
+      "candidateTriangleAttributesSha256": "6875a208b3e692eb1e238b1f76e1326063c3234bf3f84561c36ee36e467ddae4",
+      "sourceTopology": {
+        "facesPreserved": true,
+        "retopology": false,
+        "triangleOrderPreserved": true,
+        "positionsPreserved": true,
+        "normalsPreserved": true,
+        "uvsPreserved": true
+      },
+      "sourceMaterialNames": [
+        "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+      ],
+      "runtimeTextures": [
+        {
+          "name": "monster+3d+model_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 1694840,
+          "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+        },
+        {
+          "name": "monster+3d+model_rm.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 4224582,
+          "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+        },
+        {
+          "name": "monster+3d+model_normal.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 338412,
+          "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+        }
+      ]
+    }
+  ],
+  "totalTriangles": 19536,
+  "acceptance": {
+    "extracted": true,
+    "rigging": "pending",
+    "animation": "pending",
+    "rootFeatureLab": "pending"
+  }
+}
