@@ -5,7 +5,7 @@
   "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
   "overallStatus": "local_archive_complete",
   "packed8kVariantStatus": "in_progress",
-  "packed8kVariantsArchived": 2,
+  "packed8kVariantsArchived": 3,
   "requestedExportSettings": {
     "format": "GLB",
     "textureResolution": "8k Current",
@@ -143,6 +143,61 @@
         "downloadedFileName": "medieval+knight+3d+model (4).glb",
         "exportedAtLocal": "2026-09-23T05:32:59-05:00",
         "identificationEvidence": "Unique 05:32 local arrival confirmed for project cc618fd5-433e-4a90-978c-fd957504b5f3; 40 textured mesh/material pairs use medieval_knight_3d_model base-color maps with blue-silver averages matching the prompt."
+      },
+      "packed8kVariant": {
+        "status": "archived_verified",
+        "sourceProjectUuid": "cc618fd5-433e-4a90-978c-fd957504b5f3",
+        "identificationEvidence": "Tripo UI agent confirmed project cc618fd5-433e-4a90-978c-fd957504b5f3 -> packed8k_cc618fd5.glb with success toast at 2026-09-23T05:59:04-05:00; embedded PBR image names carry the matching packed8k project prefix.",
+        "archivePath": "assets/art/tripo/exports/packed-8k/cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
+        "downloadedFileName": "packed8k_cc618fd5.glb",
+        "recordedAtLocal": "2026-09-23T05:59:04-05:00",
+        "exportSettings": {
+          "format": "GLB",
+          "textureResolution": "8k Current",
+          "packUV": true,
+          "exportSkeleton": true
+        },
+        "actualTextureDimensions": {
+          "baseColor": [
+            {
+              "name": "packed8k_cc618fd5_basecolor",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "metallicRoughness": [
+            {
+              "name": "packed8k_cc618fd5_rm",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "normal": [
+            {
+              "name": "packed8k_cc618fd5_normal",
+              "width": 8192,
+              "height": 8192
+            }
+          ]
+        },
+        "meshIdentity": {
+          "meshCount": 40,
+          "primitiveCount": 40,
+          "triangleCount": 5005,
+          "skinCount": 1,
+          "skinJointCount": 65,
+          "matchesOriginal": {
+            "positionAttributeFingerprint": false,
+            "positionAttributeMultiset": false,
+            "normalFingerprint": true,
+            "indexConnectivity": false,
+            "uvLayoutFingerprint": false,
+            "skinInfluenceFingerprints": true
+          },
+          "note": "Mesh, primitive, triangle, and skin joint counts match the original archive. Normal and skin influence fingerprints match; POSITION, UV, and index fingerprints differ. This is recorded as a distinct Pack UV output confirmed by Tripo UI."
+        },
+        "sizeBytes": 32164268,
+        "sha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa"
       }
     },
     {
