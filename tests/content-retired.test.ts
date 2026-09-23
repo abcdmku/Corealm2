@@ -59,4 +59,20 @@ describe('retired definitions', () => {
     expect(tables.world.groupsByRegion.fallowmarch).toHaveLength(before.world.groupsByRegion.fallowmarch.length - 1);
     expect(problems).toContainEqual({ path: 'encounters.redsill_frogs_forage.members', message: 'Retired creature redsill_frogs no longer spawns', severity: 'info' });
   });
+
+  it('keeps live legacy creature variants resolvable, retired, lootless, and out of encounters', async () => {
+    const sources = structuredClone(Object.fromEntries(await readContentSources())) as Record<string, any>;
+    const ids = ['briar_harrow_t1', 'briar_harrow_t5', 'fen_crawler_t1', 'thorn_maw_t5'];
+    const definitions = sources.creatureDefinitions.filter((row: any) => ids.includes(row.id));
+    const { catalog } = compile(sources), tables = catalog.tables as Record<string, any>;
+    const encounterCreatureIds = sources.encounters.flatMap((encounter: any) => encounter.members.map((member: any) => member.creatureId));
+
+    expect(definitions).toHaveLength(ids.length);
+    expect(encounterCreatureIds).not.toEqual(expect.arrayContaining(ids));
+    for (const id of ids) {
+      expect(definitions.find((row: any) => row.id === id)).toMatchObject({ retired: true, loot: { rolls: [] } });
+      expect(tables.compiledCreatures.find((row: any) => row.id === id)).toMatchObject({ id, retired: true, availability: 'world' });
+      expect(tables.enemies.find((row: any) => row.id === id).lootRolls).toEqual([]);
+    }
+  });
 });

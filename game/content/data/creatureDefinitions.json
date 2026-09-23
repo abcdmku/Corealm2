@@ -13398,6 +13398,38 @@
     }
   },
   {
+    "id": "briar_harrow_t1",
+    "availability": "world",
+    "level": 1,
+    "baseId": "briar_harrow_t10",
+    "adjustments": {
+      "gold": [
+        0,
+        0
+      ]
+    },
+    "loot": {
+      "rolls": []
+    },
+    "retired": true
+  },
+  {
+    "id": "briar_harrow_t5",
+    "availability": "world",
+    "level": 5,
+    "baseId": "briar_harrow_t10",
+    "adjustments": {
+      "gold": [
+        0,
+        0
+      ]
+    },
+    "loot": {
+      "rolls": []
+    },
+    "retired": true
+  },
+  {
     "id": "briar_harrow_t20",
     "name": "Bramble Tiller",
     "availability": "world",
@@ -13431,6 +13463,22 @@
         }
       ]
     }
+  },
+  {
+    "id": "fen_crawler_t1",
+    "availability": "world",
+    "level": 1,
+    "baseId": "fen_crawler_t10",
+    "adjustments": {
+      "gold": [
+        0,
+        0
+      ]
+    },
+    "loot": {
+      "rolls": []
+    },
+    "retired": true
   },
   {
     "id": "fen_crawler_t5",
@@ -13467,6 +13515,22 @@
     "availability": "world",
     "level": 1,
     "baseId": "thorn_maw_t10"
+  },
+  {
+    "id": "thorn_maw_t5",
+    "availability": "world",
+    "level": 5,
+    "baseId": "thorn_maw_t10",
+    "adjustments": {
+      "gold": [
+        0,
+        0
+      ]
+    },
+    "loot": {
+      "rolls": []
+    },
+    "retired": true
   },
   {
     "id": "thorn_maw_t20",
