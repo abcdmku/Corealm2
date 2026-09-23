@@ -83,12 +83,22 @@
                        "cardStorageId":  "784a45a5-fc84-420d-aa63-2aa2a0b041b8",
                        "projectId":  "30c7ea5f-b99f-4402-932e-bbe2df49a888",
                        "title":  "Wizard costume",
-                       "individualExportAttempt":  null,
+                       "individualExportAttempt":  {
+                                                       "format":  "GLB",
+                                                       "textureResolution":  "8K",
+                                                       "exportSkeleton":  true,
+                                                       "outcome":  "Tripo UI export completed; archived with matching size and SHA-256.",
+                                                       "observedAtLocal":  "2026-09-23T05:14:33-05:00",
+                                                       "downloadedFileName":  "fantasy+wizard+3d+model (6).glb",
+                                                       "settingsVerified":  true,
+                                                       "identificationEvidence":  "Unique 05:14 local arrival after root identified the active export as project 30c7ea5f-b99f-4402-932e-bbe2df49a888; GLB texture names match the fantasy wizard model."
+                                                   },
                        "batchSelected":  true,
                        "localExportPath":  "assets/art/tripo/exports/30c7ea5f-b99f-4402-932e-bbe2df49a888.glb",
-                       "localFilePresent":  false,
-                       "sha256":  null,
-                       "prompt":  "ornate fantasy wizard outfit with blue and cream robes, gold embroidery, wide-brim hat, belt, and gauntlets."
+                       "localFilePresent":  true,
+                       "sha256":  "e9f372a5e917fe0c6cf0094ad46c85f7bc6b744a947cfcdf0ec76bc21c15fae4",
+                       "prompt":  "ornate fantasy wizard outfit with blue and cream robes, gold embroidery, wide-brim hat, belt, and gauntlets.",
+                       "fileSizeBytes":  5577056
                    },
                    {
                        "cardStorageId":  "d4f92181-f7c4-4005-844d-019c41e856ec",
@@ -117,8 +127,8 @@
                     },
     "verification":  {
                          "downloadsFolder":  "C:\\Users\\Borg\\Downloads",
-                         "matchingGlbsInDownloads":  3,
-                         "projectNamedGlbsInWorkspace":  3,
+                         "matchingGlbsInDownloads":  4,
+                         "projectNamedGlbsInWorkspace":  4,
                          "verifiedAt":  "2026-09-23"
                      },
     "note":  "No signed URL was fetched or opened outside Tripo UI. Per computer-use policy, do not bypass ERR_BLOCKED_BY_CLIENT."
