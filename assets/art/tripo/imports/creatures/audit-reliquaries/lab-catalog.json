@@ -1,0 +1,161 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fairy_garden_reliquary_gloamgarden",
+      "file": "models/fairy-garden/fairy_garden_reliquary_gloamgarden.glb",
+      "pack": "corealm-tripo-fairy-reliquaries",
+      "category": "character",
+      "is": "Dewglass Reliquary",
+      "tags": [
+        "fairy",
+        "fantastical",
+        "reliquary",
+        "dewglass",
+        "vessel",
+        "four-legged",
+        "image-generated-texture"
+      ],
+      "bytes": 15138564,
+      "sha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb",
+      "size": {
+        "x": 0.7822423058133855,
+        "y": 1.05,
+        "z": 0.9433072789447973
+      },
+      "base": {
+        "x": -0.39112115290669275,
+        "y": 0,
+        "z": -0.47165363947239863
+      },
+      "bounds": {
+        "min": [
+          -0.39112115290669275,
+          0,
+          -0.47165363947239863
+        ],
+        "max": [
+          0.39112115290669275,
+          1.05,
+          0.47165363947239863
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5242,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Dewglass Reliquary layered ceramic PBR"
+      ],
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+        "sourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/dewglass-basecolor.png",
+        "atlasSha256": "587a81ad572b2d5d8e73d9472655fcd52076fdce79740bcbb5425f7b60f2183e",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/dewglass-reliquary-candidate.glb",
+        "candidateSha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_garden_reliquary_faeholme",
+      "file": "models/fairy-garden/fairy_garden_reliquary_faeholme.glb",
+      "pack": "corealm-tripo-fairy-reliquaries",
+      "category": "character",
+      "is": "Starporcelain Reliquary",
+      "tags": [
+        "fairy",
+        "fantastical",
+        "reliquary",
+        "starporcelain",
+        "vessel",
+        "four-legged",
+        "image-generated-texture"
+      ],
+      "bytes": 14958488,
+      "sha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1",
+      "size": {
+        "x": 1.2664875427454811,
+        "y": 1.7,
+        "z": 1.5272594040058622
+      },
+      "base": {
+        "x": -0.6332437713727406,
+        "y": 0,
+        "z": -0.7636297020029311
+      },
+      "bounds": {
+        "min": [
+          -0.6332437713727406,
+          0,
+          -0.7636297020029311
+        ],
+        "max": [
+          0.6332437713727406,
+          1.7,
+          0.7636297020029311
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5242,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Starporcelain Reliquary layered ceramic PBR"
+      ],
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+        "sourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/starporcelain-basecolor.png",
+        "atlasSha256": "35f11eea9c6a6583709204299fc425b9d518fe028bcc3f474e90b1c385cb02c0",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/starporcelain-reliquary-candidate.glb",
+        "candidateSha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_reliquary_gloamgarden": "dewglass-reliquary-candidate.glb",
+    "fairy_garden_reliquary_faeholme": "starporcelain-reliquary-candidate.glb"
+  }
+}

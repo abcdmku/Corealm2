@@ -1,0 +1,164 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "assets": [
+    {
+      "id": "creature_nightforge_marshal",
+      "file": "models/creature/creature_nightforge_marshal.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-nightforge-marshal/nightforge-marshal-candidate.glb",
+      "pack": "corealm-tripo-audit-nightforge-marshal",
+      "category": "character",
+      "is": "Nightforge Marshal",
+      "tags": [
+        "creature",
+        "humanoid",
+        "nightforge",
+        "marshal",
+        "tripo"
+      ],
+      "bytes": 8902568,
+      "sha256": "9878dbb69a5263b22eee44dbd494319779c88461d9a1bf488a2b29e39358e348",
+      "size": {
+        "x": 3.243652361694335,
+        "y": 3.192870973171799,
+        "z": 1.0854492304503607
+      },
+      "base": {
+        "x": -1.621826147617414,
+        "y": 1.6187041453680412e-9,
+        "z": -0.5427246174622269
+      },
+      "bounds": {
+        "min": [
+          -1.621826147617414,
+          1.6187041453680412e-9,
+          -0.5427246174622269
+        ],
+        "max": [
+          1.6218262140769208,
+          3.192870974790503,
+          0.5427246129881337
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4305,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_ab275d74-5ee1-4be7-bb3e-49699aa13f45_material"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.9200000166893005,
+      "contactNormalized": 0.5434782608695652,
+      "locomotionPolicy": null,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "sourceModelId": "8f2d7a21-7419-4337-ae73-570e04c16499",
+        "sourceCardId": "ee9e261b-ce0b-4393-8a95-f29e62aca233",
+        "sourceFile": "assets/art/tripo/exports/8f2d7a21-7419-4337-ae73-570e04c16499.glb",
+        "sourceSha256": "1cd47dbf8c637cf9d8f121ef5acaff0429f19ee01fa77cb2304e73e87169f121",
+        "reviewedCandidate": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
+        "reviewedCandidateSha256": "d6da27cdbfdd34e96f43c4b17184bba26dc49a0039b71efab9c634d6fa527aa4",
+        "sourceDesignAudit": "Black-plate enclosed-helm knight with burgundy cape approved in starred creature source review",
+        "textureTreatment": "Existing detailed 2K base-color, metallic-roughness and normal maps retained unchanged."
+      },
+      "metadata": {
+        "identity": "Nightforge Marshal",
+        "presentation": {
+          "rawAssetHeightMeters": 3.192870973171799,
+          "sceneScale": 3.25,
+          "note": "Single dark Marshal asset for its existing encounters; Pearl Knight and Ivory Castellan have separate current asset IDs."
+        },
+        "deathRepair": {
+          "method": "Retimed source pose plus 85-degree backward fall and sampled root grounding; held after 0.65s",
+          "seconds": 1.5,
+          "samples": [
+            {
+              "seconds": 0,
+              "minY": 0.005999999973813891,
+              "topY": 3.198870973291772,
+              "height": 3.192870973317958
+            },
+            {
+              "seconds": 0.12,
+              "minY": 0.007599786248125151,
+              "topY": 3.200654823028484,
+              "height": 3.193055036780359
+            },
+            {
+              "seconds": 0.25,
+              "minY": 0.005999998203152206,
+              "topY": 2.8660888700338143,
+              "height": 2.860088871830662
+            },
+            {
+              "seconds": 0.4,
+              "minY": 0.005999990179513565,
+              "topY": 2.074208010079012,
+              "height": 2.0682080198994983
+            },
+            {
+              "seconds": 0.55,
+              "minY": 0.006000001374244139,
+              "topY": 1.8791458401697132,
+              "height": 1.8731458387954691
+            },
+            {
+              "seconds": 0.65,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
+            },
+            {
+              "seconds": 0.8,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
+            },
+            {
+              "seconds": 1,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
+            },
+            {
+              "seconds": 1.25,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
+            },
+            {
+              "seconds": 1.5,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
+            }
+          ],
+          "maximumFloorLiftMeters": 0.8081468012358529
+        }
+      },
+      "acceptance": {
+        "sourceAccepted": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "pack": {
+    "id": "corealm-tripo-audit-nightforge-marshal",
+    "name": "Corealm Tripo Nightforge Marshal",
+    "author": "Corealm / Tripo Studio",
+    "source": "assets/art/tripo/imports/creatures/audit-nightforge-marshal/build-marshal.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "4c7e3523d9ac5b5f8c687d0a8e586d0b73aa055614a3193774c7d38a3cc63240"
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-audit-petalguards",
+    "name": "Corealm Orchid Petalguards",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-petalguards/build-candidate.mjs",
+    "generatorSha256": "b80a0260992e6d4d29ef6c3c7968a504a19a240e5a99db6ab2ff777b2d4b671a",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "assets": [
+    {
+      "id": "fairy_garden_petalguard_faeholme",
+      "file": "models/fairy-garden/fairy_garden_petalguard_faeholme.glb",
+      "candidateFile": "fairy_garden_petalguard_faeholme.glb",
+      "pack": "corealm-audit-petalguards",
+      "category": "character",
+      "is": "Moonstone Petalguard",
+      "tags": [
+        "creature",
+        "fairy",
+        "botanical",
+        "orchid",
+        "petalguard",
+        "candidate"
+      ],
+      "bytes": 10222856,
+      "sha256": "2b636e71007c6385d172fb10c8f184ef3e0c7df6af79dc9349b9d3f30b00ac05",
+      "size": {
+        "x": 1.17115793157168,
+        "y": 1.68,
+        "z": 0.5474157956260061
+      },
+      "base": {
+        "x": -0.58557896578584,
+        "y": 0,
+        "z": -0.27370789781300303
+      },
+      "bounds": {
+        "min": [
+          -0.58557896578584,
+          0,
+          -0.27370789781300303
+        ],
+        "max": [
+          0.58557896578584,
+          1.68,
+          0.27370789781300303
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5868,
+      "vertices": 3666,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_99450afb-d5cc-4b0b-a4b0-ceb41d478f24"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fae-insects/orchid-reaper-candidate.glb",
+        "sourceSha256": "668b4e2918c9318ee1b7891102a2764eb1c5974b8cd2f0c9a08ce8a4e41ed7e3",
+        "originalTripoModelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-petalguards/textures/moonstone-petalguard-basecolor.png",
+        "atlasSha256": "ef3797886c1a78237b9942dd7c407ca1229255abcfdb16346903a1ee1d01d5a2",
+        "originalNormalAndOrmRetained": true,
+        "rigMethod": "Repaired 29-joint Orchid generic rig, unchanged mesh/skin, all Death channels retimed to complete collapse by 0.74s."
+      },
+      "metadata": {
+        "family": "garden_petalguard",
+        "region": "faeholme",
+        "level": 60,
+        "anatomy": "Nonhuman orchid-mantis with shield-like calyx forearm and hooked thorn blade.",
+        "desiredInGameHeightMeters": 1.873,
+        "locomotion": "biped; speed uncalibrated",
+        "deathPose": "prone collapse complete by 0.74s; CPU floor clearance verified in staged GLB"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_garden_petalguard_gloamgarden",
+      "file": "models/fairy-garden/fairy_garden_petalguard_gloamgarden.glb",
+      "candidateFile": "fairy_garden_petalguard_gloamgarden.glb",
+      "pack": "corealm-audit-petalguards",
+      "category": "character",
+      "is": "Silverleaf Petalguard",
+      "tags": [
+        "creature",
+        "fairy",
+        "botanical",
+        "orchid",
+        "petalguard",
+        "candidate"
+      ],
+      "bytes": 10433256,
+      "sha256": "e89ce1b890980eaea191e3b73a68c6b5f4720ee1e5958a59617ce3c0c7beefed",
+      "size": {
+        "x": 0.7528872417246516,
+        "y": 1.08,
+        "z": 0.3519101543310039
+      },
+      "base": {
+        "x": -0.3764436208623258,
+        "y": 0,
+        "z": -0.17595507716550196
+      },
+      "bounds": {
+        "min": [
+          -0.3764436208623258,
+          0,
+          -0.17595507716550196
+        ],
+        "max": [
+          0.3764436208623258,
+          1.08,
+          0.17595507716550196
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5868,
+      "vertices": 3666,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_99450afb-d5cc-4b0b-a4b0-ceb41d478f24"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.5,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fae-insects/orchid-reaper-candidate.glb",
+        "sourceSha256": "668b4e2918c9318ee1b7891102a2764eb1c5974b8cd2f0c9a08ce8a4e41ed7e3",
+        "originalTripoModelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-petalguards/textures/silverleaf-petalguard-basecolor.png",
+        "atlasSha256": "adf7beae3e541c1ae06763eb3b1f7ab1656486a7f38e787eb9eab169c46f8ccd",
+        "originalNormalAndOrmRetained": true,
+        "rigMethod": "Repaired 29-joint Orchid generic rig, unchanged mesh/skin, all Death channels retimed to complete collapse by 0.74s."
+      },
+      "metadata": {
+        "family": "garden_petalguard",
+        "region": "gloamgarden",
+        "level": 30,
+        "anatomy": "Nonhuman orchid-mantis with shield-like calyx forearm and hooked thorn blade.",
+        "desiredInGameHeightMeters": 1.276,
+        "locomotion": "biped; speed uncalibrated",
+        "deathPose": "prone collapse complete by 0.74s; CPU floor clearance verified in staged GLB"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_petalguard_faeholme": "fairy_garden_petalguard_faeholme.glb",
+    "fairy_garden_petalguard_gloamgarden": "fairy_garden_petalguard_gloamgarden.glb"
+  }
+}

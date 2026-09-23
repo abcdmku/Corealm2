@@ -1,0 +1,325 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "sourceRoot": ".",
+  "destinationRoot": "game/public/assets",
+  "assets": [
+    {
+      "id": "fairy_garden_reliquary_gloamgarden",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/dewglass-reliquary-candidate.glb",
+      "file": "models/fairy-garden/fairy_garden_reliquary_gloamgarden.glb",
+      "pack": "corealm-tripo-fairy-reliquaries",
+      "category": "character",
+      "is": "Dewglass Reliquary",
+      "tags": [
+        "fairy",
+        "fantastical",
+        "reliquary",
+        "dewglass",
+        "vessel",
+        "four-legged",
+        "image-generated-texture"
+      ],
+      "bytes": 15138564,
+      "sha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb",
+      "triangles": 5242,
+      "size": {
+        "x": 0.7822423058133855,
+        "y": 1.05,
+        "z": 0.9433072789447973
+      },
+      "base": {
+        "x": -0.39112115290669275,
+        "y": 0,
+        "z": -0.47165363947239863
+      },
+      "bounds": {
+        "min": [
+          -0.39112115290669275,
+          0,
+          -0.47165363947239863
+        ],
+        "max": [
+          0.39112115290669275,
+          1.05,
+          0.47165363947239863
+        ]
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Dewglass Reliquary layered ceramic PBR"
+      ],
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
+      "contactNormalized": 0.5,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": null,
+      "measuredGait": null,
+      "metadata": {
+        "id": "fairy_garden_reliquary_gloamgarden",
+        "species": "Dewglass Reliquary",
+        "rig": "Corealm repaired 14-joint four-legged skin with distributed weights",
+        "sourceGeometry": "Original Tripo 3173 vertices and 5242 triangles preserved",
+        "textureMaps": [
+          "Dewglass Reliquary intricate image-generated atlas",
+          "dewglass_reliquary_metallicRoughness_2k.png",
+          "dewglass_reliquary_normal_2k.jpg",
+          "Dewglass Reliquary subtle reservoir emission"
+        ],
+        "motion": "Six clips; grounded four-leg gait; forward shell collapse by 0.62 seconds; speeds uncalibrated",
+        "attackContact": 0.5,
+        "presentationHeightMeters": 1.05,
+        "identity": "Small living dewglass vessel on carved root supports, with layered nacre and a translucent aqua reservoir."
+      },
+      "sourceProvenance": {
+        "generator": "Tripo Studio and Corealm image-generated atlas adaptation",
+        "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+        "originalSourceFile": "assets/art/tripo/exports/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+        "originalSourceSha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+        "riggedSourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+        "riggedSourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/dewglass-reliquary-candidate.glb",
+        "candidateSha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb",
+        "materialGenerator": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
+        "materialGeneratorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
+        "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/dewglass-basecolor.png",
+        "generatedBaseColorSha256": "587a81ad572b2d5d8e73d9472655fcd52076fdce79740bcbb5425f7b60f2183e",
+        "runtimeTextures": [
+          {
+            "name": "Dewglass Reliquary intricate image-generated atlas",
+            "mimeType": "image/png",
+            "bytes": 10970972,
+            "sha256": "86023afee0b250673fba6ebf6e273eac8ee4d040d1c4a9380d910fea0204c5ef"
+          },
+          {
+            "name": "dewglass_reliquary_metallicRoughness_2k.png",
+            "mimeType": "image/png",
+            "bytes": 2298242,
+            "sha256": "ea4119fd572f4240e2fa7ccd7e6ffd1995e6d74ef3f3b8ff840607708a65ec31"
+          },
+          {
+            "name": "dewglass_reliquary_normal_2k.jpg",
+            "mimeType": "image/jpeg",
+            "bytes": 1448714,
+            "sha256": "c9a357d780463e951a9904a97b1053212ec28f1d5b09cb79b4a838e018b2799c"
+          },
+          {
+            "name": "Dewglass Reliquary subtle reservoir emission",
+            "mimeType": "image/png",
+            "bytes": 61958,
+            "sha256": "d60238d61af15726617afb591f4adee8892dbf5f5c74c7824e0688e0a6760493"
+          }
+        ],
+        "rig": {
+          "joints": 14,
+          "multiInfluenceVertices": 3173,
+          "maximumWeightSumError": 4.3888576328754425e-8
+        },
+        "death": {
+          "seconds": 1.6200000047683716,
+          "samples": 99,
+          "floorRange": [
+            0.0029999863649261245,
+            0.0030000140827335956
+          ],
+          "maxVertexDisplacement": 1.0660043961683232,
+          "maxHeight": 1.0667835280974447,
+          "finalHeight": 0.6241213023868967,
+          "heightAtOneSecond": 0.6241213023868967,
+          "finalHeightRatio": 0.5941110053878244,
+          "settleAtSeconds": 0.62,
+          "holdSeconds": 1.0000000047683715
+        },
+        "clipSeconds": {
+          "Idle": 3.200000047683716,
+          "Walk": 1.1200000047683716,
+          "Run": 0.7200000286102295,
+          "Attack": 0.8600000143051147,
+          "Hit": 0.4399999976158142,
+          "Death": 1.6200000047683716
+        },
+        "sourceGeometryPreserved": true
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_garden_reliquary_faeholme",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/starporcelain-reliquary-candidate.glb",
+      "file": "models/fairy-garden/fairy_garden_reliquary_faeholme.glb",
+      "pack": "corealm-tripo-fairy-reliquaries",
+      "category": "character",
+      "is": "Starporcelain Reliquary",
+      "tags": [
+        "fairy",
+        "fantastical",
+        "reliquary",
+        "starporcelain",
+        "vessel",
+        "four-legged",
+        "image-generated-texture"
+      ],
+      "bytes": 14958488,
+      "sha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1",
+      "triangles": 5242,
+      "size": {
+        "x": 1.2664875427454811,
+        "y": 1.7,
+        "z": 1.5272594040058622
+      },
+      "base": {
+        "x": -0.6332437713727406,
+        "y": 0,
+        "z": -0.7636297020029311
+      },
+      "bounds": {
+        "min": [
+          -0.6332437713727406,
+          0,
+          -0.7636297020029311
+        ],
+        "max": [
+          0.6332437713727406,
+          1.7,
+          0.7636297020029311
+        ]
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Starporcelain Reliquary layered ceramic PBR"
+      ],
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
+      "contactNormalized": 0.5,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": null,
+      "measuredGait": null,
+      "metadata": {
+        "id": "fairy_garden_reliquary_faeholme",
+        "species": "Starporcelain Reliquary",
+        "rig": "Corealm repaired 14-joint four-legged skin with distributed weights",
+        "sourceGeometry": "Original Tripo 3173 vertices and 5242 triangles preserved",
+        "textureMaps": [
+          "Starporcelain Reliquary intricate image-generated atlas",
+          "dewglass_reliquary_metallicRoughness_2k.png",
+          "dewglass_reliquary_normal_2k.jpg",
+          "Starporcelain Reliquary subtle reservoir emission"
+        ],
+        "motion": "Six clips; grounded four-leg gait; forward shell collapse by 0.62 seconds; speeds uncalibrated",
+        "attackContact": 0.5,
+        "presentationHeightMeters": 1.7,
+        "identity": "Elite living starporcelain shrine-vessel with carved ceramic relief, mineral inlay and starlight cracks."
+      },
+      "sourceProvenance": {
+        "generator": "Tripo Studio and Corealm image-generated atlas adaptation",
+        "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+        "originalSourceFile": "assets/art/tripo/exports/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+        "originalSourceSha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+        "riggedSourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+        "riggedSourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/starporcelain-reliquary-candidate.glb",
+        "candidateSha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1",
+        "materialGenerator": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
+        "materialGeneratorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
+        "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/starporcelain-basecolor.png",
+        "generatedBaseColorSha256": "35f11eea9c6a6583709204299fc425b9d518fe028bcc3f474e90b1c385cb02c0",
+        "runtimeTextures": [
+          {
+            "name": "Starporcelain Reliquary intricate image-generated atlas",
+            "mimeType": "image/png",
+            "bytes": 10784547,
+            "sha256": "0cf389da1e5632957fe2f6dd3ae11815e3c1efa70ace25783b09e5275f5df0e4"
+          },
+          {
+            "name": "dewglass_reliquary_metallicRoughness_2k.png",
+            "mimeType": "image/png",
+            "bytes": 2298242,
+            "sha256": "ea4119fd572f4240e2fa7ccd7e6ffd1995e6d74ef3f3b8ff840607708a65ec31"
+          },
+          {
+            "name": "dewglass_reliquary_normal_2k.jpg",
+            "mimeType": "image/jpeg",
+            "bytes": 1448714,
+            "sha256": "c9a357d780463e951a9904a97b1053212ec28f1d5b09cb79b4a838e018b2799c"
+          },
+          {
+            "name": "Starporcelain Reliquary subtle reservoir emission",
+            "mimeType": "image/png",
+            "bytes": 68290,
+            "sha256": "9afa9b7c7e2b1763be9eb118e858ac9a1f30115fe90ee47bce5f6e51c65267e2"
+          }
+        ],
+        "rig": {
+          "joints": 14,
+          "multiInfluenceVertices": 3173,
+          "maximumWeightSumError": 4.3888576328754425e-8
+        },
+        "death": {
+          "seconds": 1.6200000047683716,
+          "samples": 99,
+          "floorRange": [
+            0.002999970810112998,
+            0.003000037694968625
+          ],
+          "maxVertexDisplacement": 1.7259118960130555,
+          "maxHeight": 1.725316210776347,
+          "finalHeight": 1.0104821000618898,
+          "heightAtOneSecond": 1.0104821000618898,
+          "finalHeightRatio": 0.5941110003523347,
+          "settleAtSeconds": 0.62,
+          "holdSeconds": 1.0000000047683715
+        },
+        "clipSeconds": {
+          "Idle": 3.200000047683716,
+          "Walk": 1.1200000047683716,
+          "Run": 0.7200000286102295,
+          "Attack": 0.8600000143051147,
+          "Hit": 0.4399999976158142,
+          "Death": 1.6200000047683716
+        },
+        "sourceGeometryPreserved": true
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "pack": {
+    "id": "corealm-tripo-fairy-reliquaries",
+    "name": "Corealm Tripo audited fairy reliquaries",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
+    "generatorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
+    "license": "LicenseRef-Corealm-Original"
+  }
+}

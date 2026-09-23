@@ -1,0 +1,150 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_veil_reaper",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-veil-reaper/veil-reaper-native-rig.glb",
+      "file": "models/creature/creature_veil_reaper.glb",
+      "pack": "corealm-tripo-audit-veil-reaper",
+      "category": "character",
+      "is": "Veil Reaper",
+      "tags": [
+        "creature",
+        "wraith",
+        "floating",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 4473448,
+      "sha256": "e384f6e8afd7df3d0c2daa01f82613c22ec2f5264b5d8918156cee15056a5816",
+      "size": {
+        "x": 1.4119873046875,
+        "y": 2.1489503234624863,
+        "z": 1.0718505859375
+      },
+      "base": {
+        "x": -0.70599365234375,
+        "y": 0,
+        "z": -0.53592529296875
+      },
+      "bounds": {
+        "min": [
+          -0.70599365234375,
+          0,
+          -0.53592529296875
+        ],
+        "max": [
+          0.70599365234375,
+          2.1489503234624863,
+          0.53592529296875
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4883,
+      "vertices": 3470,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_9ff7ac6c-10b8-4fdc-aa5b-0d459b040040"
+      ],
+      "walkClipSeconds": 1.2,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.78,
+      "contactNormalized": 0.5897435897435898,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": "definition-speed; authored in-place spectral float",
+      "metadata": {
+        "contactSeconds": 0.46,
+        "contactBasis": "Both claw arms extend and torso lunges forward at 0.46 s.",
+        "gamePresentationScale": 2.15
+      },
+      "sourceProvenance": {
+        "author": "Corealm reconstruction of owned Tripo Veil Reaper",
+        "sourceModelId": "6fadb584-9372-420c-87b0-b53632c3cbf3",
+        "upstreamSourceUrl": "https://studio.tripo3d.ai/3d-model/hooded-wraith-with-layered-tattered-cloak-clawed-hands-and-swirling-6fadb584-9372-420c-87b0-b53632c3cbf3",
+        "upstreamSource": "Tripo Studio generated GLB",
+        "sourceFile": "assets/art/tripo/exports/corealm_veil_reaper_6fadb584_8k_rigged.glb",
+        "sourceSha256": "18a94f874f2a39dde95707c248aa9919474851762bfaa8b75d32552a8b51c0f2",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-veil-reaper/veil-reaper-native-rig.glb",
+        "candidateSha256": "e384f6e8afd7df3d0c2daa01f82613c22ec2f5264b5d8918156cee15056a5816",
+        "rigMethod": "16-joint source-specific four-weight anatomical float rig; original 3466-root-weight source skin replaced.",
+        "geometryPreserved": true,
+        "sourceTexturesPreserved": true,
+        "sourceTextures": [
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_basecolor.jpg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 11804365,
+            "sha256": "406d822a507050a2302fe4857a86615f2d55f5bf047dc29e40af82732df7c3aa"
+          },
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_rm.png",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 7171147,
+            "sha256": "2024dc3642ea2c61f2a3ae9056c002a693efead2ab1acf7152948a9d1a5dd86e"
+          },
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_normal.jpg",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 2023261,
+            "sha256": "6fa8e1589bfb7de11d5aeb16b4d1823b5fe00fd1eb411759dadd15742b80baff"
+          }
+        ],
+        "runtimeTextures": [
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1158397,
+            "sha256": "fb1909c2450995797395440dd5726d84013789abfa657c7304898e1f8d97ce83"
+          },
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 2148166,
+            "sha256": "74317eaf955f7984a703ac65ecd91414fbc36fe27be4247fbe02416e8afb3b04"
+          },
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 800989,
+            "sha256": "26c7208ab72ddce53edfa82b20c3fe27f89e64a8c84d6bc7174c3acabc959ab0"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_veil_reaper": "veil-reaper-native-rig.glb"
+  },
+  "pack": {
+    "id": "corealm-tripo-audit-veil-reaper",
+    "name": "Corealm Tripo Veil Reaper",
+    "author": "Corealm / Tripo Studio",
+    "source": "assets/art/tripo/imports/creatures/audit-veil-reaper/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "eda4a79ee5059ee7131bee7d5705c15acba019a1f9502e91992449323eddfb11"
+  }
+}

@@ -1,0 +1,410 @@
+{
+  "schema": "corealm-creature-family-candidates/1",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+    "sha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+    "originalTripoSource": "assets/art/tripo/exports/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+    "originalTripoSha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+    "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73"
+  },
+  "variants": [
+    {
+      "id": "fairy_garden_reliquary_gloamgarden",
+      "name": "Dewglass Reliquary",
+      "status": "awaiting-root-lab-review",
+      "sourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+      "sourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/dewglass-reliquary-candidate.glb",
+      "sha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb",
+      "bytes": 15138564,
+      "atlas": {
+        "file": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/dewglass-basecolor.png",
+        "sha256": "587a81ad572b2d5d8e73d9472655fcd52076fdce79740bcbb5425f7b60f2183e",
+        "runtimeSha256": "86023afee0b250673fba6ebf6e273eac8ee4d040d1c4a9380d910fea0204c5ef",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "method": "imagegen edit preserving source UV atlas"
+      },
+      "geometry": {
+        "vertices": 3173,
+        "triangles": 5242,
+        "sourceGeometryAndUvsPreserved": true
+      },
+      "rig": {
+        "joints": 14,
+        "multiInfluenceVertices": 3173,
+        "maximumWeightSumError": 4.3888576328754425e-8
+      },
+      "size": {
+        "x": 0.7822423058133855,
+        "y": 1.05,
+        "z": 0.9433072789447973
+      },
+      "bounds": {
+        "min": [
+          -0.39112115290669275,
+          0,
+          -0.47165363947239863
+        ],
+        "max": [
+          0.39112115290669275,
+          1.05,
+          0.47165363947239863
+        ]
+      },
+      "motion": {
+        "Idle": {
+          "seconds": 3.200000047683716,
+          "samples": 194,
+          "floorRange": [
+            0.002999983980416769,
+            0.0030000152404719583
+          ],
+          "maxVertexDisplacement": 0.015826064462069706,
+          "maxHeight": 1.0594738793961112,
+          "finalHeight": 1.0500000093474147
+        },
+        "Walk": {
+          "seconds": 1.1200000047683716,
+          "samples": 69,
+          "floorRange": [
+            0.0029999804590794777,
+            0.0030000171768187725
+          ],
+          "maxVertexDisplacement": 0.1840574363704343,
+          "maxHeight": 1.1181598909067554,
+          "finalHeight": 1.0635034476527316
+        },
+        "Run": {
+          "seconds": 0.7200000286102295,
+          "samples": 45,
+          "floorRange": [
+            0.0029999829396687053,
+            0.0030000174150407294
+          ],
+          "maxVertexDisplacement": 0.25912485573227767,
+          "maxHeight": 1.1259091154846796,
+          "finalHeight": 1.0635034476527316
+        },
+        "Attack": {
+          "seconds": 0.8600000143051147,
+          "samples": 53,
+          "floorRange": [
+            0.002999982720359685,
+            0.0030000169137741556
+          ],
+          "maxVertexDisplacement": 0.16176688858307006,
+          "maxHeight": 1.1133814193376,
+          "finalHeight": 1.0500000093474147
+        },
+        "Hit": {
+          "seconds": 0.4399999976158142,
+          "samples": 28,
+          "floorRange": [
+            0.0029999825800060193,
+            0.0030000142539528727
+          ],
+          "maxVertexDisplacement": 0.12030405815950694,
+          "maxHeight": 1.0851199584652493,
+          "finalHeight": 1.0500000093474147
+        },
+        "Death": {
+          "seconds": 1.6200000047683716,
+          "samples": 99,
+          "floorRange": [
+            0.0029999863649261245,
+            0.0030000140827335956
+          ],
+          "maxVertexDisplacement": 1.0660043961683232,
+          "maxHeight": 1.0667835280974447,
+          "finalHeight": 0.6241213023868967,
+          "heightAtOneSecond": 0.6241213023868967,
+          "finalHeightRatio": 0.5941110053878244
+        }
+      },
+      "death": {
+        "seconds": 1.6200000047683716,
+        "samples": 99,
+        "floorRange": [
+          0.0029999863649261245,
+          0.0030000140827335956
+        ],
+        "maxVertexDisplacement": 1.0660043961683232,
+        "maxHeight": 1.0667835280974447,
+        "finalHeight": 0.6241213023868967,
+        "heightAtOneSecond": 0.6241213023868967,
+        "finalHeightRatio": 0.5941110053878244,
+        "settleAtSeconds": 0.62,
+        "holdSeconds": 1.0000000047683715
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.200000047683716,
+          "channels": 9
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1200000047683716,
+          "channels": 11
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7200000286102295,
+          "channels": 11
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8600000143051147,
+          "channels": 12
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.4399999976158142,
+          "channels": 8
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6200000047683716,
+          "channels": 15
+        }
+      ],
+      "textures": [
+        {
+          "name": "Dewglass Reliquary intricate image-generated atlas",
+          "mimeType": "image/png",
+          "bytes": 10970972,
+          "sha256": "86023afee0b250673fba6ebf6e273eac8ee4d040d1c4a9380d910fea0204c5ef"
+        },
+        {
+          "name": "dewglass_reliquary_metallicRoughness_2k.png",
+          "mimeType": "image/png",
+          "bytes": 2298242,
+          "sha256": "ea4119fd572f4240e2fa7ccd7e6ffd1995e6d74ef3f3b8ff840607708a65ec31"
+        },
+        {
+          "name": "dewglass_reliquary_normal_2k.jpg",
+          "mimeType": "image/jpeg",
+          "bytes": 1448714,
+          "sha256": "c9a357d780463e951a9904a97b1053212ec28f1d5b09cb79b4a838e018b2799c"
+        },
+        {
+          "name": "Dewglass Reliquary subtle reservoir emission",
+          "mimeType": "image/png",
+          "bytes": 61958,
+          "sha256": "d60238d61af15726617afb591f4adee8892dbf5f5c74c7824e0688e0a6760493"
+        }
+      ],
+      "identity": "Small living dewglass vessel on carved root supports, with layered nacre and a translucent aqua reservoir.",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_garden_reliquary_faeholme",
+      "name": "Starporcelain Reliquary",
+      "status": "awaiting-root-lab-review",
+      "sourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+      "sourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/starporcelain-reliquary-candidate.glb",
+      "sha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1",
+      "bytes": 14958488,
+      "atlas": {
+        "file": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/starporcelain-basecolor.png",
+        "sha256": "35f11eea9c6a6583709204299fc425b9d518fe028bcc3f474e90b1c385cb02c0",
+        "runtimeSha256": "0cf389da1e5632957fe2f6dd3ae11815e3c1efa70ace25783b09e5275f5df0e4",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "method": "imagegen edit preserving source UV atlas"
+      },
+      "geometry": {
+        "vertices": 3173,
+        "triangles": 5242,
+        "sourceGeometryAndUvsPreserved": true
+      },
+      "rig": {
+        "joints": 14,
+        "multiInfluenceVertices": 3173,
+        "maximumWeightSumError": 4.3888576328754425e-8
+      },
+      "size": {
+        "x": 1.2664875427454811,
+        "y": 1.7,
+        "z": 1.5272594040058622
+      },
+      "bounds": {
+        "min": [
+          -0.6332437713727406,
+          0,
+          -0.7636297020029311
+        ],
+        "max": [
+          0.6332437713727406,
+          1.7,
+          0.7636297020029311
+        ]
+      },
+      "motion": {
+        "Idle": {
+          "seconds": 3.200000047683716,
+          "samples": 194,
+          "floorRange": [
+            0.00299997482677622,
+            0.0030000255622478697
+          ],
+          "maxVertexDisplacement": 0.025623104068886203,
+          "maxHeight": 1.7134814786310626,
+          "finalHeight": 1.7000000150495342
+        },
+        "Walk": {
+          "seconds": 1.1200000047683716,
+          "samples": 69,
+          "floorRange": [
+            0.002999969772576446,
+            0.0030000380820897616
+          ],
+          "maxVertexDisplacement": 0.29799771838439065,
+          "maxHeight": 1.8084969258387722,
+          "finalHeight": 1.7218627247562255
+        },
+        "Run": {
+          "seconds": 0.7200000286102295,
+          "samples": 45,
+          "floorRange": [
+            0.0029999593013211225,
+            0.0030000266711567767
+          ],
+          "maxVertexDisplacement": 0.4195355082647145,
+          "maxHeight": 1.8210433401298254,
+          "finalHeight": 1.7218627247562255
+        },
+        "Attack": {
+          "seconds": 0.8600000143051147,
+          "samples": 53,
+          "floorRange": [
+            0.002999973360385596,
+            0.0030000265242711177
+          ],
+          "maxVertexDisplacement": 0.2619083152696566,
+          "maxHeight": 1.8007604035107432,
+          "finalHeight": 1.7000000150495342
+        },
+        "Hit": {
+          "seconds": 0.4399999976158142,
+          "samples": 28,
+          "floorRange": [
+            0.0029999750831958814,
+            0.0030000241219803555
+          ],
+          "maxVertexDisplacement": 0.1947780232651557,
+          "maxHeight": 1.7550037526575775,
+          "finalHeight": 1.7000000150495342
+        },
+        "Death": {
+          "seconds": 1.6200000047683716,
+          "samples": 99,
+          "floorRange": [
+            0.002999970810112998,
+            0.003000037694968625
+          ],
+          "maxVertexDisplacement": 1.7259118960130555,
+          "maxHeight": 1.725316210776347,
+          "finalHeight": 1.0104821000618898,
+          "heightAtOneSecond": 1.0104821000618898,
+          "finalHeightRatio": 0.5941110003523347
+        }
+      },
+      "death": {
+        "seconds": 1.6200000047683716,
+        "samples": 99,
+        "floorRange": [
+          0.002999970810112998,
+          0.003000037694968625
+        ],
+        "maxVertexDisplacement": 1.7259118960130555,
+        "maxHeight": 1.725316210776347,
+        "finalHeight": 1.0104821000618898,
+        "heightAtOneSecond": 1.0104821000618898,
+        "finalHeightRatio": 0.5941110003523347,
+        "settleAtSeconds": 0.62,
+        "holdSeconds": 1.0000000047683715
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.200000047683716,
+          "channels": 9
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1200000047683716,
+          "channels": 11
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7200000286102295,
+          "channels": 11
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8600000143051147,
+          "channels": 12
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.4399999976158142,
+          "channels": 8
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6200000047683716,
+          "channels": 15
+        }
+      ],
+      "textures": [
+        {
+          "name": "Starporcelain Reliquary intricate image-generated atlas",
+          "mimeType": "image/png",
+          "bytes": 10784547,
+          "sha256": "0cf389da1e5632957fe2f6dd3ae11815e3c1efa70ace25783b09e5275f5df0e4"
+        },
+        {
+          "name": "dewglass_reliquary_metallicRoughness_2k.png",
+          "mimeType": "image/png",
+          "bytes": 2298242,
+          "sha256": "ea4119fd572f4240e2fa7ccd7e6ffd1995e6d74ef3f3b8ff840607708a65ec31"
+        },
+        {
+          "name": "dewglass_reliquary_normal_2k.jpg",
+          "mimeType": "image/jpeg",
+          "bytes": 1448714,
+          "sha256": "c9a357d780463e951a9904a97b1053212ec28f1d5b09cb79b4a838e018b2799c"
+        },
+        {
+          "name": "Starporcelain Reliquary subtle reservoir emission",
+          "mimeType": "image/png",
+          "bytes": 68290,
+          "sha256": "9afa9b7c7e2b1763be9eb118e858ac9a1f30115fe90ee47bce5f6e51c65267e2"
+        }
+      ],
+      "identity": "Elite living starporcelain shrine-vessel with carved ceramic relief, mineral inlay and starlight cracks.",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

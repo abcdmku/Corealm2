@@ -1,0 +1,87 @@
+{
+  "schema": "corealm-petalguard-candidates/1",
+  "accepted": false,
+  "status": "awaiting-root-lab-review",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/audit-fae-insects/orchid-reaper-candidate.glb",
+    "sha256": "668b4e2918c9318ee1b7891102a2764eb1c5974b8cd2f0c9a08ce8a4e41ed7e3"
+  },
+  "targets": [
+    {
+      "id": "fairy_garden_petalguard_faeholme",
+      "name": "Moonstone Petalguard",
+      "region": "faeholme",
+      "level": 60,
+      "actorScale": 1.1148188375099055,
+      "meshScale": 0.7,
+      "atlas": "moonstone-petalguard-basecolor.png",
+      "file": "fairy_garden_petalguard_faeholme.glb",
+      "bytes": 10222856,
+      "sha256": "2b636e71007c6385d172fb10c8f184ef3e0c7df6af79dc9349b9d3f30b00ac05",
+      "atlasPath": "assets/art/tripo/imports/creatures/audit-petalguards/textures/moonstone-petalguard-basecolor.png",
+      "atlasSha256": "ef3797886c1a78237b9942dd7c407ca1229255abcfdb16346903a1ee1d01d5a2",
+      "normalSha256": "ce0991766a59d3e107d9af05951bde39abbe653dccccd0d93f4059b48908e406",
+      "ormSha256": "94799d307aa91176c9827b67a98ea2347e048c08472f7f9d9e98276371fae978",
+      "size": {
+        "x": 1.17115793157168,
+        "y": 1.68,
+        "z": 0.5474157956260061
+      },
+      "bounds": {
+        "min": [
+          -0.58557896578584,
+          0,
+          -0.27370789781300303
+        ],
+        "max": [
+          0.58557896578584,
+          1.68,
+          0.27370789781300303
+        ]
+      },
+      "expectedDrawnHeight": 1.873
+    },
+    {
+      "id": "fairy_garden_petalguard_gloamgarden",
+      "name": "Silverleaf Petalguard",
+      "region": "gloamgarden",
+      "level": 30,
+      "actorScale": 1.1810205326218628,
+      "meshScale": 0.45,
+      "atlas": "silverleaf-petalguard-basecolor.png",
+      "file": "fairy_garden_petalguard_gloamgarden.glb",
+      "bytes": 10433256,
+      "sha256": "e89ce1b890980eaea191e3b73a68c6b5f4720ee1e5958a59617ce3c0c7beefed",
+      "atlasPath": "assets/art/tripo/imports/creatures/audit-petalguards/textures/silverleaf-petalguard-basecolor.png",
+      "atlasSha256": "adf7beae3e541c1ae06763eb3b1f7ab1656486a7f38e787eb9eab169c46f8ccd",
+      "normalSha256": "ce0991766a59d3e107d9af05951bde39abbe653dccccd0d93f4059b48908e406",
+      "ormSha256": "94799d307aa91176c9827b67a98ea2347e048c08472f7f9d9e98276371fae978",
+      "size": {
+        "x": 0.7528872417246516,
+        "y": 1.08,
+        "z": 0.3519101543310039
+      },
+      "bounds": {
+        "min": [
+          -0.3764436208623258,
+          0,
+          -0.17595507716550196
+        ],
+        "max": [
+          0.3764436208623258,
+          1.08,
+          0.17595507716550196
+        ]
+      },
+      "expectedDrawnHeight": 1.276
+    }
+  ],
+  "acceptance": {
+    "geometryPreserved": true,
+    "originalPbrPreserved": true,
+    "cpuMotionValidated": false,
+    "texturesReviewedInLab": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
