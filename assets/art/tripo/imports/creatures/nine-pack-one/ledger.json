@@ -5,19 +5,18 @@
     "scope":  "Older in-progress creature imports only. The current starred creature work is organized as three composite sheets and is handled by separate leads. This ledger records reconciliation and candidate status; the root owns lab acceptance and production integration.",
     "summary":  {
                     "integrated":  [
-                                       "fallow-brute",
-                                       "dewglass-reliquary-legacy-region-assets"
+                                       "fallow-brute"
                                    ],
                     "staged":  [
-                                   "dewglass-weaver",
+                                   "dewglass-reliquary",
                                    "emberbank-brute",
                                    "vault-custodian",
-                                   "dewglass-reliquary-new-source"
+                                   "dewglass-weaver"
                                ],
                     "held":  [
                                  "cairn-treader",
-                                 "grove-brute-candidate",
-                                 "cragbound-keeper-candidate"
+                                 "grove-brute",
+                                 "cragbound-keeper"
                              ],
                     "missing":  [
 
