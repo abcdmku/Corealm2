@@ -7,7 +7,7 @@
     "terrain": 175,
     "water": 0
   },
-  "fingerprint": "72b64aeec24d5ce90e596e59649c8135e42f4b3cddd6409457d2b157a31312d0",
+  "fingerprint": "279d2b1dda435e5f5173d4c3edf194e22f3d08b77edc3d4be21400c7fd9811e6",
   "format": "corealm-navmesh",
   "formatVersion": 1,
   "navDataSha256": "a99dd5374592cd1eeb019c9e162c074230cdd80729fc4d39f22c26b9c5bf2286",
@@ -31,7 +31,7 @@
   "bytes": 3229626,
   "worldSeed": "1337",
   "authoredInputs": {
-    "terrainGeometry": "b27cdf0c656fa36d5e9c3b1c5e01326fc4aee3082ad21588a48b4cd9622000d8",
+    "terrainGeometry": "a2e8b88f82840d5124b1ee4389bd365c7129737f4ec07aefa415f66a1ef5f065",
     "roads": "f5e2ba3c768d8f50169d5aab40406993d192d71b220d97a59bf1e7ec596ccbb4",
     "water": "ad3a75cf42a2fc06c064b27d62b04ccb8bd88fc8ddd8f96b4309f6d5c1b598cb",
     "solidCarves": "3c890a4f39b1a1e9793b4abe62f2a512baaf11d74e5d7070eeec8842c8f88987",

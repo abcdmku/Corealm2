@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "ea017849566267e7fe54d7ba119e64714f9f6cd29201ee1793bcc2e5d108e989",
+  "revision": "95debdcb5a20b8f18e39436cd0e350eb96eec739e3faece3238419e01c01e3e9",
   "formulaRevision": "19af00d7ec6edb7ad551eb248d289f37f243afb497d117457f14bbe87f139db4",
   "tables": {
     "items": [
@@ -57374,6 +57374,21 @@
         ]
       },
       {
+        "id": "population_emberfast_west_lanterns_patrol",
+        "name": "Emberfast Lantern Haunt",
+        "activity": "patrol",
+        "members": [
+          {
+            "creatureId": "grave_lantern_t20",
+            "weight": 11
+          },
+          {
+            "creatureId": "banshee_t20",
+            "weight": 1
+          }
+        ]
+      },
+      {
         "id": "veil_reaper_t20_patrol",
         "name": "Veil Reaper",
         "activity": "patrol",
@@ -69310,7 +69325,7 @@
       },
       {
         "id": "population_emberfast_west_lanterns",
-        "encounterId": "grave_lantern_t20_patrol",
+        "encounterId": "population_emberfast_west_lanterns_patrol",
         "regionId": "kilnhalt",
         "centre": [
           -92,
@@ -273654,6 +273669,21 @@
           ]
         },
         {
+          "id": "population_emberfast_west_lanterns_patrol",
+          "name": "Emberfast Lantern Haunt",
+          "activity": "patrol",
+          "members": [
+            {
+              "creatureId": "grave_lantern_t20",
+              "weight": 11
+            },
+            {
+              "creatureId": "banshee_t20",
+              "weight": 1
+            }
+          ]
+        },
+        {
           "id": "veil_reaper_t20_patrol",
           "name": "Veil Reaper",
           "activity": "patrol",
@@ -285590,7 +285620,7 @@
         },
         {
           "id": "population_emberfast_west_lanterns",
-          "encounterId": "grave_lantern_t20_patrol",
+          "encounterId": "population_emberfast_west_lanterns_patrol",
           "regionId": "kilnhalt",
           "centre": [
             -92,
@@ -296873,7 +296903,7 @@
             "radius": 9
           },
           {
-            "id": "population_emberfast_west_lanterns",
+            "id": "population_emberfast_west_lanterns_1",
             "family": "grave_lantern",
             "name": "Ashen Ghoul",
             "tier": 20,
@@ -296883,7 +296913,22 @@
               -92,
               314
             ],
-            "count": 12,
+            "count": 11,
+            "countPolicy": "fixed",
+            "radius": 9
+          },
+          {
+            "id": "population_emberfast_west_lanterns_2",
+            "family": "banshee",
+            "name": "Banshee",
+            "tier": 20,
+            "assetId": "creature_banshee",
+            "scale": 1,
+            "centre": [
+              -92,
+              314
+            ],
+            "count": 1,
             "countPolicy": "fixed",
             "radius": 9
           },
@@ -305302,8 +305347,8 @@
           "dressing": []
         },
         {
-          "id": "population_emberfast_west_lanterns_habitat",
-          "groupId": "population_emberfast_west_lanterns",
+          "id": "population_emberfast_west_lanterns_1_habitat",
+          "groupId": "population_emberfast_west_lanterns_1",
           "regionId": "kilnhalt",
           "centre": [
             -92,
@@ -305354,7 +305399,21 @@
             [
               -90.661716589337,
               314.7211230365505
-            ],
+            ]
+          ],
+          "activity": "patrol",
+          "dressing": []
+        },
+        {
+          "id": "population_emberfast_west_lanterns_2_habitat",
+          "groupId": "population_emberfast_west_lanterns_2",
+          "regionId": "kilnhalt",
+          "centre": [
+            -92,
+            314
+          ],
+          "radius": 9,
+          "anchors": [
             [
               -91.91073832715082,
               317.0390978987454
@@ -321697,7 +321756,7 @@
           },
           "bodyRadius": 0.9985428374406419
         },
-        "population_emberfast_west_lanterns": {
+        "population_emberfast_west_lanterns_1": {
           "id": "grave_lantern_t20",
           "assetId": "creature_grave_lantern",
           "scale": 1.08,
@@ -321758,6 +321817,68 @@
             ]
           },
           "bodyRadius": 0.5101021183202261
+        },
+        "population_emberfast_west_lanterns_2": {
+          "id": "banshee_t20",
+          "assetId": "creature_banshee",
+          "scale": 1,
+          "stats": {
+            "id": "banshee_t20",
+            "name": "Banshee",
+            "family": "banshee",
+            "tier": 20,
+            "maxHealth": 54,
+            "attackLevel": 22,
+            "defenceLevel": 18,
+            "accuracy": 24,
+            "armour": 20,
+            "magicArmour": 60,
+            "maxHit": 8,
+            "attackSpeedMs": 2800,
+            "aggroRadius": 7,
+            "behaviour": "aggressive",
+            "moveSpeedMps": 1.6,
+            "walkSpeedMps": 0.4,
+            "gold": [
+              60,
+              120
+            ],
+            "attackStyle": "magic",
+            "attackRangeM": 8,
+            "lootRolls": [
+              {
+                "id": "gold",
+                "name": "Gold",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "gold",
+                    "quantity": [
+                      60,
+                      120
+                    ],
+                    "chance": 1
+                  }
+                ]
+              },
+              {
+                "id": "items",
+                "name": "Items",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "fire_essence",
+                    "quantity": [
+                      1,
+                      2
+                    ],
+                    "chance": 0.45
+                  }
+                ]
+              }
+            ]
+          },
+          "bodyRadius": 0.7259697404554718
         },
         "population_emberfast_east_penitents": {
           "id": "cinder_penitent_t20",
@@ -343721,7 +343842,7 @@
       "collection": "placements",
       "id": "population_emberfast_west_lanterns",
       "inputs": {
-        "encounterId": "grave_lantern_t20_patrol"
+        "encounterId": "population_emberfast_west_lanterns_patrol"
       }
     },
     "placements:population_emberfast_east_penitents": {
