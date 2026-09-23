@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "provider": "Tripo Studio",
+    "title": "monster 3d model",
+    "creator": "phreesplox",
+    "cardStorageUuid": "2c0db84c-9545-4ad0-b0bb-2d4e0921281c",
+    "projectUuid": "0956205f-6d69-4216-b4ef-afdb3fe2db07",
+    "detailPath": "/3d-model/spiky-fantasy-monster-creature-in-a-varied-color-set-for-a-game-asset-0956205f-6d69-4216-b4ef-afdb3fe2db07",
+    "cardStoragePath": "/tripo-studio/20260923/2c0db84c-9545-4ad0-b0bb-2d4e0921281c/studio_mesh.webp",
+    "inputImagePath": "/generate-image/20260923/9a3bce7b-8839-49b5-b3f6-31a7651258ba/image.png",
+    "categories": [
+      "creatures & animals"
+    ],
+    "tags": [
+      "game asset",
+      "stylized"
+    ],
+    "prompt": "spiky fantasy monster creature in a varied color set for a game asset with rough angular textures",
+    "generator": "Tripo P1.0",
+    "generationQuality": "8K",
+    "pbr": true
+  },
+  "sourceInspection": {
+    "topology": "Triangle",
+    "faceCount": 19536,
+    "vertexCount": 34977,
+    "visualCreatureCount": 9,
+    "visualDescriptionsRowMajor": [
+      "red bone-mask imp",
+      "lavender bat-ear imp",
+      "green antler/leaf imp",
+      "magma imp",
+      "ivory bone imp",
+      "purple cyclops",
+      "blue crystal imp",
+      "rust/iron spike imp",
+      "yellow-green spore imp"
+    ],
+    "geometryNote": "The preview shows a 3x3 sheet of nine distinct figures. The exported GLB contains one node, one mesh, and one triangle primitive, so the creatures are not separate glTF meshes."
+  },
+  "export": {
+    "downloadedFilename": "monster 3d model.glb",
+    "format": "GLB",
+    "textureResolution": "8K (Current)",
+    "exportedAtUtc": "2026-09-23T05:32:32Z",
+    "repoPath": "assets/art/tripo/exports/0956205f-6d69-4216-b4ef-afdb3fe2db07.glb",
+    "bytes": 26188952,
+    "sha256": "05D9F5C1FCD1D7A7A04978EA00D9CAE50C7B2D214A1CCE9EE4F3038A97CE7F64"
+  },
+  "glTF": {
+    "version": "2.0",
+    "generator": "Tripo",
+    "nodeCount": 1,
+    "nodes": [
+      {
+        "name": "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0",
+        "mesh": 0
+      }
+    ],
+    "meshCount": 1,
+    "meshes": [
+      {
+        "name": "meshes[0]",
+        "primitiveCount": 1,
+        "mode": "TRIANGLES",
+        "triangleCount": 19536,
+        "vertexCount": 34977,
+        "indexCount": 58608,
+        "attributes": [
+          "POSITION",
+          "NORMAL",
+          "TEXCOORD_0"
+        ]
+      }
+    ],
+    "materialCount": 1,
+    "materials": [
+      "tripo_node_0c9d8a66-fa94-4e1b-98d9-5840f77487a0_material"
+    ],
+    "textureMaps": {
+      "baseColor": "monster+3d+model_basecolor.jpg",
+      "metallicRoughness": "monster+3d+model_rm.png",
+      "normal": "monster+3d+model_normal.jpg"
+    },
+    "skinCount": 0,
+    "animationCount": 0
+  },
+  "textureStatus": "PBR textured; the GLB embeds base-color, metallic-roughness, and normal maps.",
+  "rigStatus": "Unrigged; the GLB contains no skins or animations."
+}
