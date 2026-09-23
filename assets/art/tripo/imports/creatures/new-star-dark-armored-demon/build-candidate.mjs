@@ -34,6 +34,7 @@ if (root.listAnimations().length !== 1 || skin.listJoints().length !== 67 || sou
 }
 const sourceWalkInterpolation = [...new Set(sourceWalk.listSamplers().map((sampler) => sampler.getInterpolation()))];
 let repairedStepSamplers = 0;
+const sourceStartPose = new Map();
 for (const sampler of sourceWalk.listSamplers()) {
   // Tripo exports the genuinely animated 57-frame gait with STEP curves. Preserve
   // its source key values, but interpolate them so limbs move continuously.
@@ -42,6 +43,16 @@ for (const sampler of sourceWalk.listSamplers()) {
     repairedStepSamplers += 1;
   }
   if (sampler.getInterpolation() !== 'LINEAR') throw new Error(`Unexpected source Walk interpolation: ${sampler.getInterpolation()}.`);
+}
+for (const channel of sourceWalk.listChannels()) {
+  const sampler = channel.getSampler();
+  const times = Array.from(sampler.getInput().getArray());
+  const values = Array.from(sampler.getOutput().getArray());
+  const stride = values.length / times.length;
+  if (times[0] !== 0 || !Number.isInteger(stride)) throw new Error(`Source Walk channel has an unsupported start pose: ${channel.getTargetNode()?.getName()}.`);
+  const pose = sourceStartPose.get(channel.getTargetNode()) ?? {};
+  pose[channel.getTargetPath()] = values.slice(0, stride);
+  sourceStartPose.set(channel.getTargetNode(), pose);
 }
 
 const sourceAttributes = {};
@@ -175,7 +186,22 @@ const clipAudit = [];
 clipAudit.push({ name: 'Walk', seconds: 2.3333332538604736, channels: sourceWalk.listChannels().length, retainedSourceKeys: true, interpolationRepair: repairedStepSamplers ? `converted ${repairedStepSamplers} STEP samplers to LINEAR` : 'none' });
 function createClip(name, duration, tracks) {
   const animation = doc.createAnimation(name);
-  for (const track of tracks) {
+  const overrides = new Map(tracks.map((track) => [`${root.listNodes().indexOf(track.node)}:${track.path ?? 'rotation'}`, track]));
+  const completeTracks = sourceWalk.listChannels().map((channel) => {
+    const node = channel.getTargetNode();
+    const path = channel.getTargetPath();
+    const key = `${root.listNodes().indexOf(node)}:${path}`;
+    const overridden = overrides.get(key);
+    if (overridden) {
+      overrides.delete(key);
+      return overridden;
+    }
+    const pose = sourceStartPose.get(node)?.[path]
+      ?? (path === 'translation' ? node.getTranslation() : path === 'rotation' ? node.getRotation() : node.getScale());
+    return { node, path, times: [0, duration], values: [[...pose], [...pose]] };
+  });
+  completeTracks.push(...overrides.values());
+  for (const track of completeTracks) {
     const path = track.path ?? 'rotation';
     const type = path === 'rotation' ? Accessor.Type.VEC4 : Accessor.Type.VEC3;
     const input = doc.createAccessor(`${name}_${track.node.getName()}_${path}_time`)
@@ -187,11 +213,11 @@ function createClip(name, duration, tracks) {
     animation.addSampler(sampler).addChannel(doc.createAnimationChannel(`${name}_${track.node.getName()}_${path}`)
       .setTargetNode(track.node).setTargetPath(path).setSampler(sampler));
   }
-  clipAudit.push({ name, seconds: duration, channels: tracks.length });
+  clipAudit.push({ name, seconds: duration, channels: completeTracks.length, fullSourceStartPose: true });
   return animation;
 }
-function restTranslation(node) { return [...node.getTranslation()]; }
-function restRotation(node) { return normalizeQuat([...node.getRotation()]); }
+function restTranslation(node) { return [...(sourceStartPose.get(node)?.translation ?? node.getTranslation())]; }
+function restRotation(node) { return normalizeQuat([...(sourceStartPose.get(node)?.rotation ?? node.getRotation())]); }
 function addRotationTrack(tracks, node, times, eulerOffsets) {
   const base = restRotation(node);
   tracks.push({ node, times, values: eulerOffsets.map((offset) => multiplyQuat(base, combineEuler(offset))) });
@@ -245,9 +271,12 @@ createClip('Idle', 3, (() => {
   addRotationTrack(tracks, head, times, [[0, 0, -0.012], [0, 0.018, 0], [0, 0, 0.012], [0, -0.018, 0], [0, 0, -0.012]]);
   const neck = nodesByOriginalName.get('Neck');
   if (neck) addRotationTrack(tracks, neck, times, [[0, 0, 0], [0.006, 0, -0.01], [0.008, 0, 0], [0.006, 0, 0.01], [0, 0, 0]]);
-  for (const [node, sign] of [[leftUpperArm, -1], [rightUpperArm, 1]]) {
-    if (node) addRotationTrack(tracks, node, times, [[0, 0, 0], [0.008, 0, sign * 0.012], [0.012, 0, 0], [0.008, 0, -sign * 0.012], [0, 0, 0]]);
-  }
+  // The bind pose is horizontal. The complete Walk-start pose lowers the arms;
+  // these shoulder and elbow folds bring both claws inward and up to guard the chest.
+  if (leftUpperArm) addRotationTrack(tracks, leftUpperArm, times, [[0, 0, -0.55], [0.02, 0, -0.52], [0.03, 0, -0.55], [-0.01, 0, -0.58], [0, 0, -0.55]]);
+  if (rightUpperArm) addRotationTrack(tracks, rightUpperArm, times, [[0, 0, 0.55], [0.02, 0, 0.52], [0.03, 0, 0.55], [-0.01, 0, 0.58], [0, 0, 0.55]]);
+  if (leftLowerArm) addRotationTrack(tracks, leftLowerArm, times, [[1.45, 0, 0], [1.55, 0, 0], [1.62, 0, 0], [1.55, 0, 0], [1.45, 0, 0]]);
+  if (rightLowerArm) addRotationTrack(tracks, rightLowerArm, times, [[-1.45, 0, 0], [-1.55, 0, 0], [-1.62, 0, 0], [-1.55, 0, 0], [-1.45, 0, 0]]);
   return tracks;
 })());
 
@@ -259,10 +288,10 @@ createClip('Attack', 1.0, (() => {
   addRotationTrack(tracks, spine, times, [[0, 0, 0], [0.04, -0.12, 0], [0.08, -0.22, 0], [-0.05, 0.20, 0], [-0.02, 0.06, 0], [0, 0, 0]]);
   addRotationTrack(tracks, chest, times, [[0, 0, 0], [0.02, -0.08, 0], [0.02, -0.14, 0], [-0.05, 0.14, 0], [-0.02, 0.04, 0], [0, 0, 0]]);
   addRotationTrack(tracks, upperChest, times, [[0, 0, 0], [0, -0.06, 0], [0, -0.12, 0], [0, 0.10, 0], [0, 0.04, 0], [0, 0, 0]]);
-  if (rightUpperArm) addRotationTrack(tracks, rightUpperArm, times, [[0, 0, 0], [0.12, -0.12, 0.08], [0.24, -0.18, 0.16], [-0.42, 0.18, -0.16], [-0.20, 0.08, -0.06], [0, 0, 0]]);
-  if (rightLowerArm) addRotationTrack(tracks, rightLowerArm, times, [[0, 0, 0], [0.10, 0, 0], [0.16, 0, 0], [-0.52, 0, 0], [-0.20, 0, 0], [0, 0, 0]]);
-  if (leftUpperArm) addRotationTrack(tracks, leftUpperArm, times, [[0, 0, 0], [-0.04, 0.06, 0.04], [-0.12, 0.10, 0.10], [0.18, -0.08, -0.08], [0.08, -0.04, -0.04], [0, 0, 0]]);
-  if (leftLowerArm) addRotationTrack(tracks, leftLowerArm, times, [[0, 0, 0], [-0.04, 0, 0], [-0.10, 0, 0], [0.22, 0, 0], [0.08, 0, 0], [0, 0, 0]]);
+  if (rightUpperArm) addRotationTrack(tracks, rightUpperArm, times, [[0, 0, 0.55], [0.12, -0.12, 0.70], [0.24, -0.18, 0.80], [-0.42, 0.18, -0.25], [-0.20, 0.08, 0.25], [0, 0, 0.55]]);
+  if (rightLowerArm) addRotationTrack(tracks, rightLowerArm, times, [[-1.5, 0, 0], [-1.3, 0, 0], [-1.0, 0, 0], [-0.35, 0, 0], [-1.0, 0, 0], [-1.5, 0, 0]]);
+  if (leftUpperArm) addRotationTrack(tracks, leftUpperArm, times, [[0, 0, -0.55], [-0.04, 0.06, -0.65], [-0.12, 0.10, -0.75], [0.18, -0.08, -0.25], [0.08, -0.04, -0.35], [0, 0, -0.55]]);
+  if (leftLowerArm) addRotationTrack(tracks, leftLowerArm, times, [[1.5, 0, 0], [1.4, 0, 0], [1.4, 0, 0], [1.7, 0, 0], [1.6, 0, 0], [1.5, 0, 0]]);
   addRotationTrack(tracks, head, times, [[0, 0, 0], [0, -0.06, 0.02], [0, -0.10, 0.03], [0, 0.10, -0.02], [0, 0.04, 0], [0, 0, 0]]);
   return tracks;
 })());
@@ -275,10 +304,10 @@ createClip('Hit', 0.52, (() => {
   addRotationTrack(tracks, spine, times, [[0, 0, 0], [-0.14, 0, -0.10], [0.06, 0, 0.04], [0, 0, 0]]);
   addRotationTrack(tracks, chest, times, [[0, 0, 0], [-0.10, 0, -0.08], [0.04, 0, 0.03], [0, 0, 0]]);
   addRotationTrack(tracks, head, times, [[0, 0, 0], [0.12, 0, 0.06], [-0.04, 0, -0.02], [0, 0, 0]]);
-  if (leftUpperArm) addRotationTrack(tracks, leftUpperArm, times, [[0, 0, 0], [-0.06, 0, 0.13], [0.03, 0, -0.05], [0, 0, 0]]);
-  if (rightUpperArm) addRotationTrack(tracks, rightUpperArm, times, [[0, 0, 0], [-0.05, 0, -0.14], [0.02, 0, 0.05], [0, 0, 0]]);
-  if (leftLowerArm) addRotationTrack(tracks, leftLowerArm, times, [[0, 0, 0], [0.10, 0, 0], [0.03, 0, 0], [0, 0, 0]]);
-  if (rightLowerArm) addRotationTrack(tracks, rightLowerArm, times, [[0, 0, 0], [0.10, 0, 0], [0.03, 0, 0], [0, 0, 0]]);
+  if (leftUpperArm) addRotationTrack(tracks, leftUpperArm, times, [[0, 0, -0.55], [-0.06, 0, -0.22], [0.03, 0, -0.42], [0, 0, -0.55]]);
+  if (rightUpperArm) addRotationTrack(tracks, rightUpperArm, times, [[0, 0, 0.55], [-0.05, 0, 0.22], [0.02, 0, 0.42], [0, 0, 0.55]]);
+  if (leftLowerArm) addRotationTrack(tracks, leftLowerArm, times, [[1.5, 0, 0], [1.35, 0, 0], [1.48, 0, 0], [1.5, 0, 0]]);
+  if (rightLowerArm) addRotationTrack(tracks, rightLowerArm, times, [[-1.5, 0, 0], [-1.35, 0, 0], [-1.48, 0, 0], [-1.5, 0, 0]]);
   return tracks;
 })());
 
@@ -291,10 +320,10 @@ createClip('Death', 1.65, (() => {
   addRotationTrack(tracks, chest, times, [[0, 0, 0], [-0.02, 0, 0.02], [-0.12, 0, 0.08], [-0.17, 0, 0.14], [-0.17, 0, 0.14]]);
   addRotationTrack(tracks, upperChest, times, [[0, 0, 0], [0, 0, 0.02], [-0.08, 0, 0.06], [-0.12, 0, 0.10], [-0.12, 0, 0.10]]);
   addRotationTrack(tracks, head, times, [[0, 0, 0], [0.05, 0, 0.04], [0.14, 0, 0.10], [0.22, 0, 0.14], [0.22, 0, 0.14]]);
-  if (leftUpperArm) addRotationTrack(tracks, leftUpperArm, times, [[0, 0, 0], [-0.06, 0, 0.04], [-0.24, 0, 0.14], [-0.42, 0, 0.22], [-0.42, 0, 0.22]]);
-  if (rightUpperArm) addRotationTrack(tracks, rightUpperArm, times, [[0, 0, 0], [-0.06, 0, -0.04], [-0.24, 0, -0.14], [-0.42, 0, -0.22], [-0.42, 0, -0.22]]);
-  if (leftLowerArm) addRotationTrack(tracks, leftLowerArm, times, [[0, 0, 0], [0.04, 0, 0], [0.20, 0, 0], [0.34, 0, 0], [0.34, 0, 0]]);
-  if (rightLowerArm) addRotationTrack(tracks, rightLowerArm, times, [[0, 0, 0], [0.04, 0, 0], [0.20, 0, 0], [0.34, 0, 0], [0.34, 0, 0]]);
+  if (leftUpperArm) addRotationTrack(tracks, leftUpperArm, times, [[0, 0, -0.55], [-0.06, 0, -0.45], [-0.24, 0, -0.25], [-0.42, 0, -0.05], [-0.42, 0, -0.05]]);
+  if (rightUpperArm) addRotationTrack(tracks, rightUpperArm, times, [[0, 0, 0.55], [-0.06, 0, 0.45], [-0.24, 0, 0.25], [-0.42, 0, 0.05], [-0.42, 0, 0.05]]);
+  if (leftLowerArm) addRotationTrack(tracks, leftLowerArm, times, [[1.5, 0, 0], [1.35, 0, 0], [0.85, 0, 0], [0.22, 0, 0], [0, 0, 0]]);
+  if (rightLowerArm) addRotationTrack(tracks, rightLowerArm, times, [[-1.5, 0, 0], [-1.35, 0, 0], [-0.85, 0, 0], [-0.22, 0, 0], [0, 0, 0]]);
   if (leftUpperLeg) addRotationTrack(tracks, leftUpperLeg, times, [[0, 0, 0], [-0.02, 0, 0.02], [0.10, 0, 0.05], [0.18, 0, 0.07], [0.18, 0, 0.07]]);
   if (rightUpperLeg) addRotationTrack(tracks, rightUpperLeg, times, [[0, 0, 0], [-0.02, 0, -0.02], [0.10, 0, -0.05], [0.18, 0, -0.07], [0.18, 0, -0.07]]);
   if (leftLowerLeg) addRotationTrack(tracks, leftLowerLeg, times, [[0, 0, 0], [0.04, 0, 0], [0.26, 0, 0], [0.44, 0, 0], [0.44, 0, 0]]);

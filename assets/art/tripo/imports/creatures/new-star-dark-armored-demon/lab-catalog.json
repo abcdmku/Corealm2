@@ -31,8 +31,8 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 6354500,
-      "sha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
+      "bytes": 6758068,
+      "sha256": "1cd4bbc5e5de813224b0c769d05d572944590daefa566af9bdf9beee2e4825e6",
       "vertices": 3837,
       "triangles": 4878,
       "size": {
@@ -76,7 +76,7 @@
         "sourceFile": "assets/art/tripo/exports/e1b8c030-b812-4b78-b4d7-4216e8a4a603.glb",
         "sourceSha256": "47e61408d8d25a4e7140cdd3ec2c4b61eae18d95ed626b60e4e32f4404d4ec34",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-dark-armored-demon/gloamplate-reaver-native-rig-candidate.glb",
-        "candidateSha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
+        "candidateSha256": "1cd4bbc5e5de813224b0c769d05d572944590daefa566af9bdf9beee2e4825e6",
         "rigMethod": "Tripo-exported 67-bone humanoid skin and original Walk gait retained; Mixamo/Unity bone naming added; Idle, Run, Attack, Hit and Death authored on the same weighted skeleton.",
         "sourcePrompt": "humanoid demon-like armored creature with purple crystalline accents, dark armor, sharp claws",
         "textures": [

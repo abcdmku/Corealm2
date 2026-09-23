@@ -40,8 +40,8 @@
     ]
   },
   "candidate": {
-    "bytes": 6354500,
-    "sha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
+    "bytes": 6758068,
+    "sha256": "1cd4bbc5e5de813224b0c769d05d572944590daefa566af9bdf9beee2e4825e6",
     "vertices": 3837,
     "triangles": 4878,
     "attributesPreserved": true,
@@ -66,25 +66,29 @@
       {
         "name": "Idle",
         "seconds": 3,
-        "channels": 8,
-        "varyingChannels": 8
+        "channels": 201,
+        "fullSourceStartPose": true,
+        "varyingChannels": 10
       },
       {
         "name": "Attack",
         "seconds": 1,
-        "channels": 10,
+        "channels": 201,
+        "fullSourceStartPose": true,
         "varyingChannels": 10
       },
       {
         "name": "Hit",
         "seconds": 0.52,
-        "channels": 9,
+        "channels": 201,
+        "fullSourceStartPose": true,
         "varyingChannels": 9
       },
       {
         "name": "Death",
         "seconds": 1.65,
-        "channels": 14,
+        "channels": 201,
+        "fullSourceStartPose": true,
         "varyingChannels": 14
       }
     ],
@@ -99,7 +103,7 @@
       },
       {
         "name": "Idle",
-        "varyingChannels": 8
+        "varyingChannels": 10
       },
       {
         "name": "Attack",

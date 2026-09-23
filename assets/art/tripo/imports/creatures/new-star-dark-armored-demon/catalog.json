@@ -79,8 +79,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-dark-armored-demon/gloamplate-reaver-native-rig-candidate.glb",
-    "sha256": "446a67fe04a632568ae874d96670f61f5ad1e7ef8f5ca008c8231a6a02ea9adf",
-    "bytes": 6354500,
+    "sha256": "1cd4bbc5e5de813224b0c769d05d572944590daefa566af9bdf9beee2e4825e6",
+    "bytes": 6758068,
     "productionTarget": "game/public/assets/models/wilderness/creature_gloamplate_reaver.glb",
     "geometry": {
       "vertices": 3837,
@@ -170,25 +170,29 @@
       {
         "name": "Idle",
         "seconds": 3,
-        "channels": 8,
-        "varyingChannels": 8
+        "channels": 201,
+        "fullSourceStartPose": true,
+        "varyingChannels": 10
       },
       {
         "name": "Attack",
         "seconds": 1,
-        "channels": 10,
+        "channels": 201,
+        "fullSourceStartPose": true,
         "varyingChannels": 10
       },
       {
         "name": "Hit",
         "seconds": 0.52,
-        "channels": 9,
+        "channels": 201,
+        "fullSourceStartPose": true,
         "varyingChannels": 9
       },
       {
         "name": "Death",
         "seconds": 1.65,
-        "channels": 14,
+        "channels": 201,
+        "fullSourceStartPose": true,
         "varyingChannels": 14
       }
     ]
