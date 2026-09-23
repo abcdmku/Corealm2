@@ -60,8 +60,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
-    "sha256": "fe04209a04120051788b8a7a37305cf09a8e2a2968f4bb13c8fddf1e4fdeb987",
-    "bytes": 11058920,
+    "sha256": "3a8474d83aab6d703a880bfc49c6bae9ce939e6a6b4c36924d5e794096847857",
+    "bytes": 11071784,
     "productionTarget": "game/public/assets/models/fairy-crown/creature_pearl_knight.glb",
     "geometry": {
       "vertices": 7637,
@@ -289,7 +289,7 @@
       "influencesPerVertex": 4,
       "distributedVertices": 7637,
       "maximumWeightSumError": 4.190951585769653e-8,
-      "method": "Source-specific four-weight distance fields fitted to the T-pose; original topology and UVs remain untouched. Uniformly normalized to the existing 3.30 m source height."
+      "method": "Source-specific four-weight distance fields fitted to the original T-pose; a relaxed guard bind rotation tucks shoulders, upper arms, and forearms close to the torso. All six clips begin from that pose. Original topology and UVs remain untouched; uniformly normalized to the existing 3.30 m source height."
     },
     "textures": [
       {
@@ -327,32 +327,32 @@
       {
         "name": "Idle",
         "seconds": 2.6,
-        "channels": 7
+        "channels": 9
       },
       {
         "name": "Walk",
         "seconds": 1,
-        "channels": 7
+        "channels": 11
       },
       {
         "name": "Run",
         "seconds": 0.72,
-        "channels": 8
+        "channels": 12
       },
       {
         "name": "Attack",
         "seconds": 0.92,
-        "channels": 5
+        "channels": 8
       },
       {
         "name": "Hit",
         "seconds": 0.46,
-        "channels": 6
+        "channels": 10
       },
       {
         "name": "Death",
         "seconds": 1.45,
-        "channels": 9
+        "channels": 13
       }
     ]
   },

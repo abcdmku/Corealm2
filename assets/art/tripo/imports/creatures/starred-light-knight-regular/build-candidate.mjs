@@ -84,13 +84,37 @@ const oldParent = meshNode.getParentNode();
 if (oldParent) oldParent.removeChild(meshNode);
 else if (scene.listChildren().includes(meshNode)) scene.removeChild(meshNode);
 else throw new Error('Source mesh is unexpectedly detached from its scene.');
+const quat = (axis, angle) => {
+  const sine = Math.sin(angle / 2), cosine = Math.cos(angle / 2);
+  if (axis === 'x') return [sine, 0, 0, cosine];
+  if (axis === 'y') return [0, sine, 0, cosine];
+  return [0, 0, sine, cosine];
+};
+const multiplyQuat = (a, b) => [
+  a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1],
+  a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],
+  a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3],
+  a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2],
+];
+// The source is exported in a T-pose. These rotations tuck the pauldron,
+// upper arm, and gauntlet into a relaxed guard pose without changing its mesh.
+const guardShoulder = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (1.06 + roll)), quat('y', side * (0.06 + pitch)));
+const guardArm = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (0.50 + roll)), quat('y', side * (0.12 + pitch)));
+const guardForeArm = (side, roll = 0, pitch = 0) => multiplyQuat(quat('z', side * (0.68 + roll)), quat('y', side * (0.18 + pitch)));
+const bindRotation = (name) => {
+  const side = name.includes('Left') ? 1 : -1;
+  if (name.endsWith('Shoulder')) return guardShoulder(side);
+  if (name.endsWith('ForeArm')) return guardForeArm(side);
+  if (name.endsWith('Arm')) return guardArm(side);
+  return [0, 0, 0, 1];
+};
 meshNode.setName('PearlPatrolKnightMesh');
 const container = doc.createNode('PearlPatrolKnightArmature').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
 scene.addChild(container);
 container.addChild(meshNode);
 const nodes = new Map();
 for (const bone of bones) {
-  const node = doc.createNode(bone.name).setTranslation(bone.local).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
+  const node = doc.createNode(bone.name).setTranslation(bone.local).setRotation(bindRotation(bone.name)).setScale([1, 1, 1]);
   nodes.set(bone.name, node);
   (bone.parent ? nodes.get(bone.parent) : container).addChild(node);
 }
@@ -169,12 +193,6 @@ for (const bone of bones) {
 primitive.setAttribute('JOINTS_0', doc.createAccessor('PearlPatrolKnight_Joints0').setArray(joints).setType(Accessor.Type.VEC4).setBuffer(buffer));
 primitive.setAttribute('WEIGHTS_0', doc.createAccessor('PearlPatrolKnight_Weights0').setArray(weights).setType(Accessor.Type.VEC4).setBuffer(buffer));
 
-const quat = (axis, angle) => {
-  const sine = Math.sin(angle / 2), cosine = Math.cos(angle / 2);
-  if (axis === 'x') return [sine, 0, 0, cosine];
-  if (axis === 'y') return [0, sine, 0, cosine];
-  return [0, 0, sine, cosine];
-};
 const clips = [];
 function addClip(name, seconds, tracks) {
   const animation = doc.createAnimation(name);
@@ -194,21 +212,16 @@ function addClip(name, seconds, tracks) {
 const phases = [0, 0.25, 0.5, 0.75, 1];
 const swing = (phase, magnitude) => phases.map((t) => quat('x', Math.sin((t + phase) * Math.PI * 2) * magnitude));
 const hipsY = (values, z = -0.012) => values.map((y) => [0, y, z]);
-const multiplyQuat = (a, b) => [
-  a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1],
-  a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],
-  a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3],
-  a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2],
-];
-const hangingArm = (side, ySwing = 0) => multiplyQuat(quat('z', side * 0.92), quat('y', ySwing));
 addClip('Idle', 2.6, [
   { node: 'mixamorigSpine1', times: [0, 0.65, 1.3, 1.95, 2.6], values: [quat('z', 0), quat('z', 0.012), quat('z', 0), quat('z', -0.012), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.65, 1.3, 1.95, 2.6], values: [quat('y', 0), quat('y', 0.012), quat('y', 0), quat('y', -0.012), quat('y', 0)] },
   { node: 'mixamorigHead', times: [0, 0.65, 1.3, 1.95, 2.6], values: [quat('y', -0.02), quat('y', 0), quat('y', 0.025), quat('y', 0), quat('y', -0.02)] },
-  { node: 'mixamorigLeftArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [1.00, 0.98, 1.00, 1.02, 1.00].map((angle) => quat('z', angle)) },
-  { node: 'mixamorigLeftForeArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0.08, 0.08, 0.08, 0.08, 0.08].map((angle) => quat('z', angle)) },
-  { node: 'mixamorigRightArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [-1.00, -0.98, -1.00, -1.02, -1.00].map((angle) => quat('z', angle)) },
-  { node: 'mixamorigRightForeArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [-0.08, -0.08, -0.08, -0.08, -0.08].map((angle) => quat('z', angle)) },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0, -0.012, 0, 0.012, 0].map((amount) => guardShoulder(1, amount)) },
+  { node: 'mixamorigRightShoulder', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0, -0.012, 0, 0.012, 0].map((amount) => guardShoulder(-1, amount)) },
+  { node: 'mixamorigLeftArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0, -0.015, 0, 0.015, 0].map((amount) => guardArm(1, amount)) },
+  { node: 'mixamorigLeftForeArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0, 0.012, 0, -0.012, 0].map((amount) => guardForeArm(1, amount)) },
+  { node: 'mixamorigRightArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0, -0.015, 0, 0.015, 0].map((amount) => guardArm(-1, amount)) },
+  { node: 'mixamorigRightForeArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0, 0.012, 0, -0.012, 0].map((amount) => guardForeArm(-1, amount)) },
 ]);
 addClip('Walk', 1.0, [
   { node: 'mixamorigHips', path: 'translation', times: phases, values: hipsY([0.365, 0.376, 0.365, 0.376, 0.365]) },
@@ -216,8 +229,12 @@ addClip('Walk', 1.0, [
   { node: 'mixamorigRightUpLeg', times: phases, values: swing(0.5, 0.30) },
   { node: 'mixamorigLeftLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.18)) },
   { node: 'mixamorigRightLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.18)) },
-  { node: 'mixamorigLeftArm', times: phases, values: phases.map((t) => hangingArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.22)) },
-  { node: 'mixamorigRightArm', times: phases, values: phases.map((t) => hangingArm(-1, Math.sin(t * Math.PI * 2) * 0.22)) },
+  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => guardShoulder(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.035)) },
+  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => guardShoulder(-1, Math.sin(t * Math.PI * 2) * 0.035)) },
+  { node: 'mixamorigLeftArm', times: phases, values: phases.map((t) => guardArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.075)) },
+  { node: 'mixamorigRightArm', times: phases, values: phases.map((t) => guardArm(-1, Math.sin(t * Math.PI * 2) * 0.075)) },
+  { node: 'mixamorigLeftForeArm', times: phases, values: phases.map((t) => guardForeArm(1, 0, Math.sin((t + 0.5) * Math.PI * 2) * 0.04)) },
+  { node: 'mixamorigRightForeArm', times: phases, values: phases.map((t) => guardForeArm(-1, 0, Math.sin(t * Math.PI * 2) * 0.04)) },
 ]);
 addClip('Run', 0.72, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t * 0.72), values: hipsY([0.365, 0.390, 0.365, 0.390, 0.365]) },
@@ -225,24 +242,35 @@ addClip('Run', 0.72, [
   { node: 'mixamorigRightUpLeg', times: phases.map((t) => t * 0.72), values: swing(0.5, 0.58) },
   { node: 'mixamorigLeftLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.46)) },
   { node: 'mixamorigRightLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.46)) },
-  { node: 'mixamorigLeftArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => hangingArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.32)) },
-  { node: 'mixamorigRightArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => hangingArm(-1, Math.sin(t * Math.PI * 2) * 0.32)) },
+  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardShoulder(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.055)) },
+  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardShoulder(-1, Math.sin(t * Math.PI * 2) * 0.055)) },
+  { node: 'mixamorigLeftArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.12)) },
+  { node: 'mixamorigRightArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardArm(-1, Math.sin(t * Math.PI * 2) * 0.12)) },
+  { node: 'mixamorigLeftForeArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardForeArm(1, 0, Math.sin((t + 0.5) * Math.PI * 2) * 0.06)) },
+  { node: 'mixamorigRightForeArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => guardForeArm(-1, 0, Math.sin(t * Math.PI * 2) * 0.06)) },
   { node: 'mixamorigSpine1', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', 0.025 + Math.sin(t * Math.PI * 2) * 0.025)) },
 ]);
 addClip('Attack', 0.92, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.18, 0.48, 0.72, 0.92], values: [[0, 0.365, -0.012], [0, 0.365, -0.028], [0, 0.355, 0.025], [0, 0.365, 0.010], [0, 0.365, -0.012]] },
   { node: 'mixamorigSpine1', times: [0, 0.18, 0.48, 0.72, 0.92], values: [quat('y', 0), quat('y', -0.14), quat('y', 0.14), quat('y', 0.06), quat('y', 0)] },
-  { node: 'mixamorigRightArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, -0.28, -0.92, -0.35, 0].map((amount) => hangingArm(-1, amount)) },
-  { node: 'mixamorigRightForeArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [quat('z', 0), quat('z', -0.16), quat('z', -0.42), quat('z', -0.18), quat('z', 0)] },
-  { node: 'mixamorigLeftArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.10, 0.28, 0.12, 0].map((amount) => hangingArm(1, amount)) },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.02, 0.06, 0.02, 0].map((amount) => guardShoulder(1, amount)) },
+  { node: 'mixamorigRightShoulder', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, -0.12, -0.20, -0.06, 0].map((amount) => guardShoulder(-1, amount)) },
+  { node: 'mixamorigRightArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.10, 0.32, 0.12, 0].map((amount, index) => guardArm(-1, amount, [0, 0.10, 0.28, 0.12, 0][index])) },
+  { node: 'mixamorigRightForeArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, -0.04, -0.16, -0.06, 0].map((amount) => guardForeArm(-1, amount)) },
+  { node: 'mixamorigLeftArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.06, 0.16, 0.06, 0].map((amount) => guardArm(1, amount)) },
+  { node: 'mixamorigLeftForeArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.02, 0.05, 0.02, 0].map((amount) => guardForeArm(1, amount)) },
 ]);
 addClip('Hit', 0.46, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.46], values: [[0, 0.365, -0.012], [0, 0.360, -0.040], [0, 0.363, -0.025], [0, 0.365, -0.012]] },
   { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.20), quat('z', -0.08), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.46], values: [quat('x', 0), quat('x', -0.13), quat('x', 0.05), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.13), quat('z', -0.035), quat('z', 0)] },
-  { node: 'mixamorigLeftArm', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0.92), quat('z', 1.00), quat('z', 0.90), quat('z', 0.92)] },
-  { node: 'mixamorigRightArm', times: [0, 0.08, 0.20, 0.46], values: [0, -0.24, 0.06, 0].map((amount) => hangingArm(-1, amount)) },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.46], values: [0, 0.07, 0.02, 0].map((amount) => guardShoulder(1, amount)) },
+  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.46], values: [0, -0.08, -0.03, 0].map((amount) => guardShoulder(-1, amount)) },
+  { node: 'mixamorigLeftArm', times: [0, 0.08, 0.20, 0.46], values: [0, 0.08, 0.04, 0].map((amount) => guardArm(1, amount)) },
+  { node: 'mixamorigLeftForeArm', times: [0, 0.08, 0.20, 0.46], values: [0, 0.06, 0.02, 0].map((amount) => guardForeArm(1, amount)) },
+  { node: 'mixamorigRightArm', times: [0, 0.08, 0.20, 0.46], values: [0, -0.12, -0.04, 0].map((amount) => guardArm(-1, amount)) },
+  { node: 'mixamorigRightForeArm', times: [0, 0.08, 0.20, 0.46], values: [0, -0.06, -0.02, 0].map((amount) => guardForeArm(-1, amount)) },
 ]);
 addClip('Death', 1.45, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.22, 0.65, 1.05, 1.45], values: [[0, 0.365, -0.012], [0, 0.345, -0.020], [0, 0.245, -0.030], [0, 0.205, -0.030], [0, 0.205, -0.030]] },
@@ -250,8 +278,12 @@ addClip('Death', 1.45, [
   { node: 'mixamorigSpine1', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.10), quat('x', 0.20), quat('x', 0.20), quat('x', 0.20)] },
   { node: 'mixamorigSpine2', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.08), quat('x', 0.16), quat('x', 0.16), quat('x', 0.16)] },
   { node: 'mixamorigHead', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0), quat('z', 0.10), quat('z', 0.22), quat('z', 0.22), quat('z', 0.22)] },
-  { node: 'mixamorigLeftArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0.92, 0.85, 0.62, 0.62, 0.62].map((angle) => quat('z', angle)) },
-  { node: 'mixamorigRightArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [-0.92, -0.85, -0.62, -0.62, -0.62].map((angle) => quat('z', angle)) },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0, 0, 0.10, 0.18, 0.18].map((amount) => guardShoulder(1, amount)) },
+  { node: 'mixamorigRightShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0, 0, 0.10, 0.18, 0.18].map((amount) => guardShoulder(-1, amount)) },
+  { node: 'mixamorigLeftArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0, 0.04, 0.16, 0.24, 0.24].map((amount) => guardArm(1, amount)) },
+  { node: 'mixamorigRightArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0, 0.04, 0.16, 0.24, 0.24].map((amount) => guardArm(-1, amount)) },
+  { node: 'mixamorigLeftForeArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0, 0, -0.10, -0.16, -0.16].map((amount) => guardForeArm(1, amount)) },
+  { node: 'mixamorigRightForeArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0, 0, -0.10, -0.16, -0.16].map((amount) => guardForeArm(-1, amount)) },
   { node: 'mixamorigLeftUpLeg', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', -0.06), quat('x', -0.18), quat('x', -0.18), quat('x', -0.18)] },
   { node: 'mixamorigRightUpLeg', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.06), quat('x', 0.18), quat('x', 0.18), quat('x', 0.18)] },
 ]);
@@ -346,7 +378,7 @@ const candidate = {
     bytes: bytes.length,
     productionTarget: 'game/public/assets/models/fairy-crown/creature_pearl_knight.glb',
     geometry: { vertices: positions.length / 3, triangles: indices.length / 3, bounds, nativeScale: modelScale, positionsPreserved: false, proportionsPreserved: true, indicesPreserved: true, uvsPreserved: true },
-    rig: { type: 'Mixamo-named Unity Humanoid glTF skin', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, distributedVertices, maximumWeightSumError: maxWeightError, method: 'Source-specific four-weight distance fields fitted to the T-pose; original topology and UVs remain untouched. Uniformly normalized to the existing 3.30 m source height.' },
+    rig: { type: 'Mixamo-named Unity Humanoid glTF skin', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, distributedVertices, maximumWeightSumError: maxWeightError, method: 'Source-specific four-weight distance fields fitted to the original T-pose; a relaxed guard bind rotation tucks shoulders, upper arms, and forearms close to the torso. All six clips begin from that pose. Original topology and UVs remain untouched; uniformly normalized to the existing 3.30 m source height.' },
     textures: runtimeTextures,
     metallicChannelRange: metalRange,
     roughnessChannelRange: roughRange,
@@ -380,7 +412,7 @@ const labAsset = {
     sourceSha256: sourceHash,
     candidateFile: candidatePath,
     candidateSha256: candidateHash,
-    rigMethod: '22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; source mesh positions, topology, normals, UV islands and map images preserved.',
+    rigMethod: '22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; relaxed guard bind pose carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.',
     textures: runtimeTextures,
     candidateStatus: 'awaiting-root-lab-review',
   },

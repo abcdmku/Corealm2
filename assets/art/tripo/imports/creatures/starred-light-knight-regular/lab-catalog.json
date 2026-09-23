@@ -20,8 +20,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 11058920,
-      "sha256": "fe04209a04120051788b8a7a37305cf09a8e2a2968f4bb13c8fddf1e4fdeb987",
+      "bytes": 11071784,
+      "sha256": "3a8474d83aab6d703a880bfc49c6bae9ce939e6a6b4c36924d5e794096847857",
       "size": {
         "x": 3.326035499572754,
         "y": 3.299999952316284,
@@ -64,8 +64,8 @@
         "sourceFile": "assets/art/tripo/exports/3255ba4a-055e-446b-9c47-0266c347710a.glb",
         "sourceSha256": "9f0cb9c3eedc9645957e9bdd921b6ad44ad62a560325e42078505ff4dd452ba4",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
-        "candidateSha256": "fe04209a04120051788b8a7a37305cf09a8e2a2968f4bb13c8fddf1e4fdeb987",
-        "rigMethod": "22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; source mesh positions, topology, normals, UV islands and map images preserved.",
+        "candidateSha256": "3a8474d83aab6d703a880bfc49c6bae9ce939e6a6b4c36924d5e794096847857",
+        "rigMethod": "22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; relaxed guard bind pose carried through Idle, locomotion and actions; source topology, normals, UV islands and image-generated maps preserved at uniform 3.30 m scale.",
         "textures": [
           {
             "name": "3255ba4a-055e-446b-9c47-0266c347710a_basecolor.jpg",
