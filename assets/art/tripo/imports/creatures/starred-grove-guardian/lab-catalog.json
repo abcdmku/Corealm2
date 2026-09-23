@@ -1,0 +1,266 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-tripo-creatures",
+    "name": "Corealm Tripo creature candidates",
+    "author": "Corealm",
+    "source": "Tripo Studio starred export with Corealm rig adaptation",
+    "license": "LicenseRef-Tripo-Generated"
+  },
+  "assets": [
+    {
+      "id": "creature_starroot_guardian",
+      "file": "models/fairy-crown/creature_starroot_guardian.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Starroot Guardian candidate from starred #17 Tree Guardian",
+      "tags": [
+        "creature",
+        "fairy",
+        "faeholme",
+        "t60",
+        "starred",
+        "tree-guardian",
+        "skinned",
+        "articulated",
+        "tripo",
+        "root-lab-review"
+      ],
+      "bytes": 6420192,
+      "sha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+      "triangles": 4478,
+      "size": {
+        "x": 2.0325844017017785,
+        "y": 2.7000000000000006,
+        "z": 0.9035173933933325
+      },
+      "base": {
+        "x": -1.016292200850889,
+        "y": -6.301591773785735e-17,
+        "z": -0.4517586966966663
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio P2.0 Smart Mesh",
+        "modelId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "sourceImageId": null,
+        "originalSourceFile": "assets/art/tripo/exports/4580db8d-f714-4acf-be53-33a2543e7090.glb",
+        "originalSourceSha256": "47b5d6c821d36620d814d3f79ab073dd81a49dbb5305ba3825c62c48ce0b36f4",
+        "sourceLedger": "assets/art/tripo/starred-export-middle.json, starredOrder 17",
+        "sourcePrompt": "tree creature with mossy vines, leaf-like back appendages, rugged bark texture, plant-like limbs",
+        "laterSameIdRevisionExcluded": "Root Tender R3 in creatures-fairy.json is a separate later image/prompt revision and is not the source of this candidate.",
+        "bindRecoveredSource": "assets/art/tripo/imports/creatures/starred-grove-guardian/sources/creature_starroot_guardian-24b3e107e259.glb",
+        "bindRecoveredSourceSha256": "24b3e107e25905b77b08de3349b18d19ea0bb95674362bd89826a01de13e5906",
+        "bindPoseReconstruction": {
+          "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSkeletonSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+          "method": "Fitted the existing Mixamo hierarchy to the archived mesh bounds, reconstructed local rest transforms, and rebuilt inverse binds; source positions, normals, indices, and UVs are byte-preserved.",
+          "scale": {
+            "x": 0.5091632286111041,
+            "y": 0.6822603788185355,
+            "z": 1.104234045874837
+          },
+          "sourceMeshGeometryAndUvsPreserved": true,
+          "noRetopology": true
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 2828,
+          "dominantJointVertices": {
+            "RightFoot": 47,
+            "RightLeg": 358,
+            "RightUpLeg": 491,
+            "Hips": 135,
+            "Spine": 193,
+            "Spine1": 175,
+            "RightArm": 6,
+            "RightShoulder": 85,
+            "Spine2": 47,
+            "LeftUpLeg": 550,
+            "LeftShoulder": 143,
+            "LeftLeg": 358,
+            "LeftArm": 111,
+            "Neck": 50,
+            "LeftFoot": 47,
+            "LeftForeArm": 32
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": 5.794390223714485e-7,
+          "translationScale": 0.684103111996565,
+          "bindBounds": {
+            "min": [
+              -0.37622071384119493,
+              6.130355483200086e-10,
+              -0.16723632819681206
+            ],
+            "max": [
+              0.37622070821982945,
+              0.9995116754363877,
+              0.16723633221155815
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.0077954742769453
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.0420830158743938
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.14048230713650953
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.0035846713470622706
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.007311658074023681,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.007311658074023681,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.007311658074023681,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.23266089737634602
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "runtimeTextures": [
+          {
+            "name": "tree+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "name": "tree+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png"
+          },
+          {
+            "name": "tree+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ],
+        "sourceTextureHashesPreservedThroughBindRecovery": [
+          "87b522a1e4764c54757232821bb8cc14c738f05d58350a8790b18b915256b004",
+          "16fc9c2323642a16a08c7790a254df6f9414a492c40519a0e5d1b2571be661c4",
+          "93cea2010cd7b8e8bbb963dcc7fcb37e849026f6f4857bda4dc3780c72f36b0d"
+        ]
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": null,
+        "animationAcceptance": "pending-production-lab",
+        "sourceMaterialChannels": [
+          "baseColor",
+          "normal",
+          "metallicRoughness"
+        ],
+        "rigPreset": "Recovered Mixamo humanoid hierarchy with distributed anatomical weights fitted to the tree creature",
+        "requestedCoreMotions": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "role": {
+          "region": "faeholme",
+          "tier": 60,
+          "level": 66,
+          "currentForm": "Starroot Guardian"
+        },
+        "visualAndMotionAcceptance": "pending-root-feature-lab-review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "models/creature_starroot_guardian.glb",
+      "bounds": {
+        "min": [
+          -1.016292200850889,
+          -6.301591773785735e-17,
+          -0.4517586966966663
+        ],
+        "max": [
+          1.0162922008508892,
+          2.7000000000000006,
+          0.4517586966966662
+        ]
+      }
+    }
+  ],
+  "files": {
+    "creature_starroot_guardian": "models/creature_starroot_guardian.glb"
+  }
+}

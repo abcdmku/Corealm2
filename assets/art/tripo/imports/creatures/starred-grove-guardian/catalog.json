@@ -1,0 +1,810 @@
+{
+  "assets": [
+    {
+      "id": "creature_starroot_guardian",
+      "file": "models/fairy-crown/creature_starroot_guardian.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Starroot Guardian",
+      "tags": [
+        "creature",
+        "tripo"
+      ],
+      "bytes": 6420192,
+      "sha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+      "triangles": 4478,
+      "size": {
+        "x": 2.0325844017017785,
+        "y": 2.7000000000000006,
+        "z": 0.9035173933933325
+      },
+      "base": {
+        "x": -1.016292200850889,
+        "y": -6.301591773785735e-17,
+        "z": -0.4517586966966663
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio P2.0 Smart Mesh",
+        "modelId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "sourceImageId": null,
+        "originalSourceFile": "assets/art/tripo/exports/4580db8d-f714-4acf-be53-33a2543e7090.glb",
+        "originalSourceSha256": "47b5d6c821d36620d814d3f79ab073dd81a49dbb5305ba3825c62c48ce0b36f4",
+        "sourceLedger": "assets/art/tripo/starred-export-middle.json, starredOrder 17",
+        "sourcePrompt": "tree creature with mossy vines, leaf-like back appendages, rugged bark texture, plant-like limbs",
+        "laterSameIdRevisionExcluded": "Root Tender R3 in creatures-fairy.json is a separate later image/prompt revision and is not the source of this candidate.",
+        "bindRecoveredSource": "assets/art/tripo/imports/creatures/starred-grove-guardian/sources/creature_starroot_guardian-24b3e107e259.glb",
+        "bindRecoveredSourceSha256": "24b3e107e25905b77b08de3349b18d19ea0bb95674362bd89826a01de13e5906",
+        "bindPoseReconstruction": {
+          "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSkeletonSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+          "method": "Fitted the existing Mixamo hierarchy to the archived mesh bounds, reconstructed local rest transforms, and rebuilt inverse binds; source positions, normals, indices, and UVs are byte-preserved.",
+          "scale": {
+            "x": 0.5091632286111041,
+            "y": 0.6822603788185355,
+            "z": 1.104234045874837
+          },
+          "sourceMeshGeometryAndUvsPreserved": true,
+          "noRetopology": true
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 2828,
+          "dominantJointVertices": {
+            "RightFoot": 47,
+            "RightLeg": 358,
+            "RightUpLeg": 491,
+            "Hips": 135,
+            "Spine": 193,
+            "Spine1": 175,
+            "RightArm": 6,
+            "RightShoulder": 85,
+            "Spine2": 47,
+            "LeftUpLeg": 550,
+            "LeftShoulder": 143,
+            "LeftLeg": 358,
+            "LeftArm": 111,
+            "Neck": 50,
+            "LeftFoot": 47,
+            "LeftForeArm": 32
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": 5.794390223714485e-7,
+          "translationScale": 0.684103111996565,
+          "bindBounds": {
+            "min": [
+              -0.37622071384119493,
+              6.130355483200086e-10,
+              -0.16723632819681206
+            ],
+            "max": [
+              0.37622070821982945,
+              0.9995116754363877,
+              0.16723633221155815
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.0077954742769453
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.0420830158743938
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.14048230713650953
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.0035846713470622706
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.007311658074023681,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.007311658074023681,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.007311658074023681,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.23266089737634602
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "runtimeTextures": [
+          {
+            "name": "tree+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "name": "tree+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png"
+          },
+          {
+            "name": "tree+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ],
+        "sourceTextureHashesPreservedThroughBindRecovery": [
+          "87b522a1e4764c54757232821bb8cc14c738f05d58350a8790b18b915256b004",
+          "16fc9c2323642a16a08c7790a254df6f9414a492c40519a0e5d1b2571be661c4",
+          "93cea2010cd7b8e8bbb963dcc7fcb37e849026f6f4857bda4dc3780c72f36b0d"
+        ]
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": null,
+        "animationAcceptance": "pending-production-lab"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "models/creature_starroot_guardian.glb"
+    }
+  ],
+  "files": {
+    "creature_starroot_guardian": "models/creature_starroot_guardian.glb"
+  },
+  "packs": [
+    {
+      "id": "corealm-tripo-creatures",
+      "name": "Tripo generated creature assets",
+      "author": "Corealm",
+      "source": "https://studio.tripo3d.ai/",
+      "license": "LicenseRef-Tripo-Generated"
+    }
+  ],
+  "imports": [
+    {
+      "id": "creature_starroot_guardian",
+      "name": "Starroot Guardian",
+      "modelId": "4580db8d-f714-4acf-be53-33a2543e7090",
+      "sourceImageId": null,
+      "sourceFile": "sources/creature_starroot_guardian-24b3e107e259.glb",
+      "downloadedFilename": "creature_starroot_guardian-24b3e107e259.glb",
+      "sourceSha256": "24b3e107e25905b77b08de3349b18d19ea0bb95674362bd89826a01de13e5906",
+      "sourceBytes": 26967268,
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "User-selected starred #17; exact prompt and export ledger preserved in candidate provenance"
+      },
+      "sourceBaseColorMinimumPx": 8192,
+      "source": {
+        "triangles": 4478,
+        "textures": [
+          {
+            "name": "tree+creature+3d+model_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 15003159,
+            "sha256": "87b522a1e4764c54757232821bb8cc14c738f05d58350a8790b18b915256b004"
+          },
+          {
+            "name": "tree+creature+3d+model_rm.png",
+            "mimeType": "image/png",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 8841839,
+            "sha256": "16fc9c2323642a16a08c7790a254df6f9414a492c40519a0e5d1b2571be661c4"
+          },
+          {
+            "name": "tree+creature+3d+model_normal.jpg",
+            "mimeType": "image/jpeg",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 2889024,
+            "sha256": "93cea2010cd7b8e8bbb963dcc7fcb37e849026f6f4857bda4dc3780c72f36b0d"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1",
+            "baseColor": "tree+creature+3d+model_basecolor.jpg",
+            "normal": "tree+creature+3d+model_normal.jpg",
+            "metallicRoughness": "tree+creature+3d+model_rm.png",
+            "emissive": null
+          }
+        ],
+        "clips": [],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1",
+            "vertices": 2828,
+            "joints": [
+              {
+                "name": "mixamorig:RightFoot",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 2817
+              },
+              {
+                "name": "mixamorig:Head",
+                "vertices": 3
+              },
+              {
+                "name": "mixamorig:Neck",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:LeftShoulder",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:RightShoulder",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:Spine2",
+                "vertices": 4
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.376220703125,
+            1.2787609025290739e-8,
+            -0.16723633237887608
+          ],
+          "max": [
+            0.376220703125,
+            0.9995116907161362,
+            0.16723633024008158
+          ]
+        },
+        "problems": [
+          "99.6% of vertices use one joint; exported limb weights are unusable"
+        ]
+      },
+      "basisRepair": null,
+      "materialTreatment": null,
+      "weightRepair": {
+        "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+        "vertices": 2828,
+        "dominantJointVertices": {
+          "RightFoot": 47,
+          "RightLeg": 358,
+          "RightUpLeg": 491,
+          "Hips": 135,
+          "Spine": 193,
+          "Spine1": 175,
+          "RightArm": 6,
+          "RightShoulder": 85,
+          "Spine2": 47,
+          "LeftUpLeg": 550,
+          "LeftShoulder": 143,
+          "LeftLeg": 358,
+          "LeftArm": 111,
+          "Neck": 50,
+          "LeftFoot": 47,
+          "LeftForeArm": 32
+        },
+        "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+        "requiresVisualReview": true
+      },
+      "retarget": {
+        "restoredJoints": 54,
+        "mappedJoints": 52,
+        "yawDegrees": 5.794390223714485e-7,
+        "translationScale": 0.684103111996565,
+        "bindBounds": {
+          "min": [
+            -0.37622071384119493,
+            6.130355483200086e-10,
+            -0.16723632819681206
+          ],
+          "max": [
+            0.37622070821982945,
+            0.9995116754363877,
+            0.16723633221155815
+          ]
+        },
+        "clips": [
+          {
+            "name": "Idle",
+            "sourceTake": "Idle_Loop",
+            "seconds": 2.5,
+            "samples": 76,
+            "maximumGroundCorrection": 0.0077954742769453
+          },
+          {
+            "name": "Walk",
+            "sourceTake": "Walk_Loop",
+            "seconds": 1.3333333730697632,
+            "samples": 42,
+            "maximumGroundCorrection": 0.0420830158743938
+          },
+          {
+            "name": "Run",
+            "sourceTake": "Jog_Fwd_Loop",
+            "seconds": 0.9333333373069763,
+            "samples": 30,
+            "maximumGroundCorrection": 0.14048230713650953
+          },
+          {
+            "name": "Attack",
+            "sourceTake": "Punch_Jab",
+            "seconds": 0.8666666746139526,
+            "samples": 28,
+            "maximumGroundCorrection": 0.0035846713470622706
+          },
+          {
+            "name": "Hit",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.007311658074023681,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitLeft",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.007311658074023681,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitRight",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.007311658074023681,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "Death",
+            "sourceTake": "Death01",
+            "seconds": 2.4000000953674316,
+            "samples": 74,
+            "maximumGroundCorrection": 0.23266089737634602
+          }
+        ],
+        "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+        "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+      },
+      "readyForLab": true,
+      "reasons": [],
+      "runtime": {
+        "triangles": 4478,
+        "textures": [
+          {
+            "name": "tree+creature+3d+model_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1549460,
+            "sha256": "5b0c03d55851a6cd2f63a3ad43d148d9fc02312f834aeae0ba45feef5bc0197d"
+          },
+          {
+            "name": "tree+creature+3d+model_rm.png",
+            "mimeType": "image/png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 2902483,
+            "sha256": "ac39afef733b281150d8ed0102d0a1c59270e7f550987a8e4f458844ad1ed816"
+          },
+          {
+            "name": "tree+creature+3d+model_normal.jpg",
+            "mimeType": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1226550,
+            "sha256": "1f786302160274f053968f18e8f1adf76df26493dc27adbed021dc60b85c80ff"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1",
+            "baseColor": "tree+creature+3d+model_basecolor.jpg",
+            "normal": "tree+creature+3d+model_normal.jpg",
+            "metallicRoughness": "tree+creature+3d+model_rm.png",
+            "emissive": null
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_7b936742-b408-46b5-9e1c-06a3d35ec5b1",
+            "vertices": 2828,
+            "joints": [
+              {
+                "name": "mixamorig:RightFoot",
+                "vertices": 219
+              },
+              {
+                "name": "mixamorig:RightLeg",
+                "vertices": 491
+              },
+              {
+                "name": "mixamorig:RightUpLeg",
+                "vertices": 582
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 323
+              },
+              {
+                "name": "mixamorig:Spine",
+                "vertices": 390
+              },
+              {
+                "name": "mixamorig:Spine1",
+                "vertices": 386
+              },
+              {
+                "name": "mixamorig:Spine2",
+                "vertices": 293
+              },
+              {
+                "name": "mixamorig:RightShoulder",
+                "vertices": 149
+              },
+              {
+                "name": "mixamorig:RightArm",
+                "vertices": 68
+              },
+              {
+                "name": "mixamorig:LeftUpLeg",
+                "vertices": 670
+              },
+              {
+                "name": "mixamorig:LeftShoulder",
+                "vertices": 260
+              },
+              {
+                "name": "mixamorig:LeftArm",
+                "vertices": 259
+              },
+              {
+                "name": "mixamorig:LeftLeg",
+                "vertices": 491
+              },
+              {
+                "name": "mixamorig:Neck",
+                "vertices": 84
+              },
+              {
+                "name": "mixamorig:Head",
+                "vertices": 41
+              },
+              {
+                "name": "mixamorig:LeftFoot",
+                "vertices": 219
+              },
+              {
+                "name": "mixamorig:LeftForeArm",
+                "vertices": 74
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -1.016292200850889,
+            -6.301591773785735e-17,
+            -0.4517586966966663
+          ],
+          "max": [
+            1.0162922008508892,
+            2.7000000000000006,
+            0.4517586966966662
+          ]
+        },
+        "problems": [],
+        "file": "models/creature_starroot_guardian.glb",
+        "sha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+        "bytes": 6420192,
+        "scale": 2.7013191221375
+      },
+      "originalSource": {
+        "file": "assets/art/tripo/exports/4580db8d-f714-4acf-be53-33a2543e7090.glb",
+        "sha256": "47b5d6c821d36620d814d3f79ab073dd81a49dbb5305ba3825c62c48ce0b36f4",
+        "modelId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "sourceImageId": null,
+        "prompt": "tree creature with mossy vines, leaf-like back appendages, rugged bark texture, plant-like limbs",
+        "ledger": "assets/art/tripo/starred-export-middle.json#starredOrder17"
+      },
+      "bindPoseReconstruction": {
+        "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+        "sourceSkeletonSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "method": "Fitted the existing Mixamo hierarchy to the archived mesh bounds, reconstructed local rest transforms, and rebuilt inverse binds; source positions, normals, indices, and UVs are byte-preserved.",
+        "scale": {
+          "x": 0.5091632286111041,
+          "y": 0.6822603788185355,
+          "z": 1.104234045874837
+        },
+        "sourceMeshGeometryAndUvsPreserved": true,
+        "noRetopology": true
+      },
+      "geometryUvPreservation": {
+        "vertices": 2828,
+        "triangles": 4478,
+        "accessorSha256": {
+          "positions": "9dcf56537e5c8b6810338a50de724fde19820e29bda7562398a81f75c0961314",
+          "normals": "e86f4d3623a11324fc2ba6674967cc40005d75fb5e039b9fce821774bb396493",
+          "uvs": "a551173736a0076cbc628c669dfba74117d79efd996f953957773113777a6a20",
+          "indices": "0616a0ccd1cf01019494cceba51052075bfa2887cff10547c01f973d14502469"
+        },
+        "unchanged": true,
+        "noRetopology": true
+      },
+      "runtimePbrMaps": [
+        {
+          "name": "tree+creature+3d+model_basecolor.jpg",
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/jpeg"
+        },
+        {
+          "name": "tree+creature+3d+model_rm.png",
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/png"
+        },
+        {
+          "name": "tree+creature+3d+model_normal.jpg",
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/jpeg"
+        }
+      ],
+      "candidateFile": "models/creature_starroot_guardian.glb",
+      "role": {
+        "region": "faeholme",
+        "tier": 60,
+        "level": 66,
+        "currentForm": "Starroot Guardian"
+      },
+      "acceptance": {
+        "sourceSelectedByUser": true,
+        "rigAndMotion": "pending-root-lab-review",
+        "textureResponse": "pending-root-lab-review",
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "heldCandidates": [],
+  "visualAccepted": false,
+  "promotable": false
+}
