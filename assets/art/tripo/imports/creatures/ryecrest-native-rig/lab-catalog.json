@@ -91,7 +91,7 @@
         "runClipSeconds": 0.72,
         "attackSeconds": 0.82,
         "contactNormalized": 0.46,
-        "notes": "Small Fallowmarch field-margin groundbird. Uses a named 22-joint non-humanoid rig, layered 2K base color and PBR maps, and six authored clips. Candidate visuals and gameplay remain unaccepted.",
+        "notes": "Small Fallowmarch field-margin groundbird with a reviewed 22-joint rig, layered 2K base color and PBR maps, and six authored clips. Authored-world proof remains pending.",
         "boneNames": [
           "RyecrestRoot",
           "Pelvis",
@@ -118,8 +118,8 @@
         ]
       },
       "acceptance": {
-        "assetAudit": false,
-        "labAccepted": false,
+        "assetAudit": true,
+        "labAccepted": true,
         "worldIntegrated": false
       }
     }

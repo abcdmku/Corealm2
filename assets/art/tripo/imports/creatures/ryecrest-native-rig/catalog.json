@@ -2,15 +2,15 @@
   "schema": "corealm-creature-candidate/1",
   "id": "creature_ryecrest",
   "displayName": "Ryecrest",
-  "status": "staged-for-root-manifest-integration",
+  "status": "promoted-awaiting-world-proof",
   "acceptance": {
     "imageApproved": true,
     "geometryApproved": true,
-    "rigAccepted": false,
-    "motionAccepted": false,
-    "textureAccepted": false,
-    "promotable": false,
-    "labAccepted": false,
+    "rigAccepted": true,
+    "motionAccepted": true,
+    "textureAccepted": true,
+    "promotable": true,
+    "labAccepted": true,
     "worldIntegrated": false
   },
   "source": {
@@ -827,8 +827,8 @@
       "Approved Tripo P2.0 source geometry, topology, UV atlas, layered plumage albedo and PBR source maps are preserved; the broken Tripo bone tree and inverse-bind data are replaced because their rest transforms were absent and vertices were effectively bone_0-only.",
       "Ryecrest is a small Fallowmarch groundbird. Its rig uses a restrained neck/head/beak chain, tail, bilateral folded wings, thighs, hocks, feet, front toes and rear toes.",
       "Unity Humanoid is not suitable for this nonhumanoid creature; the candidate uses a named generic skinned rig suitable for a Unity Generic Animator after importer review.",
-      "Root reviewed normal-camera scale and Idle, Walk, Run, Attack and Hit in the production creature lab; no errors were observed. Death animation remains pending visual proof because the lab removed the actor promptly after the death command.",
-      "Staged to the existing creature_marchfield_turkey model path for root-owned manifest integration. Candidate acceptance flags remain false until the root completes its acceptance and world integration gates."
+      "Root reviewed normal-camera scale and Idle, Walk, Run, Attack and Hit in the production creature lab; no errors were observed. The 1.55-second Death clip has sampled deformation and the lab kill removed the actor promptly, but a visible death pose was not captured.",
+      "Promoted at the existing creature_marchfield_turkey model path with matching production manifest hash; authored-world placement proof remains pending."
     ]
   }
 }

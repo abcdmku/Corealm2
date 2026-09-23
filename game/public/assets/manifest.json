@@ -15338,212 +15338,122 @@
       "file": "models/creature/creature_marchfield_turkey.glb",
       "pack": "corealm-creature-expansion",
       "category": "character",
-      "is": "Marchfield turkey",
+      "is": "Ryecrest",
       "tags": [
         "creature",
-        "animal",
-        "bird",
         "ground",
-        "turkey",
-        "original",
+        "bird",
+        "field",
+        "ryecrest",
         "skinned",
         "articulated",
-        "modeled-feathers"
+        "plumage"
       ],
-      "bytes": 3476276,
-      "sha256": "df77ed486fb5c5669035a02e067b9d13b082548645eeb5c5c2d84d8e39e6ab55",
+      "bytes": 4633420,
+      "sha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460",
       "size": {
-        "x": 0.9681857833806928,
-        "y": 1.0452260190113953,
-        "z": 1.2779200301671019
+        "x": 0.55029296875,
+        "y": 0.9067384004592896,
+        "z": 0.99951171875
       },
       "base": {
-        "x": -0.4848068808076711,
-        "y": 0.0025478904973715577,
-        "z": -0.7868000085377684
+        "x": -0.275146484375,
+        "y": 0,
+        "z": -0.499755859375
       },
       "bounds": {
         "min": [
-          -0.4848068808076711,
-          0.0025478904973715577,
-          -0.7868000085377684
+          -0.275146484375,
+          0,
+          -0.499755859375
         ],
         "max": [
-          0.48337890257302174,
-          1.0477739095087668,
-          0.4911200216293335
+          0.275146484375,
+          0.9067384004592896,
+          0.499755859375
         ]
       },
-      "groundY": 0.0025478904973715577,
-      "triangles": 45480,
+      "groundY": 0,
+      "triangles": 3964,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
-        "marchfield_turkey_sculpted_plumage",
-        "marchfield_turkey_soft_breast_contour_plumage"
+        "Material_tripo_node_3abe54ae-8a01-474e-9f5d-6067964a543a"
       ],
       "sourceProvenance": {
-        "author": "Corealm",
-        "source": "Original procedural sculpture authored for Corealm",
-        "license": "Project-owned original geometry and animation"
+        "author": "Corealm candidate rig reconstruction",
+        "source": "Approved Tripo Studio Smart Mesh P2.0 groundbird model and GPT Image 2.5 source image; original geometry and UVs preserved.",
+        "sourceImageId": "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+        "modelId": "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+        "sourceFile": "assets/art/tripo/imports/creatures/starter-t1-images/exports/ryecrest.glb",
+        "sourceSha256": "a2743322f2cf3d9d35db7066d405d82a28617812528c9cc3befadce214ecf9a6",
+        "rigMethod": "22-joint authored non-humanoid groundbird skeleton with model-specific normalized weights and six authored clips.",
+        "candidateFile": "ryecrest-native-rig_candidate.glb",
+        "candidateSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460"
       },
-      "impliedWalkMps": 0.6,
-      "impliedRunMps": 1.15,
-      "walkClipSeconds": 1.0299999713897705,
-      "runClipSeconds": 0.5299999713897705,
-      "attackSeconds": 0.7799999713897705,
-      "contactNormalized": 0.455,
-      "measuredGait": {
-        "gait": {
-          "walk": {
-            "seconds": 1.0299999713897705,
-            "sampledFootBones": 2,
-            "stanceSamples": 124,
-            "measuredStanceMps": 0.6001178882611161,
-            "feet": [
-              {
-                "bone": "ToeL",
-                "minY": 0.024891701233119255,
-                "maxY": 0.08192860840405622,
-                "strideZ": 0.3939695083935354,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.6001178882611161
-              },
-              {
-                "bone": "ToeR",
-                "minY": 0.024891699790315927,
-                "maxY": 0.08192861032569301,
-                "strideZ": 0.39396699610720753,
-                "contactSamples": 62,
-                "stanceMedianMps": 0.6001197108287548
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Root",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          },
-          "run": {
-            "seconds": 0.5299999713897705,
-            "sampledFootBones": 2,
-            "stanceSamples": 100,
-            "measuredStanceMps": 1.149856762519942,
-            "feet": [
-              {
-                "bone": "ToeL",
-                "minY": 0.024831523469831675,
-                "maxY": 0.13726114321668806,
-                "strideZ": 0.3103734273416789,
-                "contactSamples": 50,
-                "stanceMedianMps": 1.149857161947431
-              },
-              {
-                "bone": "ToeR",
-                "minY": 0.02483152028715816,
-                "maxY": 0.13726114860063168,
-                "strideZ": 0.3103701560753318,
-                "contactSamples": 50,
-                "stanceMedianMps": 1.149856762519942
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Root",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          }
-        },
-        "loops": {
-          "Idle": {
-            "seconds": 3.200000047683716,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006219565662382539,
-            "maxScaleGap": 0
-          },
-          "Walk": {
-            "seconds": 1.0299999713897705,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006494068289361301,
-            "maxScaleGap": 0
-          },
-          "Run": {
-            "seconds": 0.5299999713897705,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.00047083380014952697,
-            "maxScaleGap": 0
-          }
-        },
-        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
-      },
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.82,
+      "contactNormalized": 0.46,
       "metadata": {
-        "is": "Marchfield turkey",
+        "is": "Ryecrest",
         "tags": [
           "creature",
-          "animal",
-          "bird",
           "ground",
-          "turkey",
-          "original",
+          "bird",
+          "field",
+          "ryecrest",
           "skinned",
           "articulated",
-          "modeled-feathers"
+          "plumage"
         ],
         "provenance": {
-          "author": "Corealm",
-          "source": "Original procedural sculpture authored for Corealm",
-          "license": "Project-owned original geometry and animation"
+          "sourceImageId": "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+          "modelId": "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+          "sourceSha256": "a2743322f2cf3d9d35db7066d405d82a28617812528c9cc3befadce214ecf9a6",
+          "candidateSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460"
         },
-        "attackSeconds": 0.78,
-        "contactNormalized": 0.455,
-        "impliedWalkMps": 0.6,
-        "impliedRunMps": 1.15,
-        "walkClipSeconds": 1.03,
-        "runClipSeconds": 0.53,
-        "notes": "Original turkey anatomy with volumetric overlapping feathers, sculpted bill, eyes, scale relief and four clawed toes per foot. Continuous weighted neck; independently skinned wings, tips, tail, thighs, shins, feet and toes. Two-bone IK gives linear backward stance travel at metadata speed, 64% walk and 51% run stance; foot rotation counteracts the limb chain. Eight original skeletal clips; cycles sealed and reactions recover. Ground bird only.",
+        "walkClipSeconds": 1.1,
+        "runClipSeconds": 0.72,
+        "attackSeconds": 0.82,
+        "contactNormalized": 0.46,
+        "notes": "Small Fallowmarch field-margin groundbird with the reviewed 22-joint rig, 2K layered color and PBR maps, and six authored clips.",
         "boneNames": [
-          "Root",
-          "Body",
-          "Neck1",
-          "Neck2",
-          "Neck3",
-          "Neck4",
-          "Neck5",
+          "RyecrestRoot",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
           "Head",
-          "Jaw",
-          "WingL",
-          "WingTipL",
-          "ThighL",
-          "ShinL",
-          "FootL",
-          "ToeL",
-          "WingR",
-          "WingTipR",
-          "ThighR",
-          "ShinR",
-          "FootR",
-          "ToeR",
+          "Beak",
+          "Wing_L",
+          "WingTip_L",
+          "Wing_R",
+          "WingTip_R",
           "Tail",
-          "TailTip"
-        ],
-        "authoringModule": "tools/creature-expansion/birds.mjs"
+          "Thigh_L",
+          "Hock_L",
+          "Foot_L",
+          "Toe_L",
+          "RearToe_L",
+          "Thigh_R",
+          "Hock_R",
+          "Foot_R",
+          "Toe_R",
+          "RearToe_R"
+        ]
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labCatalogue": "assets/art/tripo/imports/creatures/ryecrest-native-rig/lab-catalog.json"
       }
     },
     {
