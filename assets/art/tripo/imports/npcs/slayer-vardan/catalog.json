@@ -89,9 +89,22 @@
   },
   "candidate": {
     "file": "master-vardan-p1-humanoid-candidate.glb",
-    "sha256": "7b2da59d74e7989beb4f5daec4c3f534e3b9b1544ccc2ff7141d8c76fa27d8b9",
-    "bytes": 7911984,
+    "sha256": "9eefcd051dc79407fd28ec8b143257e534022a711b3379f13953085a7a163fe5",
+    "bytes": 7916844,
     "productionTarget": "game/public/assets/models/character/npc_slayer_vardan.glb",
+    "presentationScale": 1.6,
+    "presentationBounds": {
+      "min": [
+        -0.7953125000000001,
+        0,
+        -0.7328125000000001
+      ],
+      "max": [
+        0.7953125000000001,
+        1.5968750953674318,
+        0.7328125000000001
+      ]
+    },
     "geometry": {
       "vertices": 7610,
       "triangles": 4828,

@@ -11,6 +11,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../../../../../../');
 const sourcePath = path.join(repo, 'assets/art/tripo/exports/a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801.glb');
 const candidatePath = path.join(here, 'master-vardan-p1-humanoid-candidate.glb');
+const presentationScale = 1.6;
 const expectedSourceSha256 = '6206ba042f935f64e62ca152162170bdf30ab44b92b2dc64d566fb2cc4b8537b';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 await mkdir(here, { recursive: true });
@@ -201,6 +202,7 @@ for (const node of oldNodes.reverse()) {
 }
 
 const rigContainer = doc.createNode('MasterVardan_NativeRig').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
+rigContainer.setScale([presentationScale, presentationScale, presentationScale]);
 scene.addChild(rigContainer);
 rigContainer.addChild(meshNode.setName('MasterVardanMesh').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]));
 const jointNodes = new Map();
@@ -304,6 +306,8 @@ function poseAt(name, t, duration) {
     rotate('mixamorigSpine1', .014 * Math.sin(phase), 0, .006 * Math.sin(phase + .3));
     rotate('mixamorigSpine2', .020 * Math.sin(phase), .006 * Math.sin(phase), 0);
     rotate('mixamorigHead', .012 * Math.sin(phase + .3), .030 * Math.sin(phase), 0);
+    rotate('mixamorigLeftArm', 0, 0, .60 + .012 * Math.sin(phase + .6));
+    rotate('mixamorigRightArm', 0, 0, -.60 + .012 * Math.sin(phase + .2));
     rotate('VardanTailBase', 0, .026 * Math.sin(phase), .012 * Math.sin(phase));
     rotate('VardanTailMid', 0, .040 * Math.sin(phase + .3), 0);
     rotate('VardanTailEnd', 0, .045 * Math.sin(phase + .55), 0);
@@ -320,7 +324,7 @@ function poseAt(name, t, duration) {
       rotate(`mixamorig${side}UpLeg`, swing * Math.sin(foot), 0, 0);
       rotate(`mixamorig${side}Leg`, -knee * Math.max(0, Math.sin(foot)), 0, 0);
       rotate(`mixamorig${side}Foot`, -swing * Math.sin(foot) + knee * Math.max(0, Math.sin(foot)), 0, 0);
-      rotate(`mixamorig${side}Arm`, -armSwing * Math.sin(foot), 0, 0);
+      rotate(`mixamorig${side}Arm`, -armSwing * Math.sin(foot), 0, side === 'Left' ? .60 : -.60);
       rotate(`mixamorig${side}ForeArm`, .08 * Math.max(0, Math.sin(foot)), 0, 0);
     }
   } else if (name === 'Attack') {
@@ -328,7 +332,7 @@ function poseAt(name, t, duration) {
     rotate('mixamorigHips', 0, .10 * wind, 0);
     rotate('mixamorigSpine1', .10 * wind, .10 * wind, -.05 * wind);
     rotate('mixamorigSpine2', .08 * wind, .16 * wind, 0);
-    rotate('mixamorigRightArm', .05 * wind, -.78 * wind, -.17 * wind);
+    rotate('mixamorigRightArm', .05 * wind, -.78 * wind, -.60 - .17 * wind);
     rotate('mixamorigRightForeArm', .22 * wind, -.44 * wind, .03 * wind);
     rotate('mixamorigLeftArm', 0, .20 * wind, .12 * wind);
     rotate('mixamorigLeftForeArm', -.14 * wind, 0, 0);
@@ -338,18 +342,20 @@ function poseAt(name, t, duration) {
     rotate('mixamorigSpine2', .025 * reach, 0, -.018 * reach);
     rotate('mixamorigNeck', .055 * reach, 0, 0);
     rotate('mixamorigHead', .045 * reach, .02 * reach, 0);
-    rotate('mixamorigRightArm', 0, -.92 * reach, -.10 * reach);
+    rotate('mixamorigRightArm', 0, -.92 * reach, -.60 - .10 * reach);
     rotate('mixamorigRightForeArm', .10 * reach, -.34 * reach, -.08 * reach);
     rotate('mixamorigRightHand', .06 * reach, 0, .04 * reach);
     rotate('VardanTailBase', 0, .04 * reach, 0);
   } else if (name === 'Talk') {
     const phrase = Math.sin(phase);
     const emphasis = Math.max(0, Math.sin(phase * 2));
-    rotate('mixamorigSpine1', .008 * phrase, 0, .006 * phrase);
-    rotate('mixamorigNeck', .018 * Math.sin(phase * 2), 0, 0);
-    rotate('mixamorigHead', .028 * Math.sin(phase * 2 + .4), .012 * phrase, 0);
-    rotate('mixamorigRightArm', 0, -.10 * emphasis, -.018 * emphasis);
-    rotate('mixamorigRightForeArm', .035 * emphasis, -.07 * emphasis, 0);
+    rotate('mixamorigSpine1', .014 * phrase, 0, .010 * phrase);
+    rotate('mixamorigSpine2', 0, -.018 * phrase, 0);
+    rotate('mixamorigNeck', .040 * Math.sin(phase * 2), 0, 0);
+    rotate('mixamorigHead', .062 * Math.sin(phase * 2 + .4), .025 * phrase, 0);
+    rotate('mixamorigRightArm', 0, -.20 * emphasis, -.60 + .22 * emphasis);
+    rotate('mixamorigRightForeArm', .05 * emphasis, -.14 * emphasis, .82 * emphasis);
+    rotate('mixamorigRightHand', .02 * emphasis, 0, -.12 * emphasis);
     rotate('VardanTailMid', 0, .018 * phrase, 0);
   } else if (name === 'Hit') {
     const recoil = Math.max(0, Math.sin(Math.PI * Math.min(1, t / duration)));
@@ -357,8 +363,8 @@ function poseAt(name, t, duration) {
     rotate('mixamorigSpine1', -.16 * recoil, 0, .07 * recoil);
     rotate('mixamorigSpine2', -.10 * recoil, 0, .04 * recoil);
     rotate('mixamorigHead', -.10 * recoil, .03 * recoil, 0);
-    rotate('mixamorigLeftArm', .08 * recoil, 0, .16 * recoil);
-    rotate('mixamorigRightArm', -.10 * recoil, 0, -.14 * recoil);
+    rotate('mixamorigLeftArm', .08 * recoil, 0, .60 + .16 * recoil);
+    rotate('mixamorigRightArm', -.10 * recoil, 0, -.60 - .14 * recoil);
     rotate('VardanTailMid', 0, -.18 * recoil, 0);
   } else if (name === 'Death') {
     const fall = Math.max(0, Math.min(1, (t / duration - .06) / .55));
@@ -368,8 +374,8 @@ function poseAt(name, t, duration) {
     rotate('mixamorigSpine1', .14 * ease, 0, .08 * ease);
     rotate('mixamorigSpine2', .10 * ease, 0, .05 * ease);
     rotate('mixamorigHead', -.16 * ease, 0, 0);
-    rotate('mixamorigLeftArm', .18 * ease, 0, -.58 * ease);
-    rotate('mixamorigRightArm', .16 * ease, 0, .58 * ease);
+    rotate('mixamorigLeftArm', .18 * ease, 0, .60 - .58 * ease);
+    rotate('mixamorigRightArm', .16 * ease, 0, -.60 + .58 * ease);
     rotate('mixamorigLeftUpLeg', -.28 * ease, 0, 0);
     rotate('mixamorigRightUpLeg', -.19 * ease, 0, 0);
     rotate('mixamorigLeftLeg', .30 * ease, 0, 0);
@@ -462,6 +468,10 @@ for (const texture of outputTextures) {
 }
 const candidateMr = checkedRoot.listTextures().find((texture) => texture.getName().includes('_rm'));
 if (!candidateMr) throw new Error('Candidate lost its packed metallic-roughness texture.');
+const checkedRigRoot = checkedRoot.listNodes().find((node) => node.getName() === 'MasterVardan_NativeRig');
+if (!checkedRigRoot || checkedRigRoot.getScale().some((value) => Math.abs(value - presentationScale) > 1e-7)) {
+  throw new Error('Candidate presentation scale was not serialized onto the rig root.');
+}
 const candidatePackedBytes = await sharp(candidateMr.getImage()).removeAlpha().raw().toBuffer();
 const candidatePackedChannelRanges = [0, 1, 2].map((channel) => {
   const values = [];
@@ -502,6 +512,11 @@ const candidate = {
     sha256: candidateSha256,
     bytes: outputBytes.length,
     productionTarget: 'game/public/assets/models/character/npc_slayer_vardan.glb',
+    presentationScale,
+    presentationBounds: {
+      min: bounds.min.map((value) => value * presentationScale),
+      max: bounds.max.map((value) => value * presentationScale),
+    },
     geometry: { vertices: vertexCount, triangles: triangleCount, positionsPreserved: true, normalsPreserved: true, uvPreserved: true, indicesPreserved: true },
     rig: {
       mapping: 'Mixamo-named Unity Humanoid-compatible skeleton, with a four-joint articulated tail.',
@@ -531,10 +546,22 @@ const labAsset = {
   tags: ['npc', 'slayer-master', 'humanoid', 'reptilian', 'wilderness', 'karrowmoor', 'tripo-p1', 'candidate'],
   bytes: outputBytes.length,
   sha256: candidateSha256,
-  size: { x: bounds.max[0] - bounds.min[0], y: bounds.max[1] - bounds.min[1], z: bounds.max[2] - bounds.min[2] },
-  base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] },
-  bounds,
-  groundY: bounds.min[1],
+  presentationScale,
+  size: {
+    x: (bounds.max[0] - bounds.min[0]) * presentationScale,
+    y: (bounds.max[1] - bounds.min[1]) * presentationScale,
+    z: (bounds.max[2] - bounds.min[2]) * presentationScale,
+  },
+  base: {
+    x: bounds.min[0] * presentationScale,
+    y: bounds.min[1] * presentationScale,
+    z: bounds.min[2] * presentationScale,
+  },
+  bounds: {
+    min: bounds.min.map((value) => value * presentationScale),
+    max: bounds.max.map((value) => value * presentationScale),
+  },
+  groundY: bounds.min[1] * presentationScale,
   triangles: triangleCount,
   animations: clips.map((clip) => clip.name),
   materials: root.listMaterials().map((entry) => entry.getName()),

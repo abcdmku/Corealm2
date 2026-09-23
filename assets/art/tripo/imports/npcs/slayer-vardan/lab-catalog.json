@@ -17,28 +17,29 @@
         "tripo-p1",
         "candidate"
       ],
-      "bytes": 7911984,
-      "sha256": "7b2da59d74e7989beb4f5daec4c3f534e3b9b1544ccc2ff7141d8c76fa27d8b9",
+      "bytes": 7916844,
+      "sha256": "9eefcd051dc79407fd28ec8b143257e534022a711b3379f13953085a7a163fe5",
+      "presentationScale": 1.6,
       "size": {
-        "x": 0.994140625,
-        "y": 0.9980469346046448,
-        "z": 0.916015625
+        "x": 1.5906250000000002,
+        "y": 1.5968750953674318,
+        "z": 1.4656250000000002
       },
       "base": {
-        "x": -0.4970703125,
+        "x": -0.7953125000000001,
         "y": 0,
-        "z": -0.4580078125
+        "z": -0.7328125000000001
       },
       "bounds": {
         "min": [
-          -0.4970703125,
+          -0.7953125000000001,
           0,
-          -0.4580078125
+          -0.7328125000000001
         ],
         "max": [
-          0.4970703125,
-          0.9980469346046448,
-          0.4580078125
+          0.7953125000000001,
+          1.5968750953674318,
+          0.7328125000000001
         ]
       },
       "groundY": 0,
@@ -64,7 +65,7 @@
         "sourceFile": "assets/art/tripo/exports/a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801.glb",
         "sourceSha256": "6206ba042f935f64e62ca152162170bdf30ab44b92b2dc64d566fb2cc4b8537b",
         "candidateFile": "assets/art/tripo/imports/npcs/slayer-vardan/master-vardan-p1-humanoid-candidate.glb",
-        "candidateSha256": "7b2da59d74e7989beb4f5daec4c3f534e3b9b1544ccc2ff7141d8c76fa27d8b9",
+        "candidateSha256": "9eefcd051dc79407fd28ec8b143257e534022a711b3379f13953085a7a163fe5",
         "textures": [
           {
             "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_basecolor.jpg",
