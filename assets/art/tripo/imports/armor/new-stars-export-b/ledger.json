@@ -13,7 +13,7 @@
   "browserBlock": {
     "stage": "Tripo export completed and redirected to the signed tripo-data.rg1.data.tripo3d.com GLB attachment URL; Chrome displayed ERR_BLOCKED_BY_CLIENT.",
     "workaroundAttempted": false,
-    "note": "Initial Chrome download was blocked; no restriction was bypassed. A later Tripo UI retry downloaded the first item successfully. Four additional items are not yet recorded locally."
+    "note": "Initial Chrome download was blocked; no restriction was bypassed. A later Tripo UI retry downloaded the first item successfully. Three additional items are not yet recorded locally."
   },
   "localFileCheck": {
     "checkedOn": "2026-09-23",
@@ -22,7 +22,7 @@
       "assets/art/tripo/exports"
     ],
     "matchingGLBsFound": true,
-    "matchingGLBsCount": 1
+    "matchingGLBsCount": 2
   },
   "items": [
     {
@@ -71,14 +71,21 @@
       },
       "modelDetailVerified": true,
       "export": {
-        "attempted": false,
-        "settingsApplied": false,
+        "attempted": true,
+        "settingsApplied": true,
         "requestedSettings": "GLB, 8k Current textures, Export Skeleton enabled, Pack UV off",
-        "status": "not_attempted_after_browser_block_handoff",
-        "localFile": null,
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": "enabled in UI; output rig unverified",
+        "packUV": false,
+        "status": "archived_verified",
+        "localFile": "assets/art/tripo/exports/cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
         "archivePath": "assets/art/tripo/exports/cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
-        "sizeBytes": null,
-        "sha256": null
+        "sizeBytes": 8408372,
+        "sha256": "ec05c4b63b5eb38e8d7500f8577fb26a0ac24415e56d5309fee71dc17c8030d8",
+        "downloadedFileName": "medieval+knight+3d+model (4).glb",
+        "exportedAtLocal": "2026-09-23T05:32:59-05:00",
+        "identificationEvidence": "Unique 05:32 local arrival confirmed for project cc618fd5-433e-4a90-978c-fd957504b5f3; 40 textured mesh/material pairs use medieval_knight_3d_model base-color maps with blue-silver averages matching the prompt."
       }
     },
     {
