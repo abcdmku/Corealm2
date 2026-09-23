@@ -3,7 +3,7 @@
   "recordedOn": "2026-09-23",
   "task": "Crosswalk and export-status ledger for five newly starred armor and wizard models assigned to new-stars-export-b.",
   "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
-  "overallStatus": "partial_local_archive",
+  "overallStatus": "local_archive_complete",
   "requestedExportSettings": {
     "format": "GLB",
     "textureResolution": "8k Current",
@@ -13,7 +13,7 @@
   "browserBlock": {
     "stage": "Tripo export completed and redirected to the signed tripo-data.rg1.data.tripo3d.com GLB attachment URL; Chrome displayed ERR_BLOCKED_BY_CLIENT.",
     "workaroundAttempted": false,
-    "note": "Initial Chrome download was blocked; no restriction was bypassed. A later Tripo UI retry downloaded the first item successfully. One additional item is not yet recorded locally."
+    "note": "The first Chrome download failed, but the browser restriction was not bypassed. Tripo UI retries downloaded all five models; each archive copy has a verified size and SHA-256."
   },
   "localFileCheck": {
     "checkedOn": "2026-09-23",
@@ -22,7 +22,7 @@
       "assets/art/tripo/exports"
     ],
     "matchingGLBsFound": true,
-    "matchingGLBsCount": 4
+    "matchingGLBsCount": 5
   },
   "items": [
     {
@@ -167,14 +167,21 @@
       },
       "modelDetailVerified": true,
       "export": {
-        "attempted": false,
-        "settingsApplied": false,
+        "attempted": true,
+        "settingsApplied": true,
         "requestedSettings": "GLB, 8k Current textures, Export Skeleton enabled, Pack UV off",
-        "status": "not_attempted_after_browser_block_handoff",
-        "localFile": null,
+        "format": "GLB",
+        "textureResolution": "8k Current",
+        "exportSkeleton": "enabled in UI; output rig unverified",
+        "packUV": false,
+        "status": "archived_verified",
+        "localFile": "assets/art/tripo/exports/a9956e9e-0576-47a0-877e-ee5d3a3b2bb5.glb",
         "archivePath": "assets/art/tripo/exports/a9956e9e-0576-47a0-877e-ee5d3a3b2bb5.glb",
-        "sizeBytes": null,
-        "sha256": null
+        "sizeBytes": 8397164,
+        "sha256": "ad23f967ae3e3ed8b9a0987d298b9c892945e7ab6bc88b188111bd4b042d5ca7",
+        "downloadedFileName": "full+plate+armor+3d+model.glb",
+        "exportedAtLocal": "2026-09-23T05:37:54-05:00",
+        "identificationEvidence": "Unique 05:37 local arrival confirmed for project a9956e9e-0576-47a0-877e-ee5d3a3b2bb5; 47 textured mesh/material pairs use full_plate_armor_3d_model maps with gray-blue and brown colors matching the prompt."
       }
     }
   ]
