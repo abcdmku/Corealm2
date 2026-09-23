@@ -1,0 +1,83 @@
+{
+  "schema": "corealm-tripo-creature-request/1",
+  "asset": "Furrow Slink",
+  "candidateId": "creature_furrow_slink",
+  "tier": 1,
+  "status": "ready-for-image-to-model",
+  "sourceImage": {
+    "file": "assets/art/tripo/references/field-low-furrow-slink-r2.png",
+    "sha256": "2a6ae715755f3cd01b7aaf20f6f621a6a579326ae3e3ded9b6c09f1a30b6fc7b",
+    "review": "Approved by Astra-low"
+  },
+  "identity": {
+    "region": "Fallowmarch starter fields",
+    "ecology": "Small, wary soil-turner that noses through field margins for beetle grubs and spilled seed; it flees first and snaps only when cornered.",
+    "combatRole": "Neutral T1 wildlife; brief defensive bite, low threat and low durability.",
+    "visualBrief": "Compact ochre-brown burrowing creature with a broad blunt head, two sturdy forelimbs, long hindlimb-free trunk and tapered tail, a low swept ridge of short bristles, and layered muted wheat, peat, amber and sand markings. Calm alert face, intact features, grounded natural proportions."
+  },
+  "tripo": {
+    "imageModel": "GPT Image 2.5",
+    "model": "P1.0 - Fast",
+    "geometry": {
+      "mode": "Smart Mesh",
+      "topology": "Triangles",
+      "targetTriangles": 4000,
+      "maximumTriangles": 4500,
+      "retopology": false
+    },
+    "uv": {
+      "mode": "Smart UV",
+      "instruction": "Generate a clean, non-overlapping UV atlas once after geometry. Keep an already valid generated atlas rather than destructively re-unwrapping it."
+    },
+    "textures": {
+      "resolution": "2K",
+      "maps": ["BaseColor", "Normal", "MetallicRoughness"],
+      "surface": "Layered natural skin color with fine pebbled scale detail, restrained roughness variation, pale sand belly, muted russet bands and dark peat accents; no glow or metal finish."
+    },
+    "rig": {
+      "exportSkeleton": true,
+      "target": "Unity-compatible glTF creature skeleton",
+      "shape": "Hindlimb-free, two-forelimb burrower with flexible torso and four-segment tail",
+      "preserveSourceGeometry": true
+    },
+    "export": {
+      "format": "GLB",
+      "includeSkeleton": true,
+      "includeTextures": true
+    }
+  },
+  "imageToModelPrompt": "FALLOWMARCH STARTER WILDLIFE — FURROW SLINK. Use the approved input image as the exact creature identity and silhouette reference. Make one original small, low-slung burrowing field creature for a serious grounded medieval RPG. Preserve its intact broad wedge head, small watchful eyes, short blunt muzzle, exactly two sturdy forelimbs, long continuous hindlimb-free trunk, and tapered tail. Keep the short dark dorsal bristles swept close to the back; they are soft bristles, not spikes. Give it healthy compact proportions, neither bulky nor thin, with clearly separated forelimbs and readable joints. Keep the calm alert face complete and restrained. Its skin has layered natural Fallowmarch colors: ochre and weathered wheat-brown above, warm peat and amber mottling, muted russet bars, and a lighter sand-colored underside, with fine pebbled scale and crease detail. Matte organic skin with subtle roughness variation. Show one whole creature in a three-quarter front neutral standing pose, all of the head, both forelimbs and the full tail visible, centered on a plain warm light-gray studio background with soft even lighting. Match the supplied design; do not add rear legs, horns, antlers, armor, wings, extra limbs, oversized eyes, a grin, exposed organs, machinery, science-fiction parts, dinosaur traits, or scenery.",
+  "nativeAnimationPlan": {
+    "skeleton": [
+      "root",
+      "torso_front",
+      "torso_mid",
+      "torso_rear",
+      "neck",
+      "head",
+      "tail_01",
+      "tail_02",
+      "tail_03",
+      "tail_04",
+      "fore_l_shoulder",
+      "fore_l_elbow",
+      "fore_l_paw",
+      "fore_r_shoulder",
+      "fore_r_elbow",
+      "fore_r_paw"
+    ],
+    "clips": {
+      "Idle": "Low breathing, small head checks and a slow tail-tip sweep; keep the creature settled and watchful.",
+      "Walk": "In-place creeping gait with alternating forepaw pulls and a mild torso-to-tail wave; belly stays close to the ground.",
+      "Run": "Quick fleeing slink with stronger torso undulation, brisk alternating forepaw strokes and tail counterbalance; preserve the low silhouette.",
+      "Attack": "One short defensive forward feint and closed-to-small bite, then return to guard; no oversized jaw or theatrical roar.",
+      "Hit": "Brief startle recoil, forepaws brace, head turns away and tail tightens; recover without stretching the mesh.",
+      "Death": "Forelimbs fold and the body settles into a small natural side curl; restrained, no dismemberment or gore."
+    },
+    "acceptance": "Keep the source mesh and PBR maps intact; confirm all 16 joints deform the intended regions, clips start from the same neutral pose, and walk, run, attack, hit and death play without visible tearing, foot skating or root lift."
+  },
+  "dropsProposal": [
+    { "item": "Furrowhide", "purpose": "Basic starter leather for simple field gear." },
+    { "item": "Amber Scale", "purpose": "Occasional low-tier crafting component from the dorsal ridge." }
+  ]
+}
