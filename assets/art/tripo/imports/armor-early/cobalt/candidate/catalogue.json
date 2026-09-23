@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-tripo-armor",
+    "name": "Corealm Tripo armor",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/import-tripo.ts"
+  },
+  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\a9956e9e-0576-47a0-877e-ee5d3a3b2bb5.glb",
+  "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+  "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+  "textureSize": 2048,
+  "assets": [
+    {
+      "id": "corealm_item_kaldite_helm",
+      "file": "models/items/kaldite_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_helm",
+        "head"
+      ],
+      "bytes": 22496920,
+      "itemModel": {
+        "itemId": "kaldite_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.2411865070462227,
+        "y": 0.30849599838256836,
+        "z": 0.33784177899360657
+      },
+      "base": {
+        "x": -0.12059319019317627,
+        "y": 1.510624647140503,
+        "z": -0.15672603249549866
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "kaldite_helm",
+      "status": "pending",
+      "sha256": "3898502bbdfdafc4fcaf68b8985adf804e56cbc371dedf1849601405ab186829",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 546,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_kaldite_plate",
+      "file": "models/items/kaldite_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_plate",
+        "torso"
+      ],
+      "bytes": 22578520,
+      "itemModel": {
+        "itemId": "kaldite_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.95,
+            "maxY": 1.52
+          }
+        ]
+      },
+      "size": {
+        "x": 0.993142157793045,
+        "y": 0.517675518989563,
+        "z": 0.3640381097793579
+      },
+      "base": {
+        "x": -0.4965023100376129,
+        "y": 1.052714467048645,
+        "z": -0.18021240830421448
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "kaldite_plate",
+      "status": "pending",
+      "sha256": "78630409f56d830e25d4e30e87605657a6f4b4fe27665bb4ca81b3234bb3e8fd",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 1169,
+      "drawCalls": 17
+    },
+    {
+      "id": "corealm_item_kaldite_gauntlets",
+      "file": "models/items/kaldite_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_gauntlets",
+        "arms"
+      ],
+      "bytes": 22606252,
+      "itemModel": {
+        "itemId": "kaldite_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.750963270664215,
+        "y": 0.2282038927078247,
+        "z": 0.2556397020816803
+      },
+      "base": {
+        "x": -0.877503514289856,
+        "y": 1.30980384349823,
+        "z": -0.1634296327829361
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "kaldite_gauntlets",
+      "status": "pending",
+      "sha256": "5c80d1ea1d0d089b03f596b201084c308a1ccd303d42e22de5574b810bffa822",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 1438,
+      "drawCalls": 10
+    },
+    {
+      "id": "corealm_item_kaldite_greaves",
+      "file": "models/items/kaldite_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_greaves",
+        "legs"
+      ],
+      "bytes": 22596744,
+      "itemModel": {
+        "itemId": "kaldite_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.25,
+            "maxY": 1.08
+          }
+        ]
+      },
+      "size": {
+        "x": 0.4495933949947357,
+        "y": 0.9079104661941528,
+        "z": 0.36223143339157104
+      },
+      "base": {
+        "x": -0.2247941941022873,
+        "y": 0.186112642288208,
+        "z": -0.1892455667257309
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "kaldite_greaves",
+      "status": "pending",
+      "sha256": "5867ae6bbed6a0bb085205416c86f70fc58f67d0c01ede635ffe594138c30b2d",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 1359,
+      "drawCalls": 19
+    },
+    {
+      "id": "corealm_item_kaldite_boots",
+      "file": "models/items/kaldite_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "kaldite_boots",
+        "feet"
+      ],
+      "bytes": 22511424,
+      "itemModel": {
+        "itemId": "kaldite_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.3800720274448395,
+        "y": 0.2487301342189312,
+        "z": 0.33784180879592896
+      },
+      "base": {
+        "x": -0.19003617763519287,
+        "y": 0.019999731332063675,
+        "z": -0.14859604835510254
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "kaldite_boots",
+      "status": "pending",
+      "sha256": "5311d4c3d09d57d018e35767c590b29a30535710cf0be58c1f9ca341d6c8d3b2",
+      "sourceSha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "configSha256": "d0eceb3a48b5bb14f93c6d72877ea6e3f58f8bf1060332e23ea5dd732ebaf1cf",
+      "triangles": 479,
+      "drawCalls": 7
+    }
+  ],
+  "audit": {
+    "candidateStatus": "pending-root-lab-review",
+    "sourceAudit": {
+      "file": "assets/art/tripo/exports/packed-8k/a9956e9e-0576-47a0-877e-ee5d3a3b2bb5.glb",
+      "bytes": 33150900,
+      "sha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81",
+      "meshPrimitives": 47,
+      "triangles": 4991,
+      "joints": 65,
+      "textureMaps": {
+        "baseColor": {
+          "width": 8192,
+          "height": 8192,
+          "mime": "image/jpeg",
+          "bytes": 12330183,
+          "sha256": "6ae3f96ae2b477f70efbc8c9537474a951dc51d0b0ab40a0192f159eac0b9401",
+          "averageRGB": [
+            55.7,
+            57.3,
+            64.4
+          ]
+        },
+        "metallicRoughness": {
+          "width": 8192,
+          "height": 8192,
+          "mime": "image/jpeg",
+          "bytes": 9761144,
+          "sha256": "533372866a09f5a53fb741349ef23d1e3d54bf4d138028205244a8ee527a2cdc",
+          "channelMeansRGB": [
+            0.6,
+            91,
+            125.9
+          ]
+        },
+        "normal": {
+          "width": 8192,
+          "height": 8192,
+          "mime": "image/jpeg",
+          "bytes": 10586877,
+          "sha256": "d12ab08982b35342ce1db977f8c8eda03c5488acc3f3e950d6f3f812cd7e81f6"
+        }
+      },
+      "material": {
+        "name": "Material",
+        "metallicFactor": 1,
+        "roughnessFactor": 1,
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "skinWeightFinding": "Source JOINTS_0 weights do not consistently match spatially identifiable limb geometry (for example, the negative-X arm-region tripo_part_0 is weighted to LeftLeg). Source weights are neutralized during candidate import; output is rebound to the native male 65-joint skin."
+    },
+    "fit": {
+      "method": "Bind-pose neutral source bake, nonuniform native-male scale (X/Z 1.85, Y 1.8, +0.02 m Y), geometry-based triangle segmentation, ±56° arm corrections around the native upper-arm anchors, and a piecewise lateral lower-leg/boot fit to native joint spacing; item output vertices receive the production native skin.",
+      "armRotationDegrees": {
+        "left": 56.001,
+        "right": -56.001
+      },
+      "triangleAssignments": {
+        "kaldite_helm": 546,
+        "kaldite_plate": 1169,
+        "kaldite_gauntlets": 1438,
+        "kaldite_greaves": 1359,
+        "kaldite_boots": 479
+      },
+      "originalTrianglesAssignedOnce": 4991,
+      "sourceMaps8192DownsampledToRuntime": 2048
+    },
+    "generatedAssetAudit": [
+      {
+        "itemId": "kaldite_helm",
+        "triangles": 546,
+        "joints": 65,
+        "textures": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          }
+        ]
+      },
+      {
+        "itemId": "kaldite_plate",
+        "triangles": 1169,
+        "joints": 65,
+        "textures": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          }
+        ]
+      },
+      {
+        "itemId": "kaldite_gauntlets",
+        "triangles": 1438,
+        "joints": 65,
+        "textures": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          }
+        ]
+      },
+      {
+        "itemId": "kaldite_greaves",
+        "triangles": 1359,
+        "joints": 65,
+        "textures": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          }
+        ]
+      },
+      {
+        "itemId": "kaldite_boots",
+        "triangles": 479,
+        "joints": 65,
+        "textures": [
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          },
+          {
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png"
+          }
+        ]
+      }
+    ],
+    "acceptance": "Pending root review in the production-backed feature lab; no visual acceptance or promotion claimed."
+  }
+}
