@@ -70,7 +70,7 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-limber-demon/gloamreach-harrower-rigged.glb",
-    "sha256": "917ad6f5b79fbb0d78504043f69d4e25342286bc8e235f35a39b81eac0fb95e7",
+    "sha256": "f913fa65bbfcaa02f8f3a66cea3a13c343d498253d92251f166272db99de4205",
     "bytes": 5116296,
     "productionTarget": "game/public/assets/models/creature/creature_gloamreach_harrower.glb",
     "presentation": {
@@ -372,10 +372,10 @@
       {
         "name": "Death",
         "seconds": 1.75,
-        "minimumWorldY": 0.0059999379965304245,
-        "maximumWorldY": 1.85966447879959,
-        "maximumGroundLift": 0.5776931011963803,
-        "visibleSampledMotion": 1.2640853926113977
+        "minimumWorldY": 0.005999982942130694,
+        "maximumWorldY": 1.9460474550676983,
+        "maximumGroundLift": 0.3414688744770392,
+        "visibleSampledMotion": 1.2019644983638997
       }
     ]
   },

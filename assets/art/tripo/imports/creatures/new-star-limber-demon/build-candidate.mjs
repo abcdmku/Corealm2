@@ -200,8 +200,8 @@ addClip('Hit',.52,[
  {node:'mixamorigRightArm',times:[0,.07,.21,.52],values:[0,.28,-.08,0].map(a=>quat('y',a))},
 ]);
 addClip('Death',1.75,[
- {node:'mixamorigHips',path:'translation',times:[0,.22,.66,1.18,1.75],values:[[hp[0],hp[1],hp[2]],[hp[0]-.01,hp[1]-.14,hp[2]],[hp[0]-.04,.10,hp[2]],[hp[0]-.07,.06,hp[2]],[hp[0]-.07,.06,hp[2]]]},
- {node:'mixamorigHips',times:[0,.22,.66,1.18,1.75],values:[0,-.30,-.92,-1.18,-1.18].map(a=>quat('z',a))},
+ {node:'mixamorigHips',path:'translation',times:[0,.22,.66,1.18,1.75],values:[[hp[0],hp[1],hp[2]],[hp[0]-.01,hp[1]-.12,hp[2]],[hp[0]-.04,.40,hp[2]],[hp[0]-.06,.44,hp[2]],[hp[0]-.06,.44,hp[2]]]},
+ {node:'mixamorigHips',times:[0,.22,.66,1.18,1.75],values:[0,.26,.82,1.10,1.10].map(a=>quat('z',a))},
  {node:'mixamorigSpine1',times:[0,.22,.66,1.18,1.75],values:[0,.08,.20,.16,.16].map(a=>quat('x',a))},
  {node:'mixamorigSpine2',times:[0,.22,.66,1.18,1.75],values:[0,.10,.16,.12,.12].map(a=>quat('z',a))},
  {node:'mixamorigHead',times:[0,.22,.66,1.18,1.75],values:[0,.13,.31,.38,.38].map(a=>quat('z',a))},
