@@ -44402,28 +44402,27 @@
     {
       "id": "creature_boss_galeskin",
       "file": "models/creature/creature_boss_galeskin.glb",
-      "pack": "corealm-rpg-forest-monster-current",
+      "pack": "corealm-tripo-creatures",
       "category": "character",
-      "is": "galeskin regional boss",
+      "is": "Fallow Brute",
       "tags": [
         "creature",
-        "rpg",
-        "mossback_sentinel"
+        "tripo"
       ],
-      "bytes": 1819208,
-      "sha256": "c95b6ee17b683dfb36f15fe84b7174c943bf06e0c849c195e3213483237e2de1",
+      "bytes": 2273440,
+      "sha256": "77722412ae1dcacbdfc5df6cedf3adaf42947a0d938d60314c98861e08dad149",
+      "triangles": 6568,
       "size": {
-        "x": 2.9165041924936985,
-        "y": 2.7837194907660185,
-        "z": 1.8370204475500793
+        "x": 1.5224232977496963,
+        "y": 2.8000000000000007,
+        "z": 0.764631269179683
       },
       "base": {
-        "x": -1.439845285045335,
-        "y": 0.003,
-        "z": -1.055067305058089
+        "x": -0.7612116488748474,
+        "y": 5.458171726645595e-16,
+        "z": -0.3823156345898414
       },
       "groundY": 0,
-      "triangles": 9382,
       "animations": [
         "Idle",
         "Walk",
@@ -44435,779 +44434,202 @@
         "Death"
       ],
       "materials": [
-        "animal_rpg_boss_galeskin_animal_rpg_briar_harrow_heartwood",
-        "animal_rpg_boss_galeskin_anatomy",
-        "animal_rpg_boss_galeskin_inner_growth",
-        "animal_rpg_boss_galeskin_eroded_edges"
+        "Material_tripo_node_bc847a50-a9f2-461b-b16e-76001ee5ad8f"
       ],
-      "walkClipSeconds": 2.2813332080841064,
-      "runClipSeconds": 1.5733332633972168,
-      "attackSeconds": 1.7110000848770142,
-      "contactNormalized": 0.4,
       "sourceProvenance": {
-        "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-        "license": "CC0-1.0",
-        "source": "https://opengameart.org/content/forest-monster",
-        "sourceAssets": [
-          "forest-monster-final.blend",
-          "Monster",
-          "Tree"
-        ],
-        "sourcePacks": [
+        "generator": "Tripo Studio",
+        "modelId": "37458f5d-edc4-443d-97f8-dad5716de47b",
+        "sourceImageId": "9f8752e0-b52b-4eec-b589-092487b08b97",
+        "sourceFile": "assets/art/tripo/imports/creatures/fallow-brute-t1/sources/creature_boss_galeskin-2adabf7f9db7.glb",
+        "sourceSha256": "2adabf7f9db7a767db9e0760389edd191ac74ad1b454a121d94f19b9875b1503",
+        "basisRepair": {
+          "degrees": 90,
+          "sourceSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.006883169276032958,
+              "p95": 0.018334921865128126,
+              "max": 0.03136038748224851,
+              "samples": 266
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.031420227954485035,
+              "p95": 0.07914972039724995,
+              "max": 0.11559997508269758,
+              "samples": 266
+            }
+          },
+          "bindLateralAxis": [
+            1.1500275310488608e-8,
+            6.532615681057302e-7,
+            0.9999999999997866
+          ],
+          "resultSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.031420227954485035,
+              "p95": 0.07914972039724995,
+              "max": 0.11559997508269758,
+              "samples": 266
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.006883169276032958,
+              "p95": 0.018334921865128126,
+              "max": 0.03136038748224851,
+              "samples": 266
+            }
+          },
+          "method": "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology"
+        },
+        "materialTreatment": null,
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 4256,
+          "dominantJointVertices": {
+            "RightHand": 405,
+            "RightForeArm": 83,
+            "RightArm": 132,
+            "Spine2": 171,
+            "RightUpLeg": 487,
+            "Spine1": 25,
+            "Spine": 53,
+            "LeftUpLeg": 330,
+            "LeftForeArm": 85,
+            "LeftArm": 129,
+            "LeftShoulder": 47,
+            "Neck": 435,
+            "RightShoulder": 55,
+            "Head": 489,
+            "LeftHand": 398,
+            "Hips": 201,
+            "RightToeBase": 173,
+            "RightFoot": 60,
+            "RightLeg": 133,
+            "LeftLeg": 134,
+            "LeftFoot": 59,
+            "LeftToeBase": 172
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": false
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": -89.99998410126187,
+          "translationScale": 0.5709733026665519,
+          "bindBounds": {
+            "min": [
+              -0.2717285560981036,
+              2.4361892452794586e-8,
+              -0.13647463078459304
+            ],
+            "max": [
+              0.27172853634937144,
+              0.9995116983504178,
+              0.1364746120160337
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.02561356415603653
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.039878549044756004
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.11017831428721778
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.036325408677957104
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0318728009444427,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0318728009444427,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0318728009444427,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.09828785766637914
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "imageReview": {
+          "verdict": "approved",
+          "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
+        },
+        "sourceTextures": [
           {
-            "id": "forest-monster-current",
-            "author": "ÄŒestmÃ­r Dammer (CDmir)",
-            "license": "CC0-1.0",
-            "source": "https://opengameart.org/content/forest-monster",
-            "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
+            "name": "corealm_fallow_brute_37458f5d_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 16514506,
+            "sha256": "9f679ee74fef3547c4f471b1f0daa5f75645ed02439494353236939df8ccbbf9"
           }
-        ],
-        "sourceRecords": [
-          {
-            "archive": "forest-monster_0.7z",
-            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-            "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-            "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
-          }
-        ],
-        "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
+        ]
       },
       "metadata": {
-        "id": "boss_galeskin",
-        "family": "galeskin",
-        "revision": "forest-monster-source-review-1",
-        "height": 2.7837194907660185,
-        "dimensions": [
-          2.9165041924936985,
-          2.7837194907660185,
-          1.8370204475500793
-        ],
-        "rig": "authored-76-bone-forest-monster",
-        "meshCount": 2,
-        "vertices": 4527,
-        "triangles": 6582,
-        "attackContact": 0.4,
-        "attackContactSource": "Author Licenses.txt marks native strike frames10â€“15 of30; midpoint12 used",
-        "source": "https://opengameart.org/content/forest-monster",
-        "license": "CC0-1.0",
-        "provenance": {
-          "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-          "license": "CC0-1.0",
-          "source": "https://opengameart.org/content/forest-monster",
-          "sourceAssets": [
-            "forest-monster-final.blend",
-            "Monster",
-            "Tree"
-          ],
-          "sourcePacks": [
-            {
-              "id": "forest-monster-current",
-              "author": "ÄŒestmÃ­r Dammer (CDmir)",
-              "license": "CC0-1.0",
-              "source": "https://opengameart.org/content/forest-monster",
-              "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
-            }
-          ],
-          "sourceRecords": [
-            {
-              "archive": "forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-              "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-              "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
-            }
-          ],
-          "modifications": "A wind-stripped elder with a sideways-split timber mantle, one enlarged root forearm and a hollow wind-cut head. Long flattened timber ribs grow continuously out of its shoulders and bow in the walking cycle. New anatomical surfaces are part of the animated skin. Whole skeleton and surfaces receive a coordinated bind refit. Accepted source texture art retained with new surface UVs; native source license and attribution retained.",
-          "sourceModifications": "Hollow rooted torso, removed leaf canopy, bowed upper trunk and broad hooked forearms; rooted arch grows from shoulders into the back. Coordinated nonlinear skin and bind-joint refit; revised articulated body motion; source action contacts retained; whole weighted surface ground correction. New Corealm wood/chitin materials generated with builtin imagegen and JPEG-encoded at quality 90 for runtime; source PNGs and prompts retained in art/biome-creatures/forest."
-        },
-        "textureBindings": [
-          {
-            "materialName": "animal_rpg_boss_galeskin_animal_rpg_briar_harrow_heartwood",
-            "textureName": "briar_harrow_heartwood_albedo",
-            "mimeType": "image/jpeg",
-            "sha256": "c66b6a0aec8d06beb9f76d1ffc61040093a8fa3fcb843b9d48a922809b880cef",
-            "sourcePath": "Embedded accepted creature_briar_harrow texture; source asset SHA-256 178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932"
-          },
-          {
-            "materialName": "animal_rpg_boss_galeskin_anatomy",
-            "textureName": "briar_harrow_heartwood_albedo",
-            "mimeType": "image/jpeg",
-            "sha256": "c66b6a0aec8d06beb9f76d1ffc61040093a8fa3fcb843b9d48a922809b880cef",
-            "sourcePath": "Embedded accepted creature_briar_harrow texture; source asset SHA-256 178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932"
-          },
-          {
-            "materialName": "animal_rpg_boss_galeskin_inner_growth",
-            "textureName": "briar_harrow_heartwood_albedo",
-            "mimeType": "image/jpeg",
-            "sha256": "c66b6a0aec8d06beb9f76d1ffc61040093a8fa3fcb843b9d48a922809b880cef",
-            "sourcePath": "Embedded accepted creature_briar_harrow texture; source asset SHA-256 178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932"
-          },
-          {
-            "materialName": "animal_rpg_boss_galeskin_eroded_edges",
-            "textureName": "briar_harrow_heartwood_albedo",
-            "mimeType": "image/jpeg",
-            "sha256": "c66b6a0aec8d06beb9f76d1ffc61040093a8fa3fcb843b9d48a922809b880cef",
-            "sourcePath": "Embedded accepted creature_briar_harrow texture; source asset SHA-256 178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932"
-          }
-        ],
-        "sourceOcclusion": {
-          "aoPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-AO.png",
-          "sha256": "c7dfa8616a5b044ab48c00ad0256b9538c1266dd6733d4b24d4a94fdff5eef83",
-          "active": false,
-          "reason": "Original Blender 2.75 Material/MTex pointers contain no AO binding. Monster has only diffuse, normal and specular slots. The AO image is retained from the current archive as unused source data; no runtime occlusion binding or inferred strength is added.",
-          "evidence": "test-results/forest-monster-source/legacy-material-slots.json",
-          "inspectionMethod": "Direct original-file SDNA decode with inspect_legacy_ao.mjs"
-        },
-        "sourceAlpha": {
-          "material": "Tree",
-          "mode": "MASK",
-          "cutoff": 0.5,
-          "channel": "baseColorTexture.a",
-          "textureSha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940",
-          "sourceConvention": "Original MATree diffuse MTex mapto129 = color1 + alpha128; alphafac1. PNG has102618 fully transparent texels and42145 partial-alpha texels.",
-          "translation": "Source alpha translated to production cutout threshold0.5; threshold is a runtime choice, not claimed as an original Blender value.",
-          "evidence": "test-results/forest-alpha-repair/alpha-evidence.json",
-          "textureBytesModified": false
-        },
-        "textureChannels": [
-          {
-            "materialName": "forest_authored_0_Monster",
-            "baseColorPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-skin1.png",
-              "sha256": "8ecf0c8f4b70feefa40fdc6d61fde2b8327ce8bf40053977a4e6d6c995eccf2f"
-            },
-            "normalPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-norm.png",
-              "sha256": "98a90aaf5e6c08db2eec60a520fa4960b97753ff4a4d3ff8987d8b8d7652e439"
-            },
-            "specularPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-spec.png",
-              "sha256": "2cf0f13a2e1b505453d70637b2fcec51ba2650504efafbecf24f2050fd763538"
-            },
-            "flipY": false
-          },
-          {
-            "materialName": "forest_authored_1_Tree",
-            "baseColorPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree.png",
-              "sha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940"
-            },
-            "normalPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-norm.png",
-              "sha256": "6a178f5479a7401c8bf8ca994abf3b515bc9fc525afadee049b7d66e699e5c29"
-            },
-            "specularPath": {
-              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-spec.png",
-              "sha256": "722067474adb7b2e96f1719449e54db3854828a3fc8a43dff82789d03917da46"
-            },
-            "flipY": false
-          }
-        ],
-        "clipSources": {
-          "Idle": {
-            "take": "Idle",
-            "frames": [
-              0,
-              190
-            ]
-          },
-          "Walk": {
-            "take": "Walk",
-            "frames": [
-              0,
-              40
-            ]
-          },
-          "Run": {
-            "take": "Walk",
-            "frames": [
-              0,
-              40
-            ],
-            "derivative": "1.45x native Walk tempo; no authored running take"
-          },
-          "Attack": {
-            "take": "Attack",
-            "frames": [
-              0,
-              30
-            ],
-            "contactFrames": [
-              10,
-              15
-            ]
-          },
-          "Hit": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "compressed to 0.6s with 0.10rad Spine2 recoil"
-          },
-          "HitLeft": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "same recoil plus +0.16rad directional Spine2 turn"
-          },
-          "HitRight": {
-            "take": "Melee_Hold",
-            "frames": [
-              0,
-              50
-            ],
-            "derivative": "same recoil plus -0.16rad directional Spine2 turn"
-          },
-          "Death": {
-            "take": "Dying",
-            "frames": [
-              0,
-              35
-            ]
-          }
-        },
-        "animationFloorChecks": [
-          {
-            "clip": "Idle",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.030557655718908,
-            "firstBounds": [
-              -1.049471848914935,
-              0.0029999999992796483,
-              -1.6199505099890523,
-              0.9675774980876151,
-              4.021234333076601,
-              0.7728246161599515
-            ]
-          },
-          {
-            "clip": "Walk",
-            "rawMinFloor": 0.01813139636374765,
-            "maximumLift": 0,
-            "minFloor": 0.0028914848962731457,
-            "maxHeight": 3.5706791980244534,
-            "firstBounds": [
-              -1.189548130842616,
-              0.0029999985307447383,
-              -0.8615581221131342,
-              1.0606916061536253,
-              3.450180122793115,
-              1.885922921411111
-            ]
-          },
-          {
-            "clip": "Run",
-            "rawMinFloor": 0.01645777156997795,
-            "maximumLift": 0,
-            "minFloor": -0.0013766797493177108,
-            "maxHeight": 3.570509281016618,
-            "firstBounds": [
-              -1.189548130842616,
-              0.0029999985307447383,
-              -0.8615581221131342,
-              1.0606916061536253,
-              3.450180122793115,
-              1.885922921411111
-            ]
-          },
-          {
-            "clip": "Attack",
-            "rawMinFloor": 0.058748393274765574,
-            "maximumLift": 0,
-            "minFloor": 0.0015529289089054668,
-            "maxHeight": 4.036798488158019,
-            "firstBounds": [
-              -1.0494718648157368,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "Hit",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.021234316953496,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "HitLeft",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.023456017869573,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "HitRight",
-            "rawMinFloor": 0.10689334817374654,
-            "maximumLift": 0,
-            "minFloor": 0.0029999999992796483,
-            "maxHeight": 4.021234316953496,
-            "firstBounds": [
-              -1.0494718463525352,
-              0.0029999999992796483,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234316953496,
-              0.7728246485105749
-            ]
-          },
-          {
-            "clip": "Death",
-            "rawMinFloor": -0.13215362212044202,
-            "maximumLift": 0.13515362212044202,
-            "minFloor": 0.0019174360814546432,
-            "maxHeight": 4.021234329992012,
-            "firstBounds": [
-              -1.0494718628300377,
-              0.0029999999414600503,
-              -1.6199504730070882,
-              0.9675775015978078,
-              4.021234329992012,
-              0.7728246485105749
-            ]
-          }
-        ],
-        "exportNotes": "Blender4.5.11 forced sampling preserves evaluated source constraints; source vertices with >4 weights reduced to top4 and renormalized for production glTF path",
-        "approval": "candidate-awaiting-production-browser-review",
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
-          "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "gaitMeasurement": {
-          "source": "assets/art/regional-bosses/gait-calibration.json",
-          "status": "measured-weighted-sole",
-          "visualContactAccepted": false
-        },
-        "redesign": {
-          "sourceAssetId": "creature_briar_harrow",
-          "sourceSha256": "178b64ed885a086e1534f9bbea1153cd7db9390e66d15fab3276e8776efa8932",
-          "generator": "tools/regional-bosses/build.mjs",
-          "design": "A wind-stripped elder with a sideways-split timber mantle, one enlarged root forearm and a hollow wind-cut head. Long flattened timber ribs grow continuously out of its shoulders and bow in the walking cycle.",
-          "deformedVertices": 4802,
-          "removedTriangles": 3310,
-          "addedTriangles": 5172,
-          "parts": [
-            {
-              "name": "wind_split_mantle_-1_0",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "returning_root_rib_-1_0",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "wind_split_mantle_-1_1",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "returning_root_rib_-1_1",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "wind_split_mantle_-1_2",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "wind_split_mantle_1_0",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "returning_root_rib_1_0",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "wind_split_mantle_1_1",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "returning_root_rib_1_1",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "wind_split_mantle_1_2",
-              "joint": "forest_src_33_Spine3",
-              "triangles": 384
-            },
-            {
-              "name": "open_wind_head_-1",
-              "joint": "forest_src_2_Head",
-              "triangles": 384
-            },
-            {
-              "name": "open_wind_head_1",
-              "joint": "forest_src_2_Head",
-              "triangles": 384
-            },
-            {
-              "name": "blind_head_recess",
-              "joint": "forest_src_2_Head",
-              "triangles": 180
-            },
-            {
-              "name": "ancestral_root_forearm",
-              "joint": "forest_src_27_Forearm_R",
-              "triangles": 384
-            }
-          ],
-          "motionEdits": [
-            {
-              "clip": "Idle",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "Idle",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Idle",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Walk",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.035
-            },
-            {
-              "clip": "Walk",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Walk",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Run",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.035
-            },
-            {
-              "clip": "Run",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Run",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Attack",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.14
-            },
-            {
-              "clip": "Attack",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.095
-            },
-            {
-              "clip": "Attack",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.095
-            },
-            {
-              "clip": "Hit",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "Hit",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Hit",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "HitLeft",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "HitRight",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "HitRight",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "HitRight",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Death",
-              "joint": "forest_src_33_Spine3",
-              "amplitude": 0.018
-            },
-            {
-              "clip": "Death",
-              "joint": "forest_src_2_Head",
-              "amplitude": 0.025
-            },
-            {
-              "clip": "Death",
-              "joint": "forest_src_47_IK_Head",
-              "amplitude": 0.025
-            }
-          ],
-          "clipTimeMultiplier": 1.18,
-          "measurement": {
-            "size": {
-              "x": 2.9165041924936985,
-              "y": 2.7837194907660185,
-              "z": 1.8370204475500793
-            },
-            "base": {
-              "x": -1.439845285045335,
-              "y": 0.003,
-              "z": -1.055067305058089
-            },
-            "animatedMin": [
-              -2.1189130946659507,
-              0.002999999999999999,
-              -1.4898654539846377
-            ],
-            "animatedMax": [
-              1.5924493338474897,
-              2.795327959511194,
-              2.2871987354337437
-            ],
-            "clips": [
-              {
-                "name": "Idle",
-                "duration": 10.836333274841309,
-                "samples": 652,
-                "min": [
-                  -1.5050713806812066,
-                  0.003,
-                  -1.0970782770387602
-                ],
-                "max": [
-                  1.4881901522929248,
-                  2.795327959511194,
-                  0.8634019590446346
-                ],
-                "minCorrection": -1.3724866676327607e-8,
-                "maxCorrection": -1.3724866676327607e-8
-              },
-              {
-                "name": "Walk",
-                "duration": 2.2813332080841064,
-                "samples": 138,
-                "min": [
-                  -1.6358130108680495,
-                  0.0030000000000000027,
-                  -1.086284846855904
-                ],
-                "max": [
-                  1.5920913425150165,
-                  2.2701853407306136,
-                  1.0855303247978587
-                ],
-                "minCorrection": -0.20105758803922943,
-                "maxCorrection": -0.10135955655227066
-              },
-              {
-                "name": "Run",
-                "duration": 1.5733332633972168,
-                "samples": 96,
-                "min": [
-                  -1.6358116288261748,
-                  0.0030000000000000027,
-                  -1.0855811936750306
-                ],
-                "max": [
-                  1.5924493338474897,
-                  2.2692131774703097,
-                  1.0854771988581307
-                ],
-                "minCorrection": -0.20051914113982844,
-                "maxCorrection": -0.10159028581174592
-              },
-              {
-                "name": "Attack",
-                "duration": 1.7110000848770142,
-                "samples": 104,
-                "min": [
-                  -2.1189130946659507,
-                  0.002999999999999999,
-                  -1.4898654539846377
-                ],
-                "max": [
-                  1.4766590539838527,
-                  2.7916695066591792,
-                  1.445557248434435
-                ],
-                "minCorrection": -0.07782170491208666,
-                "maxCorrection": -1.3724866676327607e-8
-              },
-              {
-                "name": "Hit",
-                "duration": 0.8212800621986389,
-                "samples": 51,
-                "min": [
-                  -1.4691624459031294,
-                  0.003,
-                  -1.0610550208187552
-                ],
-                "max": [
-                  1.480164933714993,
-                  2.786719515566568,
-                  0.8055866577904693
-                ],
-                "minCorrection": -1.3724866676327607e-8,
-                "maxCorrection": -1.3724866676327607e-8
-              },
-              {
-                "name": "HitLeft",
-                "duration": 0.8212800621986389,
-                "samples": 51,
-                "min": [
-                  -1.480840520927909,
-                  0.003,
-                  -1.0550673492568112
-                ],
-                "max": [
-                  1.47665905891187,
-                  2.786719515962309,
-                  0.8255103360907148
-                ],
-                "minCorrection": -1.3724866676327607e-8,
-                "maxCorrection": -1.3724866676327607e-8
-              },
-              {
-                "name": "HitRight",
-                "duration": 0.8212800621986389,
-                "samples": 51,
-                "min": [
-                  -1.5039259363155004,
-                  0.003,
-                  -1.1692585606352184
-                ],
-                "max": [
-                  1.5002909909457829,
-                  2.7867195151708284,
-                  0.7847131174387955
-                ],
-                "minCorrection": -1.3724866676327607e-8,
-                "maxCorrection": -1.3724866676327607e-8
-              },
-              {
-                "name": "Death",
-                "duration": 1.996166706085205,
-                "samples": 121,
-                "min": [
-                  -1.9926379303640023,
-                  0.002999999999999999,
-                  -1.379744465766086
-                ],
-                "max": [
-                  1.4766589095646236,
-                  2.7867194959458583,
-                  2.2871987354337437
-                ],
-                "minCorrection": -0.16944985339799207,
-                "maxCorrection": 0.043311887773905156
-              }
-            ],
-            "method": "Complete weighted surface sampled at 60 Hz or finer. Native skeletal tracks retained; whole-body correction closes ground gaps."
-          }
-        },
-        "sourceProvenance": {
-          "author": "ÄŒestmÃ­r Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
-          "license": "CC0-1.0",
-          "source": "https://opengameart.org/content/forest-monster",
-          "sourceAssets": [
-            "forest-monster-final.blend",
-            "Monster",
-            "Tree"
-          ],
-          "sourcePacks": [
-            {
-              "id": "forest-monster-current",
-              "author": "ÄŒestmÃ­r Dammer (CDmir)",
-              "license": "CC0-1.0",
-              "source": "https://opengameart.org/content/forest-monster",
-              "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
-            }
-          ],
-          "sourceRecords": [
-            {
-              "archive": "forest-monster_0.7z",
-              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
-              "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
-              "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
-            }
-          ],
-          "modifications": "Hollow rooted torso, removed leaf canopy, bowed upper trunk and broad hooked forearms; rooted arch grows from shoulders into the back. Coordinated nonlinear skin and bind-joint refit; revised articulated body motion; source action contacts retained; whole weighted surface ground correction. New Corealm wood/chitin materials generated with builtin imagegen and JPEG-encoded at quality 90 for runtime; source PNGs and prompts retained in art/biome-creatures/forest.",
-          "sourceModifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
-        }
+        "materialTreatment": null,
+        "animationAcceptance": "accepted-production-lab; six-motion normal-camera review passed"
       },
       "acceptance": {
         "exported": true,
         "labAccepted": true,
         "worldIntegrated": false
       },
-      "impliedWalkMps": 0.567067232985638,
-      "impliedRunMps": 0.8222471155881657,
-      "locomotionPolicy": "speed-matched"
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526
     },
     {
       "id": "creature_boss_rootheart",

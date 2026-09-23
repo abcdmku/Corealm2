@@ -138,14 +138,14 @@
       },
       {
         "id": "galeskin_sword",
-        "name": "Plains Ogre Sword",
-        "description": "Copper pattern, but the edge whistles on the backswing. Plains Ogre carried it point-down.",
+        "name": "Galeskin Sword",
+        "description": "Copper pattern, but the edge whistles on the backswing. A spare blade from Galeskin's guarded store.",
         "familyId": "gear_mainHand_melee_2400"
       },
       {
         "id": "galeskin_staff",
-        "name": "Plains Ogre Staff",
-        "description": "Pine scoured silver by wind. The empty socket hums in weather.",
+        "name": "Galeskin Staff",
+        "description": "Pine scoured silver by Fallowmarch wind. The empty socket hums before a gust.",
         "familyId": "gear_mainHand_magic_staff_3000"
       }
     ],

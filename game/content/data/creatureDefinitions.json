@@ -1648,7 +1648,7 @@
   },
   {
     "id": "galeskin_t1",
-    "name": "Plains Ogre",
+    "name": "Galeskin",
     "family": "galeskin",
     "availability": "world",
     "level": 1,
@@ -1717,14 +1717,6 @@
                 2
               ],
               "chance": 0.5
-            },
-            {
-              "itemId": "coarse_hide",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.4
             }
           ],
           "tables": []
@@ -15712,7 +15704,7 @@
   },
   {
     "id": "boss_galeskin_t1",
-    "name": "Plains Ogre",
+    "name": "Galeskin",
     "family": "boss_galeskin",
     "availability": "lab",
     "level": 1,
@@ -15759,7 +15751,7 @@
       "scale": 1.5,
       "regionId": "fallowmarch",
       "activity": "patrol",
-      "description": "A wind-stripped elder with a split timber mantle, one heavy root forearm and a hollow wind-cut head.",
+      "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
       "kind": "basic"
     }
   },
@@ -16539,7 +16531,7 @@
       "scale": 1.1538461538461537,
       "regionId": "fallowmarch",
       "activity": "patrol",
-      "description": "Plains Ogre",
+      "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
       "kind": "basic"
     },
     "profileId": "boss"

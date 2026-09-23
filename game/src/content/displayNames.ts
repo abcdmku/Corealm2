@@ -146,7 +146,6 @@ export const DISPLAY_NAME_REPLACEMENTS: Readonly<Record<string, string>> = Objec
   "Ordrun the Quarrykeeper": "Quarry Warden",
   Ordrun: "Quarry Warden",
   Quarrykeeper: "Quarry Warden",
-  Galeskin: "Plains Ogre",
   Mossbound: "Forest Ogre",
   Tideworn: "Cave Ogre",
   Cinderwake: "Fire Ogre",
