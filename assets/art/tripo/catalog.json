@@ -396,8 +396,10 @@
       }
     }
   ],
+  "newModelGenerator": "Use Tripo P1 for new 3D models, including creatures and armor; preserve the recorded generator of existing approved models.",
   "creatureApprovalGate": {
     "reviewer": "gpt-6-astra-low",
+    "tierArtDirection": "T1 uses small, simple animal-like creatures with restrained variation. Larger and intricate forms begin at T10. T10-T20 mixes ordinary wildlife with aggressive fantasy creatures; T40 retains ordinary fauna alongside complex aggressive forms.",
     "requirement": "Explicit APPROVE for the exact source image UUID before generating a new creature model. Revisions require a fresh verdict.",
     "modelSourceVerification": "Verify the actual Tripo model Texture reference-image UUID matches the approved UUID. For uploaded approved PNGs, record the exact approved file SHA256 and its observed upload-reference UUID mapping. A ledger label alone is not evidence.",
     "faceRequirement": "Intact, intentional, readable PG-13 faces suited to a serious fantasy RPG. Reject genital-like facial folds, paired fleshy lobes, vertical orifice slits, radial fleshy mouths, and hollow, torn-off, blasted or missing faces. Ghosts retain coherent spectral faces; mineral and plant creatures retain solid, readable facial structures without becoming human masks.",
@@ -407,6 +409,7 @@
   },
   "exportWorkflow": {
     "preferred": "Individual GLB export, 8k Current, Export Skeleton enabled; Pack UV disabled when present.",
+    "rigPreset": "For new humanoids, evaluate Unity Humanoid Compatible against the game's motion importer before using it. Tripo exposes that preset only under Humanoid; quadrupeds and birds need a validated nonhumanoid rig with distributed weights, valid inverse binds, and real animation clips.",
     "automation": "Unsegmented creature exports downloaded through the UI. Some segmented armor exports still reach ERR_BLOCKED_BY_CLIENT.",
     "sourceValidation": "Preserve downloaded originals. Inspect embedded texture dimensions, source identity, skin weights and inverse bind matrices before importing. Several rig-page GLBs contain unusable root-only weights and require correction.",
     "segmentedTextureCaveat": "The available armor exports have reduced per-part textures despite selecting 8K; these are not accepted as preserved 8K masters."
