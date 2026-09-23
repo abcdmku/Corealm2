@@ -9,15 +9,15 @@
                                        "dewglass-reliquary-legacy-region-assets"
                                    ],
                     "staged":  [
-                                   "grove-brute",
-                                   "cragbound-keeper",
                                    "dewglass-weaver",
                                    "emberbank-brute",
                                    "vault-custodian",
                                    "dewglass-reliquary-new-source"
                                ],
                     "held":  [
-                                 "cairn-treader"
+                                 "cairn-treader",
+                                 "grove-brute-candidate",
+                                 "cragbound-keeper-candidate"
                              ],
                     "missing":  [
 
@@ -38,7 +38,7 @@
                         "modelId":  "07e65df7-8ccb-4a73-872a-54d1229da86c",
                         "sourceImageReview":  "approved",
                         "sourceSha256":  "5244b9a7b9b7dc8f9e5d4da470323c0d417206b94312eb9e7749fc9a3f27d7b0",
-                        "status":  "staged-candidate-existing",
+                        "status":  "held-after-lab-review",
                         "candidate":  "assets/art/tripo/imports/creatures/grove-brute-t5/models/creature_boss_mossbound.glb",
                         "animations":  [
                                            "Idle",
@@ -50,7 +50,13 @@
                                            "HitRight",
                                            "Death"
                                        ],
-                        "production":  "The public manifest still has a different older Mossbound regional boss asset. Existing source-matched candidate has repaired weights and animation metadata; do not duplicate. Runtime animation and face readability remain for root acceptance."
+                        "production":  "The source-matched candidate already exists, but root reviewed its normal-camera lab screenshots and held it. At gameplay scale it reads as a generic bare-chested human/ogre with a sack-like shoulder mass; Run and Hit were awkward and ungrounded. Do not duplicate or promote without a substantive accepted revision.",
+                        "reviewHold":  {
+                                           "visual":  "Generic human/ogre silhouette with sack-like shoulder mass at normal gameplay camera",
+                                           "motion":  "Run and Hit show awkward lift and grounding",
+                                           "reviewer":  "Root reviewed actual lab screenshots",
+                                           "candidatePath":  "assets/art/tripo/imports/creatures/grove-brute-t5/models/creature_boss_mossbound.glb"
+                                       }
                     },
                     {
                         "id":  "dewglass-reliquary",
@@ -174,7 +180,7 @@
                         "modelId":  "00725e73-acb0-4633-a8b7-ee04d7c576e9",
                         "sourceImageReview":  "approved",
                         "sourceSha256":  "3413ffb590eb0a4dcd005035819addc8c2b3aaf5cd25f99a26de458dcc6a93b4",
-                        "status":  "staged-candidate-existing",
+                        "status":  "held-after-lab-review",
                         "candidate":  "assets/art/tripo/imports/creatures/cragbound-keeper/models/creature_stone_golem.glb",
                         "animations":  [
                                            "Idle",
@@ -186,7 +192,13 @@
                                            "HitRight",
                                            "Death"
                                        ],
-                        "production":  "The public manifest still has the different older stone golem geometry. Existing source-matched candidate has repaired weights and animation metadata; do not duplicate. Runtime animation and face readability remain for root acceptance."
+                        "production":  "The source-matched candidate exists, but root reviewed its lab screenshots and held it. It reads as a generic brown mud-and-stone humanoid with an indistinct face; feet hover in Idle and reviewed motion. Do not duplicate or promote without a substantive accepted revision.",
+                        "reviewHold":  {
+                                           "visual":  "Generic brown mud-and-stone humanoid with indistinct face",
+                                           "motion":  "Feet hover above terrain during Idle and reviewed motion frames",
+                                           "reviewer":  "Root reviewed actual lab screenshots",
+                                           "candidatePath":  "assets/art/tripo/imports/creatures/cragbound-keeper/models/creature_stone_golem.glb"
+                                       }
                     },
                     {
                         "id":  "dewglass-weaver",
