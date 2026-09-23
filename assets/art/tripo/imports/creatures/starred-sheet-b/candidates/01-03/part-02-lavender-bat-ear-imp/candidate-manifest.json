@@ -1,0 +1,143 @@
+{
+  "schema": "corealm-starred-sheet-b-rig-candidate/1",
+  "part": 2,
+  "id": "lavender-bat-ear-imp",
+  "label": "Lavender Bat-Ear Imp",
+  "designDisposition": "provisional-held-for-root-review",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-02.glb",
+    "sha256": "c574c2184b5039404ebcad4d22a96095dbe1b1496393aef21cbe318ccb351d47"
+  },
+  "candidate": {
+    "file": "lavender-bat-ear-imp-native-rig-candidate.glb",
+    "sha256": "f309b7eacad07f7a3215b1e059833683eb9b4d7c11e75c4bf295d041c478c7c3"
+  },
+  "geometry": {
+    "vertices": 2445,
+    "triangles": 1423,
+    "sourceAttributeHashes": {
+      "positions": "e22c1eb778624e7bdbd462b223913fb63e2c1a84929f7c9dfceb34be669af3b6",
+      "normals": "f5ce036ad20b6d184c4404eb20bad7f687c604240476809d08330fd7538852e7",
+      "uvs": "3f36812f87f3f1cc5130b2ad1cd209fb7a468ed08888a4bab1ce95803abbc67e",
+      "indices": "9335d78d22ba4e7093828a3e4aa0c9b7cf32143fa59be754e92aab948d6bb973"
+    },
+    "outputAttributeHashes": {
+      "positions": "e22c1eb778624e7bdbd462b223913fb63e2c1a84929f7c9dfceb34be669af3b6",
+      "normals": "f5ce036ad20b6d184c4404eb20bad7f687c604240476809d08330fd7538852e7",
+      "uvs": "3f36812f87f3f1cc5130b2ad1cd209fb7a468ed08888a4bab1ce95803abbc67e",
+      "indices": "9335d78d22ba4e7093828a3e4aa0c9b7cf32143fa59be754e92aab948d6bb973"
+    },
+    "retopology": false
+  },
+  "rig": {
+    "type": "Y-up humanoid imp",
+    "bones": 22,
+    "boneNames": [
+      "mixamorigHips",
+      "mixamorigSpine",
+      "mixamorigSpine1",
+      "mixamorigSpine2",
+      "mixamorigNeck",
+      "mixamorigHead",
+      "mixamorigLeftShoulder",
+      "mixamorigLeftArm",
+      "mixamorigLeftForeArm",
+      "mixamorigLeftHand",
+      "mixamorigRightShoulder",
+      "mixamorigRightArm",
+      "mixamorigRightForeArm",
+      "mixamorigRightHand",
+      "mixamorigLeftUpLeg",
+      "mixamorigLeftLeg",
+      "mixamorigLeftFoot",
+      "mixamorigLeftToeBase",
+      "mixamorigRightUpLeg",
+      "mixamorigRightLeg",
+      "mixamorigRightFoot",
+      "mixamorigRightToeBase"
+    ],
+    "influencesPerVertex": 4,
+    "verticesWithDistributedWeights": 2445,
+    "maxWeightSumError": 0,
+    "modelSpecificAnatomy": "oversized bat ears and narrow shoulders"
+  },
+  "clips": [
+    {
+      "name": "Idle",
+      "channels": 4,
+      "duration": 2.4000000953674316
+    },
+    {
+      "name": "Walk",
+      "channels": 5,
+      "duration": 1.100000023841858
+    },
+    {
+      "name": "Run",
+      "channels": 5,
+      "duration": 0.7200000286102295
+    },
+    {
+      "name": "Attack",
+      "channels": 5,
+      "duration": 0.8500000238418579
+    },
+    {
+      "name": "Hit",
+      "channels": 4,
+      "duration": 0.5
+    },
+    {
+      "name": "Death",
+      "channels": 7,
+      "duration": 1.899999976158142
+    }
+  ],
+  "textures": {
+    "source": [
+      {
+        "name": "lavender-bat-ear-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "lavender-bat-ear-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "lavender-bat-ear-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ],
+    "runtime": [
+      {
+        "name": "lavender-bat-ear-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "lavender-bat-ear-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "lavender-bat-ear-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ]
+  },
+  "acceptance": {
+    "rigMotionLabAccepted": false,
+    "productionReady": false,
+    "reason": "Chibi-proportioned source sheet is held for root visual review; deformation and motion still need lab review."
+  }
+}

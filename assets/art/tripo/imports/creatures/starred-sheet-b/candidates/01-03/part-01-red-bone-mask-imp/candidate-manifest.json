@@ -1,0 +1,143 @@
+{
+  "schema": "corealm-starred-sheet-b-rig-candidate/1",
+  "part": 1,
+  "id": "red-bone-mask-imp",
+  "label": "Red Bone-Mask Imp",
+  "designDisposition": "provisional-held-for-root-review",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-01.glb",
+    "sha256": "e1cf85dd028e4532d0ce3b1c24a31fed92ef9d7698503316abcc308805d8b6c8"
+  },
+  "candidate": {
+    "file": "red-bone-mask-imp-native-rig-candidate.glb",
+    "sha256": "b9ddb8d152ca711f41532f481d98b44b8684b950cf86a70043896d4eed289a91"
+  },
+  "geometry": {
+    "vertices": 3311,
+    "triangles": 1872,
+    "sourceAttributeHashes": {
+      "positions": "2d2d5b2450376ce49aca46aabb1f5ca97ca2ec3c86f1dedcbbee00ce43e63dd3",
+      "normals": "342570755ee7b1daebab7ada112163c72d0c2732dc908591904f4dbf08759899",
+      "uvs": "f89945c39e74b23bed889fd0958abdd7c487bde29ba6e056f787f6b58e4b7e69",
+      "indices": "34e9477f67c8922b02f470bd2a2ec6125da5e6662eaa46f7d51b7c30ccc08873"
+    },
+    "outputAttributeHashes": {
+      "positions": "2d2d5b2450376ce49aca46aabb1f5ca97ca2ec3c86f1dedcbbee00ce43e63dd3",
+      "normals": "342570755ee7b1daebab7ada112163c72d0c2732dc908591904f4dbf08759899",
+      "uvs": "f89945c39e74b23bed889fd0958abdd7c487bde29ba6e056f787f6b58e4b7e69",
+      "indices": "34e9477f67c8922b02f470bd2a2ec6125da5e6662eaa46f7d51b7c30ccc08873"
+    },
+    "retopology": false
+  },
+  "rig": {
+    "type": "Y-up humanoid imp",
+    "bones": 22,
+    "boneNames": [
+      "mixamorigHips",
+      "mixamorigSpine",
+      "mixamorigSpine1",
+      "mixamorigSpine2",
+      "mixamorigNeck",
+      "mixamorigHead",
+      "mixamorigLeftShoulder",
+      "mixamorigLeftArm",
+      "mixamorigLeftForeArm",
+      "mixamorigLeftHand",
+      "mixamorigRightShoulder",
+      "mixamorigRightArm",
+      "mixamorigRightForeArm",
+      "mixamorigRightHand",
+      "mixamorigLeftUpLeg",
+      "mixamorigLeftLeg",
+      "mixamorigLeftFoot",
+      "mixamorigLeftToeBase",
+      "mixamorigRightUpLeg",
+      "mixamorigRightLeg",
+      "mixamorigRightFoot",
+      "mixamorigRightToeBase"
+    ],
+    "influencesPerVertex": 4,
+    "verticesWithDistributedWeights": 3311,
+    "maxWeightSumError": 0,
+    "modelSpecificAnatomy": "bone mask and hooked claws"
+  },
+  "clips": [
+    {
+      "name": "Idle",
+      "channels": 4,
+      "duration": 2.4000000953674316
+    },
+    {
+      "name": "Walk",
+      "channels": 5,
+      "duration": 1.100000023841858
+    },
+    {
+      "name": "Run",
+      "channels": 5,
+      "duration": 0.7200000286102295
+    },
+    {
+      "name": "Attack",
+      "channels": 5,
+      "duration": 0.8500000238418579
+    },
+    {
+      "name": "Hit",
+      "channels": 4,
+      "duration": 0.5
+    },
+    {
+      "name": "Death",
+      "channels": 7,
+      "duration": 1.899999976158142
+    }
+  ],
+  "textures": {
+    "source": [
+      {
+        "name": "red-bone-mask-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "red-bone-mask-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "red-bone-mask-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ],
+    "runtime": [
+      {
+        "name": "red-bone-mask-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "red-bone-mask-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "red-bone-mask-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ]
+  },
+  "acceptance": {
+    "rigMotionLabAccepted": false,
+    "productionReady": false,
+    "reason": "Chibi-proportioned source sheet is held for root visual review; deformation and motion still need lab review."
+  }
+}

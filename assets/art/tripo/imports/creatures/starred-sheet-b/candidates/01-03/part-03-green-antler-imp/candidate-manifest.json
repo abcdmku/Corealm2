@@ -1,0 +1,143 @@
+{
+  "schema": "corealm-starred-sheet-b-rig-candidate/1",
+  "part": 3,
+  "id": "green-antler-imp",
+  "label": "Green Antler Imp",
+  "designDisposition": "provisional-held-for-root-review",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-03.glb",
+    "sha256": "672b91ac56ade311a9468ea4bc144f81c46259326cdfef5d3f812e80e57fa34c"
+  },
+  "candidate": {
+    "file": "green-antler-imp-native-rig-candidate.glb",
+    "sha256": "089f18fe14e765631e7c0c821b5abab48fcbb7515060669a27e30e77d586e5b9"
+  },
+  "geometry": {
+    "vertices": 5139,
+    "triangles": 3100,
+    "sourceAttributeHashes": {
+      "positions": "81b27a41ac4312a163ee19630b6a36a85a71e6d692a51bb589a55a589086441d",
+      "normals": "5a08f06a814bd0a66223357cde951991a6ffe11acd550ea953ecc9e4f0038b85",
+      "uvs": "881ec8421e55b9febb3258e239578ee73b056e33f5459ac9e4eda3c54b12d47e",
+      "indices": "562d04097d9767073f22ea6108d645b1ccb847b369e0ef908eccfccb280bd124"
+    },
+    "outputAttributeHashes": {
+      "positions": "81b27a41ac4312a163ee19630b6a36a85a71e6d692a51bb589a55a589086441d",
+      "normals": "5a08f06a814bd0a66223357cde951991a6ffe11acd550ea953ecc9e4f0038b85",
+      "uvs": "881ec8421e55b9febb3258e239578ee73b056e33f5459ac9e4eda3c54b12d47e",
+      "indices": "562d04097d9767073f22ea6108d645b1ccb847b369e0ef908eccfccb280bd124"
+    },
+    "retopology": false
+  },
+  "rig": {
+    "type": "Y-up humanoid imp",
+    "bones": 22,
+    "boneNames": [
+      "mixamorigHips",
+      "mixamorigSpine",
+      "mixamorigSpine1",
+      "mixamorigSpine2",
+      "mixamorigNeck",
+      "mixamorigHead",
+      "mixamorigLeftShoulder",
+      "mixamorigLeftArm",
+      "mixamorigLeftForeArm",
+      "mixamorigLeftHand",
+      "mixamorigRightShoulder",
+      "mixamorigRightArm",
+      "mixamorigRightForeArm",
+      "mixamorigRightHand",
+      "mixamorigLeftUpLeg",
+      "mixamorigLeftLeg",
+      "mixamorigLeftFoot",
+      "mixamorigLeftToeBase",
+      "mixamorigRightUpLeg",
+      "mixamorigRightLeg",
+      "mixamorigRightFoot",
+      "mixamorigRightToeBase"
+    ],
+    "influencesPerVertex": 4,
+    "verticesWithDistributedWeights": 5139,
+    "maxWeightSumError": 0,
+    "modelSpecificAnatomy": "branching antlers and leaf-like fins"
+  },
+  "clips": [
+    {
+      "name": "Idle",
+      "channels": 4,
+      "duration": 2.4000000953674316
+    },
+    {
+      "name": "Walk",
+      "channels": 5,
+      "duration": 1.100000023841858
+    },
+    {
+      "name": "Run",
+      "channels": 5,
+      "duration": 0.7200000286102295
+    },
+    {
+      "name": "Attack",
+      "channels": 5,
+      "duration": 0.8500000238418579
+    },
+    {
+      "name": "Hit",
+      "channels": 4,
+      "duration": 0.5
+    },
+    {
+      "name": "Death",
+      "channels": 7,
+      "duration": 1.899999976158142
+    }
+  ],
+  "textures": {
+    "source": [
+      {
+        "name": "green-antler-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "green-antler-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "green-antler-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ],
+    "runtime": [
+      {
+        "name": "green-antler-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "green-antler-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "green-antler-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ]
+  },
+  "acceptance": {
+    "rigMotionLabAccepted": false,
+    "productionReady": false,
+    "reason": "Chibi-proportioned source sheet is held for root visual review; deformation and motion still need lab review."
+  }
+}
