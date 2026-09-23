@@ -5,7 +5,7 @@
   "textureSize": 2048,
   "alignment": {
     "space": "native-male-t-pose",
-    "reviewedBy": "crownhide neutralized-source geometry fit; root normal-camera lab acceptance pending",
+    "reviewedBy": "crownhide neutralized-source fit with +0.08m hood clearance; root normal-camera lab acceptance pending",
     "matrix": [
       1.85,
       0,
@@ -1262,7 +1262,25 @@
     },
     {
       "node": "tripo_part_3",
-      "slot": "head"
+      "slot": "head",
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.08,
+        0,
+        1
+      ]
     },
     {
       "node": "tripo_part_4",

@@ -10,7 +10,7 @@
   },
   "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\30c7ea5f-b99f-4402-932e-bbe2df49a888.glb",
   "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-  "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+  "configSha256": "85054aaa90ad7a0e57da9f09447ddfea7c4ab62159a0b3418a7cdc258907e6b7",
   "textureSize": 2048,
   "assets": [
     {
@@ -25,19 +25,19 @@
         "crownhide_hood",
         "head"
       ],
-      "bytes": 16407020,
+      "bytes": 16407056,
       "itemModel": {
         "itemId": "crownhide_hood",
         "wearable": true
       },
       "size": {
         "x": 0.5058495402336121,
-        "y": 0.28996598720550537,
+        "y": 0.2899658679962158,
         "z": 0.5419910550117493
       },
       "base": {
         "x": -0.252474844455719,
-        "y": 1.5591305494308472,
+        "y": 1.6391305923461914,
         "z": -0.2978973090648651
       },
       "animations": [],
@@ -46,9 +46,9 @@
       ],
       "itemId": "crownhide_hood",
       "status": "pending",
-      "sha256": "53ab02082751c48f04fb8c7a4830f0e26993e53962534a5c2c12a4c910a844a5",
+      "sha256": "7df5e3d7a477b6ea8360627e126f87c2b5e71b06241899018185e2ddcef76f94",
       "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "configSha256": "85054aaa90ad7a0e57da9f09447ddfea7c4ab62159a0b3418a7cdc258907e6b7",
       "triangles": 572,
       "drawCalls": 1
     },
@@ -64,7 +64,7 @@
         "crownhide_robe",
         "torso"
       ],
-      "bytes": 16543716,
+      "bytes": 16543752,
       "itemModel": {
         "itemId": "crownhide_robe",
         "wearable": true
@@ -85,9 +85,9 @@
       ],
       "itemId": "crownhide_robe",
       "status": "pending",
-      "sha256": "c3f0f29b5dede44e7aa72b40583655a0c100d24f152a8f3bb1f2121d622395b3",
+      "sha256": "f12c48625f02a870b540b9a4b50433c80916b0826afa8e1203f9c5dffd1efae6",
       "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "configSha256": "85054aaa90ad7a0e57da9f09447ddfea7c4ab62159a0b3418a7cdc258907e6b7",
       "triangles": 2804,
       "drawCalls": 11
     },
@@ -103,7 +103,7 @@
         "crownhide_wraps",
         "arms"
       ],
-      "bytes": 16431000,
+      "bytes": 16431036,
       "itemModel": {
         "itemId": "crownhide_wraps",
         "wearable": true
@@ -124,9 +124,9 @@
       ],
       "itemId": "crownhide_wraps",
       "status": "pending",
-      "sha256": "bb27d45c7ac192503370e7e32a7b5b1272bb514000a260770258383b9c13fb87",
+      "sha256": "ac96bdd2ae021109240ed6c4075ee2385b8bb3f69cab22007548392f710f5df1",
       "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "configSha256": "85054aaa90ad7a0e57da9f09447ddfea7c4ab62159a0b3418a7cdc258907e6b7",
       "triangles": 835,
       "drawCalls": 2
     },
@@ -142,7 +142,7 @@
         "crownhide_leggings",
         "legs"
       ],
-      "bytes": 16389752,
+      "bytes": 16389788,
       "itemModel": {
         "itemId": "crownhide_leggings",
         "wearable": true
@@ -163,9 +163,9 @@
       ],
       "itemId": "crownhide_leggings",
       "status": "pending",
-      "sha256": "688fe3c3ed4ab187cb6fd9a28986a9a1c16a287a386910685f34e89bb1548fd4",
+      "sha256": "558225596160bfea9763abd4725aa67836f193944c820c7c6fa0af720447f7ad",
       "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "configSha256": "85054aaa90ad7a0e57da9f09447ddfea7c4ab62159a0b3418a7cdc258907e6b7",
       "triangles": 209,
       "drawCalls": 1
     },
@@ -181,7 +181,7 @@
         "crownhide_boots",
         "feet"
       ],
-      "bytes": 16430912,
+      "bytes": 16430948,
       "itemModel": {
         "itemId": "crownhide_boots",
         "wearable": true
@@ -202,9 +202,9 @@
       ],
       "itemId": "crownhide_boots",
       "status": "pending",
-      "sha256": "4125eb9076f5be4cab4655991b48fdc60e7baff077e8593a742a0b98021b1ddc",
+      "sha256": "81ccf6859e441b1efd1eacfe05a17956f1a13459ec950dea70ce1903b4eff093",
       "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "configSha256": "85054aaa90ad7a0e57da9f09447ddfea7c4ab62159a0b3418a7cdc258907e6b7",
       "triangles": 867,
       "drawCalls": 2
     }
