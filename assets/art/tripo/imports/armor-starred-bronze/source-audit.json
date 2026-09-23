@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "decision": "hold-duplicate",
+  "source": {
+    "cardId": "90189f08-e770-4a5d-85c1-1dfd797dd0f5",
+    "projectId": "026ce9e7-7aa1-45b8-9f06-71e77456488c",
+    "file": "assets/art/tripo/exports/90189f08-e770-4a5d-85c1-1dfd797dd0f5.glb",
+    "sha256": "a4553d1372ef5ed50343eb7ed7bf217956cf7ebea9d2a703a5c3008a48a76a2c",
+    "bytes": 4910048,
+    "triangles": 3945,
+    "meshes": 7,
+    "materials": 7,
+    "pbrMaps": 21,
+    "baseColorMapSizesPx": [512, 1024, 1024, 512, 512, 128, 128],
+    "sourceRig": {
+      "joints": 17,
+      "animations": 0,
+      "finding": "The partial Mixamo skin is not usable for runtime deformation: all seven meshes are weighted overwhelmingly to mixamorig:Hips; the arm and leg joints have no useful distributed weights."
+    }
+  },
+  "existingGameSet": {
+    "setId": "grithe",
+    "name": "Copper",
+    "sameTripoProjectId": "026ce9e7-7aa1-45b8-9f06-71e77456488c",
+    "acceptedStaticSource": "assets/art/tripo/imports/armor-early/grithe/source-static.glb",
+    "acceptedStaticSourceSha256": "dc1b79ebdb3943faedafdc15e9cee30dfa27756f2204ebfb71631eddfe7c7c26",
+    "existingCandidateCatalog": "assets/art/tripo/imports/armor-early/grithe/candidate/catalogue.json",
+    "runtimeAssets": [
+      "corealm_item_grithe_helm",
+      "corealm_item_grithe_cuirass",
+      "corealm_item_grithe_gloves",
+      "corealm_item_grithe_greaves",
+      "corealm_item_grithe_boots"
+    ],
+    "runtimeStatus": "All five items are present in game/public/assets/manifest.json with tripo-armor-approved tags. Existing import metadata records native male runtime fitting, copper PBR review, and normal-camera movement review."
+  },
+  "reason": "This starred export is another export of the already integrated Copper/Grithe armor project. It has the same total and per-mesh triangle counts as the existing static source, while its rig weights are unusable and its base-color maps are 128 to 1024 px rather than 8K. The existing static export was segmented and rebound to the game's 65-joint player skeleton, retaining the 3945-triangle source geometry. A new parallel armor set would duplicate the same authored look. No new candidate GLBs or lab catalog are staged."
+}
