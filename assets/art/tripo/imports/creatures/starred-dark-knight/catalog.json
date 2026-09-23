@@ -69,8 +69,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
-    "sha256": "d66d0f6461b30df83add8dfc20eb96effb3a024a1207891d1afd406b6e110c98",
-    "bytes": 8681228,
+    "sha256": "d6da27cdbfdd34e96f43c4b17184bba26dc49a0039b71efab9c634d6fa527aa4",
+    "bytes": 8905368,
     "productionTarget": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
     "geometry": {
       "vertices": 6153,
@@ -324,7 +324,7 @@
         "width": 2048,
         "height": 2048,
         "mime": "image/jpeg",
-        "bytes": 1115063
+        "bytes": 1339158
       },
       {
         "name": "dark+fantasy+armor+3d+model_rm.png",
@@ -350,31 +350,35 @@
         0.34509803921568627,
         1
       ],
-      "sourceRedChannel": "constant 255; retained as original image data"
+      "sourceRedChannel": "constant 255; retained as original image data",
+      "materialFactors": {
+        "metallic": 0.72,
+        "roughness": 0.88
+      }
     },
     "materialRegions": {
       "burgundyCloth": {
-        "count": 124,
+        "count": 104,
         "baseColor": [
-          43.16129032258065,
-          28.532258064516128,
-          28.153225806451612
+          93.98076923076923,
+          73.0576923076923,
+          72.96153846153847
         ],
-        "metallic": 0.06654016445287789,
-        "roughness": 0.8917457305502838
+        "metallic": 0.01962895927601808,
+        "roughness": 0.8218310708898932
       },
       "plateAndTrim": {
-        "count": 3440,
+        "count": 3619,
         "baseColor": [
-          31.769186046511628,
-          31.41686046511628,
-          30.971511627906978
+          75.14672561481072,
+          74.46394031500415,
+          73.73362807405361
         ],
-        "metallic": 0.49539785681714404,
-        "roughness": 0.5681862745098003
+        "metallic": 0.34839185345318185,
+        "roughness": 0.5043809523809526
       }
     },
-    "materialResponse": "Retains the image-generated ORM map and applies its blue metallic channel to plate surfaces and low metallic/high roughness values to the burgundy cloth. No flat recolor or synthetic PBR mask was applied.",
+    "materialResponse": "Preserves the image-generated layered base-color, ORM and normal detail. The dark base-color gets a 1.80 shadow lift for readable engraved black steel and burgundy cloth; per-pixel hue and texture detail remain. Metallic factor 0.72 and roughness factor 0.88 keep the plate reflectance visible without flattening the source ORM variation.",
     "animations": [
       {
         "name": "Idle",

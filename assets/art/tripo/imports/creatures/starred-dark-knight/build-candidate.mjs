@@ -204,8 +204,8 @@ const phases = [0, 0.25, 0.5, 0.75, 1];
 const cycleAngles = (phase, amount) => phases.map((t) => quat('x', Math.sin((t + phase) * Math.PI * 2) * amount));
 const hips = (heights, forward = 0) => phases.map((_, i) => [0, heights[i], forward]);
 addClip('Idle', 2.8, [
-  { node: 'mixamorigLeftShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 1.82), quat('z', 1.86), quat('z', 1.82), quat('z', 1.78), quat('z', 1.82)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', -1.82), quat('z', -1.86), quat('z', -1.82), quat('z', -1.78), quat('z', -1.82)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 1.50), quat('z', 1.53), quat('z', 1.50), quat('z', 1.47), quat('z', 1.50)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', -1.50), quat('z', -1.53), quat('z', -1.50), quat('z', -1.47), quat('z', -1.50)] },
   { node: 'mixamorigSpine1', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 0), quat('z', 0.018), quat('z', 0), quat('z', -0.018), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('x', 0), quat('x', -0.015), quat('x', 0), quat('x', 0.012), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('y', -0.025), quat('y', 0.015), quat('y', 0.035), quat('y', -0.015), quat('y', -0.025)] },
@@ -215,8 +215,8 @@ addClip('Idle', 2.8, [
 ]);
 addClip('Walk', 1.0, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t), values: hips([0.430, 0.445, 0.430, 0.445, 0.430]) },
-  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => quat('z', 1.65 + Math.sin(t * Math.PI * 2) * 0.16)) },
-  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => quat('z', -1.65 - Math.sin(t * Math.PI * 2) * 0.16)) },
+  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => quat('z', 1.38 + Math.sin(t * Math.PI * 2) * 0.12)) },
+  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => quat('z', -1.38 - Math.sin(t * Math.PI * 2) * 0.12)) },
   { node: 'mixamorigLeftUpLeg', times: phases, values: cycleAngles(0, 0.34) },
   { node: 'mixamorigRightUpLeg', times: phases, values: cycleAngles(0.5, 0.34) },
   { node: 'mixamorigLeftLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.22)) },
@@ -229,8 +229,8 @@ addClip('Walk', 1.0, [
 ]);
 addClip('Run', 0.72, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t * 0.72), values: hips([0.430, 0.465, 0.430, 0.465, 0.430]) },
-  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', 1.70 + Math.sin(t * Math.PI * 2) * 0.22)) },
-  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', -1.70 - Math.sin(t * Math.PI * 2) * 0.22)) },
+  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', 1.42 + Math.sin(t * Math.PI * 2) * 0.16)) },
+  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', -1.42 - Math.sin(t * Math.PI * 2) * 0.16)) },
   { node: 'mixamorigLeftUpLeg', times: phases.map((t) => t * 0.72), values: cycleAngles(0, 0.68) },
   { node: 'mixamorigRightUpLeg', times: phases.map((t) => t * 0.72), values: cycleAngles(0.5, 0.68) },
   { node: 'mixamorigLeftLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.62)) },
@@ -244,10 +244,10 @@ addClip('Run', 0.72, [
 ]);
 addClip('Attack', 0.92, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.18, 0.50, 0.72, 0.92], values: [[0, 0.430, 0], [0, 0.430, 0.012], [0, 0.420, 0.060], [0, 0.430, 0.030], [0, 0.430, 0]] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 1.82), quat('z', 1.90), quat('z', 1.72), quat('z', 1.68), quat('z', 1.82)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', -1.82), quat('z', -1.38), quat('z', -0.72), quat('z', -1.12), quat('z', -1.82)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 1.50), quat('z', 1.58), quat('z', 1.43), quat('z', 1.40), quat('z', 1.50)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', -1.50), quat('z', -1.12), quat('z', -0.54), quat('z', -0.92), quat('z', -1.50)] },
   { node: 'mixamorigSpine1', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('y', 0), quat('y', -0.28), quat('y', 0.24), quat('y', 0.10), quat('y', 0)] },
-  { node: 'mixamorigRightArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 0), quat('z', 0.08), quat('z', -0.08), quat('z', -0.04), quat('z', 0)] },
+  { node: 'mixamorigRightArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 0), quat('z', 0.05), quat('z', -0.08), quat('z', -0.03), quat('z', 0)] },
   { node: 'mixamorigRightForeArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('x', 0), quat('x', 0.60), quat('x', -0.92), quat('x', -0.30), quat('x', 0)] },
   { node: 'mixamorigLeftArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('x', 0), quat('x', -0.20), quat('x', -0.28), quat('x', 0.10), quat('x', 0)] },
   { node: 'mixamorigCapeRoot', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('x', 0), quat('x', -0.18), quat('x', 0.22), quat('x', 0.10), quat('x', 0)] },
@@ -256,8 +256,8 @@ addClip('Attack', 0.92, [
 ]);
 addClip('Hit', 0.46, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.46], values: [[0, 0.430, 0], [0, 0.425, -0.035], [0, 0.428, -0.012], [0, 0.430, 0]] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 1.82), quat('z', 1.98), quat('z', 1.72), quat('z', 1.82)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', -1.82), quat('z', -1.44), quat('z', -1.90), quat('z', -1.82)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 1.50), quat('z', 1.66), quat('z', 1.42), quat('z', 1.50)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', -1.50), quat('z', -1.14), quat('z', -1.62), quat('z', -1.50)] },
   { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.28), quat('z', -0.10), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.46], values: [quat('x', 0), quat('x', -0.16), quat('x', 0.06), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.20), quat('z', -0.05), quat('z', 0)] },
@@ -268,8 +268,8 @@ addClip('Hit', 0.46, [
 ]);
 addClip('Death', 1.45, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.22, 0.65, 1.05, 1.45], values: [[0, 0.430, 0], [0, 0.400, -0.015], [0, 0.315, -0.025], [0, 0.275, -0.025], [0, 0.275, -0.025]] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 1.82), quat('z', 1.78), quat('z', 1.72), quat('z', 1.68), quat('z', 1.68)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', -1.82), quat('z', -1.76), quat('z', -1.64), quat('z', -1.60), quat('z', -1.60)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 1.50), quat('z', 1.48), quat('z', 1.43), quat('z', 1.40), quat('z', 1.40)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', -1.50), quat('z', -1.46), quat('z', -1.38), quat('z', -1.35), quat('z', -1.35)] },
   { node: 'mixamorigHips', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0), quat('z', -0.08), quat('z', -0.26), quat('z', -0.34), quat('z', -0.34)] },
   { node: 'mixamorigSpine1', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.14), quat('x', 0.28), quat('x', 0.34), quat('x', 0.34)] },
   { node: 'mixamorigSpine2', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.12), quat('x', 0.22), quat('x', 0.24), quat('x', 0.24)] },
@@ -290,13 +290,17 @@ const baseColorTexture = material?.getBaseColorTexture();
 const metallicRoughnessTexture = material?.getMetallicRoughnessTexture();
 const normalTexture = material?.getNormalTexture();
 if (!baseColorTexture || !metallicRoughnessTexture || !normalTexture) throw new Error('Expected embedded base-color, packed PBR, and normal maps.');
+const runtimeMaterialFactors = { baseColorGammaOut: 1.8, metallic: 0.72, roughness: 0.88 };
+material.setMetallicFactor(runtimeMaterialFactors.metallic).setRoughnessFactor(runtimeMaterialFactors.roughness);
 for (const texture of root.listTextures()) {
   const bytes = texture.getImage();
   const metadata = await sharp(bytes).metadata();
   sourceTextureMetrics.push({ name: texture.getName(), width: metadata.width, height: metadata.height, mime: texture.getMimeType(), sha256: createHash('sha256').update(bytes).digest('hex') });
   if (metadata.width > 2048 || metadata.height > 2048) {
     const isDataTexture = texture === metallicRoughnessTexture;
-    const encoded = await sharp(bytes).resize(2048, 2048, { fit: 'fill', kernel: isDataTexture ? 'linear' : 'lanczos3' })
+    const isBaseColor = texture === baseColorTexture;
+    const prepared = isBaseColor ? sharp(bytes).gamma(1, runtimeMaterialFactors.baseColorGammaOut) : sharp(bytes);
+    const encoded = await prepared.resize(2048, 2048, { fit: 'fill', kernel: isDataTexture ? 'linear' : 'lanczos3' })
       .toFormat(metadata.format === 'jpeg' ? 'jpeg' : 'png', metadata.format === 'jpeg' ? { quality: 92, chromaSubsampling: '4:4:4' } : {})
       .toBuffer();
     texture.setImage(encoded);
@@ -328,8 +332,8 @@ for (let vertex = 0; vertex < positions.length / 3; vertex++) {
   if (!region) continue;
   region.count++;
   for (let channel = 0; channel < 3; channel++) region.baseColor[channel] += color[channel];
-  region.roughness += pbrPixels[pbrIndex + 1] / 255;
-  region.metallic += pbrPixels[pbrIndex + 2] / 255;
+  region.roughness += pbrPixels[pbrIndex + 1] / 255 * runtimeMaterialFactors.roughness;
+  region.metallic += pbrPixels[pbrIndex + 2] / 255 * runtimeMaterialFactors.metallic;
 }
 for (const region of Object.values(materialRegions)) if (region.count) {
   region.baseColor = region.baseColor.map((value) => value / region.count);
@@ -433,9 +437,9 @@ const candidate = {
     geometry: { vertices: positions.length / 3, triangles: indices.length / 3, positionsPreserved: maxPositionDelta === 0, normalsPreserved: maxNormalDelta === 0, uvsPreserved: maxUvDelta === 0, indicesPreserved: indexMismatches === 0, presentationScale },
     rig: { type: 'Mixamo-named humanoid glTF skin with three accessory cape joints for Unity Humanoid mapping review', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), finiteInverseBindMatrices: checkInverseBinds.length / 16, influencesPerVertex: 4, verticesWithDistributedWeights, verticesWithCapeWeight, capeMaxWeight, maximumWeightSumError, method: 'Model-specific four-weight skin from anatomical bone-segment distance fields, lateral gates and a rear cape-sheet gate; no fallback to one root joint.' },
     textures: runtimeTextureMetrics,
-    packedPbrChannels: { metallicBlueRange: pbrRange, roughnessGreenRange: roughnessRange, sourceRedChannel: 'constant 255; retained as original image data' },
+    packedPbrChannels: { metallicBlueRange: pbrRange, roughnessGreenRange: roughnessRange, sourceRedChannel: 'constant 255; retained as original image data', materialFactors: { metallic: runtimeMaterialFactors.metallic, roughness: runtimeMaterialFactors.roughness } },
     materialRegions,
-    materialResponse: 'Retains the image-generated ORM map and applies its blue metallic channel to plate surfaces and low metallic/high roughness values to the burgundy cloth. No flat recolor or synthetic PBR mask was applied.',
+    materialResponse: `Preserves the image-generated layered base-color, ORM and normal detail. The dark base-color gets a ${runtimeMaterialFactors.baseColorGammaOut.toFixed(2)} shadow lift for readable engraved black steel and burgundy cloth; per-pixel hue and texture detail remain. Metallic factor ${runtimeMaterialFactors.metallic.toFixed(2)} and roughness factor ${runtimeMaterialFactors.roughness.toFixed(2)} keep the plate reflectance visible without flattening the source ORM variation.`,
     animations: clips,
   },
   acceptance: { sourceDesignAudit: true, geometry: true, rig: false, animation: false, textures: false, labAccepted: false, worldIntegrated: false },
