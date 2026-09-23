@@ -1,0 +1,77 @@
+﻿{
+    "status":  "pbr-completed-texture-held-unaccepted",
+    "generator":  "Tripo Studio P1",
+    "model":  {
+                   "id":  "3b76bc22-c899-46f8-b518-3873e4244072",
+                   "url":  "https://studio.tripo3d.ai/workspace/generate/3b76bc22-c899-46f8-b518-3873e4244072",
+                   "engineLabel":  "P1.0 - Fast",
+                   "mode":  "Smart Mesh",
+                   "topology":  "triangle",
+                   "requestedTriangles":  6000,
+                   "actualTriangles":  5484,
+                   "vertices":  2907,
+                   "retopology":  false,
+                   "generationCredits":  35
+               },
+    "geometryReview":  {
+                           "status":  "approved",
+                           "reviewer":  "Astra-low",
+                           "views":  [
+                                         "front",
+                                         "left profile",
+                                         "right profile",
+                                         "back"
+                                     ],
+                           "findings":  "Source-consistent anatomy; no prohibited face or style issues."
+                       },
+    "uv":  {
+               "status":  "smart-uv-generated-and-saved",
+               "utilizationPercent":  69.9,
+               "vertexCountAfterSeams":  3567
+           },
+    "textureJob":  {
+                       "status":  "completed-review-denied",
+                       "resolution":  "2K",
+                       "removeLighting":  true,
+                       "costDisplayedCredits":  10,
+                       "prompt":  "Detailed, layered PBR albedo for this exact mature cave-dwelling stone humanoid: natural rough granite and weathered slate dermis in nuanced ash-gray, warm taupe, and charcoal tones; subtle mineral banding and fine crystalline grain across the body, pale chalk flecks on shoulders and brow, restrained ochre/rust mottling on forearms and knees, sparse muted olive-gray lichen in sheltered creases, deep cool shadows at joints and folds. Keep the existing face, anatomy, hands, feet, loincloth and belt intact; color the simple cloth as worn dark umber woven fabric with restrained earthy variation. Intricate fine surface detail with broad-to-small color variation, realistic matte rough dielectric stone, no metallic sheen, no glowing parts, no sci-fi, no horns, no cute styling, no wounds or damage, no added objects, no baked lighting.",
+                       "review":  {
+                                       "status":  "denied",
+                                       "reviewer":  "Astra-low",
+                                       "findings":  "Front, side, rear, and full-back views show mostly uniform pale pink-beige flesh; requested granite/slate mottling, chalk shoulder caps, and rust/lichen forearm variation are missing. Dark umber cloth is present but flat."
+                                   }
+                   },
+    "pbrJob":  {
+                   "status":  "completed",
+                   "costDisplayedCredits":  5,
+                   "mapsRequestedByWorkflow":  [
+                                                    "normal",
+                                                    "roughness",
+                                                    "metallic",
+                                                    "ambient occlusion"
+                                                ],
+                   "review":  "completed for record; model preview remains pale pink-beige, and texture hold remains in place",
+                   "channelVerification":  "not performed because this trial is held; no export"
+               },
+    "acceptance":  {
+                       "accepted":  false,
+                       "rigged":  false,
+                       "exported":  false,
+                       "motionProof":  false,
+                       "inGame":  false,
+                       "reason":  "Independent Astra-low texture review denied the visible base-color art. Root directed this P1 trial to remain held and authorized no additional texture jobs."
+                   },
+    "source":  {
+                   "imagePath":  "assets/art/tripo/references/stone-undercrag-mawer.png",
+                   "sha256":  "0996d00f2b315eaedb61eda9a50c928dffae1e3acf6d62e8d8197daef420dadd",
+                   "tripoImageId":  "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+                   "approvedFace":  "Astra-low; creatures-stone.json"
+               },
+    "requested":  {
+                      "topology":  "triangle",
+                      "targetTriangles":  6000,
+                      "retopology":  false,
+                      "texturing":  "held: independent Astra-low review denied base color; PBR job allowed to finish for record; no texture retry authorized",
+                      "rigging":  "not started; held until texture review passes; Luna audit recommends Mixamo"
+                  }
+}
