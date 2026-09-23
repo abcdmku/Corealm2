@@ -40,7 +40,7 @@ export interface TripoArmorConfig {
   alignment: { space: "native-male-t-pose"; reviewedBy: string; matrix?: number[] };
   /** Desired source-joint world matrices BEFORE alignment, keyed by exact exported joint name.
    * Bake targetWorld * inverseBind using exported skin weights. Node TRS is not a bind-pose source.
-   * Every joint with a nonzero weight must have an explicit target. Vertex warps cannot coexist.
+   * Every joint with a nonzero weight must have an explicit target. Vertex corrections apply after this pose.
    */
   sourceSkin?: { jointWorldMatrices: Record<string, number[]> };
   slots: Record<ArmorSlot, { itemId: string; bodyCoverage?: Coverage }>;
