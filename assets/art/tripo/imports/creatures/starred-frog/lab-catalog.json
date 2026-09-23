@@ -1,0 +1,531 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "animal_frog",
+      "file": "models/animal/animal_frog.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "Glasspond Frog (starred rig candidate)",
+      "tags": [
+        "creature",
+        "amphibian",
+        "frog",
+        "fairy",
+        "T30",
+        "starred",
+        "tripo",
+        "skinned",
+        "candidate"
+      ],
+      "bytes": 5879040,
+      "sha256": "1c3b7176be0107c109d753d9f1acee04249a519f47e765b81e13eeaa209337a2",
+      "size": {
+        "x": 0.99755859375,
+        "y": 0.91162109375,
+        "z": 0.99951171875
+      },
+      "base": {
+        "x": -0.498779296875,
+        "y": 0,
+        "z": -0.499755859375
+      },
+      "groundY": 0,
+      "triangles": 3811,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.8399999737739563,
+      "attackSeconds": 0.6399999856948853,
+      "materials": [
+        "Material_tripo_node_c9f08014-4532-4ac7-a482-327c274a8702"
+      ],
+      "sourceProvenance": {
+        "sourceModelId": "05481088-98cd-4385-9275-dc4e5bff375d",
+        "sourceCardId": "8a71752f-b4b8-4625-874f-220bbde13412",
+        "sourceFile": "assets/art/tripo/exports/8a71752f-b4b8-4625-874f-220bbde13412.glb",
+        "sourceSha256": "6fc433ee3a16adec6c1e2b2aad4b1e1e2c8c807161c99b2fc33d04f94187c97d",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-frog/glasspond-frog-native-rig-candidate.glb",
+        "candidateSha256": "1c3b7176be0107c109d753d9f1acee04249a519f47e765b81e13eeaa209337a2",
+        "rigMethod": "23-joint frog-specific Unity Generic quadruped; original approved mesh, UVs and layered image-generated albedo/PBR maps preserved; runtime maps downsampled to 2K."
+      },
+      "metadata": {
+        "source": {
+          "file": "assets/art/tripo/exports/8a71752f-b4b8-4625-874f-220bbde13412.glb",
+          "sha256": "6fc433ee3a16adec6c1e2b2aad4b1e1e2c8c807161c99b2fc33d04f94187c97d",
+          "bytes": 23586612,
+          "starredCardUuid": "8a71752f-b4b8-4625-874f-220bbde13412",
+          "projectUuid": "05481088-98cd-4385-9275-dc4e5bff375d",
+          "starredDisplayName": "Green-blue frog model with textured skin and webbed feet",
+          "sourceImage": "assets/art/tripo/refs/fairy-glasspond-frog.png",
+          "sourceImageSha256": "74a10e3368db3cebd5121d568cdea2e771fef6724a313871b9e7587b242b20fb",
+          "prompt": "Glasspond Frog. A mature fairy pond amphibian with a proportionate angular head and compact but not squat body, clear athletic limbs, long folded hind legs, webbed feet and small lateral amber eyes. Semitranslucent jade skin reveals a few soft violet vein branches along the flanks. Deep peacock-blue irregular back mottling, pearl underjaw, copper flecks around joints, wet natural sheen. A subtle skin ridge runs from each eye to the hips. Restrained believable frog anatomy, no giant cute eyes, no fat belly, no jewels, crown, magical accessories or glow cloud. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
+          "smartMesh": "Tripo P2",
+          "triangles": 3811,
+          "vertices": 2414,
+          "originalRig": {
+            "joints": 7,
+            "clips": 0,
+            "disposition": "replaced because the source influences are almost entirely bound to the root"
+          },
+          "sourceTextures": [
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_basecolor.jpg",
+              "bytes": 11482227,
+              "dimensions": [
+                8192,
+                8192
+              ],
+              "mime": "image/jpeg",
+              "sha256": "283362fb81e343b65d4cee0c22bf1a35540d3ef59045b045c112d4ddbed2a22e"
+            },
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_rm.png",
+              "bytes": 10072152,
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "mime": "image/png",
+              "sha256": "1e803d0ed8ec6273787f31045b6e67fa012506a3c709f80ce48dea3bc01ea36e"
+            },
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_normal.jpg",
+              "bytes": 1847178,
+              "dimensions": [
+                4096,
+                4096
+              ],
+              "mime": "image/jpeg",
+              "sha256": "7c2dee39b947ba3874ba35e2a0f30a373c676071ad7c21f12c0b263b48e482bb"
+            }
+          ],
+          "sourceSkinDiscarded": true
+        },
+        "candidate": {
+          "file": "glasspond-frog-native-rig-candidate.glb",
+          "sha256": "1c3b7176be0107c109d753d9f1acee04249a519f47e765b81e13eeaa209337a2",
+          "bytes": 5879040,
+          "vertices": 2414,
+          "triangles": 3811,
+          "positionsPreserved": true,
+          "indicesPreserved": true,
+          "normalsUvTangentsPreserved": true,
+          "maximumSourceAttributeDelta": 0,
+          "rig": {
+            "type": "Y-up Unity Generic quadruped",
+            "forward": "+X",
+            "joints": [
+              {
+                "name": "GlasspondRoot",
+                "index": 0,
+                "parent": null,
+                "position": [
+                  -0.12,
+                  0.39,
+                  0
+                ]
+              },
+              {
+                "name": "Pelvis",
+                "index": 1,
+                "parent": "GlasspondRoot",
+                "position": [
+                  -0.15,
+                  0.4,
+                  0
+                ]
+              },
+              {
+                "name": "Spine",
+                "index": 2,
+                "parent": "Pelvis",
+                "position": [
+                  -0.01,
+                  0.47,
+                  0
+                ]
+              },
+              {
+                "name": "Chest",
+                "index": 3,
+                "parent": "Spine",
+                "position": [
+                  0.12,
+                  0.53,
+                  0
+                ]
+              },
+              {
+                "name": "Neck",
+                "index": 4,
+                "parent": "Chest",
+                "position": [
+                  0.28,
+                  0.66,
+                  0
+                ]
+              },
+              {
+                "name": "Head",
+                "index": 5,
+                "parent": "Neck",
+                "position": [
+                  0.39,
+                  0.79,
+                  0
+                ]
+              },
+              {
+                "name": "Jaw",
+                "index": 6,
+                "parent": "Head",
+                "position": [
+                  0.435,
+                  0.715,
+                  0
+                ]
+              },
+              {
+                "name": "ForeHip_L",
+                "index": 7,
+                "parent": "Chest",
+                "position": [
+                  0.1,
+                  0.38,
+                  -0.15
+                ]
+              },
+              {
+                "name": "ForeKnee_L",
+                "index": 8,
+                "parent": "ForeHip_L",
+                "position": [
+                  0.08,
+                  0.22,
+                  -0.24
+                ]
+              },
+              {
+                "name": "ForeAnkle_L",
+                "index": 9,
+                "parent": "ForeKnee_L",
+                "position": [
+                  0.23,
+                  0.085,
+                  -0.34
+                ]
+              },
+              {
+                "name": "ForeFoot_L",
+                "index": 10,
+                "parent": "ForeAnkle_L",
+                "position": [
+                  0.34,
+                  0.026,
+                  -0.405
+                ]
+              },
+              {
+                "name": "ForeHip_R",
+                "index": 11,
+                "parent": "Chest",
+                "position": [
+                  0.1,
+                  0.38,
+                  0.15
+                ]
+              },
+              {
+                "name": "ForeKnee_R",
+                "index": 12,
+                "parent": "ForeHip_R",
+                "position": [
+                  0.08,
+                  0.22,
+                  0.24
+                ]
+              },
+              {
+                "name": "ForeAnkle_R",
+                "index": 13,
+                "parent": "ForeKnee_R",
+                "position": [
+                  0.23,
+                  0.085,
+                  0.34
+                ]
+              },
+              {
+                "name": "ForeFoot_R",
+                "index": 14,
+                "parent": "ForeAnkle_R",
+                "position": [
+                  0.34,
+                  0.026,
+                  0.405
+                ]
+              },
+              {
+                "name": "HindHip_L",
+                "index": 15,
+                "parent": "Pelvis",
+                "position": [
+                  -0.29,
+                  0.4,
+                  -0.17
+                ]
+              },
+              {
+                "name": "HindKnee_L",
+                "index": 16,
+                "parent": "HindHip_L",
+                "position": [
+                  -0.43,
+                  0.275,
+                  -0.285
+                ]
+              },
+              {
+                "name": "HindHock_L",
+                "index": 17,
+                "parent": "HindKnee_L",
+                "position": [
+                  -0.265,
+                  0.13,
+                  -0.365
+                ]
+              },
+              {
+                "name": "HindFoot_L",
+                "index": 18,
+                "parent": "HindHock_L",
+                "position": [
+                  -0.105,
+                  0.026,
+                  -0.43
+                ]
+              },
+              {
+                "name": "HindHip_R",
+                "index": 19,
+                "parent": "Pelvis",
+                "position": [
+                  -0.29,
+                  0.4,
+                  0.17
+                ]
+              },
+              {
+                "name": "HindKnee_R",
+                "index": 20,
+                "parent": "HindHip_R",
+                "position": [
+                  -0.43,
+                  0.275,
+                  0.285
+                ]
+              },
+              {
+                "name": "HindHock_R",
+                "index": 21,
+                "parent": "HindKnee_R",
+                "position": [
+                  -0.265,
+                  0.13,
+                  0.365
+                ]
+              },
+              {
+                "name": "HindFoot_R",
+                "index": 22,
+                "parent": "HindHock_R",
+                "position": [
+                  -0.105,
+                  0.026,
+                  0.43
+                ]
+              }
+            ],
+            "weightMethod": "Four normalized anatomy-gated segment-distance influences per source vertex; source root-only skin removed."
+          },
+          "influenceVertices": {
+            "GlasspondRoot": 0,
+            "Pelvis": 855,
+            "Spine": 1571,
+            "Chest": 736,
+            "Neck": 457,
+            "Head": 428,
+            "Jaw": 264,
+            "ForeHip_L": 95,
+            "ForeKnee_L": 284,
+            "ForeAnkle_L": 387,
+            "ForeFoot_L": 331,
+            "ForeHip_R": 98,
+            "ForeKnee_R": 264,
+            "ForeAnkle_R": 387,
+            "ForeFoot_R": 351,
+            "HindHip_L": 231,
+            "HindKnee_L": 263,
+            "HindHock_L": 290,
+            "HindFoot_L": 235,
+            "HindHip_R": 203,
+            "HindKnee_R": 249,
+            "HindHock_R": 289,
+            "HindFoot_R": 242
+          },
+          "verticesWithMultipleInfluences": 2395,
+          "maximumWeightSumError": 4.470348358154297e-8,
+          "animations": [
+            {
+              "name": "Idle",
+              "channels": 5,
+              "seconds": 2.4000000953674316
+            },
+            {
+              "name": "Walk",
+              "channels": 17,
+              "seconds": 1.1200000047683716
+            },
+            {
+              "name": "Run",
+              "channels": 17,
+              "seconds": 0.8399999737739563
+            },
+            {
+              "name": "Attack",
+              "channels": 13,
+              "seconds": 0.6399999856948853
+            },
+            {
+              "name": "Hit",
+              "channels": 7,
+              "seconds": 0.5
+            },
+            {
+              "name": "Death",
+              "channels": 17,
+              "seconds": 1.600000023841858
+            }
+          ],
+          "runtimeTextures": [
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_basecolor.jpg",
+              "dimensions": [
+                2048,
+                2048
+              ],
+              "mime": "image/jpeg",
+              "bytes": 961375,
+              "sha256": "b4f51ec4d9de42346c03b802e6501f7c643315d9c95f7ddb991aa7c61d33ed8f"
+            },
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_rm.png",
+              "dimensions": [
+                2048,
+                2048
+              ],
+              "mime": "image/png",
+              "bytes": 3575828,
+              "sha256": "c966b5e321a3cca09de9b2549a6a49559d147d8760053064dd0c584645f8f462"
+            },
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_normal.jpg",
+              "dimensions": [
+                2048,
+                2048
+              ],
+              "mime": "image/jpeg",
+              "bytes": 1052501,
+              "sha256": "22f7565f3879c3f8710cac9d81aef771f3f3c1f9d8f7c9bc5b366abab90a126f"
+            }
+          ],
+          "textureReduction": [
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_basecolor.jpg",
+              "role": "image-generated layered base color",
+              "method": "Lanczos 3 downsample",
+              "original": [
+                8192,
+                8192
+              ],
+              "runtime": [
+                2048,
+                2048
+              ]
+            },
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_rm.png",
+              "role": "packed linear metallic-roughness map",
+              "method": "2x2 channel average",
+              "original": [
+                4096,
+                4096
+              ],
+              "runtime": [
+                2048,
+                2048
+              ]
+            },
+            {
+              "name": "8a71752f-b4b8-4625-874f-220bbde13412_normal.jpg",
+              "role": "normal map, vector-averaged and renormalized",
+              "method": "2x2 average then unit-length renormalize",
+              "original": [
+                4096,
+                4096
+              ],
+              "runtime": [
+                2048,
+                2048
+              ]
+            }
+          ],
+          "material": {
+            "metallicFactor": 0,
+            "roughnessFactor": 1,
+            "baseColor": "original layered image-generated 2K albedo",
+            "normal": "original 2K normal map, averaged and renormalized",
+            "roughness": "original layered 2K metallic-roughness texture",
+            "note": "wet natural sheen comes from source roughness detail; living skin stays dielectric"
+          },
+          "intendedFairyAssetIds": [
+            "fairy_garden_frog_gloamgarden",
+            "fairy_garden_frog_faeholme"
+          ],
+          "labOverlayAssetId": "animal_frog"
+        },
+        "acceptance": {
+          "serializedGlbReadBack": true,
+          "exactVertexCount": 2414,
+          "exactTriangleCount": 3811,
+          "exactPositions": true,
+          "exactIndices": true,
+          "exactOriginalGeometryAttributes": true,
+          "normalizedWeights": true,
+          "allSixClips": true,
+          "allRuntimeMaps2K": true,
+          "labAccepted": false,
+          "worldIntegrated": false
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "animal_frog": "glasspond-frog-native-rig-candidate.glb"
+  }
+}
