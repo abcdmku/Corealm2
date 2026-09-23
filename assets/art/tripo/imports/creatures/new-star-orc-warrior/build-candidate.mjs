@@ -42,14 +42,18 @@ for (let vertex = 0; vertex < positions.length / 3; vertex++) for (let axis = 0;
   bounds.max[axis] = Math.max(bounds.max[axis], value);
 }
 
-// Tripo kept the inverse bind matrices but exported every joint node at identity,
-// with virtually every vertex assigned to Hips. Recover its bind skeleton from the
-// inverse matrices first; this retains the source bind pose and original topology.
+// Tripo kept inverse bind matrices but exported every joint node at identity, with
+// virtually every vertex assigned to Hips. The retained skeleton frame is quarter-turned
+// relative to the mesh: its lateral arm axis is Z while the source mesh spreads across X.
+// Recover the bind skeleton, align that frame to the source mesh, and recalculate inverse
+// binds without moving a mesh vertex.
 const sourceInverseBinds = Float32Array.from(skin.getInverseBindMatrices()?.getArray() ?? []);
 const sourceJoints = skin.listJoints();
 if (sourceJoints.length !== 60 || sourceInverseBinds.length !== sourceJoints.length * 16) throw new Error(`Unexpected source skeleton: ${sourceJoints.length} joints.`);
 const sourceJointIndex = new Map(sourceJoints.map((joint, index) => [joint, index]));
-const jointWorlds = sourceJoints.map((_, index) => new Matrix4().fromArray(sourceInverseBinds.slice(index * 16, index * 16 + 16)).invert());
+const sourceJointWorlds = sourceJoints.map((_, index) => new Matrix4().fromArray(sourceInverseBinds.slice(index * 16, index * 16 + 16)).invert());
+const armatureFrameCorrection = new Matrix4().makeRotationY(Math.PI / 2);
+const jointWorlds = sourceJointWorlds.map((world) => armatureFrameCorrection.clone().multiply(world));
 const jointRest = sourceJoints.map((joint, index) => {
   const parentIndex = sourceJointIndex.get(joint.getParentNode());
   const parentWorld = parentIndex === undefined ? new Matrix4() : jointWorlds[parentIndex];
@@ -60,6 +64,9 @@ const jointRest = sourceJoints.map((joint, index) => {
   joint.setTranslation(translation.toArray()).setRotation(rotation.toArray()).setScale(scale.toArray());
   return entry;
 });
+const repairedInverseBinds = new Float32Array(jointWorlds.length * 16);
+for (let i = 0; i < jointWorlds.length; i++) repairedInverseBinds.set(jointWorlds[i].clone().invert().elements, i * 16);
+skin.setInverseBindMatrices(doc.createAccessor('RedmarchOrcWarrior_InverseBind').setArray(repairedInverseBinds).setType(Accessor.Type.MAT4).setBuffer(root.listBuffers()[0]));
 const bySourceName = new Map(jointRest.map((entry) => [entry.sourceName, entry]));
 const humanoidNames = new Map([
   ['Hips','mixamorigHips'], ['Spine','mixamorigSpine'], ['Chest','mixamorigSpine1'], ['UpperChest','mixamorigSpine2'],
@@ -130,12 +137,12 @@ for (let vertex = 0; vertex < positions.length / 3; vertex++) {
     if (bone.group === 'head') gate = point[1] >= 0.74 ? 1 : 0.008;
     if (bone.group === 'neck') gate = point[1] > 0.68 && point[1] < 0.86 ? 1 : 0.10;
     if (bone.group === 'leftArm' || bone.group === 'rightArm') {
-      const lateral = bone.side * point[2];
+      const lateral = bone.side * point[0];
       gate = point[1] > 0.54 && point[1] < 0.94 ? 1 : 0.008;
       gate *= 0.025 + 0.975 * sigmoid((lateral - 0.025) / 0.040);
     }
     if (bone.group === 'leftLeg' || bone.group === 'rightLeg') {
-      const lateral = bone.side * point[2];
+      const lateral = bone.side * point[0];
       gate = point[1] < 0.63 ? 1 : 0.008;
       gate *= 0.025 + 0.975 * sigmoid((lateral - 0.018) / 0.038);
     }
@@ -207,10 +214,12 @@ const right = (name, axis, amount, others = []) => poseRotation(name, [{ axis, a
 
 // Starting arm rotations are explicitly lowered from the source's T-pose-like bind.
 addClip('Idle', 2.4, [
-  rotation('mixamorigLeftArm', [0, 0.8, 1.6, 2.4], [0.52,0.55,0.52,0.52].map((angle) => left('mixamorigLeftArm','x',-angle))),
-  rotation('mixamorigRightArm', [0, 0.8, 1.6, 2.4], [0.52,0.55,0.52,0.52].map((angle) => right('mixamorigRightArm','x',angle))),
-  rotation('mixamorigLeftForeArm', [0,0.8,1.6,2.4], [0.06,0.08,0.06,0.06].map((angle) => left('mixamorigLeftForeArm','x',angle))),
-  rotation('mixamorigRightForeArm', [0,0.8,1.6,2.4], [0.06,0.08,0.06,0.06].map((angle) => right('mixamorigRightForeArm','x',-angle))),
+  rotation('mixamorigLeftShoulder', [0,0.8,1.6,2.4], [0.53,0.57,0.53,0.53].map((angle) => left('mixamorigLeftShoulder','z',angle))),
+  rotation('mixamorigRightShoulder', [0,0.8,1.6,2.4], [0.53,0.57,0.53,0.53].map((angle) => right('mixamorigRightShoulder','z',-angle))),
+  rotation('mixamorigLeftArm', [0, 0.8, 1.6, 2.4], [0.60,0.64,0.60,0.60].map((angle) => left('mixamorigLeftArm','z',angle))),
+  rotation('mixamorigRightArm', [0, 0.8, 1.6, 2.4], [0.60,0.64,0.60,0.60].map((angle) => right('mixamorigRightArm','z',-angle))),
+  rotation('mixamorigLeftForeArm', [0,0.8,1.6,2.4], [0.48,0.54,0.48,0.48].map((angle) => left('mixamorigLeftForeArm','y',-angle))),
+  rotation('mixamorigRightForeArm', [0,0.8,1.6,2.4], [0.48,0.54,0.48,0.48].map((angle) => right('mixamorigRightForeArm','y',angle))),
   rotation('mixamorigSpine1', [0,0.8,1.6,2.4], [0,-0.018,0.012,0].map((angle) => poseRotation('mixamorigSpine1',[{axis:'x',amount:angle}]))),
   rotation('mixamorigHead', [0,0.8,1.6,2.4], [0,0.012,-0.015,0].map((angle) => poseRotation('mixamorigHead',[{axis:'y',amount:angle}]))),
 ]);
@@ -223,18 +232,25 @@ const gait = (run) => {
   const sinus = (phase, offset = 0) => Math.sin((phase + offset) * Math.PI * 2);
   const angles = (phase, offset, multiplier = 1) => cycleTimes.map((t) => sinus(t, offset) * multiplier);
   const knees = (phase, offset) => cycleTimes.map((t) => Math.max(0, sinus(t, offset)) * phase);
-  const baseLeft = cycleTimes.map((t) => left('mixamorigLeftArm','x',-0.50,[{axis:'y',amount:sinus(t,0.5)*(run?0.24:0.15)}]));
-  const baseRight = cycleTimes.map((t) => right('mixamorigRightArm','x',0.50,[{axis:'y',amount:sinus(t,0)*(run?0.24:0.15)}]));
-  const hipPositions = cycleTimes.map((t) => shiftedTranslation('mixamorigHips',[run?sinus(t,0)*0.018:0,bob*Math.sin(t*Math.PI*2)**2,0]));
+  const swing = run ? 0.22 : 0.13;
+  const leftShoulder = cycleTimes.map((t) => left('mixamorigLeftShoulder','z',0.48,[{axis:'y',amount:-sinus(t,0.5)*swing}]));
+  const rightShoulder = cycleTimes.map((t) => right('mixamorigRightShoulder','z',-0.48,[{axis:'y',amount:sinus(t,0)*swing}]));
+  const baseLeft = cycleTimes.map((t) => left('mixamorigLeftArm','z',0.62,[{axis:'y',amount:-sinus(t,0.5)*swing}]));
+  const baseRight = cycleTimes.map((t) => right('mixamorigRightArm','z',-0.62,[{axis:'y',amount:sinus(t,0)*swing}]));
+  const hipPositions = cycleTimes.map((t) => shiftedTranslation('mixamorigHips',[0,bob*Math.sin(t*Math.PI*2)**2,run?-sinus(t,0)*0.018:0]));
   const clip = [
     translation('mixamorigHips', times, hipPositions),
-    rotation('mixamorigLeftUpLeg', times, angles(amplitude,0).map((angle) => left('mixamorigLeftUpLeg','z',angle))),
-    rotation('mixamorigRightUpLeg', times, angles(amplitude,0.5).map((angle) => right('mixamorigRightUpLeg','z',angle))),
-    rotation('mixamorigLeftLeg', times, knees(knee,0).map((angle) => left('mixamorigLeftLeg','z',angle))),
-    rotation('mixamorigRightLeg', times, knees(knee,0.5).map((angle) => right('mixamorigRightLeg','z',angle))),
+    rotation('mixamorigLeftUpLeg', times, angles(amplitude,0).map((angle) => left('mixamorigLeftUpLeg','x',angle))),
+    rotation('mixamorigRightUpLeg', times, angles(amplitude,0.5).map((angle) => right('mixamorigRightUpLeg','x',angle))),
+    rotation('mixamorigLeftLeg', times, knees(knee,0).map((angle) => left('mixamorigLeftLeg','x',angle))),
+    rotation('mixamorigRightLeg', times, knees(knee,0.5).map((angle) => right('mixamorigRightLeg','x',angle))),
+    rotation('mixamorigLeftShoulder', times, leftShoulder),
+    rotation('mixamorigRightShoulder', times, rightShoulder),
     rotation('mixamorigLeftArm', times, baseLeft),
     rotation('mixamorigRightArm', times, baseRight),
-    rotation('mixamorigSpine1', times, cycleTimes.map((t) => poseRotation('mixamorigSpine1',[{axis:'z',amount:run?-0.08:-0.035},{axis:'x',amount:sinus(t,0)*(run?0.06:0.035)}]))),
+    rotation('mixamorigLeftForeArm', times, cycleTimes.map(() => left('mixamorigLeftForeArm','y',-0.42))),
+    rotation('mixamorigRightForeArm', times, cycleTimes.map(() => right('mixamorigRightForeArm','y',0.42))),
+    rotation('mixamorigSpine1', times, cycleTimes.map((t) => poseRotation('mixamorigSpine1',[{axis:'x',amount:run?-0.08:-0.035},{axis:'z',amount:sinus(t,0)*(run?0.06:0.035)}]))),
   ];
   return { period, clip };
 };
@@ -243,28 +259,40 @@ for (const kind of ['Walk','Run']) {
   addClip(kind, period, clip);
 }
 addClip('Attack', 0.9, [
-  translation('mixamorigHips',[0,0.18,0.48,0.70,0.90],[[0,0,0],[0,0,0],[0.10,-0.018,0],[0.045,0,0],[0,0,0]] .map((delta) => shiftedTranslation('mixamorigHips',delta))),
+  translation('mixamorigHips',[0,0.18,0.48,0.70,0.90],[[0,0,0],[0,0,0],[0,-0.018,-0.10],[0,0,-0.04],[0,0,0]].map((delta) => shiftedTranslation('mixamorigHips',delta))),
   rotation('mixamorigSpine1',[0,0.18,0.48,0.70,0.90],[0,-0.20,0.32,0.18,0].map((angle)=>poseRotation('mixamorigSpine1',[{axis:'y',amount:angle}]))),
-  rotation('mixamorigRightArm',[0,0.18,0.48,0.70,0.90],[0.50,0.50,0.50,0.50,0.50].map((down,index)=>poseRotation('mixamorigRightArm',[{axis:'x',amount:down},{axis:'y',amount:[0,-0.30,-1.05,-0.38,0][index]}]))),
-  rotation('mixamorigRightForeArm',[0,0.18,0.48,0.70,0.90],[0,0.18,0.70,0.30,0].map((amount)=>right('mixamorigRightForeArm','x',-amount))),
-  rotation('mixamorigLeftArm',[0,0.18,0.48,0.70,0.90],[0.50,0.50,0.50,0.50,0.50].map((down,index)=>poseRotation('mixamorigLeftArm',[{axis:'x',amount:-down},{axis:'y',amount:[0,0.12,0.24,0.10,0][index]}]))),
+  rotation('mixamorigRightShoulder',[0,0.18,0.48,0.70,0.90],[0.48,0.52,0.22,0.38,0.48].map((down,index)=>poseRotation('mixamorigRightShoulder',[{axis:'z',amount:-down},{axis:'y',amount:[0,0.18,0.38,0.15,0][index]}]))),
+  rotation('mixamorigRightArm',[0,0.18,0.48,0.70,0.90],[0.62,0.68,0.22,0.45,0.62].map((down,index)=>poseRotation('mixamorigRightArm',[{axis:'z',amount:-down},{axis:'y',amount:[0,0.35,1.32,0.52,0][index]}]))),
+  rotation('mixamorigRightForeArm',[0,0.18,0.48,0.70,0.90],[0.42,0.50,0.95,0.70,0.42].map((amount)=>right('mixamorigRightForeArm','y',amount))),
+  rotation('mixamorigLeftShoulder',[0,0.18,0.48,0.70,0.90],[0.48,0.48,0.48,0.48,0.48].map((down,index)=>poseRotation('mixamorigLeftShoulder',[{axis:'z',amount:down},{axis:'y',amount:[0,-0.08,-0.16,-0.08,0][index]}]))),
+  rotation('mixamorigLeftArm',[0,0.18,0.48,0.70,0.90],[0.62,0.62,0.62,0.62,0.62].map((down,index)=>poseRotation('mixamorigLeftArm',[{axis:'z',amount:down},{axis:'y',amount:[0,-0.12,-0.24,-0.10,0][index]}]))),
+  rotation('mixamorigLeftForeArm',[0,0.18,0.48,0.70,0.90],[0.42,0.48,0.58,0.48,0.42].map((amount)=>left('mixamorigLeftForeArm','y',-amount))),
 ]);
 addClip('Hit',0.46,[
-  translation('mixamorigHips',[0,0.08,0.20,0.46],[[0,0,0],[-0.035,-0.008,0],[-0.018,0,0],[0,0,0]].map((delta)=>shiftedTranslation('mixamorigHips',delta))),
-  rotation('mixamorigSpine1',[0,0.08,0.20,0.46],[0,0.24,-0.07,0].map((angle)=>poseRotation('mixamorigSpine1',[{axis:'z',amount:angle}]))),
+  translation('mixamorigHips',[0,0.08,0.20,0.46],[[0,0,0],[0,-0.008,0.035],[0,0,0.018],[0,0,0]].map((delta)=>shiftedTranslation('mixamorigHips',delta))),
+  rotation('mixamorigSpine1',[0,0.08,0.20,0.46],[0,0.24,-0.07,0].map((angle)=>poseRotation('mixamorigSpine1',[{axis:'x',amount:angle}]))),
   rotation('mixamorigSpine2',[0,0.08,0.20,0.46],[0,-0.12,0.035,0].map((angle)=>poseRotation('mixamorigSpine2',[{axis:'x',amount:angle}]))),
-  rotation('mixamorigHead',[0,0.08,0.20,0.46],[0,-0.14,0.04,0].map((angle)=>poseRotation('mixamorigHead',[{axis:'z',amount:angle}]))),
-  rotation('mixamorigRightArm',[0,0.08,0.20,0.46],[0.50,0.74,0.46,0.50].map((angle)=>right('mixamorigRightArm','x',angle))),
+  rotation('mixamorigHead',[0,0.08,0.20,0.46],[0,-0.14,0.04,0].map((angle)=>poseRotation('mixamorigHead',[{axis:'x',amount:angle}]))),
+  rotation('mixamorigLeftShoulder',[0,0.08,0.20,0.46],[0.53,0.67,0.50,0.53].map((angle)=>left('mixamorigLeftShoulder','z',angle))),
+  rotation('mixamorigRightShoulder',[0,0.08,0.20,0.46],[0.53,0.67,0.50,0.53].map((angle)=>right('mixamorigRightShoulder','z',-angle))),
+  rotation('mixamorigLeftArm',[0,0.08,0.20,0.46],[0.60,0.78,0.56,0.60].map((angle)=>left('mixamorigLeftArm','z',angle))),
+  rotation('mixamorigRightArm',[0,0.08,0.20,0.46],[0.60,0.78,0.56,0.60].map((angle)=>right('mixamorigRightArm','z',-angle))),
+  rotation('mixamorigLeftForeArm',[0,0.08,0.20,0.46],[0.42,0.50,0.42,0.42].map((angle)=>left('mixamorigLeftForeArm','y',-angle))),
+  rotation('mixamorigRightForeArm',[0,0.08,0.20,0.46],[0.42,0.50,0.42,0.42].map((angle)=>right('mixamorigRightForeArm','y',angle))),
 ]);
 addClip('Death',1.4,[
   translation('mixamorigHips',[0,0.2,0.62,1.0,1.4],[[0,0,0],[0,-0.04,0],[0,-0.19,0],[0,-0.23,0],[0,-0.23,0]].map((delta)=>shiftedTranslation('mixamorigHips',delta))),
-  rotation('mixamorigHips',[0,0.2,0.62,1.0,1.4],[0,0.10,0.74,1.12,1.12].map((angle)=>poseRotation('mixamorigHips',[{axis:'z',amount:angle}]))),
+  rotation('mixamorigHips',[0,0.2,0.62,1.0,1.4],[0,0.10,0.74,1.12,1.12].map((angle)=>poseRotation('mixamorigHips',[{axis:'x',amount:angle}]))),
   rotation('mixamorigSpine1',[0,0.2,0.62,1.0,1.4],[0,0.10,0.18,0.20,0.20].map((angle)=>poseRotation('mixamorigSpine1',[{axis:'x',amount:angle}]))),
-  rotation('mixamorigHead',[0,0.2,0.62,1.0,1.4],[0,0.10,0.20,0.24,0.24].map((angle)=>poseRotation('mixamorigHead',[{axis:'z',amount:angle}]))),
-  rotation('mixamorigLeftArm',[0,0.2,0.62,1.0,1.4],[0.5,0.72,0.85,0.85,0.85].map((angle)=>left('mixamorigLeftArm','x',-angle))),
-  rotation('mixamorigRightArm',[0,0.2,0.62,1.0,1.4],[0.5,0.72,0.85,0.85,0.85].map((angle)=>right('mixamorigRightArm','x',angle))),
-  rotation('mixamorigLeftUpLeg',[0,0.2,0.62,1.0,1.4],[0,-0.06,-0.22,-0.24,-0.24].map((angle)=>left('mixamorigLeftUpLeg','z',angle))),
-  rotation('mixamorigRightUpLeg',[0,0.2,0.62,1.0,1.4],[0,0.06,0.22,0.24,0.24].map((angle)=>right('mixamorigRightUpLeg','z',angle))),
+  rotation('mixamorigHead',[0,0.2,0.62,1.0,1.4],[0,0.10,0.20,0.24,0.24].map((angle)=>poseRotation('mixamorigHead',[{axis:'x',amount:angle}]))),
+  rotation('mixamorigLeftShoulder',[0,0.2,0.62,1.0,1.4],[0.53,0.64,0.80,0.82,0.82].map((angle)=>left('mixamorigLeftShoulder','z',angle))),
+  rotation('mixamorigRightShoulder',[0,0.2,0.62,1.0,1.4],[0.53,0.64,0.80,0.82,0.82].map((angle)=>right('mixamorigRightShoulder','z',-angle))),
+  rotation('mixamorigLeftArm',[0,0.2,0.62,1.0,1.4],[0.60,0.72,0.82,0.82,0.82].map((angle)=>left('mixamorigLeftArm','z',angle))),
+  rotation('mixamorigRightArm',[0,0.2,0.62,1.0,1.4],[0.60,0.72,0.82,0.82,0.82].map((angle)=>right('mixamorigRightArm','z',-angle))),
+  rotation('mixamorigLeftForeArm',[0,0.2,0.62,1.0,1.4],[0.42,0.36,0.24,0.22,0.22].map((angle)=>left('mixamorigLeftForeArm','y',-angle))),
+  rotation('mixamorigRightForeArm',[0,0.2,0.62,1.0,1.4],[0.42,0.36,0.24,0.22,0.22].map((angle)=>right('mixamorigRightForeArm','y',angle))),
+  rotation('mixamorigLeftUpLeg',[0,0.2,0.62,1.0,1.4],[0,-0.06,-0.22,-0.24,-0.24].map((angle)=>left('mixamorigLeftUpLeg','x',angle))),
+  rotation('mixamorigRightUpLeg',[0,0.2,0.62,1.0,1.4],[0,0.06,0.22,0.24,0.24].map((angle)=>right('mixamorigRightUpLeg','x',angle))),
 ]);
 
 const material = root.listMaterials()[0];
@@ -367,10 +395,11 @@ const candidate = {
   schema:'corealm-creature-native-rig-candidate/1', id:assetId, displayName:'Redmarch Orc Warrior', status:'awaiting-root-lab-review', accepted:false,
   source:{ file:sourcePath, sha256:sourceHash, bytes:sourceBytes.length, starredModelId:starredModelUuid, starredCardId:cardStorageUuid,
     starredDisplayName:'orc warrior 3d model', format:'Tripo P1 GLB, 2K texture export', geometry:{vertices:positions.length/3,triangles:indices.length/3,bounds,positionsPreserved:true,normalsPreserved:true,indicesPreserved:true,uvsPreserved:true,retopology:false},
-    sourceSkin:{joints:sourceJoints.length,clips:0,repair:'Recovered joint local transforms from retained inverse-bind matrices. Source nodes were identity and 7101/7103 vertices were root-dominant; anatomy-aware 4-weight map rebuilt for the existing 60-joint Unity Humanoid skeleton.'}, textures:sourceTextures },
+    sourceSkin:{joints:sourceJoints.length,clips:0,repair:'Recovered joint transforms from retained inverse-bind matrices, detected and corrected the source skeleton’s 90° Y frame offset relative to the mesh, then recalculated inverse binds. Source nodes were identity and 7101/7103 vertices were root-dominant; anatomy-aware 4-weight map rebuilt for the existing 60-joint Unity Humanoid skeleton.'}, textures:sourceTextures },
   candidate:{ file:candidatePath,sha256:candidateHash,bytes:outputBytes.length,productionTarget:`game/public/assets/models/creature/${assetId}.glb`,
     geometry:{vertices:positions.length/3,triangles:indices.length/3,bounds:scaledBounds,sourceBounds:bounds,instanceScale,positionsPreserved:true,indicesPreserved:true,uvsPreserved:true},
-    rig:{type:'Recovered Tripo skeleton with Mixamo-named Unity Humanoid body joints',joints:sourceJoints.length,influencesPerVertex:4,verticesWithDistributedWeights,sourceRootDominantVertices:rootDominantVertices,maximumWeightSumError:outputWeightError,maximumBindPoseMatrixError:maximumBindError,method:'Inverse-bind reconstruction restores the source joint transforms; source skin attributes repaired with four-weight anatomical distance fields fitted to source skeleton landmarks.'},
+    rig:{type:'Recovered Tripo skeleton with Mixamo-named Unity Humanoid body joints',joints:sourceJoints.length,influencesPerVertex:4,verticesWithDistributedWeights,sourceRootDominantVertices:rootDominantVertices,maximumWeightSumError:outputWeightError,maximumBindPoseMatrixError:maximumBindError,method:'Recovered joint transforms from source inverse binds, corrected the 90° Y skeleton-to-mesh frame offset, and recalculated inverse bind matrices. Repaired source skin attributes with four-weight anatomical distance fields fitted to the existing skeleton landmarks.'},
+    motionPose:'All clips begin in a compact warrior guard with lowered upper arms and bent forearms; Idle holds the guard with subtle breathing, locomotion preserves it while swinging limbs, and Attack visibly drives the right arm forward before returning to guard.',
     textures:runtimeTextures,pbrRange,metallicFactor:material.getMetallicFactor(),roughnessFactor:material.getRoughnessFactor(),pbr:'Retains the starred model base-color, metallic-roughness, and normal maps; maps are capped at 2K runtime resolution. No recolor applied.',animations:tracks,
   },
   placementSuggestion:{tier:'T10-T20',region:'temperate marchland or settled wilderness edge',reason:'Medium humanoid orc warrior silhouette. Validate relative size, aggression, and materials in the normal-camera feature lab before placement.'},
@@ -383,7 +412,7 @@ const labAsset = {
   size:{x:(scaledBounds.max[0]-scaledBounds.min[0]),y:(scaledBounds.max[1]-scaledBounds.min[1]),z:(scaledBounds.max[2]-scaledBounds.min[2])},
   base:{x:scaledBounds.min[0],y:scaledBounds.min[1],z:scaledBounds.min[2]},bounds:scaledBounds,groundY:scaledBounds.min[1],triangles:indices.length/3,
   animations:tracks.map((clip)=>clip.name),materials:root.listMaterials().map((entry)=>entry.getName()),
-  sourceProvenance:{author:'Starred Tripo P1 source, inverse-bind skeleton recovery and model-specific skin repair',sourceModelId:starredModelUuid,sourceCardId:cardStorageUuid,sourceFile:sourcePath,sourceSha256:sourceHash,candidateFile:candidatePath,candidateSha256:candidateHash,rigMethod:'Source inverse-bind matrices recovered the 60 joint bind transforms; Mixamo names added to Humanoid body joints; original source vertices, triangles and UVs kept; anatomically gated 4-weight map repaired.',textures:runtimeTextures,candidateStatus:'awaiting-root-lab-review'},
+  sourceProvenance:{author:'Starred Tripo P1 source, inverse-bind skeleton recovery and model-specific skin repair',sourceModelId:starredModelUuid,sourceCardId:cardStorageUuid,sourceFile:sourcePath,sourceSha256:sourceHash,candidateFile:candidatePath,candidateSha256:candidateHash,rigMethod:'Source inverse-bind matrices recovered the 60 joint transforms; detected and corrected their 90° Y frame offset relative to the mesh, then recalculated inverse binds. Mixamo names added to Humanoid body joints; original source vertices, triangles and UVs kept; anatomically gated 4-weight map repaired.',textures:runtimeTextures,candidateStatus:'awaiting-root-lab-review'},
   acceptance:{assetAudit:false,rigAccepted:false,motionAccepted:false,texturesAccepted:false,labAccepted:false,worldIntegrated:false},
 };
 await writeFile(`${baseDir}/lab-catalog.json`,JSON.stringify({schema:'corealm-lab-asset-candidates/1',files:{[assetId]:candidatePath.split('/').at(-1)},assets:[labAsset]},null,2)+'\n');

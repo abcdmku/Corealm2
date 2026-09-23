@@ -36,7 +36,7 @@
     "sourceSkin": {
       "joints": 60,
       "clips": 0,
-      "repair": "Recovered joint local transforms from retained inverse-bind matrices. Source nodes were identity and 7101/7103 vertices were root-dominant; anatomy-aware 4-weight map rebuilt for the existing 60-joint Unity Humanoid skeleton."
+      "repair": "Recovered joint transforms from retained inverse-bind matrices, detected and corrected the source skeleton’s 90° Y frame offset relative to the mesh, then recalculated inverse binds. Source nodes were identity and 7101/7103 vertices were root-dominant; anatomy-aware 4-weight map rebuilt for the existing 60-joint Unity Humanoid skeleton."
     },
     "textures": [
       {
@@ -64,8 +64,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-orc-warrior/orc-warrior-rigged-candidate.glb",
-    "sha256": "fb6db0573e79c870d099d0a03b316a3cc633a429de750f7887d63c15e6781efb",
-    "bytes": 6692120,
+    "sha256": "8c5d854979c4a4ab1011400b62a51564ef01fb14128dffd4d19cbd20da988005",
+    "bytes": 6709248,
     "productionTarget": "game/public/assets/models/creature/creature_redmarch_orc_warrior.glb",
     "geometry": {
       "vertices": 7103,
@@ -106,9 +106,10 @@
       "verticesWithDistributedWeights": 7103,
       "sourceRootDominantVertices": 7101,
       "maximumWeightSumError": 4.470348358154297e-8,
-      "maximumBindPoseMatrixError": 0.000006409535054596738,
-      "method": "Inverse-bind reconstruction restores the source joint transforms; source skin attributes repaired with four-weight anatomical distance fields fitted to source skeleton landmarks."
+      "maximumBindPoseMatrixError": 0.000006453108242931993,
+      "method": "Recovered joint transforms from source inverse binds, corrected the 90° Y skeleton-to-mesh frame offset, and recalculated inverse bind matrices. Repaired source skin attributes with four-weight anatomical distance fields fitted to the existing skeleton landmarks."
     },
+    "motionPose": "All clips begin in a compact warrior guard with lowered upper arms and bent forearms; Idle holds the guard with subtle breathing, locomotion preserves it while swinging limbs, and Attack visibly drives the right arm forward before returning to guard.",
     "textures": [
       {
         "name": "orc+warrior+3d+model_basecolor.jpg",
@@ -149,32 +150,32 @@
       {
         "name": "Idle",
         "seconds": 2.4,
-        "channels": 6
+        "channels": 8
       },
       {
         "name": "Walk",
         "seconds": 1.02,
-        "channels": 8
+        "channels": 12
       },
       {
         "name": "Run",
         "seconds": 0.68,
-        "channels": 8
+        "channels": 12
       },
       {
         "name": "Attack",
         "seconds": 0.9,
-        "channels": 5
+        "channels": 8
       },
       {
         "name": "Hit",
         "seconds": 0.46,
-        "channels": 5
+        "channels": 10
       },
       {
         "name": "Death",
         "seconds": 1.4,
-        "channels": 8
+        "channels": 12
       }
     ]
   },
