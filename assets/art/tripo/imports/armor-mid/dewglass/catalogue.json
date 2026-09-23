@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-tripo-armor",
+    "name": "Corealm Tripo armor",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/import-tripo.ts"
+  },
+  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\b89790da-b432-4935-99ba-56ff49a4a3a4.glb",
+  "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+  "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+  "textureSize": 2048,
+  "assets": [
+    {
+      "id": "corealm_item_dewglass_helm",
+      "file": "models/items/dewglass_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_helm",
+        "head"
+      ],
+      "bytes": 3513996,
+      "itemModel": {
+        "itemId": "dewglass_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.2321532815694809,
+        "y": 0.2827392816543579,
+        "z": 0.29538577795028687
+      },
+      "base": {
+        "x": -0.11607643961906433,
+        "y": 1.5663570165634155,
+        "z": -0.15756593644618988
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_helm",
+      "status": "pending",
+      "sha256": "980ff414cd73bb8f5268dc3044a46673abe9afbe61be1ee82dde961590eaa591",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+      "triangles": 266,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_dewglass_plate",
+      "file": "models/items/dewglass_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_plate",
+        "torso"
+      ],
+      "bytes": 3667288,
+      "itemModel": {
+        "itemId": "dewglass_plate",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.5246334671974182,
+        "y": 0.9286139607429504,
+        "z": 0.3549134209752083
+      },
+      "base": {
+        "x": -0.7623151540756226,
+        "y": 0.7325919270515442,
+        "z": -0.24993030726909637
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_plate",
+      "status": "pending",
+      "sha256": "eae897bd61031e1f7410e78d4fd07fba41e874843db311dd3719f8bbee23ef2b",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+      "triangles": 2300,
+      "drawCalls": 22
+    },
+    {
+      "id": "corealm_item_dewglass_gauntlets",
+      "file": "models/items/dewglass_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_gauntlets",
+        "arms"
+      ],
+      "bytes": 3546068,
+      "itemModel": {
+        "itemId": "dewglass_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7728607058525085,
+        "y": 0.1209259033203125,
+        "z": 0.15158343767689075
+      },
+      "base": {
+        "x": -0.8864377737045288,
+        "y": 1.3643783330917358,
+        "z": -0.1517767757177353
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_gauntlets",
+      "status": "pending",
+      "sha256": "8f4d3afa74aed335c3ae321dcd26d8cdad21b46b695aa697f4bdfb650884b38c",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+      "triangles": 686,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_dewglass_greaves",
+      "file": "models/items/dewglass_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_greaves",
+        "legs"
+      ],
+      "bytes": 3577980,
+      "itemModel": {
+        "itemId": "dewglass_greaves",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.34256455302238464,
+        "y": 0.6847167313098907,
+        "z": 0.2538330480456352
+      },
+      "base": {
+        "x": -0.17128202319145203,
+        "y": 0.43178674578666687,
+        "z": -0.1705297827720642
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_greaves",
+      "status": "pending",
+      "sha256": "e830e4bb0527b4868287a639f694fd35b1c253281cd8648f38cbc1bf4ba77333",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+      "triangles": 778,
+      "drawCalls": 13
+    },
+    {
+      "id": "corealm_item_dewglass_boots",
+      "file": "models/items/dewglass_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "dewglass_boots",
+        "feet"
+      ],
+      "bytes": 3550924,
+      "itemModel": {
+        "itemId": "dewglass_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.42584407329559326,
+        "y": 0.5645742669696574,
+        "z": 0.3441677391529083
+      },
+      "base": {
+        "x": -0.21293799579143524,
+        "y": 0.0000010475521321495762,
+        "z": -0.2021460235118866
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "dewglass_boots",
+      "status": "pending",
+      "sha256": "481049481c90e084e28111c6a95a8d7c9e7b53c8ec0b460e86c759d210ed01f2",
+      "sourceSha256": "527d3f00ba864f7fd18ceb5678977f07f34a8435ba5dff88f3e80d50582a307c",
+      "configSha256": "f486ad05c88eba17c6aab59ca286002984bbd10188edda155f50bc4b7f5655fb",
+      "triangles": 726,
+      "drawCalls": 6
+    }
+  ]
+}
