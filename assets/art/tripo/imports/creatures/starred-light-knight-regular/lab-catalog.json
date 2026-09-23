@@ -1,5 +1,8 @@
 {
   "schema": "corealm-lab-asset-candidates/1",
+  "files": {
+    "creature_pearl_knight": "pearl-patrol-knight-native-rig.glb"
+  },
   "assets": [
     {
       "id": "creature_pearl_knight",
