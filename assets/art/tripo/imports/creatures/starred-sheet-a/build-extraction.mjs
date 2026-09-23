@@ -270,6 +270,64 @@ for (let index = 0; index < parts.length; index += 1) {
   });
 }
 
+for (const record of partRecords) {
+  const partDirectory = path.join(here, record.id);
+  // The two possible rigging report names are owned by the per-part riggers.
+  let reportFile = null;
+  for (const name of ['rigging-verification.json', 'rigging-provenance.json']) {
+    try { await readFile(path.join(partDirectory, name)); reportFile = path.join(partDirectory, name); break; } catch { /* no rig report for this part yet */ }
+  }
+  if (!reportFile) continue;
+  const report = JSON.parse(await readFile(reportFile, 'utf8'));
+  const reportCandidate = report.candidate ?? {};
+  const reportedFile = reportCandidate.file ?? 'rigged-candidate.glb';
+  const candidateFile = reportedFile.startsWith('assets/')
+    ? path.join(repo, reportedFile)
+    : path.join(partDirectory, path.basename(reportedFile));
+  const candidateBytes = await readFile(candidateFile);
+  const candidateSha256 = sha(candidateBytes);
+  const expectedCandidateSha256 = reportCandidate.sha256 ?? report.candidateSha256;
+  if (expectedCandidateSha256 && expectedCandidateSha256 !== candidateSha256) {
+    throw new Error(`${record.id} rigged candidate hash differs from its rig report.`);
+  }
+  const reportedSourceSha256 = report.source?.sha256 ?? report.sourceSha256;
+  if (reportedSourceSha256 && reportedSourceSha256 !== sha(await readFile(path.join(here, `${record.id}/base.glb`)))) {
+    throw new Error(`${record.id} rig report points at a different extracted base.`);
+  }
+  const rig = report.rig ?? {};
+  const jointCount = typeof rig.jointCount === 'number' ? rig.jointCount
+    : Array.isArray(rig.joints) ? rig.joints.length
+      : typeof rig.joints === 'number' ? rig.joints : null;
+  const motionRecords = report.candidate?.animationClips ?? report.motions?.durations ?? report.animations ?? [];
+  const riggedClips = motionRecords.map(clip => {
+    const detailed = report.motions?.clips?.find(candidate => candidate.name === clip.name);
+    return { name: clip.name, seconds: clip.seconds ?? clip.duration, channels: clip.channels ?? detailed?.channels ?? null };
+  });
+  const sourceGeometryHashes = report.sourceGeometryHashes ?? report.source?.geometryHashes;
+  const outputGeometryHashes = report.outputGeometryHashes ?? report.candidate?.geometryHashes;
+  const exactHashes = sourceGeometryHashes && outputGeometryHashes &&
+    JSON.stringify(sourceGeometryHashes) === JSON.stringify(outputGeometryHashes);
+  const geometryPreserved = report.candidate?.sourceGeometryPreserved ?? report.verification?.geometryExact ?? exactHashes ??
+    (report.candidate?.triangleCornerAttributesSha256 && report.source?.triangleCornerAttributesSha256
+      ? report.candidate.triangleCornerAttributesSha256 === report.source.triangleCornerAttributesSha256 : null);
+  const runtimeTextureRecords = report.maps?.maps ?? report.candidate?.textures ?? report.textures?.runtime ??
+    report.runtimeTextures ?? report.textures ?? report.source?.textures ?? [];
+  record.riggedCandidate = {
+    file: path.relative(repo, candidateFile).replaceAll('\\', '/'),
+    sha256: candidateSha256,
+    bytes: candidateBytes.length,
+    rigReport: path.relative(repo, reportFile).replaceAll('\\', '/'),
+    joints: jointCount,
+    clips: riggedClips,
+    geometryPreserved: geometryPreserved === true,
+    textureMaxDimension: report.maps?.maxDimension ?? Math.max(0, ...runtimeTextureRecords
+      .map(texture => Math.max(texture.width ?? texture[0] ?? 0, texture.height ?? texture[1] ?? 0))),
+    review: 'pending-root-visual-motion-lab-acceptance',
+  };
+}
+
+const riggedPartCount = partRecords.filter(part => part.riggedCandidate).length;
+
 const ledger = {
   schema: 'corealm-starred-sheet-extraction/1',
   source: {
@@ -290,7 +348,18 @@ const ledger = {
   },
   parts: partRecords,
   totalTriangles: partRecords.reduce((sum, part) => sum + part.triangles, 0),
-  acceptance: { extracted: true, rigging: 'pending', animation: 'pending', rootFeatureLab: 'pending' },
-};
+  preliminaryDesignReview: {
+    status: 'root-decision-pending',
+    recommendation: 'Hold A for the serious RPG direction: oversized grins/eyes and a repeated cartoon imp template.',
+    reviewer: 'new-sheet visual audit',
+  },
+  acceptance: {
+    extracted: true,
+    riggedCandidates: `${riggedPartCount}/9 staged`,
+    animationClips: `${riggedPartCount}/9 staged`,
+    rootVisualMotionLab: 'pending',
+    worldIntegrated: false,
+  },
+  };
 await writeFile(path.join(here, 'extraction-ledger.json'), `${JSON.stringify(ledger, null, 2)}\n`);
 console.log(JSON.stringify({ sourceSha256, parts: partRecords.map(({ id, triangles, vertices, candidateFile }) => ({ id, triangles, vertices, candidateFile })), totalTriangles: ledger.totalTriangles }, null, 2));

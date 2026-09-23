@@ -162,7 +162,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-01-red-bone-mask-imp/part-01-red-bone-mask-imp-native-rig-candidate.glb",
+        "sha256": "01b9c1048ea1cfbe49ac9057380a19de9a434d0b3175dc2283d699d033fd2db1",
+        "bytes": 6892716,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-01-red-bone-mask-imp/rigging-verification.json",
+        "joints": 54,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-02-lavender-bat-ear-imp",
@@ -245,7 +287,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-02-lavender-bat-ear-imp/part-02-lavender-bat-ear-imp-native-rig-candidate.glb",
+        "sha256": "d543cdb8a2b5a11d2bf1754b9e1b1804d37353d918eb153906271d4afaa9823d",
+        "bytes": 6810748,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-02-lavender-bat-ear-imp/rigging-verification.json",
+        "joints": 54,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-03-green-antler-imp",
@@ -328,7 +412,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-03-green-antler-imp/part-03-green-antler-imp-native-rig-candidate.glb",
+        "sha256": "9154c2e4a83e25daee7adef287b0e70549d8071f883e21996b0dbece170bc0dc",
+        "bytes": 7001744,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-03-green-antler-imp/rigging-verification.json",
+        "joints": 54,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-04-magma-imp",
@@ -411,7 +537,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-04-magma-imp/part-04-magma-imp-native-rig-candidate.glb",
+        "sha256": "0cd3be82b70bb141fa4ed51f731078bb84849200c3252153ece3a8fe08a10ada",
+        "bytes": 6637720,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-04-magma-imp/rigging-verification.json",
+        "joints": 24,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 26
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 26
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 26
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 26
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 26
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 26
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-05-ivory-bone-imp",
@@ -494,7 +662,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-05-ivory-bone-imp/part-05-ivory-bone-imp-native-rig-candidate.glb",
+        "sha256": "06ac00403f736722cf225cbdce3a87e3e4cd8c7e50ddbce45c13cf266b8ad726",
+        "bytes": 6731984,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-05-ivory-bone-imp/rigging-verification.json",
+        "joints": 24,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 26
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 26
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 26
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 26
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 26
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 26
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-06-purple-cyclops-imp",
@@ -577,7 +787,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-06-purple-cyclops-imp/part-06-purple-cyclops-imp-native-rig-candidate.glb",
+        "sha256": "77191b96c55f41ae04b0c3cfd5f95e271849bd6c13dda71ff73e0211ebd5eba8",
+        "bytes": 6709088,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-06-purple-cyclops-imp/rigging-verification.json",
+        "joints": 24,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 26
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 26
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 26
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 26
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 26
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 26
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-07-blue-crystal-imp",
@@ -660,7 +912,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-07-blue-crystal-imp/rigged-candidate.glb",
+        "sha256": "91d0fa168f9dec8c5d7b6d27e16a7d4566659f28778eeb7f95cb51efaf14e5f3",
+        "bytes": 6512692,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-07-blue-crystal-imp/rigging-provenance.json",
+        "joints": 22,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.4000000953674316,
+            "channels": 4
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.100000023841858,
+            "channels": 5
+          },
+          {
+            "name": "Run",
+            "seconds": 0.7200000286102295,
+            "channels": 5
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8500000238418579,
+            "channels": 5
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.5,
+            "channels": 4
+          },
+          {
+            "name": "Death",
+            "seconds": 1.899999976158142,
+            "channels": 7
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-08-rust-iron-spike-imp",
@@ -743,7 +1037,49 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-08-rust-iron-spike-imp/rigged-candidate.glb",
+        "sha256": "c641e4e2e3d893ca5152dce7aa1123973a8eaf02f094e1069f2c36780e34d2eb",
+        "bytes": 6512700,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-08-rust-iron-spike-imp/rigging-provenance.json",
+        "joints": 22,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.4000000953674316,
+            "channels": 4
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.100000023841858,
+            "channels": 5
+          },
+          {
+            "name": "Run",
+            "seconds": 0.7200000286102295,
+            "channels": 5
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8500000238418579,
+            "channels": 5
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.5,
+            "channels": 4
+          },
+          {
+            "name": "Death",
+            "seconds": 1.899999976158142,
+            "channels": 7
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     },
     {
       "id": "part-09-yellow-green-spore-imp",
@@ -826,14 +1162,62 @@
           "bytes": 338412,
           "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
         }
-      ]
+      ],
+      "riggedCandidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-09-yellow-green-spore-imp/rigged-candidate.glb",
+        "sha256": "7c8beff51e872d4ee0e3cc267c6dcad6fddc8dca6c8db3fd333a58a62655785d",
+        "bytes": 6634400,
+        "rigReport": "assets/art/tripo/imports/creatures/starred-sheet-a/part-09-yellow-green-spore-imp/rigging-provenance.json",
+        "joints": 22,
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.4000000953674316,
+            "channels": 4
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.100000023841858,
+            "channels": 5
+          },
+          {
+            "name": "Run",
+            "seconds": 0.7200000286102295,
+            "channels": 5
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8500000238418579,
+            "channels": 5
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.5,
+            "channels": 4
+          },
+          {
+            "name": "Death",
+            "seconds": 1.899999976158142,
+            "channels": 7
+          }
+        ],
+        "geometryPreserved": true,
+        "textureMaxDimension": 2048,
+        "review": "pending-root-visual-motion-lab-acceptance"
+      }
     }
   ],
   "totalTriangles": 19536,
+  "preliminaryDesignReview": {
+    "status": "root-decision-pending",
+    "recommendation": "Hold A for the serious RPG direction: oversized grins/eyes and a repeated cartoon imp template.",
+    "reviewer": "new-sheet visual audit"
+  },
   "acceptance": {
     "extracted": true,
-    "rigging": "pending",
-    "animation": "pending",
-    "rootFeatureLab": "pending"
+    "riggedCandidates": "9/9 staged",
+    "animationClips": "9/9 staged",
+    "rootVisualMotionLab": "pending",
+    "worldIntegrated": false
   }
 }
