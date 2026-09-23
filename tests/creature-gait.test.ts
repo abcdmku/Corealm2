@@ -79,6 +79,50 @@ async function fixture(entities: SemanticEntity[]) {
 const gaits: Gait[] = [];
 /** Each spawned entity's content block, so the resolved pursuit speed can be re-derived per gait. */
 const BLOCK = new Map<string, EnemyDef>();
+type UncalibratedReplacementGaitHold = {
+  sha256: string;
+  walkClipSeconds: number | null;
+  runClipSeconds: number | null;
+};
+/** Exact-rig holds for uncalibrated replacement assets; these are not measured stride pins. */
+const UNCALIBRATED_REPLACEMENT_GAIT_HOLDS: Readonly<Record<string, UncalibratedReplacementGaitHold>> = {
+  creature_lava_golem: {
+    sha256: "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+    walkClipSeconds: 1, runClipSeconds: 0.72,
+  },
+  creature_marchfield_turkey: {
+    sha256: "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460",
+    walkClipSeconds: 1.1, runClipSeconds: 0.72,
+  },
+  creature_redbrush_fox: {
+    sha256: "ccf1fd460d30bd96573a4492ebf2c7bf56717c26d59588e08cd2bed181e6fddc",
+    walkClipSeconds: 1.149999976158142, runClipSeconds: 0.7799999713897705,
+  },
+  creature_briar_harrow: {
+    sha256: "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+    walkClipSeconds: 1.3333333730697632, runClipSeconds: 0.9333333373069763,
+  },
+  creature_boss_tideworn: {
+    sha256: "39281349a927147ec89cb7befa854a89b8cd6ca3579c24254946fa486ca587b0",
+    walkClipSeconds: 1.25, runClipSeconds: 0.82,
+  },
+  creature_ashseal_warden: {
+    sha256: "2095a63a9398cb00321de863a432bd2d3932628f3ade512d8cc565361de7a5cc",
+    walkClipSeconds: null, runClipSeconds: null,
+  },
+  creature_starroot_guardian: {
+    sha256: "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
+    walkClipSeconds: 1, runClipSeconds: 0.72,
+  },
+  fairy_garden_sapling_gloamgarden: {
+    sha256: "e64d6e4433d003353c6d4949bc6942121db9328e4d6e51f9fa3b5f36abe6794b",
+    walkClipSeconds: 1.149999976158142, runClipSeconds: 0.8199999928474426,
+  },
+  fairy_garden_sporekin_faeholme: {
+    sha256: "d202c96e3f5a3dbd718964669b24edd1cb80afb065b108a03d70e26bb2add0bb",
+    walkClipSeconds: 1.2, runClipSeconds: 0.78,
+  },
+};
 beforeAll(async () => {
   const entities: SemanticEntity[] = GROUPS.filter((group) => ASSET_BY_ID.get(group.assetId)?.impliedWalkMps)
     .flatMap((group) => Array.from({ length: group.count }, (_, index): SemanticEntity => {
@@ -166,19 +210,46 @@ describe("creature gait", () => {
 
   it("solves every pursuit ceiling from the clip the chase actually plays", () => {
     const wrong: string[] = [];
+    const held = new Set<string>();
     for (const [assetId, ceiling] of Object.entries(CREATURE_PURSUIT_CEILING_MPS)) {
       const entry = ASSET_BY_ID.get(assetId) as { impliedRunMps?: number; impliedWalkMps?: number;
-        runClipSeconds?: number; walkClipSeconds?: number } | undefined;
+        runClipSeconds?: number; walkClipSeconds?: number; animations?: string[]; sha256?: string } | undefined;
       if (!entry) { wrong.push(`${assetId}: not in the manifest`); continue; }
+      const hold = UNCALIBRATED_REPLACEMENT_GAIT_HOLDS[assetId];
       // Run when the asset ships one; the semantic run falls back to Walk when it does not.
       const running = entry.impliedRunMps !== undefined;
       const implied = running ? entry.impliedRunMps! : entry.impliedWalkMps;
       const seconds = running ? entry.runClipSeconds ?? entry.walkClipSeconds : entry.walkClipSeconds;
-      if (implied === undefined || seconds === undefined) { wrong.push(`${assetId}: no measured stride`); continue; }
+      if (implied === undefined || seconds === undefined) {
+        if (!hold) { wrong.push(`${assetId}: no measured stride and no replacement-rig hold`); continue; }
+        held.add(assetId);
+        if (entry.sha256 !== hold.sha256) wrong.push(`${assetId}: uncalibrated replacement SHA changed`);
+        if (entry.impliedWalkMps !== undefined || entry.impliedRunMps !== undefined) {
+          wrong.push(`${assetId}: replacement hold has partial stride metadata`);
+        }
+        for (const animation of ["Walk", "Run"]) {
+          if (!entry.animations?.some((name) => name.toLowerCase() === animation.toLowerCase())) {
+            wrong.push(`${assetId}: replacement hold no longer ships ${animation}`);
+          }
+        }
+        for (const [gait, actual, expected] of [
+          ["walk", entry.walkClipSeconds, hold.walkClipSeconds],
+          ["run", entry.runClipSeconds, hold.runClipSeconds],
+        ] as const) {
+          if (expected === null ? actual !== undefined : actual === undefined || Math.abs(actual - expected) > 1e-9) {
+            wrong.push(`${assetId}: replacement hold ${gait} clip duration changed`);
+          }
+        }
+        continue;
+      }
+      if (hold) wrong.push(`${assetId}: remove the replacement hold after stride calibration`);
       const expected = Number((3 * implied * seconds).toFixed(4));
       if (Math.abs(expected - ceiling) > 1e-9) {
         wrong.push(`${assetId}: pinned ${ceiling}, manifest solves ${expected} off the ${running ? "run" : "walk"} clip`);
       }
+    }
+    for (const assetId of Object.keys(UNCALIBRATED_REPLACEMENT_GAIT_HOLDS)) {
+      if (!held.has(assetId)) wrong.push(`${assetId}: stale replacement-rig hold`);
     }
     expect(wrong, wrong.join("\n")).toEqual([]);
   });
