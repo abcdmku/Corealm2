@@ -1,0 +1,108 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_revenant",
+      "file": "models/creature/creature_revenant.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Waygrave Warden",
+      "tags": [
+        "creature",
+        "humanoid",
+        "undead",
+        "wilderness",
+        "T50",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 9449556,
+      "sha256": "94119acd75068537978b5db054af71dc535088a09665bf117add2acbf134bb72",
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-revenant/waygrave-warden-native-rig.glb",
+      "size": {
+        "x": 0.8951904296875001,
+        "y": 1.8490965694189072,
+        "z": 0.46340332031250003
+      },
+      "base": {
+        "x": -0.44759521484375003,
+        "y": 0,
+        "z": -0.23170166015625002
+      },
+      "bounds": {
+        "min": [
+          -0.44759521484375003,
+          0,
+          -0.23170166015625002
+        ],
+        "max": [
+          0.44759521484375003,
+          1.8490965694189072,
+          0.23170166015625002
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5281,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_ea698eea-c8db-4411-bf58-be20d0369be9"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "97940d41-9ad5-42a0-83f1-ed40797a2c62",
+        "sourceImageId": "547d71b5-ee5f-477e-a03c-fd53e5b94c1d",
+        "sourceFile": "assets/art/tripo/exports/corealm_revenant_97940d41_8k_rigged.glb",
+        "sourceSha256": "5873f96218a1610a204aa1b19340be0e2ca263c842727c9db44c391aefcf251b",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-revenant/waygrave-warden-native-rig.glb",
+        "candidateSha256": "94119acd75068537978b5db054af71dc535088a09665bf117add2acbf134bb72",
+        "rigMethod": "22-joint Mixamo-named humanoid rig built over the approved pose; the malformed source skeleton was removed, while original mesh positions, normals, indices and UVs remain exact.",
+        "textures": [
+          {
+            "name": "corealm_revenant_97940d41_8k_rigged_basecolor.jpg",
+            "role": "base-color",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1296078
+          },
+          {
+            "name": "corealm_revenant_97940d41_8k_rigged_rm.png",
+            "role": "metallic-roughness",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4120820
+          },
+          {
+            "name": "corealm_revenant_97940d41_8k_rigged_normal.jpg",
+            "role": "normal",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3654011
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_revenant": "waygrave-warden-native-rig.glb"
+  }
+}
