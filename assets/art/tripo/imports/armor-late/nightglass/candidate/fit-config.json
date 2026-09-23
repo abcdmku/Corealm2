@@ -1,8 +1,9 @@
 {
-  "source": "../../exports/packed-8k/cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
+  "source": "../../../../exports/packed-8k/cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
   "setId": "nightglass",
   "output": "assets/art/tripo/imports/armor-late/nightglass/candidate",
   "textureSize": 2048,
+  "pbrMetalProfile": "iron",
   "alignment": {
     "space": "native-male-t-pose",
     "reviewedBy": "armor_fit_late geometry candidate, visual acceptance pending",

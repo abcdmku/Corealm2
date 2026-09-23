@@ -10,7 +10,7 @@
   },
   "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\cc618fd5-433e-4a90-978c-fd957504b5f3.glb",
   "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
-  "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+  "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
   "textureSize": 2048,
   "assets": [
     {
@@ -25,7 +25,7 @@
         "nightglass_helm",
         "head"
       ],
-      "bytes": 19986756,
+      "bytes": 21154812,
       "itemModel": {
         "itemId": "nightglass_helm",
         "wearable": true
@@ -46,9 +46,9 @@
       ],
       "itemId": "nightglass_helm",
       "status": "pending",
-      "sha256": "dc8db60b949d8483f904d2b2e1dc3a860175ff65e6614674d15b092ae1fa3095",
+      "sha256": "14aae75d3bdd9c85da40e634a01d835860fca794794bd6e2dde920060c33a018",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
-      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 244,
       "drawCalls": 4
     },
@@ -64,7 +64,7 @@
         "nightglass_plate",
         "torso"
       ],
-      "bytes": 20087544,
+      "bytes": 21255600,
       "itemModel": {
         "itemId": "nightglass_plate",
         "wearable": true,
@@ -92,9 +92,9 @@
       ],
       "itemId": "nightglass_plate",
       "status": "pending",
-      "sha256": "c2ade4a0d1565a7b291e31c8addf404d1438412d348f195cfd79062725c46af0",
+      "sha256": "b500f9f44f9e1b1625df08313ec7ecabb49428381078ba0327ce5f10416a78ee",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
-      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 1433,
       "drawCalls": 13
     },
@@ -110,7 +110,7 @@
         "nightglass_gauntlets",
         "arms"
       ],
-      "bytes": 20048288,
+      "bytes": 21216344,
       "itemModel": {
         "itemId": "nightglass_gauntlets",
         "wearable": true
@@ -131,9 +131,9 @@
       ],
       "itemId": "nightglass_gauntlets",
       "status": "pending",
-      "sha256": "62eeaeaaf314e4dd46bdef5a36cca6988619bf64fb23614b7c6b19d44939b93f",
+      "sha256": "64b69ea6d847c5995fc827581a43174a42da82e90f73bbd3a04de216574f143c",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
-      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 1121,
       "drawCalls": 6
     },
@@ -149,7 +149,7 @@
         "nightglass_greaves",
         "legs"
       ],
-      "bytes": 20097992,
+      "bytes": 21266036,
       "itemModel": {
         "itemId": "nightglass_greaves",
         "wearable": true,
@@ -177,9 +177,9 @@
       ],
       "itemId": "nightglass_greaves",
       "status": "pending",
-      "sha256": "20e0feedb2fe929fab637395ce3a09a74fdf69b358f46f7df84b6d506e372e11",
+      "sha256": "1bd45af5735f42995f67a5ca675fbb8da176eeb42dfbde8042cb3d4c8b3726bf",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
-      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 1377,
       "drawCalls": 13
     },
@@ -195,7 +195,7 @@
         "nightglass_boots",
         "feet"
       ],
-      "bytes": 20049776,
+      "bytes": 21217828,
       "itemModel": {
         "itemId": "nightglass_boots",
         "wearable": true
@@ -216,9 +216,9 @@
       ],
       "itemId": "nightglass_boots",
       "status": "pending",
-      "sha256": "552e661f9eb363d2bc4505d9463c220e95adf4382f302295bd184ccc323c6c98",
+      "sha256": "9fb19c50fd962a7296cf070d8466316091610f4d7c9a20633dab069fb688059d",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
-      "configSha256": "d083b6b7af16a20192180c529b8605a045eb875199dfb45ab0bd44b4b9563b0a",
+      "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 830,
       "drawCalls": 7
     }
