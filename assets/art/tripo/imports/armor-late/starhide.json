@@ -1224,8 +1224,7 @@
         982,
         983,
         984
-      ],
-      "deform": "skirt"
+      ]
     },
     {
       "node": "tripo_part_10",
@@ -1921,13 +1920,11 @@
     },
     {
       "node": "tripo_part_17",
-      "slot": "body",
-      "deform": "skirt"
+      "slot": "body"
     },
     {
       "node": "tripo_part_18",
-      "slot": "body",
-      "deform": "skirt"
+      "slot": "body"
     },
     {
       "node": "tripo_part_19",
@@ -3066,8 +3063,7 @@
     },
     {
       "node": "tripo_part_22",
-      "slot": "body",
-      "deform": "skirt"
+      "slot": "body"
     },
     {
       "node": "tripo_part_23",
@@ -3236,8 +3232,7 @@
     },
     {
       "node": "tripo_part_26",
-      "slot": "body",
-      "deform": "skirt"
+      "slot": "body"
     },
     {
       "node": "tripo_part_27",
@@ -3804,13 +3799,11 @@
     },
     {
       "node": "tripo_part_38",
-      "slot": "body",
-      "deform": "skirt"
+      "slot": "body"
     },
     {
       "node": "tripo_part_39",
-      "slot": "body",
-      "deform": "skirt"
+      "slot": "body"
     },
     {
       "node": "tripo_part_3",
@@ -5583,8 +5576,7 @@
     },
     {
       "node": "tripo_part_7",
-      "slot": "body",
-      "deform": "skirt"
+      "slot": "body"
     },
     {
       "node": "tripo_part_8",

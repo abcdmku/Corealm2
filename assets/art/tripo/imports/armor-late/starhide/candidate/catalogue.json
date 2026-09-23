@@ -10,7 +10,7 @@
   },
   "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\d8d97261-b328-4f2f-ad0f-e091bc0dc366.glb",
   "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
-  "configSha256": "d19e7fe8b54a8e0ec94d8cca37195de2cb56251f2ee562c0a9ebf8cfb4e1c9a1",
+  "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
   "textureSize": 2048,
   "assets": [
     {
@@ -48,7 +48,7 @@
       "status": "pending",
       "sha256": "9fe4525746096053ddcc3c6458e23ea8777a023dba3a14dbf5a18d2c28374a62",
       "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
-      "configSha256": "d19e7fe8b54a8e0ec94d8cca37195de2cb56251f2ee562c0a9ebf8cfb4e1c9a1",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
       "triangles": 569,
       "drawCalls": 5
     },
@@ -64,7 +64,7 @@
         "starhide_robe",
         "torso"
       ],
-      "bytes": 15565492,
+      "bytes": 15565284,
       "itemModel": {
         "itemId": "starhide_robe",
         "wearable": true,
@@ -92,9 +92,9 @@
       ],
       "itemId": "starhide_robe",
       "status": "pending",
-      "sha256": "5f3f5ac617707ac7d700951874382e1c54903aca946777ddaffc3f6b0f823bb9",
+      "sha256": "2b0d6772bd0e09e777962db2c180a2e0a25838520c2b55da1add524f10adc463",
       "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
-      "configSha256": "d19e7fe8b54a8e0ec94d8cca37195de2cb56251f2ee562c0a9ebf8cfb4e1c9a1",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
       "triangles": 2263,
       "drawCalls": 29
     },
@@ -133,7 +133,7 @@
       "status": "pending",
       "sha256": "5a84e5b2900a483bb18bd3d9a1fa80a8d6b4cbc0a3b45bf1efc5ad2bea962348",
       "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
-      "configSha256": "d19e7fe8b54a8e0ec94d8cca37195de2cb56251f2ee562c0a9ebf8cfb4e1c9a1",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
       "triangles": 831,
       "drawCalls": 2
     },
@@ -179,7 +179,7 @@
       "status": "pending",
       "sha256": "1ceed5a2e626ae065b618291773bee89fbb8e956d84531c7ea95e4302f0ef49d",
       "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
-      "configSha256": "d19e7fe8b54a8e0ec94d8cca37195de2cb56251f2ee562c0a9ebf8cfb4e1c9a1",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
       "triangles": 178,
       "drawCalls": 1
     },
@@ -218,7 +218,7 @@
       "status": "pending",
       "sha256": "24c85a66306e675c74e95a4b65bb6e316beb23f3d3f08e1c69fc6b79ac13e8d6",
       "sourceSha256": "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71",
-      "configSha256": "d19e7fe8b54a8e0ec94d8cca37195de2cb56251f2ee562c0a9ebf8cfb4e1c9a1",
+      "configSha256": "75ba9dcc0b8a08ed49f853af7064a04c693b08ee6e9ad4a50029810a18b57485",
       "triangles": 820,
       "drawCalls": 6
     }
