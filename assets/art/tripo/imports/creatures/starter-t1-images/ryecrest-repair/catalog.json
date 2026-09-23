@@ -1,0 +1,28 @@
+{
+  "asset": "Ryecrest",
+  "status": "blocked-source-rig",
+  "candidate": null,
+  "source": {
+    "file": "../exports/ryecrest.glb",
+    "sha256": "a2743322f2cf3d9d35db7066d405d82a28617812528c9cc3befadce214ecf9a6",
+    "bytes": 26252176,
+    "sourceImageId": "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+    "modelId": "85ab1f1d-a3cc-40ba-b9be-8e730843277b"
+  },
+  "preservedSourceData": {
+    "triangles": 3964,
+    "vertices": 2780,
+    "uv": "TEXCOORD_0",
+    "textures": {
+      "baseColor": "8192x8192 JPEG",
+      "metallicRoughness": "4096x4096 PNG",
+      "normal": "4096x4096 JPEG"
+    }
+  },
+  "blockers": [
+    "The 24-MAT4 inverse-bind accessor declares bounds near [-1,1], but its referenced bytes decode to a maximum of 1.84e37; 130 of 384 values have absolute magnitude above 100. The source joint rest transforms are omitted, so valid pivots cannot be recovered from this GLB.",
+    "All 2780 vertices have bone_0 as their dominant influence, leaving the existing 24-joint skin without usable anatomical distribution.",
+    "The source contains no animation clips. Authoring six clips on the exact rig depends on the missing valid rest pose and pivots."
+  ],
+  "decision": "No candidate staged. Do not claim same-rig repair or lab readiness from this export. Obtain a fresh export with valid inverse binds and joint rest transforms, or authorize a separately reviewed rig reconstruction."
+}

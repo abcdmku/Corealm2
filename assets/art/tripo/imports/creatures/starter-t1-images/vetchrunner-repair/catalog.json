@@ -1,0 +1,34 @@
+{
+  "schema": "corealm-creature-repair/1",
+  "id": "creature_vetchrunner",
+  "status": "blocked",
+  "source": {
+    "file": "../exports/vetchrunner.glb",
+    "sha256": "418362b4539c41711a98da2871646649358f163f27ef44c90d36955628a64f1d",
+    "bytes": 26549616,
+    "vertices": 2926,
+    "triangles": 4068,
+    "uv": "TEXCOORD_0 present",
+    "textures": [
+      { "name": "serval+3d+model_basecolor.jpg", "role": "base color", "size": "8192x8192", "sha256": "9e23350cfa64c9c1ba272cf3311a8152e6319f5c5f7208c4669d92d7032d676c" },
+      { "name": "serval+3d+model_rm.png", "role": "packed metallic-roughness", "size": "4096x4096", "sha256": "5cb8eb1ec40882f4c7968b7c38210593d750210df16d9a0c3e5398278323e763" },
+      { "name": "serval+3d+model_normal.jpg", "role": "normal", "size": "4096x4096", "sha256": "bd639a88bcc52af5300f4df13abbff1958d1347d49898da84235220cbc74f84b" }
+    ]
+  },
+  "blockers": [
+    {
+      "area": "skin weights",
+      "evidence": "All 2926 vertices have one effective influence: 2925 are assigned to bone_0 and one to bone_16. No anatomical quad weights are present."
+    },
+    {
+      "area": "rest pose and inverse binds",
+      "evidence": "The 28 bone nodes have no local TRS values, so glTF treats them as identity. The 15-MAT4 inverse-bind accessor points at a 960-byte view that contains only 20 initial bytes before a repeated GLB JSON chunk header and payload; this conflicts with its plausible [-1,1] min/max metadata and does not encode recoverable bind matrices."
+    },
+    {
+      "area": "motion",
+      "evidence": "The GLB contains zero animation clips. Six distinct clips cannot be authored reliably without recoverable joint rest transforms or an approved rig definition."
+    }
+  ],
+  "candidate": null,
+  "recommendedNextStep": "Request a corrected export with valid inverse-bind matrices and an intact bind pose, or provide an approved DCC rest-pose rig. The source mesh, UVs and PBR maps can then be retained while repairing weights and authoring motion."
+}
