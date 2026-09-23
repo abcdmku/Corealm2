@@ -362,7 +362,7 @@ const NATIVE_TREE_FOLIAGE_WIND = 0.035;
 const PROTECTED_MATERIAL = /eye|teeth|tongue|hair|white|black/i;
 
 /**
- * The animal pack's materials, which the tier tint must also never touch.
+ * Image-authored creature materials, which the tier tint must never touch.
  *
  * `APPEARANCE.enemy` pulls an enemy material 45% toward the tier's METAL swatch, and at tier 10
  * that swatch is Kaldite blue-black. That policy was written when the whole bestiary was four
@@ -375,9 +375,10 @@ const PROTECTED_MATERIAL = /eye|teeth|tongue|hair|white|black/i;
  * tier 1 is hens, coneys and frogs, tier 5 is deer and coyotes, tier 10 is bears and aurochs. A
  * player never has to read a bear's palette to know it outranks a hen.
  *
- * `tools/build-animals.ts` names every material `animal_<assetId>_mat` and `tools/build-bosses.ts`
- * names every material `boss_<assetId>_mat`, so these prefixes are a contract between those files
- * and this one, not a guess. Being strength 0 also puts these groups on `groupTier`'s
+ * `tools/build-animals.ts` names every material `animal_<assetId>_mat`, while the boss builder
+ * uses `boss_<assetId>_mat`. Tripo imports retain `tripo_*` or `Material_tripo_*` names. These
+ * prefixes identify authored texture and PBR maps that must keep their original response.
+ * Being strength 0 also puts these groups on `groupTier`'s
  * tier-independent path, which merges instances across tiers.
  *
  * The bosses need it for a second reason on top of the hide: their element is carried by an
@@ -385,7 +386,7 @@ const PROTECTED_MATERIAL = /eye|teeth|tongue|hair|white|black/i;
  * base colour 45% toward Kaldite blue-black would leave an earth boss glowing green out of a
  * blue-black body, which reads as a bug rather than as a creature.
  */
-const CREATURE_MATERIAL = /^(animal|boss)_/i;
+const CREATURE_MATERIAL = /^(?:animal|boss|tripo|Material_tripo)[_-]/i;
 
 /**
  * Humanoid idles, from the shared 65-joint clip library.
