@@ -1,0 +1,63 @@
+{
+    "schema":  "corealm-tripo-starred-sheet-export/1",
+    "status":  "downloaded-source-unrigged",
+    "source":  {
+                   "service":  "Tripo Studio",
+                   "collection":  "My Assets",
+                   "cardStorageUuid":  "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+                   "cardStorageUuidStatus":  "confirmed by My Assets crosswalk",
+                   "projectUuid":  "121e4591-e66b-4803-bf39-802fa7bdb392",
+                   "publicModelUrl":  "https://studio.tripo3d.ai/3d-model/nine-fantasy-demon-creatures-with-horned-forms-and-varied-color-scheme-121e4591-e66b-4803-bf39-802fa7bdb392",
+                   "workspaceUrl":  "https://studio.tripo3d.ai/workspace/generate/nine-fantasy-demon-creatures-with-horned-forms-and-varied-color-scheme-121e4591-e66b-4803-bf39-802fa7bdb392",
+                   "displayName":  "demon creature 3d model",
+                   "prompt":  "nine fantasy demon creatures with horned forms and varied color schemes.",
+                   "generator":  "Tripo P1.0",
+                   "quality":  "8K PBR",
+                   "topology":  "triangle",
+                   "faces":  18401,
+                   "vertices":  34238,
+                   "visibleCreatureCount":  9,
+                   "layout":  "3x3 sheet",
+                   "starredInCollected":  false
+               },
+    "export":  {
+                   "method":  "public model detail Export button",
+                   "format":  "GLB",
+                   "textureResolutionSelection":  "8K Current",
+                   "downloadDirectory":  "C:\\Users\\Borg\\Downloads",
+                   "downloadedFilename":  "demon creature 3d model.glb",
+                   "downloadedAtLocal":  "2026-09-23T00:37:49.5083745-05:00",
+                   "sizeBytes":  27349376,
+                   "sha256":  "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+                   "stablePath":  "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+                   "glbVersion":  2,
+                   "meshCount":  1,
+                   "primitiveCount":  1,
+                   "triangleCount":  18401,
+                   "positionVertices":  34238,
+                   "skins":  0,
+                   "animations":  0,
+                   "textureMaps":  [
+                                       {
+                                           "role":  "base color",
+                                           "filename":  "demon+creature+3d+model_basecolor.jpg"
+                                       },
+                                       {
+                                           "role":  "metallic-roughness",
+                                           "filename":  "demon+creature+3d+model_rm.png"
+                                       },
+                                       {
+                                           "role":  "normal",
+                                           "filename":  "demon+creature+3d+model_normal.jpg"
+                                       }
+                                   ],
+                   "localVerification":  "GLB v2 header, declared length, SHA-256, triangle count, PBR texture references, and absent skin/animation arrays verified."
+               },
+    "notes":  [
+                  "The public detail page preview visibly contains nine demons in a 3x3 sheet.",
+                  "The exported GLB contains one node, one mesh, and one triangle primitive; the nine figures are combined and require downstream extraction.",
+                  "The GLB embeds base-color, metallic-roughness, and normal maps. It has no skins or animation clips; the source is unrigged.",
+                  "The card is present in My Assets but is not starred in Collected; it is included here per the task scope.",
+                  "The card is present in My Assets but is not starred in Collected; it is included here per the task scope."
+              ]
+}
