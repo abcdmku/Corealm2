@@ -136,8 +136,8 @@ export class ViewerCore {
     this.stage.updateMatrixWorld(true);
     this.box.box.setFromObject(this.stage, true);
     this.fitTarget.set(0, size.y / 2, 0);
-    // The box diagonal overstates a model's silhouette; three quarters of it fills the stage without clipping.
-    this.fitRadius = Math.max(size.length() / 2 * .75, .05);
+    // Fit the full bounding-box sphere, with a little room for skeletal poses beyond this sampled pose.
+    this.fitRadius = Math.max(size.length() * .55, .05);
     this.snapshot.size = { x: size.x, y: size.y, z: size.z };
     const gridSize = Math.max(1, Math.pow(10, Math.floor(Math.log10(this.fitRadius * 2))));
     this.grid.scale.setScalar(gridSize);
