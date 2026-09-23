@@ -2,8 +2,8 @@
   "schema": "corealm-creature-native-rig-candidate/1",
   "id": "creature_vesperwing_ravager",
   "displayName": "Vesperwing Ravager",
-  "tier": "T60+ Wilderness aerial predator; keep above starter and ordinary field creatures",
-  "region": "Wilderness",
+  "tier": "T60 Faeholme aerial predator; reserve for the high-tier fairy wilds",
+  "region": "Faeholme",
   "status": "awaiting-root-lab-review",
   "accepted": false,
   "source": {
@@ -76,9 +76,9 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-winged-demon/vesperwing-ravager-native-rig-candidate.glb",
-    "sha256": "7d40bd8107122f52ff4a2121d0d550443d2bb848ebd9af31fa9ad016ed445864",
-    "bytes": 6598648,
-    "productionTarget": "game/public/assets/models/wilderness/creature_vesperwing_ravager.glb",
+    "sha256": "dfe02ad4bd3f88d453c1a0ef519f9fef9cd03ffa9448116c8c614993796f91dd",
+    "bytes": 6610816,
+    "productionTarget": "game/public/assets/models/fairy-crown/creature_vesperwing_ravager.glb",
     "geometry": {
       "vertices": 6990,
       "triangles": 4818,
@@ -309,6 +309,11 @@
         "leg",
         "wing"
       ],
+      "guardPose": {
+        "sideMirroredShoulderDownDegrees": 31,
+        "sideMirroredForearmBendDegrees": 19,
+        "appliedInEveryClip": true
+      },
       "topologyChanged": false,
       "positionsChanged": false,
       "normalsChanged": false,
@@ -362,66 +367,72 @@
       {
         "name": "Idle",
         "seconds": 1.2,
-        "channels": 15,
+        "channels": 19,
         "paths": [
           "rotation",
           "translation"
         ],
         "targetsOnlySkinJoints": true,
-        "intent": "Low hover above ground with restrained wing beats, subtle head scan and chest motion."
+        "guardArmJointsPresent": true,
+        "intent": "Low hover above ground with relaxed lowered arms, restrained wing beats, subtle head scan and chest motion."
       },
       {
         "name": "Walk",
         "seconds": 1,
-        "channels": 20,
+        "channels": 24,
         "paths": [
           "rotation",
           "translation"
         ],
         "targetsOnlySkinJoints": true,
-        "intent": "Grounded measured stalk with opposing knees, arms and shoulder counter-swing; raised wings balance the gait."
+        "guardArmJointsPresent": true,
+        "intent": "Airborne slow approach with lowered guard, tucked knees and measured wingbeats."
       },
       {
         "name": "Run",
         "seconds": 0.72,
-        "channels": 18,
+        "channels": 24,
         "paths": [
           "rotation",
           "translation"
         ],
         "targetsOnlySkinJoints": true,
-        "intent": "Accelerating forward with faster wing beats, leg tuck and small takeoff lift that returns to ground."
+        "guardArmJointsPresent": true,
+        "intent": "Fast aerial dart with lowered guard, accelerated wingbeats, tucked legs and a short lift."
       },
       {
         "name": "Attack",
         "seconds": 0.92,
-        "channels": 18,
+        "channels": 20,
         "paths": [
           "rotation"
         ],
         "targetsOnlySkinJoints": true,
-        "intent": "One heavy forward right-claw sweep with chest and head follow-through, left wing braced wide."
+        "guardArmJointsPresent": true,
+        "intent": "One heavy forward right-claw sweep from the lowered guard, chest and head follow-through, left wing braced wide."
       },
       {
         "name": "Hit",
         "seconds": 0.46,
-        "channels": 13,
+        "channels": 19,
         "paths": [
           "rotation"
         ],
         "targetsOnlySkinJoints": true,
-        "intent": "Brief torso recoil, head snap and uneven wing stutter."
+        "guardArmJointsPresent": true,
+        "intent": "Brief torso recoil from the lowered guard, head snap and uneven wing stutter."
       },
       {
         "name": "Death",
         "seconds": 1.48,
-        "channels": 21,
+        "channels": 25,
         "paths": [
           "rotation",
           "translation"
         ],
         "targetsOnlySkinJoints": true,
-        "intent": "Knees buckle, torso slumps and wings fold while the base remains at the ground plane."
+        "guardArmJointsPresent": true,
+        "intent": "Knees buckle, torso slumps and wings fold while the base descends to the ground plane."
       }
     ],
     "groundAndHover": {
@@ -431,18 +442,18 @@
         0.082
       ],
       "walkRootOffsetY": [
-        0,
-        0
+        0.05,
+        0.07
       ],
       "runRootOffsetY": [
-        0,
-        0.035
+        0.035,
+        0.095
       ],
       "deathRootOffsetY": [
         0,
         0.024
       ],
-      "flightStyle": "hovering alert Idle, grounded stalking Walk, short takeoff lift on Run"
+      "flightStyle": "hovering alert Idle and airborne Walk/Run; Death settles to ground"
     }
   },
   "acceptance": {

@@ -244,6 +244,22 @@ function sampledTimes(duration, step) {
 }
 const clipMetrics = [];
 function addClip(name, duration, tracks) {
+  // The source mesh is authored in a spread-arm pose. Apply one guard pose in each gameplay
+  // clip's baseline, then layer the action's own rotations on top of that same folded stance.
+  const guardAngles = { Shoulder: .54, UpperArm: .08, Forearm: .34, Hand: .04 };
+  for (const suffix of ['L', 'R']) {
+    const side = suffix === 'L' ? -1 : 1;
+    for (const [part, angle] of Object.entries(guardAngles)) {
+      const node = `${part}_${suffix}`;
+      const baseline = quat('z', -side * angle);
+      const existing = tracks.find(track => track.node === node && (track.path ?? 'rotation') === 'rotation');
+      if (existing) {
+        existing.values = existing.values.map(value => multiplyQuaternions(baseline, value));
+      } else {
+        tracks.push({ node, times: [0, duration], values: [baseline, baseline] });
+      }
+    }
+  }
   const animation = doc.createAnimation(name);
   for (const track of tracks) {
     assert(jointNodes.has(track.node), `Clip ${name} targets absent joint ${track.node}.`);
@@ -285,18 +301,18 @@ for (const side of suffixes) {
 }
 addClip('Idle', 1.20, idleTracks);
 
-// Grounded stalk: deliberate opposing leg cadence while the wings counterbalance and remain raised.
+// Slow airy approach: legs tuck into the wing stroke while the guard stays folded in front.
 const walkTimes = sampledTimes(1.0, .125);
 const walkTracks = wingTracks(walkTimes, { period: .90, amplitude: .09, spread: () => -.20, sweep: () => -.04 });
-walkTracks.push({ node: 'VesperRoot', path: 'translation', times: [0, .25, .5, .75, 1], values: [[0, 0, 0], [0, .006, .012], [0, 0, 0], [0, .006, -.012], [0, 0, 0]] });
+walkTracks.push({ node: 'VesperRoot', path: 'translation', times: [0, .25, .5, .75, 1], values: [[0, .060, 0], [0, .070, .012], [0, .060, 0], [0, .050, -.012], [0, .060, 0]] });
 walkTracks.push({ node: 'Chest', times: [0, .25, .5, .75, 1], values: [quat('y', -.025), quat('y', .020), quat('y', .025), quat('y', -.02), quat('y', -.025)] });
 for (const side of [-1, 1]) {
   const suffix = side < 0 ? 'L' : 'R';
   const phase = side < 0 ? 0 : Math.PI;
   const cycle = walkTimes.map(time => Math.sin((time + (phase / (Math.PI * 2))) * Math.PI * 2));
-  walkTracks.push({ node: `UpperLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', value * .24)) });
-  walkTracks.push({ node: `LowerLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', Math.max(0, -value) * -.37)) });
-  walkTracks.push({ node: `Foot_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', -value * .10)) });
+  walkTracks.push({ node: `UpperLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', -.24 + value * .09)) });
+  walkTracks.push({ node: `LowerLeg_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .48 + Math.max(0, -value) * .12)) });
+  walkTracks.push({ node: `Foot_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .08 - value * .06)) });
   walkTracks.push({ node: `UpperArm_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', -value * .11)) });
   walkTracks.push({ node: `Forearm_${suffix}`, times: walkTimes, values: cycle.map(value => quat('x', .045 + Math.max(0, value) * .08)) });
 }
@@ -305,14 +321,14 @@ addClip('Walk', 1, walkTracks);
 // Run transitions toward flight: legs tuck on the recovery beat, wings beat faster and the torso leans forward.
 const runTimes = sampledTimes(.72, .06);
 const runTracks = wingTracks(runTimes, { period: .34, amplitude: .31, spread: () => -.10, sweep: () => -.12 });
-runTracks.push({ node: 'VesperRoot', path: 'translation', times: [0, .18, .36, .54, .72], values: [[0, 0, 0], [0, .018, .012], [0, .035, .028], [0, .017, .014], [0, 0, 0]] });
+runTracks.push({ node: 'VesperRoot', path: 'translation', times: [0, .18, .36, .54, .72], values: [[0, .045, 0], [0, .070, .012], [0, .095, .028], [0, .065, .014], [0, .035, 0]] });
 runTracks.push({ node: 'Chest', times: [0, .18, .36, .54, .72], values: [quat('x', .025), quat('x', -.16), quat('x', -.19), quat('x', -.11), quat('x', .025)] });
 for (const side of [-1, 1]) {
   const suffix = side < 0 ? 'L' : 'R';
   const phase = side < 0 ? 0 : Math.PI;
   const cycle = runTimes.map(time => Math.sin((time / .36) * Math.PI * 2 + phase));
-  runTracks.push({ node: `UpperLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', -.20 + value * .28)) });
-  runTracks.push({ node: `LowerLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', -.18 + Math.max(0, -value) * -.42)) });
+  runTracks.push({ node: `UpperLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', -.34 + value * .20)) });
+  runTracks.push({ node: `LowerLeg_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', .48 + Math.max(0, -value) * .30)) });
   runTracks.push({ node: `Foot_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', .12 - value * .13)) });
   runTracks.push({ node: `Shoulder_${suffix}`, times: runTimes, values: cycle.map(value => quat('x', -.16 + value * .08)) });
 }
@@ -441,6 +457,12 @@ assert(checkPositionArray && checkNormalArray && checkUvArray && checkIndexArray
 assert.equal(checkRoot.listSkins().length, 1, 'Candidate must have exactly one skin.');
 assert.equal(checkRoot.listNodes().length, bones.length + 2, 'Candidate contains source skeleton nodes.');
 assert.equal(checkRoot.listAnimations().length, 6, 'Candidate must contain all six gameplay clips.');
+for (const animation of checkRoot.listAnimations()) {
+  const animatedArmJoints = new Set(animation.listChannels().map(channel => channel.getTargetNode().getName()));
+  for (const suffix of ['L', 'R']) for (const part of ['Shoulder', 'UpperArm', 'Forearm', 'Hand']) {
+    assert(animatedArmJoints.has(`${part}_${suffix}`), `${animation.getName()} is missing the lowered guard baseline on ${part}_${suffix}.`);
+  }
+}
 const arrayDelta = (left, right) => {
   assert.equal(left.length, right.length);
   let max = 0;
@@ -477,20 +499,20 @@ for (const animation of checkRoot.listAnimations()) {
 
 const riggingVerification = {
   sourceRig: { joints: sourceJointCount, dominantJointHistogram: sourceDominantJointHistogram, rootDominantVertices: sourceRootWeightFailure, note: 'Tripo output is unusable as exported: virtually every vertex is weighted to Hips, with malformed inverse-bind values. Reconstructed a Y-up Generic winged-humanoid skeleton and distributed weights over existing vertices.' },
-  candidateRig: { profile: 'Unity-compatible glTF Generic Y-up skeleton; no Humanoid avatar retargeting required', joints: bones.length, hierarchy: Object.fromEntries(bones.map(bone => [bone.name, bone.parent])), restPositions: Object.fromEntries(bones.map(bone => [bone.name, bone.p])), weightedVerticesByJoint: Object.fromEntries(bones.map((bone, index) => [bone.name, jointInfluenceCounts[index]])), multiWeightedVertexRatio: multiWeightedRatio, maxWeightSumError: readbackMaxWeightError, bodyGroupsWithWeights: ['torso', 'arm', 'leg', 'wing'], topologyChanged: false, positionsChanged: false, normalsChanged: false, uvChanged: false, indicesChanged: false },
-  animationCheck: clipMetrics.map(clip => ({ ...clip, targetsOnlySkinJoints: true, intent: ({ Idle: 'Low hover above ground with restrained wing beats, subtle head scan and chest motion.', Walk: 'Grounded measured stalk with opposing knees, arms and shoulder counter-swing; raised wings balance the gait.', Run: 'Accelerating forward with faster wing beats, leg tuck and small takeoff lift that returns to ground.', Attack: 'One heavy forward right-claw sweep with chest and head follow-through, left wing braced wide.', Hit: 'Brief torso recoil, head snap and uneven wing stutter.', Death: 'Knees buckle, torso slumps and wings fold while the base remains at the ground plane.' })[clip.name] })),
-  groundAndHover: { bindPoseGroundY: bounds.min[1], idleRootOffsetY: [.058, .082], walkRootOffsetY: [0, 0], runRootOffsetY: [0, .035], deathRootOffsetY: [0, .024], flightStyle: 'hovering alert Idle, grounded stalking Walk, short takeoff lift on Run' },
+  candidateRig: { profile: 'Unity-compatible glTF Generic Y-up skeleton; no Humanoid avatar retargeting required', joints: bones.length, hierarchy: Object.fromEntries(bones.map(bone => [bone.name, bone.parent])), restPositions: Object.fromEntries(bones.map(bone => [bone.name, bone.p])), weightedVerticesByJoint: Object.fromEntries(bones.map((bone, index) => [bone.name, jointInfluenceCounts[index]])), multiWeightedVertexRatio: multiWeightedRatio, maxWeightSumError: readbackMaxWeightError, bodyGroupsWithWeights: ['torso', 'arm', 'leg', 'wing'], guardPose: { sideMirroredShoulderDownDegrees: 31, sideMirroredForearmBendDegrees: 19, appliedInEveryClip: true }, topologyChanged: false, positionsChanged: false, normalsChanged: false, uvChanged: false, indicesChanged: false },
+  animationCheck: clipMetrics.map(clip => ({ ...clip, targetsOnlySkinJoints: true, guardArmJointsPresent: true, intent: ({ Idle: 'Low hover above ground with relaxed lowered arms, restrained wing beats, subtle head scan and chest motion.', Walk: 'Airborne slow approach with lowered guard, tucked knees and measured wingbeats.', Run: 'Fast aerial dart with lowered guard, accelerated wingbeats, tucked legs and a short lift.', Attack: 'One heavy forward right-claw sweep from the lowered guard, chest and head follow-through, left wing braced wide.', Hit: 'Brief torso recoil from the lowered guard, head snap and uneven wing stutter.', Death: 'Knees buckle, torso slumps and wings fold while the base descends to the ground plane.' })[clip.name] })),
+  groundAndHover: { bindPoseGroundY: bounds.min[1], idleRootOffsetY: [.058, .082], walkRootOffsetY: [.050, .070], runRootOffsetY: [.035, .095], deathRootOffsetY: [0, .024], flightStyle: 'hovering alert Idle and airborne Walk/Run; Death settles to ground' },
 };
 await writeFile(`${here}/rigging-verification.json`, JSON.stringify(riggingVerification, null, 2));
 
 const assetId = 'creature_vesperwing_ravager';
-const productionTarget = 'game/public/assets/models/wilderness/creature_vesperwing_ravager.glb';
+const productionTarget = 'game/public/assets/models/fairy-crown/creature_vesperwing_ravager.glb';
 const catalog = {
   schema: 'corealm-creature-native-rig-candidate/1',
   id: assetId,
   displayName: 'Vesperwing Ravager',
-  tier: 'T60+ Wilderness aerial predator; keep above starter and ordinary field creatures',
-  region: 'Wilderness',
+  tier: 'T60 Faeholme aerial predator; reserve for the high-tier fairy wilds',
+  region: 'Faeholme',
   status: 'awaiting-root-lab-review',
   accepted: false,
   source: {
@@ -525,11 +547,11 @@ const labCatalog = {
   schema: 'corealm-lab-asset-candidates/1',
   assets: [{
     id: assetId,
-    file: 'models/wilderness/creature_vesperwing_ravager.glb',
-    pack: 'corealm-starred-wilderness-candidates',
+    file: 'models/fairy-crown/creature_vesperwing_ravager.glb',
+    pack: 'corealm-starred-faeholme-candidates',
     category: 'character',
     is: 'Vesperwing Ravager (starred P1 rig candidate)',
-    tags: ['creature', 'wilderness', 'winged', 'demon', 'T60+', 'starred', 'tripo', 'candidate'],
+    tags: ['creature', 'Faeholme', 'fairy', 'winged', 'aerial', 'T60', 'starred', 'tripo', 'candidate'],
     bytes: outputBytes.length,
     sha256: candidateSha256,
     size: { x: (bounds.max[0] - bounds.min[0]) * uniformScale, y: (bounds.max[1] - bounds.min[1]) * uniformScale, z: (bounds.max[2] - bounds.min[2]) * uniformScale },

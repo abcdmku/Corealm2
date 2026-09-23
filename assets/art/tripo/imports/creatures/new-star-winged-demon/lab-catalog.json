@@ -3,22 +3,23 @@
   "assets": [
     {
       "id": "creature_vesperwing_ravager",
-      "file": "models/wilderness/creature_vesperwing_ravager.glb",
-      "pack": "corealm-starred-wilderness-candidates",
+      "file": "models/fairy-crown/creature_vesperwing_ravager.glb",
+      "pack": "corealm-starred-faeholme-candidates",
       "category": "character",
       "is": "Vesperwing Ravager (starred P1 rig candidate)",
       "tags": [
         "creature",
-        "wilderness",
+        "Faeholme",
+        "fairy",
         "winged",
-        "demon",
-        "T60+",
+        "aerial",
+        "T60",
         "starred",
         "tripo",
         "candidate"
       ],
-      "bytes": 6598648,
-      "sha256": "7d40bd8107122f52ff4a2121d0d550443d2bb848ebd9af31fa9ad016ed445864",
+      "bytes": 6610816,
+      "sha256": "dfe02ad4bd3f88d453c1a0ef519f9fef9cd03ffa9448116c8c614993796f91dd",
       "size": {
         "x": 2.0582031250000004,
         "y": 2.1957032561302188,
@@ -61,7 +62,7 @@
         "sourceFile": "assets/art/tripo/exports/c6dd592c-41cc-469a-b889-a3b8182909d4.glb",
         "sourceSha256": "0ba042d2ef67f6acb03ca58158c5b306debce1dcfff6539ce948b35d3f9cc871",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-winged-demon/vesperwing-ravager-native-rig-candidate.glb",
-        "candidateSha256": "7d40bd8107122f52ff4a2121d0d550443d2bb848ebd9af31fa9ad016ed445864",
+        "candidateSha256": "dfe02ad4bd3f88d453c1a0ef519f9fef9cd03ffa9448116c8c614993796f91dd",
         "rigMethod": "Replaced root-only skin with 29-joint Unity Generic winged-humanoid rig and anatomically gated four-influence weights. Mesh positions, normals, UVs, indices and authored texture imagery preserved; runtime PBR maps downsampled to 2K.",
         "sourceRigFailure": "virtually all vertices used Hips with malformed inverse binds",
         "textures": [
