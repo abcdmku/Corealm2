@@ -71,6 +71,18 @@ function isHeld(row: TripoStatusRow): boolean {
   return /held|blocked/i.test(row.status) || isRigRepairHeld(row) || isImageDenied(row);
 }
 
+type StarredStage = "Source export" | "Extracted parts" | "Candidate rig" | "Lab accepted" | "Production integrated" | "Design hold";
+
+function starredStage(row: TripoStatusRow): StarredStage {
+  const status = row.status.toLowerCase();
+  if (/design hold|design review provisional|visual hold|rig held|rig\/texture held|candidate held|provenance held/.test(status)) return "Design hold";
+  if (/production integrated|in production/.test(status)) return "Production integrated";
+  if (/lab accepted/.test(status)) return "Lab accepted";
+  if (/candidate rig|candidate lab/.test(status)) return "Candidate rig";
+  if (/extracted parts|extraction complete/.test(status)) return "Extracted parts";
+  return "Source export";
+}
+
 function TripoProgress() {
   const accepted = TRIPO_STATUS.rows.filter(row => /^Production\b/i.test(row.status)
     && !/pending|held|blocked/i.test(row.status)
@@ -79,10 +91,25 @@ function TripoProgress() {
   const pendingWorld = TRIPO_STATUS.rows.filter(row => row.details.toLowerCase().includes("authored-world proof remains pending"));
   const labReview = TRIPO_STATUS.rows.filter(row => /^Lab review queued/i.test(row.status));
   const tierRewire = TRIPO_STATUS.rows.filter(row => /^Previously accepted;.*rewire pending/i.test(row.status));
-  const starred = TRIPO_STATUS.rows.filter(row => /^Starred\b/i.test(row.status));
-  const held = TRIPO_STATUS.rows.filter(row => !/^Starred\b/i.test(row.status) && isHeld(row));
+  const tracked = TRIPO_STATUS.rows.filter(row => /^Starred\b|^Composite sheet\b/i.test(row.status));
+  const pipeline: { stage: StarredStage; tone: "info" | "accent" | "ok" | "warn" }[] = [
+    { stage: "Source export", tone: "info" },
+    { stage: "Extracted parts", tone: "info" },
+    { stage: "Candidate rig", tone: "accent" },
+    { stage: "Lab accepted", tone: "ok" },
+    { stage: "Production integrated", tone: "ok" },
+    { stage: "Design hold", tone: "warn" },
+  ];
+  const held = TRIPO_STATUS.rows.filter(row => !/^Starred\b|^Composite sheet\b/i.test(row.status) && isHeld(row));
   const groups = [
-    { title: `Starred Tripo (${starred.length})`, rows: starred, tone: "info" as const },
+    ...pipeline.map(stage => {
+      const rows = tracked.filter(row => starredStage(row) === stage.stage);
+      return {
+      title: `${stage.stage} (${rows.length})`,
+      rows,
+      tone: stage.tone,
+      collapsible: true,
+    }; }),
     { title: "Production", rows: accepted, tone: "ok" as const },
     { title: "Model review", rows: modelReview, tone: "info" as const },
     { title: "Lab review", rows: labReview, tone: "accent" as const },
@@ -104,14 +131,14 @@ function TripoProgress() {
               <Badge variant={group.tone} className="h-4 px-1 text-[10px]">{row.status}</Badge>
               <span className="min-w-0 font-medium text-foreground">{row.assets}</span>
             </div>
-            {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{group.title === "Model review" ? "Model gate pending; not in game." : group.title === "Held" && isImageDenied(row) ? "Image denied; no model generated; not in game." : group.title === "Held" && isRigRepairHeld(row) ? "Held for rig repair; not in game." : tripoNote(row)}</p>}
+          {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{group.title === "Model review" ? "Model gate pending; not in game." : group.title === "Held" && isImageDenied(row) ? "Image denied; no model generated; not in game." : group.title === "Held" && isRigRepairHeld(row) ? "Held for rig repair; not in game." : tripoNote(row)}</p>}
           </li>)}
         </ul>;
         return <section key={group.title} aria-label={group.title} className="min-w-0">
           <h3 className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-faint">{group.title}</h3>
-          {group.title.startsWith("Starred Tripo")
+          {"collapsible" in group && group.collapsible
             ? <details className="rounded border border-border/70 px-2 py-1.5 text-xs">
-                <summary className="cursor-pointer text-muted-foreground">View {group.rows.length} cards; prompts and export/import status</summary>
+                <summary className="cursor-pointer text-muted-foreground">View {group.rows.length} records and current gate</summary>
                 <div className="pt-2">{rows}</div>
               </details>
             : rows}
