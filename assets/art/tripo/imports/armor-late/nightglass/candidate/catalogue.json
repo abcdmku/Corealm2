@@ -25,7 +25,7 @@
         "nightglass_helm",
         "head"
       ],
-      "bytes": 21154812,
+      "bytes": 21479356,
       "itemModel": {
         "itemId": "nightglass_helm",
         "wearable": true
@@ -46,7 +46,7 @@
       ],
       "itemId": "nightglass_helm",
       "status": "pending",
-      "sha256": "14aae75d3bdd9c85da40e634a01d835860fca794794bd6e2dde920060c33a018",
+      "sha256": "71628068f0081cca63190b862c9480a9df9889d77c2407309461e836a11bf5b3",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
       "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 244,
@@ -64,7 +64,7 @@
         "nightglass_plate",
         "torso"
       ],
-      "bytes": 21255600,
+      "bytes": 21580144,
       "itemModel": {
         "itemId": "nightglass_plate",
         "wearable": true,
@@ -92,7 +92,7 @@
       ],
       "itemId": "nightglass_plate",
       "status": "pending",
-      "sha256": "b500f9f44f9e1b1625df08313ec7ecabb49428381078ba0327ce5f10416a78ee",
+      "sha256": "a6088c9f6831b3bfdd189f81131ae1e1df0fc61a797fbf7168236d523706beae",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
       "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 1433,
@@ -110,7 +110,7 @@
         "nightglass_gauntlets",
         "arms"
       ],
-      "bytes": 21216344,
+      "bytes": 21540888,
       "itemModel": {
         "itemId": "nightglass_gauntlets",
         "wearable": true
@@ -131,7 +131,7 @@
       ],
       "itemId": "nightglass_gauntlets",
       "status": "pending",
-      "sha256": "64b69ea6d847c5995fc827581a43174a42da82e90f73bbd3a04de216574f143c",
+      "sha256": "d08599dd9d8dac58a0b8f9f4d8f54295e14394e269aff84d058f35a3f60888ed",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
       "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 1121,
@@ -149,7 +149,7 @@
         "nightglass_greaves",
         "legs"
       ],
-      "bytes": 21266036,
+      "bytes": 21590580,
       "itemModel": {
         "itemId": "nightglass_greaves",
         "wearable": true,
@@ -177,7 +177,7 @@
       ],
       "itemId": "nightglass_greaves",
       "status": "pending",
-      "sha256": "1bd45af5735f42995f67a5ca675fbb8da176eeb42dfbde8042cb3d4c8b3726bf",
+      "sha256": "a4a55a72999b12b1afcade10e3689676929664cefaf651a3ca1d795267f038a2",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
       "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 1377,
@@ -195,7 +195,7 @@
         "nightglass_boots",
         "feet"
       ],
-      "bytes": 21217828,
+      "bytes": 21542372,
       "itemModel": {
         "itemId": "nightglass_boots",
         "wearable": true
@@ -216,7 +216,7 @@
       ],
       "itemId": "nightglass_boots",
       "status": "pending",
-      "sha256": "9fb19c50fd962a7296cf070d8466316091610f4d7c9a20633dab069fb688059d",
+      "sha256": "c763b7dcd0164f2dafb56512ece24abc440900ff9e0ea0e5aa26b9718c7c4f40",
       "sourceSha256": "6f40e7c0ee1342d2e5f2f263744bdb202d6228a4ca38bf7582161de410bfdefa",
       "configSha256": "88aa485da5d6ee6614427c5b9390c495a587e427d3b5ccb312850f72b23fef22",
       "triangles": 830,
