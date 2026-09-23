@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { WebGLNodesHandler } from 'three/examples/jsm/tsl/WebGLNodesHandler.js';
 import { loadOutfit } from './armorSet.js';
 import { loadAssetModel } from './creature.js';
 import type { ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from './types.js';
@@ -39,6 +40,7 @@ export class ViewerCore {
 
   constructor(private container: HTMLElement, private report: (state: ViewerSnapshot) => void) {
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    this.renderer.setNodesHandler(new WebGLNodesHandler());
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;

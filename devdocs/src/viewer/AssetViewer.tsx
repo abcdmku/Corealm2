@@ -143,7 +143,7 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
       {source.mode === 'outfit' && <p>{snapshot.parts.length} bound parts · {snapshot.attachments.length} held or rigid parts · {snapshot.missingBones.length} missing bones</p>}
       <details><summary className="cursor-pointer select-none">Materials ({snapshot.materials.length})</summary><div className="mt-1.5 max-h-60 overflow-auto [scrollbar-width:thin]">
         <table className="w-full border-collapse text-left [&_td]:py-1 [&_td]:pr-3 [&_td]:align-top [&_th]:py-1 [&_th]:pr-3 [&_th]:font-semibold [&_th]:text-foreground"><thead><tr><th>Name</th><th>Type</th><th>Texture maps</th></tr></thead>
-          <tbody>{snapshot.materials.map((material, index) => <tr key={`${material.name}-${index}`} className="border-t border-border-subtle"><td className="[overflow-wrap:anywhere]">{material.name}</td><td>{material.type.replace('Mesh', '').replace('Material', '')}</td><td>{material.textures.join(', ') || 'None'}</td></tr>)}</tbody>
+          <tbody>{snapshot.materials.map((material, index) => <tr key={`${material.name}-${index}`} className="border-t border-border-subtle"><td className="[overflow-wrap:anywhere]">{material.name}</td><td>{typeof material.type === 'string' ? material.type.replace('Mesh', '').replace('Material', '') : 'Unknown'}</td><td>{material.textures.join(', ') || 'None'}</td></tr>)}</tbody>
         </table>
       </div></details>
       {snapshot.attachments.length > 0 && <details><summary className="cursor-pointer select-none">Grip and sockets</summary>
