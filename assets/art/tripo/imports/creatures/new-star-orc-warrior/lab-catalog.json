@@ -1,0 +1,104 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "files": {
+    "creature_redmarch_orc_warrior": "orc-warrior-rigged-candidate.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_redmarch_orc_warrior",
+      "file": "models/creature/creature_redmarch_orc_warrior.glb",
+      "pack": "corealm-new-starred-creatures",
+      "category": "character",
+      "is": "Redmarch Orc Warrior",
+      "tags": [
+        "creature",
+        "orc",
+        "warrior",
+        "T10-T20",
+        "temperate",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6692120,
+      "sha256": "fb6db0573e79c870d099d0a03b316a3cc633a429de750f7887d63c15e6781efb",
+      "size": {
+        "x": 1.6966796874999999,
+        "y": 1.5638672888278962,
+        "z": 0.6873046875
+      },
+      "base": {
+        "x": -0.8483398437499999,
+        "y": 0,
+        "z": -0.34365234375
+      },
+      "bounds": {
+        "min": [
+          -0.8483398437499999,
+          0,
+          -0.34365234375
+        ],
+        "max": [
+          0.8483398437499999,
+          1.5638672888278962,
+          0.34365234375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4672,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_8f9c13aa-bd0d-4ff8-997f-e71cd4ca956b_material"
+      ],
+      "sourceProvenance": {
+        "author": "Starred Tripo P1 source, inverse-bind skeleton recovery and model-specific skin repair",
+        "sourceModelId": "45852960-86da-44f7-9030-9b3fe2a1512e",
+        "sourceCardId": "aef7ab50-0aad-4de6-8f33-6e1a4ec8d407",
+        "sourceFile": "assets/art/tripo/exports/45852960-86da-44f7-9030-9b3fe2a1512e.glb",
+        "sourceSha256": "4455c0ecff6f8aab48403103b33f284c450cf5d63c8413dd909524f5dc795e6d",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-orc-warrior/orc-warrior-rigged-candidate.glb",
+        "candidateSha256": "fb6db0573e79c870d099d0a03b316a3cc633a429de750f7887d63c15e6781efb",
+        "rigMethod": "Source inverse-bind matrices recovered the 60 joint bind transforms; Mixamo names added to Humanoid body joints; original source vertices, triangles and UVs kept; anatomically gated 4-weight map repaired.",
+        "textures": [
+          {
+            "name": "orc+warrior+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 936790
+          },
+          {
+            "name": "orc+warrior+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4627309
+          },
+          {
+            "name": "orc+warrior+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 462175
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
