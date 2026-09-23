@@ -206,6 +206,14 @@ async function main(): Promise<void> {
         }
         return observe();
       }
+      case "viewport": {
+        const width = number(command.width, 1440, 640, 3840);
+        const height = number(command.height, 900, 480, 2160);
+        if (!Number.isInteger(width) || !Number.isInteger(height)) throw new Error("Viewport dimensions must be whole pixels");
+        await driver.page!.setViewportSize({ width, height });
+        await driver.wait(100);
+        return observe();
+      }
       case "observe":
         return observe(ids(command.entityIds));
       case "bootTelemetry":
