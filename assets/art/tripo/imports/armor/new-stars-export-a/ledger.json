@@ -55,17 +55,29 @@
                        "localExportPath":  "assets/art/tripo/exports/7971b96b-dc57-46e0-8b60-f3c054478f6d.glb",
                        "localFilePresent":  true,
                        "sha256":  "8c8f0696c167e6989bb9f086b962719441916bc85afd4abb90c183d5af90ac88",
-                       "fileSizeBytes":  7319880
+                       "fileSizeBytes":  7319880,
+                       "prompt":  "plate armor knight suit in dark steel with maroon underlayer; detailed medieval armor with segmented plates and gauntlets"
                    },
                    {
                        "cardStorageId":  "e43df8e0-5e5b-47f9-a5a2-619522da301c",
                        "projectId":  "2c2428b5-e674-47c1-9c14-118d298cc833",
                        "title":  "Medieval knight armor",
-                       "individualExportAttempt":  null,
+                       "individualExportAttempt":  {
+                                                       "format":  "GLB",
+                                                       "textureResolution":  "8K Current",
+                                                       "exportSkeleton":  true,
+                                                       "outcome":  "Tripo UI export completed; archived with matching size and SHA-256.",
+                                                       "observedAtLocal":  "2026-09-23T05:00:43-05:00",
+                                                       "downloadedFileName":  "medieval+knight+armor+3d+model (4).glb",
+                                                       "settingsVerified":  true,
+                                                       "identificationEvidence":  "Unique 05:00 local arrival after root confirmed export of project 2c2428b5-e674-47c1-9c14-118d298cc833; GLB has 57 textured mesh/material pairs with silver-gray, blue, and gold-toned base-color maps matching the prompt."
+                                                   },
                        "batchSelected":  true,
                        "localExportPath":  "assets/art/tripo/exports/2c2428b5-e674-47c1-9c14-118d298cc833.glb",
-                       "localFilePresent":  false,
-                       "sha256":  null
+                       "localFilePresent":  true,
+                       "sha256":  "817dbb6e28a7d69d767e34bdceeb13dc1c16a0bd44b3b5f55de8f38d13f3ffce",
+                       "fileSizeBytes":  8446808,
+                       "prompt":  "medieval knight armor with ornate silver plating, gold detailing, and blue fabric tabard"
                    },
                    {
                        "cardStorageId":  "784a45a5-fc84-420d-aa63-2aa2a0b041b8",
@@ -75,7 +87,8 @@
                        "batchSelected":  true,
                        "localExportPath":  "assets/art/tripo/exports/30c7ea5f-b99f-4402-932e-bbe2df49a888.glb",
                        "localFilePresent":  false,
-                       "sha256":  null
+                       "sha256":  null,
+                       "prompt":  "ornate fantasy wizard outfit with blue and cream robes, gold embroidery, wide-brim hat, belt, and gauntlets."
                    },
                    {
                        "cardStorageId":  "d4f92181-f7c4-4005-844d-019c41e856ec",
@@ -85,7 +98,8 @@
                        "batchSelected":  true,
                        "localExportPath":  "assets/art/tripo/exports/57209cfb-970b-40cc-8103-70e99181986f.glb",
                        "localFilePresent":  false,
-                       "sha256":  null
+                       "sha256":  null,
+                       "prompt":  "ornate lavender and silver wizard robe with wide-brim hat, detailed embroidery and boots"
                    }
                ],
     "batchExport":  {
@@ -103,8 +117,8 @@
                     },
     "verification":  {
                          "downloadsFolder":  "C:\\Users\\Borg\\Downloads",
-                         "matchingGlbsInDownloads":  2,
-                         "projectNamedGlbsInWorkspace":  2,
+                         "matchingGlbsInDownloads":  3,
+                         "projectNamedGlbsInWorkspace":  3,
                          "verifiedAt":  "2026-09-23"
                      },
     "note":  "No signed URL was fetched or opened outside Tripo UI. Per computer-use policy, do not bypass ERR_BLOCKED_BY_CLIENT."
