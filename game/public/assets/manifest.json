@@ -86163,7 +86163,7 @@
       "pack": "corealm-tripo-armor",
       "category": "outfit",
       "is": "item",
-      "bytes": 16407020,
+      "bytes": 16407052,
       "itemModel": {
         "itemId": "crownhide_hood",
         "wearable": true
@@ -86175,7 +86175,7 @@
       },
       "base": {
         "x": -0.252474844455719,
-        "y": 1.5591305494308472,
+        "y": 1.7191306352615356,
         "z": -0.2978973090648651
       },
       "animations": [],
@@ -86192,16 +86192,16 @@
         "head",
         "tripo-armor-approved"
       ],
-      "sha256": "53ab02082751c48f04fb8c7a4830f0e26993e53962534a5c2c12a4c910a844a5",
+      "sha256": "03f8b7f57eb4e4afc01224663879efe7111a9c8db4c96ced3a70765f27a957ee",
       "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-      "configSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+      "configSha256": "84440b2cdb6c287f4e45bd5c6465a6e929d2e45b59d45c5c1a47777a3ebbf3d4",
       "provenance": {
         "source": "Tripo GLB export",
-        "candidateCommit": "dc13e97",
+        "candidateCommit": "3434137",
         "candidateCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
         "candidateFile": "assets/art/tripo/imports/armor-mid/crownhide/models/items/crownhide_hood.glb",
         "sourceSha256": "f261d38aa4b9e32815750fea9a97cfa0a0c35210eb14df36432363395e748a6e",
-        "importConfigSha256": "845b70530040eb251f49a95478be207bfeda7b75350b32c4735bfc64d37061ef",
+        "importConfigSha256": "84440b2cdb6c287f4e45bd5c6465a6e929d2e45b59d45c5c1a47777a3ebbf3d4",
         "sourceTextureSize": 8192,
         "runtimeSkinJoints": 65,
         "runtimeTextureMaps": [
@@ -86237,10 +86237,10 @@
         "worldIntegrated": false,
         "labCatalogue": "assets/art/tripo/imports/armor-mid/crownhide/catalogue.json",
         "evidenceScreenshots": [
-          "test-results/armor-production-verify/crownhide-staged-front.png",
-          "test-results/armor-production-verify/crownhide-staged-rear.png",
-          "test-results/armor-production-verify/crownhide-staged-walk-04.png",
-          "test-results/armor-production-verify/crownhide-staged-walk-09.png"
+          "test-results/armor-production-verify/crownhide-hood-clear-front.png",
+          "test-results/armor-production-verify/crownhide-hood-clear-rear.png",
+          "test-results/armor-production-verify/crownhide-hood-clear-walk-04.png",
+          "test-results/armor-production-verify/crownhide-hood-clear-walk-09.png"
         ]
       }
     },
