@@ -1,7 +1,8 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { lazyComponent } from "../lazyView.js";
 import { useQuery } from "@tanstack/react-query";
-import { Box, LayoutGrid, List, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
+import { Box, ExternalLink, LayoutGrid, List, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
+import assetReviewStatus from "../../../../docs/asset-review.md?raw";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
 import { contentRows } from "../../model/rows.js";
@@ -12,7 +13,7 @@ import { EmptyState, ErrorState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, num, RecordShell, strings, text } from "../story/shared.js";
-import { Button, NativeSelect, Segmented, SearchInput } from "../../components/ui/index.js";
+import { Badge, Button, NativeSelect, Segmented, SearchInput } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
 import { COUNT, EMPTY, PAGE as PAGE_FRAME, TOOLBAR } from "../../ui/layout.js";
 import { TileGrid, tileArtClasses, tileClasses, tileSubtitleClasses, tileTitleClasses } from "../../ui/RecordTile.js";
@@ -22,6 +23,75 @@ const AssetViewer = lazyComponent(() => import("../../viewer/AssetViewer.js").th
 interface Asset extends ContentRow { id: string; file?: string; pack?: string; category?: string; is?: string; tags?: string[]; bytes?: number; size?: { x: number; y: number; z: number }; animations?: string[]; materials?: string[]; procedural?: boolean; itemId?: string }
 
 const PAGE = 96;
+
+interface TripoStatusRow { status: string; assets: string; details: string }
+
+function parseTripoStatus(source: string): { updated: string; rows: TripoStatusRow[] } {
+  const start = source.indexOf("## Tripo integration status");
+  if (start < 0) return { updated: "", rows: [] };
+  const nextHeading = source.indexOf("\n## ", start + 1);
+  const section = source.slice(start, nextHeading < 0 ? undefined : nextHeading);
+  const updated = section.match(/Updated\s+([^.]*)\./)?.[1] ?? "";
+  const rows = section.split(/\r?\n/).flatMap(line => {
+    if (!line.startsWith("|") || /^\|\s*:?-{3,}/.test(line) || /^\|\s*Status\s*\|/i.test(line)) return [];
+    const cells = line.slice(1, -1).split("|").map(cell => cell.trim().replaceAll("`", ""));
+    if (cells.length < 3 || !cells[0] || !cells[1]) return [];
+    return [{ status: cells[0]!, assets: cells[1]!, details: cells[2] ?? "" }];
+  });
+  return { updated, rows };
+}
+
+const TRIPO_STATUS = parseTripoStatus(assetReviewStatus);
+
+function lastDetailSentence(value: string): string {
+  const clean = value.replaceAll("**", "").trim();
+  const boundary = clean.lastIndexOf(". ");
+  return boundary >= 0 ? clean.slice(boundary + 2) : clean;
+}
+
+function tripoNote(row: TripoStatusRow): string {
+  const lower = row.details.toLowerCase();
+  if (lower.includes("authored-world proof remains pending")) {
+    const checks = lower.includes("production build passed") ? "Production sync and build passed; " : "";
+    return `${checks}authored-world proof pending.`;
+  }
+  return lastDetailSentence(row.details);
+}
+
+function TripoProgress() {
+  const accepted = TRIPO_STATUS.rows.filter(row => /^Production (?:committed|integrated)/i.test(row.status)
+    && !row.details.toLowerCase().includes("authored-world proof remains pending"));
+  const pendingWorld = TRIPO_STATUS.rows.filter(row => row.details.toLowerCase().includes("authored-world proof remains pending"));
+  const labReview = TRIPO_STATUS.rows.filter(row => /^Lab review queued/i.test(row.status));
+  const held = TRIPO_STATUS.rows.filter(row => /held|blocked/i.test(row.status));
+  const groups = [
+    { title: "Production", rows: accepted, tone: "ok" as const },
+    { title: "Lab review", rows: labReview, tone: "accent" as const },
+    { title: "World proof", rows: pendingWorld, tone: "info" as const },
+    { title: "Held", rows: held, tone: "warn" as const },
+  ].filter(group => group.rows.length > 0);
+  if (!groups.length) return null;
+  return <section aria-labelledby="tripo-progress-title" className="mb-3 rounded-md border border-border bg-card px-3 py-2.5">
+    <header className="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+      <h2 id="tripo-progress-title" className="text-[13px] font-semibold">Tripo progress</h2>
+      <span className="text-[11px] text-faint">From docs/asset-review.md{TRIPO_STATUS.updated ? ` - updated ${TRIPO_STATUS.updated}` : ""}</span>
+    </header>
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+      {groups.map(group => <section key={group.title} aria-label={group.title} className="min-w-0">
+        <h3 className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-faint">{group.title}</h3>
+        <ul className="space-y-1.5">
+          {group.rows.map(row => <li key={`${row.status}:${row.assets}`} className="min-w-0 text-xs">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Badge variant={group.tone} className="h-4 px-1 text-[10px]">{row.status}</Badge>
+              <span className="min-w-0 font-medium text-foreground">{row.assets}</span>
+            </div>
+            {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{tripoNote(row)}</p>}
+          </li>)}
+        </ul>
+      </section>)}
+    </div>
+  </section>;
+}
 
 export default function ModelsView({ recordId, navigate }: ViewProps) {
   if (recordId === undefined) return <ModelGallery navigate={navigate} />;
@@ -73,9 +143,13 @@ function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
     </div>;
   });
   return <div className={PAGE_FRAME}>
+    <TripoProgress />
     <div className={TOOLBAR}>
       <SearchInput label="Search models" shortcut placeholder="Search id, file, tag…" value={search} onChange={setSearch} onEnter={() => { const first = filtered[0]; if (first) open(first.id); }} />
       <span className={COUNT}>{filtered.length === rows.length ? rows.length : `${filtered.length} of ${rows.length}`}</span>
+      <Button asChild variant="secondary" size="xs" title="Start npm run assets:review, then inspect current and staged models">
+        <a href="http://127.0.0.1:4186/review/" target="_blank" rel="noreferrer"><ExternalLink />Asset review</a>
+      </Button>
       <Segmented aria-label="Layout">
         <Button variant="segment" size="xs" aria-label="Grid" title="Grid" aria-pressed={view === "grid"} onClick={() => setView("grid")}><LayoutGrid size={13} /></Button>
         <Button variant="segment" size="xs" aria-label="List" title="List" aria-pressed={view === "list"} onClick={() => setView("list")}><List size={13} /></Button>
