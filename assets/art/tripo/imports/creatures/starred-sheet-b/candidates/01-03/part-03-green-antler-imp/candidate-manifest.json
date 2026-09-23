@@ -10,7 +10,24 @@
   },
   "candidate": {
     "file": "green-antler-imp-native-rig-candidate.glb",
-    "sha256": "089f18fe14e765631e7c0c821b5abab48fcbb7515060669a27e30e77d586e5b9"
+    "sha256": "e6aa4207dfb0f9826ff1245454a5fb71bde3112ee844212c92c78e6937c85684"
+  },
+  "scale": {
+    "sourceHeight": 0.333984375,
+    "targetHeight": 1.2,
+    "scaleFactor": 3.592982456140351,
+    "outputBounds": {
+      "min": [
+        0.7543858578330592,
+        2.287719298245614,
+        -0.571930145799068
+      ],
+      "max": [
+        1.792982456140351,
+        3.487719298245614,
+        0.5578944156044408
+      ]
+    }
   },
   "geometry": {
     "vertices": 5139,

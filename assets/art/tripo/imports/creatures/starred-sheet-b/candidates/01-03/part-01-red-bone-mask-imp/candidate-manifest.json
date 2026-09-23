@@ -10,7 +10,24 @@
   },
   "candidate": {
     "file": "red-bone-mask-imp-native-rig-candidate.glb",
-    "sha256": "b9ddb8d152ca711f41532f481d98b44b8684b950cf86a70043896d4eed289a91"
+    "sha256": "9050509335101ed9297abc3404bd0b9c752833fbbbd3a97d705fbe539aece3dd"
+  },
+  "scale": {
+    "sourceHeight": 0.314453125,
+    "targetHeight": 1.05,
+    "scaleFactor": 3.339130434782609,
+    "outputBounds": {
+      "min": [
+        -1.6336956521739132,
+        2.1782608695652175,
+        -0.5315217391304349
+      ],
+      "max": [
+        -0.6554348821225374,
+        3.2282608695652177,
+        0.5902173913043479
+      ]
+    }
   },
   "geometry": {
     "vertices": 3311,
