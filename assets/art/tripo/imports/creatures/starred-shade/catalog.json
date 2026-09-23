@@ -1,0 +1,394 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_pallid_shade",
+  "displayName": "Ashveil Wraith",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "userDirection": "Include this exact starred shade as-is, including its smooth face with the vertical split; no face replacement or mesh edits.",
+  "source": {
+    "file": "assets/art/tripo/exports/bee97dff-f4bc-415f-85f5-7166421b3cf4.glb",
+    "sha256": "cdc218bf28e19b40c3f9070d3375478795752ee618c52e9cc2cb71c6513f192f",
+    "bytes": 20106656,
+    "starredModelId": "bee97dff-f4bc-415f-85f5-7166421b3cf4",
+    "tripoProjectId": "cc8d0574-7f00-44f2-97c0-09fa30e9f6e2",
+    "starredTitle": "floating shade",
+    "triangles": 5258,
+    "vertices": 3395,
+    "geometry": {
+      "bounds": {
+        "min": [
+          -0.248291015625,
+          0,
+          -0.149658203125
+        ],
+        "max": [
+          0.248291015625,
+          0.9995120167732239,
+          0.149658203125
+        ]
+      },
+      "hashes": {
+        "positions": "cd7ef594355b37e3be43d2c1b6f21140738ca0031290f0cd705f736aa1f8efa0",
+        "normals": "6c723e6b986ac290a741f90780b25fd872c67b22a51c833cdb999f67c3e333ad",
+        "uvs": "330f24a3947eb17e3e33f44f471cab884d424d6d584ac74e57a935ebfaea8a31",
+        "indices": "9b07e71f08ca1faae3be9403a175f320dceab37eb8538439a5dd4643813a97d2"
+      },
+      "retopology": false
+    },
+    "originalTripoRig": {
+      "joints": 54,
+      "sourceClips": 0,
+      "defect": "3392 of 3395 source vertices bind to BoneRoot; source limb weights are unusable."
+    },
+    "textures": [
+      {
+        "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mime": "image/jpeg",
+        "sha256": "2a5d5149274d133953bfb62bff26f41835557a85985e966f4754e22a7bd594a7"
+      },
+      {
+        "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/png",
+        "sha256": "b09169af5aeb6b8739f267d64d78aa5f64eba3488e52036983066ae08a1e1605"
+      },
+      {
+        "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mime": "image/jpeg",
+        "sha256": "b5b4f2c17d4349a5fa197bedd55484017947243bebdfe1f675062c512a27d956"
+      }
+    ],
+    "sourceMaterials": {
+      "metallicFactor": 1,
+      "roughnessFactor": 1
+    }
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-shade/ashveil-wraith-native-rig.glb",
+    "sha256": "97daa7ef1f7a459376449b6d8fe68c7d0620aa585a48783b8c0e094d9060d8be",
+    "bytes": 5033912,
+    "productionTarget": "game/public/assets/models/creature/creature_pallid_shade.glb",
+    "geometry": {
+      "vertices": 3395,
+      "triangles": 5258,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uvPreserved": true,
+      "scaledBounds": {
+        "min": [
+          -0.50899658203125,
+          0,
+          -0.30679931640624997
+        ],
+        "max": [
+          0.50899658203125,
+          2.0489996343851087,
+          0.30679931640624997
+        ]
+      },
+      "size": [
+        1.0179931640625,
+        2.0489996343851087,
+        0.6135986328124999
+      ]
+    },
+    "rig": {
+      "type": "Mixamo-named Unity Humanoid-mappable glTF skin",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.405,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.49,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.585,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.69,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.785,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.895,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.105,
+            0.71,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.165,
+            0.63,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.205,
+            0.485,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.205,
+            0.355,
+            0.02
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.105,
+            0.71,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.165,
+            0.63,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.205,
+            0.485,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.205,
+            0.355,
+            0.02
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.065,
+            0.345,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.065,
+            0.19,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.065,
+            0.06,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.065,
+            0.035,
+            0.065
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.065,
+            0.345,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.065,
+            0.19,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.065,
+            0.06,
+            0.01
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.065,
+            0.035,
+            0.065
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 3395,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "stableHeadZone": {
+        "vertices": 571,
+        "averageHeadWeight": 0.9502783442754461
+      },
+      "method": "Model-specific, four-weight anatomical distance-field fit. Head area has a stable head-only bias; original mesh, face and UVs are unchanged."
+    },
+    "textures": [
+      {
+        "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 660380
+      },
+      {
+        "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 3408504
+      },
+      {
+        "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 600895
+      }
+    ],
+    "packedPbrRanges": {
+      "occlusion": [
+        1,
+        1,
+        1
+      ],
+      "roughness": [
+        0.043137254901960784,
+        0.6823529411764706,
+        0.996078431372549
+      ],
+      "metallic": [
+        0,
+        0.01568627450980392,
+        0.2823529411764706
+      ]
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 4
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.25,
+        "channels": 5
+      },
+      {
+        "name": "Run",
+        "seconds": 0.8,
+        "channels": 5
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.78,
+        "channels": 7
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.5,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "seconds": 2,
+        "channels": 9
+      }
+    ]
+  },
+  "acceptance": {
+    "userDesignDecision": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

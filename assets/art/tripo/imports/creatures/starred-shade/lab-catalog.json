@@ -1,0 +1,123 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_pallid_shade",
+      "file": "models/creature/creature_pallid_shade.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Ashveil Wraith",
+      "tags": [
+        "creature",
+        "wraith",
+        "floating",
+        "wilderness",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 5033912,
+      "sha256": "97daa7ef1f7a459376449b6d8fe68c7d0620aa585a48783b8c0e094d9060d8be",
+      "size": {
+        "x": 1.0179931640625,
+        "y": 2.0489996343851087,
+        "z": 0.6135986328124999
+      },
+      "base": {
+        "x": -0.50899658203125,
+        "y": 0,
+        "z": -0.30679931640624997
+      },
+      "bounds": {
+        "min": [
+          -0.50899658203125,
+          0,
+          -0.30679931640624997
+        ],
+        "max": [
+          0.50899658203125,
+          2.0489996343851087,
+          0.30679931640624997
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5258,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_abe0477c-f391-4642-b9fb-b7f8156edda4"
+      ],
+      "walkClipSeconds": 1.25,
+      "runClipSeconds": 0.8,
+      "attackSeconds": 0.78,
+      "contactNormalized": 0.45,
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "bee97dff-f4bc-415f-85f5-7166421b3cf4",
+        "tripoProjectId": "cc8d0574-7f00-44f2-97c0-09fa30e9f6e2",
+        "sourceFile": "assets/art/tripo/exports/bee97dff-f4bc-415f-85f5-7166421b3cf4.glb",
+        "sourceSha256": "cdc218bf28e19b40c3f9070d3375478795752ee618c52e9cc2cb71c6513f192f",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-shade/ashveil-wraith-native-rig.glb",
+        "candidateSha256": "97daa7ef1f7a459376449b6d8fe68c7d0620aa585a48783b8c0e094d9060d8be",
+        "rigMethod": "Model-specific, four-weight anatomical distance-field fit. Head area has a stable head-only bias; original mesh, face and UVs are unchanged.",
+        "locomotion": "Hover and spectral drift. Walk and Run clip names are preserved for the game action map; neither clip uses planted ground contact.",
+        "originalGeometryAndFaceUnchanged": true,
+        "noRetopology": true,
+        "sourceTexturesPreserved": true,
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "textures": [
+          {
+            "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 660380
+          },
+          {
+            "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3408504
+          },
+          {
+            "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 600895
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review",
+        "userApprovedFaceDesignAsIs": true
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_pallid_shade": "ashveil-wraith-native-rig.glb"
+  },
+  "pack": {
+    "id": "corealm-starred-creatures",
+    "name": "Corealm starred creatures",
+    "author": "Corealm",
+    "source": "https://studio.tripo3d.ai/",
+    "license": "LicenseRef-Tripo-Generated"
+  }
+}
