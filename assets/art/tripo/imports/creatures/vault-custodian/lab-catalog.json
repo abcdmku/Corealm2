@@ -1,0 +1,266 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-tripo-creatures",
+    "name": "Corealm Tripo creature candidates",
+    "author": "Corealm",
+    "source": "Tripo Studio starred export with Corealm rig adaptation",
+    "license": "LicenseRef-Tripo-Generated"
+  },
+  "assets": [
+    {
+      "id": "creature_vault_custodian",
+      "file": "models/creature_vault_custodian.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Vault Custodian candidate from approved Crown Wild source",
+      "tags": [
+        "creature",
+        "karrowmoor",
+        "t10",
+        "starred",
+        "vault-custodian",
+        "skinned",
+        "articulated",
+        "tripo",
+        "root-lab-review"
+      ],
+      "bytes": 6222668,
+      "sha256": "162122fbd8b14a4538c9cda32c62b06735cc98802ee92bd64dc784064335a2d5",
+      "triangles": 5476,
+      "size": {
+        "x": 1.1500979172711103,
+        "y": 2.15,
+        "z": 0.5304104518261515
+      },
+      "base": {
+        "x": -0.5750489586355553,
+        "y": 2.9235710934032263e-17,
+        "z": -0.26520522591307577
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_3fc53436-89e2-401e-a9e6-4ec6fe0ad168"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio P2.0 Smart Mesh",
+        "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+        "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+        "originalSourceFile": "assets/art/tripo/imports/creatures/vault-custodian/sources/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+        "originalSourceSha256": "6b4817f773e179ca8845ee648be23159fd55efb5f240475e6015d1c2aecb1c5c",
+        "sourceLedger": "assets/art/tripo/batches/creatures-crown-wild.json#vault-custodian",
+        "sourcePrompt": "Vault Custodian, a living limestone temple sentinel for a serious medieval RPG. A balanced human-height stone body with proportionate broad chest, solid arms and legs, small blunt three-fingered hands. Head has the solemn outline of a plain greathelm but is continuous naturally weathered stone with one deep narrow horizontal aperture. Torso and limbs are continuous carved limestone, never a suit of armor on a man. Joints are deep flexible shadowed folds between overlapping worn stone surfaces, with no circular pivots, metal machinery or mechanical fingers. Pale warm limestone has dense gray veins, faint ocher mineral layers, chisel scars and softened chipped edges. Modest blue woven oath sash at waist. Neutral watchful guardian of an old maintained shrine. No horns, no bulky boulder stacking, no robot parts.",
+        "priorDeniedRevisionExcluded": "The earlier mechanical-jointed Vault Custodian revision is excluded; this candidate uses only the approved image and exact approved model ID.",
+        "bindRecoveredSource": "assets/art/tripo/imports/creatures/vault-custodian/sources/creature_vault_custodian-b806568a7e93.glb",
+        "bindRecoveredSourceSha256": "b806568a7e93489648fe721fdceeec671e5110ca87a9a1fbbd9e6f25cd375130",
+        "bindPoseReconstruction": {
+          "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSkeletonSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+          "method": "Fitted the existing Mixamo hierarchy to the archived sentinel mesh bounds, reconstructed local rest transforms, and rebuilt inverse binds; source positions, normals, indices, and UVs are byte-preserved.",
+          "scale": {
+            "x": 0.36179995803319853,
+            "y": 0.6822602974470234,
+            "z": 0.8140703549880184
+          },
+          "sourceMeshGeometryAndUvsPreserved": true,
+          "noRetopology": true
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 3290,
+          "dominantJointVertices": {
+            "RightUpLeg": 697,
+            "RightForeArm": 74,
+            "Hips": 209,
+            "Spine": 232,
+            "RightFoot": 40,
+            "RightLeg": 318,
+            "LeftUpLeg": 711,
+            "LeftShoulder": 92,
+            "Spine1": 121,
+            "LeftArm": 89,
+            "Spine2": 55,
+            "RightShoulder": 69,
+            "RightArm": 89,
+            "LeftLeg": 318,
+            "LeftFoot": 40,
+            "Neck": 54,
+            "LeftForeArm": 82
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": 4.924202745777787e-7,
+          "translationScale": 0.6827433496755877,
+          "bindBounds": {
+            "min": [
+              -0.2673339902935163,
+              2.0294763858261133e-10,
+              -0.12329101839560806
+            ],
+            "max": [
+              0.26733399044984935,
+              0.999511555989252,
+              0.12329101691140275
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.0007634134903552862
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.037959685185098624
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.1626845941555115
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.0014023140758182627
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.19840407183743014
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "runtimeTextures": [
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ],
+        "sourceTextureHashesPreservedThroughBindRecovery": [
+          "a0776753449b67858aa4f63cd0a29f2b7111a8a0f29585c42cdf3ed2fc4c1fc0",
+          "9c737e36dcfa535b94535973d185b6e53b1525e86df4c725778933cd401f973a",
+          "7635652ac301bf0b99eb16d53a1cecb2273d6eacba584599b9a5f672229db01f"
+        ]
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": null,
+        "animationAcceptance": "pending-production-lab",
+        "sourceMaterialChannels": [
+          "baseColor",
+          "normal",
+          "metallicRoughness"
+        ],
+        "rigPreset": "Recovered Mixamo humanoid hierarchy with distributed anatomical weights fitted to the limestone sentinel",
+        "requestedCoreMotions": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "role": {
+          "region": "karrowmoor",
+          "tier": 10,
+          "level": 10,
+          "currentForm": "Vault Custodian"
+        },
+        "visualAndMotionAcceptance": "pending-root-feature-lab-review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "models/creature_vault_custodian.glb",
+      "bounds": {
+        "min": [
+          -0.5750489586355553,
+          2.9235710934032263e-17,
+          -0.26520522591307577
+        ],
+        "max": [
+          0.5750489586355552,
+          2.15,
+          0.26520522591307577
+        ]
+      }
+    }
+  ],
+  "files": {
+    "creature_vault_custodian": "models/creature_vault_custodian.glb"
+  }
+}

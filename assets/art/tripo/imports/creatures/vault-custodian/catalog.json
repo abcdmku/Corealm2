@@ -1,0 +1,805 @@
+{
+  "assets": [
+    {
+      "id": "creature_vault_custodian",
+      "file": "models/creature/creature_vault_custodian.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Vault Custodian",
+      "tags": [
+        "creature",
+        "tripo"
+      ],
+      "bytes": 6222668,
+      "sha256": "162122fbd8b14a4538c9cda32c62b06735cc98802ee92bd64dc784064335a2d5",
+      "triangles": 5476,
+      "size": {
+        "x": 1.1500979172711103,
+        "y": 2.15,
+        "z": 0.5304104518261515
+      },
+      "base": {
+        "x": -0.5750489586355553,
+        "y": 2.9235710934032263e-17,
+        "z": -0.26520522591307577
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_3fc53436-89e2-401e-a9e6-4ec6fe0ad168"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio P2.0 Smart Mesh",
+        "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+        "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+        "originalSourceFile": "assets/art/tripo/imports/creatures/vault-custodian/sources/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+        "originalSourceSha256": "6b4817f773e179ca8845ee648be23159fd55efb5f240475e6015d1c2aecb1c5c",
+        "sourceLedger": "assets/art/tripo/batches/creatures-crown-wild.json#vault-custodian",
+        "sourcePrompt": "Vault Custodian, a living limestone temple sentinel for a serious medieval RPG. A balanced human-height stone body with proportionate broad chest, solid arms and legs, small blunt three-fingered hands. Head has the solemn outline of a plain greathelm but is continuous naturally weathered stone with one deep narrow horizontal aperture. Torso and limbs are continuous carved limestone, never a suit of armor on a man. Joints are deep flexible shadowed folds between overlapping worn stone surfaces, with no circular pivots, metal machinery or mechanical fingers. Pale warm limestone has dense gray veins, faint ocher mineral layers, chisel scars and softened chipped edges. Modest blue woven oath sash at waist. Neutral watchful guardian of an old maintained shrine. No horns, no bulky boulder stacking, no robot parts.",
+        "priorDeniedRevisionExcluded": "The earlier mechanical-jointed Vault Custodian revision is excluded; this candidate uses only the approved image and exact approved model ID.",
+        "bindRecoveredSource": "assets/art/tripo/imports/creatures/vault-custodian/sources/creature_vault_custodian-b806568a7e93.glb",
+        "bindRecoveredSourceSha256": "b806568a7e93489648fe721fdceeec671e5110ca87a9a1fbbd9e6f25cd375130",
+        "bindPoseReconstruction": {
+          "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSkeletonSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+          "method": "Fitted the existing Mixamo hierarchy to the archived sentinel mesh bounds, reconstructed local rest transforms, and rebuilt inverse binds; source positions, normals, indices, and UVs are byte-preserved.",
+          "scale": {
+            "x": 0.36179995803319853,
+            "y": 0.6822602974470234,
+            "z": 0.8140703549880184
+          },
+          "sourceMeshGeometryAndUvsPreserved": true,
+          "noRetopology": true
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 3290,
+          "dominantJointVertices": {
+            "RightUpLeg": 697,
+            "RightForeArm": 74,
+            "Hips": 209,
+            "Spine": 232,
+            "RightFoot": 40,
+            "RightLeg": 318,
+            "LeftUpLeg": 711,
+            "LeftShoulder": 92,
+            "Spine1": 121,
+            "LeftArm": 89,
+            "Spine2": 55,
+            "RightShoulder": 69,
+            "RightArm": 89,
+            "LeftLeg": 318,
+            "LeftFoot": 40,
+            "Neck": 54,
+            "LeftForeArm": 82
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": 4.924202745777787e-7,
+          "translationScale": 0.6827433496755877,
+          "bindBounds": {
+            "min": [
+              -0.2673339902935163,
+              2.0294763858261133e-10,
+              -0.12329101839560806
+            ],
+            "max": [
+              0.26733399044984935,
+              0.999511555989252,
+              0.12329101691140275
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.0007634134903552862
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.037959685185098624
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.1626845941555115
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.0014023140758182627
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.19840407183743014
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "runtimeTextures": [
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg"
+          }
+        ],
+        "sourceTextureHashesPreservedThroughBindRecovery": [
+          "a0776753449b67858aa4f63cd0a29f2b7111a8a0f29585c42cdf3ed2fc4c1fc0",
+          "9c737e36dcfa535b94535973d185b6e53b1525e86df4c725778933cd401f973a",
+          "7635652ac301bf0b99eb16d53a1cecb2273d6eacba584599b9a5f672229db01f"
+        ]
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": null,
+        "animationAcceptance": "pending-production-lab"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "models/creature_vault_custodian.glb"
+    }
+  ],
+  "files": {
+    "creature_vault_custodian": "models/creature_vault_custodian.glb"
+  },
+  "packs": [
+    {
+      "id": "corealm-tripo-creatures",
+      "name": "Tripo generated creature assets",
+      "author": "Corealm",
+      "source": "https://studio.tripo3d.ai/",
+      "license": "LicenseRef-Tripo-Generated"
+    }
+  ],
+  "imports": [
+    {
+      "id": "creature_vault_custodian",
+      "name": "Vault Custodian",
+      "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+      "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+      "sourceFile": "sources/creature_vault_custodian-b806568a7e93.glb",
+      "downloadedFilename": "creature_vault_custodian-b806568a7e93.glb",
+      "sourceSha256": "b806568a7e93489648fe721fdceeec671e5110ca87a9a1fbbd9e6f25cd375130",
+      "sourceBytes": 28715448,
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "Approved exact-source face review in Crown Wild batch; provenance retained for root acceptance"
+      },
+      "sourceBaseColorMinimumPx": 8192,
+      "source": {
+        "triangles": 5476,
+        "textures": [
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 18105181,
+            "sha256": "a0776753449b67858aa4f63cd0a29f2b7111a8a0f29585c42cdf3ed2fc4c1fc0"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+            "mimeType": "image/png",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 6631739,
+            "sha256": "9c737e36dcfa535b94535973d185b6e53b1525e86df4c725778933cd401f973a"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+            "mimeType": "image/jpeg",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 3707364,
+            "sha256": "7635652ac301bf0b99eb16d53a1cecb2273d6eacba584599b9a5f672229db01f"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_3fc53436-89e2-401e-a9e6-4ec6fe0ad168",
+            "baseColor": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+            "normal": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+            "metallicRoughness": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+            "emissive": null
+          }
+        ],
+        "clips": [],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_3fc53436-89e2-401e-a9e6-4ec6fe0ad168",
+            "vertices": 3290,
+            "joints": [
+              {
+                "name": "mixamorig:RightHandMiddle1",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 3289
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.267333984375,
+            8.058875688873724e-9,
+            -0.12329101849684426
+          ],
+          "max": [
+            0.267333984375,
+            0.9995115667738302,
+            0.12329101737475692
+          ]
+        },
+        "problems": [
+          "100% of vertices use one joint; exported limb weights are unusable"
+        ]
+      },
+      "basisRepair": null,
+      "materialTreatment": null,
+      "weightRepair": {
+        "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+        "vertices": 3290,
+        "dominantJointVertices": {
+          "RightUpLeg": 697,
+          "RightForeArm": 74,
+          "Hips": 209,
+          "Spine": 232,
+          "RightFoot": 40,
+          "RightLeg": 318,
+          "LeftUpLeg": 711,
+          "LeftShoulder": 92,
+          "Spine1": 121,
+          "LeftArm": 89,
+          "Spine2": 55,
+          "RightShoulder": 69,
+          "RightArm": 89,
+          "LeftLeg": 318,
+          "LeftFoot": 40,
+          "Neck": 54,
+          "LeftForeArm": 82
+        },
+        "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+        "requiresVisualReview": true
+      },
+      "retarget": {
+        "restoredJoints": 54,
+        "mappedJoints": 52,
+        "yawDegrees": 4.924202745777787e-7,
+        "translationScale": 0.6827433496755877,
+        "bindBounds": {
+          "min": [
+            -0.2673339902935163,
+            2.0294763858261133e-10,
+            -0.12329101839560806
+          ],
+          "max": [
+            0.26733399044984935,
+            0.999511555989252,
+            0.12329101691140275
+          ]
+        },
+        "clips": [
+          {
+            "name": "Idle",
+            "sourceTake": "Idle_Loop",
+            "seconds": 2.5,
+            "samples": 76,
+            "maximumGroundCorrection": 0.0007634134903552862
+          },
+          {
+            "name": "Walk",
+            "sourceTake": "Walk_Loop",
+            "seconds": 1.3333333730697632,
+            "samples": 42,
+            "maximumGroundCorrection": 0.037959685185098624
+          },
+          {
+            "name": "Run",
+            "sourceTake": "Jog_Fwd_Loop",
+            "seconds": 0.9333333373069763,
+            "samples": 30,
+            "maximumGroundCorrection": 0.1626845941555115
+          },
+          {
+            "name": "Attack",
+            "sourceTake": "Punch_Jab",
+            "seconds": 0.8666666746139526,
+            "samples": 28,
+            "maximumGroundCorrection": 0.0014023140758182627
+          },
+          {
+            "name": "Hit",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.0005628055167450035,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitLeft",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.0005628055167450035,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitRight",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.0005628055167450035,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "Death",
+            "sourceTake": "Death01",
+            "seconds": 2.4000000953674316,
+            "samples": 74,
+            "maximumGroundCorrection": 0.19840407183743014
+          }
+        ],
+        "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+        "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+      },
+      "readyForLab": true,
+      "reasons": [],
+      "runtime": {
+        "triangles": 5476,
+        "textures": [
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1735758,
+            "sha256": "9b19b9ef5d35d71259f341f45573cdc65a7fbd2d5e86ef4c4789f89c03b8d881"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+            "mimeType": "image/png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 2127132,
+            "sha256": "7b601bf39f4f7ecdefdba0e88f063ca26ac6671bf82991258cff6911317d78a7"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+            "mimeType": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1569052,
+            "sha256": "82a2ad64ec192afe10aad639a4c720937c813d9b152fbc922acd82599312c8d2"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandPinky1",
+              "mixamorig:LeftHandPinky2",
+              "mixamorig:LeftHandPinky3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandPinky1",
+              "mixamorig:RightHandPinky2",
+              "mixamorig:RightHandPinky3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_3fc53436-89e2-401e-a9e6-4ec6fe0ad168",
+            "baseColor": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+            "normal": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+            "metallicRoughness": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+            "emissive": null
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_3fc53436-89e2-401e-a9e6-4ec6fe0ad168",
+            "vertices": 3290,
+            "joints": [
+              {
+                "name": "mixamorig:RightUpLeg",
+                "vertices": 881
+              },
+              {
+                "name": "mixamorig:RightForeArm",
+                "vertices": 135
+              },
+              {
+                "name": "mixamorig:RightHand",
+                "vertices": 18
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 523
+              },
+              {
+                "name": "mixamorig:Spine",
+                "vertices": 552
+              },
+              {
+                "name": "mixamorig:Spine1",
+                "vertices": 313
+              },
+              {
+                "name": "mixamorig:RightArm",
+                "vertices": 232
+              },
+              {
+                "name": "mixamorig:RightFoot",
+                "vertices": 200
+              },
+              {
+                "name": "mixamorig:RightLeg",
+                "vertices": 445
+              },
+              {
+                "name": "mixamorig:LeftUpLeg",
+                "vertices": 910
+              },
+              {
+                "name": "mixamorig:LeftShoulder",
+                "vertices": 200
+              },
+              {
+                "name": "mixamorig:LeftArm",
+                "vertices": 244
+              },
+              {
+                "name": "mixamorig:Spine2",
+                "vertices": 250
+              },
+              {
+                "name": "mixamorig:RightShoulder",
+                "vertices": 199
+              },
+              {
+                "name": "mixamorig:LeftLeg",
+                "vertices": 454
+              },
+              {
+                "name": "mixamorig:LeftFoot",
+                "vertices": 200
+              },
+              {
+                "name": "mixamorig:Neck",
+                "vertices": 101
+              },
+              {
+                "name": "mixamorig:Head",
+                "vertices": 54
+              },
+              {
+                "name": "mixamorig:LeftForeArm",
+                "vertices": 146
+              },
+              {
+                "name": "mixamorig:LeftHand",
+                "vertices": 24
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5750489586355553,
+            2.9235710934032263e-17,
+            -0.26520522591307577
+          ],
+          "max": [
+            0.5750489586355552,
+            2.15,
+            0.26520522591307577
+          ]
+        },
+        "problems": [],
+        "file": "models/creature_vault_custodian.glb",
+        "sha256": "162122fbd8b14a4538c9cda32c62b06735cc98802ee92bd64dc784064335a2d5",
+        "bytes": 6222668,
+        "scale": 2.151050668252274
+      },
+      "originalSource": {
+        "file": "assets/art/tripo/imports/creatures/vault-custodian/sources/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+        "sha256": "6b4817f773e179ca8845ee648be23159fd55efb5f240475e6015d1c2aecb1c5c",
+        "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+        "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+        "prompt": "Vault Custodian, a living limestone temple sentinel for a serious medieval RPG. A balanced human-height stone body with proportionate broad chest, solid arms and legs, small blunt three-fingered hands. Head has the solemn outline of a plain greathelm but is continuous naturally weathered stone with one deep narrow horizontal aperture. Torso and limbs are continuous carved limestone, never a suit of armor on a man. Joints are deep flexible shadowed folds between overlapping worn stone surfaces, with no circular pivots, metal machinery or mechanical fingers. Pale warm limestone has dense gray veins, faint ocher mineral layers, chisel scars and softened chipped edges. Modest blue woven oath sash at waist. Neutral watchful guardian of an old maintained shrine. No horns, no bulky boulder stacking, no robot parts.",
+        "ledger": "assets/art/tripo/batches/creatures-crown-wild.json#vault-custodian",
+        "exportFile": "assets/art/tripo/exports/corealm_vault_custodian_55366bfe_8k_rigged.glb"
+      },
+      "bindPoseReconstruction": {
+        "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+        "sourceSkeletonSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "method": "Fitted the existing Mixamo hierarchy to the archived sentinel mesh bounds, reconstructed local rest transforms, and rebuilt inverse binds; source positions, normals, indices, and UVs are byte-preserved.",
+        "scale": {
+          "x": 0.36179995803319853,
+          "y": 0.6822602974470234,
+          "z": 0.8140703549880184
+        },
+        "sourceMeshGeometryAndUvsPreserved": true,
+        "noRetopology": true
+      },
+      "geometryUvPreservation": {
+        "vertices": 3290,
+        "triangles": 5476,
+        "accessorSha256": {
+          "positions": "b213234efae479038bcb6f73c4ee0c5121d7b58f286620caeb2921c343745029",
+          "normals": "1d0ca1dee2cafd055da4cc07f27a970c6219ca8867535fbfeb037b6548297540",
+          "uvs": "a136d630ef5cf66ce78dbbb8adef218311c23272a160256bd37d0374cdbbbe06",
+          "indices": "b514117fa674b674d7e788b4c986988ba631cd2c39995b317b7c4b7cbb7640a7"
+        },
+        "unchanged": true,
+        "noRetopology": true
+      },
+      "runtimePbrMaps": [
+        {
+          "name": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/jpeg"
+        },
+        {
+          "name": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/png"
+        },
+        {
+          "name": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/jpeg"
+        }
+      ],
+      "candidateFile": "models/creature_vault_custodian.glb",
+      "role": {
+        "region": "karrowmoor",
+        "tier": 10,
+        "level": 10,
+        "currentForm": "Vault Custodian"
+      },
+      "acceptance": {
+        "sourceSelectedByUser": true,
+        "rigAndMotion": "pending-root-lab-review",
+        "textureResponse": "pending-root-lab-review",
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "heldCandidates": [],
+  "visualAccepted": false,
+  "promotable": false
+}
