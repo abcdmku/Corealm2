@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "7ff0eb7a9fae05d88ff9c693f9d325ad59c1f8d71314b4155d32d376160cef79",
-  "formulaRevision": "64718a7f813df0116ef2d306f66b6c1a94054e1527a8ad3e79e60efefb836136",
+  "revision": "ea017849566267e7fe54d7ba119e64714f9f6cd29201ee1793bcc2e5d108e989",
+  "formulaRevision": "19af00d7ec6edb7ad551eb248d289f37f243afb497d117457f14bbe87f139db4",
   "tables": {
     "items": [
       {
@@ -28343,7 +28343,7 @@
         "id": "gloamfang_reaver_t50",
         "name": "Gloamfang Reaver",
         "family": "gloamfang_reaver",
-        "availability": "lab",
+        "availability": "world",
         "level": 50,
         "profileId": "skirmisher",
         "presentation": {
@@ -58188,6 +58188,17 @@
         ]
       },
       {
+        "id": "wilderness_petrified_grove_reavers_patrol",
+        "name": "Gloamfang Reaver",
+        "activity": "patrol",
+        "members": [
+          {
+            "creatureId": "gloamfang_reaver_t50",
+            "weight": 1
+          }
+        ]
+      },
+      {
         "id": "crownward_red_hatchling_t40_patrol",
         "name": "Red Dragon Whelp",
         "activity": "patrol",
@@ -75793,6 +75804,48 @@
         ],
         "dressing": [],
         "habitatId": "population_lava_east_marrow_habitat"
+      },
+      {
+        "id": "wilderness_petrified_grove_reavers",
+        "encounterId": "wilderness_petrified_grove_reavers_patrol",
+        "regionId": "wilderness",
+        "centre": [
+          210,
+          695
+        ],
+        "count": 3,
+        "radius": 6,
+        "scaleMultiplier": 1,
+        "formation": {
+          "kind": "authored",
+          "spacing": 2.8,
+          "rotation": 0
+        },
+        "anchorAdjustments": [
+          {
+            "index": 0,
+            "offset": [
+              -2,
+              0
+            ]
+          },
+          {
+            "index": 1,
+            "offset": [
+              2,
+              0
+            ]
+          },
+          {
+            "index": 2,
+            "offset": [
+              0,
+              2.8
+            ]
+          }
+        ],
+        "dressing": [],
+        "habitatId": "wilderness_petrified_grove_reavers_habitat"
       },
       {
         "id": "crownward_red_whelp_south",
@@ -107834,7 +107887,7 @@
           "id": "gloamfang_reaver_t50",
           "name": "Gloamfang Reaver",
           "family": "gloamfang_reaver",
-          "availability": "lab",
+          "availability": "world",
           "level": 50,
           "profileId": "skirmisher",
           "presentation": {
@@ -107948,7 +108001,7 @@
             }
           ]
         },
-        "availability": "lab",
+        "availability": "world",
         "assetId": "creature_gloamfang_reaver",
         "scale": 1,
         "presentation": {
@@ -209200,6 +209253,70 @@
         ]
       },
       {
+        "id": "gloamfang_reaver_t50",
+        "name": "Gloamfang Reaver",
+        "family": "gloamfang_reaver",
+        "tier": 50,
+        "maxHealth": 134,
+        "attackLevel": 55,
+        "defenceLevel": 45,
+        "accuracy": 60,
+        "armour": 50,
+        "magicArmour": 50,
+        "maxHit": 16,
+        "attackSpeedMs": 2200,
+        "aggroRadius": 10,
+        "behaviour": "aggressive",
+        "moveSpeedMps": 1.6,
+        "walkSpeedMps": 0.4,
+        "gold": [
+          150,
+          300
+        ],
+        "attackStyle": "melee",
+        "attackRangeM": 1.8,
+        "lootRolls": [
+          {
+            "id": "gold",
+            "name": "Gold",
+            "count": 1,
+            "drops": [
+              {
+                "itemId": "gold",
+                "quantity": [
+                  150,
+                  300
+                ],
+                "chance": 1
+              }
+            ]
+          },
+          {
+            "id": "items",
+            "name": "Items",
+            "count": 1,
+            "drops": [
+              {
+                "itemId": "coyote_fang",
+                "quantity": [
+                  1,
+                  1
+                ],
+                "chance": 0.3
+              },
+              {
+                "itemId": "grave_thread",
+                "quantity": [
+                  1,
+                  1
+                ],
+                "chance": 0.04
+              }
+            ]
+          }
+        ]
+      },
+      {
         "id": "chainbound_archon_t70",
         "name": "Chainbound Archon",
         "family": "chainbound_archon",
@@ -274351,6 +274468,17 @@
           ]
         },
         {
+          "id": "wilderness_petrified_grove_reavers_patrol",
+          "name": "Gloamfang Reaver",
+          "activity": "patrol",
+          "members": [
+            {
+              "creatureId": "gloamfang_reaver_t50",
+              "weight": 1
+            }
+          ]
+        },
+        {
           "id": "crownward_red_hatchling_t40_patrol",
           "name": "Red Dragon Whelp",
           "activity": "patrol",
@@ -291958,6 +292086,48 @@
           "habitatId": "population_lava_east_marrow_habitat"
         },
         {
+          "id": "wilderness_petrified_grove_reavers",
+          "encounterId": "wilderness_petrified_grove_reavers_patrol",
+          "regionId": "wilderness",
+          "centre": [
+            210,
+            695
+          ],
+          "count": 3,
+          "radius": 6,
+          "scaleMultiplier": 1,
+          "formation": {
+            "kind": "authored",
+            "spacing": 2.8,
+            "rotation": 0
+          },
+          "anchorAdjustments": [
+            {
+              "index": 0,
+              "offset": [
+                -2,
+                0
+              ]
+            },
+            {
+              "index": 1,
+              "offset": [
+                2,
+                0
+              ]
+            },
+            {
+              "index": 2,
+              "offset": [
+                0,
+                2.8
+              ]
+            }
+          ],
+          "dressing": [],
+          "habitatId": "wilderness_petrified_grove_reavers_habitat"
+        },
+        {
           "id": "crownward_red_whelp_south",
           "encounterId": "crownward_red_hatchling_t40_patrol",
           "regionId": "crownward",
@@ -297913,6 +298083,21 @@
             "count": 9,
             "countPolicy": "fixed",
             "radius": 9
+          },
+          {
+            "id": "wilderness_petrified_grove_reavers",
+            "family": "gloamfang_reaver",
+            "name": "Gloamfang Reaver",
+            "tier": 50,
+            "assetId": "creature_gloamfang_reaver",
+            "scale": 1,
+            "centre": [
+              210,
+              695
+            ],
+            "count": 3,
+            "countPolicy": "fixed",
+            "radius": 6
           }
         ],
         "crownward": [
@@ -308961,6 +309146,32 @@
           "dressing": []
         },
         {
+          "id": "wilderness_petrified_grove_reavers_habitat",
+          "groupId": "wilderness_petrified_grove_reavers",
+          "regionId": "wilderness",
+          "centre": [
+            210,
+            695
+          ],
+          "radius": 6,
+          "anchors": [
+            [
+              208,
+              695
+            ],
+            [
+              212,
+              695
+            ],
+            [
+              210,
+              697.8
+            ]
+          ],
+          "activity": "patrol",
+          "dressing": []
+        },
+        {
           "id": "crownward_south_meadow_harts_habitat",
           "groupId": "crownward_south_meadow_harts",
           "regionId": "crownward",
@@ -311887,7 +312098,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5143365384615384
+          "bodyRadius": 0.7904873076923077
         },
         "regional_gloam_fox": {
           "id": "regional_gloam_fox",
@@ -312271,7 +312482,7 @@
               }
             ]
           },
-          "bodyRadius": 0.6904260000000001
+          "bodyRadius": 0.449784
         },
         "pack_fallowmarch_marchfield_east_wolf_ground": {
           "id": "grass_viper_t1",
@@ -313280,7 +313491,7 @@
               }
             ]
           },
-          "bodyRadius": 0.6904260000000001
+          "bodyRadius": 0.449784
         },
         "marchwild_horse_residents": {
           "id": "marchwild_horse_residents",
@@ -313725,7 +313936,7 @@
               }
             ]
           },
-          "bodyRadius": 0.575064
+          "bodyRadius": 0.449784
         },
         "population_palewood_south_harrow": {
           "id": "redbrush_fox_t1",
@@ -313913,7 +314124,7 @@
               }
             ]
           },
-          "bodyRadius": 0.6904260000000001
+          "bodyRadius": 0.449784
         },
         "population_palewood_west_jacks": {
           "id": "granary_rat_t1",
@@ -314658,7 +314869,7 @@
               }
             ]
           },
-          "bodyRadius": 0.6904260000000001
+          "bodyRadius": 0.449784
         },
         "population_bracken_north_striders": {
           "id": "reed_wasp_t1",
@@ -316646,7 +316857,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9416627224557192
+          "bodyRadius": 1.039625453957453
         },
         "population_rootfall_west_jacks": {
           "id": "heath_jack_t5",
@@ -316902,7 +317113,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9416627224557192
+          "bodyRadius": 1.039625453957453
         },
         "population_mire_skirt_striders": {
           "id": "reed_strider_t5",
@@ -317034,7 +317245,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9416627224557192
+          "bodyRadius": 1.039625453957453
         },
         "population_thornline_north_jacks": {
           "id": "heath_jack_t5",
@@ -317857,7 +318068,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5583384615384615
+          "bodyRadius": 0.6692153846153845
         },
         "pack_karrowmoor_tarn_track_east_mandibles": {
           "id": "pack_karrowmoor_tarn_track_east_mandibles",
@@ -320244,7 +320455,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5470150609528285
+          "bodyRadius": 0.5959189601469125
         },
         "cinder_adders": {
           "id": "cinder_adders",
@@ -320849,7 +321060,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5470150609528285
+          "bodyRadius": 0.5959189601469125
         },
         "slag_centipede_residents": {
           "id": "slag_centipede_residents",
@@ -321360,7 +321571,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5470150609528285
+          "bodyRadius": 0.5959189601469125
         },
         "population_ashfin_east_crawlers": {
           "id": "slag_crawler_t20",
@@ -321608,7 +321819,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5470150609528285
+          "bodyRadius": 0.5959189601469125
         },
         "population_cinderpine_east_crawlers": {
           "id": "slag_crawler_t20",
@@ -321856,7 +322067,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5470150609528285
+          "bodyRadius": 0.5959189601469125
         },
         "population_cinderwake_west_marrow": {
           "id": "kiln_marrow_t20",
@@ -322134,7 +322345,7 @@
               }
             ]
           },
-          "bodyRadius": 0.7715275491198713
+          "bodyRadius": 0.6747667872334825
         },
         "wilderness_dead_boughs": {
           "id": "wilderness_dead_boughs",
@@ -322998,7 +323209,7 @@
               }
             ]
           },
-          "bodyRadius": 0.7715275491198713
+          "bodyRadius": 0.6747667872334825
         },
         "wilderness_petrified_grove": {
           "id": "wilderness_petrified_grove",
@@ -323322,7 +323533,7 @@
               }
             ]
           },
-          "bodyRadius": 0.8386197831117899
+          "bodyRadius": 0.785009628149664
         },
         "broken_watch_tower_haunt": {
           "id": "broken_watch_tower_haunt",
@@ -326625,7 +326836,7 @@
               }
             ]
           },
-          "bodyRadius": 1.15555
+          "bodyRadius": 0.99805
         },
         "furnace_regent": {
           "id": "furnace_regent",
@@ -327677,7 +327888,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5915013610917633
+          "bodyRadius": 0.6443823967356604
         },
         "population_last_light_east_shades": {
           "id": "population_last_light_east_shades",
@@ -327785,7 +327996,7 @@
               }
             ]
           },
-          "bodyRadius": 0.7715275491198713
+          "bodyRadius": 0.6747667872334825
         },
         "population_east_march_reapers": {
           "id": "population_east_march_reapers",
@@ -328325,7 +328536,7 @@
               }
             ]
           },
-          "bodyRadius": 0.7715275491198713
+          "bodyRadius": 0.6747667872334825
         },
         "population_aqueduct_west_lanterns": {
           "id": "population_aqueduct_west_lanterns",
@@ -328649,7 +328860,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5915013610917633
+          "bodyRadius": 0.6443823967356604
         },
         "population_lava_east_marrow": {
           "id": "population_lava_east_marrow",
@@ -328766,6 +328977,76 @@
             ]
           },
           "bodyRadius": 1.0797498818876294
+        },
+        "wilderness_petrified_grove_reavers": {
+          "id": "gloamfang_reaver_t50",
+          "assetId": "creature_gloamfang_reaver",
+          "scale": 1,
+          "stats": {
+            "id": "gloamfang_reaver_t50",
+            "name": "Gloamfang Reaver",
+            "family": "gloamfang_reaver",
+            "tier": 50,
+            "maxHealth": 134,
+            "attackLevel": 55,
+            "defenceLevel": 45,
+            "accuracy": 60,
+            "armour": 50,
+            "magicArmour": 50,
+            "maxHit": 16,
+            "attackSpeedMs": 2200,
+            "aggroRadius": 10,
+            "behaviour": "aggressive",
+            "moveSpeedMps": 1.6,
+            "walkSpeedMps": 0.4,
+            "gold": [
+              150,
+              300
+            ],
+            "attackStyle": "melee",
+            "attackRangeM": 1.8,
+            "lootRolls": [
+              {
+                "id": "gold",
+                "name": "Gold",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "gold",
+                    "quantity": [
+                      150,
+                      300
+                    ],
+                    "chance": 1
+                  }
+                ]
+              },
+              {
+                "id": "items",
+                "name": "Items",
+                "count": 1,
+                "drops": [
+                  {
+                    "itemId": "coyote_fang",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.3
+                  },
+                  {
+                    "itemId": "grave_thread",
+                    "quantity": [
+                      1,
+                      1
+                    ],
+                    "chance": 0.04
+                  }
+                ]
+              }
+            ]
+          },
+          "bodyRadius": 1.2467807774562238
         },
         "crownward_red_whelp_south": {
           "id": "crownward_red_hatchling_t40",
@@ -331131,7 +331412,7 @@
               }
             ]
           },
-          "bodyRadius": 0.674982
+          "bodyRadius": 1.049496
         },
         "fairy_lantern_willow_hollow_residents": {
           "id": "garden_sapling_t30",
@@ -331224,7 +331505,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5006976
+          "bodyRadius": 0.5924516
         },
         "fairy_lantern_willow_hollow_companions": {
           "id": "garden_petalguard_t30",
@@ -331796,7 +332077,7 @@
               }
             ]
           },
-          "bodyRadius": 0.4885335
+          "bodyRadius": 0.355056
         },
         "fairy_starroot_crown_residents": {
           "id": "garden_drake_t60",
@@ -343994,6 +344275,13 @@
       "id": "population_lava_east_marrow",
       "inputs": {
         "encounterId": "population_lava_east_marrow_patrol"
+      }
+    },
+    "placements:wilderness_petrified_grove_reavers": {
+      "collection": "placements",
+      "id": "wilderness_petrified_grove_reavers",
+      "inputs": {
+        "encounterId": "wilderness_petrified_grove_reavers_patrol"
       }
     },
     "placements:crownward_red_whelp_south": {
