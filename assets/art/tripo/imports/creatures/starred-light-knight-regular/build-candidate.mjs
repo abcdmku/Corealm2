@@ -8,6 +8,7 @@ const baseDir = 'assets/art/tripo/imports/creatures/starred-light-knight-regular
 const sourcePath = 'assets/art/tripo/exports/3255ba4a-055e-446b-9c47-0266c347710a.glb';
 const candidatePath = `${baseDir}/pearl-patrol-knight-native-rig.glb`;
 const expectedSourceHash = '9f0cb9c3eedc9645957e9bdd921b6ad44ad62a560325e42078505ff4dd452ba4';
+const modelScale = 3.3325443786982247; // Match the previous Pearl Knight's 3.30 m native height.
 await mkdir(baseDir, { recursive: true });
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
@@ -24,19 +25,24 @@ if (!scene || !mesh || !primitive || !meshNode || root.listSkins().length || roo
   throw new Error('Expected the approved static Light Knight export, without a Tripo skin or clips.');
 }
 
-const positions = Float32Array.from(primitive.getAttribute('POSITION')?.getArray() ?? []);
+const sourcePositions = Float32Array.from(primitive.getAttribute('POSITION')?.getArray() ?? []);
+const positions = Float32Array.from(sourcePositions, (value) => value * modelScale);
 const indices = Uint32Array.from(primitive.getIndices()?.getArray() ?? []);
 const normals = Float32Array.from(primitive.getAttribute('NORMAL')?.getArray() ?? []);
 const uvs = Float32Array.from(primitive.getAttribute('TEXCOORD_0')?.getArray() ?? []);
 if (positions.length / 3 !== 7637 || indices.length / 3 !== 4697 || normals.length !== positions.length || uvs.length / 2 !== positions.length / 3) {
   throw new Error(`Source topology/UV contract changed: ${positions.length / 3} vertices, ${indices.length / 3} triangles.`);
 }
+const sourceBounds = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
 const bounds = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
-for (let i = 0; i < positions.length; i += 3) for (let axis = 0; axis < 3; axis += 1) {
+for (let i = 0; i < sourcePositions.length; i += 3) for (let axis = 0; axis < 3; axis += 1) {
+  sourceBounds.min[axis] = Math.min(sourceBounds.min[axis], sourcePositions[i + axis]);
+  sourceBounds.max[axis] = Math.max(sourceBounds.max[axis], sourcePositions[i + axis]);
   bounds.min[axis] = Math.min(bounds.min[axis], positions[i + axis]);
   bounds.max[axis] = Math.max(bounds.max[axis], positions[i + axis]);
 }
-if (bounds.min[1] !== 0 || Math.abs(bounds.max[1] - 0.990234375) > 1e-7) throw new Error('Starred source bounds changed.');
+if (sourceBounds.min[1] !== 0 || Math.abs(sourceBounds.max[1] - 0.990234375) > 1e-7
+  || Math.abs(bounds.max[1] - 3.3) > 1e-6) throw new Error('Starred source/native scale bounds changed.');
 
 // A 22-joint Unity Humanoid-named rig fitted to the source's lateral T-pose. Mesh
 // positions, indices, normals, UV islands and generated maps remain from the export.
@@ -64,6 +70,10 @@ const bones = [
   { name: 'mixamorigRightFoot', parent: 'mixamorigRightLeg', p: [0.105, 0.055, 0.015], sigma: 0.050, group: 'rightLeg', side: 1 },
   { name: 'mixamorigRightToeBase', parent: 'mixamorigRightFoot', p: [0.105, 0.035, 0.073], sigma: 0.047, group: 'rightLeg', side: 1 },
 ];
+for (const bone of bones) {
+  bone.p = bone.p.map((value) => value * modelScale);
+  bone.sigma *= modelScale;
+}
 const byName = new Map(bones.map((bone, index) => [bone.name, { ...bone, index }]));
 for (const bone of bones) {
   const parent = bone.parent ? byName.get(bone.parent) : null;
@@ -92,6 +102,8 @@ for (let i = 0; i < bones.length; i += 1) {
   inverseBind.set([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -x, -y, -z, 1], i * 16);
 }
 const buffer = root.listBuffers()[0] ?? doc.createBuffer('Pearl patrol rig and animation data');
+primitive.setAttribute('POSITION', doc.createAccessor('PearlPatrolKnight_NativeScale3m')
+  .setArray(positions).setType(Accessor.Type.VEC3).setBuffer(buffer));
 skin.setInverseBindMatrices(doc.createAccessor('PearlPatrolKnight_InverseBind').setArray(inverseBind).setType(Accessor.Type.MAT4).setBuffer(buffer));
 meshNode.setSkin(skin);
 
@@ -103,8 +115,9 @@ const distanceToSegment = (point, a, b) => {
   const t = Math.max(0, Math.min(1, offset.reduce((sum, value, axis) => sum + value * vector[axis], 0) / length2));
   return Math.hypot(...point.map((value, axis) => value - (a[axis] + vector[axis] * t)));
 };
-const armBand = (y) => smooth(0.63, 0.72, y) * (1 - smooth(0.80, 0.89, y));
-const legBand = (y) => 1 - smooth(0.37, 0.49, y);
+const armBand = (y) => smooth(0.63 * modelScale, 0.72 * modelScale, y)
+  * (1 - smooth(0.80 * modelScale, 0.89 * modelScale, y));
+const legBand = (y) => 1 - smooth(0.37 * modelScale, 0.49 * modelScale, y);
 const joints = new Uint16Array(positions.length / 3 * 4);
 const weights = new Float32Array(positions.length / 3 * 4);
 const influenceCounts = new Uint32Array(bones.length);
@@ -115,13 +128,14 @@ for (let vertex = 0; vertex < positions.length / 3; vertex += 1) {
   const candidates = [];
   for (const bone of bones) {
     let gate = 1;
-    if (bone.group === 'head') gate = smooth(0.78, 0.865, y);
-    if (bone.group === 'neck') gate = smooth(0.70, 0.79, y) * (1 - smooth(0.83, 0.91, y));
+    if (bone.group === 'head') gate = smooth(0.78 * modelScale, 0.865 * modelScale, y);
+    if (bone.group === 'neck') gate = smooth(0.70 * modelScale, 0.79 * modelScale, y)
+      * (1 - smooth(0.83 * modelScale, 0.91 * modelScale, y));
     if (bone.group === 'leftArm' || bone.group === 'rightArm') {
-      gate = armBand(y) * smooth(0.075, 0.205, bone.side * x);
+      gate = armBand(y) * smooth(0.075 * modelScale, 0.205 * modelScale, bone.side * x);
     }
     if (bone.group === 'leftLeg' || bone.group === 'rightLeg') {
-      gate = legBand(y) * smooth(0.025, 0.095, bone.side * x);
+      gate = legBand(y) * smooth(0.025 * modelScale, 0.095 * modelScale, bone.side * x);
     }
     const parent = bone.parent ? byName.get(bone.parent) : null;
     const distance = distanceToSegment(point, parent?.p ?? bone.p, bone.p);
@@ -146,7 +160,12 @@ for (let vertex = 0; vertex < positions.length / 3; vertex += 1) {
   if (Math.abs(sum - 1) > 1e-5) throw new Error(`Vertex ${vertex} weights sum to ${sum}.`);
   if (weights[vertex * 4 + 1] + weights[vertex * 4 + 2] + weights[vertex * 4 + 3] > 1e-5) distributedVertices += 1;
 }
-for (const bone of bones) if (influenceCounts[byName.get(bone.name).index] < 2) throw new Error(`Unused fitted joint: ${bone.name}`);
+const optionalStructuralJoints = new Set(['mixamorigNeck']);
+for (const bone of bones) {
+  if (!optionalStructuralJoints.has(bone.name) && influenceCounts[byName.get(bone.name).index] < 2) {
+    throw new Error(`Unused fitted joint: ${bone.name}`);
+  }
+}
 primitive.setAttribute('JOINTS_0', doc.createAccessor('PearlPatrolKnight_Joints0').setArray(joints).setType(Accessor.Type.VEC4).setBuffer(buffer));
 primitive.setAttribute('WEIGHTS_0', doc.createAccessor('PearlPatrolKnight_Weights0').setArray(weights).setType(Accessor.Type.VEC4).setBuffer(buffer));
 
@@ -162,8 +181,11 @@ function addClip(name, seconds, tracks) {
   for (const track of tracks) {
     const path = track.path ?? 'rotation';
     const times = track.times ?? track.values.map((_, index) => index * seconds / (track.values.length - 1));
+    const values = path === 'translation'
+      ? track.values.map((value) => value.map((axis) => axis * modelScale))
+      : track.values;
     const input = doc.createAccessor(`${name}_${track.node}_${path}_time`).setArray(Float32Array.from(times)).setType(Accessor.Type.SCALAR).setBuffer(buffer);
-    const output = doc.createAccessor(`${name}_${track.node}_${path}_value`).setArray(Float32Array.from(track.values.flat())).setType(path === 'translation' ? Accessor.Type.VEC3 : Accessor.Type.VEC4).setBuffer(buffer);
+    const output = doc.createAccessor(`${name}_${track.node}_${path}_value`).setArray(Float32Array.from(values.flat())).setType(path === 'translation' ? Accessor.Type.VEC3 : Accessor.Type.VEC4).setBuffer(buffer);
     const sampler = doc.createAnimationSampler(`${name}_${track.node}_${path}`).setInput(input).setOutput(output).setInterpolation('LINEAR');
     animation.addSampler(sampler).addChannel(doc.createAnimationChannel(`${track.node}_${path}`).setTargetNode(nodes.get(track.node)).setTargetPath(path).setSampler(sampler));
   }
@@ -172,10 +194,21 @@ function addClip(name, seconds, tracks) {
 const phases = [0, 0.25, 0.5, 0.75, 1];
 const swing = (phase, magnitude) => phases.map((t) => quat('x', Math.sin((t + phase) * Math.PI * 2) * magnitude));
 const hipsY = (values, z = -0.012) => values.map((y) => [0, y, z]);
+const multiplyQuat = (a, b) => [
+  a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1],
+  a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],
+  a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3],
+  a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2],
+];
+const hangingArm = (side, ySwing = 0) => multiplyQuat(quat('z', side * 0.92), quat('y', ySwing));
 addClip('Idle', 2.6, [
   { node: 'mixamorigSpine1', times: [0, 0.65, 1.3, 1.95, 2.6], values: [quat('z', 0), quat('z', 0.012), quat('z', 0), quat('z', -0.012), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.65, 1.3, 1.95, 2.6], values: [quat('y', 0), quat('y', 0.012), quat('y', 0), quat('y', -0.012), quat('y', 0)] },
   { node: 'mixamorigHead', times: [0, 0.65, 1.3, 1.95, 2.6], values: [quat('y', -0.02), quat('y', 0), quat('y', 0.025), quat('y', 0), quat('y', -0.02)] },
+  { node: 'mixamorigLeftArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [1.00, 0.98, 1.00, 1.02, 1.00].map((angle) => quat('z', angle)) },
+  { node: 'mixamorigLeftForeArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [0.08, 0.08, 0.08, 0.08, 0.08].map((angle) => quat('z', angle)) },
+  { node: 'mixamorigRightArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [-1.00, -0.98, -1.00, -1.02, -1.00].map((angle) => quat('z', angle)) },
+  { node: 'mixamorigRightForeArm', times: [0, 0.65, 1.3, 1.95, 2.6], values: [-0.08, -0.08, -0.08, -0.08, -0.08].map((angle) => quat('z', angle)) },
 ]);
 addClip('Walk', 1.0, [
   { node: 'mixamorigHips', path: 'translation', times: phases, values: hipsY([0.365, 0.376, 0.365, 0.376, 0.365]) },
@@ -183,8 +216,8 @@ addClip('Walk', 1.0, [
   { node: 'mixamorigRightUpLeg', times: phases, values: swing(0.5, 0.30) },
   { node: 'mixamorigLeftLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.18)) },
   { node: 'mixamorigRightLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.18)) },
-  { node: 'mixamorigLeftArm', times: phases, values: swing(0.5, 0.30) },
-  { node: 'mixamorigRightArm', times: phases, values: swing(0, 0.30) },
+  { node: 'mixamorigLeftArm', times: phases, values: phases.map((t) => hangingArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.22)) },
+  { node: 'mixamorigRightArm', times: phases, values: phases.map((t) => hangingArm(-1, Math.sin(t * Math.PI * 2) * 0.22)) },
 ]);
 addClip('Run', 0.72, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t * 0.72), values: hipsY([0.365, 0.390, 0.365, 0.390, 0.365]) },
@@ -192,23 +225,24 @@ addClip('Run', 0.72, [
   { node: 'mixamorigRightUpLeg', times: phases.map((t) => t * 0.72), values: swing(0.5, 0.58) },
   { node: 'mixamorigLeftLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.46)) },
   { node: 'mixamorigRightLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin((t + 0.5) * Math.PI * 2)) * 0.46)) },
-  { node: 'mixamorigLeftArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('y', Math.sin((t + 0.5) * Math.PI * 2) * 0.36)) },
-  { node: 'mixamorigRightArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('y', Math.sin(t * Math.PI * 2) * 0.36)) },
+  { node: 'mixamorigLeftArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => hangingArm(1, Math.sin((t + 0.5) * Math.PI * 2) * 0.32)) },
+  { node: 'mixamorigRightArm', times: phases.map((t) => t * 0.72), values: phases.map((t) => hangingArm(-1, Math.sin(t * Math.PI * 2) * 0.32)) },
   { node: 'mixamorigSpine1', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', 0.025 + Math.sin(t * Math.PI * 2) * 0.025)) },
 ]);
 addClip('Attack', 0.92, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.18, 0.48, 0.72, 0.92], values: [[0, 0.365, -0.012], [0, 0.365, -0.028], [0, 0.355, 0.025], [0, 0.365, 0.010], [0, 0.365, -0.012]] },
   { node: 'mixamorigSpine1', times: [0, 0.18, 0.48, 0.72, 0.92], values: [quat('y', 0), quat('y', -0.14), quat('y', 0.14), quat('y', 0.06), quat('y', 0)] },
-  { node: 'mixamorigRightArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [quat('y', 0), quat('y', -0.28), quat('y', -0.92), quat('y', -0.35), quat('y', 0)] },
+  { node: 'mixamorigRightArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, -0.28, -0.92, -0.35, 0].map((amount) => hangingArm(-1, amount)) },
   { node: 'mixamorigRightForeArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [quat('z', 0), quat('z', -0.16), quat('z', -0.42), quat('z', -0.18), quat('z', 0)] },
-  { node: 'mixamorigLeftArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [quat('y', 0), quat('y', 0.10), quat('y', 0.28), quat('y', 0.12), quat('y', 0)] },
+  { node: 'mixamorigLeftArm', times: [0, 0.18, 0.48, 0.72, 0.92], values: [0, 0.10, 0.28, 0.12, 0].map((amount) => hangingArm(1, amount)) },
 ]);
 addClip('Hit', 0.46, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.46], values: [[0, 0.365, -0.012], [0, 0.360, -0.040], [0, 0.363, -0.025], [0, 0.365, -0.012]] },
   { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.20), quat('z', -0.08), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.46], values: [quat('x', 0), quat('x', -0.13), quat('x', 0.05), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.13), quat('z', -0.035), quat('z', 0)] },
-  { node: 'mixamorigRightArm', times: [0, 0.08, 0.20, 0.46], values: [quat('y', 0), quat('y', -0.24), quat('y', 0.06), quat('y', 0)] },
+  { node: 'mixamorigLeftArm', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0.92), quat('z', 1.00), quat('z', 0.90), quat('z', 0.92)] },
+  { node: 'mixamorigRightArm', times: [0, 0.08, 0.20, 0.46], values: [0, -0.24, 0.06, 0].map((amount) => hangingArm(-1, amount)) },
 ]);
 addClip('Death', 1.45, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.22, 0.65, 1.05, 1.45], values: [[0, 0.365, -0.012], [0, 0.345, -0.020], [0, 0.245, -0.030], [0, 0.205, -0.030], [0, 0.205, -0.030]] },
@@ -216,8 +250,8 @@ addClip('Death', 1.45, [
   { node: 'mixamorigSpine1', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.10), quat('x', 0.20), quat('x', 0.20), quat('x', 0.20)] },
   { node: 'mixamorigSpine2', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.08), quat('x', 0.16), quat('x', 0.16), quat('x', 0.16)] },
   { node: 'mixamorigHead', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0), quat('z', 0.10), quat('z', 0.22), quat('z', 0.22), quat('z', 0.22)] },
-  { node: 'mixamorigLeftArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0), quat('z', -0.10), quat('z', -0.35), quat('z', -0.35), quat('z', -0.35)] },
-  { node: 'mixamorigRightArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0), quat('z', 0.08), quat('z', 0.30), quat('z', 0.30), quat('z', 0.30)] },
+  { node: 'mixamorigLeftArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [0.92, 0.85, 0.62, 0.62, 0.62].map((angle) => quat('z', angle)) },
+  { node: 'mixamorigRightArm', times: [0, 0.22, 0.65, 1.05, 1.45], values: [-0.92, -0.85, -0.62, -0.62, -0.62].map((angle) => quat('z', angle)) },
   { node: 'mixamorigLeftUpLeg', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', -0.06), quat('x', -0.18), quat('x', -0.18), quat('x', -0.18)] },
   { node: 'mixamorigRightUpLeg', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.06), quat('x', 0.18), quat('x', 0.18), quat('x', 0.18)] },
 ]);
@@ -300,7 +334,7 @@ const candidate = {
     starredModelId: '7449b4c6-86b9-44e4-a26b-5f02e3c00a72',
     starredCardId: '3255ba4a-055e-446b-9c47-0266c347710a',
     starredDisplayName: 'medieval knight 3d model light',
-    geometry: { vertices: positions.length / 3, triangles: indices.length / 3, bounds, positionsPreserved: true, indicesPreserved: true, uvsPreserved: true, retopology: false },
+    geometry: { vertices: sourcePositions.length / 3, triangles: indices.length / 3, bounds: sourceBounds, positionsPreserved: true, indicesPreserved: true, uvsPreserved: true, retopology: false },
     preliminaryDesignReview: 'Astra-low approved the source as a medieval white-and-gold plate knight for regular Crownward T40 patrols.',
     sourceSkin: 'none; Tripo individual export did not offer Export Skeleton',
     sourceAnimations: [],
@@ -311,8 +345,8 @@ const candidate = {
     sha256: candidateHash,
     bytes: bytes.length,
     productionTarget: 'game/public/assets/models/fairy-crown/creature_pearl_knight.glb',
-    geometry: { vertices: positions.length / 3, triangles: indices.length / 3, positionsPreserved: true, indicesPreserved: true, uvsPreserved: true },
-    rig: { type: 'Mixamo-named Unity Humanoid glTF skin', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, distributedVertices, maximumWeightSumError: maxWeightError, method: 'Source-specific four-weight distance fields fitted to the T-pose; original topology and UVs remain untouched.' },
+    geometry: { vertices: positions.length / 3, triangles: indices.length / 3, bounds, nativeScale: modelScale, positionsPreserved: false, proportionsPreserved: true, indicesPreserved: true, uvsPreserved: true },
+    rig: { type: 'Mixamo-named Unity Humanoid glTF skin', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, distributedVertices, maximumWeightSumError: maxWeightError, method: 'Source-specific four-weight distance fields fitted to the T-pose; original topology and UVs remain untouched. Uniformly normalized to the existing 3.30 m source height.' },
     textures: runtimeTextures,
     metallicChannelRange: metalRange,
     roughnessChannelRange: roughRange,
@@ -352,5 +386,9 @@ const labAsset = {
   },
   acceptance: { assetAudit: true, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };
-await writeFile(`${baseDir}/lab-catalog.json`, JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset] }, null, 2) + '\n');
+await writeFile(`${baseDir}/lab-catalog.json`, JSON.stringify({
+  schema: 'corealm-lab-asset-candidates/1',
+  files: { creature_pearl_knight: 'pearl-patrol-knight-native-rig.glb' },
+  assets: [labAsset],
+}, null, 2) + '\n');
 console.log(JSON.stringify({ candidatePath, bytes: bytes.length, sha256: candidateHash, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, distributedVertices, metallicChannelRange: metalRange, roughnessChannelRange: roughRange, clips, runtimeTextures }, null, 2));

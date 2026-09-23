@@ -20,28 +20,28 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 10963776,
-      "sha256": "978f5e815e223a85c64554ba5ac07cfafb409c06f52e48537cc0e500428667c5",
+      "bytes": 11058920,
+      "sha256": "fe04209a04120051788b8a7a37305cf09a8e2a2968f4bb13c8fddf1e4fdeb987",
       "size": {
-        "x": 0.998046875,
-        "y": 0.990234375,
-        "z": 0.23242194950580597
+        "x": 3.326035499572754,
+        "y": 3.299999952316284,
+        "z": 0.7745564579963684
       },
       "base": {
-        "x": -0.4990234375,
+        "x": -1.663017749786377,
         "y": 0,
-        "z": -0.11621097475290298
+        "z": -0.3872782289981842
       },
       "bounds": {
         "min": [
-          -0.4990234375,
+          -1.663017749786377,
           0,
-          -0.11621097475290298
+          -0.3872782289981842
         ],
         "max": [
-          0.4990234375,
-          0.990234375,
-          0.11621097475290298
+          1.663017749786377,
+          3.299999952316284,
+          0.3872782289981842
         ]
       },
       "groundY": 0,
@@ -64,7 +64,7 @@
         "sourceFile": "assets/art/tripo/exports/3255ba4a-055e-446b-9c47-0266c347710a.glb",
         "sourceSha256": "9f0cb9c3eedc9645957e9bdd921b6ad44ad62a560325e42078505ff4dd452ba4",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
-        "candidateSha256": "978f5e815e223a85c64554ba5ac07cfafb409c06f52e48537cc0e500428667c5",
+        "candidateSha256": "fe04209a04120051788b8a7a37305cf09a8e2a2968f4bb13c8fddf1e4fdeb987",
         "rigMethod": "22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; source mesh positions, topology, normals, UV islands and map images preserved.",
         "textures": [
           {

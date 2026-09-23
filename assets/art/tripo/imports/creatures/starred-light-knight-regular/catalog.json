@@ -60,13 +60,27 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
-    "sha256": "978f5e815e223a85c64554ba5ac07cfafb409c06f52e48537cc0e500428667c5",
-    "bytes": 10963776,
+    "sha256": "fe04209a04120051788b8a7a37305cf09a8e2a2968f4bb13c8fddf1e4fdeb987",
+    "bytes": 11058920,
     "productionTarget": "game/public/assets/models/fairy-crown/creature_pearl_knight.glb",
     "geometry": {
       "vertices": 7637,
       "triangles": 4697,
-      "positionsPreserved": true,
+      "bounds": {
+        "min": [
+          -1.663017749786377,
+          0,
+          -0.3872782289981842
+        ],
+        "max": [
+          1.663017749786377,
+          3.299999952316284,
+          0.3872782289981842
+        ]
+      },
+      "nativeScale": 3.3325443786982247,
+      "positionsPreserved": false,
+      "proportionsPreserved": true,
       "indicesPreserved": true,
       "uvsPreserved": true
     },
@@ -78,8 +92,8 @@
           "parent": null,
           "position": [
             0,
-            0.365,
-            -0.012
+            1.216378698224852,
+            -0.0399905325443787
           ]
         },
         {
@@ -87,8 +101,8 @@
           "parent": "mixamorigHips",
           "position": [
             0,
-            0.465,
-            -0.012
+            1.5496331360946747,
+            -0.0399905325443787
           ]
         },
         {
@@ -96,8 +110,8 @@
           "parent": "mixamorigSpine",
           "position": [
             0,
-            0.565,
-            -0.02
+            1.8828875739644968,
+            -0.06665088757396449
           ]
         },
         {
@@ -105,8 +119,8 @@
           "parent": "mixamorigSpine1",
           "position": [
             0,
-            0.675,
-            -0.024
+            2.2494674556213017,
+            -0.0799810650887574
           ]
         },
         {
@@ -114,8 +128,8 @@
           "parent": "mixamorigSpine2",
           "position": [
             0,
-            0.8,
-            -0.025
+            2.66603550295858,
+            -0.08331360946745563
           ]
         },
         {
@@ -123,159 +137,159 @@
           "parent": "mixamorigNeck",
           "position": [
             0,
-            0.895,
-            -0.022
+            2.982627218934911,
+            -0.07331597633136094
           ]
         },
         {
           "name": "mixamorigLeftShoulder",
           "parent": "mixamorigSpine2",
           "position": [
-            -0.105,
-            0.715,
-            -0.022
+            -0.34991715976331356,
+            2.3827692307692305,
+            -0.07331597633136094
           ]
         },
         {
           "name": "mixamorigLeftArm",
           "parent": "mixamorigLeftShoulder",
           "position": [
-            -0.245,
-            0.75,
-            -0.018
+            -0.816473372781065,
+            2.4994082840236684,
+            -0.05998579881656804
           ]
         },
         {
           "name": "mixamorigLeftForeArm",
           "parent": "mixamorigLeftArm",
           "position": [
-            -0.365,
-            0.75,
-            -0.012
+            -1.216378698224852,
+            2.4994082840236684,
+            -0.0399905325443787
           ]
         },
         {
           "name": "mixamorigLeftHand",
           "parent": "mixamorigLeftForeArm",
           "position": [
-            -0.455,
-            0.75,
-            -0.005
+            -1.5163076923076924,
+            2.4994082840236684,
+            -0.016662721893491123
           ]
         },
         {
           "name": "mixamorigRightShoulder",
           "parent": "mixamorigSpine2",
           "position": [
-            0.105,
-            0.715,
-            -0.022
+            0.34991715976331356,
+            2.3827692307692305,
+            -0.07331597633136094
           ]
         },
         {
           "name": "mixamorigRightArm",
           "parent": "mixamorigRightShoulder",
           "position": [
-            0.245,
-            0.75,
-            -0.018
+            0.816473372781065,
+            2.4994082840236684,
+            -0.05998579881656804
           ]
         },
         {
           "name": "mixamorigRightForeArm",
           "parent": "mixamorigRightArm",
           "position": [
-            0.365,
-            0.75,
-            -0.012
+            1.216378698224852,
+            2.4994082840236684,
+            -0.0399905325443787
           ]
         },
         {
           "name": "mixamorigRightHand",
           "parent": "mixamorigRightForeArm",
           "position": [
-            0.455,
-            0.75,
-            -0.005
+            1.5163076923076924,
+            2.4994082840236684,
+            -0.016662721893491123
           ]
         },
         {
           "name": "mixamorigLeftUpLeg",
           "parent": "mixamorigHips",
           "position": [
-            -0.09,
-            0.305,
-            -0.01
+            -0.29992899408284024,
+            1.0164260355029586,
+            -0.033325443786982246
           ]
         },
         {
           "name": "mixamorigLeftLeg",
           "parent": "mixamorigLeftUpLeg",
           "position": [
-            -0.105,
-            0.16,
-            -0.004
+            -0.34991715976331356,
+            0.5332071005917159,
+            -0.0133301775147929
           ]
         },
         {
           "name": "mixamorigLeftFoot",
           "parent": "mixamorigLeftLeg",
           "position": [
-            -0.105,
-            0.055,
-            0.015
+            -0.34991715976331356,
+            0.18328994082840236,
+            0.049988165680473366
           ]
         },
         {
           "name": "mixamorigLeftToeBase",
           "parent": "mixamorigLeftFoot",
           "position": [
-            -0.105,
-            0.035,
-            0.073
+            -0.34991715976331356,
+            0.11663905325443788,
+            0.2432757396449704
           ]
         },
         {
           "name": "mixamorigRightUpLeg",
           "parent": "mixamorigHips",
           "position": [
-            0.09,
-            0.305,
-            -0.01
+            0.29992899408284024,
+            1.0164260355029586,
+            -0.033325443786982246
           ]
         },
         {
           "name": "mixamorigRightLeg",
           "parent": "mixamorigRightUpLeg",
           "position": [
-            0.105,
-            0.16,
-            -0.004
+            0.34991715976331356,
+            0.5332071005917159,
+            -0.0133301775147929
           ]
         },
         {
           "name": "mixamorigRightFoot",
           "parent": "mixamorigRightLeg",
           "position": [
-            0.105,
-            0.055,
-            0.015
+            0.34991715976331356,
+            0.18328994082840236,
+            0.049988165680473366
           ]
         },
         {
           "name": "mixamorigRightToeBase",
           "parent": "mixamorigRightFoot",
           "position": [
-            0.105,
-            0.035,
-            0.073
+            0.34991715976331356,
+            0.11663905325443788,
+            0.2432757396449704
           ]
         }
       ],
       "influencesPerVertex": 4,
       "distributedVertices": 7637,
-      "maximumWeightSumError": 4.0321538108401e-8,
-      "method": "Source-specific four-weight distance fields fitted to the T-pose; original topology and UVs remain untouched."
+      "maximumWeightSumError": 4.190951585769653e-8,
+      "method": "Source-specific four-weight distance fields fitted to the T-pose; original topology and UVs remain untouched. Uniformly normalized to the existing 3.30 m source height."
     },
     "textures": [
       {
@@ -313,7 +327,7 @@
       {
         "name": "Idle",
         "seconds": 2.6,
-        "channels": 3
+        "channels": 7
       },
       {
         "name": "Walk",
@@ -333,7 +347,7 @@
       {
         "name": "Hit",
         "seconds": 0.46,
-        "channels": 5
+        "channels": 6
       },
       {
         "name": "Death",
