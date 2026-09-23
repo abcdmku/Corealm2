@@ -1,0 +1,163 @@
+{
+  "pack": {
+    "id": "corealm-tripo-creatures",
+    "name": "Corealm Tripo creature candidates",
+    "author": "Corealm",
+    "source": "Tripo Studio generated creatures and Corealm rig/material adaptation",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "assets": [
+    {
+      "id": "creature_dewglass_weaver",
+      "file": "dewglass-weaver-native-rig-candidate.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Dewglass Weaver custom six-leg candidate",
+      "tags": [
+        "creature",
+        "arthropod",
+        "fairy",
+        "gloamgarden",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 5423024,
+      "sha256": "202151eb7d2a539c7d51febdc4abec3947cd25ee0c1c5d9f21da8ad93d22c132",
+      "size": {
+        "x": 0.85205078125,
+        "y": 0.99951171875,
+        "z": 0.77294921875
+      },
+      "base": {
+        "x": -0.426025390625,
+        "y": 0,
+        "z": -0.386474609375
+      },
+      "groundY": 0,
+      "triangles": 5460,
+      "vertices": 3555,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_ba86aac1-c0f4-48ec-ab16-eb36ca3627b2"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Smart Mesh P2",
+        "modelId": "3ead9c24-4f01-468d-9742-6995dc817118",
+        "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+        "sourceFile": "assets/art/tripo/exports/corealm_dewglass_weaver_3ead9c24_8k_rigged.glb",
+        "sourceSha256": "93c742635c17f766e50c3e5f38ab8c3f303ea820cadc9197ba0601618740de88",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-dewglass-weaver/dewglass-weaver-native-rig-candidate.glb",
+        "candidateSha256": "202151eb7d2a539c7d51febdc4abec3947cd25ee0c1c5d9f21da8ad93d22c132",
+        "candidateStatus": "awaiting-root-lab-review",
+        "imageApproved": true,
+        "geometryAndMapsPreserved": true,
+        "rigAuthoring": "Custom six-leg spatially weighted native rig; original skin removed because all rest transforms were identity and more than 99.99% of source weight mass targeted bone_0."
+      },
+      "candidateReview": {
+        "accepted": false,
+        "imageAudit": true,
+        "geometryAudit": false,
+        "textureAudit": false,
+        "rigAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "rig": {
+        "preset": "custom six-legged arthropod",
+        "jointCount": 26,
+        "boneNames": [
+          "WeaverRoot",
+          "Thorax",
+          "Abdomen",
+          "Head",
+          "PalpNear",
+          "PalpNearTip",
+          "PalpFar",
+          "PalpFarTip",
+          "FrontNearHip",
+          "FrontNearKnee",
+          "FrontNearAnkle",
+          "FrontFarHip",
+          "FrontFarKnee",
+          "FrontFarAnkle",
+          "MiddleNearHip",
+          "MiddleNearKnee",
+          "MiddleNearAnkle",
+          "MiddleFarHip",
+          "MiddleFarKnee",
+          "MiddleFarAnkle",
+          "RearNearHip",
+          "RearNearKnee",
+          "RearNearAnkle",
+          "RearFarHip",
+          "RearFarKnee",
+          "RearFarAnkle"
+        ],
+        "basis": "Y-up, +X toward head, Z across leg pairs"
+      },
+      "animationMetadata": [
+        {
+          "name": "Idle",
+          "seconds": 3,
+          "channels": 11,
+          "targetPaths": [
+            "rotation"
+          ]
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1,
+          "channels": 22,
+          "targetPaths": [
+            "rotation"
+          ]
+        },
+        {
+          "name": "Run",
+          "seconds": 0.74,
+          "channels": 21,
+          "targetPaths": [
+            "rotation"
+          ]
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.82,
+          "channels": 10,
+          "targetPaths": [
+            "translation",
+            "rotation"
+          ]
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.42,
+          "channels": 12,
+          "targetPaths": [
+            "translation",
+            "rotation"
+          ]
+        },
+        {
+          "name": "Death",
+          "seconds": 1.55,
+          "channels": 24,
+          "targetPaths": [
+            "translation",
+            "rotation"
+          ]
+        }
+      ]
+    }
+  ],
+  "files": {
+    "creature_dewglass_weaver": "dewglass-weaver-native-rig-candidate.glb"
+  }
+}

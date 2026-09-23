@@ -1,0 +1,704 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_dewglass_weaver",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "../../../exports/corealm_dewglass_weaver_3ead9c24_8k_rigged.glb",
+    "sha256": "93c742635c17f766e50c3e5f38ab8c3f303ea820cadc9197ba0601618740de88",
+    "bytes": 27182612,
+    "vertices": 3555,
+    "triangles": 5460,
+    "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+    "sourceImageSha256": "290b413c7efd877bc804b08ffc35c8446d4a705ef3595c48b700673fc844e601",
+    "sourceModelId": "3ead9c24-4f01-468d-9742-6995dc817118",
+    "generator": "Tripo Smart Mesh P2",
+    "imageGenerator": "Tripo GPT Image 2.5",
+    "starred": true,
+    "imagePrompt": "Dewglass Weaver. A ground-walking fairy silk producer with six proportionate jointed legs growing from a narrow segmented waist below a broad flattened leaf-shaped abdomen. The abdomen tapers into a short silk-spinning organ. Its small wedge-shaped head is continuous with the chest and has four tiny dark sensory pits in an arched row and two short flexible mouthpalps. No wings. Flexible translucent lilac skin over opal-blue internal ribs; overlapping waxy green bracts on the back resemble grown cuticle, not fitted armor. Feet end in paired broad gripping pads. Creature anatomy should feel halfway between a seed-eating forest arthropod and a leaf organism, neither a recognizable spider nor a wasp. Serious medieval fantasy RPG creature concept for Corealm, art direction with the readable grounded shapes of Knight Online and RuneScape. Mature, neutral animal intent, healthy organic life. Balanced medium build, proportionate limbs neither bulky nor skinny. One creature, complete body three-quarter view standing naturally, limbs separated for rigging, plain warm gray background, no base, no scenery, no text. Hand-authored painted surface detail with large clear color masses and smaller mineral veins, growth lines and wear. No cute mascot, baby eyes, toy, chibi, skull, random horns, technological face, armor plating, excessive spikes or ornamental clutter.",
+    "promptSource": "Exact text recovered from Tripo image card DOM, matched by source UUID",
+    "approvedGeometryAndMapsPreserved": true,
+    "imageReview": {
+      "verdict": "approved",
+      "reviewer": "fairy_audit",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "low",
+      "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+      "reasons": [
+        "Coherent leaf arthropod anatomy, readable six-legged stance, layered opal cuticle."
+      ],
+      "historicalApprovalOnlyUntilFacialReview": true
+    },
+    "facialAudit": {
+      "verdict": "approved",
+      "reviewer": "face_audit_fairy",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "low",
+      "sourceImageId": "fd6a89d9-bc1a-4b39-9b3c-197179f4e281",
+      "reason": "Complete insect head with organized bead eyes and paired slender antennae.",
+      "requiredFix": ""
+    },
+    "sourceTextures": [
+      {
+        "name": "corealm_dewglass_weaver_3ead9c24_8k_rigged_basecolor.jpg",
+        "mime": "image/jpeg",
+        "width": 8192,
+        "height": 8192,
+        "bytes": 16085876,
+        "sha256": "5872c5fefd12cbc65844dd71413285fb47711a8886ed487afc3f8dd075255ccf"
+      },
+      {
+        "name": "corealm_dewglass_weaver_3ead9c24_8k_rigged_rm.png",
+        "mime": "image/png",
+        "width": 4096,
+        "height": 4096,
+        "bytes": 7760868,
+        "sha256": "707fd5cb5070627bc68d9198ee82ae2d532d83eeb78156812237667ecb94d09b"
+      },
+      {
+        "name": "corealm_dewglass_weaver_3ead9c24_8k_rigged_normal.jpg",
+        "mime": "image/jpeg",
+        "width": 4096,
+        "height": 4096,
+        "bytes": 3065266,
+        "sha256": "52ab0e6a5fda2c114aed5ce7e15073579501e775ddb04c2c73a1d0d819c89d1d"
+      }
+    ],
+    "sourceRig": {
+      "joints": 18,
+      "usableClips": 0,
+      "nonzeroWeightedSourceJoints": 2,
+      "rootWeightFraction": 0.9999999988711356,
+      "identityRestTransforms": true
+    },
+    "existingTripoSkinDiscarded": true
+  },
+  "candidate": {
+    "file": "dewglass-weaver-native-rig-candidate.glb",
+    "sha256": "202151eb7d2a539c7d51febdc4abec3947cd25ee0c1c5d9f21da8ad93d22c132",
+    "bytes": 5423024,
+    "vertices": 3555,
+    "triangles": 5460,
+    "joints": [
+      {
+        "name": "WeaverRoot",
+        "index": 0,
+        "parent": null,
+        "restPosition": [
+          0,
+          0.42,
+          0
+        ]
+      },
+      {
+        "name": "Thorax",
+        "index": 1,
+        "parent": "WeaverRoot",
+        "restPosition": [
+          0.02,
+          0.49,
+          0
+        ]
+      },
+      {
+        "name": "Abdomen",
+        "index": 2,
+        "parent": "Thorax",
+        "restPosition": [
+          -0.13,
+          0.72,
+          0
+        ]
+      },
+      {
+        "name": "Head",
+        "index": 3,
+        "parent": "Thorax",
+        "restPosition": [
+          0.31,
+          0.7,
+          0
+        ]
+      },
+      {
+        "name": "PalpNear",
+        "index": 4,
+        "parent": "Head",
+        "restPosition": [
+          0.37,
+          0.6,
+          -0.045
+        ]
+      },
+      {
+        "name": "PalpNearTip",
+        "index": 5,
+        "parent": "PalpNear",
+        "restPosition": [
+          0.43,
+          0.53,
+          -0.082
+        ]
+      },
+      {
+        "name": "PalpFar",
+        "index": 6,
+        "parent": "Head",
+        "restPosition": [
+          0.37,
+          0.6,
+          0.045
+        ]
+      },
+      {
+        "name": "PalpFarTip",
+        "index": 7,
+        "parent": "PalpFar",
+        "restPosition": [
+          0.43,
+          0.53,
+          0.082
+        ]
+      },
+      {
+        "name": "FrontNearHip",
+        "index": 8,
+        "parent": "Thorax",
+        "restPosition": [
+          0.17,
+          0.48,
+          -0.115
+        ]
+      },
+      {
+        "name": "FrontNearKnee",
+        "index": 9,
+        "parent": "FrontNearHip",
+        "restPosition": [
+          0.22,
+          0.3,
+          -0.245
+        ]
+      },
+      {
+        "name": "FrontNearAnkle",
+        "index": 10,
+        "parent": "FrontNearKnee",
+        "restPosition": [
+          0.3,
+          0.105,
+          -0.335
+        ]
+      },
+      {
+        "name": "FrontFarHip",
+        "index": 11,
+        "parent": "Thorax",
+        "restPosition": [
+          0.17,
+          0.48,
+          0.115
+        ]
+      },
+      {
+        "name": "FrontFarKnee",
+        "index": 12,
+        "parent": "FrontFarHip",
+        "restPosition": [
+          0.22,
+          0.3,
+          0.245
+        ]
+      },
+      {
+        "name": "FrontFarAnkle",
+        "index": 13,
+        "parent": "FrontFarKnee",
+        "restPosition": [
+          0.3,
+          0.105,
+          0.335
+        ]
+      },
+      {
+        "name": "MiddleNearHip",
+        "index": 14,
+        "parent": "Thorax",
+        "restPosition": [
+          -0.02,
+          0.48,
+          -0.115
+        ]
+      },
+      {
+        "name": "MiddleNearKnee",
+        "index": 15,
+        "parent": "MiddleNearHip",
+        "restPosition": [
+          -0.01,
+          0.27,
+          -0.245
+        ]
+      },
+      {
+        "name": "MiddleNearAnkle",
+        "index": 16,
+        "parent": "MiddleNearKnee",
+        "restPosition": [
+          -0.055,
+          0.095,
+          -0.365
+        ]
+      },
+      {
+        "name": "MiddleFarHip",
+        "index": 17,
+        "parent": "Thorax",
+        "restPosition": [
+          -0.02,
+          0.48,
+          0.115
+        ]
+      },
+      {
+        "name": "MiddleFarKnee",
+        "index": 18,
+        "parent": "MiddleFarHip",
+        "restPosition": [
+          -0.01,
+          0.27,
+          0.245
+        ]
+      },
+      {
+        "name": "MiddleFarAnkle",
+        "index": 19,
+        "parent": "MiddleFarKnee",
+        "restPosition": [
+          -0.055,
+          0.095,
+          0.365
+        ]
+      },
+      {
+        "name": "RearNearHip",
+        "index": 20,
+        "parent": "Thorax",
+        "restPosition": [
+          -0.21,
+          0.48,
+          -0.115
+        ]
+      },
+      {
+        "name": "RearNearKnee",
+        "index": 21,
+        "parent": "RearNearHip",
+        "restPosition": [
+          -0.26,
+          0.3,
+          -0.245
+        ]
+      },
+      {
+        "name": "RearNearAnkle",
+        "index": 22,
+        "parent": "RearNearKnee",
+        "restPosition": [
+          -0.31,
+          0.105,
+          -0.335
+        ]
+      },
+      {
+        "name": "RearFarHip",
+        "index": 23,
+        "parent": "Thorax",
+        "restPosition": [
+          -0.21,
+          0.48,
+          0.115
+        ]
+      },
+      {
+        "name": "RearFarKnee",
+        "index": 24,
+        "parent": "RearFarHip",
+        "restPosition": [
+          -0.26,
+          0.3,
+          0.245
+        ]
+      },
+      {
+        "name": "RearFarAnkle",
+        "index": 25,
+        "parent": "RearFarKnee",
+        "restPosition": [
+          -0.31,
+          0.105,
+          0.335
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "name": "dewglass_weaver_basecolor_2k.jpg",
+        "role": "base-color-lanczos",
+        "original": [
+          8192,
+          8192
+        ],
+        "runtime": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg",
+        "bytes": 1009340,
+        "sha256": "29a8e5890433ef11c0e81e7c07b21714bc696062487ae09598942aa497e15529"
+      },
+      {
+        "name": "dewglass_weaver_metallic_roughness_2k.png",
+        "role": "packed-metallic-roughness-box",
+        "original": [
+          4096,
+          4096
+        ],
+        "runtime": [
+          2048,
+          2048
+        ],
+        "mime": "image/png",
+        "bytes": 2212588,
+        "sha256": "1dec0454bf2bd4c0f1189e74cd3f93beaaa7c854a5998ca755e313fb8b9a034b"
+      },
+      {
+        "name": "dewglass_weaver_normal_2k.jpg",
+        "role": "normal-box-renormalized",
+        "original": [
+          4096,
+          4096
+        ],
+        "runtime": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg",
+        "bytes": 1785863,
+        "sha256": "0f129a060293193610a60c48fe39cf126dca727016c3b6f541bf0b093db68d27"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 11
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.1,
+        "channels": 22
+      },
+      {
+        "name": "Run",
+        "seconds": 0.74,
+        "channels": 21
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.82,
+        "channels": 10
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.42,
+        "channels": 12
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 24
+      }
+    ]
+  },
+  "rig": {
+    "preset": "custom six-legged arthropod",
+    "jointCount": 26,
+    "basis": "Y-up, +X toward head, Z across left/right leg pairs; three bilateral pairs run head-to-abdomen",
+    "weightMethod": "anatomy-specific spatial fields along six visible leg chains, abdomen, head and mouthpalps; four normalized influences per vertex; source root-only skin removed",
+    "bind": "translation-only rest pivots fit to the source mesh silhouette; inverse binds computed from those authored rest positions"
+  },
+  "runtimeMaterials": [
+    {
+      "name": "Material_tripo_node_ba86aac1-c0f4-48ec-ab16-eb36ca3627b2",
+      "metallicFactor": 1,
+      "roughnessFactor": 1,
+      "maps": [
+        {
+          "name": "dewglass_weaver_basecolor_2k.jpg",
+          "role": "base-color-lanczos",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "dewglass_weaver_metallic_roughness_2k.png",
+          "role": "packed-metallic-roughness-box",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "dewglass_weaver_normal_2k.jpg",
+          "role": "normal-box-renormalized",
+          "dimensions": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "mesh": {
+      "vertices": 3555,
+      "triangles": 5460,
+      "sourcePositionMaxDelta": 0,
+      "indexMismatches": 0,
+      "sourceUvMaxDelta": 0,
+      "bounds": [
+        [
+          -0.426025390625,
+          0,
+          -0.386474609375
+        ],
+        [
+          0.426025390625,
+          0.99951171875,
+          0.386474609375
+        ]
+      ]
+    },
+    "skin": {
+      "joints": 26,
+      "maxJointIndex": 25,
+      "verticesWithMultipleInfluences": 3555,
+      "maxWeightSumError": 8.839997462928295e-7,
+      "influenceVertexCounts": [
+        0,
+        3426,
+        3267,
+        581,
+        61,
+        29,
+        57,
+        29,
+        241,
+        171,
+        44,
+        237,
+        173,
+        44,
+        748,
+        296,
+        130,
+        742,
+        296,
+        130,
+        827,
+        435,
+        149,
+        824,
+        415,
+        131
+      ]
+    },
+    "inverseBind": {
+      "count": 26,
+      "finite": true,
+      "restBoundsError": 2.6648055762024114e-8
+    },
+    "animation": {
+      "clips": [
+        {
+          "name": "Idle",
+          "channels": 11,
+          "seconds": 3
+        },
+        {
+          "name": "Walk",
+          "channels": 22,
+          "seconds": 1.100000023841858
+        },
+        {
+          "name": "Run",
+          "channels": 21,
+          "seconds": 0.7400000095367432
+        },
+        {
+          "name": "Attack",
+          "channels": 10,
+          "seconds": 0.8199999928474426
+        },
+        {
+          "name": "Hit",
+          "channels": 12,
+          "seconds": 0.41999998688697815
+        },
+        {
+          "name": "Death",
+          "channels": 24,
+          "seconds": 1.5499999523162842
+        }
+      ],
+      "sampledDeformation": [
+        {
+          "name": "Idle",
+          "seconds": 3,
+          "sampleCount": 9,
+          "maximumVertexDisplacement": 0.01843,
+          "maximumVerticesMoved": 3555,
+          "sweptBounds": {
+            "min": [
+              -0.42884685468877976,
+              -0.01089682368921295,
+              -0.385115190396095
+            ],
+            "max": [
+              0.429416906036656,
+              1.0043234266876178,
+              0.38465970070860345
+            ]
+          }
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.100000023841858,
+          "sampleCount": 9,
+          "maximumVertexDisplacement": 0.19116,
+          "maximumVerticesMoved": 3555,
+          "sweptBounds": {
+            "min": [
+              -0.5357665621062377,
+              -0.040034769888193836,
+              -0.37581206270447376
+            ],
+            "max": [
+              0.4291278115402738,
+              1.0023918695202592,
+              0.3752851791023675
+            ]
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7400000095367432,
+          "sampleCount": 9,
+          "maximumVertexDisplacement": 0.26132,
+          "maximumVerticesMoved": 3555,
+          "sweptBounds": {
+            "min": [
+              -0.5781720808676942,
+              -0.035906848167345747,
+              -0.3765387847442573
+            ],
+            "max": [
+              0.43443932376110395,
+              1.005323584463663,
+              0.3760145495365684
+            ]
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8199999928474426,
+          "sampleCount": 9,
+          "maximumVertexDisplacement": 0.2046,
+          "maximumVerticesMoved": 3555,
+          "sweptBounds": {
+            "min": [
+              -0.42602539250079885,
+              -0.025717165894895505,
+              -0.40363206892539466
+            ],
+            "max": [
+              0.5159323494569765,
+              1.0422356508916741,
+              0.39071020212161467
+            ]
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.41999998688697815,
+          "sampleCount": 9,
+          "maximumVertexDisplacement": 0.17495,
+          "maximumVerticesMoved": 3555,
+          "sweptBounds": {
+            "min": [
+              -0.502233746230734,
+              -0.07583581102853913,
+              -0.38021909315330543
+            ],
+            "max": [
+              0.4260254011054336,
+              1.0423835979145237,
+              0.3797121599009368
+            ]
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5499999523162842,
+          "sampleCount": 9,
+          "maximumVertexDisplacement": 0.62175,
+          "maximumVerticesMoved": 3555,
+          "sweptBounds": {
+            "min": [
+              -0.547734001869233,
+              -0.18285636709523248,
+              -0.43930966718695574
+            ],
+            "max": [
+              0.5529987613237212,
+              0.9995117322850338,
+              0.4122061880850591
+            ]
+          }
+        }
+      ],
+      "allSixRequiredClips": true
+    },
+    "textures": [
+      {
+        "name": "dewglass_weaver_basecolor_2k.jpg",
+        "mime": "image/jpeg",
+        "bytes": 1009340,
+        "dimensions": [
+          2048,
+          2048
+        ]
+      },
+      {
+        "name": "dewglass_weaver_metallic_roughness_2k.png",
+        "mime": "image/png",
+        "bytes": 2212588,
+        "dimensions": [
+          2048,
+          2048
+        ]
+      },
+      {
+        "name": "dewglass_weaver_normal_2k.jpg",
+        "mime": "image/jpeg",
+        "bytes": 1785863,
+        "dimensions": [
+          2048,
+          2048
+        ]
+      }
+    ]
+  }
+}
