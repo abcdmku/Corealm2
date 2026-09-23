@@ -8,9 +8,9 @@
     "license": "LicenseRef-Corealm-Original",
     "source": "tools/item-models/import-tripo.ts"
   },
-  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\armor-mid\\sources\\crownsilver.glb",
-  "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
-  "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\exports\\packed-8k\\2c2428b5-e674-47c1-9c14-118d298cc833.glb",
+  "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+  "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
   "textureSize": 2048,
   "assets": [
     {
@@ -25,20 +25,20 @@
         "crownsilver_helm",
         "head"
       ],
-      "bytes": 2689504,
+      "bytes": 20834380,
       "itemModel": {
         "itemId": "crownsilver_helm",
         "wearable": true
       },
       "size": {
-        "x": 0.2140868678689003,
+        "x": 0.2140868529677391,
         "y": 0.28725576400756836,
-        "z": 0.3242919445037842
+        "z": 0.3242919147014618
       },
       "base": {
-        "x": -0.10704340040683746,
+        "x": -0.10704338550567627,
         "y": 1.5618406534194946,
-        "z": -0.18498289585113525
+        "z": -0.18498288094997406
       },
       "animations": [],
       "materials": [
@@ -46,9 +46,9 @@
       ],
       "itemId": "crownsilver_helm",
       "status": "pending",
-      "sha256": "6535b5e207c7b55550eaee5ca727a6dcaa74aeacb53af5d31259ca26f756c37d",
-      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
-      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "sha256": "55220e7d552f89d8c0eaf111c534ad4ffa8a14299da24a0356a7190d0ab143a2",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
       "triangles": 386,
       "drawCalls": 1
     },
@@ -64,20 +64,20 @@
         "crownsilver_plate",
         "torso"
       ],
-      "bytes": 2865024,
+      "bytes": 21009904,
       "itemModel": {
         "itemId": "crownsilver_plate",
         "wearable": true
       },
       "size": {
-        "x": 1.4364479780197144,
-        "y": 1.0126222372055054,
-        "z": 0.3956542909145355
+        "x": 1.4364466667175293,
+        "y": 1.0126221776008606,
+        "z": 0.39565427601337433
       },
       "base": {
-        "x": -0.7182239890098572,
-        "y": 0.6269042491912842,
-        "z": -0.23195557296276093
+        "x": -0.7182233333587646,
+        "y": 0.6269050240516663,
+        "z": -0.23195555806159973
       },
       "animations": [],
       "materials": [
@@ -85,9 +85,9 @@
       ],
       "itemId": "crownsilver_plate",
       "status": "pending",
-      "sha256": "da9b2d2f90a7d3f8d1e5c812a6d13a4e46efd1e70d37601db0d5e9acf301cfef",
-      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
-      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "sha256": "382da971959448102ada4be681ec68c9a74b0d8f0192ec766333479c3d283e82",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
       "triangles": 2284,
       "drawCalls": 36
     },
@@ -103,20 +103,20 @@
         "crownsilver_gauntlets",
         "arms"
       ],
-      "bytes": 2706956,
+      "bytes": 20851840,
       "itemModel": {
         "itemId": "crownsilver_gauntlets",
         "wearable": true
       },
       "size": {
-        "x": 1.7329793572425842,
+        "x": 1.7329779267311096,
         "y": 0.12519168853759766,
-        "z": 0.13375084288418293
+        "z": 0.13375074043869972
       },
       "base": {
-        "x": -0.8664902448654175,
-        "y": 1.3702389001846313,
-        "z": -0.15603084862232208
+        "x": -0.8664895296096802,
+        "y": 1.3702391386032104,
+        "z": -0.15603066980838776
       },
       "animations": [],
       "materials": [
@@ -124,9 +124,9 @@
       ],
       "itemId": "crownsilver_gauntlets",
       "status": "pending",
-      "sha256": "21336c64c0fbe0ab6131fb5deb6db50c7736abf41e0c7de281284ed3a2f77063",
-      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
-      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "sha256": "21e57ee56c7b25a815d59de4a146fb4a0a1075b3ed6829be25c6b26c390e9cc5",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
       "triangles": 748,
       "drawCalls": 2
     },
@@ -142,20 +142,20 @@
         "crownsilver_greaves",
         "legs"
       ],
-      "bytes": 2729680,
+      "bytes": 20874588,
       "itemModel": {
         "itemId": "crownsilver_greaves",
         "wearable": true
       },
       "size": {
-        "x": 0.3497413843870163,
-        "y": 0.9403565153479576,
-        "z": 0.2601565420627594
+        "x": 0.3497413545846939,
+        "y": 0.9403564631938934,
+        "z": 0.260156475007534
       },
       "base": {
-        "x": -0.1748712956905365,
-        "y": 0.09665510803461075,
-        "z": -0.17233668267726898
+        "x": -0.1748712807893753,
+        "y": 0.09665587544441223,
+        "z": -0.1723366528749466
       },
       "animations": [],
       "materials": [
@@ -163,9 +163,9 @@
       ],
       "itemId": "crownsilver_greaves",
       "status": "pending",
-      "sha256": "e49bf3d300a38ad5d4d9a06c69483684262cc76e7c003cc94aefad23e130a3ef",
-      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
-      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "sha256": "ac956a7b32d432bdc880841744134088493061a01527ffcf49e7d607981a3e63",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
       "triangles": 824,
       "drawCalls": 14
     },
@@ -181,20 +181,20 @@
         "crownsilver_boots",
         "feet"
       ],
-      "bytes": 2693708,
+      "bytes": 20838608,
       "itemModel": {
         "itemId": "crownsilver_boots",
         "wearable": true
       },
       "size": {
-        "x": 0.44600050151348114,
-        "y": 0.18879424752668683,
-        "z": 0.3369385898113251
+        "x": 0.44600045680999756,
+        "y": 0.1887942501642641,
+        "z": 0.33693860471248627
       },
       "base": {
-        "x": -0.22300057113170624,
-        "y": -6.926246101102151e-7,
-        "z": -0.18859626352787018
+        "x": -0.22300054132938385,
+        "y": 6.469703350830969e-8,
+        "z": -0.18859624862670898
       },
       "animations": [],
       "materials": [
@@ -202,9 +202,9 @@
       ],
       "itemId": "crownsilver_boots",
       "status": "pending",
-      "sha256": "fbcc9198a707a1321fe36060ea5abad83be46da1399d35b7a499977af09ce737",
-      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
-      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "sha256": "00fca20082174407a75ab765d26ddf2ab660cebf1e5ce2750e715152f24f6754",
+      "sourceSha256": "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2",
+      "configSha256": "ee3283f9dde13562ee6a120cd43598c1af47b35bc476d8d67564d05b15383538",
       "triangles": 370,
       "drawCalls": 6
     }
