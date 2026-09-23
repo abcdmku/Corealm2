@@ -1,0 +1,102 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_rookback_ogre",
+      "file": "models/creature/creature_rookback_ogre.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Rookback Ogre",
+      "tags": [
+        "creature",
+        "humanoid",
+        "ogre",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 3763528,
+      "sha256": "04c767a1ed2467c15bfc1e0d3a0391d6a7c0891307a330092225c69ec60f6d4e",
+      "size": {
+        "x": 1.439921722113503,
+        "y": 2.6,
+        "z": 0.7988258317025441
+      },
+      "base": {
+        "x": -0.7199608610567515,
+        "y": 0,
+        "z": -0.39941291585127203
+      },
+      "bounds": {
+        "min": [
+          -0.7199608610567515,
+          0,
+          -0.39941291585127203
+        ],
+        "max": [
+          0.7199608610567515,
+          2.6,
+          0.39941291585127203
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5484,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_94501d8d-ca00-41eb-89e9-79ea066821f3"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "3b76bc22-c899-46f8-b518-3873e4244072",
+        "sourceCardId": "a5a3ecc1-6aaf-4b47-9e0c-34785b5f0bf1",
+        "sourceFile": "assets/art/tripo/exports/3b76bc22-c899-46f8-b518-3873e4244072.glb",
+        "sourceSha256": "c71d79a06ca73f62f3e3b7b57d6d00acf0508008e8f98a78dc1ce36255178b51",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-ogre/rookback-ogre-native-rig-candidate.glb",
+        "candidateSha256": "04c767a1ed2467c15bfc1e0d3a0391d6a7c0891307a330092225c69ec60f6d4e",
+        "rigMethod": "Mixamo-named anatomical humanoid skeleton fitted to the original Ogre mesh with four normalized influences per vertex; exact source topology, positions, normals, UVs, and embedded PBR maps are preserved.",
+        "textures": [
+          {
+            "name": "ogre+humanoid+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 378942
+          },
+          {
+            "name": "ogre+humanoid+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 2862789
+          },
+          {
+            "name": "ogre+humanoid+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 227308
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_rookback_ogre": "rookback-ogre-native-rig-candidate.glb"
+  }
+}

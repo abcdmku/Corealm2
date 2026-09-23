@@ -1,0 +1,370 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_rookback_ogre",
+  "displayName": "Rookback Ogre",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/3b76bc22-c899-46f8-b518-3873e4244072.glb",
+    "sha256": "c71d79a06ca73f62f3e3b7b57d6d00acf0508008e8f98a78dc1ce36255178b51",
+    "bytes": 3651048,
+    "starredModelId": "3b76bc22-c899-46f8-b518-3873e4244072",
+    "starredCardId": "a5a3ecc1-6aaf-4b47-9e0c-34785b5f0bf1",
+    "starredDisplayName": "ogre humanoid 3d model",
+    "geometry": {
+      "vertices": 3565,
+      "triangles": 5484,
+      "bounds": {
+        "min": [
+          -0.2763671875,
+          0,
+          -0.1533203125
+        ],
+        "max": [
+          0.2763671875,
+          0.998046875,
+          0.1533203125
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "sourceSkin": "none",
+    "sourceAnimations": [],
+    "textures": [
+      {
+        "name": "ogre+humanoid+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "57c4c8cbd73be19a3e521399583ecfbda6a36373d62a3f3fa7aa557803bb11ef"
+      },
+      {
+        "name": "ogre+humanoid+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "sha256": "86f3be83953b9294d73fbb34c6f3db1c69b0f24e92e979f87467ff7a36e19e7d"
+      },
+      {
+        "name": "ogre+humanoid+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "9ca6afe4d21370d8aeba261b9af6aa0256119085c1aad397cb387eb561a19048"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-ogre/rookback-ogre-native-rig-candidate.glb",
+    "sha256": "04c767a1ed2467c15bfc1e0d3a0391d6a7c0891307a330092225c69ec60f6d4e",
+    "bytes": 3763528,
+    "productionTarget": "game/public/assets/models/creature/creature_rookback_ogre.glb",
+    "geometry": {
+      "vertices": 3565,
+      "triangles": 5484,
+      "nativeBounds": {
+        "min": [
+          -0.2763671875,
+          0,
+          -0.1533203125
+        ],
+        "max": [
+          0.2763671875,
+          0.998046875,
+          0.1533203125
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "scaleFactor": 2.6050880626223094,
+      "targetHeightMeters": 2.6
+    },
+    "rig": {
+      "type": "Mixamo-named Unity Humanoid mapping candidate",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.44484375000000004,
+            -0.004791259765625
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.541796875,
+            0.004791259765625
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.6558593749999999,
+            0.033538818359375
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.7699218750000001,
+            0.014373779296875
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.9067968750000001,
+            0.038330078125
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.998046875,
+            0.052703857421875
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.13988956404320985,
+            0.7699218750000001,
+            0.014373779296875
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.20471643518518515,
+            0.67296875,
+            0.038330078125
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.24907166280864193,
+            0.507578125,
+            0.0574951171875
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.2763671875,
+            0.370703125,
+            0.06707763671875
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.13988956404320985,
+            0.7699218750000001,
+            0.014373779296875
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.20471643518518515,
+            0.67296875,
+            0.038330078125
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.24907166280864193,
+            0.507578125,
+            0.0574951171875
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.2763671875,
+            0.370703125,
+            0.06707763671875
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.09894627700617283,
+            0.37640625,
+            -0.004791259765625
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.11259403935185185,
+            0.188203125,
+            0.004791259765625
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.11259403935185185,
+            0.062734375,
+            0.014373779296875
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.11259403935185185,
+            0.039921875,
+            0.091033935546875
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.09894627700617283,
+            0.37640625,
+            -0.004791259765625
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.11259403935185185,
+            0.188203125,
+            0.004791259765625
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.11259403935185185,
+            0.062734375,
+            0.014373779296875
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.11259403935185185,
+            0.039921875,
+            0.091033935546875
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 3565,
+      "maximumWeightSumError": 4.307366907596588e-8,
+      "method": "Ogre-specific anatomical bone-segment distance weights with left/right and upper/lower body gates. Source skin was absent."
+    },
+    "textures": [
+      {
+        "name": "ogre+humanoid+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 378942
+      },
+      {
+        "name": "ogre+humanoid+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 2862789
+      },
+      {
+        "name": "ogre+humanoid+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 227308
+      }
+    ],
+    "pbrChannelRanges": {
+      "roughness": [
+        0.403921568627451,
+        1
+      ],
+      "metallic": [
+        0,
+        0.2980392156862745
+      ]
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 5
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.25,
+        "channels": 8
+      },
+      {
+        "name": "Run",
+        "seconds": 0.82,
+        "channels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 1.18,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.5,
+        "channels": 6
+      },
+      {
+        "name": "Death",
+        "seconds": 1.65,
+        "channels": 9
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": false,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
