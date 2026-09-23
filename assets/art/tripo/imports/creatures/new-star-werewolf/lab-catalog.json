@@ -17,8 +17,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6784192,
-      "sha256": "9682c73757b76b06260a0b674e372e46165fe7b10509c7a16a8db643a019f727",
+      "bytes": 6789944,
+      "sha256": "642b10858cbf9a8abf1b84b3ff34e428a8aa66e7084e1041bfe0c95e4625b1ee",
       "size": {
         "x": 0.998046875,
         "y": 0.955078125,
@@ -61,7 +61,7 @@
         "sourceFile": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
         "sourceSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
-        "candidateSha256": "9682c73757b76b06260a0b674e372e46165fe7b10509c7a16a8db643a019f727",
+        "candidateSha256": "642b10858cbf9a8abf1b84b3ff34e428a8aa66e7084e1041bfe0c95e4625b1ee",
         "rigMethod": "Retained 62-joint source names/hierarchy, rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation; preserved source geometry and authored 2K PBR maps.",
         "textures": [
           {

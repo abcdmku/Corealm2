@@ -234,6 +234,9 @@ function multiply(a, b) {
     a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2],
   ];
 }
+// Source pose is arms-out. Turn both arms down and toward the chest to give every
+// locomotion slot a compact guard; elbows add a second bend so the hands stay forward.
+const guard = (side, drop, yaw) => multiply(quat('z', -side * drop), quat('y', -side * yaw));
 const normalize = q => { const length = Math.hypot(...q) || 1; return q.map(value => value / length); };
 const identity = () => [0, 0, 0, 1];
 const baseHips = anchors.get('Hips');
@@ -266,9 +269,9 @@ const idle = [
 ];
 for (const side of [-1, 1]) {
   const prefix = side > 0 ? 'Left' : 'Right';
-  idle.push({ node: `${prefix}_Shoulder`, times: idleTimes, values: idleTimes.map((_, i) => quat('z', -side * [.52, .50, .52, .54, .52][i])) });
-  idle.push({ node: `${prefix}_UpperArm`, times: idleTimes, values: idleTimes.map((_, i) => quat('z', -side * [.08, .06, .08, .10, .08][i])) });
-  idle.push({ node: `${prefix}_LowerArm`, times: idleTimes, values: idleTimes.map((_, i) => quat('z', -side * [.18, .22, .18, .14, .18][i])) });
+  idle.push({ node: `${prefix}_Shoulder`, times: idleTimes, values: idleTimes.map((_, i) => guard(side, [.62, .60, .62, .64, .62][i], [.55, .52, .55, .58, .55][i])) });
+  idle.push({ node: `${prefix}_UpperArm`, times: idleTimes, values: idleTimes.map((_, i) => guard(side, [.08, .07, .08, .09, .08][i], [.15, .13, .15, .17, .15][i])) });
+  idle.push({ node: `${prefix}_LowerArm`, times: idleTimes, values: idleTimes.map((_, i) => guard(side, [.55, .58, .55, .52, .55][i], [.55, .58, .55, .52, .55][i])) });
   idle.push({ node: `${prefix}_UpperLeg`, times: idleTimes, values: idleTimes.map((_, i) => quat('x', [.018, .030, .018, .012, .018][i])) });
 }
 addClip('Idle', 2.4, idle);
@@ -284,8 +287,9 @@ for (const side of [-1, 1]) {
   const phase = side > 0 ? 0 : Math.PI;
   walk.push({ node: `${prefix}_UpperLeg`, times: walkTimes, values: walkTimes.map(t => quat('x', .38 * Math.sin(t * Math.PI * 2 + phase))) });
   walk.push({ node: `${prefix}_LowerLeg`, times: walkTimes, values: walkTimes.map(t => quat('x', -.30 * Math.max(0, Math.sin(t * Math.PI * 2 + phase)))) });
-  walk.push({ node: `${prefix}_Shoulder`, times: walkTimes, values: walkTimes.map(t => multiply(quat('z', -side * .50), quat('y', side * .16 * Math.sin(t * Math.PI * 2 + phase + Math.PI)))) });
-  walk.push({ node: `${prefix}_LowerArm`, times: walkTimes, values: walkTimes.map(t => quat('z', -side * (.18 + .10 * Math.max(0, Math.sin(t * Math.PI * 2 + phase))))) });
+  walk.push({ node: `${prefix}_Shoulder`, times: walkTimes, values: walkTimes.map(t => guard(side, .62 + .10 * Math.sin(t * Math.PI * 2 + phase), .55 + .16 * Math.sin(t * Math.PI * 2 + phase + Math.PI))) });
+  walk.push({ node: `${prefix}_UpperArm`, times: walkTimes, values: walkTimes.map(t => guard(side, .08 + .03 * Math.sin(t * Math.PI * 2 + phase), .15)) });
+  walk.push({ node: `${prefix}_LowerArm`, times: walkTimes, values: walkTimes.map(t => guard(side, .55 + .07 * Math.max(0, Math.sin(t * Math.PI * 2 + phase)), .55 + .10 * Math.max(0, Math.sin(t * Math.PI * 2 + phase)))) });
 }
 addClip('Walk', 1, walk);
 
@@ -301,8 +305,9 @@ for (const side of [-1, 1]) {
   const phase = side > 0 ? 0 : Math.PI;
   run.push({ node: `${prefix}_UpperLeg`, times: runTimes, values: runTimes.map(t => quat('x', .66 * Math.sin(t / .68 * Math.PI * 2 + phase))) });
   run.push({ node: `${prefix}_LowerLeg`, times: runTimes, values: runTimes.map(t => quat('x', -.64 * Math.max(0, Math.sin(t / .68 * Math.PI * 2 + phase)))) });
-  run.push({ node: `${prefix}_Shoulder`, times: runTimes, values: runTimes.map(t => multiply(quat('z', -side * .45), quat('y', side * .39 * Math.sin(t / .68 * Math.PI * 2 + phase + Math.PI)))) });
-  run.push({ node: `${prefix}_LowerArm`, times: runTimes, values: runTimes.map(t => quat('z', -side * (.24 + .18 * Math.max(0, Math.sin(t / .68 * Math.PI * 2 + phase))))) });
+  run.push({ node: `${prefix}_Shoulder`, times: runTimes, values: runTimes.map(t => guard(side, .60 + .17 * Math.sin(t / .68 * Math.PI * 2 + phase), .52 + .24 * Math.sin(t / .68 * Math.PI * 2 + phase + Math.PI))) });
+  run.push({ node: `${prefix}_UpperArm`, times: runTimes, values: runTimes.map(t => guard(side, .09 + .04 * Math.sin(t / .68 * Math.PI * 2 + phase), .15)) });
+  run.push({ node: `${prefix}_LowerArm`, times: runTimes, values: runTimes.map(t => guard(side, .56 + .12 * Math.max(0, Math.sin(t / .68 * Math.PI * 2 + phase)), .52 + .16 * Math.max(0, Math.sin(t / .68 * Math.PI * 2 + phase)))) });
 }
 addClip('Run', .68, run);
 
@@ -313,11 +318,13 @@ const attack = [
   { node: 'Spine', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('x', [.05, .10, .24, .12, .035, .05][i])) },
   { node: 'Chest', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('y', [0, -.16, .24, .12, -.02, 0][i])) },
   { node: 'Head', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('x', [0, -.06, .20, .10, -.01, 0][i])) },
-  { node: 'Right_Shoulder', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => multiply(quat('z', [.52, .24, .34, .46, .54, .52][i]), quat('y', [0, -.36, .92, .48, .02, 0][i]))) },
-  { node: 'Right_LowerArm', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('z', [.18, .06, -.44, -.20, .12, .18][i])) },
+  { node: 'Right_Shoulder', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(-1, [.62, .38, .30, .42, .58, .62][i], [.55, .22, 1.12, .82, .54, .55][i])) },
+  { node: 'Right_UpperArm', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(-1, [.08, .02, -.08, -.04, .07, .08][i], [.15, .06, .24, .18, .14, .15][i])) },
+  { node: 'Right_LowerArm', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(-1, [.55, .24, -.12, .12, .50, .55][i], [.55, .30, .82, .62, .52, .55][i])) },
   { node: 'Right_Hand', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('x', [0, -.12, .24, .11, 0, 0][i])) },
-  { node: 'Left_Shoulder', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => multiply(quat('z', [-.52, -.62, -.44, -.48, -.54, -.52][i]), quat('y', [0, .10, -.14, -.08, 0, 0][i]))) },
-  { node: 'Left_LowerArm', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('z', [-.18, -.16, -.12, -.10, -.18, -.18][i])) },
+  { node: 'Left_Shoulder', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(1, [.62, .70, .48, .52, .62, .62][i], [.55, .42, .22, .32, .55, .55][i])) },
+  { node: 'Left_UpperArm', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(1, [.08, .10, .06, .06, .08, .08][i], [.15, .12, .10, .12, .15, .15][i])) },
+  { node: 'Left_LowerArm', times: attackTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(1, [.55, .52, .36, .42, .55, .55][i], [.55, .48, .36, .42, .55, .55][i])) },
 ];
 for (const side of [-1, 1]) {
   const prefix = side > 0 ? 'Left' : 'Right';
@@ -335,8 +342,9 @@ const hit = [
 ];
 for (const side of [-1, 1]) {
   const prefix = side > 0 ? 'Left' : 'Right';
-  hit.push({ node: `${prefix}_Shoulder`, times: hitTimes, values: [0, 1, 2, 3, 4].map(i => quat('z', -side * [.52, .25, .40, .49, .52][i])) });
-  hit.push({ node: `${prefix}_LowerArm`, times: hitTimes, values: [0, 1, 2, 3, 4].map(i => quat('z', -side * [.18, .34, .12, .16, .18][i])) });
+  hit.push({ node: `${prefix}_Shoulder`, times: hitTimes, values: [0, 1, 2, 3, 4].map(i => guard(side, [.62, .34, .50, .60, .62][i], [.55, .68, .40, .50, .55][i])) });
+  hit.push({ node: `${prefix}_UpperArm`, times: hitTimes, values: [0, 1, 2, 3, 4].map(i => guard(side, [.08, .05, .10, .08, .08][i], [.15, .18, .12, .15, .15][i])) });
+  hit.push({ node: `${prefix}_LowerArm`, times: hitTimes, values: [0, 1, 2, 3, 4].map(i => guard(side, [.55, .40, .50, .55, .55][i], [.55, .62, .46, .54, .55][i])) });
 }
 addClip('Hit', .48, hit);
 
@@ -353,8 +361,9 @@ for (const side of [-1, 1]) {
   const prefix = side > 0 ? 'Left' : 'Right';
   death.push({ node: `${prefix}_UpperLeg`, times: deathTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('x', [0, -.12, -.30, -.42, -.43, -.43][i])) });
   death.push({ node: `${prefix}_LowerLeg`, times: deathTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('x', [0, -.10, -.52, -.78, -.80, -.80][i])) });
-  death.push({ node: `${prefix}_Shoulder`, times: deathTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('z', -side * [.52, .38, .18, .05, .04, .04][i])) });
-  death.push({ node: `${prefix}_LowerArm`, times: deathTimes, values: [0, 1, 2, 3, 4, 5].map(i => quat('z', -side * [.18, .28, .44, .50, .50, .50][i])) });
+  death.push({ node: `${prefix}_Shoulder`, times: deathTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(side, [.62, .56, .46, .38, .36, .36][i], [.55, .48, .30, .18, .16, .16][i])) });
+  death.push({ node: `${prefix}_UpperArm`, times: deathTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(side, [.08, .10, .12, .16, .16, .16][i], [.15, .14, .10, .06, .06, .06][i])) });
+  death.push({ node: `${prefix}_LowerArm`, times: deathTimes, values: [0, 1, 2, 3, 4, 5].map(i => guard(side, [.55, .62, .70, .78, .78, .78][i], [.55, .48, .28, .12, .12, .12][i])) });
 }
 addClip('Death', 1.62, death);
 assert.deepEqual(clipMetrics.map(clip => clip.name), ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death']);
@@ -478,7 +487,9 @@ function evaluateSkinning(tracks, time) {
       deformedBounds.max[axis] = Math.max(deformedBounds.max[axis], result[axis]);
     }
   }
-  return { bounds: deformedBounds, maximumDisplacement, rmsDisplacement: Math.sqrt(sumSquaredDisplacement / (sourcePositions.length / 3)) };
+  const poseJoints = ['Left_Shoulder', 'Left_UpperArm', 'Left_LowerArm', 'Left_Hand', 'Right_Shoulder', 'Right_UpperArm', 'Right_LowerArm', 'Right_Hand']
+    .map(name => ({ name, position: transforms[jointIndex.get(name)].position }));
+  return { bounds: deformedBounds, maximumDisplacement, rmsDisplacement: Math.sqrt(sumSquaredDisplacement / (sourcePositions.length / 3)), poseJoints };
 }
 const rest = evaluateSkinning([], 0);
 assert(rest.maximumDisplacement < 1e-5, `Bind pose changes the source mesh by ${rest.maximumDisplacement}.`);
@@ -493,6 +504,14 @@ for (const clip of clipMetrics) {
   assert(mid.bounds.min[1] > floorAllowance, `${clip.name} sinks too far below the floor at mid-clip (${mid.bounds.min[1]}).`);
   assert(finish.bounds.min[1] > floorAllowance, `${clip.name} sinks too far below the floor at its final frame (${finish.bounds.min[1]}).`);
   sampledMotion.push({ name: clip.name, midpoint: mid, final: finish });
+}
+const restHands = rest.poseJoints.filter(joint => joint.name.endsWith('_Hand'));
+const idleHands = sampledMotion.find(clip => clip.name === 'Idle').midpoint.poseJoints.filter(joint => joint.name.endsWith('_Hand'));
+for (let index = 0; index < restHands.length; index++) {
+  const sourceHand = restHands[index].position, guardedHand = idleHands[index].position;
+  assert(Math.abs(guardedHand[0]) < Math.abs(sourceHand[0]) * .78, `${guardedHand === idleHands[0] ? 'Left' : 'Right'} idle hand remains too far out from the torso.`);
+  assert(guardedHand[1] < sourceHand[1] - .14, 'Idle hand did not lower into the guard pose.');
+  assert(guardedHand[2] > sourceHand[2] + .10, 'Idle hand did not draw forward into the guard pose.');
 }
 
 const outputBytes = await io.writeBinary(doc);
@@ -612,6 +631,6 @@ const labAsset = {
 };
 await writeFile(`${owner}/lab-catalog.json`, `${JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset], files: { [candidate.id]: 'gloamfang-reaver-native-rig-candidate.glb' } }, null, 2)}\n`);
 
-await writeFile(`${owner}/README.md`, `# Gloamfang Reaver candidate\n\nThis is an isolated candidate derived from the starred Tripo Werewolf Warrior model. It is suggested for Wilderness T50+ placement because its silhouette is a humanoid hunter. Root image review, normal-camera lab presentation, and placement remain pending.\n\nRun \`node assets/art/tripo/imports/creatures/new-star-werewolf/build-candidate.mjs\` from the repository root to verify the source SHA-256 and reproduce the rigged GLB, catalogs, texture metrics, and sampled deformation checks.\n\nThe source export's 62-joint names and parent hierarchy are retained. Tripo left all joints at identity transforms; 8,037 of 8,047 vertices were pinned to Hips and every vertex had only one influence. This builder reconstructs rest anchors, inverse binds and spatial skin weights while leaving positions, indices, normals and UVs byte-for-byte numerically unchanged. It retains the authored base-color, packed metallic-roughness and normal maps at 2K runtime resolution.\n\nThe candidate has Idle, Walk, Run, Attack, Hit and Death clips. Builder checks cover normalized distributed weights, geometry/UV preservation, 2K PBR roles, non-zero sampled motion, bind-pose grounding, and floor penetration at motion samples. Animation quality and final material response still need root review in the persistent normal-camera feature lab.\n`);
+await writeFile(`${owner}/README.md`, `# Gloamfang Reaver candidate\n\nThis is an isolated candidate derived from the starred Tripo Werewolf Warrior model. It is suggested for Wilderness T50+ placement because its silhouette is a humanoid hunter. Root image review, normal-camera lab presentation, and placement remain pending.\n\nRun \`node assets/art/tripo/imports/creatures/new-star-werewolf/build-candidate.mjs\` from the repository root to verify the source SHA-256 and reproduce the rigged GLB, catalogs, texture metrics, and sampled deformation checks.\n\nThe source export's 62-joint names and parent hierarchy are retained. Tripo left all joints at identity transforms; 8,037 of 8,047 vertices were pinned to Hips and every vertex had only one influence. This builder reconstructs rest anchors, inverse binds and spatial skin weights while leaving positions, indices, normals and UVs byte-for-byte numerically unchanged. It retains the authored base-color, packed metallic-roughness and normal maps at 2K runtime resolution.\n\nThe source bind pose has the arms extended. Idle, Walk, Run, Attack, Hit and Death now pose both arms down and forward with bent elbows so the hunter reads in a compact predatory guard; the attack winds and rakes from that guard. Builder checks sample hand joint positions as well as mesh deformation and grounding. Animation quality and final material response still need root review in the persistent normal-camera feature lab.\n`);
 
 console.log(JSON.stringify({ sourceSha256, sourceBytes: sourceBytes.length, candidatePath, candidateBytes: outputBytes.length, candidateSha256, vertices: sourcePositions.length / 3, triangles: sourceIndices.length / 3, joints: jointNodes.length, rootWeightedVertices, oneInfluenceVertices, verticesWithDistributedWeights, clips: clipMetrics.map(clip => clip.name), textures: runtimeTextureMetrics, sampledMotion }, null, 2));
