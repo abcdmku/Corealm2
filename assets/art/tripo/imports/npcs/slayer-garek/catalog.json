@@ -1,0 +1,809 @@
+{
+  "schema": "corealm-npc-native-rig-candidate/1",
+  "id": "npc_slayer_garek",
+  "displayName": "Master Garek",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/5e176d0c-cd1b-4b6c-833a-df6c5abd9f46.glb",
+    "sha256": "380ce2c187999399fa9943b6d4a50f12ed0802ed4edaad648d3f071548ab7a0d",
+    "bytes": 6836332,
+    "starredModelId": "137e9dae-273c-4230-9da0-370e2a945c90",
+    "starredCardId": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46",
+    "starredDisplayName": "goblin slayer master",
+    "prompt": "green goblin with tattered leather armor, belts, and accessories.",
+    "sourceModelVersion": "P1.0",
+    "sourceTriangleCount": 4637,
+    "sourceJointCount": 66,
+    "initialRigProblems": [
+      "All 7,860 vertices weighted 100% to Hips.",
+      "Every source joint node has identity TRS; inverse bind matrices contain the bind-space joint transforms.",
+      "No animations were present."
+    ],
+    "sourceSkin": "Tripo 66-joint humanoid skeleton, preserved and given reconstructed bind TRS.",
+    "geometry": {
+      "vertices": 7860,
+      "triangles": 4637,
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "uvsPreserved": true,
+      "retopology": false
+    },
+    "textures": [
+      {
+        "name": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1117362,
+        "sha256": "31c9e3c5c2b7d9b82cc95f5df56dbcee860fa97340c2a6c3630773adcee05b1a"
+      },
+      {
+        "name": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4643331,
+        "sha256": "c858b98f1963736b4e474314f23815dc83eb7a37ed00c9efadd02c3d48853ea3"
+      },
+      {
+        "name": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 569379,
+        "sha256": "01e8e419b2b6e65820e8ad630b1c4d22b4bfa496c69517238e4199a6a136213c"
+      }
+    ],
+    "pbr": [
+      {
+        "map": "metallicRoughness",
+        "packedChannelRanges": [
+          {
+            "min": 255,
+            "max": 255
+          },
+          {
+            "min": 40,
+            "max": 235
+          },
+          {
+            "min": 0,
+            "max": 190
+          }
+        ]
+      },
+      {
+        "map": "normal",
+        "channelRanges": [
+          {
+            "min": 42,
+            "max": 209
+          },
+          {
+            "min": 65,
+            "max": 185
+          },
+          {
+            "min": 206,
+            "max": 255
+          }
+        ]
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/npcs/slayer-garek/master-garek-native-rig-candidate.glb",
+    "sha256": "470b5c15761af13cae18862a0ff199483dfdb2d215df1946addd8396550624fd",
+    "bytes": 7065812,
+    "productionTarget": "game/public/assets/models/character/npc_slayer_garek.glb",
+    "geometry": {
+      "vertices": 7860,
+      "triangles": 4637,
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "uvsPreserved": true,
+      "retopology": false
+    },
+    "rig": {
+      "preset": "Mixamo-named humanoid glTF rig for Unity Humanoid mapping review",
+      "jointCount": 66,
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 7860,
+      "maximumWeightSumError": 0,
+      "bindTransformMaxError": 0.000019271956232121757,
+      "bindPoseMaxVertexDelta": 0.000004976878231971362,
+      "bones": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "bindPosition": [
+            -0.02144237613955109,
+            0.5106772169320023,
+            -0.00194925067009449
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "bindPosition": [
+            -0.025341008787141486,
+            0.5613594766661213,
+            -0.0019492520495481582
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "bindPosition": [
+            -0.03313823377418093,
+            0.6198386695744623,
+            -0.0019492535993010265
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "bindPosition": [
+            -0.040935511889530235,
+            0.6861152704067014,
+            -0.0019492524874585517
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "bindPosition": [
+            -0.03313831249980505,
+            0.7601889913060245,
+            -0.0019492651415976014
+          ]
+        },
+        {
+          "name": "MasterGarek_NeckTwist",
+          "parent": "mixamorigNeck",
+          "bindPosition": [
+            -0.023391723124003807,
+            0.7777326178456679,
+            -0.0019492412637354157
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "bindPosition": [
+            -0.013645104145366502,
+            0.7952765957248815,
+            -0.0019492833255927559
+          ]
+        },
+        {
+          "name": "mixamorigLeftEye",
+          "parent": "mixamorigHead",
+          "bindPosition": [
+            0.06432726012210885,
+            0.8615532637162282,
+            -0.029239523954431742
+          ]
+        },
+        {
+          "name": "mixamorigRightEye",
+          "parent": "mixamorigHead",
+          "bindPosition": [
+            0.06432717818454242,
+            0.8615530611391239,
+            0.025341191097301752
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "bindPosition": [
+            -0.04483410957832778,
+            0.7367972296723195,
+            -0.06432717516452585
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "bindPosition": [
+            -0.05652996749966534,
+            0.7289999786283645,
+            -0.10721199066518482
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "bindPosition": [
+            -0.05652996615675057,
+            0.7095068430724613,
+            -0.23586651297778294
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "bindPosition": [
+            -0.052848800333379284,
+            0.7116774685043189,
+            -0.3654708646678938
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandThumb1",
+          "parent": "mixamorigLeftHand",
+          "bindPosition": [
+            -0.03499604803429831,
+            0.7034375673500239,
+            -0.38813014610863467
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandThumb2",
+          "parent": "mixamorigLeftHandThumb1",
+          "bindPosition": [
+            -0.01851649716854404,
+            0.6993177692305861,
+            -0.40117633983403017
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandThumb3",
+          "parent": "mixamorigLeftHandThumb2",
+          "bindPosition": [
+            -0.005470241892039975,
+            0.6938244922017843,
+            -0.4183424584882362
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandThumb3_End",
+          "parent": "mixamorigLeftHandThumb3",
+          "bindPosition": [
+            0.0020144175601242787,
+            0.6906731057528024,
+            -0.42819074676500973
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandIndex1",
+          "parent": "mixamorigLeftHand",
+          "bindPosition": [
+            -0.030876143141235664,
+            0.7116775173426716,
+            -0.431388825842133
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandIndex2",
+          "parent": "mixamorigLeftHandIndex1",
+          "bindPosition": [
+            -0.02881620448864972,
+            0.7082443064015495,
+            -0.455421379820033
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandIndex3",
+          "parent": "mixamorigLeftHandIndex2",
+          "bindPosition": [
+            -0.027442908230509766,
+            0.7034377738712332,
+            -0.4732742378040888
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandIndex3_End",
+          "parent": "mixamorigLeftHandIndex3",
+          "bindPosition": [
+            -0.02611717224875349,
+            0.6987976250259695,
+            -0.49050902115542355
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandMiddle1",
+          "parent": "mixamorigLeftHand",
+          "bindPosition": [
+            -0.04804227268887646,
+            0.7130508250709033,
+            -0.43207546587292034
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandMiddle2",
+          "parent": "mixamorigLeftHandMiddle1",
+          "bindPosition": [
+            -0.047355629569711254,
+            0.708930992452522,
+            -0.45679470683289664
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandMiddle3",
+          "parent": "mixamorigLeftHandMiddle2",
+          "bindPosition": [
+            -0.04735563306074284,
+            0.7041243402559518,
+            -0.47670739810421414
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandMiddle3_End",
+          "parent": "mixamorigLeftHandMiddle3",
+          "bindPosition": [
+            -0.04735563105788212,
+            0.7001658545346132,
+            -0.49310671057252786
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandRing1",
+          "parent": "mixamorigLeftHand",
+          "bindPosition": [
+            -0.06246184557349635,
+            0.7116775943731788,
+            -0.43070219356286044
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandRing2",
+          "parent": "mixamorigLeftHandRing1",
+          "bindPosition": [
+            -0.06520842665995442,
+            0.7075576662501138,
+            -0.4540480706930218
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandRing3",
+          "parent": "mixamorigLeftHandRing2",
+          "bindPosition": [
+            -0.06795501571701655,
+            0.7041243094916313,
+            -0.47190083538997796
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandRing3_End",
+          "parent": "mixamorigLeftHandRing3",
+          "bindPosition": [
+            -0.0700430972224539,
+            0.7015140871754257,
+            -0.4854734773962589
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandPinky1",
+          "parent": "mixamorigLeftHand",
+          "bindPosition": [
+            -0.07756802803536696,
+            0.7089309271610537,
+            -0.4252090610886367
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandPinky2",
+          "parent": "mixamorigLeftHandPinky1",
+          "bindPosition": [
+            -0.08237455710079816,
+            0.7061844980072242,
+            -0.44512183370402125
+          ]
+        },
+        {
+          "name": "mixamorigLeftHandPinky3",
+          "parent": "mixamorigLeftHandPinky2",
+          "bindPosition": [
+            -0.08512112955258534,
+            0.7020647500301496,
+            -0.45954136218422154
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "bindPosition": [
+            -0.044834115708092065,
+            0.7367974122034934,
+            0.05653008203161958
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "bindPosition": [
+            -0.05652995627354505,
+            0.7290001059955534,
+            0.09941488867501119
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "bindPosition": [
+            -0.05652995823106322,
+            0.7095070743800074,
+            0.2319678938192055
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "bindPosition": [
+            -0.05403503353166386,
+            0.7109567068447961,
+            0.34617989516387554
+          ]
+        },
+        {
+          "name": "mixamorigRightHandThumb1",
+          "parent": "mixamorigRightHand",
+          "bindPosition": [
+            -0.034122394077740675,
+            0.7029915352313878,
+            0.3767127241619437
+          ]
+        },
+        {
+          "name": "mixamorigRightHandThumb2",
+          "parent": "mixamorigRightHandThumb1",
+          "bindPosition": [
+            -0.01686476587127238,
+            0.6970178379206199,
+            0.40127180423935477
+          ]
+        },
+        {
+          "name": "mixamorigRightHandThumb3",
+          "parent": "mixamorigRightHandThumb2",
+          "bindPosition": [
+            -0.0022620637936581036,
+            0.691707760251522,
+            0.4205206265926064
+          ]
+        },
+        {
+          "name": "mixamorigRightHandThumb3_End",
+          "parent": "mixamorigRightHandThumb3",
+          "bindPosition": [
+            0.006115430814714328,
+            0.6886615409080118,
+            0.4315637957511466
+          ]
+        },
+        {
+          "name": "mixamorigRightHandIndex1",
+          "parent": "mixamorigRightHand",
+          "bindPosition": [
+            -0.030803668561819254,
+            0.7089654509632423,
+            0.43047702772737173
+          ]
+        },
+        {
+          "name": "mixamorigRightHandIndex2",
+          "parent": "mixamorigRightHandIndex1",
+          "bindPosition": [
+            -0.03014001094698987,
+            0.7069741405679036,
+            0.45038972180543174
+          ]
+        },
+        {
+          "name": "mixamorigRightHandIndex3",
+          "parent": "mixamorigRightHandIndex2",
+          "bindPosition": [
+            -0.028812390974753476,
+            0.7043191078645027,
+            0.4696386294801915
+          ]
+        },
+        {
+          "name": "mixamorigRightHandIndex3_End",
+          "parent": "mixamorigRightHandIndex3",
+          "bindPosition": [
+            -0.02753079809752878,
+            0.7017560526310904,
+            0.4882212386804514
+          ]
+        },
+        {
+          "name": "mixamorigRightHandMiddle1",
+          "parent": "mixamorigRightHand",
+          "bindPosition": [
+            -0.046733795293015835,
+            0.7089653342755214,
+            0.4311407569777911
+          ]
+        },
+        {
+          "name": "mixamorigRightHandMiddle2",
+          "parent": "mixamorigRightHandMiddle1",
+          "bindPosition": [
+            -0.04739752114393617,
+            0.706974212309258,
+            0.4523810801284968
+          ]
+        },
+        {
+          "name": "mixamorigRightHandMiddle3",
+          "parent": "mixamorigRightHandMiddle2",
+          "bindPosition": [
+            -0.04806130342027766,
+            0.7043189343267382,
+            0.47229368422137274
+          ]
+        },
+        {
+          "name": "mixamorigRightHandMiddle3_End",
+          "parent": "mixamorigRightHandMiddle3",
+          "bindPosition": [
+            -0.04860793700594268,
+            0.7021323854914229,
+            0.4886929606693426
+          ]
+        },
+        {
+          "name": "mixamorigRightHandRing1",
+          "parent": "mixamorigRightHand",
+          "bindPosition": [
+            -0.06266392382660298,
+            0.7076378568193403,
+            0.43114089856163645
+          ]
+        },
+        {
+          "name": "mixamorigRightHandRing2",
+          "parent": "mixamorigRightHandRing1",
+          "bindPosition": [
+            -0.06531895469346333,
+            0.706310500602394,
+            0.44972610708036936
+          ]
+        },
+        {
+          "name": "mixamorigRightHandRing3",
+          "parent": "mixamorigRightHandRing2",
+          "bindPosition": [
+            -0.06731025186016361,
+            0.7049829625954002,
+            0.4683111680591983
+          ]
+        },
+        {
+          "name": "mixamorigRightHandRing3_End",
+          "parent": "mixamorigRightHandRing3",
+          "bindPosition": [
+            -0.06882415734856043,
+            0.7039736074307659,
+            0.48244066921433426
+          ]
+        },
+        {
+          "name": "mixamorigRightHandPinky1",
+          "parent": "mixamorigRightHand",
+          "bindPosition": [
+            -0.07660285800176954,
+            0.7063104662578022,
+            0.42583079084863373
+          ]
+        },
+        {
+          "name": "mixamorigRightHandPinky2",
+          "parent": "mixamorigRightHandPinky1",
+          "bindPosition": [
+            -0.0812491787933919,
+            0.7063105451225506,
+            0.4437522594384789
+          ]
+        },
+        {
+          "name": "mixamorigRightHandPinky3",
+          "parent": "mixamorigRightHandPinky2",
+          "bindPosition": [
+            -0.08456795159048608,
+            0.7029918358218363,
+            0.4590186513196453
+          ]
+        },
+        {
+          "name": "mixamorigRightHandPinky3_End",
+          "parent": "mixamorigRightHandPinky3",
+          "bindPosition": [
+            -0.0874836516170107,
+            0.7000760644038776,
+            0.4724308809019785
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "bindPosition": [
+            -0.02144237920267036,
+            0.48338692218891816,
+            -0.06432716698580593
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "bindPosition": [
+            -0.03703696124618853,
+            0.2728613995224214,
+            -0.07992132793270991
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "bindPosition": [
+            -0.05263182782660854,
+            0.07403191800844178,
+            -0.11500821321579684
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "bindPosition": [
+            0.033136736278486435,
+            0.01165413462308992,
+            -0.11500688879648081
+          ]
+        },
+        {
+          "name": "mixamorigLeftToe_End",
+          "parent": "mixamorigLeftToeBase",
+          "bindPosition": [
+            0.07979740581898445,
+            0.011654197737970586,
+            -0.11500622199517006
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "bindPosition": [
+            -0.021442386894040637,
+            0.48338691347796325,
+            0.06042867159577787
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "bindPosition": [
+            -0.03703700788039179,
+            0.2728614139566747,
+            0.07602281155142548
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "bindPosition": [
+            -0.05653047894662633,
+            0.07403181780079156,
+            0.11110988600502837
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "bindPosition": [
+            0.03313624232539937,
+            0.011654093883809571,
+            0.11110849084621872
+          ]
+        },
+        {
+          "name": "mixamorigRightToe_End",
+          "parent": "mixamorigRightToeBase",
+          "bindPosition": [
+            0.08191763853679777,
+            0.01165418699007671,
+            0.11110779712618594
+          ]
+        }
+      ],
+      "inverseBindsPreserved": true,
+      "method": "Recovered rest-world joint transforms by inverting the source inverse-bind matrices, restored each joint local TRS, then assigned four normalized anatomy-gated segment-distance influences per vertex."
+    },
+    "textures": [
+      {
+        "name": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1117362,
+        "sha256": "31c9e3c5c2b7d9b82cc95f5df56dbcee860fa97340c2a6c3630773adcee05b1a",
+        "runtimeWidth": 2048,
+        "runtimeHeight": 2048
+      },
+      {
+        "name": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4643331,
+        "sha256": "c858b98f1963736b4e474314f23815dc83eb7a37ed00c9efadd02c3d48853ea3",
+        "runtimeWidth": 2048,
+        "runtimeHeight": 2048
+      },
+      {
+        "name": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 569379,
+        "sha256": "01e8e419b2b6e65820e8ad630b1c4d22b4bfa496c69517238e4199a6a136213c",
+        "runtimeWidth": 2048,
+        "runtimeHeight": 2048
+      }
+    ],
+    "material": {
+      "name": "MasterGarek_2K_PBR",
+      "baseColorTexture": "MasterGarek_BaseColor_2K",
+      "metallicRoughnessTexture": "MasterGarek_MetallicRoughness_2K",
+      "normalTexture": "MasterGarek_Normal_2K",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "metallicFactor": 1,
+      "roughnessFactor": 1
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 3.2,
+        "tracks": 5
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "tracks": 10
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "tracks": 10
+      },
+      {
+        "name": "Talk",
+        "seconds": 2.1,
+        "tracks": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.9,
+        "tracks": 7
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "tracks": 7
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "tracks": 10
+      }
+    ]
+  },
+  "acceptance": {
+    "userStarredSource": true,
+    "assetAudit": false,
+    "bindPoseAccepted": false,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "pbrAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

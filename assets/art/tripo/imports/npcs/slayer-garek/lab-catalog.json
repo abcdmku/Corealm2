@@ -1,0 +1,86 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-starred-npcs",
+    "name": "Corealm starred Tripo NPC candidates",
+    "author": "Corealm",
+    "source": "Starred Tripo P1 NPC and Corealm bind/weight/motion adaptation",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "assets": [
+    {
+      "id": "npc_slayer_garek",
+      "file": "models/character/npc_slayer_garek.glb",
+      "pack": "corealm-starred-npcs",
+      "category": "character",
+      "is": "Master Garek candidate",
+      "tags": [
+        "npc",
+        "humanoid",
+        "goblin",
+        "slayer-master",
+        "coldbrace",
+        "starter-area",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 7065812,
+      "sha256": "470b5c15761af13cae18862a0ff199483dfdb2d215df1946addd8396550624fd",
+      "size": {
+        "x": 0.998046875,
+        "y": 0.9550782442092896,
+        "z": 0.271484375
+      },
+      "base": {
+        "x": -0.4990234375,
+        "y": 0,
+        "z": -0.1357421875
+      },
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.1357421875
+        ],
+        "max": [
+          0.4990234375,
+          0.9550782442092896,
+          0.1357421875
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4637,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Talk",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "MasterGarek_2K_PBR"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm bind, skin-weight and motion reconstruction",
+        "sourceModelId": "137e9dae-273c-4230-9da0-370e2a945c90",
+        "sourceCardId": "5e176d0c-cd1b-4b6c-833a-df6c5abd9f46",
+        "sourceFile": "assets/art/tripo/exports/5e176d0c-cd1b-4b6c-833a-df6c5abd9f46.glb",
+        "sourceSha256": "380ce2c187999399fa9943b6d4a50f12ed0802ed4edaad648d3f071548ab7a0d",
+        "candidateFile": "assets/art/tripo/imports/npcs/slayer-garek/master-garek-native-rig-candidate.glb",
+        "candidateSha256": "470b5c15761af13cae18862a0ff199483dfdb2d215df1946addd8396550624fd",
+        "candidateStatus": "awaiting-root-lab-review",
+        "rigAuthoring": "Recovered rest-world joint transforms by inverting the source inverse-bind matrices, restored each joint local TRS, then assigned four normalized anatomy-gated segment-distance influences per vertex.",
+        "prompt": "green goblin with tattered leather armor, belts, and accessories."
+      },
+      "candidateReview": {
+        "accepted": false,
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
