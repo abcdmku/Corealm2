@@ -1,0 +1,27 @@
+{
+  "output": "assets/art/tripo/imports/creatures/bramble-tiller-t10",
+  "entries": [
+    {
+      "id": "creature_briar_harrow",
+      "name": "Bramble Tiller",
+      "source": "assets/art/tripo/exports/corealm_bramble_tiller_0900292c_8k_rigged.glb",
+      "expectedSourceSha256": "2663d6ba545d0ceea22059a45f0b269384b9f0df1b56bb6f435ed7a2c1e60e12",
+      "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+      "modelId": "0900292c-ef73-40f9-864d-1f289df395f5",
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
+      },
+      "heightMeters": 2.684829119684765,
+      "yawDegrees": 0,
+      "orientationVerified": true,
+      "requirePbrMaps": true,
+      "materialProfile": "bark-lichen",
+      "retargetHumanoid": true,
+      "repairHumanoidWeights": true,
+      "geometryBasisDegrees": 90,
+      "tier": 10,
+      "tierLabel": "T10+"
+    }
+  ]
+}

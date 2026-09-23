@@ -1,0 +1,1153 @@
+{
+  "assets": [
+    {
+      "id": "creature_briar_harrow",
+      "file": "models/creature/creature_briar_harrow.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Bramble Tiller",
+      "tags": [
+        "creature",
+        "tripo"
+      ],
+      "bytes": 15864308,
+      "sha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+      "triangles": 5821,
+      "size": {
+        "x": 2.126090594057813,
+        "y": 2.6848291196847613,
+        "z": 0.8197453641450971
+      },
+      "base": {
+        "x": -1.0630452970289055,
+        "y": -6.359279743677203e-15,
+        "z": -0.4098726820725485
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_b8cc7017-0500-46fb-b90f-e7eba675552c"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio",
+        "modelId": "0900292c-ef73-40f9-864d-1f289df395f5",
+        "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+        "sourceFile": "sources/creature_briar_harrow-2663d6ba545d.glb",
+        "sourceSha256": "2663d6ba545d0ceea22059a45f0b269384b9f0df1b56bb6f435ed7a2c1e60e12",
+        "basisRepair": {
+          "degrees": 90,
+          "sourceSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.0058713591029612424,
+              "p95": 0.0009765625002582656,
+              "max": 0.05067554834748715,
+              "samples": 268
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.050787503467365935,
+              "p95": 0.13344456900777843,
+              "max": 0.16179200037951416,
+              "samples": 268
+            }
+          },
+          "bindLateralAxis": [
+            -5.351346255961352e-8,
+            -1.714590935685584e-7,
+            0.9999999999999838
+          ],
+          "resultSymmetry": {
+            "x": {
+              "planeCenter": 0,
+              "rms": 0.050787503467365935,
+              "p95": 0.13344456900777843,
+              "max": 0.16179200037951416,
+              "samples": 268
+            },
+            "z": {
+              "planeCenter": 0,
+              "rms": 0.0058713591029612424,
+              "p95": 0.0009765625002582656,
+              "max": 0.05067554834748715,
+              "samples": 268
+            }
+          },
+          "method": "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology"
+        },
+        "materialTreatment": {
+          "profile": "bark-lichen",
+          "baseColorTexture": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+          "sourceBaseColorUnmodified": true,
+          "sourceBaseColor": {
+            "width": 8192,
+            "height": 8192,
+            "bytes": 20466545,
+            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
+          },
+          "runtimeBaseColor": {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 2413140,
+            "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+            "sourceMeanSrgb": [
+              0.3799,
+              0.3344,
+              0.2294
+            ],
+            "runtimeMeanSrgb": [
+              0.4251,
+              0.3719,
+              0.2432
+            ]
+          },
+          "colorGrade": {
+            "method": "Per-texel linear-light exposure lift with a warm residual bark grade, selective green foliage lift, and a restrained cream lift on pale lichen; no spatial filtering",
+            "maskWeights": {
+              "bark": 0.8367,
+              "paleLichen": 0.0637,
+              "foliage": 0.1092
+            }
+          },
+          "width": 2048,
+          "height": 2048,
+          "metallicFactor": 0,
+          "roughnessFactor": 1,
+          "normalScale": 0.45,
+          "relief": "Tangent-space normals from fine and broad high-pass luminance plus shallow green-moss relief, capped at a 1.2 tangent slope",
+          "roughness": {
+            "channel": "G",
+            "range": [
+              0.9,
+              0.99
+            ],
+            "mean": 0.9278,
+            "regions": "matte bark with slightly rougher green moss and pale lichen; local grain variation from the source atlas"
+          },
+          "metallic": {
+            "channel": "B",
+            "value": 0
+          },
+          "normalMap": {
+            "name": "Bramble layered bark and lichen relief normals",
+            "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+            "bytes": 10657505,
+            "meanSlope": 0.6319,
+            "maxSlope": 1.2
+          },
+          "roughnessMap": {
+            "name": "Bramble matte bark, moss and lichen roughness",
+            "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+            "bytes": 1967382
+          }
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 3748,
+          "dominantJointVertices": {
+            "RightToeBase": 163,
+            "RightFoot": 278,
+            "RightLeg": 251,
+            "RightUpLeg": 194,
+            "Spine": 83,
+            "Hips": 19,
+            "RightArm": 130,
+            "RightShoulder": 181,
+            "Spine1": 23,
+            "Spine2": 19,
+            "LeftArm": 129,
+            "LeftShoulder": 162,
+            "Neck": 135,
+            "Head": 318,
+            "LeftUpLeg": 190,
+            "RightHand": 253,
+            "RightForeArm": 140,
+            "LeftLeg": 246,
+            "LeftFoot": 275,
+            "LeftForeArm": 124,
+            "LeftToeBase": 170,
+            "LeftHand": 265
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 48,
+          "mappedJoints": 52,
+          "yawDegrees": -90.00002603576044,
+          "translationScale": 0.5524593646707193,
+          "bindBounds": {
+            "min": [
+              -0.3957520073024176,
+              -1.4777267146976885e-7,
+              -0.15258796518018136
+            ],
+            "max": [
+              0.39575189746365746,
+              0.999511697018628,
+              0.1525879565082662
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.034935849811800514
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.057306802947060496
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.08136816575696057
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.03784997561800253
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.03674557728431698,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.03674557728431698,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.03674557728431698,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.11827181572890805
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "tier": 10,
+        "tierLabel": "T10+"
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": {
+          "profile": "bark-lichen",
+          "baseColorTexture": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+          "sourceBaseColorUnmodified": true,
+          "sourceBaseColor": {
+            "width": 8192,
+            "height": 8192,
+            "bytes": 20466545,
+            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
+          },
+          "runtimeBaseColor": {
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 2413140,
+            "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+            "sourceMeanSrgb": [
+              0.3799,
+              0.3344,
+              0.2294
+            ],
+            "runtimeMeanSrgb": [
+              0.4251,
+              0.3719,
+              0.2432
+            ]
+          },
+          "colorGrade": {
+            "method": "Per-texel linear-light exposure lift with a warm residual bark grade, selective green foliage lift, and a restrained cream lift on pale lichen; no spatial filtering",
+            "maskWeights": {
+              "bark": 0.8367,
+              "paleLichen": 0.0637,
+              "foliage": 0.1092
+            }
+          },
+          "width": 2048,
+          "height": 2048,
+          "metallicFactor": 0,
+          "roughnessFactor": 1,
+          "normalScale": 0.45,
+          "relief": "Tangent-space normals from fine and broad high-pass luminance plus shallow green-moss relief, capped at a 1.2 tangent slope",
+          "roughness": {
+            "channel": "G",
+            "range": [
+              0.9,
+              0.99
+            ],
+            "mean": 0.9278,
+            "regions": "matte bark with slightly rougher green moss and pale lichen; local grain variation from the source atlas"
+          },
+          "metallic": {
+            "channel": "B",
+            "value": 0
+          },
+          "normalMap": {
+            "name": "Bramble layered bark and lichen relief normals",
+            "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+            "bytes": 10657505,
+            "meanSlope": 0.6319,
+            "maxSlope": 1.2
+          },
+          "roughnessMap": {
+            "name": "Bramble matte bark, moss and lichen roughness",
+            "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+            "bytes": 1967382
+          }
+        },
+        "animationAcceptance": "six-motion-persistent-feature-lab-pass"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      },
+      "tier": 10,
+      "tierLabel": "T10+"
+    }
+  ],
+  "files": {
+    "creature_briar_harrow": "models/creature_briar_harrow.glb"
+  },
+  "packs": [
+    {
+      "id": "corealm-tripo-creatures",
+      "name": "Tripo generated creature assets",
+      "author": "Corealm",
+      "source": "https://studio.tripo3d.ai/",
+      "license": "LicenseRef-Tripo-Generated"
+    }
+  ],
+  "imports": [
+    {
+      "id": "creature_briar_harrow",
+      "name": "Bramble Tiller",
+      "modelId": "0900292c-ef73-40f9-864d-1f289df395f5",
+      "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
+      "sourceFile": "sources/creature_briar_harrow-2663d6ba545d.glb",
+      "downloadedFilename": "corealm_bramble_tiller_0900292c_8k_rigged.glb",
+      "sourceSha256": "2663d6ba545d0ceea22059a45f0b269384b9f0df1b56bb6f435ed7a2c1e60e12",
+      "sourceBytes": 20755572,
+      "imageReview": {
+        "verdict": "approved",
+        "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
+      },
+      "source": {
+        "triangles": 5821,
+        "textures": [
+          {
+            "name": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 20466545,
+            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_b8cc7017-0500-46fb-b90f-e7eba675552c",
+            "baseColor": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+            "normal": null,
+            "metallicRoughness": null,
+            "emissive": null
+          }
+        ],
+        "clips": [],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_b8cc7017-0500-46fb-b90f-e7eba675552c",
+            "vertices": 3748,
+            "joints": [
+              {
+                "name": "mixamorig:RightFoot",
+                "vertices": 1
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 3747
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.43674757651842605,
+            -0.5524644851684569,
+            -0.16298466381310206
+          ],
+          "max": [
+            0.35475632973157767,
+            0.44704723358154297,
+            0.1545400935064119
+          ]
+        },
+        "problems": [
+          "100% of vertices use one joint; exported limb weights are unusable"
+        ]
+      },
+      "basisRepair": {
+        "degrees": 90,
+        "sourceSymmetry": {
+          "x": {
+            "planeCenter": 0,
+            "rms": 0.0058713591029612424,
+            "p95": 0.0009765625002582656,
+            "max": 0.05067554834748715,
+            "samples": 268
+          },
+          "z": {
+            "planeCenter": 0,
+            "rms": 0.050787503467365935,
+            "p95": 0.13344456900777843,
+            "max": 0.16179200037951416,
+            "samples": 268
+          }
+        },
+        "bindLateralAxis": [
+          -5.351346255961352e-8,
+          -1.714590935685584e-7,
+          0.9999999999999838
+        ],
+        "resultSymmetry": {
+          "x": {
+            "planeCenter": 0,
+            "rms": 0.050787503467365935,
+            "p95": 0.13344456900777843,
+            "max": 0.16179200037951416,
+            "samples": 268
+          },
+          "z": {
+            "planeCenter": 0,
+            "rms": 0.0058713591029612424,
+            "p95": 0.0009765625002582656,
+            "max": 0.05067554834748715,
+            "samples": 268
+          }
+        },
+        "method": "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology"
+      },
+      "materialTreatment": {
+        "profile": "bark-lichen",
+        "baseColorTexture": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+        "sourceBaseColorUnmodified": true,
+        "sourceBaseColor": {
+          "width": 8192,
+          "height": 8192,
+          "bytes": 20466545,
+          "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
+        },
+        "runtimeBaseColor": {
+          "width": 2048,
+          "height": 2048,
+          "mimeType": "image/jpeg",
+          "bytes": 2413140,
+          "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+          "sourceMeanSrgb": [
+            0.3799,
+            0.3344,
+            0.2294
+          ],
+          "runtimeMeanSrgb": [
+            0.4251,
+            0.3719,
+            0.2432
+          ]
+        },
+        "colorGrade": {
+          "method": "Per-texel linear-light exposure lift with a warm residual bark grade, selective green foliage lift, and a restrained cream lift on pale lichen; no spatial filtering",
+          "maskWeights": {
+            "bark": 0.8367,
+            "paleLichen": 0.0637,
+            "foliage": 0.1092
+          }
+        },
+        "width": 2048,
+        "height": 2048,
+        "metallicFactor": 0,
+        "roughnessFactor": 1,
+        "normalScale": 0.45,
+        "relief": "Tangent-space normals from fine and broad high-pass luminance plus shallow green-moss relief, capped at a 1.2 tangent slope",
+        "roughness": {
+          "channel": "G",
+          "range": [
+            0.9,
+            0.99
+          ],
+          "mean": 0.9278,
+          "regions": "matte bark with slightly rougher green moss and pale lichen; local grain variation from the source atlas"
+        },
+        "metallic": {
+          "channel": "B",
+          "value": 0
+        },
+        "normalMap": {
+          "name": "Bramble layered bark and lichen relief normals",
+          "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+          "bytes": 10657505,
+          "meanSlope": 0.6319,
+          "maxSlope": 1.2
+        },
+        "roughnessMap": {
+          "name": "Bramble matte bark, moss and lichen roughness",
+          "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+          "bytes": 1967382
+        }
+      },
+      "weightRepair": {
+        "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+        "vertices": 3748,
+        "dominantJointVertices": {
+          "RightToeBase": 163,
+          "RightFoot": 278,
+          "RightLeg": 251,
+          "RightUpLeg": 194,
+          "Spine": 83,
+          "Hips": 19,
+          "RightArm": 130,
+          "RightShoulder": 181,
+          "Spine1": 23,
+          "Spine2": 19,
+          "LeftArm": 129,
+          "LeftShoulder": 162,
+          "Neck": 135,
+          "Head": 318,
+          "LeftUpLeg": 190,
+          "RightHand": 253,
+          "RightForeArm": 140,
+          "LeftLeg": 246,
+          "LeftFoot": 275,
+          "LeftForeArm": 124,
+          "LeftToeBase": 170,
+          "LeftHand": 265
+        },
+        "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+        "requiresVisualReview": true
+      },
+      "retarget": {
+        "restoredJoints": 48,
+        "mappedJoints": 52,
+        "yawDegrees": -90.00002603576044,
+        "translationScale": 0.5524593646707193,
+        "bindBounds": {
+          "min": [
+            -0.3957520073024176,
+            -1.4777267146976885e-7,
+            -0.15258796518018136
+          ],
+          "max": [
+            0.39575189746365746,
+            0.999511697018628,
+            0.1525879565082662
+          ]
+        },
+        "clips": [
+          {
+            "name": "Idle",
+            "sourceTake": "Idle_Loop",
+            "seconds": 2.5,
+            "samples": 76,
+            "maximumGroundCorrection": 0.034935849811800514
+          },
+          {
+            "name": "Walk",
+            "sourceTake": "Walk_Loop",
+            "seconds": 1.3333333730697632,
+            "samples": 42,
+            "maximumGroundCorrection": 0.057306802947060496
+          },
+          {
+            "name": "Run",
+            "sourceTake": "Jog_Fwd_Loop",
+            "seconds": 0.9333333373069763,
+            "samples": 30,
+            "maximumGroundCorrection": 0.08136816575696057
+          },
+          {
+            "name": "Attack",
+            "sourceTake": "Punch_Jab",
+            "seconds": 0.8666666746139526,
+            "samples": 28,
+            "maximumGroundCorrection": 0.03784997561800253
+          },
+          {
+            "name": "Hit",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.03674557728431698,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitLeft",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.03674557728431698,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "HitRight",
+            "sourceTake": "Hit_Chest",
+            "seconds": 0.3333333432674408,
+            "samples": 12,
+            "maximumGroundCorrection": 0.03674557728431698,
+            "directional": false,
+            "note": "Native frontal hit; left/right are explicit runtime aliases"
+          },
+          {
+            "name": "Death",
+            "sourceTake": "Death01",
+            "seconds": 2.4000000953674316,
+            "samples": 74,
+            "maximumGroundCorrection": 0.11827181572890805
+          }
+        ],
+        "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+        "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+      },
+      "readyForLab": true,
+      "reasons": [],
+      "runtime": {
+        "triangles": 5821,
+        "textures": [
+          {
+            "name": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 2413140,
+            "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df"
+          },
+          {
+            "name": "Bramble layered bark and lichen relief normals",
+            "mimeType": "image/png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 10657505,
+            "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7"
+          },
+          {
+            "name": "Bramble matte bark, moss and lichen roughness",
+            "mimeType": "image/png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1967382,
+            "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634"
+          }
+        ],
+        "skins": [
+          {
+            "name": "skin",
+            "joints": [
+              "mixamorig:Hips",
+              "mixamorig:LeftUpLeg",
+              "mixamorig:LeftLeg",
+              "mixamorig:LeftFoot",
+              "mixamorig:LeftToeBase",
+              "mixamorig:LeftToe_End",
+              "mixamorig:RightUpLeg",
+              "mixamorig:RightLeg",
+              "mixamorig:RightFoot",
+              "mixamorig:RightToeBase",
+              "mixamorig:RightToe_End",
+              "mixamorig:Spine",
+              "mixamorig:Spine1",
+              "mixamorig:Spine2",
+              "mixamorig:LeftShoulder",
+              "mixamorig:LeftArm",
+              "mixamorig:LeftForeArm",
+              "mixamorig:LeftHand",
+              "mixamorig:LeftHandIndex1",
+              "mixamorig:LeftHandIndex2",
+              "mixamorig:LeftHandIndex3",
+              "mixamorig:LeftHandMiddle1",
+              "mixamorig:LeftHandMiddle2",
+              "mixamorig:LeftHandMiddle3",
+              "mixamorig:LeftHandRing1",
+              "mixamorig:LeftHandRing2",
+              "mixamorig:LeftHandRing3",
+              "mixamorig:LeftHandThumb1",
+              "mixamorig:LeftHandThumb2",
+              "mixamorig:LeftHandThumb3",
+              "mixamorig:Neck",
+              "mixamorig:Head",
+              "mixamorig:RightShoulder",
+              "mixamorig:RightArm",
+              "mixamorig:RightForeArm",
+              "mixamorig:RightHand",
+              "mixamorig:RightHandIndex1",
+              "mixamorig:RightHandIndex2",
+              "mixamorig:RightHandIndex3",
+              "mixamorig:RightHandMiddle1",
+              "mixamorig:RightHandMiddle2",
+              "mixamorig:RightHandMiddle3",
+              "mixamorig:RightHandRing1",
+              "mixamorig:RightHandRing2",
+              "mixamorig:RightHandRing3",
+              "mixamorig:RightHandThumb1",
+              "mixamorig:RightHandThumb2",
+              "mixamorig:RightHandThumb3"
+            ]
+          }
+        ],
+        "materialMaps": [
+          {
+            "name": "Material_tripo_node_b8cc7017-0500-46fb-b90f-e7eba675552c",
+            "baseColor": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
+            "normal": "Bramble layered bark and lichen relief normals",
+            "metallicRoughness": "Bramble matte bark, moss and lichen roughness",
+            "emissive": null
+          }
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.5,
+            "channels": 54
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.3333333730697632,
+            "channels": 54
+          },
+          {
+            "name": "Run",
+            "seconds": 0.9333333373069763,
+            "channels": 54
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.8666666746139526,
+            "channels": 54
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.3333333432674408,
+            "channels": 54
+          },
+          {
+            "name": "Death",
+            "seconds": 2.4000000953674316,
+            "channels": 54
+          }
+        ],
+        "weightCoverage": [
+          {
+            "mesh": "tripo_node_b8cc7017-0500-46fb-b90f-e7eba675552c",
+            "vertices": 3748,
+            "joints": [
+              {
+                "name": "mixamorig:RightToeBase",
+                "vertices": 308
+              },
+              {
+                "name": "mixamorig:RightFoot",
+                "vertices": 559
+              },
+              {
+                "name": "mixamorig:RightLeg",
+                "vertices": 469
+              },
+              {
+                "name": "mixamorig:RightUpLeg",
+                "vertices": 258
+              },
+              {
+                "name": "mixamorig:Hips",
+                "vertices": 116
+              },
+              {
+                "name": "mixamorig:Spine",
+                "vertices": 125
+              },
+              {
+                "name": "mixamorig:Spine1",
+                "vertices": 109
+              },
+              {
+                "name": "mixamorig:RightArm",
+                "vertices": 347
+              },
+              {
+                "name": "mixamorig:RightShoulder",
+                "vertices": 252
+              },
+              {
+                "name": "mixamorig:Spine2",
+                "vertices": 177
+              },
+              {
+                "name": "mixamorig:Neck",
+                "vertices": 394
+              },
+              {
+                "name": "mixamorig:LeftShoulder",
+                "vertices": 232
+              },
+              {
+                "name": "mixamorig:LeftArm",
+                "vertices": 338
+              },
+              {
+                "name": "mixamorig:Head",
+                "vertices": 458
+              },
+              {
+                "name": "mixamorig:LeftUpLeg",
+                "vertices": 252
+              },
+              {
+                "name": "mixamorig:RightHand",
+                "vertices": 285
+              },
+              {
+                "name": "mixamorig:RightForeArm",
+                "vertices": 254
+              },
+              {
+                "name": "mixamorig:LeftLeg",
+                "vertices": 471
+              },
+              {
+                "name": "mixamorig:LeftFoot",
+                "vertices": 544
+              },
+              {
+                "name": "mixamorig:LeftToeBase",
+                "vertices": 312
+              },
+              {
+                "name": "mixamorig:LeftForeArm",
+                "vertices": 247
+              },
+              {
+                "name": "mixamorig:LeftHand",
+                "vertices": 292
+              }
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -1.0630452970289055,
+            -6.359279743677203e-15,
+            -0.4098726820725485
+          ],
+          "max": [
+            1.0630452970289075,
+            2.684829119684755,
+            0.40987268207254857
+          ]
+        },
+        "problems": [],
+        "file": "models/creature_briar_harrow.glb",
+        "sha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+        "bytes": 15864308,
+        "scale": 2.686140373099194
+      },
+      "labAcceptance": {
+        "status": "passed",
+        "session": "persistent feature-lab browser session 77902",
+        "route": "/index.html?mode=combat&creatures=1&reviewStaged=1",
+        "camera": "normal gameplay camera",
+        "motions": [
+          {
+            "motion": "Idle",
+            "clip": "Idle",
+            "screenshots": [
+              "bramble-warm-idle.png"
+            ]
+          },
+          {
+            "motion": "Walk",
+            "clip": "Walk",
+            "screenshots": [
+              "bramble-pbr-walk-00.png",
+              "bramble-pbr-walk-03.png"
+            ]
+          },
+          {
+            "motion": "Run",
+            "clip": "Run",
+            "screenshots": [
+              "bramble-warm-run-03.png"
+            ]
+          },
+          {
+            "motion": "Attack",
+            "clip": "Attack",
+            "screenshots": [
+              "bramble-pbr-attack-fast-00.png",
+              "bramble-pbr-attack-fast-02.png"
+            ]
+          },
+          {
+            "motion": "Hit",
+            "clip": "Hit",
+            "screenshots": [
+              "bramble-pbr-hit-fast-00.png",
+              "bramble-pbr-hit-fast-02.png"
+            ]
+          },
+          {
+            "motion": "Death",
+            "clip": "Death",
+            "screenshots": [
+              "bramble-isolated-death-50.png",
+              "bramble-isolated-death-59.png"
+            ],
+            "semanticCheck": "health reached 0; visible height settled from 2.65 m to 0.833 m"
+          }
+        ],
+        "semanticResult": "All six required motions checked in the real lab browser. Idle, walk, run, attack, hit, and death were visually reviewed; death reached a grounded corpse pose.",
+        "visualReviewer": "Fresh Luna-max read-only critic passed; confirmed intact face and limbs, grounded corpse, and woodland material palette.",
+        "evidenceDirectory": "test-results/tripo-lab (ignored disposable evidence; screenshots are not bundled here)",
+        "worldIntegrated": true
+      },
+      "tier": 10,
+      "tierLabel": "T10+"
+    }
+  ],
+  "heldCandidates": [],
+  "visualAccepted": true,
+  "promotable": false,
+  "labAcceptance": {
+    "status": "passed",
+    "session": "persistent feature-lab browser session 77902",
+    "route": "/index.html?mode=combat&creatures=1&reviewStaged=1",
+    "camera": "normal gameplay camera",
+    "motions": [
+      {
+        "motion": "Idle",
+        "clip": "Idle",
+        "screenshots": [
+          "bramble-warm-idle.png"
+        ]
+      },
+      {
+        "motion": "Walk",
+        "clip": "Walk",
+        "screenshots": [
+          "bramble-pbr-walk-00.png",
+          "bramble-pbr-walk-03.png"
+        ]
+      },
+      {
+        "motion": "Run",
+        "clip": "Run",
+        "screenshots": [
+          "bramble-warm-run-03.png"
+        ]
+      },
+      {
+        "motion": "Attack",
+        "clip": "Attack",
+        "screenshots": [
+          "bramble-pbr-attack-fast-00.png",
+          "bramble-pbr-attack-fast-02.png"
+        ]
+      },
+      {
+        "motion": "Hit",
+        "clip": "Hit",
+        "screenshots": [
+          "bramble-pbr-hit-fast-00.png",
+          "bramble-pbr-hit-fast-02.png"
+        ]
+      },
+      {
+        "motion": "Death",
+        "clip": "Death",
+        "screenshots": [
+          "bramble-isolated-death-50.png",
+          "bramble-isolated-death-59.png"
+        ],
+        "semanticCheck": "health reached 0; visible height settled from 2.65 m to 0.833 m"
+      }
+    ],
+    "semanticResult": "All six required motions checked in the real lab browser. Idle, walk, run, attack, hit, and death were visually reviewed; death reached a grounded corpse pose.",
+    "visualReviewer": "Fresh Luna-max read-only critic passed; confirmed intact face and limbs, grounded corpse, and woodland material palette.",
+    "evidenceDirectory": "test-results/tripo-lab (ignored disposable evidence; screenshots are not bundled here)",
+    "worldIntegrated": true
+  },
+  "tierRevision": {
+    "previousLabels": [
+      "T1",
+      "T5"
+    ],
+    "currentTier": 10,
+    "currentLabel": "T10+",
+    "reason": "Reclassified for the large creature encounter tier; geometry, materials, and accepted motion evidence are unchanged.",
+    "worldPlacementPending": false,
+    "priorTierWorldEvidence": {
+      "status": "historical-only",
+      "region": "Fallowmarch",
+      "tierLabels": [
+        "T1",
+        "T5"
+      ],
+      "passed": true,
+      "appliesToCurrentTier": false,
+      "note": "Preserves the prior Fallowmarch placement proof. It does not establish the new T10 Vellenwood placement."
+    },
+    "currentTierWorldEvidence": {
+      "status": "passed",
+      "region": "Vellenwood",
+      "tier": 10,
+      "camera": "normal gameplay camera",
+      "screenshot": "test-results/tripo-lab/t10-bramble-world.png",
+      "ready": true,
+      "errors": 0,
+      "creature": {
+        "id": "creature_briar_harrow",
+        "name": "Bramble Tiller",
+        "tier": 10
+      },
+      "rig": {
+        "live": true,
+        "animation": "Idle"
+      },
+      "drawnHeightMeters": {
+        "min": 2.708,
+        "max": 2.832
+      }
+    }
+  },
+  "worldAcceptance": {
+    "status": "passed",
+    "region": "Vellenwood",
+    "tier": 10,
+    "camera": "normal gameplay camera",
+    "screenshot": "test-results/tripo-lab/t10-bramble-world.png",
+    "ready": true,
+    "errors": 0,
+    "creature": {
+      "id": "creature_briar_harrow",
+      "name": "Bramble Tiller",
+      "tier": 10
+    },
+    "rig": {
+      "live": true,
+      "animation": "Idle"
+    },
+    "drawnHeightMeters": {
+      "min": 2.708,
+      "max": 2.832
+    }
+  }
+}
