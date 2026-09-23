@@ -182,6 +182,14 @@ const quat = (axis, angle) => {
   return [0, 0, sine, cosine];
 };
 const clips = [];
+const poseIntent = {
+  Idle: 'Relaxed armored guard with upper arms tucked close to the torso and quiet head, chest, and cape breathing.',
+  Walk: 'Compact guard gait with alternating footfalls and restrained shoulder counter-swing.',
+  Run: 'Compact sprint with stronger alternating knees and cape follow-through while the arms stay close to the body.',
+  Attack: 'Right-arm strike with a low guard wind-up, a clear upward and outward impact arc, then a return to guard.',
+  Hit: 'Brief shoulder and upper-body recoil that settles back into the armored guard.',
+  Death: 'Guard breaks into a controlled fall, with both arms staying near the body as the knight settles.',
+};
 function addClip(name, seconds, tracks) {
   const animation = doc.createAnimation(name);
   for (const track of tracks) {
@@ -190,14 +198,14 @@ function addClip(name, seconds, tracks) {
     const sampler = doc.createAnimationSampler(`${name}_${track.node}`).setInput(input).setOutput(output).setInterpolation('LINEAR');
     animation.addSampler(sampler).addChannel(doc.createAnimationChannel(`${track.node}_${track.path ?? 'rotation'}`).setTargetNode(jointNodes.get(track.node)).setTargetPath(track.path ?? 'rotation').setSampler(sampler));
   }
-  clips.push({ name, seconds, channels: tracks.length });
+  clips.push({ name, seconds, channels: tracks.length, poseIntent: poseIntent[name] });
 }
 const phases = [0, 0.25, 0.5, 0.75, 1];
 const cycleAngles = (phase, amount) => phases.map((t) => quat('x', Math.sin((t + phase) * Math.PI * 2) * amount));
 const hips = (heights, forward = 0) => phases.map((_, i) => [0, heights[i], forward]);
 addClip('Idle', 2.8, [
-  { node: 'mixamorigLeftShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 0.62), quat('z', 0.66), quat('z', 0.62), quat('z', 0.58), quat('z', 0.62)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', -0.62), quat('z', -0.66), quat('z', -0.62), quat('z', -0.58), quat('z', -0.62)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 1.82), quat('z', 1.86), quat('z', 1.82), quat('z', 1.78), quat('z', 1.82)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', -1.82), quat('z', -1.86), quat('z', -1.82), quat('z', -1.78), quat('z', -1.82)] },
   { node: 'mixamorigSpine1', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('z', 0), quat('z', 0.018), quat('z', 0), quat('z', -0.018), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('x', 0), quat('x', -0.015), quat('x', 0), quat('x', 0.012), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.7, 1.4, 2.1, 2.8], values: [quat('y', -0.025), quat('y', 0.015), quat('y', 0.035), quat('y', -0.015), quat('y', -0.025)] },
@@ -207,8 +215,8 @@ addClip('Idle', 2.8, [
 ]);
 addClip('Walk', 1.0, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t), values: hips([0.430, 0.445, 0.430, 0.445, 0.430]) },
-  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => quat('z', 0.48 + Math.sin(t * Math.PI * 2) * 0.25)) },
-  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => quat('z', -0.48 - Math.sin(t * Math.PI * 2) * 0.25)) },
+  { node: 'mixamorigLeftShoulder', times: phases, values: phases.map((t) => quat('z', 1.65 + Math.sin(t * Math.PI * 2) * 0.16)) },
+  { node: 'mixamorigRightShoulder', times: phases, values: phases.map((t) => quat('z', -1.65 - Math.sin(t * Math.PI * 2) * 0.16)) },
   { node: 'mixamorigLeftUpLeg', times: phases, values: cycleAngles(0, 0.34) },
   { node: 'mixamorigRightUpLeg', times: phases, values: cycleAngles(0.5, 0.34) },
   { node: 'mixamorigLeftLeg', times: phases, values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.22)) },
@@ -221,8 +229,8 @@ addClip('Walk', 1.0, [
 ]);
 addClip('Run', 0.72, [
   { node: 'mixamorigHips', path: 'translation', times: phases.map((t) => t * 0.72), values: hips([0.430, 0.465, 0.430, 0.465, 0.430]) },
-  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', 0.50 + Math.sin(t * Math.PI * 2) * 0.34)) },
-  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', -0.50 - Math.sin(t * Math.PI * 2) * 0.34)) },
+  { node: 'mixamorigLeftShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', 1.70 + Math.sin(t * Math.PI * 2) * 0.22)) },
+  { node: 'mixamorigRightShoulder', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('z', -1.70 - Math.sin(t * Math.PI * 2) * 0.22)) },
   { node: 'mixamorigLeftUpLeg', times: phases.map((t) => t * 0.72), values: cycleAngles(0, 0.68) },
   { node: 'mixamorigRightUpLeg', times: phases.map((t) => t * 0.72), values: cycleAngles(0.5, 0.68) },
   { node: 'mixamorigLeftLeg', times: phases.map((t) => t * 0.72), values: phases.map((t) => quat('x', -Math.max(0, Math.sin(t * Math.PI * 2)) * 0.62)) },
@@ -236,10 +244,10 @@ addClip('Run', 0.72, [
 ]);
 addClip('Attack', 0.92, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.18, 0.50, 0.72, 0.92], values: [[0, 0.430, 0], [0, 0.430, 0.012], [0, 0.420, 0.060], [0, 0.430, 0.030], [0, 0.430, 0]] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 0.62), quat('z', 0.72), quat('z', 0.48), quat('z', 0.42), quat('z', 0.62)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', -0.62), quat('z', -0.22), quat('z', 0.30), quat('z', -0.10), quat('z', -0.62)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 1.82), quat('z', 1.90), quat('z', 1.72), quat('z', 1.68), quat('z', 1.82)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', -1.82), quat('z', -1.38), quat('z', -0.72), quat('z', -1.12), quat('z', -1.82)] },
   { node: 'mixamorigSpine1', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('y', 0), quat('y', -0.28), quat('y', 0.24), quat('y', 0.10), quat('y', 0)] },
-  { node: 'mixamorigRightArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 0), quat('z', 0.78), quat('z', -0.18), quat('z', -0.28), quat('z', 0)] },
+  { node: 'mixamorigRightArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('z', 0), quat('z', 0.08), quat('z', -0.08), quat('z', -0.04), quat('z', 0)] },
   { node: 'mixamorigRightForeArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('x', 0), quat('x', 0.60), quat('x', -0.92), quat('x', -0.30), quat('x', 0)] },
   { node: 'mixamorigLeftArm', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('x', 0), quat('x', -0.20), quat('x', -0.28), quat('x', 0.10), quat('x', 0)] },
   { node: 'mixamorigCapeRoot', times: [0, 0.18, 0.50, 0.72, 0.92], values: [quat('x', 0), quat('x', -0.18), quat('x', 0.22), quat('x', 0.10), quat('x', 0)] },
@@ -248,8 +256,8 @@ addClip('Attack', 0.92, [
 ]);
 addClip('Hit', 0.46, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.08, 0.20, 0.46], values: [[0, 0.430, 0], [0, 0.425, -0.035], [0, 0.428, -0.012], [0, 0.430, 0]] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0.62), quat('z', 0.92), quat('z', 0.54), quat('z', 0.62)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', -0.62), quat('z', -0.32), quat('z', -0.72), quat('z', -0.62)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 1.82), quat('z', 1.98), quat('z', 1.72), quat('z', 1.82)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.08, 0.20, 0.46], values: [quat('z', -1.82), quat('z', -1.44), quat('z', -1.90), quat('z', -1.82)] },
   { node: 'mixamorigSpine1', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.28), quat('z', -0.10), quat('z', 0)] },
   { node: 'mixamorigSpine2', times: [0, 0.08, 0.20, 0.46], values: [quat('x', 0), quat('x', -0.16), quat('x', 0.06), quat('x', 0)] },
   { node: 'mixamorigHead', times: [0, 0.08, 0.20, 0.46], values: [quat('z', 0), quat('z', 0.20), quat('z', -0.05), quat('z', 0)] },
@@ -260,8 +268,8 @@ addClip('Hit', 0.46, [
 ]);
 addClip('Death', 1.45, [
   { node: 'mixamorigHips', path: 'translation', times: [0, 0.22, 0.65, 1.05, 1.45], values: [[0, 0.430, 0], [0, 0.400, -0.015], [0, 0.315, -0.025], [0, 0.275, -0.025], [0, 0.275, -0.025]] },
-  { node: 'mixamorigLeftShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0.62), quat('z', 0.78), quat('z', 0.95), quat('z', 0.90), quat('z', 0.90)] },
-  { node: 'mixamorigRightShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', -0.62), quat('z', -0.48), quat('z', -0.28), quat('z', -0.25), quat('z', -0.25)] },
+  { node: 'mixamorigLeftShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 1.82), quat('z', 1.78), quat('z', 1.72), quat('z', 1.68), quat('z', 1.68)] },
+  { node: 'mixamorigRightShoulder', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', -1.82), quat('z', -1.76), quat('z', -1.64), quat('z', -1.60), quat('z', -1.60)] },
   { node: 'mixamorigHips', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('z', 0), quat('z', -0.08), quat('z', -0.26), quat('z', -0.34), quat('z', -0.34)] },
   { node: 'mixamorigSpine1', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.14), quat('x', 0.28), quat('x', 0.34), quat('x', 0.34)] },
   { node: 'mixamorigSpine2', times: [0, 0.22, 0.65, 1.05, 1.45], values: [quat('x', 0), quat('x', 0.12), quat('x', 0.22), quat('x', 0.24), quat('x', 0.24)] },

@@ -69,7 +69,7 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
-    "sha256": "24147ab805b3a4987a50b28e81b25c1df80dd3d86541edec299208fc6ee0f6fe",
+    "sha256": "d66d0f6461b30df83add8dfc20eb96effb3a024a1207891d1afd406b6e110c98",
     "bytes": 8681228,
     "productionTarget": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
     "geometry": {
@@ -379,32 +379,38 @@
       {
         "name": "Idle",
         "seconds": 2.8,
-        "channels": 8
+        "channels": 8,
+        "poseIntent": "Relaxed armored guard with upper arms tucked close to the torso and quiet head, chest, and cape breathing."
       },
       {
         "name": "Walk",
         "seconds": 1,
-        "channels": 12
+        "channels": 12,
+        "poseIntent": "Compact guard gait with alternating footfalls and restrained shoulder counter-swing."
       },
       {
         "name": "Run",
         "seconds": 0.72,
-        "channels": 13
+        "channels": 13,
+        "poseIntent": "Compact sprint with stronger alternating knees and cape follow-through while the arms stay close to the body."
       },
       {
         "name": "Attack",
         "seconds": 0.92,
-        "channels": 10
+        "channels": 10,
+        "poseIntent": "Right-arm strike with a low guard wind-up, a clear upward and outward impact arc, then a return to guard."
       },
       {
         "name": "Hit",
         "seconds": 0.46,
-        "channels": 10
+        "channels": 10,
+        "poseIntent": "Brief shoulder and upper-body recoil that settles back into the armored guard."
       },
       {
         "name": "Death",
         "seconds": 1.45,
-        "channels": 14
+        "channels": 14,
+        "poseIntent": "Guard breaks into a controlled fall, with both arms staying near the body as the knight settles."
       }
     ]
   },
