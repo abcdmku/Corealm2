@@ -5704,6 +5704,60 @@
     }
   },
   {
+    "id": "gloamfang_reaver_t50",
+    "name": "Gloamfang Reaver",
+    "family": "gloamfang_reaver",
+    "availability": "lab",
+    "level": 50,
+    "profileId": "skirmisher",
+    "adjustments": {
+      "attackSpeedMs": 2200,
+      "aggroRadius": 10,
+      "behaviour": "aggressive",
+      "moveSpeedMps": 1.6,
+      "walkSpeedMps": 0.4,
+      "attackStyle": "melee",
+      "attackRangeM": 1.8
+    },
+    "loot": {
+      "rolls": [
+        {
+          "id": "items",
+          "name": "Items",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "coyote_fang",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.3
+            },
+            {
+              "itemId": "grave_thread",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.04
+            }
+          ],
+          "tables": []
+        }
+      ]
+    },
+    "presentation": {
+      "id": "gloamfang_reaver",
+      "assetId": "creature_gloamfang_reaver",
+      "scale": 1,
+      "regionId": "wilderness",
+      "activity": "prowl",
+      "description": "A mid-sized upright wolf hunter with coarse grey fur, worn leather straps and a bone trophy. It stalks low before lunging with both claws.",
+      "kind": "basic"
+    }
+  },
+  {
     "id": "chainbound_archon_t70",
     "name": "Chainbound Archon",
     "family": "chainbound_archon",
