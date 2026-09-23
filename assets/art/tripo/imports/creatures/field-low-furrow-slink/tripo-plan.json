@@ -3,7 +3,7 @@
   "asset": "Furrow Slink",
   "candidateId": "creature_furrow_slink",
   "tier": 1,
-  "status": "ready-for-image-to-model",
+  "status": "blocked-current-tripo-ui-and-zero-credits",
   "sourceImage": {
     "file": "assets/art/tripo/references/field-low-furrow-slink-r2.png",
     "sha256": "2a6ae715755f3cd01b7aaf20f6f621a6a579326ae3e3ded9b6c09f1a30b6fc7b",
@@ -18,6 +18,26 @@
   "tripo": {
     "imageModel": "GPT Image 2.5",
     "model": "P1.0 - Fast",
+    "uiObservation": {
+      "observedAt": "2026-09-23",
+      "page": "https://studio.tripo3d.ai/workspace/generate",
+      "accountCreditsShown": 0,
+      "availableHdModels": [
+        { "name": "H3.1 – Best Quality", "displayedGenerationCost": 15 },
+        { "name": "H3.0 – Fast & Balanced" },
+        { "name": "H2.5 – Legacy" }
+      ],
+      "smartMeshMode": {
+        "model": "P2.0",
+        "topology": "Quads & Edit",
+        "displayedGenerationCost": 100,
+        "availabilityMessage": "Realtime Mesh Editing — Coming Soon"
+      },
+      "imageUploaded": false,
+      "generationSubmitted": false,
+      "creditsSpent": 0,
+      "result": "P1.0 is unavailable in the current picker and the account shows zero credits; no alternate model or Smart Mesh job was submitted."
+    },
     "geometry": {
       "mode": "Smart Mesh",
       "topology": "Triangles",
