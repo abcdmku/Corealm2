@@ -153,6 +153,34 @@ describe("reads", () => {
     expect(server.calls.some(call => call.url === `${DESCRIPTOR.assetBaseUrl}assets/manifest.json`)).toBe(true);
   });
 
+  it("resets the asset base if the development manifest fails after a snapshot refresh", async () => {
+    const server = fakeServer({
+      "/admin/content/publish": { status: 200, body: { revision: NEXT_REVISION, previous: REVISION, revisions: { items: "c".repeat(64) }, live: [], onRestart: [], affected: {}, problems: [], spawns: [], notified: 0 } },
+    });
+    const developmentUrl = `${SESSION.server}/dev-assets/assets/manifest.json`;
+    let developmentReads = 0;
+    const fetch = (async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+      if (String(input) === developmentUrl) {
+        developmentReads += 1;
+        return developmentReads === 1
+          ? response(200, { assets: [{ id: "fresh_model", file: "models/fresh_model.glb" }] })
+          : response(404, { error: "Development assets unavailable" });
+      }
+      return server.fetch(input, init);
+    }) as typeof globalThis.fetch;
+    const backend = createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch });
+
+    await backend.collection("assets");
+    expect(backend.assetBaseUrl).toBe(`${SESSION.server}/dev-assets/`);
+    const saved = await backend.transact({ operation: "save", revisions: { items: REVISIONS.items! }, changes: [{ kind: "put", collection: "items", id: "worn_sword", record: { id: "worn_sword", name: "Chipped Shortsword" } }] });
+    expect(saved.ok).toBe(true);
+
+    const assets = await backend.collection("assets");
+    expect(assets.data).toContainEqual({ id: "sword_model", file: "models/sword_model.glb" });
+    expect(backend.assetBaseUrl).toBe(DESCRIPTOR.assetBaseUrl);
+    expect(developmentReads).toBe(2);
+  });
+
   it("presents the session as a bearer token on every admin request", async () => {
     const server = fakeServer();
     await createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch }).collections();

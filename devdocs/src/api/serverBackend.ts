@@ -101,6 +101,7 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   async function manifest(): Promise<unknown[]> {
     const development = await developmentManifest();
     if (development) return development;
+    assetBaseUrl = descriptor.assetBaseUrl;
     const url = descriptor.assetBaseUrl ? `${descriptor.assetBaseUrl.replace(/\/*$/, "/")}assets/manifest.json` : "assets/manifest.json";
     try {
       const response = await call(url, { credentials: "omit" });
