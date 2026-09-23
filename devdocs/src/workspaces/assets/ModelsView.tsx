@@ -50,6 +50,7 @@ function lastDetailSentence(value: string): string {
 }
 
 function tripoNote(row: TripoStatusRow): string {
+  if (/^Starred\b/i.test(row.status)) return row.details;
   const lower = row.details.toLowerCase();
   if (lower.includes("authored-world proof remains pending")) {
     const checks = lower.includes("production build passed") ? "Production sync and build passed; " : "";
@@ -78,8 +79,10 @@ function TripoProgress() {
   const pendingWorld = TRIPO_STATUS.rows.filter(row => row.details.toLowerCase().includes("authored-world proof remains pending"));
   const labReview = TRIPO_STATUS.rows.filter(row => /^Lab review queued/i.test(row.status));
   const tierRewire = TRIPO_STATUS.rows.filter(row => /^Previously accepted;.*rewire pending/i.test(row.status));
-  const held = TRIPO_STATUS.rows.filter(isHeld);
+  const starred = TRIPO_STATUS.rows.filter(row => /^Starred\b/i.test(row.status));
+  const held = TRIPO_STATUS.rows.filter(row => !/^Starred\b/i.test(row.status) && isHeld(row));
   const groups = [
+    { title: `Starred Tripo (${starred.length})`, rows: starred, tone: "info" as const },
     { title: "Production", rows: accepted, tone: "ok" as const },
     { title: "Model review", rows: modelReview, tone: "info" as const },
     { title: "Lab review", rows: labReview, tone: "accent" as const },
@@ -94,9 +97,8 @@ function TripoProgress() {
       <span className="text-[11px] text-faint">From docs/asset-review.md{TRIPO_STATUS.updated ? ` - updated ${TRIPO_STATUS.updated}` : ""}</span>
     </header>
     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-      {groups.map(group => <section key={group.title} aria-label={group.title} className="min-w-0">
-        <h3 className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-faint">{group.title}</h3>
-        <ul className="space-y-1.5">
+      {groups.map(group => {
+        const rows = <ul className="space-y-1.5">
           {group.rows.map(row => <li key={`${row.status}:${row.assets}`} className="min-w-0 text-xs">
             <div className="flex flex-wrap items-center gap-1.5">
               <Badge variant={group.tone} className="h-4 px-1 text-[10px]">{row.status}</Badge>
@@ -104,8 +106,17 @@ function TripoProgress() {
             </div>
             {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{group.title === "Model review" ? "Model gate pending; not in game." : group.title === "Held" && isImageDenied(row) ? "Image denied; no model generated; not in game." : group.title === "Held" && isRigRepairHeld(row) ? "Held for rig repair; not in game." : tripoNote(row)}</p>}
           </li>)}
-        </ul>
-      </section>)}
+        </ul>;
+        return <section key={group.title} aria-label={group.title} className="min-w-0">
+          <h3 className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-faint">{group.title}</h3>
+          {group.title.startsWith("Starred Tripo")
+            ? <details className="rounded border border-border/70 px-2 py-1.5 text-xs">
+                <summary className="cursor-pointer text-muted-foreground">View {group.rows.length} cards; prompts and export/import status</summary>
+                <div className="pt-2">{rows}</div>
+              </details>
+            : rows}
+        </section>;
+      })}
     </div>
   </section>;
 }
