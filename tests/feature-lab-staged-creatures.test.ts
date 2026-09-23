@@ -17,6 +17,7 @@ describe("explicit source creature reviews", () => {
     const preview = createFeatureLabEntity(preset, { ...placement, assetId: "npc_slayer_aevra" });
     expect(authored.view?.assetId).toBe("npc_fey_nightshade");
     expect(preview.view?.assetId).toBe("npc_slayer_aevra");
+    expect(preview.view?.partAssetIds).toEqual([]);
     expect(preview.npc).toEqual(authored.npc);
     expect(baseYCalls).toEqual(["npc_fey_nightshade", "npc_slayer_aevra"]);
     expect(createFeatureLabEntity(preset, placement).view?.assetId).toBe("npc_fey_nightshade");
