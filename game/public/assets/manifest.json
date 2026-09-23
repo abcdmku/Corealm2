@@ -54480,6 +54480,283 @@
       }
     },
     {
+      "id": "creature_gloamfang_reaver",
+      "file": "models/creature/creature_gloamfang_reaver.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Gloamfang Reaver",
+      "tags": [
+        "creature",
+        "humanoid",
+        "lycanthrope",
+        "wilderness",
+        "T50",
+        "starred",
+        "tripo"
+      ],
+      "bytes": 6790012,
+      "sha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
+      "size": {
+        "x": 1.8809815950920246,
+        "y": 1.8,
+        "z": 0.5852760736196319
+      },
+      "base": {
+        "x": -0.9404907975460123,
+        "y": 0,
+        "z": -0.2926380368098159
+      },
+      "bounds": {
+        "min": [
+          -0.9404907975460123,
+          0,
+          -0.2926380368098159
+        ],
+        "max": [
+          0.9404907975460123,
+          1.8,
+          0.2926380368098159
+        ]
+      },
+      "groundY": 0,
+      "presentationScale": 1.8846625766871166,
+      "targetHeightMeters": 1.8,
+      "triangles": 4760,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 0.86,
+      "materials": [
+        "tripo_node_89cabffe-294e-403a-8a17-f533cf89b30b_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+        "sourceCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+        "sourceFile": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
+        "sourceSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
+        "candidateSha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
+        "rigMethod": "Retained the 62-joint glTF hierarchy and source names for Unity Generic rig import; rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation, then uniformly scaled the armature to a grounded 1.80 m presentation. Source geometry, UVs and authored PBR maps are preserved.",
+        "textures": [
+          {
+            "name": "werewolf+character+3d+model_basecolor.jpg",
+            "role": "base color",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 997411,
+            "sha256": "acbc10be1e81bc09517b69b03ea34ec51b9354468fc26c0abad7143adc799705",
+            "unchanged": true
+          },
+          {
+            "name": "werewolf+character+3d+model_rm.png",
+            "role": "packed metallic-roughness",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png",
+            "bytes": 4513611,
+            "sha256": "e10b63633c2177b81f1deac18913c8845656146c2f0951e0b254392c3fedf6c0",
+            "unchanged": true
+          },
+          {
+            "name": "werewolf+character+3d+model_normal.jpg",
+            "role": "normal",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "bytes": 515342,
+            "sha256": "b31dcfe307e2af14f96c311f4c0a422d6baea3a7b8d6371c8abde6d89f9efd92",
+            "unchanged": true
+          }
+        ],
+        "candidateStatus": "pending-exact-production-slot-retest",
+        "candidateDisplayName": "Gloamfang Reaver",
+        "productionIdentity": "Gloamfang Reaver",
+        "acceptanceEvidence": "Source image design audit approved. A temporary Ashseal asset override passed normal-camera design and Idle, Walk, Run, Attack and Hit review; Death was verified by the CPU builder. Direct retest in the Gloamfang production slot remains pending."
+      },
+      "metadata": {
+        "family": "wilderness_lycanthrope",
+        "heightM": 1.8,
+        "dimensionsM": {
+          "width": 1.8809815950920246,
+          "height": 1.8,
+          "depth": 0.5852760736196319
+        },
+        "bounds": {
+          "min": [
+            -0.9404907975460123,
+            0,
+            -0.2926380368098159
+          ],
+          "max": [
+            0.9404907975460123,
+            1.8,
+            0.2926380368098159
+          ]
+        },
+        "rig": "62-joint glTF hierarchy for Unity Generic rig import; original joint names and hierarchy retained with reconstructed transforms, bind poses and four-weight anatomical deformation",
+        "sourceSkinned": true,
+        "boneCount": 62,
+        "sourceVertices": 8047,
+        "triangles": 4760,
+        "source": {
+          "file": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
+          "sha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+          "bytes": 6544240,
+          "starredModelId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+          "starredCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+          "starred": true,
+          "starredDisplayName": "werewolf character 3d model",
+          "generator": "Tripo starred GLB export; source texture sizes and map roles inspected from the file.",
+          "geometry": {
+            "vertices": 8047,
+            "triangles": 4760,
+            "bounds": {
+              "min": [
+                -0.4990234375,
+                0,
+                -0.1552734375
+              ],
+              "max": [
+                0.4990234375,
+                0.955078125,
+                0.1552734375
+              ]
+            },
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "uvsPreserved": true,
+            "indicesPreserved": true,
+            "retopology": false
+          },
+          "sourceSkin": {
+            "joints": 62,
+            "rootWeightedVertices": 8037,
+            "totalVertices": 8047,
+            "repaired": true
+          },
+          "sourceAnimations": [],
+          "textures": [
+            {
+              "name": "werewolf+character+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/jpeg",
+              "sha256": "acbc10be1e81bc09517b69b03ea34ec51b9354468fc26c0abad7143adc799705"
+            },
+            {
+              "name": "werewolf+character+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/png",
+              "sha256": "e10b63633c2177b81f1deac18913c8845656146c2f0951e0b254392c3fedf6c0"
+            },
+            {
+              "name": "werewolf+character+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/jpeg",
+              "sha256": "b31dcfe307e2af14f96c311f4c0a422d6baea3a7b8d6371c8abde6d89f9efd92"
+            }
+          ]
+        },
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
+          "sha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
+          "bytes": 6790012,
+          "geometry": {
+            "vertices": 8047,
+            "triangles": 4760,
+            "boundsMeters": {
+              "min": [
+                -0.9404907975460123,
+                0,
+                -0.2926380368098159
+              ],
+              "max": [
+                0.9404907975460123,
+                1.8,
+                0.2926380368098159
+              ]
+            },
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "uvsPreserved": true,
+            "indicesPreserved": true
+          },
+          "rig": {
+            "type": "62-joint glTF humanoid hierarchy imported as a Unity Generic rig",
+            "joints": 62,
+            "influencesPerVertex": 4,
+            "namesAndHierarchyPreserved": true,
+            "method": "Rebuilt rest transforms, inverse binds and anatomical skin weights while leaving source positions, indices, normals and UVs unchanged."
+          },
+          "animations": [
+            {
+              "name": "Idle",
+              "seconds": 2.4,
+              "channels": 12
+            },
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "channels": 13
+            },
+            {
+              "name": "Run",
+              "seconds": 0.68,
+              "channels": 14
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.86,
+              "channels": 16
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.48,
+              "channels": 10
+            },
+            {
+              "name": "Death",
+              "seconds": 1.62,
+              "channels": 16
+            }
+          ],
+          "productionTarget": "game/public/assets/models/creature/creature_gloamfang_reaver.glb"
+        },
+        "pbr": {
+          "baseColor": true,
+          "packedMetallicRoughness": true,
+          "normal": true,
+          "allMapsMaximum": 2048
+        },
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "animationAcceptance": "Normal-camera temporary Ashseal asset override reviewed Idle, Walk, Run, Attack and Hit; Death checked by the CPU builder. Exact Gloamfang production-slot retest remains pending."
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "sourceDesignAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
       "id": "creature_ashseal_warden",
       "file": "models/creature/creature_ashseal_warden.glb",
       "pack": "corealm-starred-creatures",
