@@ -1,6 +1,6 @@
 ﻿{
     "batch":  "starter-t1-images",
-    "scope":  "Starter T1 image batch with separate model audit gates; Vetchrunner and Ryecrest art approved, model approval pending.",
+    "scope":  "Starter T1 image and model batch with separate art, geometry, material, rig, and export acceptance gates; both concept images and both base meshes independently approved.",
     "generator":  "Tripo Studio GPT Image 2.5",
     "entries":  [
                     {
@@ -15,7 +15,103 @@
                         "prompt":  "FALLOWMARCH STARTER WILDLIFE 01 — VETCHRUNNER. One original small quadruped for a grounded medieval RPG: a healthy adult seed and beetle forager of windy Fallowmarch field borders. Foxlike alert posture and sweeping tail, yet a distinct fantasy species. Balanced athletic body, short sturdy legs, broad three-toed paws, compact wedge muzzle with a blunt nose, low rounded ears, small deep-set amber eyes, closed mouth and a serious calm expression. Medium russet tail with a pale blunt tip kept clear of the legs. Dense short velvet coat with fine directional fur detail: layered russet, weathered wheat-gold and peat-brown, cream throat and cheek strokes, charcoal lower legs and scattered dark teardrop dapples. Slightly ridged brow and wider gripping forepaws are the only anatomical variations. Natural matte materials with intricate color variation. Moderate mature proportions, neither bulky nor thin. Clear shoulder, hip and knee joints; all four weight-bearing legs and feet fully visible and separated for quadruped rigging. One whole creature in a three-quarter front standing pose, centered on a plain neutral warm light-gray studio background, soft even light. No scenery, props, equipment, text, panels or extra creatures. No huge eyes, smile, horns, spikes, dinosaur or reptile anatomy.",
                         "reviewStatus":  "approved image by independent Astra-low auditor",
                         "notes":  "Downloaded original source image from Tripo. The direct CDN URL is recorded without its temporary signed query parameters.",
-                        "acceptanceScope":  "Image/art approval only; model anatomy, topology, UV/materials, rig and motion remain unapproved until model audit."
+                        "acceptanceScope":  "Image/art and base geometry approved; GLB material maps, UV channel, and 15-joint skin verified locally; deformation, animation, and game import remain unapproved.",
+                        "model":  {
+                                      "id":  "d45e1741-b2eb-4ae6-b98a-8fdb18bd4fdf",
+                                      "url":  "https://studio.tripo3d.ai/workspace/generate/d45e1741-b2eb-4ae6-b98a-8fdb18bd4fdf",
+                                      "sourceImageId":  "b589d56f-eaf7-4f04-92d8-cbbf75f82f2f",
+                                      "generator":  "Smart Mesh P2.0",
+                                      "generationSettings":  {
+                                                                 "topology":  "Triangle",
+                                                                 "targetPolycount":  4000,
+                                                                 "generations":  1,
+                                                                 "privacy":  "Sharing Only",
+                                                                 "credits":  100,
+                                                                 "actualFaces":  4068,
+                                                                 "vertices":  2926
+                                                             },
+                                      "geometryReview":  "Approved independently by model auditor and Astra-low; face, four legs, attached tail, and major silhouette passed visual orbit review.",
+                                      "texture":  {
+                                                      "action":  "Texture generation completed",
+                                                      "credits":  30,
+                                                      "resolution":  "8K option was observed selected on Texture page after generation; output dimensions not yet verified from export",
+                                                      "visibleResult":  "Layered russet/cream spotted coat, cream throat/tail tip, dark lower legs",
+                                                      "UV":  "Smart UV atlas was already populated at 64.2% utilization; destructive re-unwrap was skipped"
+                                                  },
+                                      "pbr":  {
+                                                  "action":  "Generate PBR submitted",
+                                                  "credits":  5,
+                                                  "uiResult":  "Generate PBR button returned after job; local GLB inspection verified packed metallic-roughness and normal maps.",
+                                                  "mapsVerified":  true
+                                              },
+                                      "rig":  {
+                                                  "status":  "Auto Rig completed in Tripo; Other rig type; Skeleton switch on; local skin/skeleton verified.",
+                                                  "credits":  20,
+                                                  "riggingType":  "Other",
+                                                  "skeletonSwitch":  true,
+                                                  "hierarchyVisible":  [
+                                                                           "Armature",
+                                                                           "neutral_bone",
+                                                                           "bone_0",
+                                                                           "mesh node"
+                                                                       ],
+                                                  "visual":  "Overlay showed neck/spine/tail chain and leg joints in side view",
+                                                  "localExportVerified":  true
+                                              },
+                                      "reviewStatus":  "Base geometry approved; GLB export verified locally with 8K basecolor, 4K packed RM/normal, UVs, and a 15-joint skin. Motion/game import remain unapproved.",
+                                      "visualEvidence":  "Front/side/rear geometry and side rig screenshots were captured inline in CUA output; no separate screenshot files saved. Model URL is recorded above. Model export panel visibly showed 8k Current and Export Skeleton on; Tripo success toast and local GLB inspection are recorded. Screenshots were captured inline in CUA output, not saved as separate files.",
+                                      "export":  {
+                                                     "status":  "Completed; Tripo export success toast observed",
+                                                     "file":  "exports/vetchrunner.glb",
+                                                     "sourceTripoAssetTitle":  "serval 3d model",
+                                                     "exportUUID":  null,
+                                                     "exportUI":  {
+                                                                      "format":  "GLB",
+                                                                      "textureResolution":  "8k Current",
+                                                                      "exportSkeleton":  true,
+                                                                      "settingsEvidence":  "Model export dialog visibly showed GLB, 8k Current, and Skeleton switch on."
+                                                                  },
+                                                     "fileBytes":  26549616,
+                                                     "sha256":  "418362B4539C41711A98DA2871646649358F163F27EF44C90D36955628A64F1D",
+                                                     "glbInspection":  {
+                                                                           "gltfVersion":  "2.0",
+                                                                           "meshes":  1,
+                                                                           "primitives":  1,
+                                                                           "triangles":  4068,
+                                                                           "vertices":  2926,
+                                                                           "uvAttributes":  [
+                                                                                                "TEXCOORD_0"
+                                                                                            ],
+                                                                           "skinningAttributes":  [
+                                                                                                      "JOINTS_0",
+                                                                                                      "WEIGHTS_0"
+                                                                                                  ],
+                                                                           "skins":  1,
+                                                                           "jointCount":  15,
+                                                                           "imageCount":  3,
+                                                                           "materialCount":  1,
+                                                                           "textures":  [
+                                                                                            {
+                                                                                                "channel":  "baseColor",
+                                                                                                "format":  "JPEG",
+                                                                                                "dimensions":  "8192x8192"
+                                                                                            },
+                                                                                            {
+                                                                                                "channel":  "metallicRoughnessPacked",
+                                                                                                "format":  "PNG",
+                                                                                                "dimensions":  "4096x4096"
+                                                                                            },
+                                                                                            {
+                                                                                                "channel":  "normal",
+                                                                                                "format":  "JPEG",
+                                                                                                "dimensions":  "4096x4096"
+                                                                                            }
+                                                                                        ],
+                                                                           "occlusionTexture":  false
+                                                                       },
+                                                     "exportIdNotExposedByUI":  true
+                                                 }
+                                  }
                     },
                     {
                         "name":  "Ryecrest",
@@ -29,7 +125,115 @@
                         "prompt":  "FALLOWMARCH STARTER WILDLIFE 02 — RYECREST. One original adult groundbird species for a serious medieval RPG, gleaning spilled grain and grasshoppers along Fallowmarch field margins. Compact forward-leaning body with a deep but balanced breast, short sturdy neck and strong runner legs; a clear land bird, not a tall wader. Short broad seed-cracking bill with shallow keratin ridges, small dark amber side-set eyes, complete natural bird face and closed beak. A low backward sweep of layered crown feathers and a short tidy fan tail create a distinct readable silhouette. Exactly two weight-bearing legs, each with three forward toes and a small rear toe; show both hocks, feet and claws clearly separated. Two wings folded close against the flanks, each wing reads as one clean feathered limb ready for later rigging, with no other limbs. Healthy moderate adult proportions, neither bulky nor spindly. Layered natural plumage in muted olive-brown, weathered rye-gold and warm umber, a pale cream throat, russet wing bars and charcoal feather tips, fine overlapping feather detail with varied matte sheen. Serious alert neutral expression. One whole bird in a three-quarter front standing pose, centered, full body visible, plain warm light-gray studio background, soft even light. No field scenery, straw, props, armor, text, panels, extra creatures, huge eyes, grin, horns, spikes, dinosaur anatomy or machinery.",
                         "reviewStatus":  "approved image by independent Astra-low auditor",
                         "notes":  "Downloaded original source image from Tripo. Direct CDN URL recorded without temporary signed query parameters.",
-                        "acceptanceScope":  "Image/art approval only; model anatomy, topology, UV/materials, rig and motion remain unapproved until model audit."
+                        "acceptanceScope":  "Image/art and base geometry approved; UV channel, 8K basecolor, 4K packed metallic-roughness/normal maps, and 24-joint skin verified locally; deformation, animation, and game import remain unapproved.",
+                        "model":  {
+                                      "id":  "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+                                      "url":  "https://studio.tripo3d.ai/workspace/generate/85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+                                      "sourceImageId":  "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+                                      "generator":  "Smart Mesh P2.0",
+                                      "generationSettings":  {
+                                                                 "topology":  "Triangle",
+                                                                 "targetPolycount":  4000,
+                                                                 "generations":  1,
+                                                                 "privacy":  "Sharing Only",
+                                                                 "credits":  100,
+                                                                 "actualFaces":  3964,
+                                                                 "vertices":  2118
+                                                             },
+                                      "geometryReview":  "Approved independently by Ryecrest model auditor and Astra-low; bilateral folded wings, two legs/feet, beak/face, and fan tail passed front/side/rear review.",
+                                      "smartUv":  {
+                                                      "action":  "Unwrap UV and Save completed",
+                                                      "credits":  20,
+                                                      "utilizationPercent":  72.258949279785156,
+                                                      "faces":  3964,
+                                                      "verticesAfterUv":  2783
+                                                  },
+                                      "texture":  {
+                                                      "action":  "Generate Texture submitted",
+                                                      "credits":  30,
+                                                      "resolutionSelected":  "8K",
+                                                      "style":  "None (source image attached to model page)",
+                                                      "removeLighting":  false,
+                                                      "status":  "Generation completed; textured result visible in Tripo, 8K option selected; GLB basecolor verified at 8192x8192.",
+                                                      "outputDimensionsVerified":  false
+                                                  },
+                                      "pbr":  {
+                                                  "status":  "Generate PBR button returned after job; local GLB inspection verified packed metallic-roughness and normal maps.",
+                                                  "mapsVerified":  true,
+                                                  "credits":  5,
+                                                  "lastObservedProgress":  "50% shown in Tripo UI"
+                                              },
+                                      "rig":  {
+                                                  "status":  "Auto Rig completed in Tripo; Other rig type; Skeleton switch on; local skin/skeleton verified.",
+                                                  "localExportVerified":  true,
+                                                  "credits":  20,
+                                                  "riggingType":  "Other",
+                                                  "skeletonSwitch":  true
+                                              },
+                                      "reviewStatus":  "Base geometry approved; GLB export verified locally with 8K basecolor, 4K packed RM/normal, UVs, and a 24-joint skin. Motion/game import remain unapproved.",
+                                      "visualEvidence":  "Front, side and rear-quarter geometry screenshots were captured inline in CUA output; no separate screenshot files saved. Model URL is recorded above. Textured result screenshot captured inline: brown layered feather surface, rump fan, and both legs visible. Rig screenshot showed the Other rig overlay with Skeleton on across centerline and both legs; export panel showed 8k Current and Skeleton on, followed by success toast. Screenshots were captured inline in CUA output, not saved separately.",
+                                      "export":  {
+                                                     "status":  "Completed; Tripo export success toast observed",
+                                                     "file":  "exports/ryecrest.glb",
+                                                     "sourceTripoAssetTitle":  "quail 3d model",
+                                                     "exportUUID":  null,
+                                                     "exportUI":  {
+                                                                      "format":  "GLB",
+                                                                      "textureResolution":  "8k Current",
+                                                                      "exportSkeleton":  true,
+                                                                      "settingsEvidence":  "Model export dialog visibly showed GLB, selected 8k Current, and Skeleton switch on."
+                                                                  },
+                                                     "fileBytes":  26252176,
+                                                     "sha256":  "A2743322F2CF3D9D35DB7066D405D82A28617812528C9CC3BEFADCE214ECF9A6",
+                                                     "glbInspection":  {
+                                                                           "gltfVersion":  "2.0",
+                                                                           "meshes":  1,
+                                                                           "primitives":  1,
+                                                                           "triangles":  3964,
+                                                                           "vertices":  2780,
+                                                                           "uvAttributes":  [
+                                                                                                "TEXCOORD_0"
+                                                                                            ],
+                                                                           "skinningAttributes":  [
+                                                                                                      "JOINTS_0",
+                                                                                                      "WEIGHTS_0"
+                                                                                                  ],
+                                                                           "skins":  1,
+                                                                           "jointCount":  24,
+                                                                           "imageCount":  3,
+                                                                           "materialCount":  1,
+                                                                           "textures":  [
+                                                                                            {
+                                                                                                "channel":  "baseColor",
+                                                                                                "format":  "JPEG",
+                                                                                                "dimensions":  "8192x8192"
+                                                                                            },
+                                                                                            {
+                                                                                                "channel":  "metallicRoughnessPacked",
+                                                                                                "format":  "PNG",
+                                                                                                "dimensions":  "4096x4096"
+                                                                                            },
+                                                                                            {
+                                                                                                "channel":  "normal",
+                                                                                                "format":  "JPEG",
+                                                                                                "dimensions":  "4096x4096"
+                                                                                            }
+                                                                                        ],
+                                                                           "occlusionTexture":  false
+                                                                       },
+                                                     "exportIdNotExposedByUI":  true
+                                                 }
+                                  }
                     }
-                ]
+                ],
+    "batchExportAttempt":  {
+                               "selectedModels":  [
+                                                      "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+                                                      "d45e1741-b2eb-4ae6-b98a-8fdb18bd4fdf"
+                                                  ],
+                               "route":  "Assets \u003e Rigged \u003e Manage \u003e Batch Export",
+                               "format":  "GLB",
+                               "status":  "Batch dialog accepted two selected cards and exposed GLB format only; no texture-resolution or skeleton controls were visible and no batch UUID/files were surfaced, so per-model export dialogs were used for verifiable 8K and skeleton settings.",
+                               "batchExportUUID":  null
+                           }
 }
