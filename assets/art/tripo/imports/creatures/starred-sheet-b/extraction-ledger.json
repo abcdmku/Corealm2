@@ -1,0 +1,642 @@
+{
+  "schema": "corealm-starred-sheet-extraction/1",
+  "status": "awaiting-root-in-game-review",
+  "designDisposition": "provisional-held: source-sheet creatures have chibi proportions against the serious RPG direction; extraction and rig candidates do not imply visual approval or production readiness.",
+  "source": {
+    "projectUuid": "2dba7c96-0289-4979-8510-df23ce9577eb",
+    "cardStorageUuid": "7d8ede80-cd10-4b2e-8b71-15c6aa28687e",
+    "displayName": "fantasy creature 3d model",
+    "prompt": "nine stylized fantasy monsters with horned skulls and clawed limbs, varied color schemes.",
+    "file": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+    "sha256": "7559d698aea8fb679f6b63567a353e4f80d0ad91260133b70cf8220b10beac05",
+    "bytes": 23675048,
+    "generator": "Tripo Studio P1.0",
+    "triangles": 19233,
+    "vertices": 32739,
+    "sourceRig": {
+      "joints": 0,
+      "animations": []
+    },
+    "textures": [
+      {
+        "name": "fantasy+creature+3d+model_basecolor.jpg",
+        "mimeType": "image/jpeg",
+        "width": 8192,
+        "height": 8192,
+        "sha256": "eafd34f649eed64b1edbd84472ef818a027706bcbf0e80c81e5a43e3735334f4"
+      },
+      {
+        "name": "fantasy+creature+3d+model_rm.png",
+        "mimeType": "image/png",
+        "width": 4096,
+        "height": 4096,
+        "sha256": "144be99f7b68216246ac1beb6387badf08c68f59fdc02cf34f65fda34133c52f"
+      },
+      {
+        "name": "fantasy+creature+3d+model_normal.jpg",
+        "mimeType": "image/jpeg",
+        "width": 4096,
+        "height": 4096,
+        "sha256": "999f3244db762faae24787602c343351904bae470826df8c7371afa6ab2a2366"
+      }
+    ]
+  },
+  "extraction": {
+    "method": "Each triangle is assigned whole by centroid to the source 3x3 silhouette grid; X breaks -0.17 and 0.175, Y breaks 0.32 and 0.645. Source vertex attributes, indices within each extracted face set, material and UVs are retained. A node translation centers each extracted model at X/Z origin and ground level without changing vertex positions.",
+    "rowOrder": "screenshot row-major, top to bottom; the top row is high source Y.",
+    "sourceAttributes": [
+      "POSITION",
+      "NORMAL",
+      "TEXCOORD_0"
+    ],
+    "noRetopology": true,
+    "sharedPbrMaps": "Base color, normal and metallic-roughness maps retained as separate 2K images in each base GLB."
+  },
+  "parts": [
+    {
+      "part": 1,
+      "row": 1,
+      "column": 1,
+      "id": "red-bone-mask-imp",
+      "displayName": "Red Bone-Mask Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-01.glb",
+      "sha256": "e1cf85dd028e4532d0ce3b1c24a31fed92ef9d7698503316abcc308805d8b6c8",
+      "bytes": 6089028,
+      "sourceBounds": {
+        "min": [
+          -0.4892578125,
+          0.65234375,
+          -0.1591796875
+        ],
+        "max": [
+          -0.1962890923023224,
+          0.966796875,
+          0.1767578125
+        ]
+      },
+      "centeredTranslation": [
+        0.3427734524011612,
+        -0.65234375,
+        -0.0087890625
+      ],
+      "faces": 1872,
+      "vertices": 3311,
+      "crossingBoundaryFaces": 0,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 9933,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 9933,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 6622,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "red-bone-mask-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "red-bone-mask-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "red-bone-mask-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 2,
+      "row": 1,
+      "column": 2,
+      "id": "lavender-bat-ear-imp",
+      "displayName": "Lavender Bat-Ear Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-02.glb",
+      "sha256": "c574c2184b5039404ebcad4d22a96095dbe1b1496393aef21cbe318ccb351d47",
+      "bytes": 6055984,
+      "sourceBounds": {
+        "min": [
+          -0.1494140923023224,
+          0.63671875,
+          -0.15527349710464478
+        ],
+        "max": [
+          0.1513671576976776,
+          0.953125,
+          0.14941400289535522
+        ]
+      },
+      "centeredTranslation": [
+        -0.0009765326976776123,
+        -0.63671875,
+        0.0029297471046447754
+      ],
+      "faces": 1423,
+      "vertices": 2445,
+      "crossingBoundaryFaces": 15,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 7335,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 7335,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 4890,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "lavender-bat-ear-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "lavender-bat-ear-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "lavender-bat-ear-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 3,
+      "row": 1,
+      "column": 3,
+      "id": "green-antler-imp",
+      "displayName": "Green Antler Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-03.glb",
+      "sha256": "672b91ac56ade311a9468ea4bc144f81c46259326cdfef5d3f812e80e57fa34c",
+      "bytes": 6162272,
+      "sourceBounds": {
+        "min": [
+          0.2099609076976776,
+          0.63671875,
+          -0.15917977690696716
+        ],
+        "max": [
+          0.4990234375,
+          0.970703125,
+          0.15527334809303284
+        ]
+      },
+      "centeredTranslation": [
+        -0.3544921725988388,
+        -0.63671875,
+        0.001953214406967163
+      ],
+      "faces": 3100,
+      "vertices": 5139,
+      "crossingBoundaryFaces": 15,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 15417,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 15417,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 10278,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "green-antler-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "green-antler-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "green-antler-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 4,
+      "row": 2,
+      "column": 1,
+      "id": "magma-imp",
+      "displayName": "Magma Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-04.glb",
+      "sha256": "6c344a8cc406fb0f342e8c3761614638409a5e540d6427d33b103a64ea0addd4",
+      "bytes": 6061116,
+      "sourceBounds": {
+        "min": [
+          -0.4990234375,
+          0.318359375,
+          -0.1767578125
+        ],
+        "max": [
+          -0.1923828274011612,
+          0.638671875,
+          0.1748046875
+        ]
+      },
+      "centeredTranslation": [
+        0.3457031324505806,
+        -0.318359375,
+        0.0009765625
+      ],
+      "faces": 1456,
+      "vertices": 2597,
+      "crossingBoundaryFaces": 5,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 7791,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 7791,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 5194,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "magma-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "magma-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "magma-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 5,
+      "row": 2,
+      "column": 2,
+      "id": "ivory-bone-imp",
+      "displayName": "Ivory Bone Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-05.glb",
+      "sha256": "b0002e37976dee1aa0b98414fff1d58d86dfc3eab38358457831787c4d1ae049",
+      "bytes": 6113968,
+      "sourceBounds": {
+        "min": [
+          -0.1494140774011612,
+          0.314453125,
+          -0.1591797173023224
+        ],
+        "max": [
+          0.1455077975988388,
+          0.654296875,
+          0.1611327826976776
+        ]
+      },
+      "centeredTranslation": [
+        0.001953139901161194,
+        -0.314453125,
+        -0.0009765326976776123
+      ],
+      "faces": 2235,
+      "vertices": 3954,
+      "crossingBoundaryFaces": 21,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 11862,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 11862,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 7908,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "ivory-bone-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "ivory-bone-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "ivory-bone-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 6,
+      "row": 2,
+      "column": 3,
+      "id": "purple-cyclops-imp",
+      "displayName": "Purple Cyclops Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-06.glb",
+      "sha256": "4082af82cdeee756d3835b6d9c31f69e06f010f618cba468fc92c3652bdf1756",
+      "bytes": 6092988,
+      "sourceBounds": {
+        "min": [
+          0.2099609225988388,
+          0.314453125,
+          -0.15527352690696716
+        ],
+        "max": [
+          0.4990234375,
+          0.654296875,
+          0.15332022309303284
+        ]
+      },
+      "centeredTranslation": [
+        -0.3544921800494194,
+        -0.314453125,
+        0.000976651906967163
+      ],
+      "faces": 1994,
+      "vertices": 3388,
+      "crossingBoundaryFaces": 11,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 10164,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 10164,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 6776,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "purple-cyclops-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "purple-cyclops-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "purple-cyclops-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 7,
+      "row": 3,
+      "column": 1,
+      "id": "blue-crystal-imp",
+      "displayName": "Blue Crystal Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-07.glb",
+      "sha256": "c1dde7500dd43fe9bb1bec9d62ae957a40e11262dcbe7e4f30c4b134f2e523c2",
+      "bytes": 6072540,
+      "sourceBounds": {
+        "min": [
+          -0.4892578125,
+          0.0019530951976776123,
+          -0.1767577826976776
+        ],
+        "max": [
+          -0.2001953125,
+          0.3203125,
+          0.1494140923023224
+        ]
+      },
+      "centeredTranslation": [
+        0.3447265625,
+        -0.0019530951976776123,
+        0.013671845197677612
+      ],
+      "faces": 1683,
+      "vertices": 2866,
+      "crossingBoundaryFaces": 1,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 8598,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 8598,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 5732,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "blue-crystal-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "blue-crystal-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "blue-crystal-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 8,
+      "row": 3,
+      "column": 2,
+      "id": "rust-iron-spike-imp",
+      "displayName": "Rust-Iron Spike Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-08.glb",
+      "sha256": "42bd91e74cbad6b5c9982db84cb0135ba0b181e78a684384445250dbd5bbb51d",
+      "bytes": 6104936,
+      "sourceBounds": {
+        "min": [
+          -0.1533203125,
+          0,
+          -0.1650390923023224
+        ],
+        "max": [
+          0.1474609375,
+          0.326171875,
+          0.1357421576976776
+        ]
+      },
+      "centeredTranslation": [
+        0.0029296875,
+        0,
+        0.014648467302322388
+      ],
+      "faces": 2077,
+      "vertices": 3731,
+      "crossingBoundaryFaces": 11,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 11193,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 11193,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 7462,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "rust-iron-spike-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "rust-iron-spike-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "rust-iron-spike-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    },
+    {
+      "part": 9,
+      "row": 3,
+      "column": 3,
+      "id": "yellow-green-spore-imp",
+      "displayName": "Yellow-Green Spore Imp",
+      "sourceFile": "assets/art/tripo/exports/2dba7c96-0289-4979-8510-df23ce9577eb.glb",
+      "outputFile": "assets/art/tripo/imports/creatures/starred-sheet-b/base/part-09.glb",
+      "sha256": "0e127f9d4a1e9bb3728d4494a8729acf71c4989bb06ffb46b8fdcb211cef95f1",
+      "bytes": 6172660,
+      "sourceBounds": {
+        "min": [
+          0.2099609375,
+          0,
+          -0.17285162210464478
+        ],
+        "max": [
+          0.4990234375,
+          0.328125,
+          0.14355462789535522
+        ]
+      },
+      "centeredTranslation": [
+        -0.3544921875,
+        0,
+        0.014648497104644775
+      ],
+      "faces": 3393,
+      "vertices": 5353,
+      "crossingBoundaryFaces": 13,
+      "sourceAttributesPreserved": {
+        "POSITION": {
+          "values": 16059,
+          "preserved": true
+        },
+        "NORMAL": {
+          "values": 16059,
+          "preserved": true
+        },
+        "TEXCOORD_0": {
+          "values": 10706,
+          "preserved": true
+        }
+      },
+      "textures": [
+        {
+          "name": "yellow-green-spore-imp_basecolor_2k.jpg",
+          "mimeType": "image/jpeg",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "yellow-green-spore-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "name": "yellow-green-spore-imp_data_2k.png",
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048
+        }
+      ]
+    }
+  ]
+}
