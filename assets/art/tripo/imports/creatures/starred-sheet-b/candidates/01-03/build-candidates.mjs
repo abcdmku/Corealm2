@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Accessor, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
+import { Matrix4, Quaternion, Vector3 } from 'three';
 import sharp from 'sharp';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -34,7 +35,11 @@ for (const model of models) {
   const bounds={min:[Infinity,Infinity,Infinity],max:[-Infinity,-Infinity,-Infinity]};
   for(let i=0;i<positions.length;i+=3)for(let a=0;a<3;a++){bounds.min[a]=Math.min(bounds.min[a],positions[i+a]);bounds.max[a]=Math.max(bounds.max[a],positions[i+a]);}
   const size=bounds.max.map((v,i)=>v-bounds.min[i]), cx=(bounds.min[0]+bounds.max[0])/2, cz=(bounds.min[2]+bounds.max[2])/2;
-  const sourceHeight=size[1], scaleFactor=model.targetHeight/sourceHeight;
+  const sourceTransform={translation:meshNode.getTranslation(),rotation:meshNode.getRotation(),scale:meshNode.getScale()};
+  const sourceMatrix=new Matrix4().compose(new Vector3(...sourceTransform.translation),new Quaternion(...sourceTransform.rotation),new Vector3(...sourceTransform.scale));
+  const sourceWorldBounds={min:[Infinity,Infinity,Infinity],max:[-Infinity,-Infinity,-Infinity]};
+  for(let x=0;x<2;x++)for(let y=0;y<2;y++)for(let z=0;z<2;z++){const point=new Vector3(x?bounds.max[0]:bounds.min[0],y?bounds.max[1]:bounds.min[1],z?bounds.max[2]:bounds.min[2]).applyMatrix4(sourceMatrix);for(let axis=0;axis<3;axis++){sourceWorldBounds.min[axis]=Math.min(sourceWorldBounds.min[axis],point.getComponent(axis));sourceWorldBounds.max[axis]=Math.max(sourceWorldBounds.max[axis],point.getComponent(axis));}}
+  const sourceHeight=sourceWorldBounds.max[1]-sourceWorldBounds.min[1], scaleFactor=model.targetHeight/sourceHeight;
   const at=(x,y,z=cz)=>[cx+x*size[0],bounds.min[1]+y*size[1],z];
   const b=[
     ['mixamorigHips',null,at(0,.45),.15,'torso'],['mixamorigSpine','mixamorigHips',at(0,.56),.16,'torso'],['mixamorigSpine1','mixamorigSpine',at(0,.67),.16,'torso'],['mixamorigSpine2','mixamorigSpine1',at(0,.77),.15,'torso'],['mixamorigNeck','mixamorigSpine2',at(0,.84),.12,'torso'],['mixamorigHead','mixamorigNeck',at(0,.93),.20,'head'],
@@ -43,7 +48,7 @@ for (const model of models) {
   ].map(([name,parent,p,sigma,group])=>({name,parent,p,sigma,group}));
   const byName=new Map(b.map((bone,index)=>[bone.name,{...bone,index}]));
   for(const bone of b)bone.local=bone.parent?bone.p.map((v,i)=>v-byName.get(bone.parent).p[i]):bone.p;
-  const sourceTransform={translation:meshNode.getTranslation(),rotation:meshNode.getRotation(),scale:meshNode.getScale()}, parent=meshNode.getParentNode();
+  const parent=meshNode.getParentNode();
   if(parent)parent.removeChild(meshNode);else scene.removeChild(meshNode);
   meshNode.setTranslation([0,0,0]).setRotation([0,0,0,1]).setScale([1,1,1]);
   const presentationScale=sourceTransform.scale.map(value=>value*scaleFactor);
@@ -78,7 +83,7 @@ for (const model of models) {
   const candidatePresentation=check.listNodes().find(node=>node.getName()===`${model.id}_Presentation`);
   const outputScale=candidatePresentation?.getScale();
   if(!outputScale||outputScale.some(value=>Math.abs(value-presentationScale[0])>1e-7))throw new Error(`${model.id}: presentation scale did not round-trip uniformly`);
-  const outputBounds={min:bounds.min.map(value=>value*scaleFactor),max:bounds.max.map(value=>value*scaleFactor)};
+  const outputBounds={min:sourceWorldBounds.min.map(value=>value*scaleFactor),max:sourceWorldBounds.max.map(value=>value*scaleFactor)};
   const report={schema:'corealm-starred-sheet-b-rig-candidate/1',part:model.part,id:model.id,label:model.label,designDisposition:'provisional-held-for-root-review',source:{file:`assets/art/tripo/imports/creatures/starred-sheet-b/base/part-${String(model.part).padStart(2,'0')}.glb`,sha256:sourceSha256},candidate:{file:candidateFile,sha256:createHash('sha256').update(bytes).digest('hex')},scale:{sourceHeight,targetHeight:model.targetHeight,scaleFactor,outputBounds},geometry:{vertices:positions.length/3,triangles:indexAccessor.getCount()/3,sourceAttributeHashes:sourceHashes,outputAttributeHashes:outputHashes,retopology:false},rig:{type:'Y-up humanoid imp',bones:b.length,boneNames:b.map(x=>x.name),influencesPerVertex:4,verticesWithDistributedWeights:distributed,maxWeightSumError:maxWeightError,modelSpecificAnatomy:model.accent},clips, textures:{source:sourceTextures,runtime:runtimeTextures},acceptance:{rigMotionLabAccepted:false,productionReady:false,reason:'Chibi-proportioned source sheet is held for root visual review; deformation and motion still need lab review.'}};
   await writeFile(path.join(folder,'candidate-manifest.json'),JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify({id:model.id,candidateSha256:report.candidate.sha256,vertices:report.geometry.vertices,triangles:report.geometry.triangles,bones:b.length,clips:clips.map(c=>c.name),textures:runtimeTextures.length,distributed},null,2));
