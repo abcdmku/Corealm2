@@ -119,7 +119,17 @@ for (const node of jointNodes) {
 const armature = meshNode.getParentNode();
 assert(armature, 'Expected the source mesh to be parented to its armature.');
 assert.deepEqual(armature.getTranslation(), [0, 0, 0], 'Armature transform must remain identity.');
+assert.deepEqual(armature.getRotation(), [0, 0, 0, 1], 'Armature rotation must remain identity.');
+assert.deepEqual(armature.getScale(), [1, 1, 1], 'Source armature scale changed.');
 assert.deepEqual(meshNode.getTranslation(), [0, 0, 0], 'Mesh transform must remain identity.');
+const targetHeightMeters = 1.8;
+const sourceHeightMeters = bounds.max[1] - bounds.min[1];
+const presentationScale = targetHeightMeters / sourceHeightMeters;
+const presentationBounds = {
+  min: bounds.min.map(value => value * presentationScale),
+  max: bounds.max.map(value => value * presentationScale),
+};
+armature.setScale([presentationScale, presentationScale, presentationScale]);
 skin.setSkeleton(jointNodes[jointIndex.get('Hips')]);
 const inverseBind = new Float32Array(jointNodes.length * 16);
 for (let i = 0; i < jointNodes.length; i++) {
@@ -467,18 +477,20 @@ function evaluateSkinning(tracks, time) {
   const deformedBounds = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
   let sumSquaredDisplacement = 0, maximumDisplacement = 0;
   for (let vertex = 0; vertex < sourcePositions.length / 3; vertex++) {
-    const source = [sourcePositions[vertex * 3], sourcePositions[vertex * 3 + 1], sourcePositions[vertex * 3 + 2]];
-    const result = [0, 0, 0];
+    const sourceLocal = [sourcePositions[vertex * 3], sourcePositions[vertex * 3 + 1], sourcePositions[vertex * 3 + 2]];
+    const source = sourceLocal.map(value => value * presentationScale);
+    const resultLocal = [0, 0, 0];
     for (let slot = 0; slot < 4; slot++) {
       const weight = weightValues[vertex * 4 + slot];
       if (weight <= 0) continue;
       const boneIndex = jointValues[vertex * 4 + slot];
       const bone = jointInfo[boneIndex];
       const transform = transforms[boneIndex];
-      const relative = source.map((value, axis) => value - bone.anchor[axis]);
+      const relative = sourceLocal.map((value, axis) => value - bone.anchor[axis]);
       const rotated = rotateVector(transform.rotation, relative);
-      for (let axis = 0; axis < 3; axis++) result[axis] += (transform.position[axis] + rotated[axis]) * weight;
+      for (let axis = 0; axis < 3; axis++) resultLocal[axis] += (transform.position[axis] + rotated[axis]) * weight;
     }
+    const result = resultLocal.map(value => value * presentationScale);
     const displacement = Math.hypot(...result.map((value, axis) => value - source[axis]));
     sumSquaredDisplacement += displacement * displacement;
     maximumDisplacement = Math.max(maximumDisplacement, displacement);
@@ -488,12 +500,13 @@ function evaluateSkinning(tracks, time) {
     }
   }
   const poseJoints = ['Left_Shoulder', 'Left_UpperArm', 'Left_LowerArm', 'Left_Hand', 'Right_Shoulder', 'Right_UpperArm', 'Right_LowerArm', 'Right_Hand']
-    .map(name => ({ name, position: transforms[jointIndex.get(name)].position }));
+    .map(name => ({ name, position: transforms[jointIndex.get(name)].position.map(value => value * presentationScale) }));
   return { bounds: deformedBounds, maximumDisplacement, rmsDisplacement: Math.sqrt(sumSquaredDisplacement / (sourcePositions.length / 3)), poseJoints };
 }
 const rest = evaluateSkinning([], 0);
 assert(rest.maximumDisplacement < 1e-5, `Bind pose changes the source mesh by ${rest.maximumDisplacement}.`);
 assert(Math.abs(rest.bounds.min[1]) < 1e-5, `Bind pose no longer touches the ground: ${rest.bounds.min[1]}.`);
+assert(Math.abs((rest.bounds.max[1] - rest.bounds.min[1]) - targetHeightMeters) < 1e-4, 'Uniform rig-root scale did not produce the requested presentation height.');
 const sampledMotion = [];
 for (const clip of clipMetrics) {
   const tracks = clipTracks.get(clip.name);
@@ -524,6 +537,9 @@ const checkSkin = checkRoot.listSkins()[0];
 assert(checkPrimitive && checkSkin, 'Candidate export lost its mesh or skin.');
 assert.equal(checkRoot.listAnimations().length, 6, 'Candidate must contain six animation clips.');
 assert.equal(checkSkin.listJoints().length, 62, 'Candidate must preserve the 62-joint Unity Generic hierarchy.');
+const checkArmature = checkRoot.listNodes().find(node => node.getName() === armature.getName());
+assert(checkArmature, 'Candidate export lost its armature transform.');
+assert(checkArmature.getScale().every((value, axis) => Math.abs(value - presentationScale) < 1e-6), 'Candidate export lost the uniform presentation scale.');
 const maxArrayDelta = (a, b) => {
   assert.equal(a.length, b.length);
   let max = 0;
@@ -587,7 +603,7 @@ const candidate = {
     sha256: candidateSha256,
     bytes: outputBytes.length,
     productionTarget: 'game/public/assets/models/creature/creature_gloamfang_reaver.glb',
-    geometry: { vertices: sourcePositions.length / 3, triangles: sourceIndices.length / 3, positionsPreserved: true, indicesPreserved: true, normalsPreserved: true, uvsPreserved: true },
+    geometry: { vertices: sourcePositions.length / 3, triangles: sourceIndices.length / 3, positionsPreserved: true, indicesPreserved: true, normalsPreserved: true, uvsPreserved: true, sourceBounds: bounds, presentationBounds, presentationScale, targetHeightMeters },
     rig: { type: '62-joint glTF humanoid hierarchy retained for Unity Generic import; bone transforms and bind poses repaired', joints: jointInfo.map((bone, index) => ({ name: bone.name, parent: bone.parent, position: bone.anchor, usedVertices: jointVertexUse[index] })), influencesPerVertex: 4, verticesWithDistributedWeights, maximumWeightSumError, method: 'Model-specific four-weight spatial skin using anatomical gates and bone-segment distance fields; no retopology and no root-only fallback.' },
     textures: runtimeTextureMetrics,
     packedRoughnessRange: roughnessRange,
@@ -608,10 +624,12 @@ const labAsset = {
   tags: ['creature', 'humanoid', 'lycanthrope', 'wilderness', 'T50+', 'starred', 'tripo', 'candidate'],
   bytes: outputBytes.length,
   sha256: candidateSha256,
-  size: { x: bounds.max[0] - bounds.min[0], y: bounds.max[1] - bounds.min[1], z: bounds.max[2] - bounds.min[2] },
-  base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] },
-  bounds,
-  groundY: bounds.min[1],
+  size: { x: presentationBounds.max[0] - presentationBounds.min[0], y: presentationBounds.max[1] - presentationBounds.min[1], z: presentationBounds.max[2] - presentationBounds.min[2] },
+  base: { x: presentationBounds.min[0], y: presentationBounds.min[1], z: presentationBounds.min[2] },
+  bounds: presentationBounds,
+  groundY: presentationBounds.min[1],
+  presentationScale,
+  targetHeightMeters,
   triangles: sourceIndices.length / 3,
   animations: clipMetrics.map(clip => clip.name),
   materials: root.listMaterials().map(entry => entry.getName()),
@@ -623,7 +641,7 @@ const labAsset = {
     sourceSha256,
     candidateFile: candidatePath,
     candidateSha256,
-    rigMethod: 'Retained 62-joint source names/hierarchy, rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation; preserved source geometry and authored 2K PBR maps.',
+    rigMethod: `Retained 62-joint source names/hierarchy, rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation; applied uniform armature-root scale ${presentationScale.toFixed(9)} for a grounded ${targetHeightMeters.toFixed(2)} m presentation while preserving source geometry and authored 2K PBR maps.`,
     textures: runtimeTextureMetrics,
     candidateStatus: 'awaiting-root-lab-review',
   },
@@ -631,6 +649,6 @@ const labAsset = {
 };
 await writeFile(`${owner}/lab-catalog.json`, `${JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset], files: { [candidate.id]: 'gloamfang-reaver-native-rig-candidate.glb' } }, null, 2)}\n`);
 
-await writeFile(`${owner}/README.md`, `# Gloamfang Reaver candidate\n\nThis is an isolated candidate derived from the starred Tripo Werewolf Warrior model. It is suggested for Wilderness T50+ placement because its silhouette is a humanoid hunter. Root image review, normal-camera lab presentation, and placement remain pending.\n\nRun \`node assets/art/tripo/imports/creatures/new-star-werewolf/build-candidate.mjs\` from the repository root to verify the source SHA-256 and reproduce the rigged GLB, catalogs, texture metrics, and sampled deformation checks.\n\nThe source export's 62-joint names and parent hierarchy are retained. Tripo left all joints at identity transforms; 8,037 of 8,047 vertices were pinned to Hips and every vertex had only one influence. This builder reconstructs rest anchors, inverse binds and spatial skin weights while leaving positions, indices, normals and UVs byte-for-byte numerically unchanged. It retains the authored base-color, packed metallic-roughness and normal maps at 2K runtime resolution.\n\nThe source bind pose has the arms extended. Idle, Walk, Run, Attack, Hit and Death now pose both arms down and forward with bent elbows so the hunter reads in a compact predatory guard; the attack winds and rakes from that guard. Builder checks sample hand joint positions as well as mesh deformation and grounding. Animation quality and final material response still need root review in the persistent normal-camera feature lab.\n`);
+await writeFile(`${owner}/README.md`, `# Gloamfang Reaver candidate\n\nThis is an isolated candidate derived from the starred Tripo Werewolf Warrior model. It is suggested for Wilderness T50+ placement because its silhouette is a humanoid hunter. Root image review, normal-camera lab presentation, and placement remain pending.\n\nRun \`node assets/art/tripo/imports/creatures/new-star-werewolf/build-candidate.mjs\` from the repository root to verify the source SHA-256 and reproduce the rigged GLB, catalogs, texture metrics, and sampled deformation checks.\n\nThe source export's 62-joint names and parent hierarchy are retained. Tripo left all joints at identity transforms; 8,037 of 8,047 vertices were pinned to Hips and every vertex had only one influence. This builder reconstructs rest anchors, inverse binds and spatial skin weights while leaving positions, indices, normals and UVs byte-for-byte numerically unchanged. It retains the authored base-color, packed metallic-roughness and normal maps at 2K runtime resolution.\n\nThe unscaled mesh stands 0.9551 m, is grounded at y=0, and remains geometrically unchanged. A uniform 1.8847 armature-root scale raises its presentation height to 1.8 m while preserving the ground contact. The source bind pose has the arms extended. Idle, Walk, Run, Attack, Hit and Death pose both arms down and forward with bent elbows so the hunter reads in a compact predatory guard; the attack winds and rakes from that guard. Builder checks sample hand joint positions as well as mesh deformation and scaled grounding. Animation quality and final material response still need root review in the persistent normal-camera feature lab.\n`);
 
-console.log(JSON.stringify({ sourceSha256, sourceBytes: sourceBytes.length, candidatePath, candidateBytes: outputBytes.length, candidateSha256, vertices: sourcePositions.length / 3, triangles: sourceIndices.length / 3, joints: jointNodes.length, rootWeightedVertices, oneInfluenceVertices, verticesWithDistributedWeights, clips: clipMetrics.map(clip => clip.name), textures: runtimeTextureMetrics, sampledMotion }, null, 2));
+console.log(JSON.stringify({ sourceSha256, sourceBytes: sourceBytes.length, candidatePath, candidateBytes: outputBytes.length, candidateSha256, vertices: sourcePositions.length / 3, triangles: sourceIndices.length / 3, joints: jointNodes.length, rootWeightedVertices, oneInfluenceVertices, verticesWithDistributedWeights, presentationScale, targetHeightMeters, presentationBounds, clips: clipMetrics.map(clip => clip.name), textures: runtimeTextureMetrics, sampledMotion }, null, 2));

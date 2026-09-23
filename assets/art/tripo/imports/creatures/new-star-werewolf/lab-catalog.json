@@ -17,31 +17,33 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6789944,
-      "sha256": "642b10858cbf9a8abf1b84b3ff34e428a8aa66e7084e1041bfe0c95e4625b1ee",
+      "bytes": 6790012,
+      "sha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
       "size": {
-        "x": 0.998046875,
-        "y": 0.955078125,
-        "z": 0.310546875
+        "x": 1.8809815950920246,
+        "y": 1.8,
+        "z": 0.5852760736196319
       },
       "base": {
-        "x": -0.4990234375,
+        "x": -0.9404907975460123,
         "y": 0,
-        "z": -0.1552734375
+        "z": -0.2926380368098159
       },
       "bounds": {
         "min": [
-          -0.4990234375,
+          -0.9404907975460123,
           0,
-          -0.1552734375
+          -0.2926380368098159
         ],
         "max": [
-          0.4990234375,
-          0.955078125,
-          0.1552734375
+          0.9404907975460123,
+          1.8,
+          0.2926380368098159
         ]
       },
       "groundY": 0,
+      "presentationScale": 1.8846625766871166,
+      "targetHeightMeters": 1.8,
       "triangles": 4760,
       "animations": [
         "Idle",
@@ -61,8 +63,8 @@
         "sourceFile": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
         "sourceSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
-        "candidateSha256": "642b10858cbf9a8abf1b84b3ff34e428a8aa66e7084e1041bfe0c95e4625b1ee",
-        "rigMethod": "Retained 62-joint source names/hierarchy, rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation; preserved source geometry and authored 2K PBR maps.",
+        "candidateSha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
+        "rigMethod": "Retained 62-joint source names/hierarchy, rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation; applied uniform armature-root scale 1.884662577 for a grounded 1.80 m presentation while preserving source geometry and authored 2K PBR maps.",
         "textures": [
           {
             "name": "werewolf+character+3d+model_basecolor.jpg",
