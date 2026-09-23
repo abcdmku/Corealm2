@@ -408,7 +408,7 @@
     "acceptance": "Image approval and Tripo rig completion do not imply game acceptance. Validate skin weights, matching intact facial forms and quick walk, run, attack, hit and death in the production feature lab."
   },
   "exportWorkflow": {
-    "preferred": "Individual GLB export, 8k Current, Export Skeleton enabled; Pack UV disabled when present.",
+    "preferred": "Use 2K creature textures for new models; keep existing higher-resolution source exports unchanged. Armor retains its separate 8K source target. Export GLB with Skeleton enabled and Pack UV disabled when present.",
     "rigPreset": "For new humanoids, evaluate Unity Humanoid Compatible against the game's motion importer before using it. Tripo exposes that preset only under Humanoid; quadrupeds and birds need a validated nonhumanoid rig with distributed weights, valid inverse binds, and real animation clips.",
     "automation": "Unsegmented creature exports downloaded through the UI. Some segmented armor exports still reach ERR_BLOCKED_BY_CLIENT.",
     "sourceValidation": "Preserve downloaded originals. Inspect embedded texture dimensions, source identity, skin weights and inverse bind matrices before importing. Several rig-page GLBs contain unusable root-only weights and require correction.",
