@@ -505,6 +505,7 @@ const lab = {
     sourceProvenance: { author: 'Corealm bind, skin-weight and motion reconstruction', sourceModelId: '137e9dae-273c-4230-9da0-370e2a945c90', sourceCardId: '5e176d0c-cd1b-4b6c-833a-df6c5abd9f46', sourceFile: sourcePath, sourceSha256, candidateFile: outputPath, candidateSha256, candidateStatus: 'awaiting-root-lab-review', rigAuthoring: candidate.candidate.rig.method, prompt: candidate.source.prompt },
     candidateReview: { accepted: false, assetAudit: false, labAccepted: false, worldIntegrated: false },
   }],
+  files: { npc_slayer_garek: outputPath.slice(`${ownerDir}/`.length) },
 };
 await writeFile(`${ownerDir}/lab-catalog.json`, `${JSON.stringify(lab, null, 2)}\n`);
 console.log(JSON.stringify({ sourceSha256, candidateSha256, outputBytes: outputBytes.length, geometry: candidate.candidate.geometry, rig: { joints: joints.length, distributedVertices: verticesWithDistributedWeights, totalVertices: positionValues.length / 3, maximumWeightSumError, bindTransformMaxError, bindPoseMaxVertexDelta }, animations: animationMetrics, textures: sourceTextureMetrics, pbr: pbrMetrics }, null, 2));

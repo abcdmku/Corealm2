@@ -82,5 +82,8 @@
         "worldIntegrated": false
       }
     }
-  ]
+  ],
+  "files": {
+    "npc_slayer_garek": "master-garek-native-rig-candidate.glb"
+  }
 }
