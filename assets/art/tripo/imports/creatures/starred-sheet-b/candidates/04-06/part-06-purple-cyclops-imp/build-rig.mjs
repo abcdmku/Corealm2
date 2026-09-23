@@ -194,7 +194,7 @@ const provenance = {
   asset: 'part-06-purple-cyclops-imp', status: 'provisional-held-for-root-review', source: { file: '../../../base/part-06.glb', sha256: sourceHash, bytes: sourceBytes.length, meshNodeTranslation: sourceOffset },
   mesh: { vertices: positions.length / 3, triangles: indices.length / 3, sourceGeometryHashes: geometryHashes, candidateGeometryHashes: checkGeometry, exactMatch: true },
   normalization: { sourceBounds: bounds, sourceHeight: extent[1], movedMeshTransformToPresentationRoot: sourceOffset, addedScale: false, outputHeight: extent[1] },
-  rig: { method: '22-bone Mixamo-compatible humanoid chain; four Gaussian capsule influences per vertex with lateral limb and face zones', joints: bones.map(bone => bone.name), maxWeightSumError, minWeightSum: Math.min(...weightTotals), maxWeightSum: Math.max(...weightTotals), bindBounds },
+  rig: { method: '24-bone Mixamo-compatible humanoid chain; four Gaussian capsule influences per vertex with lateral limb and face zones', joints: bones.map(bone => bone.name), maxWeightSumError, minWeightSum: Math.min(...weightTotals), maxWeightSum: Math.max(...weightTotals), bindBounds },
   motions: { library: path.relative(repo, motionPath).replaceAll(path.sep, '/'), sha256: motionHash, retarget, clips, durations },
   maps: { count: mapEvidence.length, maxDimension: 2048, maps: mapEvidence },
   candidate: { file: path.basename(outputPath), bytes: outputBytes.length, sha256: sha256(outputBytes) },
@@ -205,6 +205,7 @@ const provenance = {
 };
 await writeFile(reportPath, `${JSON.stringify(provenance, null, 2)}\n`);
 console.log(JSON.stringify({ candidate: outputPath, report: reportPath, vertices: provenance.mesh.vertices, triangles: provenance.mesh.triangles, clips: durations, sha256: provenance.candidate.sha256 }, null, 2));
+
 
 
 

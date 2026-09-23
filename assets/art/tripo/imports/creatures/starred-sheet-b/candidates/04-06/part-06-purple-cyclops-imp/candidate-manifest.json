@@ -79,7 +79,7 @@
     "outputHeight": 0.33984375
   },
   "rig": {
-    "method": "22-bone Mixamo-compatible humanoid chain; four Gaussian capsule influences per vertex with lateral limb and face zones",
+    "method": "24-bone Mixamo-compatible humanoid chain; four Gaussian capsule influences per vertex with lateral limb and face zones",
     "joints": [
       "mixamorig:Hips",
       "mixamorig:Spine",
