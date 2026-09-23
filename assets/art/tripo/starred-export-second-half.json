@@ -194,8 +194,36 @@
                        "prompt":  "alien arthropod with rugged beige-brown exoskeleton and multiple jointed legs, worn textured shell, organic creature form",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+                                    "bytes":  34961620,
+                                    "sha256":  "0220508d90e4ed8fa4fbe06980fc266ed033e83a71aa84c0712579dfe9728fd8",
+                                    "faces":  5400,
+                                    "vertices":  3436,
+                                    "meshes":  1,
+                                    "skins":  1,
+                                    "joints":  36,
+                                    "animations":  0,
+                                    "embeddedImages":  3,
+                                    "textures":  3,
+                                    "materials":  1,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true,
+                                    "mapResolutions":  {
+                                                           "baseColor":  "8192x8192",
+                                                           "metallicRoughness":  "4096x4096",
+                                                           "normal":  "4096x4096"
+                                                       }
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "alien-arachnid-0ea08166-294b-467b-982b-8f3c1891eee3.glb",
+                                      "result":  "Download verified in Downloads; Tripo detail page confirmed project UUID"
+                                  }
                    },
                    {
                        "order":  27,
