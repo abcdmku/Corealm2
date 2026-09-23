@@ -72,6 +72,15 @@ for (let i = 0; i < positions.length; i += 3) for (let axis = 0; axis < 3; axis+
 }
 assert(Math.abs(bounds.min[1]) < 1e-6 && bounds.max[1] > .98, `Expected a grounded Y-up source, got ${JSON.stringify(bounds)}.`);
 assert(bounds.max[0] - bounds.min[0] > .45 && bounds.max[2] - bounds.min[2] > .25, 'Expected the approved broad cap and forward-facing body proportions.');
+// The source mesh is only about one meter tall. Its Faeholme species scale is 0.65,
+// which rendered it at roughly 0.4m beside the player. Scale the rig container so
+// the unchanged mesh reads as a 1.43m creature in that existing T60 slot.
+const presentationScale = 2.2;
+const presentationBounds = {
+  min: bounds.min.map(value => value * presentationScale),
+  max: bounds.max.map(value => value * presentationScale),
+};
+const presentationSize = presentationBounds.max.map((value, axis) => value - presentationBounds.min[axis]);
 
 const sourceJointArray = primitive.getAttribute('JOINTS_0')?.getArray();
 const sourceWeightArray = primitive.getAttribute('WEIGHTS_0')?.getArray();
@@ -226,7 +235,7 @@ sourceSkin.dispose();
 inverseBindAccessor?.dispose();
 for (const node of [...root.listNodes()].reverse()) if (node !== meshNode) node.dispose();
 
-const rigContainer = sourceDoc.createNode('DuskcapStalkerRig').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
+const rigContainer = sourceDoc.createNode('DuskcapStalkerRig').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([presentationScale, presentationScale, presentationScale]);
 scene.addChild(rigContainer);
 rigContainer.addChild(meshNode);
 const jointNodes = new Map();
@@ -541,6 +550,14 @@ const candidateReport = {
   bytes: outputBytes.length,
   vertices: vertexCount,
   triangles: triangleCount,
+  presentation: {
+    scale: presentationScale,
+    sourceHeightMeters: bounds.max[1] - bounds.min[1],
+    displayedHeightMeters: presentationSize[1],
+    heightAtFaeholmeSpeciesScaleMeters: presentationSize[1] * .65,
+    bounds: presentationBounds,
+    note: 'Uniform rig-container scale; source vertex positions, normals, UVs, indices and texture maps remain unchanged.',
+  },
   positionsPreserved: maxPositionDelta === 0,
   indicesPreserved: indexMismatches === 0,
   normalsUvPreserved: maxAttributeDelta === 0,
@@ -579,10 +596,11 @@ const labAsset = {
   tags: ['creature', 'fairy', 'fungal', 'humanoid', 'Faeholme', 'T60', 'starred', 'tripo', 'skinned', 'candidate'],
   bytes: outputBytes.length,
   sha256: candidateSha,
-  size: { x: bounds.max[0] - bounds.min[0], y: bounds.max[1] - bounds.min[1], z: bounds.max[2] - bounds.min[2] },
-  base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] },
-  bounds,
-  groundY: bounds.min[1],
+  size: { x: presentationSize[0], y: presentationSize[1], z: presentationSize[2] },
+  base: { x: presentationBounds.min[0], y: presentationBounds.min[1], z: presentationBounds.min[2] },
+  bounds: presentationBounds,
+  presentationScale,
+  groundY: presentationBounds.min[1],
   triangles: triangleCount,
   animations: clipSummaries.map(clip => clip.name),
   walkClipSeconds: clipSummaries.find(clip => clip.name === 'Walk').seconds,

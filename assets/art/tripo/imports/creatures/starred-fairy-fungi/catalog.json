@@ -84,10 +84,29 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-fairy-fungi/duskcap-sporekin-native-rig-candidate.glb",
-    "sha256": "5f9468ca786b5db9d5a1218c1e752106b8f1022ec3cee78eee7010862283ddb1",
-    "bytes": 8099580,
+    "sha256": "d202c96e3f5a3dbd718964669b24edd1cb80afb065b108a03d70e26bb2add0bb",
+    "bytes": 8099604,
     "vertices": 3395,
     "triangles": 5258,
+    "presentation": {
+      "scale": 2.2,
+      "sourceHeightMeters": 0.9995120167732239,
+      "displayedHeightMeters": 2.198926436901093,
+      "heightAtFaeholmeSpeciesScaleMeters": 1.4293021839857103,
+      "bounds": {
+        "min": [
+          -0.546240234375,
+          0,
+          -0.32924804687500003
+        ],
+        "max": [
+          0.546240234375,
+          2.198926436901093,
+          0.32924804687500003
+        ]
+      },
+      "note": "Uniform rig-container scale; source vertex positions, normals, UVs, indices and texture maps remain unchanged."
+    },
     "positionsPreserved": true,
     "indicesPreserved": true,
     "normalsUvPreserved": true,
