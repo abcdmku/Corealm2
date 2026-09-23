@@ -54577,10 +54577,10 @@
             "unchanged": true
           }
         ],
-        "candidateStatus": "pending-exact-production-slot-retest",
+        "candidateStatus": "accepted-production-lab",
         "candidateDisplayName": "Gloamfang Reaver",
         "productionIdentity": "Gloamfang Reaver",
-        "acceptanceEvidence": "Source image design audit approved. A temporary Ashseal asset override passed normal-camera design and Idle, Walk, Run, Attack and Hit review; Death was verified by the CPU builder. Direct retest in the Gloamfang production slot remains pending."
+        "acceptanceEvidence": "Source image design audit approved. Direct exact-slot production lab review passed with a normal-camera Idle view and successful Walk, Run, Attack and Hit live-rig commands; all six clips passed CPU validation at 240 Hz."
       },
       "metadata": {
         "family": "wilderness_lycanthrope",
@@ -54744,7 +54744,7 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "animationAcceptance": "Normal-camera temporary Ashseal asset override reviewed Idle, Walk, Run, Attack and Hit; Death checked by the CPU builder. Exact Gloamfang production-slot retest remains pending."
+        "animationAcceptance": "Direct exact-slot production lab review passed: normal-camera Idle view; Walk, Run, Attack and Hit live-rig commands succeeded; all six clips, including Death, passed CPU validation at 240 Hz."
       },
       "acceptance": {
         "assetAudit": true,
@@ -54752,8 +54752,11 @@
         "rigAccepted": true,
         "motionAccepted": true,
         "texturesAccepted": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/gloamfang-ground/session.jsonl",
+        "labScreenshot": "test-results/gloamfang-ground/gloamfang-ground-idle-05.png",
+        "labProofScope": "Direct exact-slot production review: normal-camera Idle screenshot; Walk, Run, Attack and Hit live-rig commands passed; all six clips were CPU-validated at 240 Hz."
       }
     },
     {
