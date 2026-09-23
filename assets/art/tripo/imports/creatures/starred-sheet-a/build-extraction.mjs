@@ -312,6 +312,17 @@ for (const record of partRecords) {
       ? report.candidate.triangleCornerAttributesSha256 === report.source.triangleCornerAttributesSha256 : null);
   const runtimeTextureRecords = report.maps?.maps ?? report.candidate?.textures ?? report.textures?.runtime ??
     report.runtimeTextures ?? report.textures ?? report.source?.textures ?? [];
+  const scaleReview = report.scaleReview ?? {};
+  const outputBounds = scaleReview.groundedOutputBounds ?? scaleReview.bindOutputBounds ?? scaleReview.outputBounds ?? report.normalization?.outputBounds ??
+    report.worldTransform?.candidateBounds ?? report.rig?.bindBounds ?? null;
+  const measuredHeightMeters = scaleReview.measuredOutputHeightMeters ?? scaleReview.heightMeters ?? report.normalization?.outputHeight ??
+    report.worldTransform?.height ?? (outputBounds
+      ? outputBounds.max[1] - outputBounds.min[1]
+      : null);
+  const targetHeightMeters = scaleReview.targetHeightMeters ?? report.normalization?.targetHeightMeters ??
+    report.worldTransform?.targetHeightMeters ?? measuredHeightMeters;
+  const motionBounds = scaleReview.perClipAnimatedBounds ?? scaleReview.animatedClips ?? scaleReview.clips ?? scaleReview.perClipBounds ?? report.motionBounds ??
+    report.motions?.perClipBounds ?? report.motions?.clips ?? null;
   record.riggedCandidate = {
     file: path.relative(repo, candidateFile).replaceAll('\\', '/'),
     sha256: candidateSha256,
@@ -319,6 +330,16 @@ for (const record of partRecords) {
     rigReport: path.relative(repo, reportFile).replaceAll('\\', '/'),
     joints: jointCount,
     clips: riggedClips,
+    scale: {
+      targetHeightMeters,
+      measuredHeightMeters,
+      grounded: scaleReview.grounded ?? report.normalization?.grounded ??
+        report.worldTransform?.centeredGroundedOneMeter ?? null,
+      sixClipGroundingVerified: scaleReview.clipsGrounded ?? scaleReview.groundedAllClips ??
+        (motionBounds ? scaleReview.grounded ?? null : null),
+      outputBounds,
+      motionBounds,
+    },
     geometryPreserved: geometryPreserved === true,
     textureMaxDimension: report.maps?.maxDimension ?? Math.max(0, ...runtimeTextureRecords
       .map(texture => Math.max(texture.width ?? texture[0] ?? 0, texture.height ?? texture[1] ?? 0))),

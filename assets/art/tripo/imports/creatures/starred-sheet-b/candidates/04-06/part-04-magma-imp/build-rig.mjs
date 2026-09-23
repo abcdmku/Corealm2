@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { Accessor, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import sharp from 'sharp';
-import { retargetHumanoid } from '../../../../../../../../../tools/tripo-creatures/retarget.ts';
 import { deformedBounds } from '../../../../../../../../../tools/creature-motion/validate-deformation.ts';
+import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 
 const folder = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(folder, '../../../../../../../../../');
@@ -14,7 +14,6 @@ const id = path.basename(folder);
 const sourcePath = path.resolve(folder, '../../../base/part-04.glb');
 const outputPath = path.join(folder, 'rigged-candidate.glb');
 const reportPath = path.join(folder, 'candidate-manifest.json');
-const motionPath = path.join(repo, 'game/public/assets/models/animation/animation_library_1.glb');
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const sha256 = data => createHash('sha256').update(data).digest('hex');
 const hashArray = value => sha256(Buffer.from(value.buffer, value.byteOffset, value.byteLength));
@@ -45,6 +44,9 @@ for (let i = 0; i < positions.length; i += 3) for (let axis = 0; axis < 3; axis+
 }
 const extent = bounds.max.map((value, axis) => value - bounds.min[axis]);
 if (!(extent[1] > 0.15 && extent[1] < 0.8)) throw new Error(`Unexpected extracted imp height ${extent[1]}.`);
+const targetHeight = { 'part-04-magma-imp': 1.45, 'part-05-ivory-bone-imp': 1.55, 'part-06-purple-cyclops-imp': 1.35 }[id];
+if (!targetHeight) throw new Error(`No target height configured for ${id}`);
+const uniformScale = targetHeight / extent[1];
 const center = bounds.min.map((value, axis) => (value + bounds.max[axis]) / 2);
 const geometryHashes = { positions: hashArray(positions), normals: hashArray(normals), tangents: tangents ? hashArray(tangents) : null, uvs: hashArray(uvs), triangleIndices: hashArray(indices) };
 
@@ -52,7 +54,7 @@ const geometryHashes = { positions: hashArray(positions), normals: hashArray(nor
 // while a shared armature holds the unchanged mesh-local vertex coordinates.
 const sourceOffset = { translation: meshNode.getTranslation(), rotation: meshNode.getRotation(), scale: meshNode.getScale() };
 meshNode.setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
-const presentation = doc.createNode(`${id}_Presentation`).setTranslation(sourceOffset.translation).setRotation(sourceOffset.rotation).setScale(sourceOffset.scale);
+const presentation = doc.createNode(`${id}_Presentation`).setTranslation(sourceOffset.translation.map(value => value * uniformScale)).setRotation(sourceOffset.rotation).setScale([uniformScale, uniformScale, uniformScale]);
 const rig = doc.createNode('Armature');
 for (const child of [...scene.listChildren()]) scene.removeChild(child);
 scene.addChild(presentation);
@@ -136,14 +138,125 @@ for (let vertex = 0; vertex < positions.length / 3; vertex++) {
 primitive.setAttribute('JOINTS_0', doc.createAccessor(`${id}_Joints0`).setArray(joints0).setType(Accessor.Type.VEC4).setBuffer(buffer));
 primitive.setAttribute('WEIGHTS_0', doc.createAccessor(`${id}_Weights0`).setArray(weights0).setType(Accessor.Type.VEC4).setBuffer(buffer));
 
-const motionBytes = await readFile(motionPath);
-const motionHash = sha256(motionBytes);
-const retarget = retargetHumanoid(doc, await io.readBinary(motionBytes));
-for (const animation of [...root.listAnimations()]) if (!['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].includes(animation.getName())) animation.dispose();
-retarget.clips = retarget.clips.filter(clip => ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'].includes(clip.name));
-if (root.listAnimations().map(animation => animation.getName()).join(',') !== 'Idle,Walk,Run,Attack,Hit,Death') {
-  throw new Error(`Unexpected clip list: ${root.listAnimations().map(animation => animation.getName()).join(',')}`);
+const ground = doc.createNode('corealm_motion_ground');
+for (const child of [...scene.listChildren()]) { scene.removeChild(child); ground.addChild(child); }
+scene.addChild(ground);
+const boneNodes = new Map(bones.map(bone => [bone.semantic, joints.get(bone.semantic)]));
+const identityPose = () => { for (const node of boneNodes.values()) node.setRotation([0, 0, 0, 1]); };
+const f = (time, pose = {}) => ({ time, pose });
+const attackPose = id === 'part-04-magma-imp'
+  ? { RightArm: [-.28, 0, -.04], RightForeArm: [-.62, 0, 0], Spine2: [.06, 0, 0] }
+  : id === 'part-05-ivory-bone-imp'
+    ? { LeftArm: [-.25, 0, .05], LeftForeArm: [-.5, 0, 0], RightArm: [-.25, 0, -.05], RightForeArm: [-.5, 0, 0], Spine2: [.07, 0, 0] }
+    : { RightArm: [-.48, 0, 0], RightForeArm: [-.55, 0, 0], Spine2: [.1, 0, 0], Head: [-.06, 0, 0] };
+const motionDefinitions = [
+  { name: 'Idle', duration: 3.0, loop: true, frames: [
+    f(0), f(.75, { Spine1: [.012, 0, 0], Head: [0, .025, 0], LeftArm: [0, 0, -.02] }),
+    f(1.5), f(2.25, { Spine1: [-.012, 0, 0], Head: [0, -.025, 0], RightArm: [0, 0, .02] }), f(3.0),
+  ] },
+  { name: 'Walk', duration: 1.0, loop: true, frames: [
+    f(0, { LeftUpLeg: [.10, 0, 0], RightUpLeg: [-.10, 0, 0], LeftArm: [-.08, 0, 0], RightArm: [.08, 0, 0] }),
+    f(.25), f(.5, { LeftUpLeg: [-.10, 0, 0], RightUpLeg: [.10, 0, 0], LeftArm: [.08, 0, 0], RightArm: [-.08, 0, 0] }),
+    f(.75), f(1.0, { LeftUpLeg: [.10, 0, 0], RightUpLeg: [-.10, 0, 0], LeftArm: [-.08, 0, 0], RightArm: [.08, 0, 0] }),
+  ] },
+  { name: 'Run', duration: .72, loop: true, frames: [
+    f(0, { LeftUpLeg: [.18, 0, 0], RightUpLeg: [-.18, 0, 0], LeftLeg: [-.10, 0, 0], RightLeg: [.10, 0, 0], LeftArm: [-.14, 0, 0], RightArm: [.14, 0, 0] }),
+    f(.18), f(.36, { LeftUpLeg: [-.18, 0, 0], RightUpLeg: [.18, 0, 0], LeftLeg: [.10, 0, 0], RightLeg: [-.10, 0, 0], LeftArm: [.14, 0, 0], RightArm: [-.14, 0, 0] }),
+    f(.54), f(.72, { LeftUpLeg: [.18, 0, 0], RightUpLeg: [-.18, 0, 0], LeftLeg: [-.10, 0, 0], RightLeg: [.10, 0, 0], LeftArm: [-.14, 0, 0], RightArm: [.14, 0, 0] }),
+  ] },
+  { name: 'Attack', duration: .9, frames: [
+    f(0), f(.18, { RightArm: [.14, 0, -.05], RightForeArm: [.2, 0, 0], ...(id === 'part-05-ivory-bone-imp' ? { LeftArm: [.14, 0, .05], LeftForeArm: [.2, 0, 0] } : {}) }),
+    f(.38, attackPose), f(.58, attackPose), f(.9),
+  ] },
+  { name: 'Hit', duration: .48, frames: [
+    f(0), f(.08, { Spine1: [-.10, 0, 0], Spine2: [-.12, 0, 0], Head: [.08, 0, 0], LeftArm: [.04, 0, -.04], RightArm: [.04, 0, .04] }),
+    f(.24, { Spine1: [-.07, 0, 0], Spine2: [-.08, 0, 0], Head: [.05, 0, 0] }), f(.48),
+  ] },
+  { name: 'Death', duration: 1.8, frames: [
+    f(0), f(.4, { Hips: [0, 0, .06], Spine1: [.04, 0, 0], LeftLeg: [.08, 0, 0], RightLeg: [.08, 0, 0] }),
+    f(1.15, { Hips: [0, 0, .14], Spine1: [.06, 0, 0], Spine2: [.04, 0, 0], LeftLeg: [.16, 0, 0], RightLeg: [.16, 0, 0], LeftArm: [.08, 0, -.06], RightArm: [.08, 0, .06] }),
+    f(1.8, { Hips: [0, 0, .14], Spine1: [.06, 0, 0], Spine2: [.04, 0, 0], LeftLeg: [.16, 0, 0], RightLeg: [.16, 0, 0], LeftArm: [.08, 0, -.06], RightArm: [.08, 0, .06] }),
+  ] },
+];
+const quatFor = values => new Quaternion().setFromEuler(new Euler(values[0], values[1], values[2], 'XYZ')).normalize().toArray();
+const poseAt = (frames, time, semantic) => {
+  let right = frames.findIndex(frame => frame.time >= time);
+  if (right < 0) right = frames.length - 1;
+  if (right === 0 || frames[right].time === time) return frames[right].pose[semantic] ?? [0, 0, 0];
+  const left = frames[right - 1], a = left.pose[semantic] ?? [0, 0, 0], b = frames[right].pose[semantic] ?? [0, 0, 0];
+  const mix = (time - left.time) / (frames[right].time - left.time);
+  return a.map((value, axis) => value + (b[axis] - value) * mix);
+};
+const deformedVertices = (document = doc) => {
+  const sampledRoot = document.getRoot();
+  const result = [], positionValues = [], jointIds = [], influenceWeights = [], inverseBindValues = [];
+  const v = new Vector3(), transformed = new Vector3(), blend = new Vector3();
+  for (const node of sampledRoot.listNodes()) {
+    const mesh = node.getMesh(); if (!mesh) continue;
+    const skin = node.getSkin(), world = new Matrix4().fromArray(node.getWorldMatrix());
+    const jointMatrices = skin?.listJoints().map((joint, index) => {
+      skin.getInverseBindMatrices().getElement(index, inverseBindValues);
+      return new Matrix4().fromArray(joint.getWorldMatrix()).multiply(new Matrix4().fromArray(inverseBindValues));
+    });
+    for (const item of mesh.listPrimitives()) {
+      const positionsAccessor = item.getAttribute('POSITION'), jointsAccessor = item.getAttribute('JOINTS_0'), weightsAccessor = item.getAttribute('WEIGHTS_0');
+      for (let index = 0; index < positionsAccessor.getCount(); index++) {
+        positionsAccessor.getElement(index, positionValues); v.fromArray(positionValues);
+        if (jointMatrices && jointsAccessor && weightsAccessor) {
+          jointsAccessor.getElement(index, jointIds); weightsAccessor.getElement(index, influenceWeights); blend.set(0, 0, 0);
+          for (let slot = 0; slot < influenceWeights.length; slot++) if (influenceWeights[slot]) {
+            const matrix = jointMatrices[jointIds[slot]];
+            if (!matrix) throw new Error(`Invalid joint ${jointIds[slot]} during deformation sample.`);
+            transformed.copy(v).applyMatrix4(matrix).multiplyScalar(influenceWeights[slot]); blend.add(transformed);
+          }
+          result.push(blend.x, blend.y, blend.z);
+        } else { v.applyMatrix4(world); result.push(v.x, v.y, v.z); }
+      }
+    }
+  }
+  return result;
+};
+identityPose(); ground.setTranslation([0, 0, 0]);
+const bindVertices = deformedVertices();
+const bindPoseBounds = deformedBounds(doc);
+if (Math.abs(bindPoseBounds.min[1]) > .003 || Math.abs((bindPoseBounds.max[1] - bindPoseBounds.min[1]) - targetHeight) > .003) throw new Error(`Scaled bind bounds miss target height/floor: ${JSON.stringify(bindPoseBounds)}`);
+const motionReports = [];
+for (const definition of motionDefinitions) {
+  const active = [...new Set(definition.frames.flatMap(frame => Object.keys(frame.pose)))];
+  const count = Math.ceil(definition.duration * 30), times = [], groundValues = [], rotations = new Map(active.map(name => [name, []]));
+  let maximumGroundCorrection = 0, minimumRawGround = Infinity, minimumFinalGround = Infinity, maximumFinalGroundGap = 0, maximumVertexTravel = 0;
+  for (let frame = 0; frame <= count; frame++) {
+    const time = definition.duration * frame / count;
+    identityPose();
+    for (const semantic of active) boneNodes.get(semantic).setRotation(quatFor(poseAt(definition.frames, time, semantic)));
+    ground.setTranslation([0, 0, 0]);
+    const rawBounds = deformedBounds(doc), correction = Math.max(0, -rawBounds.min[1] + .001);
+    minimumRawGround = Math.min(minimumRawGround, rawBounds.min[1]);
+    maximumGroundCorrection = Math.max(maximumGroundCorrection, correction);
+    if (correction > .05) throw new Error(`${definition.name} needs ${correction.toFixed(4)} m ground correction at ${time.toFixed(3)} s.`);
+    ground.setTranslation([0, correction, 0]);
+    const finalBounds = deformedBounds(doc); minimumFinalGround = Math.min(minimumFinalGround, finalBounds.min[1]); maximumFinalGroundGap = Math.max(maximumFinalGroundGap, finalBounds.min[1]);
+    if (finalBounds.min[1] < -.003 || finalBounds.min[1] > .053) throw new Error(`${definition.name} exceeds 0.05 m final floor gap: ${finalBounds.min[1]}`);
+    const current = deformedVertices();
+    for (let i = 0; i < current.length; i += 3) maximumVertexTravel = Math.max(maximumVertexTravel, Math.hypot(current[i] - bindVertices[i], current[i + 1] - bindVertices[i + 1], current[i + 2] - bindVertices[i + 2]));
+    times.push(time); groundValues.push(0, correction, 0);
+    for (const semantic of active) rotations.get(semantic).push(...boneNodes.get(semantic).getRotation());
+  }
+  const minimumTravel = definition.name === 'Idle' ? .002 : .012;
+  if (maximumVertexTravel < minimumTravel) throw new Error(`${definition.name} moves the weighted mesh only ${maximumVertexTravel.toFixed(4)} m.`);
+  identityPose(); ground.setTranslation([0, 0, 0]);
+  const clip = doc.createAnimation(definition.name);
+  const input = doc.createAccessor(`${id}_${definition.name}_Time`).setType(Accessor.Type.SCALAR).setArray(Float32Array.from(times)).setBuffer(buffer);
+  for (const semantic of active) {
+    const sampler = doc.createAnimationSampler().setInput(input).setOutput(doc.createAccessor(`${id}_${definition.name}_${semantic}_Rotation`).setType(Accessor.Type.VEC4).setArray(Float32Array.from(rotations.get(semantic))).setBuffer(buffer)).setInterpolation('LINEAR');
+    clip.addSampler(sampler).addChannel(doc.createAnimationChannel().setTargetNode(boneNodes.get(semantic)).setTargetPath('rotation').setSampler(sampler));
+  }
+  const groundSampler = doc.createAnimationSampler().setInput(input).setOutput(doc.createAccessor(`${id}_${definition.name}_Ground`).setType(Accessor.Type.VEC3).setArray(Float32Array.from(groundValues)).setBuffer(buffer)).setInterpolation('LINEAR');
+  clip.addSampler(groundSampler).addChannel(doc.createAnimationChannel().setTargetNode(ground).setTargetPath('translation').setSampler(groundSampler));
+  motionReports.push({ name: definition.name, durationSeconds: definition.duration, samplesAt30Hz: count + 1, maximumGroundCorrection, minimumRawGround, minimumFinalGround, maximumFinalGroundGap, maximumVertexTravelMeters: maximumVertexTravel, animatedBones: active });
 }
+identityPose(); ground.setTranslation([0, 0, 0]);
+if (root.listAnimations().map(animation => animation.getName()).join(',') !== 'Idle,Walk,Run,Attack,Hit,Death') throw new Error('Candidate must have exactly six ordered gameplay clips.');
 const mapEvidence = [];
 for (const texture of root.listTextures()) {
   const bytes = texture.getImage();
@@ -174,7 +287,43 @@ const checkGeometry = {
 };
 if (JSON.stringify(checkGeometry) !== JSON.stringify(geometryHashes)) throw new Error('Serialized candidate altered positions, normals, UVs, or triangle corner order.');
 if (checkRoot.listAnimations().length !== 6 || checkRoot.listSkins().length !== 1) throw new Error('Serialized candidate lost animations or humanoid skin.');
-const clips = checkRoot.listAnimations().map(animation => ({
+const exportedBindVertices = deformedVertices(check);
+const checkBindPose = new Map(checkRoot.listNodes().map(node => [node, { rotation: node.getRotation(), translation: node.getTranslation() }]));
+const serializedMotionProof = [];
+const resetExportedPose = () => { for (const [node, pose] of checkBindPose) node.setRotation(pose.rotation).setTranslation(pose.translation); };
+const evaluateChannel = (channel, time) => {
+  const sampler = channel.getSampler(), input = sampler.getInput().getArray(), output = sampler.getOutput().getArray(), size = sampler.getOutput().getType() === Accessor.Type.VEC4 ? 4 : 3;
+  let right = 0; while (right < input.length - 1 && input[right] < time) right++;
+  const left = Math.max(0, right - 1), span = input[right] - input[left], amount = span > 0 ? Math.max(0, Math.min(1, (time - input[left]) / span)) : 0;
+  const a = Array.from(output.slice(left * size, (left + 1) * size)), b = Array.from(output.slice(right * size, (right + 1) * size));
+  if (channel.getTargetPath() === 'rotation') return new Quaternion().fromArray(a).slerp(new Quaternion().fromArray(b), amount).toArray();
+  return a.map((value, index) => value + (b[index] - value) * amount);
+};
+for (const animation of checkRoot.listAnimations()) {
+  const channels = animation.listChannels(), duration = Math.max(...animation.listSamplers().flatMap(sampler => Array.from(sampler.getInput().getArray()))), count = Math.ceil(duration * 30);
+  let maximumCorrection = 0, minimumFloor = Infinity, maximumFloorGap = 0, maximumTravel = 0;
+  const groundChannel = channels.find(channel => channel.getTargetNode()?.getName() === 'corealm_motion_ground' && channel.getTargetPath() === 'translation');
+  if (!groundChannel) throw new Error(`${animation.getName()} lost its sampled ground channel.`);
+  for (let frame = 0; frame <= count; frame++) {
+    const time = duration * frame / count;
+    resetExportedPose();
+    for (const channel of channels) {
+      const value = evaluateChannel(channel, time), target = channel.getTargetNode();
+      if (channel.getTargetPath() === 'rotation') target.setRotation(value);
+      else if (channel.getTargetPath() === 'translation') target.setTranslation(value);
+    }
+    const boundsAtFrame = deformedBounds(check), correction = evaluateChannel(groundChannel, time)[1];
+    minimumFloor = Math.min(minimumFloor, boundsAtFrame.min[1]); maximumFloorGap = Math.max(maximumFloorGap, boundsAtFrame.min[1]);
+    maximumCorrection = Math.max(maximumCorrection, correction);
+    if (boundsAtFrame.min[1] < -.003 || boundsAtFrame.min[1] > .053 || correction > .05) throw new Error(`${animation.getName()} exported frame violates floor/correction bounds at ${time.toFixed(3)} s.`);
+    const current = deformedVertices(check);
+    for (let i = 0; i < current.length; i += 3) maximumTravel = Math.max(maximumTravel, Math.hypot(current[i] - exportedBindVertices[i], current[i + 1] - exportedBindVertices[i + 1], current[i + 2] - exportedBindVertices[i + 2]));
+  }
+  const threshold = animation.getName() === 'Idle' ? .002 : .012;
+  if (maximumTravel < threshold) throw new Error(`${animation.getName()} serialized deformation is only ${maximumTravel.toFixed(4)} m.`);
+  serializedMotionProof.push({ name: animation.getName(), durationSeconds: duration, samplesAt30Hz: count + 1, maximumGroundCorrectionMeters: maximumCorrection, minimumFloorY: minimumFloor, maximumFloorGapMeters: maximumFloorGap, maximumWeightedVertexTravelMeters: maximumTravel, channels: channels.length });
+}
+resetExportedPose();const clips = checkRoot.listAnimations().map(animation => ({
   name: animation.getName(), channels: animation.listChannels().length,
   targets: animation.listChannels().map(channel => ({ bone: channel.getTargetNode()?.getName(), path: channel.getTargetPath(), keys: channel.getSampler()?.getInput()?.getCount() })),
 }));
@@ -193,9 +342,9 @@ const bindBounds = deformedBounds(check);
 const provenance = {
   asset: 'part-04-magma-imp', status: 'provisional-held-for-root-review', source: { file: '../../../base/part-04.glb', sha256: sourceHash, bytes: sourceBytes.length, meshNodeTranslation: sourceOffset },
   mesh: { vertices: positions.length / 3, triangles: indices.length / 3, sourceGeometryHashes: geometryHashes, candidateGeometryHashes: checkGeometry, exactMatch: true },
-  normalization: { sourceBounds: bounds, sourceHeight: extent[1], movedMeshTransformToPresentationRoot: sourceOffset, addedScale: false, outputHeight: extent[1] },
+  normalization: { sourceBounds: bounds, sourceHeight: extent[1], targetHeight, uniformScale, sourcePresentationTranslation: sourceOffset.translation, finalPresentationTranslation: sourceOffset.translation.map(value => value * uniformScale), movedMeshTransformToPresentationRoot: sourceOffset, addedScale: true, outputHeight: targetHeight, bindBounds },
   rig: { method: '24-bone Mixamo-compatible humanoid chain; four Gaussian capsule influences per vertex with lateral limb and face zones', joints: bones.map(bone => bone.name), maxWeightSumError, minWeightSum: Math.min(...weightTotals), maxWeightSum: Math.max(...weightTotals), bindBounds },
-  motions: { library: path.relative(repo, motionPath).replaceAll(path.sep, '/'), sha256: motionHash, retarget, clips, durations },
+  motions: { method: 'Model-specific compact humanoid clips; weighted-mesh sampled every frame at 30 Hz with animated ground correction', clips, durations, grounding: serializedMotionProof, preExportSampling: motionReports, maximumGroundCorrectionMeters: Math.max(...serializedMotionProof.map(report => report.maximumGroundCorrectionMeters)) },
   maps: { count: mapEvidence.length, maxDimension: 2048, maps: mapEvidence },
   candidate: { file: path.basename(outputPath), bytes: outputBytes.length, sha256: sha256(outputBytes) },
   acceptance: { rigAccepted: false, motionAccepted: false, labAccepted: false, productionReady: false },
@@ -205,6 +354,13 @@ const provenance = {
 };
 await writeFile(reportPath, `${JSON.stringify(provenance, null, 2)}\n`);
 console.log(JSON.stringify({ candidate: outputPath, report: reportPath, vertices: provenance.mesh.vertices, triangles: provenance.mesh.triangles, clips: durations, sha256: provenance.candidate.sha256 }, null, 2));
+
+
+
+
+
+
+
 
 
 

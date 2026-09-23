@@ -57,6 +57,18 @@
       ]
     },
     "sourceHeight": 0.33984375,
+    "targetHeight": 1.55,
+    "uniformScale": 4.560919540229885,
+    "sourcePresentationTranslation": [
+      0.001953139901161194,
+      -0.314453125,
+      -0.0009765326976776123
+    ],
+    "finalPresentationTranslation": [
+      0.008908113940008755,
+      -1.4341954022988506,
+      -0.004453887062511225
+    ],
     "movedMeshTransformToPresentationRoot": {
       "translation": [
         0.001953139901161194,
@@ -75,8 +87,20 @@
         1
       ]
     },
-    "addedScale": false,
-    "outputHeight": 0.33984375
+    "addedScale": true,
+    "outputHeight": 1.55,
+    "bindBounds": {
+      "min": [
+        -0.6725574734900838,
+        7.455449243688924e-10,
+        -0.7304597646725932
+      ],
+      "max": [
+        0.6725574833822239,
+        1.5500000984508806,
+        0.730459764672593
+      ]
+    }
   },
   "rig": {
     "method": "24-bone Mixamo-compatible humanoid chain; four Gaussian capsule influences per vertex with lateral limb and face zones",
@@ -111,590 +135,129 @@
     "maxWeightSum": 1.0000000447034836,
     "bindBounds": {
       "min": [
-        -0.1494140774011612,
-        0.3144531203142833,
-        -0.15917971611634107
+        -0.6725574734900838,
+        7.455449243688924e-10,
+        -0.7304597646725932
       ],
       "max": [
-        0.14550779976707395,
-        0.6542968664689397,
-        0.16113278149714483
+        0.6725574833822239,
+        1.5500000984508806,
+        0.730459764672593
       ]
     }
   },
   "motions": {
-    "library": "game/public/assets/models/animation/animation_library_1.glb",
-    "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
-    "retarget": {
-      "restoredJoints": 24,
-      "mappedJoints": 24,
-      "yawDegrees": 0,
-      "translationScale": 0.11508502970386002,
-      "bindBounds": {
-        "min": [
-          -0.1494140774011612,
-          0.3144531203142833,
-          -0.15917971611634107
-        ],
-        "max": [
-          0.14550779976707395,
-          0.6542968664689397,
-          0.16113278149714483
-        ]
-      },
-      "clips": [
-        {
-          "name": "Idle",
-          "sourceTake": "Idle_Loop",
-          "seconds": 2.5,
-          "samples": 76,
-          "maximumGroundCorrection": 0.2798314249074635
-        },
-        {
-          "name": "Walk",
-          "sourceTake": "Walk_Loop",
-          "seconds": 1.3333333730697632,
-          "samples": 42,
-          "maximumGroundCorrection": 0.3008253964296759
-        },
-        {
-          "name": "Run",
-          "sourceTake": "Jog_Fwd_Loop",
-          "seconds": 0.9333333373069763,
-          "samples": 30,
-          "maximumGroundCorrection": 0.3400510555605739
-        },
-        {
-          "name": "Attack",
-          "sourceTake": "Punch_Jab",
-          "seconds": 0.8666666746139526,
-          "samples": 28,
-          "maximumGroundCorrection": 0.28132548214944686
-        },
-        {
-          "name": "Hit",
-          "sourceTake": "Hit_Chest",
-          "seconds": 0.3333333432674408,
-          "samples": 12,
-          "maximumGroundCorrection": 0.2789564581650477,
-          "directional": false,
-          "note": "Native frontal hit; left/right are explicit runtime aliases"
-        },
-        {
-          "name": "Death",
-          "sourceTake": "Death01",
-          "seconds": 2.4000000953674316,
-          "samples": 74,
-          "maximumGroundCorrection": 0.2866499331027973
-        }
-      ],
-      "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding"
-    },
+    "method": "Model-specific compact humanoid clips; weighted-mesh sampled every frame at 30 Hz with animated ground correction",
     "clips": [
       {
         "name": "Idle",
-        "channels": 26,
+        "channels": 5,
         "targets": [
-          {
-            "bone": "mixamorig:Hips",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:Spine",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftUpLeg",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightUpLeg",
-            "path": "rotation",
-            "keys": 76
-          },
           {
             "bone": "mixamorig:Spine1",
             "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftLeg",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightLeg",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:Spine2",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftFoot",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightFoot",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:Neck",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftShoulder",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftToeBase",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightShoulder",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightToeBase",
-            "path": "rotation",
-            "keys": 76
+            "keys": 91
           },
           {
             "bone": "mixamorig:Head",
             "path": "rotation",
-            "keys": 76
+            "keys": 91
           },
           {
             "bone": "mixamorig:LeftArm",
             "path": "rotation",
-            "keys": 76
+            "keys": 91
           },
           {
             "bone": "mixamorig:RightArm",
             "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftForeArm",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightForeArm",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftHand",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightHand",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:LeftHandMiddle1",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:RightHandMiddle1",
-            "path": "rotation",
-            "keys": 76
-          },
-          {
-            "bone": "mixamorig:Hips",
-            "path": "translation",
-            "keys": 76
+            "keys": 91
           },
           {
             "bone": "corealm_motion_ground",
             "path": "translation",
-            "keys": 76
+            "keys": 91
           }
         ]
       },
       {
         "name": "Walk",
-        "channels": 26,
+        "channels": 5,
         "targets": [
-          {
-            "bone": "mixamorig:Hips",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:Spine",
-            "path": "rotation",
-            "keys": 42
-          },
           {
             "bone": "mixamorig:LeftUpLeg",
             "path": "rotation",
-            "keys": 42
+            "keys": 31
           },
           {
             "bone": "mixamorig:RightUpLeg",
             "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:Spine1",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:LeftLeg",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:RightLeg",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:Spine2",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:LeftFoot",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:RightFoot",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:Neck",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:LeftShoulder",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:LeftToeBase",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:RightShoulder",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:RightToeBase",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:Head",
-            "path": "rotation",
-            "keys": 42
+            "keys": 31
           },
           {
             "bone": "mixamorig:LeftArm",
             "path": "rotation",
-            "keys": 42
+            "keys": 31
           },
           {
             "bone": "mixamorig:RightArm",
             "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:LeftForeArm",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:RightForeArm",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:LeftHand",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:RightHand",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:LeftHandMiddle1",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:RightHandMiddle1",
-            "path": "rotation",
-            "keys": 42
-          },
-          {
-            "bone": "mixamorig:Hips",
-            "path": "translation",
-            "keys": 42
+            "keys": 31
           },
           {
             "bone": "corealm_motion_ground",
             "path": "translation",
-            "keys": 42
+            "keys": 31
           }
         ]
       },
       {
         "name": "Run",
-        "channels": 26,
+        "channels": 7,
         "targets": [
-          {
-            "bone": "mixamorig:Hips",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:Spine",
-            "path": "rotation",
-            "keys": 30
-          },
           {
             "bone": "mixamorig:LeftUpLeg",
             "path": "rotation",
-            "keys": 30
+            "keys": 23
           },
           {
             "bone": "mixamorig:RightUpLeg",
             "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:Spine1",
-            "path": "rotation",
-            "keys": 30
+            "keys": 23
           },
           {
             "bone": "mixamorig:LeftLeg",
             "path": "rotation",
-            "keys": 30
+            "keys": 23
           },
           {
             "bone": "mixamorig:RightLeg",
             "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:Spine2",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:LeftFoot",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:RightFoot",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:Neck",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:LeftShoulder",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:LeftToeBase",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:RightShoulder",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:RightToeBase",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:Head",
-            "path": "rotation",
-            "keys": 30
+            "keys": 23
           },
           {
             "bone": "mixamorig:LeftArm",
             "path": "rotation",
-            "keys": 30
+            "keys": 23
           },
           {
             "bone": "mixamorig:RightArm",
             "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:LeftForeArm",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:RightForeArm",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:LeftHand",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:RightHand",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:LeftHandMiddle1",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:RightHandMiddle1",
-            "path": "rotation",
-            "keys": 30
-          },
-          {
-            "bone": "mixamorig:Hips",
-            "path": "translation",
-            "keys": 30
+            "keys": 23
           },
           {
             "bone": "corealm_motion_ground",
             "path": "translation",
-            "keys": 30
+            "keys": 23
           }
         ]
       },
       {
         "name": "Attack",
-        "channels": 26,
+        "channels": 6,
         "targets": [
           {
-            "bone": "mixamorig:Hips",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:Spine",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:LeftUpLeg",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:RightUpLeg",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:Spine1",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:LeftLeg",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:RightLeg",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:Spine2",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:LeftFoot",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:RightFoot",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:Neck",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:LeftShoulder",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:LeftToeBase",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:RightShoulder",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:RightToeBase",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:Head",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:LeftArm",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
             "bone": "mixamorig:RightArm",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:LeftForeArm",
             "path": "rotation",
             "keys": 28
           },
@@ -704,28 +267,18 @@
             "keys": 28
           },
           {
-            "bone": "mixamorig:LeftHand",
+            "bone": "mixamorig:LeftArm",
             "path": "rotation",
             "keys": 28
           },
           {
-            "bone": "mixamorig:RightHand",
+            "bone": "mixamorig:LeftForeArm",
             "path": "rotation",
             "keys": 28
           },
           {
-            "bone": "mixamorig:LeftHandMiddle1",
+            "bone": "mixamorig:Spine2",
             "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:RightHandMiddle1",
-            "path": "rotation",
-            "keys": 28
-          },
-          {
-            "bone": "mixamorig:Hips",
-            "path": "translation",
             "keys": 28
           },
           {
@@ -737,273 +290,83 @@
       },
       {
         "name": "Hit",
-        "channels": 26,
+        "channels": 6,
         "targets": [
-          {
-            "bone": "mixamorig:Hips",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:Spine",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftUpLeg",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightUpLeg",
-            "path": "rotation",
-            "keys": 12
-          },
           {
             "bone": "mixamorig:Spine1",
             "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftLeg",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightLeg",
-            "path": "rotation",
-            "keys": 12
+            "keys": 16
           },
           {
             "bone": "mixamorig:Spine2",
             "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftFoot",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightFoot",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:Neck",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftShoulder",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftToeBase",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightShoulder",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightToeBase",
-            "path": "rotation",
-            "keys": 12
+            "keys": 16
           },
           {
             "bone": "mixamorig:Head",
             "path": "rotation",
-            "keys": 12
+            "keys": 16
           },
           {
             "bone": "mixamorig:LeftArm",
             "path": "rotation",
-            "keys": 12
+            "keys": 16
           },
           {
             "bone": "mixamorig:RightArm",
             "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftForeArm",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightForeArm",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftHand",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightHand",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:LeftHandMiddle1",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:RightHandMiddle1",
-            "path": "rotation",
-            "keys": 12
-          },
-          {
-            "bone": "mixamorig:Hips",
-            "path": "translation",
-            "keys": 12
+            "keys": 16
           },
           {
             "bone": "corealm_motion_ground",
             "path": "translation",
-            "keys": 12
+            "keys": 16
           }
         ]
       },
       {
         "name": "Death",
-        "channels": 26,
+        "channels": 8,
         "targets": [
           {
             "bone": "mixamorig:Hips",
             "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:Spine",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:LeftUpLeg",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:RightUpLeg",
-            "path": "rotation",
-            "keys": 74
+            "keys": 55
           },
           {
             "bone": "mixamorig:Spine1",
             "path": "rotation",
-            "keys": 74
+            "keys": 55
           },
           {
             "bone": "mixamorig:LeftLeg",
             "path": "rotation",
-            "keys": 74
+            "keys": 55
           },
           {
             "bone": "mixamorig:RightLeg",
             "path": "rotation",
-            "keys": 74
+            "keys": 55
           },
           {
             "bone": "mixamorig:Spine2",
             "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:LeftFoot",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:RightFoot",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:Neck",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:LeftShoulder",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:LeftToeBase",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:RightShoulder",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:RightToeBase",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:Head",
-            "path": "rotation",
-            "keys": 74
+            "keys": 55
           },
           {
             "bone": "mixamorig:LeftArm",
             "path": "rotation",
-            "keys": 74
+            "keys": 55
           },
           {
             "bone": "mixamorig:RightArm",
             "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:LeftForeArm",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:RightForeArm",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:LeftHand",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:RightHand",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:LeftHandMiddle1",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:RightHandMiddle1",
-            "path": "rotation",
-            "keys": 74
-          },
-          {
-            "bone": "mixamorig:Hips",
-            "path": "translation",
-            "keys": 74
+            "keys": 55
           },
           {
             "bone": "corealm_motion_ground",
             "path": "translation",
-            "keys": 74
+            "keys": 55
           }
         ]
       }
@@ -1011,29 +374,197 @@
     "durations": [
       {
         "name": "Idle",
-        "seconds": 2.5
+        "seconds": 3
       },
       {
         "name": "Walk",
-        "seconds": 1.3333333730697632
+        "seconds": 1
       },
       {
         "name": "Run",
-        "seconds": 0.9333333373069763
+        "seconds": 0.7200000286102295
       },
       {
         "name": "Attack",
-        "seconds": 0.8666666746139526
+        "seconds": 0.8999999761581421
       },
       {
         "name": "Hit",
-        "seconds": 0.3333333432674408
+        "seconds": 0.47999998927116394
       },
       {
         "name": "Death",
-        "seconds": 2.4000000953674316
+        "seconds": 1.7999999523162842
       }
-    ]
+    ],
+    "grounding": [
+      {
+        "name": "Idle",
+        "durationSeconds": 3,
+        "samplesAt30Hz": 91,
+        "maximumGroundCorrectionMeters": 0.0009999992325901985,
+        "minimumFloorY": 0.0009999999632339732,
+        "maximumFloorGapMeters": 0.0009999999632339732,
+        "maximumWeightedVertexTravelMeters": 0.020177627495213655,
+        "channels": 5
+      },
+      {
+        "name": "Walk",
+        "durationSeconds": 1,
+        "samplesAt30Hz": 31,
+        "maximumGroundCorrectionMeters": 0.016888055950403214,
+        "minimumFloorY": 0.0009999995352956744,
+        "maximumFloorGapMeters": 0.02146340809019981,
+        "maximumWeightedVertexTravelMeters": 0.07707156083745596,
+        "channels": 5
+      },
+      {
+        "name": "Run",
+        "durationSeconds": 0.7200000286102295,
+        "samplesAt30Hz": 23,
+        "maximumGroundCorrectionMeters": 0.011643191799521446,
+        "minimumFloorY": 0.0009999989155011532,
+        "maximumFloorGapMeters": 0.020527148694616686,
+        "maximumWeightedVertexTravelMeters": 0.09910829626858099,
+        "channels": 7
+      },
+      {
+        "name": "Attack",
+        "durationSeconds": 0.8999999761581421,
+        "samplesAt30Hz": 28,
+        "maximumGroundCorrectionMeters": 0.0009999992325901985,
+        "minimumFloorY": 0.0009999999632339732,
+        "maximumFloorGapMeters": 0.0009999999632339732,
+        "maximumWeightedVertexTravelMeters": 0.3577587215813555,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "durationSeconds": 0.47999998927116394,
+        "samplesAt30Hz": 16,
+        "maximumGroundCorrectionMeters": 0.0009999992325901985,
+        "minimumFloorY": 0.0009999999632339732,
+        "maximumFloorGapMeters": 0.0009999999632339732,
+        "maximumWeightedVertexTravelMeters": 0.12046302419229428,
+        "channels": 6
+      },
+      {
+        "name": "Death",
+        "durationSeconds": 1.7999999523162842,
+        "samplesAt30Hz": 55,
+        "maximumGroundCorrectionMeters": 0.02784794010221958,
+        "minimumFloorY": 0.0009999977827452806,
+        "maximumFloorGapMeters": 0.0018371511457824004,
+        "maximumWeightedVertexTravelMeters": 0.21807883706396738,
+        "channels": 8
+      }
+    ],
+    "preExportSampling": [
+      {
+        "name": "Idle",
+        "durationSeconds": 3,
+        "samplesAt30Hz": 91,
+        "maximumGroundCorrection": 0.0009999992544550756,
+        "minimumRawGround": 7.455449243688924e-10,
+        "minimumFinalGround": 0.000999999985098927,
+        "maximumFinalGroundGap": 0.000999999985098927,
+        "maximumVertexTravelMeters": 0.02017762859116823,
+        "animatedBones": [
+          "Spine1",
+          "Head",
+          "LeftArm",
+          "RightArm"
+        ]
+      },
+      {
+        "name": "Walk",
+        "durationSeconds": 1,
+        "samplesAt30Hz": 31,
+        "maximumGroundCorrection": 0.01688805552649696,
+        "minimumRawGround": -0.01588805552649696,
+        "minimumFinalGround": 0.000999999748348372,
+        "maximumFinalGroundGap": 0.021463408476781454,
+        "maximumVertexTravelMeters": 0.07707156148791375,
+        "animatedBones": [
+          "LeftUpLeg",
+          "RightUpLeg",
+          "LeftArm",
+          "RightArm"
+        ]
+      },
+      {
+        "name": "Run",
+        "durationSeconds": 0.72,
+        "samplesAt30Hz": 23,
+        "maximumGroundCorrection": 0.011643191724672687,
+        "minimumRawGround": -0.010643191724672688,
+        "minimumFinalGround": 0.0009999998265029925,
+        "maximumFinalGroundGap": 0.020527146765819276,
+        "maximumVertexTravelMeters": 0.09910829894906643,
+        "animatedBones": [
+          "LeftUpLeg",
+          "RightUpLeg",
+          "LeftLeg",
+          "RightLeg",
+          "LeftArm",
+          "RightArm"
+        ]
+      },
+      {
+        "name": "Attack",
+        "durationSeconds": 0.9,
+        "samplesAt30Hz": 28,
+        "maximumGroundCorrection": 0.0009999992544550756,
+        "minimumRawGround": 7.455449243688924e-10,
+        "minimumFinalGround": 0.000999999985098927,
+        "maximumFinalGroundGap": 0.000999999985098927,
+        "maximumVertexTravelMeters": 0.35775872341258874,
+        "animatedBones": [
+          "RightArm",
+          "RightForeArm",
+          "LeftArm",
+          "LeftForeArm",
+          "Spine2"
+        ]
+      },
+      {
+        "name": "Hit",
+        "durationSeconds": 0.48,
+        "samplesAt30Hz": 16,
+        "maximumGroundCorrection": 0.0009999992544550756,
+        "minimumRawGround": 7.455449243688924e-10,
+        "minimumFinalGround": 0.000999999985098927,
+        "maximumFinalGroundGap": 0.000999999985098927,
+        "maximumVertexTravelMeters": 0.12046302760310021,
+        "animatedBones": [
+          "Spine1",
+          "Spine2",
+          "Head",
+          "LeftArm",
+          "RightArm"
+        ]
+      },
+      {
+        "name": "Death",
+        "durationSeconds": 1.8,
+        "samplesAt30Hz": 55,
+        "maximumGroundCorrection": 0.02784794072638547,
+        "minimumRawGround": -0.02684794072638547,
+        "minimumFinalGround": 0.000999999985098927,
+        "maximumFinalGroundGap": 0.0018371509454288622,
+        "maximumVertexTravelMeters": 0.21807884177184816,
+        "animatedBones": [
+          "Hips",
+          "Spine1",
+          "LeftLeg",
+          "RightLeg",
+          "Spine2",
+          "LeftArm",
+          "RightArm"
+        ]
+      }
+    ],
+    "maximumGroundCorrectionMeters": 0.02784794010221958
   },
   "maps": {
     "count": 3,
@@ -1082,8 +613,8 @@
   },
   "candidate": {
     "file": "rigged-candidate.glb",
-    "bytes": 6418608,
-    "sha256": "92e8b30f5a44eeca8e8cf5f12ed45f1a438e9ca0a58dd168b45160e5dc525e5a"
+    "bytes": 6247224,
+    "sha256": "cfc5cf1492640eaa9088eeff3e86aebfbc9f69ddd1a12f9bd5f9e753314fbf6b"
   },
   "acceptance": {
     "rigAccepted": false,
