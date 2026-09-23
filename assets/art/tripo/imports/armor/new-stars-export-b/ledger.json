@@ -4,6 +4,8 @@
   "task": "Crosswalk and export-status ledger for five newly starred armor and wizard models assigned to new-stars-export-b.",
   "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
   "overallStatus": "local_archive_complete",
+  "packed8kVariantStatus": "in_progress",
+  "packed8kVariantsArchived": 1,
   "requestedExportSettings": {
     "format": "GLB",
     "textureResolution": "8k Current",
@@ -182,6 +184,22 @@
         "downloadedFileName": "full+plate+armor+3d+model.glb",
         "exportedAtLocal": "2026-09-23T05:37:54-05:00",
         "identificationEvidence": "Unique 05:37 local arrival confirmed for project a9956e9e-0576-47a0-877e-ee5d3a3b2bb5; 47 textured mesh/material pairs use full_plate_armor_3d_model maps with gray-blue and brown colors matching the prompt."
+      },
+      "packed8kVariant": {
+        "status": "archived_verified",
+        "sourceProjectUuid": "a9956e9e-0576-47a0-877e-ee5d3a3b2bb5",
+        "archivePath": "assets/art/tripo/exports/packed-8k/a9956e9e-0576-47a0-877e-ee5d3a3b2bb5.glb",
+        "downloadedFileName": "packuv_probe_a9956e9e.glb",
+        "recordedAtLocal": "2026-09-23T05:39:56-05:00",
+        "exportSettings": {"format": "GLB", "textureResolution": "8k Current", "packUV": true, "exportSkeleton": true},
+        "actualTextureDimensions": {
+          "baseColor": [{"name": "packuv_probe_a9956e9e_basecolor", "width": 8192, "height": 8192}],
+          "metallicRoughness": [{"name": "packuv_probe_a9956e9e_rm", "width": 8192, "height": 8192}],
+          "normal": [{"name": "packuv_probe_a9956e9e_normal", "width": 8192, "height": 8192}]
+        },
+        "meshIdentity": {"meshCount": 47, "triangleCount": 4991, "skinCount": 1, "skinJointCount": 65, "geometryFingerprintMatchesOriginal": true},
+        "sizeBytes": 33150900,
+        "sha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81"
       }
     }
   ]
