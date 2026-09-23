@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "packScope": "prior-batch-backlog",
+  "label": "Prior-batch backlog audit for pack 2; these are not the user's new 3x3 composite model sheets.",
+  "records": [
+    {
+      "name": "Strata Delver",
+      "modelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+      "sourceImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
+      "reference": "assets/art/tripo/references/stone-strata-delver.png",
+      "referenceSha256": "d6715e81c93b35e4ecdfb38041b4c521a48412654cebb356e1028664d12b639d",
+      "sourceGlb": "assets/art/tripo/exports/corealm_strata_delver_707c39cd_8k_rigged.glb",
+      "sourceSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
+      "audit": "approved-with-face-audit",
+      "status": "candidate-in-progress",
+      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver"
+    },
+    {
+      "name": "Undercrag Mawer",
+      "modelId": "31201699-cc20-4688-88cf-f29f8eb754cb",
+      "sourceImageId": "1dd13260-2b8c-47e1-897c-9ede10d64aec",
+      "reference": "assets/art/tripo/references/stone-undercrag-mawer.png",
+      "referenceSha256": "0996d00f2b315eaedb61eda9a50c928dffae1e3acf6d62e8d8197daef420dadd",
+      "sourceGlb": "assets/art/tripo/exports/corealm_undercrag_mawer_31201699_8k_rigged.glb",
+      "sourceSha256": "fe89fbf980791cf7a21b0f17a67dc36fdeb2a4076de242ebdd5fcd4675c98e5d",
+      "audit": "approved-with-face-audit",
+      "status": "existing-exact-source-candidate-awaiting-root-lab-review",
+      "candidateFolder": "assets/art/tripo/imports/creatures/undercrag-mawer",
+      "candidateAsset": "creature_boss_tideworn",
+      "note": "Existing candidate source hash matches. It already has Idle, Walk, Run, Attack, Hit, HitLeft, HitRight, and Death entries; do not duplicate."
+    },
+    {
+      "name": "Shalewake",
+      "modelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+      "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+      "reference": "assets/art/tripo/references/stone-shalewake.png",
+      "referenceSha256": "81dc3a08840683ed96d4d65a3b21682c60203dc14f257070aed5fe7a17f6b101",
+      "sourceGlb": "assets/art/tripo/exports/corealm_shalewake_da0d598a_8k_rigged.glb",
+      "sourceSha256": "ab8111c81684fe47d41987fabca680c142779130b87cc84a5b022bc690c58dc1",
+      "audit": "approved-with-face-audit",
+      "status": "candidate-in-progress",
+      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/shalewake"
+    },
+    {
+      "name": "Flint Mandible",
+      "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+      "sourceImageId": "3db77a56-c3f1-4569-89b8-15f873effc6e",
+      "reference": "assets/art/tripo/references/stone-flint-mandible.png",
+      "referenceSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+      "sourceGlb": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+      "sourceSha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+      "audit": "approved-with-face-audit",
+      "status": "candidate-in-progress",
+      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/flint-mandible"
+    },
+    {
+      "name": "Scree Watcher",
+      "modelId": "0a6ea60d-a85d-4484-b634-f0b989dbffb0",
+      "sourceImageId": "a0b851a5-2aa2-4c9c-a1ff-07850ad17450",
+      "reference": "assets/art/tripo/references/stone-scree-watcher.png",
+      "referenceSha256": "81e2ef2bd9b635cb8f39f5f514aede99f678bea549d959cfb337a5ea6bea6e10",
+      "sourceGlb": "assets/art/tripo/exports/corealm_scree_watcher_0a6ea60d_8k_rigged.glb",
+      "sourceSha256": "c7f736792a6fb937cc200f166c1dcbdef344a3c65a4d639cb2400cac260689c5",
+      "audit": "denied-by-new-face-audit",
+      "status": "held-source-face-audit",
+      "note": "Do not repair or promote this source. Audit found a quartz tooth row below dot eyes; revised concept image is not provenance for this existing model."
+    },
+    {
+      "name": "Veil Reaper",
+      "modelId": "6fadb584-9372-420c-87b0-b53632c3cbf3",
+      "sourceImageId": "6d49aefd-62a1-418f-890a-e204ce693159",
+      "reference": "assets/art/tripo/refs/crown-wild-veil-reaper-v2.png",
+      "sourceGlb": "assets/art/tripo/exports/corealm_veil_reaper_6fadb584_8k_rigged.glb",
+      "sourceSha256": "18a94f874f2a39dde95707c248aa9919474851762bfaa8b75d32552a8b51c0f2",
+      "audit": "held-denied-face",
+      "status": "held-superseded-source",
+      "note": "The old source image and export are held after face audit denied the lobed seam. The current approved image 567b09d0-dd57-48c3-a750-9dd85a729d7e maps to a different model 8f777c2c-433a-4aec-9291-7ad12f7c04ee and is still PBR-generating. Existing in-game Veil Reaper is a distinct accepted Quaternius-derived asset; no old-source duplicate candidate."
+    },
+    {
+      "name": "Crownward Oathkeeper",
+      "modelId": "f3b036f0-e5a0-423e-bbce-4cd37cfbd51a",
+      "sourceImageId": "59ac6fb8-1bc6-4263-81a4-d21a548dc31a",
+      "reference": "assets/art/tripo/refs/crown-wild-crown-knight.png",
+      "referenceSha256": "1b0967188b315b1ecf507d8299a07e4fee219f1d6b0eaece0a0ea25754c2b561",
+      "sourceGlb": "assets/art/tripo/exports/corealm_crownward_oathkeeper_f3b036f0_8k_rigged.glb",
+      "sourceSha256": "c3a23753bac5be4d57c5127cc32280e5635a5c3b36fd0641abd7617b3e3be128",
+      "audit": "approved-image-and-face-audit",
+      "status": "candidate-in-progress",
+      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/crownward-oathkeeper"
+    },
+    {
+      "name": "Revenant",
+      "modelId": "97940d41-9ad5-42a0-83f1-ed40797a2c62",
+      "sourceImageId": "547d71b5-ee5f-477e-a03c-fd53e5b94c1d",
+      "reference": "assets/art/tripo/refs/crown-wild-revenant.png",
+      "sourceGlb": "assets/art/tripo/exports/corealm_revenant_97940d41_8k_rigged.glb",
+      "sourceSha256": "5873f96218a1610a204aa1b19340be0e2ca263c842727c9db44c391aefcf251b",
+      "audit": "approved-image-and-face-audit",
+      "status": "existing-exact-source-candidate-awaiting-root-lab-review",
+      "candidateFolder": "assets/art/tripo/imports/creatures/starred-revenant",
+      "candidateAsset": "creature_revenant",
+      "candidateName": "Waygrave Warden",
+      "note": "Existing Waygrave Warden candidate source hash matches; do not duplicate. It has six clips; rig, texture, and animation acceptance remain false."
+    },
+    {
+      "name": "Ashbound Votary",
+      "modelId": "bb588df9-a59e-4c37-8255-4eb5718b3bc6",
+      "sourceImageId": "1a59c971-8c0d-4357-b40d-937546e79334",
+      "sourceGlb": "assets/art/tripo/exports/corealm_ashbound_votary_bb588df9_8k_rigged.glb",
+      "sourceSha256": "092103afcf086eb19b4c6ea51c7393915b861a54b58df0b54be09d15994446eb",
+      "audit": "approved-source-as-candidate-provenance",
+      "status": "existing-exact-source-candidate-awaiting-root-lab-review",
+      "candidateFolder": "assets/art/tripo/imports/creatures/starred-ashbound",
+      "candidateAsset": "creature_cinder_penitent",
+      "note": "Existing Ashbound Votary/Cinder Penitent candidate source hash matches; do not duplicate. It has six clips plus explicit HitLeft/HitRight aliases; rig, texture, and animation acceptance remain false."
+    }
+  ]
+}
