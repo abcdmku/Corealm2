@@ -1,0 +1,506 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_orchid_reaper",
+  "displayName": "Orchid Reaper",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/4c599d13-d2e0-4099-93f0-79bf17056049.glb",
+    "sha256": "7f44b831fbc2b743c7156d4a45420e0b7948aae50cc635a49b8b5d40446da0d1",
+    "bytes": 18743680,
+    "starredOrder": 18,
+    "starredCardId": "3a2edc1d-6bda-4fc8-99fb-0d6bf673801c",
+    "starredProjectId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+    "starredDisplayName": "fantasy creature 3d model",
+    "sourceImageFile": "assets/art/tripo/refs/fairy-orchid-reaper-face-r3.png",
+    "sourceImageId": "6a942b74-b3c2-4b55-9b4d-13bf186a7c6a",
+    "sourceImageSha256": "9f9d7e75a6480dbac957757d5fbc90c311f0409a50e0f2ef6f0e4cb5a2e1829f",
+    "imageReview": {
+      "verdict": "approved",
+      "reviewer": "face_audit_fairy",
+      "scope": "Closed chitin cheeks and mandibles; approved orchid crown, petals, blades and body preserved."
+    },
+    "generator": "Tripo P2.0 Smart Mesh, 8K PBR, triangle topology; source retopology disabled.",
+    "approvedPrompt": "Orchid Reaper face correction r3: preserve the burgundy and cream orchid crown, broad side petals, eyes, shoulders, torso, curved forearm blades, legs, feet, green joints and painted surface detail; keep a solid dark aubergine chitin lower face with two closed insect mandibles.",
+    "geometry": {
+      "vertices": 3666,
+      "triangles": 5868,
+      "sourceBounds": {
+        "min": [
+          -0.348388671875,
+          0,
+          -0.162841796875
+        ],
+        "max": [
+          0.348388671875,
+          0.9995115995407104,
+          0.162841796875
+        ]
+      },
+      "outputScale": 2.4011727338660536,
+      "outputBounds": {
+        "min": [
+          -0.8365413796940573,
+          0,
+          -0.39101128259000434
+        ],
+        "max": [
+          0.8365413796940573,
+          2.4,
+          0.39101128259000434
+        ]
+      },
+      "outputSize": {
+        "x": 1.6730827593881146,
+        "y": 2.4,
+        "z": 0.7820225651800087
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uvPreserved": true,
+      "retopology": false
+    },
+    "sourceSkin": {
+      "joints": 37,
+      "rootWeightedVertices": 3663,
+      "disposition": "discarded; gameplay rig and weights rebuilt against the approved static source pose"
+    },
+    "sourceAnimations": [],
+    "textures": [
+      {
+        "name": "fantasy+creature+3d+model_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "mimeType": "image/jpeg",
+        "bytes": 8683928,
+        "sha256": "46d4b66aa33c7dc2dcdfee49c5df3712af8009cb67dcaeec1010095aed7a00f1"
+      },
+      {
+        "name": "fantasy+creature+3d+model_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/png",
+        "bytes": 8434575,
+        "sha256": "8d7e7af4b4dfda537db56f05bfce3e5e04dcd8040b8092e74a9f1495650e2ea9"
+      },
+      {
+        "name": "fantasy+creature+3d+model_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "mimeType": "image/jpeg",
+        "bytes": 1340579,
+        "sha256": "f67425ce8db48792388de3395c54b74f5492a850c5e5171df9b6b51e8758f736"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-orchid-reaper/orchid-reaper-native-rig-candidate.glb",
+    "sha256": "87606581c03b2e83b478e1c702411a26e4e98762b28493d1573219a14b60c4bf",
+    "bytes": 4974792,
+    "productionTarget": "game/public/assets/models/fairy-crown/creature_orchid_reaper.glb",
+    "targetCreature": "orchid_reaper_t60",
+    "geometry": {
+      "vertices": 3666,
+      "triangles": 5868,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uvPreserved": true
+    },
+    "rig": {
+      "type": "Y-up Unity Generic botanical biped with articulated orchid crown and scythe arms",
+      "forward": "+Z",
+      "jointCount": 29,
+      "joints": [
+        {
+          "name": "OrchidRoot",
+          "parent": null,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "role": "root"
+        },
+        {
+          "name": "Pelvis",
+          "parent": "OrchidRoot",
+          "position": [
+            0,
+            0.3398339438438416,
+            0
+          ],
+          "role": "pelvis"
+        },
+        {
+          "name": "Spine",
+          "parent": "Pelvis",
+          "position": [
+            0,
+            0.4497802197933197,
+            0
+          ],
+          "role": "torso"
+        },
+        {
+          "name": "Chest",
+          "parent": "Spine",
+          "position": [
+            0,
+            0.579716727733612,
+            0
+          ],
+          "role": "torso"
+        },
+        {
+          "name": "Neck",
+          "parent": "Chest",
+          "position": [
+            0,
+            0.7096532356739044,
+            0
+          ],
+          "role": "neck"
+        },
+        {
+          "name": "Head",
+          "parent": "Neck",
+          "position": [
+            0,
+            0.7996092796325684,
+            0
+          ],
+          "role": "head"
+        },
+        {
+          "name": "CrownCenterPetal",
+          "parent": "Head",
+          "position": [
+            0,
+            0.8895653235912323,
+            0
+          ],
+          "role": "crownCenter"
+        },
+        {
+          "name": "CrownSidePetal_L",
+          "parent": "Head",
+          "position": [
+            -0.09058105468750001,
+            0.8395897436141967,
+            0.0065136718750000155
+          ],
+          "role": "crownSide"
+        },
+        {
+          "name": "Shoulder_L",
+          "parent": "Chest",
+          "position": [
+            -0.09058105468750001,
+            0.6296923077106475,
+            0.009770507812499996
+          ],
+          "role": "arm"
+        },
+        {
+          "name": "UpperArm_L",
+          "parent": "Shoulder_L",
+          "position": [
+            -0.1741943359375,
+            0.5597264957427979,
+            0.01954101562500002
+          ],
+          "role": "arm"
+        },
+        {
+          "name": "Elbow_L",
+          "parent": "UpperArm_L",
+          "position": [
+            -0.236904296875,
+            0.4697704517841339,
+            0.029311523437499987
+          ],
+          "role": "arm"
+        },
+        {
+          "name": "ScytheRoot_L",
+          "parent": "Elbow_L",
+          "position": [
+            -0.27871093750000003,
+            0.3898095238208771,
+            0.0358251953125
+          ],
+          "role": "blade"
+        },
+        {
+          "name": "ScytheMid_L",
+          "parent": "ScytheRoot_L",
+          "position": [
+            -0.31006591796875,
+            0.289858363866806,
+            0.03908203125000001
+          ],
+          "role": "blade"
+        },
+        {
+          "name": "ScytheTip_L",
+          "parent": "ScytheMid_L",
+          "position": [
+            -0.31703369140625,
+            0.189907203912735,
+            0.03908203125000001
+          ],
+          "role": "bladeTip"
+        },
+        {
+          "name": "Hip_L",
+          "parent": "Pelvis",
+          "position": [
+            -0.09058105468750001,
+            0.3398339438438416,
+            -0.008142089843750006
+          ],
+          "role": "leg"
+        },
+        {
+          "name": "Knee_L",
+          "parent": "Hip_L",
+          "position": [
+            -0.1184521484375,
+            0.189907203912735,
+            -0.0065136718750000155
+          ],
+          "role": "leg"
+        },
+        {
+          "name": "Ankle_L",
+          "parent": "Knee_L",
+          "position": [
+            -0.125419921875,
+            0.05497313797473907,
+            0.004885253906249998
+          ],
+          "role": "foot"
+        },
+        {
+          "name": "Toe_L",
+          "parent": "Ankle_L",
+          "position": [
+            -0.1184521484375,
+            0.03498290598392487,
+            0.04396728515625001
+          ],
+          "role": "foot"
+        },
+        {
+          "name": "CrownSidePetal_R",
+          "parent": "Head",
+          "position": [
+            0.09058105468750001,
+            0.8395897436141967,
+            0.0065136718750000155
+          ],
+          "role": "crownSide"
+        },
+        {
+          "name": "Shoulder_R",
+          "parent": "Chest",
+          "position": [
+            0.09058105468750001,
+            0.6296923077106475,
+            0.009770507812499996
+          ],
+          "role": "arm"
+        },
+        {
+          "name": "UpperArm_R",
+          "parent": "Shoulder_R",
+          "position": [
+            0.1741943359375,
+            0.5597264957427979,
+            0.01954101562500002
+          ],
+          "role": "arm"
+        },
+        {
+          "name": "Elbow_R",
+          "parent": "UpperArm_R",
+          "position": [
+            0.236904296875,
+            0.4697704517841339,
+            0.029311523437499987
+          ],
+          "role": "arm"
+        },
+        {
+          "name": "ScytheRoot_R",
+          "parent": "Elbow_R",
+          "position": [
+            0.27871093750000003,
+            0.3898095238208771,
+            0.0358251953125
+          ],
+          "role": "blade"
+        },
+        {
+          "name": "ScytheMid_R",
+          "parent": "ScytheRoot_R",
+          "position": [
+            0.31006591796875,
+            0.289858363866806,
+            0.03908203125000001
+          ],
+          "role": "blade"
+        },
+        {
+          "name": "ScytheTip_R",
+          "parent": "ScytheMid_R",
+          "position": [
+            0.31703369140625,
+            0.189907203912735,
+            0.03908203125000001
+          ],
+          "role": "bladeTip"
+        },
+        {
+          "name": "Hip_R",
+          "parent": "Pelvis",
+          "position": [
+            0.09058105468750001,
+            0.3398339438438416,
+            0.008142089843750006
+          ],
+          "role": "leg"
+        },
+        {
+          "name": "Knee_R",
+          "parent": "Hip_R",
+          "position": [
+            0.1184521484375,
+            0.189907203912735,
+            0.013027343750000003
+          ],
+          "role": "leg"
+        },
+        {
+          "name": "Ankle_R",
+          "parent": "Knee_R",
+          "position": [
+            0.125419921875,
+            0.05497313797473907,
+            0.02116943359375001
+          ],
+          "role": "foot"
+        },
+        {
+          "name": "Toe_R",
+          "parent": "Ankle_R",
+          "position": [
+            0.1184521484375,
+            0.03498290598392487,
+            0.06025146484375002
+          ],
+          "role": "foot"
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 3666,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "groupWeightedVertices": {
+        "core": 2375,
+        "head": 1182,
+        "petals": 1076,
+        "arms": 1652,
+        "blades": 635,
+        "legs": 1263,
+        "feet": 876
+      },
+      "method": "Model-specific four-influence weights gated by source bounds and segment distance. The solid corrected lower face is held to one head joint; no mouth, jaw or facial-slit controls are added. Outer petals and the curved forearm scythe blades have separate chains."
+    },
+    "textures": [
+      {
+        "name": "fantasy+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 1309605,
+        "sha256": "5702a1286c88a8dd5f54e74d518bb6cb0b3f58c70abcd65c2d625837175ffb01"
+      },
+      {
+        "name": "fantasy+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 2504903,
+        "sha256": "94799d307aa91176c9827b67a98ea2347e048c08472f7f9d9e98276371fae978"
+      },
+      {
+        "name": "fantasy+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 751506,
+        "sha256": "ce0991766a59d3e107d9af05951bde39abbe653dccccd0d93f4059b48908e406"
+      }
+    ],
+    "pbr": {
+      "baseColor": true,
+      "packedMetallicRoughness": true,
+      "normal": true,
+      "roughnessRange": [
+        0.10980392156862745,
+        1
+      ],
+      "metallicRange": [
+        0,
+        0.6745098039215687
+      ],
+      "allMapsMaximum": 2048,
+      "maps": "Original image-generated layered textures preserved at 2K runtime resolution; no monochrome recolor."
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 8
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.05,
+        "channels": 10
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 13
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.86,
+        "channels": 12
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.48,
+        "channels": 8
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "channels": 14
+      }
+    ],
+    "locomotion": "Walk and Run are alternating biped steps with the scythe arms counter-swinging; the broad flower crown remains closed around the rigid face.",
+    "attackContactNormalized": 0.5
+  },
+  "acceptance": {
+    "approvedSource": true,
+    "geometry": true,
+    "textures2K": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

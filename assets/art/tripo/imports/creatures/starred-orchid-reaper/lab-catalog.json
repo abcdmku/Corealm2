@@ -1,0 +1,99 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-starred-fairy-candidates",
+    "name": "Corealm starred fairy creature candidates",
+    "author": "Corealm",
+    "source": "User-starred Tripo models and Corealm rig/texture adaptation",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "files": {
+    "creature_orchid_reaper": "orchid-reaper-native-rig-candidate.glb"
+  },
+  "sourceAliases": {
+    "creature_orchid_reaper": "creature_veil_reaper"
+  },
+  "assets": [
+    {
+      "id": "creature_orchid_reaper",
+      "file": "models/fairy-crown/creature_orchid_reaper.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-orchid-reaper/orchid-reaper-native-rig-candidate.glb",
+      "pack": "corealm-starred-fairy-candidates",
+      "category": "character",
+      "is": "Orchid Reaper, starred #18 closed-face rig candidate",
+      "tags": [
+        "creature",
+        "fairy",
+        "plant-hunter",
+        "orchid",
+        "scythe-arms",
+        "T60",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 4974792,
+      "sha256": "87606581c03b2e83b478e1c702411a26e4e98762b28493d1573219a14b60c4bf",
+      "size": {
+        "x": 1.6730827593881146,
+        "y": 2.4,
+        "z": 0.7820225651800087
+      },
+      "base": {
+        "x": -0.8365413796940573,
+        "y": 0,
+        "z": -0.39101128259000434
+      },
+      "bounds": {
+        "min": [
+          -0.8365413796940573,
+          0,
+          -0.39101128259000434
+        ],
+        "max": [
+          0.8365413796940573,
+          2.4,
+          0.39101128259000434
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5868,
+      "vertices": 3666,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_99450afb-d5cc-4b0b-a4b0-ceb41d478f24"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "starredOrder": 18,
+        "sourceModelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+        "sourceCardId": "3a2edc1d-6bda-4fc8-99fb-0d6bf673801c",
+        "sourceImageId": "6a942b74-b3c2-4b55-9b4d-13bf186a7c6a",
+        "sourceFile": "assets/art/tripo/exports/4c599d13-d2e0-4099-93f0-79bf17056049.glb",
+        "sourceSha256": "7f44b831fbc2b743c7156d4a45420e0b7948aae50cc635a49b8b5d40446da0d1",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-orchid-reaper/orchid-reaper-native-rig-candidate.glb",
+        "candidateSha256": "87606581c03b2e83b478e1c702411a26e4e98762b28493d1573219a14b60c4bf",
+        "rigMethod": "Model-specific four-influence weights gated by source bounds and segment distance. The solid corrected lower face is held to one head joint; no mouth, jaw or facial-slit controls are added. Outer petals and the curved forearm scythe blades have separate chains.",
+        "texturePolicy": "Preserve the approved image-generated layered base color, metallic-roughness and normal maps; reduce each to a 2K runtime map.",
+        "targetCreature": "orchid_reaper_t60",
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "sourceDesignAudit": true,
+        "geometryPreserved": true,
+        "runtimeTextures2K": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
