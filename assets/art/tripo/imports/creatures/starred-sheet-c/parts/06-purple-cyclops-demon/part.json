@@ -212,6 +212,21 @@
       "textures": false,
       "labAccepted": false,
       "worldIntegrated": false
+    },
+    "scaleFactor": 5.4346368715083795,
+    "presentationScale": 5.4346368715083795,
+    "targetHeightMeters": 1.9,
+    "labBounds": {
+      "min": [
+        -0.7589384665036334,
+        0.0,
+        -0.8810055865921788
+      ],
+      "max": [
+        0.7589384665036334,
+        1.9,
+        0.8810055865921788
+      ]
     }
   },
   "acceptance": {

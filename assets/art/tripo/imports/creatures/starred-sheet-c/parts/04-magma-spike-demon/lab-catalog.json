@@ -15,28 +15,28 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 7011888,
-      "sha256": "71390cfd217eb19c3dc10de8f590550f85c920ad1e65d5c6bae56b2efeea87e9",
+      "bytes": 7011952,
+      "sha256": "2caf5bbb8a4d6c9a2253de3ec5dc76ee4526c283dcf695e84753158ca91800d6",
       "size": {
-        "x": 0.2832031548023224,
-        "y": 0.349609375,
-        "z": 0.3203125
+        "x": 1.7821230925661227,
+        "y": 2.2,
+        "z": 2.015642458100559
       },
       "base": {
-        "x": -0.1416015774011612,
+        "x": -0.8910615462830613,
         "y": 0,
-        "z": -0.16015625
+        "z": -1.0078212290502795
       },
       "bounds": {
         "min": [
-          -0.1416015774011612,
+          -0.8910615462830613,
           0,
-          -0.16015625
+          -1.0078212290502795
         ],
         "max": [
-          0.1416015774011612,
-          0.349609375,
-          0.16015625
+          0.8910615462830613,
+          2.2,
+          1.0078212290502795
         ]
       },
       "groundY": 0,
@@ -59,7 +59,7 @@
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
         "sourceSha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
-        "candidateSha256": "71390cfd217eb19c3dc10de8f590550f85c920ad1e65d5c6bae56b2efeea87e9",
+        "candidateSha256": "2caf5bbb8a4d6c9a2253de3ec5dc76ee4526c283dcf695e84753158ca91800d6",
         "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
         "textures": [
           {

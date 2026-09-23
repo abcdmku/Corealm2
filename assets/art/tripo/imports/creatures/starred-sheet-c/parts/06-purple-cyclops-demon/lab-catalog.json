@@ -15,28 +15,28 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6879520,
-      "sha256": "7fdc021630bcf2744e06f581b71f7717dffa5bd18e44343ba9177dc7b72fbb43",
+      "bytes": 6879584,
+      "sha256": "0099a72f2637cbed30947aa8a0bec9c98b2d7595352a57650921a68d4e97e1a5",
       "size": {
-        "x": 0.2792968451976776,
-        "y": 0.349609375,
-        "z": 0.32421875
+        "x": 1.5178769330072668,
+        "y": 1.9,
+        "z": 1.7620111731843575
       },
       "base": {
-        "x": -0.1396484225988388,
+        "x": -0.7589384665036334,
         "y": 0,
-        "z": -0.162109375
+        "z": -0.8810055865921788
       },
       "bounds": {
         "min": [
-          -0.1396484225988388,
+          -0.7589384665036334,
           0,
-          -0.162109375
+          -0.8810055865921788
         ],
         "max": [
-          0.1396484225988388,
-          0.349609375,
-          0.162109375
+          0.7589384665036334,
+          1.9,
+          0.8810055865921788
         ]
       },
       "groundY": 0,
@@ -59,7 +59,7 @@
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/base.glb",
         "sourceSha256": "61c616190f018f20a19edf0f8d6f3a9304440c1790fc812614f91868c9e3488f",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/purple-cyclops-demon-native-rig.glb",
-        "candidateSha256": "7fdc021630bcf2744e06f581b71f7717dffa5bd18e44343ba9177dc7b72fbb43",
+        "candidateSha256": "0099a72f2637cbed30947aa8a0bec9c98b2d7595352a57650921a68d4e97e1a5",
         "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
         "textures": [
           {

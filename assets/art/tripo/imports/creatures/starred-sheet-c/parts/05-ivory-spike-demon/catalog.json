@@ -59,16 +59,30 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/05-ivory-spike-demon/ivory-spike-demon-native-rig.glb",
-    "sha256": "e1441f27afccb112416c1a655315b464dd5085c696e8973fcbae52783c8ca98f",
-    "bytes": 6862920,
+    "sha256": "df1c6e311e8387d3813571570f1f6e14d069e03854f95512c9fd694fe7179fad",
+    "bytes": 6862980,
     "productionTarget": "game/public/assets/models/creature/creature_ivory_spike_demon.glb",
     "geometry": {
       "vertices": 2864,
       "triangles": 1525,
+      "nativeBounds": {
+        "min": [
+          -0.1396484375,
+          0,
+          -0.1591796875
+        ],
+        "max": [
+          0.1396484375,
+          0.3593749701976776,
+          0.1591796875
+        ]
+      },
       "positionsPreserved": true,
       "normalsPreserved": true,
       "uvsPreserved": true,
-      "indicesPreserved": true
+      "indicesPreserved": true,
+      "scaleFactor": 5.00869606753607,
+      "targetHeightMeters": 1.8
     },
     "rig": {
       "type": "Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",

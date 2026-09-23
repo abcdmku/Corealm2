@@ -64,6 +64,8 @@ const bones = [
 const width = bounds.max[0] - bounds.min[0];
 const height = bounds.max[1] - bounds.min[1];
 const depth = bounds.max[2] - bounds.min[2];
+const targetHeight = 1.8;
+const presentationScale = targetHeight / height;
 const scaleX = width / 0.81, scaleY = height / 0.875, scaleZ = depth / 0.32;
 for (const bone of bones) {
   bone.p = [bone.p[0] * scaleX, bone.p[1] * scaleY, bone.p[2] * scaleZ];
@@ -80,7 +82,7 @@ if (originalParent) originalParent.removeChild(meshNode);
 else if (scene.listChildren().includes(meshNode)) scene.removeChild(meshNode);
 else throw new Error('Source mesh node is detached from the scene.');
 meshNode.setName('IvorySpikeDemonMesh');
-const rigContainer = doc.createNode('IvorySpikeDemonArmature').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
+const rigContainer = doc.createNode('IvorySpikeDemonArmature').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([presentationScale, presentationScale, presentationScale]);
 scene.addChild(rigContainer);
 rigContainer.addChild(meshNode);
 
@@ -271,6 +273,9 @@ const checkIndices = checkPrimitive.getIndices()?.getArray();
 const checkJoints = checkPrimitive.getAttribute('JOINTS_0')?.getArray();
 const checkWeights = checkPrimitive.getAttribute('WEIGHTS_0')?.getArray();
 const checkSkin = checkMesh ? checkRoot.listSkins()[0] : undefined;
+const checkContainer = checkRoot.listNodes().find((node) => node.getName() === 'IvorySpikeDemonArmature');
+const checkScale = checkContainer?.getScale();
+if (!checkScale || checkScale.some((value) => Math.abs(value - presentationScale) > 1e-7)) throw new Error('Serialized rig container scale does not match presentation scale.');
 if (!checkPositions || !checkNormals || !checkUvs || !checkIndices || !checkJoints || !checkWeights || !checkSkin) throw new Error('Exported candidate is missing required skin attributes.');
 let maxPositionDelta = 0;
 let indexMismatches = 0;
@@ -326,7 +331,7 @@ const candidate = {
     sha256: candidateSha256,
     bytes: outputBytes.length,
     productionTarget: 'game/public/assets/models/creature/creature_ivory_spike_demon.glb',
-    geometry: { vertices: positions.length / 3, triangles: indices.length / 3, positionsPreserved: true, normalsPreserved: true, uvsPreserved: true, indicesPreserved: true },
+    geometry: { vertices: positions.length / 3, triangles: indices.length / 3, nativeBounds: bounds, positionsPreserved: true, normalsPreserved: true, uvsPreserved: true, indicesPreserved: true, scaleFactor: presentationScale, targetHeightMeters: targetHeight },
     rig: { type: 'Mixamo-named humanoid glTF skin for Unity Humanoid mapping review', joints: bones.map((bone) => ({ name: bone.name, parent: bone.parent, position: bone.p })), influencesPerVertex: 4, verticesWithDistributedWeights, maximumWeightSumError, method: 'Model-specific four-weight skin from anatomical bone-segment distance fields; no fallback to one root joint.' },
     textures: runtimeTextureMetrics,
     packedMetallicChannelRange: pbrRange,
@@ -345,10 +350,10 @@ const labAsset = {
   tags: ['creature', 'humanoid', 'demon', 'starred', 'tripo', 'candidate'],
   bytes: outputBytes.length,
   sha256: candidateSha256,
-  size: { x: bounds.max[0] - bounds.min[0], y: bounds.max[1] - bounds.min[1], z: bounds.max[2] - bounds.min[2] },
-  base: { x: bounds.min[0], y: bounds.min[1], z: bounds.min[2] },
-  bounds,
-  groundY: bounds.min[1],
+  size: { x: (bounds.max[0] - bounds.min[0]) * presentationScale, y: (bounds.max[1] - bounds.min[1]) * presentationScale, z: (bounds.max[2] - bounds.min[2]) * presentationScale },
+  base: { x: bounds.min[0] * presentationScale, y: bounds.min[1] * presentationScale, z: bounds.min[2] * presentationScale },
+  bounds: { min: bounds.min.map((value) => value * presentationScale), max: bounds.max.map((value) => value * presentationScale) },
+  groundY: bounds.min[1] * presentationScale,
   triangles: indices.length / 3,
   animations: clips.map((clip) => clip.name),
   materials: root.listMaterials().map((entry) => entry.getName()),
@@ -367,4 +372,4 @@ const labAsset = {
   acceptance: { assetAudit: true, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };
 await writeFile(`${baseDir}/lab-catalog.json`, JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset] }, null, 2) + '\n');
-console.log(JSON.stringify({ candidatePath, bytes: outputBytes.length, candidateSha256, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, clips: clips.map(({ name, seconds }) => ({ name, seconds })), runtimeTextureMetrics, verticesWithDistributedWeights, maximumWeightSumError, maxPositionDelta, indexMismatches }, null, 2));
+console.log(JSON.stringify({ candidatePath, bytes: outputBytes.length, candidateSha256, scaleFactor: presentationScale, targetHeightMeters: targetHeight, triangles: indices.length / 3, vertices: positions.length / 3, joints: bones.length, clips: clips.map(({ name, seconds }) => ({ name, seconds })), runtimeTextureMetrics, verticesWithDistributedWeights, maximumWeightSumError, maxPositionDelta, indexMismatches }, null, 2));

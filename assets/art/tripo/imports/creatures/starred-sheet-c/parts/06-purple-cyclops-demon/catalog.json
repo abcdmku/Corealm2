@@ -59,16 +59,30 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/purple-cyclops-demon-native-rig.glb",
-    "sha256": "7fdc021630bcf2744e06f581b71f7717dffa5bd18e44343ba9177dc7b72fbb43",
-    "bytes": 6879520,
+    "sha256": "0099a72f2637cbed30947aa8a0bec9c98b2d7595352a57650921a68d4e97e1a5",
+    "bytes": 6879584,
     "productionTarget": "game/public/assets/models/creature/creature_purple_cyclops_demon.glb",
     "geometry": {
       "vertices": 3130,
       "triangles": 1667,
+      "nativeBounds": {
+        "min": [
+          -0.1396484225988388,
+          0,
+          -0.162109375
+        ],
+        "max": [
+          0.1396484225988388,
+          0.349609375,
+          0.162109375
+        ]
+      },
       "positionsPreserved": true,
       "normalsPreserved": true,
       "uvsPreserved": true,
-      "indicesPreserved": true
+      "indicesPreserved": true,
+      "scaleFactor": 5.4346368715083795,
+      "targetHeightMeters": 1.9
     },
     "rig": {
       "type": "Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",

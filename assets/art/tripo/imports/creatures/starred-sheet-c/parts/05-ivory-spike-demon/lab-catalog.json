@@ -15,28 +15,28 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6862920,
-      "sha256": "e1441f27afccb112416c1a655315b464dd5085c696e8973fcbae52783c8ca98f",
+      "bytes": 6862980,
+      "sha256": "df1c6e311e8387d3813571570f1f6e14d069e03854f95512c9fd694fe7179fad",
       "size": {
-        "x": 0.279296875,
-        "y": 0.3593749701976776,
-        "z": 0.318359375
+        "x": 1.3989131594876132,
+        "y": 1.8,
+        "z": 1.594565349625741
       },
       "base": {
-        "x": -0.1396484375,
+        "x": -0.6994565797438066,
         "y": 0,
-        "z": -0.1591796875
+        "z": -0.7972826748128705
       },
       "bounds": {
         "min": [
-          -0.1396484375,
+          -0.6994565797438066,
           0,
-          -0.1591796875
+          -0.7972826748128705
         ],
         "max": [
-          0.1396484375,
-          0.3593749701976776,
-          0.1591796875
+          0.6994565797438066,
+          1.8,
+          0.7972826748128705
         ]
       },
       "groundY": 0,
@@ -59,7 +59,7 @@
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/05-ivory-spike-demon/base.glb",
         "sourceSha256": "e77c1ba240227a1132890896c3f9fa78779316a95a80bffb8cbcc16b110fa4ff",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/05-ivory-spike-demon/ivory-spike-demon-native-rig.glb",
-        "candidateSha256": "e1441f27afccb112416c1a655315b464dd5085c696e8973fcbae52783c8ca98f",
+        "candidateSha256": "df1c6e311e8387d3813571570f1f6e14d069e03854f95512c9fd694fe7179fad",
         "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
         "textures": [
           {

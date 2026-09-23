@@ -59,16 +59,30 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
-    "sha256": "71390cfd217eb19c3dc10de8f590550f85c920ad1e65d5c6bae56b2efeea87e9",
-    "bytes": 7011888,
+    "sha256": "2caf5bbb8a4d6c9a2253de3ec5dc76ee4526c283dcf695e84753158ca91800d6",
+    "bytes": 7011952,
     "productionTarget": "game/public/assets/models/creature/creature_magma_spike_demon.glb",
     "geometry": {
       "vertices": 5257,
       "triangles": 2775,
+      "nativeBounds": {
+        "min": [
+          -0.1416015774011612,
+          0,
+          -0.16015625
+        ],
+        "max": [
+          0.1416015774011612,
+          0.349609375,
+          0.16015625
+        ]
+      },
       "positionsPreserved": true,
       "normalsPreserved": true,
       "uvsPreserved": true,
-      "indicesPreserved": true
+      "indicesPreserved": true,
+      "scaleFactor": 6.292737430167598,
+      "targetHeightMeters": 2.2
     },
     "rig": {
       "type": "Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",
