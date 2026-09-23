@@ -1,0 +1,98 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_pale_lavender_long_ear_demon",
+      "file": "models/creature/creature_pale_lavender_long_ear_demon.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Pale Lavender Long-Ear Demon",
+      "tags": [
+        "creature",
+        "humanoid",
+        "demon",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6780540,
+      "sha256": "8c6d42277d3d86e820c4e4121686477357b6db9fc3d22eef88597ae80d4e1a71",
+      "size": {
+        "x": 0.267578125,
+        "y": 0.306640625,
+        "z": 0.1210937425494194
+      },
+      "base": [
+        -0.1337890625,
+        0,
+        -0.0605468712747097
+      ],
+      "bounds": {
+        "min": [
+          -0.1337890625,
+          0,
+          -0.0605468712747097
+        ],
+        "max": [
+          0.1337890625,
+          0.306640625,
+          0.0605468712747097
+        ]
+      },
+      "groundY": 0,
+      "triangles": 883,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/base.glb",
+        "sourceSha256": "6d6eebae4dae96dc35fb2f6ed95d0b03c691e381dafcb9c93519fa5d90c75519",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/pale-lavender-long-ear-demon-rigged.glb",
+        "candidateSha256": "8c6d42277d3d86e820c4e4121686477357b6db9fc3d22eef88597ae80d4e1a71",
+        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates.",
+        "textures": [
+          {
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 2107997
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4025092
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 524633
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

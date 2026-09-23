@@ -1,0 +1,387 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_pale_lavender_long_ear_demon",
+  "displayName": "Pale Lavender Long-Ear Demon",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "reviewHold": "C2 held for cute presentation; root visual review required.",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/base.glb",
+    "sha256": "6d6eebae4dae96dc35fb2f6ed95d0b03c691e381dafcb9c93519fa5d90c75519",
+    "bytes": 6722260,
+    "modelSource": {
+      "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+      "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+      "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+      "starredStatus": "in My Assets; not starred in Collected at extraction time",
+      "sourceCell": {
+        "row": 1,
+        "column": 2
+      },
+      "triangleCount": 883,
+      "vertexCount": 1628,
+      "sourceBounds": {
+        "min": [
+          -0.1337890774011612,
+          0.69140625,
+          -0.2099609375
+        ],
+        "max": [
+          0.1337890475988388,
+          0.998046875,
+          -0.0888671949505806
+        ]
+      },
+      "sourcePositionOffset": [
+        -1.4901161193847656e-8,
+        0.69140625,
+        -0.1494140662252903
+      ],
+      "attributeHashes": {
+        "POSITION": "73bb8ee2da6e72461110fd0dea255960b8b4dc494b04d5acd71035bc1328127d",
+        "NORMAL": "8fbd603dc2ba833e0e1ee40a7d810235df646ddb02dd73a71c5029050890b90c",
+        "TEXCOORD_0": "129079575e9a1794ab5c3cd8d822c3b0376305161ad8e0e97301d62bfdf4cb27"
+      },
+      "triangleIndexHash": "6097b458fee3b4baa84f3198487fd34db89b8635d9fda9910c78b1dac4380f7a",
+      "pbrTextures": [
+        {
+          "name": "demon+creature+3d+model_basecolor.jpg",
+          "width": 8192,
+          "height": 8192,
+          "mimeType": "image/jpeg",
+          "format": "jpeg",
+          "bytes": 11930620,
+          "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+        },
+        {
+          "name": "demon+creature+3d+model_rm.png",
+          "width": 4096,
+          "height": 4096,
+          "mimeType": "image/png",
+          "format": "png",
+          "bytes": 12863099,
+          "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+        },
+        {
+          "name": "demon+creature+3d+model_normal.jpg",
+          "width": 4096,
+          "height": 4096,
+          "mimeType": "image/jpeg",
+          "format": "jpeg",
+          "bytes": 1237111,
+          "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+        }
+      ],
+      "skin": "none",
+      "animations": []
+    },
+    "geometry": {
+      "vertices": 1628,
+      "triangles": 883,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "sourceSkin": "none",
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/pale-lavender-long-ear-demon-rigged.glb",
+    "sha256": "8c6d42277d3d86e820c4e4121686477357b6db9fc3d22eef88597ae80d4e1a71",
+    "bytes": 6780540,
+    "productionTarget": "game/public/assets/models/creature/creature_pale_lavender_long_ear_demon.glb",
+    "rig": {
+      "type": "Mixamo-named humanoid glTF skin",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.1471875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.18091796875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.21464843749999998,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.23917968750000002,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.2637109375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.282109375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.053515625000000004,
+            0.23611328125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.08294921875,
+            0.20544921875000002,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.10703125000000001,
+            0.1655859375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.11505859375,
+            0.1410546875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.053515625000000004,
+            0.23611328125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.08294921875,
+            0.20544921875000002,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.10703125000000001,
+            0.1655859375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.11505859375,
+            0.1410546875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.034785156250000004,
+            0.11958984375000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.037460937500000006,
+            0.05212890625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.037460937500000006,
+            0.0183984375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.037460937500000006,
+            0.010732421875,
+            0.0183984375
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.034785156250000004,
+            0.11958984375000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.037460937500000006,
+            0.05212890625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.037460937500000006,
+            0.0183984375,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.037460937500000006,
+            0.010732421875,
+            0.0183984375
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 1628,
+      "maximumWeightSumError": 0,
+      "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates."
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 2107997
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4025092
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 524633
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 2
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 7
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 7
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 4
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 3
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 5
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

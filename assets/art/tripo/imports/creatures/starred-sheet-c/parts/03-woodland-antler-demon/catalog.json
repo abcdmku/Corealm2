@@ -1,0 +1,387 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_woodland_antler_demon",
+  "displayName": "Woodland Antler Demon",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "reviewHold": null,
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/base.glb",
+    "sha256": "77fff0752bef0ea2972ad07d1082e413dc3155298eb9165efeaac298d522c69e",
+    "bytes": 6901620,
+    "modelSource": {
+      "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+      "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+      "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+      "starredStatus": "in My Assets; not starred in Collected at extraction time",
+      "sourceCell": {
+        "row": 1,
+        "column": 3
+      },
+      "triangleCount": 3411,
+      "vertexCount": 6285,
+      "sourceBounds": {
+        "min": [
+          0.2021484225988388,
+          0.6894531846046448,
+          -0.24707037210464478
+        ],
+        "max": [
+          0.4873046875,
+          0.9980469346046448,
+          -0.05371098592877388
+        ]
+      },
+      "sourcePositionOffset": [
+        0.3447265550494194,
+        0.6894531846046448,
+        -0.15039067901670933
+      ],
+      "attributeHashes": {
+        "POSITION": "962e7c220cb53ca983270814b09d4b36475bf0c1833659dc5d4808a53f768760",
+        "NORMAL": "60eaf97577d5be53fe549a54259d8bf61d4e05fd487808b0f3831efaa2c24ae4",
+        "TEXCOORD_0": "67fe047b71f5435fc6f9bbaafb87e72accae7dcaa7c7e0ff7a493d85d6af4252"
+      },
+      "triangleIndexHash": "2a6053c4b687f41b10c6b0873f64f18876fda4caee22d6eb5976c214985d1409",
+      "pbrTextures": [
+        {
+          "name": "demon+creature+3d+model_basecolor.jpg",
+          "width": 8192,
+          "height": 8192,
+          "mimeType": "image/jpeg",
+          "format": "jpeg",
+          "bytes": 11930620,
+          "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
+        },
+        {
+          "name": "demon+creature+3d+model_rm.png",
+          "width": 4096,
+          "height": 4096,
+          "mimeType": "image/png",
+          "format": "png",
+          "bytes": 12863099,
+          "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
+        },
+        {
+          "name": "demon+creature+3d+model_normal.jpg",
+          "width": 4096,
+          "height": 4096,
+          "mimeType": "image/jpeg",
+          "format": "jpeg",
+          "bytes": 1237111,
+          "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
+        }
+      ],
+      "skin": "none",
+      "animations": []
+    },
+    "geometry": {
+      "vertices": 6285,
+      "triangles": 3411,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "sourceSkin": "none",
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/woodland-antler-demon-rigged.glb",
+    "sha256": "e9ffed22111bb6c40151d6776d86421563a21d1fbf0b05de856ba40c6c8f5815",
+    "bytes": 7071608,
+    "productionTarget": "game/public/assets/models/creature/creature_woodland_antler_demon.glb",
+    "rig": {
+      "type": "Mixamo-named humanoid glTF skin",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.148125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.1820703125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.216015625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.24070312500000002,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.265390625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.28390625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.057031250000000006,
+            0.2376171875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.0883984375,
+            0.2067578125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.11406250000000001,
+            0.16664062500000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.1226171875,
+            0.141953125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.057031250000000006,
+            0.2376171875,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.0883984375,
+            0.2067578125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.11406250000000001,
+            0.16664062500000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.1226171875,
+            0.141953125,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.0370703125,
+            0.12035156250000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.039921875,
+            0.052460937500000006,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.039921875,
+            0.018515625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.039921875,
+            0.01080078125,
+            0.018515625
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.0370703125,
+            0.12035156250000001,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.039921875,
+            0.052460937500000006,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.039921875,
+            0.018515625,
+            0
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.039921875,
+            0.01080078125,
+            0.018515625
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 6285,
+      "maximumWeightSumError": 0,
+      "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates."
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 2107997
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4025092
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 524633
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 2
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 7
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 7
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 4
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 3
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 5
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

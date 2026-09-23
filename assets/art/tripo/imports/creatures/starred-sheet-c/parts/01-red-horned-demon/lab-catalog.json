@@ -1,0 +1,98 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_red_horned_demon",
+      "file": "models/creature/creature_red_horned_demon.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Red Horned Demon",
+      "tags": [
+        "creature",
+        "humanoid",
+        "demon",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 7020968,
+      "sha256": "ea3d638141c29e365f973a762df51e16343d8b369aa6fd375cb1ac4c948cc910",
+      "size": {
+        "x": 0.26171875,
+        "y": 0.296875,
+        "z": 0.166015625
+      },
+      "base": [
+        -0.130859375,
+        0,
+        -0.0830078125
+      ],
+      "bounds": {
+        "min": [
+          -0.130859375,
+          0,
+          -0.0830078125
+        ],
+        "max": [
+          0.130859375,
+          0.296875,
+          0.0830078125
+        ]
+      },
+      "groundY": 0,
+      "triangles": 2972,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon/base.glb",
+        "sourceSha256": "20aef52b346729e30cd9499c50eff066d364385b9b03c3ae1f3c9707e8ae0164",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon/red-horned-demon-rigged.glb",
+        "candidateSha256": "ea3d638141c29e365f973a762df51e16343d8b369aa6fd375cb1ac4c948cc910",
+        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates.",
+        "textures": [
+          {
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 2107997
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4025092
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 524633
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
