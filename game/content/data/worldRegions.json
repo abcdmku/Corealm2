@@ -873,6 +873,18 @@
           "assetId": "base_male",
           "dialogueRootId": "bel_root",
           "questIds": []
+        },
+        {
+          "id": "npc_slayer_garek",
+          "name": "Master Garek",
+          "position": [
+            -166,
+            -104
+          ],
+          "facingRad": 0.7,
+          "assetId": "base_male",
+          "dialogueRootId": "slayer_garek_root",
+          "questIds": []
         }
       ],
       "props": [
@@ -3681,6 +3693,18 @@
           "facingRad": 1.95,
           "assetId": "base_male",
           "dialogueRootId": "hale_root",
+          "questIds": []
+        },
+        {
+          "id": "npc_slayer_vardan",
+          "name": "Master Vardan",
+          "position": [
+            151,
+            -66
+          ],
+          "facingRad": 3.05,
+          "assetId": "base_male",
+          "dialogueRootId": "slayer_vardan_root",
           "questIds": []
         }
       ],
@@ -8257,6 +8281,18 @@
           ],
           "facingRad": 3.141592653589793,
           "dialogueRootId": "fey_path_courier_root",
+          "questIds": []
+        },
+        {
+          "id": "npc_slayer_aevra",
+          "name": "Master Aevra",
+          "assetId": "npc_fey_nightshade",
+          "position": [
+            2090,
+            -108
+          ],
+          "facingRad": 2.3,
+          "dialogueRootId": "slayer_aevra_root",
           "questIds": []
         }
       ],

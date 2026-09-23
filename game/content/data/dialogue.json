@@ -3035,5 +3035,182 @@
       }
     ],
     "catalog": "base"
+  },
+  {
+    "id": "slayer_garek_root",
+    "speaker": "Master Garek",
+    "text": "Master Garek. I teach new hunters to read a contract before they take one. Small targets still punish carelessness. What do you need?",
+    "options": [
+      {
+        "id": "slayer_garek_root#board",
+        "text": "How do I take a hunt?",
+        "next": "slayer_garek_board"
+      },
+      {
+        "id": "slayer_garek_root#start",
+        "text": "Where should a new hunter begin?",
+        "next": "slayer_garek_start"
+      },
+      {
+        "id": "slayer_garek_root#bye",
+        "text": "That is all for now.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_garek_board",
+    "speaker": "Master Garek",
+    "text": "Open the Journal and choose Hunts. Refresh the board if it has no offers, then accept one. You can carry one active hunt. It tracks your credited kills in the named region; once the count is met, claim the reward on that same tab. The board only offers enemies you can currently reach.",
+    "options": [
+      {
+        "id": "slayer_garek_board#back",
+        "text": "Something else.",
+        "next": "slayer_garek_root"
+      },
+      {
+        "id": "slayer_garek_board#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_garek_start",
+    "speaker": "Master Garek",
+    "text": "Take a target close to your own level and stay where you have an open way out. If you cannot find a suitable offer, improve your combat skill or open another route before you try again. Returning alive is part of the lesson.",
+    "options": [
+      {
+        "id": "slayer_garek_start#board",
+        "text": "How do I take a hunt?",
+        "next": "slayer_garek_board"
+      },
+      {
+        "id": "slayer_garek_start#bye",
+        "text": "I will keep that in mind.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_vardan_root",
+    "speaker": "Master Vardan",
+    "text": "Master Vardan. The wilderness does not care what you meant to fight. The Hunts board can offer a wilderness target once it considers you ready and the route reachable. I do not promise what the board has not shown you.",
+    "options": [
+      {
+        "id": "slayer_vardan_root#board",
+        "text": "How do I check for a wilderness hunt?",
+        "next": "slayer_vardan_board"
+      },
+      {
+        "id": "slayer_vardan_root#keep",
+        "text": "What should I expect at the Black Keep?",
+        "next": "slayer_vardan_keep"
+      },
+      {
+        "id": "slayer_vardan_root#bye",
+        "text": "That is all for now.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_vardan_board",
+    "speaker": "Master Vardan",
+    "text": "Open Journal, then Hunts, and refresh the offers. A wilderness contract appears only when its targets are registered, reachable, and within the board's combat range. Take one contract at a time. Read the region and target names before you accept; the keep is no place to discover you prepared for the wrong enemy.",
+    "options": [
+      {
+        "id": "slayer_vardan_board#back",
+        "text": "Something else.",
+        "next": "slayer_vardan_root"
+      },
+      {
+        "id": "slayer_vardan_board#bye",
+        "text": "Understood.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_vardan_keep",
+    "speaker": "Master Vardan",
+    "text": "The Black Keep has an approach, a gate, and a court. The dead hold the walls and the court. Use the named route in the Locations journal, check your food and equipment before the gate, and do not cross the threshold just because the first guard fell.",
+    "options": [
+      {
+        "id": "slayer_vardan_keep#board",
+        "text": "How do I check for a wilderness hunt?",
+        "next": "slayer_vardan_board"
+      },
+      {
+        "id": "slayer_vardan_keep#bye",
+        "text": "I will prepare first.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_aevra_root",
+    "speaker": "Master Aevra",
+    "text": "I am Aevra, trail reader for the gardens. Some lights are travelers, some blossoms are watching you, and a quiet path may only be quiet for a moment. What would you like to know?",
+    "options": [
+      {
+        "id": "slayer_aevra_root#trails",
+        "text": "What should I watch for in the gardens?",
+        "next": "slayer_aevra_trails"
+      },
+      {
+        "id": "slayer_aevra_root#contracts",
+        "text": "Can I take a fairy hunt contract?",
+        "next": "slayer_aevra_contracts"
+      },
+      {
+        "id": "slayer_aevra_root#bye",
+        "text": "That is all for now.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_aevra_trails",
+    "speaker": "Master Aevra",
+    "text": "Lantern sprites drift along the lit paths. Moonpetal stalkers defend their beds, and the deeper dewglass weavers keep to the shaded trellises. Watch a creature before you approach it. A forager may ignore you; the one guarding a bloom may not.",
+    "options": [
+      {
+        "id": "slayer_aevra_trails#back",
+        "text": "Can I take a fairy hunt contract?",
+        "next": "slayer_aevra_contracts"
+      },
+      {
+        "id": "slayer_aevra_trails#bye",
+        "text": "I will observe before I move.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "slayer_aevra_contracts",
+    "speaker": "Master Aevra",
+    "text": "Not for the fairy lands yet. The current Hunts board covers reachable targets in the mainland regions; it does not issue contracts for Faeholme or Gloamgarden. You can still inspect a local creature and learn its habits, but I will not pretend there is a contract when there is none.",
+    "options": [
+      {
+        "id": "slayer_aevra_contracts#back",
+        "text": "Tell me about the local trails.",
+        "next": "slayer_aevra_trails"
+      },
+      {
+        "id": "slayer_aevra_contracts#bye",
+        "text": "Thank you for being clear.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
   }
 ]

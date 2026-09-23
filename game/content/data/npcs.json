@@ -328,5 +328,41 @@
     "questIds": [],
     "locationId": "highcairn_outpost",
     "catalog": "base"
+  },
+  {
+    "id": "npc_slayer_garek",
+    "name": "Master Garek",
+    "regionId": "fallowmarch",
+    "settlementId": "coldbrace",
+    "role": "Starter-area slayer master. Teaches new hunters to read the Hunts board and keep to targets within reach.",
+    "voice": "Plain-spoken and patient. Treats caution as a skill, never mocks a new hunter, and gives practical field advice.",
+    "dialogueRootId": "slayer_garek_root",
+    "questIds": [],
+    "locationId": "town_entrance",
+    "catalog": "base"
+  },
+  {
+    "id": "npc_slayer_vardan",
+    "name": "Master Vardan",
+    "regionId": "karrowmoor",
+    "settlementId": "highcairn",
+    "role": "Wilderness slayer master. Prepares experienced hunters for the threats beyond the Highland road.",
+    "voice": "Measured and unsentimental. Gives risk plainly, values preparation and withdrawal as much as a kill.",
+    "dialogueRootId": "slayer_vardan_root",
+    "questIds": [],
+    "locationId": "highcairn_outpost",
+    "catalog": "base"
+  },
+  {
+    "id": "npc_slayer_aevra",
+    "name": "Master Aevra",
+    "regionId": "gloamgarden",
+    "settlementId": "lantern_rest",
+    "role": "Fairyland slayer master and trail reader. Teaches visitors to distinguish a passing wonder from a territorial threat.",
+    "voice": "Calm and observant. Treats the strange as part of the living world, gives precise cautions, and never calls a creature wicked without evidence.",
+    "dialogueRootId": "slayer_aevra_root",
+    "questIds": [],
+    "locationId": "lantern_rest_square",
+    "catalog": "base"
   }
 ]
