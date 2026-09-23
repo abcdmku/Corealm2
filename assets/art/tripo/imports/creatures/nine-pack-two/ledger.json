@@ -45,8 +45,15 @@
       "sourceGlb": "assets/art/tripo/exports/corealm_shalewake_da0d598a_8k_rigged.glb",
       "sourceSha256": "ab8111c81684fe47d41987fabca680c142779130b87cc84a5b022bc690c58dc1",
       "audit": "approved-with-face-audit",
-      "status": "candidate-in-progress",
-      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/shalewake"
+      "status": "candidate-built-awaiting-root-lab",
+      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/shalewake",
+      "candidateFile": "assets/art/tripo/imports/creatures/nine-pack-two/shalewake/stone-shalewake-native-rig-candidate.glb",
+      "candidateSha256": "30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e",
+      "candidateRigJoints": 20,
+      "candidateClips": ["Idle", "Walk", "Run", "Attack", "Hit", "Death"],
+      "runtimeMaps": ["base-color 2048x2048 JPEG", "normal 2048x2048 JPEG", "metallic-roughness 2048x2048 PNG"],
+      "acceptance": "pending-root-lab-review",
+      "sourceWeightNote": "Source weight mass rounds to 100% bone_0; measured other-joint residual is about 9.11e-9."
     },
     {
       "name": "Flint Mandible",

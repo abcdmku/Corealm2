@@ -1,0 +1,409 @@
+{
+  "schema": "corealm-creature-candidate/1",
+  "id": "creature_shale_elemental",
+  "displayName": "Shalewake",
+  "status": "awaiting-root-lab-review",
+  "acceptance": {
+    "imageApproved": false,
+    "geometryApproved": false,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "textureAccepted": false,
+    "promotable": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  },
+  "provenance": {
+    "batchId": "shale-elemental",
+    "candidateSearch": "No other candidate found in the prior nine-pack-two batch.",
+    "sourceAudit": {
+      "status": "approved",
+      "reviewer": "stone_audit",
+      "verdict": "approved-with-face-audit",
+      "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+      "reason": "Flowing geological body, integrated sensing cleft, balanced four limbs and violet/ochre seams; no dinosaur neck or tail."
+    },
+    "modelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+    "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+    "sourceReference": "assets/art/tripo/references/stone-shalewake.png",
+    "sourceReferenceSha256": "81dc3a08840683ed96d4d65a3b21682c60203dc14f257070aed5fe7a17f6b101",
+    "sourceFile": "assets/art/tripo/exports/corealm_shalewake_da0d598a_8k_rigged.glb",
+    "sourceSha256": "ab8111c81684fe47d41987fabca680c142779130b87cc84a5b022bc690c58dc1",
+    "sourceBytes": 17721380,
+    "sourceBaseColor": "8192x8192 image-generated layered stone atlas",
+    "sourceSkin": "1 skin, 5 joints, rounded 100% of original weight mass on bone_0; 0 clips; residual weight on other joints is below 0.0001% of total.",
+    "sourceWeightAudit": {
+      "totalMass": 3188.000000011323,
+      "bone0Mass": 3187.999970972538,
+      "otherJointMass": 0.000029038785214652307,
+      "otherJointFraction": 9.108778298164732e-9
+    },
+    "sourceGeometry": {
+      "vertices": 3188,
+      "triangles": 5294,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uv": "TEXCOORD_0 retained unchanged; no retopology or unwrap"
+    }
+  },
+  "candidate": {
+    "file": "stone-shalewake-native-rig-candidate.glb",
+    "sha256": "30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e",
+    "bytes": 6834172,
+    "vertices": 3188,
+    "triangles": 5294,
+    "bounds": {
+      "min": [
+        -0.260986328125,
+        0,
+        -0.499755859375
+      ],
+      "max": [
+        0.260986328125,
+        0.4760741889476776,
+        0.499755859375
+      ]
+    },
+    "rig": {
+      "type": "authored non-humanoid quadruped rig",
+      "profile": "Generic glTF skin; importer and lab review pending",
+      "joints": [
+        "ShalewakeRoot",
+        "Pelvis",
+        "Spine",
+        "Chest",
+        "Neck",
+        "SensingCleft",
+        "Sense_L",
+        "Sense_R",
+        "HindlegUpper_L",
+        "HindlegLower_L",
+        "Hindpaw_L",
+        "HindlegUpper_R",
+        "HindlegLower_R",
+        "Hindpaw_R",
+        "ForelegUpper_L",
+        "ForelegLower_L",
+        "Forepaw_L",
+        "ForelegUpper_R",
+        "ForelegLower_R",
+        "Forepaw_R"
+      ],
+      "jointsCount": 20,
+      "weighting": "Connected-island and four-limb regional masks; torso follows pelvis/spine/chest/neck, each fore/hind leg has upper/lower/paw joints; normalized four-influence weights."
+    },
+    "maps": [
+      {
+        "name": "Shalewake layered stone base color 2K",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg",
+        "bytes": 1336200,
+        "sha256": "dd25cc449105fb3340ab2b5d93bf0cd798431790809b06d0fe3997263ef023cc"
+      },
+      {
+        "name": "Shalewake derived tangent normal 2K",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg",
+        "bytes": 4142127,
+        "sha256": "fa7085ba777c8687126a7617d00283e9329666175e3accaed6bf9367d4714d96"
+      },
+      {
+        "name": "Shalewake stone roughness and zero metal 2K",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png",
+        "bytes": 984433,
+        "sha256": "b08e8fd2d7dc9ce66293b1ff4979819ef1349f51ed5682cff3e833103f300075"
+      }
+    ],
+    "sidecarMaps": [
+      "shalewake_basecolor_2k.jpg",
+      "shalewake_normal_2k.jpg",
+      "shalewake_metallic_roughness_2k.png"
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3,
+        "channelCount": 9,
+        "loop": true
+      },
+      {
+        "name": "Walk",
+        "duration": 1.2,
+        "channelCount": 18,
+        "loop": true
+      },
+      {
+        "name": "Run",
+        "duration": 0.78,
+        "channelCount": 18,
+        "loop": true
+      },
+      {
+        "name": "Attack",
+        "duration": 0.84,
+        "channelCount": 13,
+        "loop": false
+      },
+      {
+        "name": "Hit",
+        "duration": 0.48,
+        "channelCount": 10,
+        "loop": false
+      },
+      {
+        "name": "Death",
+        "duration": 1.7,
+        "channelCount": 20,
+        "loop": false
+      }
+    ],
+    "targetAssetId": "creature_shale_elemental",
+    "notes": [
+      "Approved source base-color atlas is retained and reduced from 8K to 2K; no monochromatic recolor or replacement skin.",
+      "The 2K normal channel is a restrained height-derived tangent map from smoothed source-albedo relief. Packed metallic-roughness keeps metal at zero and applies variable high stone roughness.",
+      "Four-limb walk and run use diagonal quadruped gait phases. Attack is a low forward shoulder ram; Hit recoils; Death folds the legs and lowers the long torso.",
+      "All candidate acceptance remains false pending root feature-lab review and screenshot inspection."
+    ]
+  },
+  "validation": {
+    "positionsMaxDelta": 0,
+    "normalsMaxDelta": 0,
+    "uvsMaxDelta": 0,
+    "indexMismatches": 0,
+    "sourceWeightAudit": {
+      "totalMass": 3188.000000011323,
+      "bone0Mass": 3187.999970972538,
+      "otherJointMass": 0.000029038785214652307,
+      "otherJointFraction": 9.108778298164732e-9
+    },
+    "weightMaxSumError": 4.470348358154297e-8,
+    "minimumNonzeroWeight": 0.00018747072317637503,
+    "verticesWithMultipleInfluences": 3188,
+    "influenceCountByActiveWeights": [
+      0,
+      0,
+      1183,
+      1637,
+      368
+    ],
+    "verticesByAnatomicalRole": {
+      "fore-L": 455,
+      "torso": 1293,
+      "fore-R": 458,
+      "sensing-cleft": 114,
+      "hind-R": 435,
+      "hind-L": 433
+    },
+    "connectedIslands": 19,
+    "jointsWithWeights": [
+      {
+        "name": "ShalewakeRoot",
+        "vertices": 0
+      },
+      {
+        "name": "Pelvis",
+        "vertices": 871
+      },
+      {
+        "name": "Spine",
+        "vertices": 1028
+      },
+      {
+        "name": "Chest",
+        "vertices": 1230
+      },
+      {
+        "name": "Neck",
+        "vertices": 713
+      },
+      {
+        "name": "SensingCleft",
+        "vertices": 379
+      },
+      {
+        "name": "Sense_L",
+        "vertices": 48
+      },
+      {
+        "name": "Sense_R",
+        "vertices": 66
+      },
+      {
+        "name": "HindlegUpper_L",
+        "vertices": 195
+      },
+      {
+        "name": "HindlegLower_L",
+        "vertices": 433
+      },
+      {
+        "name": "Hindpaw_L",
+        "vertices": 433
+      },
+      {
+        "name": "HindlegUpper_R",
+        "vertices": 211
+      },
+      {
+        "name": "HindlegLower_R",
+        "vertices": 435
+      },
+      {
+        "name": "Hindpaw_R",
+        "vertices": 435
+      },
+      {
+        "name": "ForelegUpper_L",
+        "vertices": 229
+      },
+      {
+        "name": "ForelegLower_L",
+        "vertices": 455
+      },
+      {
+        "name": "Forepaw_L",
+        "vertices": 455
+      },
+      {
+        "name": "ForelegUpper_R",
+        "vertices": 217
+      },
+      {
+        "name": "ForelegLower_R",
+        "vertices": 458
+      },
+      {
+        "name": "Forepaw_R",
+        "vertices": 458
+      }
+    ],
+    "inverseBindMaxDelta": 1.0490417479136482e-8,
+    "clipSamples": [
+      {
+        "name": "Idle",
+        "duration": 3,
+        "channels": 9,
+        "maximumDisplacement": 0.003221576442926545,
+        "movedVertices": 2658,
+        "sweptBounds": {
+          "min": [
+            -0.2609863287200556,
+            -0.001480623328201456,
+            -0.49988279361840116
+          ],
+          "max": [
+            0.26098632094797597,
+            0.476301500835959,
+            0.499869563359628
+          ]
+        }
+      },
+      {
+        "name": "Walk",
+        "duration": 1.2000000476837158,
+        "channels": 18,
+        "maximumDisplacement": 0.05556557541839826,
+        "movedVertices": 3188,
+        "sweptBounds": {
+          "min": [
+            -0.2609863287200556,
+            -0.009808869906701241,
+            -0.5000678952640537
+          ],
+          "max": [
+            0.26098632094797597,
+            0.4833206367913006,
+            0.5011996436434901
+          ]
+        }
+      },
+      {
+        "name": "Run",
+        "duration": 0.7799999713897705,
+        "channels": 18,
+        "maximumDisplacement": 0.09062110230919386,
+        "movedVertices": 3188,
+        "sweptBounds": {
+          "min": [
+            -0.2609863287200556,
+            -0.014953963993332733,
+            -0.5002665005501299
+          ],
+          "max": [
+            0.26098632094797597,
+            0.48856075746023264,
+            0.5020621208314534
+          ]
+        }
+      },
+      {
+        "name": "Attack",
+        "duration": 0.8399999737739563,
+        "channels": 13,
+        "maximumDisplacement": 0.1281647193922865,
+        "movedVertices": 3188,
+        "sweptBounds": {
+          "min": [
+            -0.2609863287200556,
+            -0.00326421744103982,
+            -0.49975586429238317
+          ],
+          "max": [
+            0.26098632094797597,
+            0.47607420028654873,
+            0.5547212561774282
+          ]
+        }
+      },
+      {
+        "name": "Hit",
+        "duration": 0.47999998927116394,
+        "channels": 10,
+        "maximumDisplacement": 0.1305295289310046,
+        "movedVertices": 3188,
+        "sweptBounds": {
+          "min": [
+            -0.2620497871882392,
+            -0.06347244114635857,
+            -0.5430704624550029
+          ],
+          "max": [
+            0.26098632094797597,
+            0.4764577680113943,
+            0.49975583370258453
+          ]
+        }
+      },
+      {
+        "name": "Death",
+        "duration": 1.7000000476837158,
+        "channels": 20,
+        "maximumDisplacement": 0.08903190568585855,
+        "movedVertices": 3188,
+        "sweptBounds": {
+          "min": [
+            -0.26384423060461665,
+            -0.03833150453521914,
+            -0.5000676627431084
+          ],
+          "max": [
+            0.3083519244754691,
+            0.47607420018279634,
+            0.501569955007628
+          ]
+        }
+      }
+    ]
+  }
+}

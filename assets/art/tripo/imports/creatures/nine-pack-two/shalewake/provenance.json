@@ -1,0 +1,41 @@
+{
+  "schema": "corealm-creature-candidate-provenance/1",
+  "batchId": "shale-elemental",
+  "candidateSearch": "No other candidate found in the prior nine-pack-two batch.",
+  "sourceAudit": {
+    "status": "approved",
+    "reviewer": "stone_audit",
+    "verdict": "approved-with-face-audit",
+    "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+    "reason": "Flowing geological body, integrated sensing cleft, balanced four limbs and violet/ochre seams; no dinosaur neck or tail."
+  },
+  "modelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+  "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+  "sourceReference": "assets/art/tripo/references/stone-shalewake.png",
+  "sourceReferenceSha256": "81dc3a08840683ed96d4d65a3b21682c60203dc14f257070aed5fe7a17f6b101",
+  "sourceFile": "assets/art/tripo/exports/corealm_shalewake_da0d598a_8k_rigged.glb",
+  "sourceSha256": "ab8111c81684fe47d41987fabca680c142779130b87cc84a5b022bc690c58dc1",
+  "sourceBytes": 17721380,
+  "sourceBaseColor": "8192x8192 image-generated layered stone atlas",
+  "sourceSkin": "1 skin, 5 joints, rounded 100% of original weight mass on bone_0; 0 clips; residual weight on other joints is below 0.0001% of total.",
+  "sourceWeightAudit": {
+    "totalMass": 3188.000000011323,
+    "bone0Mass": 3187.999970972538,
+    "otherJointMass": 0.000029038785214652307,
+    "otherJointFraction": 9.108778298164732e-9
+  },
+  "sourceGeometry": {
+    "vertices": 3188,
+    "triangles": 5294,
+    "positionsPreserved": true,
+    "normalsPreserved": true,
+    "indicesPreserved": true,
+    "uv": "TEXCOORD_0 retained unchanged; no retopology or unwrap"
+  },
+  "candidate": {
+    "file": "stone-shalewake-native-rig-candidate.glb",
+    "sha256": "30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e",
+    "bytes": 6834172
+  },
+  "status": "source-audit-approved; runtime-candidate-acceptance-pending-root-lab"
+}

@@ -1,0 +1,120 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_shale_elemental",
+      "file": "models/creature/creature_shale_elemental.glb",
+      "pack": "corealm-rpg-earth-elemental-golem",
+      "category": "character",
+      "is": "Shalewake",
+      "tags": [
+        "creature",
+        "elemental",
+        "stone",
+        "quadruped",
+        "shale",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 6834172,
+      "sha256": "30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e",
+      "size": {
+        "x": 0.52197265625,
+        "y": 0.4760741889476776,
+        "z": 0.99951171875
+      },
+      "base": {
+        "x": -0.260986328125,
+        "y": 0,
+        "z": -0.499755859375
+      },
+      "bounds": {
+        "min": [
+          -0.260986328125,
+          0,
+          -0.499755859375
+        ],
+        "max": [
+          0.260986328125,
+          0.4760741889476776,
+          0.499755859375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5294,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_3c423ccd-407d-4ce3-ae95-68eca78c41a3"
+      ],
+      "walkClipSeconds": 1.2,
+      "runClipSeconds": 0.78,
+      "attackSeconds": 0.84,
+      "contactNormalized": 0.58,
+      "sourceProvenance": {
+        "author": "Corealm creature rig reconstruction",
+        "batchId": "shale-elemental",
+        "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+        "modelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+        "sourceSha256": "ab8111c81684fe47d41987fabca680c142779130b87cc84a5b022bc690c58dc1",
+        "sourceReferenceSha256": "81dc3a08840683ed96d4d65a3b21682c60203dc14f257070aed5fe7a17f6b101",
+        "rigMethod": "20-joint articulated four-limb quadruped rig with torso and four limb chains; connected-island weights and six custom clips.",
+        "candidateFile": "stone-shalewake-native-rig-candidate.glb",
+        "candidateSha256": "30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e"
+      },
+      "metadata": {
+        "is": "Shalewake",
+        "tags": [
+          "creature",
+          "elemental",
+          "stone",
+          "quadruped",
+          "shale",
+          "skinned",
+          "articulated"
+        ],
+        "walkClipSeconds": 1.2,
+        "runClipSeconds": 0.78,
+        "attackSeconds": 0.84,
+        "contactNormalized": 0.58,
+        "notes": "Approved long-bodied shale elemental; layered source stone atlas and derived 2K PBR maps. Candidate-only pending root lab review.",
+        "boneNames": [
+          "ShalewakeRoot",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "SensingCleft",
+          "Sense_L",
+          "Sense_R",
+          "HindlegUpper_L",
+          "HindlegLower_L",
+          "Hindpaw_L",
+          "HindlegUpper_R",
+          "HindlegLower_R",
+          "Hindpaw_R",
+          "ForelegUpper_L",
+          "ForelegLower_L",
+          "Forepaw_L",
+          "ForelegUpper_R",
+          "ForelegLower_R",
+          "Forepaw_R"
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_shale_elemental": "stone-shalewake-native-rig-candidate.glb"
+  }
+}
