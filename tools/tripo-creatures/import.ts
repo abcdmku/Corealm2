@@ -16,7 +16,8 @@ const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS);
 interface Spec {
   id: string; name: string; source: string; expectedSourceSha256?: string; sourceImageId: string; modelId: string;
   imageReview: { verdict: "approved"; reviewer: string }; heightMeters: number; yawDegrees: number;
-  orientationVerified: boolean; requirePbrMaps: boolean; materialProfile?: "bark-lichen"; clipAliases?: Record<string, string>; retargetHumanoid?: boolean; repairHumanoidWeights?: boolean;
+  orientationVerified: boolean; requirePbrMaps: boolean; sourceBaseColorMinimumPx?: 2048 | 8192;
+  materialProfile?: "bark-lichen"; clipAliases?: Record<string, string>; retargetHumanoid?: boolean; repairHumanoidWeights?: boolean;
   geometryReference?: string; geometryBasisDegrees?: number;
 }
 interface HeldCandidate { id: string; status: "held-for-source-provenance-audit"; candidateFile: string; sourceFile: string; candidateSha256: string; sourceSha256: string }
@@ -182,6 +183,7 @@ export async function importCreatures(batch: Batch) {
   for (const spec of batch.entries) {
     if (!/^creature_[a-z0-9_]+$/.test(spec.id) || spec.imageReview.verdict !== "approved") throw new Error("Unapproved creature");
     if (!(spec.heightMeters > 0 && Number.isFinite(spec.yawDegrees))) throw new Error("Invalid transform");
+    if (spec.sourceBaseColorMinimumPx !== undefined && spec.sourceBaseColorMinimumPx !== 2048 && spec.sourceBaseColorMinimumPx !== 8192) throw new Error("Unsupported source base-color minimum");
     const original = manifest.assets.find((asset: { id: string }) => asset.id === spec.id);
     if (!original) throw new Error(`Root must define asset contract ${spec.id}`);
     const bytes = await readFile(spec.source), sourceHash = hash(bytes);
@@ -209,7 +211,11 @@ export async function importCreatures(batch: Batch) {
     if (!source.skins.length) reasons.push("Export omitted skeleton");
     if (!spec.orientationVerified) reasons.push("Facing axis unverified");
     const baseColors = new Set(source.materialMaps.map(material => material.baseColor).filter(Boolean));
-    if (!baseColors.size || source.textures.some(texture => baseColors.has(texture.name) && Math.max(texture.width ?? 0, texture.height ?? 0) < 8192)) reasons.push("Missing 8K source base color");
+    const sourceBaseColorMinimumPx = spec.sourceBaseColorMinimumPx ?? 8192;
+    if (!baseColors.size || source.textures.some(texture => baseColors.has(texture.name)
+      && ((texture.width ?? 0) < sourceBaseColorMinimumPx || (texture.height ?? 0) < sourceBaseColorMinimumPx))) {
+      reasons.push(`Missing ${sourceBaseColorMinimumPx / 1024}K source base color`);
+    }
     if (spec.requirePbrMaps && working.materialMaps.some(material => !material.normal || !material.metallicRoughness)) reasons.push("Required PBR maps missing");
     for (const clip of doc.getRoot().listAnimations()) if (spec.clipAliases?.[clip.getName()]) clip.setName(spec.clipAliases[clip.getName()]!);
     for (const name of REQUIRED) {
@@ -218,7 +224,7 @@ export async function importCreatures(batch: Batch) {
     }
     const record = { id: spec.id, name: spec.name, modelId: spec.modelId, sourceImageId: spec.sourceImageId, sourceFile,
       downloadedFilename: path.basename(spec.source), sourceSha256: sourceHash, sourceBytes: bytes.length,
-      imageReview: spec.imageReview, source, basisRepair, materialTreatment, weightRepair, retarget, readyForLab: false, reasons, runtime: null as unknown };
+      imageReview: spec.imageReview, sourceBaseColorMinimumPx, source, basisRepair, materialTreatment, weightRepair, retarget, readyForLab: false, reasons, runtime: null as unknown };
     if (!reasons.length) {
       const root = doc.getRoot(), scene = root.getDefaultScene() ?? root.listScenes()[0];
       if (!scene || root.listScenes().length !== 1) throw new Error("Expected one scene");
