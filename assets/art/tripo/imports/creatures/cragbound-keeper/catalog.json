@@ -882,5 +882,26 @@
   ],
   "heldCandidates": [],
   "visualAccepted": false,
-  "promotable": false
+  "promotable": false,
+  "worldIntegrated": false,
+  "labAcceptance": {
+    "status": "hold",
+    "session": "persistent feature-lab browser session",
+    "route": "/index.html?mode=combat&creatures=1",
+    "candidateCatalog": "assets/art/tripo/imports/creatures/cragbound-keeper/catalog.json",
+    "camera": "normal gameplay camera",
+    "motions": [
+      { "motion": "Idle", "screenshots": ["stone-idle.png"] },
+      { "motion": "Walk", "screenshots": ["stone-walk-00.png", "stone-walk-03.png"] },
+      { "motion": "Run", "screenshots": ["stone-run-00.png", "stone-run-03.png"] },
+      { "motion": "Attack", "screenshots": ["stone-attack-00.png", "stone-attack-03.png"] },
+      { "motion": "Hit", "screenshots": ["stone-hit-00.png", "stone-hit-03.png"] }
+    ],
+    "semanticResult": "The candidate rendered in the production creature gallery, but its normal-camera appearance and grounding do not meet acceptance.",
+    "visualHold": "The model reads as a generic brown mud-and-stone humanoid with an indistinct face.",
+    "motionHold": "The feet visibly hover above the terrain during Idle and reviewed motion frames.",
+    "visualReviewer": "Root reviewed the actual lab screenshots.",
+    "evidenceDirectory": "test-results/cragbound-review (ignored disposable evidence; screenshots are not bundled here)",
+    "worldIntegrated": false
+  }
 }
