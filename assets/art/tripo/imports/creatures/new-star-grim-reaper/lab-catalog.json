@@ -22,8 +22,8 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6705224,
-      "sha256": "8e52a6f2fcb380728fee9716476eaeb090dcda0f43a20c2ced0a1937521846e6",
+      "bytes": 6718112,
+      "sha256": "05eb601ec46cd2897a510b9d2db03d661e772ff8409493ec3e1ac0f94ba20d34",
       "size": {
         "x": 2.04599609375,
         "y": 1.981933471560478,
@@ -70,8 +70,8 @@
         "sourceFile": "assets/art/tripo/exports/68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae.glb",
         "sourceSha256": "b66926a4ba2c2a9bb45d1c9af1d0558e4ed8676fe4d575ac5f291888c11ba248",
         "candidateFile": "assets/art/tripo/imports/creatures/new-star-grim-reaper/redwake-harvester-native-rig.glb",
-        "candidateSha256": "8e52a6f2fcb380728fee9716476eaeb090dcda0f43a20c2ced0a1937521846e6",
-        "rigMethod": "Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait.",
+        "candidateSha256": "05eb601ec46cd2897a510b9d2db03d661e772ff8409493ec3e1ac0f94ba20d34",
+        "rigMethod": "Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. The idle pose lowers and curls both arms; every gameplay clip preserves that posture, while Attack turns both forearms forward to reach. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait.",
         "locomotion": "Floating hover, slow spectral drift and fast glide. Walk and Run keep the action-map names without planted steps.",
         "pbr": "Preserves the embedded layered base-color, roughness/metalness and normal maps unchanged at 2K.",
         "noRetopology": true,

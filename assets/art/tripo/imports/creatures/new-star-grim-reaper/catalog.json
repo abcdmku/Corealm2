@@ -79,8 +79,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-grim-reaper/redwake-harvester-native-rig.glb",
-    "sha256": "8e52a6f2fcb380728fee9716476eaeb090dcda0f43a20c2ced0a1937521846e6",
-    "bytes": 6705224,
+    "sha256": "05eb601ec46cd2897a510b9d2db03d661e772ff8409493ec3e1ac0f94ba20d34",
+    "bytes": 6718112,
     "productionTarget": "game/public/assets/models/creature/creature_redwake_harvester.glb",
     "presentationScale": 2.05,
     "geometry": {
@@ -437,7 +437,54 @@
       "verticesWithDistributedWeights": 6846,
       "verticesWithCloakInfluence": 3051,
       "maximumWeightSumError": 4.470348358154297e-8,
-      "method": "Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait."
+      "method": "Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. The idle pose lowers and curls both arms; every gameplay clip preserves that posture, while Attack turns both forearms forward to reach. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait."
+    },
+    "basePose": {
+      "arms": "Lowered and curled, with hands angled forward. This posture is present at the first key of all six clips.",
+      "leftArmDropMeters": 0.28983281846402487,
+      "rightArmDropMeters": 0.28983281846402487,
+      "clipStarts": {
+        "Idle": {
+          "leftArmDropMeters": 0.28983281846402487,
+          "rightArmDropMeters": 0.28983281846402487,
+          "leftHandZMeters": 0.1731449862280128,
+          "rightHandZMeters": 0.1731449862280128
+        },
+        "Walk": {
+          "leftArmDropMeters": 0.2932375227017212,
+          "rightArmDropMeters": 0.2932375227017212,
+          "leftHandZMeters": 0.11905688892245764,
+          "rightHandZMeters": 0.11905688892245764
+        },
+        "Run": {
+          "leftArmDropMeters": 0.2857577770112587,
+          "rightArmDropMeters": 0.2857577770112587,
+          "leftHandZMeters": 0.10657713788534699,
+          "rightHandZMeters": 0.10657713788534699
+        },
+        "Attack": {
+          "leftArmDropMeters": 0.28983281846402487,
+          "rightArmDropMeters": 0.28983281846402487,
+          "leftHandZMeters": 0.1731449862280128,
+          "rightHandZMeters": 0.1731449862280128
+        },
+        "Hit": {
+          "leftArmDropMeters": 0.28983281846402487,
+          "rightArmDropMeters": 0.28983281846402487,
+          "leftHandZMeters": 0.1731449862280128,
+          "rightHandZMeters": 0.1731449862280128
+        },
+        "Death": {
+          "leftArmDropMeters": 0.28983281846402487,
+          "rightArmDropMeters": 0.28983281846402487,
+          "leftHandZMeters": 0.1731449862280128,
+          "rightHandZMeters": 0.1731449862280128
+        }
+      },
+      "attackReachDeltaZMeters": {
+        "left": 0.26847254931681463,
+        "right": 0.26847254931681463
+      }
     },
     "textures": [
       {
@@ -486,37 +533,37 @@
       {
         "name": "Idle",
         "seconds": 3,
-        "channels": 10,
+        "channels": 14,
         "style": "spectral hover and cloak motion; no footfall gait"
       },
       {
         "name": "Walk",
         "seconds": 1.2,
-        "channels": 10,
+        "channels": 14,
         "style": "spectral hover and cloak motion; no footfall gait"
       },
       {
         "name": "Run",
         "seconds": 0.76,
-        "channels": 11,
+        "channels": 15,
         "style": "spectral hover and cloak motion; no footfall gait"
       },
       {
         "name": "Attack",
         "seconds": 0.9,
-        "channels": 12,
+        "channels": 14,
         "style": "spectral hover and cloak motion; no footfall gait"
       },
       {
         "name": "Hit",
         "seconds": 0.52,
-        "channels": 8,
+        "channels": 12,
         "style": "spectral hover and cloak motion; no footfall gait"
       },
       {
         "name": "Death",
         "seconds": 1.75,
-        "channels": 12,
+        "channels": 16,
         "style": "spectral hover and cloak motion; no footfall gait"
       }
     ],
@@ -525,147 +572,147 @@
         {
           "time": 0,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.3715213446816616
         },
         {
           "time": 0.75,
           "minY": 0.23304614664127155,
-          "maxDelta": 0.30113518254183175
+          "maxDelta": 0.38512412007336755
         },
         {
           "time": 1.5,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.37152134468166154
         },
         {
           "time": 2.25,
           "minY": 0.16989508835459682,
-          "maxDelta": 0.22339475812895065
+          "maxDelta": 0.37458022112270284
         },
         {
           "time": 3,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.3715213446816616
         }
       ],
       "Walk": [
         {
           "time": 0,
           "minY": 0.18857254672611878,
-          "maxDelta": 0.2468018442392227
+          "maxDelta": 0.3461186452422355
         },
         {
           "time": 0.3,
           "minY": 0.22669421983387664,
-          "maxDelta": 0.3344718227802753
+          "maxDelta": 0.452026232707409
         },
         {
           "time": 0.6,
           "minY": 0.18557843097485024,
-          "maxDelta": 0.2480408675678738
+          "maxDelta": 0.3954942546809159
         },
         {
           "time": 0.8999999999999999,
           "minY": 0.1713134247604517,
-          "maxDelta": 0.23675854843919225
+          "maxDelta": 0.2925624166744918
         },
         {
           "time": 1.2,
           "minY": 0.18857254672611878,
-          "maxDelta": 0.2468018442392227
+          "maxDelta": 0.3461186452422355
         }
       ],
       "Run": [
         {
           "time": 0,
           "minY": 0.15406234520518894,
-          "maxDelta": 0.2888177476625566
+          "maxDelta": 0.35897157472621966
         },
         {
           "time": 0.19,
           "minY": 0.21841239142210464,
-          "maxDelta": 0.45082569510834364
+          "maxDelta": 0.514472384816301
         },
         {
           "time": 0.38,
           "minY": 0.16633233321053592,
-          "maxDelta": 0.26854538891971946
+          "maxDelta": 0.43495816278528115
         },
         {
           "time": 0.5700000000000001,
           "minY": 0.18762951416577542,
-          "maxDelta": 0.29112843046427705
+          "maxDelta": 0.352262384936854
         },
         {
           "time": 0.76,
           "minY": 0.15406234520518894,
-          "maxDelta": 0.2888177476625566
+          "maxDelta": 0.35897157472621966
         }
       ],
       "Attack": [
         {
           "time": 0,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.3715213446816616
         },
         {
           "time": 0.225,
           "minY": 0.14513233107567983,
-          "maxDelta": 0.5144135823091108
+          "maxDelta": 0.44609467794816027
         },
         {
           "time": 0.45,
           "minY": 0.16147113591271928,
-          "maxDelta": 0.7568916531561071
+          "maxDelta": 0.7446230051610935
         },
         {
           "time": 0.675,
           "minY": 0.1687686264667233,
-          "maxDelta": 0.32713459696253644
+          "maxDelta": 0.6342283329520482
         },
         {
           "time": 0.9,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.3715213446816616
         }
       ],
       "Hit": [
         {
           "time": 0,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.3715213446816616
         },
         {
           "time": 0.13,
           "minY": 0.227733903120996,
-          "maxDelta": 0.43119027954111133
+          "maxDelta": 0.3111379882136699
         },
         {
           "time": 0.26,
           "minY": 0.21299417489281913,
-          "maxDelta": 0.2941055870784239
+          "maxDelta": 0.3260929934267659
         },
         {
           "time": 0.39,
           "minY": 0.2058362678503926,
-          "maxDelta": 0.24479869963373788
+          "maxDelta": 0.3545856224829107
         },
         {
           "time": 0.52,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.3715213446816616
         }
       ],
       "Death": [
         {
           "time": 0,
           "minY": 0.20500000381842237,
-          "maxDelta": 0.2291871959788556
+          "maxDelta": 0.3715213446816616
         },
         {
           "time": 0.4375,
           "minY": 0.3155439815642169,
-          "maxDelta": 0.42034797662963463
+          "maxDelta": 0.39929084974359075
         },
         {
           "time": 0.875,

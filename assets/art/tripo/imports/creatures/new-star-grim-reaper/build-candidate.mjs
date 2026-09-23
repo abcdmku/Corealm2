@@ -212,9 +212,10 @@ function addClip(name, seconds, tracks) {
     animation.addSampler(sampler).addChannel(doc.createAnimationChannel(`${name}_${track.node}_${track.path ?? 'rotation'}`)
       .setTargetNode(jointNodes.get(track.node)).setTargetPath(track.path ?? 'rotation').setSampler(sampler));
   }
-  clips.push({ name, seconds, channels: tracks.length, style: 'spectral hover and cloak motion; no footfall gait' });
+  clips.push({ name, seconds, channels: tracks.length, style: 'spectral hover and cloak motion; no footfall gait', tracks });
 }
 const q = (axis, ...angles) => angles.map((angle) => quat(axis, angle));
+const armQ = (yaw, roll) => new THREE.Quaternion().setFromEuler(new THREE.Euler(0, yaw, roll, 'XYZ')).toArray();
 const idleTimes = [0, .75, 1.5, 2.25, 3.0];
 const walkTimes = [0, .30, .60, .90, 1.20];
 const runTimes = [0, .19, .38, .57, .76];
@@ -222,8 +223,12 @@ addClip('Idle', 3.0, [
   { node: 'ReaperRoot', path: 'translation', times: idleTimes, values: [[0,.100,0], [0,.120,-.008], [0,.100,0], [0,.082,.008], [0,.100,0]] },
   { node: 'mixamorigSpine1', times: idleTimes, values: q('z', 0, -.012, 0, .012, 0) },
   { node: 'mixamorigHead', times: idleTimes, values: q('x', 0, -.014, -.026, -.008, 0) },
-  { node: 'mixamorigLeftArm', times: idleTimes, values: q('z', -.04, -.07, -.04, -.01, -.04) },
-  { node: 'mixamorigRightArm', times: idleTimes, values: q('z', .04, .01, .04, .07, .04) },
+  { node: 'mixamorigLeftArm', times: idleTimes, values: [armQ(.20,.92), armQ(.24,.87), armQ(.20,.92), armQ(.16,.97), armQ(.20,.92)] },
+  { node: 'mixamorigLeftForeArm', times: idleTimes, values: [armQ(.42,-.48), armQ(.46,-.42), armQ(.42,-.48), armQ(.38,-.54), armQ(.42,-.48)] },
+  { node: 'mixamorigLeftHand', times: idleTimes, values: [armQ(.30,.10), armQ(.34,.12), armQ(.30,.10), armQ(.28,.08), armQ(.30,.10)] },
+  { node: 'mixamorigRightArm', times: idleTimes, values: [armQ(-.20,-.92), armQ(-.24,-.87), armQ(-.20,-.92), armQ(-.16,-.97), armQ(-.20,-.92)] },
+  { node: 'mixamorigRightForeArm', times: idleTimes, values: [armQ(-.42,.48), armQ(-.46,.42), armQ(-.42,.48), armQ(-.38,.54), armQ(-.42,.48)] },
+  { node: 'mixamorigRightHand', times: idleTimes, values: [armQ(-.30,-.10), armQ(-.34,-.12), armQ(-.30,-.10), armQ(-.28,-.08), armQ(-.30,-.10)] },
   { node: 'ReaperShroudMid', times: idleTimes, values: q('x', 0, .025, 0, -.022, 0) },
   { node: 'ReaperShroudHem', times: idleTimes, values: q('z', 0, -.025, 0, .025, 0) },
   { node: 'ReaperCapeTipL', times: idleTimes, values: q('y', -.03, .025, -.02, .024, -.03) },
@@ -235,8 +240,12 @@ addClip('Walk', 1.20, [
   { node: 'mixamorigSpine1', times: walkTimes, values: q('x', .02, .045, .02, 0, .02) },
   { node: 'mixamorigSpine2', times: walkTimes, values: q('x', 0, -.035, 0, .035, 0) },
   { node: 'mixamorigHead', times: walkTimes, values: q('y', -.025, -.01, .025, .01, -.025) },
-  { node: 'mixamorigLeftArm', times: walkTimes, values: q('z', -.08, -.13, -.08, -.025, -.08) },
-  { node: 'mixamorigRightArm', times: walkTimes, values: q('z', .08, .025, .08, .13, .08) },
+  { node: 'mixamorigLeftArm', times: walkTimes, values: [armQ(.20,.92), armQ(.28,1.00), armQ(.20,.90), armQ(.12,.85), armQ(.20,.92)] },
+  { node: 'mixamorigLeftForeArm', times: walkTimes, values: [armQ(.42,-.48), armQ(.48,-.42), armQ(.42,-.50), armQ(.36,-.55), armQ(.42,-.48)] },
+  { node: 'mixamorigLeftHand', times: walkTimes, values: [armQ(.30,.10), armQ(.38,.08), armQ(.30,.10), armQ(.25,.12), armQ(.30,.10)] },
+  { node: 'mixamorigRightArm', times: walkTimes, values: [armQ(-.20,-.92), armQ(-.28,-1.00), armQ(-.20,-.90), armQ(-.12,-.85), armQ(-.20,-.92)] },
+  { node: 'mixamorigRightForeArm', times: walkTimes, values: [armQ(-.42,.48), armQ(-.48,.42), armQ(-.42,.50), armQ(-.36,.55), armQ(-.42,.48)] },
+  { node: 'mixamorigRightHand', times: walkTimes, values: [armQ(-.30,-.10), armQ(-.38,-.08), armQ(-.30,-.10), armQ(-.25,-.12), armQ(-.30,-.10)] },
   { node: 'ReaperShroudMid', times: walkTimes, values: q('x', .02, .105, .03, -.035, .02) },
   { node: 'ReaperCapeTipL', times: walkTimes, values: q('y', -.03, .10, -.02, -.10, -.03) },
   { node: 'ReaperCapeTipR', times: walkTimes, values: q('y', .03, -.10, .02, .10, .03) },
@@ -247,8 +256,12 @@ addClip('Run', .76, [
   { node: 'mixamorigSpine1', times: runTimes, values: q('x', .07, .12, .07, .02, .07) },
   { node: 'mixamorigSpine2', times: runTimes, values: q('x', .03, -.07, .03, .10, .03) },
   { node: 'mixamorigHead', times: runTimes, values: q('x', -.015, -.045, -.015, .02, -.015) },
-  { node: 'mixamorigLeftArm', times: runTimes, values: q('z', -.15, -.26, -.10, .02, -.15) },
-  { node: 'mixamorigRightArm', times: runTimes, values: q('z', .15, -.02, .10, .26, .15) },
+  { node: 'mixamorigLeftArm', times: runTimes, values: [armQ(.30,.80), armQ(.42,.68), armQ(.24,.88), armQ(.12,1.00), armQ(.30,.80)] },
+  { node: 'mixamorigLeftForeArm', times: runTimes, values: [armQ(.45,-.38), armQ(.65,-.25), armQ(.42,-.48), armQ(.30,-.60), armQ(.45,-.38)] },
+  { node: 'mixamorigLeftHand', times: runTimes, values: [armQ(.35,.10), armQ(.55,.05), armQ(.32,.10), armQ(.24,.12), armQ(.35,.10)] },
+  { node: 'mixamorigRightArm', times: runTimes, values: [armQ(-.30,-.80), armQ(-.42,-.68), armQ(-.24,-.88), armQ(-.12,-1.00), armQ(-.30,-.80)] },
+  { node: 'mixamorigRightForeArm', times: runTimes, values: [armQ(-.45,.38), armQ(-.65,.25), armQ(-.42,.48), armQ(-.30,.60), armQ(-.45,.38)] },
+  { node: 'mixamorigRightHand', times: runTimes, values: [armQ(-.35,-.10), armQ(-.55,-.05), armQ(-.32,-.10), armQ(-.24,-.12), armQ(-.35,-.10)] },
   { node: 'ReaperShroudMid', times: runTimes, values: q('x', .09, .24, .07, -.08, .09) },
   { node: 'ReaperShroudHem', times: runTimes, values: q('x', .02, .12, -.01, -.13, .02) },
   { node: 'ReaperCapeTipL', times: runTimes, values: q('y', -.05, .17, -.07, -.18, -.05) },
@@ -261,10 +274,12 @@ addClip('Attack', .90, [
   { node: 'mixamorigSpine1', times: attackTimes, values: q('x', 0, -.08, .20, .10, 0) },
   { node: 'mixamorigSpine2', times: attackTimes, values: q('x', 0, -.04, .13, .05, 0) },
   { node: 'mixamorigHead', times: attackTimes, values: q('x', 0, .04, -.13, -.04, 0) },
-  { node: 'mixamorigLeftArm', times: attackTimes, values: q('z', -.04, -.38, -.80, -.25, -.04) },
-  { node: 'mixamorigLeftForeArm', times: attackTimes, values: q('z', 0, -.12, -.28, .12, 0) },
-  { node: 'mixamorigRightArm', times: attackTimes, values: q('z', .04, .40, .72, .23, .04) },
-  { node: 'mixamorigRightForeArm', times: attackTimes, values: q('z', 0, .12, .25, -.10, 0) },
+  { node: 'mixamorigLeftArm', times: attackTimes, values: [armQ(.20,.92), armQ(.12,.82), armQ(.70,.62), armQ(.55,.72), armQ(.20,.92)] },
+  { node: 'mixamorigLeftForeArm', times: attackTimes, values: [armQ(.42,-.48), armQ(.55,-.35), armQ(.95,-.18), armQ(.90,-.25), armQ(.42,-.48)] },
+  { node: 'mixamorigLeftHand', times: attackTimes, values: [armQ(.30,.10), armQ(.55,.10), armQ(.85,.05), armQ(.70,.05), armQ(.30,.10)] },
+  { node: 'mixamorigRightArm', times: attackTimes, values: [armQ(-.20,-.92), armQ(-.12,-.82), armQ(-.70,-.62), armQ(-.55,-.72), armQ(-.20,-.92)] },
+  { node: 'mixamorigRightForeArm', times: attackTimes, values: [armQ(-.42,.48), armQ(-.55,.35), armQ(-.95,.18), armQ(-.90,.25), armQ(-.42,.48)] },
+  { node: 'mixamorigRightHand', times: attackTimes, values: [armQ(-.30,-.10), armQ(-.55,-.10), armQ(-.85,-.05), armQ(-.70,-.05), armQ(-.30,-.10)] },
   { node: 'ReaperShroudMid', times: attackTimes, values: q('x', 0, .10, .38, .20, 0) },
   { node: 'ReaperCapeTipL', times: attackTimes, values: q('y', 0, .12, -.22, -.08, 0) },
   { node: 'ReaperCapeTipR', times: attackTimes, values: q('y', 0, -.12, .22, .08, 0) },
@@ -276,8 +291,12 @@ addClip('Hit', .52, [
   { node: 'mixamorigSpine1', times: hitTimes, values: q('x', 0, -.19, -.10, .035, 0) },
   { node: 'mixamorigSpine2', times: hitTimes, values: q('z', 0, .14, .07, -.02, 0) },
   { node: 'mixamorigHead', times: hitTimes, values: q('x', 0, .15, .06, -.02, 0) },
-  { node: 'mixamorigLeftArm', times: hitTimes, values: q('z', -.04, -.27, -.13, -.02, -.04) },
-  { node: 'mixamorigRightArm', times: hitTimes, values: q('z', .04, .25, .12, .02, .04) },
+  { node: 'mixamorigLeftArm', times: hitTimes, values: [armQ(.20,.92), armQ(.10,.70), armQ(.15,.80), armQ(.20,.86), armQ(.20,.92)] },
+  { node: 'mixamorigLeftForeArm', times: hitTimes, values: [armQ(.42,-.48), armQ(.25,-.35), armQ(.32,-.40), armQ(.38,-.46), armQ(.42,-.48)] },
+  { node: 'mixamorigLeftHand', times: hitTimes, values: [armQ(.30,.10), armQ(.18,.15), armQ(.25,.14), armQ(.29,.10), armQ(.30,.10)] },
+  { node: 'mixamorigRightArm', times: hitTimes, values: [armQ(-.20,-.92), armQ(-.10,-.70), armQ(-.15,-.80), armQ(-.20,-.86), armQ(-.20,-.92)] },
+  { node: 'mixamorigRightForeArm', times: hitTimes, values: [armQ(-.42,.48), armQ(-.25,.35), armQ(-.32,.40), armQ(-.38,.46), armQ(-.42,.48)] },
+  { node: 'mixamorigRightHand', times: hitTimes, values: [armQ(-.30,-.10), armQ(-.18,-.15), armQ(-.25,-.14), armQ(-.29,-.10), armQ(-.30,-.10)] },
   { node: 'ReaperShroudMid', times: hitTimes, values: q('x', 0, -.20, -.07, .03, 0) },
   { node: 'WaistChainTail', times: hitTimes, values: q('z', 0, -.15, -.05, .01, 0) },
 ]);
@@ -288,8 +307,12 @@ addClip('Death', 1.75, [
   { node: 'mixamorigSpine1', times: deathTimes, values: q('x', 0, .08, .22, .32, .32) },
   { node: 'mixamorigSpine2', times: deathTimes, values: q('x', 0, .05, .15, .24, .24) },
   { node: 'mixamorigHead', times: deathTimes, values: q('x', 0, -.04, -.14, -.25, -.25) },
-  { node: 'mixamorigLeftArm', times: deathTimes, values: q('z', -.04, -.17, -.39, -.50, -.50) },
-  { node: 'mixamorigRightArm', times: deathTimes, values: q('z', .04, .17, .37, .49, .49) },
+  { node: 'mixamorigLeftArm', times: deathTimes, values: [armQ(.20,.92), armQ(.15,.80), armQ(.08,.74), armQ(.02,.72), armQ(.02,.72)] },
+  { node: 'mixamorigLeftForeArm', times: deathTimes, values: [armQ(.42,-.48), armQ(.20,-.32), armQ(.10,-.25), armQ(.05,-.20), armQ(.05,-.20)] },
+  { node: 'mixamorigLeftHand', times: deathTimes, values: [armQ(.30,.10), armQ(.15,.08), armQ(.08,.04), armQ(.03,0), armQ(.03,0)] },
+  { node: 'mixamorigRightArm', times: deathTimes, values: [armQ(-.20,-.92), armQ(-.15,-.80), armQ(-.08,-.74), armQ(-.02,-.72), armQ(-.02,-.72)] },
+  { node: 'mixamorigRightForeArm', times: deathTimes, values: [armQ(-.42,.48), armQ(-.20,.32), armQ(-.10,.25), armQ(-.05,.20), armQ(-.05,.20)] },
+  { node: 'mixamorigRightHand', times: deathTimes, values: [armQ(-.30,-.10), armQ(-.15,-.08), armQ(-.08,-.04), armQ(-.03,0), armQ(-.03,0)] },
   { node: 'ReaperShroudMid', times: deathTimes, values: q('x', 0, -.06, -.20, -.34, -.34) },
   { node: 'ReaperShroudHem', times: deathTimes, values: q('z', 0, .10, .24, .36, .36) },
   { node: 'ReaperCapeTipL', times: deathTimes, values: q('y', 0, .10, .27, .40, .40) },
@@ -338,84 +361,6 @@ function trackValue(track, time) {
   }
   return a.map((value, axis) => value + (b[axis] - value) * amount);
 }
-const animationTracks = {
-  Idle: [
-    { node: 'ReaperRoot', path: 'translation', times: idleTimes, values: [[0,.100,0],[0,.120,-.008],[0,.100,0],[0,.082,.008],[0,.100,0]] },
-    { node: 'mixamorigSpine1', times: idleTimes, values: q('z', 0, -.012, 0, .012, 0) },
-    { node: 'mixamorigHead', times: idleTimes, values: q('x', 0, -.014, -.026, -.008, 0) },
-    { node: 'mixamorigLeftArm', times: idleTimes, values: q('z', -.04, -.07, -.04, -.01, -.04) },
-    { node: 'mixamorigRightArm', times: idleTimes, values: q('z', .04, .01, .04, .07, .04) },
-    { node: 'ReaperShroudMid', times: idleTimes, values: q('x', 0, .025, 0, -.022, 0) },
-    { node: 'ReaperShroudHem', times: idleTimes, values: q('z', 0, -.025, 0, .025, 0) },
-    { node: 'ReaperCapeTipL', times: idleTimes, values: q('y', -.03, .025, -.02, .024, -.03) },
-    { node: 'ReaperCapeTipR', times: idleTimes, values: q('y', .024, -.02, .026, -.025, .024) },
-    { node: 'WaistChainTail', times: idleTimes, values: q('x', 0, .045, .015, -.035, 0) },
-  ],
-  Walk: [
-    { node: 'ReaperRoot', path: 'translation', times: walkTimes, values: [[0,.095,-.025],[0,.125,0],[0,.095,.025],[0,.078,0],[0,.095,-.025]] },
-    { node: 'mixamorigSpine1', times: walkTimes, values: q('x', .02, .045, .02, 0, .02) },
-    { node: 'mixamorigSpine2', times: walkTimes, values: q('x', 0, -.035, 0, .035, 0) },
-    { node: 'mixamorigHead', times: walkTimes, values: q('y', -.025, -.01, .025, .01, -.025) },
-    { node: 'mixamorigLeftArm', times: walkTimes, values: q('z', -.08, -.13, -.08, -.025, -.08) },
-    { node: 'mixamorigRightArm', times: walkTimes, values: q('z', .08, .025, .08, .13, .08) },
-    { node: 'ReaperShroudMid', times: walkTimes, values: q('x', .02, .105, .03, -.035, .02) },
-    { node: 'ReaperCapeTipL', times: walkTimes, values: q('y', -.03, .10, -.02, -.10, -.03) },
-    { node: 'ReaperCapeTipR', times: walkTimes, values: q('y', .03, -.10, .02, .10, .03) },
-    { node: 'WaistChainTail', times: walkTimes, values: q('z', -.015, .09, -.015, -.08, -.015) },
-  ],
-  Run: [
-    { node: 'ReaperRoot', path: 'translation', times: runTimes, values: [[0,.090,-.045],[0,.145,-.012],[0,.090,.045],[0,.065,.012],[0,.090,-.045]] },
-    { node: 'mixamorigSpine1', times: runTimes, values: q('x', .07, .12, .07, .02, .07) },
-    { node: 'mixamorigSpine2', times: runTimes, values: q('x', .03, -.07, .03, .10, .03) },
-    { node: 'mixamorigHead', times: runTimes, values: q('x', -.015, -.045, -.015, .02, -.015) },
-    { node: 'mixamorigLeftArm', times: runTimes, values: q('z', -.15, -.26, -.10, .02, -.15) },
-    { node: 'mixamorigRightArm', times: runTimes, values: q('z', .15, -.02, .10, .26, .15) },
-    { node: 'ReaperShroudMid', times: runTimes, values: q('x', .09, .24, .07, -.08, .09) },
-    { node: 'ReaperShroudHem', times: runTimes, values: q('x', .02, .12, -.01, -.13, .02) },
-    { node: 'ReaperCapeTipL', times: runTimes, values: q('y', -.05, .17, -.07, -.18, -.05) },
-    { node: 'ReaperCapeTipR', times: runTimes, values: q('y', .05, -.18, .07, .17, .05) },
-    { node: 'WaistChainTail', times: runTimes, values: q('z', -.04, .13, -.03, -.12, -.04) },
-  ],
-  Attack: [
-    { node: 'ReaperRoot', path: 'translation', times: attackTimes, values: [[0,.100,0],[0,.085,-.025],[0,.115,.075],[0,.105,.035],[0,.100,0]] },
-    { node: 'mixamorigSpine1', times: attackTimes, values: q('x', 0, -.08, .20, .10, 0) },
-    { node: 'mixamorigSpine2', times: attackTimes, values: q('x', 0, -.04, .13, .05, 0) },
-    { node: 'mixamorigHead', times: attackTimes, values: q('x', 0, .04, -.13, -.04, 0) },
-    { node: 'mixamorigLeftArm', times: attackTimes, values: q('z', -.04, -.38, -.80, -.25, -.04) },
-    { node: 'mixamorigLeftForeArm', times: attackTimes, values: q('z', 0, -.12, -.28, .12, 0) },
-    { node: 'mixamorigRightArm', times: attackTimes, values: q('z', .04, .40, .72, .23, .04) },
-    { node: 'mixamorigRightForeArm', times: attackTimes, values: q('z', 0, .12, .25, -.10, 0) },
-    { node: 'ReaperShroudMid', times: attackTimes, values: q('x', 0, .10, .38, .20, 0) },
-    { node: 'ReaperCapeTipL', times: attackTimes, values: q('y', 0, .12, -.22, -.08, 0) },
-    { node: 'ReaperCapeTipR', times: attackTimes, values: q('y', 0, -.12, .22, .08, 0) },
-    { node: 'WaistChainTail', times: attackTimes, values: q('x', 0, .12, .30, .10, 0) },
-  ],
-  Hit: [
-    { node: 'ReaperRoot', path: 'translation', times: hitTimes, values: [[0,.100,0],[0,.08,-.045],[0,.095,-.018],[0,.105,0],[0,.100,0]] },
-    { node: 'mixamorigSpine1', times: hitTimes, values: q('x', 0, -.19, -.10, .035, 0) },
-    { node: 'mixamorigSpine2', times: hitTimes, values: q('z', 0, .14, .07, -.02, 0) },
-    { node: 'mixamorigHead', times: hitTimes, values: q('x', 0, .15, .06, -.02, 0) },
-    { node: 'mixamorigLeftArm', times: hitTimes, values: q('z', -.04, -.27, -.13, -.02, -.04) },
-    { node: 'mixamorigRightArm', times: hitTimes, values: q('z', .04, .25, .12, .02, .04) },
-    { node: 'ReaperShroudMid', times: hitTimes, values: q('x', 0, -.20, -.07, .03, 0) },
-    { node: 'WaistChainTail', times: hitTimes, values: q('z', 0, -.15, -.05, .01, 0) },
-  ],
-  Death: [
-    { node: 'ReaperRoot', path: 'translation', times: deathTimes, values: [[0,.100,0],[0,.145,0],[0,.115,-.02],[0,.055,-.035],[0,.025,-.04]] },
-    { node: 'mixamorigHips', times: deathTimes, values: q('x', 0, -.06, -.14, -.20, -.20) },
-    { node: 'mixamorigSpine1', times: deathTimes, values: q('x', 0, .08, .22, .32, .32) },
-    { node: 'mixamorigSpine2', times: deathTimes, values: q('x', 0, .05, .15, .24, .24) },
-    { node: 'mixamorigHead', times: deathTimes, values: q('x', 0, -.04, -.14, -.25, -.25) },
-    { node: 'mixamorigLeftArm', times: deathTimes, values: q('z', -.04, -.17, -.39, -.50, -.50) },
-    { node: 'mixamorigRightArm', times: deathTimes, values: q('z', .04, .17, .37, .49, .49) },
-    { node: 'ReaperShroudMid', times: deathTimes, values: q('x', 0, -.06, -.20, -.34, -.34) },
-    { node: 'ReaperShroudHem', times: deathTimes, values: q('z', 0, .10, .24, .36, .36) },
-    { node: 'ReaperCapeTipL', times: deathTimes, values: q('y', 0, .10, .27, .40, .40) },
-    { node: 'ReaperCapeTipR', times: deathTimes, values: q('y', 0, -.10, -.25, -.38, -.38) },
-    { node: 'WaistChainTail', times: deathTimes, values: q('x', 0, .06, .16, .20, .20) },
-  ],
-};
-
 function samplePose(tracks, time) {
   const byTarget = new Map(tracks.map((track) => [`${track.node}|${track.path ?? 'rotation'}`, track]));
   const world = new Map(), matrices = new Map();
@@ -440,11 +385,17 @@ function samplePose(tracks, time) {
     minY = Math.min(minY, posed.y);
     maxDelta = Math.max(maxDelta, posed.distanceTo(original.clone().multiplyScalar(presentationScale)));
   }
-  return { minY, maxDelta };
+  const jointPosition = (name) => new THREE.Vector3().setFromMatrixPosition(world.get(name)).multiplyScalar(presentationScale).toArray();
+  return {
+    minY,
+    maxDelta,
+    hands: { left: jointPosition('mixamorigLeftHand'), right: jointPosition('mixamorigRightHand') },
+    shoulders: { left: jointPosition('mixamorigLeftShoulder'), right: jointPosition('mixamorigRightShoulder') },
+  };
 }
 const clipMetrics = {};
 for (const clip of clips) {
-  const tracks = animationTracks[clip.name];
+  const tracks = clip.tracks;
   const times = [...new Set([0, clip.seconds * .25, clip.seconds * .5, clip.seconds * .75, clip.seconds])];
   const frames = times.map((time) => ({ time, ...samplePose(tracks, time) }));
   clipMetrics[clip.name] = frames;
@@ -454,6 +405,27 @@ for (const clip of clips) {
     throw new Error(`${clip.name} loses visible hover clearance: ${JSON.stringify(frames)}.`);
   }
 }
+const idlePose = clipMetrics.Idle[0];
+const leftArmDrop = idlePose.shoulders.left[1] - idlePose.hands.left[1];
+const rightArmDrop = idlePose.shoulders.right[1] - idlePose.hands.right[1];
+if (leftArmDrop < .18 || rightArmDrop < .18) throw new Error(`Idle arms remain too horizontal: drops=${leftArmDrop},${rightArmDrop}.`);
+const attackContact = clipMetrics.Attack.find((frame) => Math.abs(frame.time - .45) < 1e-4);
+const attackReachLeft = attackContact.hands.left[2] - idlePose.hands.left[2];
+const attackReachRight = attackContact.hands.right[2] - idlePose.hands.right[2];
+if (attackReachLeft < .10 || attackReachRight < .10) throw new Error(`Attack hands do not reach forward: deltaZ=${attackReachLeft},${attackReachRight}.`);
+const basePoseByClip = Object.fromEntries(Object.entries(clipMetrics).map(([name, frames]) => {
+  const frame = frames[0];
+  return [name, {
+    leftArmDropMeters: frame.shoulders.left[1] - frame.hands.left[1],
+    rightArmDropMeters: frame.shoulders.right[1] - frame.hands.right[1],
+    leftHandZMeters: frame.hands.left[2],
+    rightHandZMeters: frame.hands.right[2],
+  }];
+}));
+for (const [name, pose] of Object.entries(basePoseByClip)) {
+  if (pose.leftArmDropMeters < .18 || pose.rightArmDropMeters < .18) throw new Error(`${name} clip starts in a horizontal arm pose: ${JSON.stringify(pose)}.`);
+}
+const poseSummary = Object.fromEntries(Object.entries(clipMetrics).map(([name, frames]) => [name, frames.map(({ time, minY, maxDelta }) => ({ time, minY, maxDelta }))]));
 if (verticesWithDistributedWeights < positions.length / 3 * .60 || verticesWithCloakInfluence < positions.length / 3 * .12) {
   throw new Error(`Rig weight coverage is too sparse: distributed=${verticesWithDistributedWeights}, cloak=${verticesWithCloakInfluence}.`);
 }
@@ -490,7 +462,8 @@ if (postTextureHashes.join(',') !== runtimeTextures.map((texture) => texture.sha
 
 const scaledBounds = { min: bounds.min.map((value) => value * presentationScale), max: bounds.max.map((value) => value * presentationScale) };
 const size = scaledBounds.max.map((value, axis) => value - scaledBounds.min[axis]);
-const rigMethod = 'Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait.';
+const clipSummaries = clips.map(({ tracks, ...summary }) => summary);
+const rigMethod = 'Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. The idle pose lowers and curls both arms; every gameplay clip preserves that posture, while Attack turns both forearms forward to reach. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait.';
 const candidate = {
   schema: 'corealm-creature-native-rig-candidate/1', id: productionId, displayName,
   status: 'awaiting-root-lab-review', accepted: false,
@@ -507,13 +480,14 @@ const candidate = {
     file: candidatePath, sha256: candidateSha, bytes: outputBytes.length, productionTarget: `game/public/assets/models/creature/${productionId}.glb`,
     presentationScale, geometry: { vertices: positions.length / 3, triangles: indices.length / 3, maxPositionDelta: 0, normalMismatches: 0, indexMismatches: 0, uvMismatches: 0, scaledBounds, size },
     rig: { type: 'Mixamo-named Unity Humanoid-mappable glTF skin with spectral cloak extensions', jointCount: bones.length, joints: bones.map(({ name, parent, p, group }) => ({ name, parent, restPosition: p, role: group })), influencesPerVertex: 4, verticesWithDistributedWeights, verticesWithCloakInfluence, maximumWeightSumError, method: rigMethod },
-    textures: runtimeTextures, packedPbrRanges: pbrRanges, animations: clips, poseSamples: clipMetrics,
+    basePose: { arms: 'Lowered and curled, with hands angled forward. This posture is present at the first key of all six clips.', leftArmDropMeters: leftArmDrop, rightArmDropMeters: rightArmDrop, clipStarts: basePoseByClip, attackReachDeltaZMeters: { left: attackReachLeft, right: attackReachRight } },
+    textures: runtimeTextures, packedPbrRanges: pbrRanges, animations: clipSummaries, poseSamples: poseSummary,
   },
   placement: { suggestedRegion: 'Wilderness / Dark Night Castle approaches', suggestedTier: 'T60+', role: 'high-threat floating elite; red-eyed hooded skeletal reaper', scaleReason: 'The 0.97 m source mesh is presented at 1.98 m for an elite humanoid silhouette. Larger bosses should remain above this tier.' },
   acceptance: { sourceIdentityVerified: true, geometry: true, weights: true, animations: true, pbr: true, normalCameraLabAccepted: false, worldIntegrated: false },
 };
 await writeFile(`${ownerDir}/catalog.json`, JSON.stringify(candidate, null, 2) + '\n');
-await writeFile(`${ownerDir}/validation.json`, JSON.stringify({ source: { file: sourceFile, sha256: sourceSha, bytes: sourceBytes.length }, candidate: { file: candidatePath, sha256: candidateSha, bytes: outputBytes.length }, geometryMismatches, vertices: positions.length / 3, triangles: indices.length / 3, joints: bones.length, weight: { verticesWithDistributedWeights, verticesWithCloakInfluence, maximumWeightSumError }, textures: runtimeTextures, pbrRanges, clips: clipsAfter, poseSamples: clipMetrics, acceptance: 'Automated source/rig/material/clip checks pass; normal-camera feature-lab acceptance remains pending root review.' }, null, 2) + '\n');
+await writeFile(`${ownerDir}/validation.json`, JSON.stringify({ source: { file: sourceFile, sha256: sourceSha, bytes: sourceBytes.length }, candidate: { file: candidatePath, sha256: candidateSha, bytes: outputBytes.length }, geometryMismatches, vertices: positions.length / 3, triangles: indices.length / 3, joints: bones.length, weight: { verticesWithDistributedWeights, verticesWithCloakInfluence, maximumWeightSumError }, basePose: { clips: basePoseByClip, attackReachDeltaZMeters: { left: attackReachLeft, right: attackReachRight } }, textures: runtimeTextures, pbrRanges, clips: clipsAfter, poseSamples: poseSummary, acceptance: 'Automated source/rig/material/clip checks pass; normal-camera feature-lab acceptance remains pending root review.' }, null, 2) + '\n');
 const labAsset = {
   id: productionId, file: `models/creature/${productionId}.glb`, pack: 'corealm-starred-creatures', category: 'character',
   is: `${displayName} (floating wilderness elite candidate)`, tags: ['creature', 'undead', 'reaper', 'floating', 'wilderness', 'dark-night-castle', 'T60', 'starred', 'tripo', 'candidate'],
@@ -525,4 +499,4 @@ const labAsset = {
   acceptance: { assetAudit: false, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };
 await writeFile(`${ownerDir}/lab-catalog.json`, JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', files: { [productionId]: path.basename(candidatePath) }, assets: [labAsset], pack: { id: 'corealm-starred-creatures', name: 'Corealm starred creatures', author: 'Corealm', source: 'Tripo generated and Corealm adapted', license: 'LicenseRef-Tripo-Generated' } }, null, 2) + '\n');
-console.log(JSON.stringify({ candidatePath, candidateSha, bytes: outputBytes.length, vertices: positions.length / 3, triangles: indices.length / 3, joints: bones.length, clips: clipsAfter, verticesWithDistributedWeights, verticesWithCloakInfluence, maximumWeightSumError, pbrRanges, poseSamples: clipMetrics, geometryMismatches }, null, 2));
+console.log(JSON.stringify({ candidatePath, candidateSha, bytes: outputBytes.length, vertices: positions.length / 3, triangles: indices.length / 3, joints: bones.length, clips: clipsAfter, verticesWithDistributedWeights, verticesWithCloakInfluence, maximumWeightSumError, pbrRanges, basePose: basePoseByClip, attackReachDeltaZMeters: { left: attackReachLeft, right: attackReachRight }, poseSamples: poseSummary, geometryMismatches }, null, 2));
