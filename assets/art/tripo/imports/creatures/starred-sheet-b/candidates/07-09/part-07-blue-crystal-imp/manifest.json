@@ -1,0 +1,235 @@
+{
+  "schema": "corealm-starred-sheet-rigging/1",
+  "part": "part-07-blue-crystal-imp",
+  "sourceSha256": "c1dde7500dd43fe9bb1bec9d62ae957a40e11262dcbe7e4f30c4b134f2e523c2",
+  "candidateSha256": "35a46dcfc68bf99d0a16884c430504bd3014e203ccf748018a4bcf4603e7a1d6",
+  "sourceGeometryHashes": {
+    "positions": "67e71e94b3da20b957ec1910291ca1629e25a2b96a405d790df083f0c6eb42ff",
+    "normals": "6610bcf0fcb4f73c6d8f93bc61a02eb2b9780bfa92472af6a74bdecc77db6ae2",
+    "uvs": "8bf9097b1396a5021c53c714df0dd9b389ecddeae4137dc88d612e6db5d0260b",
+    "indices": "44782329b2cd7cb903736092e16c30f0adfacb70d2506daaf8cd0d095bce811c"
+  },
+  "outputGeometryHashes": {
+    "positions": "67e71e94b3da20b957ec1910291ca1629e25a2b96a405d790df083f0c6eb42ff",
+    "normals": "6610bcf0fcb4f73c6d8f93bc61a02eb2b9780bfa92472af6a74bdecc77db6ae2",
+    "uvs": "8bf9097b1396a5021c53c714df0dd9b389ecddeae4137dc88d612e6db5d0260b",
+    "indices": "44782329b2cd7cb903736092e16c30f0adfacb70d2506daaf8cd0d095bce811c"
+  },
+  "worldTransform": {
+    "maxMatrixDelta": 0,
+    "sourceBounds": {
+      "min": [
+        -0.14453125,
+        0,
+        -0.1630859375
+      ],
+      "max": [
+        0.14453125,
+        0.3183594048023224,
+        0.1630859375
+      ]
+    },
+    "candidateBounds": {
+      "min": [
+        -0.14453125,
+        0,
+        -0.1630859375
+      ],
+      "max": [
+        0.14453125,
+        0.3183594048023224,
+        0.1630859375
+      ]
+    },
+    "height": 0.3183594048023224,
+    "centeredGroundedSourceBounds": true
+  },
+  "vertices": 2866,
+  "triangles": 1683,
+  "rig": {
+    "type": "Mixamo-named compact imp humanoid",
+    "bones": [
+      {
+        "name": "mixamorigHips",
+        "parent": null
+      },
+      {
+        "name": "mixamorigSpine",
+        "parent": "mixamorigHips"
+      },
+      {
+        "name": "mixamorigSpine1",
+        "parent": "mixamorigSpine"
+      },
+      {
+        "name": "mixamorigSpine2",
+        "parent": "mixamorigSpine1"
+      },
+      {
+        "name": "mixamorigNeck",
+        "parent": "mixamorigSpine2"
+      },
+      {
+        "name": "mixamorigHead",
+        "parent": "mixamorigNeck"
+      },
+      {
+        "name": "mixamorigLeftShoulder",
+        "parent": "mixamorigSpine2"
+      },
+      {
+        "name": "mixamorigLeftArm",
+        "parent": "mixamorigLeftShoulder"
+      },
+      {
+        "name": "mixamorigLeftForeArm",
+        "parent": "mixamorigLeftArm"
+      },
+      {
+        "name": "mixamorigLeftHand",
+        "parent": "mixamorigLeftForeArm"
+      },
+      {
+        "name": "mixamorigRightShoulder",
+        "parent": "mixamorigSpine2"
+      },
+      {
+        "name": "mixamorigRightArm",
+        "parent": "mixamorigRightShoulder"
+      },
+      {
+        "name": "mixamorigRightForeArm",
+        "parent": "mixamorigRightArm"
+      },
+      {
+        "name": "mixamorigRightHand",
+        "parent": "mixamorigRightForeArm"
+      },
+      {
+        "name": "mixamorigLeftUpLeg",
+        "parent": "mixamorigHips"
+      },
+      {
+        "name": "mixamorigLeftLeg",
+        "parent": "mixamorigLeftUpLeg"
+      },
+      {
+        "name": "mixamorigLeftFoot",
+        "parent": "mixamorigLeftLeg"
+      },
+      {
+        "name": "mixamorigLeftToeBase",
+        "parent": "mixamorigLeftFoot"
+      },
+      {
+        "name": "mixamorigRightUpLeg",
+        "parent": "mixamorigHips"
+      },
+      {
+        "name": "mixamorigRightLeg",
+        "parent": "mixamorigRightUpLeg"
+      },
+      {
+        "name": "mixamorigRightFoot",
+        "parent": "mixamorigRightLeg"
+      },
+      {
+        "name": "mixamorigRightToeBase",
+        "parent": "mixamorigRightFoot"
+      }
+    ],
+    "joints": 22,
+    "influencesPerVertex": 4,
+    "verticesWithDistributedWeights": 2866,
+    "maxWeightSumError": 0,
+    "bindSpace": "source local mesh coordinates",
+    "deformationReview": "pending root visual acceptance"
+  },
+  "animations": [
+    {
+      "name": "Idle",
+      "channels": 4,
+      "duration": 2.4000000953674316
+    },
+    {
+      "name": "Walk",
+      "channels": 5,
+      "duration": 1.100000023841858
+    },
+    {
+      "name": "Run",
+      "channels": 5,
+      "duration": 0.7200000286102295
+    },
+    {
+      "name": "Attack",
+      "channels": 5,
+      "duration": 0.8500000238418579
+    },
+    {
+      "name": "Hit",
+      "channels": 4,
+      "duration": 0.5
+    },
+    {
+      "name": "Death",
+      "channels": 7,
+      "duration": 1.899999976158142
+    }
+  ],
+  "textures": {
+    "source": [
+      {
+        "name": "blue-crystal-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "blue-crystal-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "blue-crystal-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ],
+    "runtime": [
+      {
+        "name": "blue-crystal-imp_basecolor_2k.jpg",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "a1b077fb10740c53313e56f99cd2e501c4c4dedb1e0d8017546a353463745c19"
+      },
+      {
+        "name": "blue-crystal-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "775ce3cbfc4412c1dddeafdeab6ad96731fc73492908c09a985c61d6f97b056e"
+      },
+      {
+        "name": "blue-crystal-imp_data_2k.png",
+        "width": 2048,
+        "height": 2048,
+        "sha256": "ae3a8bccbeacea12bd453f3bf38f837490d9a857cb6f7fe671cc4ec0c7f3f8c1"
+      }
+    ]
+  },
+  "holds": [
+    "The source is a static creature sheet extraction without authored motion; clips are custom motion authored for the imp silhouette.",
+    "Weight deformation and visual clip quality need root browser review."
+  ],
+  "retopology": false,
+  "review": {
+    "rigAcceptance": false,
+    "design": "Provisional compact crystal imp with a forward leaning torso. Retain the crystalline silhouette and review deformation before production use.",
+    "designStatus": "provisional-held-for-root-review",
+    "labAccepted": false,
+    "motionAcceptance": false,
+    "productionReady": false
+  }
+}
