@@ -1,0 +1,98 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "files": {
+    "creature_redwake_harvester": "redwake-harvester-native-rig.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_redwake_harvester",
+      "file": "models/creature/creature_redwake_harvester.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Redwake Harvester (floating wilderness elite candidate)",
+      "tags": [
+        "creature",
+        "undead",
+        "reaper",
+        "floating",
+        "wilderness",
+        "dark-night-castle",
+        "T60",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6705224,
+      "sha256": "8e52a6f2fcb380728fee9716476eaeb090dcda0f43a20c2ced0a1937521846e6",
+      "size": {
+        "x": 2.04599609375,
+        "y": 1.981933471560478,
+        "z": 0.5805665284395217
+      },
+      "base": {
+        "x": -1.022998046875,
+        "y": 0,
+        "z": -0.29028326421976086
+      },
+      "bounds": {
+        "min": [
+          -1.022998046875,
+          0,
+          -0.29028326421976086
+        ],
+        "max": [
+          1.022998046875,
+          1.981933471560478,
+          0.29028326421976086
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4595,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_ca3b0240-631f-4392-b084-5e7649bee3ec_material"
+      ],
+      "walkClipSeconds": 1.2,
+      "runClipSeconds": 0.76,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.47,
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae",
+        "cardStorageId": "52a15641-5c78-4f7b-a7c4-691f03f57b1a",
+        "sourceFile": "assets/art/tripo/exports/68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae.glb",
+        "sourceSha256": "b66926a4ba2c2a9bb45d1c9af1d0558e4ed8676fe4d575ac5f291888c11ba248",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-grim-reaper/redwake-harvester-native-rig.glb",
+        "candidateSha256": "8e52a6f2fcb380728fee9716476eaeb090dcda0f43a20c2ced0a1937521846e6",
+        "rigMethod": "Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait.",
+        "locomotion": "Floating hover, slow spectral drift and fast glide. Walk and Run keep the action-map names without planted steps.",
+        "pbr": "Preserves the embedded layered base-color, roughness/metalness and normal maps unchanged at 2K.",
+        "noRetopology": true,
+        "geometryUnchanged": true,
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "pack": {
+    "id": "corealm-starred-creatures",
+    "name": "Corealm starred creatures",
+    "author": "Corealm",
+    "source": "Tripo generated and Corealm adapted",
+    "license": "LicenseRef-Tripo-Generated"
+  }
+}

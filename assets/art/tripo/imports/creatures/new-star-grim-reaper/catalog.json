@@ -1,0 +1,703 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_redwake_harvester",
+  "displayName": "Redwake Harvester",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae.glb",
+    "sha256": "b66926a4ba2c2a9bb45d1c9af1d0558e4ed8676fe4d575ac5f291888c11ba248",
+    "bytes": 6498992,
+    "starredModelId": "68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae",
+    "tripoProjectId": "68f8ab54-c998-4eb3-b0ed-1f9853f9f6ae",
+    "starredCardId": "52a15641-5c78-4f7b-a7c4-691f03f57b1a",
+    "starredDisplayName": "grim reaper 3d model",
+    "prompt": "dark hooded skeletal demon with red eyes, jagged bone armor, tattered cloak, chained waist, clawed feet",
+    "geometry": {
+      "vertices": 7030,
+      "triangles": 4595,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.1416015923023224
+        ],
+        "max": [
+          0.4990234375,
+          0.9667968153953552,
+          0.1416015923023224
+        ]
+      },
+      "hashes": {
+        "positions": "0c2520f3aa7cfd5c4428d06942467b331a1e362e47dbfed1119cbfad3a632a4e",
+        "normals": "9dd43b921dcd244eb318c22814ffdfb227ac64a6f2225164686b3fb9ca99efda",
+        "uvs": "59c3372e65f8359caa281a98394dad7549b2ed96b35ca1184d8524d0734f28f9",
+        "indices": "ac4d0c17f22f59b5de679b72bba3fe3d9834811cd133137996e7cd132bde5b6a"
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uvPreserved": true,
+      "retopology": false
+    },
+    "originalRig": {
+      "joints": 59,
+      "sourceClips": [],
+      "defect": "All 7,030 vertices have 100 percent weight on Hips, so no limb or cloak motion is possible."
+    },
+    "materials": {
+      "metallicFactor": 1,
+      "roughnessFactor": 1,
+      "pbrMapInterpretation": "glTF metallic-roughness texture; G=roughness, B=metallic"
+    },
+    "textures": [
+      {
+        "name": "grim+reaper+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 908970,
+        "sha256": "c8ba136a9d96a311383a81524256aa46f4f21e7941c11fe864946ae20825f982"
+      },
+      {
+        "name": "grim+reaper+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4638568,
+        "sha256": "475d7624f8bbe003b5e64b5740a1c04ef0b2298e16111b845cc3fcf871d36cf5"
+      },
+      {
+        "name": "grim+reaper+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 492732,
+        "sha256": "e6b02875e1af4fe135fdb86ebcf93877368878fba2ea666c77a2f48345ed4e30"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-grim-reaper/redwake-harvester-native-rig.glb",
+    "sha256": "8e52a6f2fcb380728fee9716476eaeb090dcda0f43a20c2ced0a1937521846e6",
+    "bytes": 6705224,
+    "productionTarget": "game/public/assets/models/creature/creature_redwake_harvester.glb",
+    "presentationScale": 2.05,
+    "geometry": {
+      "vertices": 7030,
+      "triangles": 4595,
+      "maxPositionDelta": 0,
+      "normalMismatches": 0,
+      "indexMismatches": 0,
+      "uvMismatches": 0,
+      "scaledBounds": {
+        "min": [
+          -1.022998046875,
+          0,
+          -0.29028326421976086
+        ],
+        "max": [
+          1.022998046875,
+          1.981933471560478,
+          0.29028326421976086
+        ]
+      },
+      "size": [
+        2.04599609375,
+        1.981933471560478,
+        0.5805665284395217
+      ]
+    },
+    "rig": {
+      "type": "Mixamo-named Unity Humanoid-mappable glTF skin with spectral cloak extensions",
+      "jointCount": 32,
+      "joints": [
+        {
+          "name": "ReaperRoot",
+          "parent": null,
+          "restPosition": [
+            0,
+            0,
+            0
+          ],
+          "role": "root"
+        },
+        {
+          "name": "mixamorigHips",
+          "parent": "ReaperRoot",
+          "restPosition": [
+            0,
+            0.515,
+            0
+          ],
+          "role": "core"
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            0,
+            0.59,
+            0
+          ],
+          "role": "core"
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "restPosition": [
+            0,
+            0.675,
+            0
+          ],
+          "role": "core"
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "restPosition": [
+            0,
+            0.752,
+            0
+          ],
+          "role": "core"
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "restPosition": [
+            0,
+            0.832,
+            0
+          ],
+          "role": "core"
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "restPosition": [
+            0,
+            0.91,
+            0
+          ],
+          "role": "head"
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "restPosition": [
+            -0.095,
+            0.748,
+            0
+          ],
+          "role": "leftArm"
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "restPosition": [
+            -0.205,
+            0.765,
+            0
+          ],
+          "role": "leftArm"
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "restPosition": [
+            -0.335,
+            0.76,
+            0
+          ],
+          "role": "leftArm"
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "restPosition": [
+            -0.445,
+            0.742,
+            0.012
+          ],
+          "role": "leftArm"
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "restPosition": [
+            0.095,
+            0.748,
+            0
+          ],
+          "role": "rightArm"
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "restPosition": [
+            0.205,
+            0.765,
+            0
+          ],
+          "role": "rightArm"
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "restPosition": [
+            0.335,
+            0.76,
+            0
+          ],
+          "role": "rightArm"
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "restPosition": [
+            0.445,
+            0.742,
+            0.012
+          ],
+          "role": "rightArm"
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            -0.065,
+            0.435,
+            0
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "restPosition": [
+            -0.065,
+            0.285,
+            0
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "restPosition": [
+            -0.065,
+            0.105,
+            0.008
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "restPosition": [
+            -0.065,
+            0.075,
+            0.045
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            0.065,
+            0.435,
+            0
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "restPosition": [
+            0.065,
+            0.285,
+            0
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "restPosition": [
+            0.065,
+            0.105,
+            0.008
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "restPosition": [
+            0.065,
+            0.075,
+            0.045
+          ],
+          "role": "hiddenLeg"
+        },
+        {
+          "name": "ReaperShroudRoot",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            0,
+            0.455,
+            -0.005
+          ],
+          "role": "cloak"
+        },
+        {
+          "name": "ReaperShroudMid",
+          "parent": "ReaperShroudRoot",
+          "restPosition": [
+            0,
+            0.3,
+            -0.012
+          ],
+          "role": "cloak"
+        },
+        {
+          "name": "ReaperShroudHem",
+          "parent": "ReaperShroudMid",
+          "restPosition": [
+            0,
+            0.125,
+            -0.02
+          ],
+          "role": "cloak"
+        },
+        {
+          "name": "ReaperCapeL",
+          "parent": "ReaperShroudMid",
+          "restPosition": [
+            -0.205,
+            0.255,
+            -0.01
+          ],
+          "role": "capeL"
+        },
+        {
+          "name": "ReaperCapeTipL",
+          "parent": "ReaperCapeL",
+          "restPosition": [
+            -0.33,
+            0.155,
+            -0.025
+          ],
+          "role": "capeL"
+        },
+        {
+          "name": "ReaperCapeR",
+          "parent": "ReaperShroudMid",
+          "restPosition": [
+            0.205,
+            0.255,
+            -0.01
+          ],
+          "role": "capeR"
+        },
+        {
+          "name": "ReaperCapeTipR",
+          "parent": "ReaperCapeR",
+          "restPosition": [
+            0.33,
+            0.155,
+            -0.025
+          ],
+          "role": "capeR"
+        },
+        {
+          "name": "WaistChainRoot",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            0,
+            0.492,
+            0.085
+          ],
+          "role": "chain"
+        },
+        {
+          "name": "WaistChainTail",
+          "parent": "WaistChainRoot",
+          "restPosition": [
+            0.025,
+            0.405,
+            0.105
+          ],
+          "role": "chain"
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 6846,
+      "verticesWithCloakInfluence": 3051,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "method": "Replaced the all-Hips source weights with a model-fitted 32-joint Mixamo-named Unity Humanoid/cloak rig and four normalized spatial influences per vertex. The original 4,595-triangle mesh, normals, UVs and 2K base-color, packed roughness/metalness and normal maps are byte-preserved. Root animation supplies hover; Walk and Run are spectral glides with no footfall gait."
+    },
+    "textures": [
+      {
+        "name": "grim+reaper+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 908970,
+        "sha256": "c8ba136a9d96a311383a81524256aa46f4f21e7941c11fe864946ae20825f982"
+      },
+      {
+        "name": "grim+reaper+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4638568,
+        "sha256": "475d7624f8bbe003b5e64b5740a1c04ef0b2298e16111b845cc3fcf871d36cf5"
+      },
+      {
+        "name": "grim+reaper+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 492732,
+        "sha256": "e6b02875e1af4fe135fdb86ebcf93877368878fba2ea666c77a2f48345ed4e30"
+      }
+    ],
+    "packedPbrRanges": {
+      "occlusion": [
+        1,
+        1,
+        1
+      ],
+      "roughness": [
+        0,
+        0.8980392156862745,
+        1
+      ],
+      "metallic": [
+        0,
+        0.03137254901960784,
+        0.8823529411764706
+      ]
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 3,
+        "channels": 10,
+        "style": "spectral hover and cloak motion; no footfall gait"
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.2,
+        "channels": 10,
+        "style": "spectral hover and cloak motion; no footfall gait"
+      },
+      {
+        "name": "Run",
+        "seconds": 0.76,
+        "channels": 11,
+        "style": "spectral hover and cloak motion; no footfall gait"
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.9,
+        "channels": 12,
+        "style": "spectral hover and cloak motion; no footfall gait"
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.52,
+        "channels": 8,
+        "style": "spectral hover and cloak motion; no footfall gait"
+      },
+      {
+        "name": "Death",
+        "seconds": 1.75,
+        "channels": 12,
+        "style": "spectral hover and cloak motion; no footfall gait"
+      }
+    ],
+    "poseSamples": {
+      "Idle": [
+        {
+          "time": 0,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        },
+        {
+          "time": 0.75,
+          "minY": 0.23304614664127155,
+          "maxDelta": 0.30113518254183175
+        },
+        {
+          "time": 1.5,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        },
+        {
+          "time": 2.25,
+          "minY": 0.16989508835459682,
+          "maxDelta": 0.22339475812895065
+        },
+        {
+          "time": 3,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        }
+      ],
+      "Walk": [
+        {
+          "time": 0,
+          "minY": 0.18857254672611878,
+          "maxDelta": 0.2468018442392227
+        },
+        {
+          "time": 0.3,
+          "minY": 0.22669421983387664,
+          "maxDelta": 0.3344718227802753
+        },
+        {
+          "time": 0.6,
+          "minY": 0.18557843097485024,
+          "maxDelta": 0.2480408675678738
+        },
+        {
+          "time": 0.8999999999999999,
+          "minY": 0.1713134247604517,
+          "maxDelta": 0.23675854843919225
+        },
+        {
+          "time": 1.2,
+          "minY": 0.18857254672611878,
+          "maxDelta": 0.2468018442392227
+        }
+      ],
+      "Run": [
+        {
+          "time": 0,
+          "minY": 0.15406234520518894,
+          "maxDelta": 0.2888177476625566
+        },
+        {
+          "time": 0.19,
+          "minY": 0.21841239142210464,
+          "maxDelta": 0.45082569510834364
+        },
+        {
+          "time": 0.38,
+          "minY": 0.16633233321053592,
+          "maxDelta": 0.26854538891971946
+        },
+        {
+          "time": 0.5700000000000001,
+          "minY": 0.18762951416577542,
+          "maxDelta": 0.29112843046427705
+        },
+        {
+          "time": 0.76,
+          "minY": 0.15406234520518894,
+          "maxDelta": 0.2888177476625566
+        }
+      ],
+      "Attack": [
+        {
+          "time": 0,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        },
+        {
+          "time": 0.225,
+          "minY": 0.14513233107567983,
+          "maxDelta": 0.5144135823091108
+        },
+        {
+          "time": 0.45,
+          "minY": 0.16147113591271928,
+          "maxDelta": 0.7568916531561071
+        },
+        {
+          "time": 0.675,
+          "minY": 0.1687686264667233,
+          "maxDelta": 0.32713459696253644
+        },
+        {
+          "time": 0.9,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        }
+      ],
+      "Hit": [
+        {
+          "time": 0,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        },
+        {
+          "time": 0.13,
+          "minY": 0.227733903120996,
+          "maxDelta": 0.43119027954111133
+        },
+        {
+          "time": 0.26,
+          "minY": 0.21299417489281913,
+          "maxDelta": 0.2941055870784239
+        },
+        {
+          "time": 0.39,
+          "minY": 0.2058362678503926,
+          "maxDelta": 0.24479869963373788
+        },
+        {
+          "time": 0.52,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        }
+      ],
+      "Death": [
+        {
+          "time": 0,
+          "minY": 0.20500000381842237,
+          "maxDelta": 0.2291871959788556
+        },
+        {
+          "time": 0.4375,
+          "minY": 0.3155439815642169,
+          "maxDelta": 0.42034797662963463
+        },
+        {
+          "time": 0.875,
+          "minY": 0.21224590973612203,
+          "maxDelta": 0.48167483777395664
+        },
+        {
+          "time": 1.3125,
+          "minY": 0.11793686060105114,
+          "maxDelta": 0.4907657660343508
+        },
+        {
+          "time": 1.75,
+          "minY": 0.07073291402394795,
+          "maxDelta": 0.44631646091063537
+        }
+      ]
+    }
+  },
+  "placement": {
+    "suggestedRegion": "Wilderness / Dark Night Castle approaches",
+    "suggestedTier": "T60+",
+    "role": "high-threat floating elite; red-eyed hooded skeletal reaper",
+    "scaleReason": "The 0.97 m source mesh is presented at 1.98 m for an elite humanoid silhouette. Larger bosses should remain above this tier."
+  },
+  "acceptance": {
+    "sourceIdentityVerified": true,
+    "geometry": true,
+    "weights": true,
+    "animations": true,
+    "pbr": true,
+    "normalCameraLabAccepted": false,
+    "worldIntegrated": false
+  }
+}
