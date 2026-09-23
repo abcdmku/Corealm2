@@ -35,7 +35,8 @@
                                       "format":  "GLB",
                                       "textureResolution":  "8K Current",
                                       "skeletonToggle":  "on",
-                                      "downloadName":  "snail 3d model.glb"
+                                      "downloadName":  "snail 3d model.glb",
+                                      "result":  "Download verified in Downloads"
                                   }
                    },
                    {
@@ -70,7 +71,8 @@
                                       "format":  "GLB",
                                       "textureResolution":  "8K Current",
                                       "skeletonToggle":  "on",
-                                      "downloadName":  "0a131c51-bd21-487b-8973-5ac00f8521bc.glb"
+                                      "downloadName":  "0a131c51-bd21-487b-8973-5ac00f8521bc.glb",
+                                      "result":  "Download verified in Downloads"
                                   }
                    },
                    {
@@ -118,7 +120,8 @@
                                       "format":  "GLB",
                                       "textureResolution":  "8K Current",
                                       "skeletonToggle":  "on",
-                                      "downloadName":  "8a71752f-b4b8-4625-874f-220bbde13412.glb"
+                                      "downloadName":  "8a71752f-b4b8-4625-874f-220bbde13412.glb",
+                                      "result":  "Download verified in Downloads"
                                   }
                    },
                    {
@@ -153,9 +156,10 @@
                                       "format":  "GLB",
                                       "textureResolution":  "8K Current",
                                       "skeletonToggle":  "on",
-                                      "downloadName":  "88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb"
+                                      "downloadName":  "88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
+                                      "result":  "Download verified in Downloads"
                                   },
-                       "visualDisposition":  "Accepted by root visual audit as floating Banshee"
+                       "visualDisposition":  "User accepted the floating Banshee as-is; runtime rig review pending"
                    },
                    {
                        "order":  26,
@@ -202,7 +206,8 @@
                                       "format":  "GLB",
                                       "textureResolution":  "8K Current",
                                       "skeletonToggle":  "on",
-                                      "downloadName":  "90622d27-9770-4081-ba44-dbec5e1e4fea.glb"
+                                      "downloadName":  "90622d27-9770-4081-ba44-dbec5e1e4fea.glb",
+                                      "result":  "Download verified in Downloads"
                                   }
                    },
                    {
@@ -237,9 +242,10 @@
                                       "format":  "GLB",
                                       "textureResolution":  "8K Current",
                                       "skeletonToggle":  "on",
-                                      "downloadName":  "bee97dff-f4bc-415f-85f5-7166421b3cf4.glb"
+                                      "downloadName":  "bee97dff-f4bc-415f-85f5-7166421b3cf4.glb",
+                                      "result":  "Download verified in Downloads"
                                   },
-                       "visualDisposition":  "Shade visual hold; not the Banshee game slot"
+                       "visualDisposition":  "User accepted as-is for review; ethereal shade, not the Banshee; runtime rig review pending"
                    },
                    {
                        "order":  29,
@@ -273,7 +279,8 @@
                                       "format":  "GLB",
                                       "textureResolution":  "8K Current",
                                       "skeletonToggle":  "on",
-                                      "downloadName":  "7cad5dd8-91a2-489c-b07e-1ebaab6bfb57.glb"
+                                      "downloadName":  "7cad5dd8-91a2-489c-b07e-1ebaab6bfb57.glb",
+                                      "result":  "Download verified in Downloads"
                                   }
                    },
                    {
@@ -286,8 +293,31 @@
                        "prompt":  "Armored medieval knight with chainmail, leather belts, worn boots and helmet.",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/72bc7f4d-f11d-4563-bfaa-4afa58978514.glb",
+                                    "bytes":  26908568,
+                                    "sha256":  "aaa14fe476dadc5e021dd49903cd35df5bbc7b449fee234db60770be0b20155a",
+                                    "faces":  5281,
+                                    "vertices":  3536,
+                                    "meshes":  1,
+                                    "skins":  1,
+                                    "joints":  54,
+                                    "animations":  0,
+                                    "embeddedImages":  3,
+                                    "textures":  3,
+                                    "materials":  1,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "72bc7f4d-f11d-4563-bfaa-4afa58978514.glb",
+                                      "result":  "Download verified in Downloads"
+                                  }
                    },
                    {
                        "order":  31,
@@ -352,7 +382,15 @@
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
                        "exportStatus":  "pending",
-                       "file":  null
+                       "file":  null,
+                       "exportAttempt":  {
+                                             "format":  "GLB",
+                                             "textureResolution":  "8K Current",
+                                             "skeletonToggle":  "on",
+                                             "fileName":  "25db860e-0f12-4f86-a905-cb477f699694.glb",
+                                             "result":  "Chrome ERR_BLOCKED_BY_CLIENT on signed Tripo download URL; refresh did not produce local file",
+                                             "downloadPresent":  false
+                                         }
                    },
                    {
                        "order":  36,
@@ -364,8 +402,31 @@
                        "prompt":  "bronze-copper plate armor with padded beige gambeson, matching helmet, knee and elbow guards, leather straps and boots",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/90189f08-e770-4a5d-85c1-1dfd797dd0f5.glb",
+                                    "bytes":  4910048,
+                                    "sha256":  "a4553d1372ef5ed50343eb7ed7bf217956cf7ebea9d2a703a5c3008a48a76a2c",
+                                    "faces":  3945,
+                                    "vertices":  3597,
+                                    "meshes":  7,
+                                    "skins":  1,
+                                    "joints":  17,
+                                    "animations":  0,
+                                    "embeddedImages":  21,
+                                    "textures":  21,
+                                    "materials":  7,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "90189f08-e770-4a5d-85c1-1dfd797dd0f5.glb",
+                                      "result":  "Download verified in Downloads"
+                                  }
                    },
                    {
                        "order":  37,
@@ -377,8 +438,31 @@
                        "prompt":  "Hooded wizard costume with green cloak, brown leather belt and gloves and wide-brim hat",
                        "sourceTextureResolution":  "8K",
                        "pbrLabel":  "present",
-                       "exportStatus":  "pending",
-                       "file":  null
+                       "exportStatus":  "downloaded_verified",
+                       "file":  {
+                                    "path":  "assets/art/tripo/exports/576508f5-6ce8-42fe-9003-edcea7685ab8.glb",
+                                    "bytes":  5246416,
+                                    "sha256":  "796710db02cc49ccbac32cf01c226a7fc24424946021b3d2cb0b6249c555220c",
+                                    "faces":  4815,
+                                    "vertices":  4962,
+                                    "meshes":  20,
+                                    "skins":  1,
+                                    "joints":  24,
+                                    "animations":  0,
+                                    "embeddedImages":  60,
+                                    "textures":  60,
+                                    "materials":  20,
+                                    "hasBaseColorMap":  true,
+                                    "hasMetallicRoughnessMap":  true,
+                                    "hasNormalMap":  true
+                                },
+                       "export":  {
+                                      "format":  "GLB",
+                                      "textureResolution":  "8K Current",
+                                      "skeletonToggle":  "on",
+                                      "downloadName":  "576508f5-6ce8-42fe-9003-edcea7685ab8.glb",
+                                      "result":  "Download verified in Downloads"
+                                  }
                    },
                    {
                        "order":  38,
