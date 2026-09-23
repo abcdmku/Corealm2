@@ -1,0 +1,1884 @@
+{
+  "sourcePath": "assets/art/tripo/exports/e75eed94-f770-4fc3-83f2-d812e898b0ee.glb",
+  "sha256": "6531b664fc404c5dee25dc21ba6177061af0bbc0a46bf830b20f1ff61cc96f02",
+  "sourceBytes": 5183432,
+  "meshCount": 1,
+  "skins": 1,
+  "animationCount": 0,
+  "sceneRoots": [
+    {
+      "name": "Armature",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "children": [
+        {
+          "name": "tripo_node_53597239-c225-4306-b1eb-1baf47ea2b29",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "meshes[0]",
+          "skin": "skin"
+        },
+        {
+          "name": "Hips",
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "vertices": 4116,
+  "triangles": 5077,
+  "bounds": {
+    "min": [
+      -0.4990234375,
+      0,
+      -0.1923828125
+    ],
+    "max": [
+      0.4990234375,
+      0.931640625,
+      0.1923828125
+    ]
+  },
+  "textureInfo": [
+    {
+      "name": "demon+creature+3d+model_basecolor.jpg",
+      "width": 2048,
+      "height": 2048,
+      "mimeType": "image/jpeg",
+      "sha256": "80b7ada1cd50ebc21c73596f3adf4e62c69fcece6dd1c302a68fd64fd7ff407f"
+    },
+    {
+      "name": "demon+creature+3d+model_rm.png",
+      "width": 2048,
+      "height": 2048,
+      "mimeType": "image/png",
+      "sha256": "452241afb1f77f4a56ec8ff11d0719c413fe5f0cc243636f13f98fd3dc6f3b0f"
+    },
+    {
+      "name": "demon+creature+3d+model_normal.jpg",
+      "width": 2048,
+      "height": 2048,
+      "mimeType": "image/jpeg",
+      "sha256": "c99bb0c4808e9a46923cd67d53f9865a0c5b3c95015a6b906b467b4f933e33e3"
+    }
+  ],
+  "material": [
+    {
+      "name": "tripo_node_53597239-c225-4306-b1eb-1baf47ea2b29_material",
+      "metallic": 1,
+      "roughness": 1,
+      "baseColor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "textures": {
+        "baseColor": "demon+creature+3d+model_basecolor.jpg",
+        "metallicRoughness": "demon+creature+3d+model_rm.png",
+        "normal": "demon+creature+3d+model_normal.jpg"
+      }
+    }
+  ],
+  "weights": {
+    "present": true,
+    "maxSumError": 0,
+    "missingVertices": 0
+  },
+  "bones": [
+    {
+      "i": 0,
+      "name": "Hips",
+      "parent": "Armature",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.037,
+        0.499,
+        -0.0019
+      ],
+      "weightVertices": 4114,
+      "dominantVertices": 4114,
+      "totalWeight": 4114
+    },
+    {
+      "i": 1,
+      "name": "Spine",
+      "parent": "Hips",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0409,
+        0.5496,
+        -0.0019
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 2,
+      "name": "Chest",
+      "parent": "Spine",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0409,
+        0.6003,
+        -0.0019
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 3,
+      "name": "UpperChest",
+      "parent": "Chest",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0409,
+        0.6666,
+        -0.0019
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 4,
+      "name": "Neck",
+      "parent": "UpperChest",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0565,
+        0.7407,
+        -0.0019
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 5,
+      "name": "Neck_Twist_A",
+      "parent": "Neck",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0819,
+        0.766,
+        -0.0019
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 6,
+      "name": "Head",
+      "parent": "Neck",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1072,
+        0.7914,
+        -0.0019
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 7,
+      "name": "Left_Eye",
+      "parent": "Head",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1462,
+        0.7992,
+        -0.0214
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 8,
+      "name": "Right_Eye",
+      "parent": "Head",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1462,
+        0.7992,
+        0.0175
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 9,
+      "name": "Left_Shoulder",
+      "parent": "UpperChest",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0409,
+        0.6939,
+        -0.0487
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 10,
+      "name": "Left_UpperArm",
+      "parent": "Left_Shoulder",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.037,
+        0.6939,
+        -0.1306
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 11,
+      "name": "Left_LowerArm",
+      "parent": "Left_UpperArm",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0292,
+        0.6744,
+        -0.2437
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 12,
+      "name": "Left_Hand",
+      "parent": "Left_LowerArm",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0524,
+        0.6797,
+        -0.3642
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 13,
+      "name": "Left_ThumbProximal",
+      "parent": "Left_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0761,
+        0.6621,
+        -0.3765
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 14,
+      "name": "Left_ThumbIntermediate",
+      "parent": "Left_ThumbProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0965,
+        0.6512,
+        -0.3846
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 15,
+      "name": "Left_ThumbDistal",
+      "parent": "Left_ThumbIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1216,
+        0.637,
+        -0.3934
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 16,
+      "name": "Left_ThumbDistalEnd",
+      "parent": "Left_ThumbDistal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.136,
+        0.6288,
+        -0.3985
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 17,
+      "name": "Left_IndexProximal",
+      "parent": "Left_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1019,
+        0.6648,
+        -0.4186
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 18,
+      "name": "Left_IndexIntermediate",
+      "parent": "Left_IndexProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1209,
+        0.6594,
+        -0.4376
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 19,
+      "name": "Left_IndexDistal",
+      "parent": "Left_IndexIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1359,
+        0.6505,
+        -0.4539
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 20,
+      "name": "Left_IndexDistalEnd",
+      "parent": "Left_IndexDistal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1503,
+        0.642,
+        -0.4696
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 21,
+      "name": "Left_MiddleProximal",
+      "parent": "Left_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0802,
+        0.6729,
+        -0.4321
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 22,
+      "name": "Left_MiddleIntermediate",
+      "parent": "Left_MiddleProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0897,
+        0.6702,
+        -0.4566
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 23,
+      "name": "Left_MiddleDistal",
+      "parent": "Left_MiddleIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0985,
+        0.6634,
+        -0.479
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 24,
+      "name": "Left_RingProximal",
+      "parent": "Left_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0625,
+        0.677,
+        -0.4321
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 25,
+      "name": "Left_RingIntermediate",
+      "parent": "Left_RingProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0721,
+        0.6695,
+        -0.4566
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 26,
+      "name": "Left_PinkyProximal",
+      "parent": "Left_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0456,
+        0.6757,
+        -0.4321
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 27,
+      "name": "Left_PinkyIntermediate",
+      "parent": "Left_PinkyProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0463,
+        0.6648,
+        -0.4552
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 28,
+      "name": "Left_PinkyDistal",
+      "parent": "Left_PinkyIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0456,
+        0.6519,
+        -0.4702
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 29,
+      "name": "Right_Shoulder",
+      "parent": "UpperChest",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0409,
+        0.6939,
+        0.0448
+      ],
+      "weightVertices": 2,
+      "dominantVertices": 2,
+      "totalWeight": 2
+    },
+    {
+      "i": 30,
+      "name": "Right_UpperArm",
+      "parent": "Right_Shoulder",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.037,
+        0.6939,
+        0.1267
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 31,
+      "name": "Right_LowerArm",
+      "parent": "Right_UpperArm",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0292,
+        0.6744,
+        0.2398
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 32,
+      "name": "Right_Hand",
+      "parent": "Right_LowerArm",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0487,
+        0.6814,
+        0.349
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 33,
+      "name": "Right_ThumbProximal",
+      "parent": "Right_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0741,
+        0.6642,
+        0.3668
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 34,
+      "name": "Right_ThumbIntermediate",
+      "parent": "Right_ThumbProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.096,
+        0.6526,
+        0.382
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 35,
+      "name": "Right_ThumbDistal",
+      "parent": "Right_ThumbIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1221,
+        0.6375,
+        0.3916
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 36,
+      "name": "Right_ThumbDistalEnd",
+      "parent": "Right_ThumbDistal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1371,
+        0.6288,
+        0.3971
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 37,
+      "name": "Right_IndexProximal",
+      "parent": "Right_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1008,
+        0.6649,
+        0.417
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 38,
+      "name": "Right_IndexIntermediate",
+      "parent": "Right_IndexProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.118,
+        0.6594,
+        0.4369
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 39,
+      "name": "Right_IndexDistal",
+      "parent": "Right_IndexIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.1331,
+        0.6512,
+        0.4527
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 40,
+      "name": "Right_MiddleProximal",
+      "parent": "Right_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0802,
+        0.6697,
+        0.4341
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 41,
+      "name": "Right_MiddleIntermediate",
+      "parent": "Right_MiddleProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0899,
+        0.6697,
+        0.4589
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 42,
+      "name": "Right_MiddleDistal",
+      "parent": "Right_MiddleIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0981,
+        0.6629,
+        0.4801
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 43,
+      "name": "Right_RingProximal",
+      "parent": "Right_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0624,
+        0.6732,
+        0.4341
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 44,
+      "name": "Right_RingIntermediate",
+      "parent": "Right_RingProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0727,
+        0.6704,
+        0.4589
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 45,
+      "name": "Right_PinkyProximal",
+      "parent": "Right_Hand",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0466,
+        0.6766,
+        0.4348
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 46,
+      "name": "Right_PinkyIntermediate",
+      "parent": "Right_PinkyProximal",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0459,
+        0.6649,
+        0.4568
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 47,
+      "name": "Right_PinkyDistal",
+      "parent": "Right_PinkyIntermediate",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0452,
+        0.6505,
+        0.4705
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 48,
+      "name": "Left_UpperLeg",
+      "parent": "Hips",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.037,
+        0.4756,
+        -0.0604
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 49,
+      "name": "Left_LowerLeg",
+      "parent": "Left_UpperLeg",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0214,
+        0.3079,
+        -0.0877
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 50,
+      "name": "Left_Foot",
+      "parent": "Left_LowerLeg",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        -0.1306,
+        0.0974,
+        -0.1111
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 51,
+      "name": "Left_Toes",
+      "parent": "Left_Foot",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        -0.0721,
+        0.0467,
+        -0.1228
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 52,
+      "name": "Left_ToesEnd",
+      "parent": "Left_Toes",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        -0.0403,
+        0.0467,
+        -0.1292
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 53,
+      "name": "Right_UpperLeg",
+      "parent": "Hips",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.037,
+        0.4756,
+        0.0565
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 54,
+      "name": "Right_LowerLeg",
+      "parent": "Right_UpperLeg",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        0.0214,
+        0.3079,
+        0.0838
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 55,
+      "name": "Right_Foot",
+      "parent": "Right_LowerLeg",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        -0.0331,
+        0.0974,
+        0.1072
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    },
+    {
+      "i": 56,
+      "name": "Right_Toes",
+      "parent": "Right_Foot",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "bindPosition": [
+        -0.0721,
+        0.0467,
+        0.1189
+      ],
+      "weightVertices": 0,
+      "dominantVertices": 0,
+      "totalWeight": 0
+    }
+  ],
+  "verticalProfile": [
+    {
+      "y": "0.00-0.08",
+      "count": 377,
+      "minX": -0.2041015475988388,
+      "maxX": 0.2060547024011612,
+      "minZ": -0.10449213534593582,
+      "maxZ": 0.16699224710464478
+    },
+    {
+      "y": "0.08-0.17",
+      "count": 171,
+      "minX": -0.1572265625,
+      "maxX": 0.1552734375,
+      "minZ": -0.08105464279651642,
+      "maxZ": 0.05957036092877388
+    },
+    {
+      "y": "0.17-0.25",
+      "count": 198,
+      "minX": -0.1572265774011612,
+      "maxX": 0.1552734225988388,
+      "minZ": -0.0751952975988388,
+      "maxZ": 0.049804702401161194
+    },
+    {
+      "y": "0.25-0.33",
+      "count": 226,
+      "minX": -0.1591797024011612,
+      "maxX": 0.1591796725988388,
+      "minZ": -0.0712890550494194,
+      "maxZ": 0.1279297173023224
+    },
+    {
+      "y": "0.33-0.42",
+      "count": 117,
+      "minX": -0.1416015774011612,
+      "maxX": 0.1416015475988388,
+      "minZ": -0.032226551324129105,
+      "maxZ": 0.12207034230232239
+    },
+    {
+      "y": "0.42-0.50",
+      "count": 213,
+      "minX": -0.1416015774011612,
+      "maxX": 0.1416015475988388,
+      "minZ": -0.045898426324129105,
+      "maxZ": 0.1240234524011612
+    },
+    {
+      "y": "0.50-0.58",
+      "count": 157,
+      "minX": -0.1162109524011612,
+      "maxX": 0.1162109225988388,
+      "minZ": -0.040039051324129105,
+      "maxZ": 0.1142578274011612
+    },
+    {
+      "y": "0.58-0.67",
+      "count": 811,
+      "minX": -0.4990234375,
+      "maxX": 0.4990234375,
+      "minZ": -0.1865234375,
+      "maxZ": 0.14550787210464478
+    },
+    {
+      "y": "0.67-0.75",
+      "count": 1041,
+      "minX": -0.4853515923023224,
+      "maxX": 0.4853515326976776,
+      "minZ": -0.1923828125,
+      "maxZ": 0.1767578125
+    },
+    {
+      "y": "0.75-0.83",
+      "count": 591,
+      "minX": -0.18261723220348358,
+      "maxX": 0.18261714279651642,
+      "minZ": -0.1904296875,
+      "maxZ": 0.1923828125
+    },
+    {
+      "y": "0.83-0.92",
+      "count": 187,
+      "minX": -0.14746098220348358,
+      "maxX": 0.14746089279651642,
+      "minZ": -0.1142578199505806,
+      "maxZ": 0.1572265625
+    },
+    {
+      "y": "0.92-1.00",
+      "count": 27,
+      "minX": -0.11035159975290298,
+      "maxX": 0.11035152524709702,
+      "minZ": 0.041992172598838806,
+      "maxZ": 0.057617198675870895
+    }
+  ]
+}

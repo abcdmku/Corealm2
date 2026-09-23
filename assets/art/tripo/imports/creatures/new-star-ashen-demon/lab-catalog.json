@@ -1,0 +1,107 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_ashen_carapax",
+      "file": "models/creature/creature_ashen_carapax.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Ashen Carapax",
+      "tags": [
+        "creature",
+        "humanoid",
+        "demon",
+        "wilderness",
+        "T40+",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 5306064,
+      "sha256": "2095a63a9398cb00321de863a432bd2d3932628f3ade512d8cc565361de7a5cc",
+      "size": {
+        "x": 1.99609375,
+        "y": 1.86328125,
+        "z": 0.76953125
+      },
+      "base": {
+        "x": -0.998046875,
+        "y": 0,
+        "z": -0.384765625
+      },
+      "bounds": {
+        "min": [
+          -0.998046875,
+          0,
+          -0.384765625
+        ],
+        "max": [
+          0.998046875,
+          1.86328125,
+          0.384765625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5077,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_53597239-c225-4306-b1eb-1baf47ea2b29_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "e75eed94-f770-4fc3-83f2-d812e898b0ee",
+        "sourceCardId": "3c2e7cf1-8b90-4ae5-b1ef-7c21ed5a84b8",
+        "sourceFile": "assets/art/tripo/exports/e75eed94-f770-4fc3-83f2-d812e898b0ee.glb",
+        "sourceSha256": "6531b664fc404c5dee25dc21ba6177061af0bbc0a46bf830b20f1ff61cc96f02",
+        "candidateFile": "assets/art/tripo/imports/creatures/new-star-ashen-demon/ashen-carapax-native-rig-candidate.glb",
+        "candidateSha256": "2095a63a9398cb00321de863a432bd2d3932628f3ade512d8cc565361de7a5cc",
+        "rigMethod": "Replaced the root-only P1 skin with spatially gated anatomical distance weights in the source mesh basis; source geometry, UVs and textures stay unchanged.",
+        "textures": [
+          {
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "sha256": "80b7ada1cd50ebc21c73596f3adf4e62c69fcece6dd1c302a68fd64fd7ff407f",
+            "unchanged": true
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/png",
+            "sha256": "452241afb1f77f4a56ec8ff11d0719c413fe5f0cc243636f13f98fd3dc6f3b0f",
+            "unchanged": true
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mimeType": "image/jpeg",
+            "sha256": "c99bb0c4808e9a46923cd67d53f9865a0c5b3c95015a6b906b467b4f933e33e3",
+            "unchanged": true
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_ashen_carapax": "ashen-carapax-native-rig-candidate.glb"
+  }
+}

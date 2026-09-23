@@ -1,0 +1,622 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_ashen_carapax",
+  "displayName": "Ashen Carapax",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/e75eed94-f770-4fc3-83f2-d812e898b0ee.glb",
+    "sha256": "6531b664fc404c5dee25dc21ba6177061af0bbc0a46bf830b20f1ff61cc96f02",
+    "bytes": 5183432,
+    "starredModelId": "e75eed94-f770-4fc3-83f2-d812e898b0ee",
+    "starredCardId": "3c2e7cf1-8b90-4ae5-b1ef-7c21ed5a84b8",
+    "starred": true,
+    "starredDisplayName": "demon creature 3d model",
+    "prompt": "demon creature with jagged armored exoskeleton, horned helmet, red eyes, dark gray texture, beige spikes, muscular build, fantasy monster",
+    "generator": "Tripo P1.0",
+    "textureResolution": "2K PBR",
+    "geometry": {
+      "vertices": 4116,
+      "triangles": 5077,
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.1923828125
+        ],
+        "max": [
+          0.4990234375,
+          0.931640625,
+          0.1923828125
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false,
+      "modelScale": 2
+    },
+    "sourceSkin": {
+      "joints": 57,
+      "rootWeightedVertices": 4114,
+      "totalVertices": 4116,
+      "repaired": true
+    },
+    "sourceAnimations": [],
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "sha256": "80b7ada1cd50ebc21c73596f3adf4e62c69fcece6dd1c302a68fd64fd7ff407f"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "sha256": "452241afb1f77f4a56ec8ff11d0719c413fe5f0cc243636f13f98fd3dc6f3b0f"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "sha256": "c99bb0c4808e9a46923cd67d53f9865a0c5b3c95015a6b906b467b4f933e33e3"
+      }
+    ],
+    "materials": [
+      {
+        "name": "tripo_node_53597239-c225-4306-b1eb-1baf47ea2b29_material",
+        "metallic": 1,
+        "roughness": 1,
+        "normalScale": 1,
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/new-star-ashen-demon/ashen-carapax-native-rig-candidate.glb",
+    "sha256": "2095a63a9398cb00321de863a432bd2d3932628f3ade512d8cc565361de7a5cc",
+    "bytes": 5306064,
+    "geometry": {
+      "vertices": 4116,
+      "triangles": 5077,
+      "boundsMeters": {
+        "min": [
+          -0.998046875,
+          0,
+          -0.384765625
+        ],
+        "max": [
+          0.998046875,
+          1.86328125,
+          0.384765625
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "type": "22-joint Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.445,
+            0
+          ],
+          "dominantVertices": 272,
+          "weightedVertexInfluences": 1939
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.515,
+            0
+          ],
+          "dominantVertices": 39,
+          "weightedVertexInfluences": 970
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.59,
+            0
+          ],
+          "dominantVertices": 255,
+          "weightedVertexInfluences": 1513
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.675,
+            0
+          ],
+          "dominantVertices": 339,
+          "weightedVertexInfluences": 1821
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.755,
+            0.005
+          ],
+          "dominantVertices": 87,
+          "weightedVertexInfluences": 1247
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.83,
+            0.012
+          ],
+          "dominantVertices": 702,
+          "weightedVertexInfluences": 898
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.105,
+            0.68,
+            0
+          ],
+          "dominantVertices": 0,
+          "weightedVertexInfluences": 539
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.22,
+            0.678,
+            0
+          ],
+          "dominantVertices": 211,
+          "weightedVertexInfluences": 816
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.345,
+            0.675,
+            0
+          ],
+          "dominantVertices": 126,
+          "weightedVertexInfluences": 658
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.445,
+            0.67,
+            0.005
+          ],
+          "dominantVertices": 374,
+          "weightedVertexInfluences": 542
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.105,
+            0.68,
+            0
+          ],
+          "dominantVertices": 0,
+          "weightedVertexInfluences": 512
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.22,
+            0.678,
+            0
+          ],
+          "dominantVertices": 207,
+          "weightedVertexInfluences": 787
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.345,
+            0.675,
+            0
+          ],
+          "dominantVertices": 120,
+          "weightedVertexInfluences": 612
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.445,
+            0.67,
+            0.005
+          ],
+          "dominantVertices": 340,
+          "weightedVertexInfluences": 499
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.07,
+            0.405,
+            0
+          ],
+          "dominantVertices": 29,
+          "weightedVertexInfluences": 233
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.082,
+            0.23,
+            0.002
+          ],
+          "dominantVertices": 199,
+          "weightedVertexInfluences": 564
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.085,
+            0.065,
+            0.01
+          ],
+          "dominantVertices": 156,
+          "weightedVertexInfluences": 460
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.085,
+            0.033,
+            0.075
+          ],
+          "dominantVertices": 146,
+          "weightedVertexInfluences": 312
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.07,
+            0.405,
+            0
+          ],
+          "dominantVertices": 30,
+          "weightedVertexInfluences": 250
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.082,
+            0.23,
+            0.002
+          ],
+          "dominantVertices": 195,
+          "weightedVertexInfluences": 549
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.085,
+            0.065,
+            0.01
+          ],
+          "dominantVertices": 141,
+          "weightedVertexInfluences": 443
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.085,
+            0.033,
+            0.075
+          ],
+          "dominantVertices": 148,
+          "weightedVertexInfluences": 300
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 4116,
+      "perJointVertexInfluences": {
+        "mixamorigHips": 1939,
+        "mixamorigSpine": 970,
+        "mixamorigSpine1": 1513,
+        "mixamorigSpine2": 1821,
+        "mixamorigNeck": 1247,
+        "mixamorigHead": 898,
+        "mixamorigLeftShoulder": 539,
+        "mixamorigLeftArm": 816,
+        "mixamorigLeftForeArm": 658,
+        "mixamorigLeftHand": 542,
+        "mixamorigRightShoulder": 512,
+        "mixamorigRightArm": 787,
+        "mixamorigRightForeArm": 612,
+        "mixamorigRightHand": 499,
+        "mixamorigLeftUpLeg": 233,
+        "mixamorigLeftLeg": 564,
+        "mixamorigLeftFoot": 460,
+        "mixamorigLeftToeBase": 312,
+        "mixamorigRightUpLeg": 250,
+        "mixamorigRightLeg": 549,
+        "mixamorigRightFoot": 443,
+        "mixamorigRightToeBase": 300
+      },
+      "maximumWeightSumError": 4.540197551250458e-8,
+      "method": "Replaced the root-only P1 skin with spatially gated anatomical distance weights in the source mesh basis; source geometry, UVs and textures stay unchanged."
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "sha256": "80b7ada1cd50ebc21c73596f3adf4e62c69fcece6dd1c302a68fd64fd7ff407f",
+        "unchanged": true
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "sha256": "452241afb1f77f4a56ec8ff11d0719c413fe5f0cc243636f13f98fd3dc6f3b0f",
+        "unchanged": true
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "sha256": "c99bb0c4808e9a46923cd67d53f9865a0c5b3c95015a6b906b467b4f933e33e3",
+        "unchanged": true
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "samplers": 6,
+        "channels": 6,
+        "duration": 2.799999952316284
+      },
+      {
+        "name": "Walk",
+        "samplers": 8,
+        "channels": 8,
+        "duration": 1
+      },
+      {
+        "name": "Run",
+        "samplers": 10,
+        "channels": 10,
+        "duration": 0.7200000286102295
+      },
+      {
+        "name": "Attack",
+        "samplers": 7,
+        "channels": 7,
+        "duration": 0.9599999785423279
+      },
+      {
+        "name": "Hit",
+        "samplers": 6,
+        "channels": 6,
+        "duration": 0.47999998927116394
+      },
+      {
+        "name": "Death",
+        "samplers": 6,
+        "channels": 6,
+        "duration": 1.5499999523162842
+      }
+    ],
+    "motionProof": [
+      {
+        "name": "Idle",
+        "samples": [
+          {
+            "fraction": 0.25,
+            "rmsDisplacementMeters": 0.16483521588708705,
+            "maxDisplacementMeters": 0.543596643624226,
+            "minY": 0,
+            "maxY": 1.8644143279403116
+          },
+          {
+            "fraction": 0.5,
+            "rmsDisplacementMeters": 0.1642144789805639,
+            "maxDisplacementMeters": 0.5428255923040048,
+            "minY": 0,
+            "maxY": 1.8621437340490166
+          },
+          {
+            "fraction": 0.75,
+            "rmsDisplacementMeters": 0.16287659503009994,
+            "maxDisplacementMeters": 0.5397238416415757,
+            "minY": 0,
+            "maxY": 1.8610481333014293
+          }
+        ],
+        "maximumRmsDisplacementMeters": 0.16483521588708705
+      },
+      {
+        "name": "Walk",
+        "samples": [
+          {
+            "fraction": 0.25,
+            "rmsDisplacementMeters": 0.16800184795968828,
+            "maxDisplacementMeters": 0.5214573375668112,
+            "minY": 0.0194918581085087,
+            "maxY": 1.8841031722317247
+          },
+          {
+            "fraction": 0.5,
+            "rmsDisplacementMeters": 0.1574698537367084,
+            "maxDisplacementMeters": 0.5115517137984508,
+            "minY": -2.453452128238576e-18,
+            "maxY": 1.8620836822623594
+          },
+          {
+            "fraction": 0.75,
+            "rmsDisplacementMeters": 0.16574295053884025,
+            "maxDisplacementMeters": 0.5156192930018532,
+            "minY": 0.01949195965430979,
+            "maxY": 1.8878432041211575
+          }
+        ],
+        "maximumRmsDisplacementMeters": 0.16800184795968828
+      },
+      {
+        "name": "Run",
+        "samples": [
+          {
+            "fraction": 0.25,
+            "rmsDisplacementMeters": 0.20766885986564804,
+            "maxDisplacementMeters": 0.5665653247505399,
+            "minY": 0.08042982750311616,
+            "maxY": 1.9112519548840492
+          },
+          {
+            "fraction": 0.5,
+            "rmsDisplacementMeters": 0.16664713048270208,
+            "maxDisplacementMeters": 0.552493227163227,
+            "minY": -3.271269504318105e-18,
+            "maxY": 1.8606754450430625
+          },
+          {
+            "fraction": 0.75,
+            "rmsDisplacementMeters": 0.20498789353311,
+            "maxDisplacementMeters": 0.5582723899936853,
+            "minY": 0.08042944000536993,
+            "maxY": 1.9175653227110885
+          }
+        ],
+        "maximumRmsDisplacementMeters": 0.20766885986564804
+      },
+      {
+        "name": "Attack",
+        "samples": [
+          {
+            "fraction": 0.25,
+            "rmsDisplacementMeters": 0.09099542491369896,
+            "maxDisplacementMeters": 0.315435782312248,
+            "minY": 0,
+            "maxY": 1.869357510008296
+          },
+          {
+            "fraction": 0.5,
+            "rmsDisplacementMeters": 0.20304150235736565,
+            "maxDisplacementMeters": 0.6025074209274918,
+            "minY": 0,
+            "maxY": 1.8568365649201546
+          },
+          {
+            "fraction": 0.75,
+            "rmsDisplacementMeters": 0.14049555489664817,
+            "maxDisplacementMeters": 0.5223845316608623,
+            "minY": 0,
+            "maxY": 1.8594032940166614
+          }
+        ],
+        "maximumRmsDisplacementMeters": 0.20304150235736565
+      },
+      {
+        "name": "Hit",
+        "samples": [
+          {
+            "fraction": 0.25,
+            "rmsDisplacementMeters": 0.11585988503229336,
+            "maxDisplacementMeters": 0.3415884357593935,
+            "minY": 0,
+            "maxY": 1.8845016010779303
+          },
+          {
+            "fraction": 0.5,
+            "rmsDisplacementMeters": 0.14542503170803742,
+            "maxDisplacementMeters": 0.5100165626568398,
+            "minY": 0,
+            "maxY": 1.8601606818665182
+          },
+          {
+            "fraction": 0.75,
+            "rmsDisplacementMeters": 0.150311738345299,
+            "maxDisplacementMeters": 0.509185371247405,
+            "minY": 0,
+            "maxY": 1.8626157163720254
+          }
+        ],
+        "maximumRmsDisplacementMeters": 0.150311738345299
+      },
+      {
+        "name": "Death",
+        "samples": [
+          {
+            "fraction": 0.25,
+            "rmsDisplacementMeters": 0.1552651302624609,
+            "maxDisplacementMeters": 0.4090771800865417,
+            "minY": 0,
+            "maxY": 1.8426821511476479
+          },
+          {
+            "fraction": 0.5,
+            "rmsDisplacementMeters": 0.2273035812879911,
+            "maxDisplacementMeters": 0.5313049555015072,
+            "minY": 0,
+            "maxY": 1.8261532825776607
+          },
+          {
+            "fraction": 0.75,
+            "rmsDisplacementMeters": 0.3015425360940554,
+            "maxDisplacementMeters": 0.7403240101086344,
+            "minY": 0,
+            "maxY": 1.7621752538565214
+          }
+        ],
+        "maximumRmsDisplacementMeters": 0.3015425360940554
+      }
+    ],
+    "productionTarget": "game/public/assets/models/creature/creature_ashen_carapax.glb"
+  },
+  "acceptance": {
+    "imageAudit": "starred-by-user",
+    "rigAccepted": false,
+    "animationAccepted": false,
+    "texturesAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}
