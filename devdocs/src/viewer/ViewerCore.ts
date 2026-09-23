@@ -98,6 +98,7 @@ export class ViewerCore {
     this.stage.add(model.root);
     this.mixer = new THREE.AnimationMixer(model.animationRoot);
     const materialRows: ViewerMaterial[] = [];
+    const clonesBySource = new Map<THREE.Material, THREE.Material>();
     let meshCount = 0;
     model.root.traverse(object => {
       const mesh = object as THREE.Mesh;
@@ -105,13 +106,17 @@ export class ViewerCore {
       meshCount++;
       this.originals.set(mesh, mesh.material);
       const clones = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map(material => {
-        const clone = material.clone();
-        // Production material subclasses preserve their own animation uniforms through copy().
-        // Only instance hooks need manual copying; binding a subclass hook to the cached source
-        // would leave the rendered clone updating a different set of shimmer uniforms.
-        if (Object.hasOwn(material, 'onBeforeCompile')) clone.onBeforeCompile = material.onBeforeCompile;
-        if (Object.hasOwn(material, 'customProgramCacheKey')) clone.customProgramCacheKey = material.customProgramCacheKey;
-        this.materials.add(clone);
+        let clone = clonesBySource.get(material);
+        if (!clone) {
+          clone = material.clone();
+          // Production material subclasses preserve their own animation uniforms through copy().
+          // Only instance hooks need manual copying; binding a subclass hook to the cached source
+          // would leave the rendered clone updating a different set of shimmer uniforms.
+          if (Object.hasOwn(material, 'onBeforeCompile')) clone.onBeforeCompile = material.onBeforeCompile;
+          if (Object.hasOwn(material, 'customProgramCacheKey')) clone.customProgramCacheKey = material.customProgramCacheKey;
+          clonesBySource.set(material, clone);
+          this.materials.add(clone);
+        }
         const textures = Object.entries(material).flatMap(([key, value]) => value instanceof THREE.Texture ? [key] : []);
         const row = { name: material.name || mesh.name || '(unnamed)', type: material.type, textures };
         if (!materialRows.some(item => item.name === row.name && item.type === row.type && item.textures.join() === row.textures.join())) materialRows.push(row);
