@@ -1,0 +1,130 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_marchfield_turkey",
+      "file": "models/creature/creature_marchfield_turkey.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "Ryecrest",
+      "tags": [
+        "creature",
+        "ground",
+        "bird",
+        "field",
+        "ryecrest",
+        "skinned",
+        "articulated",
+        "plumage"
+      ],
+      "bytes": 4633420,
+      "sha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460",
+      "size": {
+        "x": 0.55029296875,
+        "y": 0.9067384004592896,
+        "z": 0.99951171875
+      },
+      "base": {
+        "x": -0.275146484375,
+        "y": 0,
+        "z": -0.499755859375
+      },
+      "bounds": {
+        "min": [
+          -0.275146484375,
+          0,
+          -0.499755859375
+        ],
+        "max": [
+          0.275146484375,
+          0.9067384004592896,
+          0.499755859375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 3964,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_3abe54ae-8a01-474e-9f5d-6067964a543a"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "source": "Approved Tripo Studio Smart Mesh P2.0 groundbird model and GPT Image 2.5 source image; original geometry and UVs preserved.",
+        "sourceImageId": "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+        "modelId": "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+        "sourceFile": "assets/art/tripo/imports/creatures/starter-t1-images/exports/ryecrest.glb",
+        "sourceSha256": "a2743322f2cf3d9d35db7066d405d82a28617812528c9cc3befadce214ecf9a6",
+        "rigMethod": "22-joint authored non-humanoid groundbird skeleton with model-specific normalized weights and six authored clips.",
+        "candidateFile": "ryecrest-native-rig_candidate.glb",
+        "candidateSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460"
+      },
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.82,
+      "contactNormalized": 0.46,
+      "metadata": {
+        "is": "Ryecrest",
+        "tags": [
+          "creature",
+          "ground",
+          "bird",
+          "field",
+          "ryecrest",
+          "skinned",
+          "articulated",
+          "plumage"
+        ],
+        "provenance": {
+          "sourceImageId": "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+          "modelId": "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+          "sourceSha256": "a2743322f2cf3d9d35db7066d405d82a28617812528c9cc3befadce214ecf9a6",
+          "candidateSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460"
+        },
+        "walkClipSeconds": 1.1,
+        "runClipSeconds": 0.72,
+        "attackSeconds": 0.82,
+        "contactNormalized": 0.46,
+        "notes": "Small Fallowmarch field-margin groundbird. Uses a named 22-joint non-humanoid rig, layered 2K base color and PBR maps, and six authored clips. Candidate visuals and gameplay remain unaccepted.",
+        "boneNames": [
+          "RyecrestRoot",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Beak",
+          "Wing_L",
+          "WingTip_L",
+          "Wing_R",
+          "WingTip_R",
+          "Tail",
+          "Thigh_L",
+          "Hock_L",
+          "Foot_L",
+          "Toe_L",
+          "RearToe_L",
+          "Thigh_R",
+          "Hock_R",
+          "Foot_R",
+          "Toe_R",
+          "RearToe_R"
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_marchfield_turkey": "ryecrest-native-rig_candidate.glb"
+  }
+}

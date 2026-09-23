@@ -1,0 +1,834 @@
+{
+  "schema": "corealm-creature-candidate/1",
+  "id": "creature_ryecrest",
+  "displayName": "Ryecrest",
+  "status": "staged-for-root-manifest-integration",
+  "acceptance": {
+    "imageApproved": true,
+    "geometryApproved": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "textureAccepted": false,
+    "promotable": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  },
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starter-t1-images/exports/ryecrest.glb",
+    "sha256": "a2743322f2cf3d9d35db7066d405d82a28617812528c9cc3befadce214ecf9a6",
+    "bytes": 26252176,
+    "sourceImage": "assets/art/tripo/imports/creatures/starter-t1-images/ryecrest.png",
+    "sourceImageId": "fcdb7bb1-5cc0-4bbc-95bb-7131b299dc9b",
+    "modelId": "85ab1f1d-a3cc-40ba-b9be-8e730843277b",
+    "baseGeometry": {
+      "vertices": 2780,
+      "triangles": 3964,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uv": "TEXCOORD_0 retained without unwrap or retopology",
+      "indicesPreserved": true
+    },
+    "sourceTextures": {
+      "baseColor": "8192x8192 JPEG",
+      "metallicRoughness": "4096x4096 PNG",
+      "normal": "4096x4096 JPEG"
+    }
+  },
+  "candidate": {
+    "file": "ryecrest-native-rig_candidate.glb",
+    "sha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460",
+    "bytes": 4633420,
+    "productionTarget": "game/public/assets/models/creature/creature_marchfield_turkey.glb",
+    "productionSha256": "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460",
+    "productionBytes": 4633420,
+    "triangles": 3964,
+    "vertices": 2780,
+    "rig": {
+      "profile": "Unity Generic-ready named non-humanoid glTF groundbird skin; importer review required",
+      "type": "authored model-specific skeleton",
+      "joints": [
+        "RyecrestRoot",
+        "Pelvis",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Beak",
+        "Wing_L",
+        "WingTip_L",
+        "Wing_R",
+        "WingTip_R",
+        "Tail",
+        "Thigh_L",
+        "Hock_L",
+        "Foot_L",
+        "Toe_L",
+        "RearToe_L",
+        "Thigh_R",
+        "Hock_R",
+        "Foot_R",
+        "Toe_R",
+        "RearToe_R"
+      ],
+      "jointsCount": 22,
+      "parentHierarchy": {
+        "RyecrestRoot": null,
+        "Pelvis": "RyecrestRoot",
+        "Spine": "Pelvis",
+        "Chest": "Spine",
+        "Neck": "Chest",
+        "Head": "Neck",
+        "Beak": "Head",
+        "Tail": "Pelvis",
+        "Wing_L": "Chest",
+        "WingTip_L": "Wing_L",
+        "Wing_R": "Chest",
+        "WingTip_R": "Wing_R",
+        "Thigh_L": "Pelvis",
+        "Hock_L": "Thigh_L",
+        "Foot_L": "Hock_L",
+        "Toe_L": "Foot_L",
+        "RearToe_L": "Foot_L",
+        "Thigh_R": "Pelvis",
+        "Hock_R": "Thigh_R",
+        "Foot_R": "Hock_R",
+        "Toe_R": "Foot_R",
+        "RearToe_R": "Foot_R"
+      },
+      "weighting": "Four-nearest anatomical segment weighting, regional masks for head/beak, wings, tail, and bilateral leg/foot/toe chains; normalized per vertex."
+    },
+    "rigValidation": {
+      "inverseBindCount": 22,
+      "inverseBindDeterminantRange": [
+        1,
+        1
+      ],
+      "maximumWeightSumError": 0.000009901821613311768,
+      "distributedVertices": 2780,
+      "vertices": 2780,
+      "activeJointVertexCounts": {
+        "RyecrestRoot": 0,
+        "Pelvis": 610,
+        "Spine": 769,
+        "Chest": 762,
+        "Neck": 884,
+        "Head": 884,
+        "Beak": 788,
+        "Wing_L": 231,
+        "WingTip_L": 133,
+        "Wing_R": 133,
+        "WingTip_R": 132,
+        "Tail": 132,
+        "Thigh_L": 54,
+        "Hock_L": 563,
+        "Foot_L": 563,
+        "Toe_L": 509,
+        "RearToe_L": 509,
+        "Thigh_R": 55,
+        "Hock_R": 564,
+        "Foot_R": 564,
+        "Toe_R": 509,
+        "RearToe_R": 512
+      },
+      "influenceCountByNonzeroWeights": [
+        0,
+        0,
+        600,
+        2180
+      ],
+      "materialMapCheck": {
+        "baseColor": true,
+        "metallicRoughness": true,
+        "normal": true
+      }
+    },
+    "textures": [
+      {
+        "name": "quail+3d+model_basecolor.jpg",
+        "role": "base-color",
+        "from": "8192x8192",
+        "runtime": "2048x2048",
+        "bytes": 887668,
+        "mimeType": "image/jpeg"
+      },
+      {
+        "name": "quail+3d+model_rm.png",
+        "role": "metallic-roughness",
+        "from": "4096x4096",
+        "runtime": "2048x2048",
+        "bytes": 2806230,
+        "mimeType": "image/png"
+      },
+      {
+        "name": "quail+3d+model_normal.jpg",
+        "role": "normal",
+        "from": "4096x4096",
+        "runtime": "2048x2048",
+        "bytes": 568823,
+        "mimeType": "image/jpeg"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 2,
+        "samples": 49,
+        "loop": true,
+        "channelValidation": {
+          "name": "Idle",
+          "channels": 7,
+          "duration": 2,
+          "targetBones": [
+            "Pelvis",
+            "Chest",
+            "Neck",
+            "Head",
+            "Tail",
+            "Wing_L",
+            "Wing_R"
+          ]
+        }
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.1,
+        "samples": 34,
+        "loop": true,
+        "channelValidation": {
+          "name": "Walk",
+          "channels": 19,
+          "duration": 1.100000023841858,
+          "targetBones": [
+            "Pelvis",
+            "Chest",
+            "Neck",
+            "Head",
+            "Tail",
+            "Wing_L",
+            "WingTip_L",
+            "Wing_R",
+            "WingTip_R",
+            "Thigh_L",
+            "Hock_L",
+            "Foot_L",
+            "Toe_L",
+            "RearToe_L",
+            "Thigh_R",
+            "Hock_R",
+            "Foot_R",
+            "Toe_R",
+            "RearToe_R"
+          ]
+        }
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "samples": 34,
+        "loop": true,
+        "channelValidation": {
+          "name": "Run",
+          "channels": 19,
+          "duration": 0.7200000286102295,
+          "targetBones": [
+            "Pelvis",
+            "Chest",
+            "Neck",
+            "Head",
+            "Tail",
+            "Wing_L",
+            "WingTip_L",
+            "Wing_R",
+            "WingTip_R",
+            "Thigh_L",
+            "Hock_L",
+            "Foot_L",
+            "Toe_L",
+            "RearToe_L",
+            "Thigh_R",
+            "Hock_R",
+            "Foot_R",
+            "Toe_R",
+            "RearToe_R"
+          ]
+        }
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.82,
+        "samples": 37,
+        "loop": false,
+        "channelValidation": {
+          "name": "Attack",
+          "channels": 13,
+          "duration": 0.8199999928474426,
+          "targetBones": [
+            "Pelvis",
+            "Chest",
+            "Neck",
+            "Head",
+            "Beak",
+            "Tail",
+            "Wing_L",
+            "WingTip_L",
+            "Wing_R",
+            "WingTip_R",
+            "Thigh_R",
+            "Hock_R",
+            "Foot_R"
+          ]
+        }
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.52,
+        "samples": 25,
+        "loop": false,
+        "channelValidation": {
+          "name": "Hit",
+          "channels": 11,
+          "duration": 0.5199999809265137,
+          "targetBones": [
+            "Pelvis",
+            "Chest",
+            "Neck",
+            "Head",
+            "Tail",
+            "Wing_L",
+            "WingTip_L",
+            "Wing_R",
+            "WingTip_R",
+            "Thigh_L",
+            "Thigh_R"
+          ]
+        }
+      },
+      {
+        "name": "Death",
+        "seconds": 1.55,
+        "samples": 48,
+        "loop": false,
+        "channelValidation": {
+          "name": "Death",
+          "channels": 19,
+          "duration": 1.5499999523162842,
+          "targetBones": [
+            "Pelvis",
+            "Spine",
+            "Chest",
+            "Neck",
+            "Head",
+            "Tail",
+            "Wing_L",
+            "WingTip_L",
+            "Wing_R",
+            "WingTip_R",
+            "Thigh_L",
+            "Hock_L",
+            "Foot_L",
+            "Toe_L",
+            "Thigh_R",
+            "Hock_R",
+            "Foot_R",
+            "Toe_R"
+          ]
+        }
+      }
+    ],
+    "sampledDeformation": [
+      {
+        "name": "Idle",
+        "worstBounds": {
+          "minY": -0.004999999869614844,
+          "maxY": 0.9108288192784568,
+          "maxAxisSpan": 1.0006772675321307
+        },
+        "maximumRmsDisplacement": 0.0056349804475760755,
+        "samples": [
+          {
+            "at": 0,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9070428084495994,
+              0.49943512099235177
+            ],
+            "rmsDisplacement": 0.0006233370558822227
+          },
+          {
+            "at": 0.25,
+            "min": [
+              -0.27514648540000053,
+              0.004999999869614844,
+              -0.49810125347661305
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9108288192784568,
+              0.4999200032859002
+            ],
+            "rmsDisplacement": 0.0056349804475760755
+          },
+          {
+            "at": 0.5,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9064191126464725,
+              0.500053662024581
+            ],
+            "rmsDisplacement": 0.0006233791634568894
+          },
+          {
+            "at": 0.75,
+            "min": [
+              -0.27514648540000053,
+              -0.004999999869614844,
+              -0.5013658199155138
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9026454115824067,
+              0.49931144761661683
+            ],
+            "rmsDisplacement": 0.005634353540965013
+          },
+          {
+            "at": 1,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9070428084495995,
+              0.49943512099235177
+            ],
+            "rmsDisplacement": 0.0006233370558822226
+          }
+        ]
+      },
+      {
+        "name": "Walk",
+        "worstBounds": {
+          "minY": -0.008738087531015534,
+          "maxY": 0.9291144768678041,
+          "maxAxisSpan": 1.003891711671887
+        },
+        "maximumRmsDisplacement": 0.07693885451780982,
+        "samples": [
+          {
+            "at": 0,
+            "min": [
+              -0.27514648540000053,
+              6.558528674296197e-20,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009198747e-8
+          },
+          {
+            "at": 0.25,
+            "min": [
+              -0.27514648540000053,
+              0.0278301650908928,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9291144768678041,
+              0.49506798544292635
+            ],
+            "rmsDisplacement": 0.0767152036371285
+          },
+          {
+            "at": 0.5,
+            "min": [
+              -0.27514648540000053,
+              -4.7227550142604695e-20,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009296878e-8
+          },
+          {
+            "at": 0.75,
+            "min": [
+              -0.27514648540000053,
+              -0.008738087531015534,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9200642360599969,
+              0.5041358582584411
+            ],
+            "rmsDisplacement": 0.07693885451780982
+          },
+          {
+            "at": 1,
+            "min": [
+              -0.27514648540000053,
+              -1.1226124433846596e-17,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.067984900917796e-8
+          }
+        ]
+      },
+      {
+        "name": "Run",
+        "worstBounds": {
+          "minY": -2.277928786185093e-17,
+          "maxY": 0.9471144764432282,
+          "maxAxisSpan": 1.003891711671887
+        },
+        "maximumRmsDisplacement": 0.11732022013036919,
+        "samples": [
+          {
+            "at": 0,
+            "min": [
+              -0.27514648540000053,
+              -1.1538438579876484e-17,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009181531e-8
+          },
+          {
+            "at": 0.25,
+            "min": [
+              -0.27514648540000053,
+              0.06536161461860357,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9471144764432282,
+              0.49506798544292635
+            ],
+            "rmsDisplacement": 0.11697084842930618
+          },
+          {
+            "at": 0.5,
+            "min": [
+              -0.27514648540000053,
+              1.156042920494935e-17,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009344537e-8
+          },
+          {
+            "at": 0.75,
+            "min": [
+              -0.27514648540000053,
+              0.028978437243812164,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.938064235635421,
+              0.5041358582584411
+            ],
+            "rmsDisplacement": 0.11732022013036919
+          },
+          {
+            "at": 1,
+            "min": [
+              -0.27514648540000053,
+              -2.277928786185093e-17,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009116381e-8
+          }
+        ]
+      },
+      {
+        "name": "Attack",
+        "worstBounds": {
+          "minY": 0,
+          "maxY": 0.9067383790715557,
+          "maxAxisSpan": 0.9999589271562398
+        },
+        "maximumRmsDisplacement": 0.0853783375468287,
+        "samples": [
+          {
+            "at": 0,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009251646e-8
+          },
+          {
+            "at": 0.25,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4847057224268385
+            ],
+            "max": [
+              0.2751464775843715,
+              0.8702048235554982,
+              0.5152532047294013
+            ],
+            "rmsDisplacement": 0.04095111265976113
+          },
+          {
+            "at": 0.5,
+            "min": [
+              -0.27514648540000053,
+              0.011545258530951568,
+              -0.45507994073638813
+            ],
+            "max": [
+              0.2751464775843715,
+              0.8563029815208059,
+              0.5276885258867775
+            ],
+            "rmsDisplacement": 0.0853783375468287
+          },
+          {
+            "at": 0.75,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009251646e-8
+          },
+          {
+            "at": 1,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009251646e-8
+          }
+        ]
+      },
+      {
+        "name": "Hit",
+        "worstBounds": {
+          "minY": 0,
+          "maxY": 0.9719443629050339,
+          "maxAxisSpan": 0.9995117125131134
+        },
+        "maximumRmsDisplacement": 0.08808041042714107,
+        "samples": [
+          {
+            "at": 0,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009251646e-8
+          },
+          {
+            "at": 0.25,
+            "min": [
+              -0.27514648540000053,
+              0.0018665297433584516,
+              -0.551383644075226
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9719443629050339,
+              0.4120210855980933
+            ],
+            "rmsDisplacement": 0.08808041042714107
+          },
+          {
+            "at": 0.5,
+            "min": [
+              -0.27514648540000053,
+              0.0002628183769299931,
+              -0.5005016241075149
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9075001686789398,
+              0.49870581184576096
+            ],
+            "rmsDisplacement": 0.0011519139041374945
+          },
+          {
+            "at": 0.75,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009251646e-8
+          },
+          {
+            "at": 1,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009251646e-8
+          }
+        ]
+      },
+      {
+        "name": "Death",
+        "worstBounds": {
+          "minY": -0.016558799508354045,
+          "maxY": 0.9206233846953795,
+          "maxAxisSpan": 1.0013889562644411
+        },
+        "maximumRmsDisplacement": 0.34905030973720796,
+        "samples": [
+          {
+            "at": 0,
+            "min": [
+              -0.27514648540000053,
+              0,
+              -0.4997558534134461
+            ],
+            "max": [
+              0.2751464775843715,
+              0.9067383790715557,
+              0.4997558590996673
+            ],
+            "rmsDisplacement": 1.0679849009251646e-8
+          },
+          {
+            "at": 0.25,
+            "min": [
+              -0.25824448401155287,
+              0.0038829016429913297,
+              -0.499841492712936
+            ],
+            "max": [
+              0.292626584842109,
+              0.9206233846953795,
+              0.48009958957890336
+            ],
+            "rmsDisplacement": 0.028111445260950378
+          },
+          {
+            "at": 0.5,
+            "min": [
+              -0.33194095974008586,
+              -0.016558799508354045,
+              -0.5019619374428883
+            ],
+            "max": [
+              0.46473588386339,
+              0.8314531582834293,
+              0.49842925375338754
+            ],
+            "rmsDisplacement": 0.23089196049898036
+          },
+          {
+            "at": 0.75,
+            "min": [
+              -0.41370761843182235,
+              0.01270346680493635,
+              -0.5052483202809421
+            ],
+            "max": [
+              0.5074216473935517,
+              0.7541593118261951,
+              0.496140635983499
+            ],
+            "rmsDisplacement": 0.34905030973720796
+          },
+          {
+            "at": 1,
+            "min": [
+              -0.41370761843182235,
+              0.013294049541047199,
+              -0.5052483202809421
+            ],
+            "max": [
+              0.5068144228812191,
+              0.7541593118261951,
+              0.496140635983499
+            ],
+            "rmsDisplacement": 0.34893633096040383
+          }
+        ]
+      }
+    ],
+    "notes": [
+      "Approved Tripo P2.0 source geometry, topology, UV atlas, layered plumage albedo and PBR source maps are preserved; the broken Tripo bone tree and inverse-bind data are replaced because their rest transforms were absent and vertices were effectively bone_0-only.",
+      "Ryecrest is a small Fallowmarch groundbird. Its rig uses a restrained neck/head/beak chain, tail, bilateral folded wings, thighs, hocks, feet, front toes and rear toes.",
+      "Unity Humanoid is not suitable for this nonhumanoid creature; the candidate uses a named generic skinned rig suitable for a Unity Generic Animator after importer review.",
+      "Root reviewed normal-camera scale and Idle, Walk, Run, Attack and Hit in the production creature lab; no errors were observed. Death animation remains pending visual proof because the lab removed the actor promptly after the death command.",
+      "Staged to the existing creature_marchfield_turkey model path for root-owned manifest integration. Candidate acceptance flags remain false until the root completes its acceptance and world integration gates."
+    ]
+  }
+}
