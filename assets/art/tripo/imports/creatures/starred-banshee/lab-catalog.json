@@ -1,0 +1,91 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-tripo-creatures",
+    "name": "Corealm Tripo creature candidates",
+    "author": "Corealm",
+    "source": "Tripo Studio generated creatures and Corealm rig/material adaptation",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "files": {
+    "creature_banshee": "banshee-native-rig-candidate.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_banshee",
+      "file": "models/creature/creature_banshee.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Starred Wilderness Banshee, hover-rig candidate",
+      "tags": [
+        "creature",
+        "humanoid",
+        "wilderness",
+        "spectral",
+        "T50",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 7625592,
+      "sha256": "dee7be3dd505b7e6721eb51d367b8d54ca28ce6891d07c2d54f8eefb973582cf",
+      "size": {
+        "x": 0.78955078125,
+        "y": 0.9995107650756836,
+        "z": 0.4760742783546448
+      },
+      "base": {
+        "x": -0.394775390625,
+        "y": 0,
+        "z": -0.2380371391773224
+      },
+      "bounds": {
+        "min": [
+          -0.394775390625,
+          0,
+          -0.2380371391773224
+        ],
+        "max": [
+          0.394775390625,
+          0.9995107650756836,
+          0.2380371391773224
+        ]
+      },
+      "groundY": -0.1,
+      "triangles": 4474,
+      "vertices": 3161,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_d27177e7-a092-4057-95a4-898130bcbc61"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceImageId": "142a84c7-ce68-4a9a-be9e-d607c555beca",
+        "sourceModelId": "956635da-08fc-4770-905e-5bee385bcaf9",
+        "sourceCardId": "88a36c89-9ab9-4471-a3df-f8158b6bd0a8",
+        "sourceFile": "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb",
+        "sourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-banshee/banshee-native-rig-candidate.glb",
+        "candidateSha256": "dee7be3dd505b7e6721eb51d367b8d54ca28ce6891d07c2d54f8eefb973582cf",
+        "rigMethod": "Mixamo-named humanoid mapping with independent body, arm and mist ribbon chains; hover cycles contain no leg stride.",
+        "texturePolicy": "Exact approved 8K image-generated base color and Tripo PBR maps downsampled to 2K for runtime.",
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
