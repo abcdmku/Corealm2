@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-tripo-armor",
+    "name": "Corealm Tripo armor",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/import-tripo.ts"
+  },
+  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\armor-mid\\sources\\crownsilver.glb",
+  "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
+  "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+  "textureSize": 2048,
+  "assets": [
+    {
+      "id": "corealm_item_crownsilver_helm",
+      "file": "models/items/crownsilver_helm.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_helm",
+        "head"
+      ],
+      "bytes": 2689504,
+      "itemModel": {
+        "itemId": "crownsilver_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.2140868678689003,
+        "y": 0.28725576400756836,
+        "z": 0.3242919445037842
+      },
+      "base": {
+        "x": -0.10704340040683746,
+        "y": 1.5618406534194946,
+        "z": -0.18498289585113525
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_helm",
+      "status": "pending",
+      "sha256": "6535b5e207c7b55550eaee5ca727a6dcaa74aeacb53af5d31259ca26f756c37d",
+      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
+      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "triangles": 386,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_crownsilver_plate",
+      "file": "models/items/crownsilver_plate.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_plate",
+        "torso"
+      ],
+      "bytes": 2865024,
+      "itemModel": {
+        "itemId": "crownsilver_plate",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.4364479780197144,
+        "y": 1.0126222372055054,
+        "z": 0.3956542909145355
+      },
+      "base": {
+        "x": -0.7182239890098572,
+        "y": 0.6269042491912842,
+        "z": -0.23195557296276093
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_plate",
+      "status": "pending",
+      "sha256": "da9b2d2f90a7d3f8d1e5c812a6d13a4e46efd1e70d37601db0d5e9acf301cfef",
+      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
+      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "triangles": 2284,
+      "drawCalls": 36
+    },
+    {
+      "id": "corealm_item_crownsilver_gauntlets",
+      "file": "models/items/crownsilver_gauntlets.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_gauntlets",
+        "arms"
+      ],
+      "bytes": 2706956,
+      "itemModel": {
+        "itemId": "crownsilver_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7329793572425842,
+        "y": 0.12519168853759766,
+        "z": 0.13375084288418293
+      },
+      "base": {
+        "x": -0.8664902448654175,
+        "y": 1.3702389001846313,
+        "z": -0.15603084862232208
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_gauntlets",
+      "status": "pending",
+      "sha256": "21336c64c0fbe0ab6131fb5deb6db50c7736abf41e0c7de281284ed3a2f77063",
+      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
+      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "triangles": 748,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_crownsilver_greaves",
+      "file": "models/items/crownsilver_greaves.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_greaves",
+        "legs"
+      ],
+      "bytes": 2729680,
+      "itemModel": {
+        "itemId": "crownsilver_greaves",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.3497413843870163,
+        "y": 0.9403565153479576,
+        "z": 0.2601565420627594
+      },
+      "base": {
+        "x": -0.1748712956905365,
+        "y": 0.09665510803461075,
+        "z": -0.17233668267726898
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_greaves",
+      "status": "pending",
+      "sha256": "e49bf3d300a38ad5d4d9a06c69483684262cc76e7c003cc94aefad23e130a3ef",
+      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
+      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "triangles": 824,
+      "drawCalls": 14
+    },
+    {
+      "id": "corealm_item_crownsilver_boots",
+      "file": "models/items/crownsilver_boots.glb",
+      "pack": "corealm-tripo-armor",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "tripo-authored",
+        "crownsilver_boots",
+        "feet"
+      ],
+      "bytes": 2693708,
+      "itemModel": {
+        "itemId": "crownsilver_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.44600050151348114,
+        "y": 0.18879424752668683,
+        "z": 0.3369385898113251
+      },
+      "base": {
+        "x": -0.22300057113170624,
+        "y": -6.926246101102151e-7,
+        "z": -0.18859626352787018
+      },
+      "animations": [],
+      "materials": [
+        "Material"
+      ],
+      "itemId": "crownsilver_boots",
+      "status": "pending",
+      "sha256": "fbcc9198a707a1321fe36060ea5abad83be46da1399d35b7a499977af09ce737",
+      "sourceSha256": "d1caef1d252322abf295118ed04c3f9927e32d8b5948f0b23346c38f623219f1",
+      "configSha256": "2356da255ff725c396241b04d7a84abd2e553bb7e184e9f8244afdbf9e3582f6",
+      "triangles": 370,
+      "drawCalls": 6
+    }
+  ]
+}
