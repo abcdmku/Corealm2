@@ -33653,274 +33653,117 @@
     {
       "id": "creature_pallid_shade",
       "file": "models/creature/creature_pallid_shade.glb",
-      "pack": "corealm-rpg-universal-base-characters",
+      "pack": "corealm-starred-creatures",
       "category": "character",
-      "is": "pallid shade",
+      "is": "Ashveil Wraith",
       "tags": [
         "creature",
-        "rpg",
-        "wraith"
+        "wraith",
+        "floating",
+        "wilderness",
+        "starred",
+        "tripo",
+        "skinned",
+        "articulated"
       ],
-      "bytes": 15315704,
-      "sha256": "3a68aff78eeb28f44727bd77be1603aa5014bae3c23baa5757a9ea32c31c3276",
+      "bytes": 5033912,
+      "sha256": "97daa7ef1f7a459376449b6d8fe68c7d0620aa585a48783b8c0e094d9060d8be",
+      "triangles": 5258,
       "size": {
-        "x": 0.5149239082400986,
-        "y": 2.0431406993569885,
-        "z": 1.1639803649427596
+        "x": 1.0179931640625,
+        "y": 2.0489996343851087,
+        "z": 0.6135986328124999
       },
       "base": {
-        "x": -0.29000008273556266,
-        "y": 0.10620000006268232,
-        "z": -0.4254689267804028
+        "x": -0.50899658203125,
+        "y": 0,
+        "z": -0.30679931640624997
+      },
+      "bounds": {
+        "min": [
+          -0.50899658203125,
+          0,
+          -0.30679931640624997
+        ],
+        "max": [
+          0.50899658203125,
+          2.0489996343851087,
+          0.30679931640624997
+        ]
       },
       "groundY": 0,
-      "triangles": 12574,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
-        "pallid_shade_woven_shroud",
-        "pallid_shade_aged_binding",
-        "pallid_shade_aged_binding",
-        "pallid_shade_woven_shroud",
-        "pallid_shade_ash_hands",
-        "pallid_shade_ash_linen_cowl"
+        "Material_tripo_node_abe0477c-f391-4642-b9fb-b7f8156edda4"
       ],
-      "walkClipSeconds": 2.561999797821045,
-      "runClipSeconds": 2.561999797821045,
-      "attackSeconds": 1.8706666231155396,
-      "contactNormalized": 0.3,
+      "walkClipSeconds": 1.25,
+      "runClipSeconds": 0.8,
+      "attackSeconds": 0.78,
+      "contactNormalized": 0.45,
       "sourceProvenance": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "sourceAssets": [
-          "base_male",
-          "Male_Wizard_Body",
-          "Male_Wizard_Arms",
-          "outfit_male_ranger_hood",
-          "animation_library_1"
-        ],
-        "sources": [
-          {
-            "file": "game/public/assets/models/character/base_male.glb",
-            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
-          },
-          {
-            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
-            "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
-          },
-          {
-            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
-            "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
-            "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
-          },
-          {
-            "file": "game/public/assets/models/animation/animation_library_1.glb",
-            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "sourcePacks": [
-          {
-            "id": "universal-base-characters",
-            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-          },
-          {
-            "id": "modular-character-outfits-fantasy-source",
-            "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
-          },
-          {
-            "id": "universal-animation-library",
-            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-          }
-        ],
-        "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
-      },
-      "metadata": {
-        "family": "wraith",
-        "height": 1.7314751689466006,
-        "dimensions": [
-          0.5851408048182939,
-          1.7314751689466006,
-          1.2651960488508256
-        ],
-        "rig": "entitled-universal-base-65-joint",
-        "sourceSkinned": true,
-        "vertices": 9505,
-        "triangles": 12574,
-        "textureBindings": [
-          {
-            "materialName": "wraith_source_Male_Wizard_Body_MI_Wizard",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-normalPath.png"
-          },
-          {
-            "materialName": "wraith_source_Male_Wizard_Arms_MI_Wizard",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-normalPath.png"
-          },
-          {
-            "materialName": "wraith_source_Male_Wizard_Arms_MI_Regular_Male",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-normalPath.png"
-          },
-          {
-            "materialName": "wraith_source_outfit_male_ranger_hood_MI_Ranger",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-normalPath.png"
-          }
-        ],
-        "floorCorrection": {
-          "Idle": {
-            "samples": 189,
-            "maximumLift": 0
-          },
-          "Walk": {
-            "samples": 121,
-            "maximumLift": 0
-          },
-          "Run": {
-            "samples": 85,
-            "maximumLift": 0.11174275407024165
-          },
-          "Attack": {
-            "samples": 137,
-            "maximumLift": 0.27412773870900126
-          },
-          "Hit": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "HitLeft": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "HitRight": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "Death": {
-            "samples": 207,
-            "maximumLift": 0.4396956787748252
-          }
-        },
-        "attackContact": 0.3,
-        "attackContactSource": "Sword_Attack production marker .30",
-        "license": "CC0-1.0",
-        "provenance": {
-          "author": "Quaternius",
-          "license": "CC0-1.0",
-          "sourceAssets": [
-            "base_male",
-            "Male_Wizard_Body",
-            "Male_Wizard_Arms",
-            "outfit_male_ranger_hood",
-            "animation_library_1"
-          ],
-          "sources": [
-            {
-              "file": "game/public/assets/models/character/base_male.glb",
-              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
-            },
-            {
-              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
-              "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
-            },
-            {
-              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
-              "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
-            },
-            {
-              "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
-              "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
-            },
-            {
-              "file": "game/public/assets/models/animation/animation_library_1.glb",
-              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-            }
-          ],
-          "sourcePacks": [
-            {
-              "id": "universal-base-characters",
-              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-            },
-            {
-              "id": "modular-character-outfits-fantasy-source",
-              "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
-            },
-            {
-              "id": "universal-animation-library",
-              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-            }
-          ],
-          "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
-        },
-        "textureOrientation": "Original glTF UVs and image rows, flipY false",
-        "sourceClips": {
-          "Idle": "Spell_Simple_Idle_Loop",
-          "Walk": "Walk_Loop",
-          "Run": "Jog_Fwd_Loop",
-          "Attack": "Sword_Attack",
-          "Hit": "Hit_Chest",
-          "HitLeft": "Hit_Chest",
-          "HitRight": "Hit_Chest",
-          "Death": "Death01"
-        },
-        "animationAcceptance": "candidate-needs-production-lab-motion-review; floating cloak, no foot-contact claim",
-        "revision": "wraith-source-review-2",
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "bee97dff-f4bc-415f-85f5-7166421b3cf4",
+        "tripoProjectId": "cc8d0574-7f00-44f2-97c0-09fa30e9f6e2",
+        "sourceFile": "assets/art/tripo/exports/bee97dff-f4bc-415f-85f5-7166421b3cf4.glb",
+        "sourceSha256": "cdc218bf28e19b40c3f9070d3375478795752ee618c52e9cc2cb71c6513f192f",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-shade/ashveil-wraith-native-rig.glb",
+        "candidateSha256": "97daa7ef1f7a459376449b6d8fe68c7d0620aa585a48783b8c0e094d9060d8be",
+        "rigMethod": "Model-specific, four-weight anatomical distance-field fit. Head area has a stable head-only bias; original mesh, face and UVs are unchanged.",
+        "locomotion": "Hover and spectral drift. Walk and Run clip names are preserved for the game action map; neither clip uses planted ground contact.",
+        "originalGeometryAndFaceUnchanged": true,
+        "noRetopology": true,
+        "sourceTexturesPreserved": true,
         "runtimeTexturePolicy": {
           "maxDimension": 2048,
-          "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance.",
-        "redesign": {
-          "sourceAssetId": "creature_wraith",
-          "sourceSha256": "8946fc54ab4191ba99389be482e4271ec511ec34a70d4dfbf8da810469dca5fe",
-          "axes": [
-            0.88,
-            1.18,
-            0.92
-          ],
-          "clipTimeMultiplier": 1.22,
-          "removedLeafCanopy": false,
-          "albedo": null,
-          "generator": "tools/build-creature-redesign.mjs",
-          "labEvidence": "tools/creature-redesign-lab-test.ts"
+        "textures": [
+          {
+            "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 660380
+          },
+          {
+            "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3408504
+          },
+          {
+            "name": "bee97dff-f4bc-415f-85f5-7166421b3cf4_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 600895
+          }
+        ],
+        "candidateStatus": "accepted-production-lab",
+        "userApprovedFaceDesignAsIs": true
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
         },
-        "familyRefinement": {
-          "family": "wraiths",
-          "generator": "tools/wilderness-creatures/families/wraiths.mjs",
-          "sourceAssetSha256": "5c8260a853e9af4c9189d102107fb2213e56534da8b3472ff310b982854ce3c1",
-          "atlas": "assets/art/wilderness-creatures/wraiths/cloth-atlas-v1.png",
-          "atlasSha256": "ead666917e6e711cf8d2e289c8317ac585433dfd4014b926769d6f62657dd6ac",
-          "edits": [
-            "Narrowed waist and long shroud volume, swept rear hem; original ragged floor edge retained",
-            "Slimmer drawn-back hood crown; front opening preserved"
-          ],
-          "scope": "Woven shrouds, pale linen cowls and ash hands; opaque readable surfaces. Existing joints, weights and animation clips retained. Gloam recessed emission retained; no whole-body emission."
-        }
+        "animationAcceptance": "accepted-production-lab; normal-camera Idle and Run proof; approved split face preserved"
       },
       "acceptance": {
-        "exported": true,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_wraith_legacy/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false
       }
     },
     {
@@ -37197,28 +37040,45 @@
     {
       "id": "creature_cinder_penitent",
       "file": "models/creature/creature_cinder_penitent.glb",
-      "pack": "corealm-rpg-universal-base-characters",
+      "pack": "corealm-tripo-creatures",
       "category": "character",
-      "is": "Cinder Penitent",
+      "is": "Ashbound Votary",
       "tags": [
         "creature",
-        "rpg",
-        "revenant"
+        "humanoid",
+        "ashlands",
+        "ashbound-votary",
+        "tripo",
+        "starred",
+        "skinned",
+        "articulated"
       ],
-      "bytes": 14009152,
-      "sha256": "60669660d1949dda76a71ac81114734153af117d621bccaff4631ed8c0f8fecb",
+      "bytes": 8142848,
+      "sha256": "e320ed21c160e5b38c0b9f52ed8caaf1f6418c3c6c05ae7b2d8a32c2fe4ae815",
+      "triangles": 4612,
       "size": {
-        "x": 0.8923729189327183,
-        "y": 2.0597396126904126,
-        "z": 0.5407822037529901
+        "x": 0.972154379728634,
+        "y": 2.0000000000000004,
+        "z": 0.5129457770622463
       },
       "base": {
-        "x": -0.44971858683594645,
-        "y": 0.1,
-        "z": -0.31590766524887687
+        "x": -0.48607718986431714,
+        "y": 9.329236103819722e-17,
+        "z": -0.2564728885311231
+      },
+      "bounds": {
+        "min": [
+          -0.48607718986431714,
+          9.329236103819722e-17,
+          -0.2564728885311231
+        ],
+        "max": [
+          0.48607718986431697,
+          2.0000000000000004,
+          0.25647288853112316
+        ]
       },
       "groundY": 0,
-      "triangles": 9162,
       "animations": [
         "Idle",
         "Walk",
@@ -37230,488 +37090,193 @@
         "Death"
       ],
       "materials": [
-        "cinder_penitent_woven_shroud",
-        "cinder_penitent_woven_shroud",
-        "cinder_penitent_ash_hands",
-        "cinder_penitent_ash_linen_cowl",
-        "cinder_penitent_dark_face_recess",
-        "cinder_penitent_ash_linen_cowl"
+        "Material_tripo_node_25098126-4032-436a-88d3-48d182094cc4"
       ],
-      "walkClipSeconds": 3,
-      "runClipSeconds": 3,
-      "attackSeconds": 1.8399999141693115,
-      "contactNormalized": 0.38,
       "sourceProvenance": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "sourceAssets": [
-          "base_male",
-          "Male_Wizard_Body",
-          "Male_Wizard_Arms",
-          "outfit_male_ranger_hood",
-          "outfit_male_knight_pauldron",
-          "animation_library_1"
-        ],
-        "sources": [
-          {
-            "file": "game/public/assets/models/character/base_male.glb",
-            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        "generator": "Tripo Studio P1.0 Smart Mesh",
+        "imageGenerator": "Tripo GPT Image 2.5",
+        "sourceImageId": "1a59c971-8c0d-4357-b40d-937546e79334",
+        "modelId": "bb588df9-a59e-4c37-8255-4eb5718b3bc6",
+        "originalSourceFile": "assets/art/tripo/exports/corealm_ashbound_votary_bb588df9_8k_rigged.glb",
+        "originalSourceSha256": "092103afcf086eb19b4c6ea51c7393915b861a54b58df0b54be09d15994446eb",
+        "patchedBindSourceSha256": "cded3cbdc55792d8588fbf5a2fceab607cfcd73a81a648e357880ac95b9ab8d1",
+        "bindPoseReconstruction": {
+          "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+          "method": "Mapped the exact Mixamo hierarchy onto the existing humanoid rig rest pose, fitted bone positions independently to the approved unmodified mesh bounds, and rebuilt inverse binds.",
+          "scale": {
+            "x": 0.3287588659753722,
+            "y": 0.6822604195042916,
+            "z": 0.8463107650865538
           },
-          {
-            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
-            "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
-          },
-          {
-            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
-            "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
-            "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
-            "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
-          },
-          {
-            "file": "game/public/assets/models/animation/animation_library_1.glb",
-            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "sourcePacks": [
-          {
-            "id": "universal-base-characters",
-            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-          },
-          {
-            "id": "modular-character-outfits-fantasy-source",
-            "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
-          },
-          {
-            "id": "universal-animation-library",
-            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-          }
-        ],
-        "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
-      },
-      "metadata": {
-        "family": "wraith",
-        "height": 1.7239835152907332,
-        "dimensions": [
-          0.7481184764539675,
-          1.7239835152907332,
-          0.5160359139622256
-        ],
-        "rig": "entitled-universal-base-65-joint",
-        "sourceSkinned": true,
-        "vertices": 12045,
-        "triangles": 15550,
-        "textureBindings": [
-          {
-            "materialName": "revenant_source_Male_Wizard_Body_MI_Wizard",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-normalPath.png"
-          },
-          {
-            "materialName": "revenant_source_Male_Wizard_Arms_MI_Wizard",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-normalPath.png"
-          },
-          {
-            "materialName": "revenant_source_Male_Wizard_Arms_MI_Regular_Male",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-normalPath.png"
-          },
-          {
-            "materialName": "revenant_source_outfit_male_ranger_hood_MI_Ranger",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-normalPath.png"
-          },
-          {
-            "materialName": "revenant_source_outfit_male_knight_pauldron_MI_Knight",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_knight_pauldron-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_knight_pauldron-0-normalPath.png"
-          }
-        ],
-        "floorCorrection": {
-          "Idle": {
-            "samples": 221,
-            "maximumLift": 0
-          },
-          "Walk": {
-            "samples": 121,
-            "maximumLift": 0
-          },
-          "Run": {
-            "samples": 85,
-            "maximumLift": 0.11822643984845503
-          },
-          "Attack": {
-            "samples": 137,
-            "maximumLift": 0.28089996284569774
-          },
-          "Hit": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "HitLeft": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "HitRight": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "Death": {
-            "samples": 207,
-            "maximumLift": 0.4423900024513828
-          }
-        },
-        "attackContact": 0.3,
-        "attackContactSource": "Sword_Attack production marker .30",
-        "license": "CC0-1.0",
-        "provenance": {
-          "author": "Quaternius",
-          "license": "CC0-1.0",
-          "sourceAssets": [
-            "base_male",
-            "Male_Wizard_Body",
-            "Male_Wizard_Arms",
-            "outfit_male_ranger_hood",
-            "outfit_male_knight_pauldron",
-            "animation_library_1"
+          "meshSize": [
+            0.48583984375,
+            0.99951171875,
+            0.25634765625
           ],
-          "sources": [
+          "sourceMeshGeometryAndUvsPreserved": true,
+          "noRetopology": true
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 3148,
+          "dominantJointVertices": {
+            "RightFoot": 42,
+            "RightLeg": 404,
+            "RightUpLeg": 520,
+            "Hips": 140,
+            "LeftUpLeg": 540,
+            "LeftLeg": 364,
+            "Spine": 227,
+            "Spine1": 161,
+            "Spine2": 154,
+            "LeftShoulder": 188,
+            "LeftArm": 43,
+            "LeftForeArm": 22,
+            "RightShoulder": 165,
+            "RightArm": 77,
+            "RightForeArm": 22,
+            "Neck": 39,
+            "LeftFoot": 40
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": 4.110359232325303e-7,
+          "translationScale": 0.6828744245688776,
+          "bindBounds": {
+            "min": [
+              -0.24291992349915684,
+              2.826813383098448e-10,
+              -0.12817383073119443
+            ],
+            "max": [
+              0.24291992769429738,
+              0.9995117266590433,
+              0.12817382885328069
+            ]
+          },
+          "clips": [
             {
-              "file": "game/public/assets/models/character/base_male.glb",
-              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.004745478798538974
             },
             {
-              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
-              "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.018466133877668014
             },
             {
-              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
-              "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.15504795658182524
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
-              "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.004881923732135204
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
-              "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.004705714326534859,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
             },
             {
-              "file": "game/public/assets/models/animation/animation_library_1.glb",
-              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.004705714326534859,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.004705714326534859,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.17142522375356778
             }
           ],
-          "sourcePacks": [
-            {
-              "id": "universal-base-characters",
-              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-            },
-            {
-              "id": "modular-character-outfits-fantasy-source",
-              "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
-            },
-            {
-              "id": "universal-animation-library",
-              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-            }
-          ],
-          "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
         },
-        "textureOrientation": "Original glTF UVs and image rows, flipY false",
-        "sourceClips": {
-          "Idle": "Idle_Loop",
-          "Walk": "Walk_Loop",
-          "Run": "Jog_Fwd_Loop",
-          "Attack": "Sword_Attack",
-          "Hit": "Hit_Chest",
-          "HitLeft": "Hit_Chest",
-          "HitRight": "Hit_Chest",
-          "Death": "Death01"
-        },
-        "animationAcceptance": "candidate-needs-production-lab-motion-review; floating cloak, no foot-contact claim",
-        "revision": "revenant-source-review-2",
-        "runtimeTexturePolicy": {
-          "maxDimension": 2048,
-          "sharedByEncodedSha256": true,
-          "originalsPreserved": true
-        },
-        "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance.",
-        "redesign": {
-          "sourceAssetId": "creature_revenant",
-          "sourceSha256": "c787503928a34acfb10467f1e7f62dd2cb0e14b04decba4b1f377c7478ae026f",
-          "generator": "tools/biome-creatures/ash/build.mjs",
-          "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
-          "artDirection": "A blind iron-faced apparition in an asymmetric burnt shroud. The ordinary hood, belt ornaments and knight pauldrons are removed; the new sealed elongated face is part of the body.",
-          "anatomyAtlas": {
-            "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
-            "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
-            "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
-            "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
-            "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+        "runtimeTextures": [
+          {
+            "name": "corealm_ashbound_votary_bb588df9_8k_rigged_basecolor.jpg",
+            "dimensions": [
+              2048,
+              2048
+            ]
           },
-          "motionDirection": "Suspended drift with opposing forearm suspension; deliberate head bow and torso recoil during the contact strike.",
-          "deformedVertices": 2734,
-          "removedTriangles": 7044,
-          "addedVertices": 421,
-          "addedTriangles": 656,
-          "addedSurfaces": [
-            "sealed_iron_face",
-            "blind_face_seam",
-            "burnt_high_collar"
-          ],
-          "animationEdits": [
-            "Idle:Head",
-            "Idle:lowerarm_l",
-            "Idle:lowerarm_r",
-            "Attack:Head",
-            "Attack:lowerarm_l",
-            "Attack:lowerarm_r",
-            "Hit:Head",
-            "Hit:lowerarm_l",
-            "Hit:lowerarm_r",
-            "HitLeft:Head",
-            "HitLeft:lowerarm_l",
-            "HitLeft:lowerarm_r",
-            "HitRight:Head",
-            "HitRight:lowerarm_l",
-            "HitRight:lowerarm_r",
-            "Death:Head",
-            "Death:lowerarm_l",
-            "Death:lowerarm_r",
-            "Walk:Head",
-            "Walk:lowerarm_l",
-            "Walk:lowerarm_r",
-            "Run:Head",
-            "Run:lowerarm_l",
-            "Run:lowerarm_r"
-          ],
-          "measurements": {
-            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=24Hz. Ground correction is an authored root channel.",
-            "idleBounds": {
-              "min": [
-                -0.44971858683594645,
-                0.1,
-                -0.31590766524887687
-              ],
-              "max": [
-                0.44265433209677185,
-                2.1597396126904127,
-                0.22487453850411332
-              ]
-            },
-            "minFloor": 0.002999999999999999,
-            "clips": [
-              {
-                "clip": "Idle",
-                "samples": 73,
-                "duration": 3,
-                "rawFloor": [
-                  -0.011727361051559743,
-                  0.0003229085665383152
-                ],
-                "maxCorrection": 0.13565653880572587,
-                "bounds": {
-                  "min": [
-                    -0.45781575107412953,
-                    0.07600000000000001,
-                    -0.33164707446602976
-                  ],
-                  "max": [
-                    0.44525196443474535,
-                    2.1853522219158306,
-                    0.25160806326823354
-                  ]
-                }
-              },
-              {
-                "clip": "Attack",
-                "samples": 49,
-                "duration": 1.8399999141693115,
-                "rawFloor": [
-                  -0.0897196156686363,
-                  -0.0487048415026245
-                ],
-                "maxCorrection": 0.21290183549957395,
-                "bounds": {
-                  "min": [
-                    -0.8096416202672596,
-                    0.07600000000000001,
-                    -0.8815189207316383
-                  ],
-                  "max": [
-                    0.753659469798797,
-                    2.1848746725758676,
-                    0.8678707554790278
-                  ]
-                }
-              },
-              {
-                "clip": "Hit",
-                "samples": 49,
-                "duration": 0.4000000059604645,
-                "rawFloor": [
-                  0.0002368495694830163,
-                  0.03745371437157515
-                ],
-                "maxCorrection": 0.09976315043051699,
-                "bounds": {
-                  "min": [
-                    -0.44992517659255465,
-                    0.07600000000000001,
-                    -0.5576175751499229
-                  ],
-                  "max": [
-                    0.44272108616618977,
-                    2.1597918092180133,
-                    0.38227931216556993
-                  ]
-                }
-              },
-              {
-                "clip": "HitLeft",
-                "samples": 49,
-                "duration": 0.4000000059604645,
-                "rawFloor": [
-                  0.0002368495694830163,
-                  0.03745371437157515
-                ],
-                "maxCorrection": 0.09976315043051699,
-                "bounds": {
-                  "min": [
-                    -0.44992517659255465,
-                    0.07600000000000001,
-                    -0.5591738545068665
-                  ],
-                  "max": [
-                    0.44272108616618977,
-                    2.1597918094450703,
-                    0.38227931216556993
-                  ]
-                }
-              },
-              {
-                "clip": "HitRight",
-                "samples": 49,
-                "duration": 0.4000000059604645,
-                "rawFloor": [
-                  0.0002368495694830163,
-                  0.03745371437157515
-                ],
-                "maxCorrection": 0.09976315043051699,
-                "bounds": {
-                  "min": [
-                    -0.44992517659255465,
-                    0.07600000000000001,
-                    -0.5554397448649697
-                  ],
-                  "max": [
-                    0.44272108616618977,
-                    2.1597918094450703,
-                    0.38227931216556993
-                  ]
-                }
-              },
-              {
-                "clip": "Death",
-                "samples": 71,
-                "duration": 2.880000114440918,
-                "rawFloor": [
-                  -0.1434161810844486,
-                  0.04518459698456243
-                ],
-                "maxCorrection": 0.1464161810844486,
-                "bounds": {
-                  "min": [
-                    -0.6434942099284777,
-                    0.002999999999999999,
-                    -1.7217503348770573
-                  ],
-                  "max": [
-                    0.5045207842071944,
-                    2.0642177020950236,
-                    0.3806204947416644
-                  ]
-                }
-              },
-              {
-                "clip": "Walk",
-                "samples": 73,
-                "duration": 3,
-                "rawFloor": [
-                  -0.011727361051559743,
-                  0.0003229085665383152
-                ],
-                "maxCorrection": 0.13565653880572587,
-                "bounds": {
-                  "min": [
-                    -0.45781575107412953,
-                    0.07600000000000001,
-                    -0.33164707446602976
-                  ],
-                  "max": [
-                    0.44525196443474535,
-                    2.1853522219158306,
-                    0.25160806326823354
-                  ]
-                }
-              },
-              {
-                "clip": "Run",
-                "samples": 73,
-                "duration": 3,
-                "rawFloor": [
-                  -0.011727361051559743,
-                  0.0003229085665383152
-                ],
-                "maxCorrection": 0.13565653880572587,
-                "bounds": {
-                  "min": [
-                    -0.45781575107412953,
-                    0.07600000000000001,
-                    -0.33164707446602976
-                  ],
-                  "max": [
-                    0.44525196443474535,
-                    2.1853522219158306,
-                    0.25160806326823354
-                  ]
-                }
-              }
+          {
+            "name": "corealm_ashbound_votary_bb588df9_8k_rigged_rm.png",
+            "dimensions": [
+              2048,
+              2048
+            ]
+          },
+          {
+            "name": "corealm_ashbound_votary_bb588df9_8k_rigged_normal.jpg",
+            "dimensions": [
+              2048,
+              2048
             ]
           }
+        ]
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
         },
-        "familyRefinement": {
-          "family": "wraiths",
-          "generator": "tools/wilderness-creatures/families/wraiths.mjs",
-          "sourceAssetId": "creature_cinder_penitent",
-          "sourceAssetSha256": "60669660d1949dda76a71ac81114734153af117d621bccaff4631ed8c0f8fecb",
-          "atlas": "assets/art/wilderness-creatures/wraiths/cloth-atlas-v1.png",
-          "atlasSha256": "ead666917e6e711cf8d2e289c8317ac585433dfd4014b926769d6f62657dd6ac",
-          "edits": [
-            "Narrowed waist and long shroud volume, swept rear hem; original ragged floor edge retained",
-            "Slimmer drawn-back hood crown; front opening preserved"
-          ],
-          "scope": "Woven shrouds, pale linen cowls and ash hands; opaque readable surfaces. Existing joints, weights and animation clips retained. No whole-body emission; spectral particles remain production effects."
-        }
+        "materialTreatment": null,
+        "animationAcceptance": "accepted-production-lab; normal-camera Idle, Run, Attack, and Hit proof",
+        "sourceMaterialChannels": [
+          "baseColor",
+          "normal",
+          "metallicRoughness"
+        ],
+        "rigPreset": "Mixamo hierarchy with recovered rest transforms and repaired distributed weights",
+        "requestedCoreMotions": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "visualAndMotionAcceptance": "accepted-production-lab"
       },
       "acceptance": {
         "exported": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_wraith_cinder/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false
       }
     },
     {
@@ -77112,338 +76677,117 @@
       "file": "models/fairy-garden/fairy_garden_snail_gloamgarden.glb",
       "pack": "animal-pack-deluxe",
       "category": "character",
-      "is": "snail",
+      "is": "Mooncap Snail",
       "tags": [
+        "creature",
+        "fairy",
         "snail",
-        "mollusc",
+        "gloamgarden",
+        "t30",
+        "starred",
+        "skinned",
+        "articulated",
         "animal",
         "quarry",
         "moss",
         "fairy-garden",
-        "image-generated-texture",
-        "gloamgarden"
+        "image-generated-texture"
       ],
-      "bytes": 5523212,
-      "sha256": "89da112bc9f891109229241cb7eab5f9aa0d4006a9dd22c8ad44c436c2db491f",
+      "bytes": 4931148,
+      "sha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+      "triangles": 4154,
       "size": {
-        "x": 0.25575055446016826,
-        "y": 0.2927195624388275,
-        "z": 0.6428402618001128
+        "x": 0.6196289658546448,
+        "y": 0.84912109375,
+        "z": 0.99951171875
       },
       "base": {
-        "x": -0.16148498888052504,
-        "y": -0.0015801050292373233,
-        "z": -0.3155688257504629
+        "x": -0.3098144829273224,
+        "y": 0,
+        "z": -0.499755859375
       },
       "bounds": {
         "min": [
-          -0.16148498888052504,
-          -0.0015801050292373233,
-          -0.3155688257504629
+          -0.3098144829273224,
+          0,
+          -0.499755859375
         ],
         "max": [
-          0.09426556557964323,
-          0.2911394574095902,
-          0.3272714360496498
+          0.3098144829273224,
+          0.84912109375,
+          0.499755859375
         ]
       },
-      "groundY": -0.0015801050292373233,
-      "triangles": 17888,
+      "groundY": 0,
       "animations": [
         "Idle",
         "Walk",
-        "Death",
-        "Attack",
         "Run",
+        "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight"
+        "Death"
       ],
       "materials": [
-        "animal_quarry_snail_mat_fairy_garden_snail_gloamgarden"
+        "Material_tripo_node_2d1ed8fe-81d9-4116-94fc-4fa649c22f31"
       ],
+      "walkClipSeconds": 1.45,
+      "runClipSeconds": 0.92,
+      "attackSeconds": 0.78,
+      "contactNormalized": 0.52,
       "sourceProvenance": {
-        "id": "animal-pack-deluxe",
-        "name": "Animal pack deluxe",
-        "author": "janpec",
-        "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
-        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
-        "sourceRig": "snail_rig_exp.FBX",
-        "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json",
-        "sourceAssetId": "creature_quarry_snail",
-        "sourceSha256": "cfb1fc736f99631e07b6ca0b02a05391ee28fb0a34339d0c868ebe6d5ccfa298",
-        "generator": "tools/fairy-population-assets.ts",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
-        "generatedTexture": {
-          "file": "art/fairy-population/textures/generated/fairy_garden_snail_gloamgarden.png",
-          "sha256": "b0856215432bf847b84feaa3dccae252317541fc7be082a00af8af4d00e1ed5b",
-          "width": 1254,
-          "height": 1254,
-          "columns": 1,
-          "rows": 1,
-          "bindings": [
-            {
-              "sourceTextureIndex": 0,
-              "atlasColumn": 0,
-              "atlasRow": 0,
-              "sourceTextureSha256": "26cb8671c4935ea64d2b2437746841a41e227464f2be04608df4b03636327e96",
-              "embeddedTextureSha256": "032f555a5a3b8dec841c8c730c7ea6ae920b8dff9fca511ef6d2293b4e2131a4",
-              "width": 1254,
-              "height": 1254
-            }
-          ]
-        }
-      },
-      "impliedWalkMps": 0.013362252642835044,
-      "impliedRunMps": 0.05367366587848634,
-      "walkClipSeconds": 4.399999618530273,
-      "runClipSeconds": 2.5999999046325684,
-      "attackSeconds": 1.5,
-      "contactNormalized": 0.48,
-      "measuredGait": {
-        "gait": {
-          "walk": {
-            "seconds": 4.399999618530273,
-            "sampledFootBones": 4,
-            "stanceSamples": 66,
-            "measuredStanceMps": 0.028842372646400383,
-            "feet": [
-              {
-                "bone": "Bone003",
-                "minY": 0.047260276128888244,
-                "maxY": 0.11671439887787961,
-                "strideZ": 0.017163651989967846,
-                "contactSamples": 0,
-                "stanceMedianMps": null
-              },
-              {
-                "bone": "Bone004",
-                "minY": 0.04151021244267103,
-                "maxY": 0.11632573142004637,
-                "strideZ": 0.017513084296853235,
-                "contactSamples": 0,
-                "stanceMedianMps": null
-              },
-              {
-                "bone": "Bone006",
-                "minY": 0.027103629575138066,
-                "maxY": 0.043943360403818466,
-                "strideZ": 0.049560609178175646,
-                "contactSamples": 33,
-                "stanceMedianMps": 0.028842372646400383
-              },
-              {
-                "bone": "Bone005",
-                "minY": 0.027464125803345764,
-                "maxY": 0.04859365899544853,
-                "strideZ": 0.04946857109254263,
-                "contactSamples": 33,
-                "stanceMedianMps": 0.028786650675092094
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Bone001",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          },
-          "run": {
-            "seconds": 2.5999999046325684,
-            "sampledFootBones": 4,
-            "stanceSamples": 134,
-            "measuredStanceMps": 0.07522088315579743,
-            "feet": [
-              {
-                "bone": "Bone003",
-                "minY": 0.05211465701327829,
-                "maxY": 0.05211468684028573,
-                "strideZ": 0.05487004056131867,
-                "contactSamples": 35,
-                "stanceMedianMps": 0.07795484643143302
-              },
-              {
-                "bone": "Bone004",
-                "minY": 0.05114274917271201,
-                "maxY": 0.051142788180452314,
-                "strideZ": 0.06481501591982411,
-                "contactSamples": 35,
-                "stanceMedianMps": 0.08475849604229994
-              },
-              {
-                "bone": "Bone006",
-                "minY": 0.03159444293074138,
-                "maxY": 0.03159449882718066,
-                "strideZ": 0.04395245268445108,
-                "contactSamples": 30,
-                "stanceMedianMps": 0.05606868782855776
-              },
-              {
-                "bone": "Bone005",
-                "minY": 0.04090615920858383,
-                "maxY": 0.040906205685605074,
-                "strideZ": 0.05883227358076959,
-                "contactSamples": 34,
-                "stanceMedianMps": 0.07354977320285032
-              }
-            ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Bone001",
-                "x": 0,
-                "z": 0
-              }
-            ]
-          }
-        },
-        "loops": {
-          "Idle": {
-            "seconds": 9.066665649414062,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006717781958472215,
-            "maxScaleGap": 0
-          },
-          "Walk": {
-            "seconds": 4.399999618530273,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006828994395242804,
-            "maxScaleGap": 0
-          },
-          "Run": {
-            "seconds": 2.5999999046325684,
-            "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006717781958472215,
-            "maxScaleGap": 0
-          }
-        },
-        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+        "author": "Corealm creature rig reconstruction",
+        "source": "Astra-low approved Tripo-starred Fairy Mooncap Snail; original mesh, atlas and layered PBR sources preserved.",
+        "modelId": "c06d6fe7-0b0a-43f4-9715-ea859450dc4f",
+        "publicProjectId": "69abe6f5-af9d-4617-857d-d2ba60375f54",
+        "sourceSha256": "33c42451d79217f32e37ce9b47fe9b8adfee54d42a2c3f88ee08b3bf4a135d06",
+        "rigMethod": "14-joint articulated snail rig with component-aware shell, foot, neck and eyestalk weights; six custom clips.",
+        "candidateFile": "mooncap-snail-native-rig-candidate.glb",
+        "candidateSha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50"
       },
       "metadata": {
-        "is": "snail",
+        "is": "Mooncap Snail",
         "tags": [
+          "creature",
+          "fairy",
           "snail",
-          "mollusc",
+          "gloamgarden",
+          "t30",
+          "starred",
+          "skinned",
+          "articulated",
           "animal",
           "quarry",
-          "moss"
+          "moss",
+          "fairy-garden",
+          "image-generated-texture"
         ],
-        "provenance": {
-          "id": "animal-pack-deluxe",
-          "name": "Animal pack deluxe",
-          "author": "janpec",
-          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
-          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
-          "sourceRig": "snail_rig_exp.FBX",
-          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
-        },
-        "attackSeconds": 1.5,
-        "contactNormalized": 0.48,
-        "impliedWalkMps": 0.013362252642835044,
-        "impliedRunMps": 0.05367366587848634,
-        "walkClipSeconds": 4.399999618530273,
-        "runClipSeconds": 2.6,
-        "notes": "Unused licensed snail body, refined with a continuous curved spiral shell, modeled whorl gutters and a muscular foot margin. Source UVs/material remain. Rigid shell influence is separated from soft foot. Added eye-stalk articulation, retract/emerge rasp attack, directional recoil, and a distinct authored traveling foot-wave faster crawl.",
-        "sourceClips": [
-          {
-            "name": "Idle",
-            "ok": true,
-            "duration": 9.066665649414062,
-            "sealed": true,
-            "seam": 4.2957193221380985,
-            "tracks": 27,
-            "missing": [],
-            "targetCount": 13
-          },
-          {
-            "name": "Walk",
-            "ok": true,
-            "duration": 4.399999618530273,
-            "sealed": true,
-            "seam": 2.4350351134639263,
-            "tracks": 27,
-            "missing": [],
-            "targetCount": 13
-          },
-          {
-            "name": "Death",
-            "ok": true,
-            "duration": 2.633333206176758,
-            "sealed": false,
-            "seam": 0,
-            "tracks": 27,
-            "missing": [],
-            "targetCount": 13
-          }
-        ],
-        "articulation": [
-          {
-            "role": "rigid shell",
-            "joint": "Snail_RigidShell",
-            "vertices": 579,
-            "sourceComponent": "vertices 0..578"
-          },
-          {
-            "role": "left eye stalk",
-            "joint": "Snail_EyeLeft",
-            "vertices": 73
-          },
-          {
-            "role": "right eye stalk",
-            "joint": "Snail_EyeRight",
-            "vertices": 73
-          },
-          {
-            "role": "shell and soft-foot sculpture",
-            "shellFaces": 12352,
-            "softFootFaces": 5536,
-            "sculpture": "Continuous curved source shell with three modeled coiled-whorl ridges and incised grooves; rounded muscular foot margin and shallow contraction folds.",
-            "sourceUVsPreserved": true
-          }
-        ],
-        "gaitFootBones": [
-          "Bone003",
-          "Bone004",
-          "Bone005",
-          "Bone006"
-        ],
-        "gaitStance": {
-          "Walk": {
-            "mps": 0.013362252642835044,
-            "samples": 128,
-            "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
-          },
-          "Run": {
-            "mps": 0.05367366587848634,
-            "samples": 232,
-            "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
-          }
-        },
-        "sourceConverterImpliedMps": {
-          "Walk": 0.011233042807925114,
-          "Run": 0
-        },
-        "gaitContactNote": "Continuous soft sole. These are foot-chain probes, not articulated planted leg feet.",
+        "walkClipSeconds": 1.45,
+        "runClipSeconds": 0.92,
+        "attackSeconds": 0.78,
+        "contactNormalized": 0.52,
+        "notes": "T30 Gloamgarden snail with a rigid layered whorl shell, traveling foot, paired eye stalks and preserved 2K image-generated PBR maps.",
         "boneNames": [
-          "Bone001",
-          "Bone002",
-          "Bone003",
-          "Bone004",
-          "Bone005",
-          "Bone006",
-          "Bone007",
-          "Bone008",
-          "Bone009",
-          "Snail_EyeLeft",
-          "Snail_EyeRight",
-          "Snail_RigidShell"
+          "MooncapRoot",
+          "FootRear",
+          "FootMiddle",
+          "FootFront",
+          "Neck",
+          "Head",
+          "EyeStalk_L",
+          "Eye_L",
+          "EyeStalk_R",
+          "Eye_R",
+          "Feelers_L",
+          "Feelers_R",
+          "Mantle",
+          "Shell"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs"
+        "animationAcceptance": "accepted-production-lab; normal-camera Idle, Run, and Attack proof"
       },
       "acceptance": {
         "assetAudit": true,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {

@@ -4759,7 +4759,7 @@
   },
   {
     "id": "cinder_penitent_t20",
-    "name": "Cinder Penitent",
+    "name": "Ashbound Votary",
     "family": "cinder_penitent",
     "availability": "world",
     "level": 20,
@@ -4795,7 +4795,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An apparition in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+      "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
       "kind": "basic"
     }
   },
@@ -17701,7 +17701,7 @@
     "id": "emberhorn_ibex",
     "baseId": "ibex_t10",
     "availability": "world",
-    "name": "Cinder Penitent",
+    "name": "Ashbound Votary",
     "level": 20,
     "loot": {
       "rolls": [
@@ -17732,7 +17732,7 @@
       ]
     },
     "adjustments": {
-      "name": "Cinder Penitent",
+      "name": "Ashbound Votary",
       "family": "cinder_penitent",
       "moveSpeedMps": 1.3,
       "walkSpeedMps": 0.4
@@ -17744,7 +17744,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An apparition in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+      "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
       "kind": "basic"
     }
   },
@@ -17846,12 +17846,12 @@
     "baseId": "ashscale_monitor_t20",
     "availability": "world",
     "adjustments": {
-      "name": "Cinder Penitent",
+      "name": "Ashbound Votary",
       "family": "cinder_penitent",
       "moveSpeedMps": 1.3,
       "walkSpeedMps": 0.4
     },
-    "name": "Cinder Penitent",
+    "name": "Ashbound Votary",
     "family": "cinder_penitent",
     "level": 20,
     "presentation": {
@@ -17860,7 +17860,7 @@
       "scale": 1,
       "regionId": "kilnhalt",
       "activity": "patrol",
-      "description": "An apparition in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+      "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
       "kind": "basic"
     }
   },
@@ -20812,7 +20812,7 @@
       "attackLevel": 44,
       "defenceLevel": 48
     },
-    "name": "Cinder Penitent",
+    "name": "Ashbound Votary",
     "family": "cinder_penitent"
   },
   {
@@ -21296,7 +21296,7 @@
       "defenceLevel": 54,
       "maxHit": 17
     },
-    "name": "Cinder Penitent",
+    "name": "Ashbound Votary",
     "family": "cinder_penitent"
   },
   {
