@@ -1,5 +1,5 @@
 ﻿{
-    "status":  "blocked-no-local-export",
+    "status":  "partial-local-archive",
     "scope":  "Newly starred armor and wizard models",
     "sourceInventory":  {
                             "verifiedBy":  "inventory agent",
@@ -26,8 +26,16 @@
                                                    },
                        "batchSelected":  true,
                        "localExportPath":  "assets/art/tripo/exports/d8d97261-b328-4f2f-ad0f-e091bc0dc366.glb",
-                       "localFilePresent":  false,
-                       "sha256":  null
+                       "localFilePresent":  true,
+                       "sha256":  "24d7d70d68632b09f79daa5424a4737ca903815a4a8c674646af7efa13cd76da",
+                       "fileSizeBytes":  6329036,
+                       "successfulRetry":  {
+                                               "format":  "GLB",
+                                               "downloadedFileName":  "fantasy+wizard+3d+model (5).glb",
+                                               "observedAtLocal":  "2026-09-23T04:44:10-05:00",
+                                               "settingsVerified":  false,
+                                               "outcome":  "Tripo UI download archived; SHA-256 and size verified."
+                                           }
                    },
                    {
                        "cardStorageId":  "330fdfb0-65de-405e-b565-343402a9b752",
@@ -85,8 +93,8 @@
                     },
     "verification":  {
                          "downloadsFolder":  "C:\\Users\\Borg\\Downloads",
-                         "matchingGlbsInDownloads":  0,
-                         "projectNamedGlbsInWorkspace":  0,
+                         "matchingGlbsInDownloads":  1,
+                         "projectNamedGlbsInWorkspace":  1,
                          "verifiedAt":  "2026-09-23"
                      },
     "note":  "No signed URL was fetched or opened outside Tripo UI. Per computer-use policy, do not bypass ERR_BLOCKED_BY_CLIENT."
