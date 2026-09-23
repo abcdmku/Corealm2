@@ -47,12 +47,27 @@ assert.equal(vertexCount, 3161, 'Decoded source vertex count changed.');
 assert.equal(triangleCount, 4474, 'Decoded source triangle count changed.');
 assert.equal(normals.length, positions.length, 'Expected one source normal per vertex.');
 assert.equal(uvs.length, vertexCount * 2, 'Expected one retained UV per vertex.');
-const bounds = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
+const sourceBounds = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
 for (let i = 0; i < positions.length; i += 3) for (let axis = 0; axis < 3; axis++) {
-  bounds.min[axis] = Math.min(bounds.min[axis], positions[i + axis]);
-  bounds.max[axis] = Math.max(bounds.max[axis], positions[i + axis]);
+  sourceBounds.min[axis] = Math.min(sourceBounds.min[axis], positions[i + axis]);
+  sourceBounds.max[axis] = Math.max(sourceBounds.max[axis], positions[i + axis]);
 }
-assert(Math.abs(bounds.min[1]) < 1e-6 && bounds.max[1] > .98, `Unexpected source orientation or grounding: ${JSON.stringify(bounds)}`);
+assert(Math.abs(sourceBounds.min[1]) < 1e-6 && sourceBounds.max[1] > .98, `Unexpected source orientation or grounding: ${JSON.stringify(sourceBounds)}`);
+const sourceHeight = sourceBounds.max[1] - sourceBounds.min[1];
+const targetLabAssetId = 'fairy_garden_sapling_gloamgarden';
+const targetCreatureRows = JSON.parse(await readFile(path.join(repo, 'game/content/data/creatureDefinitions.json'), 'utf8'));
+const targetCreature = targetCreatureRows.find(creature => creature.presentation?.assetId === targetLabAssetId);
+assert(targetCreature && targetCreature.level === 30, 'Expected the existing T30 Briar Sapling source slot.');
+const existingSlotScale = 0.4094204513089124;
+assert(Math.abs(targetCreature.presentation.scale - existingSlotScale) < 1e-12, `Briar Sapling slot scale changed: ${targetCreature.presentation.scale}.`);
+const targetTier = 30;
+const tierSilhouetteScale = .9 + .5 * (Math.log(targetTier) / Math.log(99));
+const targetDrawnHeightMeters = 1.5;
+const candidateAssetScale = targetDrawnHeightMeters / (sourceHeight * existingSlotScale * tierSilhouetteScale);
+const bounds = {
+  min: sourceBounds.min.map(value => value * candidateAssetScale),
+  max: sourceBounds.max.map(value => value * candidateAssetScale),
+};
 
 const sourceMaterials = root.listMaterials();
 assert.equal(sourceMaterials.length, 1, 'Expected one material to receive the layered plant maps.');
@@ -163,7 +178,7 @@ sourceSkin.dispose();
 oldInverseBinds?.dispose();
 for (const node of [...root.listNodes()].reverse()) if (node !== meshNode) node.dispose();
 
-const rigContainer = doc.createNode('LeafSentinelGenericRig').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([1, 1, 1]);
+const rigContainer = doc.createNode('LeafSentinelGenericRig').setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]).setScale([candidateAssetScale, candidateAssetScale, candidateAssetScale]);
 scene.addChild(rigContainer);
 rigContainer.addChild(meshNode);
 const jointNodes = new Map();
@@ -467,13 +482,15 @@ assert(restCheck.maximumDisplacement < 1e-5, `The rest rig changes source positi
 const clipValidation = checkRoot.listAnimations().map(animation => {
   const duration = Math.max(...animation.listChannels().map(channel => channel.getSampler().getInput().getArray().at(-1)));
   const samples = [0, .25, .5, .75, 1].map(phase => ({ phase, ...sampleSkin(animation, duration * phase) }));
-  const maximumDisplacement = Math.max(...samples.map(sample => sample.maximumDisplacement));
+  const localMaximumDisplacement = Math.max(...samples.map(sample => sample.maximumDisplacement));
+  const maximumDisplacement = localMaximumDisplacement * candidateAssetScale;
   const movedVertices = Math.max(...samples.map(sample => sample.movedVertices));
-  assert(maximumDisplacement > .003 && movedVertices > 20, `${animation.getName()} has too little visible movement (${maximumDisplacement}, ${movedVertices}).`);
-  const sweptBounds = { min: [0, 1, 2].map(axis => Math.min(...samples.map(sample => sample.min[axis]))), max: [0, 1, 2].map(axis => Math.max(...samples.map(sample => sample.max[axis]))) };
-  assert(sweptBounds.min[1] > -.30 && sweptBounds.max[1] < 1.18 && Math.abs(sweptBounds.min[0]) < .70 && Math.abs(sweptBounds.max[0]) < .70 && Math.abs(sweptBounds.min[2]) < .54 && Math.abs(sweptBounds.max[2]) < .54, `${animation.getName()} has implausible motion bounds: ${JSON.stringify(sweptBounds)}.`);
-  if (animation.getName() === 'Death') assert(sweptBounds.min[1] > -.10, `Death buries the creature below the ground plane: ${sweptBounds.min[1]}.`);
-  return { name: animation.getName(), seconds: duration, channels: animation.listChannels().length, maximumDisplacement, maximumMovedVertices: movedVertices, sweptBounds };
+  assert(localMaximumDisplacement > .003 && movedVertices > 20, `${animation.getName()} has too little visible movement (${localMaximumDisplacement}, ${movedVertices}).`);
+  const sourceSpaceSweptBounds = { min: [0, 1, 2].map(axis => Math.min(...samples.map(sample => sample.min[axis]))), max: [0, 1, 2].map(axis => Math.max(...samples.map(sample => sample.max[axis]))) };
+  const sweptBounds = { min: sourceSpaceSweptBounds.min.map(value => value * candidateAssetScale), max: sourceSpaceSweptBounds.max.map(value => value * candidateAssetScale) };
+  assert(sweptBounds.min[1] > -.30 && sweptBounds.max[1] < 3.55 && Math.abs(sweptBounds.min[0]) < 2.1 && Math.abs(sweptBounds.max[0]) < 2.1 && Math.abs(sweptBounds.min[2]) < 1.6 && Math.abs(sweptBounds.max[2]) < 1.6, `${animation.getName()} has implausible presentation bounds: ${JSON.stringify(sweptBounds)}.`);
+  if (animation.getName() === 'Death') assert(sweptBounds.min[1] > -.15, `Death buries the creature below the ground plane: ${sweptBounds.min[1]}.`);
+  return { name: animation.getName(), seconds: duration, channels: animation.listChannels().length, maximumDisplacement, localMaximumDisplacement, maximumMovedVertices: movedVertices, sourceSpaceSweptBounds, sweptBounds };
 });
 
 const sourceTextureMap = Object.fromEntries(sourceTextureInfo.map(texture => [texture.name, texture]));
@@ -493,7 +510,7 @@ const catalog = {
     generator: 'Tripo P2.0, 8K PBR export',
     ledgerGeometry: { vertices: 3555, faces: 5350 },
     decodedGeometry: { vertices: vertexCount, triangles: triangleCount },
-    baseGeometry: { vertices: vertexCount, triangles: triangleCount, positionsPreserved: true, normalsPreserved: true, indicesPreserved: true, uv: 'TEXCOORD_0 retained byte-for-byte; no unwrap or retopology.' },
+    baseGeometry: { vertices: vertexCount, triangles: triangleCount, bounds: sourceBounds, positionsPreserved: true, normalsPreserved: true, indicesPreserved: true, uv: 'TEXCOORD_0 retained byte-for-byte; no unwrap or retopology.' },
     originalSkin: '54-joint Tripo humanoid hierarchy discarded: the pinned GLB places nearly all vertices on BoneRoot and has no animation clips.',
     textures: sourceTextureInfo,
   },
@@ -504,6 +521,7 @@ const catalog = {
     vertices: vertexCount,
     triangles: triangleCount,
     bounds,
+    presentationSizing: { targetWorldHeightMeters: targetDrawnHeightMeters, targetTier, existingSlotScale, tierSilhouetteScale, sourceHeightMeters: sourceHeight, candidateAssetScale, expectedDrawnHeightMeters: sourceHeight * candidateAssetScale * existingSlotScale * tierSilhouetteScale },
     rig: {
       type: 'authored non-humanoid plant creature rig',
       profile: 'Unity Generic-ready glTF skeleton; no Humanoid mapping; importer review required',
@@ -523,6 +541,7 @@ const catalog = {
       'A new image-generated base-color map adds layered forest greens, leaf veins, bark grain, copper edges and moss while preserving the source atlas layout and face/eye details.',
       'Base color, metallic-roughness and tangent-space normal maps are embedded at 2K. The source PBR roughness and normal detail are retained; the living leaf/bark material is dielectric.',
       'The discarded root-only Tripo skin is replaced by a 25-joint Generic plant rig and six custom clips for idle, rooted locomotion, attack, hit recoil and collapse.',
+      `The 1.5 m target size accounts for Briar Sapling's existing ${existingSlotScale.toFixed(4)} view scale and ${tierSilhouetteScale.toFixed(4)} T30 silhouette multiplier; a ${candidateAssetScale.toFixed(4)} uniform rig-container scale leaves the source vertex buffers unchanged.`,
       'Lab staging targets the existing T30 Gloamgarden Briar Sapling tree-creature asset; production acceptance and world integration remain pending.',
     ],
   },
@@ -573,6 +592,7 @@ const labAsset = {
     sourceSha256,
     candidateFile: path.basename(candidatePath),
     candidateSha256,
+    presentationSizing: { targetWorldHeightMeters: targetDrawnHeightMeters, targetTier, existingSlotScale, tierSilhouetteScale, sourceHeightMeters: sourceHeight, candidateAssetScale },
     rigMethod: '25-joint non-humanoid Generic plant rig with normalized four-influence stem, crown, branch-arm and root-leg skin weights; source mesh buffers preserved.',
     generatedBaseColor: path.basename(generatedAlbedoPath),
     textureMaps: runtimeTextures,

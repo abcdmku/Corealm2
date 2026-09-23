@@ -21,28 +21,28 @@
         "articulated",
         "candidate"
       ],
-      "bytes": 7806844,
-      "sha256": "903ee01ed2c6367f5f8a85e11bc67c62c5ca8a01a4d5f7a3800c190950f4ca60",
+      "bytes": 7806912,
+      "sha256": "e64d6e4433d003353c6d4949bc6942121db9328e4d6e51f9fa3b5f36abe6794b",
       "size": {
-        "x": 0.78955078125,
-        "y": 0.9995107650756836,
-        "z": 0.4760742783546448
+        "x": 2.2786651330927774,
+        "y": 2.8846153846153846,
+        "z": 1.3739633784309355
       },
       "base": {
-        "x": -0.394775390625,
+        "x": -1.1393325665463887,
         "y": 0,
-        "z": -0.2380371391773224
+        "z": -0.6869816892154678
       },
       "bounds": {
         "min": [
-          -0.394775390625,
+          -1.1393325665463887,
           0,
-          -0.2380371391773224
+          -0.6869816892154678
         ],
         "max": [
-          0.394775390625,
-          0.9995107650756836,
-          0.2380371391773224
+          1.1393325665463887,
+          2.8846153846153846,
+          0.6869816892154678
         ]
       },
       "groundY": 0,
@@ -70,7 +70,15 @@
         "sourceFile": "assets/art/tripo/exports/d1c16cfc-3f64-4e48-8205-9b53502184f8.glb",
         "sourceSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
         "candidateFile": "leaf-sentinel-native-rig-candidate.glb",
-        "candidateSha256": "903ee01ed2c6367f5f8a85e11bc67c62c5ca8a01a4d5f7a3800c190950f4ca60",
+        "candidateSha256": "e64d6e4433d003353c6d4949bc6942121db9328e4d6e51f9fa3b5f36abe6794b",
+        "presentationSizing": {
+          "targetWorldHeightMeters": 1.5,
+          "targetTier": 30,
+          "existingSlotScale": 0.4094204513089124,
+          "tierSilhouetteScale": 1.270087994719282,
+          "sourceHeightMeters": 0.9995107650756836,
+          "candidateAssetScale": 2.8860273299777415
+        },
         "rigMethod": "25-joint non-humanoid Generic plant rig with normalized four-influence stem, crown, branch-arm and root-leg skin weights; source mesh buffers preserved.",
         "generatedBaseColor": "leaf-sentinel-imagegen-basecolor.png",
         "textureMaps": [

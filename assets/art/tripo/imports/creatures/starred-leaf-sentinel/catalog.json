@@ -33,6 +33,18 @@
     "baseGeometry": {
       "vertices": 3161,
       "triangles": 4474,
+      "bounds": {
+        "min": [
+          -0.394775390625,
+          0,
+          -0.2380371391773224
+        ],
+        "max": [
+          0.394775390625,
+          0.9995107650756836,
+          0.2380371391773224
+        ]
+      },
       "positionsPreserved": true,
       "normalsPreserved": true,
       "indicesPreserved": true,
@@ -71,21 +83,30 @@
   },
   "candidate": {
     "file": "leaf-sentinel-native-rig-candidate.glb",
-    "sha256": "903ee01ed2c6367f5f8a85e11bc67c62c5ca8a01a4d5f7a3800c190950f4ca60",
-    "bytes": 7806844,
+    "sha256": "e64d6e4433d003353c6d4949bc6942121db9328e4d6e51f9fa3b5f36abe6794b",
+    "bytes": 7806912,
     "vertices": 3161,
     "triangles": 4474,
     "bounds": {
       "min": [
-        -0.394775390625,
+        -1.1393325665463887,
         0,
-        -0.2380371391773224
+        -0.6869816892154678
       ],
       "max": [
-        0.394775390625,
-        0.9995107650756836,
-        0.2380371391773224
+        1.1393325665463887,
+        2.8846153846153846,
+        0.6869816892154678
       ]
+    },
+    "presentationSizing": {
+      "targetWorldHeightMeters": 1.5,
+      "targetTier": 30,
+      "existingSlotScale": 0.4094204513089124,
+      "tierSilhouetteScale": 1.270087994719282,
+      "sourceHeightMeters": 0.9995107650756836,
+      "candidateAssetScale": 2.8860273299777415,
+      "expectedDrawnHeightMeters": 1.5000000000000002
     },
     "rig": {
       "type": "authored non-humanoid plant creature rig",
@@ -310,9 +331,10 @@
         "name": "Idle",
         "seconds": 2.4000000953674316,
         "channels": 11,
-        "maximumDisplacement": 0.017973623927266775,
+        "maximumDisplacement": 0.05187236987283378,
+        "localMaximumDisplacement": 0.017973623927266775,
         "maximumMovedVertices": 2607,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.3973980338739118,
             -8.049448743175864e-10,
@@ -323,15 +345,28 @@
             1.0003918580768643,
             0.23803713935389093
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1469015866395298,
+            -2.3230929064060525e-9,
+            -0.6869816994472526
+          ],
+          "max": [
+            1.139332571561045,
+            2.887158243097044,
+            0.6869816897250494
+          ]
         }
       },
       {
         "name": "Walk",
         "seconds": 1.149999976158142,
         "channels": 16,
-        "maximumDisplacement": 0.21853206224667404,
+        "maximumDisplacement": 0.6306895041202983,
+        "localMaximumDisplacement": 0.21853206224667404,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.3963889284493554,
             -0.008423158370799709,
@@ -342,15 +377,28 @@
             1.0210362511264477,
             0.2997692400410322
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1439892808054313,
+            -0.024309465262858748,
+            -0.7708060480298026
+          ],
+          "max": [
+            1.139332571561045,
+            2.9467385256489447,
+            0.8651422194450769
+          ]
         }
       },
       {
         "name": "Run",
         "seconds": 0.8199999928474426,
         "channels": 16,
-        "maximumDisplacement": 0.3513711614436484,
+        "maximumDisplacement": 1.0140667748923904,
+        "localMaximumDisplacement": 0.3513711614436484,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.3963625031646488,
             -8.049448743175864e-10,
@@ -361,15 +409,28 @@
             1.0330362511240272,
             0.36282538186147556
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1439130167115656,
+            -2.3230929064060525e-9,
+            -0.8036092824522523
+          ],
+          "max": [
+            1.139332571561045,
+            2.9813708536016916,
+            1.0471239680618287
+          ]
         }
       },
       {
         "name": "Attack",
         "seconds": 0.7799999713897705,
         "channels": 10,
-        "maximumDisplacement": 0.14832857873118246,
+        "maximumDisplacement": 0.4280803320349477,
+        "localMaximumDisplacement": 0.14832857873118246,
         "maximumMovedVertices": 2813,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.39477539538502027,
             -8.049448743175864e-10,
@@ -380,15 +441,28 @@
             0.9995107715845736,
             0.24916611515070702
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1393325802839371,
+            -2.3230929064060525e-9,
+            -0.6931686199148793
+          ],
+          "max": [
+            1.139332571561045,
+            2.884615403400219,
+            0.7191002180293214
+          ]
         }
       },
       {
         "name": "Hit",
         "seconds": 0.47999998927116394,
         "channels": 8,
-        "maximumDisplacement": 0.1593940410838417,
+        "maximumDisplacement": 0.4600155588035621,
+        "localMaximumDisplacement": 0.1593940410838417,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.39477539538502027,
             -8.049448743175864e-10,
@@ -399,15 +473,28 @@
             1.0021383139389586,
             0.23803713935389093
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1393325802839371,
+            -2.3230929064060525e-9,
+            -0.6869816994472526
+          ],
+          "max": [
+            1.139332571561045,
+            2.8921985624456483,
+            0.6869816897250494
+          ]
         }
       },
       {
         "name": "Death",
         "seconds": 1.600000023841858,
         "channels": 17,
-        "maximumDisplacement": 0.8418413241196006,
+        "maximumDisplacement": 2.4295770689138174,
+        "localMaximumDisplacement": 0.8418413241196006,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.521655964569974,
             -0.04572854738301631,
@@ -418,6 +505,18 @@
             0.9995107715845736,
             0.4606531112806223
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.5055133705948454,
+            -0.1319738375075672,
+            -0.6869816994472526
+          ],
+          "max": [
+            1.3100019430839338,
+            2.884615403400219,
+            1.329457468795154
+          ]
         }
       }
     ],
@@ -427,6 +526,7 @@
       "A new image-generated base-color map adds layered forest greens, leaf veins, bark grain, copper edges and moss while preserving the source atlas layout and face/eye details.",
       "Base color, metallic-roughness and tangent-space normal maps are embedded at 2K. The source PBR roughness and normal detail are retained; the living leaf/bark material is dielectric.",
       "The discarded root-only Tripo skin is replaced by a 25-joint Generic plant rig and six custom clips for idle, rooted locomotion, attack, hit recoil and collapse.",
+      "The 1.5 m target size accounts for Briar Sapling's existing 0.4094 view scale and 1.2701 T30 silhouette multiplier; a 2.8860 uniform rig-container scale leaves the source vertex buffers unchanged.",
       "Lab staging targets the existing T30 Gloamgarden Briar Sapling tree-creature asset; production acceptance and world integration remain pending."
     ]
   },
@@ -469,9 +569,10 @@
         "name": "Idle",
         "seconds": 2.4000000953674316,
         "channels": 11,
-        "maximumDisplacement": 0.017973623927266775,
+        "maximumDisplacement": 0.05187236987283378,
+        "localMaximumDisplacement": 0.017973623927266775,
         "maximumMovedVertices": 2607,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.3973980338739118,
             -8.049448743175864e-10,
@@ -482,15 +583,28 @@
             1.0003918580768643,
             0.23803713935389093
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1469015866395298,
+            -2.3230929064060525e-9,
+            -0.6869816994472526
+          ],
+          "max": [
+            1.139332571561045,
+            2.887158243097044,
+            0.6869816897250494
+          ]
         }
       },
       {
         "name": "Walk",
         "seconds": 1.149999976158142,
         "channels": 16,
-        "maximumDisplacement": 0.21853206224667404,
+        "maximumDisplacement": 0.6306895041202983,
+        "localMaximumDisplacement": 0.21853206224667404,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.3963889284493554,
             -0.008423158370799709,
@@ -501,15 +615,28 @@
             1.0210362511264477,
             0.2997692400410322
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1439892808054313,
+            -0.024309465262858748,
+            -0.7708060480298026
+          ],
+          "max": [
+            1.139332571561045,
+            2.9467385256489447,
+            0.8651422194450769
+          ]
         }
       },
       {
         "name": "Run",
         "seconds": 0.8199999928474426,
         "channels": 16,
-        "maximumDisplacement": 0.3513711614436484,
+        "maximumDisplacement": 1.0140667748923904,
+        "localMaximumDisplacement": 0.3513711614436484,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.3963625031646488,
             -8.049448743175864e-10,
@@ -520,15 +647,28 @@
             1.0330362511240272,
             0.36282538186147556
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1439130167115656,
+            -2.3230929064060525e-9,
+            -0.8036092824522523
+          ],
+          "max": [
+            1.139332571561045,
+            2.9813708536016916,
+            1.0471239680618287
+          ]
         }
       },
       {
         "name": "Attack",
         "seconds": 0.7799999713897705,
         "channels": 10,
-        "maximumDisplacement": 0.14832857873118246,
+        "maximumDisplacement": 0.4280803320349477,
+        "localMaximumDisplacement": 0.14832857873118246,
         "maximumMovedVertices": 2813,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.39477539538502027,
             -8.049448743175864e-10,
@@ -539,15 +679,28 @@
             0.9995107715845736,
             0.24916611515070702
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1393325802839371,
+            -2.3230929064060525e-9,
+            -0.6931686199148793
+          ],
+          "max": [
+            1.139332571561045,
+            2.884615403400219,
+            0.7191002180293214
+          ]
         }
       },
       {
         "name": "Hit",
         "seconds": 0.47999998927116394,
         "channels": 8,
-        "maximumDisplacement": 0.1593940410838417,
+        "maximumDisplacement": 0.4600155588035621,
+        "localMaximumDisplacement": 0.1593940410838417,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.39477539538502027,
             -8.049448743175864e-10,
@@ -558,15 +711,28 @@
             1.0021383139389586,
             0.23803713935389093
           ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.1393325802839371,
+            -2.3230929064060525e-9,
+            -0.6869816994472526
+          ],
+          "max": [
+            1.139332571561045,
+            2.8921985624456483,
+            0.6869816897250494
+          ]
         }
       },
       {
         "name": "Death",
         "seconds": 1.600000023841858,
         "channels": 17,
-        "maximumDisplacement": 0.8418413241196006,
+        "maximumDisplacement": 2.4295770689138174,
+        "localMaximumDisplacement": 0.8418413241196006,
         "maximumMovedVertices": 3161,
-        "sweptBounds": {
+        "sourceSpaceSweptBounds": {
           "min": [
             -0.521655964569974,
             -0.04572854738301631,
@@ -576,6 +742,18 @@
             0.45391182871925095,
             0.9995107715845736,
             0.4606531112806223
+          ]
+        },
+        "sweptBounds": {
+          "min": [
+            -1.5055133705948454,
+            -0.1319738375075672,
+            -0.6869816994472526
+          ],
+          "max": [
+            1.3100019430839338,
+            2.884615403400219,
+            1.329457468795154
           ]
         }
       }
