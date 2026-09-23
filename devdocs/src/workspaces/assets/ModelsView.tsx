@@ -58,16 +58,29 @@ function tripoNote(row: TripoStatusRow): string {
   return lastDetailSentence(row.details);
 }
 
+function isRigRepairHeld(row: TripoStatusRow): boolean {
+  return /rig repair/i.test(`${row.status} ${row.details}`);
+}
+
+function isHeld(row: TripoStatusRow): boolean {
+  return /held|blocked/i.test(row.status) || isRigRepairHeld(row);
+}
+
 function TripoProgress() {
-  const accepted = TRIPO_STATUS.rows.filter(row => /^Production (?:committed|integrated)/i.test(row.status)
+  const accepted = TRIPO_STATUS.rows.filter(row => /^Production\b/i.test(row.status)
+    && !/pending|held|blocked/i.test(row.status)
     && !row.details.toLowerCase().includes("authored-world proof remains pending"));
+  const modelReview = TRIPO_STATUS.rows.filter(row => /^Image approved/i.test(row.status) && !isHeld(row));
   const pendingWorld = TRIPO_STATUS.rows.filter(row => row.details.toLowerCase().includes("authored-world proof remains pending"));
   const labReview = TRIPO_STATUS.rows.filter(row => /^Lab review queued/i.test(row.status));
-  const held = TRIPO_STATUS.rows.filter(row => /held|blocked/i.test(row.status));
+  const tierRewire = TRIPO_STATUS.rows.filter(row => /^Previously accepted;.*rewire pending/i.test(row.status));
+  const held = TRIPO_STATUS.rows.filter(isHeld);
   const groups = [
     { title: "Production", rows: accepted, tone: "ok" as const },
+    { title: "Model review", rows: modelReview, tone: "info" as const },
     { title: "Lab review", rows: labReview, tone: "accent" as const },
     { title: "World proof", rows: pendingWorld, tone: "info" as const },
+    { title: "Tier rewire", rows: tierRewire, tone: "warn" as const },
     { title: "Held", rows: held, tone: "warn" as const },
   ].filter(group => group.rows.length > 0);
   if (!groups.length) return null;
@@ -76,7 +89,7 @@ function TripoProgress() {
       <h2 id="tripo-progress-title" className="text-[13px] font-semibold">Tripo progress</h2>
       <span className="text-[11px] text-faint">From docs/asset-review.md{TRIPO_STATUS.updated ? ` - updated ${TRIPO_STATUS.updated}` : ""}</span>
     </header>
-    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {groups.map(group => <section key={group.title} aria-label={group.title} className="min-w-0">
         <h3 className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-faint">{group.title}</h3>
         <ul className="space-y-1.5">
@@ -85,7 +98,7 @@ function TripoProgress() {
               <Badge variant={group.tone} className="h-4 px-1 text-[10px]">{row.status}</Badge>
               <span className="min-w-0 font-medium text-foreground">{row.assets}</span>
             </div>
-            {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{tripoNote(row)}</p>}
+            {group.title !== "Production" && <p className="mt-0.5 text-[11px] text-muted-foreground">{group.title === "Model review" ? "Model gate pending; not in game." : group.title === "Held" && isRigRepairHeld(row) ? "Held for rig repair; not in game." : tripoNote(row)}</p>}
           </li>)}
         </ul>
       </section>)}
