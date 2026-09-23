@@ -26,11 +26,14 @@
     },
     {
       "name": "Cinder Latcher",
-      "status": "held-no-approved-matching-model-export",
+      "status": "held-approved-image-no-export",
       "approvedReference": "assets/art/tripo/references/marsh-ash-slag-crawler-v3.png",
       "latestApprovedModelId": "61822a59-0ed6-4485-9032-988a4da00369",
       "availableOlderModelId": "1b2d9e2d-84e9-4cda-93d9-721c6eac36c2",
-      "availableOlderModelDisposition": "Facial review denied; do not rig or promote this export.",
+      "latestApprovedModelDisposition": "V3 image and face review approved, but the model is only PBR-in-progress, unstarred, and has no export path.",
+      "availableOlderModelDisposition": "V2 facial review denied; do not rig or promote this export.",
+      "currentGameAsset": "game/public/assets/models/creature/creature_slag_crawler.glb",
+      "currentGameAssetDisposition": "Unrelated Quaternius spider asset; it is not a Cinder Latcher candidate.",
       "candidate": null,
       "next": "Wait for a matching approved/starred model export."
     },
@@ -39,8 +42,13 @@
       "status": "held-provenance-mismatch",
       "source": "assets/art/tripo/exports/corealm_heath_knucker_0f74b416_8k_rigged.glb",
       "sourceModelId": "0f74b416-840b-419a-8f5d-c4cfc0a80a02",
-      "candidate": null,
-      "hold": "docs/asset-review.md records that the Tripo preview is a mechanical leopard, unlike the approved russet-and-cream humanoid image. Source skin weights are nearly all on Hips and there are no clips. Do not promote without a matching verified model."
+      "approvedReference": "assets/art/tripo/references/field-heath-knucker-v2.png",
+      "approvedReferenceImageId": "bf4d830a-9ecd-4ef4-aa10-40e1439bb4f6",
+      "sourceSha256": "6f4de7d8c6a85114ef478b08396582636bf83b343e8dab61cf5bb85df5e48bea",
+      "heldCandidate": "assets/art/tripo/imports/creatures/starter-candidates/models/creature_heath_jack.glb",
+      "heldCandidateSha256": "69447b2c7b0d12ca77c65d3b50a2c979fc66bd801333105357961e5268d0fcf0",
+      "gameBaseline": "game/public/assets/models/creature/creature_heath_jack.glb",
+      "hold": "The Tripo card prompt/preview describes a mechanical leopard, not the approved russet-and-cream humanoid image; inventory sourceImageUuid is null, so the batch's source-image link is not enough to prove identity. Its rig has 99.8882% of weight on Hips, 2,681 vertices fully Hips-only, and no clips. The existing Heath Jack candidate remains held for source provenance audit. Do not promote without a matching verified model."
     },
     {
       "name": "Bramble Tiller",
@@ -52,11 +60,21 @@
     },
     {
       "name": "Hedge Clasper",
-      "status": "held-facial-review-denied",
+      "status": "held-source-identity-conflict",
       "source": "assets/art/tripo/exports/corealm_hedge_clasper_43f50f53_8k_rigged.glb",
       "sourceModelId": "43f50f53-5a1d-49f7-9d8c-34d502d4ec4d",
+      "approvedReference": "assets/art/tripo/references/field-hedge-clasper-v3.png",
+      "approvedModelId": "d1c16cfc-3f64-4e48-8205-9b53502184f8",
+      "approvedReferenceImageId": "7e19b68e-3ecb-4d34-a6b8-c1dfb7db8384",
+      "verifiedSourceImageMatchesApprovedV3": true,
+      "ambiguousExports": [
+        "assets/art/tripo/exports/d1c16cfc-3f64-4e48-8205-9b53502184f8.glb",
+        "assets/art/tripo/exports/88a36c89-9ab9-4471-a3df-f8158b6bd0a8.glb"
+      ],
+      "ambiguousExportSha256": "5df89799c3b9a27e0f151e2f93897de852a8cc780255ff9997d7c38a543495c7",
+      "projectIdentityConflict": "The d1c... model UUID is also the starred Leaf Sentinel card in the 9/22 inventory, while the Hedge v3 batch reuses it for the approved seedpod design. Its archive binary is byte-identical to the separately identified Banshee source.",
       "candidate": null,
-      "hold": "The archived model matches the denied open pitcher-face revision. No approved matching model export is recorded; do not rig or promote it."
+      "hold": "The archived corealm_hedge_clasper model is the denied v2 open pitcher-face revision. The approved, starred v3 model's export record conflicts: its named d1c… archive GLB has the same bytes as the independently identified 88a… Banshee source GLB. Keep Hedge held until a raw export is verified to match v3; do not use the denied v2 or ambiguous export."
     },
     {
       "name": "Banshee",
@@ -79,13 +97,19 @@
     },
     {
       "name": "Chainbound Archon",
-      "status": "candidate-preparation-in-progress",
+      "status": "held-model-identity-conflict",
       "approvedReference": "assets/art/tripo/refs/crown-wild-chainbound-archon.png",
       "sourceModelId": "7b60bf75-4990-476d-8087-c32e36aac850",
-      "sourceArchiveStatus": "The batch record lists an exported GLB in Downloads; no matching raw source is archived under assets/art/tripo/exports yet.",
+      "downloadSha256": "aba2bbb4fa94ece000340de547a567053a5388070577df406fc3c78d88a82475",
+      "sourceArchiveStatus": "The named Downloads GLB has no source-image UUID. Its geometry, skeleton, and three embedded PBR images match the separate Heavy Medieval Armor export, except for root-dominant WEIGHTS_0; the Chainbound-to-source link is unresolved.",
+      "conflictingInventoryEntry": {
+        "name": "Heavy Medieval Armor",
+        "modelId": "7b60bf75-4990-476d-8087-c32e36aac850",
+        "sourceExport": "assets/art/tripo/exports/90622d27-9770-4081-ba44-dbec5e1e4fea.glb"
+      },
       "productionAssetId": "creature_chainbound_archon",
       "candidate": null,
-      "note": "Existing game asset is the authored Chainbound Archon baseline. Any Tripo derivative stays isolated as a candidate until root review."
+      "note": "The approved Chainbound image hashes to the batch record, but that record is not independent evidence that the downloaded model matches it. Keep the existing authored game asset and do not build from the conflicting GLB until source identity is resolved."
     }
   ],
   "relatedExistingWork": [
