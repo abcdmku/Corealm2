@@ -1,0 +1,110 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "npc_slayer_vardan",
+      "file": "models/npc/npc_slayer_vardan.glb",
+      "pack": "corealm-starred-npcs",
+      "category": "character",
+      "is": "Master Vardan starred Tripo P1 humanoid rig candidate",
+      "tags": [
+        "npc",
+        "slayer-master",
+        "humanoid",
+        "reptilian",
+        "wilderness",
+        "karrowmoor",
+        "tripo-p1",
+        "candidate"
+      ],
+      "bytes": 6913204,
+      "sha256": "99f77e2472d5b4ed56c0bdaae9ea5a8af27c54a58e021bf018d4bfd06dc09aa9",
+      "size": {
+        "x": 0.994140625,
+        "y": 0.9980469346046448,
+        "z": 0.916015625
+      },
+      "base": {
+        "x": -0.4970703125,
+        "y": 0,
+        "z": -0.4580078125
+      },
+      "bounds": {
+        "min": [
+          -0.4970703125,
+          0,
+          -0.4580078125
+        ],
+        "max": [
+          0.4970703125,
+          0.9980469346046448,
+          0.4580078125
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4828,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "Interact"
+      ],
+      "materials": [
+        "tripo_node_35cfd3b0-e799-45b9-a850-35a680b1d215_material"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo P1.0",
+        "sourceProjectId": "2c8e36d7-cece-4197-9ac8-2598b1c0ebc1",
+        "starredCardId": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801",
+        "prompt": "dragon humanoid character in armor with blue scales and red cloth",
+        "sourceFile": "assets/art/tripo/exports/a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801.glb",
+        "sourceSha256": "6206ba042f935f64e62ca152162170bdf30ab44b92b2dc64d566fb2cc4b8537b",
+        "candidateFile": "assets/art/tripo/imports/npcs/slayer-vardan/master-vardan-p1-humanoid-candidate.glb",
+        "candidateSha256": "99f77e2472d5b4ed56c0bdaae9ea5a8af27c54a58e021bf018d4bfd06dc09aa9",
+        "textures": [
+          {
+            "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_basecolor.jpg",
+            "role": "base color",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1247457,
+            "sha256": "973556e57d93a03348bb4b50ae93c66d959b0e1a9208b5ceefd0733215bd57c5"
+          },
+          {
+            "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_rm.png",
+            "role": "packed metallic-roughness",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4429185,
+            "sha256": "4f6086dfa2578aa153f2aeb3284bc56a119ab19f4b38152f28eba715b0272e5a"
+          },
+          {
+            "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_normal.jpg",
+            "role": "normal",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 483073,
+            "sha256": "46ef4afd515502e2d94c188a63652be9756e18b54c93e2a6a726df14de45c1d7"
+          }
+        ],
+        "rigRepair": "Source weights collapsed every vertex to Hips; repaired to a Mixamo-named humanoid skin with articulated tail. Source mesh, UVs, and image-derived 2K PBR maps are unchanged.",
+        "candidateStatus": "awaiting-root-production-lab-review"
+      },
+      "acceptance": {
+        "starredSource": true,
+        "geometryPreserved": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "pbrAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

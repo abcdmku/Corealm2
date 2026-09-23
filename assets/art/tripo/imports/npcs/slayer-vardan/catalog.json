@@ -1,0 +1,537 @@
+{
+  "schema": "corealm-npc-native-rig-candidate/1",
+  "id": "npc_slayer_vardan",
+  "displayName": "Master Vardan",
+  "status": "awaiting-root-production-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/exports/a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801.glb",
+    "sha256": "6206ba042f935f64e62ca152162170bdf30ab44b92b2dc64d566fb2cc4b8537b",
+    "bytes": 6653708,
+    "tripoProjectId": "2c8e36d7-cece-4197-9ac8-2598b1c0ebc1",
+    "starredCardId": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801",
+    "prompt": "dragon humanoid character in armor with blue scales and red cloth",
+    "generator": "Tripo P1.0",
+    "textureResolution": "2K",
+    "skeletonExported": true,
+    "geometry": {
+      "vertices": 7610,
+      "triangles": 4828,
+      "bounds": {
+        "min": [
+          -0.4970703125,
+          0,
+          -0.4580078125
+        ],
+        "max": [
+          0.4970703125,
+          0.9980469346046448,
+          0.4580078125
+        ]
+      },
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "sourceRig": {
+      "jointCount": 58,
+      "animations": 0,
+      "weightProblem": "All 7,610 vertices were assigned only to Hips at weight 1.0; the exported skeleton had no usable deformation weights."
+    },
+    "sourceTextures": [
+      {
+        "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_basecolor.jpg",
+        "mime": "image/jpeg",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 1247457,
+        "sha256": "973556e57d93a03348bb4b50ae93c66d959b0e1a9208b5ceefd0733215bd57c5"
+      },
+      {
+        "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_rm.png",
+        "mime": "image/png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 4429185,
+        "sha256": "4f6086dfa2578aa153f2aeb3284bc56a119ab19f4b38152f28eba715b0272e5a"
+      },
+      {
+        "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_normal.jpg",
+        "mime": "image/jpeg",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 483073,
+        "sha256": "46ef4afd515502e2d94c188a63652be9756e18b54c93e2a6a726df14de45c1d7"
+      }
+    ],
+    "packedPbrChannels": [
+      {
+        "channel": "occlusion",
+        "p10": 255,
+        "p50": 255,
+        "p90": 255
+      },
+      {
+        "channel": "roughness",
+        "p10": 136,
+        "p50": 168,
+        "p90": 228
+      },
+      {
+        "channel": "metallic",
+        "p10": 2,
+        "p50": 5,
+        "p90": 8
+      }
+    ]
+  },
+  "candidate": {
+    "file": "master-vardan-p1-humanoid-candidate.glb",
+    "sha256": "99f77e2472d5b4ed56c0bdaae9ea5a8af27c54a58e021bf018d4bfd06dc09aa9",
+    "bytes": 6913204,
+    "productionTarget": "game/public/assets/models/npc/npc_slayer_vardan.glb",
+    "geometry": {
+      "vertices": 7610,
+      "triangles": 4828,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "mapping": "Mixamo-named Unity Humanoid-compatible skeleton, with a four-joint articulated tail.",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "restPosition": [
+            0,
+            0.539959,
+            0.25
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            0,
+            0.59454,
+            0.253899
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "restPosition": [
+            0,
+            0.641323,
+            0.253899
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "restPosition": [
+            0,
+            0.699803,
+            0.246101
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "restPosition": [
+            0,
+            0.816761,
+            0.226608
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "restPosition": [
+            0,
+            0.87524,
+            0.257797
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "restPosition": [
+            -0.023392,
+            0.769978,
+            0.226608
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "restPosition": [
+            -0.105263,
+            0.777775,
+            0.203217
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "restPosition": [
+            -0.241714,
+            0.758282,
+            0.199318
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "restPosition": [
+            -0.357002,
+            0.75932,
+            0.208687
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "restPosition": [
+            0.023392,
+            0.769978,
+            0.226608
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "restPosition": [
+            0.105263,
+            0.777775,
+            0.203217
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "restPosition": [
+            0.241714,
+            0.758282,
+            0.199318
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "restPosition": [
+            0.368843,
+            0.762707,
+            0.210907
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            -0.050682,
+            0.50877,
+            0.25
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "restPosition": [
+            -0.08577,
+            0.313839,
+            0.234406
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "restPosition": [
+            -0.116959,
+            0.095516,
+            0.195419
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "restPosition": [
+            -0.128655,
+            0.033139,
+            0.261696
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            0.050682,
+            0.50877,
+            0.25
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "restPosition": [
+            0.08577,
+            0.313839,
+            0.234406
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "restPosition": [
+            0.116959,
+            0.095516,
+            0.195419
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "restPosition": [
+            0.128655,
+            0.033138,
+            0.261696
+          ]
+        },
+        {
+          "name": "VardanTailBase",
+          "parent": "mixamorigHips",
+          "restPosition": [
+            0,
+            0.515,
+            0.105
+          ]
+        },
+        {
+          "name": "VardanTailMid",
+          "parent": "VardanTailBase",
+          "restPosition": [
+            0,
+            0.445,
+            -0.095
+          ]
+        },
+        {
+          "name": "VardanTailEnd",
+          "parent": "VardanTailMid",
+          "restPosition": [
+            0,
+            0.325,
+            -0.305
+          ]
+        },
+        {
+          "name": "VardanTailTip",
+          "parent": "VardanTailEnd",
+          "restPosition": [
+            0,
+            0.235,
+            -0.435
+          ]
+        }
+      ],
+      "weightMethod": "four normalized influences from model-space anatomical segment fields; humanoid bind joints mapped from the exported rest pose into the mesh basis; tail has separate base, mid, end, and tip influences.",
+      "distributedVertices": 7610,
+      "tailInfluencedVertices": 727,
+      "meanTailWeight": 0.08527258334876915,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "jointInfluenceVertexCounts": [
+        {
+          "name": "mixamorigHips",
+          "vertices": 2339
+        },
+        {
+          "name": "mixamorigSpine",
+          "vertices": 2911
+        },
+        {
+          "name": "mixamorigSpine1",
+          "vertices": 1735
+        },
+        {
+          "name": "mixamorigSpine2",
+          "vertices": 3209
+        },
+        {
+          "name": "mixamorigNeck",
+          "vertices": 2487
+        },
+        {
+          "name": "mixamorigHead",
+          "vertices": 1875
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "vertices": 0
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "vertices": 1514
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "vertices": 903
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "vertices": 744
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "vertices": 0
+        },
+        {
+          "name": "mixamorigRightArm",
+          "vertices": 1647
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "vertices": 986
+        },
+        {
+          "name": "mixamorigRightHand",
+          "vertices": 840
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "vertices": 431
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "vertices": 1271
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "vertices": 982
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "vertices": 893
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "vertices": 249
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "vertices": 1090
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "vertices": 932
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "vertices": 890
+        },
+        {
+          "name": "VardanTailBase",
+          "vertices": 644
+        },
+        {
+          "name": "VardanTailMid",
+          "vertices": 677
+        },
+        {
+          "name": "VardanTailEnd",
+          "vertices": 590
+        },
+        {
+          "name": "VardanTailTip",
+          "vertices": 505
+        }
+      ]
+    },
+    "textures": [
+      {
+        "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_basecolor.jpg",
+        "role": "base color",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 1247457,
+        "sha256": "973556e57d93a03348bb4b50ae93c66d959b0e1a9208b5ceefd0733215bd57c5"
+      },
+      {
+        "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_rm.png",
+        "role": "packed metallic-roughness",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4429185,
+        "sha256": "4f6086dfa2578aa153f2aeb3284bc56a119ab19f4b38152f28eba715b0272e5a"
+      },
+      {
+        "name": "a72c6527-f8b4-4bbf-aa6d-c4f5aa2c0801_normal.jpg",
+        "role": "normal",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 483073,
+        "sha256": "46ef4afd515502e2d94c188a63652be9756e18b54c93e2a6a726df14de45c1d7"
+      }
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "samples": 29,
+        "loop": true
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.12,
+        "samples": 29,
+        "loop": true
+      },
+      {
+        "name": "Run",
+        "seconds": 0.74,
+        "samples": 29,
+        "loop": true
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "samples": 29,
+        "loop": false
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "samples": 19,
+        "loop": false
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "samples": 29,
+        "loop": false
+      },
+      {
+        "name": "Interact",
+        "seconds": 1.6,
+        "samples": 33,
+        "loop": false
+      }
+    ]
+  },
+  "acceptance": {
+    "starredSource": true,
+    "sourceDesignReview": "Starred card; image-derived map is detailed blue scale, dark armor, red cloth, and silver accents; no creature redesign was applied.",
+    "geometry": true,
+    "rig": false,
+    "motion": false,
+    "pbr": false,
+    "productionLab": false,
+    "worldIntegrated": false
+  }
+}
