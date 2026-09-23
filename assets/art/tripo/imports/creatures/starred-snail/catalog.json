@@ -1,0 +1,358 @@
+{
+  "schema": "corealm-creature-candidate/1",
+  "id": "creature_mooncap_snail",
+  "displayName": "Mooncap Snail",
+  "status": "awaiting-root-lab-review",
+  "acceptance": {
+    "imageApproved": true,
+    "geometryApproved": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "textureAccepted": false,
+    "promotable": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  },
+  "source": {
+    "file": "assets/art/tripo/exports/c06d6fe7-0b0a-43f4-9715-ea859450dc4f.glb",
+    "sha256": "33c42451d79217f32e37ce9b47fe9b8adfee54d42a2c3f88ee08b3bf4a135d06",
+    "bytes": 25652824,
+    "modelId": "c06d6fe7-0b0a-43f4-9715-ea859450dc4f",
+    "publicProjectId": "69abe6f5-af9d-4617-857d-d2ba60375f54",
+    "imageReference": "assets/art/tripo/refs/fairy-mooncap-snail.png",
+    "generator": "Tripo; model-version metadata is not embedded in the GLB",
+    "sourceBaseColor": "8192x8192",
+    "sourcePbr": [
+      "4096x4096 packed metallic-roughness",
+      "4096x4096 tangent-space normal"
+    ],
+    "baseGeometry": {
+      "vertices": 2491,
+      "triangles": 4154,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "indicesPreserved": true,
+      "uv": "TEXCOORD_0 retained without unwrap or retopology"
+    },
+    "originalSkin": "16 Tripo joints discarded: identity-rest bone tree, unusable inverse-bind matrices, and 99.8% of vertices assigned to bone_0."
+  },
+  "candidate": {
+    "file": "mooncap-snail-native-rig-candidate.glb",
+    "sha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+    "bytes": 4931148,
+    "vertices": 2491,
+    "triangles": 4154,
+    "bounds": {
+      "min": [
+        -0.3098144829273224,
+        0,
+        -0.499755859375
+      ],
+      "max": [
+        0.3098144829273224,
+        0.84912109375,
+        0.499755859375
+      ]
+    },
+    "rig": {
+      "type": "authored non-humanoid snail rig",
+      "profile": "Unity Generic-ready glTF skeleton; importer review required",
+      "jointNames": [
+        "MooncapRoot",
+        "FootRear",
+        "FootMiddle",
+        "FootFront",
+        "Neck",
+        "Head",
+        "EyeStalk_L",
+        "Eye_L",
+        "EyeStalk_R",
+        "Eye_R",
+        "Feelers_L",
+        "Feelers_R",
+        "Mantle",
+        "Shell"
+      ],
+      "jointsCount": 14,
+      "weighting": "Island-aware snail anatomy; rigid spiral shell, multi-bone traveling foot, flexible neck, paired stalks and paired lower feelers. Normalized spatially gated weights with no bone_0 fallback."
+    },
+    "textures": [
+      {
+        "name": "snail+3d+model_basecolor.jpg",
+        "role": "base-color",
+        "source": "8192x8192",
+        "runtime": "2048x2048",
+        "bytes": 1019782,
+        "mimeType": "image/jpeg",
+        "sha256": "cc15b5584d8001059a878e6335a6bfd8a5da7081cd4d70fe95b0b4125350471b"
+      },
+      {
+        "name": "snail+3d+model_rm.png",
+        "role": "metallic-roughness",
+        "source": "4096x4096",
+        "runtime": "2048x2048",
+        "bytes": 1817693,
+        "mimeType": "image/png",
+        "sha256": "afb97a44f76a9fb5b475c66e9fe9516e75b5eafccf267b5d0c193bb969e74e8c"
+      },
+      {
+        "name": "snail+3d+model_normal.jpg",
+        "role": "normal",
+        "source": "4096x4096",
+        "runtime": "2048x2048",
+        "bytes": 1817398,
+        "mimeType": "image/jpeg",
+        "sha256": "75cedc56f66b060aef19d66101b85f7dff324645fc53ed67f69d15184b7da71a"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 3.2,
+        "channels": 8
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.45,
+        "channels": 10
+      },
+      {
+        "name": "Run",
+        "seconds": 0.92,
+        "channels": 10
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.78,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 7
+      },
+      {
+        "name": "Death",
+        "seconds": 1.65,
+        "channels": 11
+      }
+    ],
+    "labTargetAssetId": "fairy_garden_snail_gloamgarden",
+    "notes": [
+      "Starred image and P1 model were approved for the T30 Gloamgarden fairy snail; the model is a grounded, PG-13 fantasy snail with an intact face and a layered blue-lilac, rose and pale-gold shell.",
+      "The approved source mesh topology, positions, normals, indices and UV atlas remain unchanged. Only the failed Tripo skin and oversized embedded maps were replaced.",
+      "Runtime base color and PBR maps are 2K. The image-generated shell albedo retains its layered color, gloss and surface detail.",
+      "Six custom clips animate slow foot-wave locomotion, a quicker scurry, radula strike, recoil and shell-forward retraction."
+    ]
+  },
+  "validation": {
+    "positionsMaxDelta": 0,
+    "normalsMaxDelta": 0,
+    "uvsMaxDelta": 0,
+    "indexMismatches": 0,
+    "weightMaxSumError": 9.522773325443268e-7,
+    "minimumNonzeroWeight": 0.0000010060257409350015,
+    "verticesWithMultipleInfluences": 1622,
+    "jointsWithWeights": [
+      {
+        "name": "MooncapRoot",
+        "vertices": 458
+      },
+      {
+        "name": "FootRear",
+        "vertices": 492
+      },
+      {
+        "name": "FootMiddle",
+        "vertices": 642
+      },
+      {
+        "name": "FootFront",
+        "vertices": 706
+      },
+      {
+        "name": "Neck",
+        "vertices": 675
+      },
+      {
+        "name": "Head",
+        "vertices": 787
+      },
+      {
+        "name": "EyeStalk_L",
+        "vertices": 221
+      },
+      {
+        "name": "Eye_L",
+        "vertices": 125
+      },
+      {
+        "name": "EyeStalk_R",
+        "vertices": 362
+      },
+      {
+        "name": "Eye_R",
+        "vertices": 123
+      },
+      {
+        "name": "Feelers_L",
+        "vertices": 63
+      },
+      {
+        "name": "Feelers_R",
+        "vertices": 63
+      },
+      {
+        "name": "Mantle",
+        "vertices": 275
+      },
+      {
+        "name": "Shell",
+        "vertices": 1076
+      }
+    ],
+    "inverseBindMaxDelta": 2.1457672083613488e-8,
+    "textureDimensions": [
+      {
+        "name": "snail+3d+model_basecolor.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg"
+      },
+      {
+        "name": "snail+3d+model_rm.png",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/png"
+      },
+      {
+        "name": "snail+3d+model_normal.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3.200000047683716,
+        "channels": 8,
+        "maximumDisplacement": 0.020885467096206825,
+        "maximumMovedVertices": 1543,
+        "sweptBounds": {
+          "min": [
+            -0.3098144829273224,
+            -0.0035880677758875538,
+            -0.499797671292901
+          ],
+          "max": [
+            0.30981448523562016,
+            0.855765513326494,
+            0.5070358176274048
+          ]
+        }
+      },
+      {
+        "name": "Walk",
+        "duration": 1.4500000476837158,
+        "channels": 10,
+        "maximumDisplacement": 0.05694413549336551,
+        "maximumMovedVertices": 2487,
+        "sweptBounds": {
+          "min": [
+            -0.3098144829273224,
+            -0.014377812248112298,
+            -0.49988401773943164
+          ],
+          "max": [
+            0.30981448523562016,
+            0.8706910056178173,
+            0.5240752128587448
+          ]
+        }
+      },
+      {
+        "name": "Run",
+        "duration": 0.9200000166893005,
+        "channels": 10,
+        "maximumDisplacement": 0.08028823308631203,
+        "maximumMovedVertices": 2491,
+        "sweptBounds": {
+          "min": [
+            -0.3098144829273224,
+            -0.022956282695751312,
+            -0.49988992527093595
+          ],
+          "max": [
+            0.30981448523562016,
+            0.8789081186357883,
+            0.5383116902692862
+          ]
+        }
+      },
+      {
+        "name": "Attack",
+        "duration": 0.7799999713897705,
+        "channels": 6,
+        "maximumDisplacement": 0.1480923003561086,
+        "maximumMovedVertices": 923,
+        "sweptBounds": {
+          "min": [
+            -0.3098144829273224,
+            -1.4879672591330263e-10,
+            -0.4997558708665232
+          ],
+          "max": [
+            0.30981448523562016,
+            0.8491210959180316,
+            0.5814711245600838
+          ]
+        }
+      },
+      {
+        "name": "Hit",
+        "duration": 0.46000000834465027,
+        "channels": 7,
+        "maximumDisplacement": 0.07369759803754157,
+        "maximumMovedVertices": 1995,
+        "sweptBounds": {
+          "min": [
+            -0.32178087380109704,
+            -1.4879672591330263e-10,
+            -0.4997558708665232
+          ],
+          "max": [
+            0.30981448523562016,
+            0.8498888922432275,
+            0.5114307449086034
+          ]
+        }
+      },
+      {
+        "name": "Death",
+        "duration": 1.649999976158142,
+        "channels": 11,
+        "maximumDisplacement": 0.262292107762974,
+        "maximumMovedVertices": 2491,
+        "sweptBounds": {
+          "min": [
+            -0.3141542941904557,
+            -0.03694571545864597,
+            -0.5087557496355246
+          ],
+          "max": [
+            0.30981448523562016,
+            0.8491210935338458,
+            0.4997558529219658
+          ]
+        }
+      }
+    ]
+  }
+}

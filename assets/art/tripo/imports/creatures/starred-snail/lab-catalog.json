@@ -1,0 +1,115 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fairy_garden_snail_gloamgarden",
+      "file": "models/fairy-garden/fairy_garden_snail_gloamgarden.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "Mooncap Snail",
+      "tags": [
+        "creature",
+        "fairy",
+        "snail",
+        "gloamgarden",
+        "t30",
+        "starred",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 4931148,
+      "sha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+      "size": {
+        "x": 0.6196289658546448,
+        "y": 0.84912109375,
+        "z": 0.99951171875
+      },
+      "base": {
+        "x": -0.3098144829273224,
+        "y": 0,
+        "z": -0.499755859375
+      },
+      "bounds": {
+        "min": [
+          -0.3098144829273224,
+          0,
+          -0.499755859375
+        ],
+        "max": [
+          0.3098144829273224,
+          0.84912109375,
+          0.499755859375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4154,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_2d1ed8fe-81d9-4116-94fc-4fa649c22f31"
+      ],
+      "walkClipSeconds": 1.45,
+      "runClipSeconds": 0.92,
+      "attackSeconds": 0.78,
+      "contactNormalized": 0.52,
+      "sourceProvenance": {
+        "author": "Corealm creature rig reconstruction",
+        "source": "Astra-low approved Tripo-starred Fairy Mooncap Snail; original mesh, atlas and layered PBR sources preserved.",
+        "modelId": "c06d6fe7-0b0a-43f4-9715-ea859450dc4f",
+        "publicProjectId": "69abe6f5-af9d-4617-857d-d2ba60375f54",
+        "sourceSha256": "33c42451d79217f32e37ce9b47fe9b8adfee54d42a2c3f88ee08b3bf4a135d06",
+        "rigMethod": "14-joint articulated snail rig with component-aware shell, foot, neck and eyestalk weights; six custom clips.",
+        "candidateFile": "mooncap-snail-native-rig-candidate.glb",
+        "candidateSha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50"
+      },
+      "metadata": {
+        "is": "Mooncap Snail",
+        "tags": [
+          "creature",
+          "fairy",
+          "snail",
+          "gloamgarden",
+          "t30",
+          "starred",
+          "skinned",
+          "articulated"
+        ],
+        "walkClipSeconds": 1.45,
+        "runClipSeconds": 0.92,
+        "attackSeconds": 0.78,
+        "contactNormalized": 0.52,
+        "notes": "T30 Gloamgarden snail with a rigid layered whorl shell, traveling foot, paired eye stalks and preserved 2K image-generated PBR maps.",
+        "boneNames": [
+          "MooncapRoot",
+          "FootRear",
+          "FootMiddle",
+          "FootFront",
+          "Neck",
+          "Head",
+          "EyeStalk_L",
+          "Eye_L",
+          "EyeStalk_R",
+          "Eye_R",
+          "Feelers_L",
+          "Feelers_R",
+          "Mantle",
+          "Shell"
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_snail_gloamgarden": "mooncap-snail-native-rig-candidate.glb"
+  }
+}
