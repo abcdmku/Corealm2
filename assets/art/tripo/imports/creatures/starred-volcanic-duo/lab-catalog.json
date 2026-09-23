@@ -1,0 +1,178 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-starred-creatures",
+    "name": "Corealm starred creatures",
+    "author": "Corealm",
+    "source": "Tripo Studio source exports and Corealm candidate rig/material adaptation",
+    "license": "LicenseRef-Tripo-Generated"
+  },
+  "assets": [
+    {
+      "id": "creature_volcanic_titan",
+      "file": "models/creature/creature_volcanic_titan.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/volcanic-titan-native-rig-candidate.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Volcanic Titan starred creature candidate",
+      "tags": [
+        "creature",
+        "volcanic",
+        "obsidian",
+        "magma",
+        "t80",
+        "starred",
+        "tripo",
+        "candidate",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 10789444,
+      "sha256": "bb1ed4a448d1e30257e43e3ba2e640712a7cc8d9f99b23827f77f6d576b8dfa5",
+      "size": {
+        "x": 2.0405914306640622,
+        "y": 2.49521484375,
+        "z": 0.8609985351562499
+      },
+      "base": {
+        "x": -1.0202957153320311,
+        "y": 0,
+        "z": -0.43049926757812496
+      },
+      "bounds": {
+        "min": [
+          -1.0202957153320311,
+          0,
+          -0.43049926757812496
+        ],
+        "max": [
+          1.0202957153320311,
+          2.49521484375,
+          0.43049926757812496
+        ]
+      },
+      "groundY": 0,
+      "triangles": 8502,
+      "vertices": 5897,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_material_adbc1e79-5337-4a3e-bfc7-4dcc84e3080d"
+      ],
+      "sourceProvenance": {
+        "author": "Starred Tripo export; Corealm source-specific rig, motion and material adaptation",
+        "sourceModelId": "31b1d1f3-ebd9-4c67-b3f8-846da3211c81",
+        "sourceCardId": "a02869b7-f9ba-456a-80b0-1d9b6d6770f1",
+        "exactPrompt": "P3 — Volcanic Titan: a volcanic titan of cosmic magma, obsidian and starlight cracks, an erupting radiant core, a storm of embers and cosmic heat.",
+        "sourceFile": "assets/art/tripo/exports/31b1d1f3-ebd9-4c67-b3f8-846da3211c81.glb",
+        "sourceSha256": "e4d44b405ac8bee621b8f3cc833b1ce4ba85461bedbaf5109e02116d72fe26db",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/volcanic-titan-native-rig-candidate.glb",
+        "candidateSha256": "bb1ed4a448d1e30257e43e3ba2e640712a7cc8d9f99b23827f77f6d576b8dfa5",
+        "rigMethod": "22-joint Mixamo-named Unity Humanoid rig; four-weight spatial influence fields; source mesh data retained.",
+        "texturePolicy": "Preserve original image-generated source art and all Tripo PBR maps; resize to 2K and derive emissive only from colored molten seams already in the base map.",
+        "candidateStatus": "awaiting-root-lab-review",
+        "recommendedTier": "T80",
+        "recommendedPresentationScale": 2.55
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_cooling_crust_golem",
+      "file": "models/creature/creature_cooling_crust_golem.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/cooling-crust-golem-native-rig-candidate.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Cooling Crust Golem starred creature candidate",
+      "tags": [
+        "creature",
+        "volcanic",
+        "obsidian",
+        "magma",
+        "t50",
+        "starred",
+        "tripo",
+        "candidate",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 10238888,
+      "sha256": "6f7c57b19a7cedaf5b4c17a02a6211a3215a8c034a967468dfd6813f3d29f067",
+      "size": {
+        "x": 1.685303955078125,
+        "y": 1.630924072265625,
+        "z": 0.7107177734375
+      },
+      "base": {
+        "x": -0.8426519775390625,
+        "y": 0,
+        "z": -0.35535888671875
+      },
+      "bounds": {
+        "min": [
+          -0.8426519775390625,
+          0,
+          -0.35535888671875
+        ],
+        "max": [
+          0.8426519775390625,
+          1.630924072265625,
+          0.35535888671875
+        ]
+      },
+      "groundY": 0,
+      "triangles": 8467,
+      "vertices": 5643,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_material_3b9300c2-1698-472c-9609-7ec7a8224ae1"
+      ],
+      "sourceProvenance": {
+        "author": "Starred Tripo export; Corealm source-specific rig, motion and material adaptation",
+        "sourceModelId": "dd3fdc88-4fd6-49ff-955f-ed85c4085d41",
+        "sourceCardId": "7bc8f67b-072b-48d0-b11b-05325bf66bc2",
+        "exactPrompt": "P1 — Cooling Crust: hulking golem of cracked black obsidian with molten orange-red magma in deep seams, a glowing core, heavy fists.",
+        "sourceFile": "assets/art/tripo/exports/dd3fdc88-4fd6-49ff-955f-ed85c4085d41.glb",
+        "sourceSha256": "eb7a399f93838a1fb40caaf87c35bdd64946c2510f9e582d4639689c03534eb1",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-volcanic-duo/cooling-crust-golem-native-rig-candidate.glb",
+        "candidateSha256": "6f7c57b19a7cedaf5b4c17a02a6211a3215a8c034a967468dfd6813f3d29f067",
+        "rigMethod": "22-joint Mixamo-named Unity Humanoid rig; four-weight spatial influence fields; source mesh data retained.",
+        "texturePolicy": "Preserve original image-generated source art and all Tripo PBR maps; resize to 2K and derive emissive only from colored molten seams already in the base map.",
+        "candidateStatus": "awaiting-root-lab-review",
+        "recommendedTier": "T50",
+        "recommendedPresentationScale": 1.72
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_volcanic_titan": "volcanic-titan-native-rig-candidate.glb",
+    "creature_cooling_crust_golem": "cooling-crust-golem-native-rig-candidate.glb"
+  }
+}

@@ -1,0 +1,931 @@
+{
+  "schema": "corealm-starred-creature-candidates/1",
+  "candidates": [
+    {
+      "schema": "corealm-creature-native-rig-candidate/1",
+      "id": "creature_volcanic_titan",
+      "displayName": "Volcanic Titan",
+      "status": "awaiting-root-lab-review",
+      "accepted": false,
+      "recommendedTier": "T80",
+      "recommendedWorldRole": "high-tier volcanic-region titan; tallest and most dangerous of this pair",
+      "source": {
+        "file": "assets/art/tripo/exports/31b1d1f3-ebd9-4c67-b3f8-846da3211c81.glb",
+        "sha256": "e4d44b405ac8bee621b8f3cc833b1ce4ba85461bedbaf5109e02116d72fe26db",
+        "bytes": 14460080,
+        "starredModelId": "31b1d1f3-ebd9-4c67-b3f8-846da3211c81",
+        "starredCardId": "a02869b7-f9ba-456a-80b0-1d9b6d6770f1",
+        "starredTitle": "volcanic titan 3d model_Clone1",
+        "exactPrompt": "P3 — Volcanic Titan: a volcanic titan of cosmic magma, obsidian and starlight cracks, an erupting radiant core, a storm of embers and cosmic heat.",
+        "geometry": {
+          "vertices": 5897,
+          "triangles": 8502,
+          "bounds": {
+            "min": [
+              -0.400115966796875,
+              0,
+              -0.1688232421875
+            ],
+            "max": [
+              0.400115966796875,
+              0.978515625,
+              0.1688232421875
+            ]
+          },
+          "positionsPreserved": true,
+          "indicesPreserved": true,
+          "normalsPreserved": true,
+          "uvsPreserved": true,
+          "retopology": false
+        },
+        "rigReview": "56 source joints with identity local transforms; 5,890 of 5,897 vertices were fully assigned to Hips, and no animation clips were present. The original skin and weights are rebuilt.",
+        "sourceSkin": {
+          "joints": 56,
+          "inverseBindMatrices": 56
+        },
+        "sourceWeightAudit": {
+          "joints": 56,
+          "rootWeightedVertices": 5890,
+          "maximumSumError": 4.470348358154297e-8,
+          "identityLocalTransforms": true
+        },
+        "sourceAnimations": [],
+        "textures": [
+          {
+            "name": "volcanic+titan+3d+model_Clone1_basecolor.jpg",
+            "role": "base-color",
+            "width": 4096,
+            "height": 4096,
+            "mime": "image/jpeg",
+            "bytes": 1698588,
+            "sha256": "46543f4c069b3792df493404d3360a78ab1fde838be3d9ee63c5ada5c10c909d"
+          },
+          {
+            "name": "volcanic+titan+3d+model_Clone1_rm.png",
+            "role": "metallic-roughness",
+            "width": 4096,
+            "height": 4096,
+            "mime": "image/png",
+            "bytes": 10664120,
+            "sha256": "f83ed0245d5ccc4e9a695511c9ded66e27207f0d3097d2bd6edfdad968d88bfe"
+          },
+          {
+            "name": "volcanic+titan+3d+model_Clone1_normal.jpg",
+            "role": "normal",
+            "width": 4096,
+            "height": 4096,
+            "mime": "image/jpeg",
+            "bytes": 1655367,
+            "sha256": "2f35a7f8e4940cb1293f9125e3fc9da0d2738e7b49a315a301b0a1d72c8af9e8"
+          }
+        ],
+        "sourceMaterialFactors": {
+          "metallic": 1,
+          "roughness": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        },
+        "sourcePbrMapRanges": {
+          "roughness": [
+            0,
+            0.7215686274509804
+          ],
+          "metallic": [
+            0,
+            0.8588235294117647
+          ]
+        }
+      },
+      "candidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-volcanic-duo/volcanic-titan-native-rig-candidate.glb",
+        "sha256": "bb1ed4a448d1e30257e43e3ba2e640712a7cc8d9f99b23827f77f6d576b8dfa5",
+        "bytes": 10789444,
+        "productionTarget": "game/public/assets/models/creature/creature_volcanic_titan.glb",
+        "recommendedPresentationScale": 2.55,
+        "geometry": {
+          "vertices": 5897,
+          "triangles": 8502,
+          "positionsPreserved": true,
+          "indicesPreserved": true,
+          "normalsPreserved": true,
+          "uvsPreserved": true
+        },
+        "rig": {
+          "type": "Mixamo-named Unity Humanoid glTF skin",
+          "jointCount": 22,
+          "influencesPerVertex": 4,
+          "distributedVertices": 5897,
+          "maximumWeightSumError": 4.470348358154297e-8,
+          "bones": [
+            {
+              "name": "mixamorigHips",
+              "parent": null,
+              "position": [
+                0,
+                0.36205078125,
+                0.004892578125
+              ],
+              "verticesInfluenced": 2999,
+              "dominantVertices": 1398
+            },
+            {
+              "name": "mixamorigSpine",
+              "parent": "mixamorigHips",
+              "position": [
+                0,
+                0.45990234375,
+                0.004892578125
+              ],
+              "verticesInfluenced": 2617,
+              "dominantVertices": 140
+            },
+            {
+              "name": "mixamorigSpine1",
+              "parent": "mixamorigSpine",
+              "position": [
+                0,
+                0.5675390625,
+                0.0058710937500000004
+              ],
+              "verticesInfluenced": 2587,
+              "dominantVertices": 370
+            },
+            {
+              "name": "mixamorigSpine2",
+              "parent": "mixamorigSpine1",
+              "position": [
+                0,
+                0.67517578125,
+                0.0058710937500000004
+              ],
+              "verticesInfluenced": 3806,
+              "dominantVertices": 435
+            },
+            {
+              "name": "mixamorigNeck",
+              "parent": "mixamorigSpine2",
+              "position": [
+                0,
+                0.8023828125,
+                0.007828125
+              ],
+              "verticesInfluenced": 709,
+              "dominantVertices": 0
+            },
+            {
+              "name": "mixamorigHead",
+              "parent": "mixamorigNeck",
+              "position": [
+                0,
+                0.900234375,
+                0.00978515625
+              ],
+              "verticesInfluenced": 1022,
+              "dominantVertices": 613
+            },
+            {
+              "name": "mixamorigLeftShoulder",
+              "parent": "mixamorigSpine2",
+              "position": [
+                -0.10803131103515626,
+                0.6849609375,
+                0.0039140625
+              ],
+              "verticesInfluenced": 218,
+              "dominantVertices": 0
+            },
+            {
+              "name": "mixamorigLeftArm",
+              "parent": "mixamorigLeftShoulder",
+              "position": [
+                -0.21206146240234375,
+                0.6849609375,
+                0.004892578125
+              ],
+              "verticesInfluenced": 1471,
+              "dominantVertices": 734
+            },
+            {
+              "name": "mixamorigLeftForeArm",
+              "parent": "mixamorigLeftArm",
+              "position": [
+                -0.3120904541015625,
+                0.6849609375,
+                0.007828125
+              ],
+              "verticesInfluenced": 967,
+              "dominantVertices": 49
+            },
+            {
+              "name": "mixamorigLeftHand",
+              "parent": "mixamorigLeftForeArm",
+              "position": [
+                -0.38811248779296875,
+                0.6849609375,
+                0.011742187500000001
+              ],
+              "verticesInfluenced": 702,
+              "dominantVertices": 246
+            },
+            {
+              "name": "mixamorigRightShoulder",
+              "parent": "mixamorigSpine2",
+              "position": [
+                0.10803131103515626,
+                0.6849609375,
+                0.0039140625
+              ],
+              "verticesInfluenced": 249,
+              "dominantVertices": 0
+            },
+            {
+              "name": "mixamorigRightArm",
+              "parent": "mixamorigRightShoulder",
+              "position": [
+                0.21206146240234375,
+                0.6849609375,
+                0.004892578125
+              ],
+              "verticesInfluenced": 1480,
+              "dominantVertices": 717
+            },
+            {
+              "name": "mixamorigRightForeArm",
+              "parent": "mixamorigRightArm",
+              "position": [
+                0.3120904541015625,
+                0.6849609375,
+                0.007828125
+              ],
+              "verticesInfluenced": 974,
+              "dominantVertices": 53
+            },
+            {
+              "name": "mixamorigRightHand",
+              "parent": "mixamorigRightForeArm",
+              "position": [
+                0.38811248779296875,
+                0.6849609375,
+                0.011742187500000001
+              ],
+              "verticesInfluenced": 677,
+              "dominantVertices": 259
+            },
+            {
+              "name": "mixamorigLeftUpLeg",
+              "parent": "mixamorigHips",
+              "position": [
+                -0.08002319335937501,
+                0.32291015625,
+                0
+              ],
+              "verticesInfluenced": 391,
+              "dominantVertices": 22
+            },
+            {
+              "name": "mixamorigLeftLeg",
+              "parent": "mixamorigLeftUpLeg",
+              "position": [
+                -0.08002319335937501,
+                0.16634765625,
+                0.00195703125
+              ],
+              "verticesInfluenced": 555,
+              "dominantVertices": 160
+            },
+            {
+              "name": "mixamorigLeftFoot",
+              "parent": "mixamorigLeftLeg",
+              "position": [
+                -0.08002319335937501,
+                0.053818359375,
+                0.017613281249999998
+              ],
+              "verticesInfluenced": 366,
+              "dominantVertices": 27
+            },
+            {
+              "name": "mixamorigLeftToeBase",
+              "parent": "mixamorigLeftFoot",
+              "position": [
+                -0.08002319335937501,
+                0.02935546875,
+                0.06849609375
+              ],
+              "verticesInfluenced": 296,
+              "dominantVertices": 237
+            },
+            {
+              "name": "mixamorigRightUpLeg",
+              "parent": "mixamorigHips",
+              "position": [
+                0.08002319335937501,
+                0.32291015625,
+                0
+              ],
+              "verticesInfluenced": 393,
+              "dominantVertices": 51
+            },
+            {
+              "name": "mixamorigRightLeg",
+              "parent": "mixamorigRightUpLeg",
+              "position": [
+                0.08002319335937501,
+                0.16634765625,
+                0.00195703125
+              ],
+              "verticesInfluenced": 534,
+              "dominantVertices": 165
+            },
+            {
+              "name": "mixamorigRightFoot",
+              "parent": "mixamorigRightLeg",
+              "position": [
+                0.08002319335937501,
+                0.053818359375,
+                0.017613281249999998
+              ],
+              "verticesInfluenced": 321,
+              "dominantVertices": 23
+            },
+            {
+              "name": "mixamorigRightToeBase",
+              "parent": "mixamorigRightFoot",
+              "position": [
+                0.08002319335937501,
+                0.02935546875,
+                0.06849609375
+              ],
+              "verticesInfluenced": 254,
+              "dominantVertices": 198
+            }
+          ],
+          "method": "Source-fitted 22-joint humanoid rig with four-weight anatomical distance fields; source skin is replaced when absent or unusable, with original vertex data and UVs unchanged."
+        },
+        "textures": [
+          {
+            "name": "volcanic+titan+3d+model_Clone1_basecolor.jpg",
+            "role": "base-color, 2K runtime derivative",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1385434,
+            "sha256": "94bb380aee0e637d8713fad5a2c6a54c8b2231a827381f8a750787cbaac16712"
+          },
+          {
+            "name": "volcanic+titan+3d+model_Clone1_rm.png",
+            "role": "metallic-roughness, 2K runtime derivative",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3447534,
+            "sha256": "06dc444e4fa5b215295106f8f81ac4c59f6269e3289dd030ba1eb9b8b5e2b210"
+          },
+          {
+            "name": "volcanic+titan+3d+model_Clone1_normal.jpg",
+            "role": "normal, vector averaged and renormalized",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 3080625,
+            "sha256": "be7d4616fef8f5578252cfa72a5342e1022c88834fd9ac80aac42c803521194e"
+          },
+          {
+            "name": "creature_volcanic_titan_source-derived-emissive.png",
+            "role": "source-derived emissive",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 2265208,
+            "sha256": "83d67f91a25e1f34985fe813b45e73ea66aa62591a4fed7bd7ab04dc5024a82b"
+          }
+        ],
+        "pbr": "Original Tripo base-color, packed metallic-roughness and tangent-space normal maps, all downsampled to 2K. The derived 2K emissive mask isolates molten colors already present in the source base-color map.",
+        "emissive": {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 2265208,
+          "sha256": "83d67f91a25e1f34985fe813b45e73ea66aa62591a4fed7bd7ab04dc5024a82b",
+          "method": "2K emission mask derived from the source Tripo base-color map; warm magma pixels are isolated by red/orange hue and brightness, with cool blue starlight pixels included for the Titan.",
+          "activePixelFraction": 0.21468281745910645,
+          "strongPixelFraction": 0.11302423477172852,
+          "coolStarlightPixelFraction": 0.004370450973510742,
+          "reviewStatus": "pending neutral and angled light review in the production creature lab"
+        },
+        "pbrMapRanges": {
+          "roughness": [
+            0,
+            0.7215686274509804
+          ],
+          "metallic": [
+            0,
+            0.8588235294117647
+          ]
+        },
+        "animations": [
+          {
+            "name": "Idle",
+            "seconds": 3,
+            "channels": 3
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.32,
+            "channels": 10
+          },
+          {
+            "name": "Run",
+            "seconds": 1.04,
+            "channels": 10
+          },
+          {
+            "name": "Attack",
+            "seconds": 1.24,
+            "channels": 9
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.52,
+            "channels": 5
+          },
+          {
+            "name": "Death",
+            "seconds": 1.82,
+            "channels": 9
+          }
+        ]
+      },
+      "acceptance": {
+        "sourceDesignAudit": false,
+        "geometry": true,
+        "rig": false,
+        "animation": false,
+        "textures": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "schema": "corealm-creature-native-rig-candidate/1",
+      "id": "creature_cooling_crust_golem",
+      "displayName": "Cooling Crust Golem",
+      "status": "awaiting-root-lab-review",
+      "accepted": false,
+      "recommendedTier": "T50",
+      "recommendedWorldRole": "volcanic-region heavy golem; smaller and less dangerous than the Volcanic Titan",
+      "source": {
+        "file": "assets/art/tripo/exports/dd3fdc88-4fd6-49ff-955f-ed85c4085d41.glb",
+        "sha256": "eb7a399f93838a1fb40caaf87c35bdd64946c2510f9e582d4639689c03534eb1",
+        "bytes": 15092052,
+        "starredModelId": "dd3fdc88-4fd6-49ff-955f-ed85c4085d41",
+        "starredCardId": "7bc8f67b-072b-48d0-b11b-05325bf66bc2",
+        "starredTitle": "lava golem 3d model_Clone1",
+        "exactPrompt": "P1 — Cooling Crust: hulking golem of cracked black obsidian with molten orange-red magma in deep seams, a glowing core, heavy fists.",
+        "geometry": {
+          "vertices": 5643,
+          "triangles": 8467,
+          "bounds": {
+            "min": [
+              -0.4899139404296875,
+              0,
+              -0.20660400390625
+            ],
+            "max": [
+              0.4899139404296875,
+              0.948211669921875,
+              0.20660400390625
+            ]
+          },
+          "positionsPreserved": true,
+          "indicesPreserved": true,
+          "normalsPreserved": true,
+          "uvsPreserved": true,
+          "retopology": false
+        },
+        "rigReview": "Static source mesh with no skin or clips; add a source-specific humanoid rig and six game lifecycle clips.",
+        "sourceSkin": null,
+        "sourceWeightAudit": null,
+        "sourceAnimations": [],
+        "textures": [
+          {
+            "name": "lava+golem+3d+model_Clone1_basecolor.jpg",
+            "role": "base-color",
+            "width": 4096,
+            "height": 4096,
+            "mime": "image/jpeg",
+            "bytes": 1545498,
+            "sha256": "627dce57b9b42fa2e5199a3695f6f616556cad5b4aef1844c990d74db7a14161"
+          },
+          {
+            "name": "lava+golem+3d+model_Clone1_rm.png",
+            "role": "metallic-roughness",
+            "width": 4096,
+            "height": 4096,
+            "mime": "image/png",
+            "bytes": 11976236,
+            "sha256": "7dec55a7d649bb00fb67da108bac0efb7276c536a88de7b744169673756b4984"
+          },
+          {
+            "name": "lava+golem+3d+model_Clone1_normal.jpg",
+            "role": "normal",
+            "width": 4096,
+            "height": 4096,
+            "mime": "image/jpeg",
+            "bytes": 1286027,
+            "sha256": "107d7cd5402ade52c28639c5bc8e162c26183a9271984fac7738f71622efd336"
+          }
+        ],
+        "sourceMaterialFactors": {
+          "metallic": 1,
+          "roughness": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        },
+        "sourcePbrMapRanges": {
+          "roughness": [
+            0.0784313725490196,
+            1
+          ],
+          "metallic": [
+            0,
+            0.5215686274509804
+          ]
+        }
+      },
+      "candidate": {
+        "file": "assets/art/tripo/imports/creatures/starred-volcanic-duo/cooling-crust-golem-native-rig-candidate.glb",
+        "sha256": "6f7c57b19a7cedaf5b4c17a02a6211a3215a8c034a967468dfd6813f3d29f067",
+        "bytes": 10238888,
+        "productionTarget": "game/public/assets/models/creature/creature_cooling_crust_golem.glb",
+        "recommendedPresentationScale": 1.72,
+        "geometry": {
+          "vertices": 5643,
+          "triangles": 8467,
+          "positionsPreserved": true,
+          "indicesPreserved": true,
+          "normalsPreserved": true,
+          "uvsPreserved": true
+        },
+        "rig": {
+          "type": "Mixamo-named Unity Humanoid glTF skin",
+          "jointCount": 22,
+          "influencesPerVertex": 4,
+          "distributedVertices": 5643,
+          "maximumWeightSumError": 4.470348358154297e-8,
+          "bones": [
+            {
+              "name": "mixamorigHips",
+              "parent": null,
+              "position": [
+                0,
+                0.35083831787109376,
+                0.004741058349609375
+              ],
+              "verticesInfluenced": 3779,
+              "dominantVertices": 1846
+            },
+            {
+              "name": "mixamorigSpine",
+              "parent": "mixamorigHips",
+              "position": [
+                0,
+                0.4456594848632812,
+                0.004741058349609375
+              ],
+              "verticesInfluenced": 2699,
+              "dominantVertices": 62
+            },
+            {
+              "name": "mixamorigSpine1",
+              "parent": "mixamorigSpine",
+              "position": [
+                0,
+                0.5499627685546875,
+                0.0056892700195312505
+              ],
+              "verticesInfluenced": 2309,
+              "dominantVertices": 241
+            },
+            {
+              "name": "mixamorigSpine2",
+              "parent": "mixamorigSpine1",
+              "position": [
+                0,
+                0.6542660522460937,
+                0.0056892700195312505
+              ],
+              "verticesInfluenced": 2377,
+              "dominantVertices": 224
+            },
+            {
+              "name": "mixamorigNeck",
+              "parent": "mixamorigSpine2",
+              "position": [
+                0,
+                0.7775335693359374,
+                0.007585693359375
+              ],
+              "verticesInfluenced": 427,
+              "dominantVertices": 0
+            },
+            {
+              "name": "mixamorigHead",
+              "parent": "mixamorigNeck",
+              "position": [
+                0,
+                0.872354736328125,
+                0.00948211669921875
+              ],
+              "verticesInfluenced": 721,
+              "dominantVertices": 367
+            },
+            {
+              "name": "mixamorigLeftShoulder",
+              "parent": "mixamorigSpine2",
+              "position": [
+                -0.14697418212890626,
+                0.6637481689453124,
+                0.0037928466796875
+              ],
+              "verticesInfluenced": 116,
+              "dominantVertices": 0
+            },
+            {
+              "name": "mixamorigLeftArm",
+              "parent": "mixamorigLeftShoulder",
+              "position": [
+                -0.27435180664062503,
+                0.6637481689453124,
+                0.004741058349609375
+              ],
+              "verticesInfluenced": 1006,
+              "dominantVertices": 623
+            },
+            {
+              "name": "mixamorigLeftForeArm",
+              "parent": "mixamorigLeftArm",
+              "position": [
+                -0.39193115234375003,
+                0.6637481689453124,
+                0.007585693359375
+              ],
+              "verticesInfluenced": 692,
+              "dominantVertices": 25
+            },
+            {
+              "name": "mixamorigLeftHand",
+              "parent": "mixamorigLeftForeArm",
+              "position": [
+                -0.48011566162109376,
+                0.6637481689453124,
+                0.011378540039062501
+              ],
+              "verticesInfluenced": 503,
+              "dominantVertices": 101
+            },
+            {
+              "name": "mixamorigRightShoulder",
+              "parent": "mixamorigSpine2",
+              "position": [
+                0.14697418212890626,
+                0.6637481689453124,
+                0.0037928466796875
+              ],
+              "verticesInfluenced": 136,
+              "dominantVertices": 0
+            },
+            {
+              "name": "mixamorigRightArm",
+              "parent": "mixamorigRightShoulder",
+              "position": [
+                0.27435180664062503,
+                0.6637481689453124,
+                0.004741058349609375
+              ],
+              "verticesInfluenced": 1038,
+              "dominantVertices": 633
+            },
+            {
+              "name": "mixamorigRightForeArm",
+              "parent": "mixamorigRightArm",
+              "position": [
+                0.39193115234375003,
+                0.6637481689453124,
+                0.007585693359375
+              ],
+              "verticesInfluenced": 733,
+              "dominantVertices": 51
+            },
+            {
+              "name": "mixamorigRightHand",
+              "parent": "mixamorigRightForeArm",
+              "position": [
+                0.48011566162109376,
+                0.6637481689453124,
+                0.011378540039062501
+              ],
+              "verticesInfluenced": 551,
+              "dominantVertices": 102
+            },
+            {
+              "name": "mixamorigLeftUpLeg",
+              "parent": "mixamorigHips",
+              "position": [
+                -0.10288192749023437,
+                0.31290985107421876,
+                0
+              ],
+              "verticesInfluenced": 618,
+              "dominantVertices": 74
+            },
+            {
+              "name": "mixamorigLeftLeg",
+              "parent": "mixamorigLeftUpLeg",
+              "position": [
+                -0.10288192749023437,
+                0.16119598388671877,
+                0.00189642333984375
+              ],
+              "verticesInfluenced": 980,
+              "dominantVertices": 277
+            },
+            {
+              "name": "mixamorigLeftFoot",
+              "parent": "mixamorigLeftLeg",
+              "position": [
+                -0.10288192749023437,
+                0.052151641845703124,
+                0.017067810058593747
+              ],
+              "verticesInfluenced": 585,
+              "dominantVertices": 55
+            },
+            {
+              "name": "mixamorigLeftToeBase",
+              "parent": "mixamorigLeftFoot",
+              "position": [
+                -0.10288192749023437,
+                0.02844635009765625,
+                0.06637481689453126
+              ],
+              "verticesInfluenced": 528,
+              "dominantVertices": 249
+            },
+            {
+              "name": "mixamorigRightUpLeg",
+              "parent": "mixamorigHips",
+              "position": [
+                0.10288192749023437,
+                0.31290985107421876,
+                0
+              ],
+              "verticesInfluenced": 711,
+              "dominantVertices": 44
+            },
+            {
+              "name": "mixamorigRightLeg",
+              "parent": "mixamorigRightUpLeg",
+              "position": [
+                0.10288192749023437,
+                0.16119598388671877,
+                0.00189642333984375
+              ],
+              "verticesInfluenced": 868,
+              "dominantVertices": 253
+            },
+            {
+              "name": "mixamorigRightFoot",
+              "parent": "mixamorigRightLeg",
+              "position": [
+                0.10288192749023437,
+                0.052151641845703124,
+                0.017067810058593747
+              ],
+              "verticesInfluenced": 641,
+              "dominantVertices": 33
+            },
+            {
+              "name": "mixamorigRightToeBase",
+              "parent": "mixamorigRightFoot",
+              "position": [
+                0.10288192749023437,
+                0.02844635009765625,
+                0.06637481689453126
+              ],
+              "verticesInfluenced": 554,
+              "dominantVertices": 383
+            }
+          ],
+          "method": "Source-fitted 22-joint humanoid rig with four-weight anatomical distance fields; source skin is replaced when absent or unusable, with original vertex data and UVs unchanged."
+        },
+        "textures": [
+          {
+            "name": "lava+golem+3d+model_Clone1_basecolor.jpg",
+            "role": "base-color, 2K runtime derivative",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1227459,
+            "sha256": "767f0a56ba7ab8eec8ebde14fb59cfa1238b7acdd2fff8ec373fc079dbf49e38"
+          },
+          {
+            "name": "lava+golem+3d+model_Clone1_rm.png",
+            "role": "metallic-roughness, 2K runtime derivative",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4107033,
+            "sha256": "e77d941b5dbd1b386dd2c7fee7b19db4a20be96395089c7078495820ebddbba2"
+          },
+          {
+            "name": "lava+golem+3d+model_Clone1_normal.jpg",
+            "role": "normal, vector averaged and renormalized",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 2377010,
+            "sha256": "dbd5df0fbbfcde9d9a43e3b5763d1c62404fb0e30f65eb82a7237488e52de9c4"
+          },
+          {
+            "name": "creature_cooling_crust_golem_source-derived-emissive.png",
+            "role": "source-derived emissive",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 2076850,
+            "sha256": "dcefb40145b5b523c2459b996c8cf018b006336d4ec33645c80ff2b7cff5b8ba"
+          }
+        ],
+        "pbr": "Original Tripo base-color, packed metallic-roughness and tangent-space normal maps, all downsampled to 2K. The derived 2K emissive mask isolates molten colors already present in the source base-color map.",
+        "emissive": {
+          "width": 2048,
+          "height": 2048,
+          "bytes": 2076850,
+          "sha256": "dcefb40145b5b523c2459b996c8cf018b006336d4ec33645c80ff2b7cff5b8ba",
+          "method": "2K emission mask derived from the source Tripo base-color map; warm magma pixels are isolated by red/orange hue and brightness, with cool blue starlight pixels included for the Titan.",
+          "activePixelFraction": 0.21961092948913574,
+          "strongPixelFraction": 0.13555407524108887,
+          "coolStarlightPixelFraction": 0,
+          "reviewStatus": "pending neutral and angled light review in the production creature lab"
+        },
+        "pbrMapRanges": {
+          "roughness": [
+            0.0784313725490196,
+            1
+          ],
+          "metallic": [
+            0,
+            0.5215686274509804
+          ]
+        },
+        "animations": [
+          {
+            "name": "Idle",
+            "seconds": 3,
+            "channels": 3
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.14,
+            "channels": 10
+          },
+          {
+            "name": "Run",
+            "seconds": 0.88,
+            "channels": 10
+          },
+          {
+            "name": "Attack",
+            "seconds": 1.24,
+            "channels": 9
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.52,
+            "channels": 5
+          },
+          {
+            "name": "Death",
+            "seconds": 1.82,
+            "channels": 9
+          }
+        ]
+      },
+      "acceptance": {
+        "sourceDesignAudit": false,
+        "geometry": true,
+        "rig": false,
+        "animation": false,
+        "textures": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
