@@ -2,7 +2,7 @@
   "part": 4,
   "displayName": "Magma Spike Demon",
   "status": "rigged-candidate-pending-root-review",
-  "reviewHold": null,
+  "reviewHold": "C4 row-boundary shard leak filtered; root visual confirmation remains pending.",
   "source": {
     "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
     "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
@@ -71,31 +71,34 @@
   },
   "extracted": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
-    "sha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
-    "bytes": 6861092,
+    "sha256": "b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3",
+    "bytes": 6840908,
     "geometry": {
-      "vertices": 5257,
-      "triangles": 2775,
+      "vertices": 4722,
+      "triangles": 2519,
       "bounds": {
         "min": [
           -0.1416015774011612,
           0,
-          -0.16015625
+          0.0019531212747097015
         ],
         "max": [
           0.1416015774011612,
-          0.349609375,
+          0.3203125,
           0.16015625
         ]
       },
       "retopology": false,
       "triangleConnectivityPreserved": true,
       "attributeHashes": {
-        "POSITION": "67b6f8747905af7e900480aba37fabf1473f860913a5ae0a86a3f8f74ac5e663",
-        "NORMAL": "c5e38c4321118a92b3dcd31edf053aa09cf82151de6a073d029a7259121eb7ea",
-        "TEXCOORD_0": "a6ebdb3af0505543e0832e87b3415f62038a6d78470bb03c8628686051ce8f47"
+        "POSITION": "cc46770b27f68a7451acf1e0df03955bc31d8e781c7987d549335087f5a8ad21",
+        "NORMAL": "233f440cb673d1c042f5c7e7b2bd26e7a97e9eab4ac061c5f4d3d274bd994a6c",
+        "TEXCOORD_0": "6f94c3e61c8b4afe0d6ba36ac7b2ab9f4f1012365081dd0f538780de2a41aa47"
       },
-      "indexHash": "894867ede6f9ff572a1decde503bafccb9a6a75bdd0eebdf8cb4b06f85dbfb1d"
+      "indexHash": "f2fca65eb3e8f51774f8db3975f6d5386972a6a858aeb71f18a9c7f572e13acf",
+      "retainedTopology": true,
+      "removedForeignComponents": 4,
+      "removedForeignTriangles": 256
     },
     "textures": [
       {
@@ -131,25 +134,107 @@
       "textures": false,
       "labAccepted": false,
       "worldIntegrated": false
+    },
+    "filtering": {
+      "method": "Removed four detached C1 row-boundary shard components by spatially welded connectivity; no retopology.",
+      "originalExtractedSha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
+      "removedComponents": [
+        {
+          "triangles": 57,
+          "bounds": {
+            "min": [
+              -0.0771484524011612,
+              0.28515625,
+              -0.16015625
+            ],
+            "max": [
+              -0.022460952401161194,
+              0.345703125,
+              -0.08203125
+            ]
+          }
+        },
+        {
+          "triangles": 67,
+          "bounds": {
+            "min": [
+              -0.1298828274011612,
+              0.30859375,
+              -0.15234375
+            ],
+            "max": [
+              -0.0927734524011612,
+              0.349609375,
+              -0.0937499925494194
+            ]
+          }
+        },
+        {
+          "triangles": 61,
+          "bounds": {
+            "min": [
+              0.018554672598838806,
+              0.28515625,
+              -0.16015625
+            ],
+            "max": [
+              0.0732421725988388,
+              0.345703125,
+              -0.0820312649011612
+            ]
+          }
+        },
+        {
+          "triangles": 71,
+          "bounds": {
+            "min": [
+              0.0947265475988388,
+              0.30859375,
+              -0.1542969048023224
+            ],
+            "max": [
+              0.1318359076976776,
+              0.349609375,
+              -0.09375002235174179
+            ]
+          }
+        }
+      ],
+      "removedTriangles": 256,
+      "decisionEvidence": "All four spatially welded isolated clusters sit at the upper C4/C1 source-row boundary; 110 of 535 suspect cluster vertices coincide with C1 geometry in source space. Removed four detached shard clusters only; no retopology."
     }
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
-    "sha256": "71390cfd217eb19c3dc10de8f590550f85c920ad1e65d5c6bae56b2efeea87e9",
-    "bytes": 7011888,
+    "sha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+    "bytes": 6979044,
     "geometry": {
-      "vertices": 5257,
-      "triangles": 2775,
+      "vertices": 4722,
+      "triangles": 2519,
+      "nativeBounds": {
+        "min": [
+          -0.1416015774011612,
+          0,
+          0.0019531212747097015
+        ],
+        "max": [
+          0.1416015774011612,
+          0.3203125,
+          0.16015625
+        ]
+      },
       "positionsPreserved": true,
       "normalsPreserved": true,
       "uvsPreserved": true,
-      "indicesPreserved": true
+      "indicesPreserved": true,
+      "scaleFactor": 6.86829268292683,
+      "targetHeightMeters": 2.2
     },
     "rig": {
       "joints": 22,
       "influencesPerVertex": 4,
-      "verticesWithDistributedWeights": 5257,
-      "maximumWeightSumError": 4.470348358154297e-08
+      "verticesWithDistributedWeights": 4722,
+      "maximumWeightSumError": 3.725290298461914e-08
     },
     "animations": [
       {
@@ -206,27 +291,45 @@
         "bytes": 524633
       }
     ],
+    "filtering": {
+      "method": "Removed four detached C1 row-boundary shards by welded spatial connected component; preserved all remaining triangles and source vertex attributes without retopology.",
+      "originalExtractedSha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
+      "removedComponents": [
+        {
+          "triangles": 57
+        },
+        {
+          "triangles": 67
+        },
+        {
+          "triangles": 61
+        },
+        {
+          "triangles": 71
+        }
+      ]
+    },
+    "scaleFactor": 6.86829268292683,
+    "presentationScale": 6.86829268292683,
+    "targetHeightMeters": 2.2,
+    "labBounds": {
+      "min": [
+        -0.9725610779552926,
+        0,
+        0.013414608559957367
+      ],
+      "max": [
+        0.9725610779552926,
+        2.2,
+        1.1
+      ]
+    },
     "acceptance": {
       "rig": false,
       "animation": false,
       "textures": false,
       "labAccepted": false,
       "worldIntegrated": false
-    },
-    "scaleFactor": 6.292737430167598,
-    "presentationScale": 6.292737430167598,
-    "targetHeightMeters": 2.2,
-    "labBounds": {
-      "min": [
-        -0.8910615462830613,
-        0.0,
-        -1.0078212290502795
-      ],
-      "max": [
-        0.8910615462830613,
-        2.2,
-        1.0078212290502795
-      ]
     }
   },
   "acceptance": {

@@ -6,31 +6,34 @@
   "accepted": false,
   "source": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
-    "sha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
-    "bytes": 6861092,
+    "sha256": "b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3",
+    "bytes": 6840908,
     "starredModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
     "starredCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
     "starredDisplayName": "demon creature 3d model",
     "geometry": {
-      "vertices": 5257,
-      "triangles": 2775,
+      "vertices": 4722,
+      "triangles": 2519,
       "bounds": {
         "min": [
           -0.1416015774011612,
           0,
-          -0.16015625
+          0.0019531212747097015
         ],
         "max": [
           0.1416015774011612,
-          0.349609375,
+          0.3203125,
           0.16015625
         ]
       },
       "positionsPreserved": true,
       "indicesPreserved": true,
-      "retopology": false
+      "retopology": false,
+      "retainedTopology": true,
+      "removedForeignComponents": 4,
+      "removedForeignTriangles": 256
     },
-    "preliminaryDesignReview": "Extracted from the approved starred sheet C cell; rig and motion remain staged for root lab review.",
+    "preliminaryDesignReview": "Removed four detached row-boundary foreign shard components assigned from the adjacent C1 cell (256 triangles); remaining C4 geometry, UVs, normals, PBR and topology are preserved without retopology. Rig and motion remain staged for root lab review.",
     "textures": [
       {
         "name": "demon+creature+3d+model_basecolor.jpg",
@@ -55,25 +58,43 @@
       }
     ],
     "sourceSkin": "none",
+    "filtering": {
+      "method": "Removed four detached C1 row-boundary shards by welded spatial connected component; preserved all remaining triangles and source vertex attributes without retopology.",
+      "originalExtractedSha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
+      "removedComponents": [
+        {
+          "triangles": 57
+        },
+        {
+          "triangles": 67
+        },
+        {
+          "triangles": 61
+        },
+        {
+          "triangles": 71
+        }
+      ]
+    },
     "sourceAnimations": []
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
-    "sha256": "2caf5bbb8a4d6c9a2253de3ec5dc76ee4526c283dcf695e84753158ca91800d6",
-    "bytes": 7011952,
+    "sha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+    "bytes": 6979044,
     "productionTarget": "game/public/assets/models/creature/creature_magma_spike_demon.glb",
     "geometry": {
-      "vertices": 5257,
-      "triangles": 2775,
+      "vertices": 4722,
+      "triangles": 2519,
       "nativeBounds": {
         "min": [
           -0.1416015774011612,
           0,
-          -0.16015625
+          0.0019531212747097015
         ],
         "max": [
           0.1416015774011612,
-          0.349609375,
+          0.3203125,
           0.16015625
         ]
       },
@@ -81,7 +102,7 @@
       "normalsPreserved": true,
       "uvsPreserved": true,
       "indicesPreserved": true,
-      "scaleFactor": 6.292737430167598,
+      "scaleFactor": 6.86829268292683,
       "targetHeightMeters": 2.2
     },
     "rig": {
@@ -92,8 +113,8 @@
           "parent": null,
           "position": [
             0,
-            0.15582589285714288,
-            -0.090087890625
+            0.14276785714285714,
+            -0.044494629953987896
           ]
         },
         {
@@ -101,8 +122,8 @@
           "parent": "mixamorigHips",
           "position": [
             0,
-            0.18978794642857144,
-            -0.070068359375
+            0.17388392857142856,
+            -0.03460693440865725
           ]
         },
         {
@@ -110,8 +131,8 @@
           "parent": "mixamorigSpine",
           "position": [
             0,
-            0.22974330357142858,
-            -0.06005859375
+            0.2104910714285714,
+            -0.02966308663599193
           ]
         },
         {
@@ -119,8 +140,8 @@
           "parent": "mixamorigSpine1",
           "position": [
             0,
-            0.2696986607142857,
-            -0.0550537109375
+            0.2470982142857143,
+            -0.02719116274965927
           ]
         },
         {
@@ -128,8 +149,8 @@
           "parent": "mixamorigSpine2",
           "position": [
             0,
-            0.31764508928571433,
-            -0.0400390625
+            0.2910267857142857,
+            -0.019775391090661287
           ]
         },
         {
@@ -137,8 +158,8 @@
           "parent": "mixamorigNeck",
           "position": [
             0,
-            0.349609375,
-            -0.0350341796875
+            0.3203125,
+            -0.017303467204328626
           ]
         },
         {
@@ -146,8 +167,8 @@
           "parent": "mixamorigSpine2",
           "position": [
             -0.07167487251169886,
-            0.2696986607142857,
-            -0.0550537109375
+            0.2470982142857143,
+            -0.02719116274965927
           ]
         },
         {
@@ -155,8 +176,8 @@
           "parent": "mixamorigLeftShoulder",
           "position": [
             -0.10489005733419346,
-            0.23573660714285716,
-            -0.0350341796875
+            0.21598214285714284,
+            -0.017303467204328626
           ]
         },
         {
@@ -164,8 +185,8 @@
           "parent": "mixamorigLeftArm",
           "position": [
             -0.12761623642326872,
-            0.1778013392857143,
-            0.0050048828125
+            0.1629017857142857,
+            0.002471923886332661
           ]
         },
         {
@@ -173,8 +194,8 @@
           "parent": "mixamorigLeftForeArm",
           "position": [
             -0.1416015774011612,
-            0.12985491071428573,
-            0.0350341796875
+            0.11897321428571428,
+            0.017303467204328626
           ]
         },
         {
@@ -182,8 +203,8 @@
           "parent": "mixamorigSpine2",
           "position": [
             0.07167487251169886,
-            0.2696986607142857,
-            -0.0550537109375
+            0.2470982142857143,
+            -0.02719116274965927
           ]
         },
         {
@@ -191,8 +212,8 @@
           "parent": "mixamorigRightShoulder",
           "position": [
             0.10489005733419346,
-            0.23573660714285716,
-            -0.0350341796875
+            0.21598214285714284,
+            -0.017303467204328626
           ]
         },
         {
@@ -200,8 +221,8 @@
           "parent": "mixamorigRightArm",
           "position": [
             0.12761623642326872,
-            0.1778013392857143,
-            0.0050048828125
+            0.1629017857142857,
+            0.002471923886332661
           ]
         },
         {
@@ -209,8 +230,8 @@
           "parent": "mixamorigRightForeArm",
           "position": [
             0.1416015774011612,
-            0.12985491071428573,
-            0.0350341796875
+            0.11897321428571428,
+            0.017303467204328626
           ]
         },
         {
@@ -218,8 +239,8 @@
           "parent": "mixamorigHips",
           "position": [
             -0.050696861044860174,
-            0.13185267857142857,
-            -0.0850830078125
+            0.12080357142857143,
+            -0.042022706067655236
           ]
         },
         {
@@ -227,8 +248,8 @@
           "parent": "mixamorigLeftUpLeg",
           "position": [
             -0.05768953153380641,
-            0.06592633928571429,
-            -0.0550537109375
+            0.06040178571428571,
+            -0.02719116274965927
           ]
         },
         {
@@ -236,8 +257,8 @@
           "parent": "mixamorigLeftLeg",
           "position": [
             -0.05768953153380641,
-            0.02197544642857143,
-            0.0050048828125
+            0.02013392857142857,
+            0.002471923886332661
           ]
         },
         {
@@ -245,8 +266,8 @@
           "parent": "mixamorigLeftFoot",
           "position": [
             -0.05768953153380641,
-            0.013984375000000002,
-            0.0950927734375
+            0.012812500000000001,
+            0.04696655384032056
           ]
         },
         {
@@ -254,8 +275,8 @@
           "parent": "mixamorigHips",
           "position": [
             0.050696861044860174,
-            0.13185267857142857,
-            -0.0850830078125
+            0.12080357142857143,
+            -0.042022706067655236
           ]
         },
         {
@@ -263,8 +284,8 @@
           "parent": "mixamorigRightUpLeg",
           "position": [
             0.05768953153380641,
-            0.06592633928571429,
-            -0.0550537109375
+            0.06040178571428571,
+            -0.02719116274965927
           ]
         },
         {
@@ -272,8 +293,8 @@
           "parent": "mixamorigRightLeg",
           "position": [
             0.05768953153380641,
-            0.02197544642857143,
-            0.0050048828125
+            0.02013392857142857,
+            0.002471923886332661
           ]
         },
         {
@@ -281,14 +302,14 @@
           "parent": "mixamorigRightFoot",
           "position": [
             0.05768953153380641,
-            0.013984375000000002,
-            0.0950927734375
+            0.012812500000000001,
+            0.04696655384032056
           ]
         }
       ],
       "influencesPerVertex": 4,
-      "verticesWithDistributedWeights": 5257,
-      "maximumWeightSumError": 4.470348358154297e-8,
+      "verticesWithDistributedWeights": 4722,
+      "maximumWeightSumError": 3.725290298461914e-8,
       "method": "Model-specific four-weight skin from anatomical bone-segment distance fields; no fallback to one root joint."
     },
     "textures": [

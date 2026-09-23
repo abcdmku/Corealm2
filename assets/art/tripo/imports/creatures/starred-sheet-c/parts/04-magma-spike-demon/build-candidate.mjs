@@ -12,7 +12,7 @@ await mkdir(baseDir, { recursive: true });
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const sourceBytes = await readFile(sourcePath);
 const sourceSha256 = createHash('sha256').update(sourceBytes).digest('hex');
-if (sourceSha256 !== '8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d') {
+if (sourceSha256 !== 'b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3') {
   throw new Error(`Extracted source hash mismatch: ${sourceSha256}`);
 }
 const doc = await io.readBinary(sourceBytes);
@@ -26,7 +26,7 @@ if (!scene || !primitive || !meshNode || root.listSkins().length || root.listAni
 }
 const positions = Float32Array.from(primitive.getAttribute('POSITION')?.getArray() ?? []);
 const indices = Uint32Array.from(primitive.getIndices()?.getArray() ?? []);
-if (positions.length / 3 !== 5257 || indices.length / 3 !== 2775) {
+if (positions.length / 3 !== 4722 || indices.length / 3 !== 2519) {
   throw new Error(`Source topology changed: ${positions.length / 3} vertices, ${indices.length / 3} triangles.`);
 }
 const bounds = { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
@@ -320,10 +320,11 @@ const candidate = {
     starredModelId: 'd64af48c-ff32-405e-a05d-86ffe671cbcb',
     starredCardId: 'd64af48c-ff32-405e-a05d-86ffe671cbcb',
     starredDisplayName: 'demon creature 3d model',
-    geometry: { vertices: positions.length / 3, triangles: indices.length / 3, bounds, positionsPreserved: maxPositionDelta === 0, indicesPreserved: indexMismatches === 0, retopology: false },
-    preliminaryDesignReview: 'Extracted from the approved starred sheet C cell; rig and motion remain staged for root lab review.',
+    geometry: { vertices: positions.length / 3, triangles: indices.length / 3, bounds, positionsPreserved: maxPositionDelta === 0, indicesPreserved: indexMismatches === 0, retopology: false, retainedTopology: true, removedForeignComponents: 4, removedForeignTriangles: 256 },
+    preliminaryDesignReview: 'Removed four detached row-boundary foreign shard components assigned from the adjacent C1 cell (256 triangles); remaining C4 geometry, UVs, normals, PBR and topology are preserved without retopology. Rig and motion remain staged for root lab review.',
     textures: sourceTextureMetrics,
     sourceSkin: 'none',
+    filtering: { method: 'Removed four detached C1 row-boundary shards by welded spatial connected component; preserved all remaining triangles and source vertex attributes without retopology.', originalExtractedSha256: '8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d', removedComponents: [{ triangles: 57 }, { triangles: 67 }, { triangles: 61 }, { triangles: 71 }] },
     sourceAnimations: [],
   },
   candidate: {
@@ -368,6 +369,7 @@ const labAsset = {
     rigMethod: 'Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.',
     textures: runtimeTextureMetrics,
     candidateStatus: 'awaiting-root-lab-review',
+    sourceFiltering: 'Four detached C1 row-boundary shards removed (256 triangles); retained C4 mesh topology, UVs, normals, and PBR maps unchanged.'
   },
   acceptance: { assetAudit: true, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };

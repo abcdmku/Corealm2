@@ -15,32 +15,32 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 7011952,
-      "sha256": "2caf5bbb8a4d6c9a2253de3ec5dc76ee4526c283dcf695e84753158ca91800d6",
+      "bytes": 6979044,
+      "sha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
       "size": {
-        "x": 1.7821230925661227,
+        "x": 1.9451221559105851,
         "y": 2.2,
-        "z": 2.015642458100559
+        "z": 1.0865853914400427
       },
       "base": {
-        "x": -0.8910615462830613,
+        "x": -0.9725610779552926,
         "y": 0,
-        "z": -1.0078212290502795
+        "z": 0.013414608559957367
       },
       "bounds": {
         "min": [
-          -0.8910615462830613,
+          -0.9725610779552926,
           0,
-          -1.0078212290502795
+          0.013414608559957367
         ],
         "max": [
-          0.8910615462830613,
+          0.9725610779552926,
           2.2,
-          1.0078212290502795
+          1.1
         ]
       },
       "groundY": 0,
-      "triangles": 2775,
+      "triangles": 2519,
       "animations": [
         "Idle",
         "Walk",
@@ -57,9 +57,9 @@
         "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
         "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
-        "sourceSha256": "8a694dfb5d8158dd8ad23f6fea0c68c338e8a33a89a5abc3b5d3379b162b321d",
+        "sourceSha256": "b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
-        "candidateSha256": "2caf5bbb8a4d6c9a2253de3ec5dc76ee4526c283dcf695e84753158ca91800d6",
+        "candidateSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
         "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
         "textures": [
           {
@@ -84,7 +84,8 @@
             "bytes": 524633
           }
         ],
-        "candidateStatus": "awaiting-root-lab-review"
+        "candidateStatus": "awaiting-root-lab-review",
+        "sourceFiltering": "Four detached C1 row-boundary shards removed (256 triangles); retained C4 mesh topology, UVs, normals, and PBR maps unchanged."
       },
       "acceptance": {
         "assetAudit": true,
