@@ -22,6 +22,7 @@ interface PartSelection { node: number | string; primitive?: number; triangles?:
 interface AssignedPart extends PartSelection {
   slot: ArmorSlot;
   matrix?: number[];
+  /** Applied after the exported source skin pose (when present) and before the part matrix. */
   vertexTransforms?: VertexTransform[];
   rigidBone?: string;
   deform?: "skirt" | "native-hand" | "sleeved-body";
@@ -215,7 +216,6 @@ function assignments(document: Document, config: TripoArmorConfig): Assignment[]
       if (part.rigidBone && part.deform) throw new Error(`part ${row}: rigidBone and deform cannot be combined`);
       if (part.deform === "native-hand" && part.slot !== "hands") throw new Error(`part ${row}: native-hand requires hands slot`);
       if (part.deform === "sleeved-body" && part.slot !== "body") throw new Error(`part ${row}: sleeved-body requires body slot`);
-      if (config.sourceSkin && part.vertexTransforms?.length) throw new Error(`part ${row}: sourceSkin and vertexTransforms cannot be combined`);
       matrix(part.matrix, `part ${row}`);
     }
     for (const source of matches) {

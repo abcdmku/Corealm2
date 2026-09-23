@@ -160,12 +160,15 @@ describe("Tripo armor import", () => {
     expect(posed.getRoot().listNodes().some(node => node.getName().startsWith("source:"))).toBe(false);
   });
 
-  it("rejects incomplete source joint targets and concurrent vertex pose warps", async () => {
+  it("requires complete source joint targets and applies a fitted vertex correction after the source pose", async () => {
     const { document, config } = weightedSourceAndConfig();
     delete config.sourceSkin!.jointWorldMatrices["source:Arm"];
     await expect(buildTripoArmor(document, config)).rejects.toThrow("missing used joint target source:Arm");
     config.sourceSkin!.jointWorldMatrices["source:Arm"] = new Matrix4().makeTranslation(0, 1, 0).elements;
-    config.parts[1] = { node: 1, slot: "body", vertexTransforms: [{ vertices: [0], matrix: new Matrix4().elements }] };
-    await expect(buildTripoArmor(document, config)).rejects.toThrow("sourceSkin and vertexTransforms cannot be combined");
+    config.parts[1] = { node: 1, slot: "body", vertexTransforms: [{ vertices: [0], matrix: new Matrix4().makeTranslation(.2, 0, 0).elements, weights: [.5] }] };
+    const body = (await buildTripoArmor(document, config)).find(candidate => candidate.slot === "body")!.document;
+    const positions = body.getRoot().listMeshes()[0]!.listPrimitives()[0]!.getAttribute("POSITION")!;
+    expect(positions.getElement(0, [])[0]).toBeCloseTo(0, 6);
+    expect(positions.getElement(1, [])[0]).toBeCloseTo(.1, 6);
   });
 });
