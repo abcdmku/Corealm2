@@ -1,0 +1,518 @@
+{
+  "schema": "corealm-starred-sheet-creature-rigging/1",
+  "id": "part-03-green-antler-imp",
+  "status": "awaiting-root-rig-and-motion-review",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-03-green-antler-imp/base.glb",
+    "sha256": "9df3356d04266ac63acd48a8014d69780f5f4fe0eb49ec94ef1306327e7746e1",
+    "geometryHashes": {
+      "positions": "26da63a7a103627f268a33a17eee9e6a38bd1d64227eefeb4c0699786e5e6fd0",
+      "normals": "e884f43cef3712964c9aacd0ff5d3c865873c7dd877d5a73a2a4756731aba874",
+      "uvs": "7831a0f58c69cd8984b7f9f7edd2514ce0e20de39c88351ae709c0464324415c",
+      "indices": "8fd6a2634bb0a7b783c6fc7c112aebea43ed4f328ebfceb471294bb0b26e2c5c"
+    },
+    "triangleCornerAttributesSha256": "5a9060da5a671c7d459dc58a9e70d8ff83c5d9ee5440751fb0ebbb84f35b06a4",
+    "textures": [
+      {
+        "name": "monster+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 1694840,
+        "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+      },
+      {
+        "name": "monster+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/png",
+        "bytes": 4224582,
+        "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+      },
+      {
+        "name": "monster+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mimeType": "image/jpeg",
+        "bytes": 338412,
+        "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-a/part-03-green-antler-imp/part-03-green-antler-imp-native-rig-candidate.glb",
+    "sha256": "9154c2e4a83e25daee7adef287b0e70549d8071f883e21996b0dbece170bc0dc",
+    "bytes": 7001744,
+    "geometryHashes": {
+      "positions": "26da63a7a103627f268a33a17eee9e6a38bd1d64227eefeb4c0699786e5e6fd0",
+      "normals": "e884f43cef3712964c9aacd0ff5d3c865873c7dd877d5a73a2a4756731aba874",
+      "uvs": "7831a0f58c69cd8984b7f9f7edd2514ce0e20de39c88351ae709c0464324415c",
+      "indices": "8fd6a2634bb0a7b783c6fc7c112aebea43ed4f328ebfceb471294bb0b26e2c5c"
+    },
+    "triangleCornerAttributesSha256": "5a9060da5a671c7d459dc58a9e70d8ff83c5d9ee5440751fb0ebbb84f35b06a4",
+    "sourceGeometryPreserved": true,
+    "bounds": {
+      "min": [
+        -0.5300000325198595,
+        8.488047043009317e-9,
+        -0.46333327703097876
+      ],
+      "max": [
+        0.5300000207283018,
+        0.9999999850120287,
+        0.46333328982382516
+      ]
+    },
+    "textures": [
+      {
+        "name": "monster+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 1694840,
+        "sha256": "e8d15678776a671cdf0325878bb625a7a04cdbda13ac4f0143c2727c8ccb0028"
+      },
+      {
+        "name": "monster+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 4224582,
+        "sha256": "43bbc87f30691370a49227a23a4fd9f7218aef599abedcf4539a5cfa9ba34332"
+      },
+      {
+        "name": "monster+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 338412,
+        "sha256": "3109c18343efb5e28a44635e5a53741d58b504c775e9f6937b1c57eeff816d19"
+      }
+    ],
+    "animationClips": [
+      {
+        "name": "Idle",
+        "seconds": 2.5,
+        "channels": 54
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.3333333730697632,
+        "channels": 54
+      },
+      {
+        "name": "Run",
+        "seconds": 0.9333333373069763,
+        "channels": 54
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.8666666746139526,
+        "channels": 54
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.3333333432674408,
+        "channels": 54
+      },
+      {
+        "name": "Death",
+        "seconds": 2.4000000953674316,
+        "channels": 54
+      }
+    ],
+    "deformationSamples": [
+      {
+        "clip": "Idle",
+        "seconds": 0,
+        "bounds": {
+          "min": [
+            -0.5795344435000161,
+            0.0009999249967969216,
+            -0.47567074391574315
+          ],
+          "max": [
+            0.5494271395991464,
+            0.9642665843979585,
+            0.4009146136298902
+          ]
+        }
+      },
+      {
+        "clip": "Idle",
+        "seconds": 1.25,
+        "bounds": {
+          "min": [
+            -0.5840068446324717,
+            0.0009998680188542841,
+            -0.4756719596656392
+          ],
+          "max": [
+            0.5476798436877497,
+            0.9650006258103174,
+            0.40114301798837443
+          ]
+        }
+      },
+      {
+        "clip": "Idle",
+        "seconds": 2.5,
+        "bounds": {
+          "min": [
+            -0.5795344435000161,
+            0.0009999249967969216,
+            -0.47567074391574315
+          ],
+          "max": [
+            0.5494271395991464,
+            0.9642665843979585,
+            0.4009146136298902
+          ]
+        }
+      },
+      {
+        "clip": "Walk",
+        "seconds": 0,
+        "bounds": {
+          "min": [
+            -0.5318352837809208,
+            0.0010000601604208095,
+            -0.44559222985371394
+          ],
+          "max": [
+            0.5309775327669984,
+            0.9985389776282322,
+            0.45369331831896875
+          ]
+        }
+      },
+      {
+        "clip": "Walk",
+        "seconds": 0.6667,
+        "bounds": {
+          "min": [
+            -0.5285436134784133,
+            0.0009521470005562915,
+            -0.45635250594006416
+          ],
+          "max": [
+            0.5408693827155553,
+            1.0109226239443834,
+            0.4526520319833961
+          ]
+        }
+      },
+      {
+        "clip": "Walk",
+        "seconds": 1.3333,
+        "bounds": {
+          "min": [
+            -0.5318352837809208,
+            0.0010000601604208095,
+            -0.44559222985371394
+          ],
+          "max": [
+            0.5309775326017878,
+            0.9985389776282322,
+            0.45369331831896875
+          ]
+        }
+      },
+      {
+        "clip": "Run",
+        "seconds": 0,
+        "bounds": {
+          "min": [
+            -0.5130331379031616,
+            0.000999962833714472,
+            -0.4732188393992959
+          ],
+          "max": [
+            0.5278358270613832,
+            0.9850524209795624,
+            0.47260279402978306
+          ]
+        }
+      },
+      {
+        "clip": "Run",
+        "seconds": 0.4667,
+        "bounds": {
+          "min": [
+            -0.5297845234726727,
+            0.00008010009061213547,
+            -0.425016850891924
+          ],
+          "max": [
+            0.5227570633063734,
+            0.9535503096552472,
+            0.4517180803278137
+          ]
+        }
+      },
+      {
+        "clip": "Run",
+        "seconds": 0.9333,
+        "bounds": {
+          "min": [
+            -0.5130331378872041,
+            0.0009999623944397648,
+            -0.4732188397716102
+          ],
+          "max": [
+            0.5278358153650493,
+            0.9850524209795624,
+            0.4726027836305271
+          ]
+        }
+      },
+      {
+        "clip": "Attack",
+        "seconds": 0,
+        "bounds": {
+          "min": [
+            -0.5912993944810424,
+            0.0010001170937150939,
+            -0.4681727221731345
+          ],
+          "max": [
+            0.5587762208885914,
+            0.961985793913726,
+            0.40246359758531813
+          ]
+        }
+      },
+      {
+        "clip": "Attack",
+        "seconds": 0.4333,
+        "bounds": {
+          "min": [
+            -0.5980368333270976,
+            0.0009890071484930886,
+            -0.4450905064455922
+          ],
+          "max": [
+            0.5292126428304074,
+            0.9636839013089136,
+            0.4321023418187069
+          ]
+        }
+      },
+      {
+        "clip": "Attack",
+        "seconds": 0.8667,
+        "bounds": {
+          "min": [
+            -0.5912993944810424,
+            0.0010001170937150939,
+            -0.4681727221731345
+          ],
+          "max": [
+            0.5587762208885914,
+            0.961985793913726,
+            0.40246359758531813
+          ]
+        }
+      },
+      {
+        "clip": "Hit",
+        "seconds": 0,
+        "bounds": {
+          "min": [
+            -0.5909019493578265,
+            0.0009999380354887093,
+            -0.48440041965091124
+          ],
+          "max": [
+            0.5512918509499294,
+            1.071548585555433,
+            0.3976495585368816
+          ]
+        }
+      },
+      {
+        "clip": "Hit",
+        "seconds": 0.1667,
+        "bounds": {
+          "min": [
+            -0.5861118250133353,
+            0.0009976309404792388,
+            -0.49135888430771885
+          ],
+          "max": [
+            0.5504610265800925,
+            1.0311905623498632,
+            0.3992690837418829
+          ]
+        }
+      },
+      {
+        "clip": "Hit",
+        "seconds": 0.3333,
+        "bounds": {
+          "min": [
+            -0.5795501796916378,
+            0.0009999252635824458,
+            -0.47312244503482415
+          ],
+          "max": [
+            0.5494241985584245,
+            0.9637927415079993,
+            0.39921809952668225
+          ]
+        }
+      },
+      {
+        "clip": "Death",
+        "seconds": 0,
+        "bounds": {
+          "min": [
+            -0.5945702649951551,
+            0.0010001652450596244,
+            -0.47835201403156485
+          ],
+          "max": [
+            0.5489500068515124,
+            0.9696730170624697,
+            0.40206808688008094
+          ]
+        }
+      },
+      {
+        "clip": "Death",
+        "seconds": 1.2,
+        "bounds": {
+          "min": [
+            -0.5931059474006279,
+            0.0009964583469445816,
+            -0.8496191219166226
+          ],
+          "max": [
+            0.628683617641352,
+            0.8977832963378968,
+            0.1736545678145638
+          ]
+        }
+      },
+      {
+        "clip": "Death",
+        "seconds": 2.4,
+        "bounds": {
+          "min": [
+            -0.6137571569176961,
+            0.0010000725698282975,
+            -0.8338767859265573
+          ],
+          "max": [
+            0.6173988397543568,
+            0.8817747543433536,
+            0.2314933096150289
+          ]
+        }
+      }
+    ]
+  },
+  "rig": {
+    "vertexCount": 5009,
+    "jointCount": 54,
+    "distributedWeightVertices": 4974,
+    "distributedWeightFraction": 0.99301,
+    "weighting": "Four nearest humanoid bone segments, Gaussian distance blending in the normalized 1 m creature frame; source vertex arrays remain unchanged.",
+    "visualDeformationReviewRequired": true,
+    "maximumWeightSumError": 4.470348358154297e-8,
+    "jointNames": [
+      "mixamorig:Hips",
+      "mixamorig:Spine",
+      "mixamorig:Spine1",
+      "mixamorig:Spine2",
+      "mixamorig:Neck",
+      "mixamorig:Head",
+      "mixamorig:LeftShoulder",
+      "mixamorig:LeftArm",
+      "mixamorig:LeftForeArm",
+      "mixamorig:LeftHand",
+      "mixamorig:LeftUpLeg",
+      "mixamorig:LeftLeg",
+      "mixamorig:LeftFoot",
+      "mixamorig:LeftToeBase",
+      "mixamorig:LeftToe_End",
+      "mixamorig:RightShoulder",
+      "mixamorig:RightArm",
+      "mixamorig:RightForeArm",
+      "mixamorig:RightHand",
+      "mixamorig:RightUpLeg",
+      "mixamorig:RightLeg",
+      "mixamorig:RightFoot",
+      "mixamorig:RightToeBase",
+      "mixamorig:RightToe_End",
+      "mixamorig:LeftHandIndex1",
+      "mixamorig:LeftHandIndex2",
+      "mixamorig:LeftHandIndex3",
+      "mixamorig:LeftHandMiddle1",
+      "mixamorig:LeftHandMiddle2",
+      "mixamorig:LeftHandMiddle3",
+      "mixamorig:LeftHandRing1",
+      "mixamorig:LeftHandRing2",
+      "mixamorig:LeftHandRing3",
+      "mixamorig:LeftHandPinky1",
+      "mixamorig:LeftHandPinky2",
+      "mixamorig:LeftHandPinky3",
+      "mixamorig:LeftHandThumb1",
+      "mixamorig:LeftHandThumb2",
+      "mixamorig:LeftHandThumb3",
+      "mixamorig:RightHandIndex1",
+      "mixamorig:RightHandIndex2",
+      "mixamorig:RightHandIndex3",
+      "mixamorig:RightHandMiddle1",
+      "mixamorig:RightHandMiddle2",
+      "mixamorig:RightHandMiddle3",
+      "mixamorig:RightHandRing1",
+      "mixamorig:RightHandRing2",
+      "mixamorig:RightHandRing3",
+      "mixamorig:RightHandPinky1",
+      "mixamorig:RightHandPinky2",
+      "mixamorig:RightHandPinky3",
+      "mixamorig:RightHandThumb1",
+      "mixamorig:RightHandThumb2",
+      "mixamorig:RightHandThumb3"
+    ],
+    "bindBounds": {
+      "min": [
+        -0.5795344435000161,
+        0.0009999249967969216,
+        -0.47567074391574315
+      ],
+      "max": [
+        0.5494271395991464,
+        0.9642665843979585,
+        0.4009146136298902
+      ]
+    },
+    "method": "Existing animation-library humanoid skeleton mapped to Mixamo semantic names; original extraction transform retained as a shared presentation parent; four nearest limb/torso/head segments blended in normalized source space."
+  },
+  "motionSource": {
+    "file": "game/public/assets/models/animation/animation_library_1.glb",
+    "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+    "retarget": {
+      "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+      "restoredJoints": 54,
+      "mappedJoints": 52,
+      "translationScale": 0.18164066939810344,
+      "clipMap": {
+        "Idle": "Idle_Loop",
+        "Walk": "Walk_Loop",
+        "Run": "Jog_Fwd_Loop",
+        "Attack": "Punch_Jab",
+        "Hit": "Hit_Chest",
+        "Death": "Death01"
+      }
+    }
+  },
+  "holds": [
+    "Rig weights and source geometry/map preservation are mechanically verified. Root visual inspection is still required for silhouette-specific deformation and motion fit."
+  ],
+  "acceptance": {
+    "sourceDesignAccepted": false,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "rootFeatureLabAccepted": false,
+    "worldIntegrated": false
+  }
+}
