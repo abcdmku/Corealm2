@@ -191,13 +191,50 @@
         "archivePath": "assets/art/tripo/exports/packed-8k/a9956e9e-0576-47a0-877e-ee5d3a3b2bb5.glb",
         "downloadedFileName": "packuv_probe_a9956e9e.glb",
         "recordedAtLocal": "2026-09-23T05:39:56-05:00",
-        "exportSettings": {"format": "GLB", "textureResolution": "8k Current", "packUV": true, "exportSkeleton": true},
-        "actualTextureDimensions": {
-          "baseColor": [{"name": "packuv_probe_a9956e9e_basecolor", "width": 8192, "height": 8192}],
-          "metallicRoughness": [{"name": "packuv_probe_a9956e9e_rm", "width": 8192, "height": 8192}],
-          "normal": [{"name": "packuv_probe_a9956e9e_normal", "width": 8192, "height": 8192}]
+        "exportSettings": {
+          "format": "GLB",
+          "textureResolution": "8k Current",
+          "packUV": true,
+          "exportSkeleton": true
         },
-        "meshIdentity": {"meshCount": 47, "triangleCount": 4991, "skinCount": 1, "skinJointCount": 65, "geometryFingerprintMatchesOriginal": true},
+        "actualTextureDimensions": {
+          "baseColor": [
+            {
+              "name": "packuv_probe_a9956e9e_basecolor",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "metallicRoughness": [
+            {
+              "name": "packuv_probe_a9956e9e_rm",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "normal": [
+            {
+              "name": "packuv_probe_a9956e9e_normal",
+              "width": 8192,
+              "height": 8192
+            }
+          ]
+        },
+        "meshIdentity": {
+          "meshCount": 47,
+          "primitiveCount": 47,
+          "triangleCount": 4991,
+          "skinCount": 1,
+          "skinJointCount": 65,
+          "matchesOriginal": {
+            "positionAttributeMultiset": true,
+            "normalFingerprint": true,
+            "indexConnectivity": false,
+            "uvLayoutFingerprint": false,
+            "skinInfluenceFingerprints": true
+          },
+          "note": "Pack UV export changes index connectivity and UV layout; vertex position multiset, normals, skin influences, counts, and joint count match the original archive."
+        },
         "sizeBytes": 33150900,
         "sha256": "5211b230409aa636ed66f9179a5c13cfd5ed37458718433f7903522b8ea33c81"
       }

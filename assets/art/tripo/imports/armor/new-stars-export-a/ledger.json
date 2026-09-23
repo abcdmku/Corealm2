@@ -1,4 +1,6 @@
 ﻿{
+    "packed8kVariantStatus":  "in_progress",
+    "packed8kVariantsArchived":  3,
     "status":  "local-archive-complete",
     "scope":  "Newly starred armor and wizard models",
     "sourceInventory":  {
@@ -35,7 +37,60 @@
                                                "observedAtLocal":  "2026-09-23T04:44:10-05:00",
                                                "settingsVerified":  false,
                                                "outcome":  "Tripo UI download archived; SHA-256 and size verified."
-                                           }
+                                           },
+                       "packed8kVariant":  {
+                           "status":  "archived_verified",
+                           "sourceProjectId":  "d8d97261-b328-4f2f-ad0f-e091bc0dc366",
+                           "archivePath":  "assets/art/tripo/exports/packed-8k/d8d97261-b328-4f2f-ad0f-e091bc0dc366.glb",
+                           "downloadedFileName":  "packed8k_d8d97261.glb",
+                           "recordedAtLocal":  "2026-09-23T05:45:29-05:00",
+                           "exportSettings":  {
+                               "format":  "GLB",
+                               "textureResolution":  "8k Current",
+                               "packUV":  true,
+                               "exportSkeleton":  true
+                           },
+                           "actualTextureDimensions":  {
+                               "baseColor":  [
+                                   {
+                                       "name":  "packed8k_d8d97261_basecolor",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "metallicRoughness":  [
+                                   {
+                                       "name":  "packed8k_d8d97261_rm",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "normal":  [
+                                   {
+                                       "name":  "packed8k_d8d97261_normal",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ]
+                           },
+                           "meshIdentity":  {
+                               "meshCount":  40,
+                               "primitiveCount":  40,
+                               "triangleCount":  4661,
+                               "skinCount":  1,
+                               "skinJointCount":  65,
+                               "matchesOriginal":  {
+                                   "positionAttributeMultiset":  false,
+                                   "normalFingerprint":  true,
+                                   "indexConnectivity":  false,
+                                   "uvLayoutFingerprint":  false,
+                                   "skinInfluenceFingerprints":  true
+                               },
+                               "note":  "Pack UV variant is a distinct Tripo output. Mesh, primitive, triangle, and skin counts match the original archive; normal and skin influence fingerprints match, while UV and index fingerprints differ. The POSITION fingerprint is recorded separately above."
+                           },
+                           "sizeBytes":  24170252,
+                           "sha256":  "bfbf4b81947b5df5893ec25413a1b54d229004f1d0738a9bfe6a9a70393a9f71"
+                       }
                    },
                    {
                        "cardStorageId":  "330fdfb0-65de-405e-b565-343402a9b752",
@@ -56,7 +111,60 @@
                        "localFilePresent":  true,
                        "sha256":  "8c8f0696c167e6989bb9f086b962719441916bc85afd4abb90c183d5af90ac88",
                        "fileSizeBytes":  7319880,
-                       "prompt":  "plate armor knight suit in dark steel with maroon underlayer; detailed medieval armor with segmented plates and gauntlets"
+                       "prompt":  "plate armor knight suit in dark steel with maroon underlayer; detailed medieval armor with segmented plates and gauntlets",
+                       "packed8kVariant":  {
+                           "status":  "archived_verified",
+                           "sourceProjectId":  "7971b96b-dc57-46e0-8b60-f3c054478f6d",
+                           "archivePath":  "assets/art/tripo/exports/packed-8k/7971b96b-dc57-46e0-8b60-f3c054478f6d.glb",
+                           "downloadedFileName":  "packed8k_7971b96b.glb",
+                           "recordedAtLocal":  "2026-09-23T05:47:49-05:00",
+                           "exportSettings":  {
+                               "format":  "GLB",
+                               "textureResolution":  "8k Current",
+                               "packUV":  true,
+                               "exportSkeleton":  true
+                           },
+                           "actualTextureDimensions":  {
+                               "baseColor":  [
+                                   {
+                                       "name":  "packed8k_7971b96b_basecolor",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "metallicRoughness":  [
+                                   {
+                                       "name":  "packed8k_7971b96b_rm",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "normal":  [
+                                   {
+                                       "name":  "packed8k_7971b96b_normal",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ]
+                           },
+                           "meshIdentity":  {
+                               "meshCount":  26,
+                               "primitiveCount":  26,
+                               "triangleCount":  5199,
+                               "skinCount":  1,
+                               "skinJointCount":  65,
+                               "matchesOriginal":  {
+                                   "positionAttributeMultiset":  false,
+                                   "normalFingerprint":  true,
+                                   "indexConnectivity":  false,
+                                   "uvLayoutFingerprint":  false,
+                                   "skinInfluenceFingerprints":  true
+                               },
+                               "note":  "Pack UV variant is a distinct Tripo output. Mesh, primitive, triangle, and skin counts match the original archive; normal and skin influence fingerprints match, while UV and index fingerprints differ. The POSITION fingerprint is recorded separately above."
+                           },
+                           "sizeBytes":  30198380,
+                           "sha256":  "4e59b0c79aff987ee659d2172a078bfc5e2ed854e0572de853c770cedd9378ef"
+                       }
                    },
                    {
                        "cardStorageId":  "e43df8e0-5e5b-47f9-a5a2-619522da301c",
@@ -77,7 +185,60 @@
                        "localFilePresent":  true,
                        "sha256":  "817dbb6e28a7d69d767e34bdceeb13dc1c16a0bd44b3b5f55de8f38d13f3ffce",
                        "fileSizeBytes":  8446808,
-                       "prompt":  "medieval knight armor with ornate silver plating, gold detailing, and blue fabric tabard"
+                       "prompt":  "medieval knight armor with ornate silver plating, gold detailing, and blue fabric tabard",
+                       "packed8kVariant":  {
+                           "status":  "archived_verified",
+                           "sourceProjectId":  "2c2428b5-e674-47c1-9c14-118d298cc833",
+                           "archivePath":  "assets/art/tripo/exports/packed-8k/2c2428b5-e674-47c1-9c14-118d298cc833.glb",
+                           "downloadedFileName":  "packed8k_2c2428b5.glb",
+                           "recordedAtLocal":  "2026-09-23T05:50:12-05:00",
+                           "exportSettings":  {
+                               "format":  "GLB",
+                               "textureResolution":  "8k Current",
+                               "packUV":  true,
+                               "exportSkeleton":  true
+                           },
+                           "actualTextureDimensions":  {
+                               "baseColor":  [
+                                   {
+                                       "name":  "packed8k_2c2428b5_basecolor",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "metallicRoughness":  [
+                                   {
+                                       "name":  "packed8k_2c2428b5_rm",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ],
+                               "normal":  [
+                                   {
+                                       "name":  "packed8k_2c2428b5_normal",
+                                       "width":  8192,
+                                       "height":  8192
+                                   }
+                               ]
+                           },
+                           "meshIdentity":  {
+                               "meshCount":  57,
+                               "primitiveCount":  57,
+                               "triangleCount":  4612,
+                               "skinCount":  1,
+                               "skinJointCount":  65,
+                               "matchesOriginal":  {
+                                   "positionAttributeMultiset":  false,
+                                   "normalFingerprint":  true,
+                                   "indexConnectivity":  false,
+                                   "uvLayoutFingerprint":  false,
+                                   "skinInfluenceFingerprints":  true
+                               },
+                               "note":  "Pack UV variant is a distinct Tripo output. Mesh, primitive, triangle, and skin counts match the original archive; normal and skin influence fingerprints match, while UV and index fingerprints differ. The POSITION fingerprint is recorded separately above."
+                           },
+                           "sizeBytes":  30908804,
+                           "sha256":  "a78c5e81a2f91185de4cb901c9c3b05457cdebc1bd59d19480c8b3d606051ae2"
+                       }
                    },
                    {
                        "cardStorageId":  "784a45a5-fc84-420d-aa63-2aa2a0b041b8",
