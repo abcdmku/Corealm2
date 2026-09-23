@@ -41,11 +41,21 @@
                        "cardStorageId":  "330fdfb0-65de-405e-b565-343402a9b752",
                        "projectId":  "7971b96b-dc57-46e0-8b60-f3c054478f6d",
                        "title":  "Medieval knight armor",
-                       "individualExportAttempt":  null,
+                       "individualExportAttempt":  {
+                                                       "format":  "GLB",
+                                                       "textureResolution":  "8K Current",
+                                                       "exportSkeleton":  true,
+                                                       "outcome":  "Tripo UI export completed; archived with matching size and SHA-256.",
+                                                       "observedAtLocal":  "2026-09-23T04:55:29-05:00",
+                                                       "downloadedFileName":  "medieval+knight+armor+3d+model (3).glb",
+                                                       "settingsVerified":  true,
+                                                       "identificationEvidence":  "Unique 04:55 local arrival after root exported project 7971b96b-dc57-46e0-8b60-f3c054478f6d; embedded base-color image names use medieval_knight_armor_3d_model; dark brown/maroon textures align with the ledger prompt."
+                                                   },
                        "batchSelected":  true,
                        "localExportPath":  "assets/art/tripo/exports/7971b96b-dc57-46e0-8b60-f3c054478f6d.glb",
-                       "localFilePresent":  false,
-                       "sha256":  null
+                       "localFilePresent":  true,
+                       "sha256":  "8c8f0696c167e6989bb9f086b962719441916bc85afd4abb90c183d5af90ac88",
+                       "fileSizeBytes":  7319880
                    },
                    {
                        "cardStorageId":  "e43df8e0-5e5b-47f9-a5a2-619522da301c",
@@ -93,8 +103,8 @@
                     },
     "verification":  {
                          "downloadsFolder":  "C:\\Users\\Borg\\Downloads",
-                         "matchingGlbsInDownloads":  1,
-                         "projectNamedGlbsInWorkspace":  1,
+                         "matchingGlbsInDownloads":  2,
+                         "projectNamedGlbsInWorkspace":  2,
                          "verifiedAt":  "2026-09-23"
                      },
     "note":  "No signed URL was fetched or opened outside Tripo UI. Per computer-use policy, do not bypass ERR_BLOCKED_BY_CLIENT."
