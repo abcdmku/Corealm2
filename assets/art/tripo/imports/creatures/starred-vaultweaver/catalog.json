@@ -31,12 +31,29 @@
       "rootOnlyWeightedVertices": 3435,
       "nonRootWeightedVertices": 1,
       "clips": 0
+    },
+    "materialAudit": {
+      "sourceName": "Material_tripo_node_858e86ba-5d44-4c0d-8797-ba1f6d174b2b",
+      "runtimeName": "animal_vaultweaver_mineral_shell",
+      "rendererRule": "animal_* materials preserve authored creature colors without the enemy tier-metal tint.",
+      "factors": {
+        "baseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "metallic": 1,
+        "roughness": 1
+      },
+      "uvCount": 3436,
+      "uvSha256": "e9c5b24606b3b6ca51c4f9c166d2dc4d955c2730c88acccbafa717005c4a44c7"
     }
   },
   "candidate": {
     "file": "starred-vaultweaver-candidate.glb",
-    "sha256": "ec6eae2623557f2fb801e25457a5c9ce113e40fa14a9c0ce6aec9230ca040c42",
-    "bytes": 7188512,
+    "sha256": "6106cba2cdcd4a0366dcdcd71f8a0ac79bd87a424bed83dfee9a207a9dc08d9a",
+    "bytes": 7188488,
     "vertices": 3436,
     "triangles": 5400,
     "bounds": {
@@ -105,7 +122,9 @@
         "name": "corealm_vaultweaver_0ea08166_8k_rigged_basecolor.jpg",
         "role": "base-color",
         "source": "8192x8192",
+        "sourceSha256": "616374804b3cff89564e7eca4eb9e9002ce58cd4c6ee79a7258f55b6407b88b4",
         "runtime": "2048x2048",
+        "runtimeSha256": "a22c3f6c082b0992f6746ce7bc28267983c5e4238b34460e51e56d70ff9eb52c",
         "mimeType": "image/jpeg",
         "bytes": 1133675
       },
@@ -113,7 +132,9 @@
         "name": "corealm_vaultweaver_0ea08166_8k_rigged_rm.png",
         "role": "metallic-roughness",
         "source": "4096x4096",
+        "sourceSha256": "74e0370cb3da337c07c5b49cc7c09df3356b42e5bd5334a3b1724c4ed6dae737",
         "runtime": "2048x2048",
+        "runtimeSha256": "2da9c0f1e5c4865a532f3d603c7c3d9f0a034b87ab02a9eafb79253cdcf4f1cc",
         "mimeType": "image/png",
         "bytes": 3075918
       },
@@ -121,7 +142,9 @@
         "name": "corealm_vaultweaver_0ea08166_8k_rigged_normal.jpg",
         "role": "normal",
         "source": "4096x4096",
+        "sourceSha256": "77bdb4365fdd07a0dad61d21e0c562598156ee0f06ae2f1767074729e5421ce6",
         "runtime": "2048x2048",
+        "runtimeSha256": "32eb721a60e1a1abd226ffe46165d0aa80f0906c139bf6989197210e8b8c5694",
         "mimeType": "image/jpeg",
         "bytes": 2563666
       }
@@ -262,6 +285,7 @@
   "notes": [
     "This is a lab candidate, not a production promotion. Root reviews Idle, Walk, Run, Attack, Hit and Death on the normal gameplay camera before any integration.",
     "The approved Smart Mesh P2.0 topology, atlas, albedo, normal map and packed metallic-roughness map remain intact; only the broken skeleton, weights and clips were rebuilt.",
-    "Runtime source image maps are downsampled to 2K. The generated packed mineral PBR remains near-zero-metallic and rough; its generated material factors and surface maps are preserved."
+    "Runtime source image maps are downsampled to 2K. The generated packed mineral PBR remains near-zero-metallic and rough; its generated material factors and surface maps are preserved.",
+    "The source material name bypassed the renderer’s natural-creature tier-tint exemption; the runtime material now uses its animal_* creature prefix so the original layered mineral colors stay visible."
   ]
 }

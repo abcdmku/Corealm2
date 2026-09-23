@@ -306,6 +306,17 @@ const textureRoles = new Map([
   [material.getNormalTexture(), 'normal'],
   [material.getMetallicRoughnessTexture(), 'metallic-roughness'],
 ]);
+const sourceMaterialName = material.getName();
+const sourceMaterialFactors = {
+  baseColor: [...material.getBaseColorFactor()],
+  metallic: material.getMetallicFactor(),
+  roughness: material.getRoughnessFactor(),
+};
+// The live enemy renderer applies a strong tier-metal wash unless the material name is a
+// recognized creature surface. The Tripo name fell through that rule, turning this authored
+// pale, layered mineral shell Emberdrift orange in the T20 lab. Renaming only the material keeps
+// the approved albedo and PBR maps untouched while opting into the existing animal_* exemption.
+material.setName('animal_vaultweaver_mineral_shell');
 const textureReport = [];
 async function downsampleData(encoded, renormalizeNormal) {
   const { data, info } = await sharp(encoded).removeAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -355,7 +366,14 @@ for (const texture of root.listTextures()) {
   }
   texture.setImage(new Uint8Array(output));
   const runtimeMeta = await sharp(output).metadata();
-  textureReport.push({ name: texture.getName(), role, source: `${sourceMeta.width}x${sourceMeta.height}`, runtime: `${runtimeMeta.width}x${runtimeMeta.height}`, mimeType: texture.getMimeType(), bytes: output.length });
+  textureReport.push({
+    name: texture.getName(), role,
+    source: `${sourceMeta.width}x${sourceMeta.height}`,
+    sourceSha256: createHash('sha256').update(encoded).digest('hex'),
+    runtime: `${runtimeMeta.width}x${runtimeMeta.height}`,
+    runtimeSha256: createHash('sha256').update(output).digest('hex'),
+    mimeType: texture.getMimeType(), bytes: output.length,
+  });
 }
 
 await io.write(outputPath, doc);
@@ -381,6 +399,14 @@ const catalog = {
     triangleCount: triangleCount,
     topologyPreserved: true,
     originalRig: { joints: 29, validRestTransforms: false, rootOnlyWeightedVertices: 3435, nonRootWeightedVertices: 1, clips: 0 },
+    materialAudit: {
+      sourceName: sourceMaterialName,
+      runtimeName: material.getName(),
+      rendererRule: 'animal_* materials preserve authored creature colors without the enemy tier-metal tint.',
+      factors: sourceMaterialFactors,
+      uvCount: sourceUVs.length / 2,
+      uvSha256: createHash('sha256').update(Buffer.from(sourceUVs.buffer, sourceUVs.byteOffset, sourceUVs.byteLength)).digest('hex'),
+    },
   },
   candidate: {
     file: path.basename(outputPath),
@@ -409,6 +435,7 @@ const catalog = {
     'This is a lab candidate, not a production promotion. Root reviews Idle, Walk, Run, Attack, Hit and Death on the normal gameplay camera before any integration.',
     'The approved Smart Mesh P2.0 topology, atlas, albedo, normal map and packed metallic-roughness map remain intact; only the broken skeleton, weights and clips were rebuilt.',
     'Runtime source image maps are downsampled to 2K. The generated packed mineral PBR remains near-zero-metallic and rough; its generated material factors and surface maps are preserved.',
+    'The source material name bypassed the renderer’s natural-creature tier-tint exemption; the runtime material now uses its animal_* creature prefix so the original layered mineral colors stay visible.',
   ],
 };
 await writeFile(catalogPath, `${JSON.stringify(catalog, null, 2)}\n`);
@@ -474,6 +501,16 @@ async function validateCandidate(filePath) {
   if (!positions || !normals || !uvs || !indices || !joints || !weights || !outputSkin || outRoot.listSkins().length !== 1) throw new Error('Candidate lost its required mesh/skin attributes.');
   const same = (a, b) => a.length === b.length && Buffer.from(a.buffer, a.byteOffset, a.byteLength).equals(Buffer.from(b.buffer, b.byteOffset, b.byteLength));
   if (!same(positions, sourcePositions) || !same(normals, sourceNormals) || !same(uvs, sourceUVs) || !same(indices, sourceIndices)) throw new Error('Approved mesh geometry, normal, UV or index data changed.');
+  const outMaterial = outPrimitive.getMaterial();
+  if (outMaterial?.getName() !== 'animal_vaultweaver_mineral_shell'
+    || !outMaterial.getBaseColorTexture()
+    || !outMaterial.getNormalTexture()
+    || !outMaterial.getMetallicRoughnessTexture()
+    || JSON.stringify(outMaterial.getBaseColorFactor()) !== JSON.stringify(sourceMaterialFactors.baseColor)
+    || outMaterial.getMetallicFactor() !== sourceMaterialFactors.metallic
+    || outMaterial.getRoughnessFactor() !== sourceMaterialFactors.roughness) {
+    throw new Error('Candidate material lost its creature-safe name, PBR maps or source factors.');
+  }
   if (outputSkin.listJoints().length !== definitions.length) throw new Error('Native rig joint list changed during serialization.');
   let maxWeightError = 0;
   for (let vertex = 0; vertex < vertexCount; vertex += 1) {

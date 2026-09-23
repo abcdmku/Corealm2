@@ -17,8 +17,8 @@
         "skinned",
         "articulated"
       ],
-      "bytes": 7188512,
-      "sha256": "ec6eae2623557f2fb801e25457a5c9ce113e40fa14a9c0ce6aec9230ca040c42",
+      "bytes": 7188488,
+      "sha256": "6106cba2cdcd4a0366dcdcd71f8a0ac79bd87a424bed83dfee9a207a9dc08d9a",
       "size": {
         "x": 0.79248046875,
         "y": 0.8608357906341553,
@@ -52,7 +52,7 @@
         "Death"
       ],
       "materials": [
-        "Material_tripo_node_858e86ba-5d44-4c0d-8797-ba1f6d174b2b"
+        "animal_vaultweaver_mineral_shell"
       ],
       "sourceProvenance": {
         "author": "Corealm candidate rig reconstruction",
@@ -61,7 +61,7 @@
         "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
         "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
         "candidateFile": "starred-vaultweaver-candidate.glb",
-        "candidateSha256": "ec6eae2623557f2fb801e25457a5c9ce113e40fa14a9c0ce6aec9230ca040c42"
+        "candidateSha256": "6106cba2cdcd4a0366dcdcd71f8a0ac79bd87a424bed83dfee9a207a9dc08d9a"
       },
       "walkClipSeconds": 1.08,
       "runClipSeconds": 0.72,
@@ -83,7 +83,7 @@
           "sourceImageId": "4adea6eb-8436-4a07-9c52-9b71300f70bf",
           "modelId": "0ea08166-294b-467b-982b-8f3c1891eee3",
           "sourceSha256": "da60ada74e374e3fec0de0ab43ee469fc369fba99d983b794f893ef7ed41d21f",
-          "candidateSha256": "ec6eae2623557f2fb801e25457a5c9ce113e40fa14a9c0ce6aec9230ca040c42"
+          "candidateSha256": "6106cba2cdcd4a0366dcdcd71f8a0ac79bd87a424bed83dfee9a207a9dc08d9a"
         },
         "attackSeconds": 0.88,
         "contactNormalized": 0.5,
