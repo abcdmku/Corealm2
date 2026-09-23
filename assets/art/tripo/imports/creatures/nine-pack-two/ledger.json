@@ -12,8 +12,15 @@
       "sourceGlb": "assets/art/tripo/exports/corealm_strata_delver_707c39cd_8k_rigged.glb",
       "sourceSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
       "audit": "approved-with-face-audit",
-      "status": "candidate-in-progress",
-      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver"
+      "status": "candidate-built-awaiting-root-lab",
+      "candidateFolder": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver",
+      "candidateFile": "assets/art/tripo/imports/creatures/nine-pack-two/strata-delver/strata-delver-native-rig-candidate.glb",
+      "candidateSha256": "b27a5ac2272d822a9d6457399238f9b9a1eba5b131c089a97a493cad9c25de16",
+      "candidateRigJoints": 10,
+      "candidateClips": ["Idle", "Walk", "Run", "Attack", "Hit", "Death"],
+      "runtimeMaps": ["base-color 2048x2048 JPEG", "normal 2048x2048 PNG", "occlusion-roughness-metallic 2048x2048 PNG"],
+      "acceptance": "pending-root-lab-review",
+      "buildWarning": "Optional FB_ngon_encoding extension is absent; source geometry and UVs were preserved."
     },
     {
       "name": "Undercrag Mawer",

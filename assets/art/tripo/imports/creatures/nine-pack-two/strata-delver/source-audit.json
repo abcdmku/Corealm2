@@ -1,0 +1,36 @@
+{
+  "status": "approved",
+  "batchId": "beetle-golem",
+  "otherCandidatesFound": false,
+  "modelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+  "approvedSourceImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
+  "approvedSourceImage": "assets/art/tripo/references/stone-strata-delver.png",
+  "approvedSourceImageSha256": "d6715e81c93b35e4ecdfb38041b4c521a48412654cebb356e1028664d12b639d",
+  "rawExport": "assets/art/tripo/exports/corealm_strata_delver_707c39cd_8k_rigged.glb",
+  "rawExportSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
+  "rawExportBytes": 22553308,
+  "sourceFacts": {
+    "skins": 1,
+    "animationClips": 0,
+    "joints": 10,
+    "baseColor": {
+      "dimensions": [
+        8192,
+        8192
+      ],
+      "sha256": "51aab8f7412eda52594e5f40fdb8500f158312430c50ad77c690b563d84a466f"
+    },
+    "initialSkinning": {
+      "auditReported": "100% weights on bone_0",
+      "verticesWithBone0": 3238,
+      "verticesDominatedByBone0": 3238,
+      "verticesExclusivelyOnBone0": 3237,
+      "minBone0Weight": 0.9999709725379944,
+      "meanBone0Weight": 0.9999999910353731,
+      "maxBone0Weight": 1,
+      "maximumOtherInfluence": 0.000029036908017587848
+    },
+    "vertices": 3238,
+    "triangles": 5310
+  }
+}

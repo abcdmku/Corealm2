@@ -1,0 +1,520 @@
+{
+  "schema": "corealm-creature-candidate/1",
+  "id": "creature_strata_delver_ninepack2",
+  "displayName": "Strata Delver",
+  "status": "awaiting-root-lab-review",
+  "acceptance": {
+    "imageApproved": false,
+    "geometryApproved": false,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "textureAccepted": false,
+    "labAccepted": false,
+    "promotable": false,
+    "worldIntegrated": false,
+    "status": "pending-root-feature-lab-review"
+  },
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_strata_delver_707c39cd_8k_rigged.glb",
+    "sha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
+    "bytes": 22553308,
+    "modelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+    "approvedImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
+    "imageReference": "assets/art/tripo/references/stone-strata-delver.png",
+    "imageReferenceSha256": "d6715e81c93b35e4ecdfb38041b4c521a48412654cebb356e1028664d12b639d",
+    "sourceBaseColor": "8192x8192",
+    "sourcePbr": [
+      "no normal map",
+      "no metallic-roughness map"
+    ],
+    "sourceAudit": {
+      "skins": 1,
+      "animationClips": 0,
+      "joints": 10,
+      "baseColor": {
+        "dimensions": [
+          8192,
+          8192
+        ],
+        "sha256": "51aab8f7412eda52594e5f40fdb8500f158312430c50ad77c690b563d84a466f"
+      },
+      "initialSkinning": {
+        "auditReported": "100% weights on bone_0",
+        "verticesWithBone0": 3238,
+        "verticesDominatedByBone0": 3238,
+        "verticesExclusivelyOnBone0": 3237,
+        "minBone0Weight": 0.9999709725379944,
+        "meanBone0Weight": 0.9999999910353731,
+        "maxBone0Weight": 1,
+        "maximumOtherInfluence": 0.000029036908017587848
+      },
+      "vertices": 3238,
+      "triangles": 5310
+    }
+  },
+  "candidate": {
+    "file": "strata-delver-native-rig-candidate.glb",
+    "sha256": "b27a5ac2272d822a9d6457399238f9b9a1eba5b131c089a97a493cad9c25de16",
+    "bytes": 14370932,
+    "vertices": 3238,
+    "triangles": 5310,
+    "bounds": {
+      "min": [
+        -0.303955078125,
+        0,
+        -0.499755859375
+      ],
+      "max": [
+        0.303955078125,
+        0.5473633408546448,
+        0.499755859375
+      ]
+    },
+    "size": {
+      "x": 0.60791015625,
+      "y": 0.5473633408546448,
+      "z": 0.99951171875
+    },
+    "rig": {
+      "type": "custom six-legged quadruped-like arthropod rig",
+      "joints": [
+        "DelverRoot",
+        "Body",
+        "Head",
+        "Tail",
+        "FrontLeg_L",
+        "FrontLeg_R",
+        "MiddleLeg_L",
+        "MiddleLeg_R",
+        "RearLeg_L",
+        "RearLeg_R"
+      ],
+      "weighting": {
+        "normalized": true,
+        "maxSumError": 4.470348358154297e-8,
+        "minimumNonzeroWeight": 0.000002057690153378644,
+        "verticesWithMultipleInfluences": 2527,
+        "influenceCountHistogram": {
+          "2": 711,
+          "3": 709,
+          "4": 1818
+        },
+        "jointCoverage": [
+          {
+            "name": "DelverRoot",
+            "vertices": 1865
+          },
+          {
+            "name": "Body",
+            "vertices": 2522
+          },
+          {
+            "name": "Head",
+            "vertices": 894
+          },
+          {
+            "name": "Tail",
+            "vertices": 923
+          },
+          {
+            "name": "FrontLeg_L",
+            "vertices": 212
+          },
+          {
+            "name": "FrontLeg_R",
+            "vertices": 214
+          },
+          {
+            "name": "MiddleLeg_L",
+            "vertices": 221
+          },
+          {
+            "name": "MiddleLeg_R",
+            "vertices": 220
+          },
+          {
+            "name": "RearLeg_L",
+            "vertices": 254
+          },
+          {
+            "name": "RearLeg_R",
+            "vertices": 252
+          }
+        ]
+      }
+    },
+    "textures": [
+      {
+        "name": "Strata Delver layered source base color 2K",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg",
+        "bytes": 2214147,
+        "sha256": "0bf72a120ffa0e81465210a5fb37cde146cbe5e54a197d23f23d584a0ce776eb"
+      },
+      {
+        "name": "Strata Delver 2K image-derived stone normal",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png",
+        "bytes": 8642616,
+        "sha256": "8a3ed17b05ac95bfbfbc0ce88a3493d84e6f006e55035e6b219fd4b981bf88cb"
+      },
+      {
+        "name": "Strata Delver 2K occlusion-roughness-metallic",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png",
+        "bytes": 3160169,
+        "sha256": "782ee0a7ca0832444bd4cf4be258d14eef79817d253d47f4f8feb5f78d047988"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 3.2,
+        "channels": 9
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.52,
+        "channels": 10
+      },
+      {
+        "name": "Run",
+        "seconds": 0.88,
+        "channels": 10
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.78,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 7
+      },
+      {
+        "name": "Death",
+        "seconds": 1.72,
+        "channels": 10
+      }
+    ],
+    "notes": [
+      "The approved layered sedimentary source albedo is retained and reduced from 8K to 2K for runtime use.",
+      "The original geometry, vertex order, normals, indices and UV atlas are byte-for-byte preserved; no retopology or UV repacking was performed.",
+      "Two-kilopixel tangent normals and packed occlusion-roughness-metallic maps are derived from the source atlas; stone is non-metallic.",
+      "Six disconnected source leg assemblies receive individual pivots and custom Idle, Walk, Run, Attack, Hit and Death clips.",
+      "All review and integration acceptance remains pending the root feature-lab pass."
+    ]
+  },
+  "provenance": {
+    "author": "Corealm creature rig reconstruction",
+    "generator": "Tripo Studio P1.0 Smart Mesh",
+    "imageGenerator": "Tripo GPT Image 2.5",
+    "modelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+    "sourceImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
+    "sourceImage": "assets/art/tripo/references/stone-strata-delver.png",
+    "sourceImageSha256": "d6715e81c93b35e4ecdfb38041b4c521a48412654cebb356e1028664d12b639d",
+    "originalSourceFile": "assets/art/tripo/exports/corealm_strata_delver_707c39cd_8k_rigged.glb",
+    "originalSourceSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
+    "originalSourceBytes": 22553308,
+    "sourceTextureSha256": "51aab8f7412eda52594e5f40fdb8500f158312430c50ad77c690b563d84a466f",
+    "sourceAudit": "approved",
+    "batchId": "beetle-golem",
+    "otherCandidatesFound": false,
+    "geometry": {
+      "vertices": 3238,
+      "triangles": 5310,
+      "bounds": {
+        "min": [
+          -0.303955078125,
+          0,
+          -0.499755859375
+        ],
+        "max": [
+          0.303955078125,
+          0.5473633408546448,
+          0.499755859375
+        ]
+      },
+      "positionsNormalsIndicesAndUvHashesUnchanged": true,
+      "noRetopology": true,
+      "noUvRepack": true
+    },
+    "rigRepair": {
+      "source": "10-joint Tripo skin with collapsed identity transforms and all vertices dominated by bone_0",
+      "method": "Replaced unusable joint transforms and inverse binds with 10 named pivots: root, body, head, tail and six legs. Six isolated limb islands were assigned to individual leg joints; small floor islands were matched to their nearest leg; body vertices blend along the long axis into head and tail joints.",
+      "joints": [
+        "DelverRoot",
+        "Body",
+        "Head",
+        "Tail",
+        "FrontLeg_L",
+        "FrontLeg_R",
+        "MiddleLeg_L",
+        "MiddleLeg_R",
+        "RearLeg_L",
+        "RearLeg_R"
+      ],
+      "weights": {
+        "normalized": true,
+        "maxSumError": 4.470348358154297e-8,
+        "minimumNonzeroWeight": 0.000002057690153378644,
+        "verticesWithMultipleInfluences": 2527,
+        "influenceCountHistogram": {
+          "2": 711,
+          "3": 709,
+          "4": 1818
+        },
+        "jointCoverage": [
+          {
+            "name": "DelverRoot",
+            "vertices": 1865
+          },
+          {
+            "name": "Body",
+            "vertices": 2522
+          },
+          {
+            "name": "Head",
+            "vertices": 894
+          },
+          {
+            "name": "Tail",
+            "vertices": 923
+          },
+          {
+            "name": "FrontLeg_L",
+            "vertices": 212
+          },
+          {
+            "name": "FrontLeg_R",
+            "vertices": 214
+          },
+          {
+            "name": "MiddleLeg_L",
+            "vertices": 221
+          },
+          {
+            "name": "MiddleLeg_R",
+            "vertices": 220
+          },
+          {
+            "name": "RearLeg_L",
+            "vertices": 254
+          },
+          {
+            "name": "RearLeg_R",
+            "vertices": 252
+          }
+        ]
+      },
+      "axis": "Y up; body length follows Z; head/front is negative Z based on the approved reference silhouette and six source limb islands."
+    },
+    "runtimeTextures": {
+      "maxDimension": 2048,
+      "originalsPreserved": "Raw export remains unchanged at its approved path and hash; candidate embeds the same 8K base-color atlas resampled to 2K.",
+      "maps": [
+        {
+          "role": "base-color",
+          "file": "strata-delver-basecolor-2k.jpg",
+          "bytes": 2214147,
+          "sha256": "0bf72a120ffa0e81465210a5fb37cde146cbe5e54a197d23f23d584a0ce776eb",
+          "sourceResolution": [
+            8192,
+            8192
+          ],
+          "runtimeResolution": [
+            2048,
+            2048
+          ],
+          "method": "Approved image-generated Tripo atlas downsampled with Lanczos; colors, strata layers and atlas UV layout retained."
+        },
+        {
+          "role": "normal",
+          "file": "strata-delver-normal-2k.png",
+          "bytes": 8642616,
+          "sha256": "8a3ed17b05ac95bfbfbc0ce88a3493d84e6f006e55035e6b219fd4b981bf88cb",
+          "runtimeResolution": [
+            2048,
+            2048
+          ],
+          "method": "Tangent-space normal derived at three spatial scales from the layered source albedo; no atlas repaint or UV change."
+        },
+        {
+          "role": "occlusion-roughness-metallic",
+          "file": "strata-delver-orm-2k.png",
+          "bytes": 3160169,
+          "sha256": "782ee0a7ca0832444bd4cf4be258d14eef79817d253d47f4f8feb5f78d047988",
+          "runtimeResolution": [
+            2048,
+            2048
+          ],
+          "channels": {
+            "R": "occlusion",
+            "G": "roughness",
+            "B": "metallic (zero for stone)"
+          },
+          "method": "Packed from source-atlas luminance and local sediment contrast; stone remains non-metallic and high-roughness."
+        }
+      ]
+    },
+    "requestedCoreMotions": [
+      {
+        "name": "Idle",
+        "seconds": 3.2,
+        "channels": 9
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.52,
+        "channels": 10
+      },
+      {
+        "name": "Run",
+        "seconds": 0.88,
+        "channels": 10
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.78,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 7
+      },
+      {
+        "name": "Death",
+        "seconds": 1.72,
+        "channels": 10
+      }
+    ],
+    "acceptance": {
+      "imageApproved": false,
+      "geometryApproved": false,
+      "rigAccepted": false,
+      "motionAccepted": false,
+      "textureAccepted": false,
+      "labAccepted": false,
+      "promotable": false,
+      "worldIntegrated": false,
+      "status": "pending-root-feature-lab-review"
+    }
+  },
+  "validation": {
+    "geometryHashesUnchanged": true,
+    "weightMaxSumError": 4.470348358154297e-8,
+    "minimumNonzeroWeight": 0.000002057690153378644,
+    "verticesWithMultipleInfluences": 2527,
+    "jointCoverage": [
+      {
+        "name": "DelverRoot",
+        "vertices": 1865
+      },
+      {
+        "name": "Body",
+        "vertices": 2522
+      },
+      {
+        "name": "Head",
+        "vertices": 894
+      },
+      {
+        "name": "Tail",
+        "vertices": 923
+      },
+      {
+        "name": "FrontLeg_L",
+        "vertices": 212
+      },
+      {
+        "name": "FrontLeg_R",
+        "vertices": 214
+      },
+      {
+        "name": "MiddleLeg_L",
+        "vertices": 221
+      },
+      {
+        "name": "MiddleLeg_R",
+        "vertices": 220
+      },
+      {
+        "name": "RearLeg_L",
+        "vertices": 254
+      },
+      {
+        "name": "RearLeg_R",
+        "vertices": 252
+      }
+    ],
+    "textureDimensions": [
+      {
+        "name": "Strata Delver layered source base color 2K",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/jpeg"
+      },
+      {
+        "name": "Strata Delver 2K image-derived stone normal",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png"
+      },
+      {
+        "name": "Strata Delver 2K occlusion-roughness-metallic",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mimeType": "image/png"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 3.2,
+        "channels": 9
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.52,
+        "channels": 10
+      },
+      {
+        "name": "Run",
+        "seconds": 0.88,
+        "channels": 10
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.78,
+        "channels": 6
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 7
+      },
+      {
+        "name": "Death",
+        "seconds": 1.72,
+        "channels": 10
+      }
+    ]
+  }
+}

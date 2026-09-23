@@ -1,0 +1,150 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_strata_delver_ninepack2",
+      "file": "strata-delver-native-rig-candidate.glb",
+      "candidateFile": "strata-delver-native-rig-candidate.glb",
+      "pack": "nine-pack-two-strata-delver-review",
+      "category": "character",
+      "is": "Strata Delver",
+      "tags": [
+        "creature",
+        "stone",
+        "strata",
+        "six-legged",
+        "tripo",
+        "skinned",
+        "root-lab-review"
+      ],
+      "bytes": 14370932,
+      "sha256": "b27a5ac2272d822a9d6457399238f9b9a1eba5b131c089a97a493cad9c25de16",
+      "size": {
+        "x": 0.60791015625,
+        "y": 0.5473633408546448,
+        "z": 0.99951171875
+      },
+      "base": {
+        "x": -0.303955078125,
+        "y": 0,
+        "z": -0.499755859375
+      },
+      "bounds": {
+        "min": [
+          -0.303955078125,
+          0,
+          -0.499755859375
+        ],
+        "max": [
+          0.303955078125,
+          0.5473633408546448,
+          0.499755859375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5310,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_932b078c-6fa3-41a0-98c7-2c19288ed9ec"
+      ],
+      "walkClipSeconds": 1.52,
+      "runClipSeconds": 0.88,
+      "attackSeconds": 0.78,
+      "sourceProvenance": {
+        "author": "Corealm creature rig reconstruction",
+        "source": "Approved Tripo source image and raw export from the beetle-golem batch.",
+        "modelId": "707c39cd-4a8e-40c4-8ecf-ca03814e8a06",
+        "sourceImageId": "3432b9ea-8266-46e8-882f-47e840ea1750",
+        "sourceImageSha256": "d6715e81c93b35e4ecdfb38041b4c521a48412654cebb356e1028664d12b639d",
+        "sourceSha256": "881924b696f4ecf293da332b8d5e2e50052f4ceaa3fbc06383422c14a990abaf",
+        "candidateFile": "strata-delver-native-rig-candidate.glb",
+        "candidateSha256": "b27a5ac2272d822a9d6457399238f9b9a1eba5b131c089a97a493cad9c25de16",
+        "rigMethod": "Replaced unusable joint transforms and inverse binds with 10 named pivots: root, body, head, tail and six legs. Six isolated limb islands were assigned to individual leg joints; small floor islands were matched to their nearest leg; body vertices blend along the long axis into head and tail joints.",
+        "textureMaps": [
+          {
+            "role": "base-color",
+            "file": "strata-delver-basecolor-2k.jpg",
+            "bytes": 2214147,
+            "sha256": "0bf72a120ffa0e81465210a5fb37cde146cbe5e54a197d23f23d584a0ce776eb",
+            "sourceResolution": [
+              8192,
+              8192
+            ],
+            "runtimeResolution": [
+              2048,
+              2048
+            ],
+            "method": "Approved image-generated Tripo atlas downsampled with Lanczos; colors, strata layers and atlas UV layout retained."
+          },
+          {
+            "role": "normal",
+            "file": "strata-delver-normal-2k.png",
+            "bytes": 8642616,
+            "sha256": "8a3ed17b05ac95bfbfbc0ce88a3493d84e6f006e55035e6b219fd4b981bf88cb",
+            "runtimeResolution": [
+              2048,
+              2048
+            ],
+            "method": "Tangent-space normal derived at three spatial scales from the layered source albedo; no atlas repaint or UV change."
+          },
+          {
+            "role": "occlusion-roughness-metallic",
+            "file": "strata-delver-orm-2k.png",
+            "bytes": 3160169,
+            "sha256": "782ee0a7ca0832444bd4cf4be258d14eef79817d253d47f4f8feb5f78d047988",
+            "runtimeResolution": [
+              2048,
+              2048
+            ],
+            "channels": {
+              "R": "occlusion",
+              "G": "roughness",
+              "B": "metallic (zero for stone)"
+            },
+            "method": "Packed from source-atlas luminance and local sediment contrast; stone remains non-metallic and high-roughness."
+          }
+        ]
+      },
+      "metadata": {
+        "is": "Strata Delver",
+        "tags": [
+          "creature",
+          "stone",
+          "strata",
+          "six-legged",
+          "tripo",
+          "skinned",
+          "root-lab-review"
+        ],
+        "boneNames": [
+          "DelverRoot",
+          "Body",
+          "Head",
+          "Tail",
+          "FrontLeg_L",
+          "FrontLeg_R",
+          "MiddleLeg_L",
+          "MiddleLeg_R",
+          "RearLeg_L",
+          "RearLeg_R"
+        ],
+        "notes": "Layered sedimentary rock creature with six source limb islands, a repaired 10-joint rig and 2K runtime PBR maps."
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_strata_delver_ninepack2": "strata-delver-native-rig-candidate.glb"
+  }
+}
