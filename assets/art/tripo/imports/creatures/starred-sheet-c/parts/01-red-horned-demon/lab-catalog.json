@@ -15,28 +15,28 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 7020968,
-      "sha256": "ea3d638141c29e365f973a762df51e16343d8b369aa6fd375cb1ac4c948cc910",
+      "bytes": 7021032,
+      "sha256": "64c625d0a98d68a7642f83a1ff5498eb4e0be6efa0547a46bc565dfb53cacabc",
       "size": {
-        "x": 0.26171875,
-        "y": 0.296875,
-        "z": 0.166015625
+        "x": 1.5427631578947367,
+        "y": 1.75,
+        "z": 0.9786184210526315
       },
       "base": [
-        -0.130859375,
+        -0.7713815789473684,
         0,
-        -0.0830078125
+        -0.48930921052631576
       ],
       "bounds": {
         "min": [
-          -0.130859375,
+          -0.7713815789473684,
           0,
-          -0.0830078125
+          -0.48930921052631576
         ],
         "max": [
-          0.130859375,
-          0.296875,
-          0.0830078125
+          0.7713815789473684,
+          1.75,
+          0.48930921052631576
         ]
       },
       "groundY": 0,
@@ -57,9 +57,9 @@
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon/base.glb",
         "sourceSha256": "20aef52b346729e30cd9499c50eff066d364385b9b03c3ae1f3c9707e8ae0164",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon/red-horned-demon-rigged.glb",
-        "candidateSha256": "ea3d638141c29e365f973a762df51e16343d8b369aa6fd375cb1ac4c948cc910",
+        "candidateSha256": "64c625d0a98d68a7642f83a1ff5498eb4e0be6efa0547a46bc565dfb53cacabc",
         "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
-        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates.",
+        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container.",
         "textures": [
           {
             "name": "demon+creature+3d+model_basecolor.jpg",

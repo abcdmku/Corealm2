@@ -109,11 +109,18 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/pale-lavender-long-ear-demon-rigged.glb",
-    "sha256": "8c6d42277d3d86e820c4e4121686477357b6db9fc3d22eef88597ae80d4e1a71",
-    "bytes": 6780540,
+    "sha256": "a79a6137d61216c29ee3eab2b769b9bc40993a6271949d1e469cdf34dfefdad6",
+    "bytes": 6780604,
     "productionTarget": "game/public/assets/models/creature/creature_pale_lavender_long_ear_demon.glb",
     "rig": {
       "type": "Mixamo-named humanoid glTF skin",
+      "rootScale": [
+        5.054777070063694,
+        5.054777070063694,
+        5.054777070063694
+      ],
+      "scaleFactor": 5.054777070063694,
+      "targetHeightMeters": 1.55,
       "joints": [
         {
           "name": "mixamorigHips",
@@ -317,7 +324,7 @@
       "influencesPerVertex": 4,
       "verticesWithDistributedWeights": 1628,
       "maximumWeightSumError": 0,
-      "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates."
+      "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container."
     },
     "textures": [
       {

@@ -15,28 +15,28 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 6780540,
-      "sha256": "8c6d42277d3d86e820c4e4121686477357b6db9fc3d22eef88597ae80d4e1a71",
+      "bytes": 6780604,
+      "sha256": "a79a6137d61216c29ee3eab2b769b9bc40993a6271949d1e469cdf34dfefdad6",
       "size": {
-        "x": 0.267578125,
-        "y": 0.306640625,
-        "z": 0.1210937425494194
+        "x": 1.3525477707006368,
+        "y": 1.5499999999999998,
+        "z": 0.6121018731670015
       },
       "base": [
-        -0.1337890625,
+        -0.6762738853503184,
         0,
-        -0.0605468712747097
+        -0.30605093658350074
       ],
       "bounds": {
         "min": [
-          -0.1337890625,
+          -0.6762738853503184,
           0,
-          -0.0605468712747097
+          -0.30605093658350074
         ],
         "max": [
-          0.1337890625,
-          0.306640625,
-          0.0605468712747097
+          0.6762738853503184,
+          1.5499999999999998,
+          0.30605093658350074
         ]
       },
       "groundY": 0,
@@ -57,9 +57,9 @@
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/base.glb",
         "sourceSha256": "6d6eebae4dae96dc35fb2f6ed95d0b03c691e381dafcb9c93519fa5d90c75519",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/02-pale-lavender-long-ear-demon/pale-lavender-long-ear-demon-rigged.glb",
-        "candidateSha256": "8c6d42277d3d86e820c4e4121686477357b6db9fc3d22eef88597ae80d4e1a71",
+        "candidateSha256": "a79a6137d61216c29ee3eab2b769b9bc40993a6271949d1e469cdf34dfefdad6",
         "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
-        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates.",
+        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container.",
         "textures": [
           {
             "name": "demon+creature+3d+model_basecolor.jpg",

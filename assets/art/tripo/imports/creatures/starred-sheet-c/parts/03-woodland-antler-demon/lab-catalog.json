@@ -15,28 +15,28 @@
         "tripo",
         "candidate"
       ],
-      "bytes": 7071608,
-      "sha256": "e9ffed22111bb6c40151d6776d86421563a21d1fbf0b05de856ba40c6c8f5815",
+      "bytes": 7071676,
+      "sha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
       "size": {
-        "x": 0.28515625,
-        "y": 0.30859375,
-        "z": 0.1933593899011612
+        "x": 1.709493670886076,
+        "y": 1.85,
+        "z": 1.1591773045213916
       },
       "base": [
-        -0.142578125,
+        -0.854746835443038,
         0,
-        -0.0966796949505806
+        -0.5795886522606958
       ],
       "bounds": {
         "min": [
-          -0.142578125,
+          -0.854746835443038,
           0,
-          -0.0966796949505806
+          -0.5795886522606958
         ],
         "max": [
-          0.142578125,
-          0.30859375,
-          0.0966796949505806
+          0.854746835443038,
+          1.85,
+          0.5795886522606958
         ]
       },
       "groundY": 0,
@@ -57,9 +57,9 @@
         "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/base.glb",
         "sourceSha256": "77fff0752bef0ea2972ad07d1082e413dc3155298eb9165efeaac298d522c69e",
         "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/woodland-antler-demon-rigged.glb",
-        "candidateSha256": "e9ffed22111bb6c40151d6776d86421563a21d1fbf0b05de856ba40c6c8f5815",
+        "candidateSha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
         "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
-        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates.",
+        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container.",
         "textures": [
           {
             "name": "demon+creature+3d+model_basecolor.jpg",

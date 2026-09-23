@@ -109,11 +109,18 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/01-red-horned-demon/red-horned-demon-rigged.glb",
-    "sha256": "ea3d638141c29e365f973a762df51e16343d8b369aa6fd375cb1ac4c948cc910",
-    "bytes": 7020968,
+    "sha256": "64c625d0a98d68a7642f83a1ff5498eb4e0be6efa0547a46bc565dfb53cacabc",
+    "bytes": 7021032,
     "productionTarget": "game/public/assets/models/creature/creature_red_horned_demon.glb",
     "rig": {
       "type": "Mixamo-named humanoid glTF skin",
+      "rootScale": [
+        5.894736842105263,
+        5.894736842105263,
+        5.894736842105263
+      ],
+      "scaleFactor": 5.894736842105263,
+      "targetHeightMeters": 1.75,
       "joints": [
         {
           "name": "mixamorigHips",
@@ -317,7 +324,7 @@
       "influencesPerVertex": 4,
       "verticesWithDistributedWeights": 5476,
       "maximumWeightSumError": 0,
-      "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates."
+      "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container."
     },
     "textures": [
       {
