@@ -830,5 +830,60 @@
   ],
   "heldCandidates": [],
   "visualAccepted": false,
-  "promotable": false
+  "promotable": false,
+  "labAcceptance": {
+    "status": "hold",
+    "session": "persistent feature-lab browser session",
+    "route": "/index.html?mode=combat&creatures=1",
+    "candidateCatalog": "assets/art/tripo/imports/creatures/grove-brute-t5/catalog.json",
+    "camera": "normal gameplay camera",
+    "motions": [
+      {
+        "motion": "Idle",
+        "clip": "Idle",
+        "screenshots": [
+          "grove-brute-idle.png"
+        ]
+      },
+      {
+        "motion": "Walk",
+        "clip": "Walk",
+        "screenshots": [
+          "grove-brute-walk-03.png"
+        ]
+      },
+      {
+        "motion": "Run",
+        "clip": "Run",
+        "screenshots": [
+          "grove-brute-run-03.png"
+        ]
+      },
+      {
+        "motion": "Attack",
+        "clip": "Attack",
+        "screenshots": [
+          "grove-brute-attack-03.png"
+        ]
+      },
+      {
+        "motion": "Hit",
+        "clip": "Hit",
+        "screenshots": [
+          "grove-brute-hit-03.png"
+        ]
+      }
+    ],
+    "semanticResult": "The candidate rendered in the production creature gallery, but its normal-camera silhouette and reviewed motion do not meet acceptance.",
+    "visualHold": "At normal gameplay camera the model reads as a generic bare-chested human or ogre with a large sack-like shoulder mass rather than a distinctive woodland creature.",
+    "motionHold": "Run and Hit frame 03 show awkward lift and grounding. A proper grounded motion check is required before reconsidering acceptance.",
+    "visualReviewer": "Root reviewed the actual lab screenshots.",
+    "evidenceDirectory": "test-results/grove-brute-review (ignored disposable evidence; screenshots are not bundled here)",
+    "worldIntegrated": false
+  },
+  "tierDirection": {
+    "reviewedCandidateTier": 5,
+    "redesignTargetTier": 10,
+    "reason": "Latest tier direction requires T10 if redesigned; the current T5 candidate remains held and unpromoted."
+  }
 }
