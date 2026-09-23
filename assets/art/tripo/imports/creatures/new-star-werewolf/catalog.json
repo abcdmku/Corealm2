@@ -72,8 +72,8 @@
   },
   "candidate": {
     "file": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
-    "sha256": "8b6131e360c212c9d383627a4efe88192830742c68a81b48cc0b8d71872debb5",
-    "bytes": 6790012,
+    "sha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
+    "bytes": 6806404,
     "productionTarget": "game/public/assets/models/creature/creature_gloamfang_reaver.glb",
     "geometry": {
       "vertices": 8047,
@@ -1810,7 +1810,109 @@
           ]
         }
       }
-    ]
+    ],
+    "contactCorrection": {
+      "method": "Serialized GLTFLoader + AnimationMixer + SkinnedMesh.getVertexPosition CPU deformation; per-clip outer-rig translation sampled at 120 Hz against exact full-mesh Box3 minima, then verified at 240 Hz.",
+      "targetContactM": 0.002,
+      "verification": [
+        {
+          "name": "Idle",
+          "duration": 2.4000000953674316,
+          "samples": 290,
+          "samplesPerSecond": 120,
+          "targetContactM": 0.002,
+          "minimumBeforeFullM": -0.0072646468901100365,
+          "minimumBeforeSnapshotM": 0.04524698621916173,
+          "minimumOffsetM": -0.0100759962413128,
+          "maximumOffsetM": 0.009264646890110036,
+          "verificationSamples": 578,
+          "minimumFullClearanceM": 0.001980081616030723,
+          "maximumFullClearanceM": 0.002030460298316338,
+          "minimumSnapshotClearanceM": 0.05047817620400216,
+          "maximumSnapshotClearanceM": 0.05450459989664771
+        },
+        {
+          "name": "Walk",
+          "duration": 1,
+          "samples": 121,
+          "samplesPerSecond": 120,
+          "targetContactM": 0.002,
+          "minimumBeforeFullM": 1.9461542700357588e-8,
+          "minimumBeforeSnapshotM": 0.0552147166614595,
+          "minimumOffsetM": -0.05750583670786147,
+          "maximumOffsetM": 0.0019999805384572997,
+          "verificationSamples": 241,
+          "minimumFullClearanceM": 0.0019858574507968384,
+          "maximumFullClearanceM": 0.0020289054151331337,
+          "minimumSnapshotClearanceM": 0.039093988340333466,
+          "maximumSnapshotClearanceM": 0.06709756927805452
+        },
+        {
+          "name": "Run",
+          "duration": 0.6800000071525574,
+          "samples": 83,
+          "samplesPerSecond": 120,
+          "targetContactM": 0.002,
+          "minimumBeforeFullM": -0.007538646091123093,
+          "minimumBeforeSnapshotM": 0.04767605104033965,
+          "minimumOffsetM": -0.1266453357739736,
+          "maximumOffsetM": 0.009538646091123093,
+          "verificationSamples": 165,
+          "minimumFullClearanceM": 0.0019086517215376759,
+          "maximumFullClearanceM": 0.006933266545798428,
+          "minimumSnapshotClearanceM": 0.05282311249930141,
+          "maximumSnapshotClearanceM": 0.0702330243349352
+        },
+        {
+          "name": "Attack",
+          "duration": 0.8600000143051147,
+          "samples": 105,
+          "samplesPerSecond": 120,
+          "targetContactM": 0.002,
+          "minimumBeforeFullM": -0.027181762079522977,
+          "minimumBeforeSnapshotM": 0.014614974627817363,
+          "minimumOffsetM": 0.0005485906539557904,
+          "maximumOffsetM": 0.02918176207952298,
+          "verificationSamples": 208,
+          "minimumFullClearanceM": 0.0018974282475023203,
+          "maximumFullClearanceM": 0.0023121036147952818,
+          "minimumSnapshotClearanceM": 0.04360606864930455,
+          "maximumSnapshotClearanceM": 0.06412866081061215
+        },
+        {
+          "name": "Hit",
+          "duration": 0.47999998927116394,
+          "samples": 59,
+          "samplesPerSecond": 120,
+          "targetContactM": 0.002,
+          "minimumBeforeFullM": -0.01807859894076603,
+          "minimumBeforeSnapshotM": 0.037136098094989765,
+          "minimumOffsetM": 0.001999980538457183,
+          "maximumOffsetM": 0.02007859894076603,
+          "verificationSamples": 117,
+          "minimumFullClearanceM": 0.0011644339304045237,
+          "maximumFullClearanceM": 0.0021772397732503076,
+          "minimumSnapshotClearanceM": 0.05637913114089467,
+          "maximumSnapshotClearanceM": 0.057391936992937126
+        },
+        {
+          "name": "Death",
+          "duration": 1.6200000047683716,
+          "samples": 196,
+          "samplesPerSecond": 120,
+          "targetContactM": 0.002,
+          "minimumBeforeFullM": -0.030987249182752558,
+          "minimumBeforeSnapshotM": -0.006959889322677436,
+          "minimumOffsetM": -0.007213853790249337,
+          "maximumOffsetM": 0.03298724918275256,
+          "verificationSamples": 390,
+          "minimumFullClearanceM": 0.001849380568811474,
+          "maximumFullClearanceM": 0.0024570755905022265,
+          "minimumSnapshotClearanceM": 0.016732598401073433,
+          "maximumSnapshotClearanceM": 0.15066455310771992
+        }
+      ]
+    }
   },
   "acceptance": {
     "assetAudit": true,

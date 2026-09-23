@@ -3,6 +3,9 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { Accessor, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { prune } from '@gltf-transform/functions';
 import sharp from 'sharp';
 
 const owner = 'assets/art/tripo/imports/creatures/new-star-werewolf';
@@ -527,9 +530,131 @@ for (let index = 0; index < restHands.length; index++) {
   assert(guardedHand[2] > sourceHand[2] + .10, 'Idle hand did not draw forward into the guard pose.');
 }
 
+// The source is grounded in bind pose, but its weighted clips can lift and dip the feet.
+// Put an animated parent above the complete rig so contact correction never alters authored
+// joint motion, bind matrices, source positions, indices, UVs or texture maps.
+const terrainOffsetNode = doc.createNode('Gloamfang_TerrainContact');
+for (const child of [...scene.listChildren()]) {
+  scene.removeChild(child);
+  terrainOffsetNode.addChild(child);
+}
+scene.addChild(terrainOffsetNode);
+
+// Sample the just-serialized rig with Three's GLTFLoader, AnimationMixer, SkinnedMesh CPU
+// deformation and exact Box3 bounds. A measurement copy drops only images; mesh data, weights,
+// inverse binds, hierarchy and animation data remain serialized and unchanged.
+async function cpuRigBytes(serializedBytes) {
+  const measurement = await io.readBinary(serializedBytes);
+  for (const entry of measurement.getRoot().listMaterials()) {
+    entry.setBaseColorTexture(null).setEmissiveTexture(null).setNormalTexture(null)
+      .setMetallicRoughnessTexture(null).setOcclusionTexture(null);
+  }
+  await measurement.transform(prune());
+  return io.writeBinary(measurement);
+}
+async function parseCpuRig(measurementBytes) {
+  const arrayBuffer = measurementBytes.buffer.slice(measurementBytes.byteOffset, measurementBytes.byteOffset + measurementBytes.byteLength);
+  return new GLTFLoader().parseAsync(arrayBuffer, '');
+}
+function measuredFloor(liveRoot) {
+  liveRoot.updateMatrixWorld(true);
+  const full = new THREE.Box3().setFromObject(liveRoot, true).min.y;
+  let snapshot = Infinity;
+  const point = new THREE.Vector3();
+  liveRoot.traverse(node => {
+    if (!node.isSkinnedMesh) return;
+    const positions = node.geometry.getAttribute('position');
+    const step = Math.max(1, Math.floor(positions.count / 100));
+    for (let vertex = 0; vertex < positions.count; vertex += step) {
+      node.getVertexPosition(vertex, point);
+      point.applyMatrix4(node.matrixWorld);
+      snapshot = Math.min(snapshot, point.y);
+    }
+  });
+  return { full, snapshot };
+}
+const targetContactM = .002;
+const contactSampleRate = 120;
+const preContactBytes = await io.writeBinary(doc);
+const preContactCpuBytes = await cpuRigBytes(preContactBytes);
+const contactCorrections = [];
+for (const animation of root.listAnimations()) {
+  const live = await parseCpuRig(preContactCpuBytes);
+  const clip = live.animations.find(candidate => candidate.name === animation.getName());
+  assert(clip, `Serialized GLB lost ${animation.getName()} before contact correction.`);
+  const mixer = new THREE.AnimationMixer(live.scene);
+  const action = mixer.clipAction(clip);
+  action.setLoop(THREE.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  action.play();
+  const sampleCount = Math.max(1, Math.ceil(clip.duration * contactSampleRate));
+  const times = new Float32Array(sampleCount + 1);
+  const values = new Float32Array((sampleCount + 1) * 3);
+  let minimumBeforeFullM = Infinity, minimumBeforeSnapshotM = Infinity;
+  let minimumOffsetM = Infinity, maximumOffsetM = -Infinity;
+  for (let frame = 0; frame <= sampleCount; frame++) {
+    const time = clip.duration * frame / sampleCount;
+    mixer.setTime(time);
+    const floor = measuredFloor(live.scene);
+    const offset = targetContactM - floor.full;
+    times[frame] = time;
+    values[frame * 3] = 0;
+    values[frame * 3 + 1] = offset;
+    values[frame * 3 + 2] = 0;
+    minimumBeforeFullM = Math.min(minimumBeforeFullM, floor.full);
+    minimumBeforeSnapshotM = Math.min(minimumBeforeSnapshotM, floor.snapshot);
+    minimumOffsetM = Math.min(minimumOffsetM, offset);
+    maximumOffsetM = Math.max(maximumOffsetM, offset);
+  }
+  action.stop();
+  mixer.uncacheRoot(live.scene);
+  const input = doc.createAccessor(`${animation.getName()}_terrainContact_time`).setArray(times)
+    .setType(Accessor.Type.SCALAR).setBuffer(root.listBuffers()[0]);
+  const output = doc.createAccessor(`${animation.getName()}_terrainContact_translation`).setArray(values)
+    .setType(Accessor.Type.VEC3).setBuffer(root.listBuffers()[0]);
+  const sampler = doc.createAnimationSampler(`${animation.getName()}_terrainContact`)
+    .setInput(input).setOutput(output).setInterpolation('LINEAR');
+  animation.addSampler(sampler).addChannel(doc.createAnimationChannel(`${animation.getName()}_terrainContact`)
+    .setTargetNode(terrainOffsetNode).setTargetPath('translation').setSampler(sampler));
+  contactCorrections.push({ name: animation.getName(), duration: clip.duration, samples: sampleCount + 1,
+    samplesPerSecond: contactSampleRate, targetContactM, minimumBeforeFullM, minimumBeforeSnapshotM,
+    minimumOffsetM, maximumOffsetM });
+}
+
 const outputBytes = await io.writeBinary(doc);
-await writeFile(candidatePath, outputBytes);
 const candidateSha256 = createHash('sha256').update(outputBytes).digest('hex');
+const finalCpuBytes = await cpuRigBytes(outputBytes);
+const serializedContactValidation = [];
+for (const expected of contactCorrections) {
+  const live = await parseCpuRig(finalCpuBytes);
+  const clip = live.animations.find(candidate => candidate.name === expected.name);
+  assert(clip, `Final serialized GLB lost ${expected.name}.`);
+  const mixer = new THREE.AnimationMixer(live.scene);
+  const action = mixer.clipAction(clip);
+  action.setLoop(THREE.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  action.play();
+  const sampleCount = Math.max(1, Math.ceil(clip.duration * contactSampleRate * 2));
+  let minimumFullM = Infinity, maximumFullM = -Infinity;
+  let minimumSnapshotM = Infinity, maximumSnapshotM = -Infinity;
+  for (let frame = 0; frame <= sampleCount; frame++) {
+    mixer.setTime(clip.duration * frame / sampleCount);
+    const floor = measuredFloor(live.scene);
+    minimumFullM = Math.min(minimumFullM, floor.full);
+    maximumFullM = Math.max(maximumFullM, floor.full);
+    minimumSnapshotM = Math.min(minimumSnapshotM, floor.snapshot);
+    maximumSnapshotM = Math.max(maximumSnapshotM, floor.snapshot);
+  }
+  action.stop();
+  mixer.uncacheRoot(live.scene);
+  assert(minimumFullM >= -.002, `${expected.name} penetrates the ground after serialized correction (${minimumFullM}m).`);
+  assert(maximumFullM <= .015, `${expected.name} still hovers after serialized correction (${maximumFullM}m).`);
+  assert(minimumSnapshotM >= -.002, `${expected.name} terrainRigSnapshot samples penetrate (${minimumSnapshotM}m).`);
+  serializedContactValidation.push({ ...expected, verificationSamples: sampleCount + 1,
+    minimumFullClearanceM: minimumFullM, maximumFullClearanceM: maximumFullM,
+    minimumSnapshotClearanceM: minimumSnapshotM, maximumSnapshotClearanceM: maximumSnapshotM });
+}
+await writeFile(candidatePath, outputBytes);
 const checkRoot = (await io.readBinary(outputBytes)).getRoot();
 const checkMesh = checkRoot.listMeshes()[0];
 const checkPrimitive = checkMesh?.listPrimitives()[0];
@@ -574,7 +699,9 @@ for (let vertex = 0; vertex < sourcePositions.length / 3; vertex++) {
 assert(readbackWeightError < 1e-5, `Weight normalization error ${readbackWeightError}.`);
 assert(readbackDistributed > sourcePositions.length / 3 * .70, 'Candidate weights did not survive serialization.');
 for (const animation of checkRoot.listAnimations()) for (const channel of animation.listChannels()) {
-  assert(checkSkin.listJoints().includes(channel.getTargetNode()), `${animation.getName()} targets a non-joint node.`);
+  const target = channel.getTargetNode();
+  assert(checkSkin.listJoints().includes(target) || target?.getName() === terrainOffsetNode.getName(),
+    `${animation.getName()} targets an unexpected non-rig node.`);
 }
 
 const candidate = {
@@ -610,6 +737,11 @@ const candidate = {
     packedMetallicRange: metallicRange,
     animations: clipMetrics,
     sampledMotion,
+    contactCorrection: {
+      method: 'Serialized GLTFLoader + AnimationMixer + SkinnedMesh.getVertexPosition CPU deformation; per-clip outer-rig translation sampled at 120 Hz against exact full-mesh Box3 minima, then verified at 240 Hz.',
+      targetContactM,
+      verification: serializedContactValidation,
+    },
   },
   acceptance: { assetAudit: true, sourceDesignAudit: false, rigAccepted: false, motionAccepted: false, texturesAccepted: false, labAccepted: false, worldIntegrated: false },
 };
@@ -649,6 +781,6 @@ const labAsset = {
 };
 await writeFile(`${owner}/lab-catalog.json`, `${JSON.stringify({ schema: 'corealm-lab-asset-candidates/1', assets: [labAsset], files: { [candidate.id]: 'gloamfang-reaver-native-rig-candidate.glb' } }, null, 2)}\n`);
 
-await writeFile(`${owner}/README.md`, `# Gloamfang Reaver candidate\n\nThis is an isolated candidate derived from the starred Tripo Werewolf Warrior model. It is suggested for Wilderness T50+ placement because its silhouette is a humanoid hunter. Root image review, normal-camera lab presentation, and placement remain pending.\n\nRun \`node assets/art/tripo/imports/creatures/new-star-werewolf/build-candidate.mjs\` from the repository root to verify the source SHA-256 and reproduce the rigged GLB, catalogs, texture metrics, and sampled deformation checks.\n\nThe source export's 62-joint names and parent hierarchy are retained. Tripo left all joints at identity transforms; 8,037 of 8,047 vertices were pinned to Hips and every vertex had only one influence. This builder reconstructs rest anchors, inverse binds and spatial skin weights while leaving positions, indices, normals and UVs byte-for-byte numerically unchanged. It retains the authored base-color, packed metallic-roughness and normal maps at 2K runtime resolution.\n\nThe unscaled mesh stands 0.9551 m, is grounded at y=0, and remains geometrically unchanged. A uniform 1.8847 armature-root scale raises its presentation height to 1.8 m while preserving the ground contact. The source bind pose has the arms extended. Idle, Walk, Run, Attack, Hit and Death pose both arms down and forward with bent elbows so the hunter reads in a compact predatory guard; the attack winds and rakes from that guard. Builder checks sample hand joint positions as well as mesh deformation and scaled grounding. Animation quality and final material response still need root review in the persistent normal-camera feature lab.\n`);
+await writeFile(`${owner}/README.md`, `# Gloamfang Reaver candidate\n\nThis is an isolated candidate derived from the starred Tripo Werewolf Warrior model. It is suggested for Wilderness T50+ placement because its silhouette is a humanoid hunter. Root image review, normal-camera lab presentation, and placement remain pending.\n\nRun \`node assets/art/tripo/imports/creatures/new-star-werewolf/build-candidate.mjs\` from the repository root to verify the source SHA-256 and reproduce the rigged GLB, catalogs, texture metrics, sampled deformation checks, and ground-contact report.\n\nThe source export's 62-joint names and parent hierarchy are retained. Tripo left all joints at identity transforms; 8,037 of 8,047 vertices were pinned to Hips and every vertex had only one influence. This builder reconstructs rest anchors, inverse binds and spatial skin weights while leaving positions, indices, normals and UVs byte-for-byte numerically unchanged. It retains the authored base-color, packed metallic-roughness and normal maps at 2K runtime resolution.\n\nThe unscaled mesh stands 0.9551 m, is grounded at y=0, and remains geometrically unchanged. A uniform 1.8847 armature-root scale raises its presentation height to 1.8 m while preserving the ground contact. The source bind pose has the arms extended. Idle, Walk, Run, Attack, Hit and Death pose both arms down and forward with bent elbows so the hunter reads in a compact predatory guard; the attack winds and rakes from that guard.\n\nClip contact now comes from serialized CPU skinning: Three's GLTFLoader and AnimationMixer drive the written rig, and precise skinned bounds are sampled at 120 Hz to bake translation on a parent above the skeleton. The final serialized clips are checked at 240 Hz for ground penetration and hovering. Contact clearance uses the full deformed mesh; the report also records the production terrain rig's sparse-vertex sampling measurement for comparison. This parent motion preserves the authored joint clips, source topology, UVs and 2K PBR maps. Animation quality, contact in the normal-camera lab and final material response still need root review.\n`);
 
-console.log(JSON.stringify({ sourceSha256, sourceBytes: sourceBytes.length, candidatePath, candidateBytes: outputBytes.length, candidateSha256, vertices: sourcePositions.length / 3, triangles: sourceIndices.length / 3, joints: jointNodes.length, rootWeightedVertices, oneInfluenceVertices, verticesWithDistributedWeights, presentationScale, targetHeightMeters, presentationBounds, clips: clipMetrics.map(clip => clip.name), textures: runtimeTextureMetrics, sampledMotion }, null, 2));
+console.log(JSON.stringify({ sourceSha256, sourceBytes: sourceBytes.length, candidatePath, candidateBytes: outputBytes.length, candidateSha256, vertices: sourcePositions.length / 3, triangles: sourceIndices.length / 3, joints: jointNodes.length, rootWeightedVertices, oneInfluenceVertices, verticesWithDistributedWeights, presentationScale, targetHeightMeters, presentationBounds, clips: clipMetrics.map(clip => clip.name), textures: runtimeTextureMetrics, sampledMotion, serializedContactValidation }, null, 2));
