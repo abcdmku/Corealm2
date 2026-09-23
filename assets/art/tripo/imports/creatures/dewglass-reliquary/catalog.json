@@ -1,0 +1,464 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_dewglass_reliquary",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "worldIntegrated": false,
+  "runtimeAnimationHeld": true,
+  "source": {
+    "file": "../../../../exports/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+    "sha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+    "bytes": 21448588,
+    "vertices": 3173,
+    "triangles": 5242,
+    "sourceImageId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+    "sourceImageSha256": "86413c08dad4c5b500703ff373c9c2fb2c5349b5cfd61a82f46131c729fc261a",
+    "sourceModelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+    "stage": "exported_rigged_glb",
+    "starred": true,
+    "imageReview": {
+      "creatorKey": "dewglass-reliquary",
+      "sourceImageId": "46fc14b8-a68c-4020-a738-ad8423dbae96",
+      "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+      "batchPath": "assets/art/tripo/batches/creatures-fairy.json",
+      "verdict": "approved",
+      "reviewer": "/root/face_audit_fairy",
+      "model": "gpt-6-astra",
+      "reasoningEffort": "low",
+      "evidence": "Exact-source image inspection reported by fresh face critic; current root task confirms verdicts.",
+      "scope": "source facial anatomy only",
+      "requiredFix": null,
+      "sourceEligibleForModelGeneration": true,
+      "replacementSourceRequiresFreshAudit": true,
+      "runtimeAnimation": {
+        "status": "hold-until-root-animation-acceptance",
+        "preservedEvidence": {
+          "entry.animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+          "entry.stage": "exported_rigged_glb",
+          "revision.animationAcceptance": "HOLD: Rig-page exports have nearly root-only weights per root export ledger; root importer repair and short Luna animation check required",
+          "revision.stage": "exported_rigged_glb"
+        }
+      },
+      "runtimeFace": {
+        "status": "not-established-by-source-review"
+      }
+    },
+    "sourceRig": {
+      "joints": 14,
+      "clips": 0,
+      "rootWeightFraction": 0.9996848408452558,
+      "weightedJointIds": [
+        11,
+        12,
+        0
+      ],
+      "replaced": true
+    },
+    "sourceMaps": [
+      {
+        "role": "baseColor",
+        "name": "corealm_dewglass_reliquary_d95af2cf_8k_rigged_basecolor.jpg",
+        "width": 8192,
+        "height": 8192,
+        "sha256": "417342e5501f52786dabbbfa104988d102b5a8e181fe5c3dcd2e4fcf8aca23e7"
+      },
+      {
+        "role": "metallicRoughness",
+        "name": "corealm_dewglass_reliquary_d95af2cf_8k_rigged_rm.png",
+        "width": 4096,
+        "height": 4096,
+        "sha256": "04878dee293d16737a0927860962e3878cfad5228ccb5b3c8f59393f0d78c01b"
+      },
+      {
+        "role": "normal",
+        "name": "corealm_dewglass_reliquary_d95af2cf_8k_rigged_normal.jpg",
+        "width": 4096,
+        "height": 4096,
+        "sha256": "b4d0f64393d8cadf7d26eb95637294714dbeb98059ddf4424a3d409ff3d0c490"
+      }
+    ]
+  },
+  "candidate": {
+    "file": "dewglass-reliquary-native-rig-candidate.glb",
+    "sha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+    "bytes": 4849284,
+    "vertices": 3173,
+    "triangles": 5242,
+    "joints": [
+      {
+        "name": "ReliquaryRoot",
+        "index": 0,
+        "parent": null,
+        "restPosition": [
+          0,
+          0.29,
+          0
+        ]
+      },
+      {
+        "name": "ReservoirBody",
+        "index": 1,
+        "parent": "ReliquaryRoot",
+        "restPosition": [
+          0,
+          0.43,
+          0
+        ]
+      },
+      {
+        "name": "PearlHusk",
+        "index": 2,
+        "parent": "ReservoirBody",
+        "restPosition": [
+          -0.035,
+          0.68,
+          0
+        ]
+      },
+      {
+        "name": "Neck",
+        "index": 3,
+        "parent": "ReservoirBody",
+        "restPosition": [
+          0.2,
+          0.38,
+          0
+        ]
+      },
+      {
+        "name": "Head",
+        "index": 4,
+        "parent": "Neck",
+        "restPosition": [
+          0.3,
+          0.28,
+          0
+        ]
+      },
+      {
+        "name": "Tail",
+        "index": 5,
+        "parent": "ReservoirBody",
+        "restPosition": [
+          -0.29,
+          0.39,
+          0
+        ]
+      },
+      {
+        "name": "ForeNearUpper",
+        "index": 6,
+        "parent": "ReservoirBody",
+        "restPosition": [
+          0.17,
+          0.36,
+          -0.18
+        ]
+      },
+      {
+        "name": "ForeNearLower",
+        "index": 7,
+        "parent": "ForeNearUpper",
+        "restPosition": [
+          0.195,
+          0.19,
+          -0.2575
+        ]
+      },
+      {
+        "name": "ForeFarUpper",
+        "index": 8,
+        "parent": "ReservoirBody",
+        "restPosition": [
+          0.17,
+          0.36,
+          0.18
+        ]
+      },
+      {
+        "name": "ForeFarLower",
+        "index": 9,
+        "parent": "ForeFarUpper",
+        "restPosition": [
+          0.195,
+          0.19,
+          0.2575
+        ]
+      },
+      {
+        "name": "HindNearUpper",
+        "index": 10,
+        "parent": "ReservoirBody",
+        "restPosition": [
+          -0.19,
+          0.36,
+          -0.18
+        ]
+      },
+      {
+        "name": "HindNearLower",
+        "index": 11,
+        "parent": "HindNearUpper",
+        "restPosition": [
+          -0.235,
+          0.19,
+          -0.2575
+        ]
+      },
+      {
+        "name": "HindFarUpper",
+        "index": 12,
+        "parent": "ReservoirBody",
+        "restPosition": [
+          -0.19,
+          0.36,
+          0.18
+        ]
+      },
+      {
+        "name": "HindFarLower",
+        "index": 13,
+        "parent": "HindFarUpper",
+        "restPosition": [
+          -0.235,
+          0.19,
+          0.2575
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "role": "baseColor",
+        "name": "dewglass_reliquary_baseColor_2k.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg",
+        "sha256": "98908f94c4f810c6be748a2239ef1185273414a5aa1819b6e086bdf2a98a26e9",
+        "reduction": "Lanczos color"
+      },
+      {
+        "role": "metallicRoughness",
+        "name": "dewglass_reliquary_metallicRoughness_2k.png",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/png",
+        "sha256": "ea4119fd572f4240e2fa7ccd7e6ffd1995e6d74ef3f3b8ff840607708a65ec31",
+        "reduction": "2x2 linear box average"
+      },
+      {
+        "role": "normal",
+        "name": "dewglass_reliquary_normal_2k.jpg",
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "mime": "image/jpeg",
+        "sha256": "c9a357d780463e951a9904a97b1053212ec28f1d5b09cb79b4a838e018b2799c",
+        "reduction": "2x2 linear box average plus vector renormalization"
+      }
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "seconds": 3.2,
+        "channels": 8,
+        "source": "Corealm quadruped action authoring; shared glTF animation channel and CPU deformation utilities"
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.12,
+        "channels": 10,
+        "source": "Corealm quadruped action authoring; shared glTF animation channel and CPU deformation utilities"
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 10,
+        "source": "Corealm quadruped action authoring; shared glTF animation channel and CPU deformation utilities"
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.86,
+        "channels": 11,
+        "source": "Corealm quadruped action authoring; shared glTF animation channel and CPU deformation utilities"
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.44,
+        "channels": 7,
+        "source": "Corealm quadruped action authoring; shared glTF animation channel and CPU deformation utilities"
+      },
+      {
+        "name": "Death",
+        "seconds": 1.62,
+        "channels": 13,
+        "source": "Corealm quadruped action authoring; shared glTF animation channel and CPU deformation utilities"
+      }
+    ]
+  },
+  "rig": {
+    "preset": "custom four-legged living seed-husk reservoir",
+    "jointCount": 14,
+    "basis": "Y-up, +X forward, Z across near/far limb pairs",
+    "weightMethod": "Four normalized influences scored against torso, husk, head/neck, tail and four separate anatomical limb capsules with longitudinal/lateral gates",
+    "geometryPreserved": true,
+    "uvPreserved": true,
+    "topologyChanged": false,
+    "dominantVertices": {
+      "ReliquaryRoot": 0,
+      "ReservoirBody": 1023,
+      "PearlHusk": 673,
+      "Neck": 1,
+      "Head": 7,
+      "Tail": 14,
+      "ForeNearUpper": 121,
+      "ForeNearLower": 217,
+      "ForeFarUpper": 147,
+      "ForeFarLower": 242,
+      "HindNearUpper": 126,
+      "HindNearLower": 217,
+      "HindFarUpper": 192,
+      "HindFarLower": 193
+    },
+    "multiInfluenceVertices": 3173
+  },
+  "validation": {
+    "positionMaxDelta": 0,
+    "uvMaxDelta": 0,
+    "indexMismatches": 0,
+    "maxWeightSumError": 8.940696716308594e-7,
+    "restBounds": {
+      "min": [
+        -0.3723144644287489,
+        -1.026880491153928e-9,
+        -0.4489746164655009
+      ],
+      "max": [
+        0.37231443762864275,
+        0.9995117264913278,
+        0.44897461799945476
+      ]
+    },
+    "bindBounds": {
+      "min": [
+        -0.3723144644287489,
+        -1.026880491153928e-9,
+        -0.4489746164655009
+      ],
+      "max": [
+        0.37231443762864275,
+        0.9995117264913278,
+        0.44897461799945476
+      ]
+    },
+    "motionBounds": [
+      {
+        "name": "Idle",
+        "seconds": 3.200000047683716,
+        "sampleCount": 9,
+        "sweptMin": [
+          -0.3747291607663689,
+          -0.005432219868379844,
+          -0.4521073872452127
+        ],
+        "sweptMax": [
+          0.37409335786689246,
+          1.000273825093524,
+          0.4490391632083111
+        ],
+        "maximumVertexDisplacement": 0.011455152548221981,
+        "maximumMovedVertices": 3173
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.1200000047683716,
+        "sampleCount": 9,
+        "sweptMin": [
+          -0.3757394419736626,
+          -0.017693905715496505,
+          -0.44472928224972386
+        ],
+        "sweptMax": [
+          0.3753512570897879,
+          1.0012896292335995,
+          0.448931583030803
+        ],
+        "maximumVertexDisplacement": 0.05292740365313287,
+        "maximumMovedVertices": 3173
+      },
+      {
+        "name": "Run",
+        "seconds": 0.7200000286102295,
+        "sampleCount": 9,
+        "sweptMin": [
+          -0.3757394419736626,
+          -0.0176939057154965,
+          -0.44472928224972386
+        ],
+        "sweptMax": [
+          0.3753512570897879,
+          1.0012896292335995,
+          0.448931583030803
+        ],
+        "maximumVertexDisplacement": 0.052927403653132914,
+        "maximumMovedVertices": 3173
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.8600000143051147,
+        "sampleCount": 9,
+        "sweptMin": [
+          -0.39543760037979175,
+          -0.02170395800412586,
+          -0.44898805668413566
+        ],
+        "sweptMax": [
+          0.38023053541450114,
+          1.0095507269630148,
+          0.44897461799945476
+        ],
+        "maximumVertexDisplacement": 0.06462671707052653,
+        "maximumMovedVertices": 3173
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.4399999976158142,
+        "sampleCount": 9,
+        "sweptMin": [
+          -0.39061823570680626,
+          -0.017630270548875754,
+          -0.47758728515043836
+        ],
+        "sweptMax": [
+          0.3802289172978744,
+          1.0182673110032965,
+          0.44909964098864413
+        ],
+        "maximumVertexDisplacement": 0.11190217880342952,
+        "maximumMovedVertices": 3173
+      },
+      {
+        "name": "Death",
+        "seconds": 1.6200000047683716,
+        "sampleCount": 9,
+        "sweptMin": [
+          -0.3775584221309309,
+          -0.171337604424593,
+          -0.5363149137154672
+        ],
+        "sweptMax": [
+          0.45644623446994026,
+          0.9995117264913278,
+          0.4563574065002037
+        ],
+        "maximumVertexDisplacement": 0.4604072384543698,
+        "maximumMovedVertices": 3173
+      }
+    ],
+    "runtimeTextureMaxDimension": 2048
+  }
+}
