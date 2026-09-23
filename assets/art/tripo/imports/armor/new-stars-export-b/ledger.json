@@ -5,7 +5,7 @@
   "sourceInventory": "assets/art/tripo/starred-inventory-2026-09-23.json",
   "overallStatus": "local_archive_complete",
   "packed8kVariantStatus": "in_progress",
-  "packed8kVariantsArchived": 3,
+  "packed8kVariantsArchived": 4,
   "requestedExportSettings": {
     "format": "GLB",
     "textureResolution": "8k Current",
@@ -230,6 +230,61 @@
         "downloadedFileName": "wizard+robe+3d+model (1).glb",
         "exportedAtLocal": "2026-09-23T05:34:08-05:00",
         "identificationEvidence": "Unique 05:34 local arrival confirmed for project 7b4c8b39-7f3c-4fe6-a7d3-be22740f1064; 13 textured material maps are named wizard_robe_3d_model, with blue-gray and beige-brown colors matching the prompt."
+      },
+      "packed8kVariant": {
+        "status": "archived_verified",
+        "sourceProjectUuid": "7b4c8b39-7f3c-4fe6-a7d3-be22740f1064",
+        "identificationEvidence": "Tripo UI agent confirmed project 7b4c8b39-7f3c-4fe6-a7d3-be22740f1064 -> packed8k_7b4c8b39.glb with success toast at 2026-09-23T06:00:38-05:00; embedded PBR image names carry the matching packed8k project prefix.",
+        "archivePath": "assets/art/tripo/exports/packed-8k/7b4c8b39-7f3c-4fe6-a7d3-be22740f1064.glb",
+        "downloadedFileName": "packed8k_7b4c8b39.glb",
+        "recordedAtLocal": "2026-09-23T06:00:38-05:00",
+        "exportSettings": {
+          "format": "GLB",
+          "textureResolution": "8k Current",
+          "packUV": true,
+          "exportSkeleton": true
+        },
+        "actualTextureDimensions": {
+          "baseColor": [
+            {
+              "name": "packed8k_7b4c8b39_basecolor",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "metallicRoughness": [
+            {
+              "name": "packed8k_7b4c8b39_rm",
+              "width": 8192,
+              "height": 8192
+            }
+          ],
+          "normal": [
+            {
+              "name": "packed8k_7b4c8b39_normal",
+              "width": 8192,
+              "height": 8192
+            }
+          ]
+        },
+        "meshIdentity": {
+          "meshCount": 13,
+          "primitiveCount": 13,
+          "triangleCount": 4302,
+          "skinCount": 1,
+          "skinJointCount": 65,
+          "matchesOriginal": {
+            "positionAttributeFingerprint": true,
+            "positionAttributeMultiset": true,
+            "normalFingerprint": true,
+            "indexConnectivity": false,
+            "uvLayoutFingerprint": false,
+            "skinInfluenceFingerprints": true
+          },
+          "note": "POSITION, normal, and skin influence fingerprints match the original archive. UV layout and index connectivity differ as expected for the distinct Pack UV export; mesh and triangle counts are unchanged."
+        },
+        "sizeBytes": 26609720,
+        "sha256": "8a6c89c91feebfc5513c8e7c49a14e50e71e86ddd5efb24bc7002a9e6292a372"
       }
     },
     {
