@@ -1,0 +1,349 @@
+{
+  "schema": "corealm-creature-native-rig-candidate/1",
+  "id": "creature_purple_cyclops_demon",
+  "displayName": "Purple Cyclops Demon",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/base.glb",
+    "sha256": "61c616190f018f20a19edf0f8d6f3a9304440c1790fc812614f91868c9e3488f",
+    "bytes": 6779732,
+    "starredModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+    "starredDisplayName": "demon creature 3d model",
+    "geometry": {
+      "vertices": 3130,
+      "triangles": 1667,
+      "bounds": {
+        "min": [
+          -0.1396484225988388,
+          0,
+          -0.162109375
+        ],
+        "max": [
+          0.1396484225988388,
+          0.349609375,
+          0.162109375
+        ]
+      },
+      "positionsPreserved": true,
+      "indicesPreserved": true,
+      "retopology": false
+    },
+    "preliminaryDesignReview": "Extracted from the approved starred sheet C cell; rig and motion remain staged for root lab review.",
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
+      }
+    ],
+    "sourceSkin": "none",
+    "sourceAnimations": []
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/purple-cyclops-demon-native-rig.glb",
+    "sha256": "7fdc021630bcf2744e06f581b71f7717dffa5bd18e44343ba9177dc7b72fbb43",
+    "bytes": 6879520,
+    "productionTarget": "game/public/assets/models/creature/creature_purple_cyclops_demon.glb",
+    "geometry": {
+      "vertices": 3130,
+      "triangles": 1667,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "type": "Mixamo-named humanoid glTF skin for Unity Humanoid mapping review",
+      "joints": [
+        {
+          "name": "mixamorigHips",
+          "parent": null,
+          "position": [
+            0,
+            0.15582589285714288,
+            -0.0911865234375
+          ]
+        },
+        {
+          "name": "mixamorigSpine",
+          "parent": "mixamorigHips",
+          "position": [
+            0,
+            0.18978794642857144,
+            -0.0709228515625
+          ]
+        },
+        {
+          "name": "mixamorigSpine1",
+          "parent": "mixamorigSpine",
+          "position": [
+            0,
+            0.22974330357142858,
+            -0.060791015625
+          ]
+        },
+        {
+          "name": "mixamorigSpine2",
+          "parent": "mixamorigSpine1",
+          "position": [
+            0,
+            0.2696986607142857,
+            -0.05572509765625
+          ]
+        },
+        {
+          "name": "mixamorigNeck",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0,
+            0.31764508928571433,
+            -0.04052734375
+          ]
+        },
+        {
+          "name": "mixamorigHead",
+          "parent": "mixamorigNeck",
+          "position": [
+            0,
+            0.349609375,
+            -0.03546142578125
+          ]
+        },
+        {
+          "name": "mixamorigLeftShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            -0.07068623859941223,
+            0.2696986607142857,
+            -0.05572509765625
+          ]
+        },
+        {
+          "name": "mixamorigLeftArm",
+          "parent": "mixamorigLeftShoulder",
+          "position": [
+            -0.10344327599913984,
+            0.23573660714285716,
+            -0.03546142578125
+          ]
+        },
+        {
+          "name": "mixamorigLeftForeArm",
+          "parent": "mixamorigLeftArm",
+          "position": [
+            -0.12585598579895346,
+            0.1778013392857143,
+            0.00506591796875
+          ]
+        },
+        {
+          "name": "mixamorigLeftHand",
+          "parent": "mixamorigLeftForeArm",
+          "position": [
+            -0.1396484225988388,
+            0.12985491071428573,
+            0.03546142578125
+          ]
+        },
+        {
+          "name": "mixamorigRightShoulder",
+          "parent": "mixamorigSpine2",
+          "position": [
+            0.07068623859941223,
+            0.2696986607142857,
+            -0.05572509765625
+          ]
+        },
+        {
+          "name": "mixamorigRightArm",
+          "parent": "mixamorigRightShoulder",
+          "position": [
+            0.10344327599913984,
+            0.23573660714285716,
+            -0.03546142578125
+          ]
+        },
+        {
+          "name": "mixamorigRightForeArm",
+          "parent": "mixamorigRightArm",
+          "position": [
+            0.12585598579895346,
+            0.1778013392857143,
+            0.00506591796875
+          ]
+        },
+        {
+          "name": "mixamorigRightHand",
+          "parent": "mixamorigRightForeArm",
+          "position": [
+            0.1396484225988388,
+            0.12985491071428573,
+            0.03546142578125
+          ]
+        },
+        {
+          "name": "mixamorigLeftUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            -0.04999758339958425,
+            0.13185267857142857,
+            -0.08612060546875
+          ]
+        },
+        {
+          "name": "mixamorigLeftLeg",
+          "parent": "mixamorigLeftUpLeg",
+          "position": [
+            -0.05689380179952692,
+            0.06592633928571429,
+            -0.05572509765625
+          ]
+        },
+        {
+          "name": "mixamorigLeftFoot",
+          "parent": "mixamorigLeftLeg",
+          "position": [
+            -0.05689380179952692,
+            0.02197544642857143,
+            0.00506591796875
+          ]
+        },
+        {
+          "name": "mixamorigLeftToeBase",
+          "parent": "mixamorigLeftFoot",
+          "position": [
+            -0.05689380179952692,
+            0.013984375000000002,
+            0.09625244140625
+          ]
+        },
+        {
+          "name": "mixamorigRightUpLeg",
+          "parent": "mixamorigHips",
+          "position": [
+            0.04999758339958425,
+            0.13185267857142857,
+            -0.08612060546875
+          ]
+        },
+        {
+          "name": "mixamorigRightLeg",
+          "parent": "mixamorigRightUpLeg",
+          "position": [
+            0.05689380179952692,
+            0.06592633928571429,
+            -0.05572509765625
+          ]
+        },
+        {
+          "name": "mixamorigRightFoot",
+          "parent": "mixamorigRightLeg",
+          "position": [
+            0.05689380179952692,
+            0.02197544642857143,
+            0.00506591796875
+          ]
+        },
+        {
+          "name": "mixamorigRightToeBase",
+          "parent": "mixamorigRightFoot",
+          "position": [
+            0.05689380179952692,
+            0.013984375000000002,
+            0.09625244140625
+          ]
+        }
+      ],
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 3130,
+      "maximumWeightSumError": 4.470348358154297e-8,
+      "method": "Model-specific four-weight skin from anatomical bone-segment distance fields; no fallback to one root joint."
+    },
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 2107997
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4025092
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 524633
+      }
+    ],
+    "packedMetallicChannelRange": [
+      0.00392156862745098,
+      0.09803921568627451
+    ],
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 3
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 7
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 5
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 9
+      }
+    ]
+  },
+  "acceptance": {
+    "sourceDesignAudit": true,
+    "geometry": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

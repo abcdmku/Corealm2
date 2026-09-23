@@ -1,7 +1,7 @@
 {
   "part": 4,
   "displayName": "Magma Spike Demon",
-  "status": "extracted-candidate-pending-root-review",
+  "status": "rigged-candidate-pending-root-review",
   "reviewHold": null,
   "source": {
     "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
@@ -132,5 +132,95 @@
       "labAccepted": false,
       "worldIntegrated": false
     }
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
+    "sha256": "71390cfd217eb19c3dc10de8f590550f85c920ad1e65d5c6bae56b2efeea87e9",
+    "bytes": 7011888,
+    "geometry": {
+      "vertices": 5257,
+      "triangles": 2775,
+      "positionsPreserved": true,
+      "normalsPreserved": true,
+      "uvsPreserved": true,
+      "indicesPreserved": true
+    },
+    "rig": {
+      "joints": 22,
+      "influencesPerVertex": 4,
+      "verticesWithDistributedWeights": 5257,
+      "maximumWeightSumError": 4.470348358154297e-08
+    },
+    "animations": [
+      {
+        "name": "Idle",
+        "seconds": 2.8,
+        "channels": 3
+      },
+      {
+        "name": "Walk",
+        "seconds": 1,
+        "channels": 7
+      },
+      {
+        "name": "Run",
+        "seconds": 0.72,
+        "channels": 8
+      },
+      {
+        "name": "Attack",
+        "seconds": 0.92,
+        "channels": 5
+      },
+      {
+        "name": "Hit",
+        "seconds": 0.46,
+        "channels": 5
+      },
+      {
+        "name": "Death",
+        "seconds": 1.45,
+        "channels": 9
+      }
+    ],
+    "textures": [
+      {
+        "name": "demon+creature+3d+model_basecolor.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 2107997
+      },
+      {
+        "name": "demon+creature+3d+model_rm.png",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/png",
+        "bytes": 4025092
+      },
+      {
+        "name": "demon+creature+3d+model_normal.jpg",
+        "width": 2048,
+        "height": 2048,
+        "mime": "image/jpeg",
+        "bytes": 524633
+      }
+    ],
+    "acceptance": {
+      "rig": false,
+      "animation": false,
+      "textures": false,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  },
+  "acceptance": {
+    "extraction": true,
+    "sourceDesign": true,
+    "rig": false,
+    "animation": false,
+    "textures": false,
+    "labAccepted": false,
+    "worldIntegrated": false
   }
 }

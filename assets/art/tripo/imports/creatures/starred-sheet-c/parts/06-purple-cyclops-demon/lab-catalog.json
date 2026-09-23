@@ -1,0 +1,99 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_purple_cyclops_demon",
+      "file": "models/creature/creature_purple_cyclops_demon.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Purple Cyclops Demon",
+      "tags": [
+        "creature",
+        "humanoid",
+        "demon",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6879520,
+      "sha256": "7fdc021630bcf2744e06f581b71f7717dffa5bd18e44343ba9177dc7b72fbb43",
+      "size": {
+        "x": 0.2792968451976776,
+        "y": 0.349609375,
+        "z": 0.32421875
+      },
+      "base": {
+        "x": -0.1396484225988388,
+        "y": 0,
+        "z": -0.162109375
+      },
+      "bounds": {
+        "min": [
+          -0.1396484225988388,
+          0,
+          -0.162109375
+        ],
+        "max": [
+          0.1396484225988388,
+          0.349609375,
+          0.162109375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 1667,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/base.glb",
+        "sourceSha256": "61c616190f018f20a19edf0f8d6f3a9304440c1790fc812614f91868c9e3488f",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/06-purple-cyclops-demon/purple-cyclops-demon-native-rig.glb",
+        "candidateSha256": "7fdc021630bcf2744e06f581b71f7717dffa5bd18e44343ba9177dc7b72fbb43",
+        "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
+        "textures": [
+          {
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 2107997
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4025092
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 524633
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
