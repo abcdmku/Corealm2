@@ -1,5 +1,5 @@
 ﻿{
-    "status":  "partial-local-archive",
+    "status":  "local-archive-complete",
     "scope":  "Newly starred armor and wizard models",
     "sourceInventory":  {
                             "verifiedBy":  "inventory agent",
@@ -104,12 +104,23 @@
                        "cardStorageId":  "d4f92181-f7c4-4005-844d-019c41e856ec",
                        "projectId":  "57209cfb-970b-40cc-8103-70e99181986f",
                        "title":  "Wizard costume",
-                       "individualExportAttempt":  null,
+                       "individualExportAttempt":  {
+                                                       "format":  "GLB",
+                                                       "textureResolution":  "8K Current",
+                                                       "exportSkeleton":  true,
+                                                       "packUV":  false,
+                                                       "outcome":  "Tripo UI export completed; archived with matching size and SHA-256.",
+                                                       "observedAtLocal":  "2026-09-23T05:27:44-05:00",
+                                                       "downloadedFileName":  "fantasy+wizard+3d+model (7).glb",
+                                                       "settingsVerified":  true,
+                                                       "identificationEvidence":  "Unique 05:27 local arrival confirmed for project 57209cfb-970b-40cc-8103-70e99181986f; GLB has 20 fantasy_wizard_3d_model base-color maps with purple-gray averages matching the lavender and silver robe prompt."
+                                                   },
                        "batchSelected":  true,
                        "localExportPath":  "assets/art/tripo/exports/57209cfb-970b-40cc-8103-70e99181986f.glb",
-                       "localFilePresent":  false,
-                       "sha256":  null,
-                       "prompt":  "ornate lavender and silver wizard robe with wide-brim hat, detailed embroidery and boots"
+                       "localFilePresent":  true,
+                       "sha256":  "94422e79e3b97696c450e243c26852ce45858cb458e69e800bea565943915da0",
+                       "prompt":  "ornate lavender and silver wizard robe with wide-brim hat, detailed embroidery and boots",
+                       "fileSizeBytes":  8130684
                    }
                ],
     "batchExport":  {
@@ -127,8 +138,8 @@
                     },
     "verification":  {
                          "downloadsFolder":  "C:\\Users\\Borg\\Downloads",
-                         "matchingGlbsInDownloads":  4,
-                         "projectNamedGlbsInWorkspace":  4,
+                         "matchingGlbsInDownloads":  5,
+                         "projectNamedGlbsInWorkspace":  5,
                          "verifiedAt":  "2026-09-23"
                      },
     "note":  "No signed URL was fetched or opened outside Tripo UI. Per computer-use policy, do not bypass ERR_BLOCKED_BY_CLIENT."
