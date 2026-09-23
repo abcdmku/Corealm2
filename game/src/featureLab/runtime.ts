@@ -261,6 +261,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
           baseY: (assetId) => deps.assets.baseY(assetId),
           assetSize: (assetId) => deps.assets.assetSize(assetId),
           rotationY: Math.atan2(deps.spawn[0] - x, deps.spawn[2] - z),
+          assetId: options?.assetId,
         });
         // Authored content decides the actor's appearance and stats. Its original biome does not
         // decide which streamed world this deliberately empty session is standing in.

@@ -238,6 +238,8 @@ export interface FeatureLabEntityPlacement {
   readonly rotationY?: number;
   /** An isolated animation fixture can exercise an accepted rig with the selected combat binding. */
   readonly creatureAssetId?: string;
+  /** Review a staged model with the selected actor's authored NPC or creature behavior. */
+  readonly assetId?: string;
 }
 
 /**
@@ -263,8 +265,10 @@ export function createFeatureLabEntity(
     throw new Error(`Unknown feature-lab ${preset.kind} preset: ${preset.id}`);
   }
 
-  if (source.kind === 'creature' && placement.creatureAssetId) {
-    source = { ...source, group: { ...source.group, assetId: placement.creatureAssetId } };
+  if (source.kind === "creature" && (placement.assetId || placement.creatureAssetId)) {
+    source = { ...source, group: { ...source.group, assetId: placement.assetId || placement.creatureAssetId! } };
+  } else if (source.kind === "npc" && placement.assetId) {
+    source = { ...source, npc: { ...source.npc, assetId: placement.assetId } };
   }
 
   const assetId = source.kind === "npc" ? source.npc.assetId : source.group.assetId;

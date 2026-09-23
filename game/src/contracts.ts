@@ -1636,11 +1636,13 @@ export interface FeatureLabApi {
    * `options.distance` places it that many metres out instead of the default 10. Aggro radius is
    * authored per family from 3 m to 22 m, so a fixed distance can only ever exercise one side of
    * it: a passive hen at 3 m and a Rootheart at 22 m need the spawn to move, not the creature.
+   * `options.assetId` lets an isolated candidate use the selected actor's authored behavior
+   * while rendering its staged model. It does not change the authored world placement.
    */
   spawnTarget(
     kind: FeatureLabTargetKind,
     presetId: string,
-    options?: { distance?: number },
+    options?: { distance?: number; assetId?: string },
   ): Promise<FeatureLabState>;
   setLevel(skillId: SkillId, level: number): Promise<FeatureLabState>;
   equipPlayer(slot: EquipSlot, itemId: ItemId | null): Promise<FeatureLabState>;
