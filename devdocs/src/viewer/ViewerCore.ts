@@ -16,7 +16,7 @@ export class ViewerCore {
   readonly renderer: THREE.WebGLRenderer;
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.PerspectiveCamera(38, 1, .01, 2000);
-  private controls: OrbitControls;
+  private readonly controls: OrbitControls;
   private readonly stage = new THREE.Group();
   private readonly grid = new THREE.GridHelper(10, 20, 0x677563, 0x39443a);
   private readonly environment: THREE.WebGLRenderTarget;
@@ -35,7 +35,6 @@ export class ViewerCore {
   private disposed = false;
   private fitRadius = 1;
   private fitTarget = new THREE.Vector3();
-  private refitAfterAttach = false;
 
   private parked = false;
 
@@ -68,7 +67,10 @@ export class ViewerCore {
     const rim = new THREE.DirectionalLight(0xb9d1ff, .8); rim.position.set(4, 2, -4); this.scene.add(rim);
     this.scene.add(this.stage, this.grid, this.box);
     this.box.visible = false;
-    this.controls = this.createControls();
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.enablePan = false;
+    this.controls.maxPolarAngle = Math.PI * .49;
     this.camera.position.set(4, 3, 5);
     this.controls.update();
     this.resize = new ResizeObserver(() => this.resizeCanvas());
@@ -82,14 +84,6 @@ export class ViewerCore {
     this.renderer.setSize(width, height, false);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
-  }
-
-  private createControls(): OrbitControls {
-    const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    controls.enableDamping = true;
-    controls.enablePan = false;
-    controls.maxPolarAngle = Math.PI * .49;
-    return controls;
   }
 
   async load(source: ViewerSource): Promise<void> {
@@ -135,6 +129,10 @@ export class ViewerCore {
       clips: model.clips.map(clip => ({ name: clip.name, duration: clip.duration, group: model.clipGroups.get(clip.name) ?? 'Other clips' })) };
     this.selectClip(model.initialClip ?? model.clips[0]?.name ?? '');
     this.mixer.update(0);
+    // The pooled stage can retain the previous model's matrixWorld after its position is reset.
+    // Refresh the parent before measuring this child; updateMatrixWorld on the child alone does not
+    // update stale ancestors, so Box3 would otherwise fit to the previous model's translation.
+    this.stage.updateMatrixWorld(true);
     model.root.updateMatrixWorld(true);
     const bounds = new THREE.Box3().setFromObject(model.root, true);
     if (bounds.isEmpty()) {
@@ -153,16 +151,6 @@ export class ViewerCore {
     const gridSize = Math.max(1, Math.pow(10, Math.floor(Math.log10(this.fitRadius * 2))));
     this.grid.scale.setScalar(gridSize);
     this.resetCamera();
-    if (this.refitAfterAttach) {
-      this.refitAfterAttach = false;
-      requestAnimationFrame(() => {
-        if (this.disposed || this.parked || epoch !== this.epoch || this.model !== model) return;
-        // A parked viewer can be reattached before the new route's aspect frame has settled.
-        // Read its final client size and fit once after layout, without overriding later user orbit.
-        this.resizeCanvas();
-        this.resetCamera();
-      });
-    }
     this.setWireframe(this.snapshot.wireframe);
     this.setBounds(this.snapshot.bounds);
     this.emit();
@@ -232,11 +220,6 @@ export class ViewerCore {
     this.container = container;
     this.report = report;
     this.parked = false;
-    // OrbitControls retains damped input between frames. A pooled canvas must not carry the
-    // previous record's orbit/zoom momentum into the next model's initial fit.
-    this.controls.dispose();
-    this.controls = this.createControls();
-    this.refitAfterAttach = true;
     container.append(this.renderer.domElement);
     this.resize.observe(container);
     this.resizeCanvas();
