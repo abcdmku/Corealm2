@@ -1,0 +1,101 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_pearl_knight",
+      "file": "models/fairy-crown/creature_pearl_knight.glb",
+      "pack": "corealm-starred-creatures",
+      "category": "character",
+      "is": "Crownward Pearl Knight",
+      "tags": [
+        "creature",
+        "crownward",
+        "T40",
+        "white-gold-plate",
+        "patrol",
+        "starred",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 10963776,
+      "sha256": "978f5e815e223a85c64554ba5ac07cfafb409c06f52e48537cc0e500428667c5",
+      "size": {
+        "x": 0.998046875,
+        "y": 0.990234375,
+        "z": 0.23242194950580597
+      },
+      "base": {
+        "x": -0.4990234375,
+        "y": 0,
+        "z": -0.11621097475290298
+      },
+      "bounds": {
+        "min": [
+          -0.4990234375,
+          0,
+          -0.11621097475290298
+        ],
+        "max": [
+          0.4990234375,
+          0.990234375,
+          0.11621097475290298
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4697,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_37502ad0-bfb1-456b-9620-830bb836fdba_material"
+      ],
+      "sourceProvenance": {
+        "author": "Starred Tripo model, source-specific rig reconstruction",
+        "sourceModelId": "7449b4c6-86b9-44e4-a26b-5f02e3c00a72",
+        "sourceCardId": "3255ba4a-055e-446b-9c47-0266c347710a",
+        "sourceFile": "assets/art/tripo/exports/3255ba4a-055e-446b-9c47-0266c347710a.glb",
+        "sourceSha256": "9f0cb9c3eedc9645957e9bdd921b6ad44ad62a560325e42078505ff4dd452ba4",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-light-knight-regular/pearl-patrol-knight-native-rig.glb",
+        "candidateSha256": "978f5e815e223a85c64554ba5ac07cfafb409c06f52e48537cc0e500428667c5",
+        "rigMethod": "22-joint Mixamo-named Unity Humanoid skeleton; four-weight anatomical fields; source mesh positions, topology, normals, UV islands and map images preserved.",
+        "textures": [
+          {
+            "name": "3255ba4a-055e-446b-9c47-0266c347710a_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 1457807
+          },
+          {
+            "name": "3255ba4a-055e-446b-9c47-0266c347710a_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 8213988
+          },
+          {
+            "name": "3255ba4a-055e-446b-9c47-0266c347710a_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 781042
+          }
+        ],
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
