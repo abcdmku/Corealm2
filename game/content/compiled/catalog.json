@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "6d4ba626ef93787ad478de468c5e3bd18cb9531e22eff9da44befd8594fdd6b8",
-  "formulaRevision": "e50aa74253e05879709071485331fc390b4305959a0e2cfe9a77403ea20a7062",
+  "revision": "1fbaa36736aaf067dc72430a166c3de2135a588c6d5b53613654916cfa442fe6",
+  "formulaRevision": "703345907c6360435eac557c3d876fe1035ab2b8c9ffd21e0991738f26cc7b07",
   "tables": {
     "items": [
       {
@@ -30356,7 +30356,7 @@
           "scale": 0.747979670660513,
           "regionId": "gloamgarden",
           "activity": "patrol",
-          "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+          "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
           "kind": "basic"
         },
         "adjustments": {
@@ -30668,7 +30668,7 @@
           "scale": 1.1810205326218628,
           "regionId": "gloamgarden",
           "activity": "patrol",
-          "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+          "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
           "kind": "basic"
         },
         "adjustments": {
@@ -30939,7 +30939,7 @@
           "scale": 0.7060519304229402,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+          "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
           "kind": "basic"
         },
         "loot": {
@@ -31203,7 +31203,7 @@
           "scale": 1.1148188375099055,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+          "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
           "kind": "basic"
         },
         "loot": {
@@ -36367,19 +36367,46 @@
         "id": "veil_reaper_t1",
         "baseId": "veil_reaper_t20",
         "availability": "world",
-        "level": 1
+        "level": 1,
+        "presentation": {
+          "id": "veil_reaper_t1",
+          "assetId": "creature_veil_reaper",
+          "scale": 0.45,
+          "regionId": "wilderness",
+          "activity": "patrol",
+          "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+          "kind": "basic"
+        }
       },
       {
         "id": "veil_reaper_t5",
         "baseId": "veil_reaper_t20",
         "availability": "world",
-        "level": 5
+        "level": 5,
+        "presentation": {
+          "id": "veil_reaper_t5",
+          "assetId": "creature_veil_reaper",
+          "scale": 0.6,
+          "regionId": "wilderness",
+          "activity": "patrol",
+          "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+          "kind": "basic"
+        }
       },
       {
         "id": "veil_reaper_t10",
         "baseId": "veil_reaper_t20",
         "availability": "world",
-        "level": 10
+        "level": 10,
+        "presentation": {
+          "id": "veil_reaper_t10",
+          "assetId": "creature_veil_reaper",
+          "scale": 0.78,
+          "regionId": "wilderness",
+          "activity": "patrol",
+          "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+          "kind": "basic"
+        }
       },
       {
         "id": "amethyst_dragon_t50",
@@ -37950,6 +37977,15 @@
         "baseId": "veil_reaper_t20",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "veil_reaper_t50",
+          "assetId": "creature_veil_reaper",
+          "scale": 1.15,
+          "regionId": "wilderness",
+          "activity": "patrol",
+          "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+          "kind": "basic"
+        },
         "loot": {
           "rolls": [
             {
@@ -37996,6 +38032,15 @@
         "baseId": "veil_reaper_t20",
         "availability": "world",
         "level": 70,
+        "presentation": {
+          "id": "veil_reaper_t70",
+          "assetId": "creature_veil_reaper",
+          "scale": 1.3,
+          "regionId": "wilderness",
+          "activity": "patrol",
+          "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+          "kind": "basic"
+        },
         "loot": {
           "rolls": [
             {
@@ -116772,7 +116817,7 @@
             "scale": 0.747979670660513,
             "regionId": "gloamgarden",
             "activity": "patrol",
-            "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+            "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
             "kind": "basic"
           },
           "adjustments": {
@@ -116907,7 +116952,7 @@
           "scale": 0.747979670660513,
           "regionId": "gloamgarden",
           "activity": "patrol",
-          "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+          "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
           "stats": {
             "id": "garden_reliquary_t30",
             "name": "Dewglass Reliquary",
@@ -118272,7 +118317,7 @@
             "scale": 1.1810205326218628,
             "regionId": "gloamgarden",
             "activity": "patrol",
-            "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+            "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
             "kind": "basic"
           },
           "adjustments": {
@@ -118407,7 +118452,7 @@
           "scale": 1.1810205326218628,
           "regionId": "gloamgarden",
           "activity": "patrol",
-          "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+          "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
           "stats": {
             "id": "garden_petalguard_t30",
             "name": "Silverleaf Petalguard",
@@ -119751,7 +119796,7 @@
             "scale": 0.7060519304229402,
             "regionId": "faeholme",
             "activity": "patrol",
-            "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+            "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
             "kind": "basic"
           },
           "loot": {
@@ -119879,7 +119924,7 @@
           "scale": 0.7060519304229402,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+          "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
           "stats": {
             "id": "garden_reliquary_t60",
             "name": "Starporcelain Reliquary",
@@ -121227,7 +121272,7 @@
             "scale": 1.1148188375099055,
             "regionId": "faeholme",
             "activity": "patrol",
-            "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+            "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
             "kind": "basic"
           },
           "loot": {
@@ -121355,7 +121400,7 @@
           "scale": 1.1148188375099055,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+          "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
           "stats": {
             "id": "garden_petalguard_t60",
             "name": "Moonstone Petalguard",
@@ -150341,7 +150386,16 @@
           "id": "veil_reaper_t1",
           "baseId": "veil_reaper_t20",
           "availability": "world",
-          "level": 1
+          "level": 1,
+          "presentation": {
+            "id": "veil_reaper_t1",
+            "assetId": "creature_veil_reaper",
+            "scale": 0.45,
+            "regionId": "wilderness",
+            "activity": "patrol",
+            "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+            "kind": "basic"
+          }
         },
         "enemy": {
           "id": "veil_reaper_t1",
@@ -150401,11 +150455,11 @@
         },
         "availability": "world",
         "assetId": "creature_veil_reaper",
-        "scale": 1.05,
+        "scale": 0.45,
         "presentation": {
-          "id": "veil_reaper",
+          "id": "veil_reaper_t1",
           "assetId": "creature_veil_reaper",
-          "scale": 1.05,
+          "scale": 0.45,
           "regionId": "wilderness",
           "activity": "patrol",
           "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
@@ -150481,7 +150535,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments",
           "loot"
         ]
@@ -150492,7 +150545,16 @@
           "id": "veil_reaper_t5",
           "baseId": "veil_reaper_t20",
           "availability": "world",
-          "level": 5
+          "level": 5,
+          "presentation": {
+            "id": "veil_reaper_t5",
+            "assetId": "creature_veil_reaper",
+            "scale": 0.6,
+            "regionId": "wilderness",
+            "activity": "patrol",
+            "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+            "kind": "basic"
+          }
         },
         "enemy": {
           "id": "veil_reaper_t5",
@@ -150552,11 +150614,11 @@
         },
         "availability": "world",
         "assetId": "creature_veil_reaper",
-        "scale": 1.05,
+        "scale": 0.6,
         "presentation": {
-          "id": "veil_reaper",
+          "id": "veil_reaper_t5",
           "assetId": "creature_veil_reaper",
-          "scale": 1.05,
+          "scale": 0.6,
           "regionId": "wilderness",
           "activity": "patrol",
           "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
@@ -150632,7 +150694,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments",
           "loot"
         ]
@@ -150643,7 +150704,16 @@
           "id": "veil_reaper_t10",
           "baseId": "veil_reaper_t20",
           "availability": "world",
-          "level": 10
+          "level": 10,
+          "presentation": {
+            "id": "veil_reaper_t10",
+            "assetId": "creature_veil_reaper",
+            "scale": 0.78,
+            "regionId": "wilderness",
+            "activity": "patrol",
+            "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+            "kind": "basic"
+          }
         },
         "enemy": {
           "id": "veil_reaper_t10",
@@ -150703,11 +150773,11 @@
         },
         "availability": "world",
         "assetId": "creature_veil_reaper",
-        "scale": 1.05,
+        "scale": 0.78,
         "presentation": {
-          "id": "veil_reaper",
+          "id": "veil_reaper_t10",
           "assetId": "creature_veil_reaper",
-          "scale": 1.05,
+          "scale": 0.78,
           "regionId": "wilderness",
           "activity": "patrol",
           "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
@@ -150783,7 +150853,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments",
           "loot"
         ]
@@ -161087,6 +161156,15 @@
           "baseId": "veil_reaper_t20",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "veil_reaper_t50",
+            "assetId": "creature_veil_reaper",
+            "scale": 1.15,
+            "regionId": "wilderness",
+            "activity": "patrol",
+            "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+            "kind": "basic"
+          },
           "loot": {
             "rolls": [
               {
@@ -161232,11 +161310,11 @@
         },
         "availability": "world",
         "assetId": "creature_veil_reaper",
-        "scale": 1.05,
+        "scale": 1.15,
         "presentation": {
-          "id": "veil_reaper",
+          "id": "veil_reaper_t50",
           "assetId": "creature_veil_reaper",
-          "scale": 1.05,
+          "scale": 1.15,
           "regionId": "wilderness",
           "activity": "patrol",
           "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
@@ -161358,7 +161436,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -161369,6 +161446,15 @@
           "baseId": "veil_reaper_t20",
           "availability": "world",
           "level": 70,
+          "presentation": {
+            "id": "veil_reaper_t70",
+            "assetId": "creature_veil_reaper",
+            "scale": 1.3,
+            "regionId": "wilderness",
+            "activity": "patrol",
+            "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+            "kind": "basic"
+          },
           "loot": {
             "rolls": [
               {
@@ -161522,11 +161608,11 @@
         },
         "availability": "world",
         "assetId": "creature_veil_reaper",
-        "scale": 1.05,
+        "scale": 1.3,
         "presentation": {
-          "id": "veil_reaper",
+          "id": "veil_reaper_t70",
           "assetId": "creature_veil_reaper",
-          "scale": 1.05,
+          "scale": 1.3,
           "regionId": "wilderness",
           "activity": "patrol",
           "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
@@ -161656,7 +161742,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -250006,7 +250091,7 @@
         "scale": 0.747979670660513,
         "regionId": "gloamgarden",
         "activity": "patrol",
-        "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+        "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
         "stats": {
           "id": "garden_reliquary_t30",
           "name": "Dewglass Reliquary",
@@ -250576,7 +250661,7 @@
         "scale": 1.1810205326218628,
         "regionId": "gloamgarden",
         "activity": "patrol",
-        "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+        "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
         "stats": {
           "id": "garden_petalguard_t30",
           "name": "Silverleaf Petalguard",
@@ -251146,7 +251231,7 @@
         "scale": 0.7060519304229402,
         "regionId": "faeholme",
         "activity": "patrol",
-        "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+        "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
         "stats": {
           "id": "garden_reliquary_t60",
           "name": "Starporcelain Reliquary",
@@ -251716,7 +251801,7 @@
         "scale": 1.1148188375099055,
         "regionId": "faeholme",
         "activity": "patrol",
-        "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+        "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
         "stats": {
           "id": "garden_petalguard_t60",
           "name": "Moonstone Petalguard",
@@ -260325,6 +260410,426 @@
                     1
                   ],
                   "chance": 0.15
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "veil_reaper_t1",
+        "assetId": "creature_veil_reaper",
+        "scale": 0.45,
+        "regionId": "wilderness",
+        "activity": "patrol",
+        "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+        "stats": {
+          "id": "veil_reaper_t1",
+          "name": "Veil Reaper",
+          "family": "veil_reaper",
+          "tier": 1,
+          "maxHealth": 7,
+          "attackLevel": 1,
+          "defenceLevel": 1,
+          "accuracy": 1,
+          "armour": 1,
+          "magicArmour": 1,
+          "maxHit": 1,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            3,
+            6
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    3,
+                    6
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items",
+              "name": "Items",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "earth_essence",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.35
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "veil_reaper_t5",
+        "assetId": "creature_veil_reaper",
+        "scale": 0.6,
+        "regionId": "wilderness",
+        "activity": "patrol",
+        "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+        "stats": {
+          "id": "veil_reaper_t5",
+          "name": "Veil Reaper",
+          "family": "veil_reaper",
+          "tier": 5,
+          "maxHealth": 17,
+          "attackLevel": 6,
+          "defenceLevel": 5,
+          "accuracy": 6,
+          "armour": 5,
+          "magicArmour": 5,
+          "maxHit": 3,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            15,
+            30
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    15,
+                    30
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items",
+              "name": "Items",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "earth_essence",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.35
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "veil_reaper_t10",
+        "assetId": "creature_veil_reaper",
+        "scale": 0.78,
+        "regionId": "wilderness",
+        "activity": "patrol",
+        "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+        "stats": {
+          "id": "veil_reaper_t10",
+          "name": "Veil Reaper",
+          "family": "veil_reaper",
+          "tier": 10,
+          "maxHealth": 30,
+          "attackLevel": 11,
+          "defenceLevel": 9,
+          "accuracy": 12,
+          "armour": 10,
+          "magicArmour": 10,
+          "maxHit": 4,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            30,
+            60
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    30,
+                    60
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items",
+              "name": "Items",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "earth_essence",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.35
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "veil_reaper_t50",
+        "assetId": "creature_veil_reaper",
+        "scale": 1.15,
+        "regionId": "wilderness",
+        "activity": "patrol",
+        "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+        "stats": {
+          "id": "veil_reaper_t50",
+          "name": "Veil Reaper",
+          "family": "veil_reaper",
+          "tier": 50,
+          "maxHealth": 134,
+          "attackLevel": 55,
+          "defenceLevel": 45,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 16,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "veil_reaper_t70",
+        "assetId": "creature_veil_reaper",
+        "scale": 1.3,
+        "regionId": "wilderness",
+        "activity": "patrol",
+        "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+        "stats": {
+          "id": "veil_reaper_t70",
+          "name": "Veil Reaper",
+          "family": "veil_reaper",
+          "tier": 70,
+          "maxHealth": 186,
+          "attackLevel": 77,
+          "defenceLevel": 63,
+          "accuracy": 84,
+          "armour": 70,
+          "magicArmour": 70,
+          "maxHit": 22,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            210,
+            420
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    210,
+                    420
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_void_thread",
+              "name": "Guaranteed void thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "void_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "death_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.32
+                },
+                {
+                  "itemId": "blood_rune",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.22
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "wrath_rune",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.1
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
                 }
               ]
             }
@@ -321905,7 +322410,7 @@
               }
             ]
           },
-          "bodyRadius": 1.0437935945234567
+          "bodyRadius": 0.908797868679692
         },
         "population_clinker_south_crawlers": {
           "id": "slag_crawler_t20",
@@ -322525,7 +323030,7 @@
               }
             ]
           },
-          "bodyRadius": 1.0437935945234567
+          "bodyRadius": 0.908797868679692
         },
         "population_ashback_north_lanterns": {
           "id": "grave_lantern_t20",
@@ -328045,7 +328550,7 @@
               }
             ]
           },
-          "bodyRadius": 1.09368
+          "bodyRadius": 1.6218300000000003
         },
         "hollow_star": {
           "id": "hollow_star",
@@ -328686,7 +329191,7 @@
               }
             ]
           },
-          "bodyRadius": 1.1286806816325121
+          "bodyRadius": 0.9827063542729167
         },
         "population_deadwood_west_boughs": {
           "id": "population_deadwood_west_boughs",
@@ -329010,7 +329515,7 @@
               }
             ]
           },
-          "bodyRadius": 1.1286806816325121
+          "bodyRadius": 0.9827063542729167
         },
         "population_petrified_grove_south_shades": {
           "id": "population_petrified_grove_south_shades",
@@ -329334,7 +329839,7 @@
               }
             ]
           },
-          "bodyRadius": 1.1286806816325121
+          "bodyRadius": 0.9827063542729167
         },
         "population_black_keep_north_penitents": {
           "id": "population_black_keep_north_penitents",
@@ -332180,7 +332685,7 @@
               }
             ]
           },
-          "bodyRadius": 0.3976800000000001
+          "bodyRadius": 0.56466
         },
         "fairy_bloomheart_hollow_residents": {
           "id": "garden_reliquary_t30",
@@ -332273,7 +332778,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5139309999999999
+          "bodyRadius": 0.44806749999999995
         },
         "fairy_bloomheart_hollow_companions": {
           "id": "garden_imp_t30",
@@ -333403,7 +333908,7 @@
               }
             ]
           },
-          "bodyRadius": 0.39768
+          "bodyRadius": 0.87837
         },
         "fairy_orchid_hollow_residents": {
           "id": "garden_reliquary_t60",
@@ -333496,7 +334001,7 @@
               }
             ]
           },
-          "bodyRadius": 0.513931
+          "bodyRadius": 0.7254485
         },
         "fairy_orchid_hollow_companions": {
           "id": "garden_imp_t60",

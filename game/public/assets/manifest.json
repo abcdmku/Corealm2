@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-23T23:00:47.458Z",
+  "generatedAt": "2026-09-23T23:49:39.799Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -842,6 +842,38 @@
       "source": "assets/art/tripo/imports/creatures/audit-volcanic-golems/build-variants.mjs",
       "generatorSha256": "74caade2d146771b1a8251a51c23287e3d714604494beed6739c1341c14d08f7",
       "license": "LicenseRef-Corealm-Original"
+    },
+    {
+      "id": "corealm-tripo-audit-nightforge-marshal",
+      "name": "Corealm Tripo Nightforge Marshal",
+      "author": "Corealm / Tripo Studio",
+      "source": "assets/art/tripo/imports/creatures/audit-nightforge-marshal/build-marshal.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "4c7e3523d9ac5b5f8c687d0a8e586d0b73aa055614a3193774c7d38a3cc63240"
+    },
+    {
+      "id": "corealm-audit-petalguards",
+      "name": "Corealm Orchid Petalguards",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-petalguards/build-candidate.mjs",
+      "generatorSha256": "b80a0260992e6d4d29ef6c3c7968a504a19a240e5a99db6ab2ff777b2d4b671a",
+      "license": "LicenseRef-Corealm-Original"
+    },
+    {
+      "id": "corealm-tripo-fairy-reliquaries",
+      "name": "Corealm Tripo audited fairy reliquaries",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
+      "generatorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
+      "license": "LicenseRef-Corealm-Original"
+    },
+    {
+      "id": "corealm-tripo-audit-veil-reaper",
+      "name": "Corealm Tripo Veil Reaper",
+      "author": "Corealm / Tripo Studio",
+      "source": "assets/art/tripo/imports/creatures/audit-veil-reaper/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "eda4a79ee5059ee7131bee7d5705c15acba019a1f9502e91992449323eddfb11"
     }
   ],
   "assets": [
@@ -34432,28 +34464,43 @@
     {
       "id": "creature_veil_reaper",
       "file": "models/creature/creature_veil_reaper.glb",
-      "pack": "corealm-rpg-universal-base-characters",
+      "pack": "corealm-tripo-audit-veil-reaper",
       "category": "character",
       "is": "Veil Reaper",
       "tags": [
         "creature",
-        "rpg",
-        "banshee"
+        "wraith",
+        "floating",
+        "tripo",
+        "candidate"
       ],
-      "bytes": 15382432,
-      "sha256": "d9c5f046bd6d299cfee8ce023b31985c4979dac042a1a6b304263274882fc2cd",
+      "bytes": 4473448,
+      "sha256": "e384f6e8afd7df3d0c2daa01f82613c22ec2f5264b5d8918156cee15056a5816",
       "size": {
-        "x": 0.9390708748724867,
-        "y": 2.206004408797983,
-        "z": 1.6217227684479636
+        "x": 1.4119873046875,
+        "y": 2.1489503234624863,
+        "z": 1.0718505859375
       },
       "base": {
-        "x": -0.35443538900420496,
-        "y": 0.1,
-        "z": -0.6397224190552216
+        "x": -0.70599365234375,
+        "y": 0,
+        "z": -0.53592529296875
+      },
+      "bounds": {
+        "min": [
+          -0.70599365234375,
+          0,
+          -0.53592529296875
+        ],
+        "max": [
+          0.70599365234375,
+          2.1489503234624863,
+          0.53592529296875
+        ]
       },
       "groundY": 0,
-      "triangles": 12998,
+      "triangles": 4883,
+      "vertices": 3470,
       "animations": [
         "Idle",
         "Walk",
@@ -34465,478 +34512,84 @@
         "Death"
       ],
       "materials": [
-        "veil_reaper_woven_shroud",
-        "veil_reaper_woven_shroud",
-        "veil_reaper_ash_hands",
-        "veil_reaper_ash_linen_cowl",
-        "veil_reaper_woven_shroud",
-        "veil_reaper_ash_hands",
-        "veil_reaper_woven_shroud",
-        "veil_reaper_ash_hands"
+        "Material_tripo_node_9ff7ac6c-10b8-4fdc-aa5b-0d459b040040"
       ],
-      "walkClipSeconds": 2.7299997806549072,
-      "runClipSeconds": 2.7299997806549072,
-      "attackSeconds": 0.6499999761581421,
-      "contactNormalized": 0.46,
-      "sourceProvenance": {
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "sourceAssets": [
-          "base_male",
-          "Male_Wizard_Body",
-          "Male_Wizard_Arms",
-          "outfit_male_ranger_hood",
-          "animation_library_1"
-        ],
-        "sources": [
-          {
-            "file": "game/public/assets/models/character/base_male.glb",
-            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
-          },
-          {
-            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
-            "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
-          },
-          {
-            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
-            "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
-            "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
-          },
-          {
-            "file": "game/public/assets/models/animation/animation_library_1.glb",
-            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "sourcePacks": [
-          {
-            "id": "universal-base-characters",
-            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-          },
-          {
-            "id": "modular-character-outfits-fantasy-source",
-            "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
-          },
-          {
-            "id": "universal-animation-library",
-            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-          }
-        ],
-        "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
-      },
+      "walkClipSeconds": 1.2,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.78,
+      "contactNormalized": 0.5897435897435898,
+      "locomotionPolicy": "definition-speed; authored in-place spectral float",
       "metadata": {
-        "family": "wraith",
-        "height": 1.8696513598369475,
-        "dimensions": [
-          0.6499378916368594,
-          1.8696513598369475,
-          1.2651960488508256
-        ],
-        "rig": "entitled-universal-base-65-joint",
-        "sourceSkinned": true,
-        "vertices": 9505,
-        "triangles": 12574,
-        "textureBindings": [
+        "contactSeconds": 0.46,
+        "contactBasis": "Both claw arms extend and torso lunges forward at 0.46 s.",
+        "gamePresentationScale": 2.15
+      },
+      "sourceProvenance": {
+        "author": "Corealm reconstruction of owned Tripo Veil Reaper",
+        "sourceModelId": "6fadb584-9372-420c-87b0-b53632c3cbf3",
+        "upstreamSourceUrl": "https://studio.tripo3d.ai/3d-model/hooded-wraith-with-layered-tattered-cloak-clawed-hands-and-swirling-6fadb584-9372-420c-87b0-b53632c3cbf3",
+        "upstreamSource": "Tripo Studio generated GLB",
+        "sourceFile": "assets/art/tripo/exports/corealm_veil_reaper_6fadb584_8k_rigged.glb",
+        "sourceSha256": "18a94f874f2a39dde95707c248aa9919474851762bfaa8b75d32552a8b51c0f2",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-veil-reaper/veil-reaper-native-rig.glb",
+        "candidateSha256": "e384f6e8afd7df3d0c2daa01f82613c22ec2f5264b5d8918156cee15056a5816",
+        "rigMethod": "16-joint source-specific four-weight anatomical float rig; original 3466-root-weight source skin replaced.",
+        "geometryPreserved": true,
+        "sourceTexturesPreserved": true,
+        "sourceTextures": [
           {
-            "materialName": "banshee_source_Male_Wizard_Body_MI_Wizard",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-normalPath.png"
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_basecolor.jpg",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 11804365,
+            "sha256": "406d822a507050a2302fe4857a86615f2d55f5bf047dc29e40af82732df7c3aa"
           },
           {
-            "materialName": "banshee_source_Male_Wizard_Arms_MI_Wizard",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-normalPath.png"
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_rm.png",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 7171147,
+            "sha256": "2024dc3642ea2c61f2a3ae9056c002a693efead2ab1acf7152948a9d1a5dd86e"
           },
           {
-            "materialName": "banshee_source_Male_Wizard_Arms_MI_Regular_Male",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-normalPath.png"
-          },
-          {
-            "materialName": "banshee_source_outfit_male_ranger_hood_MI_Ranger",
-            "flipY": false,
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-baseColorPath.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-normalPath.png"
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_normal.jpg",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 2023261,
+            "sha256": "6fa8e1589bfb7de11d5aeb16b4d1823b5fe00fd1eb411759dadd15742b80baff"
           }
         ],
-        "floorCorrection": {
-          "Idle": {
-            "samples": 189,
-            "maximumLift": 0
+        "runtimeTextures": [
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1158397,
+            "sha256": "fb1909c2450995797395440dd5726d84013789abfa657c7304898e1f8d97ce83"
           },
-          "Walk": {
-            "samples": 121,
-            "maximumLift": 0
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 2148166,
+            "sha256": "74317eaf955f7984a703ac65ecd91414fbc36fe27be4247fbe02416e8afb3b04"
           },
-          "Run": {
-            "samples": 85,
-            "maximumLift": 0.1103367225039341
-          },
-          "Attack": {
-            "samples": 45,
-            "maximumLift": 0
-          },
-          "Hit": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "HitLeft": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "HitRight": {
-            "samples": 31,
-            "maximumLift": 0
-          },
-          "Death": {
-            "samples": 207,
-            "maximumLift": 0.39499311100265894
+          {
+            "name": "corealm_veil_reaper_6fadb584_8k_rigged_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 800989,
+            "sha256": "26c7208ab72ddce53edfa82b20c3fe27f89e64a8c84d6bc7174c3acabc959ab0"
           }
-        },
-        "attackContact": 0.42,
-        "attackContactSource": "Spell_Simple_Shoot production marker .42",
-        "license": "CC0-1.0",
-        "provenance": {
-          "author": "Quaternius",
-          "license": "CC0-1.0",
-          "sourceAssets": [
-            "base_male",
-            "Male_Wizard_Body",
-            "Male_Wizard_Arms",
-            "outfit_male_ranger_hood",
-            "animation_library_1"
-          ],
-          "sources": [
-            {
-              "file": "game/public/assets/models/character/base_male.glb",
-              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
-            },
-            {
-              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
-              "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
-            },
-            {
-              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
-              "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
-            },
-            {
-              "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
-              "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
-            },
-            {
-              "file": "game/public/assets/models/animation/animation_library_1.glb",
-              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-            }
-          ],
-          "sourcePacks": [
-            {
-              "id": "universal-base-characters",
-              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-            },
-            {
-              "id": "modular-character-outfits-fantasy-source",
-              "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
-            },
-            {
-              "id": "universal-animation-library",
-              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-            }
-          ],
-          "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
-        },
-        "textureOrientation": "Original glTF UVs and image rows, flipY false",
-        "sourceClips": {
-          "Idle": "Spell_Simple_Idle_Loop",
-          "Walk": "Walk_Loop",
-          "Run": "Jog_Fwd_Loop",
-          "Attack": "Spell_Simple_Shoot",
-          "Hit": "Hit_Chest",
-          "HitLeft": "Hit_Chest",
-          "HitRight": "Hit_Chest",
-          "Death": "Death01"
-        },
-        "animationAcceptance": "candidate-needs-production-lab-motion-review; floating cloak, no foot-contact claim",
-        "revision": "banshee-source-review-2",
-        "runtimeTexturePolicy": {
-          "maxDimension": 2048,
-          "sharedByEncodedSha256": true,
-          "originalsPreserved": true
-        },
-        "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance.",
-        "redesign": {
-          "sourceAssetId": "creature_banshee",
-          "sourceSha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849",
-          "generator": "tools/biome-creatures/ash/build.mjs",
-          "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
-          "artDirection": "A tall, hollow veiled predator with a swept-back cowl, a long trailing split shroud and continuous torn membranes beneath both arms. Its hands end in long curved talons.",
-          "anatomyAtlas": {
-            "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
-            "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
-            "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
-            "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
-            "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
-          },
-          "motionDirection": "Slow levitation with independent membrane lag and an opening, pulling sweep; no walking leg cycle.",
-          "deformedVertices": 3971,
-          "removedTriangles": 1932,
-          "addedVertices": 1404,
-          "addedTriangles": 2356,
-          "addedSurfaces": [
-            "torn_arm_membrane_-1",
-            "hooked_digit_-1_0",
-            "hooked_digit_-1_1",
-            "hooked_digit_-1_2",
-            "torn_arm_membrane_1",
-            "hooked_digit_1_0",
-            "hooked_digit_1_1",
-            "hooked_digit_1_2"
-          ],
-          "animationEdits": [
-            "Idle:upperarm_l",
-            "Idle:upperarm_r",
-            "Idle:Head",
-            "Attack:upperarm_l",
-            "Attack:upperarm_r",
-            "Attack:Head",
-            "Hit:upperarm_l",
-            "Hit:upperarm_r",
-            "Hit:Head",
-            "HitLeft:upperarm_l",
-            "HitLeft:upperarm_r",
-            "HitLeft:Head",
-            "HitRight:upperarm_l",
-            "HitRight:upperarm_r",
-            "HitRight:Head",
-            "Death:upperarm_l",
-            "Death:upperarm_r",
-            "Death:Head",
-            "Walk:upperarm_l",
-            "Walk:upperarm_r",
-            "Walk:Head",
-            "Run:upperarm_l",
-            "Run:upperarm_r",
-            "Run:Head"
-          ],
-          "measurements": {
-            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=24Hz. Ground correction is an authored root channel.",
-            "idleBounds": {
-              "min": [
-                -0.35443538900420496,
-                0.1,
-                -0.6397224190552216
-              ],
-              "max": [
-                0.5846354858682817,
-                2.306004408797983,
-                0.9820003493927418
-              ]
-            },
-            "minFloor": 0.002999999999999999,
-            "clips": [
-              {
-                "clip": "Idle",
-                "samples": 67,
-                "duration": 2.7299997806549072,
-                "rawFloor": [
-                  0.009173243897072967,
-                  0.018787807708386225
-                ],
-                "maxCorrection": 0.11073032750564228,
-                "bounds": {
-                  "min": [
-                    -0.35443538900420496,
-                    0.07602718385960781,
-                    -0.6494001972797618
-                  ],
-                  "max": [
-                    0.5846354858682817,
-                    2.32056266253667,
-                    0.998247520436289
-                  ]
-                }
-              },
-              {
-                "clip": "Attack",
-                "samples": 49,
-                "duration": 0.6499999761581421,
-                "rawFloor": [
-                  0.0148768945957366,
-                  0.018787807708386225
-                ],
-                "maxCorrection": 0.10877412681265194,
-                "bounds": {
-                  "min": [
-                    -0.36528053459641585,
-                    0.07600000000000001,
-                    -0.6592795365229832
-                  ],
-                  "max": [
-                    0.5848539319242827,
-                    2.3343588075176656,
-                    0.9871987135019515
-                  ]
-                }
-              },
-              {
-                "clip": "Hit",
-                "samples": 49,
-                "duration": 0.4333333373069763,
-                "rawFloor": [
-                  0.022009708656417933,
-                  0.03443757204916115
-                ],
-                "maxCorrection": 0.1019847124759602,
-                "bounds": {
-                  "min": [
-                    -0.5475151644471558,
-                    0.07600000000000001,
-                    -0.7483508716787792
-                  ],
-                  "max": [
-                    0.6338886355089876,
-                    2.2834997068549416,
-                    0.45170864522178333
-                  ]
-                }
-              },
-              {
-                "clip": "HitLeft",
-                "samples": 49,
-                "duration": 0.4333333373069763,
-                "rawFloor": [
-                  0.022009708656417933,
-                  0.03443757204916115
-                ],
-                "maxCorrection": 0.1019847124759602,
-                "bounds": {
-                  "min": [
-                    -0.5475151644471558,
-                    0.07600000000000001,
-                    -0.7520857539414056
-                  ],
-                  "max": [
-                    0.6338886355089876,
-                    2.2834997066469582,
-                    0.42243383258233125
-                  ]
-                }
-              },
-              {
-                "clip": "HitRight",
-                "samples": 49,
-                "duration": 0.4333333373069763,
-                "rawFloor": [
-                  0.022009708656417933,
-                  0.03443757204916115
-                ],
-                "maxCorrection": 0.1019847124759602,
-                "bounds": {
-                  "min": [
-                    -0.5475151644471558,
-                    0.07600000000000001,
-                    -0.7441998281606094
-                  ],
-                  "max": [
-                    0.6338886355089876,
-                    2.2834997066469582,
-                    0.47306370468516884
-                  ]
-                }
-              },
-              {
-                "clip": "Death",
-                "samples": 76,
-                "duration": 3.120000123977661,
-                "rawFloor": [
-                  -0.28146404614499576,
-                  0.033746060265240234
-                ],
-                "maxCorrection": 0.28446404614499576,
-                "bounds": {
-                  "min": [
-                    -0.9247711888295953,
-                    0.002999999999999999,
-                    -1.8875760279228682
-                  ],
-                  "max": [
-                    0.7006067209975456,
-                    2.2055778603756395,
-                    0.43145692263423213
-                  ]
-                }
-              },
-              {
-                "clip": "Walk",
-                "samples": 67,
-                "duration": 2.7299997806549072,
-                "rawFloor": [
-                  0.009173243897072967,
-                  0.018787807708386225
-                ],
-                "maxCorrection": 0.11073032750564228,
-                "bounds": {
-                  "min": [
-                    -0.35443538900420496,
-                    0.07602718385960781,
-                    -0.6494001972797618
-                  ],
-                  "max": [
-                    0.5846354858682817,
-                    2.32056266253667,
-                    0.998247520436289
-                  ]
-                }
-              },
-              {
-                "clip": "Run",
-                "samples": 67,
-                "duration": 2.7299997806549072,
-                "rawFloor": [
-                  0.009173243897072967,
-                  0.018787807708386225
-                ],
-                "maxCorrection": 0.11073032750564228,
-                "bounds": {
-                  "min": [
-                    -0.35443538900420496,
-                    0.07602718385960781,
-                    -0.6494001972797618
-                  ],
-                  "max": [
-                    0.5846354858682817,
-                    2.32056266253667,
-                    0.998247520436289
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        "familyRefinement": {
-          "family": "wraiths",
-          "generator": "tools/wilderness-creatures/families/wraiths.mjs",
-          "sourceAssetSha256": "fceba1a6a2eb2c32c83b692daf454c449e06794415f32fe3a39c093f14e239ad",
-          "atlas": "assets/art/wilderness-creatures/wraiths/cloth-atlas-v1.png",
-          "atlasSha256": "ead666917e6e711cf8d2e289c8317ac585433dfd4014b926769d6f62657dd6ac",
-          "edits": [
-            "Narrowed waist and long shroud volume, swept rear hem; original ragged floor edge retained",
-            "Slimmer drawn-back hood crown; front opening preserved"
-          ],
-          "scope": "Woven shrouds, pale linen cowls and ash hands; opaque readable surfaces. Existing joints, weights and animation clips retained. Gloam recessed emission retained; no whole-body emission."
-        }
+        ]
       },
       "acceptance": {
-        "exported": true,
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_wraith_variants/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false
       }
     },
     {
@@ -47298,731 +46951,148 @@
     {
       "id": "creature_nightforge_marshal",
       "file": "models/creature/creature_nightforge_marshal.glb",
-      "pack": "corealm-rpg-universal-base-characters",
+      "pack": "corealm-tripo-audit-nightforge-marshal",
       "category": "character",
-      "is": "A complete armored guardian with a fitted cuirass, helmet and articulated gauntlets, greaves and shoulders.",
+      "is": "Nightforge Marshal",
       "tags": [
         "creature",
-        "wilderness",
-        "keeper",
-        "nightforge_marshal"
+        "humanoid",
+        "nightforge",
+        "marshal",
+        "tripo"
       ],
-      "bytes": 6107224,
-      "sha256": "fa8266f4c68034092da8aae109624bec977e07f449e2d9e37c2de844398313df",
+      "bytes": 8902568,
+      "sha256": "9878dbb69a5263b22eee44dbd494319779c88461d9a1bf488a2b29e39358e348",
       "size": {
-        "x": 2.1873514928160933,
-        "y": 3.3000000000000007,
-        "z": 1.818224445061364
+        "x": 3.243652361694335,
+        "y": 3.192870973171799,
+        "z": 1.0854492304503607
       },
       "base": {
-        "x": -1.0194929652104554,
-        "y": 0.0042282589084931465,
-        "z": -0.9454873892419942
+        "x": -1.621826147617414,
+        "y": 1.6187041453680412e-9,
+        "z": -0.5427246174622269
       },
-      "groundY": 0.004228258280066815,
-      "triangles": 29484,
+      "bounds": {
+        "min": [
+          -1.621826147617414,
+          1.6187041453680412e-9,
+          -0.5427246174622269
+        ],
+        "max": [
+          1.6218262140769208,
+          3.192870974790503,
+          0.5427246129881337
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4305,
       "animations": [
         "Idle",
         "Walk",
         "Run",
         "Attack",
         "Hit",
-        "HitLeft",
-        "HitRight",
         "Death"
       ],
       "materials": [
-        "animal_rpg_iron_golem_iron_golem_base_male_MI_Eyes",
-        "animal_rpg_iron_golem_iron_golem_base_male_MI_Superhero_Male",
-        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight",
-        "animal_rpg_iron_golem_iron_golem_base_male_MI_Superhero_Male_iron_golem_SuperHero_Male_regional_metal",
-        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight_iron_golem_Male_Knight_Body_Armor_regional_metal",
-        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight_iron_golem_Male_Knight_Legs_Armor_regional_metal",
-        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight_iron_golem_Male_Knight_Feet_Armor_regional_metal",
-        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight_iron_golem_Male_Knight_Arms_regional_metal",
-        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight_iron_golem_Male_Knight_Acc_Pauldron_Round_regional_metal",
-        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight_iron_golem_Male_Knight_Head_Armet_regional_metal"
+        "tripo_node_ab275d74-5ee1-4be7-bb3e-49699aa13f45_material"
       ],
-      "walkClipSeconds": 1.8000000715255737,
-      "runClipSeconds": 1.1200000047683716,
-      "attackSeconds": 1.1266666650772095,
-      "contactNormalized": 0.38,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.9200000166893005,
+      "contactNormalized": 0.5434782608695652,
       "sourceProvenance": {
-        "sourceAssets": [
-          "base_male",
-          "outfit_male_knight_chest",
-          "outfit_male_knight_legs",
-          "outfit_male_knight_boots",
-          "outfit_male_knight_gloves",
-          "outfit_male_knight_pauldron",
-          "outfit_male_knight_helmet",
-          "animation_library_1"
-        ],
-        "sourceFiles": [
-          {
-            "file": "game/public/assets/models/character/base_male.glb",
-            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
-            "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
-            "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
-            "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
-            "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
-            "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
-          },
-          {
-            "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
-            "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
-          },
-          {
-            "file": "game/public/assets/models/animation/animation_library_1.glb",
-            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-          }
-        ],
-        "author": "Quaternius",
-        "license": "CC0-1.0",
-        "sourcePacks": [
-          {
-            "id": "universal-base-characters",
-            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-          },
-          {
-            "id": "modular-character-outfits-fantasy",
-            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
-          },
-          {
-            "id": "universal-animation-library",
-            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-          }
-        ],
-        "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
-        "materialRevision": {
-          "kind": "material-only",
-          "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
-          "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
-          "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
-          "sourceColor": {
-            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
-            "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
-          },
-          "sourceNormal": {
-            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
-            "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
-            "bytesUnchanged": true,
-            "materialNormalScale": 0.45
-          },
-          "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
-          "channels": {
-            "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
-            "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
-            "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
-            "normal": "Original normal PNG unchanged; material strength 0.45"
-          },
-          "statistics": {
-            "roughness": [
-              0.5804073725490195,
-              0.85
-            ],
-            "metalness": [
-              0.35,
-              0.88
-            ],
-            "oxidePixelFraction": 0.17180252075195312,
-            "oxidePixelDefinition": "oxide > 0",
-            "meanAlbedo": [
-              87.97062683105469,
-              92.02383422851562,
-              96.99153137207031
-            ]
-          },
-          "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
-          "status": "candidate-needs-production-material-review",
-          "parameters": {
-            "cleanBase": [
-              90.34351673687486,
-              95.03340705201711,
-              100.51249754864389
-            ],
-            "grainAmplitude": 12,
-            "oxideLuminanceCutoff": 0.739,
-            "oxideFade": 0.16,
-            "oxideMaxMix": 0.55,
-            "patina": [
-              104,
-              72,
-              52
-            ]
-          }
-        }
+        "tool": "Tripo Studio",
+        "sourceModelId": "8f2d7a21-7419-4337-ae73-570e04c16499",
+        "sourceCardId": "ee9e261b-ce0b-4393-8a95-f29e62aca233",
+        "sourceFile": "assets/art/tripo/exports/8f2d7a21-7419-4337-ae73-570e04c16499.glb",
+        "sourceSha256": "1cd47dbf8c637cf9d8f121ef5acaff0429f19ee01fa77cb2304e73e87169f121",
+        "reviewedCandidate": "assets/art/tripo/imports/creatures/starred-dark-knight/black-keep-knight-native-rig.glb",
+        "reviewedCandidateSha256": "d6da27cdbfdd34e96f43c4b17184bba26dc49a0039b71efab9c634d6fa527aa4",
+        "sourceDesignAudit": "Black-plate enclosed-helm knight with burgundy cape approved in starred creature source review",
+        "textureTreatment": "Existing detailed 2K base-color, metallic-roughness and normal maps retained unchanged."
       },
       "metadata": {
-        "family": "wilderness_keeper",
-        "height": 2.172113270130379,
-        "dimensions": [
-          3.692075743124171,
-          2.172113270130379,
-          0.9685257971286774
-        ],
-        "rig": "entitled-universal-base-65-joint",
-        "textureBindings": [
-          {
-            "materialName": "animal_rpg_iron_golem_iron_golem_base_male_MI_Superhero_Male",
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\d04258594580081a0af33967d08f6d7ddee86dd1802b9a2aca679971ce359dd3.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
-            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\cac8febc24e64af50c16c4c4395b97cc15c8a43b7c31bfde49973e81df456b04.png",
-            "normalScale": 0.45,
-            "flipY": false
-          },
-          {
-            "materialName": "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight",
-            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\d04258594580081a0af33967d08f6d7ddee86dd1802b9a2aca679971ce359dd3.png",
-            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
-            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\cac8febc24e64af50c16c4c4395b97cc15c8a43b7c31bfde49973e81df456b04.png",
-            "normalScale": 0.45,
-            "flipY": false
-          }
-        ],
-        "floorCorrection": {
-          "Idle": {
-            "samples": 221,
-            "maximumLift": 0.023987187406190248
-          },
-          "Walk": {
-            "samples": 149,
-            "maximumLift": 0.1586746946931693
-          },
-          "Run": {
-            "samples": 95,
-            "maximumLift": 0.011913477462350369
-          },
-          "Attack": {
-            "samples": 94,
-            "maximumLift": 0.027977792289892812
-          },
-          "Hit": {
-            "samples": 31,
-            "maximumLift": 0.02558463619276214
-          },
-          "HitLeft": {
-            "samples": 31,
-            "maximumLift": 0.02558463619276214
-          },
-          "HitRight": {
-            "samples": 31,
-            "maximumLift": 0.02558463619276214
-          },
-          "Death": {
-            "samples": 203,
-            "maximumLift": 0.3956970024756407
-          }
+        "identity": "Nightforge Marshal",
+        "presentation": {
+          "rawAssetHeightMeters": 3.192870973171799,
+          "sceneScale": 3.25,
+          "note": "Single dark Marshal asset for its existing encounters; Pearl Knight and Ivory Castellan have separate current asset IDs."
         },
-        "source": "Quaternius Universal Base Characters and Modular Fantasy Knight armor, preserved source topology and skin weights",
-        "license": "CC0-1.0",
-        "provenance": {
-          "sourceAssets": [
-            "base_male",
-            "outfit_male_knight_chest",
-            "outfit_male_knight_legs",
-            "outfit_male_knight_boots",
-            "outfit_male_knight_gloves",
-            "outfit_male_knight_pauldron",
-            "outfit_male_knight_helmet",
-            "animation_library_1"
-          ],
-          "sourceFiles": [
+        "deathRepair": {
+          "method": "Retimed source pose plus 85-degree backward fall and sampled root grounding; held after 0.65s",
+          "seconds": 1.5,
+          "samples": [
             {
-              "file": "game/public/assets/models/character/base_male.glb",
-              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+              "seconds": 0,
+              "minY": 0.005999999973813891,
+              "topY": 3.198870973291772,
+              "height": 3.192870973317958
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
-              "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+              "seconds": 0.12,
+              "minY": 0.007599786248125151,
+              "topY": 3.200654823028484,
+              "height": 3.193055036780359
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
-              "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+              "seconds": 0.25,
+              "minY": 0.005999998203152206,
+              "topY": 2.8660888700338143,
+              "height": 2.860088871830662
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
-              "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+              "seconds": 0.4,
+              "minY": 0.005999990179513565,
+              "topY": 2.074208010079012,
+              "height": 2.0682080198994983
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
-              "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+              "seconds": 0.55,
+              "minY": 0.006000001374244139,
+              "topY": 1.8791458401697132,
+              "height": 1.8731458387954691
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
-              "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+              "seconds": 0.65,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
             },
             {
-              "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
-              "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
+              "seconds": 0.8,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
             },
             {
-              "file": "game/public/assets/models/animation/animation_library_1.glb",
-              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+              "seconds": 1,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
+            },
+            {
+              "seconds": 1.25,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
+            },
+            {
+              "seconds": 1.5,
+              "minY": 0.0059999846853273486,
+              "topY": 1.8481069193239716,
+              "height": 1.8421069346386443
             }
           ],
-          "author": "Quaternius",
-          "license": "CC0-1.0",
-          "sourcePacks": [
-            {
-              "id": "universal-base-characters",
-              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-            },
-            {
-              "id": "modular-character-outfits-fantasy",
-              "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
-            },
-            {
-              "id": "universal-animation-library",
-              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-            }
-          ],
-          "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
-          "materialRevision": {
-            "kind": "material-only",
-            "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
-            "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
-            "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
-            "sourceColor": {
-              "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
-              "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
-            },
-            "sourceNormal": {
-              "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
-              "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
-              "bytesUnchanged": true,
-              "materialNormalScale": 0.45
-            },
-            "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
-            "channels": {
-              "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
-              "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
-              "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
-              "normal": "Original normal PNG unchanged; material strength 0.45"
-            },
-            "statistics": {
-              "roughness": [
-                0.5804073725490195,
-                0.85
-              ],
-              "metalness": [
-                0.35,
-                0.88
-              ],
-              "oxidePixelFraction": 0.17180252075195312,
-              "oxidePixelDefinition": "oxide > 0",
-              "meanAlbedo": [
-                87.97062683105469,
-                92.02383422851562,
-                96.99153137207031
-              ]
-            },
-            "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
-            "status": "candidate-needs-production-material-review",
-            "parameters": {
-              "cleanBase": [
-                90.34351673687486,
-                95.03340705201711,
-                100.51249754864389
-              ],
-              "grainAmplitude": 12,
-              "oxideLuminanceCutoff": 0.739,
-              "oxideFade": 0.16,
-              "oxideMaxMix": 0.55,
-              "patina": [
-                104,
-                72,
-                52
-              ]
-            }
-          }
-        },
-        "attackContact": 0.38,
-        "animationAcceptance": "candidate-needs-production-lab-motion-review",
-        "variantDesign": "Enclosed knight helmet, enlarged cast shoulder shells, deeper breastplate and broad iron gauntlets/boots",
-        "revision": "iron-material-round2",
-        "runtimeTexturePolicy": {
-          "maxDimension": 2048,
-          "sharedByEncodedSha256": true,
-          "originalsPreserved": true
-        },
-        "gaitMeasurement": {
-          "status": "credible-joint-estimate",
-          "source": "tools/rpg-bestiary/gait-results.json",
-          "visualContactAccepted": false
-        },
-        "materialRevision": {
-          "kind": "material-only",
-          "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
-          "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
-          "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
-          "sourceColor": {
-            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
-            "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
-          },
-          "sourceNormal": {
-            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
-            "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
-            "bytesUnchanged": true,
-            "materialNormalScale": 0.45
-          },
-          "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
-          "channels": {
-            "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
-            "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
-            "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
-            "normal": "Original normal PNG unchanged; material strength 0.45"
-          },
-          "statistics": {
-            "roughness": [
-              0.5804073725490195,
-              0.85
-            ],
-            "metalness": [
-              0.35,
-              0.88
-            ],
-            "oxidePixelFraction": 0.17180252075195312,
-            "oxidePixelDefinition": "oxide > 0",
-            "meanAlbedo": [
-              87.97062683105469,
-              92.02383422851562,
-              96.99153137207031
-            ]
-          },
-          "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
-          "status": "candidate-needs-production-material-review",
-          "parameters": {
-            "cleanBase": [
-              90.34351673687486,
-              95.03340705201711,
-              100.51249754864389
-            ],
-            "grainAmplitude": 12,
-            "oxideLuminanceCutoff": 0.739,
-            "oxideFade": 0.16,
-            "oxideMaxMix": 0.55,
-            "patina": [
-              104,
-              72,
-              52
-            ]
-          }
-        },
-        "nativeKeeperReplacement": {
-          "generator": "tools/wilderness-creatures/families/keepers.mjs",
-          "sourceId": "creature_iron_golem",
-          "sourcePath": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_iron_golem.glb",
-          "sourceSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
-          "sourcePack": "corealm-rpg-universal-base-characters",
-          "sourceProvenance": {
-            "sourceAssets": [
-              "base_male",
-              "outfit_male_knight_chest",
-              "outfit_male_knight_legs",
-              "outfit_male_knight_boots",
-              "outfit_male_knight_gloves",
-              "outfit_male_knight_pauldron",
-              "outfit_male_knight_helmet",
-              "animation_library_1"
-            ],
-            "sourceFiles": [
-              {
-                "file": "game/public/assets/models/character/base_male.glb",
-                "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
-                "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
-                "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
-                "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
-                "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
-                "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
-              },
-              {
-                "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
-                "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
-              },
-              {
-                "file": "game/public/assets/models/animation/animation_library_1.glb",
-                "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-              }
-            ],
-            "author": "Quaternius",
-            "license": "CC0-1.0",
-            "sourcePacks": [
-              {
-                "id": "universal-base-characters",
-                "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-              },
-              {
-                "id": "modular-character-outfits-fantasy",
-                "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
-              },
-              {
-                "id": "universal-animation-library",
-                "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-              }
-            ],
-            "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
-            "materialRevision": {
-              "kind": "material-only",
-              "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
-              "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
-              "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
-              "sourceColor": {
-                "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
-                "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
-              },
-              "sourceNormal": {
-                "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
-                "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
-                "bytesUnchanged": true,
-                "materialNormalScale": 0.45
-              },
-              "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
-              "channels": {
-                "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
-                "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
-                "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
-                "normal": "Original normal PNG unchanged; material strength 0.45"
-              },
-              "statistics": {
-                "roughness": [
-                  0.5804073725490195,
-                  0.85
-                ],
-                "metalness": [
-                  0.35,
-                  0.88
-                ],
-                "oxidePixelFraction": 0.17180252075195312,
-                "oxidePixelDefinition": "oxide > 0",
-                "meanAlbedo": [
-                  87.97062683105469,
-                  92.02383422851562,
-                  96.99153137207031
-                ]
-              },
-              "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
-              "status": "candidate-needs-production-material-review",
-              "parameters": {
-                "cleanBase": [
-                  90.34351673687486,
-                  95.03340705201711,
-                  100.51249754864389
-                ],
-                "grainAmplitude": 12,
-                "oxideLuminanceCutoff": 0.739,
-                "oxideFade": 0.16,
-                "oxideMaxMix": 0.55,
-                "patina": [
-                  104,
-                  72,
-                  52
-                ]
-              }
-            }
-          },
-          "uniformScale": 1.4094196352848236,
-          "targetHeight": 3.3,
-          "sourceAccessorSha256": "6abd76056360d665c38f4a20e21e7212beda74241540a4b917286e0142751d84",
-          "scope": "Complete native positions, topology, normals, skin weights, rig and bone motion retained. Material factors or maps revised per keeper. Archon uses the approved cloth atlas with planar cell UV remapping; other keepers retain native UVs. Uniform scene scale and 120 Hz outer death floor translation; no anatomical grafts or primitive assembly.",
-          "measurements": {
-            "idleBounds": {
-              "min": [
-                -1.0194929652104554,
-                0.0042282589084931465,
-                -0.9454873892419942
-              ],
-              "max": [
-                1.1678585276056377,
-                3.304228258908494,
-                0.87273705581937
-              ]
-            },
-            "animatedMin": [
-              -1.8789407498062007,
-              0.0013802119842180145,
-              -3.9658099186500837
-            ],
-            "animatedMax": [
-              1.55204498679541,
-              3.515699246938283,
-              2.4180796569392293
-            ],
-            "clips": {
-              "Idle": {
-                "duration": 2.5,
-                "min": [
-                  -1.0352037526319486,
-                  0.004227303135433212,
-                  -0.9455619003545926
-                ],
-                "max": [
-                  1.1678585276056377,
-                  3.306029099935825,
-                  0.8734228651147449
-                ],
-                "minFloor": 0.004227303135433212,
-                "maxFloor": 0.004228259946278249,
-                "samples": 61
-              },
-              "Walk": {
-                "duration": 1.8000000715255737,
-                "min": [
-                  -1.1204872191931337,
-                  0.0030936735366363655,
-                  -1.07898741153196
-                ],
-                "max": [
-                  1.1420841638531962,
-                  3.515699246938283,
-                  1.1184385028724075
-                ],
-                "minFloor": 0.0030936735366363655,
-                "maxFloor": 0.005427385418525212,
-                "samples": 45
-              },
-              "Run": {
-                "duration": 1.1200000047683716,
-                "min": [
-                  -1.4919222534212795,
-                  0.0013802119842180145,
-                  -1.7234200393688757
-                ],
-                "max": [
-                  1.4910487682117255,
-                  3.2821576767661425,
-                  1.715540540108499
-                ],
-                "minFloor": 0.0013802119842180145,
-                "maxFloor": 0.235871727999458,
-                "samples": 28
-              },
-              "Attack": {
-                "duration": 1.1266666650772095,
-                "min": [
-                  -1.1107526517265072,
-                  0.004135744912697802,
-                  -1.0212570926192563
-                ],
-                "max": [
-                  1.0661791281697723,
-                  3.207909460652786,
-                  2.4180796569392293
-                ],
-                "minFloor": 0.004135744912697802,
-                "maxFloor": 0.0042283827657635656,
-                "samples": 29
-              },
-              "Hit": {
-                "duration": 0.3333333432674408,
-                "min": [
-                  -1.0172633251610912,
-                  0.004224405439307075,
-                  -1.018379363985134
-                ],
-                "max": [
-                  1.1778985968008284,
-                  3.312108857657567,
-                  1.0041142638027167
-                ],
-                "minFloor": 0.004224405439307075,
-                "maxFloor": 0.0042282580070757,
-                "samples": 10
-              },
-              "HitLeft": {
-                "duration": 0.3333333432674408,
-                "min": [
-                  -1.0404060799570807,
-                  0.004224405439307075,
-                  -1.008755208345941
-                ],
-                "max": [
-                  1.2466321180714834,
-                  3.312108857657567,
-                  0.9057071124219416
-                ],
-                "minFloor": 0.004224405439307075,
-                "maxFloor": 0.0042282580070757,
-                "samples": 10
-              },
-              "HitRight": {
-                "duration": 0.3333333432674408,
-                "min": [
-                  -1.0172633251610912,
-                  0.004224405439307075,
-                  -1.0334540040541995
-                ],
-                "max": [
-                  1.1778985968008284,
-                  3.312108857657567,
-                  1.1226597173465291
-                ],
-                "minFloor": 0.004224405439307075,
-                "maxFloor": 0.0042282580070757,
-                "samples": 10
-              },
-              "Death": {
-                "duration": 2.4000000953674316,
-                "min": [
-                  -1.8789407498062007,
-                  0.003097067822849687,
-                  -3.9658099186500837
-                ],
-                "max": [
-                  1.55204498679541,
-                  3.2853068789276176,
-                  1.194595131014305
-                ],
-                "minFloor": 0.003097067822849687,
-                "maxFloor": 0.004731912853915651,
-                "samples": 59
-              }
-            }
-          },
-          "materialIdentity": "Separate native mesh materials: charcoal SuperHero underbody, light silver chest and gauntlets, warm worn bronze Pauldron and Armet, darker steel greaves. Native geometry/UV retained. Metallic texture removed to preserve diffuse clarity under violet night; metallic .10 silver/.16 bronze, native normals .22-.25."
+          "maximumFloorLiftMeters": 0.8081468012358529
         }
       },
       "acceptance": {
-        "exported": true,
+        "sourceAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_native_nightforge_final/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
-      },
-      "impliedWalkMps": 1.3746774412750529,
-      "impliedRunMps": 9.449031118876515,
-      "locomotionPolicy": "speed-matched"
+        "worldIntegrated": false
+      }
     },
     {
       "id": "creature_hollow_star",
@@ -69788,30 +68858,44 @@
     {
       "id": "fairy_garden_reliquary_gloamgarden",
       "file": "models/fairy-garden/fairy_garden_reliquary_gloamgarden.glb",
-      "pack": "pixelius-fairy-trial-vol01",
+      "pack": "corealm-tripo-fairy-reliquaries",
       "category": "character",
-      "is": "fairy-creature",
+      "is": "Dewglass Reliquary",
       "tags": [
-        "creature",
         "fairy",
-        "source-rig",
-        "fairy-garden",
-        "image-generated-texture",
-        "gloamgarden"
+        "fantastical",
+        "reliquary",
+        "dewglass",
+        "vessel",
+        "four-legged",
+        "image-generated-texture"
       ],
-      "bytes": 2246912,
-      "sha256": "51880723d89ef9f81ba1c31faa68f114c2406f3b1d1d3977b526b946e4c25b50",
+      "bytes": 15138564,
+      "sha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb",
+      "triangles": 5242,
       "size": {
-        "x": 0.6883241095913518,
-        "y": 0.9799479206373253,
-        "z": 1.081958577557687
+        "x": 0.7822423058133855,
+        "y": 1.05,
+        "z": 0.9433072789447973
       },
       "base": {
-        "x": -0.3467619339696719,
-        "y": 0.01600001010121639,
-        "z": -0.24528280788974907
+        "x": -0.39112115290669275,
+        "y": 0,
+        "z": -0.47165363947239863
       },
-      "triangles": 7042,
+      "bounds": {
+        "min": [
+          -0.39112115290669275,
+          0,
+          -0.47165363947239863
+        ],
+        "max": [
+          0.39112115290669275,
+          1.05,
+          0.47165363947239863
+        ]
+      },
+      "groundY": 0,
       "animations": [
         "Idle",
         "Walk",
@@ -69821,48 +68905,104 @@
         "Death"
       ],
       "materials": [
-        "animal_fairy_monster_28_source_fairy_garden_reliquary_gloamgarden"
+        "Dewglass Reliquary layered ceramic PBR"
       ],
-      "impliedWalkMps": 0.3792905683452913,
-      "impliedRunMps": 0.3792905683452913,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
       "contactNormalized": 0.5,
+      "metadata": {
+        "id": "fairy_garden_reliquary_gloamgarden",
+        "species": "Dewglass Reliquary",
+        "rig": "Corealm repaired 14-joint four-legged skin with distributed weights",
+        "sourceGeometry": "Original Tripo 3173 vertices and 5242 triangles preserved",
+        "textureMaps": [
+          "Dewglass Reliquary intricate image-generated atlas",
+          "dewglass_reliquary_metallicRoughness_2k.png",
+          "dewglass_reliquary_normal_2k.jpg",
+          "Dewglass Reliquary subtle reservoir emission"
+        ],
+        "motion": "Six clips; grounded four-leg gait; forward shell collapse by 0.62 seconds; speeds uncalibrated",
+        "attackContact": 0.5,
+        "presentationHeightMeters": 1.05,
+        "identity": "Small living dewglass vessel on carved root supports, with layered nacre and a translucent aqua reservoir."
+      },
       "sourceProvenance": {
-        "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archiveSha256": "0b134b41b9edf02adbedb7d46a07a5e81af5d0c4a06b47ce94e0f8245bdc7138",
-        "model": "Assets/Stylized3DMonster/Monster28_FreeTrial/Monster28_FreeTrial.fbx",
-        "texture": "Assets/Stylized3DMonster/Monster28_FreeTrial/ShaderTexture/Texture/Monster28_Color01.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
-        "sourceAssetId": "fairy_monster_28",
-        "sourceSha256": "6bc66757ced4134e7f16100fdc079e1c2f51ba27deca4e96f9143fa9f03348fc",
-        "generator": "tools/fairy-population-assets.ts",
-        "generatedTexture": {
-          "file": "art/fairy-population/textures/generated/fairy_garden_reliquary_gloamgarden.png",
-          "sha256": "94dc876ecd0bbcbf08e7faef224ace361a8461b6d6ff6458fcd193d0a0f156c1",
-          "width": 1254,
-          "height": 1254,
-          "columns": 1,
-          "rows": 1,
-          "bindings": [
-            {
-              "sourceTextureIndex": 0,
-              "atlasColumn": 0,
-              "atlasRow": 0,
-              "sourceTextureSha256": "a6d1bb4f44d408cf116ce04033aa47a744b80053f2efd4b571bb2980de4292cc",
-              "embeddedTextureSha256": "6d5f6bada8a3ccfe15ca0063cfd5830d747f76b43d7af69c48fa3ebce7d64b3d",
-              "width": 1254,
-              "height": 1254
-            }
-          ]
-        }
+        "generator": "Tripo Studio and Corealm image-generated atlas adaptation",
+        "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+        "originalSourceFile": "assets/art/tripo/exports/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+        "originalSourceSha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+        "riggedSourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+        "riggedSourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/dewglass-reliquary-candidate.glb",
+        "candidateSha256": "4fc7c4696c4de79621588bc51a6fbdc71a3b599f558715f61e43949d74ac1feb",
+        "materialGenerator": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
+        "materialGeneratorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
+        "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/dewglass-basecolor.png",
+        "generatedBaseColorSha256": "587a81ad572b2d5d8e73d9472655fcd52076fdce79740bcbb5425f7b60f2183e",
+        "runtimeTextures": [
+          {
+            "name": "Dewglass Reliquary intricate image-generated atlas",
+            "mimeType": "image/png",
+            "bytes": 10970972,
+            "sha256": "86023afee0b250673fba6ebf6e273eac8ee4d040d1c4a9380d910fea0204c5ef"
+          },
+          {
+            "name": "dewglass_reliquary_metallicRoughness_2k.png",
+            "mimeType": "image/png",
+            "bytes": 2298242,
+            "sha256": "ea4119fd572f4240e2fa7ccd7e6ffd1995e6d74ef3f3b8ff840607708a65ec31"
+          },
+          {
+            "name": "dewglass_reliquary_normal_2k.jpg",
+            "mimeType": "image/jpeg",
+            "bytes": 1448714,
+            "sha256": "c9a357d780463e951a9904a97b1053212ec28f1d5b09cb79b4a838e018b2799c"
+          },
+          {
+            "name": "Dewglass Reliquary subtle reservoir emission",
+            "mimeType": "image/png",
+            "bytes": 61958,
+            "sha256": "d60238d61af15726617afb591f4adee8892dbf5f5c74c7824e0688e0a6760493"
+          }
+        ],
+        "rig": {
+          "joints": 14,
+          "multiInfluenceVertices": 3173,
+          "maximumWeightSumError": 4.3888576328754425e-8
+        },
+        "death": {
+          "seconds": 1.6200000047683716,
+          "samples": 99,
+          "floorRange": [
+            0.0029999863649261245,
+            0.0030000140827335956
+          ],
+          "maxVertexDisplacement": 1.0660043961683232,
+          "maxHeight": 1.0667835280974447,
+          "finalHeight": 0.6241213023868967,
+          "heightAtOneSecond": 0.6241213023868967,
+          "finalHeightRatio": 0.5941110053878244,
+          "settleAtSeconds": 0.62,
+          "holdSeconds": 1.0000000047683715
+        },
+        "clipSeconds": {
+          "Idle": 3.200000047683716,
+          "Walk": 1.1200000047683716,
+          "Run": 0.7200000286102295,
+          "Attack": 0.8600000143051147,
+          "Hit": 0.4399999976158142,
+          "Death": 1.6200000047683716
+        },
+        "sourceGeometryPreserved": true
       },
       "acceptance": {
-        "assetAudit": true,
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {
@@ -70149,30 +69289,44 @@
     {
       "id": "fairy_garden_petalguard_gloamgarden",
       "file": "models/fairy-garden/fairy_garden_petalguard_gloamgarden.glb",
-      "pack": "pixelius-fairy-trial-vol01",
+      "pack": "corealm-audit-petalguards",
       "category": "character",
-      "is": "fairy-creature",
+      "is": "Silverleaf Petalguard",
       "tags": [
         "creature",
         "fairy",
-        "source-rig",
-        "fairy-garden",
-        "image-generated-texture",
-        "gloamgarden"
+        "botanical",
+        "orchid",
+        "petalguard",
+        "candidate"
       ],
-      "bytes": 2577384,
-      "sha256": "2de73cfb13cf87a389b43338c6247fa3cfedc479548662662d19b5281c7da4c5",
+      "bytes": 10433256,
+      "sha256": "e89ce1b890980eaea191e3b73a68c6b5f4720ee1e5958a59617ce3c0c7beefed",
       "size": {
-        "x": 0.4925143887078124,
-        "y": 0.8563958573538533,
-        "z": 0.5302432737401923
+        "x": 0.7528872417246516,
+        "y": 1.08,
+        "z": 0.3519101543310039
       },
       "base": {
-        "x": -0.18202668941523417,
-        "y": 0.01599998988772607,
-        "z": -0.2781331609138694
+        "x": -0.3764436208623258,
+        "y": 0,
+        "z": -0.17595507716550196
       },
-      "triangles": 7195,
+      "bounds": {
+        "min": [
+          -0.3764436208623258,
+          0,
+          -0.17595507716550196
+        ],
+        "max": [
+          0.3764436208623258,
+          1.08,
+          0.17595507716550196
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5868,
+      "vertices": 3666,
       "animations": [
         "Idle",
         "Walk",
@@ -70182,48 +69336,37 @@
         "Death"
       ],
       "materials": [
-        "animal_fairy_monster_31_source_fairy_garden_petalguard_gloamgarden"
+        "Material_tripo_node_99450afb-d5cc-4b0b-a4b0-ceb41d478f24"
       ],
-      "impliedWalkMps": 0.33834153580813847,
-      "impliedRunMps": 0.33834153580813847,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
       "contactNormalized": 0.5,
       "sourceProvenance": {
-        "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archiveSha256": "0b134b41b9edf02adbedb7d46a07a5e81af5d0c4a06b47ce94e0f8245bdc7138",
-        "model": "Assets/Stylized3DMonster/Monster31_FreeTrial/Monster31_FreeTrial.fbx",
-        "texture": "Assets/Stylized3DMonster/Monster31_FreeTrial/ShaderTexture/Texture/Monster31_Color03.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
-        "sourceAssetId": "fairy_monster_31",
-        "sourceSha256": "26627646221bf893f2d8749bd1215bda4646223a82a6643531cb3c4bf231875a",
-        "generator": "tools/fairy-population-assets.ts",
-        "generatedTexture": {
-          "file": "art/fairy-population/textures/generated/fairy_garden_petalguard_gloamgarden.png",
-          "sha256": "4d952b9dcb241fda50ef63dec1f889f856fe2f0630ddf613b0afaa599611b7b0",
-          "width": 1254,
-          "height": 1254,
-          "columns": 1,
-          "rows": 1,
-          "bindings": [
-            {
-              "sourceTextureIndex": 0,
-              "atlasColumn": 0,
-              "atlasRow": 0,
-              "sourceTextureSha256": "e2f97555e1f22bb7145eb82f2312e8c2fa1dbb6404011600b88f32c2175c2d42",
-              "embeddedTextureSha256": "2e93ad530a4ac7857cec5b512710747bed6b69faba10e321c9e81b0e6a4f5065",
-              "width": 1254,
-              "height": 1254
-            }
-          ]
-        }
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fae-insects/orchid-reaper-candidate.glb",
+        "sourceSha256": "668b4e2918c9318ee1b7891102a2764eb1c5974b8cd2f0c9a08ce8a4e41ed7e3",
+        "originalTripoModelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-petalguards/textures/silverleaf-petalguard-basecolor.png",
+        "atlasSha256": "adf7beae3e541c1ae06763eb3b1f7ab1656486a7f38e787eb9eab169c46f8ccd",
+        "originalNormalAndOrmRetained": true,
+        "rigMethod": "Repaired 29-joint Orchid generic rig, unchanged mesh/skin, all Death channels retimed to complete collapse by 0.74s."
+      },
+      "metadata": {
+        "family": "garden_petalguard",
+        "region": "gloamgarden",
+        "level": 30,
+        "anatomy": "Nonhuman orchid-mantis with shield-like calyx forearm and hooked thorn blade.",
+        "desiredInGameHeightMeters": 1.276,
+        "locomotion": "biped; speed uncalibrated",
+        "deathPose": "prone collapse complete by 0.74s; CPU floor clearance verified in staged GLB"
       },
       "acceptance": {
         "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {
@@ -70488,30 +69631,44 @@
     {
       "id": "fairy_garden_reliquary_faeholme",
       "file": "models/fairy-garden/fairy_garden_reliquary_faeholme.glb",
-      "pack": "pixelius-fairy-trial-vol01",
+      "pack": "corealm-tripo-fairy-reliquaries",
       "category": "character",
-      "is": "fairy-creature",
+      "is": "Starporcelain Reliquary",
       "tags": [
-        "creature",
         "fairy",
-        "source-rig",
-        "fairy-garden",
-        "image-generated-texture",
-        "faeholme"
+        "fantastical",
+        "reliquary",
+        "starporcelain",
+        "vessel",
+        "four-legged",
+        "image-generated-texture"
       ],
-      "bytes": 2229156,
-      "sha256": "bfc34bc594b34077cf72831d9adf1274493dd967e8f9e4c5b693c22b752af288",
+      "bytes": 14958488,
+      "sha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1",
+      "triangles": 5242,
       "size": {
-        "x": 0.6883241095913518,
-        "y": 0.9799479206373253,
-        "z": 1.081958577557687
+        "x": 1.2664875427454811,
+        "y": 1.7,
+        "z": 1.5272594040058622
       },
       "base": {
-        "x": -0.3467619339696719,
-        "y": 0.01600001010121639,
-        "z": -0.24528280788974907
+        "x": -0.6332437713727406,
+        "y": 0,
+        "z": -0.7636297020029311
       },
-      "triangles": 7042,
+      "bounds": {
+        "min": [
+          -0.6332437713727406,
+          0,
+          -0.7636297020029311
+        ],
+        "max": [
+          0.6332437713727406,
+          1.7,
+          0.7636297020029311
+        ]
+      },
+      "groundY": 0,
       "animations": [
         "Idle",
         "Walk",
@@ -70521,48 +69678,104 @@
         "Death"
       ],
       "materials": [
-        "animal_fairy_monster_28_source_fairy_garden_reliquary_faeholme"
+        "Starporcelain Reliquary layered ceramic PBR"
       ],
-      "impliedWalkMps": 0.3792905683452913,
-      "impliedRunMps": 0.3792905683452913,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
       "contactNormalized": 0.5,
+      "metadata": {
+        "id": "fairy_garden_reliquary_faeholme",
+        "species": "Starporcelain Reliquary",
+        "rig": "Corealm repaired 14-joint four-legged skin with distributed weights",
+        "sourceGeometry": "Original Tripo 3173 vertices and 5242 triangles preserved",
+        "textureMaps": [
+          "Starporcelain Reliquary intricate image-generated atlas",
+          "dewglass_reliquary_metallicRoughness_2k.png",
+          "dewglass_reliquary_normal_2k.jpg",
+          "Starporcelain Reliquary subtle reservoir emission"
+        ],
+        "motion": "Six clips; grounded four-leg gait; forward shell collapse by 0.62 seconds; speeds uncalibrated",
+        "attackContact": 0.5,
+        "presentationHeightMeters": 1.7,
+        "identity": "Elite living starporcelain shrine-vessel with carved ceramic relief, mineral inlay and starlight cracks."
+      },
       "sourceProvenance": {
-        "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archiveSha256": "0b134b41b9edf02adbedb7d46a07a5e81af5d0c4a06b47ce94e0f8245bdc7138",
-        "model": "Assets/Stylized3DMonster/Monster28_FreeTrial/Monster28_FreeTrial.fbx",
-        "texture": "Assets/Stylized3DMonster/Monster28_FreeTrial/ShaderTexture/Texture/Monster28_Color01.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
-        "sourceAssetId": "fairy_monster_28",
-        "sourceSha256": "6bc66757ced4134e7f16100fdc079e1c2f51ba27deca4e96f9143fa9f03348fc",
-        "generator": "tools/fairy-population-assets.ts",
-        "generatedTexture": {
-          "file": "art/fairy-population/textures/generated/fairy_garden_reliquary_faeholme.png",
-          "sha256": "39ead79b04311af0b8f630d995ee2f81e78f79f58681d2c9d6f82f215e7f2f20",
-          "width": 1254,
-          "height": 1254,
-          "columns": 1,
-          "rows": 1,
-          "bindings": [
-            {
-              "sourceTextureIndex": 0,
-              "atlasColumn": 0,
-              "atlasRow": 0,
-              "sourceTextureSha256": "a6d1bb4f44d408cf116ce04033aa47a744b80053f2efd4b571bb2980de4292cc",
-              "embeddedTextureSha256": "83b9cfea3f433373b59cbb0631297d8d906913912ec333c21288ccaa5616c32e",
-              "width": 1254,
-              "height": 1254
-            }
-          ]
-        }
+        "generator": "Tripo Studio and Corealm image-generated atlas adaptation",
+        "modelId": "d95af2cf-3b9a-498d-9403-7a55fd873a73",
+        "originalSourceFile": "assets/art/tripo/exports/corealm_dewglass_reliquary_d95af2cf_8k_rigged.glb",
+        "originalSourceSha256": "93cf506871643de157ede59b35972fbf61befd0be0934fe6df1b14963b0eed35",
+        "riggedSourceFile": "assets/art/tripo/imports/creatures/dewglass-reliquary/dewglass-reliquary-native-rig-candidate.glb",
+        "riggedSourceSha256": "f25287df6b753170f56027f77e28d34a86f523687029b5ba13e39734c2d21b8f",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-reliquaries/starporcelain-reliquary-candidate.glb",
+        "candidateSha256": "c2eda0f06d8bcb09b7aef2ebd78ec130cd08ae24c423a1f763af1935d4d0abe1",
+        "materialGenerator": "assets/art/tripo/imports/creatures/audit-reliquaries/build-variants.mjs",
+        "materialGeneratorSha256": "a41bd87b612964a12f9890231a9d30e8d6c06a6181947a862b619629f5a2ced0",
+        "generatedBaseColorFile": "assets/art/tripo/imports/creatures/audit-reliquaries/textures/starporcelain-basecolor.png",
+        "generatedBaseColorSha256": "35f11eea9c6a6583709204299fc425b9d518fe028bcc3f474e90b1c385cb02c0",
+        "runtimeTextures": [
+          {
+            "name": "Starporcelain Reliquary intricate image-generated atlas",
+            "mimeType": "image/png",
+            "bytes": 10784547,
+            "sha256": "0cf389da1e5632957fe2f6dd3ae11815e3c1efa70ace25783b09e5275f5df0e4"
+          },
+          {
+            "name": "dewglass_reliquary_metallicRoughness_2k.png",
+            "mimeType": "image/png",
+            "bytes": 2298242,
+            "sha256": "ea4119fd572f4240e2fa7ccd7e6ffd1995e6d74ef3f3b8ff840607708a65ec31"
+          },
+          {
+            "name": "dewglass_reliquary_normal_2k.jpg",
+            "mimeType": "image/jpeg",
+            "bytes": 1448714,
+            "sha256": "c9a357d780463e951a9904a97b1053212ec28f1d5b09cb79b4a838e018b2799c"
+          },
+          {
+            "name": "Starporcelain Reliquary subtle reservoir emission",
+            "mimeType": "image/png",
+            "bytes": 68290,
+            "sha256": "9afa9b7c7e2b1763be9eb118e858ac9a1f30115fe90ee47bce5f6e51c65267e2"
+          }
+        ],
+        "rig": {
+          "joints": 14,
+          "multiInfluenceVertices": 3173,
+          "maximumWeightSumError": 4.3888576328754425e-8
+        },
+        "death": {
+          "seconds": 1.6200000047683716,
+          "samples": 99,
+          "floorRange": [
+            0.002999970810112998,
+            0.003000037694968625
+          ],
+          "maxVertexDisplacement": 1.7259118960130555,
+          "maxHeight": 1.725316210776347,
+          "finalHeight": 1.0104821000618898,
+          "heightAtOneSecond": 1.0104821000618898,
+          "finalHeightRatio": 0.5941110003523347,
+          "settleAtSeconds": 0.62,
+          "holdSeconds": 1.0000000047683715
+        },
+        "clipSeconds": {
+          "Idle": 3.200000047683716,
+          "Walk": 1.1200000047683716,
+          "Run": 0.7200000286102295,
+          "Attack": 0.8600000143051147,
+          "Hit": 0.4399999976158142,
+          "Death": 1.6200000047683716
+        },
+        "sourceGeometryPreserved": true
       },
       "acceptance": {
-        "assetAudit": true,
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {
@@ -70849,30 +70062,44 @@
     {
       "id": "fairy_garden_petalguard_faeholme",
       "file": "models/fairy-garden/fairy_garden_petalguard_faeholme.glb",
-      "pack": "pixelius-fairy-trial-vol01",
+      "pack": "corealm-audit-petalguards",
       "category": "character",
-      "is": "fairy-creature",
+      "is": "Moonstone Petalguard",
       "tags": [
         "creature",
         "fairy",
-        "source-rig",
-        "fairy-garden",
-        "image-generated-texture",
-        "faeholme"
+        "botanical",
+        "orchid",
+        "petalguard",
+        "candidate"
       ],
-      "bytes": 2593680,
-      "sha256": "781c3e57f574591c4bb8e4b3965c81d998cec8da13d7484c8f8d15e68fa0b5c5",
+      "bytes": 10222856,
+      "sha256": "2b636e71007c6385d172fb10c8f184ef3e0c7df6af79dc9349b9d3f30b00ac05",
       "size": {
-        "x": 0.4925143887078124,
-        "y": 0.8563958573538533,
-        "z": 0.5302432737401923
+        "x": 1.17115793157168,
+        "y": 1.68,
+        "z": 0.5474157956260061
       },
       "base": {
-        "x": -0.18202668941523417,
-        "y": 0.01599998988772607,
-        "z": -0.2781331609138694
+        "x": -0.58557896578584,
+        "y": 0,
+        "z": -0.27370789781300303
       },
-      "triangles": 7195,
+      "bounds": {
+        "min": [
+          -0.58557896578584,
+          0,
+          -0.27370789781300303
+        ],
+        "max": [
+          0.58557896578584,
+          1.68,
+          0.27370789781300303
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5868,
+      "vertices": 3666,
       "animations": [
         "Idle",
         "Walk",
@@ -70882,48 +70109,37 @@
         "Death"
       ],
       "materials": [
-        "animal_fairy_monster_31_source_fairy_garden_petalguard_faeholme"
+        "Material_tripo_node_99450afb-d5cc-4b0b-a4b0-ceb41d478f24"
       ],
-      "impliedWalkMps": 0.33834153580813847,
-      "impliedRunMps": 0.33834153580813847,
-      "walkClipSeconds": 2,
-      "runClipSeconds": 2,
-      "attackSeconds": 1.1,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.9,
       "contactNormalized": 0.5,
       "sourceProvenance": {
-        "package": "FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\PixeliusVita\\3D ModelsCharactersCreatures\\FreeTrial 30 Monster Stylized Fantasy Vol 01 Rig Anim - PixeliusVita.unitypackage",
-        "archiveSha256": "0b134b41b9edf02adbedb7d46a07a5e81af5d0c4a06b47ce94e0f8245bdc7138",
-        "model": "Assets/Stylized3DMonster/Monster31_FreeTrial/Monster31_FreeTrial.fbx",
-        "texture": "Assets/Stylized3DMonster/Monster31_FreeTrial/ShaderTexture/Texture/Monster31_Color03.png",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
-        "sourceAssetId": "fairy_monster_31",
-        "sourceSha256": "26627646221bf893f2d8749bd1215bda4646223a82a6643531cb3c4bf231875a",
-        "generator": "tools/fairy-population-assets.ts",
-        "generatedTexture": {
-          "file": "art/fairy-population/textures/generated/fairy_garden_petalguard_faeholme.png",
-          "sha256": "63fd4a834d5e106b1c456a63ab6bbe9dcb3ac1e58b3dd450c8e730008c2f3293",
-          "width": 1254,
-          "height": 1254,
-          "columns": 1,
-          "rows": 1,
-          "bindings": [
-            {
-              "sourceTextureIndex": 0,
-              "atlasColumn": 0,
-              "atlasRow": 0,
-              "sourceTextureSha256": "e2f97555e1f22bb7145eb82f2312e8c2fa1dbb6404011600b88f32c2175c2d42",
-              "embeddedTextureSha256": "dca924d1735827875504bf7d90073dfb49a0704e9a686e008c97f76ab753086f",
-              "width": 1254,
-              "height": 1254
-            }
-          ]
-        }
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-fae-insects/orchid-reaper-candidate.glb",
+        "sourceSha256": "668b4e2918c9318ee1b7891102a2764eb1c5974b8cd2f0c9a08ce8a4e41ed7e3",
+        "originalTripoModelId": "4c599d13-d2e0-4099-93f0-79bf17056049",
+        "atlasFile": "assets/art/tripo/imports/creatures/audit-petalguards/textures/moonstone-petalguard-basecolor.png",
+        "atlasSha256": "ef3797886c1a78237b9942dd7c407ca1229255abcfdb16346903a1ee1d01d5a2",
+        "originalNormalAndOrmRetained": true,
+        "rigMethod": "Repaired 29-joint Orchid generic rig, unchanged mesh/skin, all Death channels retimed to complete collapse by 0.74s."
+      },
+      "metadata": {
+        "family": "garden_petalguard",
+        "region": "faeholme",
+        "level": 60,
+        "anatomy": "Nonhuman orchid-mantis with shield-like calyx forearm and hooked thorn blade.",
+        "desiredInGameHeightMeters": 1.873,
+        "locomotion": "biped; speed uncalibrated",
+        "deathPose": "prone collapse complete by 0.74s; CPU floor clearance verified in staged GLB"
       },
       "acceptance": {
         "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {

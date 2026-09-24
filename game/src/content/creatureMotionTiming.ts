@@ -208,7 +208,7 @@ CREATURE_PURSUIT_CEILING_MPS["creature_boss_mossbound"] = 6.6059;
 CREATURE_PURSUIT_CEILING_MPS["creature_furnace_regent"] = 11.0199;
 CREATURE_PURSUIT_CEILING_MPS["creature_hollow_star"] = 10.8546;
 
-CREATURE_PURSUIT_CEILING_MPS["creature_nightforge_marshal"] = 31.7487;
+CREATURE_PURSUIT_CEILING_MPS["creature_ivory_castellan"] = 31.7487;
 
 CREATURE_PURSUIT_CEILING_MPS["creature_amethyst_dragon"] = 7.8385;
 
@@ -232,12 +232,11 @@ CREATURE_MOTION_TIMING["creature_hollow_star"] = { seconds: 1, contactNormalized
 
 CREATURE_MOTION_TIMING["creature_kiln_marrow"] = { seconds: 2, contactNormalized: 0.52 };
 
-CREATURE_MOTION_TIMING["creature_nightforge_marshal"] = { seconds: 1.1266666650772095, contactNormalized: 0.38 };
+CREATURE_MOTION_TIMING["creature_ivory_castellan"] = { seconds: 1.1266666650772095, contactNormalized: 0.38 };
 
 // Fairy and Crownward skins retain source geometry and every animation channel. Keep this
 // static alias table independent of the species catalogue, which imports the combat registry.
 for (const [variant, source] of [
-  ['creature_ivory_castellan', 'creature_nightforge_marshal'],
   ['creature_crown_hart', 'animal_deer'],
   ['creature_silverthorn_harrow', 'creature_briar_harrow'],
   ['creature_moonpetal_stalker', 'creature_heath_jack'],
@@ -285,6 +284,7 @@ for (const region of ['gloamgarden', 'faeholme']) {
     ['drake', 'creature_baby_red_dragon'], ['wardling', 'fairy_monster_34'], ['petalguard', 'fairy_monster_31'],
   ] as const) {
     const id = `fairy_garden_${form}_${region}`;
+    if (form === 'petalguard' || form === 'reliquary') continue;
     // These imports use their own recovered native rigs and a retargeted jab.
     if (id === 'fairy_garden_sporekin_faeholme' || id === 'fairy_garden_sapling_gloamgarden' || id === 'fairy_garden_sapling_faeholme') {
       CREATURE_MOTION_TIMING[id] = { seconds: 0.866666675, contactNormalized: 0.26 };
@@ -346,3 +346,15 @@ CREATURE_MOTION_TIMING["creature_boss_ordrun"] = { seconds: 1.02, contactNormali
 CREATURE_MOTION_TIMING["creature_voidstone_colossus"] = {"seconds":1.2400000095367432,"contactNormalized":0.5};
 
 CREATURE_MOTION_TIMING["creature_ashseal_warden"] = {"seconds":1.2400000095367432,"contactNormalized":0.5};
+
+CREATURE_MOTION_TIMING["creature_nightforge_marshal"] = {"seconds":0.9200000166893005,"contactNormalized":0.5434782608695652};
+
+CREATURE_MOTION_TIMING["fairy_garden_petalguard_faeholme"] = {"seconds":0.9,"contactNormalized":0.5};
+
+CREATURE_MOTION_TIMING["fairy_garden_petalguard_gloamgarden"] = {"seconds":0.9,"contactNormalized":0.5};
+
+CREATURE_MOTION_TIMING["fairy_garden_reliquary_gloamgarden"] = {"seconds":0.8600000143051147,"contactNormalized":0.5};
+
+CREATURE_MOTION_TIMING["fairy_garden_reliquary_faeholme"] = {"seconds":0.8600000143051147,"contactNormalized":0.5};
+
+CREATURE_MOTION_TIMING["creature_veil_reaper"] = {"seconds":0.78,"contactNormalized":0.5897435897435898};

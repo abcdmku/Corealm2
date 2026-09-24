@@ -7755,7 +7755,7 @@
       "scale": 0.747979670660513,
       "regionId": "gloamgarden",
       "activity": "patrol",
-      "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+      "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
       "kind": "basic"
     }
   },
@@ -8067,7 +8067,7 @@
       "scale": 1.1810205326218628,
       "regionId": "gloamgarden",
       "activity": "patrol",
-      "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+      "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
       "kind": "basic"
     }
   },
@@ -8330,7 +8330,7 @@
       "scale": 0.7060519304229402,
       "regionId": "faeholme",
       "activity": "patrol",
-      "description": "A squat one-eyed construct with moss-veined porcelain plates and gilded vine inlays.",
+      "description": "An enchanted porcelain vessel carried by four articulated root legs, with nacre plates and fine vine inlays.",
       "kind": "basic"
     },
     "baseId": "garden_reliquary_t30"
@@ -8594,7 +8594,7 @@
       "scale": 1.1148188375099055,
       "regionId": "faeholme",
       "activity": "patrol",
-      "description": "A small enchanted suit of armor with leaf-etched enamel, a gemstone shield and a narrow blade.",
+      "description": "A flowering guardian with layered petal armor, leaf limbs and hooked forearms.",
       "kind": "basic"
     },
     "baseId": "garden_petalguard_t30"
@@ -13731,19 +13731,46 @@
     "id": "veil_reaper_t1",
     "availability": "world",
     "level": 1,
-    "baseId": "veil_reaper_t20"
+    "baseId": "veil_reaper_t20",
+    "presentation": {
+      "id": "veil_reaper_t1",
+      "assetId": "creature_veil_reaper",
+      "scale": 0.45,
+      "regionId": "wilderness",
+      "activity": "patrol",
+      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+      "kind": "basic"
+    }
   },
   {
     "id": "veil_reaper_t5",
     "availability": "world",
     "level": 5,
-    "baseId": "veil_reaper_t20"
+    "baseId": "veil_reaper_t20",
+    "presentation": {
+      "id": "veil_reaper_t5",
+      "assetId": "creature_veil_reaper",
+      "scale": 0.6,
+      "regionId": "wilderness",
+      "activity": "patrol",
+      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+      "kind": "basic"
+    }
   },
   {
     "id": "veil_reaper_t10",
     "availability": "world",
     "level": 10,
-    "baseId": "veil_reaper_t20"
+    "baseId": "veil_reaper_t20",
+    "presentation": {
+      "id": "veil_reaper_t10",
+      "assetId": "creature_veil_reaper",
+      "scale": 0.78,
+      "regionId": "wilderness",
+      "activity": "patrol",
+      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+      "kind": "basic"
+    }
   },
   {
     "id": "amethyst_dragon_t50",
@@ -15353,7 +15380,16 @@
         }
       ]
     },
-    "baseId": "veil_reaper_t20"
+    "baseId": "veil_reaper_t20",
+    "presentation": {
+      "id": "veil_reaper_t50",
+      "assetId": "creature_veil_reaper",
+      "scale": 1.15,
+      "regionId": "wilderness",
+      "activity": "patrol",
+      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+      "kind": "basic"
+    }
   },
   {
     "id": "veil_reaper_t70",
@@ -15399,7 +15435,16 @@
         }
       ]
     },
-    "baseId": "veil_reaper_t20"
+    "baseId": "veil_reaper_t20",
+    "presentation": {
+      "id": "veil_reaper_t70",
+      "assetId": "creature_veil_reaper",
+      "scale": 1.3,
+      "regionId": "wilderness",
+      "activity": "patrol",
+      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
+      "kind": "basic"
+    }
   },
   {
     "id": "voidstone_colossus_t50",

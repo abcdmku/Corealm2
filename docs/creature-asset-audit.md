@@ -4,13 +4,13 @@ Audit resumed 2026-09-23 from the interrupted T3 review. Covers all 166 distinct
 
 ## Status
 
-101 replace; 43 polish; 22 keep. These are visual review verdicts, not acceptance of new assets. 37 replacement models and two polish updates are integrated, plus the missing Giant Rat reference is repaired. The rest remain open; this is not a claim that all 101 replacement verdicts are resolved.
+101 replace; 43 polish; 22 keep. These are visual review verdicts, not acceptance of new assets. 43 replacement models and two polish updates are integrated, plus the missing Giant Rat reference is repaired. The rest remain open; this is not a claim that all 101 replacement verdicts are resolved.
 
 The original idle, walk and attack captures are diagnostic views taken with a detached camera. New acceptance requires the production lab, normal player camera, semantic motion/combat checks, then world integration and a production build. Similar captured poses alone do not prove broken animation.
 
 Known source mistakes: Duskcap Sporekin used a shade mesh; Briar Sapling used a retextured banshee. Both now use the recovered correct Tripo meshes, native rigs, 2K PBR maps and retargeted combat clips. Their lab movement, combat and death checks passed; representative world acceptance remains pending.
 
-The authored world exceeded the 120-second boot budget in shader preparation with no failed asset downloads. The lab works in the same browser. This is an outstanding acceptance blocker, not a passed world check.
+The authored world now reaches playable state within 74 seconds in the reused WebGL2 browser, below the 120-second budget. Startup skips hidden dungeon occluders and overlaps up to four asynchronous shader links while retaining binding and error completion. A normal-camera Field Wasp interaction passed in the authored world: health 7 to 4 to 0, Attack then Death, with no browser or game errors. Abrupt long-distance debug teleports still incur slow streamed mesh preparation; this remains a performance follow-up, not proof that every region is accepted.
 
 ## Replacement work
 
@@ -37,6 +37,11 @@ The authored world exceeded the 120-second boot budget in shader preparation wit
 | Pale Dragon / Voidstone Colossus / Ashseal Warden | Integrated owned matching bases with detailed generated pale-scale, obsidian and cooling-crust maps. Corrected rest-pose export and early grounded death. | Lab appearance, combat motion and collapsed death passed; world acceptance pending. |
 | Cave Ogre / Fire Ogre | Integrated owned Undercrag and Emberbank sources with repaired motion and grounded collapse. Fire Ogre has the larger body. | Lab appearance, attack, damage and death passed; world acceptance pending. |
 | Pearl Knight / Revenant | Integrated detailed armor/gravecloth candidates with repaired grounded side-collapse deaths. Pearl scale and body footprint corrected. | Lab combat, death and screenshots passed; world acceptance pending. |
+
+| Nightforge Marshal | Integrated the owned closed-helm knight with original black plate and burgundy cloak, articulated motion and early grounded collapse. | Lab appearance, attack, damage and death passed; world acceptance pending. |
+| Moonstone / Silverleaf Petalguards | Integrated distinct detailed generated petal skins on the repaired floral guardian rig. Higher-tier Moonstone remains larger. | Lab appearance, attack, damage and collapsed death passed; world acceptance pending. |
+| Starporcelain / Dewglass Reliquaries | Integrated four-legged enchanted vessels with distinct detailed porcelain/nacre maps and repaired leg cycles. | Lab appearance, attack, damage and collapsed death passed; world acceptance pending. |
+| Veil Reaper | Integrated the owned hooded apparition with rebuilt anatomical skin weights and eight clips. Lower-tier variants are smaller; larger elites retain richer thread and rune drops. | Lab appearance, attack, damage and side-fallen death passed; higher-tier scale and world acceptance pending. |
 
 Candidate screenshots and machine-readable source maps remain under `test-results/creature-audit`. Candidate existence does not mean production acceptance. Remaining replacements and polish are listed below.
 
