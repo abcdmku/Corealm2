@@ -62,6 +62,23 @@ describe('support-safe additive creature recoil',()=>{
     hips.add(rightShoulder!);
     expect(createMaskedHitOverlay(root,hit,idle).boneNames.sort()).toEqual([head.name,neck.name].sort());
   });
+  it('keeps CMU mocap upper-body recoil while its hip joints and legs stay protected',()=>{
+    const root=new THREE.Group(), hips=bone('mocap_Hips',root), lowerBack=bone('mocap_LowerBack',hips);
+    const spine=bone('mocap_Spine',lowerBack), spine1=bone('mocap_Spine1',spine), neck=bone('mocap_Neck',spine1), head=bone('mocap_Head',neck);
+    const expressive=[spine,spine1,neck,head], protectedBones=[hips];
+    for(const [side,short] of [['Left','L'],['Right','R']]) {
+      const shoulder=bone(`mocap_${side}Shoulder`,spine1), arm=bone(`mocap_${side}Arm`,shoulder);
+      const forearm=bone(`mocap_${side}ForeArm`,arm);
+      expressive.push(shoulder,arm,forearm,bone(`mocap_${side}Hand`,forearm));
+      const joint=bone(`mocap_${short}HipJoint`,hips), leg=bone(`mocap_${side}UpLeg`,joint), calf=bone(`mocap_${side}Leg`,leg);
+      protectedBones.push(joint,leg,calf,bone(`mocap_${side}Foot`,calf));
+    }
+    const all=[lowerBack,...expressive,...protectedBones],idle=new THREE.AnimationClip('Idle',1,all.map(joint=>rotation(joint.name,[0,0,0])));
+    const hit=new THREE.AnimationClip('Hit',1,all.map(joint=>rotation(joint.name,[0,.3,0])));
+    const result=createMaskedHitOverlay(root,hit,idle);
+    expect(result.boneNames.sort()).toEqual(expressive.map(joint=>joint.name).sort());
+    expect(result.protectedBoneNames).toEqual(expect.arrayContaining(protectedBones.map(joint=>joint.name)));
+  });
   it('recognizes the complete hovering six-arm topology while protecting its lower hooks and hover',()=>{
     const root=new THREE.Group(), hover=bone('hollow_root',root), thorax=bone('hollow_thorax',hover);
     const joints=Array.from({length:6},(_,index)=>{

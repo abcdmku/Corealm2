@@ -225,11 +225,11 @@ async function main(): Promise<void> {
         const entityId = string(command.entityId, "entityId");
         const state = string(command.state, "state");
         const timeout = number(command.timeoutMs, 20_000, 100, 30_000);
-        await driver.page!.waitForFunction(({ entityId, state }) => {
+        await driver.page!.waitForFunction(async ({ entityId, state }) => {
           const debug = window.__gameDebug;
           if (!debug?.getState().ready) throw new Error("Game became unavailable while waiting for an entity");
-          const getEntity = debug.getEntity as (id: string) => { state: string } | undefined;
-          return getEntity(entityId)?.state === state;
+          const getEntity = debug.getEntity as (id: string) => Promise<{ state: string } | null>;
+          return (await getEntity(entityId))?.state === state;
         }, { entityId, state }, { timeout });
         return observe([entityId]);
       }

@@ -68,8 +68,8 @@
       ]
     },
     "candidateFile": "models/creature/creature_wild_goblin.glb",
-    "candidateSha256": "5a164eb45882df6a41b128270ecb1da980f726f408a508411dc926c52b71a00f",
-    "candidateBytes": 7261448,
+    "candidateSha256": "1cc4cfbcabe3d5d79af0d4db1a80923a05e3d6b9bc2c45dca99f6caae7b2c134",
+    "candidateBytes": 6953184,
     "clips": [
       "Idle",
       "Walk",
@@ -91,14 +91,51 @@
     "materialRepair": null,
     "deathRetime": {
       "duration": 1.5,
-      "endHeight": 0.47688522469237254,
-      "endHeightRatio": 0.3224380361327228,
-      "endMinY": 0.0060000049933287,
-      "finalReachedAtSeconds": 0.72,
-      "collapseHeight": 0.4768852212927378,
-      "collapseMinY": 0.006000004993287039,
+      "endHeight": 0.4081841787665736,
+      "endHeightRatio": 0.2759869713472551,
+      "endMinY": 0.006000000116687276,
+      "finalReachedAtSeconds": 0.8900000000000001,
+      "collapseHeight": 0.40818417876657354,
+      "collapseMinY": 0.006000000116687304,
       "heldUntilSeconds": 1.5,
-      "authoredFall": null,
+      "authoredFall": {
+        "method": "Source airborne leap (0.1-0.9 s, feet up to 0.64 m) replaced by a 0.45 s eased topple from the first standing key to the source landing pose at 0.95 s; native 48 Hz settle keys 0.95-1.5 s kept at 1.25x; hips horizontal travel removed and the corpse slid so its centre ends over the entity origin; dense per-key vertical contact on mocap_Armature keeps the lowest skinned vertex on the floor.",
+        "toppleSeconds": [
+          0,
+          0.45
+        ],
+        "sourceLandingSeconds": 0.95,
+        "sourceSettleSeconds": [
+          0.95,
+          1.5
+        ],
+        "settleSpeed": 1.25,
+        "sourceKeyHz": 48,
+        "settleSeconds": 0.89,
+        "heldUntilSeconds": 1.5,
+        "hipsHorizontalTravelRemoved": true,
+        "corpseCentreSlide": [
+          -0.01,
+          0.388
+        ],
+        "contactKeys": 216,
+        "contactRange": [
+          0.005,
+          0.008
+        ],
+        "finalBounds": {
+          "min": [
+            -0.417,
+            0.006,
+            -0.716
+          ],
+          "max": [
+            0.417,
+            0.414,
+            0.716
+          ]
+        }
+      },
       "cpuCollapseByHeight": true,
       "visualAcceptancePending": true
     },
@@ -134,8 +171,8 @@
         "samples": 5
       },
       "Death": {
-        "minY": 0.005891925938207046,
-        "maxY": 1.7195415841331068,
+        "minY": 0.005975160574748173,
+        "maxY": 1.4849980006818027,
         "duration": 1.5,
         "samples": 32
       },
@@ -228,8 +265,8 @@
       ]
     },
     "candidateFile": "models/creature/creature_troll_mauler.glb",
-    "candidateSha256": "24c86e2e630a521fc818cc32cc64740d5604d807fcfff801a132b2ee011fdeeb",
-    "candidateBytes": 16514700,
+    "candidateSha256": "2c3c1b2e585a86de34e9bc9bda9eb0c18a7d70a803e751f180d170a7372c20d7",
+    "candidateBytes": 16501396,
     "clips": [
       "Attack",
       "Death",
@@ -256,14 +293,55 @@
     },
     "deathRetime": {
       "duration": 1.5,
-      "endHeight": 2.5185649393640546,
-      "endHeightRatio": 0.818983802037091,
-      "endMinY": 0.0010009878089142776,
+      "endHeight": 1.7296509312149961,
+      "endHeightRatio": 0.562445728951259,
+      "endMinY": 0.0009999987040590088,
       "finalReachedAtSeconds": 0.72,
-      "collapseHeight": 2.518564940252524,
-      "collapseMinY": 0.0010009896127455287,
+      "collapseHeight": 1.9442113042931524,
+      "collapseMinY": 0.0010000542965688908,
       "heldUntilSeconds": 1.5,
-      "authoredFall": null,
+      "authoredFall": {
+        "method": "Source Death stagger kept to 0.1s; all 33 joints then blend to a relaxed supine pose derived from the bind pose while the ground wrapper tips the rig backwards about the feet. Fall angle, head tilt, arm drop and hip extension are solved so pelvis, upper back, head, both arms and both legs rest on the floor; IK foot controllers follow the FK feet; per-key vertical contact is CPU-baked from skinned vertices.",
+        "blendSeconds": [
+          0.1,
+          0.66
+        ],
+        "fallStartSeconds": 0.16,
+        "fallDegrees": 109.351,
+        "solvedRadians": {
+          "headTiltBack": -0.059,
+          "armDropBackL": 0.34,
+          "armDropBackR": 0.373,
+          "hipExtensionL": 0.793,
+          "hipExtensionR": 0.78
+        },
+        "contactKeys": 348,
+        "contactRange": [
+          0.001,
+          0.002
+        ],
+        "finalBounds": {
+          "min": [
+            -1.751,
+            0.001,
+            -2.885
+          ],
+          "max": [
+            2.083,
+            1.731,
+            0.286
+          ]
+        },
+        "finalRegionFloors": {
+          "pelvis": 0.026,
+          "upperBack": 0.026,
+          "head": 0.026,
+          "legR": 0.026,
+          "legL": 0.026,
+          "armL": 0.026,
+          "armR": 0.026
+        }
+      },
       "cpuCollapseByHeight": false,
       "visualAcceptancePending": true
     },
@@ -275,8 +353,8 @@
         "samples": 5
       },
       "Death": {
-        "minY": 0.0009999989757930993,
-        "maxY": 3.0762318578403303,
+        "minY": 0.0008674288386464306,
+        "maxY": 3.0762316929765574,
         "duration": 1.5,
         "samples": 32
       },
@@ -387,8 +465,8 @@
       ]
     },
     "candidateFile": "models/creature/creature_cave_roach.glb",
-    "candidateSha256": "177f4cae253b1ebfe1498fb6618e104cb8df4f9eba56d7edac6284965c550cc0",
-    "candidateBytes": 4208116,
+    "candidateSha256": "7461f324c91792ebf7a2ce6208a757ef1bf0e8bb93eb0e6a9dc2b66c4b67470d",
+    "candidateBytes": 4058832,
     "clips": [
       "Idle",
       "Walk",
@@ -409,23 +487,61 @@
     "materialRepair": null,
     "deathRetime": {
       "duration": 1.5,
-      "endHeight": 0.7350679067875966,
-      "endHeightRatio": 0.6391894548267774,
-      "endMinY": 0.005999514478139801,
+      "endHeight": 0.48689906136089933,
+      "endHeightRatio": 0.42339046870791003,
+      "endMinY": 0.006000001400861876,
       "finalReachedAtSeconds": 0.72,
-      "collapseHeight": 0.7350679066425356,
-      "collapseMinY": 0.0059999985490692565,
+      "collapseHeight": 0.48689905593759353,
+      "collapseMinY": 0.006000001168365299,
       "heldUntilSeconds": 1.5,
       "authoredFall": {
-        "joint": "roach_2_SpineHigh",
-        "additiveLocalPitchDegrees": -30,
-        "keys": 49,
-        "trialFinalMinY": -0.1540499337431191,
-        "floorResponseGain": 0.9999976633600104,
-        "finalVerticalOffset": 0.16005030772306847,
-        "method": "Native death limb pose with subtle shell sag and per-key grounded vertical offsets"
+        "method": "Native Death stagger kept to 0.1 s; all joints then blend to a rest-derived pose with the four legs curled under the belly while the ground wrapper rolls the body 90 degrees onto its side (the 0.4 m wide shell, not the 0.52 m deep one, sets the corpse height). Each leg curl is solved so it rests on the floor beside the shell; the corpse is slid over the entity origin and per-key vertical contact is CPU-baked from skinned vertices.",
+        "blendSeconds": [
+          0.1,
+          0.66
+        ],
+        "fallStartSeconds": 0.16,
+        "rollDegrees": 90,
+        "solvedLegCurl": {
+          "frontL": 0.287,
+          "frontR": 0.41,
+          "backL": 0.225,
+          "backR": 0.049,
+          "frontLUpper": 0.3,
+          "frontRUpper": -1,
+          "backLUpper": 0.3,
+          "backRUpper": -0.002
+        },
+        "corpseCentreSlide": [
+          0.47,
+          0.056
+        ],
+        "contactKeys": 348,
+        "contactRange": [
+          0.006,
+          0.007
+        ],
+        "finalBounds": {
+          "min": [
+            -0.681,
+            0.006,
+            -0.868
+          ],
+          "max": [
+            0.681,
+            0.493,
+            0.868
+          ]
+        },
+        "finalRegionFloors": {
+          "body": 0.058,
+          "frontL": 0.058,
+          "frontR": 0.006,
+          "backL": 0.058,
+          "backR": 0.058
+        }
       },
-      "cpuCollapseByHeight": false,
+      "cpuCollapseByHeight": true,
       "visualAcceptancePending": true
     },
     "cpuMotion": {
@@ -478,8 +594,8 @@
         "samples": 5
       },
       "Death": {
-        "minY": 0.005997016279059103,
-        "maxY": 1.156000055101446,
+        "minY": 0.005993575470460713,
+        "maxY": 1.3628391163297484,
         "duration": 1.5,
         "samples": 32
       }

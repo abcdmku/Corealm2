@@ -88,8 +88,8 @@
       "attackSeconds": 1.375,
       "contactNormalized": 0.5,
       "candidateFile": "assets/art/tripo/imports/creatures/audit-lab-missing/models/creature/creature_wild_goblin.glb",
-      "bytes": 7261448,
-      "sha256": "5a164eb45882df6a41b128270ecb1da980f726f408a508411dc926c52b71a00f",
+      "bytes": 6953184,
+      "sha256": "1cc4cfbcabe3d5d79af0d4db1a80923a05e3d6b9bc2c45dca99f6caae7b2c134",
       "sourceProvenance": {
         "upstream": {
           "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
@@ -137,22 +137,59 @@
               "sha256": "33069887af50af1053310e4b39861b9fae6925d20520229de705c42f30e809c3"
             }
           ],
-          "modifications": "Original whole mesh, knife, normals, material-specific UV layers and all four native influences preserved. Original NLA strips sampled at 48 Hz with native timing. Primary Attack uses native Attack2; clipped Attack1 preserved as AttackSecondary. Run uses Walk at .70 duration because native Flee has confirmed knife/torso intersections; Flee remains in original source data only. Uniform height normalization; locomotion origin held in place; whole-mesh floor correction. Three authored hit reactions added because source has none."
+          "modifications": "Original whole mesh, knife, normals, material-specific UV layers and all four native influences preserved. Original NLA strips sampled at 48 Hz with native timing. Primary Attack uses native Attack2; clipped Attack1 preserved as AttackSecondary. Run uses Walk at .70 duration because native Flee has confirmed knife/torso intersections; Flee remains in original source data only. Uniform height normalization; locomotion origin held in place; whole-mesh floor correction. Three authored hit reactions added because source has none. Death adaptation (build-candidates.mjs): the source leap (feet up to 0.64 m, 0.1-0.9 s) is replaced by a 0.45 s eased topple from the first standing key to the native landing pose at 0.95 s; native 48 Hz settle keys 0.95-1.5 s play at 1.25x, settle by 0.89 s and hold to 1.5 s; hips horizontal travel removed and the corpse slid over the entity origin; dense contact track keeps the lowest vertex on the floor. Final lying pose and knife unchanged."
         },
         "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/wild-goblin-round1/models/creature/creature_wild_goblin.glb",
         "sourceCandidateSha256": "c29d05dcded96e1d028bacc0045454d2cd1107d07a285797b97cc851252bf9d2",
         "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
-        "rebuildSha256": "59c16029e4150c291c1fef102a77c7f8e8aed395ec65e87ccc0000fafe7f55f3",
+        "rebuildSha256": "65ac11c8e6ebbeb2faa7b9c6b05cf5de2beeadfe579c10b5ef212b0b1e34087f",
         "motionRepair": {
           "duration": 1.5,
-          "endHeight": 0.47688522469237254,
-          "endHeightRatio": 0.3224380361327228,
-          "endMinY": 0.0060000049933287,
-          "finalReachedAtSeconds": 0.72,
-          "collapseHeight": 0.4768852212927378,
-          "collapseMinY": 0.006000004993287039,
+          "endHeight": 0.4081841787665736,
+          "endHeightRatio": 0.2759869713472551,
+          "endMinY": 0.006000000116687276,
+          "finalReachedAtSeconds": 0.8900000000000001,
+          "collapseHeight": 0.40818417876657354,
+          "collapseMinY": 0.006000000116687304,
           "heldUntilSeconds": 1.5,
-          "authoredFall": null,
+          "authoredFall": {
+            "method": "Source airborne leap (0.1-0.9 s, feet up to 0.64 m) replaced by a 0.45 s eased topple from the first standing key to the source landing pose at 0.95 s; native 48 Hz settle keys 0.95-1.5 s kept at 1.25x; hips horizontal travel removed and the corpse slid so its centre ends over the entity origin; dense per-key vertical contact on mocap_Armature keeps the lowest skinned vertex on the floor.",
+            "toppleSeconds": [
+              0,
+              0.45
+            ],
+            "sourceLandingSeconds": 0.95,
+            "sourceSettleSeconds": [
+              0.95,
+              1.5
+            ],
+            "settleSpeed": 1.25,
+            "sourceKeyHz": 48,
+            "settleSeconds": 0.89,
+            "heldUntilSeconds": 1.5,
+            "hipsHorizontalTravelRemoved": true,
+            "corpseCentreSlide": [
+              -0.01,
+              0.388
+            ],
+            "contactKeys": 216,
+            "contactRange": [
+              0.005,
+              0.008
+            ],
+            "finalBounds": {
+              "min": [
+                -0.417,
+                0.006,
+                -0.716
+              ],
+              "max": [
+                0.417,
+                0.414,
+                0.716
+              ]
+            }
+          },
           "cpuCollapseByHeight": true,
           "visualAcceptancePending": true
         },
@@ -188,8 +225,8 @@
             "samples": 5
           },
           "Death": {
-            "minY": 0.005891925938207046,
-            "maxY": 1.7195415841331068,
+            "minY": 0.005975160574748173,
+            "maxY": 1.4849980006818027,
             "duration": 1.5,
             "samples": 32
           },
@@ -216,12 +253,12 @@
           25
         ],
         "reviewStatus": "awaiting-root-lab-visual-acceptance",
-        "candidateSha256": "5a164eb45882df6a41b128270ecb1da980f726f408a508411dc926c52b71a00f",
+        "candidateSha256": "1cc4cfbcabe3d5d79af0d4db1a80923a05e3d6b9bc2c45dca99f6caae7b2c134",
         "materialRepair": null
       },
       "candidateReview": {
         "labAccepted": false,
-        "collapseReachedAtSeconds": 0.72,
+        "collapseReachedAtSeconds": 0.8900000000000001,
         "corpseHeldUntilSeconds": 1.5,
         "visualDeathReviewPending": true,
         "cpuCollapseByHeight": true,
@@ -266,13 +303,31 @@
         "animal_rpg_troll_mauler_eye",
         "animal_rpg_troll_mauler_med"
       ],
+      "impliedWalkMps": 0.7200809742428915,
+      "impliedRunMps": 1.3993831398411416,
       "walkClipSeconds": 2,
       "runClipSeconds": 1.5,
       "attackSeconds": 1.5,
       "contactNormalized": 0.55,
+      "measuredGait": {
+        "method": "measureContactGait bone-proxy-backward-contact-velocity (tools/animals/convert.js), 1920 samples, contact height 0.03 m",
+        "groups": [
+          [
+            "foot_tipL"
+          ],
+          [
+            "foot_tipR"
+          ]
+        ],
+        "walkMps": 0.7200809742428915,
+        "runMps": 1.3993831398411416,
+        "walkClipSeconds": 2,
+        "runClipSeconds": 1.5,
+        "note": "Native stance speed; playback is speed-matched from these values. Moving production lab review remains required."
+      },
       "candidateFile": "assets/art/tripo/imports/creatures/audit-lab-missing/models/creature/creature_troll_mauler.glb",
-      "bytes": 16514700,
-      "sha256": "24c86e2e630a521fc818cc32cc64740d5604d807fcfff801a132b2ee011fdeeb",
+      "bytes": 16501396,
+      "sha256": "2c3c1b2e585a86de34e9bc9bda9eb0c18a7d70a803e751f180d170a7372c20d7",
       "sourceProvenance": {
         "upstream": {
           "sourceUrl": "https://opengameart.org/content/troll-mauler",
@@ -449,7 +504,7 @@
                 48
               ],
               "fps": 24,
-              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion. Corealm rebuild keeps its first 0.1s stagger, then replaces the 82%-height sag with a solved supine backward fall that rests pelvis, back, head, arms and legs on the floor (see motionRepair.authoredFall).",
               "attackContactPhase": null
             }
           },
@@ -573,17 +628,58 @@
         "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/troll-mauler-round2/models/creature/creature_troll_mauler.glb",
         "sourceCandidateSha256": "ecb54b9ad184664b3748d48fbf57d10e3f8766b8b2094f8ad104fa242bfc9294",
         "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
-        "rebuildSha256": "59c16029e4150c291c1fef102a77c7f8e8aed395ec65e87ccc0000fafe7f55f3",
+        "rebuildSha256": "65ac11c8e6ebbeb2faa7b9c6b05cf5de2beeadfe579c10b5ef212b0b1e34087f",
         "motionRepair": {
           "duration": 1.5,
-          "endHeight": 2.5185649393640546,
-          "endHeightRatio": 0.818983802037091,
-          "endMinY": 0.0010009878089142776,
+          "endHeight": 1.7296509312149961,
+          "endHeightRatio": 0.562445728951259,
+          "endMinY": 0.0009999987040590088,
           "finalReachedAtSeconds": 0.72,
-          "collapseHeight": 2.518564940252524,
-          "collapseMinY": 0.0010009896127455287,
+          "collapseHeight": 1.9442113042931524,
+          "collapseMinY": 0.0010000542965688908,
           "heldUntilSeconds": 1.5,
-          "authoredFall": null,
+          "authoredFall": {
+            "method": "Source Death stagger kept to 0.1s; all 33 joints then blend to a relaxed supine pose derived from the bind pose while the ground wrapper tips the rig backwards about the feet. Fall angle, head tilt, arm drop and hip extension are solved so pelvis, upper back, head, both arms and both legs rest on the floor; IK foot controllers follow the FK feet; per-key vertical contact is CPU-baked from skinned vertices.",
+            "blendSeconds": [
+              0.1,
+              0.66
+            ],
+            "fallStartSeconds": 0.16,
+            "fallDegrees": 109.351,
+            "solvedRadians": {
+              "headTiltBack": -0.059,
+              "armDropBackL": 0.34,
+              "armDropBackR": 0.373,
+              "hipExtensionL": 0.793,
+              "hipExtensionR": 0.78
+            },
+            "contactKeys": 348,
+            "contactRange": [
+              0.001,
+              0.002
+            ],
+            "finalBounds": {
+              "min": [
+                -1.751,
+                0.001,
+                -2.885
+              ],
+              "max": [
+                2.083,
+                1.731,
+                0.286
+              ]
+            },
+            "finalRegionFloors": {
+              "pelvis": 0.026,
+              "upperBack": 0.026,
+              "head": 0.026,
+              "legR": 0.026,
+              "legL": 0.026,
+              "armL": 0.026,
+              "armR": 0.026
+            }
+          },
           "cpuCollapseByHeight": false,
           "visualAcceptancePending": true
         },
@@ -595,8 +691,8 @@
             "samples": 5
           },
           "Death": {
-            "minY": 0.0009999989757930993,
-            "maxY": 3.0762318578403303,
+            "minY": 0.0008674288386464306,
+            "maxY": 3.0762316929765574,
             "duration": 1.5,
             "samples": 32
           },
@@ -641,7 +737,7 @@
           33
         ],
         "reviewStatus": "awaiting-root-lab-visual-acceptance",
-        "candidateSha256": "24c86e2e630a521fc818cc32cc64740d5604d807fcfff801a132b2ee011fdeeb",
+        "candidateSha256": "2c3c1b2e585a86de34e9bc9bda9eb0c18a7d70a803e751f180d170a7372c20d7",
         "materialRepair": {
           "material": "animal_rpg_troll_mauler_cloth",
           "alphaMode": "MASK",
@@ -655,7 +751,8 @@
         "corpseHeldUntilSeconds": 1.5,
         "visualDeathReviewPending": true,
         "cpuCollapseByHeight": false,
-        "motionBlocked": true
+        "motionBlocked": false,
+        "cpuRestingContact": true
       }
     },
     {
@@ -695,13 +792,37 @@
       "materials": [
         "animal_rpg_cave_roach_roach_original_rock"
       ],
+      "impliedWalkMps": 1.4814038395393059,
+      "impliedRunMps": 2.625230168592447,
       "walkClipSeconds": 1,
       "runClipSeconds": 0.5833333333333334,
       "attackSeconds": 1.833333333333333,
       "contactNormalized": 0.5,
+      "measuredGait": {
+        "method": "measureContactGait bone-proxy-backward-contact-velocity (tools/animals/convert.js), 1920 samples, contact height 0.03 m",
+        "groups": [
+          [
+            "roach_45_ClawFrontLH"
+          ],
+          [
+            "roach_48_ClawFrontRH"
+          ],
+          [
+            "roach_51_ClawBackLL"
+          ],
+          [
+            "roach_54_ClawBackRL"
+          ]
+        ],
+        "walkMps": 1.4814038395393059,
+        "runMps": 2.625230168592447,
+        "walkClipSeconds": 1,
+        "runClipSeconds": 0.5833333333333334,
+        "note": "Native stance speed; playback is speed-matched from these values. Moving production lab review remains required."
+      },
       "candidateFile": "assets/art/tripo/imports/creatures/audit-lab-missing/models/creature/creature_cave_roach.glb",
-      "bytes": 4208116,
-      "sha256": "177f4cae253b1ebfe1498fb6618e104cb8df4f9eba56d7edac6284965c550cc0",
+      "bytes": 4058832,
+      "sha256": "7461f324c91792ebf7a2ce6208a757ef1bf0e8bb93eb0e6a9dc2b66c4b67470d",
       "sourceProvenance": {
         "upstream": {
           "url": "https://opengameart.org/content/roach-game-ready-and-animated",
@@ -739,15 +860,15 @@
               "downloadUrl": "https://opengameart.org/sites/default/files/Roach.zip"
             }
           ],
-          "modifications": "Original body and all54bones preserved without weight reduction. Native NLA timings sampled at48Hz; Blender Z-up to glTF Y-up, 1.15m normalization, floor correction. Missing Hit reactions derive from native Idle with an authored SpineHigh recoil. No grafts or body edits.",
+          "modifications": "Original body and all54bones preserved without weight reduction. Native NLA timings sampled at48Hz; Blender Z-up to glTF Y-up, 1.15m normalization, floor correction. Missing Hit reactions derive from native Idle with an authored SpineHigh recoil. No grafts or body edits. Death adaptation (build-candidates.mjs): native stagger kept, then the legs curl under the belly while the body rolls 90 degrees onto its side (the 0.4 m wide shell sets corpse height), settling by 0.72 s and holding to 1.5 s; leg curls solved against the floor, corpse slid over the entity origin, dense contact track keeps the lowest vertex on the floor.",
           "weightReduction": {
             "sourceMaximum": 2,
             "runtimeMaximum": 4,
             "maxDiscardedFraction": 0,
             "affectedControlVertices": 0,
             "measuredError": {
-              "maxMeters": 5.784679582912413e-08,
-              "rmsMeters": 6.097555500535855e-09,
+              "maxMeters": 5.784679582912413e-8,
+              "rmsMeters": 6.097555500535855e-9,
               "samples": 2676564
             }
           },
@@ -765,26 +886,64 @@
         "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/cave-roach-round1/models/creature/creature_cave_roach.glb",
         "sourceCandidateSha256": "dd1da7331eff7cb6cad91d0db24201c725cd4e29f70554f7932f9288ab9bd114",
         "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
-        "rebuildSha256": "59c16029e4150c291c1fef102a77c7f8e8aed395ec65e87ccc0000fafe7f55f3",
+        "rebuildSha256": "65ac11c8e6ebbeb2faa7b9c6b05cf5de2beeadfe579c10b5ef212b0b1e34087f",
         "motionRepair": {
           "duration": 1.5,
-          "endHeight": 0.7350679067875966,
-          "endHeightRatio": 0.6391894548267774,
-          "endMinY": 0.005999514478139801,
+          "endHeight": 0.48689906136089933,
+          "endHeightRatio": 0.42339046870791003,
+          "endMinY": 0.006000001400861876,
           "finalReachedAtSeconds": 0.72,
-          "collapseHeight": 0.7350679066425356,
-          "collapseMinY": 0.0059999985490692565,
+          "collapseHeight": 0.48689905593759353,
+          "collapseMinY": 0.006000001168365299,
           "heldUntilSeconds": 1.5,
           "authoredFall": {
-            "joint": "roach_2_SpineHigh",
-            "additiveLocalPitchDegrees": -30,
-            "keys": 49,
-            "trialFinalMinY": -0.1540499337431191,
-            "floorResponseGain": 0.9999976633600104,
-            "finalVerticalOffset": 0.16005030772306847,
-            "method": "Native death limb pose with subtle shell sag and per-key grounded vertical offsets"
+            "method": "Native Death stagger kept to 0.1 s; all joints then blend to a rest-derived pose with the four legs curled under the belly while the ground wrapper rolls the body 90 degrees onto its side (the 0.4 m wide shell, not the 0.52 m deep one, sets the corpse height). Each leg curl is solved so it rests on the floor beside the shell; the corpse is slid over the entity origin and per-key vertical contact is CPU-baked from skinned vertices.",
+            "blendSeconds": [
+              0.1,
+              0.66
+            ],
+            "fallStartSeconds": 0.16,
+            "rollDegrees": 90,
+            "solvedLegCurl": {
+              "frontL": 0.287,
+              "frontR": 0.41,
+              "backL": 0.225,
+              "backR": 0.049,
+              "frontLUpper": 0.3,
+              "frontRUpper": -1,
+              "backLUpper": 0.3,
+              "backRUpper": -0.002
+            },
+            "corpseCentreSlide": [
+              0.47,
+              0.056
+            ],
+            "contactKeys": 348,
+            "contactRange": [
+              0.006,
+              0.007
+            ],
+            "finalBounds": {
+              "min": [
+                -0.681,
+                0.006,
+                -0.868
+              ],
+              "max": [
+                0.681,
+                0.493,
+                0.868
+              ]
+            },
+            "finalRegionFloors": {
+              "body": 0.058,
+              "frontL": 0.058,
+              "frontR": 0.006,
+              "backL": 0.058,
+              "backR": 0.058
+            }
           },
-          "cpuCollapseByHeight": false,
+          "cpuCollapseByHeight": true,
           "visualAcceptancePending": true
         },
         "cpuMotion": {
@@ -837,8 +996,8 @@
             "samples": 5
           },
           "Death": {
-            "minY": 0.005997016279059103,
-            "maxY": 1.156000055101446,
+            "minY": 0.005993575470460713,
+            "maxY": 1.3628391163297484,
             "duration": 1.5,
             "samples": 32
           }
@@ -847,7 +1006,7 @@
           54
         ],
         "reviewStatus": "awaiting-root-lab-visual-acceptance",
-        "candidateSha256": "177f4cae253b1ebfe1498fb6618e104cb8df4f9eba56d7edac6284965c550cc0",
+        "candidateSha256": "7461f324c91792ebf7a2ce6208a757ef1bf0e8bb93eb0e6a9dc2b66c4b67470d",
         "materialRepair": null
       },
       "candidateReview": {
@@ -855,7 +1014,7 @@
         "collapseReachedAtSeconds": 0.72,
         "corpseHeldUntilSeconds": 1.5,
         "visualDeathReviewPending": true,
-        "cpuCollapseByHeight": false,
+        "cpuCollapseByHeight": true,
         "motionBlocked": false
       }
     }

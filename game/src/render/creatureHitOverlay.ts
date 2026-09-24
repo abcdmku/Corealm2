@@ -46,6 +46,14 @@ function isNamedUprightBiped(bones:THREE.Bone[]):boolean {
     ])edges.push([side+child,parent==='Spine2'||parent==='Hips'?parent:side+parent]);
     if(edges.every(([child,parent])=>has(prefix+child,prefix+parent) && parentOf(prefix+child)===prefix+parent))return true;
   }
+  // CMU mocap skeletons hang each leg from a hip joint and the spine from a lower-back link.
+  const cmu=[['LowerBack','Hips'],['Spine','LowerBack'],['Spine1','Spine'],['Neck','Spine1'],
+    ['LHipJoint','Hips'],['LeftUpLeg','LHipJoint'],['LeftLeg','LeftUpLeg'],['LeftFoot','LeftLeg'],
+    ['RHipJoint','Hips'],['RightUpLeg','RHipJoint'],['RightLeg','RightUpLeg'],['RightFoot','RightLeg'],
+    ['LeftShoulder','Spine1'],['LeftArm','LeftShoulder'],['LeftForeArm','LeftArm'],['LeftHand','LeftForeArm'],
+    ['RightShoulder','Spine1'],['RightArm','RightShoulder'],['RightForeArm','RightArm'],['RightHand','RightForeArm']];
+  for(const prefix of ['','mocap_'])
+    if(cmu.every(([child,parent])=>has(prefix+child,prefix+parent) && parentOf(prefix+child)===prefix+parent))return true;
   return false;
 }
 
@@ -102,6 +110,13 @@ function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
   // Hovering bodies have no support: keep the core that anchors their float height.
   else if(named('SpiritRoot') && edge('Spine','TailBase')) roots=bones.filter(b=>b.name==='Spine');
   else if(named('HollowCore') && named('MembraneSector0')) roots=bones.filter(b=>/^MembraneSector\d+$/.test(b.name));
+  // Troll mauler: Bone carries both thighs; Bone001 is the spine with the head and both arms.
+  else if(edge('Bone001','Bone') && edge('Bone002','Bone001') && edge('Bone003','Bone002') && edge('shoulderL','Bone002')
+    && edge('shoulderR','Bone002') && edge('thighL','Bone') && edge('thighR','Bone'))
+    roots=bones.filter(b=>b.name==='Bone001');
+  // Cave roach: SpineHigh carries the planted front claws, so only the head branch and tail recoil.
+  else if(edge('roach_2_SpineHigh','roach_1_MasterBone') && edge('roach_3_Shoulder','roach_2_SpineHigh') && edge('roach_28_Tail','roach_27_SpineLow'))
+    roots=bones.filter(b=>b.name==='roach_3_Shoulder' || b.name==='roach_28_Tail');
   // Marchwild horse: Bone carries the forelegs and the unparented Bone_*003 chains are hind legs;
   // Bone001 is the neck and head, Bone003 the tail.
   else if(edge('Bone001_L','Bone001') && edge('Bone002','Bone001') && edge('Bone_L001','Bone_L') && named('Bone_R005'))
