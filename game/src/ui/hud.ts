@@ -59,11 +59,19 @@ export function describeProductionCompletion(data: GameEvent["data"]): string {
   return `Made ${quantity} × ${name}.`;
 }
 
-/** A deliberate stop is not a pathfinding failure and must not be presented as one. */
+/**
+ * The `navigation.failed` reasons that mean the walk itself could not get there. Every other
+ * reason is the game stopping the walk on purpose (death, a portal or teleport placement, a combat
+ * target coming into range, the player's own cancel), which is not a routing failure. Telling a
+ * player who just died "There is no route to that place." made a normal respawn read as stuck.
+ */
+const ROUTE_FAILURES: ReadonlySet<string> = new Set([
+  "unreachable", "leg-unreachable", "stuck", "shortcut-unavailable", "shortcut-rejected", "shortcut-failed",
+]);
+
 export function describeNavigationFailure(data: GameEvent["data"]): { text: string; tone: NoticeTone } | null {
   const reason = typeof data["reason"] === "string" ? data["reason"] : "";
-  if (reason === "cancelled" || reason === "movement-disabled") return null;
-  return { text: UNREACHABLE_DESTINATION_MESSAGE, tone: "error" };
+  return ROUTE_FAILURES.has(reason) ? { text: UNREACHABLE_DESTINATION_MESSAGE, tone: "error" } : null;
 }
 
 /** Repeating the same failed route adds no information and should not wake the message log again. */

@@ -1667,24 +1667,28 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     clock.paused = locked || pausedBeforePortal;
     input.clear();
   });
+  /** Everything a covered arrival waits for at one place: models, terrain, scatter and a hidden interior. */
+  const prepareDestination = async (position: Vec3, regionId: RegionId, loaded: () => void = () => {}): Promise<void> => {
+    // The cave rock, the area's models, its scatter and the destination's hidden interior are
+    // independent downloads and preparations; only the dungeon's shaders need its rock first.
+    const cave = regionId === "gravelmaw" ? deferredCave?.ensure() : undefined;
+    await Promise.all([
+      preparePlayerArea(playerAssetArea(position, regionId)).then(loaded),
+      (profile.scatter || fairyLab) && regionId !== "gravelmaw"
+        ? scatterForRegion(regionId).loadView(position[0], position[2],
+          fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE)
+          .then(results => { scatterResults = results; })
+        : undefined,
+      isFairyRegion(regionId) && fairyRealm ? renderer.prepareInterior(fairyRealm.scene.root) : undefined,
+      regionId === dungeonSpec?.regionId && dungeon
+        ? Promise.resolve(cave).then(() => renderer.prepareInterior(dungeon.group)) : cave,
+    ]);
+  };
   const transitionThroughPortal = (destination: { position: Vec3; regionId: RegionId; name: string }, commit: () => void): Promise<void> => portalTransition.run({
     name: destination.name,
     prepare: async (report) => {
       report(0, "Loading destination…");
-      // The cave rock, the area's models, its scatter and the destination's hidden interior are
-      // independent downloads and preparations; only the dungeon's shaders need its rock first.
-      const cave = destination.regionId === "gravelmaw" ? deferredCave?.ensure() : undefined;
-      await Promise.all([
-        preparePlayerArea(playerAssetArea(destination.position, destination.regionId)).then(() => report(1, "Loading scenery…")),
-        (profile.scatter || fairyLab) && destination.regionId !== "gravelmaw"
-          ? scatterForRegion(destination.regionId).loadView(destination.position[0], destination.position[2],
-            fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE)
-            .then(results => { scatterResults = results; })
-          : undefined,
-        isFairyRegion(destination.regionId) && fairyRealm ? renderer.prepareInterior(fairyRealm.scene.root) : undefined,
-        destination.regionId === dungeonSpec?.regionId && dungeon
-          ? Promise.resolve(cave).then(() => renderer.prepareInterior(dungeon.group)) : cave,
-      ]);
+      await prepareDestination(destination.position, destination.regionId, () => report(1, "Loading scenery…"));
       report(2, "Preparing destination graphics…");
     },
     commit: () => {
@@ -1697,6 +1701,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       refreshVisualResidency(player.position, player.regionId, true);
     },
     settled: async () => {
+      // The host keeps simulating behind the cover. A player killed while the destination loaded
+      // has already respawned somewhere else, and `commit` moved the view there: prepare that
+      // place too, or the cover lifts on a town whose buildings and creatures are still loading.
+      const player = store.get().player;
+      if (worldMapForRegion(player.regionId) !== worldMapForRegion(destination.regionId)
+        || distanceXZ(player.position, destination.position) > ENTITY_ACTIVE_RADIUS) {
+        await prepareDestination([...player.position] as Vec3, player.regionId);
+      }
       await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
       if (destination.regionId === dungeonSpec?.regionId && dungeon) await renderer.waitForInterior(dungeon.group);
       const ready = await entityViews.retryHydration();

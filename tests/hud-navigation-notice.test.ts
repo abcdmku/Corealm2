@@ -3,12 +3,13 @@ import { UNREACHABLE_DESTINATION_MESSAGE } from "../game/src/api/gameApi.js";
 import { describeNavigationFailure, ignoresRepeatedNotice } from "../game/src/ui/hud.js";
 
 describe("HUD navigation failure notices", () => {
-  it.each(["cancelled", "movement-disabled"])("stays quiet for %s navigation", (reason) => {
-    expect(describeNavigationFailure({ reason })).toBeNull();
-  });
+  it.each(["cancelled", "movement-disabled", "dead", "portal", "teleport", "target-in-range", "combat-command"])(
+    "stays quiet when the game stops the walk on purpose (%s)", (reason) => {
+      expect(describeNavigationFailure({ reason })).toBeNull();
+    });
 
-  it("keeps the error notice for an unreachable destination", () => {
-    expect(describeNavigationFailure({ reason: "unreachable" })).toEqual({
+  it.each(["unreachable", "leg-unreachable", "stuck", "shortcut-failed"])("keeps the error notice for %s", (reason) => {
+    expect(describeNavigationFailure({ reason })).toEqual({
       text: UNREACHABLE_DESTINATION_MESSAGE,
       tone: "error",
     });
