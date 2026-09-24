@@ -555,9 +555,9 @@ export class CharacterRig {
       for (const mesh of this.bodyMeshes) {
         mesh.castShadow = this.castShadow;
         mesh.receiveShadow = this.castShadow;
-        mesh.geometry = dequantizeGeometry(mesh.geometry);
+        mesh.geometry = plainVertexLayout(dequantizeGeometry(mesh.geometry));
         // Remembered AFTER the dequantize, so `restoreCap` puts back the geometry the head cap was
-        // cut from rather than the quantized original.
+        // cut from rather than the quantized original. Its plain layout matches every cap and mask.
         this.bodyGeometries.set(mesh, mesh.geometry);
       }
 
@@ -1252,12 +1252,14 @@ export class CharacterRig {
     for (const assetId of extras) if (!ids.includes(assetId)) ids.push(assetId);
 
     const covered = this.forceHeadCap ?? HEAD_CAP_REQUIRES.every((region) => byRegion.has(region));
-    const tailoredArmor = ids.some(id => {
-      const entry = this.assets.entry(id);
-      return entry?.itemModel?.itemId.startsWith("starhide_") || entry?.tags.includes('reference-tailored-candidate')
-        || entry?.tags.includes('tier50-70-tailored-approved') || entry?.tags.includes('aurora-tailored-approved');
-    });
-    const wantCap = !tailoredArmor && covered && headCapHeightFor(this.bodyAssetId) !== null;
+    // Tailored armor is worn over the native body, so it never licenses the head cap. Tripo armor
+    // replaces its regions like legacy parts, but its gauntlets stop at the forearm: the upper arm
+    // comes from a Tripo body piece. Under a legacy chest the capped arm drew nothing between the
+    // sleeve and the gauntlet, which read as armor floating over an empty body.
+    const hands = byRegion.get("hands"), body = byRegion.get("body");
+    const armComplete = !hands || !this.isFittedItem(hands) || (body !== undefined && this.isFittedItem(body));
+    const fittedCoverage = ids.some(id => this.isTailoredItem(id)) || !armComplete;
+    const wantCap = !fittedCoverage && covered && headCapHeightFor(this.bodyAssetId) !== null;
     // The tint is in the signature: two tiers of the same asset differ only by colour, so without
     // it swapping Corven plate for Kaldite plate would look like a no-op and never rebuild.
     const signature = `${wantCap ? "cap" : "raw"}|${ids.map((id) => `${id}:${appearanceKey(worn.get(id))}`).join("|")}`;
@@ -1321,7 +1323,7 @@ export class CharacterRig {
       this.clearLayers();
       this.restoreCap();
       if (wantCap) this.applyCap();
-      if (tailoredArmor) this.applyTailoredCoverage(byRegion);
+      if (fittedCoverage) this.applyFittedCoverage(byRegion);
       this.layerRoot = candidate;
       this.layerMeshes = meshes;
       this.layerGeometries = [...geometries];
@@ -1404,17 +1406,32 @@ export class CharacterRig {
     this.capped = false;
   }
 
-  /** Tailored sleeveless armor keeps native arms; legacy garments still replace covered anatomy. */
-  private applyTailoredCoverage(byRegion: ReadonlyMap<string, string>): void {
+  /** A worn item model selected by `authoredItemParts`: tailored, Aurora or Tripo armor. */
+  private isFittedItem(assetId: string): boolean {
+    return this.assets.entry(assetId)?.itemModel?.wearable === true;
+  }
+
+  /** Tailored and Aurora armor, authored over the native body with its arms exposed. */
+  private isTailoredItem(assetId: string): boolean {
+    const entry = this.assets.entry(assetId);
+    return entry?.itemModel?.itemId.startsWith("starhide_") === true || entry?.tags.includes('reference-tailored-candidate') === true
+      || entry?.tags.includes('tier50-70-tailored-approved') === true || entry?.tags.includes('aurora-tailored-approved') === true;
+  }
+
+  /**
+   * Hides only the anatomy the worn parts enclose: a robe's torso spans or any other torso piece's
+   * whole torso, the hands inside item-model gloves, and the legs and feet. Legacy gloves carry the
+   * whole arm, so they still replace it.
+   */
+  private applyFittedCoverage(byRegion: ReadonlyMap<string, string>): void {
     const covered = new Set<ClothingRegion>();
     const spans: ItemBodyCoverageSpan[] = [];
     for (const [region, assetId] of byRegion) {
       const item = this.assets.entry(assetId)?.itemModel;
-      const tailored = item?.itemId.startsWith("starhide_") || this.assets.entry(assetId)?.tags.includes('reference-tailored-candidate')
-        || this.assets.entry(assetId)?.tags.includes('tier50-70-tailored-approved') || this.assets.entry(assetId)?.tags.includes('aurora-tailored-approved');
+      const fitted = this.isFittedItem(assetId);
       if (item?.bodyCoverage) spans.push(...item.bodyCoverage);
-      if (region === "body" && !tailored) covered.add("body");
-      if (region === "hands") covered.add(tailored ? "handwear" : "hands");
+      if (region === "body" && !item?.bodyCoverage?.length) covered.add("body");
+      if (region === "hands") covered.add(fitted ? "handwear" : "hands");
       if (region === "legs") covered.add("legs");
       if (region === "feet") covered.add("feet");
     }
@@ -1818,6 +1835,56 @@ function dequantizeGeometry(geometry: THREE.BufferGeometry): THREE.BufferGeometr
   out.boundingSphere = geometry.boundingSphere;
   if (!out.boundingSphere) out.computeBoundingSphere();
   DEQUANTIZED.set(geometry, out);
+  return out;
+}
+
+const PLAIN_LAYOUT = new WeakMap<THREE.BufferGeometry, THREE.BufferGeometry>();
+
+/**
+ * One separate vertex buffer per attribute, the layout `applyHeadCap` and body masks produce.
+ *
+ * The rig swaps `mesh.geometry` on a body that is already drawing. Three r185 keeps that render
+ * object's pipeline across a geometry swap, so the vertex buffer layout must never change. The
+ * native body ships interleaved position/normal/uv/weights: swapping between it and a separate-
+ * buffer cap read every vertex through the wrong strides and drew the body as exploded shards.
+ */
+function plainVertexLayout(geometry: THREE.BufferGeometry): THREE.BufferGeometry {
+  const cached = PLAIN_LAYOUT.get(geometry);
+  if (cached) return cached;
+  const unpack = (attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute): THREE.BufferAttribute => {
+    if (!(attribute as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute) return attribute as THREE.BufferAttribute;
+    const view = attribute as THREE.InterleavedBufferAttribute, { array, stride } = view.data;
+    const values = new (array.constructor as THREE.TypedArrayConstructor)(view.count * view.itemSize);
+    // Copy stored values, not getComponent's denormalized ones.
+    for (let vertex = 0; vertex < view.count; vertex++) {
+      for (let component = 0; component < view.itemSize; component++) {
+        values[vertex * view.itemSize + component] = array[vertex * stride + view.offset + component]!;
+      }
+    }
+    const plain = new THREE.BufferAttribute(values, view.itemSize, view.normalized);
+    plain.name = view.name;
+    return plain;
+  };
+  const interleaved = (attribute: THREE.BufferAttribute | THREE.InterleavedBufferAttribute) =>
+    (attribute as THREE.InterleavedBufferAttribute).isInterleavedBufferAttribute === true;
+  if (!Object.values(geometry.attributes).some(interleaved)
+    && !Object.values(geometry.morphAttributes).some(list => list.some(interleaved))) {
+    PLAIN_LAYOUT.set(geometry, geometry);
+    return geometry;
+  }
+  const out = new THREE.BufferGeometry();
+  out.name = geometry.name;
+  out.setIndex(geometry.getIndex());
+  for (const [name, attribute] of Object.entries(geometry.attributes)) out.setAttribute(name, unpack(attribute));
+  const morphs = out.morphAttributes as Record<string, THREE.BufferAttribute[]>;
+  for (const [name, list] of Object.entries(geometry.morphAttributes)) if (list) morphs[name] = list.map(unpack);
+  out.morphTargetsRelative = geometry.morphTargetsRelative;
+  for (const group of geometry.groups) out.addGroup(group.start, group.count, group.materialIndex);
+  out.setDrawRange(geometry.drawRange.start, geometry.drawRange.count);
+  out.boundingBox = geometry.boundingBox;
+  out.boundingSphere = geometry.boundingSphere;
+  if (!out.boundingSphere) out.computeBoundingSphere();
+  PLAIN_LAYOUT.set(geometry, out);
   return out;
 }
 

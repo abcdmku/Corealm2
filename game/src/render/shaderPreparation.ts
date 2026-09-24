@@ -375,11 +375,9 @@ function collectTextures(objects: readonly THREE.Object3D[], scene: THREE.Scene)
     for (const material of materials) {
       if (material) for (const value of Object.values(material)) collect(value);
     }
-    const mesh = object as THREE.SkinnedMesh & THREE.InstancedMesh;
-    if (mesh.isSkinnedMesh && mesh.skeleton) {
-      if (!mesh.skeleton.boneTexture) mesh.skeleton.computeBoneTexture();
-      collect(mesh.skeleton.boneTexture);
-    }
+    // Node skinning reads skeleton.boneMatrices as a buffer sized when a mesh is first drawn.
+    // Never build a WebGL bone texture: it pads that shared array and overflows existing draws.
+    const mesh = object as THREE.InstancedMesh;
     if (mesh.isInstancedMesh) collect(mesh.morphTexture);
   }
   return [...textures];
