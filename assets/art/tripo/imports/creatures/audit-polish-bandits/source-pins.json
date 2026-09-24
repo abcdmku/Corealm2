@@ -1,0 +1,89 @@
+{
+  "schema": "corealm-bandit-source-pins/1",
+  "inputs": [
+    {
+      "productionFile": "game/public/assets/models/outfit/outfit_female_ranger.glb",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_female_ranger.glb",
+      "bytes": 1990364,
+      "sha256": "a40cf08832298b624fcba39c1fe2d1f53210a1014ddd55a497410c218575361f"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/4ec3368213d70f520e6fb509ef930ebc5657428c2ffdda338423eb7f37c8f323.png",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/4ec3368213d70f520e6fb509ef930ebc5657428c2ffdda338423eb7f37c8f323.png",
+      "bytes": 834404,
+      "sha256": "4ec3368213d70f520e6fb509ef930ebc5657428c2ffdda338423eb7f37c8f323"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491.jpg",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491.jpg",
+      "bytes": 196687,
+      "sha256": "9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/28d0af2b0c45f4938d326e142863e2c5f8938a5ef118006e816a0c141344f841.png",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/28d0af2b0c45f4938d326e142863e2c5f8938a5ef118006e816a0c141344f841.png",
+      "bytes": 748998,
+      "sha256": "28d0af2b0c45f4938d326e142863e2c5f8938a5ef118006e816a0c141344f841"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/3686d91ada388ddbec7054874cdc1b836c3e5dfbfbdb8ecdcb5190c4011002c2.png",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/3686d91ada388ddbec7054874cdc1b836c3e5dfbfbdb8ecdcb5190c4011002c2.png",
+      "bytes": 822688,
+      "sha256": "3686d91ada388ddbec7054874cdc1b836c3e5dfbfbdb8ecdcb5190c4011002c2"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/33552c7d4ab9ebfae8ce2fb94d2480917d7fdfa5a85324f25d7f1040979879af.jpg",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/33552c7d4ab9ebfae8ce2fb94d2480917d7fdfa5a85324f25d7f1040979879af.jpg",
+      "bytes": 89593,
+      "sha256": "33552c7d4ab9ebfae8ce2fb94d2480917d7fdfa5a85324f25d7f1040979879af"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/bf7a1557c55b93c193d46d71ab0294e487d3fade799d65cb0fa802fcea1c6a67.png",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/bf7a1557c55b93c193d46d71ab0294e487d3fade799d65cb0fa802fcea1c6a67.png",
+      "bytes": 671216,
+      "sha256": "bf7a1557c55b93c193d46d71ab0294e487d3fade799d65cb0fa802fcea1c6a67"
+    },
+    {
+      "productionFile": "game/public/assets/models/outfit/outfit_male_ranger.glb",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_male_ranger.glb",
+      "bytes": 1775464,
+      "sha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/982d3be1b7ff571e3708a020f83075f506f888b7d73b87ab3626ca877c9ec5bc.png",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/982d3be1b7ff571e3708a020f83075f506f888b7d73b87ab3626ca877c9ec5bc.png",
+      "bytes": 885249,
+      "sha256": "982d3be1b7ff571e3708a020f83075f506f888b7d73b87ab3626ca877c9ec5bc"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/52e5fdef604385daf6134431db06d530a1e93a4835d8be2355467c9a1a81def6.jpg",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/52e5fdef604385daf6134431db06d530a1e93a4835d8be2355467c9a1a81def6.jpg",
+      "bytes": 85557,
+      "sha256": "52e5fdef604385daf6134431db06d530a1e93a4835d8be2355467c9a1a81def6"
+    },
+    {
+      "productionFile": "game/public/assets/textures/imported/1a3a21d21905cc17137c47d8557e9fff43b9f498e228cd0040d1c18a618be00b.png",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/textures/imported/1a3a21d21905cc17137c47d8557e9fff43b9f498e228cd0040d1c18a618be00b.png",
+      "bytes": 645268,
+      "sha256": "1a3a21d21905cc17137c47d8557e9fff43b9f498e228cd0040d1c18a618be00b"
+    },
+    {
+      "productionFile": "game/public/assets/models/character/base_female.glb",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_female.glb",
+      "bytes": 651876,
+      "sha256": "75ad4eee7a2caad26cdd2fe54040cdb7e866f9a8236d7d4934f4a0496b042baf"
+    },
+    {
+      "productionFile": "game/public/assets/models/character/base_male.glb",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+      "bytes": 622184,
+      "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+    },
+    {
+      "productionFile": "game/public/assets/models/animation/animation_library_1.glb",
+      "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+      "bytes": 789416,
+      "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+    }
+  ]
+}

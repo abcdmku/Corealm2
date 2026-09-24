@@ -34,7 +34,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "creature_redbrush_fox": { seconds: 0.88, contactNormalized: 0.49 },
   "creature_duskoak_lynx": { seconds: 1.02, contactNormalized: 0.43 },
   "creature_quillback_porcupine": { seconds: 1.16, contactNormalized: 0.54 },
-  "creature_cairn_bighorn": { seconds: 1.05, contactNormalized: 0.46 },
+  "creature_cairn_bighorn": { seconds: 1.0499999523162842, contactNormalized: 0.46 },
   "creature_marsh_moose": { seconds: 1.23, contactNormalized: 0.47 },
   "creature_bracken_tapir": { seconds: 0.9, contactNormalized: 0.48 },
   "creature_reedjaw_crocodile": { seconds: 0.833333, contactNormalized: 0.458333 },
@@ -49,7 +49,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "creature_antler_beetle": { seconds: 1.1, contactNormalized: 0.5 },
   "creature_slag_centipede": { seconds: 0.94, contactNormalized: 0.5 },
   "creature_cinder_ravager": { seconds: 2.333333, contactNormalized: 0.235 },
-  "creature_basalt_drake": { seconds: 1.6, contactNormalized: 0.65 },
+  "creature_basalt_drake": { seconds: 1.600000023841858, contactNormalized: 0.65 },
   "creature_gorge_mantis": { seconds: 1, contactNormalized: 0.316667 },
   "creature_quarry_nightmare": { seconds: 1.2, contactNormalized: 0.72 },
 };
@@ -155,7 +155,6 @@ for (const [variant, source] of [
 CREATURE_PURSUIT_CEILING_MPS["creature_hollow_bough"] = 3.4299;
 
 // Accepted biome bodies: measured final weighted-sole run cadence.
-CREATURE_PURSUIT_CEILING_MPS["creature_briar_harrow"] = 3.8976;
 CREATURE_MOTION_TIMING["creature_fen_crawler"] = { seconds: 0.86, contactNormalized: 0.5 };
 CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
 CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
@@ -376,3 +375,21 @@ CREATURE_MOTION_TIMING["creature_shale_elemental"] = { seconds: 0.83999997377395
 CREATURE_MOTION_TIMING["fairy_garden_snail_faeholme"] = { seconds: 1.5, contactNormalized: 0.48 };
 
 CREATURE_MOTION_TIMING["creature_rimeback_tortoise"] = { seconds: 1.25, contactNormalized: 0.5 };
+
+CREATURE_MOTION_TIMING["creature_starroot_guardian"] = { seconds: 0.9200000166893005, contactNormalized: 0.55 };
+
+CREATURE_MOTION_TIMING["creature_briar_harrow"] = { seconds: 0.8666666746139526, contactNormalized: 0.275 };
+
+CREATURE_MOTION_TIMING["creature_gloamfang_reaver"] = { seconds: 0.8600000143051147, contactNormalized: 0.39534883720930236 };
+
+CREATURE_MOTION_TIMING["creature_ashbound_votary_elite"] = { seconds: 1.8399999141693115, contactNormalized: 0.38 };
+
+CREATURE_MOTION_TIMING["bandit_forest_ranger"] = { seconds: 0.8666666746139526, contactNormalized: 0.42 };
+
+CREATURE_MOTION_TIMING["bandit_highland_ranger"] = { seconds: 0.8666666746139526, contactNormalized: 0.42 };
+
+CREATURE_MOTION_TIMING["bandit_quarry_ranger"] = { seconds: 0.8666666746139526, contactNormalized: 0.42 };
+
+CREATURE_MOTION_TIMING["creature_amethyst_dragon"] = { seconds: 1.306666612625122, contactNormalized: 0.4336734873237641 };
+
+CREATURE_MOTION_TIMING["creature_purple_wilderness_dragon"] = { seconds: 1.0800000429153442, contactNormalized: 0.5092592390231153 };

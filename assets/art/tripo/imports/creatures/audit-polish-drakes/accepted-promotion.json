@@ -1,0 +1,828 @@
+{
+  "assets": [
+    {
+      "id": "creature_basalt_drake",
+      "file": "models/creature/creature_basalt_drake.glb",
+      "pack": "dungeon-mason-dragon-boar",
+      "category": "character",
+      "is": "An armored low dragon with a boar-like snout, broad forepaws and a ridge of dorsal spikes.",
+      "tags": [
+        "creature",
+        "monster",
+        "quadruped",
+        "ground",
+        "horn"
+      ],
+      "bytes": 7352152,
+      "sha256": "6ed5b410198d54e0bcea528b8770d0e548bfbd1287a16df51505a119a72110f8",
+      "size": {
+        "x": 1.7450177392857733,
+        "y": 2.1080696907148737,
+        "z": 4.735762694542039
+      },
+      "base": {
+        "x": -0.8725002182170689,
+        "y": -0.00007763962636403102,
+        "z": -1.9394795807200897
+      },
+      "bounds": {
+        "min": [
+          -0.8725002182170689,
+          -0.00007763962636403102,
+          -1.9394795807200897
+        ],
+        "max": [
+          0.8725175210687045,
+          2.1079920510885097,
+          2.796283113821949
+        ]
+      },
+      "groundY": -0.00007763962636403102,
+      "triangles": 3230,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "armored_dragon_layered_basalt_plates"
+      ],
+      "sourceProvenance": {
+        "sourceAssetId": "creature_basalt_drake",
+        "productionFile": "game/public/assets/models/creature/creature_basalt_drake.glb",
+        "productionSha256": "2c0dc6807f07e5a87e02f883d37a0c30d73c85deb2986a088394317e04bf2ce9",
+        "upstreamAuthor": "Dungeon Mason",
+        "upstreamPack": "Dragon the Soul Eater and Dragon Boar",
+        "upstreamSource": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_drake-imagegen.png",
+        "generatedMapSha256": "8af4a4ec97d30dba9674337ba81956d0d8478243e303835856c5e59a28521418",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_drake-albedo.png",
+        "runtimeMapSha256": "09485f14632105e02298176c1cdf9ba74a7ca6d0a42f8345204da083ecee94d0",
+        "emissionMap": null,
+        "emissionMapSha256": null,
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
+        "builderSha256": "be47ea364b8076abe66d05130972613c20b082d5dfc55d2f077653f0d6e0859f",
+        "change": "Image-generated UV-aligned basalt plate albedo. Original geometry, rig, clips, normal map and ORM retained."
+      },
+      "impliedWalkMps": 1.0281658174696817,
+      "impliedRunMps": 3.674626094038439,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.800000011920929,
+      "attackSeconds": 1.600000023841858,
+      "contactNormalized": 0.65,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1,
+            "sampledFootBones": 4,
+            "stanceSamples": 184,
+            "measuredStanceMps": 1.076955677781065,
+            "feet": [
+              {
+                "bone": "L_Hand",
+                "minY": 0.09435462500583319,
+                "maxY": 0.3145048686749927,
+                "strideZ": 0.5962256128100292,
+                "contactSamples": 48,
+                "stanceMedianMps": 1.3242088262763758
+              },
+              {
+                "bone": "R_Hand",
+                "minY": 0.09437709937093991,
+                "maxY": 0.3328874893535234,
+                "strideZ": 0.6008961069048566,
+                "contactSamples": 48,
+                "stanceMedianMps": 1.3294644278964434
+              },
+              {
+                "bone": "L_Toes",
+                "minY": 0.062434226409310845,
+                "maxY": 0.14286907270307558,
+                "strideZ": 0.4080306205842592,
+                "contactSamples": 40,
+                "stanceMedianMps": 1.0270205847133287
+              },
+              {
+                "bone": "R_Toes",
+                "minY": 0.06235796582431279,
+                "maxY": 0.22723161827118132,
+                "strideZ": 0.39435325764568996,
+                "contactSamples": 48,
+                "stanceMedianMps": 0.8775413674060513
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.800000011920929,
+            "sampledFootBones": 4,
+            "stanceSamples": 76,
+            "measuredStanceMps": 3.6815710366751935,
+            "feet": [
+              {
+                "bone": "L_Hand",
+                "minY": 0.09101819147464368,
+                "maxY": 0.5352499267138817,
+                "strideZ": 1.1104140640428604,
+                "contactSamples": 23,
+                "stanceMedianMps": 3.7123843247624913
+              },
+              {
+                "bone": "R_Hand",
+                "minY": 0.08510952582152376,
+                "maxY": 0.633445284401088,
+                "strideZ": 1.3513026921329603,
+                "contactSamples": 10,
+                "stanceMedianMps": 6.349469008280934
+              },
+              {
+                "bone": "L_Toes",
+                "minY": 0.05102525459052343,
+                "maxY": 0.45750675570163213,
+                "strideZ": 1.0927238981128877,
+                "contactSamples": 25,
+                "stanceMedianMps": 2.120892731188115
+              },
+              {
+                "bone": "R_Toes",
+                "minY": 0.06399496685207273,
+                "maxY": 0.40969602342496825,
+                "strideZ": 1.2645151635545941,
+                "contactSamples": 18,
+                "stanceMedianMps": 4.4549561219097225
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 1.3333333730697632,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0007338299416821736,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0007338299416821736,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.800000011920929,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0007338299416821736,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "basalt_drake",
+        "is": "An armored low dragon with a boar-like snout, broad forepaws and a ridge of dorsal spikes.",
+        "tags": [
+          "creature",
+          "monster",
+          "quadruped",
+          "ground",
+          "horn"
+        ],
+        "provenance": {
+          "author": "Dungeon Mason",
+          "pack": "Dragon the Soul Eater and Dragon Boar",
+          "license": "Standard Unity Asset Store EULA",
+          "source": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+          "texture": "DragonBoarPBR/Blue",
+          "modifications": "Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz."
+        },
+        "attackSeconds": 1.600000023841858,
+        "contactNormalized": 0.65,
+        "impliedWalkMps": 1.0281658174696817,
+        "impliedRunMps": 3.674626094038439,
+        "gaitFootBones": [
+          "L_Hand",
+          "R_Hand",
+          "L_Toes",
+          "R_Toes"
+        ],
+        "gaitStanceAudit": {
+          "walk": {
+            "mps": 1.0281658174696817,
+            "contacts": [
+              {
+                "bone": "L_Hand",
+                "samples": 120,
+                "stanceMps": 1.2826991327503112,
+                "heightWindowM": 0.02640957342000007
+              },
+              {
+                "bone": "R_Hand",
+                "samples": 120,
+                "stanceMps": 1.2894531079658123,
+                "heightWindowM": 0.028839954480652796
+              },
+              {
+                "bone": "L_Toes",
+                "samples": 101,
+                "stanceMps": 1.0237982214571861,
+                "heightWindowM": 0.009652186233660072
+              },
+              {
+                "bone": "R_Toes",
+                "samples": 120,
+                "stanceMps": 0.851325850362632,
+                "heightWindowM": 0.019871939715884548
+              }
+            ],
+            "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
+          },
+          "run": {
+            "mps": 3.674626094038439,
+            "contacts": [
+              {
+                "bone": "L_Hand",
+                "samples": 52,
+                "stanceMps": 3.7189603433531273,
+                "heightWindowM": 0.04
+              },
+              {
+                "bone": "R_Hand",
+                "samples": 21,
+                "stanceMps": 3.9652471445678557,
+                "heightWindowM": 0.04
+              },
+              {
+                "bone": "L_Toes",
+                "samples": 64,
+                "stanceMps": 2.1195920131488992,
+                "heightWindowM": 0.04
+              },
+              {
+                "bone": "R_Toes",
+                "samples": 45,
+                "stanceMps": 4.445314994914674,
+                "heightWindowM": 0.04
+              }
+            ],
+            "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
+          }
+        },
+        "groundCorrections": [
+          {
+            "name": "Idle",
+            "maxLiftM": 0.0011330568101827966
+          },
+          {
+            "name": "Walk",
+            "maxLiftM": 0.010895032819473037
+          },
+          {
+            "name": "Run",
+            "maxLiftM": 0.08415511661709943
+          },
+          {
+            "name": "Attack",
+            "maxLiftM": 0.0841617148396347
+          },
+          {
+            "name": "Hit",
+            "maxLiftM": 0.06020439116752186
+          },
+          {
+            "name": "Death",
+            "maxLiftM": 0.25712617074130467
+          },
+          {
+            "name": "HitLeft",
+            "maxLiftM": 0.06289271484064028
+          },
+          {
+            "name": "HitRight",
+            "maxLiftM": 0.07313529703156678
+          }
+        ],
+        "walkClipSeconds": 1,
+        "runClipSeconds": 0.800000011920929,
+        "notes": [
+          "All six full single-motion FBX takes match their Unity frame windows.",
+          "HornAttack lowers the head and drives its tusks forward. The source supplies a grounded four-leg walk and run.",
+          "Contact at 1.04 seconds matches the rising head thrust after its low windup; jaw-front reach peaks at 1.07 seconds."
+        ],
+        "boneNames": [
+          "Root",
+          "Spine1",
+          "Chest",
+          "Head",
+          "UpperMouth1",
+          "UpperMouth2",
+          "L_UpperEye",
+          "L_LowerEye",
+          "R_UpperEye",
+          "R_LowerEye",
+          "Jaw1",
+          "Jaw2",
+          "Jaw3",
+          "L_Horn1",
+          "L_Horn2",
+          "Tongue1",
+          "Tongue2",
+          "Tongue3",
+          "R_Horn1",
+          "R_Horn2",
+          "L_UpperArm",
+          "L_LowerArm",
+          "L_Hand",
+          "L_Fingers",
+          "R_UpperArm",
+          "R_RowerArm",
+          "R_Hand",
+          "R_Fingers",
+          "joint5",
+          "joint6",
+          "joint7",
+          "joint8",
+          "L_UpperLeg",
+          "L_LowerLeg",
+          "L_Feet",
+          "L_Toes",
+          "R_UpperReg",
+          "R_RowerReg",
+          "R_Feet",
+          "R_Toes"
+        ],
+        "authoringModule": "tools/creature-expansion/monsters.mjs"
+      },
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/models/creature_basalt_drake.glb",
+      "acceptanceEvidence": {
+        "review": "Root and fresh Luna normal-camera visual/native-motion review; source maps/rigs/clips preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-wide-* and polish-final-{basalt_drake,furnace_grazer}-*"
+      }
+    },
+    {
+      "id": "creature_furnace_grazer",
+      "file": "models/creature/creature_furnace_grazer.glb",
+      "pack": "dungeon-mason-dragon-boar",
+      "category": "character",
+      "is": "Furnace Grazer",
+      "tags": [
+        "creature",
+        "monster",
+        "quadruped",
+        "ground",
+        "horn"
+      ],
+      "bytes": 7848996,
+      "sha256": "634748c4126f681cbf390b03d3c580e2a9cba50cd3c03c08741a0f51864101a2",
+      "size": {
+        "x": 1.2565100332681465,
+        "y": 1.5260918876231107,
+        "z": 3.373524515280127
+      },
+      "base": {
+        "x": -0.6282549803678777,
+        "y": 0.003,
+        "z": -1.357728111367865
+      },
+      "groundY": 0.003,
+      "triangles": 3230,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "furnace_grazer_heated_basalt_plates"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.800000011920929,
+      "attackSeconds": 1.600000023841858,
+      "contactNormalized": 0.65,
+      "sourceProvenance": {
+        "sourceAssetId": "creature_furnace_grazer",
+        "productionFile": "game/public/assets/models/creature/creature_furnace_grazer.glb",
+        "productionSha256": "d7da1efa4422f080a0ae5f7dd1df5d1e641732e9ecb672485894724bdf98dde0",
+        "upstreamAuthor": "Dungeon Mason",
+        "upstreamPack": "Dragon the Soul Eater and Dragon Boar",
+        "upstreamSource": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-imagegen.png",
+        "generatedMapSha256": "d5d0f06709dad37019aaa0755feda6286e0c056156377e303a45c549b6d13c11",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-albedo.png",
+        "runtimeMapSha256": "8d609574590f91fbeea1509525e4bcdd62334401948b3dc3b75cf2be528c475d",
+        "emissionMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-emission.png",
+        "emissionMapSha256": "f9b7a66cec3d0d139224fee49cc833fba37115ee85ac6e38bddf00b64e2dd731",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
+        "builderSha256": "be47ea364b8076abe66d05130972613c20b082d5dfc55d2f077653f0d6e0859f",
+        "change": "Image-generated UV-aligned heated plate albedo and derived crack emission. Original geometry, rig, clips, normal map and ORM retained."
+      },
+      "metadata": {
+        "id": "furnace_grazer",
+        "is": "An armored low dragon with a boar-like snout, broad forepaws and a ridge of dorsal spikes.",
+        "tags": [
+          "creature",
+          "monster",
+          "quadruped",
+          "ground",
+          "horn"
+        ],
+        "provenance": {
+          "author": "Dungeon Mason",
+          "pack": "Dragon the Soul Eater and Dragon Boar",
+          "license": "Standard Unity Asset Store EULA",
+          "source": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+          "texture": "DragonBoarPBR/Blue",
+          "modifications": "Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz."
+        },
+        "attackSeconds": 1.600000023841858,
+        "contactNormalized": 0.65,
+        "impliedWalkMps": 0.7402793885781708,
+        "impliedRunMps": 2.6457307877076763,
+        "gaitFootBones": [
+          "L_Hand",
+          "R_Hand",
+          "L_Toes",
+          "R_Toes"
+        ],
+        "groundCorrections": [
+          {
+            "name": "Idle",
+            "maxCorrectionM": 0.002999989023328016
+          },
+          {
+            "name": "Walk",
+            "maxCorrectionM": 0.002884247718917403
+          },
+          {
+            "name": "Run",
+            "maxCorrectionM": 0.0638156840026969
+          },
+          {
+            "name": "Attack",
+            "maxCorrectionM": 0.07130095335751949
+          },
+          {
+            "name": "Hit",
+            "maxCorrectionM": 0.002999989023328016
+          },
+          {
+            "name": "Death",
+            "maxCorrectionM": 0.0030900947812558944
+          },
+          {
+            "name": "HitLeft",
+            "maxCorrectionM": 0.002999989023328016
+          },
+          {
+            "name": "HitRight",
+            "maxCorrectionM": 0.002999989023328016
+          }
+        ],
+        "walkClipSeconds": 1,
+        "runClipSeconds": 0.800000011920929,
+        "notes": [
+          "All six full single-motion FBX takes match their Unity frame windows.",
+          "HornAttack lowers the head and drives its tusks forward. The source supplies a grounded four-leg walk and run.",
+          "Contact at 1.04 seconds matches the rising head thrust after its low windup; jaw-front reach peaks at 1.07 seconds."
+        ],
+        "boneNames": [
+          "Root",
+          "Spine1",
+          "Chest",
+          "Head",
+          "UpperMouth1",
+          "UpperMouth2",
+          "L_UpperEye",
+          "L_LowerEye",
+          "R_UpperEye",
+          "R_LowerEye",
+          "Jaw1",
+          "Jaw2",
+          "Jaw3",
+          "L_Horn1",
+          "L_Horn2",
+          "Tongue1",
+          "Tongue2",
+          "Tongue3",
+          "R_Horn1",
+          "R_Horn2",
+          "L_UpperArm",
+          "L_LowerArm",
+          "L_Hand",
+          "L_Fingers",
+          "R_UpperArm",
+          "R_RowerArm",
+          "R_Hand",
+          "R_Fingers",
+          "joint5",
+          "joint6",
+          "joint7",
+          "joint8",
+          "L_UpperLeg",
+          "L_LowerLeg",
+          "L_Feet",
+          "L_Toes",
+          "R_UpperReg",
+          "R_RowerReg",
+          "R_Feet",
+          "R_Toes"
+        ],
+        "authoringModule": "tools/creature-expansion/monsters.mjs",
+        "height": 1.5260918876231107,
+        "dimensions": [
+          1.2565100332681465,
+          1.5260918876231107,
+          3.373524515280127
+        ],
+        "familyRefinement": {
+          "family": "stone",
+          "replacement": "Native DragonBoar armored quadruped replaces rejected constructed mantle body",
+          "generator": "tools/wilderness-creatures/families/stone.mjs --native-grazer --warm-hide",
+          "sourceAssetId": "creature_basalt_drake",
+          "sourceAssetSha256": "2c0dc6807f07e5a87e02f883d37a0c30d73c85deb2986a088394317e04bf2ce9",
+          "uniformScale": 0.72,
+          "shapeSha256": "ac448147af4ad5083b8d1161031b47dabbe195a6884d4c7f7ed2dd65029e971b",
+          "nativeTextureSha256": [
+            "1132f3ac0451356f5e9123db2a291f843974c24463cd4f9d0f73b111607fef3a",
+            "facdad62a3d91077fb115b1c633c74f2ca3ef7767a8dc0f3957d9cb9ef8226fe",
+            "51149b0fc002f093d9f6782a24312380dfccdf3d70dda58a95b64a061cfa1d08"
+          ],
+          "measurements": {
+            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=120Hz. Ground correction is an authored root channel.",
+            "idleBounds": {
+              "min": [
+                -0.6282549803678777,
+                0.003,
+                -1.357728111367865
+              ],
+              "max": [
+                0.6282550529002686,
+                1.5290918876231105,
+                2.0157964039122622
+              ]
+            },
+            "minFloor": 0.002999999999999999,
+            "clips": [
+              {
+                "clip": "Idle",
+                "samples": 162,
+                "duration": 1.3333333730697632,
+                "rawFloor": [
+                  1.0976671984254403e-8,
+                  0.0007200382027491962
+                ],
+                "maxCorrection": 0.002999989023328016,
+                "bounds": {
+                  "min": [
+                    -0.6282549803678777,
+                    0.003,
+                    -1.4599434557685462
+                  ],
+                  "max": [
+                    0.6282630661508758,
+                    1.5290918876231105,
+                    2.0157964039122622
+                  ]
+                }
+              },
+              {
+                "clip": "Walk",
+                "samples": 121,
+                "duration": 1,
+                "rawFloor": [
+                  0.00011575228108259708,
+                  0.0010437369574542183
+                ],
+                "maxCorrection": 0.002884247718917403,
+                "bounds": {
+                  "min": [
+                    -0.6293275926663203,
+                    0.003,
+                    -1.4770583540732312
+                  ],
+                  "max": [
+                    0.6292056845159192,
+                    1.5530358672475542,
+                    1.9364067469244155
+                  ]
+                }
+              },
+              {
+                "clip": "Run",
+                "samples": 121,
+                "duration": 0.800000011920929,
+                "rawFloor": [
+                  -0.0003319871264252476,
+                  0.0668156840026969
+                ],
+                "maxCorrection": 0.0638156840026969,
+                "bounds": {
+                  "min": [
+                    -0.5470850163127955,
+                    0.002999999999999999,
+                    -1.4958156323869578
+                  ],
+                  "max": [
+                    0.5489371874215596,
+                    1.765859866874807,
+                    1.9434790400195845
+                  ]
+                }
+              },
+              {
+                "clip": "Attack",
+                "samples": 194,
+                "duration": 1.600000023841858,
+                "rawFloor": [
+                  0.0006027933285508665,
+                  0.07430095335751949
+                ],
+                "maxCorrection": 0.07130095335751949,
+                "bounds": {
+                  "min": [
+                    -0.547082440864311,
+                    0.002999999999999999,
+                    -1.495815947111883
+                  ],
+                  "max": [
+                    0.5489371874215596,
+                    1.7185849401718054,
+                    2.108751591662096
+                  ]
+                }
+              },
+              {
+                "clip": "Hit",
+                "samples": 162,
+                "duration": 1.3333333730697632,
+                "rawFloor": [
+                  1.0976671984254403e-8,
+                  0.0013730235119807544
+                ],
+                "maxCorrection": 0.002999989023328016,
+                "bounds": {
+                  "min": [
+                    -0.9054148395984588,
+                    0.003,
+                    -1.4173327537185498
+                  ],
+                  "max": [
+                    0.708922702377104,
+                    2.0925569547374105,
+                    2.078744241839594
+                  ]
+                }
+              },
+              {
+                "clip": "Death",
+                "samples": 162,
+                "duration": 1.3333333730697632,
+                "rawFloor": [
+                  -0.00009009478125589438,
+                  0.0010576843631991157
+                ],
+                "maxCorrection": 0.0030900947812558944,
+                "bounds": {
+                  "min": [
+                    -1.402112656843549,
+                    0.003,
+                    -1.357728111367865
+                  ],
+                  "max": [
+                    1.531581257787256,
+                    1.8533541902215696,
+                    2.0157964039122622
+                  ]
+                }
+              },
+              {
+                "clip": "HitLeft",
+                "samples": 162,
+                "duration": 1.3333333730697632,
+                "rawFloor": [
+                  1.0976671984254403e-8,
+                  0.0009397675135616838
+                ],
+                "maxCorrection": 0.002999989023328016,
+                "bounds": {
+                  "min": [
+                    -0.8898126675764557,
+                    0.003,
+                    -1.4173327537185498
+                  ],
+                  "max": [
+                    0.7649060960483586,
+                    2.0965976742189185,
+                    2.0833766394628572
+                  ]
+                }
+              },
+              {
+                "clip": "HitRight",
+                "samples": 162,
+                "duration": 1.3333333730697632,
+                "rawFloor": [
+                  1.0976671984254403e-8,
+                  0.0011015862575783288
+                ],
+                "maxCorrection": 0.002999989023328016,
+                "bounds": {
+                  "min": [
+                    -0.9139847029250643,
+                    0.003,
+                    -1.4173327537185498
+                  ],
+                  "max": [
+                    0.6971218773652609,
+                    2.098604279589392,
+                    2.0731150003842678
+                  ]
+                }
+              }
+            ]
+          },
+          "scope": "Full native body, UVs, topology, joint weights, maps and skeletal animation retained. Uniform root scale and sampled ground channel only. Attack timing and measured contact retained from source asset.",
+          "albedoRevision": {
+            "file": "assets/art/wilderness-creatures/stone/grazer-warm-native-albedo.png",
+            "sourceSha256": "facdad62a3d91077fb115b1c633c74f2ca3ef7767a8dc0f3957d9cb9ef8226fe",
+            "sha256": "19d631a439158973f32a04bdd220fd65e89cf8733029da351ace3e94d12829a6",
+            "scope": "Native UV atlas hue/value revision; existing tan throat, pale horns, claws and teeth retained. No geometry, normal/AO map or emissive changes."
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "impliedWalkMps": 0.7402793885781708,
+      "impliedRunMps": 2.6457307877076763,
+      "locomotionPolicy": "speed-matched",
+      "bounds": {
+        "min": [
+          -0.6282549803678777,
+          0.003,
+          -1.357728111367865
+        ],
+        "max": [
+          0.6282550529002686,
+          1.5290918876231105,
+          2.0157964039122622
+        ]
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/models/creature_furnace_grazer.glb",
+      "acceptanceEvidence": {
+        "review": "Root and fresh Luna normal-camera visual/native-motion review; source maps/rigs/clips preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-wide-* and polish-final-{basalt_drake,furnace_grazer}-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "dungeon-mason-dragon-boar",
+      "name": "Dragon the Soul Eater and Dragon Boar",
+      "author": "Dungeon Mason",
+      "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dragon-the-soul-eater-and-dragon-boar-77121",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "0651f4f428799d1dd9d7d37d3c524395c35bffa9f5560fe2a489a3f34907af42",
+      "assetStoreId": "77121",
+      "sourceArchive": "Dragon the Soul Eater and Dragon Boar.unitypackage",
+      "archiveTitle": "Dragon the Terror Bringer and Dragon Boar"
+    }
+  ]
+}

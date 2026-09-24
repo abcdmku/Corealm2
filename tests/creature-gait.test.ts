@@ -94,14 +94,6 @@ const UNCALIBRATED_REPLACEMENT_GAIT_HOLDS: Readonly<Record<string, UncalibratedR
     sha256: "ccf1fd460d30bd96573a4492ebf2c7bf56717c26d59588e08cd2bed181e6fddc",
     walkClipSeconds: 1.149999976158142, runClipSeconds: 0.7799999713897705,
   },
-  creature_briar_harrow: {
-    sha256: "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
-    walkClipSeconds: 1.3333333730697632, runClipSeconds: 0.9333333373069763,
-  },
-  creature_starroot_guardian: {
-    sha256: "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
-    walkClipSeconds: 1, runClipSeconds: 0.72,
-  },
 };
 beforeAll(async () => {
   const entities: SemanticEntity[] = GROUPS.filter((group) => ASSET_BY_ID.get(group.assetId)?.impliedWalkMps)

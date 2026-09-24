@@ -1,0 +1,2478 @@
+{
+  "assets": [
+    {
+      "id": "creature_kiln_marrow",
+      "file": "models/creature/creature_kiln_marrow.glb",
+      "pack": "corealm-rpg-gavlig-lava-golem-clean",
+      "category": "character",
+      "is": "Kiln Marrow",
+      "tags": [
+        "creature",
+        "rpg",
+        "lava_golem"
+      ],
+      "bytes": 4882456,
+      "sha256": "c8d3f98eb24fa731cd2e777f72d7738a9724f1e43d5dc8656d026d38fd33399b",
+      "size": {
+        "x": 1.9943906276676704,
+        "y": 2.8155086533640996,
+        "z": 1.0580287025650081
+      },
+      "base": {
+        "x": -1.0859188402675772,
+        "y": 0.003000003438693887,
+        "z": -0.6351160437744077
+      },
+      "groundY": 0,
+      "triangles": 8678,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_kiln_marrow_lava_authored_0_golem_mat",
+        "animal_rpg_kiln_marrow_recessed_cavities",
+        "animal_rpg_kiln_marrow_layered_slag",
+        "animal_rpg_kiln_marrow_banked_furnace_marrow"
+      ],
+      "walkClipSeconds": 1.9499999284744263,
+      "runClipSeconds": 1.3448275327682495,
+      "attackSeconds": 2.3399999141693115,
+      "contactNormalized": 0.6,
+      "sourceProvenance": {
+        "author": "gavlig",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+        "source": "https://opengameart.org/content/lava-golem",
+        "sourceAssets": [
+          "golem_clean.blend",
+          "golem_emit.png"
+        ],
+        "sourcePacks": [
+          {
+            "id": "gavlig-lava-golem-clean",
+            "author": "gavlig",
+            "license": "CC0-1.0",
+            "source": "https://opengameart.org/content/lava-golem",
+            "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+          }
+        ],
+        "sourceRecords": [
+          {
+            "archive": "golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+            "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+            "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
+          }
+        ],
+        "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+      },
+      "metadata": {
+        "id": "lava_golem",
+        "family": "lava_golem",
+        "revision": "lava-golem-source-review-1",
+        "height": 2.803028340222869,
+        "dimensions": [
+          4.094039258665499,
+          2.803028340222869,
+          1.163049782082837
+        ],
+        "rig": "authored-71-bone-lava-golem",
+        "vertices": 3337,
+        "triangles": 5502,
+        "source": "https://opengameart.org/content/lava-golem",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+        "provenance": {
+          "author": "gavlig",
+          "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+          "source": "https://opengameart.org/content/lava-golem",
+          "sourceAssets": [
+            "golem_clean.blend",
+            "golem_emit.png"
+          ],
+          "sourcePacks": [
+            {
+              "id": "gavlig-lava-golem-clean",
+              "author": "gavlig",
+              "license": "CC0-1.0",
+              "source": "https://opengameart.org/content/lava-golem",
+              "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+              "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+            }
+          ],
+          "sourceRecords": [
+            {
+              "archive": "golem_clean.blend.zip",
+              "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+              "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+              "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
+            }
+          ],
+          "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+        },
+        "textureBindings": [
+          {
+            "materialName": "lava_authored_0_golem_mat",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-color.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-normal.png",
+            "emissivePath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\golem_emit.png",
+            "emissiveTexCoord": 0,
+            "emissiveStrength": 0.9434782266616821,
+            "flipY": false
+          }
+        ],
+        "sourceMaterial": {
+          "originalEmitSlot": {
+            "index": 3,
+            "mapto": 65,
+            "uv": "active UV layer",
+            "texCoord": 0,
+            "emitfac": 0.9434782266616821,
+            "colfac": 1,
+            "offset": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "evidence": "test-results/lava-golem-source/legacy-material-slots.json"
+          },
+          "replacementRock": {
+            "author": "Corealm project original procedural implementation",
+            "script": "tools/rpg-bestiary/lava-golem-source/bake-rock.mjs",
+            "inputs": "geometry positions/UVs and deterministic 3D noise only; no third-party texture images"
+          },
+          "specular": "Removed source photography not used or reinterpreted as roughness",
+          "textures": [
+            {
+              "materialName": "lava_authored_0_golem_mat",
+              "baseColorPath": {
+                "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-color.png",
+                "sha256": "00547f846e383f95b16da5d0a4dafc2a618fc117627e762f081ba64c6a673b8b"
+              },
+              "normalPath": {
+                "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-normal.png",
+                "sha256": "2924fe60cd7b1bb31904345fe0fd677ac0c77d58d42153a7453b13bcbfbf8a60"
+              },
+              "emissivePath": {
+                "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\golem_emit.png",
+                "sha256": "1e3d17d34ce2df1f04ddc2e756d80f3a83a3e5d062b42b5b1de33467e3dd36c9"
+              },
+              "emissiveTexCoord": 0,
+              "emissiveStrength": 0.9434782266616821,
+              "flipY": false
+            }
+          ]
+        },
+        "clipSources": {
+          "Idle": "native idle0â€“300 at60fps",
+          "Walk": "native walk0â€“100 at60fps",
+          "Run": "native Walk retimed1.45x; no native run",
+          "Attack": "native smash0â€“120 at60fps",
+          "Hit": "idle-derived0.6s with authored spine recoil; no native hit",
+          "HitLeft": "same derivative with positive lateral spine turn",
+          "HitRight": "same derivative with negative lateral spine turn",
+          "Death": "authored1.6s forward collapse from original idle pose with spine curl; no native death"
+        },
+        "attackContact": 0.52,
+        "attackContactSource": "Provisional native smash phase0.52; requires production contact review",
+        "animationFloorChecks": [
+          {
+            "clip": "Idle",
+            "rawMinFloor": 9.566345446354596e-8,
+            "maxAlignment": 0.0029999043365455365,
+            "minFloor": 0.003000000452914528,
+            "firstSize": [
+              1.851119520119564,
+              2.815492736961961,
+              1.1630494568568968
+            ],
+            "lastSize": [
+              1.8511194064022622,
+              2.815492734892595,
+              1.1630494793421382
+            ]
+          },
+          {
+            "clip": "Walk",
+            "rawMinFloor": -0.012261837588512375,
+            "maxAlignment": 0.015261837588512375,
+            "minFloor": 0.0029106294623949813,
+            "firstSize": [
+              1.814483775503637,
+              2.7296527245846636,
+              1.785774518557567
+            ],
+            "lastSize": [
+              1.8144837619162715,
+              2.7296527344279085,
+              1.7857745487159478
+            ]
+          },
+          {
+            "clip": "Run",
+            "rawMinFloor": -0.01217951851821733,
+            "maxAlignment": 0.01517951851821733,
+            "minFloor": 0.002677727298468463,
+            "firstSize": [
+              1.814483775503637,
+              2.7296527245846636,
+              1.785774518557567
+            ],
+            "lastSize": [
+              1.8144837769159847,
+              2.7296527243126465,
+              1.7857745208064886
+            ]
+          },
+          {
+            "clip": "Attack",
+            "rawMinFloor": 9.566345446354596e-8,
+            "maxAlignment": 0.0029999043365455365,
+            "minFloor": 0.003000000452914528,
+            "firstSize": [
+              1.8529005558081244,
+              2.815492736961961,
+              1.163049493578511
+            ],
+            "lastSize": [
+              1.8278524474977256,
+              2.815492734892595,
+              1.1630494793421382
+            ]
+          },
+          {
+            "clip": "Hit",
+            "rawMinFloor": 9.566345446354596e-8,
+            "maxAlignment": 0.0029999043365455365,
+            "minFloor": 0.003000000452914528,
+            "firstSize": [
+              1.851119520119564,
+              2.815492736961961,
+              1.1630494568568968
+            ],
+            "lastSize": [
+              1.8511195200251775,
+              2.815492737423849,
+              1.1630494561227391
+            ]
+          },
+          {
+            "clip": "HitLeft",
+            "rawMinFloor": 9.566345446354596e-8,
+            "maxAlignment": 0.0029999043365455365,
+            "minFloor": 0.003000000452914528,
+            "firstSize": [
+              1.851119520119564,
+              2.815492736961961,
+              1.1630494568568968
+            ],
+            "lastSize": [
+              1.8511195200251775,
+              2.815492737423849,
+              1.1630494561227391
+            ]
+          },
+          {
+            "clip": "HitRight",
+            "rawMinFloor": 9.566345446354596e-8,
+            "maxAlignment": 0.0029999043365455365,
+            "minFloor": 0.003000000452914528,
+            "firstSize": [
+              1.851119520119564,
+              2.815492736961961,
+              1.1630494568568968
+            ],
+            "lastSize": [
+              1.8511195200251775,
+              2.815492737423849,
+              1.1630494561227391
+            ]
+          },
+          {
+            "clip": "Death",
+            "rawMinFloor": -0.2948923558718015,
+            "maxAlignment": 0.2978923558718015,
+            "minFloor": 0.002999979607113623,
+            "firstSize": [
+              1.8511194064022622,
+              2.815492734892595,
+              1.1630494793421382
+            ],
+            "lastSize": [
+              1.929528280393466,
+              1.280807215267135,
+              2.770033855732418
+            ]
+          }
+        ],
+        "approval": "candidate-needs-production-visual-and-motion-review",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-geometry-estimate",
+          "source": "tools/rpg-bestiary/replacement-inventory/user-golem-gaits.json",
+          "visualContactAccepted": false
+        },
+        "redesign": {
+          "sourceAssetId": "creature_lava_golem",
+          "sourceSha256": "0a54a15bacdc355293120e788000a237e74bcc430038aa465a8fb27359a22837",
+          "generator": "tools/biome-creatures/ash/build.mjs",
+          "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
+          "artDirection": "A furnace-born giant with a hollow ribbed chest, a hunched basalt mantle and one fused crushing forearm. The glow is recessed inside the body.",
+          "anatomyAtlas": {
+            "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
+            "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
+            "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+            "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
+            "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+          },
+          "motionDirection": "Native two-arm smash with prolonged brace, delayed contact and spine compression on recovery.",
+          "deformedVertices": 2925,
+          "removedTriangles": 148,
+          "addedVertices": 3196,
+          "addedTriangles": 3324,
+          "addedSurfaces": [
+            "fused_dorsal_mantle",
+            "hollow_furnace_back",
+            "furnace_marrow",
+            "furnace_rib_0_-1",
+            "furnace_rib_0_1",
+            "furnace_rib_1_-1",
+            "furnace_rib_1_1",
+            "furnace_rib_2_-1",
+            "furnace_rib_2_1",
+            "furnace_rib_3_-1",
+            "furnace_rib_3_1",
+            "sunken_crater_collar"
+          ],
+          "animationEdits": [
+            "Idle:lava_src_39_spine1",
+            "Walk:lava_src_39_spine1",
+            "Run:lava_src_39_spine1",
+            "Attack:lava_src_39_spine1",
+            "Hit:lava_src_39_spine1",
+            "HitLeft:lava_src_39_spine1",
+            "HitRight:lava_src_39_spine1",
+            "Death:lava_src_39_spine1"
+          ],
+          "measurements": {
+            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=24Hz. Ground correction is an authored root channel.",
+            "idleBounds": {
+              "min": [
+                -1.0859188402675772,
+                0.003000003438693887,
+                -0.6351160437744077
+              ],
+              "max": [
+                0.9084717874000932,
+                2.8185086568027935,
+                0.4229126587906004
+              ]
+            },
+            "minFloor": 0.003,
+            "clips": [
+              {
+                "clip": "Idle",
+                "samples": 142,
+                "duration": 5.849999904632568,
+                "rawFloor": [
+                  0.003000003438693887,
+                  0.003000003438693887
+                ],
+                "maxCorrection": 0,
+                "bounds": {
+                  "min": [
+                    -1.085918951313603,
+                    0.003000003438693887,
+                    -0.6351160437744077
+                  ],
+                  "max": [
+                    0.9084717874000932,
+                    2.830792431104516,
+                    0.44228794408978045
+                  ]
+                }
+              },
+              {
+                "clip": "Walk",
+                "samples": 49,
+                "duration": 1.9499999284744263,
+                "rawFloor": [
+                  0.00291062931184402,
+                  0.0031984202313004723
+                ],
+                "maxCorrection": 0.00008937068815598019,
+                "bounds": {
+                  "min": [
+                    -1.0724449511541425,
+                    0.003,
+                    -0.855698254081992
+                  ],
+                  "max": [
+                    0.9984962041396644,
+                    2.8479600625500887,
+                    0.9300762842956423
+                  ]
+                }
+              },
+              {
+                "clip": "Run",
+                "samples": 49,
+                "duration": 1.3448275327682495,
+                "rawFloor": [
+                  0.002677727645790688,
+                  0.0035699767606166624
+                ],
+                "maxCorrection": 0.00032227235420931224,
+                "bounds": {
+                  "min": [
+                    -1.0724449510561478,
+                    0.003,
+                    -0.855698254081992
+                  ],
+                  "max": [
+                    0.9984962051237781,
+                    2.847960065072947,
+                    0.9300762842956423
+                  ]
+                }
+              },
+              {
+                "clip": "Attack",
+                "samples": 58,
+                "duration": 2.3399999141693115,
+                "rawFloor": [
+                  0.003000003438693887,
+                  0.003000003438693887
+                ],
+                "maxCorrection": 0,
+                "bounds": {
+                  "min": [
+                    -1.0859188976685212,
+                    0.003000003438693887,
+                    -1.0830698709704787
+                  ],
+                  "max": [
+                    1.096147177545942,
+                    3.183987822549924,
+                    1.2913399556340777
+                  ]
+                }
+              },
+              {
+                "clip": "Hit",
+                "samples": 49,
+                "duration": 0.7020000219345093,
+                "rawFloor": [
+                  0.003000003438693887,
+                  0.003000003438693887
+                ],
+                "maxCorrection": 0,
+                "bounds": {
+                  "min": [
+                    -1.0859188402675772,
+                    0.003000003438693887,
+                    -0.6351160437744077
+                  ],
+                  "max": [
+                    0.9084717874000932,
+                    2.8307937546426016,
+                    0.4422900528453445
+                  ]
+                }
+              },
+              {
+                "clip": "HitLeft",
+                "samples": 49,
+                "duration": 0.7020000219345093,
+                "rawFloor": [
+                  0.003000003438693887,
+                  0.003000003438693887
+                ],
+                "maxCorrection": 0,
+                "bounds": {
+                  "min": [
+                    -1.0859188402675772,
+                    0.003000003438693887,
+                    -0.6351160437744077
+                  ],
+                  "max": [
+                    0.9084717874000932,
+                    2.8307937546426016,
+                    0.4422900528453445
+                  ]
+                }
+              },
+              {
+                "clip": "HitRight",
+                "samples": 49,
+                "duration": 0.7020000219345093,
+                "rawFloor": [
+                  0.003000003438693887,
+                  0.003000003438693887
+                ],
+                "maxCorrection": 0,
+                "bounds": {
+                  "min": [
+                    -1.0859188402675772,
+                    0.003000003438693887,
+                    -0.6351160437744077
+                  ],
+                  "max": [
+                    0.9084717874000932,
+                    2.8307937546426016,
+                    0.4422900528453445
+                  ]
+                }
+              },
+              {
+                "clip": "Death",
+                "samples": 49,
+                "duration": 1.871999979019165,
+                "rawFloor": [
+                  0.003000002108952897,
+                  0.0030000693552004187
+                ],
+                "maxCorrection": 6.935520041866788e-8,
+                "bounds": {
+                  "min": [
+                    -1.2684601643864535,
+                    0.003,
+                    -0.6351160537324256
+                  ],
+                  "max": [
+                    0.9084717878936097,
+                    2.913280280788406,
+                    2.6850427218590767
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.5598965811965813,
+      "impliedRunMps": 2.2618589743589745,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_slag_crawler",
+      "file": "models/creature/creature_slag_crawler.glb",
+      "pack": "corealm-rpg-quaternius-easy-enemies",
+      "category": "character",
+      "is": "Slag Crawler",
+      "tags": [
+        "creature",
+        "rpg",
+        "webweaver_spider"
+      ],
+      "bytes": 1586532,
+      "sha256": "518590922bdef753805f47d995335a88169406f1068bd904d4c27c78c90d88d4",
+      "size": {
+        "x": 1.6000000078630647,
+        "y": 0.5006090954837538,
+        "z": 1.5302066150482767
+      },
+      "base": {
+        "x": -0.8000000460033699,
+        "y": 0.003000004082564697,
+        "z": -0.8019559710386992
+      },
+      "groundY": 0,
+      "triangles": 4050,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_slag_crawler_Material",
+        "animal_rpg_slag_crawler_weathered_bone",
+        "animal_rpg_slag_crawler_recessed_cavities",
+        "animal_rpg_slag_crawler_layered_slag",
+        "animal_rpg_slag_crawler_oxidized_iron"
+      ],
+      "walkClipSeconds": 1.066666603088379,
+      "runClipSeconds": 0.6464645862579346,
+      "attackSeconds": 0.9599999785423279,
+      "contactNormalized": 0.44,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "source": "https://quaternius.itch.io/animated-easy-enemies",
+        "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+        "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+        "sourceSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0",
+        "modifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+        "materialTranslation": {
+          "from": "MeshPhongMaterial",
+          "to": "MeshStandardMaterial",
+          "preserved": [
+            "color",
+            "opacity",
+            "transparent",
+            "side",
+            "alphaTest",
+            "depthWrite",
+            "vertexColors",
+            "map"
+          ],
+          "roughness": 0.85,
+          "metalness": 0,
+          "transmission": false
+        },
+        "floorLift": {
+          "track": "insect_floor.position",
+          "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+          "clearanceMeters": 0.003,
+          "changesSourceGeometry": false
+        }
+      },
+      "metadata": {
+        "family": "spider",
+        "height": 0.5201364125984661,
+        "dimensions": [
+          1.5999999999999999,
+          0.5201364125984661,
+          1.353785222933685
+        ],
+        "rig": "whole-source-59-joint",
+        "attackContact": 0.5555555555555556,
+        "attackContactSource": "Measured maximum forward world-z of original Head_end bone over 181 original Attack samples",
+        "source": "Quaternius Easy Enemy Pack complete body and original skeletal animation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "source": "https://quaternius.itch.io/animated-easy-enemies",
+          "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+          "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+          "sourceSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0",
+          "modifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+          "materialTranslation": {
+            "from": "MeshPhongMaterial",
+            "to": "MeshStandardMaterial",
+            "preserved": [
+              "color",
+              "opacity",
+              "transparent",
+              "side",
+              "alphaTest",
+              "depthWrite",
+              "vertexColors",
+              "map"
+            ],
+            "roughness": 0.85,
+            "metalness": 0,
+            "transmission": false
+          },
+          "floorLift": {
+            "track": "insect_floor.position",
+            "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+            "clearanceMeters": 0.003,
+            "changesSourceGeometry": false
+          }
+        },
+        "floorCorrection": {
+          "Idle": {
+            "samples": 334,
+            "maximumLift": 0.0033412944061593608
+          },
+          "Walk": {
+            "samples": 67,
+            "maximumLift": 0.013305300413305084
+          },
+          "Run": {
+            "samples": 52,
+            "maximumLift": 0.013305300413305084
+          },
+          "Attack": {
+            "samples": 61,
+            "maximumLift": 0.005547775832663601
+          },
+          "Hit": {
+            "samples": 130,
+            "maximumLift": 0.06983342903180083
+          },
+          "HitLeft": {
+            "samples": 130,
+            "maximumLift": 0.15439570282454376
+          },
+          "HitRight": {
+            "samples": 130,
+            "maximumLift": 0.15370656574307037
+          },
+          "Death": {
+            "samples": 81,
+            "maximumLift": 0.013195637573786438
+          }
+        },
+        "nativeMotion": {
+          "sourceClips": [
+            {
+              "name": "HumanArmature|Spider_Walk",
+              "duration": 0.8333333134651184
+            },
+            {
+              "name": "HumanArmature|Spider_Idle",
+              "duration": 4.166666507720947
+            },
+            {
+              "name": "HumanArmature|Spider_Attack",
+              "duration": 0.75
+            },
+            {
+              "name": "HumanArmature|Spider_Death",
+              "duration": 1.0416666269302368
+            },
+            {
+              "name": "HumanArmature|Spider_Jump",
+              "duration": 0.7083333134651184
+            }
+          ],
+          "locomotion": "HumanArmature|Spider_Walk",
+          "runTimeScale": 1.65,
+          "mode": "ground",
+          "uniformSourceScale": 0.002695061092636911,
+          "vertexCount": 8136
+        },
+        "animationAcceptance": "CPU candidate; production visual and contact review required",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurementSource": "tools/rpg-bestiary/replacement-inventory/spider-gait.json",
+        "redesign": {
+          "sourceAssetId": "creature_webweaver_spider",
+          "sourceSha256": "8e26f4d37d09f683514b1e6fb9c7f3a1043d31bc69a108c809daa407b3da605f",
+          "generator": "tools/biome-creatures/ash/build.mjs",
+          "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
+          "artDirection": "A broad, low eight-legged furnace scavenger. Its abdomen is rebuilt as overlapping ridged slag plates and its head as a shovel-shaped jaw. No animal abdomen or eye cluster remains.",
+          "anatomyAtlas": {
+            "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
+            "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
+            "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+            "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
+            "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+          },
+          "motionDirection": "Native eight-leg support cycle slowed for mass, with abdomen rocking and jaw closure on contact.",
+          "deformedVertices": 7290,
+          "removedTriangles": 882,
+          "addedVertices": 5118,
+          "addedTriangles": 2220,
+          "addedSurfaces": [
+            "soft_under_shell",
+            "overlapping_slag_plate_0",
+            "overlapping_slag_plate_1",
+            "overlapping_slag_plate_2",
+            "overlapping_slag_plate_3",
+            "overlapping_slag_plate_4",
+            "overlapping_slag_plate_5",
+            "shovel_jaw",
+            "folded_mandible_-1",
+            "folded_mandible_1"
+          ],
+          "animationEdits": [
+            "Idle:Abdomen",
+            "Walk:Abdomen",
+            "Run:Abdomen",
+            "Attack:Abdomen",
+            "Hit:Abdomen",
+            "HitLeft:Abdomen",
+            "HitRight:Abdomen",
+            "Death:Abdomen",
+            "Attack:shovel_jaw"
+          ],
+          "jawNode": "slag_crawler_shovel_jaw",
+          "measurements": {
+            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=24Hz. Ground correction is an authored root channel.",
+            "idleBounds": {
+              "min": [
+                -0.8000000460033699,
+                0.003000004082564697,
+                -0.8019559710386992
+              ],
+              "max": [
+                0.7999999618596948,
+                0.5036090995663185,
+                0.7282506440095775
+              ]
+            },
+            "minFloor": 0.002999999999999999,
+            "clips": [
+              {
+                "clip": "Idle",
+                "samples": 129,
+                "duration": 5.3333330154418945,
+                "rawFloor": [
+                  0.0029999832350587558,
+                  0.0030026328603638625
+                ],
+                "maxCorrection": 1.6764941244279408e-8,
+                "bounds": {
+                  "min": [
+                    -0.8000000460033699,
+                    0.003,
+                    -0.8021872500176896
+                  ],
+                  "max": [
+                    0.7999999621218835,
+                    0.5588542461890413,
+                    0.7342723907591312
+                  ]
+                }
+              },
+              {
+                "clip": "Walk",
+                "samples": 49,
+                "duration": 1.066666603088379,
+                "rawFloor": [
+                  0.0029978715882951145,
+                  0.003042105892981225
+                ],
+                "maxCorrection": 0.0000021284117048855737,
+                "bounds": {
+                  "min": [
+                    -0.8132854793929758,
+                    0.003,
+                    -0.8019762498007974
+                  ],
+                  "max": [
+                    0.8261952678653974,
+                    0.6059643077155045,
+                    0.7476409248624738
+                  ]
+                }
+              },
+              {
+                "clip": "Run",
+                "samples": 49,
+                "duration": 0.6464645862579346,
+                "rawFloor": [
+                  0.002994631927098845,
+                  0.0031765022473112846
+                ],
+                "maxCorrection": 0.000005368072901155117,
+                "bounds": {
+                  "min": [
+                    -0.8132854801073548,
+                    0.003,
+                    -0.8019762498007974
+                  ],
+                  "max": [
+                    0.8261952679287975,
+                    0.6059643097772599,
+                    0.7476409195491137
+                  ]
+                }
+              },
+              {
+                "clip": "Attack",
+                "samples": 49,
+                "duration": 0.9599999785423279,
+                "rawFloor": [
+                  -0.0015077040947785733,
+                  0.00300682809375732
+                ],
+                "maxCorrection": 0.004507704094778573,
+                "bounds": {
+                  "min": [
+                    -0.8168180298268675,
+                    0.0029999999999999996,
+                    -0.8737487023562737
+                  ],
+                  "max": [
+                    0.8135184310429927,
+                    0.6903194040564203,
+                    1.0027684068153717
+                  ]
+                }
+              },
+              {
+                "clip": "Hit",
+                "samples": 49,
+                "duration": 0.5375999808311462,
+                "rawFloor": [
+                  0.002999408174194523,
+                  0.003000607370820983
+                ],
+                "maxCorrection": 5.918258054772585e-7,
+                "bounds": {
+                  "min": [
+                    -0.8000000460033699,
+                    0.003,
+                    -0.8323877023425639
+                  ],
+                  "max": [
+                    0.7999999618958589,
+                    0.5897435424159401,
+                    0.7332801505537627
+                  ]
+                }
+              },
+              {
+                "clip": "HitLeft",
+                "samples": 49,
+                "duration": 0.5375999808311462,
+                "rawFloor": [
+                  0.0029943636272626306,
+                  0.0030035930000705618
+                ],
+                "maxCorrection": 0.000005636372737369451,
+                "bounds": {
+                  "min": [
+                    -0.81432466749361,
+                    0.003,
+                    -0.8267941716089355
+                  ],
+                  "max": [
+                    0.7999999618596948,
+                    0.62035748300537,
+                    0.7764802646505384
+                  ]
+                }
+              },
+              {
+                "clip": "HitRight",
+                "samples": 49,
+                "duration": 0.5375999808311462,
+                "rawFloor": [
+                  0.0029925384933637,
+                  0.003005910874396135
+                ],
+                "maxCorrection": 0.000007461506636300026,
+                "bounds": {
+                  "min": [
+                    -0.8000000460033699,
+                    0.003,
+                    -0.8261496482507329
+                  ],
+                  "max": [
+                    0.814315763875148,
+                    0.7266827043691358,
+                    0.7715332421658337
+                  ]
+                }
+              },
+              {
+                "clip": "Death",
+                "samples": 49,
+                "duration": 1.3333332538604736,
+                "rawFloor": [
+                  -0.11336318146708171,
+                  0.6033143512250543
+                ],
+                "maxCorrection": 0.6003143512250543,
+                "bounds": {
+                  "min": [
+                    -1.3119429593294218,
+                    0.002999999999999999,
+                    -0.8411609321135318
+                  ],
+                  "max": [
+                    0.8136729171897273,
+                    1.5398912200870636,
+                    0.7653663005797037
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.8538812499999999,
+      "impliedRunMps": 1.40890390625,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_cinder_penitent",
+      "file": "models/creature/creature_cinder_penitent.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "Cinder Penitent",
+      "tags": [
+        "creature",
+        "rpg",
+        "revenant"
+      ],
+      "bytes": 14624668,
+      "sha256": "7e15be48aa0c124adbe3be6295e01bda1327659f7652db4841410ff8056b1152",
+      "size": {
+        "x": 0.8228080563090538,
+        "y": 2.0598287572267275,
+        "z": 0.5457427550607531
+      },
+      "base": {
+        "x": -0.38937961281414124,
+        "y": 0.1,
+        "z": -0.3208682165566398
+      },
+      "groundY": 0,
+      "triangles": 9162,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "cinder_penitent_woven_shroud",
+        "cinder_penitent_woven_shroud",
+        "cinder_penitent_ash_hands",
+        "animal_rpg_cinder_penitent_recessed_cavities",
+        "animal_rpg_cinder_penitent_oxidized_iron",
+        "animal_rpg_cinder_penitent_ash_linen"
+      ],
+      "walkClipSeconds": 3,
+      "runClipSeconds": 3,
+      "attackSeconds": 1.8399999141693115,
+      "contactNormalized": 0.38,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "Male_Wizard_Body",
+          "Male_Wizard_Arms",
+          "outfit_male_ranger_hood",
+          "outfit_male_knight_pauldron",
+          "animation_library_1"
+        ],
+        "sources": [
+          {
+            "file": "game/public/assets/models/character/base_male.glb",
+            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+            "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+            "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+            "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+            "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+          },
+          {
+            "file": "game/public/assets/models/animation/animation_library_1.glb",
+            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy-source",
+            "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+      },
+      "metadata": {
+        "family": "wraith",
+        "height": 1.7239835152907332,
+        "dimensions": [
+          0.7481184764539675,
+          1.7239835152907332,
+          0.5160359139622256
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "sourceSkinned": true,
+        "vertices": 12045,
+        "triangles": 15550,
+        "textureBindings": [
+          {
+            "materialName": "revenant_source_Male_Wizard_Body_MI_Wizard",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-normalPath.png"
+          },
+          {
+            "materialName": "revenant_source_Male_Wizard_Arms_MI_Wizard",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-normalPath.png"
+          },
+          {
+            "materialName": "revenant_source_Male_Wizard_Arms_MI_Regular_Male",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-normalPath.png"
+          },
+          {
+            "materialName": "revenant_source_outfit_male_ranger_hood_MI_Ranger",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-normalPath.png"
+          },
+          {
+            "materialName": "revenant_source_outfit_male_knight_pauldron_MI_Knight",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_knight_pauldron-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_knight_pauldron-0-normalPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 221,
+            "maximumLift": 0
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Run": {
+            "samples": 85,
+            "maximumLift": 0.11822643984845503
+          },
+          "Attack": {
+            "samples": 137,
+            "maximumLift": 0.28089996284569774
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "Death": {
+            "samples": 207,
+            "maximumLift": 0.4423900024513828
+          }
+        },
+        "attackContact": 0.3,
+        "attackContactSource": "Sword_Attack production marker .30",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "Male_Wizard_Body",
+            "Male_Wizard_Arms",
+            "outfit_male_ranger_hood",
+            "outfit_male_knight_pauldron",
+            "animation_library_1"
+          ],
+          "sources": [
+            {
+              "file": "game/public/assets/models/character/base_male.glb",
+              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+            },
+            {
+              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+              "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+            },
+            {
+              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+              "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+              "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+              "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+            },
+            {
+              "file": "game/public/assets/models/animation/animation_library_1.glb",
+              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+            }
+          ],
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy-source",
+              "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+        },
+        "textureOrientation": "Original glTF UVs and image rows, flipY false",
+        "sourceClips": {
+          "Idle": "Idle_Loop",
+          "Walk": "Walk_Loop",
+          "Run": "Jog_Fwd_Loop",
+          "Attack": "Sword_Attack",
+          "Hit": "Hit_Chest",
+          "HitLeft": "Hit_Chest",
+          "HitRight": "Hit_Chest",
+          "Death": "Death01"
+        },
+        "animationAcceptance": "candidate-needs-production-lab-motion-review; floating cloak, no foot-contact claim",
+        "revision": "revenant-source-review-2",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance.",
+        "familyRefinement": {
+          "family": "wraiths",
+          "generator": "tools/wilderness-creatures/families/wraiths.mjs",
+          "sourceAssetSha256": "c787503928a34acfb10467f1e7f62dd2cb0e14b04decba4b1f377c7478ae026f",
+          "atlas": "assets/art/wilderness-creatures/wraiths/cloth-atlas-v1.png",
+          "atlasSha256": "ead666917e6e711cf8d2e289c8317ac585433dfd4014b926769d6f62657dd6ac",
+          "edits": [
+            "Narrowed waist and long shroud volume, swept rear hem; original ragged floor edge retained",
+            "Slimmer drawn-back hood crown; front opening preserved"
+          ],
+          "scope": "Woven shrouds, pale linen cowls and ash hands; opaque readable surfaces. Existing joints, weights and animation clips retained. Gloam recessed emission retained; no whole-body emission."
+        },
+        "redesign": {
+          "sourceAssetId": "creature_revenant",
+          "sourceSha256": "c20da925ab713f8dae7e73ad85d41584d6063c25647249e17b1040bad90f1bdb",
+          "generator": "tools/biome-creatures/ash/build.mjs",
+          "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
+          "artDirection": "A blind iron-faced apparition in an asymmetric burnt shroud. The ordinary hood, belt ornaments and knight pauldrons are removed; the new sealed elongated face is part of the body.",
+          "anatomyAtlas": {
+            "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
+            "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
+            "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+            "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
+            "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+          },
+          "motionDirection": "Suspended drift with opposing forearm suspension; deliberate head bow and torso recoil during the contact strike.",
+          "deformedVertices": 2734,
+          "removedTriangles": 7044,
+          "addedVertices": 421,
+          "addedTriangles": 656,
+          "addedSurfaces": [
+            "sealed_iron_face",
+            "blind_face_seam",
+            "burnt_high_collar"
+          ],
+          "animationEdits": [
+            "Idle:Head",
+            "Idle:lowerarm_l",
+            "Idle:lowerarm_r",
+            "Attack:Head",
+            "Attack:lowerarm_l",
+            "Attack:lowerarm_r",
+            "Hit:Head",
+            "Hit:lowerarm_l",
+            "Hit:lowerarm_r",
+            "HitLeft:Head",
+            "HitLeft:lowerarm_l",
+            "HitLeft:lowerarm_r",
+            "HitRight:Head",
+            "HitRight:lowerarm_l",
+            "HitRight:lowerarm_r",
+            "Death:Head",
+            "Death:lowerarm_l",
+            "Death:lowerarm_r",
+            "Walk:Head",
+            "Walk:lowerarm_l",
+            "Walk:lowerarm_r",
+            "Run:Head",
+            "Run:lowerarm_l",
+            "Run:lowerarm_r"
+          ],
+          "measurements": {
+            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=24Hz. Ground correction is an authored root channel.",
+            "idleBounds": {
+              "min": [
+                -0.38937961281414124,
+                0.1,
+                -0.3208682165566398
+              ],
+              "max": [
+                0.4334284434949126,
+                2.1598287572267276,
+                0.22487453850411332
+              ]
+            },
+            "minFloor": 0.0029999999999999957,
+            "clips": [
+              {
+                "clip": "Idle",
+                "samples": 73,
+                "duration": 3,
+                "rawFloor": [
+                  -0.011724708006872149,
+                  0.0002269108742973777
+                ],
+                "maxCorrection": 0.13565626411794574,
+                "bounds": {
+                  "min": [
+                    -0.3977721798967487,
+                    0.07600000000000001,
+                    -0.3371588380747949
+                  ],
+                  "max": [
+                    0.43586797997499455,
+                    2.1853662728627503,
+                    0.25160806326823354
+                  ]
+                }
+              },
+              {
+                "clip": "Attack",
+                "samples": 49,
+                "duration": 1.8399999141693115,
+                "rawFloor": [
+                  -0.08256667950680247,
+                  -0.04605150652883377
+                ],
+                "maxCorrection": 0.2055439848561777,
+                "bounds": {
+                  "min": [
+                    -0.8096416202672596,
+                    0.07600000000000001,
+                    -0.8815189207316383
+                  ],
+                  "max": [
+                    0.753659469798797,
+                    2.178501007449136,
+                    0.8678707554790278
+                  ]
+                }
+              },
+              {
+                "clip": "Hit",
+                "samples": 49,
+                "duration": 0.4000000059604645,
+                "rawFloor": [
+                  0.00014864339560220432,
+                  0.033862997483459854
+                ],
+                "maxCorrection": 0.0998513566043978,
+                "bounds": {
+                  "min": [
+                    -0.37665142064153495,
+                    0.07600000000000001,
+                    -0.5576175751499229
+                  ],
+                  "max": [
+                    0.4012289221881378,
+                    2.159880015391894,
+                    0.3573924896578218
+                  ]
+                }
+              },
+              {
+                "clip": "HitLeft",
+                "samples": 49,
+                "duration": 0.4000000059604645,
+                "rawFloor": [
+                  0.00014864339560220432,
+                  0.033862997483459854
+                ],
+                "maxCorrection": 0.0998513566043978,
+                "bounds": {
+                  "min": [
+                    -0.37665142064153495,
+                    0.07600000000000001,
+                    -0.5591738545068665
+                  ],
+                  "max": [
+                    0.4326886075167846,
+                    2.159880015618951,
+                    0.3573924896578218
+                  ]
+                }
+              },
+              {
+                "clip": "HitRight",
+                "samples": 49,
+                "duration": 0.4000000059604645,
+                "rawFloor": [
+                  0.00014864339560220432,
+                  0.033862997483459854
+                ],
+                "maxCorrection": 0.0998513566043978,
+                "bounds": {
+                  "min": [
+                    -0.37665142064153495,
+                    0.07600000000000001,
+                    -0.5554397448649697
+                  ],
+                  "max": [
+                    0.40069653676958933,
+                    2.159880015618951,
+                    0.3573924896578218
+                  ]
+                }
+              },
+              {
+                "clip": "Death",
+                "samples": 71,
+                "duration": 2.880000114440918,
+                "rawFloor": [
+                  -0.1434161810844486,
+                  0.028982112961662435
+                ],
+                "maxCorrection": 0.1464161810844486,
+                "bounds": {
+                  "min": [
+                    -0.6434942099284777,
+                    0.0029999999999999957,
+                    -1.7217503348770573
+                  ],
+                  "max": [
+                    0.5045207842071944,
+                    2.064321272353159,
+                    0.3740172254016006
+                  ]
+                }
+              },
+              {
+                "clip": "Walk",
+                "samples": 73,
+                "duration": 3,
+                "rawFloor": [
+                  -0.011724708006872149,
+                  0.0002269108742973777
+                ],
+                "maxCorrection": 0.13565626411794574,
+                "bounds": {
+                  "min": [
+                    -0.3977721798967487,
+                    0.07600000000000001,
+                    -0.3371588380747949
+                  ],
+                  "max": [
+                    0.43586797997499455,
+                    2.1853662728627503,
+                    0.25160806326823354
+                  ]
+                }
+              },
+              {
+                "clip": "Run",
+                "samples": 73,
+                "duration": 3,
+                "rawFloor": [
+                  -0.011724708006872149,
+                  0.0002269108742973777
+                ],
+                "maxCorrection": 0.13565626411794574,
+                "bounds": {
+                  "min": [
+                    -0.3977721798967487,
+                    0.07600000000000001,
+                    -0.3371588380747949
+                  ],
+                  "max": [
+                    0.43586797997499455,
+                    2.1853662728627503,
+                    0.25160806326823354
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_grave_lantern",
+      "file": "models/creature/creature_grave_lantern.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "Grave Lantern",
+      "tags": [
+        "creature",
+        "rpg",
+        "grave_ghoul"
+      ],
+      "bytes": 5257484,
+      "sha256": "a75c5e69ecd484f7dc782e2caa44769e4617ccc2fdf50d506aa46d70d29a7dd7",
+      "size": {
+        "x": 0.8106159188050189,
+        "y": 1.201488320464104,
+        "z": 0.8588809166710787
+      },
+      "base": {
+        "x": -0.3806709353505139,
+        "y": 0.003,
+        "z": -0.26786798377256194
+      },
+      "groundY": 0.0009999999783805431,
+      "triangles": 17181,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_grave_lantern_ghoul_keratin_claws",
+        "animal_rpg_grave_lantern_grave_lantern_source_base_male_MI_Superhero_Male",
+        "animal_rpg_grave_lantern_grave_lantern_source_outfit_male_peasant_legs_MI_Peasant",
+        "animal_rpg_grave_lantern_weathered_bone",
+        "animal_rpg_grave_lantern_recessed_cavities",
+        "animal_rpg_grave_lantern_recessed_corpse_light"
+      ],
+      "walkClipSeconds": 1.493333339691162,
+      "runClipSeconds": 1.0453333854675293,
+      "attackSeconds": 2.0160000324249268,
+      "contactNormalized": 0.36,
+      "sourceProvenance": {
+        "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_legs",
+          "animation_library_1",
+          "UAL2_Standard"
+        ],
+        "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "gaunt-long-clawed-ghoul",
+        "heightM": 1.0652261727719385,
+        "dimensionsM": {
+          "width": 0.7705184027513425,
+          "height": 1.0652261727719385,
+          "depth": 0.7126008935355386
+        },
+        "sourceSkinned": true,
+        "boneCount": 65,
+        "retainedVertices": 8478,
+        "removedClothingAndHiddenBodyTriangles": 713,
+        "attackContactPhase": 0.33,
+        "attackContactNode": "ZombieScratchContact",
+        "attackContactStatus": "Measured maximum forward right-hand extension in source Zombie_Scratch between phases .10 and .85; gameplay contact pending production review.",
+        "textureBindings": [
+          {
+            "materialName": "grave_ghoul_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "grave_ghoul_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\grave_ghoul-clouded-eyes.png"
+          },
+          {
+            "materialName": "grave_ghoul_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\grave_ghoul-corpse-albedo.png"
+          },
+          {
+            "materialName": "grave_ghoul_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\grave_ghoul-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-metallicRoughnessPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 201,
+            "maximumLift": 0.006066415205102812
+          },
+          "Walk": {
+            "samples": 201,
+            "maximumLift": 0.010918849639266408
+          },
+          "Run": {
+            "samples": 141,
+            "maximumLift": 0.001
+          },
+          "Attack": {
+            "samples": 269,
+            "maximumLift": 0.13790450152738834
+          },
+          "Hit": {
+            "samples": 51,
+            "maximumLift": 0.01800651238662955
+          },
+          "HitLeft": {
+            "samples": 51,
+            "maximumLift": 0.01800651238662955
+          },
+          "HitRight": {
+            "samples": 51,
+            "maximumLift": 0.01800651238662955
+          },
+          "Death": {
+            "samples": 351,
+            "maximumLift": 0.05508811480847199
+          }
+        },
+        "textureOrientation": "Original glTF UV and image rows, no flipY",
+        "corpseTextureRevision": "UV-authored-pallor-socket-cheek-decay-v2",
+        "animationProvenance": {
+          "Idle": "UAL2_Standard:Zombie_Idle_Loop; gaunt proportions and crouched spine retarget",
+          "Walk": "UAL2_Standard:Zombie_Walk_Fwd_Loop; gaunt proportions and crouched spine retarget",
+          "Run": "animation/animation_library_1:Jog_Fwd_Loop; gaunt proportions and crouched spine retarget",
+          "Attack": "UAL2_Standard:Zombie_Scratch; gaunt proportions and crouched spine retarget",
+          "Hit": "animation/animation_library_1:Hit_Chest; gaunt proportions and crouched spine retarget",
+          "HitLeft": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added; gaunt proportions and crouched spine retarget",
+          "HitRight": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added; gaunt proportions and crouched spine retarget",
+          "Death": "animation/animation_library_1:Death01; gaunt proportions and crouched spine retarget"
+        },
+        "provenance": {
+          "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_legs",
+            "animation_library_1",
+            "UAL2_Standard"
+          ],
+          "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+        },
+        "acceptance": "Source candidate; requires production browser motion and visual review. No source review is treated as gameplay acceptance.",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        },
+        "materialRefinement": {
+          "generator": "tools/wilderness-creatures/families/undead.mjs",
+          "sourceAssetSha256": "fa480d4b0c717a5470003a26c4cd968d9e594b2e3ec5e81662e836496b572d64",
+          "atlas": "assets/art/wilderness-creatures/undead/ghoul-skin-v1.png",
+          "atlasSha256": "d87021012e3c4e81f0c44fbed694efd2e15dbe597f901c4e9c638768138d3e62",
+          "accessorSha256": "66d34f799ac9ecb6ee3314a746ab417e890e51b782744afc1c9284869d6e9305",
+          "scope": "UV-preserving bone and corpse atlases. Grave Lantern uses retained anatomical TEXCOORD_1 instead of the former tiled rock skin. Ivory bone and visible role-specific leather, wood, wool and metal. All geometry, UV coordinates, rigs and animation accessors unchanged."
+        },
+        "redesign": {
+          "sourceAssetId": "creature_grave_ghoul",
+          "sourceSha256": "9b13d35f0444f261a41856602567d363dd103b8c7f640df753aa37f37c57d8d7",
+          "generator": "tools/biome-creatures/ash/build.mjs",
+          "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
+          "artDirection": "A crouched corpse with a hollow cage-like skull, recessed corpse-light, exposed arched ribs and enlarged forearms. Its human face is removed and its back becomes a long shoulder hump.",
+          "anatomyAtlas": {
+            "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
+            "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
+            "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+            "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
+            "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+          },
+          "motionDirection": "Hunched stalk with a searching head pendulum; asymmetrical shoulder reach and head recoil in the claw attack.",
+          "deformedVertices": 6720,
+          "removedTriangles": 4536,
+          "addedVertices": 3821,
+          "addedTriangles": 5716,
+          "addedSurfaces": [
+            "skull_inner_void",
+            "corpse_light_organ",
+            "skull_cage_septum_0",
+            "skull_cage_septum_1",
+            "skull_cage_septum_2",
+            "skull_cage_septum_3",
+            "skull_cage_septum_4",
+            "skull_cage_septum_5",
+            "skull_cage_septum_6",
+            "skull_cage_septum_7",
+            "skull_cage_septum_8",
+            "exposed_rib_0_-1",
+            "exposed_rib_0_1",
+            "exposed_rib_1_-1",
+            "exposed_rib_1_1",
+            "exposed_rib_2_-1",
+            "exposed_rib_2_1",
+            "exposed_rib_3_-1",
+            "exposed_rib_3_1"
+          ],
+          "animationEdits": [
+            "Idle:Head",
+            "Idle:spine_03",
+            "Walk:Head",
+            "Walk:spine_03",
+            "Run:Head",
+            "Run:spine_03",
+            "Attack:Head",
+            "Attack:spine_03",
+            "Hit:Head",
+            "Hit:spine_03",
+            "HitLeft:Head",
+            "HitLeft:spine_03",
+            "HitRight:Head",
+            "HitRight:spine_03",
+            "Death:Head",
+            "Death:spine_03"
+          ],
+          "measurements": {
+            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=24Hz. Ground correction is an authored root channel.",
+            "idleBounds": {
+              "min": [
+                -0.3806709353505139,
+                0.003,
+                -0.26786798377256194
+              ],
+              "max": [
+                0.42994498345450505,
+                1.204488320464104,
+                0.5910129328985168
+              ]
+            },
+            "minFloor": 0.002999999999999999,
+            "clips": [
+              {
+                "clip": "Idle",
+                "samples": 49,
+                "duration": 1.493333339691162,
+                "rawFloor": [
+                  0.0009994894438988561,
+                  0.0010003641901037284
+                ],
+                "maxCorrection": 0.002000510556101144,
+                "bounds": {
+                  "min": [
+                    -0.3806709353505139,
+                    0.003,
+                    -0.3193636877003079
+                  ],
+                  "max": [
+                    0.42994498345450505,
+                    1.283595826219927,
+                    0.5910789552096379
+                  ]
+                }
+              },
+              {
+                "clip": "Walk",
+                "samples": 49,
+                "duration": 1.493333339691162,
+                "rawFloor": [
+                  0.000853541479354638,
+                  0.0069666057601669796
+                ],
+                "maxCorrection": 0.0021464585206453623,
+                "bounds": {
+                  "min": [
+                    -0.501293784827731,
+                    0.003,
+                    -0.44102212210311514
+                  ],
+                  "max": [
+                    0.4915353400517688,
+                    1.3612136152919372,
+                    0.7587693291700723
+                  ]
+                }
+              },
+              {
+                "clip": "Run",
+                "samples": 49,
+                "duration": 1.0453333854675293,
+                "rawFloor": [
+                  0.004993664945972502,
+                  0.2107236125576995
+                ],
+                "maxCorrection": 0,
+                "bounds": {
+                  "min": [
+                    -0.549218921088598,
+                    0.004993664945972502,
+                    -0.738974879509944
+                  ],
+                  "max": [
+                    0.5328000778554387,
+                    1.5837211082853684,
+                    0.6420526983437091
+                  ]
+                }
+              },
+              {
+                "clip": "Attack",
+                "samples": 50,
+                "duration": 2.0160000324249268,
+                "rawFloor": [
+                  -0.015494969219261981,
+                  0.017835788047390402
+                ],
+                "maxCorrection": 0.01849496921926198,
+                "bounds": {
+                  "min": [
+                    -0.7967700033126178,
+                    0.002999999999999999,
+                    -0.8486369631645514
+                  ],
+                  "max": [
+                    0.7495867201061881,
+                    1.5502094269858213,
+                    0.9725761435046265
+                  ]
+                }
+              },
+              {
+                "clip": "Hit",
+                "samples": 49,
+                "duration": 0.3733333349227905,
+                "rawFloor": [
+                  0.0009995511374131312,
+                  0.0010001741564828893
+                ],
+                "maxCorrection": 0.002000448862586869,
+                "bounds": {
+                  "min": [
+                    -0.374834704302903,
+                    0.003,
+                    -0.40036131875251657
+                  ],
+                  "max": [
+                    0.43324217699009526,
+                    1.692999248814734,
+                    0.3499582374232737
+                  ]
+                }
+              },
+              {
+                "clip": "HitLeft",
+                "samples": 49,
+                "duration": 0.3733333349227905,
+                "rawFloor": [
+                  0.0009995511374131312,
+                  0.0010001741564828893
+                ],
+                "maxCorrection": 0.002000448862586869,
+                "bounds": {
+                  "min": [
+                    -0.374834704302903,
+                    0.003,
+                    -0.40036131875251657
+                  ],
+                  "max": [
+                    0.43761966095796806,
+                    1.692999248814734,
+                    0.3499582367668292
+                  ]
+                }
+              },
+              {
+                "clip": "HitRight",
+                "samples": 49,
+                "duration": 0.3733333349227905,
+                "rawFloor": [
+                  0.0009995511374131312,
+                  0.0010001741564828893
+                ],
+                "maxCorrection": 0.002000448862586869,
+                "bounds": {
+                  "min": [
+                    -0.374834704302903,
+                    0.003,
+                    -0.4037857190200538
+                  ],
+                  "max": [
+                    0.43324217699009526,
+                    1.692999248814734,
+                    0.38419798700368835
+                  ]
+                }
+              },
+              {
+                "clip": "Death",
+                "samples": 66,
+                "duration": 2.688000202178955,
+                "rawFloor": [
+                  -0.1046270243651889,
+                  0.0010001360464920246
+                ],
+                "maxCorrection": 0.10762702436518891,
+                "bounds": {
+                  "min": [
+                    -0.8280858910891266,
+                    0.002999999999999999,
+                    -1.7345840469125824
+                  ],
+                  "max": [
+                    0.5200216282168615,
+                    1.6741874101447551,
+                    0.40687712328296194
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.7487410714285713,
+      "impliedRunMps": 4.509401785714285,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_veil_reaper",
+      "file": "models/creature/creature_veil_reaper.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "Veil Reaper",
+      "tags": [
+        "creature",
+        "rpg",
+        "banshee"
+      ],
+      "bytes": 16038984,
+      "sha256": "04ff6e755de027a19f30d965bf59b1f577f42cb61fca27a9afda0d2abe2969a3",
+      "size": {
+        "x": 0.5890896902804628,
+        "y": 2.179549766880503,
+        "z": 1.4815089989555186
+      },
+      "base": {
+        "x": -0.3206803898630477,
+        "y": 0.1,
+        "z": -0.49950864956277663
+      },
+      "groundY": 0,
+      "triangles": 12998,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "veil_reaper_woven_shroud",
+        "veil_reaper_woven_shroud",
+        "veil_reaper_ash_hands",
+        "veil_reaper_ash_linen_cowl",
+        "animal_rpg_veil_reaper_weathered_bone",
+        "animal_rpg_veil_reaper_ash_linen"
+      ],
+      "walkClipSeconds": 2.7299997806549072,
+      "runClipSeconds": 2.7299997806549072,
+      "attackSeconds": 0.6499999761581421,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "Male_Wizard_Body",
+          "Male_Wizard_Arms",
+          "outfit_male_ranger_hood",
+          "animation_library_1"
+        ],
+        "sources": [
+          {
+            "file": "game/public/assets/models/character/base_male.glb",
+            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+            "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+            "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+            "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+          },
+          {
+            "file": "game/public/assets/models/animation/animation_library_1.glb",
+            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy-source",
+            "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+      },
+      "metadata": {
+        "family": "wraith",
+        "height": 1.8696513598369475,
+        "dimensions": [
+          0.6499378916368594,
+          1.8696513598369475,
+          1.2651960488508256
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "sourceSkinned": true,
+        "vertices": 9505,
+        "triangles": 12574,
+        "textureBindings": [
+          {
+            "materialName": "banshee_source_Male_Wizard_Body_MI_Wizard",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-normalPath.png"
+          },
+          {
+            "materialName": "banshee_source_Male_Wizard_Arms_MI_Wizard",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-normalPath.png"
+          },
+          {
+            "materialName": "banshee_source_Male_Wizard_Arms_MI_Regular_Male",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-normalPath.png"
+          },
+          {
+            "materialName": "banshee_source_outfit_male_ranger_hood_MI_Ranger",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-normalPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 189,
+            "maximumLift": 0
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Run": {
+            "samples": 85,
+            "maximumLift": 0.1103367225039341
+          },
+          "Attack": {
+            "samples": 45,
+            "maximumLift": 0
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "Death": {
+            "samples": 207,
+            "maximumLift": 0.39499311100265894
+          }
+        },
+        "attackContact": 0.42,
+        "attackContactSource": "Spell_Simple_Shoot production marker .42",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "Male_Wizard_Body",
+            "Male_Wizard_Arms",
+            "outfit_male_ranger_hood",
+            "animation_library_1"
+          ],
+          "sources": [
+            {
+              "file": "game/public/assets/models/character/base_male.glb",
+              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+            },
+            {
+              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+              "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+            },
+            {
+              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+              "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+              "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+            },
+            {
+              "file": "game/public/assets/models/animation/animation_library_1.glb",
+              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+            }
+          ],
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy-source",
+              "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+        },
+        "textureOrientation": "Original glTF UVs and image rows, flipY false",
+        "sourceClips": {
+          "Idle": "Spell_Simple_Idle_Loop",
+          "Walk": "Walk_Loop",
+          "Run": "Jog_Fwd_Loop",
+          "Attack": "Spell_Simple_Shoot",
+          "Hit": "Hit_Chest",
+          "HitLeft": "Hit_Chest",
+          "HitRight": "Hit_Chest",
+          "Death": "Death01"
+        },
+        "animationAcceptance": "candidate-needs-production-lab-motion-review; floating cloak, no foot-contact claim",
+        "revision": "banshee-source-review-2",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance.",
+        "familyRefinement": {
+          "family": "wraiths",
+          "generator": "tools/wilderness-creatures/families/wraiths.mjs",
+          "sourceAssetSha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849",
+          "atlas": "assets/art/wilderness-creatures/wraiths/cloth-atlas-v1.png",
+          "atlasSha256": "ead666917e6e711cf8d2e289c8317ac585433dfd4014b926769d6f62657dd6ac",
+          "edits": [
+            "Narrowed waist and long shroud volume, swept rear hem; original ragged floor edge retained",
+            "Slimmer drawn-back hood crown; front opening preserved"
+          ],
+          "scope": "Woven shrouds, pale linen cowls and ash hands; opaque readable surfaces. Existing joints, weights and animation clips retained. Gloam recessed emission retained; no whole-body emission."
+        },
+        "redesign": {
+          "sourceAssetId": "creature_banshee",
+          "sourceSha256": "3af46bc1c7ca9d579e11a251b1981644073217328f37a394aa476f399db2feea",
+          "generator": "tools/biome-creatures/ash/build.mjs",
+          "generatorSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
+          "artDirection": "A tall, hollow veiled predator with a swept-back cowl, a long trailing split shroud and continuous torn membranes beneath both arms. Its hands end in long curved talons.",
+          "anatomyAtlas": {
+            "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
+            "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
+            "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+            "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
+            "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+          },
+          "motionDirection": "Slow levitation with independent membrane lag and an opening, pulling sweep; no walking leg cycle.",
+          "deformedVertices": 1208,
+          "removedTriangles": 1932,
+          "addedVertices": 1404,
+          "addedTriangles": 2356,
+          "addedSurfaces": [
+            "torn_arm_membrane_-1",
+            "hooked_digit_-1_0",
+            "hooked_digit_-1_1",
+            "hooked_digit_-1_2",
+            "torn_arm_membrane_1",
+            "hooked_digit_1_0",
+            "hooked_digit_1_1",
+            "hooked_digit_1_2"
+          ],
+          "animationEdits": [
+            "Idle:upperarm_l",
+            "Idle:upperarm_r",
+            "Idle:Head",
+            "Attack:upperarm_l",
+            "Attack:upperarm_r",
+            "Attack:Head",
+            "Hit:upperarm_l",
+            "Hit:upperarm_r",
+            "Hit:Head",
+            "HitLeft:upperarm_l",
+            "HitLeft:upperarm_r",
+            "HitLeft:Head",
+            "HitRight:upperarm_l",
+            "HitRight:upperarm_r",
+            "HitRight:Head",
+            "Death:upperarm_l",
+            "Death:upperarm_r",
+            "Death:Head",
+            "Walk:upperarm_l",
+            "Walk:upperarm_r",
+            "Walk:Head",
+            "Run:upperarm_l",
+            "Run:upperarm_r",
+            "Run:Head"
+          ],
+          "measurements": {
+            "method": "All indexed vertices; native joint world matrices multiplied by inverse bind matrices, sampled at >=24Hz. Ground correction is an authored root channel.",
+            "idleBounds": {
+              "min": [
+                -0.3206803898630477,
+                0.1,
+                -0.49950864956277663
+              ],
+              "max": [
+                0.2684093004174151,
+                2.279549766880503,
+                0.9820003493927418
+              ]
+            },
+            "minFloor": 0.002999999999999999,
+            "clips": [
+              {
+                "clip": "Idle",
+                "samples": 67,
+                "duration": 2.7299997806549072,
+                "rawFloor": [
+                  0.07719415683451879,
+                  0.08585602321133502
+                ],
+                "maxCorrection": 0.04312616046798817,
+                "bounds": {
+                  "min": [
+                    -0.3331955438289117,
+                    0.07602718385960781,
+                    -0.5006951629796664
+                  ],
+                  "max": [
+                    0.2798349656794331,
+                    2.2925054706003904,
+                    0.998247520436289
+                  ]
+                }
+              },
+              {
+                "clip": "Attack",
+                "samples": 49,
+                "duration": 0.6499999761581421,
+                "rawFloor": [
+                  0.0819451100986854,
+                  0.08585602321133502
+                ],
+                "maxCorrection": 0.04170591130970315,
+                "bounds": {
+                  "min": [
+                    -0.36528053459641585,
+                    0.07600000000000001,
+                    -0.5142667278892592
+                  ],
+                  "max": [
+                    0.2733960742288853,
+                    2.308486746222427,
+                    0.9871987135019515
+                  ]
+                }
+              },
+              {
+                "clip": "Hit",
+                "samples": 49,
+                "duration": 0.4333333373069763,
+                "rawFloor": [
+                  0.0923438404212235,
+                  0.09982150666190372
+                ],
+                "maxCorrection": 0.027408499557554852,
+                "bounds": {
+                  "min": [
+                    -0.34916749978457556,
+                    0.07600000000000001,
+                    -0.7846078516108197
+                  ],
+                  "max": [
+                    0.4012289392266258,
+                    2.264213171372814,
+                    0.45170864522178333
+                  ]
+                }
+              },
+              {
+                "clip": "HitLeft",
+                "samples": 49,
+                "duration": 0.4333333373069763,
+                "rawFloor": [
+                  0.0923438404212235,
+                  0.09982150666190372
+                ],
+                "maxCorrection": 0.027408499557554852,
+                "bounds": {
+                  "min": [
+                    -0.3543099061107171,
+                    0.07600000000000001,
+                    -0.7887517068254866
+                  ],
+                  "max": [
+                    0.4326886200656675,
+                    2.264213171122767,
+                    0.42243383258233125
+                  ]
+                }
+              },
+              {
+                "clip": "HitRight",
+                "samples": 49,
+                "duration": 0.4333333373069763,
+                "rawFloor": [
+                  0.0923438404212235,
+                  0.09982150666190372
+                ],
+                "maxCorrection": 0.027408499557554852,
+                "bounds": {
+                  "min": [
+                    -0.34916749978457556,
+                    0.07600000000000001,
+                    -0.7794379609596224
+                  ],
+                  "max": [
+                    0.40069653691661944,
+                    2.264213171122767,
+                    0.47306370468516884
+                  ]
+                }
+              },
+              {
+                "clip": "Death",
+                "samples": 76,
+                "duration": 3.120000123977661,
+                "rawFloor": [
+                  -0.3192848381415727,
+                  0.09377427922772744
+                ],
+                "maxCorrection": 0.3222848381415727,
+                "bounds": {
+                  "min": [
+                    -0.9247711888295953,
+                    0.002999999999999999,
+                    -1.8875760279228682
+                  ],
+                  "max": [
+                    0.5303931671531821,
+                    2.168421847569993,
+                    0.3676639054536043
+                  ]
+                }
+              },
+              {
+                "clip": "Walk",
+                "samples": 67,
+                "duration": 2.7299997806549072,
+                "rawFloor": [
+                  0.07719415683451879,
+                  0.08585602321133502
+                ],
+                "maxCorrection": 0.04312616046798817,
+                "bounds": {
+                  "min": [
+                    -0.3331955438289117,
+                    0.07602718385960781,
+                    -0.5006951629796664
+                  ],
+                  "max": [
+                    0.2798349656794331,
+                    2.2925054706003904,
+                    0.998247520436289
+                  ]
+                }
+              },
+              {
+                "clip": "Run",
+                "samples": 67,
+                "duration": 2.7299997806549072,
+                "rawFloor": [
+                  0.07719415683451879,
+                  0.08585602321133502
+                ],
+                "maxCorrection": 0.04312616046798817,
+                "bounds": {
+                  "min": [
+                    -0.3331955438289117,
+                    0.07602718385960781,
+                    -0.5006951629796664
+                  ],
+                  "max": [
+                    0.2798349656794331,
+                    2.2925054706003904,
+                    0.998247520436289
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_kiln_marrow": "creature_kiln_marrow.glb",
+    "creature_slag_crawler": "creature_slag_crawler.glb",
+    "creature_cinder_penitent": "creature_cinder_penitent.glb",
+    "creature_grave_lantern": "creature_grave_lantern.glb",
+    "creature_veil_reaper": "creature_veil_reaper.glb"
+  }
+}

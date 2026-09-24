@@ -1,0 +1,100 @@
+{
+  "schema": "corealm-rootwood-polish/1",
+  "pack": {
+    "id": "corealm-tripo-audit-polish-rootwood",
+    "name": "Rootwood polish candidates",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-polish-rootwood/build-candidates.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "fc347510ded3150b472291c546502796ae04a5730d206a5e70cdc04eefde6a80"
+  },
+  "records": [
+    {
+      "id": "creature_starroot_guardian",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-rootwood/sources/creature_starroot_guardian.glb",
+      "sourceSha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
+      "candidate": "models/creature_starroot_guardian.glb",
+      "candidateSha256": "0c4d472b1a207ad56f96209adf1279c18bfd93a8f8eb1b63638d1169998e4048",
+      "bounds": {
+        "min": [
+          -1.0940759493670886,
+          0,
+          -0.7418734748936907
+        ],
+        "max": [
+          1.0940759493670886,
+          2.368,
+          0.7418734748936907
+        ]
+      },
+      "animationDurations": {
+        "Idle": 2.799999952316284,
+        "Walk": 1,
+        "Run": 0.7200000286102295,
+        "Attack": 0.9200000166893005,
+        "Hit": 0.46000000834465027,
+        "Death": 1.4500000476837158
+      },
+      "attackContact": {
+        "fraction": 0.55,
+        "forward": 0.05969583338738399
+      },
+      "geometry": {
+        "POSITION": "6e511ffb1735c80232401a24dbdd9fb54831af722eed0ccfcdaf5073705c214c",
+        "NORMAL": "60eaf97577d5be53fe549a54259d8bf61d4e05fd487808b0f3831efaa2c24ae4",
+        "TEXCOORD_0": "67fe047b71f5435fc6f9bbaafb87e72accae7dcaa7c7e0ff7a493d85d6af4252",
+        "JOINTS_0": "189ea7e3a86c0bc31c5da7643b15f14b11f0f7031836b2d6b205326a1065fae9",
+        "WEIGHTS_0": "08d4d53db682c85d4b6afb57e6e3e8b3fe99f8a4f6ebbd096d2f0242e24f1c46",
+        "indices": "be1d9eeacd9ada17150fb78c2ffda3c1d838c9def8f42ea027268b62792b4cb5"
+      },
+      "sourceNormalSha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109",
+      "sourceMetallicRoughnessSha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167",
+      "candidateMetallicRoughnessSha256": "a73dab65036b2c510d3a84ebb5251d132fd70dd5ff765c3873715cf353450355",
+      "status": "pending-root-feature-lab-review"
+    },
+    {
+      "id": "creature_briar_harrow",
+      "source": "game/public/assets/models/creature/creature_briar_harrow.glb",
+      "sourceSha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+      "candidate": "models/creature_briar_harrow.glb",
+      "candidateSha256": "7e1f32cfa831ed70a618dbde5a7fe7ba6caab994143738a44e0dd11b63a051b8",
+      "bounds": {
+        "min": [
+          -0.8079145103747825,
+          0,
+          -0.31150320214999083
+        ],
+        "max": [
+          0.8079143441384692,
+          2.040469873651308,
+          0.31150321197131625
+        ]
+      },
+      "animationDurations": {
+        "Idle": 2.5,
+        "Walk": 1.3333333730697632,
+        "Run": 0.9333333373069763,
+        "Attack": 0.8666666746139526,
+        "Hit": 0.3333333432674408,
+        "HitLeft": 0.3333333432674408,
+        "HitRight": 0.3333333432674408,
+        "Death": 2.4000000953674316
+      },
+      "attackContact": {
+        "fraction": 0.275,
+        "forward": 0.2147725568207766
+      },
+      "geometry": {
+        "POSITION": "7e91b20735f162dc58a2fee2541e75aa8409740c301ee8b428af40c9586a7875",
+        "NORMAL": "7c2ca857819aa9f20a32c61868889070a186e68a074db3206419b8386924fa6e",
+        "TEXCOORD_0": "9a96c9e4e3f66f42cdb3b146270a31fab08dc9d132a464a96af8a83b5d3c5ca4",
+        "JOINTS_0": "299fad397279367de5e6c95065b1b0f164950196bd2d13d405f8d33bf18adcba",
+        "WEIGHTS_0": "61d6ffaca3501291979a34117f28c46a7cec7c117da6f5d3ffc498922ad132eb",
+        "indices": "85981dabd20cf4ccd2e8039bfc96a76039290c9c1ed7f75e9cf6ee07cf47d99b"
+      },
+      "sourceNormalSha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+      "sourceMetallicRoughnessSha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+      "status": "pending-root-feature-lab-review"
+    }
+  ]
+}

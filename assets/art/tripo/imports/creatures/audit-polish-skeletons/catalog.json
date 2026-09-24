@@ -1,0 +1,261 @@
+{
+  "schema": "corealm-polish-skeleton-candidates/1",
+  "accepted": false,
+  "status": "awaiting-root-lab-review",
+  "reviewOverrideIds": [
+    "creature_skeleton_archer",
+    "creature_skeleton_mage",
+    "creature_skeleton_soldier"
+  ],
+  "finalPromotionIds": [
+    "creature_skeleton_archer_elite",
+    "creature_skeleton_mage_elite",
+    "creature_skeleton_soldier_elite"
+  ],
+  "starterAssetsPreserved": true,
+  "targets": [
+    {
+      "id": "creature_skeleton_archer_elite",
+      "reviewOverrideId": "creature_skeleton_archer",
+      "file": "creature_skeleton_archer_elite.glb",
+      "bytes": 11419904,
+      "sha256": "98d76ac03960f9a5d47763b24e809f35fcf744550cdc67f29ea4ba91639bb1e3",
+      "sourceSha256": "aadfc7aa677557a9a6f50076b2ef8b19cd99dcf7ad4682c8b65d2b2f33c94ba0",
+      "upstreamCandidateSha256": "8366153e7b1c845da2cde13e523e73c75bfd948cba9a6eef47217e2273d661b0",
+      "size": {
+        "x": 0.9041792361384615,
+        "y": 1.8163383573499348,
+        "z": 0.8780299321925482
+      },
+      "base": {
+        "x": -0.49434630549417996,
+        "y": 0.0035360399331534234,
+        "z": -0.4182512858718113
+      },
+      "gear": [
+        {
+          "name": "antlered target circlet",
+          "joint": "Bip001_Head",
+          "triangles": 36
+        },
+        {
+          "name": "left arrowhead pauldron",
+          "joint": "Bip001_L_UpperArm",
+          "triangles": 20
+        },
+        {
+          "name": "right arrowhead pauldron",
+          "joint": "Bip001_R_UpperArm",
+          "triangles": 20
+        },
+        {
+          "name": "archer chest chevron",
+          "joint": "Bip001_Spine1",
+          "triangles": 20
+        }
+      ],
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "attackDurationSeconds": 1.55,
+      "attackContactPolicy": "Worker combat event; source clip has no embedded contact marker. No attack timing edit proposed.",
+      "sourceMotionRetained": true,
+      "labAccepted": false,
+      "worldIntegrated": false
+    },
+    {
+      "id": "creature_skeleton_mage_elite",
+      "reviewOverrideId": "creature_skeleton_mage",
+      "file": "creature_skeleton_mage_elite.glb",
+      "bytes": 11141812,
+      "sha256": "c1a9a36a72ffbf2881e2a7d71e58053470de202fff40269c3737a21354d4bf35",
+      "sourceSha256": "81e99af3566e3f57e9ccc1d876d59e222835c73d7f64c753b9eff0bd450bf4ec",
+      "upstreamCandidateSha256": "f0e9b965d602912ca4eee0a6a0f5fafd7214fa62b0df75a75d98d382c9ddecc7",
+      "size": {
+        "x": 0.9102649452258651,
+        "y": 2.060643299129631,
+        "z": 0.8617701186334273
+      },
+      "base": {
+        "x": -0.4937450340031507,
+        "y": 0.0034705577121691006,
+        "z": -0.410505891689
+      },
+      "gear": [
+        {
+          "name": "crescent crown left",
+          "joint": "Bip001_Head",
+          "triangles": 12
+        },
+        {
+          "name": "crescent crown right",
+          "joint": "Bip001_Head",
+          "triangles": 12
+        },
+        {
+          "name": "crescent crown bridge",
+          "joint": "Bip001_Head",
+          "triangles": 20
+        },
+        {
+          "name": "left ritual mantle",
+          "joint": "Bip001_L_UpperArm",
+          "triangles": 16
+        },
+        {
+          "name": "right ritual mantle",
+          "joint": "Bip001_R_UpperArm",
+          "triangles": 16
+        },
+        {
+          "name": "sternum reliquary",
+          "joint": "Bip001_Spine1",
+          "triangles": 20
+        }
+      ],
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "attackDurationSeconds": 1.55,
+      "attackContactPolicy": "Worker combat event; source clip has no embedded contact marker. No attack timing edit proposed.",
+      "sourceMotionRetained": true,
+      "labAccepted": false,
+      "worldIntegrated": false
+    },
+    {
+      "id": "creature_skeleton_soldier_elite",
+      "reviewOverrideId": "creature_skeleton_soldier",
+      "file": "creature_skeleton_soldier_elite.glb",
+      "bytes": 11137508,
+      "sha256": "ad2ac13ca42dd8cb39a24f96119e011c983240ba85be5e6c179c6a4d28410011",
+      "sourceSha256": "b2eea4126ec0042d046960724cb03e631ddc1738c73ab0434a3b69c1f58b0710",
+      "upstreamCandidateSha256": "0b9baec494226bae39ef04d57998b3dbb9316085cb565ccf2a7ccb25ee6fcc12",
+      "size": {
+        "x": 1.4039481864757104,
+        "y": 2.005717396103078,
+        "z": 0.9353511117207347
+      },
+      "base": {
+        "x": -0.977733766462767,
+        "y": 0.003667004375122069,
+        "z": -0.433742074237434
+      },
+      "gear": [
+        {
+          "name": "graveguard helm crest",
+          "joint": "Bip001_Head",
+          "triangles": 28
+        },
+        {
+          "name": "left fortress pauldron",
+          "joint": "Bip001_L_UpperArm",
+          "triangles": 20
+        },
+        {
+          "name": "right fortress pauldron",
+          "joint": "Bip001_R_UpperArm",
+          "triangles": 20
+        },
+        {
+          "name": "cuirass",
+          "joint": "Bip001_Spine1",
+          "triangles": 24
+        },
+        {
+          "name": "graveguard fauld",
+          "joint": "Bip001_Pelvis",
+          "triangles": 24
+        }
+      ],
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "attackDurationSeconds": 1.5,
+      "attackContactPolicy": "Worker combat event; source clip has no embedded contact marker. No attack timing edit proposed.",
+      "sourceMotionRetained": true,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  ],
+  "tierSelectors": {
+    "archer": [
+      "skeleton_archer_t50",
+      "skeleton_archer_t70",
+      "black_keep_gate_archers"
+    ],
+    "mage": [
+      "skeleton_mage_t50",
+      "skeleton_mage_t70",
+      "black_keep_north_graves"
+    ],
+    "soldier": [
+      "skeleton_soldier_t50",
+      "skeleton_soldier_t70",
+      "wilderness_broken_watch",
+      "black_keep_gate_guard",
+      "wilderness_bone_patrol",
+      "broken_watch_tower_haunt",
+      "dead_smithy_haunt",
+      "outer_watch_haunt",
+      "eastern_cloister_haunt"
+    ]
+  },
+  "contentRecommendation": {
+    "rootOwnedField": "game/content/data/creatureDefinitions.json -> each listed definition.presentation.assetId",
+    "overrides": {
+      "creature_skeleton_archer_elite": [
+        "skeleton_archer_t50",
+        "skeleton_archer_t70",
+        "black_keep_gate_archers"
+      ],
+      "creature_skeleton_mage_elite": [
+        "skeleton_mage_t50",
+        "skeleton_mage_t70",
+        "black_keep_north_graves"
+      ],
+      "creature_skeleton_soldier_elite": [
+        "skeleton_soldier_t50",
+        "skeleton_soldier_t70",
+        "wilderness_broken_watch",
+        "black_keep_gate_guard",
+        "wilderness_bone_patrol",
+        "broken_watch_tower_haunt",
+        "dead_smithy_haunt",
+        "outer_watch_haunt",
+        "eastern_cloister_haunt"
+      ]
+    },
+    "preserveStarters": {
+      "skeleton_archer_t5": "creature_skeleton_archer",
+      "skeleton_mage_t20": "creature_skeleton_mage",
+      "skeleton_soldier_t5": "creature_skeleton_soldier"
+    },
+    "levelRule": "Only the listed level-50 and level-70 definitions receive elite visuals. Their inherited low-tier base definitions stay on starter assets."
+  },
+  "acceptance": {
+    "cpuValidated": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

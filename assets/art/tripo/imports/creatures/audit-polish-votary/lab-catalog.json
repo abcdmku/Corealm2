@@ -1,0 +1,300 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-audit-polish-votary",
+    "name": "Ashbound Votary high-tier candidate",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-polish-votary/build-candidate.mjs",
+    "license": "CC0-1.0; generated raster anatomy atlas",
+    "generatorSha256": "d662b2edd1ed807079f24a267fa2e38ffeedc870d8c4c105f900228cd9c46828"
+  },
+  "assets": [
+    {
+      "id": "creature_ashbound_votary_elite",
+      "file": "models/creature/creature_ashbound_votary_elite.glb",
+      "pack": "corealm-audit-polish-votary",
+      "category": "character",
+      "is": "Ashbound Votary elite candidate",
+      "tags": [
+        "creature",
+        "ashlands",
+        "votary",
+        "elite",
+        "candidate"
+      ],
+      "bytes": 14623960,
+      "sha256": "55639a66fd6477e99b892201eb41d0b9c62cf5373eece5e8a6a7bb6b002ef438",
+      "triangles": 9162,
+      "size": {
+        "x": 0.8228080563090538,
+        "y": 2.0598287572267275,
+        "z": 0.5457427550607531
+      },
+      "base": {
+        "x": -0.38937961281414124,
+        "y": 0.1,
+        "z": -0.3208682165566398
+      },
+      "groundY": 0,
+      "bounds": {
+        "min": [
+          -0.38937961281414124,
+          0.1,
+          -0.3208682165566398
+        ],
+        "max": [
+          0.4334284434949126,
+          2.1598287572267276,
+          0.22487453850411332
+        ]
+      },
+      "animations": [
+        "Idle",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death",
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "animal_rpg_cinder_penitent_woven_shroud",
+        "animal_rpg_cinder_penitent_woven_shroud",
+        "animal_rpg_cinder_penitent_ash_hands",
+        "animal_rpg_cinder_penitent_recessed_cavities",
+        "animal_rpg_cinder_penitent_oxidized_iron",
+        "animal_rpg_cinder_penitent_ash_linen"
+      ],
+      "attackSeconds": 1.8399999141693115,
+      "contactNormalized": 0.38,
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-votary/sources/creature_cinder_penitent.glb",
+        "stagedSha256": "7e15be48aa0c124adbe3be6295e01bda1327659f7652db4841410ff8056b1152",
+        "originalSourceAssetId": "creature_revenant",
+        "originalSourceSha256": "c20da925ab713f8dae7e73ad85d41584d6063c25647249e17b1040bad90f1bdb",
+        "originalBuilder": "tools/biome-creatures/ash/build.mjs",
+        "originalBuilderSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "imagegenAtlas": {
+          "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
+          "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
+          "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+          "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
+          "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+        },
+        "embeddedTextures": [
+          {
+            "name": "revenant_revenant_source_Male_Wizard_Body_MI_Wizard_normal",
+            "sha256": "c51516996ee8bcb261c6c775a3fc09eba365244a39d567ef20b824859947b6ae",
+            "bytes": 5066920
+          },
+          {
+            "name": "revenant_revenant_source_Male_Wizard_Arms_MI_Regular_Male_normal",
+            "sha256": "f643cfde033a149769bac86ca6b8ef89c65cbdeef45c70f9580ee5efc766d101",
+            "bytes": 6320693
+          },
+          {
+            "name": "revenant_woven_burial_cloth",
+            "sha256": "6364be3834307bd6a3f10f855ef0beaec67475a46161110b7b2464dac461a459",
+            "bytes": 1798478
+          },
+          {
+            "name": "ash_authored_anatomy_atlas",
+            "sha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+            "bytes": 599991
+          }
+        ],
+        "productionLowTierFile": "assets/art/tripo/imports/creatures/audit-polish-votary/sources/production_creature_cinder_penitent.glb",
+        "productionLowTierSha256": "e320ed21c160e5b38c0b9f52ed8caaf1f6418c3c6c05ae7b2d8a32c2fe4ae815",
+        "builderFile": "assets/art/tripo/imports/creatures/audit-polish-votary/build-candidate.mjs",
+        "builderSha256": "d662b2edd1ed807079f24a267fa2e38ffeedc870d8c4c105f900228cd9c46828"
+      },
+      "metadata": {
+        "shapeTreatment": "Sealed elongated iron face, high burnt collar and split asymmetric hovering shroud; visibly distinct from the accepted cloth-and-ember human votary.",
+        "retainedSourceRig": "65 joints",
+        "retainedSourceClips": [
+          {
+            "name": "Idle",
+            "seconds": 3
+          },
+          {
+            "name": "Attack",
+            "seconds": 1.8399999141693115
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.4000000059604645
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.4000000059604645
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.4000000059604645
+          },
+          {
+            "name": "Death",
+            "seconds": 2.880000114440918
+          },
+          {
+            "name": "Walk",
+            "seconds": 3
+          },
+          {
+            "name": "Run",
+            "seconds": 3
+          }
+        ],
+        "sampledSourceMotion": [
+          {
+            "clip": "Idle",
+            "duration": 3,
+            "bounds": {
+              "min": [
+                -0.3977721798967487,
+                0.07600000000000001,
+                -0.3371588380747949
+              ],
+              "max": [
+                0.43586797997499455,
+                2.1853662728627503,
+                0.25160806326823354
+              ]
+            }
+          },
+          {
+            "clip": "Attack",
+            "duration": 1.8399999141693115,
+            "bounds": {
+              "min": [
+                -0.8096416202672596,
+                0.07600000000000001,
+                -0.8815189207316383
+              ],
+              "max": [
+                0.753659469798797,
+                2.178501007449136,
+                0.8678707554790278
+              ]
+            }
+          },
+          {
+            "clip": "Hit",
+            "duration": 0.4000000059604645,
+            "bounds": {
+              "min": [
+                -0.37665142064153495,
+                0.07600000000000001,
+                -0.5576175751499229
+              ],
+              "max": [
+                0.4012289221881378,
+                2.159880015391894,
+                0.3573924896578218
+              ]
+            }
+          },
+          {
+            "clip": "HitLeft",
+            "duration": 0.4000000059604645,
+            "bounds": {
+              "min": [
+                -0.37665142064153495,
+                0.07600000000000001,
+                -0.5591738545068665
+              ],
+              "max": [
+                0.4326886075167846,
+                2.159880015618951,
+                0.3573924896578218
+              ]
+            }
+          },
+          {
+            "clip": "HitRight",
+            "duration": 0.4000000059604645,
+            "bounds": {
+              "min": [
+                -0.37665142064153495,
+                0.07600000000000001,
+                -0.5554397448649697
+              ],
+              "max": [
+                0.40069653676958933,
+                2.159880015618951,
+                0.3573924896578218
+              ]
+            }
+          },
+          {
+            "clip": "Death",
+            "duration": 2.880000114440918,
+            "bounds": {
+              "min": [
+                -0.6434942099284777,
+                0.0029999999999999957,
+                -1.7217503348770573
+              ],
+              "max": [
+                0.5045207842071944,
+                2.064321272353159,
+                0.3740172254016006
+              ]
+            }
+          },
+          {
+            "clip": "Walk",
+            "duration": 3,
+            "bounds": {
+              "min": [
+                -0.3977721798967487,
+                0.07600000000000001,
+                -0.3371588380747949
+              ],
+              "max": [
+                0.43586797997499455,
+                2.1853662728627503,
+                0.25160806326823354
+              ]
+            }
+          },
+          {
+            "clip": "Run",
+            "duration": 3,
+            "bounds": {
+              "min": [
+                -0.3977721798967487,
+                0.07600000000000001,
+                -0.3371588380747949
+              ],
+              "max": [
+                0.43586797997499455,
+                2.1853662728627503,
+                0.25160806326823354
+              ]
+            }
+          }
+        ],
+        "visualReference": [
+          "test-results/biome-creatures/ash/cinder_penitent-front.png",
+          "test-results/biome-creatures/ash/cinder_penitent-side.png"
+        ]
+      },
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_ashbound_votary_elite": "models/creature_ashbound_votary_elite.glb"
+  }
+}

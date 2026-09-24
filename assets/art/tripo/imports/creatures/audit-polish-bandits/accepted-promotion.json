@@ -1,0 +1,338 @@
+{
+  "assets": [
+    {
+      "id": "bandit_forest_ranger",
+      "file": "models/bandit/bandit_forest_ranger.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "character",
+      "is": "Forest Bandit",
+      "tags": [
+        "creature",
+        "bandit",
+        "human",
+        "ranger",
+        "vellenwood",
+        "candidate"
+      ],
+      "bytes": 6445436,
+      "sha256": "9d65a8ae15853c59582a306e8e015a1b22134d26532ab8b0e8cab2d16eed5e0d",
+      "builderSha256": "2a9b907b0d5d8fb0afbc7bccd55274525bdf3e6a94ceeec5980ad9398a9e83f9",
+      "size": {
+        "x": 1.664,
+        "y": 1.798,
+        "z": 0.377
+      },
+      "base": {
+        "x": -0.832,
+        "y": -0.004,
+        "z": -0.21
+      },
+      "groundY": -0.004,
+      "triangles": 32204,
+      "materials": [
+        "MI_Ranger",
+        "MI_Regular_Female",
+        "MI_Hair_2",
+        "MI_Eyes",
+        "MI_Superhero_Female"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "motionSource": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "clip": "Punch_Jab",
+        "nativeClip": "Attack",
+        "durationSeconds": 0.8666666746139526,
+        "contactNormalized": 0.42,
+        "contactSeconds": 0.3640000033378601,
+        "retargetedToOutfitSkeleton": true
+      },
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_female_ranger.glb",
+        "originalProductionFile": "game/public/assets/models/outfit/outfit_female_ranger.glb",
+        "sha256": "a40cf08832298b624fcba39c1fe2d1f53210a1014ddd55a497410c218575361f",
+        "bytes": 1990364,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_female.glb",
+        "originalBaseBodyFile": "game/public/assets/models/character/base_female.glb",
+        "baseBodySha256": "75ad4eee7a2caad26cdd2fe54040cdb7e866f9a8236d7d4934f4a0496b042baf",
+        "animationLibraryFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "originalAnimationLibraryFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "externalTexturePins": "assets/art/tripo/imports/creatures/audit-polish-bandits/source-pins.json",
+        "upstreamPack": "modular-character-outfits-fantasy",
+        "upstreamAuthor": "Quaternius",
+        "upstreamSource": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+        "upstreamLicense": "CC0-1.0",
+        "upstreamArchiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70",
+        "baseBodyPack": "universal-base-characters",
+        "baseBodyArchiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+        "animationPack": "universal-animation-library",
+        "animationArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+        "sourceGarmentAtlasSha256": "9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/forest-atlas-imagegen.png",
+        "generatedMapSha256": "ac8f4dd689c8fecc755ea442fcbacecd1f2340de3b6a98b9ce9449f1a494bdd5",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/textures/bandit_forest_ranger-basecolor.jpg",
+        "runtimeMapSha256": "395215ca6696a5c1b8f058cc4b2db12e845ddb21e050021719097c442e939ab6"
+      },
+      "metadata": {
+        "enemyId": "gorge_reavers",
+        "regionId": "vellenwood",
+        "sourceAssetId": "outfit_female_ranger",
+        "originalOutfitGeometrySkinWeightsUvNormalsAndOtherPbrMapsUnchanged": true,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_female.glb",
+        "baseBodySha256": "75ad4eee7a2caad26cdd2fe54040cdb7e866f9a8236d7d4934f4a0496b042baf",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "faceEyesAndBrowsBoundToOutfitSkin": true,
+        "hoodRetained": true,
+        "nativeClips": true
+      },
+      "acceptance": {
+        "cpuValidated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/models/bandit_forest_ranger.glb",
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "bandit_highland_ranger",
+      "file": "models/bandit/bandit_highland_ranger.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "character",
+      "is": "Highland Bandit",
+      "tags": [
+        "creature",
+        "bandit",
+        "human",
+        "ranger",
+        "karrowmoor",
+        "candidate"
+      ],
+      "bytes": 6468500,
+      "sha256": "b09fc2e04d0e37aaa41bf7b92a288fbaa631fa2d8b01f2aae4000301f3ed5f9a",
+      "builderSha256": "2a9b907b0d5d8fb0afbc7bccd55274525bdf3e6a94ceeec5980ad9398a9e83f9",
+      "size": {
+        "x": 1.799,
+        "y": 1.869,
+        "z": 0.373
+      },
+      "base": {
+        "x": -0.899,
+        "y": -0.004,
+        "z": -0.206
+      },
+      "groundY": -0.004,
+      "triangles": 31542,
+      "materials": [
+        "MI_Ranger",
+        "MI_Regular_Male",
+        "MI_Hair_1",
+        "MI_Eyes",
+        "MI_Superhero_Male"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "motionSource": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "clip": "Punch_Jab",
+        "nativeClip": "Attack",
+        "durationSeconds": 0.8666666746139526,
+        "contactNormalized": 0.42,
+        "contactSeconds": 0.3640000033378601,
+        "retargetedToOutfitSkeleton": true
+      },
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_male_ranger.glb",
+        "originalProductionFile": "game/public/assets/models/outfit/outfit_male_ranger.glb",
+        "sha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b",
+        "bytes": 1775464,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "originalBaseBodyFile": "game/public/assets/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibraryFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "originalAnimationLibraryFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "externalTexturePins": "assets/art/tripo/imports/creatures/audit-polish-bandits/source-pins.json",
+        "upstreamPack": "modular-character-outfits-fantasy",
+        "upstreamAuthor": "Quaternius",
+        "upstreamSource": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+        "upstreamLicense": "CC0-1.0",
+        "upstreamArchiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70",
+        "baseBodyPack": "universal-base-characters",
+        "baseBodyArchiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+        "animationPack": "universal-animation-library",
+        "animationArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+        "sourceGarmentAtlasSha256": "9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/highland-atlas-imagegen.png",
+        "generatedMapSha256": "76a0e893aac6b03945ede64a16338a5da3c88c5486b2099b95ad35710511fb66",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/textures/bandit_highland_ranger-basecolor.jpg",
+        "runtimeMapSha256": "f7d8e41e529734511fdafa8a7e32b18afc10089b1434dea9129e4cc0e57cd98b"
+      },
+      "metadata": {
+        "enemyId": "karrow_reavers",
+        "regionId": "karrowmoor",
+        "sourceAssetId": "outfit_male_ranger",
+        "originalOutfitGeometrySkinWeightsUvNormalsAndOtherPbrMapsUnchanged": true,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "faceEyesAndBrowsBoundToOutfitSkin": true,
+        "hoodRetained": true,
+        "nativeClips": true
+      },
+      "acceptance": {
+        "cpuValidated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/models/bandit_highland_ranger.glb",
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "bandit_quarry_ranger",
+      "file": "models/bandit/bandit_quarry_ranger.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "character",
+      "is": "Quarry Bandit",
+      "tags": [
+        "creature",
+        "bandit",
+        "human",
+        "ranger",
+        "kilnhalt",
+        "candidate"
+      ],
+      "bytes": 6430456,
+      "sha256": "11e29f667ec6582ce2bf41a2ea1a95a92ce25046b389f51522f3f569082d7e0b",
+      "builderSha256": "2a9b907b0d5d8fb0afbc7bccd55274525bdf3e6a94ceeec5980ad9398a9e83f9",
+      "size": {
+        "x": 1.799,
+        "y": 1.869,
+        "z": 0.373
+      },
+      "base": {
+        "x": -0.899,
+        "y": -0.004,
+        "z": -0.206
+      },
+      "groundY": -0.004,
+      "triangles": 31542,
+      "materials": [
+        "MI_Ranger",
+        "MI_Regular_Male",
+        "MI_Hair_1",
+        "MI_Eyes",
+        "MI_Superhero_Male"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "motionSource": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "clip": "Punch_Jab",
+        "nativeClip": "Attack",
+        "durationSeconds": 0.8666666746139526,
+        "contactNormalized": 0.42,
+        "contactSeconds": 0.3640000033378601,
+        "retargetedToOutfitSkeleton": true
+      },
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_male_ranger.glb",
+        "originalProductionFile": "game/public/assets/models/outfit/outfit_male_ranger.glb",
+        "sha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b",
+        "bytes": 1775464,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "originalBaseBodyFile": "game/public/assets/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibraryFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "originalAnimationLibraryFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "externalTexturePins": "assets/art/tripo/imports/creatures/audit-polish-bandits/source-pins.json",
+        "upstreamPack": "modular-character-outfits-fantasy",
+        "upstreamAuthor": "Quaternius",
+        "upstreamSource": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+        "upstreamLicense": "CC0-1.0",
+        "upstreamArchiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70",
+        "baseBodyPack": "universal-base-characters",
+        "baseBodyArchiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+        "animationPack": "universal-animation-library",
+        "animationArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+        "sourceGarmentAtlasSha256": "9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/quarry-atlas-imagegen.png",
+        "generatedMapSha256": "576c8efd6f93767e93c4c2af7a8a289fa4463dcd3ee6bb3152c38176dea7ced4",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/textures/bandit_quarry_ranger-basecolor.jpg",
+        "runtimeMapSha256": "211090b8dfeecbaac249c923e7552368f7b66e09596bb0327226d13011e38613"
+      },
+      "metadata": {
+        "enemyId": "kilnroad_reavers",
+        "regionId": "kilnhalt",
+        "sourceAssetId": "outfit_male_ranger",
+        "originalOutfitGeometrySkinWeightsUvNormalsAndOtherPbrMapsUnchanged": true,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "faceEyesAndBrowsBoundToOutfitSkin": true,
+        "hoodRetained": true,
+        "nativeClips": true
+      },
+      "acceptance": {
+        "cpuValidated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/models/bandit_quarry_ranger.glb",
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "modular-character-outfits-fantasy",
+      "name": "Modular Character Outfits - Fantasy",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+      "license": "CC0-1.0",
+      "archiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+    }
+  ]
+}

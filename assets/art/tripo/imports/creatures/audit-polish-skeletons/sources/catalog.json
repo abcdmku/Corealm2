@@ -1,0 +1,139 @@
+{
+  "schema": "corealm-skeleton-elite-candidates/1",
+  "accepted": false,
+  "status": "awaiting-root-lab-review",
+  "sourcePack": "corealm-rpg-dungeon-skeletons-demo",
+  "targets": [
+    {
+      "id": "creature_skeleton_archer_elite",
+      "name": "Veteran Skeleton Archer",
+      "kind": "archer",
+      "sourcePath": "game/public/assets/models/creature/creature_skeleton_archer.glb",
+      "sourceSha256": "aadfc7aa677557a9a6f50076b2ef8b19cd99dcf7ad4682c8b65d2b2f33c94ba0",
+      "file": "creature_skeleton_archer_elite.glb",
+      "bytes": 11402232,
+      "sha256": "8366153e7b1c845da2cde13e523e73c75bfd948cba9a6eef47217e2273d661b0",
+      "eliteScale": 1.08,
+      "size": {
+        "x": 0.9041791825996722,
+        "y": 1.7810750730587035,
+        "z": 0.8780299337071102
+      },
+      "base": {
+        "x": -0.49434630549417996,
+        "y": 0.0035360399331534234,
+        "z": -0.4182512858718113
+      },
+      "maps": {
+        "bone": {
+          "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-bone.png",
+          "sha256": "3234878e79fbc5753c88da1ca93593e9cd08a8306f120f64ec015f3a8ebd8279",
+          "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+        },
+        "equipment": {
+          "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-equipment.png",
+          "sha256": "2d6c06e6d91476eb1c4a63367051b349b8aaca6a9fd87fc4ee54731fcdc2d527",
+          "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+        }
+      }
+    },
+    {
+      "id": "creature_skeleton_mage_elite",
+      "name": "Veteran Skeleton Mage",
+      "kind": "mage",
+      "sourcePath": "game/public/assets/models/creature/creature_skeleton_mage.glb",
+      "sourceSha256": "81e99af3566e3f57e9ccc1d876d59e222835c73d7f64c753b9eff0bd450bf4ec",
+      "file": "creature_skeleton_mage_elite.glb",
+      "bytes": 11124140,
+      "sha256": "f0e9b965d602912ca4eee0a6a0f5fafd7214fa62b0df75a75d98d382c9ddecc7",
+      "eliteScale": 1.06,
+      "size": {
+        "x": 0.910264888792008,
+        "y": 2.0606432977714646,
+        "z": 0.8617701201199416
+      },
+      "base": {
+        "x": -0.4937450340031507,
+        "y": 0.0034705577121691006,
+        "z": -0.410505891689
+      },
+      "maps": {
+        "bone": {
+          "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-bone.png",
+          "sha256": "46aadd857218f99d1f3843ff5f583af75f4c987292d298aedcaa873d0a84cccc",
+          "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+        },
+        "equipment": {
+          "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-equipment.png",
+          "sha256": "07ddb912a151570a87c7e1ef394cc2e6ba5ce753f51a4eb0c3d81dd959e79a90",
+          "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+        }
+      }
+    },
+    {
+      "id": "creature_skeleton_soldier_elite",
+      "name": "Veteran Skeleton Soldier",
+      "kind": "soldier",
+      "sourcePath": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
+      "sourceSha256": "b2eea4126ec0042d046960724cb03e631ddc1738c73ab0434a3b69c1f58b0710",
+      "file": "creature_skeleton_soldier_elite.glb",
+      "bytes": 11116288,
+      "sha256": "0b9baec494226bae39ef04d57998b3dbb9316085cb565ccf2a7ccb25ee6fcc12",
+      "eliteScale": 1.12,
+      "size": {
+        "x": 1.3769930956133791,
+        "y": 1.7874552837839663,
+        "z": 0.9353510982740516
+      },
+      "base": {
+        "x": -0.977733766462767,
+        "y": 0.003667004375122069,
+        "z": -0.433742074237434
+      },
+      "maps": {
+        "bone": {
+          "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-bone.png",
+          "sha256": "c7ec2102a716ba37a2ff66706e96d80cf689c1c6df1ffa6bae0067d545b49d52",
+          "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+        },
+        "equipment": {
+          "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-equipment.png",
+          "sha256": "133c271b27c41b03b0a80d52b86795410f7eee03c7d09e44c67bd2b4aa3f002c",
+          "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+        }
+      }
+    }
+  ],
+  "starterAssetsPreserved": true,
+  "tierSelectors": {
+    "archer": [
+      "skeleton_archer_t50",
+      "skeleton_archer_t70",
+      "black_keep_gate_archers"
+    ],
+    "mage": [
+      "skeleton_mage_t50",
+      "skeleton_mage_t70",
+      "black_keep_north_graves"
+    ],
+    "soldier": [
+      "skeleton_soldier_t50",
+      "skeleton_soldier_t70",
+      "wilderness_broken_watch",
+      "black_keep_gate_guard",
+      "wilderness_bone_patrol",
+      "broken_watch_tower_haunt",
+      "dead_smithy_haunt",
+      "outer_watch_haunt",
+      "eastern_cloister_haunt"
+    ]
+  },
+  "acceptance": {
+    "sourceMotionRetained": true,
+    "geometryRetained": true,
+    "imagegenAtlases": true,
+    "cpuMotionValidated": false,
+    "labAccepted": false,
+    "integrated": false
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "schema": "corealm-creature-polish-promotion/1",
+  "pack": "corealm-audit-polish-drakes",
+  "builderSha256": "43a0f15d5d51176ffea855848a5a51b52e54e740a225b5049358fac6275ccc8d",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "assets": [
+    {
+      "id": "creature_basalt_drake",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/models/creature_basalt_drake.glb",
+      "sha256": "6ed5b410198d54e0bcea528b8770d0e548bfbd1287a16df51505a119a72110f8",
+      "bytes": 7352152,
+      "bounds": {
+        "min": [
+          -0.8725002182170689,
+          -0.00007763962636403102,
+          -1.9394795807200897
+        ],
+        "max": [
+          0.8725175210687045,
+          2.1079920510885097,
+          2.796283113821949
+        ]
+      },
+      "size": {
+        "x": 1.7450177392857733,
+        "y": 2.1080696907148737,
+        "z": 4.735762694542039
+      },
+      "materials": [
+        "armored_dragon_layered_basalt_plates"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "attack": {
+        "seconds": 1.600000023841858,
+        "contactNormalized": 0.65
+      },
+      "sourceProvenance": {
+        "sourceAssetId": "creature_basalt_drake",
+        "productionFile": "game/public/assets/models/creature/creature_basalt_drake.glb",
+        "productionSha256": "2c0dc6807f07e5a87e02f883d37a0c30d73c85deb2986a088394317e04bf2ce9",
+        "upstreamAuthor": "Dungeon Mason",
+        "upstreamPack": "Dragon the Soul Eater and Dragon Boar",
+        "upstreamSource": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_drake-imagegen.png",
+        "generatedMapSha256": "8af4a4ec97d30dba9674337ba81956d0d8478243e303835856c5e59a28521418",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_drake-albedo.png",
+        "runtimeMapSha256": "09485f14632105e02298176c1cdf9ba74a7ca6d0a42f8345204da083ecee94d0",
+        "emissionMap": null,
+        "emissionMapSha256": null,
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
+        "builderSha256": "43a0f15d5d51176ffea855848a5a51b52e54e740a225b5049358fac6275ccc8d",
+        "change": "Image-generated UV-aligned basalt plate albedo. Original geometry, rig, clips, normal map and ORM retained.",
+        "pinnedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/sources/creature_basalt_drake.glb"
+      },
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_furnace_grazer",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/models/creature_furnace_grazer.glb",
+      "sha256": "634748c4126f681cbf390b03d3c580e2a9cba50cd3c03c08741a0f51864101a2",
+      "bytes": 7848996,
+      "bounds": {
+        "min": [
+          -0.6282549803678777,
+          0.003,
+          -1.357728111367865
+        ],
+        "max": [
+          0.6282550529002686,
+          1.5290918876231105,
+          2.0157964039122622
+        ]
+      },
+      "size": {
+        "x": 1.2565100332681465,
+        "y": 1.5260918876231107,
+        "z": 3.373524515280127
+      },
+      "materials": [
+        "furnace_grazer_heated_basalt_plates"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "attack": {
+        "seconds": 1.600000023841858,
+        "contactNormalized": 0.65
+      },
+      "sourceProvenance": {
+        "sourceAssetId": "creature_furnace_grazer",
+        "productionFile": "game/public/assets/models/creature/creature_furnace_grazer.glb",
+        "productionSha256": "d7da1efa4422f080a0ae5f7dd1df5d1e641732e9ecb672485894724bdf98dde0",
+        "upstreamAuthor": "Dungeon Mason",
+        "upstreamPack": "Dragon the Soul Eater and Dragon Boar",
+        "upstreamSource": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-imagegen.png",
+        "generatedMapSha256": "d5d0f06709dad37019aaa0755feda6286e0c056156377e303a45c549b6d13c11",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-albedo.png",
+        "runtimeMapSha256": "8d609574590f91fbeea1509525e4bcdd62334401948b3dc3b75cf2be528c475d",
+        "emissionMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-emission.png",
+        "emissionMapSha256": "f9b7a66cec3d0d139224fee49cc833fba37115ee85ac6e38bddf00b64e2dd731",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
+        "builderSha256": "43a0f15d5d51176ffea855848a5a51b52e54e740a225b5049358fac6275ccc8d",
+        "change": "Image-generated UV-aligned heated plate albedo and derived crack emission. Original geometry, rig, clips, normal map and ORM retained.",
+        "pinnedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/sources/creature_furnace_grazer.glb"
+      },
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_basalt_maw_high_tier",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/models/creature_basalt_maw_high_tier.glb",
+      "sha256": "757fff3686db4c6983a60a601e7ba136b233012e5aefcc0aae65a1f9fad0a24e",
+      "bytes": 7513200,
+      "bounds": {
+        "min": [
+          -0.6282549803678777,
+          0.003,
+          -1.357728111367865
+        ],
+        "max": [
+          0.6282550529002686,
+          1.5290918876231105,
+          2.0157964039122622
+        ]
+      },
+      "size": {
+        "x": 1.2565100332681465,
+        "y": 1.5260918876231107,
+        "z": 3.373524515280127
+      },
+      "materials": [
+        "high_tier_basalt_maw_black_plates_and_hot_jaw"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "attack": {
+        "seconds": 1.600000023841858,
+        "contactNormalized": 0.65
+      },
+      "sourceProvenance": {
+        "sourceAssetId": "creature_furnace_grazer",
+        "productionFile": "game/public/assets/models/creature/creature_furnace_grazer.glb",
+        "productionSha256": "d7da1efa4422f080a0ae5f7dd1df5d1e641732e9ecb672485894724bdf98dde0",
+        "upstreamAuthor": "Dungeon Mason",
+        "upstreamPack": "Dragon the Soul Eater and Dragon Boar",
+        "upstreamSource": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_maw_high_tier-imagegen.png",
+        "generatedMapSha256": "7b9a83997addcfb4c8a0559e2ff3f288934f5d0eb21c6c5ce8923dbf7beccb20",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_maw_high_tier-albedo.png",
+        "runtimeMapSha256": "e5bca2c40f4ddd390818ec2a29121fe99ae3c6f2d36e4ce551d946b17c1a081f",
+        "emissionMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_maw_high_tier-emission.png",
+        "emissionMapSha256": "9e2ea88673af19c765df3ee285a8116aa84797c73abf2af36bbe1043ecf9c005",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
+        "builderSha256": "43a0f15d5d51176ffea855848a5a51b52e54e740a225b5049358fac6275ccc8d",
+        "change": "Candidate-only level 88-89 Basalt Maw presentation from the current grazer rig, with darker image-generated plates, hot jaw and crack emission. Preserve creature_basalt_maw for its pending new source.",
+        "pinnedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-drakes/sources/creature_furnace_grazer.glb"
+      },
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "contentRecommendation": {
+        "creatureDefinitionIds": [
+          "wilderness_east_basalt_prowl",
+          "far_cinder_smithy_sentries",
+          "wilderness_basalt_maw_hollow"
+        ],
+        "assetId": "creature_basalt_maw_high_tier",
+        "presentationScale": 1.05,
+        "activity": "prowl",
+        "note": "Use only for the three level 88-89 Basalt Maw presets currently mapped to creature_furnace_grazer. Keep creature_basalt_maw and its level 90 use pending a new source. The grazer rig silhouette remains a limitation."
+      }
+    }
+  ]
+}

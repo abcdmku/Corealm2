@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "89bdf15c21085ca3f736f51578b1bb05d0d32485a41c5913192adda45dd3feed",
-  "formulaRevision": "a476631508cd84903a4c6ed95d622ff2c54d10e3f8b7e2558ebc48e88dac99d6",
+  "revision": "c452fc8891198fa8fc8244dc3c83ab0b2654abf5b2cab118c8ba4108fdf5c2a6",
+  "formulaRevision": "bc7f79c8032df36c929a97d025937f0910d50a236458742f8659cab5d2d317d8",
   "tables": {
     "items": [
       {
@@ -28055,7 +28055,7 @@
       },
       {
         "id": "amethyst_dragon_t70",
-        "name": "Purple Wilderness Dragon",
+        "name": "Amethyst Dragon",
         "family": "amethyst_dragon",
         "availability": "world",
         "level": 70,
@@ -28146,7 +28146,7 @@
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
+          "scale": 1.35,
           "regionId": "wilderness",
           "activity": "graze",
           "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -36781,6 +36781,15 @@
         "baseId": "cinder_penitent_t20",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "cinder_penitent_t50",
+          "assetId": "creature_ashbound_votary_elite",
+          "scale": 1,
+          "regionId": "kilnhalt",
+          "activity": "patrol",
+          "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+          "kind": "basic"
+        },
         "loot": {
           "rolls": [
             {
@@ -36827,6 +36836,15 @@
         "baseId": "cinder_penitent_t20",
         "availability": "world",
         "level": 70,
+        "presentation": {
+          "id": "cinder_penitent_t70",
+          "assetId": "creature_ashbound_votary_elite",
+          "scale": 1,
+          "regionId": "kilnhalt",
+          "activity": "patrol",
+          "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+          "kind": "basic"
+        },
         "loot": {
           "rolls": [
             {
@@ -37701,6 +37719,43 @@
         "baseId": "skeleton_archer_t5",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "skeleton_archer_t50",
+          "assetId": "creature_skeleton_archer_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "ruined watch posts",
+          "respawnMs": 30000,
+          "nativeSize": [
+            0.837203,
+            1.649144,
+            0.812991
+          ],
+          "nativeBase": [
+            -0.457728,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.6251026250344819,
+          "nativeBodyRadius": 0.4186015,
+          "attack": {
+            "action": "bow shot",
+            "proposedMechanic": "projectile",
+            "recoveryMs": 900
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "loot": {
           "rolls": [
             {
@@ -37747,6 +37802,43 @@
         "baseId": "skeleton_archer_t5",
         "availability": "world",
         "level": 70,
+        "presentation": {
+          "id": "skeleton_archer_t70",
+          "assetId": "creature_skeleton_archer_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "ruined watch posts",
+          "respawnMs": 30000,
+          "nativeSize": [
+            0.837203,
+            1.649144,
+            0.812991
+          ],
+          "nativeBase": [
+            -0.457728,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.6251026250344819,
+          "nativeBodyRadius": 0.4186015,
+          "attack": {
+            "action": "bow shot",
+            "proposedMechanic": "projectile",
+            "recoveryMs": 900
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "loot": {
           "rolls": [
             {
@@ -37793,6 +37885,43 @@
         "baseId": "skeleton_mage_t20",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "skeleton_mage_t50",
+          "assetId": "creature_skeleton_mage_elite",
+          "scale": 1,
+          "regionId": "kilnhalt",
+          "activity": "patrol",
+          "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "sealed burial halls",
+          "respawnMs": 30000,
+          "nativeSize": [
+            0.85874,
+            1.944003,
+            0.812991
+          ],
+          "nativeBase": [
+            -0.465797,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.6310350347246974,
+          "nativeBodyRadius": 0.42937,
+          "attack": {
+            "action": "staff curse",
+            "proposedMechanic": "spell",
+            "recoveryMs": 1260
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "loot": {
           "rolls": [
             {
@@ -37839,6 +37968,43 @@
         "baseId": "skeleton_mage_t20",
         "availability": "world",
         "level": 70,
+        "presentation": {
+          "id": "skeleton_mage_t70",
+          "assetId": "creature_skeleton_mage_elite",
+          "scale": 1,
+          "regionId": "kilnhalt",
+          "activity": "patrol",
+          "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "sealed burial halls",
+          "respawnMs": 30000,
+          "nativeSize": [
+            0.85874,
+            1.944003,
+            0.812991
+          ],
+          "nativeBase": [
+            -0.465797,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.6310350347246974,
+          "nativeBodyRadius": 0.42937,
+          "attack": {
+            "action": "staff curse",
+            "proposedMechanic": "spell",
+            "recoveryMs": 1260
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "loot": {
           "rolls": [
             {
@@ -37885,6 +38051,43 @@
         "baseId": "skeleton_soldier_t5",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "skeleton_soldier_t50",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "loot": {
           "rolls": [
             {
@@ -37931,6 +38134,43 @@
         "baseId": "skeleton_soldier_t5",
         "availability": "world",
         "level": 70,
+        "presentation": {
+          "id": "skeleton_soldier_t70",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "loot": {
           "rolls": [
             {
@@ -39248,7 +39488,7 @@
         "level": 5,
         "presentation": {
           "id": "gorge_reavers",
-          "assetId": "outfit_female_ranger",
+          "assetId": "bandit_forest_ranger",
           "scale": 0.95,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -39302,7 +39542,7 @@
         "level": 10,
         "presentation": {
           "id": "karrow_reavers",
-          "assetId": "outfit_male_ranger",
+          "assetId": "bandit_highland_ranger",
           "scale": 0.9,
           "regionId": "karrowmoor",
           "activity": "patrol",
@@ -39341,7 +39581,7 @@
         "level": 20,
         "presentation": {
           "id": "kilnroad_reavers",
-          "assetId": "outfit_male_ranger",
+          "assetId": "bandit_quarry_ranger",
           "scale": 0.9,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -40686,6 +40926,43 @@
         "family": "skeleton_soldier",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "wilderness_broken_watch",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 136,
           "attackLevel": 51,
@@ -40955,6 +41232,43 @@
         "family": "skeleton_soldier",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "black_keep_gate_guard",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 142,
           "attackLevel": 54,
@@ -41009,6 +41323,43 @@
         "family": "skeleton_archer",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "black_keep_gate_archers",
+          "assetId": "creature_skeleton_archer_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "ruined watch posts",
+          "respawnMs": 30000,
+          "nativeSize": [
+            0.837203,
+            1.649144,
+            0.812991
+          ],
+          "nativeBase": [
+            -0.457728,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.6251026250344819,
+          "nativeBodyRadius": 0.4186015,
+          "attack": {
+            "action": "bow shot",
+            "proposedMechanic": "projectile",
+            "recoveryMs": 900
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 140,
           "attackLevel": 52,
@@ -41116,6 +41467,43 @@
         "family": "skeleton_mage",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "black_keep_north_graves",
+          "assetId": "creature_skeleton_mage_elite",
+          "scale": 1,
+          "regionId": "kilnhalt",
+          "activity": "patrol",
+          "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "sealed burial halls",
+          "respawnMs": 30000,
+          "nativeSize": [
+            0.85874,
+            1.944003,
+            0.812991
+          ],
+          "nativeBase": [
+            -0.465797,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.6310350347246974,
+          "nativeBodyRadius": 0.42937,
+          "attack": {
+            "action": "staff curse",
+            "proposedMechanic": "spell",
+            "recoveryMs": 1260
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 96,
           "attackLevel": 52,
@@ -41278,6 +41666,43 @@
         "family": "skeleton_soldier",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "wilderness_bone_patrol",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 138,
           "attackLevel": 52,
@@ -41386,6 +41811,43 @@
         "family": "skeleton_soldier",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "broken_watch_tower_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 138,
           "attackLevel": 52,
@@ -41494,6 +41956,43 @@
         "family": "skeleton_soldier",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "dead_smithy_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 142,
           "attackLevel": 54,
@@ -41602,6 +42101,43 @@
         "family": "skeleton_soldier",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "outer_watch_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 142,
           "attackLevel": 54,
@@ -41710,6 +42246,43 @@
         "family": "skeleton_soldier",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "eastern_cloister_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
+          "scale": 1,
+          "regionId": "vellenwood",
+          "activity": "patrol",
+          "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+          "bodyFamily": "skeleton",
+          "rigFamily": "corealm_skeleton",
+          "movement": "biped",
+          "habitat": "dry crypt approaches",
+          "respawnMs": 30000,
+          "nativeSize": [
+            1.229458,
+            1.595942,
+            0.835135
+          ],
+          "nativeBase": [
+            -0.872977,
+            0.003274,
+            -0.38727
+          ],
+          "nativeVisualRadius": 0.9811584483425703,
+          "nativeBodyRadius": 0.614729,
+          "attack": {
+            "action": "sword cut",
+            "proposedMechanic": "melee",
+            "recoveryMs": 1080
+          },
+          "source": {
+            "author": "Polygon Blacksmith",
+            "license": "Standard Unity Asset Store EULA; local entitlement cache",
+            "generator": "tools/rpg-bestiary/build.mjs"
+          },
+          "acceptance": "candidate",
+          "kind": "rpg"
+        },
         "adjustments": {
           "maxHealth": 152,
           "attackLevel": 57,
@@ -43405,6 +43978,15 @@
         "family": "cinder_penitent",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "population_last_light_west_penitents",
+          "assetId": "creature_ashbound_votary_elite",
+          "scale": 1,
+          "regionId": "kilnhalt",
+          "activity": "patrol",
+          "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+          "kind": "basic"
+        },
         "adjustments": {
           "maxHealth": 110,
           "attackLevel": 44,
@@ -43888,6 +44470,15 @@
         "family": "cinder_penitent",
         "availability": "world",
         "level": 50,
+        "presentation": {
+          "id": "population_black_keep_north_penitents",
+          "assetId": "creature_ashbound_votary_elite",
+          "scale": 1,
+          "regionId": "kilnhalt",
+          "activity": "patrol",
+          "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+          "kind": "basic"
+        },
         "adjustments": {
           "maxHealth": 120,
           "attackLevel": 50,
@@ -71873,78 +72464,78 @@
         "radius": 20,
         "formation": {
           "kind": "authored",
-          "spacing": 3.87352,
+          "spacing": 8,
           "rotation": 0
         },
         "anchorAdjustments": [
           {
             "index": 0,
             "offset": [
-              11.464037869507251,
-              3.5462424799360406
+              12.228307060807758,
+              3.7826586452651463
             ]
           },
           {
             "index": 1,
             "offset": [
-              -3.5462424799360406,
-              11.464037869507251
+              8.088943983558568,
+              10.808283176844121
             ]
           },
           {
             "index": 2,
             "offset": [
-              -11.464037869507251,
-              -3.5462424799360406
+              0.1812325407251452,
+              12.7987169187455
             ]
           },
           {
             "index": 3,
             "offset": [
-              3.5462424799360406,
-              -11.464037869507251
+              -7.779666987834299,
+              11.032986067171535
             ]
           },
           {
             "index": 4,
             "offset": [
-              0,
-              0
+              -12.116299190772118,
+              4.1273834229079025
             ]
           },
           {
             "index": 5,
             "offset": [
-              3.7930994619930516,
-              0.785209310838809
+              -12.897042603195683,
+              -3.9895227899280803
             ]
           },
           {
             "index": 6,
             "offset": [
-              1.2165385205221355,
-              3.677525148586483
+              -7.669517258485164,
+              -10.247853678785535
             ]
           },
           {
             "index": 7,
             "offset": [
-              -2.5765609414710298,
-              2.892315837747674
+              -0.19114369529605624,
+              -13.498646750239393
             ]
           },
           {
             "index": 8,
             "offset": [
-              -3.7930994619930516,
-              -0.785209310838809
+              7.376276847724373,
+              -10.460905308133011
             ]
           },
           {
             "index": 9,
             "offset": [
-              -1.2165385205221355,
-              -3.677525148586483
+              12.778909302767467,
+              -4.353099703848179
             ]
           }
         ],
@@ -106491,7 +107082,7 @@
         "id": "amethyst_dragon_t70",
         "definition": {
           "id": "amethyst_dragon_t70",
-          "name": "Purple Wilderness Dragon",
+          "name": "Amethyst Dragon",
           "family": "amethyst_dragon",
           "availability": "world",
           "level": 70,
@@ -106545,7 +107136,7 @@
         },
         "enemy": {
           "id": "amethyst_dragon_t70",
-          "name": "Purple Wilderness Dragon",
+          "name": "Amethyst Dragon",
           "family": "amethyst_dragon",
           "tier": 70,
           "maxHealth": 284,
@@ -106626,7 +107217,7 @@
           "description": "A lean purple dragon with a long neck and dark sail wings. Fine amethyst light follows the grain of its scales.",
           "stats": {
             "id": "amethyst_dragon_t70",
-            "name": "Purple Wilderness Dragon",
+            "name": "Amethyst Dragon",
             "family": "amethyst_dragon",
             "tier": 70,
             "maxHealth": 284,
@@ -106858,7 +107449,7 @@
           "presentation": {
             "id": "furnace_grazer",
             "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
+            "scale": 1.35,
             "regionId": "wilderness",
             "activity": "graze",
             "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -106920,11 +107511,11 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 0.754334697009733,
+        "scale": 1.35,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
+          "scale": 1.35,
           "regionId": "wilderness",
           "activity": "graze",
           "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -150907,7 +151498,7 @@
         },
         "enemy": {
           "id": "amethyst_dragon_t50",
-          "name": "Purple Wilderness Dragon",
+          "name": "Amethyst Dragon",
           "family": "amethyst_dragon",
           "tier": 50,
           "maxHealth": 204,
@@ -151019,7 +151610,7 @@
           "description": "A lean purple dragon with a long neck and dark sail wings. Fine amethyst light follows the grain of its scales.",
           "stats": {
             "id": "amethyst_dragon_t50",
-            "name": "Purple Wilderness Dragon",
+            "name": "Amethyst Dragon",
             "family": "amethyst_dragon",
             "tier": 50,
             "maxHealth": 204,
@@ -153272,6 +153863,15 @@
           "baseId": "cinder_penitent_t20",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "cinder_penitent_t50",
+            "assetId": "creature_ashbound_votary_elite",
+            "scale": 1,
+            "regionId": "kilnhalt",
+            "activity": "patrol",
+            "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+            "kind": "basic"
+          },
           "loot": {
             "rolls": [
               {
@@ -153416,11 +154016,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_cinder_penitent",
+        "assetId": "creature_ashbound_votary_elite",
         "scale": 1,
         "presentation": {
-          "id": "cinder_penitent",
-          "assetId": "creature_cinder_penitent",
+          "id": "cinder_penitent_t50",
+          "assetId": "creature_ashbound_votary_elite",
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -153543,7 +154143,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -153554,6 +154153,15 @@
           "baseId": "cinder_penitent_t20",
           "availability": "world",
           "level": 70,
+          "presentation": {
+            "id": "cinder_penitent_t70",
+            "assetId": "creature_ashbound_votary_elite",
+            "scale": 1,
+            "regionId": "kilnhalt",
+            "activity": "patrol",
+            "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+            "kind": "basic"
+          },
           "loot": {
             "rolls": [
               {
@@ -153706,11 +154314,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_cinder_penitent",
+        "assetId": "creature_ashbound_votary_elite",
         "scale": 1,
         "presentation": {
-          "id": "cinder_penitent",
-          "assetId": "creature_cinder_penitent",
+          "id": "cinder_penitent_t70",
+          "assetId": "creature_ashbound_votary_elite",
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -153841,7 +154449,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -154327,11 +154934,11 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 0.754334697009733,
+        "scale": 1.35,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
+          "scale": 1.35,
           "regionId": "wilderness",
           "activity": "graze",
           "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -159248,6 +159855,43 @@
           "baseId": "skeleton_archer_t5",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "skeleton_archer_t50",
+            "assetId": "creature_skeleton_archer_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "ruined watch posts",
+            "respawnMs": 30000,
+            "nativeSize": [
+              0.837203,
+              1.649144,
+              0.812991
+            ],
+            "nativeBase": [
+              -0.457728,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.6251026250344819,
+            "nativeBodyRadius": 0.4186015,
+            "attack": {
+              "action": "bow shot",
+              "proposedMechanic": "projectile",
+              "recoveryMs": 900
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "loot": {
             "rolls": [
               {
@@ -159392,11 +160036,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_archer",
+        "assetId": "creature_skeleton_archer_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_archer",
-          "assetId": "creature_skeleton_archer",
+          "id": "skeleton_archer_t50",
+          "assetId": "creature_skeleton_archer_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -159547,7 +160191,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -159558,6 +160201,43 @@
           "baseId": "skeleton_archer_t5",
           "availability": "world",
           "level": 70,
+          "presentation": {
+            "id": "skeleton_archer_t70",
+            "assetId": "creature_skeleton_archer_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "ruined watch posts",
+            "respawnMs": 30000,
+            "nativeSize": [
+              0.837203,
+              1.649144,
+              0.812991
+            ],
+            "nativeBase": [
+              -0.457728,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.6251026250344819,
+            "nativeBodyRadius": 0.4186015,
+            "attack": {
+              "action": "bow shot",
+              "proposedMechanic": "projectile",
+              "recoveryMs": 900
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "loot": {
             "rolls": [
               {
@@ -159710,11 +160390,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_archer",
+        "assetId": "creature_skeleton_archer_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_archer",
-          "assetId": "creature_skeleton_archer",
+          "id": "skeleton_archer_t70",
+          "assetId": "creature_skeleton_archer_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -159873,7 +160553,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -159884,6 +160563,43 @@
           "baseId": "skeleton_mage_t20",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "skeleton_mage_t50",
+            "assetId": "creature_skeleton_mage_elite",
+            "scale": 1,
+            "regionId": "kilnhalt",
+            "activity": "patrol",
+            "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "sealed burial halls",
+            "respawnMs": 30000,
+            "nativeSize": [
+              0.85874,
+              1.944003,
+              0.812991
+            ],
+            "nativeBase": [
+              -0.465797,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.6310350347246974,
+            "nativeBodyRadius": 0.42937,
+            "attack": {
+              "action": "staff curse",
+              "proposedMechanic": "spell",
+              "recoveryMs": 1260
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "loot": {
             "rolls": [
               {
@@ -160028,11 +160744,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_mage",
+        "assetId": "creature_skeleton_mage_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_mage",
-          "assetId": "creature_skeleton_mage",
+          "id": "skeleton_mage_t50",
+          "assetId": "creature_skeleton_mage_elite",
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -160183,7 +160899,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -160194,6 +160909,43 @@
           "baseId": "skeleton_mage_t20",
           "availability": "world",
           "level": 70,
+          "presentation": {
+            "id": "skeleton_mage_t70",
+            "assetId": "creature_skeleton_mage_elite",
+            "scale": 1,
+            "regionId": "kilnhalt",
+            "activity": "patrol",
+            "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "sealed burial halls",
+            "respawnMs": 30000,
+            "nativeSize": [
+              0.85874,
+              1.944003,
+              0.812991
+            ],
+            "nativeBase": [
+              -0.465797,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.6310350347246974,
+            "nativeBodyRadius": 0.42937,
+            "attack": {
+              "action": "staff curse",
+              "proposedMechanic": "spell",
+              "recoveryMs": 1260
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "loot": {
             "rolls": [
               {
@@ -160346,11 +161098,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_mage",
+        "assetId": "creature_skeleton_mage_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_mage",
-          "assetId": "creature_skeleton_mage",
+          "id": "skeleton_mage_t70",
+          "assetId": "creature_skeleton_mage_elite",
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -160509,7 +161261,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -160520,6 +161271,43 @@
           "baseId": "skeleton_soldier_t5",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "skeleton_soldier_t50",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "loot": {
             "rolls": [
               {
@@ -160664,11 +161452,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "skeleton_soldier_t50",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -160819,7 +161607,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -160830,6 +161617,43 @@
           "baseId": "skeleton_soldier_t5",
           "availability": "world",
           "level": 70,
+          "presentation": {
+            "id": "skeleton_soldier_t70",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "loot": {
             "rolls": [
               {
@@ -160982,11 +161806,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "skeleton_soldier_t70",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -161145,7 +161969,6 @@
           "name",
           "family",
           "profileId",
-          "presentation",
           "adjustments"
         ]
       },
@@ -168428,7 +169251,7 @@
           "level": 5,
           "presentation": {
             "id": "gorge_reavers",
-            "assetId": "outfit_female_ranger",
+            "assetId": "bandit_forest_ranger",
             "scale": 0.95,
             "regionId": "vellenwood",
             "activity": "patrol",
@@ -168540,11 +169363,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "outfit_female_ranger",
+        "assetId": "bandit_forest_ranger",
         "scale": 0.95,
         "presentation": {
           "id": "gorge_reavers",
-          "assetId": "outfit_female_ranger",
+          "assetId": "bandit_forest_ranger",
           "scale": 0.95,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -168901,7 +169724,7 @@
           "level": 10,
           "presentation": {
             "id": "karrow_reavers",
-            "assetId": "outfit_male_ranger",
+            "assetId": "bandit_highland_ranger",
             "scale": 0.9,
             "regionId": "karrowmoor",
             "activity": "patrol",
@@ -169013,11 +169836,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "outfit_male_ranger",
+        "assetId": "bandit_highland_ranger",
         "scale": 0.9,
         "presentation": {
           "id": "karrow_reavers",
-          "assetId": "outfit_male_ranger",
+          "assetId": "bandit_highland_ranger",
           "scale": 0.9,
           "regionId": "karrowmoor",
           "activity": "patrol",
@@ -169127,7 +169950,7 @@
           "level": 20,
           "presentation": {
             "id": "kilnroad_reavers",
-            "assetId": "outfit_male_ranger",
+            "assetId": "bandit_quarry_ranger",
             "scale": 0.9,
             "regionId": "kilnhalt",
             "activity": "patrol",
@@ -169239,11 +170062,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "outfit_male_ranger",
+        "assetId": "bandit_quarry_ranger",
         "scale": 0.9,
         "presentation": {
           "id": "kilnroad_reavers",
-          "assetId": "outfit_male_ranger",
+          "assetId": "bandit_quarry_ranger",
           "scale": 0.9,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -182428,6 +183251,43 @@
           "family": "skeleton_soldier",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "wilderness_broken_watch",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 136,
             "attackLevel": 51,
@@ -182577,11 +183437,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "wilderness_broken_watch",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -182732,8 +183592,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -183965,6 +184824,43 @@
           "family": "skeleton_soldier",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "black_keep_gate_guard",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 142,
             "attackLevel": 54,
@@ -184115,11 +185011,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "black_keep_gate_guard",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -184271,8 +185167,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -184284,6 +185179,43 @@
           "family": "skeleton_archer",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "black_keep_gate_archers",
+            "assetId": "creature_skeleton_archer_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "ruined watch posts",
+            "respawnMs": 30000,
+            "nativeSize": [
+              0.837203,
+              1.649144,
+              0.812991
+            ],
+            "nativeBase": [
+              -0.457728,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.6251026250344819,
+            "nativeBodyRadius": 0.4186015,
+            "attack": {
+              "action": "bow shot",
+              "proposedMechanic": "projectile",
+              "recoveryMs": 900
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 140,
             "attackLevel": 52,
@@ -184434,11 +185366,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_archer",
+        "assetId": "creature_skeleton_archer_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_archer",
-          "assetId": "creature_skeleton_archer",
+          "id": "black_keep_gate_archers",
+          "assetId": "creature_skeleton_archer_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -184590,8 +185522,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -184920,6 +185851,43 @@
           "family": "skeleton_mage",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "black_keep_north_graves",
+            "assetId": "creature_skeleton_mage_elite",
+            "scale": 1,
+            "regionId": "kilnhalt",
+            "activity": "patrol",
+            "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "sealed burial halls",
+            "respawnMs": 30000,
+            "nativeSize": [
+              0.85874,
+              1.944003,
+              0.812991
+            ],
+            "nativeBase": [
+              -0.465797,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.6310350347246974,
+            "nativeBodyRadius": 0.42937,
+            "attack": {
+              "action": "staff curse",
+              "proposedMechanic": "spell",
+              "recoveryMs": 1260
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 96,
             "attackLevel": 52,
@@ -185070,11 +186038,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_mage",
+        "assetId": "creature_skeleton_mage_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_mage",
-          "assetId": "creature_skeleton_mage",
+          "id": "black_keep_north_graves",
+          "assetId": "creature_skeleton_mage_elite",
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -185226,8 +186194,7 @@
           "maxHit": 18
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -185821,6 +186788,43 @@
           "family": "skeleton_soldier",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "wilderness_bone_patrol",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 138,
             "attackLevel": 52,
@@ -185971,11 +186975,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "wilderness_bone_patrol",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -186127,8 +187131,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -186459,6 +187462,43 @@
           "family": "skeleton_soldier",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "broken_watch_tower_haunt",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 138,
             "attackLevel": 52,
@@ -186609,11 +187649,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "broken_watch_tower_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -186765,8 +187805,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -187097,6 +188136,43 @@
           "family": "skeleton_soldier",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "dead_smithy_haunt",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 142,
             "attackLevel": 54,
@@ -187247,11 +188323,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "dead_smithy_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -187403,8 +188479,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -187735,6 +188810,43 @@
           "family": "skeleton_soldier",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "outer_watch_haunt",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 142,
             "attackLevel": 54,
@@ -187885,11 +188997,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "outer_watch_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -188041,8 +189153,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -188373,6 +189484,43 @@
           "family": "skeleton_soldier",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "eastern_cloister_haunt",
+            "assetId": "creature_skeleton_soldier_elite",
+            "scale": 1,
+            "regionId": "vellenwood",
+            "activity": "patrol",
+            "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+            "bodyFamily": "skeleton",
+            "rigFamily": "corealm_skeleton",
+            "movement": "biped",
+            "habitat": "dry crypt approaches",
+            "respawnMs": 30000,
+            "nativeSize": [
+              1.229458,
+              1.595942,
+              0.835135
+            ],
+            "nativeBase": [
+              -0.872977,
+              0.003274,
+              -0.38727
+            ],
+            "nativeVisualRadius": 0.9811584483425703,
+            "nativeBodyRadius": 0.614729,
+            "attack": {
+              "action": "sword cut",
+              "proposedMechanic": "melee",
+              "recoveryMs": 1080
+            },
+            "source": {
+              "author": "Polygon Blacksmith",
+              "license": "Standard Unity Asset Store EULA; local entitlement cache",
+              "generator": "tools/rpg-bestiary/build.mjs"
+            },
+            "acceptance": "candidate",
+            "kind": "rpg"
+          },
           "adjustments": {
             "maxHealth": 152,
             "attackLevel": 57,
@@ -188523,11 +189671,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_skeleton_soldier",
+        "assetId": "creature_skeleton_soldier_elite",
         "scale": 1,
         "presentation": {
-          "id": "skeleton_soldier",
-          "assetId": "creature_skeleton_soldier",
+          "id": "eastern_cloister_haunt",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "regionId": "vellenwood",
           "activity": "patrol",
@@ -188679,8 +189827,7 @@
           "maxHit": 12
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -189191,11 +190338,11 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 0.754334697009733,
+        "scale": 1.35,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
+          "scale": 1.35,
           "regionId": "wilderness",
           "activity": "graze",
           "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -191185,11 +192332,11 @@
         },
         "availability": "world",
         "assetId": "creature_furnace_grazer",
-        "scale": 0.754334697009733,
+        "scale": 1.35,
         "presentation": {
           "id": "furnace_grazer",
           "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
+          "scale": 1.35,
           "regionId": "wilderness",
           "activity": "graze",
           "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -198237,6 +199384,15 @@
           "family": "cinder_penitent",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "population_last_light_west_penitents",
+            "assetId": "creature_ashbound_votary_elite",
+            "scale": 1,
+            "regionId": "kilnhalt",
+            "activity": "patrol",
+            "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+            "kind": "basic"
+          },
           "adjustments": {
             "maxHealth": 110,
             "attackLevel": 44,
@@ -198386,11 +199542,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_cinder_penitent",
+        "assetId": "creature_ashbound_votary_elite",
         "scale": 1,
         "presentation": {
-          "id": "cinder_penitent",
-          "assetId": "creature_cinder_penitent",
+          "id": "population_last_light_west_penitents",
+          "assetId": "creature_ashbound_votary_elite",
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -198513,8 +199669,7 @@
           "defenceLevel": 48
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -200850,6 +202005,15 @@
           "family": "cinder_penitent",
           "availability": "world",
           "level": 50,
+          "presentation": {
+            "id": "population_black_keep_north_penitents",
+            "assetId": "creature_ashbound_votary_elite",
+            "scale": 1,
+            "regionId": "kilnhalt",
+            "activity": "patrol",
+            "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+            "kind": "basic"
+          },
           "adjustments": {
             "maxHealth": 120,
             "attackLevel": 50,
@@ -201000,11 +202164,11 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_cinder_penitent",
+        "assetId": "creature_ashbound_votary_elite",
         "scale": 1,
         "presentation": {
-          "id": "cinder_penitent",
-          "assetId": "creature_cinder_penitent",
+          "id": "population_black_keep_north_penitents",
+          "assetId": "creature_ashbound_votary_elite",
           "scale": 1,
           "regionId": "kilnhalt",
           "activity": "patrol",
@@ -201128,8 +202292,7 @@
           "maxHit": 17
         },
         "inheritedFields": [
-          "profileId",
-          "presentation"
+          "profileId"
         ]
       },
       {
@@ -209194,7 +210357,7 @@
       },
       {
         "id": "amethyst_dragon_t70",
-        "name": "Purple Wilderness Dragon",
+        "name": "Amethyst Dragon",
         "family": "amethyst_dragon",
         "tier": 70,
         "maxHealth": 284,
@@ -223731,7 +224894,7 @@
       },
       {
         "id": "amethyst_dragon_t50",
-        "name": "Purple Wilderness Dragon",
+        "name": "Amethyst Dragon",
         "family": "amethyst_dragon",
         "tier": 50,
         "maxHealth": 204,
@@ -246304,7 +247467,7 @@
         "description": "A lean purple dragon with a long neck and dark sail wings. Fine amethyst light follows the grain of its scales.",
         "stats": {
           "id": "amethyst_dragon_t70",
-          "name": "Purple Wilderness Dragon",
+          "name": "Amethyst Dragon",
           "family": "amethyst_dragon",
           "tier": 70,
           "maxHealth": 284,
@@ -246426,7 +247589,7 @@
       {
         "id": "furnace_grazer",
         "assetId": "creature_furnace_grazer",
-        "scale": 0.754334697009733,
+        "scale": 1.35,
         "regionId": "wilderness",
         "activity": "graze",
         "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -260609,6 +261772,1086 @@
         }
       },
       {
+        "id": "cinder_penitent_t50",
+        "assetId": "creature_ashbound_votary_elite",
+        "scale": 1,
+        "regionId": "kilnhalt",
+        "activity": "patrol",
+        "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+        "stats": {
+          "id": "cinder_penitent_t50",
+          "name": "Ashbound Votary",
+          "family": "cinder_penitent",
+          "tier": 50,
+          "maxHealth": 174,
+          "attackLevel": 45,
+          "defenceLevel": 60,
+          "accuracy": 60,
+          "armour": 150,
+          "magicArmour": 100,
+          "maxHit": 16,
+          "attackSpeedMs": 3000,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.3,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "cinder_penitent_t70",
+        "assetId": "creature_ashbound_votary_elite",
+        "scale": 1,
+        "regionId": "kilnhalt",
+        "activity": "patrol",
+        "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+        "stats": {
+          "id": "cinder_penitent_t70",
+          "name": "Ashbound Votary",
+          "family": "cinder_penitent",
+          "tier": 70,
+          "maxHealth": 242,
+          "attackLevel": 63,
+          "defenceLevel": 84,
+          "accuracy": 84,
+          "armour": 210,
+          "magicArmour": 140,
+          "maxHit": 22,
+          "attackSpeedMs": 3000,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.3,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            210,
+            420
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    210,
+                    420
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_void_thread",
+              "name": "Guaranteed void thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "void_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "death_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.32
+                },
+                {
+                  "itemId": "blood_rune",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.22
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "wrath_rune",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.1
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "skeleton_archer_t50",
+        "assetId": "creature_skeleton_archer_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "ruined watch posts",
+        "respawnMs": 30000,
+        "nativeSize": [
+          0.837203,
+          1.649144,
+          0.812991
+        ],
+        "nativeBase": [
+          -0.457728,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.6251026250344819,
+        "nativeBodyRadius": 0.4186015,
+        "attack": {
+          "action": "bow shot",
+          "proposedMechanic": "projectile",
+          "recoveryMs": 900
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "skeleton_archer_t50",
+          "name": "Skeleton Archer",
+          "family": "skeleton_archer",
+          "tier": 50,
+          "maxHealth": 134,
+          "attackLevel": 55,
+          "defenceLevel": 45,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 16,
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "ranged",
+          "attackRangeM": 10,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "skeleton_archer_t70",
+        "assetId": "creature_skeleton_archer_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "ruined watch posts",
+        "respawnMs": 30000,
+        "nativeSize": [
+          0.837203,
+          1.649144,
+          0.812991
+        ],
+        "nativeBase": [
+          -0.457728,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.6251026250344819,
+        "nativeBodyRadius": 0.4186015,
+        "attack": {
+          "action": "bow shot",
+          "proposedMechanic": "projectile",
+          "recoveryMs": 900
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "skeleton_archer_t70",
+          "name": "Skeleton Archer",
+          "family": "skeleton_archer",
+          "tier": 70,
+          "maxHealth": 186,
+          "attackLevel": 77,
+          "defenceLevel": 63,
+          "accuracy": 84,
+          "armour": 70,
+          "magicArmour": 70,
+          "maxHit": 22,
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            210,
+            420
+          ],
+          "attackStyle": "ranged",
+          "attackRangeM": 10,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    210,
+                    420
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_void_thread",
+              "name": "Guaranteed void thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "void_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "death_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.32
+                },
+                {
+                  "itemId": "blood_rune",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.22
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "wrath_rune",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.1
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "skeleton_mage_t50",
+        "assetId": "creature_skeleton_mage_elite",
+        "scale": 1,
+        "regionId": "kilnhalt",
+        "activity": "patrol",
+        "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "sealed burial halls",
+        "respawnMs": 30000,
+        "nativeSize": [
+          0.85874,
+          1.944003,
+          0.812991
+        ],
+        "nativeBase": [
+          -0.465797,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.6310350347246974,
+        "nativeBodyRadius": 0.42937,
+        "attack": {
+          "action": "staff curse",
+          "proposedMechanic": "spell",
+          "recoveryMs": 1260
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "skeleton_mage_t50",
+          "name": "Skeleton Mage",
+          "family": "skeleton_mage",
+          "tier": 50,
+          "maxHealth": 129,
+          "attackLevel": 55,
+          "defenceLevel": 45,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 150,
+          "maxHit": 19,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "magic",
+          "attackRangeM": 8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "skeleton_mage_t70",
+        "assetId": "creature_skeleton_mage_elite",
+        "scale": 1,
+        "regionId": "kilnhalt",
+        "activity": "patrol",
+        "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "sealed burial halls",
+        "respawnMs": 30000,
+        "nativeSize": [
+          0.85874,
+          1.944003,
+          0.812991
+        ],
+        "nativeBase": [
+          -0.465797,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.6310350347246974,
+        "nativeBodyRadius": 0.42937,
+        "attack": {
+          "action": "staff curse",
+          "proposedMechanic": "spell",
+          "recoveryMs": 1260
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "skeleton_mage_t70",
+          "name": "Skeleton Mage",
+          "family": "skeleton_mage",
+          "tier": 70,
+          "maxHealth": 179,
+          "attackLevel": 77,
+          "defenceLevel": 63,
+          "accuracy": 84,
+          "armour": 70,
+          "magicArmour": 210,
+          "maxHit": 26,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            210,
+            420
+          ],
+          "attackStyle": "magic",
+          "attackRangeM": 8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    210,
+                    420
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_void_thread",
+              "name": "Guaranteed void thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "void_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "death_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.32
+                },
+                {
+                  "itemId": "blood_rune",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.22
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "wrath_rune",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.1
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "skeleton_soldier_t50",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "skeleton_soldier_t50",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 134,
+          "attackLevel": 55,
+          "defenceLevel": 45,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 16,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "skeleton_soldier_t70",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "skeleton_soldier_t70",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 70,
+          "maxHealth": 186,
+          "attackLevel": 77,
+          "defenceLevel": 63,
+          "accuracy": 84,
+          "armour": 70,
+          "magicArmour": 70,
+          "maxHit": 22,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            210,
+            420
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    210,
+                    420
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_void_thread",
+              "name": "Guaranteed void thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "void_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "death_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.32
+                },
+                {
+                  "itemId": "blood_rune",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 0.22
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "wrath_rune",
+                  "quantity": [
+                    1,
+                    2
+                  ],
+                  "chance": 0.1
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
         "id": "veil_reaper_t50",
         "assetId": "creature_veil_reaper",
         "scale": 1.15,
@@ -263104,7 +265347,7 @@
       },
       {
         "id": "gorge_reavers",
-        "assetId": "outfit_female_ranger",
+        "assetId": "bandit_forest_ranger",
         "scale": 0.95,
         "regionId": "vellenwood",
         "activity": "patrol",
@@ -263301,7 +265544,7 @@
       },
       {
         "id": "karrow_reavers",
-        "assetId": "outfit_male_ranger",
+        "assetId": "bandit_highland_ranger",
         "scale": 0.9,
         "regionId": "karrowmoor",
         "activity": "patrol",
@@ -263389,7 +265632,7 @@
       },
       {
         "id": "kilnroad_reavers",
-        "assetId": "outfit_male_ranger",
+        "assetId": "bandit_quarry_ranger",
         "scale": 0.9,
         "regionId": "kilnhalt",
         "activity": "patrol",
@@ -264458,6 +266701,1468 @@
                     1
                   ],
                   "chance": 0.08
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "wilderness_broken_watch",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "wilderness_broken_watch",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 136,
+          "attackLevel": 51,
+          "defenceLevel": 45,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "black_keep_gate_guard",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "black_keep_gate_guard",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 142,
+          "attackLevel": 54,
+          "defenceLevel": 39,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "black_keep_gate_archers",
+        "assetId": "creature_skeleton_archer_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "ruined watch posts",
+        "respawnMs": 30000,
+        "nativeSize": [
+          0.837203,
+          1.649144,
+          0.812991
+        ],
+        "nativeBase": [
+          -0.457728,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.6251026250344819,
+        "nativeBodyRadius": 0.4186015,
+        "attack": {
+          "action": "bow shot",
+          "proposedMechanic": "projectile",
+          "recoveryMs": 900
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "black_keep_gate_archers",
+          "name": "Skeleton Archer",
+          "family": "skeleton_archer",
+          "tier": 50,
+          "maxHealth": 140,
+          "attackLevel": 52,
+          "defenceLevel": 37,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2000,
+          "aggroRadius": 10,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "ranged",
+          "attackRangeM": 10,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "black_keep_north_graves",
+        "assetId": "creature_skeleton_mage_elite",
+        "scale": 1,
+        "regionId": "kilnhalt",
+        "activity": "patrol",
+        "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "sealed burial halls",
+        "respawnMs": 30000,
+        "nativeSize": [
+          0.85874,
+          1.944003,
+          0.812991
+        ],
+        "nativeBase": [
+          -0.465797,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.6310350347246974,
+        "nativeBodyRadius": 0.42937,
+        "attack": {
+          "action": "staff curse",
+          "proposedMechanic": "spell",
+          "recoveryMs": 1260
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "black_keep_north_graves",
+          "name": "Skeleton Mage",
+          "family": "skeleton_mage",
+          "tier": 50,
+          "maxHealth": 96,
+          "attackLevel": 52,
+          "defenceLevel": 48,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 150,
+          "maxHit": 18,
+          "attackSpeedMs": 2800,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "magic",
+          "attackRangeM": 8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "wilderness_bone_patrol",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "wilderness_bone_patrol",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 138,
+          "attackLevel": 52,
+          "defenceLevel": 37,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "broken_watch_tower_haunt",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "broken_watch_tower_haunt",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 138,
+          "attackLevel": 52,
+          "defenceLevel": 37,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "dead_smithy_haunt",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "dead_smithy_haunt",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 142,
+          "attackLevel": 54,
+          "defenceLevel": 39,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "outer_watch_haunt",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "outer_watch_haunt",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 142,
+          "attackLevel": 54,
+          "defenceLevel": 39,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "eastern_cloister_haunt",
+        "assetId": "creature_skeleton_soldier_elite",
+        "scale": 1,
+        "regionId": "vellenwood",
+        "activity": "patrol",
+        "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+        "bodyFamily": "skeleton",
+        "rigFamily": "corealm_skeleton",
+        "movement": "biped",
+        "habitat": "dry crypt approaches",
+        "respawnMs": 30000,
+        "nativeSize": [
+          1.229458,
+          1.595942,
+          0.835135
+        ],
+        "nativeBase": [
+          -0.872977,
+          0.003274,
+          -0.38727
+        ],
+        "nativeVisualRadius": 0.9811584483425703,
+        "nativeBodyRadius": 0.614729,
+        "attack": {
+          "action": "sword cut",
+          "proposedMechanic": "melee",
+          "recoveryMs": 1080
+        },
+        "source": {
+          "author": "Polygon Blacksmith",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "generator": "tools/rpg-bestiary/build.mjs"
+        },
+        "acceptance": "candidate",
+        "stats": {
+          "id": "eastern_cloister_haunt",
+          "name": "Skeleton Soldier",
+          "family": "skeleton_soldier",
+          "tier": 50,
+          "maxHealth": 152,
+          "attackLevel": 57,
+          "defenceLevel": 41,
+          "accuracy": 60,
+          "armour": 50,
+          "magicArmour": 50,
+          "maxHit": 12,
+          "attackSpeedMs": 2400,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.6,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "population_last_light_west_penitents",
+        "assetId": "creature_ashbound_votary_elite",
+        "scale": 1,
+        "regionId": "kilnhalt",
+        "activity": "patrol",
+        "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+        "stats": {
+          "id": "population_last_light_west_penitents",
+          "name": "Ashbound Votary",
+          "family": "cinder_penitent",
+          "tier": 50,
+          "maxHealth": 110,
+          "attackLevel": 44,
+          "defenceLevel": 48,
+          "accuracy": 60,
+          "armour": 150,
+          "magicArmour": 100,
+          "maxHit": 16,
+          "attackSpeedMs": 3000,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.3,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "population_black_keep_north_penitents",
+        "assetId": "creature_ashbound_votary_elite",
+        "scale": 1,
+        "regionId": "kilnhalt",
+        "activity": "patrol",
+        "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+        "stats": {
+          "id": "population_black_keep_north_penitents",
+          "name": "Ashbound Votary",
+          "family": "cinder_penitent",
+          "tier": 50,
+          "maxHealth": 120,
+          "attackLevel": 50,
+          "defenceLevel": 54,
+          "accuracy": 60,
+          "armour": 150,
+          "magicArmour": 100,
+          "maxHit": 17,
+          "attackSpeedMs": 3000,
+          "aggroRadius": 7,
+          "behaviour": "aggressive",
+          "moveSpeedMps": 1.3,
+          "walkSpeedMps": 0.4,
+          "gold": [
+            150,
+            300
+          ],
+          "attackStyle": "melee",
+          "attackRangeM": 1.8,
+          "lootRolls": [
+            {
+              "id": "gold",
+              "name": "Gold",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "gold",
+                  "quantity": [
+                    150,
+                    300
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "guaranteed_grave_thread",
+              "name": "Guaranteed grave thread",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "grave_thread",
+                  "quantity": [
+                    1,
+                    3
+                  ],
+                  "chance": 1
+                }
+              ]
+            },
+            {
+              "id": "items_1",
+              "name": "Items 1",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "cosmic_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                },
+                {
+                  "itemId": "mind_rune",
+                  "quantity": [
+                    2,
+                    4
+                  ],
+                  "chance": 0.4
+                }
+              ]
+            },
+            {
+              "id": "items_2",
+              "name": "Items 2",
+              "count": 1,
+              "drops": [
+                {
+                  "itemId": "chaos_rune",
+                  "quantity": [
+                    2,
+                    3
+                  ],
+                  "chance": 0.28
+                },
+                {
+                  "itemId": "fire_opal",
+                  "quantity": [
+                    1,
+                    1
+                  ],
+                  "chance": 0.04
                 }
               ]
             }
@@ -289280,78 +292985,78 @@
           "radius": 20,
           "formation": {
             "kind": "authored",
-            "spacing": 3.87352,
+            "spacing": 8,
             "rotation": 0
           },
           "anchorAdjustments": [
             {
               "index": 0,
               "offset": [
-                11.464037869507251,
-                3.5462424799360406
+                12.228307060807758,
+                3.7826586452651463
               ]
             },
             {
               "index": 1,
               "offset": [
-                -3.5462424799360406,
-                11.464037869507251
+                8.088943983558568,
+                10.808283176844121
               ]
             },
             {
               "index": 2,
               "offset": [
-                -11.464037869507251,
-                -3.5462424799360406
+                0.1812325407251452,
+                12.7987169187455
               ]
             },
             {
               "index": 3,
               "offset": [
-                3.5462424799360406,
-                -11.464037869507251
+                -7.779666987834299,
+                11.032986067171535
               ]
             },
             {
               "index": 4,
               "offset": [
-                0,
-                0
+                -12.116299190772118,
+                4.1273834229079025
               ]
             },
             {
               "index": 5,
               "offset": [
-                3.7930994619930516,
-                0.785209310838809
+                -12.897042603195683,
+                -3.9895227899280803
               ]
             },
             {
               "index": 6,
               "offset": [
-                1.2165385205221355,
-                3.677525148586483
+                -7.669517258485164,
+                -10.247853678785535
               ]
             },
             {
               "index": 7,
               "offset": [
-                -2.5765609414710298,
-                2.892315837747674
+                -0.19114369529605624,
+                -13.498646750239393
               ]
             },
             {
               "index": 8,
               "offset": [
-                -3.7930994619930516,
-                -0.785209310838809
+                7.376276847724373,
+                -10.460905308133011
               ]
             },
             {
               "index": 9,
               "offset": [
-                -1.2165385205221355,
-                -3.677525148586483
+                12.778909302767467,
+                -4.353099703848179
               ]
             }
           ],
@@ -296738,7 +300443,7 @@
             "family": "reaver",
             "name": "Forest Bandit",
             "tier": 5,
-            "assetId": "outfit_female_ranger",
+            "assetId": "bandit_forest_ranger",
             "scale": 0.95,
             "centre": [
               233,
@@ -297180,7 +300885,7 @@
             "family": "reaver",
             "name": "Highland Bandit",
             "tier": 10,
-            "assetId": "outfit_male_ranger",
+            "assetId": "bandit_highland_ranger",
             "scale": 0.9,
             "centre": [
               147,
@@ -297700,7 +301405,7 @@
             "family": "reaver",
             "name": "Quarry Bandit",
             "tier": 20,
-            "assetId": "outfit_male_ranger",
+            "assetId": "bandit_quarry_ranger",
             "scale": 0.9,
             "centre": [
               -42,
@@ -298052,7 +301757,7 @@
             "family": "skeleton_soldier",
             "name": "Skeleton Soldier",
             "tier": 50,
-            "assetId": "creature_skeleton_soldier",
+            "assetId": "creature_skeleton_soldier_elite",
             "scale": 0.8110038600612434,
             "centre": [
               -240,
@@ -298127,7 +301832,7 @@
             "family": "skeleton_soldier",
             "name": "Skeleton Soldier",
             "tier": 50,
-            "assetId": "creature_skeleton_soldier",
+            "assetId": "creature_skeleton_soldier_elite",
             "scale": 0.8110038600612434,
             "centre": [
               27,
@@ -298142,7 +301847,7 @@
             "family": "skeleton_archer",
             "name": "Skeleton Archer",
             "tier": 50,
-            "assetId": "creature_skeleton_archer",
+            "assetId": "creature_skeleton_archer_elite",
             "scale": 0.8110038600612434,
             "centre": [
               54,
@@ -298172,7 +301877,7 @@
             "family": "skeleton_mage",
             "name": "Skeleton Mage",
             "tier": 50,
-            "assetId": "creature_skeleton_mage",
+            "assetId": "creature_skeleton_mage_elite",
             "scale": 0.9247908744337895,
             "centre": [
               55,
@@ -298217,7 +301922,7 @@
             "family": "skeleton_soldier",
             "name": "Skeleton Soldier",
             "tier": 50,
-            "assetId": "creature_skeleton_soldier",
+            "assetId": "creature_skeleton_soldier_elite",
             "scale": 0.8110038600612434,
             "centre": [
               301,
@@ -298247,7 +301952,7 @@
             "family": "skeleton_soldier",
             "name": "Skeleton Soldier",
             "tier": 50,
-            "assetId": "creature_skeleton_soldier",
+            "assetId": "creature_skeleton_soldier_elite",
             "scale": 0.8110038600612434,
             "centre": [
               -266.6611318233011,
@@ -298277,7 +301982,7 @@
             "family": "skeleton_soldier",
             "name": "Skeleton Soldier",
             "tier": 50,
-            "assetId": "creature_skeleton_soldier",
+            "assetId": "creature_skeleton_soldier_elite",
             "scale": 0.8110038600612434,
             "centre": [
               111.09061085059378,
@@ -298307,7 +302012,7 @@
             "family": "skeleton_soldier",
             "name": "Skeleton Soldier",
             "tier": 50,
-            "assetId": "creature_skeleton_soldier",
+            "assetId": "creature_skeleton_soldier_elite",
             "scale": 0.8110038600612434,
             "centre": [
               -304.50407736332045,
@@ -298337,7 +302042,7 @@
             "family": "skeleton_soldier",
             "name": "Skeleton Soldier",
             "tier": 50,
-            "assetId": "creature_skeleton_soldier",
+            "assetId": "creature_skeleton_soldier_elite",
             "scale": 0.8110038600612434,
             "centre": [
               323.4212198800577,
@@ -298383,7 +302088,7 @@
             "name": "Furnace Grazer",
             "tier": 50,
             "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
+            "scale": 1.35,
             "centre": [
               565,
               650
@@ -298593,7 +302298,7 @@
             "name": "Furnace Grazer",
             "tier": 50,
             "assetId": "creature_furnace_grazer",
-            "scale": 0.754334697009733,
+            "scale": 1.35,
             "centre": [
               190,
               484
@@ -298992,7 +302697,7 @@
             "family": "cinder_penitent",
             "name": "Ashbound Votary",
             "tier": 50,
-            "assetId": "creature_cinder_penitent",
+            "assetId": "creature_ashbound_votary_elite",
             "scale": 0.9247908744337895,
             "centre": [
               -92,
@@ -299127,7 +302832,7 @@
             "family": "cinder_penitent",
             "name": "Ashbound Votary",
             "tier": 50,
-            "assetId": "creature_cinder_penitent",
+            "assetId": "creature_ashbound_votary_elite",
             "scale": 0.9247908744337895,
             "centre": [
               88,
@@ -307942,44 +311647,44 @@
           "radius": 20,
           "anchors": [
             [
-              576.4640378695073,
-              653.546242479936
+              577.2283070608078,
+              653.7826586452652
             ],
             [
-              561.453757520064,
-              661.4640378695073
+              573.0889439835586,
+              660.8082831768442
             ],
             [
-              553.5359621304927,
-              646.453757520064
+              565.1812325407251,
+              662.7987169187455
             ],
             [
-              568.546242479936,
-              638.5359621304927
+              557.2203330121657,
+              661.0329860671716
             ],
             [
-              565,
-              650
+              552.8837008092279,
+              654.1273834229079
             ],
             [
-              568.793099461993,
-              650.7852093108388
+              552.1029573968043,
+              646.0104772100719
             ],
             [
-              566.2165385205221,
-              653.6775251485865
+              557.3304827415149,
+              639.7521463212145
             ],
             [
-              562.423439058529,
-              652.8923158377477
+              564.8088563047039,
+              636.5013532497607
             ],
             [
-              561.206900538007,
-              649.2147906891612
+              572.3762768477244,
+              639.539094691867
             ],
             [
-              563.7834614794779,
-              646.3224748514135
+              577.7789093027675,
+              645.6469002961518
             ]
           ],
           "activity": "patrol",
@@ -316647,7 +320352,7 @@
         },
         "gorge_reavers": {
           "id": "gorge_reavers",
-          "assetId": "outfit_female_ranger",
+          "assetId": "bandit_forest_ranger",
           "scale": 0.95,
           "stats": {
             "id": "gorge_reavers",
@@ -317882,7 +321587,7 @@
               }
             ]
           },
-          "bodyRadius": 1.039625453957453
+          "bodyRadius": 0.7901118509904946
         },
         "population_rootfall_west_jacks": {
           "id": "heath_jack_t5",
@@ -318138,7 +321843,7 @@
               }
             ]
           },
-          "bodyRadius": 1.039625453957453
+          "bodyRadius": 0.7901118509904946
         },
         "population_mire_skirt_striders": {
           "id": "reed_strider_t5",
@@ -318270,7 +321975,7 @@
               }
             ]
           },
-          "bodyRadius": 1.039625453957453
+          "bodyRadius": 0.7901118509904946
         },
         "population_thornline_north_jacks": {
           "id": "heath_jack_t5",
@@ -318910,7 +322615,7 @@
         },
         "karrow_reavers": {
           "id": "karrow_reavers",
-          "assetId": "outfit_male_ranger",
+          "assetId": "bandit_highland_ranger",
           "scale": 0.9,
           "stats": {
             "id": "karrow_reavers",
@@ -321570,7 +325275,7 @@
         },
         "kilnroad_reavers": {
           "id": "kilnroad_reavers",
-          "assetId": "outfit_male_ranger",
+          "assetId": "bandit_quarry_ranger",
           "scale": 0.9,
           "stats": {
             "id": "kilnroad_reavers",
@@ -323220,7 +326925,7 @@
         },
         "wilderness_broken_watch": {
           "id": "wilderness_broken_watch",
-          "assetId": "creature_skeleton_soldier",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "stats": {
             "id": "wilderness_broken_watch",
@@ -323324,7 +327029,7 @@
               }
             ]
           },
-          "bodyRadius": 0.8149300336267951
+          "bodyRadius": 0.9305870405014629
         },
         "wilderness_west_graves": {
           "id": "wilderness_west_graves",
@@ -323760,7 +327465,7 @@
         },
         "black_keep_gate_guard": {
           "id": "black_keep_gate_guard",
-          "assetId": "creature_skeleton_soldier",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "stats": {
             "id": "black_keep_gate_guard",
@@ -323864,11 +327569,11 @@
               }
             ]
           },
-          "bodyRadius": 0.8149300336267951
+          "bodyRadius": 0.9305870405014629
         },
         "black_keep_gate_archers": {
           "id": "black_keep_gate_archers",
-          "assetId": "creature_skeleton_archer",
+          "assetId": "creature_skeleton_archer_elite",
           "scale": 1,
           "stats": {
             "id": "black_keep_gate_archers",
@@ -323972,7 +327677,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5549260847464357
+          "bodyRadius": 0.5993223165543948
         },
         "black_keep_court_guard": {
           "id": "black_keep_court_guard",
@@ -324084,7 +327789,7 @@
         },
         "black_keep_north_graves": {
           "id": "black_keep_north_graves",
-          "assetId": "creature_skeleton_mage",
+          "assetId": "creature_skeleton_mage_elite",
           "scale": 1,
           "stats": {
             "id": "black_keep_north_graves",
@@ -324188,7 +327893,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5692035666688415
+          "bodyRadius": 0.603356142064164
         },
         "wilderness_east_shades": {
           "id": "wilderness_east_shades",
@@ -324408,7 +328113,7 @@
         },
         "wilderness_bone_patrol": {
           "id": "wilderness_bone_patrol",
-          "assetId": "creature_skeleton_soldier",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "stats": {
             "id": "wilderness_bone_patrol",
@@ -324512,7 +328217,7 @@
               }
             ]
           },
-          "bodyRadius": 0.8149300336267951
+          "bodyRadius": 0.9305870405014629
         },
         "wilderness_lament": {
           "id": "wilderness_lament",
@@ -324624,7 +328329,7 @@
         },
         "broken_watch_tower_haunt": {
           "id": "broken_watch_tower_haunt",
-          "assetId": "creature_skeleton_soldier",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "stats": {
             "id": "broken_watch_tower_haunt",
@@ -324728,7 +328433,7 @@
               }
             ]
           },
-          "bodyRadius": 0.8149300336267951
+          "bodyRadius": 0.9305870405014629
         },
         "nameless_abbey_haunt": {
           "id": "nameless_abbey_haunt",
@@ -324840,7 +328545,7 @@
         },
         "dead_smithy_haunt": {
           "id": "dead_smithy_haunt",
-          "assetId": "creature_skeleton_soldier",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "stats": {
             "id": "dead_smithy_haunt",
@@ -324944,7 +328649,7 @@
               }
             ]
           },
-          "bodyRadius": 0.8149300336267951
+          "bodyRadius": 0.9305870405014629
         },
         "fallen_aqueduct_haunt": {
           "id": "fallen_aqueduct_haunt",
@@ -325056,7 +328761,7 @@
         },
         "outer_watch_haunt": {
           "id": "outer_watch_haunt",
-          "assetId": "creature_skeleton_soldier",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "stats": {
             "id": "outer_watch_haunt",
@@ -325160,7 +328865,7 @@
               }
             ]
           },
-          "bodyRadius": 0.8149300336267951
+          "bodyRadius": 0.9305870405014629
         },
         "forgotten_forge_haunt": {
           "id": "forgotten_forge_haunt",
@@ -325272,7 +328977,7 @@
         },
         "eastern_cloister_haunt": {
           "id": "eastern_cloister_haunt",
-          "assetId": "creature_skeleton_soldier",
+          "assetId": "creature_skeleton_soldier_elite",
           "scale": 1,
           "stats": {
             "id": "eastern_cloister_haunt",
@@ -325376,7 +329081,7 @@
               }
             ]
           },
-          "bodyRadius": 0.8149300336267951
+          "bodyRadius": 0.9305870405014629
         },
         "eastern_aqueduct_haunt": {
           "id": "eastern_aqueduct_haunt",
@@ -325536,7 +329241,7 @@
         "wilderness_east_furnace_herd": {
           "id": "wilderness_east_furnace_herd",
           "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
+          "scale": 1.35,
           "stats": {
             "id": "wilderness_east_furnace_herd",
             "name": "Furnace Grazer",
@@ -325578,7 +329283,7 @@
               }
             ]
           },
-          "bodyRadius": 1.68676
+          "bodyRadius": 3.018725052474558
         },
         "wilderness_east_basalt_prowl": {
           "id": "wilderness_east_basalt_prowl",
@@ -325625,7 +329330,7 @@
               }
             ]
           },
-          "bodyRadius": 1.68676
+          "bodyRadius": 1.6867622576400636
         },
         "wilderness_east_rift_carapaces": {
           "id": "wilderness_east_rift_carapaces",
@@ -325907,7 +329612,7 @@
               }
             ]
           },
-          "bodyRadius": 1.68676
+          "bodyRadius": 1.6867622576400636
         },
         "nightglass_waterway_sentries": {
           "id": "nightglass_waterway_sentries",
@@ -326284,7 +329989,7 @@
         "wilderness_furnace_grazers": {
           "id": "wilderness_furnace_grazers",
           "assetId": "creature_furnace_grazer",
-          "scale": 0.754334697009733,
+          "scale": 1.35,
           "stats": {
             "id": "wilderness_furnace_grazers",
             "name": "Furnace Grazer",
@@ -326326,7 +330031,7 @@
               }
             ]
           },
-          "bodyRadius": 1.68676
+          "bodyRadius": 3.018725052474558
         },
         "wilderness_basalt_maw_hollow": {
           "id": "wilderness_basalt_maw_hollow",
@@ -326373,7 +330078,7 @@
               }
             ]
           },
-          "bodyRadius": 1.68676
+          "bodyRadius": 1.6867622576400636
         },
         "wilderness_foundry_west_carapaces": {
           "id": "wilderness_foundry_west_carapaces",
@@ -326839,7 +330544,7 @@
               }
             ]
           },
-          "bodyRadius": 3.7065300000000003
+          "bodyRadius": 3.706532458492966
         },
         "wilderness_eastern_red_dragons": {
           "id": "wilderness_eastern_red_dragons",
@@ -326916,7 +330621,7 @@
               }
             ]
           },
-          "bodyRadius": 4.01675
+          "bodyRadius": 4.062204673157251
         },
         "wilderness_eastern_gloam_conclave": {
           "id": "wilderness_eastern_gloam_conclave",
@@ -328871,7 +332576,7 @@
         },
         "population_last_light_west_penitents": {
           "id": "population_last_light_west_penitents",
-          "assetId": "creature_cinder_penitent",
+          "assetId": "creature_ashbound_votary_elite",
           "scale": 1,
           "stats": {
             "id": "population_last_light_west_penitents",
@@ -328975,7 +332680,7 @@
               }
             ]
           },
-          "bodyRadius": 0.6443823967356604
+          "bodyRadius": 0.5453865900446824
         },
         "population_last_light_east_shades": {
           "id": "population_last_light_east_shades",
@@ -329843,7 +333548,7 @@
         },
         "population_black_keep_north_penitents": {
           "id": "population_black_keep_north_penitents",
-          "assetId": "creature_cinder_penitent",
+          "assetId": "creature_ashbound_votary_elite",
           "scale": 1,
           "stats": {
             "id": "population_black_keep_north_penitents",
@@ -329947,7 +333652,7 @@
               }
             ]
           },
-          "bodyRadius": 0.6443823967356604
+          "bodyRadius": 0.5453865900446824
         },
         "population_lava_east_marrow": {
           "id": "population_lava_east_marrow",
@@ -330133,7 +333838,7 @@
               }
             ]
           },
-          "bodyRadius": 1.2467807774562238
+          "bodyRadius": 1.210675509850688
         },
         "crownward_red_whelp_south": {
           "id": "crownward_red_hatchling_t40",

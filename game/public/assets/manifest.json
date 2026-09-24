@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T04:46:39.984Z",
+  "generatedAt": "2026-09-24T05:08:21.542Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -1066,6 +1066,30 @@
       "source": "assets/art/tripo/imports/creatures/audit-user-rimeback/build-candidate.mjs",
       "license": "LicenseRef-Corealm-Original",
       "generatorSha256": "f084298695f3ee296cf9621faffe24e7d4c7984d9f08a54e3230e2694c2d6c93"
+    },
+    {
+      "id": "corealm-audit-polish-cairn-bighorn",
+      "name": "Corealm cairn bighorn polish",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-harts_ram/build-candidates.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "6140981a7ffa79c8416022a906bd2fbbe5ef9d1dd8fcbee02a50b32ecca7a6a3"
+    },
+    {
+      "id": "corealm-tripo-audit-polish-rootwood",
+      "name": "Rootwood polish candidates",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-rootwood/build-candidates.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "fc347510ded3150b472291c546502796ae04a5730d206a5e70cdc04eefde6a80"
+    },
+    {
+      "id": "corealm-audit-polish-reaver",
+      "name": "Corealm Gloamfang Reaver adaptation",
+      "author": "User / Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-reaver/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "2d73db9c14af7563cce7e9fd1046a3f534c9ca9824abd1a15bbd59b758cf156f"
     }
   ],
   "assets": [
@@ -19162,7 +19186,7 @@
     {
       "id": "creature_cairn_bighorn",
       "file": "models/creature/creature_cairn_bighorn.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-audit-polish-cairn-bighorn",
       "category": "character",
       "is": "bighorn sheep",
       "tags": [
@@ -19172,15 +19196,15 @@
         "original",
         "skinned"
       ],
-      "bytes": 2296312,
-      "sha256": "7e4c24863118769f6ec335a4d5a4ec71a898df5fb318b4d4e1370395e50e365e",
+      "bytes": 3179040,
+      "sha256": "cc06c36c29251e4f746d0428b0a061d35b6be4c3422bc36e70166e1b361d31a4",
       "size": {
-        "x": 0.7413877019882202,
+        "x": 0.8557925362586976,
         "y": 1.7042760280612856,
         "z": 2.333097236341173
       },
       "base": {
-        "x": -0.3687076637744904,
+        "x": -0.4278962681293488,
         "y": 0.002000002479180696,
         "z": -1.0114468121528626
       },
@@ -19209,17 +19233,29 @@
         "Death"
       ],
       "materials": [
-        "Sculpted_coat",
-        "Hoof_keratin",
-        "Horn_ivory",
-        "Wet_eye",
-        "Inner_ear",
-        "Muzzle_skin"
+        "animal_Sculpted_coat",
+        "animal_Hoof_keratin",
+        "animal_Horn_ivory",
+        "animal_Wet_eye",
+        "animal_Inner_ear",
+        "animal_Muzzle_skin"
       ],
       "sourceProvenance": {
-        "author": "Corealm",
-        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
-        "license": "Project-owned original"
+        "productionFile": "game/public/assets/models/creature/creature_cairn_bighorn.glb",
+        "productionSha256": "7e4c24863118769f6ec335a4d5a4ec71a898df5fb318b4d4e1370395e50e365e",
+        "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-harts_ram/sources/bighorn-candidate.glb",
+        "stagedSha256": "2fd328bea978d29e724bdb9eca68a8f96712def3efd212c7b46edfb3c9c88620",
+        "upstreamPack": "corealm-creature-expansion",
+        "upstreamAuthor": "Corealm",
+        "upstreamSource": "tools/build-creature-expansion.ts",
+        "upstreamLicense": "LicenseRef-Corealm-Original",
+        "generatedMap": "textures/creature_cairn_bighorn-imagegen-fine.png",
+        "generatedMapSha256": "65c92aa5d10fdc9814f2003db04c0f339ca336e0e4a925111cc47a3b97c7ab0b",
+        "runtimeMap": "textures/creature_cairn_bighorn-fine-runtime.jpg",
+        "runtimeMapSha256": "c35d215c120ba8ceb88107fc9c8370b6f55c9ea9ba5be03295309c12ba0087cf",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-harts_ram/build-candidates.mjs",
+        "builderSha256": "6140981a7ffa79c8416022a906bd2fbbe5ef9d1dd8fcbee02a50b32ecca7a6a3",
+        "change": "Extended staged wool sculpt: coat-only rib and shoulder lateral bulk increased progressively to about 18% over production, upper fleece raised by at most 3 cm; horns, head, lower legs, hooves, rig and eight clips retained. New image-generated fine wool albedo replaces oversized swirl map; normal and roughness maps repeat 2.5x. Coat-only smooth tint removes source wave bands. Natural creature materials bypass generic enemy tier paint."
       },
       "impliedWalkMps": 0.7894736842105263,
       "impliedRunMps": 2.327127659574468,
@@ -19400,11 +19436,18 @@
         "authoringModule": "tools/creature-expansion/hoofed.mjs"
       },
       "acceptance": {
-        "assetAudit": true,
+        "exported": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
         "worldIntegrated": false,
-        "labEvidence": "test-results/s05-hoofed-lifecycle/cairn_bighorn/report.json",
-        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/hoofed-death-export/catalogue.json"
+        "assetAudit": true
+      },
+      "attackContactNormalized": 0.46,
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
       }
     },
     {
@@ -21460,8 +21503,8 @@
         "ground",
         "horn"
       ],
-      "bytes": 6511488,
-      "sha256": "2c0dc6807f07e5a87e02f883d37a0c30d73c85deb2986a088394317e04bf2ce9",
+      "bytes": 7352152,
+      "sha256": "6ed5b410198d54e0bcea528b8770d0e548bfbd1287a16df51505a119a72110f8",
       "size": {
         "x": 1.7450177392857733,
         "y": 2.1080696907148737,
@@ -21497,15 +21540,25 @@
         "HitRight"
       ],
       "materials": [
-        "animal_basalt_drake_armor"
+        "armored_dragon_layered_basalt_plates"
       ],
       "sourceProvenance": {
-        "author": "Dungeon Mason",
-        "pack": "Dragon the Soul Eater and Dragon Boar",
-        "license": "Standard Unity Asset Store EULA",
-        "source": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
-        "texture": "DragonBoarPBR/Blue",
-        "modifications": "Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz."
+        "sourceAssetId": "creature_basalt_drake",
+        "productionFile": "game/public/assets/models/creature/creature_basalt_drake.glb",
+        "productionSha256": "2c0dc6807f07e5a87e02f883d37a0c30d73c85deb2986a088394317e04bf2ce9",
+        "upstreamAuthor": "Dungeon Mason",
+        "upstreamPack": "Dragon the Soul Eater and Dragon Boar",
+        "upstreamSource": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_drake-imagegen.png",
+        "generatedMapSha256": "8af4a4ec97d30dba9674337ba81956d0d8478243e303835856c5e59a28521418",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_basalt_drake-albedo.png",
+        "runtimeMapSha256": "09485f14632105e02298176c1cdf9ba74a7ca6d0a42f8345204da083ecee94d0",
+        "emissionMap": null,
+        "emissionMapSha256": null,
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
+        "builderSha256": "be47ea364b8076abe66d05130972613c20b082d5dfc55d2f077653f0d6e0859f",
+        "change": "Image-generated UV-aligned basalt plate albedo. Original geometry, rig, clips, normal map and ORM retained."
       },
       "impliedWalkMps": 1.0281658174696817,
       "impliedRunMps": 3.674626094038439,
@@ -21808,9 +21861,17 @@
         "authoringModule": "tools/creature-expansion/monsters.mjs"
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "exported": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root and fresh Luna normal-camera visual/native-motion review; source maps/rigs/clips preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-wide-* and polish-final-{basalt_drake,furnace_grazer}-*"
       }
     },
     {
@@ -32076,25 +32137,27 @@
     {
       "id": "creature_briar_harrow",
       "file": "models/creature/creature_briar_harrow.glb",
-      "pack": "corealm-tripo-creatures",
+      "pack": "corealm-tripo-audit-polish-rootwood",
       "category": "character",
       "is": "Bramble Tiller",
       "tags": [
         "creature",
-        "tripo"
+        "rootwood",
+        "tripo",
+        "candidate"
       ],
-      "bytes": 15864308,
-      "sha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+      "bytes": 15322832,
+      "sha256": "7e1f32cfa831ed70a618dbde5a7fe7ba6caab994143738a44e0dd11b63a051b8",
       "triangles": 5821,
       "size": {
-        "x": 2.126090594057813,
-        "y": 2.6848291196847613,
-        "z": 0.8197453641450971
+        "x": 1.6158288545132518,
+        "y": 2.040469873651308,
+        "z": 0.6230064141213071
       },
       "base": {
-        "x": -1.0630452970289055,
-        "y": -6.359279743677203e-15,
-        "z": -0.4098726820725485
+        "x": -0.8079145103747825,
+        "y": 0,
+        "z": -0.31150320214999083
       },
       "groundY": 0,
       "animations": [
@@ -32108,339 +32171,59 @@
         "Death"
       ],
       "materials": [
-        "Material_tripo_node_b8cc7017-0500-46fb-b90f-e7eba675552c"
+        "creature_briar_harrow_layered_rootwood"
       ],
       "sourceProvenance": {
         "generator": "Tripo Studio",
-        "modelId": "0900292c-ef73-40f9-864d-1f289df395f5",
-        "sourceImageId": "ee15d8d6-8b18-4986-b5ed-b87c26c1e4f7",
-        "sourceFile": "assets/art/tripo/imports/creatures/bramble-tiller-t10/sources/creature_briar_harrow-2663d6ba545d.glb",
-        "sourceSha256": "2663d6ba545d0ceea22059a45f0b269384b9f0df1b56bb6f435ed7a2c1e60e12",
-        "sourceBytes": 20755572,
+        "license": "LicenseRef-Corealm-Original",
+        "sourceFile": "game/public/assets/models/creature/creature_briar_harrow.glb",
+        "sourceSha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+        "sourceBaseColorSha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+        "originalSourceFile": "assets/art/tripo/imports/creatures/bramble-tiller-t10/sources/creature_briar_harrow-2663d6ba545d.glb",
+        "originalSourceSha256": "2663d6ba545d0ceea22059a45f0b269384b9f0df1b56bb6f435ed7a2c1e60e12",
+        "sourceCatalog": "assets/art/tripo/imports/creatures/bramble-tiller-t10/catalog.json",
+        "sourceNormalSha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+        "sourceMetallicRoughnessSha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+        "sourceGeometrySha256": {
+          "POSITION": "7e91b20735f162dc58a2fee2541e75aa8409740c301ee8b428af40c9586a7875",
+          "NORMAL": "7c2ca857819aa9f20a32c61868889070a186e68a074db3206419b8386924fa6e",
+          "TEXCOORD_0": "9a96c9e4e3f66f42cdb3b146270a31fab08dc9d132a464a96af8a83b5d3c5ca4",
+          "JOINTS_0": "299fad397279367de5e6c95065b1b0f164950196bd2d13d405f8d33bf18adcba",
+          "WEIGHTS_0": "61d6ffaca3501291979a34117f28c46a7cec7c117da6f5d3ffc498922ad132eb",
+          "indices": "85981dabd20cf4ccd2e8039bfc96a76039290c9c1ed7f75e9cf6ee07cf47d99b"
+        },
         "sourceTriangles": 5821,
-        "imageReview": {
-          "verdict": "approved",
-          "reviewer": "field_audit (gpt-6-astra low); face_audit_field_stone (gpt-6-astra low)"
-        },
-        "basisRepair": {
-          "degrees": 90,
-          "sourceSymmetry": {
-            "x": {
-              "planeCenter": 0,
-              "rms": 0.0058713591029612424,
-              "p95": 0.0009765625002582656,
-              "max": 0.05067554834748715,
-              "samples": 268
-            },
-            "z": {
-              "planeCenter": 0,
-              "rms": 0.050787503467365935,
-              "p95": 0.13344456900777843,
-              "max": 0.16179200037951416,
-              "samples": 268
-            }
-          },
-          "bindLateralAxis": [
-            -5.351346255961352e-8,
-            -1.714590935685584e-7,
-            0.9999999999999838
-          ],
-          "resultSymmetry": {
-            "x": {
-              "planeCenter": 0,
-              "rms": 0.050787503467365935,
-              "p95": 0.13344456900777843,
-              "max": 0.16179200037951416,
-              "samples": 268
-            },
-            "z": {
-              "planeCenter": 0,
-              "rms": 0.0058713591029612424,
-              "p95": 0.0009765625002582656,
-              "max": 0.05067554834748715,
-              "samples": 268
-            }
-          },
-          "method": "Explicit source-to-bind basis correction verified by bilateral mesh symmetry and the inverse-bind leg axis; positions, normals and tangents rotated without changing topology"
-        },
-        "materialTreatment": {
-          "profile": "bark-lichen",
-          "baseColorTexture": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
-          "sourceBaseColorUnmodified": true,
-          "sourceBaseColor": {
-            "width": 8192,
-            "height": 8192,
-            "bytes": 20466545,
-            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
-          },
-          "runtimeBaseColor": {
-            "width": 2048,
-            "height": 2048,
-            "mimeType": "image/jpeg",
-            "bytes": 2413140,
-            "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
-            "sourceMeanSrgb": [
-              0.3799,
-              0.3344,
-              0.2294
-            ],
-            "runtimeMeanSrgb": [
-              0.4251,
-              0.3719,
-              0.2432
-            ]
-          },
-          "colorGrade": {
-            "method": "Per-texel linear-light exposure lift with a warm residual bark grade, selective green foliage lift, and a restrained cream lift on pale lichen; no spatial filtering",
-            "maskWeights": {
-              "bark": 0.8367,
-              "paleLichen": 0.0637,
-              "foliage": 0.1092
-            }
-          },
-          "width": 2048,
-          "height": 2048,
-          "metallicFactor": 0,
-          "roughnessFactor": 1,
-          "normalScale": 0.45,
-          "relief": "Tangent-space normals from fine and broad high-pass luminance plus shallow green-moss relief, capped at a 1.2 tangent slope",
-          "roughness": {
-            "channel": "G",
-            "range": [
-              0.9,
-              0.99
-            ],
-            "mean": 0.9278,
-            "regions": "matte bark with slightly rougher green moss and pale lichen; local grain variation from the source atlas"
-          },
-          "metallic": {
-            "channel": "B",
-            "value": 0
-          },
-          "normalMap": {
-            "name": "Bramble layered bark and lichen relief normals",
-            "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
-            "bytes": 10657505,
-            "meanSlope": 0.6319,
-            "maxSlope": 1.2
-          },
-          "roughnessMap": {
-            "name": "Bramble matte bark, moss and lichen roughness",
-            "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
-            "bytes": 1967382
-          }
-        },
-        "weightRepair": {
-          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
-          "vertices": 3748,
-          "dominantJointVertices": {
-            "RightToeBase": 163,
-            "RightFoot": 278,
-            "RightLeg": 251,
-            "RightUpLeg": 194,
-            "Spine": 83,
-            "Hips": 19,
-            "RightArm": 130,
-            "RightShoulder": 181,
-            "Spine1": 23,
-            "Spine2": 19,
-            "LeftArm": 129,
-            "LeftShoulder": 162,
-            "Neck": 135,
-            "Head": 318,
-            "LeftUpLeg": 190,
-            "RightHand": 253,
-            "RightForeArm": 140,
-            "LeftLeg": 246,
-            "LeftFoot": 275,
-            "LeftForeArm": 124,
-            "LeftToeBase": 170,
-            "LeftHand": 265
-          },
-          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
-          "requiresVisualReview": false,
-          "visualReview": "Accepted in production-backed normal-camera lab across Idle, Walk, Run, Attack, Hit and grounded Death."
-        },
-        "retarget": {
-          "restoredJoints": 48,
-          "mappedJoints": 52,
-          "yawDegrees": -90.00002603576044,
-          "translationScale": 0.5524593646707193,
-          "bindBounds": {
-            "min": [
-              -0.3957520073024176,
-              -1.4777267146976885e-7,
-              -0.15258796518018136
-            ],
-            "max": [
-              0.39575189746365746,
-              0.999511697018628,
-              0.1525879565082662
-            ]
-          },
-          "clips": [
-            {
-              "name": "Idle",
-              "sourceTake": "Idle_Loop",
-              "seconds": 2.5,
-              "samples": 76,
-              "maximumGroundCorrection": 0.034935849811800514
-            },
-            {
-              "name": "Walk",
-              "sourceTake": "Walk_Loop",
-              "seconds": 1.3333333730697632,
-              "samples": 42,
-              "maximumGroundCorrection": 0.057306802947060496
-            },
-            {
-              "name": "Run",
-              "sourceTake": "Jog_Fwd_Loop",
-              "seconds": 0.9333333373069763,
-              "samples": 30,
-              "maximumGroundCorrection": 0.08136816575696057
-            },
-            {
-              "name": "Attack",
-              "sourceTake": "Punch_Jab",
-              "seconds": 0.8666666746139526,
-              "samples": 28,
-              "maximumGroundCorrection": 0.03784997561800253
-            },
-            {
-              "name": "Hit",
-              "sourceTake": "Hit_Chest",
-              "seconds": 0.3333333432674408,
-              "samples": 12,
-              "maximumGroundCorrection": 0.03674557728431698,
-              "directional": false,
-              "note": "Native frontal hit; left/right are explicit runtime aliases"
-            },
-            {
-              "name": "HitLeft",
-              "sourceTake": "Hit_Chest",
-              "seconds": 0.3333333432674408,
-              "samples": 12,
-              "maximumGroundCorrection": 0.03674557728431698,
-              "directional": false,
-              "note": "Native frontal hit; left/right are explicit runtime aliases"
-            },
-            {
-              "name": "HitRight",
-              "sourceTake": "Hit_Chest",
-              "seconds": 0.3333333432674408,
-              "samples": 12,
-              "maximumGroundCorrection": 0.03674557728431698,
-              "directional": false,
-              "note": "Native frontal hit; left/right are explicit runtime aliases"
-            },
-            {
-              "name": "Death",
-              "sourceTake": "Death01",
-              "seconds": 2.4000000953674316,
-              "samples": 74,
-              "maximumGroundCorrection": 0.11827181572890805
-            }
-          ],
-          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
-          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
-          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
-        },
-        "sourceTextures": [
-          {
-            "name": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
-            "mimeType": "image/jpeg",
-            "width": 8192,
-            "height": 8192,
-            "bytes": 20466545,
-            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
-          }
-        ]
+        "rigJoints": 48,
+        "imagegenMap": "textures/briar-orchard-generated.png",
+        "imagegenMapSha256": "081776143562ffe946783166248623bf31ff822d3f556d0d745d7c1b2e41d265",
+        "blendedAtlas": "textures/briar-tiller-basecolor-2k.jpg",
+        "blendedAtlasSha256": "fb50d5e7f7e018d135fc8b1358f8ac73cd16773a61dabfa90484df6d22d6ed54",
+        "generatorSha256": "c59477cfbcc15f5afb26302fcb609777e9d5356057c92bf1edfe3e441d12e439",
+        "modifications": "Orchard roots, fresh bramble leaves and berry detail over accepted bark; smaller head and overall size reduce human and boss reading at level 13. Source geometry, UV, skin weights, normal/roughness and native clips preserved."
       },
       "metadata": {
-        "runtimeTexturePolicy": {
-          "maxDimension": 2048,
-          "originalsPreserved": true
-        },
-        "materialTreatment": {
-          "profile": "bark-lichen",
-          "baseColorTexture": "corealm_bramble_tiller_0900292c_8k_rigged_basecolor.jpg",
-          "sourceBaseColorUnmodified": true,
-          "sourceBaseColor": {
-            "width": 8192,
-            "height": 8192,
-            "bytes": 20466545,
-            "sha256": "c8eb9d848eaa9d9dc546ff545fa67c9a30dbf0f39dc3830c7c936898179c2bd1"
-          },
-          "runtimeBaseColor": {
-            "width": 2048,
-            "height": 2048,
-            "mimeType": "image/jpeg",
-            "bytes": 2413140,
-            "sha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
-            "sourceMeanSrgb": [
-              0.3799,
-              0.3344,
-              0.2294
-            ],
-            "runtimeMeanSrgb": [
-              0.4251,
-              0.3719,
-              0.2432
-            ]
-          },
-          "colorGrade": {
-            "method": "Per-texel linear-light exposure lift with a warm residual bark grade, selective green foliage lift, and a restrained cream lift on pale lichen; no spatial filtering",
-            "maskWeights": {
-              "bark": 0.8367,
-              "paleLichen": 0.0637,
-              "foliage": 0.1092
-            }
-          },
-          "width": 2048,
-          "height": 2048,
-          "metallicFactor": 0,
-          "roughnessFactor": 1,
-          "normalScale": 0.45,
-          "relief": "Tangent-space normals from fine and broad high-pass luminance plus shallow green-moss relief, capped at a 1.2 tangent slope",
-          "roughness": {
-            "channel": "G",
-            "range": [
-              0.9,
-              0.99
-            ],
-            "mean": 0.9278,
-            "regions": "matte bark with slightly rougher green moss and pale lichen; local grain variation from the source atlas"
-          },
-          "metallic": {
-            "channel": "B",
-            "value": 0
-          },
-          "normalMap": {
-            "name": "Bramble layered bark and lichen relief normals",
-            "sha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
-            "bytes": 10657505,
-            "meanSlope": 0.6319,
-            "maxSlope": 1.2
-          },
-          "roughnessMap": {
-            "name": "Bramble matte bark, moss and lichen roughness",
-            "sha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
-            "bytes": 1967382
-          }
-        },
-        "animationAcceptance": "accepted-production-lab; six-motion normal-camera review passed, including grounded Death"
+        "role": "Orchard roots, fresh bramble leaves and berry detail over accepted bark; smaller head and overall size reduce human and boss reading at level 13.",
+        "uniformScaleMultiplier": 0.76,
+        "headScaleMultiplier": 0.82,
+        "contactMethod": "Peak forward hand reach relative to hips over 41 sampled Attack frames; pending lab contact review"
       },
       "acceptance": {
-        "exported": true,
+        "cpuMotionChecked": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "priorTierWorldProofScope": "Fallowmarch population_palewood_south_harrow_1/_2 rendered creature_briar_harrow as Bramble Tiller; sampled-rig Walk/Idle, visible drawn bounds, zero errors. Normal-camera capture: test-results/tripo-lab/bramble-authored-south.png.",
-        "worldProofScope": "Vellenwood T10 authored world; test-results/tripo-lab/t10-bramble-world.png shows ready state with zero errors, 13 Bramble Tiller tier-10 actors, first three using creature_briar_harrow, drawn heights 2.708 to 2.832 m, and live Idle rigs."
+        "worldIntegrated": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true
       },
       "walkClipSeconds": 1.3333333730697632,
       "runClipSeconds": 0.9333333373069763,
-      "attackSeconds": 0.8666666746139526
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.275,
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
     },
     {
       "id": "creature_fen_crawler",
@@ -40581,26 +40364,28 @@
       "file": "models/creature/creature_purple_wilderness_dragon.glb",
       "pack": "dungeon-mason-four-evil-dragons-pbr",
       "category": "character",
-      "is": "A Violet Dreadwing with a narrow shielded throat, lean flanks and swept wing shoulders. Sparse violet seams cross its slate hide.",
+      "is": "Violet Dreadwing",
       "tags": [
         "creature",
         "dreadwing",
         "adult",
-        "wilderness"
+        "wilderness",
+        "candidate",
+        "polished"
       ],
-      "bytes": 6659292,
-      "sha256": "7a533b8765632aeff027bb76fa085f9a35d79bb39c4261ab61cc6ec2ed307186",
+      "bytes": 6690956,
+      "sha256": "e131244cf86e519ca92c24d29ec02f06ac7664f17a7b7edd022d2d4c430f4095",
       "size": {
-        "x": 4.022394807815929,
-        "y": 3.3653147077697287,
-        "z": 7.4130646006153995
+        "x": 4.022394642108789,
+        "y": 3.432900993501512,
+        "z": 7.413064916985931
       },
       "base": {
-        "x": -2.02542340760412,
-        "y": 0.003,
-        "z": -5.495532617439226
+        "x": -2.025423539461458,
+        "y": -0.0029009913027111343,
+        "z": -5.495532749330607
       },
-      "triangles": 4686,
+      "triangles": 4902,
       "animations": [
         "Idle",
         "Walk",
@@ -40611,7 +40396,15 @@
         "Breath"
       ],
       "materials": [
-        "animal_rpg_purple_wilderness_dragon_native_scales"
+        "animal_rpg_purple_wilderness_dragon_native_scales",
+        "Violet Dreadwing faceted hornstone",
+        "Violet Dreadwing faceted hornstone",
+        "Violet Dreadwing faceted hornstone",
+        "Violet Dreadwing faceted hornstone",
+        "Violet Dreadwing faceted hornstone",
+        "Violet Dreadwing faceted hornstone",
+        "Violet Dreadwing faceted hornstone",
+        "Violet Dreadwing faceted hornstone"
       ],
       "walkClipSeconds": 1.440000057220459,
       "runClipSeconds": 0.9792000651359558,
@@ -40816,12 +40609,333 @@
         ]
       },
       "acceptance": {
-        "exported": true,
+        "sourceIdentityVerified": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-dragons/lab-deep-materials/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "bounds": {
+        "min": [
+          -2.025423539461458,
+          -0.0029009913027111343,
+          -5.495532749330607
+        ],
+        "max": [
+          1.9969711026473307,
+          3.430000002198801,
+          1.9175321676553243
+        ]
+      },
+      "groundY": -0.0029009913027111343,
+      "sourceProvenance": {
+        "sourceFile": "game/public/assets/models/creature/creature_purple_wilderness_dragon.glb",
+        "sourceSha256": "7a533b8765632aeff027bb76fa085f9a35d79bb39c4261ab61cc6ec2ed307186",
+        "sourcePack": "dungeon-mason-four-evil-dragons-pbr",
+        "sourcePackAuthor": "Dungeon Mason",
+        "sourcePackLicense": "Standard Unity Asset Store EULA",
+        "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+        "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonTerrorBringerMesh.fbx",
+        "builderFile": "assets/art/tripo/imports/creatures/audit-polish-dragons/build-candidates.mjs",
+        "builderSha256": "b00d099cbf5473adef0a5114ebf92e37845f5f70905e1474c41f91375815d33f",
+        "changes": "Native violet and umber scale atlas, pale wing membranes, normal map, 83-joint skin and seven clips retained. Added 12 dark bone and shale thorns bound to tail, back, shoulders and head, with swept twin crown horns for a distinct wilderness silhouette.",
+        "recommendation": "Keep native 3.37 m rest height and 3.7 m encounter footprint; hooked horns extend the top silhouette but not body radius.",
+        "verification": "Native mesh attributes, indices, source textures, all joints and every animation channel match the source after roundtrip serialization.",
+        "motionBounds": {
+          "Idle": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.0254233547185003,
+                0.002999989512338456,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.4359010480903818,
+                1.9175320726954164
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.0111066613854125,
+                0.0029819548385412345,
+                -5.58942447800893
+              ],
+              "max": [
+                1.9826479999771904,
+                3.3948319913548985,
+                1.895439575710475
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.0254233547185003,
+                0.0029999769394840167,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.435901035517527,
+                1.9175320726954164
+              ]
+            }
+          ],
+          "Walk": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.051617507070976,
+                0.002999987737525047,
+                -5.438742381369545
+              ],
+              "max": [
+                1.9382201741362484,
+                2.9217535309628326,
+                2.2163541258829182
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.0417857936646766,
+                0.0029130660679667487,
+                -5.442127649856701
+              ],
+              "max": [
+                1.9539308163224698,
+                2.984358478341292,
+                2.2159287565295522
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.051617507070976,
+                0.00300000917139863,
+                -5.438742381369545
+              ],
+              "max": [
+                1.9382201741362484,
+                2.9217535533145744,
+                2.2163541258829182
+              ]
+            }
+          ],
+          "Run": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.051617507070976,
+                0.002999987737525047,
+                -5.438742381369545
+              ],
+              "max": [
+                1.9382201741362484,
+                2.9217535309628326,
+                2.2163541258829182
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.0417857936646766,
+                0.002815467844027194,
+                -5.442127649856701
+              ],
+              "max": [
+                1.9539308163224698,
+                2.9842608801148875,
+                2.2159287565295522
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.051617507070976,
+                0.00300000917139863,
+                -5.438742381369545
+              ],
+              "max": [
+                1.9382201741362484,
+                2.9217535533145744,
+                2.2163541258829182
+              ]
+            }
+          ],
+          "Attack": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.0254233547185003,
+                0.0029999927719673854,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.435901051350011,
+                1.9175320726954164
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.063700260236874,
+                0.003910294465434963,
+                -5.527640870485151
+              ],
+              "max": [
+                2.0613307879347453,
+                3.1722414544304502,
+                2.9896711978949155
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.0254233547185003,
+                0.0029999769394840167,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.435901035517527,
+                1.9175320726954164
+              ]
+            }
+          ],
+          "Hit": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.0254233547185003,
+                0.0029999926742846714,
+                -5.4955327297774765
+              ],
+              "max": [
+                1.9969713566249911,
+                3.4359010601975752,
+                1.9175320726954164
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -3.0622611034342695,
+                0.0029313191407563275,
+                -5.542437981814491
+              ],
+              "max": [
+                2.7436068180083693,
+                2.641564183896131,
+                2.5059106242984366
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.0254233547185003,
+                0.0029999769394840167,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.435901035517527,
+                1.9175320726954164
+              ]
+            }
+          ],
+          "Death": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.0254233547185003,
+                0.002999989512338456,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.4359010480903818,
+                1.9175320726954164
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.935771091459781,
+                0.0020718922531424173,
+                -5.146259721576224
+              ],
+              "max": [
+                5.592715280795419,
+                5.599248525690522,
+                1.2432986691368335
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -4.30377854313741,
+                0.003000008232843316,
+                -5.5912514351362415
+              ],
+              "max": [
+                4.264518152352503,
+                2.166861046321233,
+                2.3051161640673286
+              ]
+            }
+          ],
+          "Breath": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.0254233547185003,
+                0.002999989512338456,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.4359010480903818,
+                1.9175320726954164
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.3282708316355802,
+                0.003217933657041952,
+                -5.3491102833299795
+              ],
+              "max": [
+                2.9308922671930615,
+                3.0850070103529275,
+                2.407903099188653
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.0254233547185003,
+                0.0029999769394840167,
+                -5.495532729028612
+              ],
+              "max": [
+                1.9969713566249911,
+                3.435901035517527,
+                1.9175320726954164
+              ]
+            }
+          ]
+        }
+      },
+      "acceptanceEvidence": {
+        "review": "Root and fresh Luna normal-camera visual/native-motion review; source maps/rigs/clips preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-wide-* and polish-final-{basalt_drake,furnace_grazer}-*"
       }
     },
     {
@@ -40965,8 +41079,8 @@
         "ground",
         "horn"
       ],
-      "bytes": 6893980,
-      "sha256": "d7da1efa4422f080a0ae5f7dd1df5d1e641732e9ecb672485894724bdf98dde0",
+      "bytes": 7848996,
+      "sha256": "634748c4126f681cbf390b03d3c580e2a9cba50cd3c03c08741a0f51864101a2",
       "size": {
         "x": 1.2565100332681465,
         "y": 1.5260918876231107,
@@ -40990,19 +41104,29 @@
         "HitRight"
       ],
       "materials": [
-        "animal_basalt_drake_armor"
+        "furnace_grazer_heated_basalt_plates"
       ],
       "walkClipSeconds": 1,
       "runClipSeconds": 0.800000011920929,
       "attackSeconds": 1.600000023841858,
       "contactNormalized": 0.65,
       "sourceProvenance": {
-        "author": "Dungeon Mason",
-        "pack": "Dragon the Soul Eater and Dragon Boar",
-        "license": "Standard Unity Asset Store EULA",
-        "source": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
-        "texture": "DragonBoarPBR/Blue",
-        "modifications": "Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz."
+        "sourceAssetId": "creature_furnace_grazer",
+        "productionFile": "game/public/assets/models/creature/creature_furnace_grazer.glb",
+        "productionSha256": "d7da1efa4422f080a0ae5f7dd1df5d1e641732e9ecb672485894724bdf98dde0",
+        "upstreamAuthor": "Dungeon Mason",
+        "upstreamPack": "Dragon the Soul Eater and Dragon Boar",
+        "upstreamSource": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-imagegen.png",
+        "generatedMapSha256": "d5d0f06709dad37019aaa0755feda6286e0c056156377e303a45c549b6d13c11",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-albedo.png",
+        "runtimeMapSha256": "8d609574590f91fbeea1509525e4bcdd62334401948b3dc3b75cf2be528c475d",
+        "emissionMap": "assets/art/tripo/imports/creatures/audit-polish-drakes/textures/creature_furnace_grazer-emission.png",
+        "emissionMapSha256": "f9b7a66cec3d0d139224fee49cc833fba37115ee85ac6e38bddf00b64e2dd731",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-drakes/build.mjs",
+        "builderSha256": "be47ea364b8076abe66d05130972613c20b082d5dfc55d2f077653f0d6e0859f",
+        "change": "Image-generated UV-aligned heated plate albedo and derived crack emission. Original geometry, rig, clips, normal map and ORM retained."
       },
       "metadata": {
         "id": "furnace_grazer",
@@ -41340,11 +41464,12 @@
       },
       "acceptance": {
         "exported": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_native_stone_materials/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false,
+        "assetAudit": true
       },
       "impliedWalkMps": 0.7402793885781708,
       "impliedRunMps": 2.6457307877076763,
@@ -41360,6 +41485,10 @@
           1.5290918876231105,
           2.0157964039122622
         ]
+      },
+      "acceptanceEvidence": {
+        "review": "Root and fresh Luna normal-camera visual/native-motion review; source maps/rigs/clips preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-wide-* and polish-final-{basalt_drake,furnace_grazer}-*"
       }
     },
     {
@@ -43871,7 +44000,7 @@
     {
       "id": "creature_gloamfang_reaver",
       "file": "models/creature/creature_gloamfang_reaver.glb",
-      "pack": "corealm-starred-creatures",
+      "pack": "corealm-audit-polish-reaver",
       "category": "character",
       "is": "Gloamfang Reaver",
       "tags": [
@@ -43883,28 +44012,28 @@
         "starred",
         "tripo"
       ],
-      "bytes": 6806404,
-      "sha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
+      "bytes": 6816684,
+      "sha256": "dac228e07ed57286b78fb7dd4efda72fff98378893db2942b81f6358e46224fb",
       "size": {
-        "x": 1.8809815950920246,
-        "y": 1.8,
-        "z": 0.5852760736196319
+        "x": 1.8265090878006456,
+        "y": 1.8033285880716898,
+        "z": 1.3808485062731473
       },
       "base": {
-        "x": -0.9404907975460123,
-        "y": 0,
-        "z": -0.2926380368098159
+        "x": -0.9609930056149323,
+        "y": 0.0014742269524748441,
+        "z": -0.3994632915581524
       },
       "bounds": {
         "min": [
-          -0.9404907975460123,
-          0,
-          -0.2926380368098159
+          -0.9609930056149323,
+          0.0014742269524748441,
+          -0.3994632915581524
         ],
         "max": [
-          0.9404907975460123,
-          1.8,
-          0.2926380368098159
+          0.8655160821857134,
+          1.8048028150241646,
+          0.9813852147149947
         ]
       },
       "groundY": 0,
@@ -43921,74 +44050,40 @@
       ],
       "walkClipSeconds": 1,
       "runClipSeconds": 0.68,
-      "attackSeconds": 0.86,
+      "attackSeconds": 0.8600000143051147,
       "materials": [
         "tripo_node_89cabffe-294e-403a-8a17-f533cf89b30b_material"
       ],
       "sourceProvenance": {
-        "author": "Corealm candidate rig reconstruction",
-        "sourceModelId": "57fc524c-107c-4711-ad29-7219e29eed9f",
-        "sourceCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
-        "sourceFile": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
-        "sourceSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
-        "candidateFile": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
-        "candidateSha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
-        "rigMethod": "Retained the 62-joint glTF hierarchy and source names for Unity Generic rig import; rebuilt humanoid rest transforms, bind poses and four-weight anatomical deformation, then uniformly scaled the armature to a grounded 1.80 m presentation. Source geometry, UVs and authored PBR maps are preserved.",
-        "textures": [
-          {
-            "name": "werewolf+character+3d+model_basecolor.jpg",
-            "role": "base color",
-            "width": 2048,
-            "height": 2048,
-            "mimeType": "image/jpeg",
-            "bytes": 997411,
-            "sha256": "acbc10be1e81bc09517b69b03ea34ec51b9354468fc26c0abad7143adc799705",
-            "unchanged": true
-          },
-          {
-            "name": "werewolf+character+3d+model_rm.png",
-            "role": "packed metallic-roughness",
-            "width": 2048,
-            "height": 2048,
-            "mimeType": "image/png",
-            "bytes": 4513611,
-            "sha256": "e10b63633c2177b81f1deac18913c8845656146c2f0951e0b254392c3fedf6c0",
-            "unchanged": true
-          },
-          {
-            "name": "werewolf+character+3d+model_normal.jpg",
-            "role": "normal",
-            "width": 2048,
-            "height": 2048,
-            "mimeType": "image/jpeg",
-            "bytes": 515342,
-            "sha256": "b31dcfe307e2af14f96c311f4c0a422d6baea3a7b8d6371c8abde6d89f9efd92",
-            "unchanged": true
-          }
-        ],
-        "candidateStatus": "accepted-production-lab",
-        "candidateDisplayName": "Gloamfang Reaver",
-        "productionIdentity": "Gloamfang Reaver",
-        "acceptanceEvidence": "Source image design audit approved. Direct exact-slot production lab review passed with a normal-camera Idle view and successful Walk, Run, Attack and Hit live-rig commands; all six clips passed CPU validation at 240 Hz."
+        "originalFile": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
+        "originalSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+        "productionFile": "game/public/assets/models/creature/creature_gloamfang_reaver.glb",
+        "productionSha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
+        "originalProjectId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+        "originalCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+        "license": "License not recorded in the source ledger; user-owned Tripo export",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-reaver/build-candidate.mjs",
+        "builderSha256": "704b788af012dc3ed3c141e59c9be3e094e0ec356966d277121c00b24430ab35",
+        "change": "Local 0.0645 m maximum source-space sculpt shapes a raised back ridge, fuller forward chest, tapered waist, longer hand claws and deeper toe claws; original topology, UVs, skin weights and 2K PBR maps retained. Prowling biped pose pitches spine and chest, counter-rotates head, flexes knees and lowers hips in Idle, Walk, Run, Attack and Hit. Shoulder and clavicle transforms, bind matrices and limb lengths unchanged. Death retained."
       },
       "metadata": {
         "family": "wilderness_lycanthrope",
-        "heightM": 1.8,
+        "heightM": 1.7181304967152509,
         "dimensionsM": {
-          "width": 1.8809815950920246,
-          "height": 1.8,
-          "depth": 0.5852760736196319
+          "x": 1.8265090878006456,
+          "y": 1.8033285880716898,
+          "z": 1.3808485062731473
         },
         "bounds": {
           "min": [
-            -0.9404907975460123,
-            0,
-            -0.2926380368098159
+            -0.9609930056149323,
+            0.0014742269524748441,
+            -0.3994632915581524
           ],
           "max": [
-            0.9404907975460123,
-            1.8,
-            0.2926380368098159
+            0.8655160821857134,
+            1.8048028150241646,
+            0.9813852147149947
           ]
         },
         "rig": "62-joint glTF hierarchy for Unity Generic rig import; original joint names and hierarchy retained with reconstructed transforms, bind poses and four-weight anatomical deformation",
@@ -44058,26 +44153,26 @@
           ]
         },
         "candidate": {
-          "file": "assets/art/tripo/imports/creatures/new-star-werewolf/gloamfang-reaver-native-rig-candidate.glb",
-          "sha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
-          "bytes": 6806404,
+          "file": "assets/art/tripo/imports/creatures/audit-polish-reaver/gloamfang-reaver-prowl-candidate.glb",
+          "sha256": "dac228e07ed57286b78fb7dd4efda72fff98378893db2942b81f6358e46224fb",
+          "bytes": 6816684,
           "geometry": {
             "vertices": 8047,
             "triangles": 4760,
-            "boundsMeters": {
+            "animatedBoundsMeters": {
               "min": [
-                -0.9404907975460123,
-                0,
-                -0.2926380368098159
+                -0.9609930056149323,
+                0.0014742269524748441,
+                -0.3994632915581524
               ],
               "max": [
-                0.9404907975460123,
-                1.8,
-                0.2926380368098159
+                0.8655160821857134,
+                1.8048028150241646,
+                0.9813852147149947
               ]
             },
-            "positionsPreserved": true,
-            "normalsPreserved": true,
+            "positionsPreserved": false,
+            "normalsPreserved": false,
             "uvsPreserved": true,
             "indicesPreserved": true
           },
@@ -44091,33 +44186,27 @@
           "animations": [
             {
               "name": "Idle",
-              "seconds": 2.4,
-              "channels": 12
+              "seconds": 2.4000000953674316
             },
             {
               "name": "Walk",
-              "seconds": 1,
-              "channels": 13
+              "seconds": 1
             },
             {
               "name": "Run",
-              "seconds": 0.68,
-              "channels": 14
+              "seconds": 0.6800000071525574
             },
             {
               "name": "Attack",
-              "seconds": 0.86,
-              "channels": 16
+              "seconds": 0.8600000143051147
             },
             {
               "name": "Hit",
-              "seconds": 0.48,
-              "channels": 10
+              "seconds": 0.47999998927116394
             },
             {
               "name": "Death",
-              "seconds": 1.62,
-              "channels": 16
+              "seconds": 1.6200000047683716
             }
           ],
           "productionTarget": "game/public/assets/models/creature/creature_gloamfang_reaver.glb"
@@ -44133,23 +44222,21 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "animationAcceptance": "Direct exact-slot production lab review passed: normal-camera Idle view; Walk, Run, Attack and Hit live-rig commands succeeded; all six clips, including Death, passed CPU validation at 240 Hz."
+        "animationAcceptance": "Pending root lab review of changed posture and motion"
       },
       "acceptance": {
         "assetAudit": true,
-        "sourceDesignAudit": true,
+        "sourceDesignAudit": false,
         "rigAccepted": true,
         "motionAccepted": true,
         "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "worldEvidence": "test-results/gloamfang-ground/session.jsonl",
-        "worldEvidenceLabel": "gloamfang-world-proof",
-        "worldScreenshot": "test-results/gloamfang-ground/gloamfang-world-near-normal.png",
-        "worldProofScope": "Authored-world proof in Wilderness at (210, 11.133, 683): wilderness_petrified_grove_reavers_1 through _3 all resolved to creature_gloamfang_reaver, each with one drawn mesh; live-rig Idle and Walk confirmed; zero errors.",
-        "labEvidence": "test-results/gloamfang-ground/session.jsonl",
-        "labScreenshot": "test-results/gloamfang-ground/gloamfang-ground-idle-05.png",
-        "labProofScope": "Direct exact-slot production review: normal-camera Idle screenshot; Walk, Run, Attack and Hit live-rig commands passed; all six clips were CPU-validated at 240 Hz."
+        "worldIntegrated": false
+      },
+      "contactNormalized": 0.39534883720930236,
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
       }
     },
     {
@@ -45948,26 +46035,28 @@
       "file": "models/creature/creature_amethyst_dragon.glb",
       "pack": "dungeon-mason-four-evil-dragons-pbr",
       "category": "character",
-      "is": "A lean purple dragon with a long neck, swept horns and broad dark wings. Fine amethyst light traces the grain of its small scales.",
+      "is": "Amethyst Dragon",
       "tags": [
         "creature",
         "dragon",
         "adult",
-        "wilderness"
+        "wilderness",
+        "candidate",
+        "polished"
       ],
-      "bytes": 7705064,
-      "sha256": "ebd8008e01a38becaef193e72def2a11ddcf686be94ca985e5c89707ee99ea87",
+      "bytes": 7734100,
+      "sha256": "dbce29cb6ce81e06079ee016db3ab915c5f68cae136e1ecc41b236e833d809d2",
       "size": {
-        "x": 5.623704597734273,
-        "y": 3.416436580848296,
-        "z": 8.033499210569321
+        "x": 5.615303953700639,
+        "y": 3.5276674695104546,
+        "z": 8.124409346314502
       },
       "base": {
-        "x": -2.9183374737311443,
-        "y": 0.002999999999999999,
-        "z": -4.570246271728783
+        "x": -2.9141724704213936,
+        "y": -0.02189778619981818,
+        "z": -4.595959799763563
       },
-      "triangles": 4832,
+      "triangles": 5048,
       "animations": [
         "Idle",
         "Walk",
@@ -45978,7 +46067,12 @@
         "Breath"
       ],
       "materials": [
-        "animal_rpg_amethyst_dragon_native_scales"
+        "animal_rpg_amethyst_dragon_native_scales",
+        "Amethyst Dragon faceted hornstone",
+        "Amethyst Dragon faceted hornstone",
+        "Amethyst Dragon faceted hornstone",
+        "Amethyst Dragon faceted hornstone",
+        "Amethyst Dragon faceted hornstone"
       ],
       "walkClipSeconds": 1.493333339691162,
       "runClipSeconds": 0.746666669845581,
@@ -46178,12 +46272,333 @@
         ]
       },
       "acceptance": {
-        "exported": true,
+        "sourceIdentityVerified": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-dragons/lab-deep-amethyst_dragon-materials/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "bounds": {
+        "min": [
+          -2.9141724704213936,
+          -0.02189778619981818,
+          -4.595959799763563
+        ],
+        "max": [
+          2.7011314832792457,
+          3.5057696833106364,
+          3.52844954655094
+        ]
+      },
+      "groundY": -0.02189778619981818,
+      "sourceProvenance": {
+        "sourceFile": "game/public/assets/models/creature/creature_amethyst_dragon.glb",
+        "sourceSha256": "ebd8008e01a38becaef193e72def2a11ddcf686be94ca985e5c89707ee99ea87",
+        "sourcePack": "dungeon-mason-four-evil-dragons-pbr",
+        "sourcePackAuthor": "Dungeon Mason",
+        "sourcePackLicense": "Standard Unity Asset Store EULA",
+        "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+        "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonUsurperMesh.fbx",
+        "builderFile": "assets/art/tripo/imports/creatures/audit-polish-dragons/build-candidates.mjs",
+        "builderSha256": "b00d099cbf5473adef0a5114ebf92e37845f5f70905e1474c41f91375815d33f",
+        "changes": "Native layered amethyst scale atlas, normal map, 119-joint skin, wings and seven clips retained. Added 12 faceted violet crystal spires bound to spine, chest, neck and head bones for a readable amethyst crown and high-tier dorsal silhouette.",
+        "recommendation": "Keep current 3.42 m native rest height; the taller dorsal crystals should make level 125-130 read without enlarging encounter footprint.",
+        "verification": "Native mesh attributes, indices, source textures, all joints and every animation channel match the source after roundtrip serialization.",
+        "motionBounds": {
+          "Idle": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.918337648714113,
+                0.002999969793439527,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.4194366309546274,
+                3.463253257286698
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.911562818162947,
+                0.0029775336617319584,
+                -4.309045789466855
+              ],
+              "max": [
+                2.6984266857512993,
+                3.5697496826559876,
+                3.539069622687047
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.918337648714113,
+                0.0030000461618912145,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.4194367073230767,
+                3.463253257286698
+              ]
+            }
+          ],
+          "Walk": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.939830272559311,
+                0.003000000682937993,
+                -4.003371006536461
+              ],
+              "max": [
+                2.619116654127437,
+                3.540340588562662,
+                3.3347418118305265
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.9302899711475163,
+                0.0008010351985082782,
+                -3.9263007835171515
+              ],
+              "max": [
+                2.746347892515173,
+                3.5594447609116813,
+                3.3358766361569834
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.939830272559311,
+                0.0029999243144851677,
+                -4.003371006536461
+              ],
+              "max": [
+                2.619116654127437,
+                3.5403405121942133,
+                3.3347418118305265
+              ]
+            }
+          ],
+          "Run": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.974751687626401,
+                0.0029999997210400113,
+                -3.923370089209922
+              ],
+              "max": [
+                2.5518297940742167,
+                4.448011846791454,
+                3.348809245144821
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.7970241815094177,
+                -0.004346928903751923,
+                -4.091948833579052
+              ],
+              "max": [
+                2.8081520978295296,
+                4.646979600882995,
+                3.3191649536127885
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.974751687626401,
+                0.0030000312029883815,
+                -3.923370089209922
+              ],
+              "max": [
+                2.5518297940742167,
+                4.448011883113034,
+                3.348809245144821
+              ]
+            }
+          ],
+          "Attack": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.918337648714113,
+                0.002999969793439527,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.4194366309546274,
+                3.463253257286698
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -3.999895369454015,
+                0.00298851847126846,
+                -4.48366420033606
+              ],
+              "max": [
+                3.9139980942368284,
+                2.6874867264533036,
+                3.6655555792048102
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.918337648714113,
+                0.0030000461618912145,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.4194367073230767,
+                3.463253257286698
+              ]
+            }
+          ],
+          "Hit": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.918337648714113,
+                0.002999999595762137,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.419436660756949,
+                3.463253257286698
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -4.349070451643121,
+                0.004552535648582091,
+                -4.13707518388295
+              ],
+              "max": [
+                4.376463210219748,
+                3.0194854936670104,
+                2.179846257256261
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.918337648714113,
+                0.0030000461618912145,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.4194367073230767,
+                3.463253257286698
+              ]
+            }
+          ],
+          "Death": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.918337648714113,
+                0.0030000002741081707,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.419436737125398,
+                3.463253322276347
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -4.954939960290271,
+                0.0030146256109351934,
+                -5.150128946678278
+              ],
+              "max": [
+                1.9667227260934572,
+                5.0198394293408874,
+                1.782962816870039
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -4.296335030039801,
+                0.0029999984646536465,
+                -3.908217235237968
+              ],
+              "max": [
+                3.773331455590188,
+                1.7656597325441499,
+                3.3644342179635984
+              ]
+            }
+          ],
+          "Breath": [
+            {
+              "fraction": 0,
+              "min": [
+                -2.918337648714113,
+                0.002999999595762137,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.419436660756949,
+                3.463253257286698
+              ]
+            },
+            {
+              "fraction": 0.5,
+              "min": [
+                -2.8053664364362705,
+                0.003033306128418383,
+                -4.5932568027567315
+              ],
+              "max": [
+                2.794797209264032,
+                4.177936492954084,
+                3.512780660765359
+              ]
+            },
+            {
+              "fraction": 1,
+              "min": [
+                -2.918337648714113,
+                0.0030000461618912145,
+                -4.570246521742655
+              ],
+              "max": [
+                2.705367397665154,
+                3.4194367073230767,
+                3.463253257286698
+              ]
+            }
+          ]
+        }
+      },
+      "acceptanceEvidence": {
+        "review": "Root and fresh Luna normal-camera visual/native-motion review; source maps/rigs/clips preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-wide-* and polish-final-{basalt_drake,furnace_grazer}-*"
       }
     },
     {
@@ -54847,7 +55262,7 @@
         "regional_variant",
         "crown_hart"
       ],
-      "bytes": 2940720,
+      "bytes": 2940728,
       "size": {
         "x": 0.5018596458435058,
         "y": 1.9262599363357897,
@@ -54870,12 +55285,12 @@
       ],
       "walkClipSeconds": 0.9666666388511658,
       "materials": [
-        "crown_hart_regal_coat_and_ivory_antlers"
+        "animal_crown_hart_regal_coat_and_ivory_antlers"
       ],
       "impliedWalkMps": 1.1216721226201816,
       "impliedRunMps": 3.4474474408533786,
       "runClipSeconds": 0.6333333253860474,
-      "sha256": "b028ba74660341af00c8c8721d2d1723e0ffdeb9206f03364bacd5c6f1832e84",
+      "sha256": "31d27c44633634d91e369588c64ad4badad8e670e1f629e3fb9ec2c194afc89b",
       "groundY": -0.007029476345942853,
       "metadata": {
         "fairyCrownVariant": {
@@ -54931,12 +55346,12 @@
         "runtimeMap": "textures/creature_crown_hart-runtime.jpg",
         "runtimeMapSha256": "01e16a826a43f1167dd86c0ab9ed9941f328655512dfa40f0f5455ebc8280663",
         "builder": "assets/art/tripo/imports/creatures/audit-polish-harts_ram/build-candidates.mjs",
-        "builderSha256": "dda1c726c2c86dc99780624bd7621a85abb150c162ba4273cdd0d51537ccd696",
+        "builderSha256": "6140981a7ffa79c8416022a906bd2fbbe5ef9d1dd8fcbee02a50b32ecca7a6a3",
         "change": "Native skinned antlers widened progressively up to 52% at upper tines and raised 12% above local Y 143.5; base below Y 143.5, deer body, skin weights and eight clips retained exactly. Existing detailed coat/antler map contributes restrained warm textured fill under dim lab lighting."
       },
       "acceptanceEvidence": {
-        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
-        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
       }
     },
     {
@@ -57055,31 +57470,26 @@
     {
       "id": "creature_starroot_guardian",
       "file": "models/fairy-crown/creature_starroot_guardian.glb",
-      "pack": "corealm-starred-creatures",
+      "pack": "corealm-tripo-audit-polish-rootwood",
       "category": "character",
-      "is": "starroot guardian",
+      "is": "Starroot Guardian",
       "tags": [
         "creature",
-        "faeholme",
-        "regional_variant",
-        "starroot_guardian",
-        "woodland-antler-demon",
-        "demon",
-        "t60",
-        "starred",
-        "tripo"
+        "rootwood",
+        "tripo",
+        "candidate"
       ],
-      "bytes": 7071676,
-      "sha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
+      "bytes": 6164168,
+      "sha256": "0c4d472b1a207ad56f96209adf1279c18bfd93a8f8eb1b63638d1169998e4048",
       "size": {
-        "x": 1.709493670886076,
-        "y": 1.85,
-        "z": 1.1591773045213916
+        "x": 2.1881518987341773,
+        "y": 2.368,
+        "z": 1.4837469497873814
       },
       "base": {
-        "x": -0.854746835443038,
+        "x": -1.0940759493670886,
         "y": 0,
-        "z": -0.5795886522606958
+        "z": -0.7418734748936907
       },
       "groundY": 0,
       "triangles": 3411,
@@ -57092,480 +57502,55 @@
         "Death"
       ],
       "materials": [
-        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
+        "Material_tripo_starroot_guardian_layered_rootwood"
       ],
       "walkClipSeconds": 1,
-      "runClipSeconds": 0.72,
-      "attackSeconds": 0.92,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.9200000166893005,
       "sourceProvenance": {
-        "author": "Corealm candidate rig reconstruction",
-        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/base.glb",
-        "sourceSha256": "77fff0752bef0ea2972ad07d1082e413dc3155298eb9165efeaac298d522c69e",
-        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/woodland-antler-demon-rigged.glb",
-        "candidateSha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
-        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
-        "rigMethod": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container.",
-        "textures": [
-          {
-            "name": "demon+creature+3d+model_basecolor.jpg",
-            "width": 2048,
-            "height": 2048,
-            "mime": "image/jpeg",
-            "bytes": 2107997
-          },
-          {
-            "name": "demon+creature+3d+model_rm.png",
-            "width": 2048,
-            "height": 2048,
-            "mime": "image/png",
-            "bytes": 4025092
-          },
-          {
-            "name": "demon+creature+3d+model_normal.jpg",
-            "width": 2048,
-            "height": 2048,
-            "mime": "image/jpeg",
-            "bytes": 524633
-          }
-        ],
-        "candidateStatus": "accepted-production-lab",
-        "candidateDisplayName": "Woodland Antler Demon",
-        "productionIdentity": "Starroot Guardian",
-        "acceptanceEvidence": "Accepted in production lab: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
+        "generator": "Tripo Studio",
+        "license": "LicenseRef-Corealm-Original",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-rootwood/sources/creature_starroot_guardian.glb",
+        "sourceSha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
+        "sourceBaseColorSha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8",
+        "originalSourceFile": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+        "originalSourceSha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+        "sourceCatalog": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/catalog.json",
+        "sourceNormalSha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109",
+        "sourceMetallicRoughnessSha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167",
+        "candidateMetallicRoughnessSha256": "a73dab65036b2c510d3a84ebb5251d132fd70dd5ff765c3873715cf353450355",
+        "authoredMaterialName": "Material_tripo_starroot_guardian_layered_rootwood",
+        "sourceGeometrySha256": {
+          "POSITION": "6e511ffb1735c80232401a24dbdd9fb54831af722eed0ccfcdaf5073705c214c",
+          "NORMAL": "60eaf97577d5be53fe549a54259d8bf61d4e05fd487808b0f3831efaa2c24ae4",
+          "TEXCOORD_0": "67fe047b71f5435fc6f9bbaafb87e72accae7dcaa7c7e0ff7a493d85d6af4252",
+          "JOINTS_0": "189ea7e3a86c0bc31c5da7643b15f14b11f0f7031836b2d6b205326a1065fae9",
+          "WEIGHTS_0": "08d4d53db682c85d4b6afb57e6e3e8b3fe99f8a4f6ebbd096d2f0242e24f1c46",
+          "indices": "be1d9eeacd9ada17150fb78c2ffda3c1d838c9def8f42ea027268b62792b4cb5"
+        },
+        "sourceTriangles": 3411,
+        "rigJoints": 22,
+        "imagegenMap": "textures/starroot-deepwood-generated-v2.png",
+        "imagegenMapSha256": "ae50eca16191cecf3b5b2b93b2337634d4e2db947e80d253d2d8e25586237089",
+        "blendedAtlas": "textures/starroot-guardian-basecolor-v2-2k.jpg",
+        "blendedAtlasSha256": "45be1f6733060771384d7bd3058d97781b1dde4804411605ae63a7924ca14005",
+        "generatorSha256": "fc347510ded3150b472291c546502796ae04a5730d206a5e70cdc04eefde6a80",
+        "modifications": "High-contrast guardian bark, deep purple-blue fissures, jade moss, amber flowers and turquoise sap over the accepted branch-antler source; height lifted for level 106. Image-authored Tripo material prefix protects the bark from level-106 tier-metal tint; dielectric metallic factor 0; source ORM roughness channel remapped to matte bark while retaining its variation; original normal and native clips preserved."
       },
       "metadata": {
-        "family": "faeholme_woodland_creature",
-        "candidateDisplayName": "Woodland Antler Demon",
-        "heightM": 1.85,
-        "dimensionsM": {
-          "width": 1.709493670886076,
-          "height": 1.85,
-          "depth": 1.1591773045213916
-        },
-        "bounds": {
-          "min": [
-            -0.854746835443038,
-            0,
-            -0.5795886522606958
-          ],
-          "max": [
-            0.854746835443038,
-            1.85,
-            0.5795886522606958
-          ]
-        },
-        "rig": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container.",
-        "sourceSkinned": true,
-        "boneCount": 22,
-        "vertices": 6285,
-        "triangles": 3411,
-        "source": {
-          "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/base.glb",
-          "sha256": "77fff0752bef0ea2972ad07d1082e413dc3155298eb9165efeaac298d522c69e",
-          "bytes": 6901620,
-          "modelSource": {
-            "file": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
-            "sha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
-            "cardStorageUuid": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
-            "starredStatus": "in My Assets; not starred in Collected at extraction time",
-            "sourceCell": {
-              "row": 1,
-              "column": 3
-            },
-            "triangleCount": 3411,
-            "vertexCount": 6285,
-            "sourceBounds": {
-              "min": [
-                0.2021484225988388,
-                0.6894531846046448,
-                -0.24707037210464478
-              ],
-              "max": [
-                0.4873046875,
-                0.9980469346046448,
-                -0.05371098592877388
-              ]
-            },
-            "sourcePositionOffset": [
-              0.3447265550494194,
-              0.6894531846046448,
-              -0.15039067901670933
-            ],
-            "attributeHashes": {
-              "POSITION": "962e7c220cb53ca983270814b09d4b36475bf0c1833659dc5d4808a53f768760",
-              "NORMAL": "60eaf97577d5be53fe549a54259d8bf61d4e05fd487808b0f3831efaa2c24ae4",
-              "TEXCOORD_0": "67fe047b71f5435fc6f9bbaafb87e72accae7dcaa7c7e0ff7a493d85d6af4252"
-            },
-            "triangleIndexHash": "2a6053c4b687f41b10c6b0873f64f18876fda4caee22d6eb5976c214985d1409",
-            "pbrTextures": [
-              {
-                "name": "demon+creature+3d+model_basecolor.jpg",
-                "width": 8192,
-                "height": 8192,
-                "mimeType": "image/jpeg",
-                "format": "jpeg",
-                "bytes": 11930620,
-                "sha256": "f1b7ce7553920d45c3d672474aae103944f4f7d92cec7540e3e49f6925104047"
-              },
-              {
-                "name": "demon+creature+3d+model_rm.png",
-                "width": 4096,
-                "height": 4096,
-                "mimeType": "image/png",
-                "format": "png",
-                "bytes": 12863099,
-                "sha256": "cf5b9686a1611418b0345f359dd4d761a485d3781765e1d7230fbd69424a5d50"
-              },
-              {
-                "name": "demon+creature+3d+model_normal.jpg",
-                "width": 4096,
-                "height": 4096,
-                "mimeType": "image/jpeg",
-                "format": "jpeg",
-                "bytes": 1237111,
-                "sha256": "35a4aff971ae220f0d92d194ea40a6c090aabc7a77118176a521fee00e91d45b"
-              }
-            ],
-            "skin": "none",
-            "animations": []
-          },
-          "geometry": {
-            "vertices": 6285,
-            "triangles": 3411,
-            "positionsPreserved": true,
-            "normalsPreserved": true,
-            "uvsPreserved": true,
-            "indicesPreserved": true,
-            "retopology": false
-          },
-          "textures": [
-            {
-              "name": "demon+creature+3d+model_basecolor.jpg",
-              "width": 2048,
-              "height": 2048,
-              "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
-            },
-            {
-              "name": "demon+creature+3d+model_rm.png",
-              "width": 2048,
-              "height": 2048,
-              "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
-            },
-            {
-              "name": "demon+creature+3d+model_normal.jpg",
-              "width": 2048,
-              "height": 2048,
-              "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
-            }
-          ],
-          "sourceSkin": "none",
-          "sourceAnimations": []
-        },
-        "candidate": {
-          "file": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/woodland-antler-demon-rigged.glb",
-          "sha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
-          "bytes": 7071676,
-          "productionTarget": "game/public/assets/models/creature/creature_woodland_antler_demon.glb",
-          "rig": {
-            "type": "Mixamo-named humanoid glTF skin",
-            "rootScale": [
-              5.9949367088607595,
-              5.9949367088607595,
-              5.9949367088607595
-            ],
-            "scaleFactor": 5.9949367088607595,
-            "targetHeightMeters": 1.85,
-            "joints": [
-              {
-                "name": "mixamorigHips",
-                "parent": null,
-                "position": [
-                  0,
-                  0.148125,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigSpine",
-                "parent": "mixamorigHips",
-                "position": [
-                  0,
-                  0.1820703125,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigSpine1",
-                "parent": "mixamorigSpine",
-                "position": [
-                  0,
-                  0.216015625,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigSpine2",
-                "parent": "mixamorigSpine1",
-                "position": [
-                  0,
-                  0.24070312500000002,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigNeck",
-                "parent": "mixamorigSpine2",
-                "position": [
-                  0,
-                  0.265390625,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigHead",
-                "parent": "mixamorigNeck",
-                "position": [
-                  0,
-                  0.28390625,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftShoulder",
-                "parent": "mixamorigSpine2",
-                "position": [
-                  -0.057031250000000006,
-                  0.2376171875,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftArm",
-                "parent": "mixamorigLeftShoulder",
-                "position": [
-                  -0.0883984375,
-                  0.2067578125,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftForeArm",
-                "parent": "mixamorigLeftArm",
-                "position": [
-                  -0.11406250000000001,
-                  0.16664062500000001,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftHand",
-                "parent": "mixamorigLeftForeArm",
-                "position": [
-                  -0.1226171875,
-                  0.141953125,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigRightShoulder",
-                "parent": "mixamorigSpine2",
-                "position": [
-                  0.057031250000000006,
-                  0.2376171875,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigRightArm",
-                "parent": "mixamorigRightShoulder",
-                "position": [
-                  0.0883984375,
-                  0.2067578125,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigRightForeArm",
-                "parent": "mixamorigRightArm",
-                "position": [
-                  0.11406250000000001,
-                  0.16664062500000001,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigRightHand",
-                "parent": "mixamorigRightForeArm",
-                "position": [
-                  0.1226171875,
-                  0.141953125,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftUpLeg",
-                "parent": "mixamorigHips",
-                "position": [
-                  -0.0370703125,
-                  0.12035156250000001,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftLeg",
-                "parent": "mixamorigLeftUpLeg",
-                "position": [
-                  -0.039921875,
-                  0.052460937500000006,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftFoot",
-                "parent": "mixamorigLeftLeg",
-                "position": [
-                  -0.039921875,
-                  0.018515625,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigLeftToeBase",
-                "parent": "mixamorigLeftFoot",
-                "position": [
-                  -0.039921875,
-                  0.01080078125,
-                  0.018515625
-                ]
-              },
-              {
-                "name": "mixamorigRightUpLeg",
-                "parent": "mixamorigHips",
-                "position": [
-                  0.0370703125,
-                  0.12035156250000001,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigRightLeg",
-                "parent": "mixamorigRightUpLeg",
-                "position": [
-                  0.039921875,
-                  0.052460937500000006,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigRightFoot",
-                "parent": "mixamorigRightLeg",
-                "position": [
-                  0.039921875,
-                  0.018515625,
-                  0
-                ]
-              },
-              {
-                "name": "mixamorigRightToeBase",
-                "parent": "mixamorigRightFoot",
-                "position": [
-                  0.039921875,
-                  0.01080078125,
-                  0.018515625
-                ]
-              }
-            ],
-            "influencesPerVertex": 4,
-            "verticesWithDistributedWeights": 6285,
-            "maximumWeightSumError": 0,
-            "method": "Model-scaled four-influence anatomical segment distance fields with head, arm and leg gates; uniform scale is applied to the armature container."
-          },
-          "textures": [
-            {
-              "name": "demon+creature+3d+model_basecolor.jpg",
-              "width": 2048,
-              "height": 2048,
-              "mime": "image/jpeg",
-              "bytes": 2107997,
-              "sha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8"
-            },
-            {
-              "name": "demon+creature+3d+model_rm.png",
-              "width": 2048,
-              "height": 2048,
-              "mime": "image/png",
-              "bytes": 4025092,
-              "sha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167"
-            },
-            {
-              "name": "demon+creature+3d+model_normal.jpg",
-              "width": 2048,
-              "height": 2048,
-              "mime": "image/jpeg",
-              "bytes": 524633,
-              "sha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109"
-            }
-          ],
-          "animations": [
-            {
-              "name": "Idle",
-              "seconds": 2.8,
-              "channels": 2
-            },
-            {
-              "name": "Walk",
-              "seconds": 1,
-              "channels": 7
-            },
-            {
-              "name": "Run",
-              "seconds": 0.72,
-              "channels": 7
-            },
-            {
-              "name": "Attack",
-              "seconds": 0.92,
-              "channels": 4
-            },
-            {
-              "name": "Hit",
-              "seconds": 0.46,
-              "channels": 3
-            },
-            {
-              "name": "Death",
-              "seconds": 1.45,
-              "channels": 5
-            }
-          ],
-          "acceptance": {
-            "rig": true,
-            "animation": true,
-            "textures": true,
-            "labAccepted": true,
-            "worldIntegrated": false
-          }
-        },
-        "pbr": {
-          "baseColor": true,
-          "packedMetallicRoughness": true,
-          "normal": true,
-          "allMapsMaximum": 2048
-        },
-        "runtimeTexturePolicy": {
-          "maxDimension": 2048,
-          "sharedByEncodedSha256": true,
-          "originalsPreserved": true
-        },
-        "animationAcceptance": "Accepted in production lab: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
+        "role": "High-contrast guardian bark, deep purple-blue fissures, jade moss, amber flowers and turquoise sap over the accepted branch-antler source; height lifted for level 106.",
+        "uniformScaleMultiplier": 1.28,
+        "headScaleMultiplier": 1,
+        "contactMethod": "Peak forward hand reach relative to hips over 41 sampled Attack frames; pending lab contact review"
       },
       "acceptance": {
+        "cpuMotionChecked": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
         "assetAudit": true,
         "rigAccepted": true,
         "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "texturesAccepted": true
       },
       "bounds": {
         "min": [
@@ -57578,6 +57563,11 @@
           1.85,
           0.5795886522606958
         ]
+      },
+      "contactNormalized": 0.55,
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
       }
     },
     {
@@ -71768,6 +71758,975 @@
           "test-results/armor-production-verify/crownsilver-2k-walk-04.png",
           "test-results/armor-production-verify/crownsilver-2k-walk-09.png"
         ]
+      }
+    },
+    {
+      "id": "creature_ashbound_votary_elite",
+      "file": "models/creature/creature_ashbound_votary_elite.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "Ashbound Votary elite candidate",
+      "tags": [
+        "creature",
+        "ashlands",
+        "votary",
+        "elite",
+        "candidate"
+      ],
+      "bytes": 14623960,
+      "sha256": "55639a66fd6477e99b892201eb41d0b9c62cf5373eece5e8a6a7bb6b002ef438",
+      "triangles": 9162,
+      "size": {
+        "x": 0.8228080563090538,
+        "y": 2.0598287572267275,
+        "z": 0.5457427550607531
+      },
+      "base": {
+        "x": -0.38937961281414124,
+        "y": 0.1,
+        "z": -0.3208682165566398
+      },
+      "groundY": 0,
+      "bounds": {
+        "min": [
+          -0.38937961281414124,
+          0.1,
+          -0.3208682165566398
+        ],
+        "max": [
+          0.4334284434949126,
+          2.1598287572267276,
+          0.22487453850411332
+        ]
+      },
+      "animations": [
+        "Idle",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death",
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "animal_rpg_cinder_penitent_woven_shroud",
+        "animal_rpg_cinder_penitent_woven_shroud",
+        "animal_rpg_cinder_penitent_ash_hands",
+        "animal_rpg_cinder_penitent_recessed_cavities",
+        "animal_rpg_cinder_penitent_oxidized_iron",
+        "animal_rpg_cinder_penitent_ash_linen"
+      ],
+      "attackSeconds": 1.8399999141693115,
+      "contactNormalized": 0.38,
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "stagedFile": "assets/art/tripo/imports/creatures/audit-polish-votary/sources/creature_cinder_penitent.glb",
+        "stagedSha256": "7e15be48aa0c124adbe3be6295e01bda1327659f7652db4841410ff8056b1152",
+        "originalSourceAssetId": "creature_revenant",
+        "originalSourceSha256": "c20da925ab713f8dae7e73ad85d41584d6063c25647249e17b1040bad90f1bdb",
+        "originalBuilder": "tools/biome-creatures/ash/build.mjs",
+        "originalBuilderSha256": "a04b19d6af1928db9c863871dca36005a283534a5304357b531cfde79dacc307",
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "imagegenAtlas": {
+          "path": "art/biome-creatures/ash/anatomy-material-atlas.png",
+          "sha256": "09f49a1891f9576883f1d422c86651ec0207e1b34b0e11cc04f525a2ed1e3d5d",
+          "embeddedJpegSha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+          "uvLayout": "3x2: bone, slag, iron / linen, hide, basalt",
+          "generator": "Built-in imagegen; prompt in art/biome-creatures/ash/atlas-prompt.txt"
+        },
+        "embeddedTextures": [
+          {
+            "name": "revenant_revenant_source_Male_Wizard_Body_MI_Wizard_normal",
+            "sha256": "c51516996ee8bcb261c6c775a3fc09eba365244a39d567ef20b824859947b6ae",
+            "bytes": 5066920
+          },
+          {
+            "name": "revenant_revenant_source_Male_Wizard_Arms_MI_Regular_Male_normal",
+            "sha256": "f643cfde033a149769bac86ca6b8ef89c65cbdeef45c70f9580ee5efc766d101",
+            "bytes": 6320693
+          },
+          {
+            "name": "revenant_woven_burial_cloth",
+            "sha256": "6364be3834307bd6a3f10f855ef0beaec67475a46161110b7b2464dac461a459",
+            "bytes": 1798478
+          },
+          {
+            "name": "ash_authored_anatomy_atlas",
+            "sha256": "ca8cae85664e912142c0362fd32dc1516fcf3cb46ece0346e51d734151f7915a",
+            "bytes": 599991
+          }
+        ],
+        "productionLowTierFile": "assets/art/tripo/imports/creatures/audit-polish-votary/sources/production_creature_cinder_penitent.glb",
+        "productionLowTierSha256": "e320ed21c160e5b38c0b9f52ed8caaf1f6418c3c6c05ae7b2d8a32c2fe4ae815",
+        "builderFile": "assets/art/tripo/imports/creatures/audit-polish-votary/build-candidate.mjs",
+        "builderSha256": "d662b2edd1ed807079f24a267fa2e38ffeedc870d8c4c105f900228cd9c46828"
+      },
+      "metadata": {
+        "shapeTreatment": "Sealed elongated iron face, high burnt collar and split asymmetric hovering shroud; visibly distinct from the accepted cloth-and-ember human votary.",
+        "retainedSourceRig": "65 joints",
+        "retainedSourceClips": [
+          {
+            "name": "Idle",
+            "seconds": 3
+          },
+          {
+            "name": "Attack",
+            "seconds": 1.8399999141693115
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.4000000059604645
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.4000000059604645
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.4000000059604645
+          },
+          {
+            "name": "Death",
+            "seconds": 2.880000114440918
+          },
+          {
+            "name": "Walk",
+            "seconds": 3
+          },
+          {
+            "name": "Run",
+            "seconds": 3
+          }
+        ],
+        "sampledSourceMotion": [
+          {
+            "clip": "Idle",
+            "duration": 3,
+            "bounds": {
+              "min": [
+                -0.3977721798967487,
+                0.07600000000000001,
+                -0.3371588380747949
+              ],
+              "max": [
+                0.43586797997499455,
+                2.1853662728627503,
+                0.25160806326823354
+              ]
+            }
+          },
+          {
+            "clip": "Attack",
+            "duration": 1.8399999141693115,
+            "bounds": {
+              "min": [
+                -0.8096416202672596,
+                0.07600000000000001,
+                -0.8815189207316383
+              ],
+              "max": [
+                0.753659469798797,
+                2.178501007449136,
+                0.8678707554790278
+              ]
+            }
+          },
+          {
+            "clip": "Hit",
+            "duration": 0.4000000059604645,
+            "bounds": {
+              "min": [
+                -0.37665142064153495,
+                0.07600000000000001,
+                -0.5576175751499229
+              ],
+              "max": [
+                0.4012289221881378,
+                2.159880015391894,
+                0.3573924896578218
+              ]
+            }
+          },
+          {
+            "clip": "HitLeft",
+            "duration": 0.4000000059604645,
+            "bounds": {
+              "min": [
+                -0.37665142064153495,
+                0.07600000000000001,
+                -0.5591738545068665
+              ],
+              "max": [
+                0.4326886075167846,
+                2.159880015618951,
+                0.3573924896578218
+              ]
+            }
+          },
+          {
+            "clip": "HitRight",
+            "duration": 0.4000000059604645,
+            "bounds": {
+              "min": [
+                -0.37665142064153495,
+                0.07600000000000001,
+                -0.5554397448649697
+              ],
+              "max": [
+                0.40069653676958933,
+                2.159880015618951,
+                0.3573924896578218
+              ]
+            }
+          },
+          {
+            "clip": "Death",
+            "duration": 2.880000114440918,
+            "bounds": {
+              "min": [
+                -0.6434942099284777,
+                0.0029999999999999957,
+                -1.7217503348770573
+              ],
+              "max": [
+                0.5045207842071944,
+                2.064321272353159,
+                0.3740172254016006
+              ]
+            }
+          },
+          {
+            "clip": "Walk",
+            "duration": 3,
+            "bounds": {
+              "min": [
+                -0.3977721798967487,
+                0.07600000000000001,
+                -0.3371588380747949
+              ],
+              "max": [
+                0.43586797997499455,
+                2.1853662728627503,
+                0.25160806326823354
+              ]
+            }
+          },
+          {
+            "clip": "Run",
+            "duration": 3,
+            "bounds": {
+              "min": [
+                -0.3977721798967487,
+                0.07600000000000001,
+                -0.3371588380747949
+              ],
+              "max": [
+                0.43586797997499455,
+                2.1853662728627503,
+                0.25160806326823354
+              ]
+            }
+          }
+        ],
+        "visualReference": [
+          "test-results/biome-creatures/ash/cinder_penitent-front.png",
+          "test-results/biome-creatures/ash/cinder_penitent-side.png"
+        ]
+      },
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*",
+        "materialFix": "polish-fixed-votary-run-03/08 verifies authored cloth at level90 after material-name exemption."
+      }
+    },
+    {
+      "id": "creature_skeleton_archer_elite",
+      "file": "models/creature/creature_skeleton_archer_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Archer",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "archer"
+      ],
+      "bytes": 11419904,
+      "sha256": "98d76ac03960f9a5d47763b24e809f35fcf744550cdc67f29ea4ba91639bb1e3",
+      "size": {
+        "x": 0.9041792361384615,
+        "y": 1.8163383573499348,
+        "z": 0.8780299321925482
+      },
+      "base": {
+        "x": -0.49434630549417996,
+        "y": 0.0035360399331534234,
+        "z": -0.4182512858718113
+      },
+      "groundY": 0.0035360399331534234,
+      "triangles": 1940,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_archer_DS_Skeleton_standard",
+        "animal_rpg_skeleton_archer_DS_equipment_standard",
+        "animal_rpg_skeleton_archer_Variant_oiled_yew",
+        "animal_rpg_skeleton_archer_Variant_aged_brass",
+        "animal_rpg_skeleton_archer_Variant_worn_leather",
+        "animal_rpg_skeleton_archer_Variant_bowstring",
+        "animal_rpg_skeleton_archer_Variant_arrowhead"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_archer",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_archer.glb",
+        "sourceSha256": "aadfc7aa677557a9a6f50076b2ef8b19cd99dcf7ad4682c8b65d2b2f33c94ba0",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_archer_elite.glb",
+        "candidateSha256": "98d76ac03960f9a5d47763b24e809f35fcf744550cdc67f29ea4ba91639bb1e3",
+        "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-bone.png",
+            "sha256": "3234878e79fbc5753c88da1ca93593e9cd08a8306f120f64ec015f3a8ebd8279",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-equipment.png",
+            "sha256": "2d6c06e6d91476eb1c4a63367051b349b8aaca6a9fd87fc4ee54731fcdc2d527",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-skeletons/build-candidate.mjs",
+        "generatorSha256": "07a8e88f530bf9f1bf2e4fa1e4fb4ddca7e2e8cc54977611f1a0b4f7f444a041",
+        "upstreamCandidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_archer_elite.glb",
+        "upstreamCandidateSha256": "8366153e7b1c845da2cde13e523e73c75bfd948cba9a6eef47217e2273d661b0"
+      },
+      "metadata": {
+        "family": "skeleton_archer",
+        "tier": "elite",
+        "scaleFactor": 1.08,
+        "artDirection": "High-tier crypt veteran with distinct role armor: archer circlet and arrowhead shoulders, mage crescent crown and ritual mantle, soldier crested helm and fortress plates.",
+        "gear": [
+          {
+            "name": "antlered target circlet",
+            "joint": "Bip001_Head",
+            "triangles": 36
+          },
+          {
+            "name": "left arrowhead pauldron",
+            "joint": "Bip001_L_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "right arrowhead pauldron",
+            "joint": "Bip001_R_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "archer chest chevron",
+            "joint": "Bip001_Spine1",
+            "triangles": 20
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "creature_skeleton_mage_elite",
+      "file": "models/creature/creature_skeleton_mage_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Mage",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "mage"
+      ],
+      "bytes": 11141812,
+      "sha256": "c1a9a36a72ffbf2881e2a7d71e58053470de202fff40269c3737a21354d4bf35",
+      "size": {
+        "x": 0.9102649452258651,
+        "y": 2.060643299129631,
+        "z": 0.8617701186334273
+      },
+      "base": {
+        "x": -0.4937450340031507,
+        "y": 0.0034705577121691006,
+        "z": -0.410505891689
+      },
+      "groundY": 0.0034705577121691006,
+      "triangles": 2974,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_mage_DS_Skeleton_standard",
+        "animal_rpg_skeleton_mage_DS_equipment_standard",
+        "animal_rpg_skeleton_mage_Variant_indigo_wool",
+        "animal_rpg_skeleton_mage_Variant_cloth_seams",
+        "animal_rpg_skeleton_mage_Variant_oiled_yew",
+        "animal_rpg_skeleton_mage_Variant_aged_brass",
+        "animal_rpg_skeleton_mage_Variant_amethyst"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_mage",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_mage.glb",
+        "sourceSha256": "81e99af3566e3f57e9ccc1d876d59e222835c73d7f64c753b9eff0bd450bf4ec",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_mage_elite.glb",
+        "candidateSha256": "c1a9a36a72ffbf2881e2a7d71e58053470de202fff40269c3737a21354d4bf35",
+        "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-bone.png",
+            "sha256": "46aadd857218f99d1f3843ff5f583af75f4c987292d298aedcaa873d0a84cccc",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-equipment.png",
+            "sha256": "07ddb912a151570a87c7e1ef394cc2e6ba5ce753f51a4eb0c3d81dd959e79a90",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-skeletons/build-candidate.mjs",
+        "generatorSha256": "07a8e88f530bf9f1bf2e4fa1e4fb4ddca7e2e8cc54977611f1a0b4f7f444a041",
+        "upstreamCandidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_mage_elite.glb",
+        "upstreamCandidateSha256": "f0e9b965d602912ca4eee0a6a0f5fafd7214fa62b0df75a75d98d382c9ddecc7"
+      },
+      "metadata": {
+        "family": "skeleton_mage",
+        "tier": "elite",
+        "scaleFactor": 1.06,
+        "artDirection": "High-tier crypt veteran with distinct role armor: archer circlet and arrowhead shoulders, mage crescent crown and ritual mantle, soldier crested helm and fortress plates.",
+        "gear": [
+          {
+            "name": "crescent crown left",
+            "joint": "Bip001_Head",
+            "triangles": 12
+          },
+          {
+            "name": "crescent crown right",
+            "joint": "Bip001_Head",
+            "triangles": 12
+          },
+          {
+            "name": "crescent crown bridge",
+            "joint": "Bip001_Head",
+            "triangles": 20
+          },
+          {
+            "name": "left ritual mantle",
+            "joint": "Bip001_L_UpperArm",
+            "triangles": 16
+          },
+          {
+            "name": "right ritual mantle",
+            "joint": "Bip001_R_UpperArm",
+            "triangles": 16
+          },
+          {
+            "name": "sternum reliquary",
+            "joint": "Bip001_Spine1",
+            "triangles": 20
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "creature_skeleton_soldier_elite",
+      "file": "models/creature/creature_skeleton_soldier_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Soldier",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "soldier"
+      ],
+      "bytes": 11137508,
+      "sha256": "ad2ac13ca42dd8cb39a24f96119e011c983240ba85be5e6c179c6a4d28410011",
+      "size": {
+        "x": 1.4039481864757104,
+        "y": 2.005717396103078,
+        "z": 0.9353511117207347
+      },
+      "base": {
+        "x": -0.977733766462767,
+        "y": 0.003667004375122069,
+        "z": -0.433742074237434
+      },
+      "groundY": 0.003667004375122069,
+      "triangles": 1266,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_soldier_DS_Skeleton_standard",
+        "animal_rpg_skeleton_soldier_DS_equipment_standard"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_soldier",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
+        "sourceSha256": "b2eea4126ec0042d046960724cb03e631ddc1738c73ab0434a3b69c1f58b0710",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_soldier_elite.glb",
+        "candidateSha256": "ad2ac13ca42dd8cb39a24f96119e011c983240ba85be5e6c179c6a4d28410011",
+        "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-bone.png",
+            "sha256": "c7ec2102a716ba37a2ff66706e96d80cf689c1c6df1ffa6bae0067d545b49d52",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-equipment.png",
+            "sha256": "133c271b27c41b03b0a80d52b86795410f7eee03c7d09e44c67bd2b4aa3f002c",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-skeletons/build-candidate.mjs",
+        "generatorSha256": "07a8e88f530bf9f1bf2e4fa1e4fb4ddca7e2e8cc54977611f1a0b4f7f444a041",
+        "upstreamCandidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_soldier_elite.glb",
+        "upstreamCandidateSha256": "0b9baec494226bae39ef04d57998b3dbb9316085cb565ccf2a7ccb25ee6fcc12"
+      },
+      "metadata": {
+        "family": "skeleton_soldier",
+        "tier": "elite",
+        "scaleFactor": 1.12,
+        "artDirection": "High-tier crypt veteran with distinct role armor: archer circlet and arrowhead shoulders, mage crescent crown and ritual mantle, soldier crested helm and fortress plates.",
+        "gear": [
+          {
+            "name": "graveguard helm crest",
+            "joint": "Bip001_Head",
+            "triangles": 28
+          },
+          {
+            "name": "left fortress pauldron",
+            "joint": "Bip001_L_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "right fortress pauldron",
+            "joint": "Bip001_R_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "cuirass",
+            "joint": "Bip001_Spine1",
+            "triangles": 24
+          },
+          {
+            "name": "graveguard fauld",
+            "joint": "Bip001_Pelvis",
+            "triangles": 24
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "bandit_forest_ranger",
+      "file": "models/bandit/bandit_forest_ranger.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "character",
+      "is": "Forest Bandit",
+      "tags": [
+        "creature",
+        "bandit",
+        "human",
+        "ranger",
+        "vellenwood",
+        "candidate"
+      ],
+      "bytes": 6445436,
+      "sha256": "9d65a8ae15853c59582a306e8e015a1b22134d26532ab8b0e8cab2d16eed5e0d",
+      "builderSha256": "2a9b907b0d5d8fb0afbc7bccd55274525bdf3e6a94ceeec5980ad9398a9e83f9",
+      "size": {
+        "x": 1.664,
+        "y": 1.798,
+        "z": 0.377
+      },
+      "base": {
+        "x": -0.832,
+        "y": -0.004,
+        "z": -0.21
+      },
+      "groundY": -0.004,
+      "triangles": 32204,
+      "materials": [
+        "MI_Ranger",
+        "MI_Regular_Female",
+        "MI_Hair_2",
+        "MI_Eyes",
+        "MI_Superhero_Female"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "motionSource": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "clip": "Punch_Jab",
+        "nativeClip": "Attack",
+        "durationSeconds": 0.8666666746139526,
+        "contactNormalized": 0.42,
+        "contactSeconds": 0.3640000033378601,
+        "retargetedToOutfitSkeleton": true
+      },
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_female_ranger.glb",
+        "originalProductionFile": "game/public/assets/models/outfit/outfit_female_ranger.glb",
+        "sha256": "a40cf08832298b624fcba39c1fe2d1f53210a1014ddd55a497410c218575361f",
+        "bytes": 1990364,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_female.glb",
+        "originalBaseBodyFile": "game/public/assets/models/character/base_female.glb",
+        "baseBodySha256": "75ad4eee7a2caad26cdd2fe54040cdb7e866f9a8236d7d4934f4a0496b042baf",
+        "animationLibraryFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "originalAnimationLibraryFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "externalTexturePins": "assets/art/tripo/imports/creatures/audit-polish-bandits/source-pins.json",
+        "upstreamPack": "modular-character-outfits-fantasy",
+        "upstreamAuthor": "Quaternius",
+        "upstreamSource": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+        "upstreamLicense": "CC0-1.0",
+        "upstreamArchiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70",
+        "baseBodyPack": "universal-base-characters",
+        "baseBodyArchiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+        "animationPack": "universal-animation-library",
+        "animationArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+        "sourceGarmentAtlasSha256": "9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/forest-atlas-imagegen.png",
+        "generatedMapSha256": "ac8f4dd689c8fecc755ea442fcbacecd1f2340de3b6a98b9ce9449f1a494bdd5",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/textures/bandit_forest_ranger-basecolor.jpg",
+        "runtimeMapSha256": "395215ca6696a5c1b8f058cc4b2db12e845ddb21e050021719097c442e939ab6"
+      },
+      "metadata": {
+        "enemyId": "gorge_reavers",
+        "regionId": "vellenwood",
+        "sourceAssetId": "outfit_female_ranger",
+        "originalOutfitGeometrySkinWeightsUvNormalsAndOtherPbrMapsUnchanged": true,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_female.glb",
+        "baseBodySha256": "75ad4eee7a2caad26cdd2fe54040cdb7e866f9a8236d7d4934f4a0496b042baf",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "faceEyesAndBrowsBoundToOutfitSkin": true,
+        "hoodRetained": true,
+        "nativeClips": true
+      },
+      "acceptance": {
+        "cpuValidated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "bandit_highland_ranger",
+      "file": "models/bandit/bandit_highland_ranger.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "character",
+      "is": "Highland Bandit",
+      "tags": [
+        "creature",
+        "bandit",
+        "human",
+        "ranger",
+        "karrowmoor",
+        "candidate"
+      ],
+      "bytes": 6468500,
+      "sha256": "b09fc2e04d0e37aaa41bf7b92a288fbaa631fa2d8b01f2aae4000301f3ed5f9a",
+      "builderSha256": "2a9b907b0d5d8fb0afbc7bccd55274525bdf3e6a94ceeec5980ad9398a9e83f9",
+      "size": {
+        "x": 1.799,
+        "y": 1.869,
+        "z": 0.373
+      },
+      "base": {
+        "x": -0.899,
+        "y": -0.004,
+        "z": -0.206
+      },
+      "groundY": -0.004,
+      "triangles": 31542,
+      "materials": [
+        "MI_Ranger",
+        "MI_Regular_Male",
+        "MI_Hair_1",
+        "MI_Eyes",
+        "MI_Superhero_Male"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "motionSource": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "clip": "Punch_Jab",
+        "nativeClip": "Attack",
+        "durationSeconds": 0.8666666746139526,
+        "contactNormalized": 0.42,
+        "contactSeconds": 0.3640000033378601,
+        "retargetedToOutfitSkeleton": true
+      },
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_male_ranger.glb",
+        "originalProductionFile": "game/public/assets/models/outfit/outfit_male_ranger.glb",
+        "sha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b",
+        "bytes": 1775464,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "originalBaseBodyFile": "game/public/assets/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibraryFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "originalAnimationLibraryFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "externalTexturePins": "assets/art/tripo/imports/creatures/audit-polish-bandits/source-pins.json",
+        "upstreamPack": "modular-character-outfits-fantasy",
+        "upstreamAuthor": "Quaternius",
+        "upstreamSource": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+        "upstreamLicense": "CC0-1.0",
+        "upstreamArchiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70",
+        "baseBodyPack": "universal-base-characters",
+        "baseBodyArchiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+        "animationPack": "universal-animation-library",
+        "animationArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+        "sourceGarmentAtlasSha256": "9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/highland-atlas-imagegen.png",
+        "generatedMapSha256": "76a0e893aac6b03945ede64a16338a5da3c88c5486b2099b95ad35710511fb66",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/textures/bandit_highland_ranger-basecolor.jpg",
+        "runtimeMapSha256": "f7d8e41e529734511fdafa8a7e32b18afc10089b1434dea9129e4cc0e57cd98b"
+      },
+      "metadata": {
+        "enemyId": "karrow_reavers",
+        "regionId": "karrowmoor",
+        "sourceAssetId": "outfit_male_ranger",
+        "originalOutfitGeometrySkinWeightsUvNormalsAndOtherPbrMapsUnchanged": true,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "faceEyesAndBrowsBoundToOutfitSkin": true,
+        "hoodRetained": true,
+        "nativeClips": true
+      },
+      "acceptance": {
+        "cpuValidated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "bandit_quarry_ranger",
+      "file": "models/bandit/bandit_quarry_ranger.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "character",
+      "is": "Quarry Bandit",
+      "tags": [
+        "creature",
+        "bandit",
+        "human",
+        "ranger",
+        "kilnhalt",
+        "candidate"
+      ],
+      "bytes": 6430456,
+      "sha256": "11e29f667ec6582ce2bf41a2ea1a95a92ce25046b389f51522f3f569082d7e0b",
+      "builderSha256": "2a9b907b0d5d8fb0afbc7bccd55274525bdf3e6a94ceeec5980ad9398a9e83f9",
+      "size": {
+        "x": 1.799,
+        "y": 1.869,
+        "z": 0.373
+      },
+      "base": {
+        "x": -0.899,
+        "y": -0.004,
+        "z": -0.206
+      },
+      "groundY": -0.004,
+      "triangles": 31542,
+      "materials": [
+        "MI_Ranger",
+        "MI_Regular_Male",
+        "MI_Hair_1",
+        "MI_Eyes",
+        "MI_Superhero_Male"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "motionSource": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "clip": "Punch_Jab",
+        "nativeClip": "Attack",
+        "durationSeconds": 0.8666666746139526,
+        "contactNormalized": 0.42,
+        "contactSeconds": 0.3640000033378601,
+        "retargetedToOutfitSkeleton": true
+      },
+      "strideCalibration": null,
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/outfit/outfit_male_ranger.glb",
+        "originalProductionFile": "game/public/assets/models/outfit/outfit_male_ranger.glb",
+        "sha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b",
+        "bytes": 1775464,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "originalBaseBodyFile": "game/public/assets/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibraryFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/animation/animation_library_1.glb",
+        "originalAnimationLibraryFile": "game/public/assets/models/animation/animation_library_1.glb",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "externalTexturePins": "assets/art/tripo/imports/creatures/audit-polish-bandits/source-pins.json",
+        "upstreamPack": "modular-character-outfits-fantasy",
+        "upstreamAuthor": "Quaternius",
+        "upstreamSource": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+        "upstreamLicense": "CC0-1.0",
+        "upstreamArchiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70",
+        "baseBodyPack": "universal-base-characters",
+        "baseBodyArchiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+        "animationPack": "universal-animation-library",
+        "animationArchiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724",
+        "sourceGarmentAtlasSha256": "9cba4f001dc67309e63897e3f5cbfb4f654805e164bee8379635c6e535999491",
+        "generatedMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/quarry-atlas-imagegen.png",
+        "generatedMapSha256": "576c8efd6f93767e93c4c2af7a8a289fa4463dcd3ee6bb3152c38176dea7ced4",
+        "runtimeMap": "assets/art/tripo/imports/creatures/audit-polish-bandits/textures/bandit_quarry_ranger-basecolor.jpg",
+        "runtimeMapSha256": "211090b8dfeecbaac249c923e7552368f7b66e09596bb0327226d13011e38613"
+      },
+      "metadata": {
+        "enemyId": "kilnroad_reavers",
+        "regionId": "kilnhalt",
+        "sourceAssetId": "outfit_male_ranger",
+        "originalOutfitGeometrySkinWeightsUvNormalsAndOtherPbrMapsUnchanged": true,
+        "baseBodyFile": "assets/art/tripo/imports/creatures/audit-polish-bandits/sources/models/character/base_male.glb",
+        "baseBodySha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995",
+        "animationLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+        "faceEyesAndBrowsBoundToOutfitSkin": true,
+        "hoodRetained": true,
+        "nativeClips": true
+      },
+      "acceptance": {
+        "cpuValidated": false,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
       }
     }
   ]

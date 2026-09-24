@@ -1,0 +1,247 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_gloamfang_reaver",
+      "file": "models/creature/creature_gloamfang_reaver.glb",
+      "pack": "corealm-audit-polish-reaver",
+      "category": "character",
+      "is": "Gloamfang Reaver",
+      "tags": [
+        "creature",
+        "humanoid",
+        "lycanthrope",
+        "wilderness",
+        "T50",
+        "starred",
+        "tripo"
+      ],
+      "bytes": 6816684,
+      "sha256": "dac228e07ed57286b78fb7dd4efda72fff98378893db2942b81f6358e46224fb",
+      "size": {
+        "x": 1.8265090878006456,
+        "y": 1.8033285880716898,
+        "z": 1.3808485062731473
+      },
+      "base": {
+        "x": -0.9609930056149323,
+        "y": 0.0014742269524748441,
+        "z": -0.3994632915581524
+      },
+      "bounds": {
+        "min": [
+          -0.9609930056149323,
+          0.0014742269524748441,
+          -0.3994632915581524
+        ],
+        "max": [
+          0.8655160821857134,
+          1.8048028150241646,
+          0.9813852147149947
+        ]
+      },
+      "groundY": 0,
+      "presentationScale": 1.8846625766871166,
+      "targetHeightMeters": 1.8,
+      "triangles": 4760,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 0.8600000143051147,
+      "materials": [
+        "tripo_node_89cabffe-294e-403a-8a17-f533cf89b30b_material"
+      ],
+      "sourceProvenance": {
+        "originalFile": "assets/art/tripo/imports/creatures/audit-polish-reaver/sources/original-reaver.glb",
+        "originalSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+        "productionFile": "game/public/assets/models/creature/creature_gloamfang_reaver.glb",
+        "productionSha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
+        "originalProjectId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+        "originalCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+        "license": "License not recorded in the source ledger; user-owned Tripo export",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-reaver/build-candidate.mjs",
+        "builderSha256": "2d73db9c14af7563cce7e9fd1046a3f534c9ca9824abd1a15bbd59b758cf156f",
+        "change": "Local 0.0645 m maximum source-space sculpt shapes a raised back ridge, fuller forward chest, tapered waist, longer hand claws and deeper toe claws; original topology, UVs, skin weights and 2K PBR maps retained. Prowling biped pose pitches spine and chest, counter-rotates head, flexes knees and lowers hips in Idle, Walk, Run, Attack and Hit. Shoulder and clavicle transforms, bind matrices and limb lengths unchanged. Death retained.",
+        "pinnedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reaver/sources/creature_gloamfang_reaver.glb"
+      },
+      "metadata": {
+        "family": "wilderness_lycanthrope",
+        "heightM": 1.7181304967152509,
+        "dimensionsM": {
+          "x": 1.8265090878006456,
+          "y": 1.8033285880716898,
+          "z": 1.3808485062731473
+        },
+        "bounds": {
+          "min": [
+            -0.9609930056149323,
+            0.0014742269524748441,
+            -0.3994632915581524
+          ],
+          "max": [
+            0.8655160821857134,
+            1.8048028150241646,
+            0.9813852147149947
+          ]
+        },
+        "rig": "62-joint glTF hierarchy for Unity Generic rig import; original joint names and hierarchy retained with reconstructed transforms, bind poses and four-weight anatomical deformation",
+        "sourceSkinned": true,
+        "boneCount": 62,
+        "sourceVertices": 8047,
+        "triangles": 4760,
+        "source": {
+          "file": "assets/art/tripo/exports/57fc524c-107c-4711-ad29-7219e29eed9f.glb",
+          "sha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+          "bytes": 6544240,
+          "starredModelId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+          "starredCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+          "starred": true,
+          "starredDisplayName": "werewolf character 3d model",
+          "generator": "Tripo starred GLB export; source texture sizes and map roles inspected from the file.",
+          "geometry": {
+            "vertices": 8047,
+            "triangles": 4760,
+            "bounds": {
+              "min": [
+                -0.4990234375,
+                0,
+                -0.1552734375
+              ],
+              "max": [
+                0.4990234375,
+                0.955078125,
+                0.1552734375
+              ]
+            },
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "uvsPreserved": true,
+            "indicesPreserved": true,
+            "retopology": false
+          },
+          "sourceSkin": {
+            "joints": 62,
+            "rootWeightedVertices": 8037,
+            "totalVertices": 8047,
+            "repaired": true
+          },
+          "sourceAnimations": [],
+          "textures": [
+            {
+              "name": "werewolf+character+3d+model_basecolor.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/jpeg",
+              "sha256": "acbc10be1e81bc09517b69b03ea34ec51b9354468fc26c0abad7143adc799705"
+            },
+            {
+              "name": "werewolf+character+3d+model_rm.png",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/png",
+              "sha256": "e10b63633c2177b81f1deac18913c8845656146c2f0951e0b254392c3fedf6c0"
+            },
+            {
+              "name": "werewolf+character+3d+model_normal.jpg",
+              "width": 2048,
+              "height": 2048,
+              "mimeType": "image/jpeg",
+              "sha256": "b31dcfe307e2af14f96c311f4c0a422d6baea3a7b8d6371c8abde6d89f9efd92"
+            }
+          ]
+        },
+        "candidate": {
+          "file": "assets/art/tripo/imports/creatures/audit-polish-reaver/gloamfang-reaver-prowl-candidate.glb",
+          "sha256": "dac228e07ed57286b78fb7dd4efda72fff98378893db2942b81f6358e46224fb",
+          "bytes": 6816684,
+          "geometry": {
+            "vertices": 8047,
+            "triangles": 4760,
+            "animatedBoundsMeters": {
+              "min": [
+                -0.9609930056149323,
+                0.0014742269524748441,
+                -0.3994632915581524
+              ],
+              "max": [
+                0.8655160821857134,
+                1.8048028150241646,
+                0.9813852147149947
+              ]
+            },
+            "positionsPreserved": false,
+            "normalsPreserved": false,
+            "uvsPreserved": true,
+            "indicesPreserved": true
+          },
+          "rig": {
+            "type": "62-joint glTF humanoid hierarchy imported as a Unity Generic rig",
+            "joints": 62,
+            "influencesPerVertex": 4,
+            "namesAndHierarchyPreserved": true,
+            "method": "Rebuilt rest transforms, inverse binds and anatomical skin weights while leaving source positions, indices, normals and UVs unchanged."
+          },
+          "animations": [
+            {
+              "name": "Idle",
+              "seconds": 2.4000000953674316
+            },
+            {
+              "name": "Walk",
+              "seconds": 1
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6800000071525574
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.8600000143051147
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.47999998927116394
+            },
+            {
+              "name": "Death",
+              "seconds": 1.6200000047683716
+            }
+          ],
+          "productionTarget": "game/public/assets/models/creature/creature_gloamfang_reaver.glb"
+        },
+        "pbr": {
+          "baseColor": true,
+          "packedMetallicRoughness": true,
+          "normal": true,
+          "allMapsMaximum": 2048
+        },
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "animationAcceptance": "Pending root lab review of changed posture and motion"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "sourceDesignAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "contactNormalized": 0.39534883720930236
+    }
+  ],
+  "files": {
+    "creature_gloamfang_reaver": "gloamfang-reaver-prowl-candidate.glb"
+  }
+}

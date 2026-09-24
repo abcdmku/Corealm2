@@ -5419,7 +5419,7 @@
   },
   {
     "id": "amethyst_dragon_t70",
-    "name": "Purple Wilderness Dragon",
+    "name": "Amethyst Dragon",
     "family": "amethyst_dragon",
     "availability": "world",
     "level": 70,
@@ -5522,7 +5522,7 @@
     "presentation": {
       "id": "furnace_grazer",
       "assetId": "creature_furnace_grazer",
-      "scale": 0.754334697009733,
+      "scale": 1.35,
       "regionId": "wilderness",
       "activity": "graze",
       "description": "A low, horned grazer with heavy claws, overlapping scales and a pale folded throat. It lowers its head before charging.",
@@ -14184,7 +14184,16 @@
         }
       ]
     },
-    "baseId": "cinder_penitent_t20"
+    "baseId": "cinder_penitent_t20",
+    "presentation": {
+      "id": "cinder_penitent_t50",
+      "assetId": "creature_ashbound_votary_elite",
+      "scale": 1,
+      "regionId": "kilnhalt",
+      "activity": "patrol",
+      "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+      "kind": "basic"
+    }
   },
   {
     "id": "cinder_penitent_t70",
@@ -14230,7 +14239,16 @@
         }
       ]
     },
-    "baseId": "cinder_penitent_t20"
+    "baseId": "cinder_penitent_t20",
+    "presentation": {
+      "id": "cinder_penitent_t70",
+      "assetId": "creature_ashbound_votary_elite",
+      "scale": 1,
+      "regionId": "kilnhalt",
+      "activity": "patrol",
+      "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+      "kind": "basic"
+    }
   },
   {
     "id": "cinderback_crag_t70",
@@ -15104,7 +15122,44 @@
         }
       ]
     },
-    "baseId": "skeleton_archer_t5"
+    "baseId": "skeleton_archer_t5",
+    "presentation": {
+      "id": "skeleton_archer_t50",
+      "assetId": "creature_skeleton_archer_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "ruined watch posts",
+      "respawnMs": 30000,
+      "nativeSize": [
+        0.837203,
+        1.649144,
+        0.812991
+      ],
+      "nativeBase": [
+        -0.457728,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.6251026250344819,
+      "nativeBodyRadius": 0.4186015,
+      "attack": {
+        "action": "bow shot",
+        "proposedMechanic": "projectile",
+        "recoveryMs": 900
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "skeleton_archer_t70",
@@ -15150,7 +15205,44 @@
         }
       ]
     },
-    "baseId": "skeleton_archer_t5"
+    "baseId": "skeleton_archer_t5",
+    "presentation": {
+      "id": "skeleton_archer_t70",
+      "assetId": "creature_skeleton_archer_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "ruined watch posts",
+      "respawnMs": 30000,
+      "nativeSize": [
+        0.837203,
+        1.649144,
+        0.812991
+      ],
+      "nativeBase": [
+        -0.457728,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.6251026250344819,
+      "nativeBodyRadius": 0.4186015,
+      "attack": {
+        "action": "bow shot",
+        "proposedMechanic": "projectile",
+        "recoveryMs": 900
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "skeleton_mage_t50",
@@ -15196,7 +15288,44 @@
         }
       ]
     },
-    "baseId": "skeleton_mage_t20"
+    "baseId": "skeleton_mage_t20",
+    "presentation": {
+      "id": "skeleton_mage_t50",
+      "assetId": "creature_skeleton_mage_elite",
+      "scale": 1,
+      "regionId": "kilnhalt",
+      "activity": "patrol",
+      "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "sealed burial halls",
+      "respawnMs": 30000,
+      "nativeSize": [
+        0.85874,
+        1.944003,
+        0.812991
+      ],
+      "nativeBase": [
+        -0.465797,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.6310350347246974,
+      "nativeBodyRadius": 0.42937,
+      "attack": {
+        "action": "staff curse",
+        "proposedMechanic": "spell",
+        "recoveryMs": 1260
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "skeleton_mage_t70",
@@ -15242,7 +15371,44 @@
         }
       ]
     },
-    "baseId": "skeleton_mage_t20"
+    "baseId": "skeleton_mage_t20",
+    "presentation": {
+      "id": "skeleton_mage_t70",
+      "assetId": "creature_skeleton_mage_elite",
+      "scale": 1,
+      "regionId": "kilnhalt",
+      "activity": "patrol",
+      "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "sealed burial halls",
+      "respawnMs": 30000,
+      "nativeSize": [
+        0.85874,
+        1.944003,
+        0.812991
+      ],
+      "nativeBase": [
+        -0.465797,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.6310350347246974,
+      "nativeBodyRadius": 0.42937,
+      "attack": {
+        "action": "staff curse",
+        "proposedMechanic": "spell",
+        "recoveryMs": 1260
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "skeleton_soldier_t50",
@@ -15288,7 +15454,44 @@
         }
       ]
     },
-    "baseId": "skeleton_soldier_t5"
+    "baseId": "skeleton_soldier_t5",
+    "presentation": {
+      "id": "skeleton_soldier_t50",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "skeleton_soldier_t70",
@@ -15334,7 +15537,44 @@
         }
       ]
     },
-    "baseId": "skeleton_soldier_t5"
+    "baseId": "skeleton_soldier_t5",
+    "presentation": {
+      "id": "skeleton_soldier_t70",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "veil_reaper_t50",
@@ -16635,7 +16875,7 @@
     },
     "presentation": {
       "id": "gorge_reavers",
-      "assetId": "outfit_female_ranger",
+      "assetId": "bandit_forest_ranger",
       "scale": 0.95,
       "regionId": "vellenwood",
       "activity": "patrol",
@@ -16689,7 +16929,7 @@
     },
     "presentation": {
       "id": "karrow_reavers",
-      "assetId": "outfit_male_ranger",
+      "assetId": "bandit_highland_ranger",
       "scale": 0.9,
       "regionId": "karrowmoor",
       "activity": "patrol",
@@ -16728,7 +16968,7 @@
     },
     "presentation": {
       "id": "kilnroad_reavers",
-      "assetId": "outfit_male_ranger",
+      "assetId": "bandit_quarry_ranger",
       "scale": 0.9,
       "regionId": "kilnhalt",
       "activity": "patrol",
@@ -18094,7 +18334,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
-    "family": "skeleton_soldier"
+    "family": "skeleton_soldier",
+    "presentation": {
+      "id": "wilderness_broken_watch",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "wilderness_west_graves",
@@ -18364,7 +18641,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
-    "family": "skeleton_soldier"
+    "family": "skeleton_soldier",
+    "presentation": {
+      "id": "black_keep_gate_guard",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "black_keep_gate_archers",
@@ -18418,7 +18732,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Archer",
-    "family": "skeleton_archer"
+    "family": "skeleton_archer",
+    "presentation": {
+      "id": "black_keep_gate_archers",
+      "assetId": "creature_skeleton_archer_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Archer inhabits ruined watch posts. Uses bow shot with 2 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "ruined watch posts",
+      "respawnMs": 30000,
+      "nativeSize": [
+        0.837203,
+        1.649144,
+        0.812991
+      ],
+      "nativeBase": [
+        -0.457728,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.6251026250344819,
+      "nativeBodyRadius": 0.4186015,
+      "attack": {
+        "action": "bow shot",
+        "proposedMechanic": "projectile",
+        "recoveryMs": 900
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "black_keep_court_guard",
@@ -18525,7 +18876,44 @@
       "maxHit": 18
     },
     "name": "Skeleton Mage",
-    "family": "skeleton_mage"
+    "family": "skeleton_mage",
+    "presentation": {
+      "id": "black_keep_north_graves",
+      "assetId": "creature_skeleton_mage_elite",
+      "scale": 1,
+      "regionId": "kilnhalt",
+      "activity": "patrol",
+      "description": "Skeleton Mage inhabits sealed burial halls. Uses staff curse with 2.8 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "sealed burial halls",
+      "respawnMs": 30000,
+      "nativeSize": [
+        0.85874,
+        1.944003,
+        0.812991
+      ],
+      "nativeBase": [
+        -0.465797,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.6310350347246974,
+      "nativeBodyRadius": 0.42937,
+      "attack": {
+        "action": "staff curse",
+        "proposedMechanic": "spell",
+        "recoveryMs": 1260
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "wilderness_east_shades",
@@ -18687,7 +19075,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
-    "family": "skeleton_soldier"
+    "family": "skeleton_soldier",
+    "presentation": {
+      "id": "wilderness_bone_patrol",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "wilderness_lament",
@@ -18795,7 +19220,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
-    "family": "skeleton_soldier"
+    "family": "skeleton_soldier",
+    "presentation": {
+      "id": "broken_watch_tower_haunt",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "nameless_abbey_haunt",
@@ -18903,7 +19365,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
-    "family": "skeleton_soldier"
+    "family": "skeleton_soldier",
+    "presentation": {
+      "id": "dead_smithy_haunt",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "fallen_aqueduct_haunt",
@@ -19011,7 +19510,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
-    "family": "skeleton_soldier"
+    "family": "skeleton_soldier",
+    "presentation": {
+      "id": "outer_watch_haunt",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "forgotten_forge_haunt",
@@ -19119,7 +19655,44 @@
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
-    "family": "skeleton_soldier"
+    "family": "skeleton_soldier",
+    "presentation": {
+      "id": "eastern_cloister_haunt",
+      "assetId": "creature_skeleton_soldier_elite",
+      "scale": 1,
+      "regionId": "vellenwood",
+      "activity": "patrol",
+      "description": "Skeleton Soldier inhabits dry crypt approaches. Uses sword cut with 2.4 seconds between attacks.",
+      "bodyFamily": "skeleton",
+      "rigFamily": "corealm_skeleton",
+      "movement": "biped",
+      "habitat": "dry crypt approaches",
+      "respawnMs": 30000,
+      "nativeSize": [
+        1.229458,
+        1.595942,
+        0.835135
+      ],
+      "nativeBase": [
+        -0.872977,
+        0.003274,
+        -0.38727
+      ],
+      "nativeVisualRadius": 0.9811584483425703,
+      "nativeBodyRadius": 0.614729,
+      "attack": {
+        "action": "sword cut",
+        "proposedMechanic": "melee",
+        "recoveryMs": 1080
+      },
+      "source": {
+        "author": "Polygon Blacksmith",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "generator": "tools/rpg-bestiary/build.mjs"
+      },
+      "acceptance": "candidate",
+      "kind": "rpg"
+    }
   },
   {
     "id": "eastern_aqueduct_haunt",
@@ -20813,7 +21386,16 @@
       "defenceLevel": 48
     },
     "name": "Ashbound Votary",
-    "family": "cinder_penitent"
+    "family": "cinder_penitent",
+    "presentation": {
+      "id": "population_last_light_west_penitents",
+      "assetId": "creature_ashbound_votary_elite",
+      "scale": 1,
+      "regionId": "kilnhalt",
+      "activity": "patrol",
+      "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+      "kind": "basic"
+    }
   },
   {
     "id": "population_last_light_east_shades",
@@ -21297,7 +21879,16 @@
       "maxHit": 17
     },
     "name": "Ashbound Votary",
-    "family": "cinder_penitent"
+    "family": "cinder_penitent",
+    "presentation": {
+      "id": "population_black_keep_north_penitents",
+      "assetId": "creature_ashbound_votary_elite",
+      "scale": 1,
+      "regionId": "kilnhalt",
+      "activity": "patrol",
+      "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
+      "kind": "basic"
+    }
   },
   {
     "id": "population_lava_east_marrow",

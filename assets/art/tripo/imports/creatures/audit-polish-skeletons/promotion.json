@@ -1,0 +1,362 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "pack": {
+    "id": "corealm-rpg-dungeon-skeletons-demo",
+    "name": "Corealm RPG derivatives — Dungeon Skeletons Demo",
+    "author": "Polygon Blacksmith",
+    "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dungeon-skeletons-demo-71087",
+    "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+    "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+    "assetStoreId": "71087",
+    "sourceArchive": "Dungeon Skeletons Demo.unitypackage",
+    "upstreamPackId": "dungeon-skeletons-demo",
+    "derivation": "Licensed source skeleton, skin and eight clips retained; image-generated layered bone/equipment atlases from staged elite candidates; new rigid joint-weighted role armor and modest elite presentation scale.",
+    "generatorSha256": "ec3693d1362c7d56cf01f235dbce714c79f366ff7dc5e17ed31831b3dd99f84b"
+  },
+  "assets": [
+    {
+      "id": "creature_skeleton_archer_elite",
+      "file": "models/creature/creature_skeleton_archer_elite.glb",
+      "candidateFile": "creature_skeleton_archer_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Archer",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "archer"
+      ],
+      "bytes": 11419904,
+      "sha256": "98d76ac03960f9a5d47763b24e809f35fcf744550cdc67f29ea4ba91639bb1e3",
+      "size": {
+        "x": 0.9041792361384615,
+        "y": 1.8163383573499348,
+        "z": 0.8780299321925482
+      },
+      "base": {
+        "x": -0.49434630549417996,
+        "y": 0.0035360399331534234,
+        "z": -0.4182512858718113
+      },
+      "groundY": 0.0035360399331534234,
+      "triangles": 1940,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_archer_DS_Skeleton_standard",
+        "animal_rpg_skeleton_archer_DS_equipment_standard",
+        "animal_rpg_skeleton_archer_Variant_oiled_yew",
+        "animal_rpg_skeleton_archer_Variant_aged_brass",
+        "animal_rpg_skeleton_archer_Variant_worn_leather",
+        "animal_rpg_skeleton_archer_Variant_bowstring",
+        "animal_rpg_skeleton_archer_Variant_arrowhead"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_archer",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_archer.glb",
+        "sourceSha256": "aadfc7aa677557a9a6f50076b2ef8b19cd99dcf7ad4682c8b65d2b2f33c94ba0",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_archer_elite.glb",
+        "candidateSha256": "98d76ac03960f9a5d47763b24e809f35fcf744550cdc67f29ea4ba91639bb1e3",
+        "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-bone.png",
+            "sha256": "3234878e79fbc5753c88da1ca93593e9cd08a8306f120f64ec015f3a8ebd8279",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-equipment.png",
+            "sha256": "2d6c06e6d91476eb1c4a63367051b349b8aaca6a9fd87fc4ee54731fcdc2d527",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-skeletons/build-candidate.mjs",
+        "generatorSha256": "07a8e88f530bf9f1bf2e4fa1e4fb4ddca7e2e8cc54977611f1a0b4f7f444a041",
+        "upstreamCandidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_archer_elite.glb",
+        "upstreamCandidateSha256": "8366153e7b1c845da2cde13e523e73c75bfd948cba9a6eef47217e2273d661b0"
+      },
+      "metadata": {
+        "family": "skeleton_archer",
+        "tier": "elite",
+        "scaleFactor": 1.08,
+        "artDirection": "High-tier crypt veteran with distinct role armor: archer circlet and arrowhead shoulders, mage crescent crown and ritual mantle, soldier crested helm and fortress plates.",
+        "gear": [
+          {
+            "name": "antlered target circlet",
+            "joint": "Bip001_Head",
+            "triangles": 36
+          },
+          {
+            "name": "left arrowhead pauldron",
+            "joint": "Bip001_L_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "right arrowhead pauldron",
+            "joint": "Bip001_R_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "archer chest chevron",
+            "joint": "Bip001_Spine1",
+            "triangles": 20
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_mage_elite",
+      "file": "models/creature/creature_skeleton_mage_elite.glb",
+      "candidateFile": "creature_skeleton_mage_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Mage",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "mage"
+      ],
+      "bytes": 11141812,
+      "sha256": "c1a9a36a72ffbf2881e2a7d71e58053470de202fff40269c3737a21354d4bf35",
+      "size": {
+        "x": 0.9102649452258651,
+        "y": 2.060643299129631,
+        "z": 0.8617701186334273
+      },
+      "base": {
+        "x": -0.4937450340031507,
+        "y": 0.0034705577121691006,
+        "z": -0.410505891689
+      },
+      "groundY": 0.0034705577121691006,
+      "triangles": 2974,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_mage_DS_Skeleton_standard",
+        "animal_rpg_skeleton_mage_DS_equipment_standard",
+        "animal_rpg_skeleton_mage_Variant_indigo_wool",
+        "animal_rpg_skeleton_mage_Variant_cloth_seams",
+        "animal_rpg_skeleton_mage_Variant_oiled_yew",
+        "animal_rpg_skeleton_mage_Variant_aged_brass",
+        "animal_rpg_skeleton_mage_Variant_amethyst"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_mage",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_mage.glb",
+        "sourceSha256": "81e99af3566e3f57e9ccc1d876d59e222835c73d7f64c753b9eff0bd450bf4ec",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_mage_elite.glb",
+        "candidateSha256": "c1a9a36a72ffbf2881e2a7d71e58053470de202fff40269c3737a21354d4bf35",
+        "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-bone.png",
+            "sha256": "46aadd857218f99d1f3843ff5f583af75f4c987292d298aedcaa873d0a84cccc",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-equipment.png",
+            "sha256": "07ddb912a151570a87c7e1ef394cc2e6ba5ce753f51a4eb0c3d81dd959e79a90",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-skeletons/build-candidate.mjs",
+        "generatorSha256": "07a8e88f530bf9f1bf2e4fa1e4fb4ddca7e2e8cc54977611f1a0b4f7f444a041",
+        "upstreamCandidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_mage_elite.glb",
+        "upstreamCandidateSha256": "f0e9b965d602912ca4eee0a6a0f5fafd7214fa62b0df75a75d98d382c9ddecc7"
+      },
+      "metadata": {
+        "family": "skeleton_mage",
+        "tier": "elite",
+        "scaleFactor": 1.06,
+        "artDirection": "High-tier crypt veteran with distinct role armor: archer circlet and arrowhead shoulders, mage crescent crown and ritual mantle, soldier crested helm and fortress plates.",
+        "gear": [
+          {
+            "name": "crescent crown left",
+            "joint": "Bip001_Head",
+            "triangles": 12
+          },
+          {
+            "name": "crescent crown right",
+            "joint": "Bip001_Head",
+            "triangles": 12
+          },
+          {
+            "name": "crescent crown bridge",
+            "joint": "Bip001_Head",
+            "triangles": 20
+          },
+          {
+            "name": "left ritual mantle",
+            "joint": "Bip001_L_UpperArm",
+            "triangles": 16
+          },
+          {
+            "name": "right ritual mantle",
+            "joint": "Bip001_R_UpperArm",
+            "triangles": 16
+          },
+          {
+            "name": "sternum reliquary",
+            "joint": "Bip001_Spine1",
+            "triangles": 20
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_soldier_elite",
+      "file": "models/creature/creature_skeleton_soldier_elite.glb",
+      "candidateFile": "creature_skeleton_soldier_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Soldier",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "soldier"
+      ],
+      "bytes": 11137508,
+      "sha256": "ad2ac13ca42dd8cb39a24f96119e011c983240ba85be5e6c179c6a4d28410011",
+      "size": {
+        "x": 1.4039481864757104,
+        "y": 2.005717396103078,
+        "z": 0.9353511117207347
+      },
+      "base": {
+        "x": -0.977733766462767,
+        "y": 0.003667004375122069,
+        "z": -0.433742074237434
+      },
+      "groundY": 0.003667004375122069,
+      "triangles": 1266,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_soldier_DS_Skeleton_standard",
+        "animal_rpg_skeleton_soldier_DS_equipment_standard"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_soldier",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
+        "sourceSha256": "b2eea4126ec0042d046960724cb03e631ddc1738c73ab0434a3b69c1f58b0710",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-skeletons/creature_skeleton_soldier_elite.glb",
+        "candidateSha256": "ad2ac13ca42dd8cb39a24f96119e011c983240ba85be5e6c179c6a4d28410011",
+        "modification": "Corealm built-in imagegen edited two layered UV albedo atlases in staged elite source; original licensed rig, skin and eight clips retained. Rigid joint-weighted role armor uses the same generated equipment atlas. Scale is inherited from staged elite source.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-bone.png",
+            "sha256": "c7ec2102a716ba37a2ff66706e96d80cf689c1c6df1ffa6bae0067d545b49d52",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-equipment.png",
+            "sha256": "133c271b27c41b03b0a80d52b86795410f7eee03c7d09e44c67bd2b4aa3f002c",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-skeletons/build-candidate.mjs",
+        "generatorSha256": "07a8e88f530bf9f1bf2e4fa1e4fb4ddca7e2e8cc54977611f1a0b4f7f444a041",
+        "upstreamCandidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_soldier_elite.glb",
+        "upstreamCandidateSha256": "0b9baec494226bae39ef04d57998b3dbb9316085cb565ccf2a7ccb25ee6fcc12"
+      },
+      "metadata": {
+        "family": "skeleton_soldier",
+        "tier": "elite",
+        "scaleFactor": 1.12,
+        "artDirection": "High-tier crypt veteran with distinct role armor: archer circlet and arrowhead shoulders, mage crescent crown and ritual mantle, soldier crested helm and fortress plates.",
+        "gear": [
+          {
+            "name": "graveguard helm crest",
+            "joint": "Bip001_Head",
+            "triangles": 28
+          },
+          {
+            "name": "left fortress pauldron",
+            "joint": "Bip001_L_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "right fortress pauldron",
+            "joint": "Bip001_R_UpperArm",
+            "triangles": 20
+          },
+          {
+            "name": "cuirass",
+            "joint": "Bip001_Spine1",
+            "triangles": 24
+          },
+          {
+            "name": "graveguard fauld",
+            "joint": "Bip001_Pelvis",
+            "triangles": 24
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "sourceRoot": "assets/art/tripo/imports/creatures/audit-polish-skeletons",
+  "destinationRoot": "game/public/assets",
+  "apply": false,
+  "prerequisite": "Root lab browser screenshot review and motion-state proof, then root maps selected high-tier presets to elite IDs."
+}

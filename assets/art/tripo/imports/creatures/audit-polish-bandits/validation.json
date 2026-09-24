@@ -1,0 +1,84 @@
+{
+  "schema": "corealm-bandit-polish-cpu-validation/1",
+  "reports": [
+    {
+      "id": "bandit_forest_ranger",
+      "sourceId": "outfit_female_ranger",
+      "sourceSha256": "a40cf08832298b624fcba39c1fe2d1f53210a1014ddd55a497410c218575361f",
+      "candidateSha256": "9d65a8ae15853c59582a306e8e015a1b22134d26532ab8b0e8cab2d16eed5e0d",
+      "outfitMeshCount": 9,
+      "completeMeshCount": 12,
+      "outfitVertexCount": 24808,
+      "joints": 65,
+      "nativeClips": [
+        "Death",
+        "Hit",
+        "Idle",
+        "Run",
+        "Attack",
+        "Walk"
+      ],
+      "faceNodes": [
+        "Eyebrows",
+        "Eyes",
+        "Superhero_Female"
+      ],
+      "garmentAtlasChanged": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "id": "bandit_highland_ranger",
+      "sourceId": "outfit_male_ranger",
+      "sourceSha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b",
+      "candidateSha256": "b09fc2e04d0e37aaa41bf7b92a288fbaa631fa2d8b01f2aae4000301f3ed5f9a",
+      "outfitMeshCount": 9,
+      "completeMeshCount": 12,
+      "outfitVertexCount": 24873,
+      "joints": 65,
+      "nativeClips": [
+        "Death",
+        "Hit",
+        "Idle",
+        "Run",
+        "Attack",
+        "Walk"
+      ],
+      "faceNodes": [
+        "Eyebrows",
+        "Eyes",
+        "SuperHero_Male"
+      ],
+      "garmentAtlasChanged": true,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "id": "bandit_quarry_ranger",
+      "sourceId": "outfit_male_ranger",
+      "sourceSha256": "09fa353877874fdb3a3372b372ec86bad460a992861d3fd4a2bc2e74c555d96b",
+      "candidateSha256": "11e29f667ec6582ce2bf41a2ea1a95a92ce25046b389f51522f3f569082d7e0b",
+      "outfitMeshCount": 9,
+      "completeMeshCount": 12,
+      "outfitVertexCount": 24873,
+      "joints": 65,
+      "nativeClips": [
+        "Death",
+        "Hit",
+        "Idle",
+        "Run",
+        "Attack",
+        "Walk"
+      ],
+      "faceNodes": [
+        "Eyebrows",
+        "Eyes",
+        "SuperHero_Male"
+      ],
+      "garmentAtlasChanged": true,
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "passed": true
+}

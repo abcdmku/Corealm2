@@ -1,0 +1,255 @@
+{
+  "assets": [
+    {
+      "id": "creature_cinder_penitent",
+      "file": "models/creature/creature_cinder_penitent.glb",
+      "pack": "corealm-tripo-creatures",
+      "category": "character",
+      "is": "Ashbound Votary",
+      "tags": [
+        "creature",
+        "humanoid",
+        "ashlands",
+        "ashbound-votary",
+        "tripo",
+        "starred",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 8142848,
+      "sha256": "e320ed21c160e5b38c0b9f52ed8caaf1f6418c3c6c05ae7b2d8a32c2fe4ae815",
+      "triangles": 4612,
+      "size": {
+        "x": 0.972154379728634,
+        "y": 2.0000000000000004,
+        "z": 0.5129457770622463
+      },
+      "base": {
+        "x": -0.48607718986431714,
+        "y": 9.329236103819722e-17,
+        "z": -0.2564728885311231
+      },
+      "bounds": {
+        "min": [
+          -0.48607718986431714,
+          9.329236103819722e-17,
+          -0.2564728885311231
+        ],
+        "max": [
+          0.48607718986431697,
+          2.0000000000000004,
+          0.25647288853112316
+        ]
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_25098126-4032-436a-88d3-48d182094cc4"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio P1.0 Smart Mesh",
+        "imageGenerator": "Tripo GPT Image 2.5",
+        "sourceImageId": "1a59c971-8c0d-4357-b40d-937546e79334",
+        "modelId": "bb588df9-a59e-4c37-8255-4eb5718b3bc6",
+        "originalSourceFile": "assets/art/tripo/exports/corealm_ashbound_votary_bb588df9_8k_rigged.glb",
+        "originalSourceSha256": "092103afcf086eb19b4c6ea51c7393915b861a54b58df0b54be09d15994446eb",
+        "patchedBindSourceSha256": "cded3cbdc55792d8588fbf5a2fceab607cfcd73a81a648e357880ac95b9ab8d1",
+        "bindPoseReconstruction": {
+          "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+          "method": "Mapped the exact Mixamo hierarchy onto the existing humanoid rig rest pose, fitted bone positions independently to the approved unmodified mesh bounds, and rebuilt inverse binds.",
+          "scale": {
+            "x": 0.3287588659753722,
+            "y": 0.6822604195042916,
+            "z": 0.8463107650865538
+          },
+          "meshSize": [
+            0.48583984375,
+            0.99951171875,
+            0.25634765625
+          ],
+          "sourceMeshGeometryAndUvsPreserved": true,
+          "noRetopology": true
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 3148,
+          "dominantJointVertices": {
+            "RightFoot": 42,
+            "RightLeg": 404,
+            "RightUpLeg": 520,
+            "Hips": 140,
+            "LeftUpLeg": 540,
+            "LeftLeg": 364,
+            "Spine": 227,
+            "Spine1": 161,
+            "Spine2": 154,
+            "LeftShoulder": 188,
+            "LeftArm": 43,
+            "LeftForeArm": 22,
+            "RightShoulder": 165,
+            "RightArm": 77,
+            "RightForeArm": 22,
+            "Neck": 39,
+            "LeftFoot": 40
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": 4.110359232325303e-7,
+          "translationScale": 0.6828744245688776,
+          "bindBounds": {
+            "min": [
+              -0.24291992349915684,
+              2.826813383098448e-10,
+              -0.12817383073119443
+            ],
+            "max": [
+              0.24291992769429738,
+              0.9995117266590433,
+              0.12817382885328069
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.004745478798538974
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.018466133877668014
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.15504795658182524
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.004881923732135204
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.004705714326534859,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.004705714326534859,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.004705714326534859,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.17142522375356778
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "runtimeTextures": [
+          {
+            "name": "corealm_ashbound_votary_bb588df9_8k_rigged_basecolor.jpg",
+            "dimensions": [
+              2048,
+              2048
+            ]
+          },
+          {
+            "name": "corealm_ashbound_votary_bb588df9_8k_rigged_rm.png",
+            "dimensions": [
+              2048,
+              2048
+            ]
+          },
+          {
+            "name": "corealm_ashbound_votary_bb588df9_8k_rigged_normal.jpg",
+            "dimensions": [
+              2048,
+              2048
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": null,
+        "animationAcceptance": "accepted-production-lab; normal-camera Idle, Run, Attack, and Hit proof",
+        "sourceMaterialChannels": [
+          "baseColor",
+          "normal",
+          "metallicRoughness"
+        ],
+        "rigPreset": "Mixamo hierarchy with recovered rest transforms and repaired distributed weights",
+        "requestedCoreMotions": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "visualAndMotionAcceptance": "accepted-production-lab"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-tripo-creatures",
+      "name": "Corealm Tripo creature assets",
+      "author": "Corealm",
+      "source": "Tripo Studio generated creature models and Corealm rig/material processing",
+      "license": "LicenseRef-Corealm-Original"
+    }
+  ]
+}

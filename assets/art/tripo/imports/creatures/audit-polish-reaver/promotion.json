@@ -1,0 +1,405 @@
+{
+  "schema": "corealm-creature-polish-promotion/1",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "pack": "corealm-audit-polish-reaver",
+  "builderSha256": "2d73db9c14af7563cce7e9fd1046a3f534c9ca9824abd1a15bbd59b758cf156f",
+  "assets": [
+    {
+      "id": "creature_gloamfang_reaver",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-reaver/gloamfang-reaver-prowl-candidate.glb",
+      "sha256": "dac228e07ed57286b78fb7dd4efda72fff98378893db2942b81f6358e46224fb",
+      "bytes": 6816684,
+      "bounds": {
+        "min": [
+          -0.9609930056149323,
+          0.0014742269524748441,
+          -0.3994632915581524
+        ],
+        "max": [
+          0.8655160821857134,
+          1.8048028150241646,
+          0.9813852147149947
+        ]
+      },
+      "size": {
+        "x": 1.8265090878006456,
+        "y": 1.8033285880716898,
+        "z": 1.3808485062731473
+      },
+      "triangles": 4760,
+      "joints": 62,
+      "maxSourceSculptMeters": 0.06450150759884248,
+      "materials": [
+        "tripo_node_89cabffe-294e-403a-8a17-f533cf89b30b_material"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "attack": {
+        "seconds": 0.8600000143051147,
+        "contactSeconds": 0.34,
+        "contactNormalized": 0.39534883720930236
+      },
+      "sourceProvenance": {
+        "originalFile": "assets/art/tripo/imports/creatures/audit-polish-reaver/sources/original-reaver.glb",
+        "originalSha256": "02eb10038296893b44e2bb3bc29298adfc9cd7de0f51c8a4d7c05203c31bbe4d",
+        "productionFile": "game/public/assets/models/creature/creature_gloamfang_reaver.glb",
+        "productionSha256": "c285c181feab5ffade88c5d1f68c3459e83221b6909c0f97c925ce34ae1bd9c7",
+        "originalProjectId": "57fc524c-107c-4711-ad29-7219e29eed9f",
+        "originalCardId": "5d71797c-6492-46cb-a8f8-d0d9c62cb9bd",
+        "license": "License not recorded in the source ledger; user-owned Tripo export",
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-reaver/build-candidate.mjs",
+        "builderSha256": "2d73db9c14af7563cce7e9fd1046a3f534c9ca9824abd1a15bbd59b758cf156f",
+        "change": "Local 0.0645 m maximum source-space sculpt shapes a raised back ridge, fuller forward chest, tapered waist, longer hand claws and deeper toe claws; original topology, UVs, skin weights and 2K PBR maps retained. Prowling biped pose pitches spine and chest, counter-rotates head, flexes knees and lowers hips in Idle, Walk, Run, Attack and Hit. Shoulder and clavicle transforms, bind matrices and limb lengths unchanged. Death retained.",
+        "pinnedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reaver/sources/creature_gloamfang_reaver.glb"
+      },
+      "contact": [
+        {
+          "name": "Idle",
+          "duration": 2.4000000953674316,
+          "frames": 578,
+          "minUncorrected": -0.0970179671539402,
+          "maxUncorrected": -0.08414833820294948
+        },
+        {
+          "name": "Walk",
+          "duration": 1,
+          "frames": 241,
+          "minUncorrected": -0.09020303408718147,
+          "maxUncorrected": -0.08205019992258152
+        },
+        {
+          "name": "Run",
+          "duration": 0.6800000071525574,
+          "frames": 165,
+          "minUncorrected": -0.09293336365579379,
+          "maxUncorrected": -0.01552249817001896
+        },
+        {
+          "name": "Attack",
+          "duration": 0.8600000143051147,
+          "frames": 208,
+          "minUncorrected": -0.14516067388333825,
+          "maxUncorrected": -0.08539469826724219
+        },
+        {
+          "name": "Hit",
+          "duration": 0.47999998927116394,
+          "frames": 117,
+          "minUncorrected": -0.1041822816130028,
+          "maxUncorrected": -0.0853946982672421
+        }
+      ],
+      "motion": [
+        {
+          "name": "Idle",
+          "seconds": 2.4000000953674316,
+          "bounds": {
+            "min": [
+              -0.7576263725611416,
+              0.0019928313490444327,
+              -0.24253181641949
+            ],
+            "max": [
+              0.7576264420055033,
+              1.7181304967152509,
+              0.62673489174759
+            ]
+          },
+          "minClearanceM": 0.0019928313490444327,
+          "maxClearanceM": 0.002009624584575098,
+          "samples": [
+            {
+              "t": 0,
+              "minY": 0.001999994839059785,
+              "maxY": 1.7118915434778288
+            },
+            {
+              "t": 0.5994796422079968,
+              "minY": 0.0020096237389692906,
+              "maxY": 1.7060325529761338
+            },
+            {
+              "t": 1.1989592844159935,
+              "minY": 0.0019984626760891633,
+              "maxY": 1.7118081312152058
+            },
+            {
+              "t": 1.7984389266239904,
+              "minY": 0.0019928313490444327,
+              "maxY": 1.718120165947226
+            },
+            {
+              "t": 2.397918568831987,
+              "minY": 0.001999995257496903,
+              "maxY": 1.7119143961904113
+            },
+            {
+              "t": 2.4000000953674316,
+              "minY": 0.0019999980672379125,
+              "maxY": 1.711891541187219
+            }
+          ]
+        },
+        {
+          "name": "Walk",
+          "seconds": 1,
+          "bounds": {
+            "min": [
+              -0.7499847637255521,
+              0.001998210634322581,
+              -0.3124885376382199
+            ],
+            "max": [
+              0.7499848211003041,
+              1.729893440087005,
+              0.651381128062419
+            ]
+          },
+          "minClearanceM": 0.001998210634322581,
+          "maxClearanceM": 0.0020000028126101327,
+          "samples": [
+            {
+              "t": 0,
+              "minY": 0.001999998918245066,
+              "maxY": 1.6875873154883831
+            },
+            {
+              "t": 0.25,
+              "minY": 0.0019999987749972498,
+              "maxY": 1.7054878145423182
+            },
+            {
+              "t": 0.5,
+              "minY": 0.001999998918245066,
+              "maxY": 1.6875873154883831
+            },
+            {
+              "t": 0.75,
+              "minY": 0.002000000706432345,
+              "maxY": 1.729893440087005
+            },
+            {
+              "t": 1,
+              "minY": 0.001999998918245066,
+              "maxY": 1.687587313365669
+            }
+          ]
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6800000071525574,
+          "bounds": {
+            "min": [
+              -0.755150833865732,
+              0.0019890949540307123,
+              -0.3994632915581524
+            ],
+            "max": [
+              0.7551508939431842,
+              1.6404783317282616,
+              0.723319527726853
+            ]
+          },
+          "minClearanceM": 0.0019890949540307123,
+          "maxClearanceM": 0.001999998918245066,
+          "samples": [
+            {
+              "t": 0,
+              "minY": 0.001999998918245066,
+              "maxY": 1.614409267115433
+            },
+            {
+              "t": 0.16844036874421145,
+              "minY": 0.0019903796537973917,
+              "maxY": 1.5865824934653368
+            },
+            {
+              "t": 0.3368807374884229,
+              "minY": 0.001992106229496887,
+              "maxY": 1.6152233434577334
+            },
+            {
+              "t": 0.5053211062326344,
+              "minY": 0.0019953756011560977,
+              "maxY": 1.6333526329849721
+            },
+            {
+              "t": 0.6737614749768458,
+              "minY": 0.0019893604889440336,
+              "maxY": 1.6175346747722872
+            },
+            {
+              "t": 0.6800000071525574,
+              "minY": 0.001999998918245066,
+              "maxY": 1.6144092737942568
+            }
+          ]
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8600000143051147,
+          "bounds": {
+            "min": [
+              -0.9609930056149323,
+              0.0014742269524748441,
+              -0.3018354207112731
+            ],
+            "max": [
+              0.8655160821857134,
+              1.7182473007861134,
+              0.9813852147149947
+            ]
+          },
+          "minClearanceM": 0.0014742269524748441,
+          "maxClearanceM": 0.002285513663073141,
+          "samples": [
+            {
+              "t": 0,
+              "minY": 0.0019999994712655567,
+              "maxY": 1.697891632400777
+            },
+            {
+              "t": 0.21447942245381796,
+              "minY": 0.0019940084239295913,
+              "maxY": 1.6675563683413852
+            },
+            {
+              "t": 0.4289588449076359,
+              "minY": 0.0019996091825335155,
+              "maxY": 1.6811264897628777
+            },
+            {
+              "t": 0.6434382673614539,
+              "minY": 0.0019999631377303484,
+              "maxY": 1.698612543041327
+            },
+            {
+              "t": 0.8579176898152718,
+              "minY": 0.001999998918245066,
+              "maxY": 1.6979451650476114
+            },
+            {
+              "t": 0.8600000143051147,
+              "minY": 0.001999998918245066,
+              "maxY": 1.6978916214416273
+            }
+          ]
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.47999998927116394,
+          "bounds": {
+            "min": [
+              -0.7943132959929766,
+              0.0019131884926326392,
+              -0.33224908979662404
+            ],
+            "max": [
+              0.7821996979818528,
+              1.7492010571014731,
+              0.6169881090738306
+            ]
+          },
+          "minClearanceM": 0.0019131884926326392,
+          "maxClearanceM": 0.002110487066886657,
+          "samples": [
+            {
+              "t": 0,
+              "minY": 0.001999998918245066,
+              "maxY": 1.7132893929552244
+            },
+            {
+              "t": 0.1184415557941833,
+              "minY": 0.0019999981717061244,
+              "maxY": 1.7236806189859457
+            },
+            {
+              "t": 0.2368831115883666,
+              "minY": 0.001999998918245066,
+              "maxY": 1.692741252569449
+            },
+            {
+              "t": 0.3553246673825499,
+              "minY": 0.001999998918245066,
+              "maxY": 1.706164696577639
+            },
+            {
+              "t": 0.4737662231767332,
+              "minY": 0.001999998918245066,
+              "maxY": 1.712957925697911
+            },
+            {
+              "t": 0.47999998927116394,
+              "minY": 0.001999998918245066,
+              "maxY": 1.7132893929552244
+            }
+          ]
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6200000047683716,
+          "bounds": {
+            "min": [
+              -0.7708948169687607,
+              0.0018472242141215458,
+              -0.3617388574944658
+            ],
+            "max": [
+              0.8610993656404308,
+              1.8048028150241646,
+              0.7650162231026796
+            ]
+          },
+          "minClearanceM": 0.0018472242141215458,
+          "maxClearanceM": 0.0024549938075698746,
+          "samples": [
+            {
+              "t": 0,
+              "minY": 0.002000013836219882,
+              "maxY": 1.8036136075818026
+            },
+            {
+              "t": 0.4039588700836299,
+              "minY": 0.001988309872714932,
+              "maxY": 1.7020952869212504
+            },
+            {
+              "t": 0.8079177401672598,
+              "minY": 0.0019936334565430636,
+              "maxY": 1.5568779665292207
+            },
+            {
+              "t": 1.2118766102508898,
+              "minY": 0.00199537092557028,
+              "maxY": 1.5110391253297109
+            },
+            {
+              "t": 1.6158354803345196,
+              "minY": 0.001995399228506594,
+              "maxY": 1.5067927670002736
+            },
+            {
+              "t": 1.6200000047683716,
+              "minY": 0.001995399228506594,
+              "maxY": 1.5067927670002736
+            }
+          ]
+        }
+      ],
+      "sourceGap": "The owned source has humanoid limb topology and no quadrupedal shoulder or hip structure. This localized sculpt and prowl must be reviewed at the normal gameplay camera to decide whether it clears the animal-headed-human concern; a true four-limbed gait would require a new anatomical source."
+    }
+  ],
+  "acceptance": {
+    "cpuValidated": true,
+    "labAccepted": false,
+    "visualAccepted": false,
+    "worldIntegrated": false
+  }
+}

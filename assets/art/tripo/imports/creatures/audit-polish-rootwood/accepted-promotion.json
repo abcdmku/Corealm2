@@ -1,0 +1,206 @@
+{
+  "assets": [
+    {
+      "id": "creature_starroot_guardian",
+      "file": "models/fairy-crown/creature_starroot_guardian.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-rootwood/models/creature_starroot_guardian.glb",
+      "pack": "corealm-tripo-audit-polish-rootwood",
+      "category": "character",
+      "is": "Starroot Guardian",
+      "tags": [
+        "creature",
+        "rootwood",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 6164168,
+      "sha256": "0c4d472b1a207ad56f96209adf1279c18bfd93a8f8eb1b63638d1169998e4048",
+      "triangles": 3411,
+      "size": {
+        "x": 2.1881518987341773,
+        "y": 2.368,
+        "z": 1.4837469497873814
+      },
+      "base": {
+        "x": -1.0940759493670886,
+        "y": 0,
+        "z": -0.7418734748936907
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_starroot_guardian_layered_rootwood"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.9200000166893005,
+      "contactNormalized": 0.55,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "sourceProvenance": {
+        "generator": "Tripo Studio",
+        "license": "LicenseRef-Corealm-Original",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-rootwood/sources/creature_starroot_guardian.glb",
+        "sourceSha256": "51b51cf164b9c7642ed7ede75a9a8a29fba060c590d06c9dc12fd8c1868f630c",
+        "sourceBaseColorSha256": "c098b6d8f568b6dfb90613e139a622b27f406dd624491c81abde380347fbb0d8",
+        "originalSourceFile": "assets/art/tripo/exports/121e4591-e66b-4803-bf39-802fa7bdb392.glb",
+        "originalSourceSha256": "e031c4ec0d7d128576d59adced8b63de217e3f0e81da32de32aebc4946543c47",
+        "sourceCatalog": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/03-woodland-antler-demon/catalog.json",
+        "sourceNormalSha256": "c500992eb171d6b1fe1ffa54071319bb255ac764d85a705b5c7cdc07e942e109",
+        "sourceMetallicRoughnessSha256": "ab72ab1e163b8793d646b7284100e0be5a290f34dfd694981f63f0c0053bf167",
+        "candidateMetallicRoughnessSha256": "a73dab65036b2c510d3a84ebb5251d132fd70dd5ff765c3873715cf353450355",
+        "authoredMaterialName": "Material_tripo_starroot_guardian_layered_rootwood",
+        "sourceGeometrySha256": {
+          "POSITION": "6e511ffb1735c80232401a24dbdd9fb54831af722eed0ccfcdaf5073705c214c",
+          "NORMAL": "60eaf97577d5be53fe549a54259d8bf61d4e05fd487808b0f3831efaa2c24ae4",
+          "TEXCOORD_0": "67fe047b71f5435fc6f9bbaafb87e72accae7dcaa7c7e0ff7a493d85d6af4252",
+          "JOINTS_0": "189ea7e3a86c0bc31c5da7643b15f14b11f0f7031836b2d6b205326a1065fae9",
+          "WEIGHTS_0": "08d4d53db682c85d4b6afb57e6e3e8b3fe99f8a4f6ebbd096d2f0242e24f1c46",
+          "indices": "be1d9eeacd9ada17150fb78c2ffda3c1d838c9def8f42ea027268b62792b4cb5"
+        },
+        "sourceTriangles": 3411,
+        "rigJoints": 22,
+        "imagegenMap": "textures/starroot-deepwood-generated-v2.png",
+        "imagegenMapSha256": "ae50eca16191cecf3b5b2b93b2337634d4e2db947e80d253d2d8e25586237089",
+        "blendedAtlas": "textures/starroot-guardian-basecolor-v2-2k.jpg",
+        "blendedAtlasSha256": "45be1f6733060771384d7bd3058d97781b1dde4804411605ae63a7924ca14005",
+        "generatorSha256": "fc347510ded3150b472291c546502796ae04a5730d206a5e70cdc04eefde6a80",
+        "modifications": "High-contrast guardian bark, deep purple-blue fissures, jade moss, amber flowers and turquoise sap over the accepted branch-antler source; height lifted for level 106. Image-authored Tripo material prefix protects the bark from level-106 tier-metal tint; dielectric metallic factor 0; source ORM roughness channel remapped to matte bark while retaining its variation; original normal and native clips preserved."
+      },
+      "metadata": {
+        "role": "High-contrast guardian bark, deep purple-blue fissures, jade moss, amber flowers and turquoise sap over the accepted branch-antler source; height lifted for level 106.",
+        "uniformScaleMultiplier": 1.28,
+        "headScaleMultiplier": 1,
+        "contactMethod": "Peak forward hand reach relative to hips over 41 sampled Attack frames; pending lab contact review"
+      },
+      "acceptance": {
+        "cpuMotionChecked": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    },
+    {
+      "id": "creature_briar_harrow",
+      "file": "models/creature/creature_briar_harrow.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-rootwood/models/creature_briar_harrow.glb",
+      "pack": "corealm-tripo-audit-polish-rootwood",
+      "category": "character",
+      "is": "Bramble Tiller",
+      "tags": [
+        "creature",
+        "rootwood",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 15322832,
+      "sha256": "7e1f32cfa831ed70a618dbde5a7fe7ba6caab994143738a44e0dd11b63a051b8",
+      "triangles": 5821,
+      "size": {
+        "x": 1.6158288545132518,
+        "y": 2.040469873651308,
+        "z": 0.6230064141213071
+      },
+      "base": {
+        "x": -0.8079145103747825,
+        "y": 0,
+        "z": -0.31150320214999083
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "creature_briar_harrow_layered_rootwood"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.275,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "sourceProvenance": {
+        "generator": "Tripo Studio",
+        "license": "LicenseRef-Corealm-Original",
+        "sourceFile": "game/public/assets/models/creature/creature_briar_harrow.glb",
+        "sourceSha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+        "sourceBaseColorSha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+        "originalSourceFile": "assets/art/tripo/imports/creatures/bramble-tiller-t10/sources/creature_briar_harrow-2663d6ba545d.glb",
+        "originalSourceSha256": "2663d6ba545d0ceea22059a45f0b269384b9f0df1b56bb6f435ed7a2c1e60e12",
+        "sourceCatalog": "assets/art/tripo/imports/creatures/bramble-tiller-t10/catalog.json",
+        "sourceNormalSha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+        "sourceMetallicRoughnessSha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+        "sourceGeometrySha256": {
+          "POSITION": "7e91b20735f162dc58a2fee2541e75aa8409740c301ee8b428af40c9586a7875",
+          "NORMAL": "7c2ca857819aa9f20a32c61868889070a186e68a074db3206419b8386924fa6e",
+          "TEXCOORD_0": "9a96c9e4e3f66f42cdb3b146270a31fab08dc9d132a464a96af8a83b5d3c5ca4",
+          "JOINTS_0": "299fad397279367de5e6c95065b1b0f164950196bd2d13d405f8d33bf18adcba",
+          "WEIGHTS_0": "61d6ffaca3501291979a34117f28c46a7cec7c117da6f5d3ffc498922ad132eb",
+          "indices": "85981dabd20cf4ccd2e8039bfc96a76039290c9c1ed7f75e9cf6ee07cf47d99b"
+        },
+        "sourceTriangles": 5821,
+        "rigJoints": 48,
+        "imagegenMap": "textures/briar-orchard-generated.png",
+        "imagegenMapSha256": "081776143562ffe946783166248623bf31ff822d3f556d0d745d7c1b2e41d265",
+        "blendedAtlas": "textures/briar-tiller-basecolor-2k.jpg",
+        "blendedAtlasSha256": "fb50d5e7f7e018d135fc8b1358f8ac73cd16773a61dabfa90484df6d22d6ed54",
+        "generatorSha256": "c59477cfbcc15f5afb26302fcb609777e9d5356057c92bf1edfe3e441d12e439",
+        "modifications": "Orchard roots, fresh bramble leaves and berry detail over accepted bark; smaller head and overall size reduce human and boss reading at level 13. Source geometry, UV, skin weights, normal/roughness and native clips preserved."
+      },
+      "metadata": {
+        "role": "Orchard roots, fresh bramble leaves and berry detail over accepted bark; smaller head and overall size reduce human and boss reading at level 13.",
+        "uniformScaleMultiplier": 0.76,
+        "headScaleMultiplier": 0.82,
+        "contactMethod": "Peak forward hand reach relative to hips over 41 sampled Attack frames; pending lab contact review"
+      },
+      "acceptance": {
+        "cpuMotionChecked": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-tripo-audit-polish-rootwood",
+      "name": "Rootwood polish candidates",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-rootwood/build-candidates.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "fc347510ded3150b472291c546502796ae04a5730d206a5e70cdc04eefde6a80"
+    }
+  ]
+}
