@@ -610,6 +610,11 @@ export class WorldScene {
     this.entityGroup.name = "entities";
     this.overlayGroup.name = "overlays";
     this.root.add(this.terrainGroup, this.scatterGroup, this.entityGroup, this.overlayGroup);
+    // These containers never move. Auto-updating them re-derived every descendant's world
+    // matrix each frame (thousands of scenery clusters); moving children still update themselves.
+    for (const group of [this.root, this.terrainGroup, this.scatterGroup, this.entityGroup, this.overlayGroup]) {
+      group.matrixAutoUpdate = false;
+    }
     parent.add(this.root);
   }
 
@@ -3632,15 +3637,15 @@ function makeRegionField(spec: RegionTerrainSpec): (x: number, z: number) => num
  * `ROAD_PERP_RANGE` is only the encoding range of the perpendicular distance in `aGround.x`; at
  * 2.6 m it gives the fragment shader 2.0 cm of resolution, finer than any rut band worth drawing.
  */
-const ROAD_DEFAULT_WORN_WIDTH = 3.2;
-const ROAD_FADE_METRES = 1;
+export const ROAD_DEFAULT_WORN_WIDTH = 3.2;
+export const ROAD_FADE_METRES = 1;
 const ROAD_PERP_RANGE = 2.6;
 
 /** How far past the worn edge the gravel shoulder reaches, in metres. */
-const ROAD_VERGE_METRES = 1.1;
+export const ROAD_VERGE_METRES = 1.1;
 
 /** Maximum local width drift. Its two broad waves sum to this fraction. */
-const ROAD_WIDTH_DRIFT = 0.13;
+export const ROAD_WIDTH_DRIFT = 0.13;
 
 /**
  * How far the macro field may bias the grass/dry split, as a fraction of the whole ramp.
@@ -3866,7 +3871,7 @@ const HAUL_PROTECTED_PAD_REACH = 20;
 const ROAD_SEGMENT_SPACING = 4;
 
 /** Maximum lateral displacement on a long open road leg, in metres. */
-const ROAD_MAX_SWAY = 9;
+export const ROAD_MAX_SWAY = 9;
 
 /** Distance near an authored control over which its centreline straightens, in metres. */
 const ROAD_CONTROL_TAPER = 16;

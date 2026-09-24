@@ -159,10 +159,13 @@ export function shaderGeometryKey(mesh: THREE.Mesh): string {
   return `${mesh.type}:${mesh.geometry.uuid}:${mesh.receiveShadow}:${Boolean(instanced.instanceColor)}:${Boolean(instanced.morphTexture)}`;
 }
 
+/** Covered preparation (startup, destinations, effects) keeps this many native pipelines compiling. */
+export const COVERED_PIPELINE_CONCURRENCY = 8;
+
 export interface ShaderPreparationOptions {
   batchSize?: number;
-  /** Startup may overlap up to four asynchronous pipeline waits while node building stays serial. */
-  pipelineConcurrency?: 1 | 2 | 3 | 4;
+  /** Startup overlaps several asynchronous pipeline waits while node building stays serial. */
+  pipelineConcurrency?: number;
   renderTarget?: THREE.RenderTarget | null;
   isCancelled?: () => boolean;
   onPendingTextures?: (count: number) => void;
@@ -248,7 +251,7 @@ function preparedScenery(object: THREE.Object3D, state: PreparationState): boole
 }
 
 function nextPreparationBatch(objects: readonly THREE.Object3D[], offset: number, batchSize: number,
-  state: PreparationState, pipelineConcurrency: 1 | 2 | 3 | 4): THREE.Object3D[] {
+  state: PreparationState, pipelineConcurrency: number): THREE.Object3D[] {
   const first = objects[offset]!;
   const scenery = isSceneryInstances(first);
   const firstPrepared = scenery && preparedScenery(first, state);
@@ -309,6 +312,13 @@ function rememberPreparedBuffers(objects: readonly THREE.Object3D[], buffers: Ma
       prepared.keys.add(key);
     }
   }
+}
+
+/** A scenery cluster whose shared layout already compiled needs only its own buffers, which its
+ * first draw uploads. Covered loads draw such clusters directly instead of queueing each one. */
+export function isPreparedScenery(renderer: WebGPURenderer, object: THREE.Object3D): boolean {
+  const state = states.get(renderer);
+  return Boolean(state) && preparedScenery(object, state!);
 }
 
 /** Includes queued startup, effect, and streamed work, before its first asynchronous yield. */
@@ -485,6 +495,11 @@ function compileBatch(
   }
 }
 
+const nextFrame = (): Promise<void> => new Promise(resolve => {
+  if (typeof requestAnimationFrame === "function") requestAnimationFrame(() => resolve());
+  else setTimeout(resolve, 0);
+});
+
 /** One upload at a time with an asynchronous GPU fence, never a synchronous query. */
 async function finishUploads(completion: GpuCompletion): Promise<void> {
   await completion();
@@ -512,6 +527,13 @@ async function prepare(
   const lights = objects.length >= 16 && objects.length > batchSize ? new PreparationLights(scene) : undefined;
   const completedBatches: THREE.Object3D[][] = [];
   const drainPipelines = pipelineConcurrency === 1;
+  // Covered work (startup, destinations) is ready only as a whole, so one GPU fence at the end
+  // replaces a round trip per batch. Interactive streaming keeps per-batch fences to pace uploads.
+  const covered = !drainPipelines;
+  // Covered work also shares one error scope: three asynchronous scope pops per small batch
+  // were another GPU round trip each.
+  const scoped = <T>(label: string, work: () => T | Promise<T>): Promise<T> =>
+    covered ? Promise.resolve(work()) : validateWork(renderer, label, work, drainPipelines);
   const prepareBatches = async () => {
     for (let offset = 0; offset < objects.length && !cancelled();) {
       const batch = nextPreparationBatch(objects, offset, batchSize, state, pipelineConcurrency);
@@ -519,21 +541,21 @@ async function prepare(
       const textures = collectTextures(batch, scene).filter(texture => state.textures.get(texture) !== texture.version);
       progress.pendingTextures = textures.length;
       options.onPendingTextures?.(progress.pendingTextures);
-      for (let index = 0; index < textures.length; index++) {
-        if (cancelled()) return;
-        const texture = textures[index]!;
-        await validateWork(renderer, `Texture ${texture.name || texture.uuid}`, async () => {
-          renderer.initTexture(texture);
-          await finishUploads(completion);
-        }, drainPipelines);
+      if (cancelled()) return;
+      // One fence covers the batch's uploads; a fence per texture serialized hundreds of GPU round trips.
+      if (textures.length) await scoped(`Textures ${textures.map(texture => texture.name || texture.uuid).join(", ")}`, async () => {
+        for (const texture of textures) renderer.initTexture(texture);
+        if (!covered) await finishUploads(completion);
+      });
+      for (const texture of textures) {
         if (!state.watchedTextures.has(texture)) {
           texture.addEventListener("dispose", () => state.textures.delete(texture));
           state.watchedTextures.add(texture);
         }
         state.textures.set(texture, texture.version);
-        progress.pendingTextures = textures.length - index - 1;
-        options.onPendingTextures?.(progress.pendingTextures);
       }
+      progress.pendingTextures = 0;
+      options.onPendingTextures?.(0);
       if (cancelled()) return;
       stage('main-thread-yield', batch);
       await yieldToMainThread();
@@ -541,21 +563,25 @@ async function prepare(
       for (const object of batch) for (const buffer of geometryBuffers(object)) {
         buffers.set(buffer, { version: buffer.version, array: buffer.array });
       }
+      // Clusters of an already compiled scenery layout create no pipeline, so they need neither
+      // an error scope nor a GPU fence: one animation frame per batch paces their uploads.
+      const known = !covered && !textures.length && batch.every(object => preparedScenery(object, state));
       stage('resident-pipelines', batch);
-      await validateWork(renderer, "Resident graphics pipelines", () =>
-        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights), drainPipelines);
-      if (cancelled()) {
-        if (!drainPipelines) await finishUploads(completion);
-        return;
-      }
+      if (known) await compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights);
+      else await scoped("Resident graphics pipelines", () =>
+        compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights));
+      if (cancelled()) return;
       const fading = batch.filter(object => object.userData.prepareCorpseFade === true);
       if (fading.length) {
         stage('creature-fade-pipelines', fading);
-        await validateWork(renderer, "Creature fade pipelines", () =>
-          compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights), drainPipelines);
+        await scoped("Creature fade pipelines", () =>
+          compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights));
       }
-      stage('gpu-completion', batch);
-      await finishUploads(completion);
+      if (known) await nextFrame();
+      else if (!covered) {
+        stage('gpu-completion', batch);
+        await finishUploads(completion);
+      }
       rememberPreparedBuffers(batch, buffers, state);
       offset += batch.length;
       progress.submittedMeshes = offset;
@@ -568,14 +594,16 @@ async function prepare(
   try {
     if (pipelineConcurrency === 1) await prepareBatches();
     else {
-      // Upload batches retain their fences and byte limits while bounded pipeline
-      // compilations may span batches. None of this job becomes ready before its full
-      // pipeline/error drain, including objects whose uploads finished much earlier.
-      try { await withPipelineConcurrency(renderer, prepareBatches, pipelineConcurrency); }
+      // Bounded pipeline compilations span batches. None of this job becomes ready before
+      // its full pipeline/error drain and its single upload fence.
+      try { await validateWork(renderer, "Covered graphics preparation",
+        () => withPipelineConcurrency(renderer, prepareBatches, pipelineConcurrency), false); }
       finally {
         stage('pipeline-validation');
         await waitForGraphicsValidation(renderer);
       }
+      stage('gpu-completion');
+      await finishUploads(completion);
       stage('prepared-batch-delivery');
       if (!cancelled()) for (const batch of completedBatches) {
         progress.pendingMeshes -= batch.length;

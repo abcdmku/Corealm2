@@ -42,7 +42,7 @@ it('refreshes changed cells and same-id references without losing snapshot posit
   index.replace([a, b]); expect(ids(index.selected())).toEqual(['b']);
   const replacement = { ...b, name: 'updated', regionId: 'highcairn' as RegionId };
   index.replace([replacement]); expect(index.selected()[0]).toBe(replacement);
-  expect(index.has('a')).toBe(false); expect(index.forRegion('fallowmarch')).toEqual([]);
+  expect(index.has('a')).toBe(false);
   replacement.view = undefined; index.replace([replacement]); expect(index.selected()).toEqual([]);
   replacement.view = { assetId: 'new' }; index.replace([replacement]);
   expect(ids(index.selected())).toEqual(['b']);
@@ -201,8 +201,6 @@ describe("EntityActiveSet", () => {
     reverse.setPosition([200, 0, 0]);
     expect(ids(forward.selected())).toEqual(["cold-a", "cold-b"]);
     expect(ids(reverse.selected())).toEqual(ids(forward.selected()));
-    expect(ids(forward.forRegion("fallowmarch"))).toEqual(["warm-a", "warm-b"]);
-    expect(ids(forward.forRegion("karrowmoor"))).toEqual(["cold-a", "cold-b"]);
   });
 
   it("supports full-island residency and a pinned capture subject", () => {
@@ -264,7 +262,7 @@ describe("EntityViews streaming", () => {
       expect(f.views.residencyStats()).toMatchObject({resident:1,pending:0});
     } finally {f.views.dispose();f.materials.dispose();assets.dispose();}
   });
-  it('paces new views, uses current rows, cancels stale areas and awaits destination hydration', async () => {
+  it('paces new views, uses current rows, cancels stale areas and builds a destination at once', async () => {
     const assets = new FakeEntityAssets(['a-asset', 'b-asset']);
     const jobs: (() => void)[] = [];
     const f = entityViews(assets, { schedulePreparation: work => new Promise<void>(resolve => {
@@ -288,6 +286,30 @@ describe("EntityViews streaming", () => {
       f.views.sync([a,current]);
       f.views.dispose(); jobs.shift()!(); await Promise.resolve();
       expect(f.views.hasView('a')).toBe(false);
+    } finally { f.views.dispose(); f.materials.dispose(); assets.dispose(); }
+  });
+  it('builds creatures before scenery, nearest first, after a long move', async () => {
+    const ids = ['prop-near', 'wolf-far', 'prop-far', 'wolf-near'];
+    const assets = new FakeEntityAssets(ids.map(id => `${id}-asset`));
+    const built: string[] = [];
+    const jobs: (() => void)[] = [];
+    const f = entityViews(assets, { schedulePreparation: work => new Promise<void>(resolve => {
+      jobs.push(() => { work(); resolve(); });
+    }) });
+    const at = (id: string, x: number) => ({ ...entity(id, 'fallowmarch', [500 + x, 0, 0]),
+      ...(id.startsWith('wolf') ? { archetype: 'enemy' as const } : {}) });
+    const rows = [at('prop-near', 1), at('wolf-far', 20), at('prop-far', 25), at('wolf-near', 5)];
+    try {
+      await f.views.prepare(rows);
+      f.views.updateActiveArea([0, 0, 0], 60);
+      f.views.sync(rows);
+      expect(jobs).toHaveLength(0);
+      f.views.updateActivePosition([500, 0, 0]);
+      while (jobs.length) {
+        jobs.shift()!(); await Promise.resolve();
+        built.push(...ids.filter(id => f.views.hasView(id) && !built.includes(id)));
+      }
+      expect(built).toEqual(['wolf-near', 'wolf-far', 'prop-near', 'prop-far']);
     } finally { f.views.dispose(); f.materials.dispose(); assets.dispose(); }
   });
   it("hydrates structures through their draw-distance ring while actors use the smaller radius", async () => {
@@ -323,7 +345,7 @@ describe("EntityViews streaming", () => {
     assets.dispose();
   });
 
-  it("preloads a cold region without creating records, then hydrates it on travel", async () => {
+  it("hydrates a cold region on travel and releases the one left behind", async () => {
     const semantic = [
       entity("warm", "fallowmarch", [0, 0, 0], "warm-asset"),
       entity("cold", "karrowmoor", [220, 0, 0], "cold-asset"),
@@ -341,16 +363,6 @@ describe("EntityViews streaming", () => {
       resident: 1,
       residentIds: ["warm"],
     });
-
-    const preload = await views.preloadRegion("karrowmoor");
-    expect(preload).toMatchObject({
-      regionId: "karrowmoor",
-      entities: 1,
-      assets: 1,
-      loaded: 1,
-      residency: { selected: 1, resident: 1, residentIds: ["warm"] },
-    });
-    expect(assets.isLoaded("cold-asset")).toBe(true);
 
     views.updateActivePosition([220, 0, 0]);
     const cold = await views.retryHydration();

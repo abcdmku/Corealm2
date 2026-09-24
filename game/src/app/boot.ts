@@ -1192,13 +1192,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
     ready: () => renderer.effectsReady,
   });
-  // Nobody can cast before they have joined a world, so the authored game does not hold its first frame for the spell pools'
-  // programs: they are submitted here, finish after the first frame, and a cast that beats them waits for its visual. A lab
-  // casts the moment it is ready, so it waits for them as before.
-  const deferSpellPrograms = profile.kind === "game";
   effectsConstructionSpan.end();
-  if (!worldMapCapture) bootTelemetry.measureSync("boot.shaders.effects.submit",
-    () => renderer.compileEffects(spellVfx.preparationRoot(), { deferred: deferSpellPrograms }));
+  if (!worldMapCapture) renderer.compileEffects(spellVfx.preparationRoot());
 
   // 10. Procedural dressing, kept clear of anything authored.
   setStatus("Loading nearby scenery…",4);
@@ -1597,6 +1592,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     : terrainAt(point[0], point[2]).regionAt(point[0], point[2]) });
 
   let activeVisualCentre: Vec3 = [...initialPlayerPosition];
+  let debugPlacements = 0;
   let activeVisualRegion = loadRegion;
   const entitiesForVisualRegion = (regionId: RegionId): readonly SemanticEntity[] => entityStore.renderSnapshotForMap(regionId);
   const refreshVisualResidency = (position: Vec3, regionId: RegionId, force = false): void => {
@@ -1658,8 +1654,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     spawn: huntFixture.spawn,
   };
   let pausedBeforePortal = false;
+  /** Covered loading hides unprepared meshes and gives graphics and asset work startup-sized
+   * budgets: nothing interactive is drawn until it lifts. */
+  const coverLoading = (covered: boolean): void => {
+    renderer.setDestinationLoading(covered);
+    renderer.setFramesSuppressed(covered);
+    if (debugReady) assets.setGameplayActive(!covered && runtimePerformanceEnabled);
+  };
   const portalTransition = new PortalTransition((locked) => {
-    renderer.setDestinationLoading(locked);
+    coverLoading(locked);
     if (locked) pausedBeforePortal = clock.paused;
     clock.paused = locked || pausedBeforePortal;
     input.clear();
@@ -1667,17 +1670,22 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const transitionThroughPortal = (destination: { position: Vec3; regionId: RegionId; name: string }, commit: () => void): Promise<void> => portalTransition.run({
     name: destination.name,
     prepare: async (report) => {
-      report(0, destination.regionId === "gravelmaw" ? "Loading cave…" : "Loading destination…");
-      if (destination.regionId === "gravelmaw") await deferredCave?.ensure();
-      report(1, "Loading creatures and objects…");
-      await preparePlayerArea(playerAssetArea(destination.position, destination.regionId));
-      if ((profile.scatter || fairyLab) && destination.regionId !== "gravelmaw") {
-        scatterResults = await scatterForRegion(destination.regionId).loadView(destination.position[0], destination.position[2],
-          fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE);
-      }
+      report(0, "Loading destination…");
+      // The cave rock, the area's models, its scatter and the destination's hidden interior are
+      // independent downloads and preparations; only the dungeon's shaders need its rock first.
+      const cave = destination.regionId === "gravelmaw" ? deferredCave?.ensure() : undefined;
+      await Promise.all([
+        preparePlayerArea(playerAssetArea(destination.position, destination.regionId)).then(() => report(1, "Loading scenery…")),
+        (profile.scatter || fairyLab) && destination.regionId !== "gravelmaw"
+          ? scatterForRegion(destination.regionId).loadView(destination.position[0], destination.position[2],
+            fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE)
+            .then(results => { scatterResults = results; })
+          : undefined,
+        isFairyRegion(destination.regionId) && fairyRealm ? renderer.prepareInterior(fairyRealm.scene.root) : undefined,
+        destination.regionId === dungeonSpec?.regionId && dungeon
+          ? Promise.resolve(cave).then(() => renderer.prepareInterior(dungeon.group)) : cave,
+      ]);
       report(2, "Preparing destination graphics…");
-      if (isFairyRegion(destination.regionId) && fairyRealm) await renderer.prepareInterior(fairyRealm.scene.root);
-      if (destination.regionId === dungeonSpec?.regionId && dungeon) await renderer.prepareInterior(dungeon.group);
     },
     commit: () => {
       camera.setFreeTarget(null);
@@ -1698,6 +1706,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       // while those programs and textures prepare, instead of forcing their first draw here.
       await renderer.waitForInterior(renderer.scene);
       await renderer.prepareEffects(spellVfx.preparationRoot());
+      renderer.setFramesSuppressed(false);
       renderer.render(performance.now());
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     },
@@ -2945,9 +2954,24 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
    * with no local world (the multiplayer lab, a capture) has nobody to ask, and the pose is refused.
    */
   const localDebug = localLaunch ? (op: import("../worker/localDebugProtocol.js").DebugOp) => localLaunch.provider.debug(op) : null;
-  const debugPlace = <T>(position: Vec3, regionId: RegionId, facingRad: number | undefined, then: () => T): Promise<T> => {
-    if (!localDebug) return Promise.reject(new Error("UNAVAILABLE: only a local world lets the debug surface place the player."));
-    return localDebug({ op: "place", position, regionId, ...(facingRad === undefined ? {} : { facingRad }) }).then(then);
+  /** Debug placements frame their own camera, so they skip the jump cover and resolve only once
+   * the creatures and scenery around the new position are built and drawable. */
+  const debugPlace = async <T>(position: Vec3, regionId: RegionId, facingRad: number | undefined, then: () => T): Promise<T> => {
+    if (!localDebug) throw new Error("UNAVAILABLE: only a local world lets the debug surface place the player.");
+    debugPlacements++;
+    try { await localDebug({ op: "place", position, regionId, ...(facingRad === undefined ? {} : { facingRad }) }); }
+    finally { debugPlacements--; }
+    const result = then();
+    await portalTransition.idle();
+    coverLoading(true);
+    try {
+      await entityViews.retryHydration();
+      await renderer.waitForInterior(renderer.scene);
+    } finally { coverLoading(false); }
+    // Resolve on a drawn frame of the new position, not the one the cover left on the canvas.
+    const drawn = renderer.getPresentationState().submitted;
+    await renderer.waitForFrame(drawn);
+    return result;
   };
   const frameDocumentationTarget = (
     target: Vec3,
@@ -3389,8 +3413,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         gameAudio.tick(0,update.simMs);
         // Within a map the working set follows the player. Across maps (a portal, or a join that lands in the cave) the
         // curtain covers the change while the destination loads, because the cave's rock and a realm's dressing load on arrival.
+        // A same-map jump beyond the actor radius (a respawn) lands among creatures that have no views yet: cover it too.
         const player=store.get().player;
-        const crossed=worldMapForRegion(player.regionId)!==worldMapForRegion(activeVisualRegion)
+        const jumped=debugPlacements===0&&distanceXZ(player.position,activeVisualCentre)>ENTITY_ACTIVE_RADIUS;
+        const crossed=worldMapForRegion(player.regionId)!==worldMapForRegion(activeVisualRegion)||jumped
           ||(player.regionId==="gravelmaw"&&deferredCave!==null&&!deferredCave.getState().ready);
         if(!crossed){refreshVisualResidency(player.position,player.regionId,update.snapshot);return;}
         if(portalTransition.active)return;
@@ -3404,6 +3430,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // so their own world starts. It is a world to join, not a game already running behind the picker.
     if(!choseLocalPlay&&!selection.configured&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
   }
+  // Effect programs depend on neither the joined world nor its lights (see batchedLighting.ts),
+  // so every pool compiles while the world joins. Their PNGs must decode first.
+  const effectTextures = worldMapCapture ? undefined : renderer.prepareEffectTextures();
+  const effectsReady = effectTextures?.then(() => {
+    renderer.compileEffects(overlays.preparationRoot());
+    return bootTelemetry.measureAsync("boot.effects.ready", () => renderer.prepareEffects());
+  });
+  void effectsReady?.catch(() => {}); // The awaited readiness gate below reports failures.
   // Join before preparing the final view: the snapshot defines the real spawn and actors.
   // The picker remains clickable above the cover if authentication or connection fails.
   if (profile.kind === "game" && selection) {
@@ -3445,10 +3479,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Match the first gameplay frame before compiling. Hidden cave lights otherwise produce
   // a different cache key, including for Three's internal sky shader on the first water draw.
   if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
-  // These maps belong to spell pools, not the starting terrain. Their downloads overlap
-  // world pipeline preparation. A lab may already display an effect in its warmup scene.
-  const effectTextures = worldMapCapture ? undefined : renderer.prepareEffectTextures();
-  void effectTextures?.catch(() => {}); // The awaited readiness gate below reports failures.
+  // A lab may already display an effect in its warmup scene.
   if (profile.kind === "feature-lab") await effectTextures;
   if (profile.fullWarmup || performanceLab || multiplayerFixture) {
     setStatus("Finishing graphics…",5);
@@ -3460,12 +3491,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   if (!worldMapCapture) {
     setStatus("Starting the game…",5);
-    await effectTextures;
-    // Submitted again because the scene's lights are final only now, and a pool's program depends on them.
-    await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot(), { deferred: deferSpellPrograms }));
-    await bootTelemetry.measureAsync("boot.shaders.input-feedback", () => renderer.prepareEffects(overlays.preparationRoot()));
     // A longer responsive load is preferable to a first cast with missing effects or cold pipelines.
-    await renderer.finishDeferredEffects();
+    await effectsReady;
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
   if (runtimePerformanceEnabled) renderer.startStreamingWarmup();

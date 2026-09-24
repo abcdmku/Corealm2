@@ -15,6 +15,8 @@ import {
   type ScatterTileLoadOptions,
 } from "./scatter.js";
 
+const PRIMARY_TILE_LANES = 4;
+
 export interface ScatterResidency {
   /** Canonically ordered generation-tile ids that have meshes in the scene. */
   resident: string[];
@@ -127,11 +129,15 @@ export class ScatterStreamingController {
       if (tile) wanted.set(tile.id, tile);
     }
     const ordered = this.sortByActiveDistance([...wanted.values()]);
-    for (let index = 0; index < ordered.length; index += 1) {
-      const tile = ordered[index]!;
-      await this.ensureTile(tile, priority, primary);
-      if (index + 1 < ordered.length) await this.yieldToMain();
-    }
+    // A covered view overlaps its nearest tiles' downloads; each tile still yields while building.
+    let next = 0;
+    const lane = async () => {
+      while (next < ordered.length) {
+        await this.ensureTile(ordered[next++]!, priority, primary);
+        if (next < ordered.length) await this.yieldToMain();
+      }
+    };
+    await Promise.all(Array.from({ length: primary ? PRIMARY_TILE_LANES : 1 }, lane));
     return this.getStats();
   }
 

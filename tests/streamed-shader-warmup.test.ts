@@ -2,6 +2,7 @@ import * as THREE from "three";
 import type { WebGPURenderer } from "three/webgpu";
 import { expect, it, vi } from "vitest";
 import { StreamedShaderWarmup } from "../game/src/render/streamedShaderWarmup.js";
+import { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 
 function fixture() {
   const scene = new THREE.Scene();
@@ -34,19 +35,31 @@ it("enrolls hidden attached interiors once and preserves the original parent and
   gate.dispose();
 });
 
-it("keeps ordinary actors visible while deferring sampled replacements and covered destinations", async () => {
+it("keeps sampled actors visible while deferring detailed rigs and covered destinations", async () => {
   const { scene, gate, mesh, compile } = fixture();
   let finish!: () => void;
   compile.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
-  mesh.userData.entityId = "creature"; scene.add(mesh);
+  mesh.userData.sampledActor = true; scene.add(mesh);
   gate.prepare(); expect(mesh.visible).toBe(true); gate.restore();
   await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
   gate.deferGameplayDraws = true;
   gate.prepare(); expect(mesh.visible).toBe(false); gate.restore();
-  gate.deferGameplayDraws = false; mesh.userData.deferFirstDraw = true;
+  gate.deferGameplayDraws = false; delete mesh.userData.sampledActor; mesh.userData.deferFirstDraw = true;
   gate.prepare(); expect(mesh.visible).toBe(false); gate.restore();
   finish(); await settle(gate);
   gate.prepare(); expect(mesh.visible).toBe(true); gate.restore(); gate.dispose();
+});
+
+it("prepares newly resident creatures before scenery queued ahead of them", async () => {
+  const { scene, gate, compile } = fixture();
+  const order: THREE.Object3D[] = [];
+  compile.mockImplementation(async view => { order.push(...view.children); });
+  const scenery = Array.from({ length: 40 }, () => new THREE.Mesh());
+  const creature = new THREE.Mesh(); creature.userData.sampledActor = true;
+  scene.add(...scenery, creature);
+  await settle(gate);
+  expect(order[0]).toBe(creature);
+  expect(order).toHaveLength(41); gate.dispose();
 });
 
 it("runs only one bounded batch and continues receiving additions while a pipeline is pending", async () => {
@@ -190,4 +203,20 @@ it("cancels a scheduled drain before its first native preparation starts", async
   await new Promise(resolve => setTimeout(resolve, 10));
   expect(compile).not.toHaveBeenCalled();
   expect(gate.getState()).toMatchObject({ waiting: 0, queued: 0, compiling: false });
+});
+
+it("lets a covered load draw clusters of an already compiled scenery layout without queueing them", async () => {
+  const { scene, gate, compile } = fixture();
+  const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
+  scene.add(new SceneryInstances(geometry, material, 1));
+  await settle(gate);
+  expect(compile).toHaveBeenCalledOnce();
+  gate.deferGameplayDraws = true;
+  const known = new SceneryInstances(geometry, material, 1);
+  const fresh = new SceneryInstances(new THREE.BoxGeometry(), material, 1);
+  scene.add(known, fresh);
+  expect(gate.getState().waiting).toBe(1);
+  gate.prepare(); expect(known.visible).toBe(true); expect(fresh.visible).toBe(false); gate.restore();
+  gate.deferGameplayDraws = false; // This fixture has no native pipeline store for the covered job.
+  await settle(gate); gate.dispose();
 });

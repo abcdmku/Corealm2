@@ -212,7 +212,7 @@ export class AnimationLod {
   private readonly slots = new Map<number, number>();
   private readonly placements = new Map<number, THREE.Matrix4>();
   private readonly rows: number[] = [];
-  private capacity = 16;
+  private capacity = 64;
   private frames = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 4), 4).setUsage(THREE.DynamicDrawUsage);
   private previousFrames = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 4), 4).setUsage(THREE.DynamicDrawUsage);
   private disposed = false;
@@ -876,6 +876,7 @@ export class AnimationLod {
   private makeMesh(part: Part): THREE.InstancedMesh {
     const mesh = new THREE.InstancedMesh(part.geometry, part.material, this.capacity);
     mesh.name = `animation-lod:${part.source.name}`;
+    mesh.userData.sampledActor = true;
     mesh.count = this.rows.length;
     mesh.visible = mesh.count > 0;
     mesh.castShadow = this.castShadow;
@@ -899,19 +900,16 @@ export class AnimationLod {
       part.geometry.dispose();
       part.geometry.setAttribute("lodFrames", frames);
       part.geometry.setAttribute("lodPreviousFrames", previous);
-      const matrices = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 16), 16)
-        .setUsage(THREE.DynamicDrawUsage);
-      const colors = new THREE.InstancedBufferAttribute(new Float32Array(this.capacity * 3).fill(1), 3)
-        .setUsage(THREE.DynamicDrawUsage);
-      matrices.array.set(part.mesh.instanceMatrix.array);
-      colors.array.set(part.mesh.instanceColor!.array);
-      // Capacity is buffer storage, not a shader variant. Keep the prepared mesh resident so a
-      // seventeenth actor cannot requeue shaders and hide the sixteen actors already drawing.
-      // Three's dispose listener frees these old instance buffers and VAOs before replacement;
-      // its next object update installs the listener again and uploads the new attributes.
-      part.mesh.dispose();
-      part.mesh.instanceMatrix = matrices;
-      part.mesh.instanceColor = colors;
+      // Three caches an instanced mesh's node graph by the mesh's uuid, so instance buffers
+      // swapped onto the same mesh kept drawing through the old, smaller bindings. A grown
+      // group gets fresh meshes; they share the compiled pipeline of the ones they replace.
+      const old = part.mesh;
+      part.mesh = this.makeMesh(part);
+      part.mesh.instanceMatrix.array.set(old.instanceMatrix.array);
+      part.mesh.instanceColor!.array.set(old.instanceColor!.array);
+      old.removeFromParent();
+      old.dispose();
+      this.parent.add(part.mesh);
     }
   }
 }

@@ -90,7 +90,7 @@ it('overlaps WebGL links across bounded uploads but waits for every program bind
   expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1, 1, 1]);
   expect(f.peak()).toBe(4);
   for (let index = 2; index < 5; index++) f.requests[index]!.resolve();
-  await vi.waitFor(() => expect(shaderPreparationState(f.renderer).jobs[0]?.stage).toBe('gpu-completion'));
+  await Promise.resolve();
   expect(ready).not.toHaveBeenCalled();
   expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(5);
   f.requests[0]!.resolve(); await preparing;
@@ -108,36 +108,33 @@ it('drains remaining WebGL program completions after rejection and restores the 
     .catch(error => { settled = true; return error; });
   await vi.waitFor(() => expect(f.requests).toHaveLength(2));
   f.requests[1]!.reject(new Error('WebGL binding failure'));
-  await vi.waitFor(() => expect(graphicsValidationState(f.renderer).failed).toBe(1));
+  await Promise.resolve();
   expect(settled).toBe(false); expect(ready).not.toHaveBeenCalled();
   f.requests[0]!.resolve();
   expect(await result).toMatchObject({ message: expect.stringContaining('WebGL binding failure') });
+  expect(graphicsValidationState(f.renderer).failed).toBe(1);
   expect(ready).not.toHaveBeenCalled();
   expect(pipelines.getForRender).toBe(original);
 });
 
-it('overlaps startup pipelines across byte-bounded upload batches without publishing readiness before the final drain', async () => {
+it('overlaps startup pipelines across batches and fences their uploads once before publishing readiness', async () => {
   const f = nativePipelineFixture(3), ready = vi.fn();
   let fence!: () => void;
-  f.completed.mockImplementationOnce(async () => {}).mockImplementationOnce(() => new Promise<void>(resolve => { fence = resolve; }));
+  f.completed.mockImplementationOnce(() => new Promise<void>(resolve => { fence = resolve; }));
   const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
     { batchSize: 4, pipelineConcurrency: 2, onPreparedBatch: ready });
-  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(2));
-  expect(f.requests).toHaveLength(1); expect(f.initTexture).toHaveBeenCalledOnce();
-  expect(ready).not.toHaveBeenCalled();
-  fence();
   await vi.waitFor(() => expect(f.requests).toHaveLength(2));
-  expect(f.completed).toHaveBeenCalledTimes(3); // First mesh fence plus two distinct texture fences.
   expect(f.batches.map(batch => batch.length)).toEqual([1, 1]);
+  expect(f.initTexture).toHaveBeenCalledTimes(2); expect(f.completed).not.toHaveBeenCalled();
   f.requests[1]!.resolve();
   await vi.waitFor(() => expect(f.requests).toHaveLength(3));
-  f.requests[2]!.resolve();
-  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(6));
+  f.requests[2]!.resolve(); f.requests[0]!.resolve();
+  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledOnce());
   expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1]);
   expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(3);
   expect(ready).not.toHaveBeenCalled(); expect(f.peak()).toBe(2);
-  f.requests[0]!.resolve(); await preparing;
-  expect(ready).toHaveBeenCalledTimes(3);
+  fence(); await preparing;
+  expect(ready).toHaveBeenCalledTimes(3); expect(f.completed).toHaveBeenCalledOnce();
   expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
 });
 
@@ -163,29 +160,32 @@ it.each([3, 4] as const)('honors %i startup pipeline slots across upload batches
     { batchSize: 4, pipelineConcurrency: limit, onPreparedBatch: ready });
   await vi.waitFor(() => expect(f.requests).toHaveLength(limit));
   expect(f.batches.map(batch => batch.length)).toEqual(Array.from({ length: limit }, () => 1));
-  expect(f.initTexture).toHaveBeenCalledTimes(limit); expect(f.completed).toHaveBeenCalledTimes(2 * limit - 1);
+  expect(f.initTexture).toHaveBeenCalledTimes(limit); expect(f.completed).not.toHaveBeenCalled();
   expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(count);
   f.requests[1]!.resolve();
   await vi.waitFor(() => expect(f.requests).toHaveLength(count));
   expect(f.peak()).toBe(limit); expect(f.batches.map(batch => batch.length)).toEqual(Array.from({ length: count }, () => 1));
   for (let index = 2; index < count; index++) f.requests[index]!.resolve();
-  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(2 * count));
+  await Promise.resolve();
   expect(ready).not.toHaveBeenCalled(); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(count);
   f.requests[0]!.resolve(); await preparing;
-  expect(ready).toHaveBeenCalledTimes(count); expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
+  expect(ready).toHaveBeenCalledTimes(count); expect(f.completed).toHaveBeenCalledOnce();
+  expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
 });
 
-it('drains a cancelled startup pipeline after its upload fence without publishing ready objects', async () => {
-  const f = nativePipelineFixture(2), ready = vi.fn();
+it('drains and fences a cancelled startup job without publishing ready objects', async () => {
+  const f = nativePipelineFixture(3), ready = vi.fn();
   let cancelled = false;
-  f.completed.mockImplementationOnce(async () => {}).mockImplementationOnce(async () => { cancelled = true; });
   const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
     { pipelineConcurrency: 2, isCancelled: () => cancelled, onPreparedBatch: ready });
   let settled = false; void preparing.then(() => { settled = true; });
-  await vi.waitFor(() => expect(f.completed).toHaveBeenCalledTimes(2));
-  expect(f.requests).toHaveLength(1); expect(settled).toBe(false);
+  await vi.waitFor(() => expect(f.requests).toHaveLength(2));
+  cancelled = true;
+  f.requests[1]!.resolve(); await Promise.resolve();
+  expect(settled).toBe(false);
   f.requests[0]!.resolve(); await preparing;
-  expect(f.requests).toHaveLength(1); expect(ready).not.toHaveBeenCalled();
+  expect(f.requests).toHaveLength(2); expect(ready).not.toHaveBeenCalled();
+  expect(f.completed).toHaveBeenCalledOnce();
 });
 
 it("uses real children and the live scene cache, restoring hidden hierarchies and output before await", async () => {
@@ -231,7 +231,7 @@ it("bounds batches to four objects and serializes concurrent requests for the sa
   expect(peak).toBe(1);
 });
 
-it('seeds scenery alone, then groups at most eight prepared layouts without releasing readiness before the fence', async () => {
+it('seeds scenery alone behind a fence, then paces prepared layouts eight per batch without further fences', async () => {
   const { scene, camera, renderer, compile, completed } = fixture();
   const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
   const meshes = Array.from({ length: 18 }, () => new SceneryInstances(geometry, material, 4));
@@ -248,7 +248,7 @@ it('seeds scenery alone, then groups at most eight prepared layouts without rele
   expect(shaderPreparationState(renderer).pendingMeshes).toBe(18);
   finish(); await preparing;
   expect(sizes).toEqual([1, 8, 8, 1]);
-  expect(completed).toHaveBeenCalledTimes(4);
+  expect(completed).toHaveBeenCalledOnce();
   expect(maximum).toBe(1);
   expect(shaderPreparationState(renderer).pendingMeshes).toBe(0);
   for (const mesh of meshes) mesh.dispose();
@@ -264,7 +264,7 @@ it('limits grouped scenery to 256 KiB of new buffers and counts shared source at
   compile.mockImplementation(async view => { sizes.push(view.children.length); });
   await prepareShaderMeshes(renderer, scene, camera, meshes);
   expect(sizes).toEqual([1, 3, 3, 1]);
-  expect(completed).toHaveBeenCalledTimes(4);
+  expect(completed).toHaveBeenCalledOnce();
   for (const mesh of meshes) mesh.dispose();
 });
 
@@ -279,9 +279,9 @@ it.each([1, 1280])('allows startup scenery seeds in groups of four within the ex
   const preparing = prepareShaderMeshes(renderer, scene, camera, meshes, { pipelineConcurrency: 2 });
   await vi.waitFor(() => expect(completed).toHaveBeenCalledOnce());
   expect(shaderPreparationState(renderer).pendingMeshes).toBe(8);
-  expect(sizes).toEqual([capacity === 1 ? 4 : 1]);
-  finish(); await preparing;
   expect(sizes).toEqual(capacity === 1 ? [4, 4] : [1, 3, 3, 1]);
+  finish(); await preparing;
+  expect(completed).toHaveBeenCalledOnce();
   expect(shaderPreparationState(renderer).pendingMeshes).toBe(0);
   for (const mesh of meshes) mesh.dispose();
 });
@@ -314,7 +314,7 @@ it('groups fallback startup scenery seeds without dropping objects or exceeding 
   await prepareShaderMeshes(renderer, scene, camera, meshes, { batchSize: 4, pipelineConcurrency: 4 });
   expect(batches.map(batch => batch.length)).toEqual([4, 5]);
   expect(batches.flat()).toEqual(meshes);
-  expect(fenceSync).toHaveBeenCalledTimes(2);
+  expect(fenceSync).toHaveBeenCalledOnce();
   for (const mesh of meshes) mesh.dispose();
 
   const largeGeometry = new THREE.BufferGeometry().setAttribute('position',
@@ -325,7 +325,7 @@ it('groups fallback startup scenery seeds without dropping objects or exceeding 
   await prepareShaderMeshes(renderer, scene, camera, large, { batchSize: 4, pipelineConcurrency: 4 });
   expect(batches.map(batch => batch.length)).toEqual([1, 3]);
   expect(batches.flat()).toEqual(large);
-  expect(fenceSync).toHaveBeenCalledTimes(2);
+  expect(fenceSync).toHaveBeenCalledOnce();
   for (const mesh of large) mesh.dispose();
 });
 

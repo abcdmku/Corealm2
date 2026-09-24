@@ -1,12 +1,16 @@
 import * as THREE from "three";
 import type { WebGPURenderer } from "three/webgpu";
-import { prepareShaderMeshes } from "./shaderPreparation.js";
+import { COVERED_PIPELINE_CONCURRENCY, isPreparedScenery, prepareShaderMeshes } from "./shaderPreparation.js";
 import { GameplayWork } from "./gameplayWork.js";
 import { yieldToMainThread } from "../core/yield.js";
 
 // Native preparation seeds unknown scenery layouts alone, then groups at most eight cached
 // clusters within its upload byte budget. A larger outer job amortizes the live light index.
 const DRAIN_BATCH_SIZE = 32;
+const COVERED_DRAIN_BATCH_SIZE = 256;
+
+const isActorMesh = (object: THREE.Object3D): boolean =>
+  object.userData.deferFirstDraw === true || object.userData.sampledActor === true;
 
 /** Prepare newly resident pipelines and uploads before their first gameplay draw. */
 export class StreamedShaderWarmup {
@@ -55,8 +59,7 @@ export class StreamedShaderWarmup {
     if (this.disposed) return;
     root.traverse(object => {
       if (!this.isDrawable(object) || this.enrolled.has(object)) return;
-      this.addWaiting(object);
-      this.queued.add(object);
+      this.enroll(object);
     });
     this.scheduleNext();
   }
@@ -71,11 +74,18 @@ export class StreamedShaderWarmup {
         for (let ancestor: THREE.Object3D | null = object; ancestor; ancestor = ancestor.parent) {
           if (ancestor.userData.prewarmedInputFeedback === true) return;
         }
-        this.addWaiting(object);
-        this.queued.add(object);
+        this.enroll(object);
       }
     });
     if (enqueue) this.scheduleNext();
+  }
+
+  private enroll(object: THREE.Object3D): void {
+    // Under cover, a cluster of an already compiled scenery layout just draws: its first
+    // frame uploads its buffers behind the curtain, instead of a queued batch per cluster.
+    if (this.deferGameplayDraws && !this.waiting.has(object) && isPreparedScenery(this.renderer, object)) return;
+    this.addWaiting(object);
+    this.queued.add(object);
   }
 
   private addWaiting(object: THREE.Object3D): void {
@@ -110,8 +120,9 @@ export class StreamedShaderWarmup {
     this.lastFrameAt = now;
     this.scheduleNext();
     for (const object of this.waiting) {
-      // Keep sampled actors and input feedback visible while detailed replacements prepare.
-      if (!this.deferGameplayDraws && ((object.userData.entityId !== undefined && !object.userData.deferFirstDraw)
+      // Gameplay targets stay drawable: a sampled actor pays first-use pipeline work rather than
+      // vanishing. Detailed rigs wait (their sampled pose keeps drawing), as does anything covered.
+      if (!this.deferGameplayDraws && (object.userData.sampledActor === true
         || object.parent?.userData.keepVisibleDuringWarmup === true)) continue;
       if (!object.visible) continue;
       object.visible = false;
@@ -141,15 +152,20 @@ export class StreamedShaderWarmup {
   }
 
   private compileNext(): void {
+    // Creatures first: their meshes stay hidden until prepared, so they must not wait behind
+    // the scenery that arrives with them. A covered destination drains in larger jobs.
+    const covered = this.deferGameplayDraws;
+    const limit = covered ? COVERED_DRAIN_BATCH_SIZE : DRAIN_BATCH_SIZE;
     const batch: THREE.Object3D[] = [];
-    for (const object of this.queued) {
-      batch.push(object);
-      if (batch.length === DRAIN_BATCH_SIZE) break;
+    for (const actors of [true, false]) for (const object of this.queued) {
+      if (batch.length === limit) break;
+      if (isActorMesh(object) === actors) batch.push(object);
     }
     for (const object of batch) this.queued.delete(object);
     this.pending = true;
     void prepareShaderMeshes(this.renderer, this.scene, this.camera, batch, {
       batchSize: 4,
+      pipelineConcurrency: covered ? COVERED_PIPELINE_CONCURRENCY : 1,
       renderTarget: this.renderTarget,
       isCancelled: () => this.disposed,
       onPendingTextures: count => { this.pendingTextures = count; },

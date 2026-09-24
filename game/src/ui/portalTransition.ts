@@ -17,10 +17,21 @@ export class PortalTransition {
 
   constructor(private readonly lock: (locked: boolean) => void) {}
 
+  private lifted: Promise<void> = Promise.resolve();
+
   get active(): boolean { return this.running; }
 
-  async run(request: PortalTransitionRequest): Promise<void> {
-    if (this.running) throw new Error("A passage is already loading");
+  /** Resolves once the current cover, if any, has lifted or been cancelled. */
+  idle(): Promise<void> { return this.lifted; }
+
+  run(request: PortalTransitionRequest): Promise<void> {
+    if (this.running) return Promise.reject(new Error("A passage is already loading"));
+    const running = this.cover(request);
+    this.lifted = running.catch(() => {});
+    return running;
+  }
+
+  private async cover(request: PortalTransitionRequest): Promise<void> {
     const generation = ++this.generation;
     const previousFocus = document.activeElement;
     const curtain = document.createElement("div");

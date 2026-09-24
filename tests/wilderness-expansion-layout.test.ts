@@ -1,10 +1,9 @@
 import { afterAll, beforeAll, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
 import { WILDERNESS } from '../game/src/content/wilderness.js';
 import { DEEP_WILDERNESS_LOCATIONS, DEEP_WILDERNESS_ROADS } from '../game/src/content/wildernessExpansion.js';
 import { lavaClearanceAt, sampleLavaChannel, WILDERNESS_LAVA_CHANNELS } from '../game/src/content/wildernessLava.js';
 import { Scene } from 'three';
-import { WorldScene } from '../game/src/render/scene.js';
+import { ROAD_DEFAULT_WORN_WIDTH, ROAD_FADE_METRES, ROAD_VERGE_METRES, ROAD_WIDTH_DRIFT, WorldScene } from '../game/src/render/scene.js';
 import { buildWorldTerrainSpec } from '../game/src/app/worldSpec.js';
 import { collectRoadStamps, prepareWorldSurface } from '../game/src/app/worldSurface.js';
 import { WILDERNESS_EXPANSION_SITES } from '../game/src/content/wildernessDepth.js';
@@ -30,16 +29,10 @@ it('supports every rotated fortress footprint on one production terrain floor', 
   }
 });
 
-const sceneSource = readFileSync(new URL('../game/src/render/scene.ts', import.meta.url), 'utf8');
-function roadConstant(name: string): number {
-  const match = sceneSource.match(new RegExp(`const ${name} = ([0-9.]+);`));
-  if (!match) throw new Error(`Review the full dry road width after production ${name} changed`);
-  return Number(match[1]);
-}
-const defaultWidth = roadConstant('ROAD_DEFAULT_WORN_WIDTH');
-const fade = roadConstant('ROAD_FADE_METRES');
-const verge = roadConstant('ROAD_VERGE_METRES');
-const widthDrift = roadConstant('ROAD_WIDTH_DRIFT');
+const defaultWidth = ROAD_DEFAULT_WORN_WIDTH;
+const fade = ROAD_FADE_METRES;
+const verge = ROAD_VERGE_METRES;
+const widthDrift = ROAD_WIDTH_DRIFT;
 const SAMPLE_SPACING = .5;
 // Half the grid diagonal covers the gaps between half-meter probes across and along the road.
 const DRY_MARGIN = SAMPLE_SPACING / Math.sqrt(2);

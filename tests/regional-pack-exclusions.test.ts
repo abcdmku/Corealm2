@@ -1,5 +1,4 @@
 import { STARTER_SHARED_PACK_RESERVATIONS, STARTER_HABITATS, STARTER_GROUPS } from "../game/src/content/starterHabitats.js";
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { collectRoadStamps } from "../game/src/app/worldSurface.js";
@@ -15,7 +14,7 @@ import { tierSilhouetteScale } from "../game/src/core/math.js";
 import {
   BUILDING_KITS, buildComposition, buildPrefab, buildWallRun, variantSeed, type PartPlacement,
 } from "../game/src/render/buildings.js";
-import type { WorldScene } from "../game/src/render/scene.js";
+import { ROAD_DEFAULT_WORN_WIDTH, ROAD_FADE_METRES, ROAD_MAX_SWAY, ROAD_VERGE_METRES, ROAD_WIDTH_DRIFT, type WorldScene } from "../game/src/render/scene.js";
 import { authoredThresholds } from "../game/src/world/dungeonDoors.js";
 import { habitatIdleTargets } from "../game/src/world/habitatMovement.js";
 import { structureEntitiesFromParts } from "../game/src/world/regionBuilder.js";
@@ -142,17 +141,11 @@ function failures(reservations: readonly Reservation[],
   return errors;
 }
 
-const sceneSource = readFileSync(new URL("../game/src/render/scene.ts", import.meta.url), "utf8");
-function sceneConstant(name: string): number {
-  const match = sceneSource.match(new RegExp(`const ${name} = ([0-9.]+);`));
-  if (!match) throw new Error(`Review pack road reservations: production ${name} changed`);
-  return Number(match[1]);
-}
-const roadSway = sceneConstant("ROAD_MAX_SWAY");
-const roadDefaultWidth = sceneConstant("ROAD_DEFAULT_WORN_WIDTH");
-const roadFade = sceneConstant("ROAD_FADE_METRES");
-const roadVerge = sceneConstant("ROAD_VERGE_METRES");
-const roadWidthDrift = sceneConstant("ROAD_WIDTH_DRIFT");
+const roadSway = ROAD_MAX_SWAY;
+const roadDefaultWidth = ROAD_DEFAULT_WORN_WIDTH;
+const roadFade = ROAD_FADE_METRES;
+const roadVerge = ROAD_VERGE_METRES;
+const roadWidthDrift = ROAD_WIDTH_DRIFT;
 const roads = collectRoadStamps({ heightAt: () => 0, meshHeightAt: () => 0 } as unknown as WorldScene);
 const roadReservations = roads.flatMap((road, roadIndex) => {
   const width = road.width ?? roadDefaultWidth;

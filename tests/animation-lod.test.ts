@@ -531,10 +531,20 @@ describe("sampled skeletal animation LOD", () => {
   it.each([false,true])("preserves shadow casting %s after crowd buffer growth", (castShadow) => {
     const {root,walk}=actor(), parent=new THREE.Group();
     const lod=new AnimationLod(parent,root,root,[walk],material=>material,false,castShadow,true);
-    for(let slot=0;slot<40;slot++)lod.set(slot,new THREE.Matrix4(),{clip:walk,time:0.25,blend:1});
-    expect(parent.children.length).toBeGreaterThan(0);
+    lod.set(0,new THREE.Matrix4(),{clip:walk,time:0.25,blend:1});
+    const initial=[...parent.children];
+    for(let slot=1;slot<140;slot++)lod.set(slot,new THREE.Matrix4(),{clip:walk,time:0.25,blend:1});
+    expect(parent.children.length).toBe(initial.length);
     expect(parent.children.every(mesh=>mesh.castShadow===castShadow && mesh.receiveShadow)).toBe(true);
-    expect(lod.bounds(39,new THREE.Box3())?.isEmpty()).toBe(false);
+    // Grown groups draw through fresh meshes whose instance buffers hold every row.
+    for(const child of parent.children){
+      const mesh=child as THREE.InstancedMesh;
+      expect(initial).not.toContain(mesh);
+      expect(mesh.count).toBe(140);
+      expect(mesh.instanceMatrix.count).toBeGreaterThanOrEqual(140);
+      expect(mesh.instanceColor!.count).toBeGreaterThanOrEqual(140);
+    }
+    expect(lod.bounds(139,new THREE.Box3())?.isEmpty()).toBe(false);
     lod.dispose();
     expect(parent.children).toHaveLength(0);
   });

@@ -18,8 +18,11 @@ it("retains exact scatter placements and propagates transformed parents without 
     root.updateMatrixWorld(true);
     expect(mesh!.matrixAutoUpdate).toBe(false);
     expect(mesh!.matrixWorldAutoUpdate).toBe(true);
+    // World containers are static: moving one takes an explicit matrix update, then propagates.
+    expect(scene.scatterGroup.matrixAutoUpdate).toBe(false);
     scene.scatterGroup.position.set(5, 0, 0);
-    root.updateMatrixWorld(true);
+    scene.scatterGroup.updateMatrix();
+    root.updateMatrixWorld();
     expect(mesh!.matrixWorld.elements[12]).toBe(5);
     expect(Array.from(mesh!.instanceTransforms.array)).toEqual(before);
   } finally { scene.dispose(); geometry.dispose(); material.dispose(); }

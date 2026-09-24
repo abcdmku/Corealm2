@@ -99,7 +99,7 @@ import type { WorldScene } from "./scene.js";
 import type { PaletteSwatch } from "./materials.js";
 import { artSurfaceRoleForMaterial } from "./artDirection.js";
 import { scatterWindMargin } from "./scatterBounds.js";
-import { EntityActiveSet } from "./entityActiveSet.js";
+import { EntityActiveSet, isActorEntity } from "./entityActiveSet.js";
 import { Rng } from "../core/rng.js";
 import {
   architectureMaterialRole,
@@ -1552,16 +1552,6 @@ export interface EntityResidencyStats {
   missingAssets: string[];
 }
 
-export interface EntityRegionPreloadResult {
-  regionId: RegionId;
-  entities: number;
-  assets: number;
-  loaded: number;
-  failedAssets: string[];
-  missingAssets: string[];
-  residency: EntityResidencyStats;
-}
-
 export type EntityMotionPath = "live-rig" | "sampled-rig" | "unique-static" | "baked" | "instanced-static";
 
 /** JSON-safe renderer state for browser motion acceptance. Gameplay never reads this. */
@@ -1905,13 +1895,6 @@ export class EntityViews {
     return this.residencyStats();
   }
 
-  /** Changes the actor/resource radius while static architecture keeps its draw-distance radius. */
-  updateActiveRadius(radius: number): EntityResidencyStats {
-    this.activeSet.setDynamicRadius(radius);
-    this.reconcileActiveSet();
-    return this.residencyStats();
-  }
-
   /** Keeps static architecture resident through the selected camera draw distance. */
   updateStructureRadius(radius: number): EntityResidencyStats {
     this.activeSet.setStructureRadius(radius);
@@ -1923,26 +1906,6 @@ export class EntityViews {
     this.activeSet.setActorRadius(radius);
     this.reconcileActiveSet();
     return this.residencyStats();
-  }
-
-  /**
-   * Loads a semantic region's visual assets without selecting its entities or allocating meshes.
-   * Region rectangles remain gameplay ownership only; normal residency is still an XZ radius.
-   */
-  async preloadRegion(regionId: RegionId): Promise<EntityRegionPreloadResult> {
-    const entities = this.activeSet.forRegion(regionId);
-    const ids = this.assetIdsFor(entities);
-    await this.hydrateAssets(ids, true, { priority: "travel-prefetch", regionId });
-    this.reconcileActiveSet();
-    return {
-      regionId,
-      entities: entities.length,
-      assets: ids.length,
-      loaded: ids.filter((id) => this.sources.has(id) || this.assets.isLoaded(id)).length,
-      failedAssets: ids.filter((id) => this.failedSources.has(id)),
-      missingAssets: ids.filter((id) => this.missing.has(id)),
-      residency: this.residencyStats(),
-    };
   }
 
   /** Full-island residency for deterministic map capture. Passing false restores the active area. */
@@ -1959,15 +1922,16 @@ export class EntityViews {
     return this.residencyStats();
   }
 
-  /** Retries every selected asset that has not loaded, then reconciles records before resolving. */
+  /** Retries every selected asset that has not loaded, then builds every selected view at once.
+   * Callers are covered or awaited (startup, destinations, debug placement), so the frame pacing
+   * that protects gameplay would only stretch a ~60 ms build across hundreds of frames. */
   async retryHydration(): Promise<EntityResidencyStats> {
     await this.hydrateAssets(
       this.assetIdsFor(this.activeSet.selected()),
       true,
       { priority: "visible-spawn", primary: true },
     );
-    this.reconcileActiveSet();
-    await Promise.all(this.pendingViews.values());
+    this.reconcileActiveSet(true);
     await Promise.all(this.pendingAnimationPreparations);
     return this.residencyStats();
   }
@@ -2049,46 +2013,14 @@ export class EntityViews {
     this.residentMovingEntities.length = 0;
     this.fairyLampPositions.length = 0;
 
+    const unbuilt: SemanticEntity[] = [];
     for (const entity of this.activeSet.selected()) {
       seen.add(entity.id);
       if (!immediate && !this.records.has(entity.id) && this.schedulePreparation) {
-        if (this.pendingViews.has(entity.id)) continue;
-        const scheduled = this.schedulePreparation(() => {
-          // Residency may have moved on while this job waited. Read the latest snapshot and
-          // discard cancelled work before allocating any geometry or animation palettes.
-          const current = this.activeSet.selected().find(row => row.id === entity.id);
-          if (!current || this.records.has(current.id)) return;
-          this.syncOne(current);
-          if (this.records.has(current.id) && MOVING_ARCHETYPES.has(current.archetype)) {
-            this.residentMovingEntities.push(current);
-          }
-        });
-        if (scheduled) {
-          const pending = scheduled.finally(() => this.pendingViews.delete(entity.id));
-          this.pendingViews.set(entity.id, pending);
-          void pending.catch(error => console.error('Streamed entity preparation failed', error));
-          continue;
-        }
+        if (!this.pendingViews.has(entity.id)) unbuilt.push(entity);
+        continue;
       }
-      this.syncOne(entity);
-      const lampRecord = this.records.get(entity.id);
-      const lampGroup = lampRecord ? this.groups.get(lampRecord.groupKey) : undefined;
-      if (lampRecord && lampGroup?.assetId === 'lamp_wall' && isFairyArchitectureRegion(lampGroup.regionId)) {
-        const position = new THREE.Vector3(...FAIRY_LANTERN_GLASS.centre);
-        position.multiply(new THREE.Vector3(
-          lampRecord.scale * lampRecord.build[0] * lampRecord.scaleAxes[0],
-          lampRecord.scale * lampRecord.build[1] * lampRecord.scaleAxes[1],
-          lampRecord.scale * lampRecord.build[2] * lampRecord.scaleAxes[2],
-        ));
-        position.applyQuaternion(orientation(lampRecord.rotationY, lampRecord.normal, lampRecord.tilt, SCRATCH_QUATERNION));
-        position.add(lampRecord.position);
-        this.fairyLampPositions.push(position);
-      }
-      // Refresh even when syncOne's signature is unchanged: a save restore or semantic rebuild
-      // can replace the object behind the same id without changing its current drawn transform.
-      if (this.records.has(entity.id) && MOVING_ARCHETYPES.has(entity.archetype)) {
-        this.residentMovingEntities.push(entity);
-      }
+      this.syncResident(entity);
     }
 
     for (const [entityId, record] of this.records) {
@@ -2096,6 +2028,55 @@ export class EntityViews {
       this.release(record);
       this.records.delete(entityId);
       this.clearHighlight(entityId);
+    }
+    this.scheduleUnbuilt(unbuilt);
+  }
+
+  private syncResident(entity: SemanticEntity): void {
+    this.syncOne(entity);
+    const lampRecord = this.records.get(entity.id);
+    const lampGroup = lampRecord ? this.groups.get(lampRecord.groupKey) : undefined;
+    if (lampRecord && lampGroup?.assetId === 'lamp_wall' && isFairyArchitectureRegion(lampGroup.regionId)) {
+      const position = new THREE.Vector3(...FAIRY_LANTERN_GLASS.centre);
+      position.multiply(new THREE.Vector3(
+        lampRecord.scale * lampRecord.build[0] * lampRecord.scaleAxes[0],
+        lampRecord.scale * lampRecord.build[1] * lampRecord.scaleAxes[1],
+        lampRecord.scale * lampRecord.build[2] * lampRecord.scaleAxes[2],
+      ));
+      position.applyQuaternion(orientation(lampRecord.rotationY, lampRecord.normal, lampRecord.tilt, SCRATCH_QUATERNION));
+      position.add(lampRecord.position);
+      this.fairyLampPositions.push(position);
+    }
+    // Refresh even when syncOne's signature is unchanged: a save restore or semantic rebuild
+    // can replace the object behind the same id without changing its current drawn transform.
+    if (this.records.has(entity.id) && MOVING_ARCHETYPES.has(entity.archetype)) {
+      this.residentMovingEntities.push(entity);
+    }
+  }
+
+  /** Paced view construction runs in queue order. After a long move hundreds of props arrive at
+   * once; creatures go first, nearest first, so they are never left waiting behind scenery. */
+  private scheduleUnbuilt(entities: SemanticEntity[]): void {
+    if (!entities.length) return;
+    const [x, , z] = this.activeSet.centre();
+    const rank = (entity: SemanticEntity) => (isActorEntity(entity) ? 0 : 1e12)
+      + (entity.position[0] - x) ** 2 + (entity.position[2] - z) ** 2;
+    entities.sort((a, b) => rank(a) - rank(b));
+    for (const entity of entities) {
+      const scheduled = this.schedulePreparation!(() => {
+        // Residency may have moved on while this job waited. Read the latest snapshot and
+        // discard cancelled work before allocating any geometry or animation palettes.
+        const current = this.activeSet.selectedEntity(entity.id);
+        if (!current || this.records.has(current.id)) return;
+        this.syncOne(current);
+        if (this.records.has(current.id) && MOVING_ARCHETYPES.has(current.archetype)) {
+          this.residentMovingEntities.push(current);
+        }
+      });
+      if (!scheduled) { this.syncResident(entity); continue; }
+      const pending = scheduled.finally(() => this.pendingViews.delete(entity.id));
+      this.pendingViews.set(entity.id, pending);
+      void pending.catch(error => console.error('Streamed entity preparation failed', error));
     }
   }
 

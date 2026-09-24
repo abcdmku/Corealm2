@@ -46,11 +46,11 @@ export class EntityActiveSet {
   private pinnedEntityId: EntityId | null = null;
   private readonly entities = new Map<EntityId, SemanticEntity>();
   private readonly positions = new Map<EntityId, Vec3>();
-  private readonly regions = new Map<EntityId, RegionId>();
   private readonly cells = new Map<string, Set<EntityId>>();
   private readonly membership = new Map<EntityId, { key: string | null; seen: number }>();
   private generation = 0;
   private selectedCache: readonly SemanticEntity[] | null = null;
+  private selectedIds = new Set<EntityId>();
   private stableSnapshot: readonly SemanticEntity[] | null = null;
   private moving: SemanticEntity[] = [];
 
@@ -80,7 +80,6 @@ export class EntityActiveSet {
       this.membership.delete(id);
       this.entities.delete(id);
       this.positions.delete(id);
-      this.regions.delete(id);
     }
     // The final selection is sorted, so bucket insertion order never affects residency.
     this.selectedCache = null;
@@ -88,7 +87,6 @@ export class EntityActiveSet {
 
   private updateEntry(entity: SemanticEntity, generation: number): void {
     this.entities.set(entity.id, entity);
-    this.regions.set(entity.id, entity.regionId);
     const previous = this.positions.get(entity.id);
     const position = entity.position;
     const moved = !previous || previous[0] !== position[0]
@@ -127,14 +125,6 @@ export class EntityActiveSet {
   /** Moves the active area while keeping its radius. */
   setPosition(position: Vec3): void {
     this.position = copyPosition(position);
-    this.fullResidency = false;
-    this.selectedCache = null;
-  }
-
-  /** Changes the active radius while keeping its centre. */
-  setRadius(radius: number): void {
-    this.radius = nonNegativeFinite(radius, "radius");
-    this.structureRadius = this.radius;
     this.fullResidency = false;
     this.selectedCache = null;
   }
@@ -183,6 +173,7 @@ export class EntityActiveSet {
       ids.add(this.pinnedEntityId);
     }
 
+    this.selectedIds = ids;
     this.selectedCache = [...ids]
       .sort(compareIds)
       .map((id) => this.entities.get(id))
@@ -190,28 +181,18 @@ export class EntityActiveSet {
     return this.selectedCache;
   }
 
-  /** Every visual row in the latest snapshot, stable across input order. */
-  all(): readonly SemanticEntity[] {
-    return [...this.entities.values()]
-      .filter((entity) => Boolean(entity.view))
-      .sort((a, b) => compareIds(a.id, b.id));
-  }
-
-  /** Semantic-region rows for asset preloading only. This does not select or instantiate them. */
-  forRegion(regionId: RegionId): readonly SemanticEntity[] {
-    return [...this.entities.values()]
-      .filter((entity) => entity.view && this.regions.get(entity.id) === regionId)
-      .sort((a, b) => compareIds(a.id, b.id));
-  }
-
   has(entityId: EntityId): boolean {
     return this.entities.has(entityId);
   }
   get(entityId: EntityId): SemanticEntity | undefined { return this.entities.get(entityId); }
 
-  isSelected(entityId: EntityId): boolean {
-    return this.selected().some((entity) => entity.id === entityId);
+  /** The row if the current area selects it, without rebuilding the sorted selection. */
+  selectedEntity(entityId: EntityId): SemanticEntity | undefined {
+    this.selected();
+    return this.selectedIds.has(entityId) ? this.entities.get(entityId) : undefined;
   }
+
+  centre(): Vec3 { return this.position; }
 
   stats(): EntityActiveSetStats {
     let eligible = 0;

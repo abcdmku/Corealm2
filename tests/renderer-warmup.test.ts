@@ -3,7 +3,7 @@ import { expect, it, vi } from "vitest";
 import { Renderer } from "../game/src/render/renderer.js";
 import { SceneryInstances } from "../game/src/render/sceneryInstances.js";
 import { registerElementalRefraction } from "../game/src/render/elementalRefraction.js";
-import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
+import { COVERED_PIPELINE_CONCURRENCY, prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
 
 vi.mock("../game/src/render/shaderPreparation.js", async importOriginal => {
   const actual = await importOriginal<typeof import("../game/src/render/shaderPreparation.js")>();
@@ -57,7 +57,7 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   const prepareGlow = vi.fn(() => new Promise<void>(resolve => { finishGlow = resolve; }));
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     scene, camera, renderer: fake, frameTarget, warmupMaterials: [],
-    initialized: true, requiredEffectRoots: new Set(), deferredEffectRoots: new Set(),
+    initialized: true, pendingEffectRoots: new Set(),
     magicGlow: { prepare: prepareGlow },
   }) as Renderer;
   const prepare = vi.mocked(prepareShaderMeshes);
@@ -75,11 +75,11 @@ it("prepares shared geometry once and restores hidden interiors before asynchron
   expect(renderer.getPreparationState()).toMatchObject({ compiling: true, ready: false });
   finishGlow(); await warming;
   expect(renderer.getPreparationState()).toMatchObject({ compiling: false, ready: true });
-  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 4 });
+  expect(prepare).toHaveBeenCalledWith(fake, scene, camera, [visible, interior], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: COVERED_PIPELINE_CONCURRENCY });
   geometry.dispose(); interior.geometry.dispose(); material.dispose(); frameTarget.dispose();
 });
 
-it("prepares every instance, sampled draw, skeleton, and batch while deduplicating ordinary meshes", async () => {
+it("prepares every instance, sampled draw, skeleton, and batch while deduplicating ordinary meshes and scenery layouts", async () => {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
   const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
   const ordinary = new THREE.Mesh(geometry, material), duplicate = ordinary.clone();
@@ -98,7 +98,7 @@ it("prepares every instance, sampled draw, skeleton, and batch while deduplicati
   const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
   await renderer.warmup();
   expect(prepare).toHaveBeenCalledWith(fake, scene, camera,
-    [ordinary, ...instances, ...scenery, ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 4 });
+    [ordinary, ...instances, scenery[0], ...skeletons, ...batches, ...counted], { renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: COVERED_PIPELINE_CONCURRENCY });
   Object.assign(renderer, { streamedShaders: {} });
   await renderer.warmup();
   expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 1, pipelineConcurrency: 1 });
@@ -124,12 +124,12 @@ it("uses bounded startup batches for effects and one object after streaming begi
   const refraction = vi.fn(async () => {}), glow = vi.fn(async () => {});
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     scene, camera, frameTarget, renderer: { shadowMap: { enabled: true } }, streamedShaders: null,
-    elementalRefraction: { compile: refraction }, magicGlow: { compileOcclusion: glow },
+    elementalRefraction: { compile: refraction }, magicGlow: { compileOcclusion: glow }, preparedEffectRoots: new WeakSet(),
   }) as Renderer;
   const submit = Reflect.get(renderer, "submitEffects") as (root: THREE.Object3D) => Promise<void>;
   const prepare = vi.mocked(prepareShaderMeshes); prepare.mockClear();
   await submit.call(renderer, root);
-  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: 4 });
+  expect(prepare.mock.lastCall?.[4]).toEqual({ renderTarget: frameTarget, batchSize: 4, pipelineConcurrency: COVERED_PIPELINE_CONCURRENCY });
   expect(prepare.mock.lastCall?.[3]).toEqual([root.children[0]]);
   expect(refraction).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4, frameTarget);
   expect(glow).toHaveBeenLastCalledWith(renderer.renderer, scene, camera, root, 4, frameTarget,
@@ -172,19 +172,33 @@ it("draws all game passes into HDR, presents once, and restores the caller's out
   frameTarget.dispose();
 });
 
-it("keeps deferred effects unready until their asynchronous pipeline preparation finishes", async () => {
+it("keeps enrolled effects unready until their pipelines finish, then never compiles them again", async () => {
   let complete!: () => void;
   const root = new THREE.Group();
+  const prepared = new WeakSet<THREE.Object3D>();
+  const submitEffects = vi.fn(() => new Promise<void>(resolve => { complete = () => { prepared.add(root); resolve(); }; }));
   const renderer = Object.assign(Object.create(Renderer.prototype), {
-    requiredEffectRoots: new Set(), deferredEffectRoots: new Set(), compilingEffects: false,
-    deferredEffectsDone: null, effectPreparation: Promise.resolve(),
-    submitEffects: () => new Promise<void>(resolve => { complete = resolve; }),
+    pendingEffectRoots: new Set(), preparedEffectRoots: prepared, compilingEffects: false,
+    effectPreparation: Promise.resolve(), renderer: {}, submitEffects,
   }) as Renderer;
-  renderer.compileEffects(root, { deferred: true });
+  renderer.compileEffects(root);
   expect(renderer.effectsReady).toBe(false);
-  const finished = renderer.finishDeferredEffects();
+  const finished = renderer.prepareEffects();
   await Promise.resolve();
   expect(renderer.effectsReady).toBe(false);
   complete(); await finished;
   expect(renderer.effectsReady).toBe(true);
+  await renderer.prepareEffects(root);
+  expect(submitEffects).toHaveBeenCalledOnce();
+});
+
+it("draws nothing while a loading cover suppresses frames", () => {
+  const renderer = Object.assign(Object.create(Renderer.prototype), {
+    initialized: true, renderer: {}, framePacer: { ready: () => true },
+  }) as Renderer;
+  expect(renderer.canRenderFrame()).toBe(true);
+  renderer.setFramesSuppressed(true);
+  expect(renderer.canRenderFrame()).toBe(false);
+  renderer.setFramesSuppressed(false);
+  expect(renderer.canRenderFrame()).toBe(true);
 });

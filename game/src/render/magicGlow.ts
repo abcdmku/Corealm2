@@ -1,6 +1,6 @@
 import * as THREE from "three/webgpu";
 import { emissive, output, uniform, mix, vec4, vec3, texture, uv, smoothstep, max, float } from "three/tsl";
-import { prepareShaderMeshes } from "./shaderPreparation.js";
+import { COVERED_PIPELINE_CONCURRENCY, prepareShaderMeshes } from "./shaderPreparation.js";
 import { cloneNodeMaterial } from "./nodeMaterials.js";
 
 const roots = new Set<THREE.Object3D>();
@@ -210,7 +210,7 @@ export class MagicGlow {
       objects.push(proxy);
     });
     await prepareShaderMeshes(renderer, scene, camera, objects, {
-      renderTarget: this.target, batchSize, pipelineConcurrency: batchSize > 1 ? 4 : 1,
+      renderTarget: this.target, batchSize, pipelineConcurrency: batchSize > 1 ? COVERED_PIPELINE_CONCURRENCY : 1,
     });
   }
 
