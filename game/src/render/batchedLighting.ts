@@ -207,9 +207,9 @@ class BatchedLightsNode extends LightsNode {
 
   override setLights(lights: THREE.Light[]): this {
     super.setLights(lights);
-    this.points?.setLights(lights.filter((light): light is THREE.PointLight => kind(light) === "point"));
-    this.areas?.setLights(lights.filter((light): light is THREE.RectAreaLight => kind(light) === "area"));
-    this.hemispheres?.setLights(lights.filter((light): light is THREE.HemisphereLight => kind(light) === "hemisphere"));
+    this.points.setLights(lights.filter((light): light is THREE.PointLight => kind(light) === "point"));
+    this.areas.setLights(lights.filter((light): light is THREE.RectAreaLight => kind(light) === "area"));
+    this.hemispheres.setLights(lights.filter((light): light is THREE.HemisphereLight => kind(light) === "hemisphere"));
     return this;
   }
 
@@ -217,7 +217,10 @@ class BatchedLightsNode extends LightsNode {
 
   override setupLightsNode(builder: NodeBuilder): LightNodes {
     const nodes: unknown[] = [];
-    for (const light of [...(this.getLights() as THREE.Light[])].sort((a, b) => a.id - b.id)) {
+    // As in LightsNode, the material's own lightings (scene environment, light map, ambient
+    // occlusion) build alongside the scene lights. Without them no surface receives sky light.
+    const { materialLightings } = builder.context as unknown as { materialLightings: THREE.Light[] };
+    for (const light of [...materialLightings, ...(this.getLights() as THREE.Light[])].sort((a, b) => a.id - b.id)) {
       if ((light as unknown as Node).isNode) { nodes.push(light); continue; }
       if (kind(light)) continue;
       let node: Node | undefined = nodeFor.get(light);

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { DirectionalLightNode, EnvironmentNode } from "three/webgpu";
 import { expect, it } from "vitest";
 import { BatchedLighting } from "../game/src/render/batchedLighting.js";
 
@@ -18,4 +19,13 @@ it("still separates programs by the shadowed sun", () => {
   const unshadowed = new THREE.DirectionalLight();
   expect(key([shadowed])).not.toBe(key([unshadowed]));
   expect(key([shadowed])).not.toBe(key([]));
+});
+
+it("builds the material's environment, light map and occlusion lighting with the scene lights", () => {
+  const environment = new EnvironmentNode();
+  const sun = new THREE.DirectionalLight(); sun.castShadow = true;
+  const builder = { context: { materialLightings: [environment] }, renderer: { library: { getLightNodeClass: () => DirectionalLightNode } } };
+  const nodes = new BatchedLighting().createNode([sun, new THREE.PointLight()]).setupLightsNode(builder as never) as unknown[];
+  expect(nodes).toContain(environment);
+  expect(nodes.filter(node => node instanceof DirectionalLightNode)).toHaveLength(1);
 });
