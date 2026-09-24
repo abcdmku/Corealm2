@@ -2809,8 +2809,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         respawnPointId: String(data["respawnPointId"] ?? ""),
         cacheId: typeof data["cacheId"] === "string" ? data["cacheId"] : null,
         itemsLost: Number(data["itemsLost"] ?? 0),
-        expiresAtMs: typeof data["expiresAtMs"] === "number" ? data["expiresAtMs"] : null,
-        expiresAtWallMs: typeof data["expiresAtWallMs"] === "number" ? data["expiresAtWallMs"] : null,
       });
     }
   });

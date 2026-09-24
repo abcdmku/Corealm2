@@ -251,6 +251,12 @@ export class CorealmGameApi implements GameApiContract {
         1,
         Math.floor((state.skills.melee.level + state.skills.magic.level) / 2),
       ),
+      recoveryCache: state.world.recoveryCache && {
+        id: state.world.recoveryCache.id,
+        position: [...state.world.recoveryCache.position] as unknown as Vec3,
+        expiresAtMs: state.world.recoveryCache.expiresAtMs,
+        expiresAtWallMs: state.world.recoveryCache.expiresAtWallMs ?? null,
+      },
     };
   }
 

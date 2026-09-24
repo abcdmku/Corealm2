@@ -1170,6 +1170,12 @@ export interface PlayerView {
   moving: boolean;
   activityKind: string | null;
   combatLevelEstimate: number;
+  /**
+   * The cache holding what the player carried when they last died, or null once it is emptied or
+   * expires. It is the player's own state, so it is known at any distance; the cache entity itself
+   * is only replicated within the interest radius.
+   */
+  recoveryCache: { id: EntityId; position: Vec3; expiresAtMs: number; expiresAtWallMs: number | null } | null;
 }
 
 export interface SkillView { level: number; xp: number; xpToNext: number }

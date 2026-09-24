@@ -9,15 +9,15 @@ import { sendGameCommand } from "../api/commands.js";
  * by the player.
  *
  * The backdrop leaves the world clickable. The countdown uses the cache's persisted wall
- * deadline, with a simulation-clock fallback for legacy caches. `api.inspect` decides whether the
- * cache still exists, including the brief interval between its deadline and the next expiry tick.
+ * deadline, with a simulation-clock fallback for legacy caches. The player's own `recoveryCache`
+ * decides whether the cache still exists, at any distance from it.
  */
 import type { RegionId } from "../contracts.js";
 import { REGIONS, findLocation, getRegion } from "../content/regions.js";
 import type { UiContext } from "./panels.js";
 import { prettifyId, report } from "./panels.js";
 
-/** Read straight off the `player.died` event payload. Every field is already in it. */
+/** Read off the `player.died` event payload. The cache deadline is read live from the player. */
 export interface DeathDetail {
   /** Where the player fell. */
   position: readonly [number, number, number];
@@ -28,10 +28,6 @@ export interface DeathDetail {
   /** The recovery cache holding what they were carrying, or null if they carried nothing. */
   cacheId: string | null;
   itemsLost: number;
-  /** Legacy simulation deadline, used only when no wall deadline is available. */
-  expiresAtMs: number | null;
-  /** Epoch milliseconds at which the cache is destroyed, or null when nothing dropped. */
-  expiresAtWallMs?: number | null;
 }
 
 // -------------------------------------------------------------------- naming
@@ -174,25 +170,17 @@ export class DeathScreen {
 
   // ------------------------------------------------------------------- the cache
 
-  /** The cache entity is authoritative. It is removed the tick it expires, and when it is emptied. */
+  /**
+   * The player's own recovery cache is authoritative: it is cleared when the cache expires or is
+   * emptied. The cache entity is no witness, because the page only sees entities near the player,
+   * and a death in a cave or a fairy region leaves it hundreds of metres from the respawn.
+   */
   private readCache(): { alive: boolean; remainingMs: number | null } {
     const detail = this.detail;
-    if (!detail?.cacheId) return { alive: false, remainingMs: null };
-    const found = this.ctx.api.inspect(detail.cacheId);
-    if (!found.ok) return { alive: false, remainingMs: null };
-    const rawWall = found.value.meta?.["expiresAtWallMs"];
-    const wallDeadline = typeof rawWall === "number" ? rawWall : detail.expiresAtWallMs;
-    if (typeof wallDeadline === "number" && Number.isFinite(wallDeadline)) {
-      return { alive: true, remainingMs: wallDeadline - Date.now() };
-    }
-    const rawSim = found.value.meta?.["expiresAtMs"];
-    const simDeadline = typeof rawSim === "number" ? rawSim : detail.expiresAtMs;
-    return {
-      alive: true,
-      remainingMs: typeof simDeadline === "number" && Number.isFinite(simDeadline)
-        ? simDeadline - this.ctx.api.getTime().simMs
-        : null,
-    };
+    const cache = this.ctx.api.getPlayer().recoveryCache;
+    if (!detail?.cacheId || cache?.id !== detail.cacheId) return { alive: false, remainingMs: null };
+    if (cache.expiresAtWallMs !== null) return { alive: true, remainingMs: cache.expiresAtWallMs - Date.now() };
+    return { alive: true, remainingMs: cache.expiresAtMs - this.ctx.api.getTime().simMs };
   }
 
   private async walkBack(): Promise<void> {

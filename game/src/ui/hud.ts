@@ -20,7 +20,6 @@ import { SKILL_IDS } from "../contracts.js";
 import { UNREACHABLE_DESTINATION_MESSAGE } from "../api/gameApi.js";
 import { content } from "../content/index.js";
 import { SKILLS } from "../content/skills.js";
-import { RECOVERY_CACHE_ID } from "../systems/death.js";
 import { reportResult } from "./contextMenu.js";
 import type { NoticeTone } from "./contextMenu.js";
 import { MessageLog } from "./messageLog.js";
@@ -168,7 +167,8 @@ export class Hud {
     cache.addEventListener("pointerdown", (event) => event.stopPropagation());
     cache.addEventListener("click", async () => {
       // `interact` walks into range and opens the cache on arrival. Contents move only by choice.
-      reportResult(await sendGameCommand(this.ctx.api, "interact", RECOVERY_CACHE_ID, "loot"));
+      const cacheId = this.ctx.api.getPlayer().recoveryCache?.id;
+      if (cacheId) reportResult(await sendGameCommand(this.ctx.api, "interact", cacheId, "loot"));
     });
     this.ctx.tooltip.attach(cache, () => ({
       kind: "text",
@@ -245,33 +245,26 @@ export class Hud {
   /**
    * The recovery-cache banner: how far, and how long.
    *
-   * Both numbers come off the same two calls an agent would make — `inspect` for the cache's own
-   * `expiresAtMs` and `observe` for path distance — and the deadline is compared against
-   * `getTime().simMs`, never against wall time. Sim time is what every `*AtMs` field in the game is
-   * stamped in, and it stops when the clock stops.
+   * Both come off the player's own cache, which is known at any distance: the cache entity is only
+   * replicated near the player, and a cache is routinely hundreds of metres behind you. The wall
+   * deadline wins; older caches carry only a simulation deadline, compared against `getTime().simMs`.
    */
   private updateCache(): void {
     const banner = this.cacheBanner;
     const detail = this.cacheDetail;
     if (!banner || !detail) return;
 
-    const found = this.ctx.api.inspect(RECOVERY_CACHE_ID);
-    if (!found.ok || found.value.state !== "available") {
+    const { position: player, recoveryCache: cache } = this.ctx.api.getPlayer();
+    if (!cache) {
       if (!banner.hidden) banner.hidden = true;
       return;
     }
 
-    const expiresAtMs = Number(found.value.meta?.["expiresAtMs"] ?? 0);
-    const wallDeadline = found.value.meta?.["expiresAtWallMs"];
-    const remainingMs = Math.max(0, typeof wallDeadline === "number" && Number.isFinite(wallDeadline)
-      ? wallDeadline - Date.now() : expiresAtMs - this.ctx.api.getTime().simMs);
+    const remainingMs = Math.max(0, cache.expiresAtWallMs !== null
+      ? cache.expiresAtWallMs - Date.now() : cache.expiresAtMs - this.ctx.api.getTime().simMs);
 
-    // Straight line from the cache's own position, not `observe` path distance: `observe` caps at
-    // 140 m and a cache is routinely 340 m behind you, so the honest number is the one that is
-    // always available. `scope: "known"` is no help either — it answers with route-graph places,
-    // and a cache is not one.
-    const player = this.ctx.api.getPlayer().position;
-    const at = found.value.position;
+    // Straight line from the cache's own position, not `observe` path distance, which caps at 140 m.
+    const at = cache.position;
     const metres = Math.hypot(at[0] - player[0], at[2] - player[2]);
 
     const minutes = Math.floor(remainingMs / 60_000);
