@@ -1,0 +1,235 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-tripo-audit-mandible-family",
+    "name": "Corealm Tripo mandible beetle family",
+    "author": "Corealm / Tripo Studio",
+    "source": "assets/art/tripo/imports/creatures/audit-mandible-family/build-family.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "5e2c6c6241aef77911541eaf9d39fcd0332345c9ca58a2200fe4d1f4d8f5025b"
+  },
+  "assets": [
+    {
+      "id": "creature_flint_mandible",
+      "file": "models/creature/creature_flint_mandible.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-mandible-family/flint-mandible-candidate.glb",
+      "pack": "corealm-tripo-audit-mandible-family",
+      "category": "character",
+      "is": "Flint Mandible six-leg beetle",
+      "tags": [
+        "creature",
+        "beetle",
+        "six-legged",
+        "tripo",
+        "flint"
+      ],
+      "bytes": 15170492,
+      "sha256": "ea7bed07eeb44578a0804af603489601f0659d50d7ee366c8714fe24ce4ebe82",
+      "size": {
+        "x": 1.2589160156249999,
+        "y": 1.370693359375,
+        "z": 1.939052734375
+      },
+      "base": {
+        "x": -0.6294580078124999,
+        "y": 0,
+        "z": -0.9695263671875
+      },
+      "bounds": {
+        "min": [
+          -0.6294580078124999,
+          0,
+          -0.9695263671875
+        ],
+        "max": [
+          0.6294580078124999,
+          1.370693359375,
+          0.9695263671875
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4178,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_flint_mandible_layered_chitin"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+        "sourceFile": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+        "sourceSha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+        "sourceImage": "assets/art/tripo/references/stone-flint-mandible.png",
+        "sourceImageSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+        "correctedSourceFile": "assets/art/tripo/imports/creatures/nine-pack-two/flint-mandible/flint-mandible-native-rig-candidate.glb",
+        "correctedSourceSha256": "3a799e93caf821e1bead35515e1816d77d738573a3befc0626cbf4e39ff7ac05",
+        "generatedAtlas": "assets/art/tripo/imports/creatures/audit-mandible-family/flint-mandible-atlas.png",
+        "generatedAtlasSha256": "6a25f78f7aedc58cea11caa5028cff2319ade64ce59c94a15f5606637dacd215",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-mandible-family/flint-mandible-candidate.glb",
+        "candidateSha256": "ea7bed07eeb44578a0804af603489601f0659d50d7ee366c8714fe24ce4ebe82",
+        "textureMethod": "Built-in imagegen edit of exact UV atlas; layered detailed mineral and chitin color; derived 2K normal and ORM"
+      },
+      "metadata": {
+        "family": "flint_mandible",
+        "rig": "30-joint articulated six-leg beetle",
+        "height": 1.370693359375,
+        "presentation": {
+          "sceneScale": 1.94,
+          "existingSpeciesScale": 0.8,
+          "desiredInGameHeightMeters": 1.0965546875,
+          "habitat": "Karrowmoor",
+          "targetLevelRange": "13–18"
+        },
+        "attackContact": {
+          "seconds": 0.4300000071525574,
+          "normalized": 0.5
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "deathPose": {
+          "groundedBySeconds": 0.7,
+          "heldUntilSeconds": 1.5,
+          "holdVertexMaxDeltaMeters": 0,
+          "idleHeightMeters": 1.3706934300734772,
+          "finalHeightMeters": 1.0036098147754993
+        },
+        "source": "Tripo beetle mesh and Corealm native six-leg rig, with distinct image-generated layered atlas"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_beetle_golem",
+      "file": "models/creature/creature_beetle_golem.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-mandible-family/beetle-golem-candidate.glb",
+      "pack": "corealm-tripo-audit-mandible-family",
+      "category": "character",
+      "is": "Beetle Golem six-leg beetle",
+      "tags": [
+        "creature",
+        "beetle",
+        "six-legged",
+        "tripo",
+        "golem"
+      ],
+      "bytes": 14484052,
+      "sha256": "5cd385645561aa7418bfaf0530d700210d1449eb3ab1b19d6fd2dcbb577fbe15",
+      "size": {
+        "x": 1.42763671875,
+        "y": 1.55439453125,
+        "z": 2.1989257812500003
+      },
+      "base": {
+        "x": -0.713818359375,
+        "y": 0,
+        "z": -1.0994628906250001
+      },
+      "bounds": {
+        "min": [
+          -0.713818359375,
+          0,
+          -1.0994628906250001
+        ],
+        "max": [
+          0.713818359375,
+          1.55439453125,
+          1.0994628906250001
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4178,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_beetle_golem_layered_stone_chitin"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+        "sourceFile": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+        "sourceSha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+        "sourceImage": "assets/art/tripo/references/stone-flint-mandible.png",
+        "sourceImageSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+        "correctedSourceFile": "assets/art/tripo/imports/creatures/nine-pack-two/flint-mandible/flint-mandible-native-rig-candidate.glb",
+        "correctedSourceSha256": "3a799e93caf821e1bead35515e1816d77d738573a3befc0626cbf4e39ff7ac05",
+        "generatedAtlas": "assets/art/tripo/imports/creatures/audit-mandible-family/beetle-golem-atlas.png",
+        "generatedAtlasSha256": "cc9997e3a46858e744a640237b71aabd2c55df8289b961c67999528bcce1c3dc",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-mandible-family/beetle-golem-candidate.glb",
+        "candidateSha256": "5cd385645561aa7418bfaf0530d700210d1449eb3ab1b19d6fd2dcbb577fbe15",
+        "textureMethod": "Built-in imagegen edit of exact UV atlas; layered detailed mineral and chitin color; derived 2K normal and ORM"
+      },
+      "metadata": {
+        "family": "beetle_golem",
+        "rig": "30-joint articulated six-leg beetle",
+        "height": 1.55439453125,
+        "presentation": {
+          "sceneScale": 2.2,
+          "existingSpeciesScale": 1,
+          "desiredInGameHeightMeters": 1.55439453125,
+          "habitat": "Vellenwood ruin courts",
+          "targetLevelRange": "18–25"
+        },
+        "attackContact": {
+          "seconds": 0.4300000071525574,
+          "normalized": 0.5
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "deathPose": {
+          "groundedBySeconds": 0.7,
+          "heldUntilSeconds": 1.5,
+          "holdVertexMaxDeltaMeters": 0,
+          "idleHeightMeters": 1.5543946113965708,
+          "finalHeightMeters": 0.9050075278461333
+        },
+        "source": "Tripo beetle mesh and Corealm native six-leg rig, with distinct image-generated layered atlas"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_flint_mandible": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-mandible-family\\flint-mandible-candidate.glb",
+    "creature_beetle_golem": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-mandible-family\\beetle-golem-candidate.glb"
+  }
+}
