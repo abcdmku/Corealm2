@@ -1,0 +1,843 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-arthropod-polish",
+    "name": "Corealm arthropod chitin polish",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-polish-arthropods/build.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "c5d46560e76084ab353719f780eaf503351d2f25b8291bb352a4ba6158ef79ee"
+  },
+  "assets": [
+    {
+      "id": "creature_antler_beetle",
+      "file": "models/creature/creature_antler_beetle.glb",
+      "pack": "corealm-arthropod-polish",
+      "category": "character",
+      "is": "beetle",
+      "tags": [
+        "creature",
+        "crawler",
+        "arthropod",
+        "antler_beetle",
+        "forest"
+      ],
+      "bytes": 2697716,
+      "sha256": "ca94af139abe3fb452b18f2ac95261217c05b2286e16eaa48d0538bb6407f5fc",
+      "size": {
+        "x": 2.0777524089813233,
+        "y": 0.9511387347616256,
+        "z": 2.575650526583195
+      },
+      "base": {
+        "x": -1.0388762044906616,
+        "y": 0.007037158068269489,
+        "z": -0.9549999824166298
+      },
+      "bounds": {
+        "min": [
+          -1.0388762044906616,
+          0.007037158068269489,
+          -0.9549999824166298
+        ],
+        "max": [
+          1.0388762044906616,
+          0.958175892829895,
+          1.620650544166565
+        ]
+      },
+      "groundY": 0.007037158068269489,
+      "triangles": 33250,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "antler_beetle_ventral_chitin",
+        "antler_beetle_shell",
+        "antler_beetle_shellAlt",
+        "antler_beetle_eye",
+        "antler_beetle_horn",
+        "antler_beetle_joint"
+      ],
+      "sourceProvenance": "Original Corealm procedural sculpture and eight clips; base GLB SHA-256 20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779. Four image-generated layered chitin surfaces; master atlas SHA-256 cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154.",
+      "impliedWalkMps": 0.4464285714285714,
+      "impliedRunMps": 1.4035087719298247,
+      "walkClipSeconds": 1.2599999904632568,
+      "runClipSeconds": 0.699999988079071,
+      "attackSeconds": 1.100000023841858,
+      "contactNormalized": 0.5,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.2599999904632568,
+            "sampledFootBones": 6,
+            "stanceSamples": 372,
+            "measuredStanceMps": 0.44637437794205637,
+            "feet": [
+              {
+                "bone": "antler_beetle_leg_L_1_tarsus",
+                "minY": 0.0597509035966759,
+                "maxY": 0.17929537831870695,
+                "strideZ": 0.35976322763614943,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.4464118846085068
+              },
+              {
+                "bone": "antler_beetle_leg_L_2_tarsus",
+                "minY": 0.054811259640277776,
+                "maxY": 0.17460349127676078,
+                "strideZ": 0.35962065376354474,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.44637949877667904
+              },
+              {
+                "bone": "antler_beetle_leg_L_3_tarsus",
+                "minY": 0.054840302331015334,
+                "maxY": 0.17446737036039667,
+                "strideZ": 0.3584956292649598,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.4461265642277983
+              },
+              {
+                "bone": "antler_beetle_leg_R_1_tarsus",
+                "minY": 0.05992677200011309,
+                "maxY": 0.17943894846640124,
+                "strideZ": 0.359665961237965,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.446278272418331
+              },
+              {
+                "bone": "antler_beetle_leg_R_2_tarsus",
+                "minY": 0.05480649822352779,
+                "maxY": 0.17464580372703198,
+                "strideZ": 0.3597646824387587,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.4465104961602331
+              },
+              {
+                "bone": "antler_beetle_leg_R_3_tarsus",
+                "minY": 0.054689511679283764,
+                "maxY": 0.17426127458026602,
+                "strideZ": 0.3562162698866088,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.44626226873749275
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "antler_beetle_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.699999988079071,
+            "sampledFootBones": 6,
+            "stanceSamples": 322,
+            "measuredStanceMps": 1.402526620606417,
+            "feet": [
+              {
+                "bone": "antler_beetle_leg_L_1_tarsus",
+                "minY": 0.05975293995482106,
+                "maxY": 0.23957332981012575,
+                "strideZ": 0.5584181071613012,
+                "contactSamples": 56,
+                "stanceMedianMps": 1.4048126867808577
+              },
+              {
+                "bone": "antler_beetle_leg_L_2_tarsus",
+                "minY": 0.05477203299058081,
+                "maxY": 0.23457331625818134,
+                "strideZ": 0.558364482071499,
+                "contactSamples": 56,
+                "stanceMedianMps": 1.402111082170128
+              },
+              {
+                "bone": "antler_beetle_leg_L_3_tarsus",
+                "minY": 0.054676057718827054,
+                "maxY": 0.2345733409099759,
+                "strideZ": 0.5027688564680383,
+                "contactSamples": 49,
+                "stanceMedianMps": 1.401567423230538
+              },
+              {
+                "bone": "antler_beetle_leg_R_1_tarsus",
+                "minY": 0.059715897257983375,
+                "maxY": 0.23957331776569135,
+                "strideZ": 0.5584082863059961,
+                "contactSamples": 56,
+                "stanceMedianMps": 1.402526620606417
+              },
+              {
+                "bone": "antler_beetle_leg_R_2_tarsus",
+                "minY": 0.05475677222599423,
+                "maxY": 0.23457332506452788,
+                "strideZ": 0.5584181116416602,
+                "contactSamples": 56,
+                "stanceMedianMps": 1.4020262872714657
+              },
+              {
+                "bone": "antler_beetle_leg_R_3_tarsus",
+                "minY": 0.05482056458572704,
+                "maxY": 0.23457334016698872,
+                "strideZ": 0.5016725631661463,
+                "contactSamples": 49,
+                "stanceMedianMps": 1.4025639810857564
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "antler_beetle_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.799999952316284,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.000569814913878015,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.2599999904632568,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006023237264682339,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.699999988079071,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.000680369613025611,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "is": "beetle",
+        "tags": [
+          "creature",
+          "crawler",
+          "arthropod",
+          "antler_beetle",
+          "forest"
+        ],
+        "provenance": "Original Corealm procedural sculpture, materials, skinning and animation; no third party geometry or animation.",
+        "attackSeconds": 1.1,
+        "contactNormalized": 0.5,
+        "impliedWalkMps": 0.4464285714285714,
+        "impliedRunMps": 1.4035087719298247,
+        "walkClipSeconds": 1.26,
+        "runClipSeconds": 0.7,
+        "notes": "Original Stag Beetle anatomy, weights, eight animation clips, normal and roughness maps unchanged. Image-generated jade elytra, olive thorax and upper legs, bronze mandibles and lower legs, dark ventral chitin. Separate detailed surface colors now resolve segmentation at gameplay distance.",
+        "boneNames": [
+          "antler_beetle_root",
+          "antler_beetle_thorax",
+          "antler_beetle_abdomen",
+          "antler_beetle_elytron_L",
+          "antler_beetle_elytron_R",
+          "antler_beetle_head",
+          "antler_beetle_mandible_L",
+          "antler_beetle_antenna_-1_base",
+          "antler_beetle_antenna_-1_tip",
+          "antler_beetle_mandible_R",
+          "antler_beetle_antenna_1_base",
+          "antler_beetle_antenna_1_tip",
+          "antler_beetle_leg_L_1_coxa",
+          "antler_beetle_leg_L_1_tibia",
+          "antler_beetle_leg_L_1_tarsus",
+          "antler_beetle_leg_L_2_coxa",
+          "antler_beetle_leg_L_2_tibia",
+          "antler_beetle_leg_L_2_tarsus",
+          "antler_beetle_leg_L_3_coxa",
+          "antler_beetle_leg_L_3_tibia",
+          "antler_beetle_leg_L_3_tarsus",
+          "antler_beetle_leg_R_1_coxa",
+          "antler_beetle_leg_R_1_tibia",
+          "antler_beetle_leg_R_1_tarsus",
+          "antler_beetle_leg_R_2_coxa",
+          "antler_beetle_leg_R_2_tibia",
+          "antler_beetle_leg_R_2_tarsus",
+          "antler_beetle_leg_R_3_coxa",
+          "antler_beetle_leg_R_3_tibia",
+          "antler_beetle_leg_R_3_tarsus"
+        ],
+        "authoringModule": "tools/creature-expansion/crawlers.mjs",
+        "sourceGlbSha256": "20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779",
+        "sourceBinSha256": "16535f2c67af66627071e7c78270ffd26b5705427e0c7f48c0a339a01f8ae71b",
+        "sourceAtlasSha256": "cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154",
+        "textureGeneratorSha256": "0d19e8f6ef7df2cd4e0b5c92926e2275fd6143ea3e2a9d2896fe29d5d1fd44a2",
+        "polishSourceBuilder": "assets/art/tripo/imports/creatures/audit-antler-beetle/build.mjs"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-arthropods/creature_antler_beetle.glb"
+    },
+    {
+      "id": "creature_slag_centipede",
+      "file": "models/creature/creature_slag_centipede.glb",
+      "pack": "corealm-arthropod-polish",
+      "category": "character",
+      "is": "centipede",
+      "tags": [
+        "creature",
+        "crawler",
+        "arthropod",
+        "slag_centipede",
+        "cave"
+      ],
+      "bytes": 3174756,
+      "sha256": "fbe569588c5883626c0d2af50a195efb4e5533d8fc6b4bd0bd91ee21fece0d66",
+      "size": {
+        "x": 1.259203634262085,
+        "y": 0.5564003875926138,
+        "z": 4.041124649047851
+      },
+      "base": {
+        "x": -0.6296018171310425,
+        "y": 0.0070433518216013735,
+        "z": -2.0105438756942746
+      },
+      "bounds": {
+        "min": [
+          -0.6296018171310425,
+          0.0070433518216013735,
+          -2.0105438756942746
+        ],
+        "max": [
+          0.6296018171310425,
+          0.5634437394142151,
+          2.0305807733535763
+        ]
+      },
+      "groundY": 0.0070433518216013735,
+      "triangles": 31442,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "slag_centipede_joint",
+        "slag_centipede_shellAlt",
+        "slag_centipede_seam",
+        "slag_centipede_horn",
+        "slag_centipede_shell",
+        "slag_centipede_eye"
+      ],
+      "sourceProvenance": "Original Corealm procedural centipede sculpture, 81-joint skin and eight clips; source GLB SHA-256 1648c881291809bdd18529b9374ed2626643f203b93cf471131880a6be728ddf. New image-generated layered armor atlas SHA-256 b23fc2910bb02bf2de6242bcd300ebe57f977067d5d9daa2e4ae6495b0caaff7. Pinned source: assets/art/tripo/imports/creatures/audit-polish-arthropods/sources/creature_slag_centipede.glb.",
+      "impliedWalkMps": 0.3129251700680272,
+      "impliedRunMps": 0.9365244536940686,
+      "walkClipSeconds": 1.0499999523162842,
+      "runClipSeconds": 0.6200000047683716,
+      "attackSeconds": 0.9399999976158142,
+      "contactNormalized": 0.5,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.0499999523162842,
+            "sampledFootBones": 20,
+            "stanceSamples": 1360,
+            "measuredStanceMps": 0.3124542953514172,
+            "feet": [
+              {
+                "bone": "slag_centipede_leg_L_01_tarsus",
+                "minY": 0.042918271484528314,
+                "maxY": 0.11780051111178297,
+                "strideZ": 0.2294774482807853,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31261339097212815
+              },
+              {
+                "bone": "slag_centipede_leg_R_01_tarsus",
+                "minY": 0.042865172345285696,
+                "maxY": 0.11776627364572784,
+                "strideZ": 0.2294750900977861,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.3122620518894314
+              },
+              {
+                "bone": "slag_centipede_leg_L_02_tarsus",
+                "minY": 0.04290985242485912,
+                "maxY": 0.1176481042244884,
+                "strideZ": 0.22828730983109313,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.3130905781874513
+              },
+              {
+                "bone": "slag_centipede_leg_R_02_tarsus",
+                "minY": 0.042769270237281054,
+                "maxY": 0.11763505905400207,
+                "strideZ": 0.22818716328014665,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.3123845614248807
+              },
+              {
+                "bone": "slag_centipede_leg_L_03_tarsus",
+                "minY": 0.04287041900011457,
+                "maxY": 0.11795385141248155,
+                "strideZ": 0.2296414750587814,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31274322738407245
+              },
+              {
+                "bone": "slag_centipede_leg_R_03_tarsus",
+                "minY": 0.042820236187438576,
+                "maxY": 0.11790863233368748,
+                "strideZ": 0.22969499636298335,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31218061647803846
+              },
+              {
+                "bone": "slag_centipede_leg_L_04_tarsus",
+                "minY": 0.04273392676210669,
+                "maxY": 0.11765352400068574,
+                "strideZ": 0.2277683340215223,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.3120814527113785
+              },
+              {
+                "bone": "slag_centipede_leg_R_04_tarsus",
+                "minY": 0.04271192808440977,
+                "maxY": 0.11742442599063052,
+                "strideZ": 0.22790088990262042,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31288533606313074
+              },
+              {
+                "bone": "slag_centipede_leg_L_05_tarsus",
+                "minY": 0.042597405877040945,
+                "maxY": 0.11781692486373346,
+                "strideZ": 0.22964441596280036,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.3129371596336448
+              },
+              {
+                "bone": "slag_centipede_leg_R_05_tarsus",
+                "minY": 0.04255431614517363,
+                "maxY": 0.11825553180105652,
+                "strideZ": 0.22973409834933625,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31238718164275925
+              },
+              {
+                "bone": "slag_centipede_leg_L_06_tarsus",
+                "minY": 0.04263007112195227,
+                "maxY": 0.11743029313576503,
+                "strideZ": 0.2273373685759577,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.313207706769018
+              },
+              {
+                "bone": "slag_centipede_leg_R_06_tarsus",
+                "minY": 0.04245236244188705,
+                "maxY": 0.11758229209751461,
+                "strideZ": 0.2273130621905462,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.312684554316312
+              },
+              {
+                "bone": "slag_centipede_leg_L_07_tarsus",
+                "minY": 0.04265059582741876,
+                "maxY": 0.11786542460659272,
+                "strideZ": 0.22897025585878805,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31226607957599933
+              },
+              {
+                "bone": "slag_centipede_leg_R_07_tarsus",
+                "minY": 0.04237780275170666,
+                "maxY": 0.11849606599616477,
+                "strideZ": 0.22501705285855944,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.311815128337322
+              },
+              {
+                "bone": "slag_centipede_leg_L_08_tarsus",
+                "minY": 0.042419530369175285,
+                "maxY": 0.11736981229023427,
+                "strideZ": 0.22716753812747992,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.314308164794831
+              },
+              {
+                "bone": "slag_centipede_leg_R_08_tarsus",
+                "minY": 0.0422468410865916,
+                "maxY": 0.11706164585771242,
+                "strideZ": 0.22719345378829925,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.3127249231911592
+              },
+              {
+                "bone": "slag_centipede_leg_L_09_tarsus",
+                "minY": 0.04236353533726489,
+                "maxY": 0.1183739212304479,
+                "strideZ": 0.22960731858336003,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31258622403418657
+              },
+              {
+                "bone": "slag_centipede_leg_R_09_tarsus",
+                "minY": 0.042271129551554376,
+                "maxY": 0.11745759280645274,
+                "strideZ": 0.22917711689975073,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31211033568719626
+              },
+              {
+                "bone": "slag_centipede_leg_L_10_tarsus",
+                "minY": 0.04228911055314183,
+                "maxY": 0.117317985549619,
+                "strideZ": 0.22701306326960613,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.3129908988942538
+              },
+              {
+                "bone": "slag_centipede_leg_R_10_tarsus",
+                "minY": 0.04230166029777643,
+                "maxY": 0.11725825237445353,
+                "strideZ": 0.22698261145688292,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.31368516702327076
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "slag_centipede_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.6200000047683716,
+            "sampledFootBones": 20,
+            "stanceSamples": 1218,
+            "measuredStanceMps": 0.9351344305256188,
+            "feet": [
+              {
+                "bone": "slag_centipede_leg_L_01_tarsus",
+                "minY": 0.04292929777017937,
+                "maxY": 0.16288275716823702,
+                "strideZ": 0.35981464801617924,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.9364758053614679
+              },
+              {
+                "bone": "slag_centipede_leg_R_01_tarsus",
+                "minY": 0.042840178849717636,
+                "maxY": 0.16284259628065162,
+                "strideZ": 0.35981230135606446,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.9357046381748093
+              },
+              {
+                "bone": "slag_centipede_leg_L_02_tarsus",
+                "minY": 0.04290929649983022,
+                "maxY": 0.16244503433511354,
+                "strideZ": 0.3576508731841026,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9363463198276533
+              },
+              {
+                "bone": "slag_centipede_leg_R_02_tarsus",
+                "minY": 0.042850392191872644,
+                "maxY": 0.16243134542307458,
+                "strideZ": 0.357523927429785,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9352946094930823
+              },
+              {
+                "bone": "slag_centipede_leg_L_03_tarsus",
+                "minY": 0.042856586604025804,
+                "maxY": 0.16300155184235426,
+                "strideZ": 0.3598044471234826,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.9365504142250088
+              },
+              {
+                "bone": "slag_centipede_leg_R_03_tarsus",
+                "minY": 0.04282254385492945,
+                "maxY": 0.16279809917763366,
+                "strideZ": 0.3599834370657894,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.9349657589868349
+              },
+              {
+                "bone": "slag_centipede_leg_L_04_tarsus",
+                "minY": 0.04270404257546434,
+                "maxY": 0.16239083538513854,
+                "strideZ": 0.35743427494291236,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9347975197997375
+              },
+              {
+                "bone": "slag_centipede_leg_R_04_tarsus",
+                "minY": 0.042722958333329925,
+                "maxY": 0.16245004462484547,
+                "strideZ": 0.3576256310386815,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9361178520241124
+              },
+              {
+                "bone": "slag_centipede_leg_L_05_tarsus",
+                "minY": 0.04261933374159935,
+                "maxY": 0.16286793564710017,
+                "strideZ": 0.3598979881354095,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.9364811435441615
+              },
+              {
+                "bone": "slag_centipede_leg_R_05_tarsus",
+                "minY": 0.042569919308922954,
+                "maxY": 0.16330780270747014,
+                "strideZ": 0.3599012961088664,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.934792905639128
+              },
+              {
+                "bone": "slag_centipede_leg_L_06_tarsus",
+                "minY": 0.04282000714445852,
+                "maxY": 0.16218167394433813,
+                "strideZ": 0.3529270304440282,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9352569916980585
+              },
+              {
+                "bone": "slag_centipede_leg_R_06_tarsus",
+                "minY": 0.04245115238994235,
+                "maxY": 0.16236638830258962,
+                "strideZ": 0.3574901366096926,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9351653840396186
+              },
+              {
+                "bone": "slag_centipede_leg_L_07_tarsus",
+                "minY": 0.042623854141461026,
+                "maxY": 0.16299998898346632,
+                "strideZ": 0.36005201040563173,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.9349850318844676
+              },
+              {
+                "bone": "slag_centipede_leg_R_07_tarsus",
+                "minY": 0.04234231794778817,
+                "maxY": 0.16327367908541238,
+                "strideZ": 0.345010428777519,
+                "contactSamples": 58,
+                "stanceMedianMps": 0.934688066032195
+              },
+              {
+                "bone": "slag_centipede_leg_L_08_tarsus",
+                "minY": 0.04237648480199274,
+                "maxY": 0.16232543904514993,
+                "strideZ": 0.35767383583833734,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9363291434920252
+              },
+              {
+                "bone": "slag_centipede_leg_R_08_tarsus",
+                "minY": 0.042266810792438575,
+                "maxY": 0.16204100651303846,
+                "strideZ": 0.3575615617015201,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9351926677670988
+              },
+              {
+                "bone": "slag_centipede_leg_L_09_tarsus",
+                "minY": 0.042367049855516675,
+                "maxY": 0.16331231341776198,
+                "strideZ": 0.35993226048402205,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.9326948752598795
+              },
+              {
+                "bone": "slag_centipede_leg_R_09_tarsus",
+                "minY": 0.042496553583803276,
+                "maxY": 0.1625114314995439,
+                "strideZ": 0.35688890896211634,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.934753141809751
+              },
+              {
+                "bone": "slag_centipede_leg_L_10_tarsus",
+                "minY": 0.04227553498160577,
+                "maxY": 0.16280126086637892,
+                "strideZ": 0.35759235609297657,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9341767341500131
+              },
+              {
+                "bone": "slag_centipede_leg_R_10_tarsus",
+                "minY": 0.042378004190601865,
+                "maxY": 0.1618870800233262,
+                "strideZ": 0.3577672420605884,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9334840385701135
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "slag_centipede_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.799999952316284,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006869744893430972,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.0499999523162842,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006848863778874089,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.6200000047683716,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006902996248020289,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "is": "centipede",
+        "tags": [
+          "creature",
+          "crawler",
+          "arthropod",
+          "slag_centipede",
+          "cave"
+        ],
+        "provenance": "Original Corealm procedural sculpture, materials, skinning and animation; no third party geometry or animation.",
+        "attackSeconds": 0.94,
+        "contactNormalized": 0.5,
+        "impliedWalkMps": 0.3129251700680272,
+        "impliedRunMps": 0.9365244536940686,
+        "walkClipSeconds": 1.05,
+        "runClipSeconds": 0.62,
+        "notes": "Original twenty-leg segmented centipede anatomy, skinning, eight clips, normal and roughness maps unchanged. Image-generated red iron dorsal plates, bronze lateral chitin, highlighted leg cuticle and mandibles, dark ventral joints. No geometry or motion edits.",
+        "boneNames": [
+          "slag_centipede_root",
+          "slag_centipede_collar",
+          "slag_centipede_head",
+          "slag_centipede_forcipule_L",
+          "slag_centipede_antenna_-1_base",
+          "slag_centipede_antenna_-1_tip",
+          "slag_centipede_forcipule_R",
+          "slag_centipede_antenna_1_base",
+          "slag_centipede_antenna_1_tip",
+          "slag_centipede_trunk_01",
+          "slag_centipede_leg_L_01_coxa",
+          "slag_centipede_leg_L_01_tibia",
+          "slag_centipede_leg_L_01_tarsus",
+          "slag_centipede_leg_R_01_coxa",
+          "slag_centipede_leg_R_01_tibia",
+          "slag_centipede_leg_R_01_tarsus",
+          "slag_centipede_trunk_02",
+          "slag_centipede_leg_L_02_coxa",
+          "slag_centipede_leg_L_02_tibia",
+          "slag_centipede_leg_L_02_tarsus",
+          "slag_centipede_leg_R_02_coxa",
+          "slag_centipede_leg_R_02_tibia",
+          "slag_centipede_leg_R_02_tarsus",
+          "slag_centipede_trunk_03",
+          "slag_centipede_leg_L_03_coxa",
+          "slag_centipede_leg_L_03_tibia",
+          "slag_centipede_leg_L_03_tarsus",
+          "slag_centipede_leg_R_03_coxa",
+          "slag_centipede_leg_R_03_tibia",
+          "slag_centipede_leg_R_03_tarsus",
+          "slag_centipede_trunk_04",
+          "slag_centipede_leg_L_04_coxa",
+          "slag_centipede_leg_L_04_tibia",
+          "slag_centipede_leg_L_04_tarsus",
+          "slag_centipede_leg_R_04_coxa",
+          "slag_centipede_leg_R_04_tibia",
+          "slag_centipede_leg_R_04_tarsus",
+          "slag_centipede_trunk_05",
+          "slag_centipede_leg_L_05_coxa",
+          "slag_centipede_leg_L_05_tibia",
+          "slag_centipede_leg_L_05_tarsus",
+          "slag_centipede_leg_R_05_coxa",
+          "slag_centipede_leg_R_05_tibia",
+          "slag_centipede_leg_R_05_tarsus",
+          "slag_centipede_trunk_06",
+          "slag_centipede_leg_L_06_coxa",
+          "slag_centipede_leg_L_06_tibia",
+          "slag_centipede_leg_L_06_tarsus",
+          "slag_centipede_leg_R_06_coxa",
+          "slag_centipede_leg_R_06_tibia",
+          "slag_centipede_leg_R_06_tarsus",
+          "slag_centipede_trunk_07",
+          "slag_centipede_leg_L_07_coxa",
+          "slag_centipede_leg_L_07_tibia",
+          "slag_centipede_leg_L_07_tarsus",
+          "slag_centipede_leg_R_07_coxa",
+          "slag_centipede_leg_R_07_tibia",
+          "slag_centipede_leg_R_07_tarsus",
+          "slag_centipede_trunk_08",
+          "slag_centipede_leg_L_08_coxa",
+          "slag_centipede_leg_L_08_tibia",
+          "slag_centipede_leg_L_08_tarsus",
+          "slag_centipede_leg_R_08_coxa",
+          "slag_centipede_leg_R_08_tibia",
+          "slag_centipede_leg_R_08_tarsus",
+          "slag_centipede_trunk_09",
+          "slag_centipede_leg_L_09_coxa",
+          "slag_centipede_leg_L_09_tibia",
+          "slag_centipede_leg_L_09_tarsus",
+          "slag_centipede_leg_R_09_coxa",
+          "slag_centipede_leg_R_09_tibia",
+          "slag_centipede_leg_R_09_tarsus",
+          "slag_centipede_trunk_10",
+          "slag_centipede_leg_L_10_coxa",
+          "slag_centipede_leg_L_10_tibia",
+          "slag_centipede_leg_L_10_tarsus",
+          "slag_centipede_leg_R_10_coxa",
+          "slag_centipede_leg_R_10_tibia",
+          "slag_centipede_leg_R_10_tarsus",
+          "slag_centipede_tail_cercus_-1",
+          "slag_centipede_tail_cercus_1"
+        ],
+        "authoringModule": "tools/creature-expansion/crawlers.mjs",
+        "sourceGlbSha256": "1648c881291809bdd18529b9374ed2626643f203b93cf471131880a6be728ddf",
+        "sourceBinSha256": "3339466a17853aa2cd2d7518fec1f17ae5c4269eca6023619417701444c281c6",
+        "sourceAtlasSha256": "b23fc2910bb02bf2de6242bcd300ebe57f977067d5d9daa2e4ae6495b0caaff7",
+        "textureGeneratorSha256": "c5d46560e76084ab353719f780eaf503351d2f25b8291bb352a4ba6158ef79ee"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-arthropods/creature_slag_centipede.glb"
+    }
+  ]
+}

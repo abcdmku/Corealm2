@@ -1,0 +1,312 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "sourceRoot": "assets/art/tripo/imports/creatures/audit-polish-mammals",
+  "destinationRoot": "game/public/assets",
+  "pack": {
+    "id": "corealm-mammal-polish-candidates",
+    "name": "Mammal polish candidates",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-polish-mammals/build-candidates.mjs",
+    "generatorSha256": "8b5ffa31f6eba4ca36f74efecf15472b389a0a1429f6db153612242e35300a2e",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "assets": [
+    {
+      "id": "creature_bracken_tapir",
+      "file": "models/creature/creature_bracken_tapir.glb",
+      "candidateFile": "creature_bracken_tapir-candidate.glb",
+      "pack": "corealm-mammal-polish-candidates",
+      "category": "character",
+      "is": "a black and pale-saddled woodland tapir",
+      "tags": [
+        "creature",
+        "animal",
+        "mammal",
+        "tapir",
+        "candidate"
+      ],
+      "bytes": 4417664,
+      "sha256": "20fbb88491f4167edada0ae4d275b4423a34aca41f89809f43107e9a731b8d99",
+      "size": {
+        "x": 0.7259547412395477,
+        "y": 1.122999953222461,
+        "z": 2.340757369995117
+      },
+      "base": {
+        "x": -0.3629800081253052,
+        "y": 0.0010000000474974513,
+        "z": -1.0297929048538208
+      },
+      "bounds": {
+        "min": [
+          -0.3629800081253052,
+          0.0010000000474974513,
+          -1.0297929048538208
+        ],
+        "max": [
+          0.36297473311424255,
+          1.1239999532699585,
+          1.3109644651412964
+        ]
+      },
+      "groundY": 0.0010000000474974513,
+      "triangles": 47406,
+      "vertices": 124915,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Wet_eye",
+        "Inner_ear",
+        "Muzzle_skin"
+      ],
+      "walkClipSeconds": 0.93,
+      "runClipSeconds": 0.64,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.48,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_bracken_tapir.glb",
+        "sourceSha256": "b46eb134d46db8625f04d9f9f036e7639ab5c3694c66b3f1b50fd97e50a70342",
+        "sourceBytes": 2344236,
+        "license": "LicenseRef-Corealm-Original",
+        "rigMethod": "Preserved production source skin, joints, animation samples, clip names and timings.",
+        "imageGeneratedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/tapir-generated-fur.png",
+        "imageGeneratedSourceSha256": "30927b4962d818c16f22d4bbecbb3b9496954f91a6fcde2a70e94914f854fd77",
+        "coatMapFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/bracken_tapir-coat-1k.png",
+        "coatMapSha256": "3e4a8d58053e3b195dac62b51338e1e91b85715be0d0f009983fcb78b36ecf7f",
+        "originalPbrRetained": true
+      },
+      "polish": {
+        "saddleVertices": 3451,
+        "description": "Image-generated coarse bristled coat over existing saddle colors; source normal and roughness retained."
+      },
+      "animationDurations": {
+        "Idle": 3.200000047683716,
+        "Walk": 0.9300000071525574,
+        "Run": 0.6399999856948853,
+        "Attack": 0.8999999761581421,
+        "Hit": 0.7599999904632568,
+        "HitLeft": 0.800000011920929,
+        "HitRight": 0.800000011920929,
+        "Death": 1.5499999523162842
+      },
+      "rootScaleRecommendation": 1.15,
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_duskoak_lynx",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "candidateFile": "creature_duskoak_lynx-candidate.glb",
+      "pack": "corealm-mammal-polish-candidates",
+      "category": "character",
+      "is": "a spotted woodland lynx with tall tufted ears",
+      "tags": [
+        "creature",
+        "animal",
+        "mammal",
+        "lynx",
+        "candidate"
+      ],
+      "bytes": 5984688,
+      "sha256": "a01ced84518c1e2bc7a293af02a4db10b3109dae400ab32fe9f7503408d0c302",
+      "size": {
+        "x": 0.46413710713386536,
+        "y": 1.1906710863113403,
+        "z": 1.7179820537567139
+      },
+      "base": {
+        "x": -0.23206855356693268,
+        "y": 0,
+        "z": -0.7533434629440308
+      },
+      "bounds": {
+        "min": [
+          -0.23206855356693268,
+          0,
+          -0.7533434629440308
+        ],
+        "max": [
+          0.23206855356693268,
+          1.1906710863113403,
+          0.9646385908126831
+        ]
+      },
+      "groundY": 0,
+      "triangles": 72720,
+      "vertices": 37390,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "duskoak_lynx_painted_fur",
+        "duskoak_lynx_eyes_claws_whiskers"
+      ],
+      "walkClipSeconds": 1.16,
+      "runClipSeconds": 0.67,
+      "attackSeconds": 1.02,
+      "contactNormalized": 0.43,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_duskoak_lynx.glb",
+        "sourceSha256": "32defc3ecbc3a6ed520ee452dfbbf3ceade47e737f77232a5146a8499bbd1463",
+        "sourceBytes": 3269288,
+        "license": "LicenseRef-Corealm-Original",
+        "rigMethod": "Preserved production source skin, joints, animation samples, clip names and timings.",
+        "imageGeneratedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/lynx-generated-fur.png",
+        "imageGeneratedSourceSha256": "c3efad658047d985bf521458e34b70538f8ee78c80b049b88ab3ef8db795da2b",
+        "coatMapFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/duskoak_lynx-coat-1k.png",
+        "coatMapSha256": "a6e34e95bfdcae36f4bb0d00888d11a4c4fb1b47928735522c42a24d5bb1a5b7",
+        "originalPbrRetained": false
+      },
+      "polish": {
+        "ears": 2210,
+        "cheek": 854,
+        "description": "Fine spotted image-generated fur, enlarged existing ear shells and tufts, broadened cheek ruff."
+      },
+      "animationDurations": {
+        "Idle": 3.4000000953674316,
+        "Walk": 1.159999966621399,
+        "Run": 0.6700000166893005,
+        "Attack": 1.0199999809265137,
+        "Hit": 0.699999988079071,
+        "HitLeft": 0.699999988079071,
+        "HitRight": 0.699999988079071,
+        "Death": 1.5
+      },
+      "rootScaleRecommendation": 0.9,
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_quillback_porcupine",
+      "file": "models/creature/creature_quillback_porcupine.glb",
+      "candidateFile": "creature_quillback_porcupine-candidate.glb",
+      "pack": "corealm-mammal-polish-candidates",
+      "category": "character",
+      "is": "a stocky crested porcupine with banded defensive quills",
+      "tags": [
+        "creature",
+        "animal",
+        "mammal",
+        "porcupine",
+        "candidate"
+      ],
+      "bytes": 5778812,
+      "sha256": "c7de20e799aac3105917dfdd78b2aa3444dbf8363f6a4f8d87ee3bf364d95942",
+      "size": {
+        "x": 0.87363600730896,
+        "y": 0.8627880811691284,
+        "z": 1.6065581440925598
+      },
+      "base": {
+        "x": -0.4284454584121704,
+        "y": 0,
+        "z": -0.8410502672195435
+      },
+      "bounds": {
+        "min": [
+          -0.4284454584121704,
+          0,
+          -0.8410502672195435
+        ],
+        "max": [
+          0.44519054889678955,
+          0.8627880811691284,
+          0.7655078768730164
+        ]
+      },
+      "groundY": 0,
+      "triangles": 59576,
+      "vertices": 72273,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "quillback_porcupine_painted_fur",
+        "quillback_porcupine_eyes_claws_whiskers",
+        "quillback_porcupine_fur_detail"
+      ],
+      "walkClipSeconds": 1.25,
+      "runClipSeconds": 0.76,
+      "attackSeconds": 1.16,
+      "contactNormalized": 0.54,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_quillback_porcupine.glb",
+        "sourceSha256": "59e8924533248f8973155384ac63ff7dd005e4e285c26bc0cbf82e724a85386e",
+        "sourceBytes": 3232648,
+        "license": "LicenseRef-Corealm-Original",
+        "rigMethod": "Preserved production source skin, joints, animation samples, clip names and timings.",
+        "imageGeneratedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/porcupine-generated-fur.png",
+        "imageGeneratedSourceSha256": "dbd46b84c5eb10e8869d17b6dbf700191f6af76d23d6ce8d0e81c799377ee3d8",
+        "coatMapFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/quillback_porcupine-coat-1k.png",
+        "coatMapSha256": "04c2c0cbed3e43e68129adf49732f7bc62c2f697443ce25d863647080d09e65e",
+        "originalPbrRetained": false
+      },
+      "polish": {
+        "eyes": 1846,
+        "bodyTriangles": 31420,
+        "quillTriangles": 22308,
+        "quillStart": 16226,
+        "guardEnd": 22226,
+        "defensiveEnd": 33266,
+        "description": "Image-generated coarse underfur; thicker defensive shafts with broad terminal bands, reduced guard-hair visual noise, and smaller eyes."
+      },
+      "animationDurations": {
+        "Idle": 3.4000000953674316,
+        "Walk": 1.25,
+        "Run": 0.7599999904632568,
+        "Attack": 1.159999966621399,
+        "Hit": 0.699999988079071,
+        "HitLeft": 0.699999988079071,
+        "HitRight": 0.699999988079071,
+        "Death": 1.5
+      },
+      "rootScaleRecommendation": 1.15,
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "notes": "CPU metadata only. Root must inspect normal-camera lab views and semantic motion/combat before promotion. No world integration is claimed.",
+  "catalogBuilderSha256": "154c0967d83161381a8679be965ec40e76a5e44d47f390729de2646bb51a76ba"
+}

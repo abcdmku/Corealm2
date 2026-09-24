@@ -61,10 +61,10 @@ The user delivered thirteen textured static GLBs and requested completion alongs
 | fantasy+symbol+3d+model.glb | The Hollow Star | audit-user-hollow-star |
 | fantasy+insect+3d+model.glb | Prismatic Sprite | audit-user-prismatic |
 | fantasy+creature+3d+model.glb | Galeskin | audit-user-galeskin |
-| stylized+spider+3d+model.glb | Gorge Mantis, inferred from six limbs and catching arms | audit-user-reed-strider |
-| fantasy+elf+3d+model.glb | Orchid and Thistledown Veilspirits, inferred botanical shared base | audit-user-veilspirits |
+| stylized+spider+3d+model.glb | Reed Strider, explicitly confirmed by user | audit-user-reed-strider |
+| fantasy+elf+3d+model.glb | Orchid and Thistledown Veilspirits, explicitly confirmed shared base | audit-user-veilspirits |
 
-The last two mappings were initially uncertain. Anatomical inspection supports Gorge Mantis over Reed Strider and confirms the elf-named export has bark, branch antlers and a petal mantle. The directory named `audit-user-reed-strider` retains its initial triage name; its candidate ID is `creature_gorge_mantis`. Reed Strider remains undelivered. No new model generation or Tripo job was started.
+The user explicitly confirmed the spider-named export is Reed Strider and the elf-named export serves both veilspirits. This supersedes the provisional anatomical inference of Gorge Mantis. Preserve the supplied anatomy. Gorge Mantis remains undelivered. No new model generation or Tripo job was started.
 
 - `creature_beetle_golem`: user supplied `C:/Users/Borg/Downloads/beetle+golem.glb` on 2026-09-23, replacing the rejected enlarged Flint candidate. The supplied model has a native 67-joint rig, 5,166 triangles and detailed green/gold/purple PBR textures, but no animation clips. The accepted adaptation is in `assets/art/tripo/imports/creatures/audit-user-beetle-golem/` and is promoted as `creature_beetle_golem`. Its six clips preserve the native rig and source maps. Normal-camera lab review, standing attack, combat pursuit and whole-corpse views passed; release checks passed. Authored-world placement remains pending because its Vellenwood regional pack is not activated. The user's reference calls for low four-limbed walking, a faster combat chase, rising onto the hindlegs to swing a forearm, and a green iridescent shell sheen. This supersedes the earlier six-legged source suggestion. Preserve the original maps and source; do not start generation. The original 18 manual base requests above remain unchanged.
 

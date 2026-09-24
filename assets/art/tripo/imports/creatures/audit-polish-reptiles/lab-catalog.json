@@ -1,0 +1,1329 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-reptile-polish",
+    "name": "Corealm reptile asset polish",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-polish-reptiles/build.mjs",
+    "license": "Mixed: original Corealm assets and Animal pack deluxe under Standard Unity Asset Store EULA; see each asset sourceProvenance",
+    "generatorSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869"
+  },
+  "assets": [
+    {
+      "id": "creature_reedjaw_crocodile",
+      "file": "models/creature/creature_reedjaw_crocodile.glb",
+      "pack": "corealm-reptile-polish",
+      "category": "character",
+      "is": "crocodile",
+      "tags": [
+        "crocodile",
+        "reptile",
+        "animal",
+        "wetland",
+        "territorial"
+      ],
+      "bytes": 6781808,
+      "sha256": "d556d5fae399c8e5f3d47a9b5f26a2f45e9a29ff678c6893b4fcf534ea244421",
+      "size": {
+        "x": 1.2803505856491546,
+        "y": 0.5257774696753599,
+        "z": 4.802144371617658
+      },
+      "base": {
+        "x": -0.6401016426366152,
+        "y": -0.019857209012562105,
+        "z": -3.319738270767557
+      },
+      "bounds": {
+        "min": [
+          -0.6401016426366152,
+          -0.019857209012562105,
+          -3.319738270767557
+        ],
+        "max": [
+          0.6402489430125394,
+          0.5059202606627977,
+          1.4824061008501004
+        ]
+      },
+      "groundY": -0.019857209012562105,
+      "triangles": 6390,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "animal_reedjaw_crocodile_mat"
+      ],
+      "sourceProvenance": {
+        "original": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "Crocodile_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "originalPack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "sourceGlbSha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+        "textureInputs": [
+          {
+            "file": "reedjaw-crocodile-imagegen.png",
+            "sha256": "021431b04366c63ca9262614edbaff81196625ced86b48a215b6439f02172673",
+            "finalSha256": "2582ec5f89a948ba917f52cc040a2fa12067e1e6643feb0e280ee126a1dd1196"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_reedjaw_crocodile.glb"
+      },
+      "impliedWalkMps": 0.4189075287257235,
+      "impliedRunMps": 1.7549038545716868,
+      "walkClipSeconds": 1.4333332777023315,
+      "runClipSeconds": 0.5666666626930237,
+      "attackSeconds": 0.8333333134651184,
+      "contactNormalized": 0.4583333333333333,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.4333332777023315,
+            "sampledFootBones": 4,
+            "stanceSamples": 248,
+            "measuredStanceMps": 0.42378627138887215,
+            "feet": [
+              {
+                "bone": "Crocodile_l_FrontLeg_BallSHJnt",
+                "minY": 0.014046166751054114,
+                "maxY": 0.1371944553871237,
+                "strideZ": 0.3148255784125415,
+                "contactSamples": 56,
+                "stanceMedianMps": 0.38439273191613227
+              },
+              {
+                "bone": "Crocodile_r_FrontLeg_BallSHJnt",
+                "minY": 0.014028534411468459,
+                "maxY": 0.17217587268236462,
+                "strideZ": 0.31218709615002815,
+                "contactSamples": 57,
+                "stanceMedianMps": 0.3985043376377043
+              },
+              {
+                "bone": "Crocodile_l_HindLeg_BallSHJnt",
+                "minY": 0.019548154196065926,
+                "maxY": 0.1936640257689237,
+                "strideZ": 0.42885288695938883,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.46695526686541383
+              },
+              {
+                "bone": "Crocodile_r_HindLeg_BallSHJnt",
+                "minY": 0.019525415165229383,
+                "maxY": 0.18865412747926696,
+                "strideZ": 0.4400996878716661,
+                "contactSamples": 66,
+                "stanceMedianMps": 0.46737738665100875
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Crocodile_MAINSHJnt",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.5666666626930237,
+            "sampledFootBones": 4,
+            "stanceSamples": 166,
+            "measuredStanceMps": 1.6844239013625257,
+            "feet": [
+              {
+                "bone": "Crocodile_l_FrontLeg_BallSHJnt",
+                "minY": 0.015609952742360975,
+                "maxY": 0.28425097963412543,
+                "strideZ": 0.8578753942501294,
+                "contactSamples": 27,
+                "stanceMedianMps": 2.467585569865728
+              },
+              {
+                "bone": "Crocodile_r_FrontLeg_BallSHJnt",
+                "minY": -0.00047361075475869235,
+                "maxY": 0.3201771244267059,
+                "strideZ": 0.7542712742300488,
+                "contactSamples": 21,
+                "stanceMedianMps": 5.172205507597151
+              },
+              {
+                "bone": "Crocodile_l_HindLeg_BallSHJnt",
+                "minY": 0.019319802072304493,
+                "maxY": 0.13681857384019236,
+                "strideZ": 0.491266875569346,
+                "contactSamples": 60,
+                "stanceMedianMps": 1.3962129867282669
+              },
+              {
+                "bone": "Crocodile_r_HindLeg_BallSHJnt",
+                "minY": 0.01910528353722451,
+                "maxY": 0.17267697205389396,
+                "strideZ": 0.4687770482033003,
+                "contactSamples": 58,
+                "stanceMedianMps": 1.2952762606960382
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Crocodile_MAINSHJnt",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 8,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0007311527705190305,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.4333332777023315,
+            "maxTranslationGap": 7.105427357601002e-15,
+            "maxRotationGapRadians": 0.0007311527705190305,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.5666666626930237,
+            "maxTranslationGap": 2.842170943040401e-14,
+            "maxRotationGapRadians": 0.0007311527705190305,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "is": "crocodile",
+        "tags": [
+          "crocodile",
+          "reptile",
+          "animal",
+          "wetland",
+          "territorial"
+        ],
+        "provenance": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "Crocodile_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "attackSeconds": 0.8333333134651184,
+        "contactNormalized": 0.4583333333333333,
+        "impliedWalkMps": 0.4189075287257235,
+        "impliedRunMps": 1.7549038545716868,
+        "walkClipSeconds": 1.4333332777023315,
+        "runClipSeconds": 0.5666666626930237,
+        "notes": "Unused licensed crocodile body, source bite and distinct source walk/run. Authored neck and tail hit recoils leave all four support chains planted. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
+        "sourceClips": [
+          {
+            "name": "Idle",
+            "ok": true,
+            "duration": 8,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 43
+          },
+          {
+            "name": "Walk",
+            "ok": true,
+            "duration": 1.4333332777023315,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 43
+          },
+          {
+            "name": "Run",
+            "ok": true,
+            "duration": 0.5666666626930237,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 43
+          },
+          {
+            "name": "Attack",
+            "ok": true,
+            "duration": 0.8333333134651184,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 43
+          },
+          {
+            "name": "Death",
+            "ok": true,
+            "duration": 1.5666667222976685,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 43
+          }
+        ],
+        "articulation": [],
+        "gaitFootBones": [
+          "Crocodile_l_FrontLeg_BallSHJnt",
+          "Crocodile_r_FrontLeg_BallSHJnt",
+          "Crocodile_l_HindLeg_BallSHJnt",
+          "Crocodile_r_HindLeg_BallSHJnt"
+        ],
+        "gaitStance": {
+          "Walk": {
+            "mps": 0.4189075287257235,
+            "samples": 320,
+            "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+          },
+          "Run": {
+            "mps": 1.7549038545716868,
+            "samples": 222,
+            "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+          }
+        },
+        "sourceConverterImpliedMps": {
+          "Walk": 0.3759312717802056,
+          "Run": 1.6526264867409362
+        },
+        "boneNames": [
+          "Crocodile_MAINSHJnt",
+          "Crocodile_ROOTSHJnt",
+          "Crocodile_Spine_01SHJnt",
+          "Crocodile_Spine_02SHJnt",
+          "Crocodile_Spine_03SHJnt",
+          "Crocodile_Spine_04SHJnt",
+          "Crocodile_Spine_TopSHJnt",
+          "Crocodile_l_Clavicle_01_01SHJnt",
+          "Crocodile_l_FrontLeg_HipSHJnt",
+          "Crocodile_l_FrontLeg_KneeSHJnt",
+          "Crocodile_l_FrontLeg_AnkleSHJnt",
+          "Crocodile_l_FrontLeg_BallSHJnt",
+          "Crocodile_l_FrontLeg_ToeSHJnt",
+          "Crocodile_r_Clavicle_01_01SHJnt",
+          "Crocodile_r_FrontLeg_HipSHJnt",
+          "Crocodile_r_FrontLeg_KneeSHJnt",
+          "Crocodile_r_FrontLeg_AnkleSHJnt",
+          "Crocodile_r_FrontLeg_BallSHJnt",
+          "Crocodile_r_FrontLeg_ToeSHJnt",
+          "Crocodile_Neck_01SHJnt",
+          "Crocodile_Neck_02SHJnt",
+          "Crocodile_Neck_TopSHJnt",
+          "Crocodile_Head_JawSHJnt",
+          "Crocodile_Head_JawEndSHJnt",
+          "Crocodile_Head_TopSHJnt",
+          "Crocodile_l_HindLeg_HipSHJnt",
+          "Crocodile_l_HindLeg_KneeSHJnt",
+          "Crocodile_l_HindLeg_AnkleSHJnt",
+          "Crocodile_l_HindLeg_BallSHJnt",
+          "Crocodile_r_HindLeg_HipSHJnt",
+          "Crocodile_r_HindLeg_KneeSHJnt",
+          "Crocodile_r_HindLeg_AnkleSHJnt",
+          "Crocodile_r_HindLeg_BallSHJnt",
+          "Crocodile_Tail_01_01SHJnt",
+          "Crocodile_Tail_01_02SHJnt",
+          "Crocodile_Tail_01_03SHJnt",
+          "Crocodile_Tail_01_04SHJnt",
+          "Crocodile_Tail_01_05SHJnt",
+          "Crocodile_Tail_01_06SHJnt",
+          "Crocodile_Tail_01_07SHJnt",
+          "Crocodile_Tail_01_08SHJnt"
+        ],
+        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
+        "sourceGlbSha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+        "sourceBuilderSha256": "7bfcf04405a72d4ea5a66a32e0871f9c4d34f187091090475705040b9c32a413",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "reedjaw-crocodile-imagegen.png",
+            "sha256": "021431b04366c63ca9262614edbaff81196625ced86b48a215b6439f02172673",
+            "finalSha256": "2582ec5f89a948ba917f52cc040a2fa12067e1e6643feb0e280ee126a1dd1196"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/creature_reedjaw_crocodile.glb"
+    },
+    {
+      "id": "creature_ashscale_monitor",
+      "file": "models/creature/creature_ashscale_monitor.glb",
+      "pack": "corealm-reptile-polish",
+      "category": "character",
+      "is": "ashscale monitor",
+      "tags": [
+        "reptile",
+        "monitor",
+        "original",
+        "skinned",
+        "modeled-scales",
+        "five-toed",
+        "long-tail"
+      ],
+      "bytes": 3350264,
+      "sha256": "b56a998d75e61eff1a3800323ae3270d2f3ff2e042a3f4d795a50c84c41b6d87",
+      "size": {
+        "x": 1.9464862937927248,
+        "y": 1.0022609737309813,
+        "z": 4.768128638267517
+      },
+      "base": {
+        "x": -0.9732204971313477,
+        "y": 0.004200136841833608,
+        "z": -2.9901286220550536
+      },
+      "bounds": {
+        "min": [
+          -0.9732204971313477,
+          0.004200136841833608,
+          -2.9901286220550536
+        ],
+        "max": [
+          0.973265796661377,
+          1.006461110572815,
+          1.7780000162124634
+        ]
+      },
+      "groundY": 0.004200136841833608,
+      "triangles": 32230,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Ashscale pebbled skin and ventral scales",
+        "Soft mouth and forked tongue",
+        "Recessed dark eye surround",
+        "Old gold iris",
+        "Vertical black pupil",
+        "Worn keratin claws and teeth"
+      ],
+      "sourceProvenance": {
+        "original": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+        "originalPack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "sourceGlbSha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
+        "textureInputs": [
+          {
+            "file": "ashscale-monitor-imagegen.png",
+            "sha256": "06de359b219b1796da61e2bab46b3a16672f3019a7637375aee509a541b0ec86",
+            "finalSha256": "7031dd2e5b9799daa5dca7c19e49655409f989811101ef658fc895526af70fcc"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_ashscale_monitor.glb"
+      },
+      "impliedWalkMps": 0.4769475357710652,
+      "impliedRunMps": 1.6865079365079365,
+      "walkClipSeconds": 1.3600000143051147,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 1.100000023841858,
+      "contactNormalized": 0.48,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.3600000143051147,
+            "sampledFootBones": 4,
+            "stanceSamples": 284,
+            "measuredStanceMps": 0.4771984536725997,
+            "feet": [
+              {
+                "bone": "monitor_fore_left_foot",
+                "minY": 0.08493616598719467,
+                "maxY": 0.17281354844371044,
+                "strideZ": 0.47792443983564836,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.4776951529961794
+              },
+              {
+                "bone": "monitor_fore_right_foot",
+                "minY": 0.08493744207859799,
+                "maxY": 0.17281355528595732,
+                "strideZ": 0.4781798727063604,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.477655890876018
+              },
+              {
+                "bone": "monitor_hind_left_foot",
+                "minY": 0.08494173344625294,
+                "maxY": 0.17283943017747574,
+                "strideZ": 0.477924440577073,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.4769951116774983
+              },
+              {
+                "bone": "monitor_hind_right_foot",
+                "minY": 0.08494173343981365,
+                "maxY": 0.17283942923792325,
+                "strideZ": 0.4778266391657542,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.47702337692747465
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "monitor_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.7200000286102295,
+            "sampledFootBones": 4,
+            "stanceSamples": 220,
+            "measuredStanceMps": 1.6863952226189496,
+            "feet": [
+              {
+                "bone": "monitor_fore_left_foot",
+                "minY": 0.08479257433839016,
+                "maxY": 0.22977555769727573,
+                "strideZ": 0.6779524422933589,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.6863858152491518
+              },
+              {
+                "bone": "monitor_fore_right_foot",
+                "minY": 0.08479630102764268,
+                "maxY": 0.2297755587584486,
+                "strideZ": 0.6780071532155532,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.686387490709537
+              },
+              {
+                "bone": "monitor_hind_left_foot",
+                "minY": 0.08487219942471314,
+                "maxY": 0.22975382431296767,
+                "strideZ": 0.6779205912910051,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.6863968980963584
+              },
+              {
+                "bone": "monitor_hind_right_foot",
+                "minY": 0.0848898417485861,
+                "maxY": 0.22975382316680762,
+                "strideZ": 0.6779205791689638,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.6863952226189496
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "monitor_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 4.199999809265137,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0003367667748091781,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.3600000143051147,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006834822611278061,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.7200000286102295,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006290327506413761,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "ashscale_monitor",
+        "is": "ashscale monitor",
+        "tags": [
+          "reptile",
+          "monitor",
+          "original",
+          "skinned",
+          "modeled-scales",
+          "five-toed",
+          "long-tail"
+        ],
+        "provenance": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+        "attackSeconds": 1.1,
+        "contactNormalized": 0.48,
+        "impliedWalkMps": 0.4769475357710652,
+        "impliedRunMps": 1.6865079365079365,
+        "walkClipSeconds": 1.36,
+        "runClipSeconds": 0.72,
+        "gaitFootBones": [
+          "monitor_fore_left_foot",
+          "monitor_fore_right_foot",
+          "monitor_hind_left_foot",
+          "monitor_hind_right_foot"
+        ],
+        "notes": "+Z forward, Y up, metre units, contact pads at Y=0. Continuous ribcage, muscular tapered tail, long raised neck and shallow wedge skull. 341 irregular modeled dorsal scutes, continuous fine scale colour/normal/roughness maps, flush throat folds, 20 unequal articulated clawed digits, recessed eyes, teeth and forked tongue. Walk stance 74%, run stance 56%; contact feet translate backward linearly, paired with the recorded implied travel speeds. No root translation. Idle/Walk/Run have matching endpoints. Attack and all three hit reactions return to their initial pose; Death holds its collapsed pose. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
+        "boneNames": [
+          "monitor_root",
+          "monitor_pelvis",
+          "monitor_spine",
+          "monitor_chest",
+          "monitor_neck_base",
+          "monitor_neck_upper",
+          "monitor_head",
+          "monitor_jaw",
+          "monitor_tongue",
+          "monitor_fore_left_upper",
+          "monitor_fore_left_lower",
+          "monitor_fore_left_foot",
+          "monitor_fore_left_toe_1",
+          "monitor_fore_left_toe_2",
+          "monitor_fore_left_toe_3",
+          "monitor_fore_left_toe_4",
+          "monitor_fore_left_toe_5",
+          "monitor_fore_right_upper",
+          "monitor_fore_right_lower",
+          "monitor_fore_right_foot",
+          "monitor_fore_right_toe_1",
+          "monitor_fore_right_toe_2",
+          "monitor_fore_right_toe_3",
+          "monitor_fore_right_toe_4",
+          "monitor_fore_right_toe_5",
+          "monitor_tail_1",
+          "monitor_tail_2",
+          "monitor_tail_3",
+          "monitor_tail_4",
+          "monitor_tail_5",
+          "monitor_tail_6",
+          "monitor_hind_left_upper",
+          "monitor_hind_left_lower",
+          "monitor_hind_left_foot",
+          "monitor_hind_left_toe_1",
+          "monitor_hind_left_toe_2",
+          "monitor_hind_left_toe_3",
+          "monitor_hind_left_toe_4",
+          "monitor_hind_left_toe_5",
+          "monitor_hind_right_upper",
+          "monitor_hind_right_lower",
+          "monitor_hind_right_foot",
+          "monitor_hind_right_toe_1",
+          "monitor_hind_right_toe_2",
+          "monitor_hind_right_toe_3",
+          "monitor_hind_right_toe_4",
+          "monitor_hind_right_toe_5"
+        ],
+        "authoringModule": "tools/creature-expansion/reptiles.mjs",
+        "sourceGlbSha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
+        "sourceBuilderSha256": "f5d588e94c026f318019bcc15c72b00efdd618d7a62821f67cde9c0e4f23cb38",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "ashscale-monitor-imagegen.png",
+            "sha256": "06de359b219b1796da61e2bab46b3a16672f3019a7637375aee509a541b0ec86",
+            "finalSha256": "7031dd2e5b9799daa5dca7c19e49655409f989811101ef658fc895526af70fcc"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/creature_ashscale_monitor.glb"
+    },
+    {
+      "id": "creature_slateback_tortoise",
+      "file": "models/creature/creature_slateback_tortoise.glb",
+      "pack": "corealm-reptile-polish",
+      "category": "character",
+      "is": "slateback tortoise",
+      "tags": [
+        "reptile",
+        "tortoise",
+        "ground",
+        "quadruped",
+        "armored"
+      ],
+      "bytes": 2689092,
+      "sha256": "b5f07261079e8c90a6e063a9035129d79b184f8342f539ebe2eba52e61865629",
+      "size": {
+        "x": 1.8563157545498297,
+        "y": 1.2889853683114052,
+        "z": 2.9349549293518065
+      },
+      "base": {
+        "x": -0.9281644487860795,
+        "y": 3.278255444882916e-9,
+        "z": -1.2409198474884033
+      },
+      "bounds": {
+        "min": [
+          -0.9281644487860795,
+          3.278255444882916e-9,
+          -1.2409198474884033
+        ],
+        "max": [
+          0.92815130576375,
+          1.2889853715896606,
+          1.6940350818634033
+        ]
+      },
+      "groundY": 3.278255444882916e-9,
+      "triangles": 34916,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "slateback_shell_seams",
+        "slateback_scutes_0",
+        "slateback_scutes_1",
+        "slateback_scutes_2",
+        "slateback_skin",
+        "slateback_eye"
+      ],
+      "sourceProvenance": {
+        "original": "Original procedural anatomical surface modeling, scute tessellation, authored skeleton and IK clips. No external model or source creature reused.",
+        "originalPack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "sourceGlbSha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
+        "textureInputs": [
+          {
+            "file": "slateback-shell-imagegen.png",
+            "sha256": "e7068230d718832e588472bfd081f7e15aa8b0b582633bfe8e95ca688bd47d6d",
+            "finalSha256": "af0681bdd66a14dee3ed550b1211835d7035b2d6ebadefacfaa352ae43638a05"
+          },
+          {
+            "file": "slateback-skin-imagegen.png",
+            "sha256": "d16e0b8d171ab0666e2f0e05132c02c8530ecc378573d3d539064badfc6925d5",
+            "finalSha256": "56bd84671aa08947b181ec0bf2d4ef42c89afe4dbe356cd66e7b18bb9dcf74d7"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_slateback_tortoise.glb"
+      },
+      "impliedWalkMps": 0.06578947368421054,
+      "impliedRunMps": 0.16835016835016833,
+      "walkClipSeconds": 2.799999952316284,
+      "runClipSeconds": 1.7999999523162842,
+      "attackSeconds": 1.4500000476837158,
+      "contactNormalized": 0.49,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 2.799999952316284,
+            "sampledFootBones": 4,
+            "stanceSamples": 208,
+            "measuredStanceMps": 0.06489038844447093,
+            "feet": [
+              {
+                "bone": "tortoise_front_left_foot",
+                "minY": 0.10475083439815347,
+                "maxY": 0.14265205662764746,
+                "strideZ": 0.12856115760868636,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.06490157784291516
+              },
+              {
+                "bone": "tortoise_front_right_foot",
+                "minY": 0.10475934103077217,
+                "maxY": 0.14265206792313465,
+                "strideZ": 0.12856479643660212,
+                "contactSamples": 60,
+                "stanceMedianMps": 0.06490159258559106
+              },
+              {
+                "bone": "tortoise_rear_left_foot",
+                "minY": 0.10481458215133618,
+                "maxY": 0.1425506371632907,
+                "strideZ": 0.1317806440741035,
+                "contactSamples": 44,
+                "stanceMedianMps": 0.06489038844447093
+              },
+              {
+                "bone": "tortoise_rear_right_foot",
+                "minY": 0.10481458225549992,
+                "maxY": 0.14255063502853849,
+                "strideZ": 0.13177790460822125,
+                "contactSamples": 44,
+                "stanceMedianMps": 0.06490366765646535
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "tortoise_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 1.7999999523162842,
+            "sampledFootBones": 4,
+            "stanceSamples": 165,
+            "measuredStanceMps": 0.16759484638565336,
+            "feet": [
+              {
+                "bone": "tortoise_front_left_foot",
+                "minY": 0.10480599045510039,
+                "maxY": 0.16947364327228026,
+                "strideZ": 0.18287031296643486,
+                "contactSamples": 46,
+                "stanceMedianMps": 0.1674543525827652
+              },
+              {
+                "bone": "tortoise_front_right_foot",
+                "minY": 0.10484952422765809,
+                "maxY": 0.16946943458337782,
+                "strideZ": 0.1830476617513752,
+                "contactSamples": 46,
+                "stanceMedianMps": 0.1677445781048835
+              },
+              {
+                "bone": "tortoise_rear_left_foot",
+                "minY": 0.10478361687738733,
+                "maxY": 0.17012261135415874,
+                "strideZ": 0.18494197839052273,
+                "contactSamples": 36,
+                "stanceMedianMps": 0.16781332823569006
+              },
+              {
+                "bone": "tortoise_rear_right_foot",
+                "minY": 0.10482525172187818,
+                "maxY": 0.17000925522407695,
+                "strideZ": 0.18481891645861148,
+                "contactSamples": 37,
+                "stanceMedianMps": 0.16776685490349172
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "tortoise_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 4.400000095367432,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 2.799999952316284,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006551787420545139,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 1.7999999523162842,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006207302509045172,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "slateback_tortoise",
+        "is": "slateback tortoise",
+        "tags": [
+          "reptile",
+          "tortoise",
+          "ground",
+          "quadruped",
+          "armored"
+        ],
+        "provenance": "Original procedural anatomical surface modeling, scute tessellation, authored skeleton and IK clips. No external model or source creature reused.",
+        "attackSeconds": 1.45,
+        "contactNormalized": 0.49,
+        "impliedWalkMps": 0.06578947368421054,
+        "impliedRunMps": 0.16835016835016833,
+        "walkClipSeconds": 2.8,
+        "runClipSeconds": 1.8,
+        "gaitFootBones": [
+          "tortoise_front_left_foot",
+          "tortoise_front_right_foot",
+          "tortoise_rear_left_foot",
+          "tortoise_rear_right_foot"
+        ],
+        "triangles": 34916,
+        "notes": "Domed slate carapace with 33 fitted scutes and growth ridges, thick rolled margins, lobed ochre plastron, neck and limb openings, folded retractable neck, beaked skull, inset amber eyes, scaled elephantine feet, five front and four rear keratin claws. Four-beat planted IK gait; body stays in place; attack retracts then snaps forward; directional flinches return to bind pose and death settles. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
+        "boneNames": [
+          "tortoise_root",
+          "tortoise_body",
+          "tortoise_neck_base",
+          "tortoise_neck_extend",
+          "tortoise_head",
+          "tortoise_jaw",
+          "tortoise_tail_base",
+          "tortoise_tail_tip",
+          "tortoise_front_left_upper",
+          "tortoise_front_left_lower",
+          "tortoise_front_left_foot",
+          "tortoise_front_right_upper",
+          "tortoise_front_right_lower",
+          "tortoise_front_right_foot",
+          "tortoise_rear_left_upper",
+          "tortoise_rear_left_lower",
+          "tortoise_rear_left_foot",
+          "tortoise_rear_right_upper",
+          "tortoise_rear_right_lower",
+          "tortoise_rear_right_foot"
+        ],
+        "authoringModule": "tools/creature-expansion/reptiles.mjs",
+        "sourceGlbSha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
+        "sourceBuilderSha256": "f5d588e94c026f318019bcc15c72b00efdd618d7a62821f67cde9c0e4f23cb38",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "slateback-shell-imagegen.png",
+            "sha256": "e7068230d718832e588472bfd081f7e15aa8b0b582633bfe8e95ca688bd47d6d",
+            "finalSha256": "af0681bdd66a14dee3ed550b1211835d7035b2d6ebadefacfaa352ae43638a05"
+          },
+          {
+            "file": "slateback-skin-imagegen.png",
+            "sha256": "d16e0b8d171ab0666e2f0e05132c02c8530ecc378573d3d539064badfc6925d5",
+            "finalSha256": "56bd84671aa08947b181ec0bf2d4ef42c89afe4dbe356cd66e7b18bb9dcf74d7"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/creature_slateback_tortoise.glb"
+    },
+    {
+      "id": "creature_kiln_salamander",
+      "file": "models/creature/creature_kiln_salamander.glb",
+      "pack": "corealm-reptile-polish",
+      "category": "character",
+      "is": "salamander",
+      "tags": [
+        "salamander",
+        "amphibian",
+        "animal",
+        "warm-bank",
+        "spit"
+      ],
+      "bytes": 4346104,
+      "sha256": "3cc51715a033d92f32f71e6cfd83635b4105d1091ad8dfc6631571bcc054a737",
+      "size": {
+        "x": 0.32350622529277795,
+        "y": 0.1586890940591499,
+        "z": 1.1433032684092854
+      },
+      "base": {
+        "x": -0.16175951231424449,
+        "y": 0.0015090008768542838,
+        "z": -0.7973472310014796
+      },
+      "bounds": {
+        "min": [
+          -0.16175951231424449,
+          0.0015090008768542838,
+          -0.7973472310014796
+        ],
+        "max": [
+          0.1617467129785335,
+          0.1601980949360042,
+          0.3459560374078058
+        ]
+      },
+      "groundY": 0.0015090008768542838,
+      "triangles": 2160,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "animal_kiln_salamander_mat",
+        "animal_kiln_salamander_mouth_interior"
+      ],
+      "sourceProvenance": {
+        "original": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "FireSalamander_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "originalPack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "sourceGlbSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+        "textureInputs": [
+          {
+            "file": "kiln-salamander-imagegen.png",
+            "sha256": "a15d90a9207b3a19402b287276de435fc86e225cf9e60037ab91ddf49dd86093",
+            "finalSha256": "54ab19e5f3fd6bbca0a9bc36c288781526d4a0da2d59ecbac4b5017004abe0a1"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_kiln_salamander.glb"
+      },
+      "impliedWalkMps": 0.23556248109866293,
+      "impliedRunMps": 0.37263130259072363,
+      "walkClipSeconds": 1.2999999523162842,
+      "runClipSeconds": 0.8333333134651184,
+      "attackSeconds": 1.0800000429153442,
+      "contactNormalized": 0.43,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.2999999523162842,
+            "sampledFootBones": 4,
+            "stanceSamples": 243,
+            "measuredStanceMps": 0.23437575767531132,
+            "feet": [
+              {
+                "bone": "FireSalamander_l_FrontLeg_BallSHJnt",
+                "minY": 0.005048857006545289,
+                "maxY": 0.04657776984193312,
+                "strideZ": 0.17393470258255392,
+                "contactSamples": 55,
+                "stanceMedianMps": 0.2101641013790809
+              },
+              {
+                "bone": "FireSalamander_r_FrontLeg_BallSHJnt",
+                "minY": 0.005068812912709244,
+                "maxY": 0.05314124271624179,
+                "strideZ": 0.17485585502969245,
+                "contactSamples": 56,
+                "stanceMedianMps": 0.22700677345705678
+              },
+              {
+                "bone": "FireSalamander_l_HindLeg_BallSHJnt",
+                "minY": 0.0052227461493570965,
+                "maxY": 0.05501453209234079,
+                "strideZ": 0.21396970626950512,
+                "contactSamples": 68,
+                "stanceMedianMps": 0.2526827301624498
+              },
+              {
+                "bone": "FireSalamander_r_HindLeg_BallSHJnt",
+                "minY": 0.005183041547394494,
+                "maxY": 0.054775140565100036,
+                "strideZ": 0.20915851344443112,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.2638833014427689
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "FireSalamander_MAINSHJnt",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.8333333134651184,
+            "sampledFootBones": 4,
+            "stanceSamples": 238,
+            "measuredStanceMps": 0.3709676225193777,
+            "feet": [
+              {
+                "bone": "FireSalamander_l_FrontLeg_BallSHJnt",
+                "minY": 0.004889640300668352,
+                "maxY": 0.046527411273699915,
+                "strideZ": 0.1729421674023487,
+                "contactSamples": 54,
+                "stanceMedianMps": 0.33692635121629777
+              },
+              {
+                "bone": "FireSalamander_r_FrontLeg_BallSHJnt",
+                "minY": 0.004962713847393267,
+                "maxY": 0.052899973903705017,
+                "strideZ": 0.17374769568361287,
+                "contactSamples": 55,
+                "stanceMedianMps": 0.3485721968433428
+              },
+              {
+                "bone": "FireSalamander_l_HindLeg_BallSHJnt",
+                "minY": 0.005063766015362736,
+                "maxY": 0.05428380406848607,
+                "strideZ": 0.21247194253173685,
+                "contactSamples": 66,
+                "stanceMedianMps": 0.3982936345682956
+              },
+              {
+                "bone": "FireSalamander_r_HindLeg_BallSHJnt",
+                "minY": 0.00497691800966147,
+                "maxY": 0.05374024775181418,
+                "strideZ": 0.2074123635694305,
+                "contactSamples": 63,
+                "stanceMedianMps": 0.4145501539500834
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "FireSalamander_MAINSHJnt",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 5.333333492279053,
+            "maxTranslationGap": 0.0010248609564606768,
+            "maxRotationGapRadians": 0.000704103309733704,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.2999999523162842,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.000668862748739117,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.8333333134651184,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006878503351760102,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "is": "salamander",
+        "tags": [
+          "salamander",
+          "amphibian",
+          "animal",
+          "warm-bank",
+          "spit"
+        ],
+        "provenance": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "FireSalamander_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "attackSeconds": 1.08,
+        "contactNormalized": 0.43,
+        "impliedWalkMps": 0.23556248109866293,
+        "impliedRunMps": 0.37263130259072363,
+        "walkClipSeconds": 1.2999999523162842,
+        "runClipSeconds": 0.8333333134651184,
+        "notes": "Unused licensed salamander body. Added lower-jaw articulation; throat-rise and forward spit gesture use a held source support pose. Distinct source walk/run. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
+        "sourceClips": [
+          {
+            "name": "Idle",
+            "ok": true,
+            "duration": 5.333333492279053,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 41
+          },
+          {
+            "name": "Walk",
+            "ok": true,
+            "duration": 1.2999999523162842,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 41
+          },
+          {
+            "name": "Run",
+            "ok": true,
+            "duration": 0.8333333134651184,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 41
+          },
+          {
+            "name": "Death",
+            "ok": true,
+            "duration": 2.6666667461395264,
+            "sealed": false,
+            "seam": 0,
+            "tracks": 123,
+            "missing": [],
+            "targetCount": 41
+          }
+        ],
+        "articulation": [
+          {
+            "role": "lower jaw and throat",
+            "joint": "Salamander_LowerJaw",
+            "vertices": 6294,
+            "lowerVertices": 246,
+            "interiorVertices": 186,
+            "seamVertices": 31,
+            "articulation": "source lip split into independent upper and lower surfaces, with skinned interior roof and floor"
+          }
+        ],
+        "gaitFootBones": [
+          "FireSalamander_l_FrontLeg_BallSHJnt",
+          "FireSalamander_r_FrontLeg_BallSHJnt",
+          "FireSalamander_l_HindLeg_BallSHJnt",
+          "FireSalamander_r_HindLeg_BallSHJnt"
+        ],
+        "gaitStance": {
+          "Walk": {
+            "mps": 0.23556248109866293,
+            "samples": 301,
+            "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+          },
+          "Run": {
+            "mps": 0.37263130259072363,
+            "samples": 295,
+            "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+          }
+        },
+        "sourceConverterImpliedMps": {
+          "Walk": 0.1917043420680855,
+          "Run": 0.3049442491192645
+        },
+        "boneNames": [
+          "FireSalamander_MAINSHJnt",
+          "FireSalamander_ROOTSHJnt",
+          "FireSalamander_Spine_01SHJnt",
+          "FireSalamander_Spine_02SHJnt",
+          "FireSalamander_Spine_03SHJnt",
+          "FireSalamander_Spine_04SHJnt",
+          "FireSalamander_Spine_TopSHJnt",
+          "FireSalamander_l_Clavicle_01_01SHJnt",
+          "FireSalamander_l_FrontLeg_HipSHJnt",
+          "FireSalamander_l_FrontLeg_KneeSHJnt",
+          "FireSalamander_l_FrontLeg_AnkleSHJnt",
+          "FireSalamander_l_FrontLeg_BallSHJnt",
+          "FireSalamander_l_FrontLeg_ToeSHJnt",
+          "FireSalamander_r_Clavicle_01_01SHJnt",
+          "FireSalamander_r_FrontLeg_HipSHJnt",
+          "FireSalamander_r_FrontLeg_KneeSHJnt",
+          "FireSalamander_r_FrontLeg_AnkleSHJnt",
+          "FireSalamander_r_FrontLeg_BallSHJnt",
+          "FireSalamander_r_FrontLeg_ToeSHJnt",
+          "FireSalamander_Neck_01SHJnt",
+          "FireSalamander_Neck_02SHJnt",
+          "FireSalamander_Neck_TopSHJnt",
+          "FireSalamander_Head_TopSHJnt",
+          "Salamander_LowerJaw",
+          "FireSalamander_l_HindLeg_HipSHJnt",
+          "FireSalamander_l_HindLeg_KneeSHJnt",
+          "FireSalamander_l_HindLeg_AnkleSHJnt",
+          "FireSalamander_l_HindLeg_BallSHJnt",
+          "FireSalamander_l_HindLeg_ToeSHJnt",
+          "FireSalamander_r_HindLeg_HipSHJnt",
+          "FireSalamander_r_HindLeg_KneeSHJnt",
+          "FireSalamander_r_HindLeg_AnkleSHJnt",
+          "FireSalamander_r_HindLeg_BallSHJnt",
+          "FireSalamander_r_HindLeg_ToeSHJnt",
+          "FireSalamander_Tail_01_01SHJnt",
+          "FireSalamander_Tail_01_02SHJnt",
+          "FireSalamander_Tail_01_03SHJnt",
+          "FireSalamander_Tail_01_04SHJnt",
+          "FireSalamander_Tail_01_05SHJnt",
+          "FireSalamander_Tail_01_06SHJnt",
+          "FireSalamander_Tail_01_07SHJnt",
+          "FireSalamander_Tail_01_08SHJnt"
+        ],
+        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
+        "sourceGlbSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+        "sourceBuilderSha256": "7bfcf04405a72d4ea5a66a32e0871f9c4d34f187091090475705040b9c32a413",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "kiln-salamander-imagegen.png",
+            "sha256": "a15d90a9207b3a19402b287276de435fc86e225cf9e60037ab91ddf49dd86093",
+            "finalSha256": "54ab19e5f3fd6bbca0a9bc36c288781526d4a0da2d59ecbac4b5017004abe0a1"
+          }
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/creature_kiln_salamander.glb"
+    }
+  ]
+}

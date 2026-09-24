@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T03:48:25.417Z",
+  "generatedAt": "2026-09-24T03:58:59.094Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -990,6 +990,42 @@
       "derivation": "image-generated maroon and rust annuli, pores and moist cuticle; original native topology, UVs, skeleton, weights and clips preserved.",
       "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
       "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61"
+    },
+    {
+      "id": "corealm-mammal-polish-candidates",
+      "name": "Mammal polish candidates",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-mammals/build-candidates.mjs",
+      "generatorSha256": "8b5ffa31f6eba4ca36f74efecf15472b389a0a1429f6db153612242e35300a2e",
+      "license": "LicenseRef-Corealm-Original"
+    },
+    {
+      "id": "animal-pack-deluxe-reptile-polish",
+      "name": "Animal pack deluxe reptile texture polish",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage",
+      "generator": "assets/art/tripo/imports/creatures/audit-polish-reptiles/build.mjs",
+      "generatorSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869"
+    },
+    {
+      "id": "corealm-reptile-polish-original",
+      "name": "Corealm reptile asset polish",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-reptiles/build.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869"
+    },
+    {
+      "id": "corealm-arthropod-polish",
+      "name": "Corealm arthropod chitin polish",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-arthropods/build.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "c5d46560e76084ab353719f780eaf503351d2f25b8291bb352a4ba6158ef79ee"
     }
   ],
   "assets": [
@@ -15876,7 +15912,7 @@
     {
       "id": "creature_antler_beetle",
       "file": "models/creature/creature_antler_beetle.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-arthropod-polish",
       "category": "character",
       "is": "beetle",
       "tags": [
@@ -15886,8 +15922,8 @@
         "antler_beetle",
         "forest"
       ],
-      "bytes": 1906672,
-      "sha256": "20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779",
+      "bytes": 2697716,
+      "sha256": "ca94af139abe3fb452b18f2ac95261217c05b2286e16eaa48d0538bb6407f5fc",
       "size": {
         "x": 2.0777524089813233,
         "y": 0.9511387347616256,
@@ -15930,7 +15966,7 @@
         "antler_beetle_horn",
         "antler_beetle_joint"
       ],
-      "sourceProvenance": "Original Corealm procedural sculpture, materials, skinning and animation; no third party geometry or animation.",
+      "sourceProvenance": "Original Corealm procedural sculpture and eight clips; base GLB SHA-256 20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779. Four image-generated layered chitin surfaces; master atlas SHA-256 cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154.",
       "impliedWalkMps": 0.4464285714285714,
       "impliedRunMps": 1.4035087719298247,
       "walkClipSeconds": 1.2599999904632568,
@@ -16104,7 +16140,7 @@
         "impliedRunMps": 1.4035087719298247,
         "walkClipSeconds": 1.26,
         "runClipSeconds": 0.7,
-        "notes": "A jade stag beetle with bronze branching mandibles, divided ribbed elytra and six articulated legs. Authored skeletal IK foot targets preserve straight stance travel; alternating tripod cycles. In-place clips, sealed loop endpoints, full directional hit reactions and a held collapse. Original painted chitin color, normal and roughness textures.",
+        "notes": "Original Stag Beetle anatomy, weights, eight animation clips, normal and roughness maps unchanged. Image-generated jade elytra, olive thorax and upper legs, bronze mandibles and lower legs, dark ventral chitin. Separate detailed surface colors now resolve segmentation at gameplay distance.",
         "boneNames": [
           "antler_beetle_root",
           "antler_beetle_thorax",
@@ -16137,18 +16173,24 @@
           "antler_beetle_leg_R_3_tibia",
           "antler_beetle_leg_R_3_tarsus"
         ],
-        "authoringModule": "tools/creature-expansion/crawlers.mjs"
+        "authoringModule": "tools/creature-expansion/crawlers.mjs",
+        "sourceGlbSha256": "20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779",
+        "sourceBinSha256": "16535f2c67af66627071e7c78270ffd26b5705427e0c7f48c0a339a01f8ae71b",
+        "sourceAtlasSha256": "cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154",
+        "textureGeneratorSha256": "0d19e8f6ef7df2cd4e0b5c92926e2275fd6143ea3e2a9d2896fe29d5d1fd44a2",
+        "polishSourceBuilder": "assets/art/tripo/imports/creatures/audit-antler-beetle/build.mjs",
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
+        "assetAudit": false,
+        "labAccepted": true,
         "worldIntegrated": false
       }
     },
     {
       "id": "creature_reedjaw_crocodile",
       "file": "models/creature/creature_reedjaw_crocodile.glb",
-      "pack": "animal-pack-deluxe",
+      "pack": "animal-pack-deluxe-reptile-polish",
       "category": "character",
       "is": "crocodile",
       "tags": [
@@ -16158,8 +16200,8 @@
         "wetland",
         "territorial"
       ],
-      "bytes": 5820000,
-      "sha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+      "bytes": 6781808,
+      "sha256": "d556d5fae399c8e5f3d47a9b5f26a2f45e9a29ff678c6893b4fcf534ea244421",
       "size": {
         "x": 1.2803505856491546,
         "y": 0.5257774696753599,
@@ -16198,13 +16240,34 @@
         "animal_reedjaw_crocodile_mat"
       ],
       "sourceProvenance": {
-        "id": "animal-pack-deluxe",
-        "name": "Animal pack deluxe",
-        "author": "janpec",
-        "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
-        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
-        "sourceRig": "Crocodile_Rig.fbx",
-        "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        "original": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "Crocodile_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "originalPack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "sourceGlbSha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+        "textureInputs": [
+          {
+            "file": "reedjaw-crocodile-imagegen.png",
+            "sha256": "021431b04366c63ca9262614edbaff81196625ced86b48a215b6439f02172673",
+            "finalSha256": "2582ec5f89a948ba917f52cc040a2fa12067e1e6643feb0e280ee126a1dd1196"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_reedjaw_crocodile.glb"
       },
       "impliedWalkMps": 0.4189075287257235,
       "impliedRunMps": 1.7549038545716868,
@@ -16355,7 +16418,7 @@
         "impliedRunMps": 1.7549038545716868,
         "walkClipSeconds": 1.4333332777023315,
         "runClipSeconds": 0.5666666626930237,
-        "notes": "Unused licensed crocodile body, source bite and distinct source walk/run. Authored neck and tail hit recoils leave all four support chains planted.",
+        "notes": "Unused licensed crocodile body, source bite and distinct source walk/run. Authored neck and tail hit recoils leave all four support chains planted. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
         "sourceClips": [
           {
             "name": "Idle",
@@ -16474,11 +16537,22 @@
           "Crocodile_Tail_01_07SHJnt",
           "Crocodile_Tail_01_08SHJnt"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs"
+        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
+        "sourceGlbSha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+        "sourceBuilderSha256": "7bfcf04405a72d4ea5a66a32e0871f9c4d34f187091090475705040b9c32a413",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "reedjaw-crocodile-imagegen.png",
+            "sha256": "021431b04366c63ca9262614edbaff81196625ced86b48a215b6439f02172673",
+            "finalSha256": "2582ec5f89a948ba917f52cc040a2fa12067e1e6643feb0e280ee126a1dd1196"
+          }
+        ],
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
+        "assetAudit": false,
+        "labAccepted": true,
         "worldIntegrated": false
       }
     },
@@ -17299,7 +17373,7 @@
     {
       "id": "creature_slag_centipede",
       "file": "models/creature/creature_slag_centipede.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-arthropod-polish",
       "category": "character",
       "is": "centipede",
       "tags": [
@@ -17309,8 +17383,8 @@
         "slag_centipede",
         "cave"
       ],
-      "bytes": 2428920,
-      "sha256": "1648c881291809bdd18529b9374ed2626643f203b93cf471131880a6be728ddf",
+      "bytes": 3174756,
+      "sha256": "fbe569588c5883626c0d2af50a195efb4e5533d8fc6b4bd0bd91ee21fece0d66",
       "size": {
         "x": 1.259203634262085,
         "y": 0.5564003875926138,
@@ -17353,7 +17427,7 @@
         "slag_centipede_shell",
         "slag_centipede_eye"
       ],
-      "sourceProvenance": "Original Corealm procedural sculpture, materials, skinning and animation; no third party geometry or animation.",
+      "sourceProvenance": "Original Corealm procedural centipede sculpture, 81-joint skin and eight clips; source GLB SHA-256 1648c881291809bdd18529b9374ed2626643f203b93cf471131880a6be728ddf. New image-generated layered armor atlas SHA-256 b23fc2910bb02bf2de6242bcd300ebe57f977067d5d9daa2e4ae6495b0caaff7. Pinned source: assets/art/tripo/imports/creatures/audit-polish-arthropods/sources/creature_slag_centipede.glb.",
       "impliedWalkMps": 0.3129251700680272,
       "impliedRunMps": 0.9365244536940686,
       "walkClipSeconds": 1.0499999523162842,
@@ -17751,7 +17825,7 @@
         "impliedRunMps": 0.9365244536940686,
         "walkClipSeconds": 1.05,
         "runClipSeconds": 0.62,
-        "notes": "An iron plated centipede with a flattened chain of articulated trunk segments, twenty walking legs and curved venom forcipules. Authored skeletal IK foot targets preserve straight stance travel; metachronal cycles. In-place clips, sealed loop endpoints, full directional hit reactions and a held collapse. Original painted chitin color, normal and roughness textures.",
+        "notes": "Original twenty-leg segmented centipede anatomy, skinning, eight clips, normal and roughness maps unchanged. Image-generated red iron dorsal plates, bronze lateral chitin, highlighted leg cuticle and mandibles, dark ventral joints. No geometry or motion edits.",
         "boneNames": [
           "slag_centipede_root",
           "slag_centipede_collar",
@@ -17835,11 +17909,16 @@
           "slag_centipede_tail_cercus_-1",
           "slag_centipede_tail_cercus_1"
         ],
-        "authoringModule": "tools/creature-expansion/crawlers.mjs"
+        "authoringModule": "tools/creature-expansion/crawlers.mjs",
+        "sourceGlbSha256": "1648c881291809bdd18529b9374ed2626643f203b93cf471131880a6be728ddf",
+        "sourceBinSha256": "3339466a17853aa2cd2d7518fec1f17ae5c4269eca6023619417701444c281c6",
+        "sourceAtlasSha256": "b23fc2910bb02bf2de6242bcd300ebe57f977067d5d9daa2e4ae6495b0caaff7",
+        "textureGeneratorSha256": "c5d46560e76084ab353719f780eaf503351d2f25b8291bb352a4ba6158ef79ee",
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
+        "assetAudit": false,
+        "labAccepted": true,
         "worldIntegrated": false
       }
     },
@@ -18482,41 +18561,41 @@
     {
       "id": "creature_duskoak_lynx",
       "file": "models/creature/creature_duskoak_lynx.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-mammal-polish-candidates",
       "category": "character",
-      "is": "a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail",
+      "is": "a spotted woodland lynx with tall tufted ears",
       "tags": [
+        "creature",
+        "animal",
         "mammal",
-        "quadruped",
         "lynx",
-        "feline",
-        "woodland"
+        "candidate"
       ],
-      "bytes": 3269288,
-      "sha256": "32defc3ecbc3a6ed520ee452dfbbf3ceade47e737f77232a5146a8499bbd1463",
+      "bytes": 5984688,
+      "sha256": "a01ced84518c1e2bc7a293af02a4db10b3109dae400ab32fe9f7503408d0c302",
       "size": {
-        "x": 0.43350073713119386,
-        "y": 1.1450515021085739,
-        "z": 1.7179820547103883
+        "x": 0.46413710713386536,
+        "y": 1.1906710863113403,
+        "z": 1.7179820537567139
       },
       "base": {
-        "x": -0.21675036856559693,
-        "y": 1.0728835736495412e-9,
-        "z": -0.753343475818634
+        "x": -0.23206855356693268,
+        "y": 0,
+        "z": -0.7533434629440308
       },
       "bounds": {
         "min": [
-          -0.21675036856559693,
-          1.0728835736495412e-9,
-          -0.753343475818634
+          -0.23206855356693268,
+          0,
+          -0.7533434629440308
         ],
         "max": [
-          0.21675036856559693,
-          1.1450515031814574,
-          0.9646385788917542
+          0.23206855356693268,
+          1.1906710863113403,
+          0.9646385908126831
         ]
       },
-      "groundY": 1.0728835736495412e-9,
+      "groundY": 0,
       "triangles": 72720,
       "animations": [
         "Idle",
@@ -18532,12 +18611,23 @@
         "duskoak_lynx_painted_fur",
         "duskoak_lynx_eyes_claws_whiskers"
       ],
-      "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_duskoak_lynx.glb",
+        "sourceSha256": "32defc3ecbc3a6ed520ee452dfbbf3ceade47e737f77232a5146a8499bbd1463",
+        "sourceBytes": 3269288,
+        "license": "LicenseRef-Corealm-Original",
+        "rigMethod": "Preserved production source skin, joints, animation samples, clip names and timings.",
+        "imageGeneratedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/lynx-generated-fur.png",
+        "imageGeneratedSourceSha256": "c3efad658047d985bf521458e34b70538f8ee78c80b049b88ab3ef8db795da2b",
+        "coatMapFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/duskoak_lynx-coat-1k.png",
+        "coatMapSha256": "a6e34e95bfdcae36f4bb0d00888d11a4c4fb1b47928735522c42a24d5bb1a5b7",
+        "originalPbrRetained": false
+      },
       "impliedWalkMps": 0.5616509926854755,
       "impliedRunMps": 2.5101763907734056,
-      "walkClipSeconds": 1.159999966621399,
-      "runClipSeconds": 0.6700000166893005,
-      "attackSeconds": 1.0199999809265137,
+      "walkClipSeconds": 1.16,
+      "runClipSeconds": 0.67,
+      "attackSeconds": 1.02,
       "contactNormalized": 0.43,
       "measuredGait": {
         "gait": {
@@ -18659,62 +18749,33 @@
         "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
       },
       "metadata": {
-        "is": "a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail",
-        "tags": [
-          "mammal",
-          "quadruped",
-          "lynx",
-          "feline",
-          "woodland"
-        ],
-        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
-        "attackSeconds": 1.02,
-        "contactNormalized": 0.43,
-        "impliedWalkMps": 0.5616509926854755,
-        "impliedRunMps": 2.5101763907734056,
-        "walkClipSeconds": 1.16,
-        "runClipSeconds": 0.67,
-        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
-        "boneNames": [
-          "Root",
-          "Pelvis",
-          "Spine",
-          "Chest",
-          "Neck",
-          "Head",
-          "Jaw",
-          "Ear_L",
-          "Ear_R",
-          "FR_Upper",
-          "FR_Lower",
-          "FR_Ankle",
-          "FR_Paw",
-          "FL_Upper",
-          "FL_Lower",
-          "FL_Ankle",
-          "FL_Paw",
-          "Tail_1",
-          "Tail_2",
-          "Tail_3",
-          "Tail_4",
-          "HR_Upper",
-          "HR_Lower",
-          "HR_Ankle",
-          "HR_Paw",
-          "HL_Upper",
-          "HL_Lower",
-          "HL_Ankle",
-          "HL_Paw"
-        ],
-        "authoringModule": "tools/creature-expansion/mammals.mjs"
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
         "labAccepted": true,
-        "worldIntegrated": false,
-        "labEvidence": "test-results/s05-lynx-lifecycle/run1/report.json",
-        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/lynx-anatomy-v2/catalogue.json"
-      }
+        "worldIntegrated": false
+      },
+      "vertices": 37390,
+      "polish": {
+        "ears": 2210,
+        "cheek": 854,
+        "description": "Fine spotted image-generated fur, enlarged existing ear shells and tufts, broadened cheek ruff."
+      },
+      "animationDurations": {
+        "Idle": 3.4000000953674316,
+        "Walk": 1.159999966621399,
+        "Run": 0.6700000166893005,
+        "Attack": 1.0199999809265137,
+        "Hit": 0.699999988079071,
+        "HitLeft": 0.699999988079071,
+        "HitRight": 0.699999988079071,
+        "Death": 1.5
+      },
+      "rootScaleRecommendation": 0.9
     },
     {
       "id": "creature_rootdelve_badger",
@@ -18838,42 +18899,42 @@
     {
       "id": "creature_quillback_porcupine",
       "file": "models/creature/creature_quillback_porcupine.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-mammal-polish-candidates",
       "category": "character",
-      "is": "a heavy-rumped porcupine with individually curved banded quills, a blunt face and short grasping feet",
+      "is": "a stocky crested porcupine with banded defensive quills",
       "tags": [
+        "creature",
+        "animal",
         "mammal",
-        "quadruped",
         "porcupine",
-        "rodent",
-        "quills"
+        "candidate"
       ],
-      "bytes": 3232648,
-      "sha256": "59e8924533248f8973155384ac63ff7dd005e4e285c26bc0cbf82e724a85386e",
+      "bytes": 5778812,
+      "sha256": "c7de20e799aac3105917dfdd78b2aa3444dbf8363f6a4f8d87ee3bf364d95942",
       "size": {
         "x": 0.87363600730896,
-        "y": 0.8627880889177322,
-        "z": 1.606558166742325
+        "y": 0.8627880811691284,
+        "z": 1.6065581440925598
       },
       "base": {
         "x": -0.4284454584121704,
-        "y": -1.7881393449270533e-9,
-        "z": -0.8410502755641938
+        "y": 0,
+        "z": -0.8410502672195435
       },
       "bounds": {
         "min": [
           -0.4284454584121704,
-          -1.7881393449270533e-9,
-          -0.8410502755641938
+          0,
+          -0.8410502672195435
         ],
         "max": [
           0.44519054889678955,
-          0.8627880871295929,
-          0.7655078911781311
+          0.8627880811691284,
+          0.7655078768730164
         ]
       },
-      "groundY": -1.7881393449270533e-9,
-      "triangles": 61976,
+      "groundY": 0,
+      "triangles": 59576,
       "animations": [
         "Idle",
         "Walk",
@@ -18886,14 +18947,26 @@
       ],
       "materials": [
         "quillback_porcupine_painted_fur",
-        "quillback_porcupine_eyes_claws_whiskers"
+        "quillback_porcupine_eyes_claws_whiskers",
+        "quillback_porcupine_fur_detail"
       ],
-      "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_quillback_porcupine.glb",
+        "sourceSha256": "59e8924533248f8973155384ac63ff7dd005e4e285c26bc0cbf82e724a85386e",
+        "sourceBytes": 3232648,
+        "license": "LicenseRef-Corealm-Original",
+        "rigMethod": "Preserved production source skin, joints, animation samples, clip names and timings.",
+        "imageGeneratedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/porcupine-generated-fur.png",
+        "imageGeneratedSourceSha256": "dbd46b84c5eb10e8869d17b6dbf700191f6af76d23d6ce8d0e81c799377ee3d8",
+        "coatMapFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/quillback_porcupine-coat-1k.png",
+        "coatMapSha256": "04c2c0cbed3e43e68129adf49732f7bc62c2f697443ce25d863647080d09e65e",
+        "originalPbrRetained": false
+      },
       "impliedWalkMps": 0.2909090909090909,
       "impliedRunMps": 1.166267942583732,
       "walkClipSeconds": 1.25,
-      "runClipSeconds": 0.7599999904632568,
-      "attackSeconds": 1.159999966621399,
+      "runClipSeconds": 0.76,
+      "attackSeconds": 1.16,
       "contactNormalized": 0.54,
       "measuredGait": {
         "gait": {
@@ -19015,60 +19088,37 @@
         "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
       },
       "metadata": {
-        "is": "a heavy-rumped porcupine with individually curved banded quills, a blunt face and short grasping feet",
-        "tags": [
-          "mammal",
-          "quadruped",
-          "porcupine",
-          "rodent",
-          "quills"
-        ],
-        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
-        "attackSeconds": 1.16,
-        "contactNormalized": 0.54,
-        "impliedWalkMps": 0.2909090909090909,
-        "impliedRunMps": 1.166267942583732,
-        "walkClipSeconds": 1.25,
-        "runClipSeconds": 0.76,
-        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
-        "boneNames": [
-          "Root",
-          "Pelvis",
-          "Spine",
-          "Chest",
-          "Neck",
-          "Head",
-          "Jaw",
-          "Ear_L",
-          "Ear_R",
-          "FR_Upper",
-          "FR_Lower",
-          "FR_Ankle",
-          "FR_Paw",
-          "FL_Upper",
-          "FL_Lower",
-          "FL_Ankle",
-          "FL_Paw",
-          "Tail_1",
-          "Tail_2",
-          "Tail_3",
-          "Tail_4",
-          "HR_Upper",
-          "HR_Lower",
-          "HR_Ankle",
-          "HR_Paw",
-          "HL_Upper",
-          "HL_Lower",
-          "HL_Ankle",
-          "HL_Paw"
-        ],
-        "authoringModule": "tools/creature-expansion/mammals.mjs"
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": true,
         "worldIntegrated": false
-      }
+      },
+      "vertices": 72273,
+      "polish": {
+        "eyes": 1846,
+        "bodyTriangles": 31420,
+        "quillTriangles": 22308,
+        "quillStart": 16226,
+        "guardEnd": 22226,
+        "defensiveEnd": 33266,
+        "description": "Image-generated coarse underfur; thicker defensive shafts with broad terminal bands, reduced guard-hair visual noise, and smaller eyes."
+      },
+      "animationDurations": {
+        "Idle": 3.4000000953674316,
+        "Walk": 1.25,
+        "Run": 0.7599999904632568,
+        "Attack": 1.159999966621399,
+        "Hit": 0.699999988079071,
+        "HitLeft": 0.699999988079071,
+        "HitRight": 0.699999988079071,
+        "Death": 1.5
+      },
+      "rootScaleRecommendation": 1.15
     },
     {
       "id": "creature_cairn_bighorn",
@@ -19568,41 +19618,41 @@
     {
       "id": "creature_bracken_tapir",
       "file": "models/creature/creature_bracken_tapir.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-mammal-polish-candidates",
       "category": "character",
-      "is": "tapir",
+      "is": "a black and pale-saddled woodland tapir",
       "tags": [
+        "creature",
         "animal",
-        "hoofed",
-        "forest",
-        "original",
-        "skinned"
+        "mammal",
+        "tapir",
+        "candidate"
       ],
-      "bytes": 2344236,
-      "sha256": "b46eb134d46db8625f04d9f9f036e7639ab5c3694c66b3f1b50fd97e50a70342",
+      "bytes": 4417664,
+      "sha256": "20fbb88491f4167edada0ae4d275b4423a34aca41f89809f43107e9a731b8d99",
       "size": {
-        "x": 0.7259547698497772,
-        "y": 1.1229998983861877,
-        "z": 2.3407573752467847
+        "x": 0.7259547412395477,
+        "y": 1.122999953222461,
+        "z": 2.340757369995117
       },
       "base": {
-        "x": -0.36298002243041994,
-        "y": 0.0010000024316832445,
-        "z": -1.0297929072380065
+        "x": -0.3629800081253052,
+        "y": 0.0010000000474974513,
+        "z": -1.0297929048538208
       },
       "bounds": {
         "min": [
-          -0.36298002243041994,
-          0.0010000024316832445,
-          -1.0297929072380065
+          -0.3629800081253052,
+          0.0010000000474974513,
+          -1.0297929048538208
         ],
         "max": [
-          0.3629747474193573,
-          1.123999900817871,
-          1.3109644680087784
+          0.36297473311424255,
+          1.1239999532699585,
+          1.3109644651412964
         ]
       },
-      "groundY": 0.0010000024316832445,
+      "groundY": 0.0010000000474974513,
       "triangles": 47406,
       "animations": [
         "Idle",
@@ -19622,15 +19672,22 @@
         "Muzzle_skin"
       ],
       "sourceProvenance": {
-        "author": "Corealm",
-        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
-        "license": "Project-owned original"
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_bracken_tapir.glb",
+        "sourceSha256": "b46eb134d46db8625f04d9f9f036e7639ab5c3694c66b3f1b50fd97e50a70342",
+        "sourceBytes": 2344236,
+        "license": "LicenseRef-Corealm-Original",
+        "rigMethod": "Preserved production source skin, joints, animation samples, clip names and timings.",
+        "imageGeneratedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/tapir-generated-fur.png",
+        "imageGeneratedSourceSha256": "30927b4962d818c16f22d4bbecbb3b9496954f91a6fcde2a70e94914f854fd77",
+        "coatMapFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/bracken_tapir-coat-1k.png",
+        "coatMapSha256": "3e4a8d58053e3b195dac62b51338e1e91b85715be0d0f009983fcb78b36ecf7f",
+        "originalPbrRetained": true
       },
       "impliedWalkMps": 0.504032258064516,
       "impliedRunMps": 1.6622340425531914,
-      "walkClipSeconds": 0.9300000071525574,
-      "runClipSeconds": 0.6399999856948853,
-      "attackSeconds": 0.8999999761581421,
+      "walkClipSeconds": 0.93,
+      "runClipSeconds": 0.64,
+      "attackSeconds": 0.9,
       "contactNormalized": 0.48,
       "measuredGait": {
         "gait": {
@@ -19752,70 +19809,37 @@
         "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
       },
       "metadata": {
-        "id": "bracken_tapir",
-        "is": "tapir",
-        "tags": [
-          "animal",
-          "hoofed",
-          "forest",
-          "original",
-          "skinned"
-        ],
-        "provenance": {
-          "author": "Corealm",
-          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
-          "license": "Project-owned original"
-        },
-        "attackSeconds": 0.9,
-        "contactNormalized": 0.48,
-        "impliedWalkMps": 0.504032258064516,
-        "impliedRunMps": 1.6622340425531914,
-        "walkClipSeconds": 0.93,
-        "runClipSeconds": 0.64,
-        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
-        "triangles": 47406,
-        "boneNames": [
-          "bracken_tapir_Root",
-          "bracken_tapir_Body",
-          "bracken_tapir_Neck",
-          "bracken_tapir_Head",
-          "bracken_tapir_Jaw",
-          "bracken_tapir_Nose",
-          "bracken_tapir_EarL",
-          "bracken_tapir_EarR",
-          "bracken_tapir_Tail",
-          "bracken_tapir_TailTip",
-          "bracken_tapir_ForeLHip",
-          "bracken_tapir_ForeLKnee",
-          "bracken_tapir_ForeLAnkle",
-          "bracken_tapir_ForeLFoot",
-          "bracken_tapir_ForeRHip",
-          "bracken_tapir_ForeRKnee",
-          "bracken_tapir_ForeRAnkle",
-          "bracken_tapir_ForeRFoot",
-          "bracken_tapir_HindLHip",
-          "bracken_tapir_HindLKnee",
-          "bracken_tapir_HindLAnkle",
-          "bracken_tapir_HindLFoot",
-          "bracken_tapir_HindRHip",
-          "bracken_tapir_HindRKnee",
-          "bracken_tapir_HindRAnkle",
-          "bracken_tapir_HindRFoot"
-        ],
-        "authoringModule": "tools/creature-expansion/hoofed.mjs"
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
         "labAccepted": true,
-        "worldIntegrated": false,
-        "labEvidence": "test-results/s05-hoofed-lifecycle/bracken_tapir/report.json",
-        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/hoofed-death-export/catalogue.json"
-      }
+        "worldIntegrated": false
+      },
+      "vertices": 124915,
+      "polish": {
+        "saddleVertices": 3451,
+        "description": "Image-generated coarse bristled coat over existing saddle colors; source normal and roughness retained."
+      },
+      "animationDurations": {
+        "Idle": 3.200000047683716,
+        "Walk": 0.9300000071525574,
+        "Run": 0.6399999856948853,
+        "Attack": 0.8999999761581421,
+        "Hit": 0.7599999904632568,
+        "HitLeft": 0.800000011920929,
+        "HitRight": 0.800000011920929,
+        "Death": 1.5499999523162842
+      },
+      "rootScaleRecommendation": 1.15
     },
     {
       "id": "creature_kiln_salamander",
       "file": "models/creature/creature_kiln_salamander.glb",
-      "pack": "animal-pack-deluxe",
+      "pack": "animal-pack-deluxe-reptile-polish",
       "category": "character",
       "is": "salamander",
       "tags": [
@@ -19825,8 +19849,8 @@
         "warm-bank",
         "spit"
       ],
-      "bytes": 3569736,
-      "sha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+      "bytes": 4346104,
+      "sha256": "3cc51715a033d92f32f71e6cfd83635b4105d1091ad8dfc6631571bcc054a737",
       "size": {
         "x": 0.32350622529277795,
         "y": 0.1586890940591499,
@@ -19866,13 +19890,34 @@
         "animal_kiln_salamander_mouth_interior"
       ],
       "sourceProvenance": {
-        "id": "animal-pack-deluxe",
-        "name": "Animal pack deluxe",
-        "author": "janpec",
-        "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
-        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
-        "sourceRig": "FireSalamander_Rig.fbx",
-        "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        "original": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "FireSalamander_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "originalPack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "sourceGlbSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+        "textureInputs": [
+          {
+            "file": "kiln-salamander-imagegen.png",
+            "sha256": "a15d90a9207b3a19402b287276de435fc86e225cf9e60037ab91ddf49dd86093",
+            "finalSha256": "54ab19e5f3fd6bbca0a9bc36c288781526d4a0da2d59ecbac4b5017004abe0a1"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_kiln_salamander.glb"
       },
       "impliedWalkMps": 0.23556248109866293,
       "impliedRunMps": 0.37263130259072363,
@@ -20023,7 +20068,7 @@
         "impliedRunMps": 0.37263130259072363,
         "walkClipSeconds": 1.2999999523162842,
         "runClipSeconds": 0.8333333134651184,
-        "notes": "Unused licensed salamander body. Added lower-jaw articulation; throat-rise and forward spit gesture use a held source support pose. Distinct source walk/run.",
+        "notes": "Unused licensed salamander body. Added lower-jaw articulation; throat-rise and forward spit gesture use a held source support pose. Distinct source walk/run. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
         "sourceClips": [
           {
             "name": "Idle",
@@ -20143,18 +20188,29 @@
           "FireSalamander_Tail_01_07SHJnt",
           "FireSalamander_Tail_01_08SHJnt"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs"
+        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
+        "sourceGlbSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+        "sourceBuilderSha256": "7bfcf04405a72d4ea5a66a32e0871f9c4d34f187091090475705040b9c32a413",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "kiln-salamander-imagegen.png",
+            "sha256": "a15d90a9207b3a19402b287276de435fc86e225cf9e60037ab91ddf49dd86093",
+            "finalSha256": "54ab19e5f3fd6bbca0a9bc36c288781526d4a0da2d59ecbac4b5017004abe0a1"
+          }
+        ],
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
+        "assetAudit": false,
+        "labAccepted": true,
         "worldIntegrated": false
       }
     },
     {
       "id": "creature_slateback_tortoise",
       "file": "models/creature/creature_slateback_tortoise.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-reptile-polish-original",
       "category": "character",
       "is": "slateback tortoise",
       "tags": [
@@ -20164,8 +20220,8 @@
         "quadruped",
         "armored"
       ],
-      "bytes": 2588512,
-      "sha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
+      "bytes": 2689092,
+      "sha256": "b5f07261079e8c90a6e063a9035129d79b184f8342f539ebe2eba52e61865629",
       "size": {
         "x": 1.8563157545498297,
         "y": 1.2889853683114052,
@@ -20208,7 +20264,31 @@
         "slateback_skin",
         "slateback_eye"
       ],
-      "sourceProvenance": "Original procedural anatomical surface modeling, scute tessellation, authored skeleton and IK clips. No external model or source creature reused.",
+      "sourceProvenance": {
+        "original": "Original procedural anatomical surface modeling, scute tessellation, authored skeleton and IK clips. No external model or source creature reused.",
+        "originalPack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "sourceGlbSha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
+        "textureInputs": [
+          {
+            "file": "slateback-shell-imagegen.png",
+            "sha256": "e7068230d718832e588472bfd081f7e15aa8b0b582633bfe8e95ca688bd47d6d",
+            "finalSha256": "af0681bdd66a14dee3ed550b1211835d7035b2d6ebadefacfaa352ae43638a05"
+          },
+          {
+            "file": "slateback-skin-imagegen.png",
+            "sha256": "d16e0b8d171ab0666e2f0e05132c02c8530ecc378573d3d539064badfc6925d5",
+            "finalSha256": "56bd84671aa08947b181ec0bf2d4ef42c89afe4dbe356cd66e7b18bb9dcf74d7"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_slateback_tortoise.glb"
+      },
       "impliedWalkMps": 0.06578947368421054,
       "impliedRunMps": 0.16835016835016833,
       "walkClipSeconds": 2.799999952316284,
@@ -20358,7 +20438,7 @@
           "tortoise_rear_right_foot"
         ],
         "triangles": 34916,
-        "notes": "Domed slate carapace with 33 fitted scutes and growth ridges, thick rolled margins, lobed ochre plastron, neck and limb openings, folded retractable neck, beaked skull, inset amber eyes, scaled elephantine feet, five front and four rear keratin claws. Four-beat planted IK gait; body stays in place; attack retracts then snaps forward; directional flinches return to bind pose and death settles.",
+        "notes": "Domed slate carapace with 33 fitted scutes and growth ridges, thick rolled margins, lobed ochre plastron, neck and limb openings, folded retractable neck, beaked skull, inset amber eyes, scaled elephantine feet, five front and four rear keratin claws. Four-beat planted IK gait; body stays in place; attack retracts then snaps forward; directional flinches return to bind pose and death settles. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
         "boneNames": [
           "tortoise_root",
           "tortoise_body",
@@ -20381,18 +20461,34 @@
           "tortoise_rear_right_lower",
           "tortoise_rear_right_foot"
         ],
-        "authoringModule": "tools/creature-expansion/reptiles.mjs"
+        "authoringModule": "tools/creature-expansion/reptiles.mjs",
+        "sourceGlbSha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
+        "sourceBuilderSha256": "f5d588e94c026f318019bcc15c72b00efdd618d7a62821f67cde9c0e4f23cb38",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "slateback-shell-imagegen.png",
+            "sha256": "e7068230d718832e588472bfd081f7e15aa8b0b582633bfe8e95ca688bd47d6d",
+            "finalSha256": "af0681bdd66a14dee3ed550b1211835d7035b2d6ebadefacfaa352ae43638a05"
+          },
+          {
+            "file": "slateback-skin-imagegen.png",
+            "sha256": "d16e0b8d171ab0666e2f0e05132c02c8530ecc378573d3d539064badfc6925d5",
+            "finalSha256": "56bd84671aa08947b181ec0bf2d4ef42c89afe4dbe356cd66e7b18bb9dcf74d7"
+          }
+        ],
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
+        "assetAudit": false,
+        "labAccepted": true,
         "worldIntegrated": false
       }
     },
     {
       "id": "creature_ashscale_monitor",
       "file": "models/creature/creature_ashscale_monitor.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "corealm-reptile-polish-original",
       "category": "character",
       "is": "ashscale monitor",
       "tags": [
@@ -20404,31 +20500,31 @@
         "five-toed",
         "long-tail"
       ],
-      "bytes": 3035692,
-      "sha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
+      "bytes": 3350264,
+      "sha256": "b56a998d75e61eff1a3800323ae3270d2f3ff2e042a3f4d795a50c84c41b6d87",
       "size": {
         "x": 1.9464862937927248,
-        "y": 1.1931678258702159,
+        "y": 1.0022609737309813,
         "z": 4.768128638267517
       },
       "base": {
         "x": -0.9732204971313477,
-        "y": 0.005000162906944772,
+        "y": 0.004200136841833608,
         "z": -2.9901286220550536
       },
       "bounds": {
         "min": [
           -0.9732204971313477,
-          0.005000162906944772,
+          0.004200136841833608,
           -2.9901286220550536
         ],
         "max": [
           0.973265796661377,
-          1.1981679887771606,
+          1.006461110572815,
           1.7780000162124634
         ]
       },
-      "groundY": 0.005000162906944772,
+      "groundY": 0.004200136841833608,
       "triangles": 32230,
       "animations": [
         "Idle",
@@ -20448,7 +20544,26 @@
         "Vertical black pupil",
         "Worn keratin claws and teeth"
       ],
-      "sourceProvenance": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+      "sourceProvenance": {
+        "original": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+        "originalPack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "sourceGlbSha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
+        "textureInputs": [
+          {
+            "file": "ashscale-monitor-imagegen.png",
+            "sha256": "06de359b219b1796da61e2bab46b3a16672f3019a7637375aee509a541b0ec86",
+            "finalSha256": "7031dd2e5b9799daa5dca7c19e49655409f989811101ef658fc895526af70fcc"
+          }
+        ],
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-reptiles/sources/creature_ashscale_monitor.glb"
+      },
       "impliedWalkMps": 0.4769475357710652,
       "impliedRunMps": 1.6865079365079365,
       "walkClipSeconds": 1.3600000143051147,
@@ -20599,13 +20714,7 @@
           "monitor_hind_left_foot",
           "monitor_hind_right_foot"
         ],
-        "notes": [
-          "+Z forward, Y up, metre units, contact pads at Y=0.",
-          "Continuous ribcage, muscular tapered tail, long raised neck and shallow wedge skull.",
-          "341 irregular modeled dorsal scutes, continuous fine scale colour/normal/roughness maps, flush throat folds, 20 unequal articulated clawed digits, recessed eyes, teeth and forked tongue.",
-          "Walk stance 74%, run stance 56%; contact feet translate backward linearly, paired with the recorded implied travel speeds. No root translation.",
-          "Idle/Walk/Run have matching endpoints. Attack and all three hit reactions return to their initial pose; Death holds its collapsed pose."
-        ],
+        "notes": "+Z forward, Y up, metre units, contact pads at Y=0. Continuous ribcage, muscular tapered tail, long raised neck and shallow wedge skull. 341 irregular modeled dorsal scutes, continuous fine scale colour/normal/roughness maps, flush throat folds, 20 unequal articulated clawed digits, recessed eyes, teeth and forked tongue. Walk stance 74%, run stance 56%; contact feet translate backward linearly, paired with the recorded implied travel speeds. No root translation. Idle/Walk/Run have matching endpoints. Attack and all three hit reactions return to their initial pose; Death holds its collapsed pose. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
         "boneNames": [
           "monitor_root",
           "monitor_pelvis",
@@ -20655,14 +20764,23 @@
           "monitor_hind_right_toe_4",
           "monitor_hind_right_toe_5"
         ],
-        "authoringModule": "tools/creature-expansion/reptiles.mjs"
+        "authoringModule": "tools/creature-expansion/reptiles.mjs",
+        "sourceGlbSha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
+        "sourceBuilderSha256": "f5d588e94c026f318019bcc15c72b00efdd618d7a62821f67cde9c0e4f23cb38",
+        "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+        "textureInputs": [
+          {
+            "file": "ashscale-monitor-imagegen.png",
+            "sha256": "06de359b219b1796da61e2bab46b3a16672f3019a7637375aee509a541b0ec86",
+            "finalSha256": "7031dd2e5b9799daa5dca7c19e49655409f989811101ef658fc895526af70fcc"
+          }
+        ],
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
       },
       "acceptance": {
-        "assetAudit": true,
+        "assetAudit": false,
         "labAccepted": true,
-        "worldIntegrated": false,
-        "labEvidence": "test-results/s05-monitor-lifecycle/run5/report.json",
-        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/monitor-promotion.json"
+        "worldIntegrated": false
       }
     },
     {

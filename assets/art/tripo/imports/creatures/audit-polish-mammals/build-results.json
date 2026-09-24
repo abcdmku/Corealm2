@@ -1,0 +1,56 @@
+[
+  {
+    "id": "creature_bracken_tapir",
+    "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_bracken_tapir.glb",
+    "sourceSha256": "b46eb134d46db8625f04d9f9f036e7639ab5c3694c66b3f1b50fd97e50a70342",
+    "sourceBytes": 2344236,
+    "candidateFile": "creature_bracken_tapir-candidate.glb",
+    "bytes": 4417664,
+    "sha256": "20fbb88491f4167edada0ae4d275b4423a34aca41f89809f43107e9a731b8d99",
+    "textureFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/bracken_tapir-coat-1k.png",
+    "textureSha256": "3e4a8d58053e3b195dac62b51338e1e91b85715be0d0f009983fcb78b36ecf7f",
+    "generatedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/tapir-generated-fur.png",
+    "generatedSourceSha256": "30927b4962d818c16f22d4bbecbb3b9496954f91a6fcde2a70e94914f854fd77",
+    "edits": {
+      "saddleVertices": 3451
+    }
+  },
+  {
+    "id": "creature_duskoak_lynx",
+    "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_duskoak_lynx.glb",
+    "sourceSha256": "32defc3ecbc3a6ed520ee452dfbbf3ceade47e737f77232a5146a8499bbd1463",
+    "sourceBytes": 3269288,
+    "candidateFile": "creature_duskoak_lynx-candidate.glb",
+    "bytes": 5984688,
+    "sha256": "a01ced84518c1e2bc7a293af02a4db10b3109dae400ab32fe9f7503408d0c302",
+    "textureFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/duskoak_lynx-coat-1k.png",
+    "textureSha256": "a6e34e95bfdcae36f4bb0d00888d11a4c4fb1b47928735522c42a24d5bb1a5b7",
+    "generatedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/lynx-generated-fur.png",
+    "generatedSourceSha256": "c3efad658047d985bf521458e34b70538f8ee78c80b049b88ab3ef8db795da2b",
+    "edits": {
+      "ears": 2210,
+      "cheek": 854
+    }
+  },
+  {
+    "id": "creature_quillback_porcupine",
+    "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/sources/creature_quillback_porcupine.glb",
+    "sourceSha256": "59e8924533248f8973155384ac63ff7dd005e4e285c26bc0cbf82e724a85386e",
+    "sourceBytes": 3232648,
+    "candidateFile": "creature_quillback_porcupine-candidate.glb",
+    "bytes": 5778812,
+    "sha256": "c7de20e799aac3105917dfdd78b2aa3444dbf8363f6a4f8d87ee3bf364d95942",
+    "textureFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/quillback_porcupine-coat-1k.png",
+    "textureSha256": "04c2c0cbed3e43e68129adf49732f7bc62c2f697443ce25d863647080d09e65e",
+    "generatedSourceFile": "assets/art/tripo/imports/creatures/audit-polish-mammals/textures/porcupine-generated-fur.png",
+    "generatedSourceSha256": "dbd46b84c5eb10e8869d17b6dbf700191f6af76d23d6ce8d0e81c799377ee3d8",
+    "edits": {
+      "eyes": 1846,
+      "bodyTriangles": 31420,
+      "quillTriangles": 22308,
+      "quillStart": 16226,
+      "guardEnd": 22226,
+      "defensiveEnd": 33266
+    }
+  }
+]

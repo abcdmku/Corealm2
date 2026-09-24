@@ -1,0 +1,277 @@
+{
+  "id": "creature_antler_beetle",
+  "file": "models/creature/creature_antler_beetle.glb",
+  "pack": "corealm-antler-beetle-chitin-polish",
+  "category": "character",
+  "is": "beetle",
+  "tags": [
+    "creature",
+    "crawler",
+    "arthropod",
+    "antler_beetle",
+    "forest"
+  ],
+  "bytes": 2697716,
+  "sha256": "ca94af139abe3fb452b18f2ac95261217c05b2286e16eaa48d0538bb6407f5fc",
+  "size": {
+    "x": 2.0777524089813233,
+    "y": 0.9511387347616256,
+    "z": 2.575650526583195
+  },
+  "base": {
+    "x": -1.0388762044906616,
+    "y": 0.007037158068269489,
+    "z": -0.9549999824166298
+  },
+  "bounds": {
+    "min": [
+      -1.0388762044906616,
+      0.007037158068269489,
+      -0.9549999824166298
+    ],
+    "max": [
+      1.0388762044906616,
+      0.958175892829895,
+      1.620650544166565
+    ]
+  },
+  "groundY": 0.007037158068269489,
+  "triangles": 33250,
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "materials": [
+    "antler_beetle_ventral_chitin",
+    "antler_beetle_shell",
+    "antler_beetle_shellAlt",
+    "antler_beetle_eye",
+    "antler_beetle_horn",
+    "antler_beetle_joint"
+  ],
+  "sourceProvenance": "Original Corealm procedural sculpture and eight clips; base GLB SHA-256 20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779. Four image-generated layered chitin surfaces; master atlas SHA-256 cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154.",
+  "impliedWalkMps": 0.4464285714285714,
+  "impliedRunMps": 1.4035087719298247,
+  "walkClipSeconds": 1.2599999904632568,
+  "runClipSeconds": 0.699999988079071,
+  "attackSeconds": 1.100000023841858,
+  "contactNormalized": 0.5,
+  "measuredGait": {
+    "gait": {
+      "walk": {
+        "seconds": 1.2599999904632568,
+        "sampledFootBones": 6,
+        "stanceSamples": 372,
+        "measuredStanceMps": 0.44637437794205637,
+        "feet": [
+          {
+            "bone": "antler_beetle_leg_L_1_tarsus",
+            "minY": 0.0597509035966759,
+            "maxY": 0.17929537831870695,
+            "strideZ": 0.35976322763614943,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.4464118846085068
+          },
+          {
+            "bone": "antler_beetle_leg_L_2_tarsus",
+            "minY": 0.054811259640277776,
+            "maxY": 0.17460349127676078,
+            "strideZ": 0.35962065376354474,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.44637949877667904
+          },
+          {
+            "bone": "antler_beetle_leg_L_3_tarsus",
+            "minY": 0.054840302331015334,
+            "maxY": 0.17446737036039667,
+            "strideZ": 0.3584956292649598,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.4461265642277983
+          },
+          {
+            "bone": "antler_beetle_leg_R_1_tarsus",
+            "minY": 0.05992677200011309,
+            "maxY": 0.17943894846640124,
+            "strideZ": 0.359665961237965,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.446278272418331
+          },
+          {
+            "bone": "antler_beetle_leg_R_2_tarsus",
+            "minY": 0.05480649822352779,
+            "maxY": 0.17464580372703198,
+            "strideZ": 0.3597646824387587,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.4465104961602331
+          },
+          {
+            "bone": "antler_beetle_leg_R_3_tarsus",
+            "minY": 0.054689511679283764,
+            "maxY": 0.17426127458026602,
+            "strideZ": 0.3562162698866088,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.44626226873749275
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "antler_beetle_root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      },
+      "run": {
+        "seconds": 0.699999988079071,
+        "sampledFootBones": 6,
+        "stanceSamples": 322,
+        "measuredStanceMps": 1.402526620606417,
+        "feet": [
+          {
+            "bone": "antler_beetle_leg_L_1_tarsus",
+            "minY": 0.05975293995482106,
+            "maxY": 0.23957332981012575,
+            "strideZ": 0.5584181071613012,
+            "contactSamples": 56,
+            "stanceMedianMps": 1.4048126867808577
+          },
+          {
+            "bone": "antler_beetle_leg_L_2_tarsus",
+            "minY": 0.05477203299058081,
+            "maxY": 0.23457331625818134,
+            "strideZ": 0.558364482071499,
+            "contactSamples": 56,
+            "stanceMedianMps": 1.402111082170128
+          },
+          {
+            "bone": "antler_beetle_leg_L_3_tarsus",
+            "minY": 0.054676057718827054,
+            "maxY": 0.2345733409099759,
+            "strideZ": 0.5027688564680383,
+            "contactSamples": 49,
+            "stanceMedianMps": 1.401567423230538
+          },
+          {
+            "bone": "antler_beetle_leg_R_1_tarsus",
+            "minY": 0.059715897257983375,
+            "maxY": 0.23957331776569135,
+            "strideZ": 0.5584082863059961,
+            "contactSamples": 56,
+            "stanceMedianMps": 1.402526620606417
+          },
+          {
+            "bone": "antler_beetle_leg_R_2_tarsus",
+            "minY": 0.05475677222599423,
+            "maxY": 0.23457332506452788,
+            "strideZ": 0.5584181116416602,
+            "contactSamples": 56,
+            "stanceMedianMps": 1.4020262872714657
+          },
+          {
+            "bone": "antler_beetle_leg_R_3_tarsus",
+            "minY": 0.05482056458572704,
+            "maxY": 0.23457334016698872,
+            "strideZ": 0.5016725631661463,
+            "contactSamples": 49,
+            "stanceMedianMps": 1.4025639810857564
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "antler_beetle_root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      }
+    },
+    "loops": {
+      "Idle": {
+        "seconds": 3.799999952316284,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.000569814913878015,
+        "maxScaleGap": 0
+      },
+      "Walk": {
+        "seconds": 1.2599999904632568,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006023237264682339,
+        "maxScaleGap": 0
+      },
+      "Run": {
+        "seconds": 0.699999988079071,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.000680369613025611,
+        "maxScaleGap": 0
+      }
+    },
+    "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+  },
+  "metadata": {
+    "is": "beetle",
+    "tags": [
+      "creature",
+      "crawler",
+      "arthropod",
+      "antler_beetle",
+      "forest"
+    ],
+    "provenance": "Original Corealm procedural sculpture, materials, skinning and animation; no third party geometry or animation.",
+    "attackSeconds": 1.1,
+    "contactNormalized": 0.5,
+    "impliedWalkMps": 0.4464285714285714,
+    "impliedRunMps": 1.4035087719298247,
+    "walkClipSeconds": 1.26,
+    "runClipSeconds": 0.7,
+    "notes": "Original Stag Beetle anatomy, weights, eight animation clips, normal and roughness maps unchanged. Image-generated jade elytra, olive thorax and upper legs, bronze mandibles and lower legs, dark ventral chitin. Separate detailed surface colors now resolve segmentation at gameplay distance.",
+    "boneNames": [
+      "antler_beetle_root",
+      "antler_beetle_thorax",
+      "antler_beetle_abdomen",
+      "antler_beetle_elytron_L",
+      "antler_beetle_elytron_R",
+      "antler_beetle_head",
+      "antler_beetle_mandible_L",
+      "antler_beetle_antenna_-1_base",
+      "antler_beetle_antenna_-1_tip",
+      "antler_beetle_mandible_R",
+      "antler_beetle_antenna_1_base",
+      "antler_beetle_antenna_1_tip",
+      "antler_beetle_leg_L_1_coxa",
+      "antler_beetle_leg_L_1_tibia",
+      "antler_beetle_leg_L_1_tarsus",
+      "antler_beetle_leg_L_2_coxa",
+      "antler_beetle_leg_L_2_tibia",
+      "antler_beetle_leg_L_2_tarsus",
+      "antler_beetle_leg_L_3_coxa",
+      "antler_beetle_leg_L_3_tibia",
+      "antler_beetle_leg_L_3_tarsus",
+      "antler_beetle_leg_R_1_coxa",
+      "antler_beetle_leg_R_1_tibia",
+      "antler_beetle_leg_R_1_tarsus",
+      "antler_beetle_leg_R_2_coxa",
+      "antler_beetle_leg_R_2_tibia",
+      "antler_beetle_leg_R_2_tarsus",
+      "antler_beetle_leg_R_3_coxa",
+      "antler_beetle_leg_R_3_tibia",
+      "antler_beetle_leg_R_3_tarsus"
+    ],
+    "authoringModule": "tools/creature-expansion/crawlers.mjs",
+    "sourceGlbSha256": "20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779",
+    "sourceBinSha256": "16535f2c67af66627071e7c78270ffd26b5705427e0c7f48c0a339a01f8ae71b",
+    "sourceAtlasSha256": "cc905aab22dfbd1b914873792033b1f3cbac36777d615c63bc4487e7bbdbf154",
+    "textureGeneratorSha256": "0d19e8f6ef7df2cd4e0b5c92926e2275fd6143ea3e2a9d2896fe29d5d1fd44a2"
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  },
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-antler-beetle/creature_antler_beetle.glb"
+}
