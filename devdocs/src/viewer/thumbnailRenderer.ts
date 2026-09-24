@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { WebGLNodesHandler } from 'three/examples/jsm/tsl/WebGLNodesHandler.js';
 import { loadAssetModel } from './creature.js';
 import { viewerRegistry } from './registry.js';
 import type { ViewerModel } from './types.js';
@@ -35,6 +36,8 @@ class ThumbnailStage {
     const canvas = document.createElement('canvas');
     canvas.width = THUMBNAIL_SIZE; canvas.height = THUMBNAIL_SIZE;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true, powerPreference: 'low-power' });
+    // Game materials are node materials; like ViewerCore, WebGL needs the node handler to draw them.
+    this.renderer.setNodesHandler(new WebGLNodesHandler());
     this.renderer.setPixelRatio(1);
     this.renderer.setSize(THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
