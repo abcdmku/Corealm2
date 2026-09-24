@@ -65,9 +65,6 @@ const itemIconBase = (): string => `${assetBaseUrl()}icons/items/48/`;
 
 export function itemIconUrl(def: ItemDef | undefined): string | undefined {
   if (!def) return undefined;
-  // Aurora uses renders of the delivered model. Keep them separate from the
-  // older generated Frostweave art so a generic icon rebuild cannot replace it.
-  if (/^frostweave_(hood|robe|leggings|boots|wraps)$/.test(def.id)) return `${itemIconBase()}aurora_${def.id}.png`;
   // These ten crafted sets exchanged their complete appearances in R13.
   const match = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(def.id);
   const artworkId = match ? `${match[1] === 'dragonhide' ? 'starhide' : 'dragonhide'}_${match[2]}` : def.id;

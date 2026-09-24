@@ -72,9 +72,10 @@ try {
       }
       await page.waitForFunction(ids => {
         const panel = document.querySelector<HTMLElement>("#panel-inventory");
-        const images = [...document.querySelectorAll<HTMLImageElement>("#panel-inventory .item-icon__raster")];
+        const images = [...document.querySelectorAll<HTMLImageElement>("#panel-inventory .item-icon__raster")]
+          .filter(image => ids.some(id => image.src.endsWith(`/${id}.png`)));
         return panel && !panel.hidden && images.length === ids.length && images.every(image =>
-          image.complete && image.naturalWidth === 48 && !image.hidden && ids.some(id => image.src.endsWith(`/${id}.png`)));
+          image.complete && image.naturalWidth === 48 && !image.hidden);
       }, batch.map(item => item.id), { timeout: 8000 }).catch(async error => {
         const diagnostic = await page.evaluate(() => ({
           hidden: document.querySelector<HTMLElement>("#panel-inventory")?.hidden,

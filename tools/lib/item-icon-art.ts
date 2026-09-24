@@ -11,12 +11,7 @@ export interface ItemIconArtEntry {
   readonly source: string;
   readonly sha256: string;
   readonly prompt: string;
-  /**
-   * Prompted artwork is the default. `production item icon renderer` records the September 18, 2026
-   * exception: the tier 0 salvage sets show a render of the armour the player actually wears,
-   * because the user rejected illustrated artwork as too fancy for starter gear.
-   */
-  readonly generator: "built-in image_gen" | "production item icon renderer";
+  readonly generator: "built-in image_gen";
   /** Asset-source findings or the explicit art direction authorizing a generated replacement. */
   readonly sourceLookup: string;
   /** Visual review of both the full source and the 48px derivative. */
@@ -30,8 +25,7 @@ export async function readItemIconArtRegistry(directory = ITEM_ICON_ART_DIR): Pr
     throw new Error("Invalid generated item icon registry");
   }
   for (const [id, entry] of Object.entries(registry.items)) {
-    const generators = ["built-in image_gen", "production item icon renderer"];
-    if (!entry || !/^[a-z0-9_]+$/.test(id) || !generators.includes(entry.generator)
+    if (!entry || !/^[a-z0-9_]+$/.test(id) || entry.generator !== "built-in image_gen"
       || (entry.status !== "pending" && entry.status !== "accepted")
       || !/^[a-f0-9]{64}$/.test(entry.sha256)
       || ![entry.source, entry.prompt, entry.sourceLookup, entry.review].every(value => typeof value === "string" && value.trim().length > 0)) {

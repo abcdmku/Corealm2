@@ -15,7 +15,7 @@ for(const [name,file] of Object.entries({
   pieces:`test-results/item-models/${round}-pieces/report.json`,
   worn:`test-results/item-models/${round}-worn-cast/report.json`,
   world:`test-results/item-models/${round}-world/report.json`,
-  icons:'runs/aurora/icons.json',visual:'runs/aurora/visual-review.json',code:'runs/aurora/code-checks.json',
+  visual:'runs/aurora/visual-review.json',code:'runs/aurora/code-checks.json',
 })) {const report=await json(file); assert(report.passed,`${name} failed`);checks[name]={file,sha256:hash(await readFile(file)),report};}
 for(const dep of catalog.sourceDependencies){const b=await readFile(dep.file);assert.equal(hash(dep.encoding==='utf8-lf'?Buffer.from(b.toString().replaceAll('\r\n','\n')):b),dep.sha256,`Stale dependency ${dep.file}`);}
 for(const asset of catalog.assets){
@@ -26,10 +26,9 @@ for(const asset of catalog.assets){
   assert(checks.viewer.report.assets.some(a=>a.sha256===asset.sha256),'Viewer stale');
 }
 assert.equal(checks.visual.report.dependencySha256,catalog.dependencySha256,'Visual review stale');
-for(const row of checks.icons.report.rows){assert.equal(hash(await readFile(row.source)),row.sourceSha256);for(const o of row.outputs)assert.equal(hash(await readFile(o.file)),o.sha256);}
 const blendHash=hash(await readFile('art/aurora/aurora-set.blend'));
 const renders=[];
-for(const dir of ['art/aurora','art/aurora/renders','art/aurora/icons'])for(const name of await readdir(dir)){
+for(const dir of ['art/aurora','art/aurora/renders'])for(const name of await readdir(dir)){
   if(!name.endsWith('.json'))continue;
   const file=`${dir}/${name}`,r=await json(file);
   if(!r.renderSha256)continue;
@@ -37,7 +36,7 @@ for(const dir of ['art/aurora','art/aurora/renders','art/aurora/icons'])for(cons
   assert.equal(hash(await readFile(path.join(dir,r.render))),r.renderSha256);
   renders.push({file,sha256:hash(await readFile(file))});
 }
-assert(renders.length>=12,'Missing studio, piece or icon renders');
+assert(renders.length>=7,'Missing studio or piece renders');
 const reopen=await json('art/aurora/aurora-validation.json');
 assert(reopen.passed&&reopen.sourceSha256===blendHash);
 for(const row of checks.geometry.report.baseline)assert.equal(hash(await readFile(row.file)),row.sha256);

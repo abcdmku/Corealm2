@@ -32,7 +32,7 @@ node --import tsx tools/item-models/aurora/build.ts --verify
 
 Rebuilding creates staged candidates. It does not promote them into the game. The production lab must pass for those exact GLBs, followed by root visual acceptance and a final-world check after promotion. Review scripts and reports are included in the archive.
 
-`package_blender.py` imports the frozen candidates and preserves geometry, UVs, weights and texture pixels. `render_delivery.py` makes the studio, piece and inventory renders. `build_icons.mjs` derives inventory icons from those actual 3D renders.
+`package_blender.py` imports the frozen candidates and preserves geometry, UVs, weights and texture pixels. `render_delivery.py` makes studio and piece renders for model review. Inventory icons are prompted artwork registered under `art/item-icons/generated/` and published with `npm run icons`.
 
 The game uses glTF physical iridescence. Blender's EEVEE preview uses an editable thin-film approximation, so the two renderers do not produce identical highlights. The saved Blender rig stays in its imported rest pose. Studio poses, lighting and cameras are temporary.
 

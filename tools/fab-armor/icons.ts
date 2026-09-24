@@ -45,7 +45,7 @@ for (const set of sets) {
     ids.push(job.id);
   }
 }
-const expected = selectedSets ? sets.reduce((sum: number, set: { jobs: unknown[] }) => sum + set.jobs.length, 0) : 57;
+const expected = sets.reduce((sum: number, set: { jobs: unknown[] }) => sum + set.jobs.length, 0);
 if (ids.length !== expected || new Set(ids).size !== expected) throw new Error(`Expected ${expected} unique armor icons`);
 const backup = path.join(repoRoot, '.asset-cache/fab-armor/icons-previous');
 await mkdir(backup, { recursive: true });

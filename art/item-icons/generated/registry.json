@@ -2622,39 +2622,39 @@
     },
     "frostweave_robe": {
       "status": "accepted",
-      "source": "fab-armor/frostweave_robe.png",
-      "sha256": "10d305f9d0252b51486139c6e5e80af54cde121807a37760ed025814951deb46",
-      "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one empty asymmetric martial mage torso with large single sculpted frost-silver shoulder guard, lilac chest relief and cyan inlays. No head, arms, hands or lower legs. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+      "source": "frostweave_robe.png",
+      "sha256": "68437f3d44eb85e3b3ab7587b4c93ce8ab34f313211aaf6585fec7068199c50f",
+      "prompt": "Create one original square fantasy RPG inventory icon for a level-90 Aurora Frostweave mage set. Hand-painted fantasy item illustration, not a 3D model screenshot. Genuine transparent alpha. One isolated complete empty garment or matched pair, centered at about 80% of frame, three-quarter view, silhouette readable at 48px. Shared materials: deep petrol-blue and emerald woven silk brocade, flowing teal, sea-green, violet and muted magenta aurora ribbon embroidery, fine pearl and antique-gold stitch accents, pale frost-silver protective trim. Tangible fabric weave and refined seams, restrained upper-left light. Aurora is embroidered color, no glowing cloud. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, or checkerboard. Subject: Aurora Frostweave Robe. An empty long mage robe with open dark hollow collar, layered split front panels, wide sleeves, deep petrol brocade and embroidered aurora ribbons, fitted pale frost-silver shoulder trim. No hood, head, hands or legs.",
       "generator": "built-in image_gen",
-      "sourceLookup": "Owner requested generated icons matching the imported armor and its new material finishes. See art/fab-armor/icons/prompts.json and docs/fab-armor.md.",
-      "review": "{\"visual\":\"Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.\",\"width\":1254,\"height\":1254,\"zeroAlphaFraction\":0.5245968880443824,\"alphaThreshold\":8,\"alphaBoundingBox\":[230,31,1145,1219],\"occupiedEdgePixels\":0,\"alphaPreserved\":true,\"generation\":\"built-in image_gen\"} Root reviewed the staged 48px contact sheet and accepted it for the inventory."
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "frostweave_leggings": {
       "status": "accepted",
-      "source": "fab-armor/frostweave_leggings.png",
-      "sha256": "d31c56ebc8986cdd1479a52cad75370d12ee9d37bf33012a5ed1ab29e6fd68e1",
-      "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one pair of empty martial mage trousers with long pale grey split hanging cloth panels and ornate frost-silver thigh guards, hollow waistband, no boots. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+      "source": "frostweave_leggings.png",
+      "sha256": "a4306242cd65c204215fb9956f75349f1f69a3e9c9c92ead28239e3b82a2fe4a",
+      "prompt": "Create one original square fantasy RPG inventory icon for a level-90 Aurora Frostweave mage set. Hand-painted fantasy item illustration, not a 3D model screenshot. Genuine transparent alpha. One isolated complete empty garment or matched pair, centered at about 80% of frame, three-quarter view, silhouette readable at 48px. Shared materials: deep petrol-blue and emerald woven silk brocade, flowing teal, sea-green, violet and muted magenta aurora ribbon embroidery, fine pearl and antique-gold stitch accents, pale frost-silver protective trim. Tangible fabric weave and refined seams, restrained upper-left light. Aurora is embroidered color, no glowing cloud. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, or checkerboard. Subject: Aurora Frostweave Leggings. One empty connected pair of tailored mage trousers with waistband, long split brocade over-panels and small frost-silver thigh guards; deep petrol silk with colorful aurora embroidery. No boots.",
       "generator": "built-in image_gen",
-      "sourceLookup": "Owner requested generated icons matching the imported armor and its new material finishes. See art/fab-armor/icons/prompts.json and docs/fab-armor.md.",
-      "review": "{\"visual\":\"Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.\",\"width\":1254,\"height\":1254,\"zeroAlphaFraction\":0.5767674223982459,\"alphaThreshold\":8,\"alphaBoundingBox\":[140,12,1145,1237],\"occupiedEdgePixels\":0,\"alphaPreserved\":true,\"generation\":\"built-in image_gen\"} Root reviewed the staged 48px contact sheet and accepted it for the inventory."
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "frostweave_wraps": {
       "status": "accepted",
-      "source": "fab-armor/frostweave_wraps.png",
-      "sha256": "5ffc92a9b478ccabda45430ed134b61c6a43ace0e683380f7dde94596f479777",
-      "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one matched pair of empty martial mage gloves and fitted forearm guards in sculpted ornamented armor with subtle iridescent detail, separated side by side. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+      "source": "frostweave_wraps.png",
+      "sha256": "feacd24804aea7392c4f9c819d6b71cbf5b7691fe026322497adf84d15ab28bc",
+      "prompt": "Create one original square fantasy RPG inventory icon for a level-90 Aurora Frostweave mage set. Hand-painted fantasy item illustration, not a 3D model screenshot. Genuine transparent alpha. One isolated complete empty garment or matched pair, centered at about 80% of frame, three-quarter view, silhouette readable at 48px. Shared materials: deep petrol-blue and emerald woven silk brocade, flowing teal, sea-green, violet and muted magenta aurora ribbon embroidery, fine pearl and antique-gold stitch accents, pale frost-silver protective trim. Tangible fabric weave and refined seams, restrained upper-left light. Aurora is embroidered color, no glowing cloud. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, or checkerboard. Subject: Aurora Frostweave Wraps. One matched pair of empty fitted silk hand wraps and forearm cuffs, distinct five-finger glove shapes, deep petrol brocade, frost-silver cuff trim and fine teal-violet aurora stitching. Separate side by side.",
       "generator": "built-in image_gen",
-      "sourceLookup": "Owner requested generated icons matching the imported armor and its new material finishes. See art/fab-armor/icons/prompts.json and docs/fab-armor.md.",
-      "review": "{\"visual\":\"Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.\",\"width\":1254,\"height\":1254,\"zeroAlphaFraction\":0.5146701210035383,\"alphaThreshold\":8,\"alphaBoundingBox\":[32,27,1223,1210],\"occupiedEdgePixels\":0,\"alphaPreserved\":true,\"generation\":\"built-in image_gen\"} Root reviewed the staged 48px contact sheet and accepted it for the inventory."
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "frostweave_boots": {
       "status": "accepted",
-      "source": "fab-armor/frostweave_boots.png",
-      "sha256": "947e3cbe1b498462f6a6896d673b5cb7419cc8b9744ce822db7023b0fbcdcb20",
-      "prompt": "Use case: stylized-concept. Create ONE premium fantasy RPG inventory icon for frostweave tier 90: one matched pair of empty martial mage calf-high boots with ornate sculpted shin guards, dark leather soles, hollow cuffs, separated side by side. Palette/materials: highly ornate frosted silver and lilac armor with cyan iridescent inlays, pale grey flowing cloth, dark leather backing. Polished hand-painted 3D product illustration, convincing fabric weave, stitched seams, scale texture or engraved material as appropriate, carefully shaped highlights, readable silhouette at 48px, cohesive refined fantasy art. Single centered item (paired handwear/footwear counts as one item), three-quarter view, lit from upper left, complete object fills 80% of square with clear generous margins. Actual transparent alpha background, not a painted checkerboard or solid background. No person, mannequin, body parts, stand, floor, scenic background, text, label, border, logo, watermark, additional items or cast background shadow. Keep tier 90 appropriate; magic is subtle iridescent material color, never a luminous aura. Square high resolution PNG.",
+      "source": "frostweave_boots.png",
+      "sha256": "3495f18f683186fd42ebf4512f6747e11e967633d74808188d309db272067bc5",
+      "prompt": "Create one original square fantasy RPG inventory icon for a level-90 Aurora Frostweave mage set. Hand-painted fantasy item illustration, not a 3D model screenshot. Genuine transparent alpha. One isolated complete empty garment or matched pair, centered at about 80% of frame, three-quarter view, silhouette readable at 48px. Shared materials: deep petrol-blue and emerald woven silk brocade, flowing teal, sea-green, violet and muted magenta aurora ribbon embroidery, fine pearl and antique-gold stitch accents, pale frost-silver protective trim. Tangible fabric weave and refined seams, restrained upper-left light. Aurora is embroidered color, no glowing cloud. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, or checkerboard. Subject: Aurora Frostweave Boots. One matched pair of empty calf-high mage boots with hollow cuffs, dark leather soles, petrol silk brocade shafts, fine aurora embroidery and modest sculpted frost-silver shin trim. Separate side by side.",
       "generator": "built-in image_gen",
-      "sourceLookup": "Owner requested generated icons matching the imported armor and its new material finishes. See art/fab-armor/icons/prompts.json and docs/fab-armor.md.",
-      "review": "{\"visual\":\"Inspected generated image. Complete empty garment or matched pair, no wearer or body parts, cohesive frosted silver/lilac/cyan material, no text or background. Tight transparent margins accepted by root because production icon normalization adds padding.\",\"width\":1254,\"height\":1254,\"zeroAlphaFraction\":0.5132977979238367,\"alphaThreshold\":8,\"alphaBoundingBox\":[161,11,1133,1227],\"occupiedEdgePixels\":0,\"alphaPreserved\":true,\"generation\":\"built-in image_gen\"} Root reviewed the staged 48px contact sheet and accepted it for the inventory."
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "crafted_ring_t10": {
       "status": "accepted",
@@ -3617,92 +3617,101 @@
     "worn_helm": {
       "status": "accepted",
       "source": "worn_helm.png",
-      "sha256": "e0b38cdcf48cf1cc215fd2729bace4da0d80a2371e86e84077e860653c33a91d",
-      "prompt": "Not prompted artwork. Worn Helm is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "9798f16ae42110aff4b99d8900e4e96bd66545bfe03c2374690b47e0b0eb198b",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero scavenged equipment, practical and visibly battered, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Helm. One dented plain iron cap with uneven rim, dull charcoal metal, small rust freckles, a scratched patch and frayed leather chin strap; hollow inside.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_cuirass": {
       "status": "accepted",
       "source": "worn_cuirass.png",
-      "sha256": "f233e101bab8ca05dad51fb2082ddbf58b47557b2a5ee3fdcb5ac51c9902dd91",
-      "prompt": "Not prompted artwork. Worn Cuirass is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "15d1e1c7d010b3b8d7e6a2456dd88b2bcade03c797d1e84894e7e5588af31c6d",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero scavenged equipment, practical and visibly battered, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Cuirass. Two mismatched salvaged dull iron chest plates bound across an old brown leather vest with coarse cord, dents and scratches; empty torso garment, no arms or legs.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_greaves": {
       "status": "accepted",
       "source": "worn_greaves.png",
-      "sha256": "4d49406f8406b91e2b5b37563ee05e5c33ad3f059dfa39f5cedaa5a1803614f6",
-      "prompt": "Not prompted artwork. Worn Greaves is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "4a81ce43967193134762bd3a148a0736fa96fe9431ff35b818681e370fedabe0",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero scavenged equipment, practical and visibly battered, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Greaves. One matched-use pair of mismatched dented iron shin plates tied with rough cord to worn brown leather backing; two separate empty greaves, no boots.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_gloves": {
       "status": "accepted",
       "source": "worn_gloves.png",
-      "sha256": "da2eceb5079a19c20f222f89898a8dfddb66225b084f0e94a83f2e8e5245d741",
-      "prompt": "Not prompted artwork. Worn Gloves is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "d745db2ef41ee47b94820d561415d766c124b645ebb570ba0087f38acdf1b720",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero scavenged equipment, practical and visibly battered, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Gloves. One pair of cracked brown work leather gloves, one thumb seam partly split and crude stitching frayed, five fingers on each, empty gloves side by side.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_boots": {
       "status": "accepted",
       "source": "worn_boots.png",
-      "sha256": "7527147982f6f47f6e93def15f8c90b8a4afee10cab4bcaa390984b9630326b2",
-      "prompt": "Not prompted artwork. Worn Boots is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "d35e0ec11f4daa8cca73a68cc0c36c7463f9fc77925e518a85b3c6fc749d1761",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero scavenged equipment, practical and visibly battered, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Boots. One pair of battered brown leather ankle boots, split soles and scuffed rounded toes, rough cord laces, visible hollow cuffs; empty boots side by side.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_hide_hood": {
       "status": "accepted",
       "source": "worn_hide_hood.png",
-      "sha256": "34665d177cd4cb91a9724c5481483960374e0d0fd65e4423721436fc2104b273",
-      "prompt": "Not prompted artwork. Worn Hide Hood is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "f20d505e36b72b733909bba0d766016350c3b8ea869c820a6a77fb8a84af4046",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero hide equipment, cut from unwanted hide and rough offcuts, practical and visibly patched, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Hide Hood. A single floppy brown hide hood with broad dark hollow face opening, uneven stitched crown and short shoulder cowl, frayed edges and patch of lighter hide.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_hide_robe": {
       "status": "accepted",
       "source": "worn_hide_robe.png",
-      "sha256": "f4d6b3454c778f302c886b995b37eba32e358aabff217f917db2eafff8751b1e",
-      "prompt": "Not prompted artwork. Worn Hide Robe is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "ae3fc0efe9e91697c6d14e64e51b96ca497b61f3dde01a046b7d7263cbf3b4d8",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero hide equipment, cut from unwanted hide and rough offcuts, practical and visibly patched, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Hide Robe. An empty knee-length robe assembled from irregular brown hide offcuts, crude visible stitching, patched shoulders and hem, open dark hollow neckline, no hood.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_hide_leggings": {
       "status": "accepted",
       "source": "worn_hide_leggings.png",
-      "sha256": "0e5288716c10ac1c6fc712f71eed728894fa69602f7e8628eb1638ec82819bcd",
-      "prompt": "Not prompted artwork. Worn Hide Leggings is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "e4ae942cb35bc4c68cacdec963eec5e0c52399fb33efac09572a62da12a0c9d5",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero hide equipment, cut from unwanted hide and rough offcuts, practical and visibly patched, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Hide Leggings. One empty pair of rough brown hide leggings joined at the waist, thick patches over both knees and uneven seams, no boots.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_hide_wraps": {
       "status": "accepted",
       "source": "worn_hide_wraps.png",
-      "sha256": "60463ff5fdebd0560fe616a6f4cd9b56e7bed1f1e308b4115e044552069ce4f7",
-      "prompt": "Not prompted artwork. Worn Hide Wraps is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "a05191d0cf956cf2c38ea35b30655172fc4e935f0947e25bd8ba387b8de7829a",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero hide equipment, cut from unwanted hide and rough offcuts, practical and visibly patched, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Hide Wraps. One matched pair of rough brown hide hand wraps, knuckle strips and a thumb opening, empty wrap forms side by side; coarse hand stitching and worn edges.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     },
     "worn_hide_boots": {
       "status": "accepted",
       "source": "worn_hide_boots.png",
-      "sha256": "dfdb5ba4c87c4648f65540efbc34a9b90c5c82fce1127eb6ed21ff972b6af962",
-      "prompt": "Not prompted artwork. Worn Hide Boots is a render of the production tier 0 salvage piece through the game's own item icon renderer (game/src/render/itemIconRenderer.ts, the appearance from equipmentVisuals.ts), at the catalog's fixed camera and studio lighting.",
-      "generator": "production item icon renderer",
-      "sourceLookup": "On 2026-09-18 the user rejected generated tier-1 artwork for this set as too fancy for basic starter armour and asked for icons taken from the real armour. The icon therefore shows the same worn mesh and finish the player sees equipped, not a separate illustration.",
-      "review": "Root inspected the 256px master and the 48px inventory derivative, and compared the set against the Copper and Hide icons it replaces."
+      "sha256": "9700c3591b9ec352623efd47a58c946baf0a5ceaf460cde4c72bb384cf07d543",
+      "prompt": "Create one original square fantasy RPG inventory icon, hand-painted item illustration, genuine transparent alpha. Show one isolated complete empty equipment item, centered, about 80% of frame, three-quarter view, strong readable silhouette at 48px. Detailed material texture and restrained upper-left light. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, glow, or checkerboard. This is humble tier-zero hide equipment, cut from unwanted hide and rough offcuts, practical and visibly patched, with no precious metal, gems, magic, or ornate decoration. Subject: Worn Hide Boots. One pair of soft brown hide ankle boots, thin worn heels, irregular stitched panels, rough folded cuffs and rounded toes; empty boots side by side.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
+    },
+    "frostweave_hood": {
+      "status": "accepted",
+      "source": "frostweave_hood.png",
+      "sha256": "a825cb118876ada40f36106d7ae8030a3391cee687e5248368e20bab3adea5ee",
+      "prompt": "Create one original square fantasy RPG inventory icon for a level-90 Aurora Frostweave mage set. Hand-painted fantasy item illustration, not a 3D model screenshot. Genuine transparent alpha. One isolated complete empty garment or matched pair, centered at about 80% of frame, three-quarter view, silhouette readable at 48px. Shared materials: deep petrol-blue and emerald woven silk brocade, flowing teal, sea-green, violet and muted magenta aurora ribbon embroidery, fine pearl and antique-gold stitch accents, pale frost-silver protective trim. Tangible fabric weave and refined seams, restrained upper-left light. Aurora is embroidered color, no glowing cloud. No wearer, body parts, mannequin, stand, floor, scene, text, border, logo, watermark, extra items, or checkerboard. Subject: Aurora Frostweave Hood. A single empty deep hood with dark hollow face opening, broad draped shoulder cowl, embroidered aurora ribbons around the rim, thin frost-silver edging and visible woven silk folds. No robe.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Generated from the current item name, description, tier and slot on 2026-09-24 at user request. New artwork is independent of the equipped 3D model.",
+      "review": "Root inspected the transparent source at full size. Complete empty item, readable silhouette, material and tier match the catalog. 48px derivative reviewed after generation."
     }
   }
 }

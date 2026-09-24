@@ -42,8 +42,6 @@ describe("3D item icon catalog", () => {
       dragonhide_leggings: 'starhide_leggings', dragonhide_boots: 'starhide_boots', dragonhide_wraps: 'starhide_wraps',
       starhide_hood: 'dragonhide_hood', starhide_robe: 'dragonhide_robe',
       starhide_leggings: 'dragonhide_leggings', starhide_boots: 'dragonhide_boots', starhide_wraps: 'dragonhide_wraps',
-      frostweave_hood: 'aurora_frostweave_hood', frostweave_robe: 'aurora_frostweave_robe',
-      frostweave_leggings: 'aurora_frostweave_leggings', frostweave_boots: 'aurora_frostweave_boots', frostweave_wraps: 'aurora_frostweave_wraps',
     };
     for (const item of ALL_ITEMS) {
       const url = itemIconUrl(item);
@@ -102,16 +100,15 @@ describe("generated item icon files", () => {
     }));
   }, 30_000);
 
-  it("serves the Aurora Frostweave aliases from their dedicated 256px masters", async () => {
-    const aliases = ["boots", "hood", "leggings", "robe", "wraps"] as const;
-    for (const slot of aliases) {
-      const alias = `aurora_frostweave_${slot}.png`;
-      const expected = await readFile(`art/aurora/icons/256/frostweave_${slot}.png`);
-      const response = await readIconMaster({ method: "GET", url: `/__devdocs/icons/${alias}` });
+  it("serves Aurora Frostweave from the standard generated masters", async () => {
+    for (const slot of ["boots", "hood", "leggings", "robe", "wraps"] as const) {
+      const name = `frostweave_${slot}.png`;
+      const expected = await readFile(`art/item-icons/256/${name}`);
+      const response = await readIconMaster({ method: "GET", url: `/__devdocs/icons/${name}` });
 
-      expect(response.status, alias).toBe(200);
-      expect(response.headers["Content-Type"], alias).toBe("image/png");
-      expect(Buffer.from(response.body), alias).toEqual(expected);
+      expect(response.status, name).toBe(200);
+      expect(response.headers["Content-Type"], name).toBe("image/png");
+      expect(Buffer.from(response.body), name).toEqual(expected);
     }
   });
 });

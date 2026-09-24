@@ -30,7 +30,12 @@ foreach ($auroraFile in @(
     'game/src/ui/itemIcons.ts','tools/item-models/world-test.ts','tools/item-models/wear-test.ts','tools/item-models/lab-test.ts',
     'tests/aurora-appearance.test.ts','tests/aurora-items.test.ts','tests/boss-armor.test.ts','tests/item-icons.test.ts'
 )) { Add-AuroraFile $auroraFile }
-foreach ($auroraPiece in @('hood','robe','leggings','boots','wraps')) { Add-AuroraFile "game/public/assets/icons/items/48/aurora_frostweave_$auroraPiece.png" }
+foreach ($auroraPiece in @('hood','robe','leggings','boots','wraps')) {
+    Add-AuroraFile "game/public/assets/icons/items/48/frostweave_$auroraPiece.png"
+    Add-AuroraFile "art/item-icons/256/frostweave_$auroraPiece.png"
+    Add-AuroraFile "art/item-icons/generated/frostweave_$auroraPiece.png"
+}
+Add-AuroraFile 'art/item-icons/generated/registry.json'
 $auroraStream = [System.IO.File]::Open($auroraOutput,[System.IO.FileMode]::Create)
 $auroraArchive = [System.IO.Compression.ZipArchive]::new($auroraStream,[System.IO.Compression.ZipArchiveMode]::Create)
 try {

@@ -21,10 +21,10 @@ Pending artwork can only be rendered with `--out`. It cannot replace published i
 ```sh
 npm run icons -- --only grithe_ring --out test-results/icon-review
 npm run icons -- --only grithe_ring
-npm run docs:refresh
+npm run guide:build
 ```
 
-The first command stages a review candidate. The second publishes an accepted source. The last copies the current masters into the generated guide and refreshes its item data. Run `npm run docs:build` to build the website too.
+The first command stages a review candidate. The second publishes an accepted source. The last builds the player guide. Devdocs reads the current masters directly from `art/item-icons/256/`.
 
 ## Review
 
