@@ -1,0 +1,122 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "pack": {
+    "id": "corealm-tripo-audit-fen-crawler",
+    "name": "Corealm Tripo Fen Crawler candidate",
+    "author": "Corealm / Tripo Studio",
+    "source": "assets/art/tripo/imports/creatures/audit-fen-crawler/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "0a116ef792c6e82aba19a7ed17eb395607443cb31f4d94f93319aeea72dc86d7"
+  },
+  "assets": [
+    {
+      "id": "creature_fen_crawler",
+      "file": "models/creature/creature_fen_crawler.glb",
+      "candidateFile": "fen-crawler-sixleg-candidate.glb",
+      "pack": "corealm-tripo-audit-fen-crawler",
+      "category": "character",
+      "is": "Fen Crawler six-leg swamp beetle",
+      "tags": [
+        "creature",
+        "fen-crawler",
+        "swamp",
+        "arthropod",
+        "six-legged"
+      ],
+      "bytes": 13078932,
+      "sha256": "f0c5e98976b059eea3e4c4eb0c966ef17f7c4882633b63cc016cee19a1f2135e",
+      "size": {
+        "x": 0.46073730468749996,
+        "y": 0.5016455078125,
+        "z": 0.7096533203125
+      },
+      "base": {
+        "x": -0.23036865234374998,
+        "y": 0,
+        "z": -0.35482666015625
+      },
+      "bounds": {
+        "min": [
+          -0.23036865234374998,
+          0,
+          -0.35482666015625
+        ],
+        "max": [
+          0.23036865234374998,
+          0.5016455078125,
+          0.35482666015625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4178,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_fen_crawler_layered_chitin"
+      ],
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "walkClipSeconds": 1.1200000047683716,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8600000143051147,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "modelId": "28d04ec6-6894-4388-a8b1-e8803e0d3f89",
+        "sourceFile": "assets/art/tripo/exports/corealm_flint_mandible_28d04ec6_8k_rigged.glb",
+        "sourceSha256": "4db53464a2cf3ca38d76c1659ac267255ab6f6fb1f65db1db84f5cd1e323c074",
+        "sourceImage": "assets/art/tripo/references/stone-flint-mandible.png",
+        "sourceImageSha256": "95213149a958257cc3d0b28e408c8e07ece65d45e3e73450178edeec83635520",
+        "correctedSourceFile": "assets/art/tripo/imports/creatures/nine-pack-two/flint-mandible/flint-mandible-native-rig-candidate.glb",
+        "correctedSourceSha256": "3a799e93caf821e1bead35515e1816d77d738573a3befc0626cbf4e39ff7ac05",
+        "generatedAtlas": "assets/art/tripo/imports/creatures/audit-fen-crawler/fen-crawler-generated-atlas.png",
+        "generatedAtlasSha256": "7c2d5471221de3b533bb53d60df070ad07236ca168f2c52215911c3eb8e4d21e",
+        "generatedAtlasDimensions": "1254x1254",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-fen-crawler/fen-crawler-sixleg-candidate.glb",
+        "candidateSha256": "f0c5e98976b059eea3e4c4eb0c966ef17f7c4882633b63cc016cee19a1f2135e",
+        "textureMethod": "Built-in imagegen edit of the exact Tripo UV atlas; layered moss, peat, bronze and mud detail; derived 2K normal and wet chitin ORM."
+      },
+      "metadata": {
+        "family": "fen_crawler",
+        "rig": "custom 30-joint six-leg arthropod",
+        "height": 0.5016455078125,
+        "presentation": {
+          "sceneScale": 0.71,
+          "rawAssetHeightMeters": 0.70654296875,
+          "desiredInGameHeightMeters": 0.5016455078125,
+          "levelRange": "5–12"
+        },
+        "attackContact": {
+          "seconds": 0.4300000071525574,
+          "normalized": 0.5
+        },
+        "gaitMeasurement": {
+          "status": "uncalibrated",
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        },
+        "deathPose": {
+          "groundedBySeconds": 0.65,
+          "heldUntilSeconds": 1,
+          "maximumHoldVertexDeltaMeters": 0.0011452734470367432,
+          "finalHeightMeters": 0.2920706112099447,
+          "idleHeightMeters": 0.5016455337471729
+        },
+        "source": "Detailed image-generated layered swamp atlas on Tripo Flint Mandible geometry; Corealm six-leg rig and clips"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

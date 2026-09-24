@@ -1,0 +1,103 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-audit-thicket-spirit",
+    "name": "Corealm Thicket Spirit",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-thicket-spirit/build-candidate.mjs",
+    "generatorSha256": "4da0d6228303701d211eb3e1722353de9962246d223472b3a070449db11a3cf7",
+    "license": "LicenseRef-Corealm-Original"
+  },
+  "assets": [
+    {
+      "id": "fairy_monster_21",
+      "file": "models/fairy-garden/thicket-spirit.glb",
+      "candidateFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-thicket-spirit\\thicket-spirit.glb",
+      "pack": "corealm-audit-thicket-spirit",
+      "category": "character",
+      "is": "Thicket Spirit",
+      "tags": [
+        "creature",
+        "fairy",
+        "thicket",
+        "moss",
+        "mushroom",
+        "candidate"
+      ],
+      "bytes": 2684792,
+      "sha256": "694b6cbe20c62b2d6c899b1b5899d7a8bd918dcef24bf68323e23f2ec2581acd",
+      "size": {
+        "x": 1.8100097656249998,
+        "y": 1.8990722656249999,
+        "z": 1.650439453125
+      },
+      "base": {
+        "x": -0.9050048828124999,
+        "y": 0,
+        "z": -0.8252197265625
+      },
+      "bounds": {
+        "min": [
+          -0.9050048828124999,
+          0,
+          -0.8252197265625
+        ],
+        "max": [
+          0.9050048828124999,
+          1.8990722656249999,
+          0.8252197265625
+        ]
+      },
+      "groundY": 0,
+      "triangles": 3889,
+      "vertices": 5303,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Thicket bark moss mushroom and luminous eyes"
+      ],
+      "walkClipSeconds": 1.16,
+      "runClipSeconds": 0.74,
+      "attackSeconds": 0.86,
+      "contactNormalized": 0.5,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null,
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/thicketwalker-64833df9-8eee-437f-9010-9ca3483dc015.glb",
+        "sourceSha256": "1e41b47c9a4b80de1e828a8d45ec75220e7cdcc7eb017c37a776d4b37eee44f0",
+        "originalTripoModelId": "64833df9-8eee-437f-9010-9ca3483dc015",
+        "sourceTexture": "8K Tripo texture generation albedo; resized to 2K",
+        "sourcePbrMaps": "none",
+        "rigMethod": "Authored 20-joint four-leg, canopy, neck and face skin; spatial anatomical weights; original topology retained after rigid +X to +Z basis transform."
+      },
+      "metadata": {
+        "family": "thicket_spirit",
+        "region": "faeholme",
+        "level": 46,
+        "anatomy": "Four thin legs beneath a mossy thicket canopy, mushroom crown and luminous face.",
+        "desiredInGameHeightMeters": 1.8990722656249999,
+        "elderPresentationScale": 1.2894736842105265,
+        "deathPose": "side collapse complete by 0.65 s and held through 1.5 s; CPU weighted floor sampled"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_monster_21": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-thicket-spirit\\thicket-spirit.glb"
+  }
+}

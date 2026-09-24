@@ -1,0 +1,115 @@
+{
+  "motion": [
+    {
+      "clip": "Idle",
+      "duration": 2.799999952316284,
+      "minY": 0.0039999992821260185,
+      "maxVertexDelta": 0.00636783242225647,
+      "finalHeight": 0.5016455337471729
+    },
+    {
+      "clip": "Walk",
+      "duration": 1.1200000047683716,
+      "minY": 0.003999997710269491,
+      "maxVertexDelta": 0.05662861466407776,
+      "finalHeight": 0.5016455337471729
+    },
+    {
+      "clip": "Run",
+      "duration": 0.7200000286102295,
+      "minY": 0.003999996893692795,
+      "maxVertexDelta": 0.08147388696670532,
+      "finalHeight": 0.5016455337471729
+    },
+    {
+      "clip": "Attack",
+      "duration": 0.8600000143051147,
+      "minY": 0.003999998124583126,
+      "maxVertexDelta": 0.07355278730392456,
+      "finalHeight": 0.5016455337471729
+    },
+    {
+      "clip": "Hit",
+      "duration": 0.4399999976158142,
+      "minY": 0.0039999966786585465,
+      "maxVertexDelta": 0.042625755071640015,
+      "finalHeight": 0.5016455337471729
+    },
+    {
+      "clip": "Death",
+      "duration": 1,
+      "minY": 0.0039999925037541295,
+      "maxVertexDelta": 0.25808587670326233,
+      "finalHeight": 0.2920706112099447
+    }
+  ],
+  "legMotion": {
+    "Walk": {
+      "FrontLeft": {
+        "vertices": 202,
+        "meanExcursionMeters": 0.03658638723503822
+      },
+      "FrontRight": {
+        "vertices": 202,
+        "meanExcursionMeters": 0.0321652840159882
+      },
+      "MiddleLeft": {
+        "vertices": 188,
+        "meanExcursionMeters": 0.032595508605572726
+      },
+      "MiddleRight": {
+        "vertices": 188,
+        "meanExcursionMeters": 0.036726166703400225
+      },
+      "RearLeft": {
+        "vertices": 193,
+        "meanExcursionMeters": 0.03398129706945583
+      },
+      "RearRight": {
+        "vertices": 194,
+        "meanExcursionMeters": 0.024676123515905025
+      }
+    },
+    "Run": {
+      "FrontLeft": {
+        "vertices": 202,
+        "meanExcursionMeters": 0.056887205435132794
+      },
+      "FrontRight": {
+        "vertices": 202,
+        "meanExcursionMeters": 0.049862866257885476
+      },
+      "MiddleLeft": {
+        "vertices": 188,
+        "meanExcursionMeters": 0.05026027910310209
+      },
+      "MiddleRight": {
+        "vertices": 188,
+        "meanExcursionMeters": 0.0571846575459616
+      },
+      "RearLeft": {
+        "vertices": 193,
+        "meanExcursionMeters": 0.05363691084621703
+      },
+      "RearRight": {
+        "vertices": 194,
+        "meanExcursionMeters": 0.039333997461370646
+      }
+    }
+  },
+  "deathHoldDelta": 0.0011452734470367432,
+  "textures": {
+    "generatedAtlas": "7c2d5471221de3b533bb53d60df070ad07236ca168f2c52215911c3eb8e4d21e",
+    "baseColor": "6afabad65c3c797004c9400e9a31e54d9640a9c0ba7bcc8baa522abdc43e719e",
+    "normal": "085ac148889b22f2ce1b47e0f2b0876f30e7c7a95519d1c92a22910a029321e8",
+    "orm": "faff72cc43bd0e88bdd76bfad7ae4cfe60544752e791a683bb437e91bf4ee91e"
+  },
+  "sourceRigJoints": 30,
+  "sceneScale": 0.71,
+  "size": {
+    "x": 0.46073730468749996,
+    "y": 0.5016455078125,
+    "z": 0.7096533203125
+  },
+  "candidateSha256": "f0c5e98976b059eea3e4c4eb0c966ef17f7c4882633b63cc016cee19a1f2135e"
+}

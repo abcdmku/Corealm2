@@ -1,0 +1,236 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fairy_garden_sporekin_gloamgarden",
+      "file": "mooncap-sporekin-candidate.glb",
+      "pack": "corealm-tripo-audit-mooncap-sporekin",
+      "category": "character",
+      "is": "Mooncap Sporekin",
+      "tags": [
+        "creature",
+        "fairy",
+        "fungus",
+        "sporekin",
+        "tripo"
+      ],
+      "bytes": 12306356,
+      "sha256": "9a68639b48f8b1ca7c19ce5fb14df65231cb4de58581e8640d8900ee5ef75f48",
+      "size": {
+        "x": 1.3251953223734745,
+        "y": 1.9990234480304423,
+        "z": 1.5986328340184315
+      },
+      "base": {
+        "x": -0.6625976611867372,
+        "y": 0,
+        "z": -0.7993164218130602
+      },
+      "bounds": {
+        "min": [
+          -0.6625976611867372,
+          0,
+          -0.7993164218130602
+        ],
+        "max": [
+          0.6625976611867372,
+          1.9990234480304423,
+          0.7993164122053713
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4713,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Attack",
+        "Death"
+      ],
+      "materials": [
+        "tripo_node_d2e3891c-ab20-4a10-af85-bde95a4d637b_material"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 1,
+      "contactNormalized": 0.55,
+      "locomotionPolicy": null,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "sourceProvenance": {
+        "tool": "Tripo Studio",
+        "projectId": "eab6d009-e9e3-4685-ad92-370117420c63",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/mooncap-fungus-eab6d009-e9e3-4685-ad92-370117420c63.glb",
+        "sourceSha256": "1fc21c19b6b94831f6d0c122dbdd3cd5bc1415f3f205d12f73f515908cb3610a",
+        "sourceOperatorId": "16ca8513-2496-49f3-934c-713ecedd022f",
+        "sourceTextureSha256": "e0368ac2f85dd8777639bc7b2291b01c044e5fb886e07757c7a3669dc6896bfc",
+        "rig": "Source unrigged; anatomical 25-joint fitted skin built with four normalized weights per vertex",
+        "motionLibrary": "game/public/assets/models/animation/animation_library_1.glb",
+        "motionLibrarySha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+      },
+      "metadata": {
+        "sourceGeometry": {
+          "vertices": 6945,
+          "triangles": 4713,
+          "sourcePositionSha256": "be902dc8c47928eafee3aa8958daabaf20b55e5c4e228de05ec04cbd0b0cac64",
+          "rigidGroundOffsetY": 0.499755859375,
+          "sourceShapeNormalsUvAndIndicesPreserved": true
+        },
+        "sourceIdentity": "Broad lilac mushroom cap, gills, woody branch arms, root feet; compact level-30 fairy fungus",
+        "presentation": {
+          "sceneScale": 2,
+          "rawHeightMeters": 1.9990234480304423,
+          "existingSpeciesScale": 0.5117755641361406
+        },
+        "textures": {
+          "sourceBaseColor": [
+            8192,
+            8192
+          ],
+          "runtimeBaseColor": [
+            2048,
+            2048
+          ],
+          "derivedNormal": [
+            2048,
+            2048
+          ],
+          "derivedRoughness": [
+            2048,
+            2048
+          ],
+          "reskin": false
+        },
+        "rig": {
+          "joints": 25,
+          "blendedVertices": 6945,
+          "maxWeightError": 0
+        },
+        "retarget": {
+          "restoredJoints": 25,
+          "mappedJoints": 24,
+          "yawDegrees": 0,
+          "translationScale": 0.29696600309979704,
+          "bindBounds": {
+            "min": [
+              -0.3312988305933686,
+              0,
+              -0.3996582109065301
+            ],
+            "max": [
+              0.3312988305933686,
+              0.9995117240152211,
+              0.39965820610268565
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.057739471781174806
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.25114285796523933
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.21665446742855732
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.057972442822248706,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.057972442822248706,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.057972442822248706,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "customAttackAndDeath": true
+        },
+        "deathSamples": [
+          {
+            "seconds": 0,
+            "minY": 0.005999999806284902,
+            "topY": 2.005023448114203
+          },
+          {
+            "seconds": 0.25,
+            "minY": 0.005999990510011596,
+            "topY": 1.9082856734589957
+          },
+          {
+            "seconds": 0.4,
+            "minY": 0.0059999677482014055,
+            "topY": 1.7712004848155802
+          },
+          {
+            "seconds": 0.55,
+            "minY": 0.005999989166825537,
+            "topY": 1.3824390167285194
+          },
+          {
+            "seconds": 0.65,
+            "minY": 0.005999976107284941,
+            "topY": 1.1052669611633106
+          },
+          {
+            "seconds": 0.8,
+            "minY": 0.005999976107284941,
+            "topY": 1.1052669611633106
+          },
+          {
+            "seconds": 1,
+            "minY": 0.005999976107284941,
+            "topY": 1.1052669611633106
+          },
+          {
+            "seconds": 1.5,
+            "minY": 0.005999976107284941,
+            "topY": 1.1052669611633106
+          }
+        ]
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_sporekin_gloamgarden": "mooncap-sporekin-candidate.glb"
+  }
+}

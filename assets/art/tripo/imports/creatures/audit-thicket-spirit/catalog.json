@@ -1,0 +1,127 @@
+{
+  "schema": "corealm-thicket-spirit-candidates/1",
+  "accepted": false,
+  "status": "awaiting-root-lab-review",
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/thicketwalker-64833df9-8eee-437f-9010-9ca3483dc015.glb",
+    "sha256": "1e41b47c9a4b80de1e828a8d45ec75220e7cdcc7eb017c37a776d4b37eee44f0",
+    "vertices": 5303,
+    "triangles": 3889,
+    "materials": 1,
+    "basecolorOnly": true
+  },
+  "candidates": [
+    {
+      "variant": {
+        "id": "fairy_monster_21",
+        "name": "Thicket Spirit",
+        "level": 46,
+        "region": "faeholme",
+        "scale": 1.9,
+        "file": "thicket-spirit.glb"
+      },
+      "bytes": 2684792,
+      "sha256": "694b6cbe20c62b2d6c899b1b5899d7a8bd918dcef24bf68323e23f2ec2581acd",
+      "motions": [
+        {
+          "clip": "Idle",
+          "duration": 2.8,
+          "minY": 0.004999849811191192,
+          "maxVertexDelta": 0.025453925132751465,
+          "finalHeight": 1.8990721813115667
+        },
+        {
+          "clip": "Walk",
+          "duration": 1.16,
+          "minY": 0.0049880271628711835,
+          "maxVertexDelta": 0.2331777811050415,
+          "finalHeight": 1.8910459843291958
+        },
+        {
+          "clip": "Run",
+          "duration": 0.74,
+          "minY": 0.0049537131990187505,
+          "maxVertexDelta": 0.39479899406433105,
+          "finalHeight": 1.8910459730068971
+        },
+        {
+          "clip": "Attack",
+          "duration": 0.86,
+          "minY": 0.00499068035096312,
+          "maxVertexDelta": 0.27533334493637085,
+          "finalHeight": 1.8990721830611819
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.48,
+          "minY": 0.0019615045863573097,
+          "maxVertexDelta": 0.1335943341255188,
+          "finalHeight": 1.8990721799751522
+        },
+        {
+          "clip": "Death",
+          "duration": 1.5,
+          "minY": 0.002049792576960961,
+          "maxVertexDelta": 1.439599096775055,
+          "finalHeight": 1.073969414087707
+        }
+      ],
+      "worstFloor": 0.0019615045863573097,
+      "deathHoldMaxDelta": 0,
+      "influences": [
+        0,
+        1778,
+        4605,
+        3474,
+        347,
+        136,
+        3311,
+        2999,
+        470,
+        552,
+        295,
+        476,
+        500,
+        273,
+        439,
+        568,
+        309,
+        326,
+        241,
+        113
+      ],
+      "idleHeight": 1.8990721813115667,
+      "deadHeight": 1.073969414087707,
+      "correction": [
+        {
+          "clip": "Idle",
+          "maxCorrection": 0.009946869171839796
+        },
+        {
+          "clip": "Walk",
+          "maxCorrection": 0.013755453056198375
+        },
+        {
+          "clip": "Run",
+          "maxCorrection": 0.019129672707223162
+        },
+        {
+          "clip": "Attack",
+          "maxCorrection": 0.0026393812134851255
+        },
+        {
+          "clip": "Hit",
+          "maxCorrection": 0.03695744124279996
+        },
+        {
+          "clip": "Death",
+          "maxCorrection": 0.24837495261741316
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "One art asset serves both t30 and t60 species. The t60 target of 2.45 m is 1.2901 times the t30 target of 1.899 m after tier silhouette scaling; no duplicate GLB is staged.",
+    "Source supplies no normal or metallic-roughness maps; material uses calibrated scalar roughness."
+  ]
+}

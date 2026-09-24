@@ -1,0 +1,171 @@
+{
+  "schema": "corealm-promoted-asset-candidates/1",
+  "generatorSha256": "66269caf68f126a228bcbab2b06a6ad2ae880805f19203e8973ce9aadd5156a0",
+  "pack": {
+    "id": "corealm-tripo-audit-rootwood-family",
+    "name": "Corealm Rootwood family candidates",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-rootwood-family/build-candidates.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "66269caf68f126a228bcbab2b06a6ad2ae880805f19203e8973ce9aadd5156a0"
+  },
+  "assets": [
+    {
+      "id": "creature_boss_rootheart",
+      "file": "models/creature/creature_boss_rootheart.glb",
+      "candidateFile": "models/creature_boss_rootheart.glb",
+      "pack": "corealm-tripo-audit-rootwood-family",
+      "category": "character",
+      "is": "Young Rootheart",
+      "tags": [
+        "creature",
+        "rootwood",
+        "tripo",
+        "candidate",
+        "rootheart"
+      ],
+      "bytes": 14690680,
+      "sha256": "768ae6c77ecb7fc6462240d378c63ef1127bb2496f0ba6a859424551ad7431c1",
+      "size": {
+        "x": 1.8071770083371894,
+        "y": 2.2821044639521206,
+        "z": 0.6967834894777777
+      },
+      "base": {
+        "x": -0.903588597129691,
+        "y": 0,
+        "z": -0.34839173924670025
+      },
+      "groundY": 0,
+      "triangles": 5821,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "creature_boss_rootheart_layered_wood"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.5,
+      "locomotionPolicy": null,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "sourceProvenance": {
+        "generator": "Tripo Studio",
+        "sourceModelId": "0900292c-ef73-40f9-864d-1f289df395f5",
+        "sourceFile": "assets/art/tripo/imports/creatures/bramble-tiller-t10/models/creature_briar_harrow.glb",
+        "sourceSha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+        "sourceBaseColorSha256": "095cf20fd2d6cb5384f042aa3018dca342798dde4370199c428177806ee132df",
+        "sourceNormalSha256": "5ab40825285042a4d9fd84ae4fba99ef17bfe23490a610c3751bcfcaf52114a7",
+        "sourceMetallicRoughnessSha256": "fa8d6ae4c47347994cdc86159ff77703b35c0d208660d46d3bd649e8c145f634",
+        "imagegenMap": "textures/rootheart-generated.png",
+        "imagegenMapSha256": "e06580f26320111b962cbb00d35d9c6c0b2cb0a7ab5aae195e749cd5fb4be1d8",
+        "sourceGeometrySha256": {
+          "positions": "7e91b20735f162dc58a2fee2541e75aa8409740c301ee8b428af40c9586a7875",
+          "normals": "7c2ca857819aa9f20a32c61868889070a186e68a074db3206419b8386924fa6e",
+          "uvs": "9a96c9e4e3f66f42cdb3b146270a31fab08dc9d132a464a96af8a83b5d3c5ca4",
+          "indices": "85981dabd20cf4ccd2e8039bfc96a76039290c9c1ed7f75e9cf6ee07cf47d99b"
+        },
+        "modifications": "Existing repaired source skin and eight clips retained; body geometry and UVs preserved; unique image-generated 2K layered color map replaces original color, source normal and roughness maps retained; uniform body scale 0.85; Death reaches final pose by 0.65 seconds and holds to 1.5 seconds."
+      },
+      "metadata": {
+        "family": "boss_rootheart",
+        "height": 2.2821044639521206,
+        "rig": "repaired Tripo humanoid 48-joint source skeleton",
+        "texture": "distinct image-generated layered bark with retained PBR maps",
+        "anatomyReview": "knot face and stout root limbs; young level-23 form, pending root lab acceptance"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_silverthorn_harrow",
+      "file": "models/fairy-crown/creature_silverthorn_harrow.glb",
+      "candidateFile": "models/creature_silverthorn_harrow.glb",
+      "pack": "corealm-tripo-audit-rootwood-family",
+      "category": "character",
+      "is": "Silverthorn Harrow",
+      "tags": [
+        "creature",
+        "rootwood",
+        "tripo",
+        "candidate",
+        "silverthorn"
+      ],
+      "bytes": 6002172,
+      "sha256": "3e6d131045b9c29ae59896f7b74c76a8d34cb0f10a646f5260df4ab934ba47a3",
+      "size": {
+        "x": 1.9309551410415982,
+        "y": 2.5649999597662907,
+        "z": 0.8583415130522354
+      },
+      "base": {
+        "x": -0.9654775705207991,
+        "y": 0,
+        "z": -0.4291707565261177
+      },
+      "groundY": 0,
+      "triangles": 4478,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "creature_silverthorn_harrow_layered_wood"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "generator": "Tripo Studio",
+        "sourceModelId": "4580db8d-f714-4acf-be53-33a2543e7090",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-grove-guardian/models/creature_starroot_guardian.glb",
+        "sourceSha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+        "sourceBaseColorSha256": "5b0c03d55851a6cd2f63a3ad43d148d9fc02312f834aeae0ba45feef5bc0197d",
+        "sourceNormalSha256": "1f786302160274f053968f18e8f1adf76df26493dc27adbed021dc60b85c80ff",
+        "sourceMetallicRoughnessSha256": "ac39afef733b281150d8ed0102d0a1c59270e7f550987a8e4f458844ad1ed816",
+        "imagegenMap": "textures/silverthorn-generated.png",
+        "imagegenMapSha256": "14c2fe2248de8c54971f1f72cdab685c10d693ac6608a53283e120baf353e1be",
+        "sourceGeometrySha256": {
+          "positions": "9dcf56537e5c8b6810338a50de724fde19820e29bda7562398a81f75c0961314",
+          "normals": "e86f4d3623a11324fc2ba6674967cc40005d75fb5e039b9fce821774bb396493",
+          "uvs": "a551173736a0076cbc628c669dfba74117d79efd996f953957773113777a6a20",
+          "indices": "0616a0ccd1cf01019494cceba51052075bfa2887cff10547c01f973d14502469"
+        },
+        "modifications": "Existing repaired source skin and eight clips retained; body geometry and UVs preserved; unique image-generated 2K layered color map replaces original color, source normal and roughness maps retained; uniform body scale 0.95; Silverthorn Death hip track authored as a side fall with source bent-limb tracks; Death reaches final pose by 0.65 seconds and holds to 1.5 seconds."
+      },
+      "metadata": {
+        "family": "silverthorn_harrow",
+        "height": 2.5649999597662907,
+        "rig": "repaired Tripo humanoid 54-joint source skeleton",
+        "texture": "distinct image-generated layered bark with retained PBR maps",
+        "anatomyReview": "original carved face, bud and branch silhouette with silver bark; pending root lab acceptance"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "status": "pending-root-lab-acceptance"
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "corealm-rootwood-family-candidates/1",
+  "pack": {
+    "id": "corealm-tripo-audit-rootwood-family",
+    "name": "Corealm Rootwood family candidates",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-rootwood-family/build-candidates.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "66269caf68f126a228bcbab2b06a6ad2ae880805f19203e8973ce9aadd5156a0"
+  },
+  "records": [
+    {
+      "id": "creature_boss_rootheart",
+      "source": "assets/art/tripo/imports/creatures/bramble-tiller-t10/models/creature_briar_harrow.glb",
+      "sourceSha256": "0d9ecabd605724c094f5afc49d7afa826b5a7ebb5cfe71fb694d82ba084f68d6",
+      "candidate": "models/creature_boss_rootheart.glb",
+      "candidateSha256": "768ae6c77ecb7fc6462240d378c63ef1127bb2496f0ba6a859424551ad7431c1",
+      "generatedMap": "textures/rootheart-generated.png",
+      "generatedMapSha256": "e06580f26320111b962cbb00d35d9c6c0b2cb0a7ab5aae195e749cd5fb4be1d8",
+      "sourceGeometry": {
+        "positions": "7e91b20735f162dc58a2fee2541e75aa8409740c301ee8b428af40c9586a7875",
+        "normals": "7c2ca857819aa9f20a32c61868889070a186e68a074db3206419b8386924fa6e",
+        "uvs": "9a96c9e4e3f66f42cdb3b146270a31fab08dc9d132a464a96af8a83b5d3c5ca4",
+        "indices": "85981dabd20cf4ccd2e8039bfc96a76039290c9c1ed7f75e9cf6ee07cf47d99b"
+      },
+      "death": {
+        "finalPoseBySeconds": 0.65,
+        "finalHoldUntilSeconds": 1.5
+      },
+      "addedGeometryTriangles": 0,
+      "status": "pending-root-feature-lab-review"
+    },
+    {
+      "id": "creature_silverthorn_harrow",
+      "source": "assets/art/tripo/imports/creatures/starred-grove-guardian/models/creature_starroot_guardian.glb",
+      "sourceSha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
+      "candidate": "models/creature_silverthorn_harrow.glb",
+      "candidateSha256": "3e6d131045b9c29ae59896f7b74c76a8d34cb0f10a646f5260df4ab934ba47a3",
+      "generatedMap": "textures/silverthorn-generated.png",
+      "generatedMapSha256": "14c2fe2248de8c54971f1f72cdab685c10d693ac6608a53283e120baf353e1be",
+      "sourceGeometry": {
+        "positions": "9dcf56537e5c8b6810338a50de724fde19820e29bda7562398a81f75c0961314",
+        "normals": "e86f4d3623a11324fc2ba6674967cc40005d75fb5e039b9fce821774bb396493",
+        "uvs": "a551173736a0076cbc628c669dfba74117d79efd996f953957773113777a6a20",
+        "indices": "0616a0ccd1cf01019494cceba51052075bfa2887cff10547c01f973d14502469"
+      },
+      "death": {
+        "finalPoseBySeconds": 0.65,
+        "finalHoldUntilSeconds": 1.5
+      },
+      "addedGeometryTriangles": 0,
+      "status": "pending-root-feature-lab-review"
+    }
+  ],
+  "held": [
+    {
+      "id": "creature_hollow_bough",
+      "reason": "No source has an actual hollow standing trunk, branch arms and root legs."
+    },
+    {
+      "id": "creature_bloomheart_matriarch",
+      "reason": "Available sources lack a mature carved face and flowering crown; the Starroot bud silhouette reads juvenile."
+    }
+  ]
+}
