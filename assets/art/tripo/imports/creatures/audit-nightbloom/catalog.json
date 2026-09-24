@@ -1,0 +1,61 @@
+{
+  "source": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/pinkbud-plant-7508cd34-a17e-4945-8c38-e6ae4542f4b2.glb",
+  "sourceSha256": "2249b8a7f602c279315664a53885872b7b461f8fc5cfd4bc42d3ec8f3f59ef92",
+  "sourceBytes": 29734720,
+  "imagegenPrompt": "Precise UV atlas edit: preserve islands and carved face; blue-black bark, layered indigo and moss, dark velvet leaves, luminous blue-white nightflower buds, silver-blue sap threads.",
+  "imagegenFile": "assets/art/tripo/imports/creatures/audit-nightbloom/nightbloom-imagegen-atlas.png",
+  "imagegenSha256": "d1d698bba40b185311b81c7bbe2ee891a0f21c6fb113d7cde1337045d5f95c02",
+  "candidate": "assets/art/tripo/imports/creatures/audit-nightbloom/nightbloom-guardian-candidate.glb",
+  "candidateSha256": "f1e7c67fb75735c421585bf3b7f9caffc867faaf87ebdb25ecf95c49367df696",
+  "bytes": 5339420,
+  "sourceVertices": 2619,
+  "sourceTriangles": 4204,
+  "addedVertices": 220,
+  "addedTriangles": 180,
+  "joints": 65,
+  "sourceWeights": "preserved normalized Uint8 4-influence skin",
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4,
+      "channels": 4
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.2,
+      "channels": 8
+    },
+    {
+      "name": "Run",
+      "seconds": 0.76,
+      "channels": 8
+    },
+    {
+      "name": "Attack",
+      "seconds": 0.85,
+      "channels": 6
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.48,
+      "channels": 4
+    },
+    {
+      "name": "HitLeft",
+      "seconds": 0.48,
+      "channels": 4
+    },
+    {
+      "name": "HitRight",
+      "seconds": 0.48,
+      "channels": 4
+    },
+    {
+      "name": "Death",
+      "seconds": 1.5,
+      "channels": 5
+    }
+  ],
+  "status": "awaiting-root-lab-review",
+  "accepted": false
+}

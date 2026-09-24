@@ -1,0 +1,160 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "pack": {
+    "id": "corealm-owned-tripo-nightbloom",
+    "name": "Corealm Tripo Nightbloom guardian",
+    "author": "Corealm / Tripo Studio",
+    "source": "assets/art/tripo/imports/creatures/audit-nightbloom/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "fff820313c99defd9b515c2fd29d5ecc4f307be0ca9d365f9a5cc4f9e25a9499"
+  },
+  "assets": [
+    {
+      "id": "fairy_guardian_06_faeholme",
+      "file": "models/fairy-garden/fairy_guardian_06_faeholme.glb",
+      "pack": "corealm-owned-tripo-nightbloom",
+      "category": "character",
+      "is": "Nightbloom guardian",
+      "tags": [
+        "creature",
+        "fairy",
+        "guardian",
+        "nightbloom",
+        "tripo",
+        "candidate"
+      ],
+      "bytes": 5339420,
+      "sha256": "f1e7c67fb75735c421585bf3b7f9caffc867faaf87ebdb25ecf95c49367df696",
+      "size": {
+        "x": 1,
+        "y": 2.95,
+        "z": 1.85
+      },
+      "base": {
+        "x": -0.5,
+        "y": 0,
+        "z": -0.925
+      },
+      "bounds": {
+        "min": [
+          -0.5,
+          0,
+          -0.925
+        ],
+        "max": [
+          0.5,
+          2.95,
+          0.925
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4384,
+      "vertices": 2839,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Nightbloom velvet petal, moss and blue-black bark",
+        "Nightbloom bioluminescent flowers"
+      ],
+      "sourceProvenance": {
+        "source": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/pinkbud-plant-7508cd34-a17e-4945-8c38-e6ae4542f4b2.glb",
+        "sourceSha256": "2249b8a7f602c279315664a53885872b7b461f8fc5cfd4bc42d3ec8f3f59ef92",
+        "sourceBytes": 29734720,
+        "imagegenPrompt": "Precise UV atlas edit: preserve islands and carved face; blue-black bark, layered indigo and moss, dark velvet leaves, luminous blue-white nightflower buds, silver-blue sap threads.",
+        "imagegenFile": "assets/art/tripo/imports/creatures/audit-nightbloom/nightbloom-imagegen-atlas.png",
+        "imagegenSha256": "d1d698bba40b185311b81c7bbe2ee891a0f21c6fb113d7cde1337045d5f95c02",
+        "candidate": "assets/art/tripo/imports/creatures/audit-nightbloom/nightbloom-guardian-candidate.glb",
+        "candidateSha256": "f1e7c67fb75735c421585bf3b7f9caffc867faaf87ebdb25ecf95c49367df696",
+        "bytes": 5339420,
+        "sourceVertices": 2619,
+        "sourceTriangles": 4204,
+        "addedVertices": 220,
+        "addedTriangles": 180,
+        "joints": 65,
+        "sourceWeights": "preserved normalized Uint8 4-influence skin",
+        "clips": [
+          {
+            "name": "Idle",
+            "seconds": 2.4,
+            "channels": 4
+          },
+          {
+            "name": "Walk",
+            "seconds": 1.2,
+            "channels": 8
+          },
+          {
+            "name": "Run",
+            "seconds": 0.76,
+            "channels": 8
+          },
+          {
+            "name": "Attack",
+            "seconds": 0.85,
+            "channels": 6
+          },
+          {
+            "name": "Hit",
+            "seconds": 0.48,
+            "channels": 4
+          },
+          {
+            "name": "HitLeft",
+            "seconds": 0.48,
+            "channels": 4
+          },
+          {
+            "name": "HitRight",
+            "seconds": 0.48,
+            "channels": 4
+          },
+          {
+            "name": "Death",
+            "seconds": 1.5,
+            "channels": 5
+          }
+        ],
+        "status": "awaiting-root-lab-review",
+        "accepted": false
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "candidateFile": "nightbloom-guardian-candidate.glb",
+      "walkClipSeconds": 1.2000000476837158,
+      "runClipSeconds": 0.7599999904632568,
+      "attackSeconds": 0.8500000238418579,
+      "contactNormalized": 0.5647058823529412,
+      "locomotionPolicy": null,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null
+    }
+  ],
+  "review": {
+    "status": "awaiting-root-lab-review",
+    "accepted": false,
+    "sourceProvenance": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/download-provenance.json",
+    "cpuValidation": "assets/art/tripo/imports/creatures/audit-nightbloom/validation.json",
+    "remainingAcceptance": [
+      "Review real game screenshots through the production feature lab at ordinary gameplay camera angles.",
+      "Play idle, walk, run, attack, hit, side hits, and death against the candidate in Chromium.",
+      "Confirm the carved face and night flowers read at gameplay distance before promotion.",
+      "Run the relevant build after copying to the production target."
+    ],
+    "separateBaseDecision": "Do not alias fantasy_monster_06 to this Faeholme guardian candidate without a separate source and lab acceptance."
+  }
+}

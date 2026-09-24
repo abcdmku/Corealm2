@@ -1,0 +1,245 @@
+{
+  "schema": "corealm-creature-family-candidates/1",
+  "source": {
+    "file": "assets/art/tripo/exports/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+    "sha256": "6b4817f773e179ca8845ee648be23159fd55efb5f240475e6015d1c2aecb1c5c",
+    "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+    "repairedFile": "assets/art/tripo/imports/creatures/vault-custodian/models/creature_vault_custodian.glb",
+    "repairedSha256": "162122fbd8b14a4538c9cda32c62b06735cc98802ee92bd64dc784064335a2d5"
+  },
+  "variants": [
+    {
+      "id": "creature_vault_custodian",
+      "name": "Vault Custodian",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-vault-custodian/vault-custodian-candidate.glb",
+      "sha256": "7fd6db127e826c93f4c54f3322f0da0798bdb627d937fa5be2c07457035f9d67",
+      "bytes": 6226068,
+      "geometry": {
+        "vertices": 3290,
+        "triangles": 5476,
+        "sourceGeometryAndUvsPreserved": true
+      },
+      "rig": {
+        "joints": 54,
+        "multiInfluenceVertices": 2574,
+        "maxWeightSumError": 4.382292928539755e-8
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 2.5,
+          "channels": 54
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3333333730697632,
+          "channels": 54
+        },
+        {
+          "name": "Run",
+          "seconds": 0.9333333373069763,
+          "channels": 54
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8666666746139526,
+          "channels": 54
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.3333333432674408,
+          "channels": 54
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.3333333432674408,
+          "channels": 54
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.3333333432674408,
+          "channels": 54
+        },
+        {
+          "name": "Death",
+          "seconds": 2.200000047683716,
+          "channels": 54
+        }
+      ],
+      "textures": [
+        {
+          "name": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+          "mimeType": "image/jpeg",
+          "bytes": 1735758,
+          "sha256": "9b19b9ef5d35d71259f341f45573cdc65a7fbd2d5e86ef4c4789f89c03b8d881"
+        },
+        {
+          "name": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+          "mimeType": "image/png",
+          "bytes": 2127132,
+          "sha256": "7b601bf39f4f7ecdefdba0e88f063ca26ac6671bf82991258cff6911317d78a7"
+        },
+        {
+          "name": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+          "mimeType": "image/jpeg",
+          "bytes": 1569052,
+          "sha256": "82a2ad64ec192afe10aad639a4c720937c813d9b152fbc922acd82599312c8d2"
+        }
+      ],
+      "motion": {
+        "Idle": {
+          "seconds": 2.5,
+          "samples": 76,
+          "floorRange": [
+            0.0021509773581436715,
+            0.0021511233306386254
+          ],
+          "footRanges": [
+            {
+              "minY": 0.0020361183194914645,
+              "maxY": 0.0028459496812238694,
+              "minZ": 0.25773929225821196,
+              "maxZ": 0.2588364417603104
+            },
+            {
+              "minY": 0.0028821317463575413,
+              "maxY": 0.003722458692520081,
+              "minZ": -0.29287293555922017,
+              "maxZ": -0.2918093480812779
+            }
+          ]
+        },
+        "Walk": {
+          "seconds": 1.3333333730697632,
+          "samples": 42,
+          "floorRange": [
+            0.0021509814924968763,
+            0.0021511935141930055
+          ],
+          "footRanges": [
+            {
+              "minY": 0.0035901313516564226,
+              "maxY": 0.3561560065909328,
+              "minZ": -0.4646430362702492,
+              "maxZ": 0.4809922852339209
+            },
+            {
+              "minY": 0.003098819595646063,
+              "maxY": 0.3609939281584627,
+              "minZ": -0.45015673625433805,
+              "maxZ": 0.4774489067087003
+            }
+          ]
+        },
+        "Run": {
+          "seconds": 0.9333333373069763,
+          "samples": 30,
+          "floorRange": [
+            0.002150840458384207,
+            0.002151151993358192
+          ],
+          "footRanges": [
+            {
+              "minY": 0.01418379942396153,
+              "maxY": 0.6396871196780205,
+              "minZ": -0.9273412069172802,
+              "maxZ": 0.7840539376561031
+            },
+            {
+              "minY": 0.026108866720546686,
+              "maxY": 0.6888966566135357,
+              "minZ": -0.9308647589477774,
+              "maxZ": 0.7818107478461932
+            }
+          ]
+        },
+        "Attack": {
+          "seconds": 0.8666666746139526,
+          "samples": 28,
+          "floorRange": [
+            0.002151017096633757,
+            0.0021510833673183357
+          ],
+          "footRanges": [
+            {
+              "minY": 0.00549509405660864,
+              "maxY": 0.006820261264133487,
+              "minZ": 0.2470659725993166,
+              "maxZ": 0.25649912955749987
+            },
+            {
+              "minY": 0.010115795612748113,
+              "maxY": 0.012996357892453236,
+              "minZ": -0.29568113785882916,
+              "maxZ": -0.28620605163745877
+            }
+          ]
+        }
+      },
+      "death": {
+        "sourceDuration": 2.4000000953674316,
+        "seconds": 2.2,
+        "settleAtSeconds": 0.68,
+        "holdSeconds": 1.52,
+        "sourceInitial": {
+          "minY": 0.002151136413387972,
+          "maxY": 2.1097730014403733,
+          "minX": -0.5881862370606615,
+          "maxX": 0.6400557379785444,
+          "minZ": -0.6416965856382595,
+          "maxZ": 0.43212562168355656,
+          "height": 2.107621865026985
+        },
+        "sourceFinal": {
+          "minY": 0.0021510518173318764,
+          "maxY": 0.8796821069648438,
+          "minX": -0.7819692290070231,
+          "maxX": 0.6732515004114079,
+          "minZ": -1.7107815103028032,
+          "maxZ": 0.4571704401967906,
+          "height": 0.877531055147512
+        },
+        "final": {
+          "minY": 0.0030000116049417676,
+          "maxY": 0.8805310667692058,
+          "minX": -0.7819692290070231,
+          "maxX": 0.6732515004114079,
+          "minZ": -1.7107815103028032,
+          "maxZ": 0.4571704401967906,
+          "height": 0.877531055164264
+        },
+        "atOneSecond": {
+          "minY": 0.0030000116049417797,
+          "maxY": 0.8805310667692057,
+          "minX": -0.7819692290070231,
+          "maxX": 0.6732515004114079,
+          "minZ": -1.7107815103028032,
+          "maxZ": 0.4571704401967906,
+          "height": 0.8775310551642639
+        },
+        "atSettle": {
+          "minY": 0.0030000116049419033,
+          "maxY": 0.880531066769206,
+          "minX": -0.7819692290070234,
+          "maxX": 0.6732515004114079,
+          "minZ": -1.710781510302803,
+          "maxZ": 0.45717044019679026,
+          "height": 0.8775310551642641
+        },
+        "finalHeightRatio": 0.4163607664760246,
+        "floorRange": [
+          0.002999863272761121,
+          0.003000015917353888
+        ]
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

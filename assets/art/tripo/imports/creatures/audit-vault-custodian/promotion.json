@@ -1,0 +1,361 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "sourceRoot": ".",
+  "destinationRoot": "game/public/assets",
+  "assets": [
+    {
+      "id": "creature_vault_custodian",
+      "file": "models/creature/creature_vault_custodian.glb",
+      "pack": "corealm-tripo-audit-vault-custodian",
+      "category": "character",
+      "is": "Vault Custodian",
+      "tags": [
+        "creature",
+        "karrowmoor",
+        "t10",
+        "vault-custodian",
+        "limestone",
+        "skinned",
+        "articulated",
+        "tripo"
+      ],
+      "bytes": 6226068,
+      "sha256": "7fd6db127e826c93f4c54f3322f0da0798bdb627d937fa5be2c07457035f9d67",
+      "triangles": 5476,
+      "size": {
+        "x": 1.1500979172711103,
+        "y": 2.15,
+        "z": 0.5304104518261515
+      },
+      "base": {
+        "x": -0.5750489586355553,
+        "y": 2.9235710934032263e-17,
+        "z": -0.26520522591307577
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_3fc53436-89e2-401e-a9e6-4ec6fe0ad168"
+      ],
+      "sourceProvenance": {
+        "generator": "Tripo Studio P2.0 Smart Mesh",
+        "modelId": "55366bfe-686e-48e8-94d1-2d19e1664bcb",
+        "sourceImageId": "6ad1ad82-dbb7-4d87-ae76-c022d945687b",
+        "originalSourceFile": "assets/art/tripo/exports/corealm_vault_custodian_55366bfe_8k_rigged.glb",
+        "originalSourceSha256": "6b4817f773e179ca8845ee648be23159fd55efb5f240475e6015d1c2aecb1c5c",
+        "sourceLedger": "assets/art/tripo/batches/creatures-crown-wild.json#vault-custodian",
+        "sourcePrompt": "Vault Custodian, a living limestone temple sentinel for a serious medieval RPG. A balanced human-height stone body with proportionate broad chest, solid arms and legs, small blunt three-fingered hands. Head has the solemn outline of a plain greathelm but is continuous naturally weathered stone with one deep narrow horizontal aperture. Torso and limbs are continuous carved limestone, never a suit of armor on a man. Joints are deep flexible shadowed folds between overlapping worn stone surfaces, with no circular pivots, metal machinery or mechanical fingers. Pale warm limestone has dense gray veins, faint ocher mineral layers, chisel scars and softened chipped edges. Modest blue woven oath sash at waist. Neutral watchful guardian of an old maintained shrine. No horns, no bulky boulder stacking, no robot parts.",
+        "priorDeniedRevisionExcluded": "The earlier mechanical-jointed Vault Custodian revision is excluded; this candidate uses only the approved image and exact approved model ID.",
+        "bindRecoveredSource": "assets/art/tripo/imports/creatures/vault-custodian/sources/creature_vault_custodian-b806568a7e93.glb",
+        "bindRecoveredSourceSha256": "b806568a7e93489648fe721fdceeec671e5110ca87a9a1fbbd9e6f25cd375130",
+        "bindPoseReconstruction": {
+          "sourceSkeleton": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSkeletonSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e",
+          "method": "Fitted the existing Mixamo hierarchy to the archived sentinel mesh bounds, reconstructed local rest transforms, and rebuilt inverse binds; source positions, normals, indices, and UVs are byte-preserved.",
+          "scale": {
+            "x": 0.36179995803319853,
+            "y": 0.6822602974470234,
+            "z": 0.8140703549880184
+          },
+          "sourceMeshGeometryAndUvsPreserved": true,
+          "noRetopology": true
+        },
+        "weightRepair": {
+          "method": "Four nearest anatomical bone segments, Gaussian distance blending against recovered Tripo bind joints; hands follow palm and feet follow ankle/toes",
+          "vertices": 3290,
+          "dominantJointVertices": {
+            "RightUpLeg": 697,
+            "RightForeArm": 74,
+            "Hips": 209,
+            "Spine": 232,
+            "RightFoot": 40,
+            "RightLeg": 318,
+            "LeftUpLeg": 711,
+            "LeftShoulder": 92,
+            "Spine1": 121,
+            "LeftArm": 89,
+            "Spine2": 55,
+            "RightShoulder": 69,
+            "RightArm": 89,
+            "LeftLeg": 318,
+            "LeftFoot": 40,
+            "Neck": 54,
+            "LeftForeArm": 82
+          },
+          "sourceWeightFailure": "Export assigned more than98% of vertices toHips",
+          "requiresVisualReview": true
+        },
+        "retarget": {
+          "restoredJoints": 54,
+          "mappedJoints": 52,
+          "yawDegrees": 4.924202745777787e-7,
+          "translationScale": 0.6827433496755877,
+          "bindBounds": {
+            "min": [
+              -0.2673339902935163,
+              2.0294763858261133e-10,
+              -0.12329101839560806
+            ],
+            "max": [
+              0.26733399044984935,
+              0.999511555989252,
+              0.12329101691140275
+            ]
+          },
+          "clips": [
+            {
+              "name": "Idle",
+              "sourceTake": "Idle_Loop",
+              "seconds": 2.5,
+              "samples": 76,
+              "maximumGroundCorrection": 0.0007634134903552862
+            },
+            {
+              "name": "Walk",
+              "sourceTake": "Walk_Loop",
+              "seconds": 1.3333333730697632,
+              "samples": 42,
+              "maximumGroundCorrection": 0.037959685185098624
+            },
+            {
+              "name": "Run",
+              "sourceTake": "Jog_Fwd_Loop",
+              "seconds": 0.9333333373069763,
+              "samples": 30,
+              "maximumGroundCorrection": 0.1626845941555115
+            },
+            {
+              "name": "Attack",
+              "sourceTake": "Punch_Jab",
+              "seconds": 0.8666666746139526,
+              "samples": 28,
+              "maximumGroundCorrection": 0.0014023140758182627
+            },
+            {
+              "name": "Hit",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitLeft",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "HitRight",
+              "sourceTake": "Hit_Chest",
+              "seconds": 0.3333333432674408,
+              "samples": 12,
+              "maximumGroundCorrection": 0.0005628055167450035,
+              "directional": false,
+              "note": "Native frontal hit; left/right are explicit runtime aliases"
+            },
+            {
+              "name": "Death",
+              "sourceTake": "Death01",
+              "seconds": 2.4000000953674316,
+              "samples": 74,
+              "maximumGroundCorrection": 0.19840407183743014
+            }
+          ],
+          "method": "Inverse-bind rest reconstruction, semantic world-space rotations with limb rest-direction alignment, source pelvis displacement scaled by leg length, sampled weighted-mesh grounding",
+          "sourceFile": "game/public/assets/models/animation/animation_library_1.glb",
+          "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        },
+        "runtimeTextures": [
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_basecolor.jpg",
+            "mimeType": "image/jpeg",
+            "bytes": 1735758,
+            "sha256": "9b19b9ef5d35d71259f341f45573cdc65a7fbd2d5e86ef4c4789f89c03b8d881"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_rm.png",
+            "mimeType": "image/png",
+            "bytes": 2127132,
+            "sha256": "7b601bf39f4f7ecdefdba0e88f063ca26ac6671bf82991258cff6911317d78a7"
+          },
+          {
+            "name": "corealm_vault_custodian_55366bfe_8k_rigged_normal.jpg",
+            "mimeType": "image/jpeg",
+            "bytes": 1569052,
+            "sha256": "82a2ad64ec192afe10aad639a4c720937c813d9b152fbc922acd82599312c8d2"
+          }
+        ],
+        "sourceTextureHashesPreservedThroughBindRecovery": [
+          "a0776753449b67858aa4f63cd0a29f2b7111a8a0f29585c42cdf3ed2fc4c1fc0",
+          "9c737e36dcfa535b94535973d185b6e53b1525e86df4c725778933cd401f973a",
+          "7635652ac301bf0b99eb16d53a1cecb2273d6eacba584599b9a5f672229db01f"
+        ],
+        "riggedSourceFile": "assets/art/tripo/imports/creatures/vault-custodian/models/creature_vault_custodian.glb",
+        "riggedSourceSha256": "162122fbd8b14a4538c9cda32c62b06735cc98802ee92bd64dc784064335a2d5",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-vault-custodian/vault-custodian-candidate.glb",
+        "candidateSha256": "7fd6db127e826c93f4c54f3322f0da0798bdb627d937fa5be2c07457035f9d67",
+        "materialGenerator": "assets/art/tripo/imports/creatures/audit-vault-custodian/build-candidate.mjs",
+        "materialGeneratorSha256": "d58ca809020165b8ae61be6b08de4b88e0fe3bcd3f7c703e7f2e5c3ba8019c11",
+        "rig": {
+          "joints": 54,
+          "multiInfluenceVertices": 2574,
+          "maxWeightSumError": 4.382292928539755e-8
+        },
+        "death": {
+          "sourceDuration": 2.4000000953674316,
+          "seconds": 2.2,
+          "settleAtSeconds": 0.68,
+          "holdSeconds": 1.52,
+          "sourceInitial": {
+            "minY": 0.002151136413387972,
+            "maxY": 2.1097730014403733,
+            "minX": -0.5881862370606615,
+            "maxX": 0.6400557379785444,
+            "minZ": -0.6416965856382595,
+            "maxZ": 0.43212562168355656,
+            "height": 2.107621865026985
+          },
+          "sourceFinal": {
+            "minY": 0.0021510518173318764,
+            "maxY": 0.8796821069648438,
+            "minX": -0.7819692290070231,
+            "maxX": 0.6732515004114079,
+            "minZ": -1.7107815103028032,
+            "maxZ": 0.4571704401967906,
+            "height": 0.877531055147512
+          },
+          "final": {
+            "minY": 0.0030000116049417676,
+            "maxY": 0.8805310667692058,
+            "minX": -0.7819692290070231,
+            "maxX": 0.6732515004114079,
+            "minZ": -1.7107815103028032,
+            "maxZ": 0.4571704401967906,
+            "height": 0.877531055164264
+          },
+          "atOneSecond": {
+            "minY": 0.0030000116049417797,
+            "maxY": 0.8805310667692057,
+            "minX": -0.7819692290070231,
+            "maxX": 0.6732515004114079,
+            "minZ": -1.7107815103028032,
+            "maxZ": 0.4571704401967906,
+            "height": 0.8775310551642639
+          },
+          "atSettle": {
+            "minY": 0.0030000116049419033,
+            "maxY": 0.880531066769206,
+            "minX": -0.7819692290070234,
+            "maxX": 0.6732515004114079,
+            "minZ": -1.710781510302803,
+            "maxZ": 0.45717044019679026,
+            "height": 0.8775310551642641
+          },
+          "finalHeightRatio": 0.4163607664760246,
+          "floorRange": [
+            0.002999863272761121,
+            0.003000015917353888
+          ]
+        },
+        "clipSeconds": {
+          "Idle": 2.5,
+          "Walk": 1.3333333730697632,
+          "Run": 0.9333333373069763,
+          "Attack": 0.8666666746139526,
+          "Hit": 0.3333333432674408,
+          "HitLeft": 0.3333333432674408,
+          "HitRight": 0.3333333432674408,
+          "Death": 2.200000047683716
+        },
+        "attackContact": {
+          "normalized": 0.48,
+          "method": "Right hand reaches its forward-most point during Punch_Jab around 0.45-0.50 normalized time"
+        },
+        "sourceGeometryPreserved": true
+      },
+      "metadata": {
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "originalsPreserved": true
+        },
+        "materialTreatment": null,
+        "animationAcceptance": "pending-production-lab",
+        "sourceMaterialChannels": [
+          "baseColor",
+          "normal",
+          "metallicRoughness"
+        ],
+        "rigPreset": "Recovered Mixamo humanoid hierarchy with distributed anatomical weights fitted to the limestone sentinel",
+        "requestedCoreMotions": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death"
+        ],
+        "role": {
+          "region": "karrowmoor",
+          "tier": 10,
+          "levels": [
+            12,
+            13
+          ],
+          "currentForm": "Vault Custodian"
+        },
+        "visualAndMotionAcceptance": "pending-root-feature-lab-review"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "candidateFile": "vault-custodian-candidate.glb",
+      "bounds": {
+        "min": [
+          -0.5750489586355553,
+          2.9235710934032263e-17,
+          -0.26520522591307577
+        ],
+        "max": [
+          0.5750489586355552,
+          2.15,
+          0.26520522591307577
+        ]
+      },
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.48,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": null,
+      "measuredGait": null
+    }
+  ],
+  "pack": {
+    "id": "corealm-tripo-audit-vault-custodian",
+    "name": "Corealm Tripo audited Vault Custodian",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-vault-custodian/build-candidate.mjs",
+    "generatorSha256": "d58ca809020165b8ae61be6b08de4b88e0fe3bcd3f7c703e7f2e5c3ba8019c11",
+    "license": "LicenseRef-Corealm-Original"
+  }
+}

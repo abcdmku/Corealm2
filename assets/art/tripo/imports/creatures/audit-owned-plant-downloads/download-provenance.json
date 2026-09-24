@@ -1,0 +1,62 @@
+{
+  "schema": "corealm-tripo-owned-downloads/1",
+  "downloadedAtUtc": "2026-09-23T23:21:03.263Z",
+  "records": [
+    {
+      "id": "eab6d009-e9e3-4685-ad92-370117420c63",
+      "name": "mooncap-fungus",
+      "file": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/mooncap-fungus-eab6d009-e9e3-4685-ad92-370117420c63.glb",
+      "bytes": 12012780,
+      "sha256": "1fc21c19b6b94831f6d0c122dbdd3cd5bc1415f3f205d12f73f515908cb3610a",
+      "detailUrl": "https://studio.tripo3d.ai/3d-model/mushroom-humanoid-creature-with-layered-petals-and-bark-like-skin-pur-eab6d009-e9e3-4685-ad92-370117420c63",
+      "sourceCdnPath": "https://tripo-data.rg1.data.tripo3d.com/tripo-studio/20260914/16ca8513-2496-49f3-934c-713ecedd022f/tripo_texture_16ca8513-2496-49f3-934c-713ecedd022f_meshopt.glb",
+      "operatorType": "texture_generation",
+      "operatorStatus": "success",
+      "operatorId": "16ca8513-2496-49f3-934c-713ecedd022f",
+      "projectName": "mushroom humanoid 3d model",
+      "sourcePrompt": "mushroom humanoid creature with layered petals and bark-like skin, purple and beige colors, glowing eyes, plant-branch arms."
+    },
+    {
+      "id": "64833df9-8eee-437f-9010-9ca3483dc015",
+      "name": "thicketwalker",
+      "file": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/thicketwalker-64833df9-8eee-437f-9010-9ca3483dc015.glb",
+      "bytes": 20817676,
+      "sha256": "1e41b47c9a4b80de1e828a8d45ec75220e7cdcc7eb017c37a776d4b37eee44f0",
+      "detailUrl": "https://studio.tripo3d.ai/3d-model/mossy-forest-creature-with-glowing-orange-eyes-and-mushroom-topped-dom-64833df9-8eee-437f-9010-9ca3483dc015",
+      "sourceCdnPath": "https://tripo-data.rg1.data.tripo3d.com/tripo-studio/20260914/a099dc19-6419-4483-916b-e1ce30431922/tripo_texture_a099dc19-6419-4483-916b-e1ce30431922_meshopt.glb",
+      "operatorType": "texture_generation",
+      "operatorStatus": "success",
+      "operatorId": "a099dc19-6419-4483-916b-e1ce30431922",
+      "projectName": "mossy forest creature 3d model",
+      "sourcePrompt": "mossy forest creature with glowing orange eyes and mushroom-topped dome"
+    },
+    {
+      "id": "a35c5493-c162-4927-a59c-028f5b6508e6",
+      "name": "leafarmed-plant",
+      "file": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/leafarmed-plant-a35c5493-c162-4927-a59c-028f5b6508e6.glb",
+      "bytes": 22502588,
+      "sha256": "0d16388149b62333663fca1896ab162cfe547f477e3d117acb2b77e1d3b95b5e",
+      "detailUrl": "https://studio.tripo3d.ai/3d-model/plant-humanoid-creature-with-vine-limbs-and-leaf-textures-a35c5493-c162-4927-a59c-028f5b6508e6",
+      "sourceCdnPath": "https://tripo-data.rg1.data.tripo3d.com/tripo-studio/20260923/d580e8b2-2355-456d-9301-14b8ab9086bf/tripo_texture_d580e8b2-2355-456d-9301-14b8ab9086bf_meshopt.glb",
+      "operatorType": "pbr",
+      "operatorStatus": "success",
+      "operatorId": "d580e8b2-2355-456d-9301-14b8ab9086bf",
+      "projectName": "plant creature 3d model",
+      "sourcePrompt": "plant humanoid creature with vine limbs and leaf textures"
+    },
+    {
+      "id": "7508cd34-a17e-4945-8c38-e6ae4542f4b2",
+      "name": "pinkbud-plant",
+      "file": "assets/art/tripo/imports/creatures/audit-owned-plant-downloads/pinkbud-plant-7508cd34-a17e-4945-8c38-e6ae4542f4b2.glb",
+      "bytes": 29734720,
+      "sha256": "2249b8a7f602c279315664a53885872b7b461f8fc5cfd4bc42d3ec8f3f59ef92",
+      "detailUrl": "https://studio.tripo3d.ai/3d-model/plant-creature-with-vine-wrapped-torso-and-limbs-leafy-crown-mossy-b-7508cd34-a17e-4945-8c38-e6ae4542f4b2",
+      "sourceCdnPath": "https://tripo-data.rg1.data.tripo3d.com/tripo-studio/20260923/56281557-95f9-4632-bfd0-e491b4f8b5dc/tripo_rigging_56281557-95f9-4632-bfd0-e491b4f8b5dc_meshopt.glb",
+      "operatorType": "rigging",
+      "operatorStatus": "success",
+      "operatorId": "56281557-95f9-4632-bfd0-e491b4f8b5dc",
+      "projectName": "plant creature 3d model",
+      "sourcePrompt": "plant creature with vine-wrapped torso and limbs, leafy crown, mossy bark texture, tall bipedal stance"
+    }
+  ]
+}
