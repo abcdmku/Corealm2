@@ -1,0 +1,391 @@
+{
+  "schema": "corealm-creature-polish-promotion/1",
+  "group": "fire_golems",
+  "builder": {
+    "file": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/build-candidates.mjs",
+    "sha256": "800b1e3aaee990e9cd90c99ec6a291d52093fc4f5696a77c421fa7aa3c744743"
+  },
+  "candidates": [
+    {
+      "id": "creature_furnace_regent",
+      "name": "Furnace Regent",
+      "status": "awaiting-root-lab-review",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_furnace_regent-candidate.glb",
+      "sha256": "15d798596c95c5b95f3dda6d55594b2494358f43c2b15948c162094fb81fd5f2",
+      "bytes": 8050312,
+      "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/sources/creature_furnace_regent.glb",
+      "sourceSha256": "84be6dbd88044bc31f999166a58f60fc42422c40f1d8ad5591091a6b59dfe110",
+      "provenance": {
+        "author": "gavlig",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+        "source": "https://opengameart.org/content/lava-golem",
+        "sourceAssets": [
+          "golem_clean.blend",
+          "golem_emit.png"
+        ],
+        "sourcePacks": [
+          {
+            "id": "gavlig-lava-golem-clean",
+            "author": "gavlig",
+            "license": "CC0-1.0",
+            "source": "https://opengameart.org/content/lava-golem",
+            "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+          }
+        ],
+        "sourceRecords": [
+          {
+            "archive": "golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+            "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+            "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
+          }
+        ],
+        "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+      },
+      "builderSha256": "800b1e3aaee990e9cd90c99ec6a291d52093fc4f5696a77c421fa7aa3c744743",
+      "imagegen": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/textures/furnace-regent-imagegen.png",
+        "sha256": "227b9227e9a642310fa7bb379ed233d8496d4a2e395f14398fcba70fdfc0ad39",
+        "promptMode": "built-in edit",
+        "runtimeAtlasSha256": "e60db6e445aa4591228cf38870e370ab76cb3ff3224916239d4d2693f4c89db1",
+        "dimensions": [
+          1254,
+          1254
+        ]
+      },
+      "geometry": {
+        "vertices": 3337,
+        "triangles": 5502,
+        "topologyAndSkinAttributesPreserved": true,
+        "sculpt": {
+          "changedVertices": 2676,
+          "maximumYIncrease": 0.05744349956512451,
+          "description": "Existing mesh shoulders widened and lifted into a crest, crown shoulders raised into paired rocky points, chest given extra depth; topology, UVs, weights, and rig unchanged."
+        }
+      },
+      "rig": {
+        "joints": 71,
+        "originalWeightsPreserved": true
+      },
+      "size": {
+        "x": 2.2354191455659063,
+        "y": 3.5045161708807333,
+        "z": 1.4045030560371417
+      },
+      "bounds": {
+        "min": [
+          -1.138901253121026,
+          0.003622812236736772,
+          -0.7607888984443372
+        ],
+        "max": [
+          1.0965178924448802,
+          3.50813898311747,
+          0.6437141575928045
+        ]
+      },
+      "materials": [
+        "Furnace Regent layered stone"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368
+        },
+        {
+          "name": "Run",
+          "seconds": 1.1494252681732178
+        },
+        {
+          "name": "Attack",
+          "seconds": 2
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6000000238418579
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6000000238418579
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6000000238418579
+        },
+        {
+          "name": "Death",
+          "seconds": 1.600000023841858
+        }
+      ],
+      "attackSeconds": 2,
+      "contactNormalized": 0.52,
+      "identity": "High-tier forge lord with wider plated shoulders, paired crown peaks and deeper chest; black obsidian, gold mineral strata and a concentrated molten core.",
+      "contentRecommendation": "Keep furnace_regent_t50 as the high-tier L90/L149 Furnace Regent identity; the candidate retains its 3.4 m boss height. Reserve this identity for major encounters.",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_kiln_marrow",
+      "name": "Kiln Marrow",
+      "status": "awaiting-root-lab-review",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_kiln_marrow-candidate.glb",
+      "sha256": "d33ccb8155e8df794f7bd17ace02fe1625f338f4e93e902a608d0964b159460d",
+      "bytes": 6558980,
+      "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/sources/creature_kiln_marrow.glb",
+      "sourceSha256": "5060643069a814557f3e47baa170bad8b583d98b274f31e6995d6cdc62c91208",
+      "provenance": {
+        "author": "gavlig",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+        "source": "https://opengameart.org/content/lava-golem",
+        "sourceAssets": [
+          "golem_clean.blend",
+          "golem_emit.png"
+        ],
+        "sourcePacks": [
+          {
+            "id": "gavlig-lava-golem-clean",
+            "author": "gavlig",
+            "license": "CC0-1.0",
+            "source": "https://opengameart.org/content/lava-golem",
+            "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+          }
+        ],
+        "sourceRecords": [
+          {
+            "archive": "golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+            "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+            "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
+          }
+        ],
+        "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+      },
+      "builderSha256": "800b1e3aaee990e9cd90c99ec6a291d52093fc4f5696a77c421fa7aa3c744743",
+      "imagegen": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/textures/kiln-marrow-imagegen-v2.png",
+        "sha256": "a63d2ff3deb602cc690107134f742c3edf6dff1c23ab99deeaa9f73f26f2815c",
+        "promptMode": "built-in edit",
+        "runtimeAtlasSha256": "5b2280650da9613934531d54374c8e205dbeb4e73a54bfd5868d45dc78eb3816",
+        "dimensions": [
+          1254,
+          1254
+        ]
+      },
+      "geometry": {
+        "vertices": 3337,
+        "triangles": 5502,
+        "topologyAndSkinAttributesPreserved": true,
+        "sculpt": null
+      },
+      "rig": {
+        "joints": 71,
+        "originalWeightsPreserved": true
+      },
+      "size": {
+        "x": 1.4464477213994682,
+        "y": 2.2,
+        "z": 0.9087961159794131
+      },
+      "bounds": {
+        "min": [
+          -0.7369361394346231,
+          0.0023441722697935805,
+          -0.49227516179741543
+        ],
+        "max": [
+          0.709511581964845,
+          2.2023441722697936,
+          0.41652095418199764
+        ]
+      },
+      "materials": [
+        "Kiln Marrow layered stone"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368
+        },
+        {
+          "name": "Run",
+          "seconds": 1.1494252681732178
+        },
+        {
+          "name": "Attack",
+          "seconds": 2
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6000000238418579
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6000000238418579
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6000000238418579
+        },
+        {
+          "name": "Death",
+          "seconds": 1.600000023841858
+        }
+      ],
+      "attackSeconds": 2,
+      "contactNormalized": 0.52,
+      "identity": "Lower-tier cooled kiln construct: crisp chipped ash plates, dark seams, sparse banked embers and a legible stone face.",
+      "contentRecommendation": "Use the smaller 2.2 m asset for kiln_marrow_t20 and pack_kilnhalt_clinker_southern_approach_west at L25/L28; review any L77 use because it now reads as an ordinary kiln construct. The ashback_bears and cinder_ravager_residents IDs still need content identity review.",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_lava_golem",
+      "name": "Lava Golem",
+      "status": "awaiting-root-lab-review",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_lava_golem-candidate.glb",
+      "sha256": "1ad51fe4fd7a162d03efc2b2a629f6b8b35befa0264a6ee7e269774e74c4b881",
+      "bytes": 16676516,
+      "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/sources/creature_lava_golem.glb",
+      "sourceSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+      "provenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
+        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
+        "sourceSha256": "b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3",
+        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
+        "candidateSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+        "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
+        "textures": [
+          {
+            "name": "demon+creature+3d+model_basecolor.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 2107997
+          },
+          {
+            "name": "demon+creature+3d+model_rm.png",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/png",
+            "bytes": 4025092
+          },
+          {
+            "name": "demon+creature+3d+model_normal.jpg",
+            "width": 2048,
+            "height": 2048,
+            "mime": "image/jpeg",
+            "bytes": 524633
+          }
+        ],
+        "candidateStatus": "accepted-production-lab",
+        "sourceFiltering": "Four detached C1 row-boundary shards removed (256 triangles); retained C4 mesh topology, UVs, normals, and PBR maps unchanged.",
+        "candidateDisplayName": "Magma Spike Demon",
+        "productionIdentity": "Fire Golem",
+        "acceptanceEvidence": "Accepted in production lab after C4 shard removal: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
+      },
+      "builderSha256": "800b1e3aaee990e9cd90c99ec6a291d52093fc4f5696a77c421fa7aa3c744743",
+      "imagegen": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/textures/lava-golem-imagegen.png",
+        "sha256": "91bf4cd0094afcf337e66af29520d14a0f023118da03e00fae35d8635eee0b9e",
+        "promptMode": "built-in edit",
+        "runtimeAtlasSha256": "ac8a0c6e89fe4905a98e55217680f7f33582cb43198ccbfd231285402ca71e4a",
+        "dimensions": [
+          2048,
+          2048
+        ]
+      },
+      "geometry": {
+        "vertices": 4722,
+        "triangles": 2519,
+        "topologyAndSkinAttributesPreserved": true,
+        "sculpt": null
+      },
+      "rig": {
+        "joints": 22,
+        "originalWeightsPreserved": true
+      },
+      "size": {
+        "x": 1.9451221559105851,
+        "y": 2.2,
+        "z": 1.0865853914400427
+      },
+      "bounds": {
+        "min": [
+          -0.9725610779552926,
+          0,
+          0.013414608559957367
+        ],
+        "max": [
+          0.9725610779552926,
+          2.2,
+          1.1
+        ]
+      },
+      "materials": [
+        "Lava Golem layered stone"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 2.799999952316284
+        },
+        {
+          "name": "Walk",
+          "seconds": 1
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7200000286102295
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.9200000166893005
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.46000000834465027
+        },
+        {
+          "name": "Death",
+          "seconds": 1.4500000476837158
+        }
+      ],
+      "attackSeconds": 0.92,
+      "contactNormalized": null,
+      "identity": "Distinct spindly C4 fire creature with volcanic mosaic replacing its multicolor atlas; its silhouette still reads demonic, so this is a surface polish only.",
+      "contentRecommendation": "For lava_golem_t10 at L13, set presentation scale near 0.78 of this 2.2 m asset, or give it a smaller dedicated base. fire_golem_t20 Kilncrust at L28 can retain this 2.2 m candidate. Its demonic anatomy remains distinct from Regent and Marrow.",
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

@@ -16,7 +16,7 @@ Fen Crawler, Rootbound Colossus, Mooncap Sporekin and Thicket Spirit are now pro
 
 Current acceptance evidence is in `test-results/creature-audit/continuation-session/session.jsonl`. Fen and Rootheart whole-corpse views and both Thicket tier scales were recaptured with normal player-follow cameras. Lab combat showed Fen 30 -> 26 HP, Rootheart 124 -> 118 HP, and elder Thicket 208 -> 202 -> 190 HP. Mooncap retains matching-hash round3 combat/death proof. Typecheck, six focused creature/content test files (35 tests) and content validation passed. The three known lab-only missing-model warnings remain. Production build passed, including navigation, world/server packs and asset budgets. Representative Fen Crawler world acceptance passed in the rebaked Blackwater population: HP 17 -> 10 -> 0, Run/Attack/Death, one drawn mesh throughout the sampled interaction, normal player-follow camera and no errors. The corrected tier-5 body radius is 0.38148m. Other three families still need representative world views. Initial teleport visibility was delayed; no streaming changes were made.
 
-Production catalog now has 67 entries. Remaining original verdicts: 49 replacements and 28 polish assets.
+Production catalog now has 75 entries. Remaining original verdicts: 49 replacements and 20 polish assets.
 
 Vault Custodian and Faeholme Nightbloom are promoted in the second continuation batch. Their source preservation commit is 72ddc08. Fresh whole-corpse views passed at normal camera angles; Vault combat showed 38 -> 35 -> 29 HP and Nightbloom 724 -> 715 -> 695 HP with Attack. Vault scale is 0.84. Typecheck, the six focused files / 35 tests, content validation and production build passed for this second batch. Luna source review found no defects. The first Vault world check was interrupted by a stopped development server and failed model requests. After restart, normal-camera world combat at scree_boars_1 showed HP 30 -> 17 -> 0 and visible full-size sentinels, with no current-document game errors. Instanced bodies were slow to enter the animated Death path; world death animation remains a follow-up for the separate rendering thread. See vault-world-contact-12.png and its motion journal.
 
@@ -60,7 +60,7 @@ Baseline validation passed: production build including asset budgets/world/serve
 
 ## Files, evidence and dirty work
 
-- Production-only accepted catalog: test-results/creature-audit/production-candidates.json, 67 entries.
+- Production-only accepted catalog: test-results/creature-audit/production-candidates.json, 75 entries.
 - Combined lab catalog: test-results/creature-audit/candidates.json, last 67 entries, including staged work. NOT a promotion/acceptance list.
 - Lab journal/evidence: test-results/creature-audit/resume-session/session.jsonl and screenshots under that session directory. Search filenames rather than dumping the huge journal.
 - Source/build directories: assets/art/tripo/imports/creatures/audit-*/. Candidate-specific catalogs and builders live there. Many staged directories are untracked and LOCAL ONLY. A fresh clone does not contain them. Preserve them on this workstation or explicitly transfer/commit reviewed source work.
@@ -306,12 +306,12 @@ Deliver a small ready batch early. Reuse existing asset tools/builders; do not a
 | reptiles | creature_kiln_salamander, creature_reedjaw_crocodile, creature_ashscale_monitor, creature_slateback_tortoise | Promoted; root/Luna visuals, 35 regressions, content check and production build passed |
 | mammals | creature_bracken_tapir, creature_duskoak_lynx, creature_quillback_porcupine | Promoted; root/Luna visuals, 35 regressions, content check and production build passed |
 | arthropods | creature_antler_beetle, creature_slag_centipede | Promoted; root/Luna visuals, 35 regressions, content check and production build passed |
-| fairy_garden | fairy_garden_frog_faeholme, fairy_garden_snail_faeholme, fairy_garden_snail_gloamgarden | Assigned |
-| shaman | creature_goblin_shaman | Assigned |
+| fairy_garden | fairy_garden_frog_faeholme, fairy_garden_snail_faeholme, fairy_garden_snail_gloamgarden | Mooncap and Orchid promoted; Starcap death-scale repair pending final visual |
+| shaman | creature_goblin_shaman | Promoted; root/Luna visuals and focused checks passed; production build passed |
 | skeletons | creature_skeleton_archer, creature_skeleton_mage, creature_skeleton_soldier | Assigned |
 | earth_golems | creature_cairn_treader, creature_chalk_warden, creature_shale_elemental | Assigned |
-| fire_golems | creature_furnace_regent, creature_kiln_marrow, creature_lava_golem | Assigned |
-| zombies | creature_plague_zombie, creature_zombie | Assigned |
+| fire_golems | creature_furnace_regent, creature_kiln_marrow, creature_lava_golem | Promoted; root/Luna visuals and focused checks passed; production build passed |
+| zombies | creature_plague_zombie, creature_zombie | Promoted; root/Luna visuals and focused checks passed; production build passed |
 | reaver | creature_gloamfang_reaver | Assigned |
 | rootwood | creature_starroot_guardian, creature_briar_harrow | Assigned |
 | votary | creature_cinder_penitent | Assigned |
@@ -323,6 +323,8 @@ Deliver a small ready batch early. Reuse existing asset tools/builders; do not a
 
 The user delivered thirteen new GLBs from Downloads at 22:27?22:28 on September 23 and requested completion alongside all polish. Mapping and preserved-source directories are recorded in docs/creature-generation-queue.md. All are static textured exports; Sol workers prepared anatomical rigs/clips, with Luna source review. Candidate files alone are not accepted. Thirteen bases yield fifteen candidate IDs because Bloomheart has a separate Sovereign variant and the veilspirit base serves two IDs. The user explicitly confirmed the spider-named export is Reed Strider and the elf-named export is the shared veilspirit base; this supersedes the provisional Gorge Mantis inference.
 
-Root accepted the four small-wildlife texture finishes using normal-camera idle/walk screenshots and Luna map/source/visual review. Native geometry and clips are unchanged. Exact original GLBs are preserved under audit-polish-small_wildlife/sources and the builder uses those pinned copies. All 35 focused creature/content regressions and content validation passed. Production build passed, including world/server packs and asset budgets. The next nine polish assets (mammals, reptiles and arthropods) also passed root/Luna visuals, the 35 focused regressions, content validation and the production build. Thirteen of the 41 polish assets are now promoted; 28 polish assets and all thirteen delivered replacement bases remain pending acceptance.
+Root accepted the four small-wildlife texture finishes using normal-camera idle/walk screenshots and Luna map/source/visual review. Native geometry and clips are unchanged. Exact original GLBs are preserved under audit-polish-small_wildlife/sources and the builder uses those pinned copies. All 35 focused creature/content regressions and content validation passed. Production build passed, including world/server packs and asset budgets. The next nine polish assets (mammals, reptiles and arthropods) also passed root/Luna visuals, the 35 focused regressions, content validation and the production build. Twenty-one of the 41 polish assets are now promoted; 20 polish assets and all thirteen delivered replacement bases remain pending acceptance.
 
 Current Vite is http://127.0.0.1:62553. Port 4173 serves another worktree and is not valid evidence for this checkout. Early shaman screenshots without polish-ready prefix used that other server and must not count. The proper-checkout continuation session can stall after many gallery swaps; reopen between small groups and inspect actual visibility. Empty or occluded captures are rejected, even when drawn bounds report meshes. No renderer or streaming fix was made.
+
+Batch three locally promotes eight assets: fire golems (3), zombies (2), shaman, Mooncap and Orchid. Normal-camera captures use polish-final-*, polish-revised-* and polish-clear-*; shaman integrated combat and errors are recorded in the continuation journal. Typecheck, content validation and 54 focused tests pass; production build passed. Updated attack contacts and footprints, removed stale uncalibrated pursuit caps, and reduced low-tier Lava Golem scale to 0.78. Retired ash tools that rebuilt obsolete rigs from current production models; tests now validate shipped assets. Updated an obsolete regional-boss test to the current authored multipliers. Starcap is not accepted: its Death-only presentation scale doubled the body; repaired candidate 09ea866c needs another corpse capture.

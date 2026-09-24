@@ -113,12 +113,10 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_duskoak_lynx": 5.0455,
   "creature_goblin_archer": 11.2765,
   "creature_goblin_scout": 11.2787,
-  "creature_goblin_shaman": 11.2634,
   "creature_gorge_mantis": 5.6667,
   "creature_grave_ghoul": 14.1415,
   "creature_iron_golem": 22.5261,
   "creature_kiln_salamander": 0.9316,
-  "creature_lava_golem": 9.1254,
   "creature_marchfield_turkey": 1.8285,
   "creature_marsh_moose": 7.0213,
   // creature_marsh_wasp: no measured stride
@@ -165,7 +163,6 @@ CREATURE_PURSUIT_CEILING_MPS["creature_hollow_bough"] = 3.4299;
 CREATURE_PURSUIT_CEILING_MPS["creature_briar_harrow"] = 3.8976;
 CREATURE_MOTION_TIMING["creature_fen_crawler"] = { seconds: 0.86, contactNormalized: 0.5 };
 CREATURE_PURSUIT_CEILING_MPS["creature_reed_strider"] = 3.3336;
-CREATURE_PURSUIT_CEILING_MPS["creature_kiln_marrow"] = 9.1254;
 CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
 CREATURE_PURSUIT_CEILING_MPS["creature_cairn_treader"] = 8.1089;
 CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
@@ -202,7 +199,6 @@ CREATURE_PURSUIT_CEILING_MPS["creature_purple_wilderness_dragon"] = 3.6817;
 // drop both under the shared speed a boss has to keep. Their run cycles need the longer stride,
 // not a lower ceiling.
 CREATURE_PURSUIT_CEILING_MPS["creature_boss_mossbound"] = 6.6059;
-CREATURE_PURSUIT_CEILING_MPS["creature_furnace_regent"] = 11.0199;
 CREATURE_PURSUIT_CEILING_MPS["creature_hollow_star"] = 10.8546;
 
 CREATURE_PURSUIT_CEILING_MPS["creature_ivory_castellan"] = 31.7487;
@@ -280,7 +276,7 @@ for (const region of ['gloamgarden', 'faeholme']) {
     ['drake', 'creature_baby_red_dragon'], ['wardling', 'fairy_monster_34'], ['petalguard', 'fairy_monster_31'],
   ] as const) {
     const id = `fairy_garden_${form}_${region}`;
-    if (form === 'petalguard' || form === 'reliquary' || id === 'fairy_garden_sporekin_gloamgarden') continue;
+    if (form === 'petalguard' || form === 'reliquary' || id === 'fairy_garden_sporekin_gloamgarden' || id === 'fairy_garden_frog_faeholme') continue;
     // These imports use their own recovered native rigs and a retargeted jab.
     if (id === 'fairy_garden_sporekin_faeholme' || id === 'fairy_garden_sapling_gloamgarden' || id === 'fairy_garden_sapling_faeholme') {
       CREATURE_MOTION_TIMING[id] = { seconds: 0.866666675, contactNormalized: 0.26 };
@@ -367,3 +363,9 @@ CREATURE_MOTION_TIMING["creature_flint_mandible"] = { seconds: 0.860000014305114
 CREATURE_MOTION_TIMING["creature_silverthorn_harrow"] = { seconds: 0.8666666746139526, contactNormalized: 0.5 };
 
 CREATURE_MOTION_TIMING["creature_beetle_golem"] = { seconds: 1.14, contactNormalized: 0.56 / 1.14 };
+
+// Accepted polish clips with authored contact frames.
+CREATURE_MOTION_TIMING["creature_goblin_shaman"] = { seconds: 0.5, contactNormalized: 0.42 };
+CREATURE_MOTION_TIMING["creature_lava_golem"] = { seconds: 0.92, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_garden_snail_gloamgarden"] = { seconds: 0.78, contactNormalized: 0.52 };
+CREATURE_MOTION_TIMING["fairy_garden_frog_faeholme"] = { seconds: 0.68, contactNormalized: 0.48 };

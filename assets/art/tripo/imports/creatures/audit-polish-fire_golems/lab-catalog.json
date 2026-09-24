@@ -1,0 +1,238 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_furnace_regent",
+      "file": "models/creature/creature_furnace_regent.glb",
+      "pack": "corealm-tripo-audit-polish-fire-golems",
+      "category": "character",
+      "is": "Furnace Regent",
+      "tags": [
+        "creature",
+        "golem",
+        "fire",
+        "image-generated-texture",
+        "polish-candidate"
+      ],
+      "bytes": 8050312,
+      "sha256": "15d798596c95c5b95f3dda6d55594b2494358f43c2b15948c162094fb81fd5f2",
+      "size": {
+        "x": 2.2354191455659063,
+        "y": 3.5045161708807333,
+        "z": 1.4045030560371417
+      },
+      "base": {
+        "x": -1.138901253121026,
+        "y": 0.003622812236736772,
+        "z": -0.7607888984443372
+      },
+      "bounds": {
+        "min": [
+          -1.138901253121026,
+          0.003622812236736772,
+          -0.7607888984443372
+        ],
+        "max": [
+          1.0965178924448802,
+          3.50813898311747,
+          0.6437141575928045
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5502,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Furnace Regent layered stone"
+      ],
+      "walkClipSeconds": 1.6666666269302368,
+      "runClipSeconds": 1.1494252681732178,
+      "attackSeconds": 2,
+      "contactNormalized": 0.52,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/sources/creature_furnace_regent.glb",
+        "sourceSha256": "84be6dbd88044bc31f999166a58f60fc42422c40f1d8ad5591091a6b59dfe110",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_furnace_regent-candidate.glb",
+        "candidateSha256": "15d798596c95c5b95f3dda6d55594b2494358f43c2b15948c162094fb81fd5f2",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_kiln_marrow",
+      "file": "models/creature/creature_kiln_marrow.glb",
+      "pack": "corealm-tripo-audit-polish-fire-golems",
+      "category": "character",
+      "is": "Kiln Marrow",
+      "tags": [
+        "creature",
+        "golem",
+        "fire",
+        "image-generated-texture",
+        "polish-candidate"
+      ],
+      "bytes": 6558980,
+      "sha256": "d33ccb8155e8df794f7bd17ace02fe1625f338f4e93e902a608d0964b159460d",
+      "size": {
+        "x": 1.4464477213994682,
+        "y": 2.2,
+        "z": 0.9087961159794131
+      },
+      "base": {
+        "x": -0.7369361394346231,
+        "y": 0.0023441722697935805,
+        "z": -0.49227516179741543
+      },
+      "bounds": {
+        "min": [
+          -0.7369361394346231,
+          0.0023441722697935805,
+          -0.49227516179741543
+        ],
+        "max": [
+          0.709511581964845,
+          2.2023441722697936,
+          0.41652095418199764
+        ]
+      },
+      "groundY": 0,
+      "triangles": 5502,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Kiln Marrow layered stone"
+      ],
+      "walkClipSeconds": 1.6666666269302368,
+      "runClipSeconds": 1.1494252681732178,
+      "attackSeconds": 2,
+      "contactNormalized": 0.52,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/sources/creature_kiln_marrow.glb",
+        "sourceSha256": "5060643069a814557f3e47baa170bad8b583d98b274f31e6995d6cdc62c91208",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_kiln_marrow-candidate.glb",
+        "candidateSha256": "d33ccb8155e8df794f7bd17ace02fe1625f338f4e93e902a608d0964b159460d",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_lava_golem",
+      "file": "models/creature/creature_lava_golem.glb",
+      "pack": "corealm-tripo-audit-polish-fire-golems",
+      "category": "character",
+      "is": "Lava Golem",
+      "tags": [
+        "creature",
+        "golem",
+        "fire",
+        "image-generated-texture",
+        "polish-candidate"
+      ],
+      "bytes": 16676516,
+      "sha256": "1ad51fe4fd7a162d03efc2b2a629f6b8b35befa0264a6ee7e269774e74c4b881",
+      "size": {
+        "x": 1.9451221559105851,
+        "y": 2.2,
+        "z": 1.0865853914400427
+      },
+      "base": {
+        "x": -0.9725610779552926,
+        "y": 0,
+        "z": 0.013414608559957367
+      },
+      "bounds": {
+        "min": [
+          -0.9725610779552926,
+          0,
+          0.013414608559957367
+        ],
+        "max": [
+          0.9725610779552926,
+          2.2,
+          1.1
+        ]
+      },
+      "groundY": 0,
+      "triangles": 2519,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Lava Golem layered stone"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.92,
+      "contactNormalized": null,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/sources/creature_lava_golem.glb",
+        "sourceSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_lava_golem-candidate.glb",
+        "candidateSha256": "1ad51fe4fd7a162d03efc2b2a629f6b8b35befa0264a6ee7e269774e74c4b881"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_furnace_regent": "creature_furnace_regent-candidate.glb",
+    "creature_kiln_marrow": "creature_kiln_marrow-candidate.glb",
+    "creature_lava_golem": "creature_lava_golem-candidate.glb"
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "builderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
+  "results": [
+    {
+      "id": "fairy_garden_snail_faeholme",
+      "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/starwhorl-snail-faeholme.glb",
+      "sourceSha256": "4175ccd50cb3030b7519066eb33cd544c0a953f84abdd745497cc30c386bcba4",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/starcap-snail-faeholme-optimized.glb",
+      "candidateSha256": "09ea866cd9680db1182e5ba98f5816259633437caebeab6c2c851e371b8001d6",
+      "bytes": 4119432,
+      "atlasFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/starcap-uv.png",
+      "atlasSha256": "c97d201adb34879c026687fe183a64deaa9da4bbc3e82886613e9fe465ed2acb",
+      "size": {
+        "x": 0.5754387475353786,
+        "y": 0.6586190154873619,
+        "z": 1.4463905890502537
+      },
+      "bounds": {
+        "min": [
+          -0.3633412249811813,
+          0,
+          -0.7100298579385416
+        ],
+        "max": [
+          0.21209752255419728,
+          0.6586190154873619,
+          0.7363607311117122
+        ]
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Run",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "joints": 12,
+      "geometryUvWeightsIndicesPreserved": true,
+      "accepted": false,
+      "sourceVertices": 53664,
+      "weldedVertices": 9321,
+      "triangleCornersExact": true,
+      "removedStaticScaleTracks": 8,
+      "animationSamplersValid": true,
+      "optimizationBuilderSha256": "e0e68ca9db2c000fdf40b3ad0f577bc090776ffdfb83968150354ec1f04fed10",
+      "removedDeathPresentationScaleTracks": 1,
+      "deathPresentationScale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "deathFloorCorrectionMeters": 0.04
+    },
+    {
+      "id": "fairy_garden_snail_gloamgarden",
+      "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/glimmercap-snail-gloamgarden.glb",
+      "sourceSha256": "2efd631a52011eee93982694f9eeb029c9effa8a495566567b0d1b426cf8b2d1",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/mooncap-snail-gloamgarden.glb",
+      "candidateSha256": "edadb4e40ad6b3e90274ac8f2b282eeda7f279e6ae313ce3eabe754ef7fb4fb9",
+      "bytes": 6743740,
+      "atlasFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/mooncap-uv.png",
+      "atlasSha256": "6e302ab3127e32dd039dd31ed143b334040774acc3e3e082151bf0a88d2a5669",
+      "size": {
+        "x": 0.3469922208786011,
+        "y": 0.47550781250000007,
+        "z": 0.5597265625000001
+      },
+      "bounds": {
+        "min": [
+          -0.17349611043930055,
+          0,
+          -0.27986328125000004
+        ],
+        "max": [
+          0.17349611043930055,
+          0.47550781250000007,
+          0.27986328125000004
+        ]
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "joints": 14,
+      "geometryUvWeightsIndicesPreserved": true,
+      "accepted": false
+    },
+    {
+      "id": "fairy_garden_frog_faeholme",
+      "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/fairy_garden_frog_faeholme.glb",
+      "sourceSha256": "b6c0684d636eb16a0547cc142b4d7c0de54cbea65459c85f67208d06642442b6",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/orchid-pondling-faeholme.glb",
+      "candidateSha256": "ab07f72aa53ee2dc1d6a572a19e7334ec53c6a40a3f51ce8e195f731ed4ace58",
+      "bytes": 1851984,
+      "size": {
+        "x": 0.3816,
+        "y": 0.21359999999999998,
+        "z": 0.34919999999999995
+      },
+      "bounds": {
+        "min": [
+          -0.1908,
+          -0.0012,
+          -0.18839999999999998
+        ],
+        "max": [
+          0.1908,
+          0.21239999999999998,
+          0.16079999999999997
+        ]
+      },
+      "clips": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "joints": 53,
+      "sourceGeometryUvWeightsPreserved": true,
+      "petals": 3,
+      "attackSeconds": 0.68,
+      "contactNormalized": 0.48,
+      "accepted": false
+    }
+  ]
+}

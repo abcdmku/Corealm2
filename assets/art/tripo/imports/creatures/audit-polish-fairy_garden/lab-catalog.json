@@ -1,0 +1,367 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "packs": [
+    {
+      "id": "animal-pack-deluxe",
+      "name": "Animal pack deluxe",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage"
+    },
+    {
+      "id": "corealm-audit-fairy-snails",
+      "name": "Corealm Gloamgarden Snail Art",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-fairy-snails/build-candidates.mjs",
+      "generatorSha256": "0ea2f79d5fb6fa57d66fe18b3d1f3bad327e62a4b2e2ec435bd3e4bf9a24535f",
+      "license": "LicenseRef-Corealm-Original"
+    }
+  ],
+  "assets": [
+    {
+      "id": "fairy_garden_snail_faeholme",
+      "file": "models/fairy-garden/starcap-snail-faeholme-optimized.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "Starcap Snail",
+      "tags": [
+        "creature",
+        "fairy",
+        "snail",
+        "faeholme",
+        "image-generated-texture",
+        "skinned",
+        "candidate"
+      ],
+      "bytes": 4119432,
+      "sha256": "09ea866cd9680db1182e5ba98f5816259633437caebeab6c2c851e371b8001d6",
+      "size": {
+        "x": 0.5754387475353786,
+        "y": 0.6586190154873619,
+        "z": 1.4463905890502537
+      },
+      "base": {
+        "x": -0.3633412249811813,
+        "y": 0,
+        "z": -0.7100298579385416
+      },
+      "bounds": {
+        "min": [
+          -0.3633412249811813,
+          0,
+          -0.7100298579385416
+        ],
+        "max": [
+          0.21209752255419728,
+          0.6586190154873619,
+          0.7363607311117122
+        ]
+      },
+      "groundY": 0,
+      "triangles": 17888,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Run",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "animal_quarry_snail_mat_fairy_garden_snail_faeholme"
+      ],
+      "sourceProvenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "sourceRig": "snail_rig_exp.FBX",
+        "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json",
+        "sourceAssetId": "creature_quarry_snail",
+        "sourceSha256": "cfb1fc736f99631e07b6ca0b02a05391ee28fb0a34339d0c868ebe6d5ccfa298",
+        "generator": "tools/fairy-population-assets.ts",
+        "modifications": "Five-point luminous fungal star spread over the spiral shell; native geometry, UV, skin and clips preserved; presentation scale is 0.5 of the staged candidate.",
+        "generatedTexture": {
+          "file": "art/fairy-population/textures/generated/fairy_garden_snail_faeholme.png",
+          "sha256": "208fd67df41f56e5cf02f40e150ace808f34d1fa43e831a2b423443e886a45d6",
+          "width": 1254,
+          "height": 1254,
+          "columns": 1,
+          "rows": 1,
+          "bindings": [
+            {
+              "sourceTextureIndex": 0,
+              "atlasColumn": 0,
+              "atlasRow": 0,
+              "sourceTextureSha256": "26cb8671c4935ea64d2b2437746841a41e227464f2be04608df4b03636327e96",
+              "embeddedTextureSha256": "ed87722e6fcb6b557c63cffadfb09f682c1181ec0d176c11f024adea69da13ed",
+              "width": 1254,
+              "height": 1254
+            }
+          ]
+        },
+        "auditSourceFile": "game/public/assets/models/fairy-garden/fairy_garden_snail_faeholme.glb",
+        "auditSourceSha256": "6faa87ac2e74ed71b4c796eaa36693388570932767e4c6b2607ebcdab303baf7",
+        "generatedAtlas": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/starcap-uv.png",
+        "generatedAtlasSha256": "c97d201adb34879c026687fe183a64deaa9da4bbc3e82886613e9fe465ed2acb",
+        "geometry": "Original mesh, normals, UV and skin retained",
+        "motion": "Original anatomical clips, retimed Death; Gloam articulated arcs strengthened; CPU weighted floor correction",
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/starwhorl-snail-faeholme.glb",
+        "polishSourceSha256": "4175ccd50cb3030b7519066eb33cd544c0a953f84abdd745497cc30c386bcba4",
+        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
+        "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
+        "optimizationSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/starcap-snail-faeholme.glb",
+        "optimizationSourceSha256": "9555ad94d41ad368b94d46c6c0c960fdf29b5396e2ecdb56f638ed78f414713f",
+        "optimizationBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/optimize-starcap.mjs",
+        "optimizationBuilderSha256": "e0e68ca9db2c000fdf40b3ad0f577bc090776ffdfb83968150354ec1f04fed10",
+        "optimization": "Bitwise-exact indexed weld from 53664 to 9321 vertices; removed 8 constant Bone001 scale tracks, including 7 inherited malformed tracks. Removed inherited Death presentation scale that doubled the corpse; native skeletal Death plays at 2.25 rest scale. Retuned Death floor translation by up to 0.04 m for the full-size pose. Triangle corners, native skin, textures and other clips preserved."
+      },
+      "impliedWalkMps": 0.030065068446378847,
+      "impliedRunMps": 0.12076574822659426,
+      "walkClipSeconds": 4.399999618530273,
+      "runClipSeconds": 2.5999999046325684,
+      "attackSeconds": 1.5,
+      "contactNormalized": 0.48,
+      "measuredGait": null,
+      "metadata": {
+        "family": "fairy_snail",
+        "region": "faeholme",
+        "level": 80,
+        "anatomy": "Spiral shell, long traveling foot, paired eyestalks; no floating accessories",
+        "desiredInGameHeightMeters": 0.6586190154873619,
+        "deathPose": "original native collapse reaches final pose by .65 s and holds to 1.5 s",
+        "capIdentity": "Five-point luminous fungal star spread over the spiral shell"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-polish-fairy_garden\\starcap-snail-faeholme-optimized.glb"
+    },
+    {
+      "id": "fairy_garden_snail_gloamgarden",
+      "file": "models/fairy-garden/mooncap-snail-gloamgarden.glb",
+      "pack": "corealm-audit-fairy-snails",
+      "category": "character",
+      "is": "Mooncap Snail",
+      "tags": [
+        "creature",
+        "fairy",
+        "snail",
+        "gloamgarden",
+        "image-generated-texture",
+        "skinned",
+        "candidate"
+      ],
+      "bytes": 6743740,
+      "sha256": "edadb4e40ad6b3e90274ac8f2b282eeda7f279e6ae313ce3eabe754ef7fb4fb9",
+      "triangles": 4154,
+      "size": {
+        "x": 0.3469922208786011,
+        "y": 0.47550781250000007,
+        "z": 0.5597265625000001
+      },
+      "base": {
+        "x": -0.17349611043930055,
+        "y": 0,
+        "z": -0.27986328125000004
+      },
+      "bounds": {
+        "min": [
+          -0.17349611043930055,
+          0,
+          -0.27986328125000004
+        ],
+        "max": [
+          0.17349611043930055,
+          0.47550781250000007,
+          0.27986328125000004
+        ]
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Glimmercap pearlescent shell and mantle"
+      ],
+      "walkClipSeconds": 1.45,
+      "runClipSeconds": 0.92,
+      "attackSeconds": 0.78,
+      "contactNormalized": 0.52,
+      "sourceProvenance": {
+        "author": "Corealm creature rig reconstruction",
+        "source": "Astra-low approved Tripo-starred Fairy Mooncap Snail; original mesh, atlas and layered PBR sources preserved.",
+        "modelId": "c06d6fe7-0b0a-43f4-9715-ea859450dc4f",
+        "publicProjectId": "69abe6f5-af9d-4617-857d-d2ba60375f54",
+        "sourceSha256": "33c42451d79217f32e37ce9b47fe9b8adfee54d42a2c3f88ee08b3bf4a135d06",
+        "rigMethod": "14-joint articulated snail rig with component-aware shell, foot, neck and eyestalk weights; six custom clips.",
+        "candidateFile": "mooncap-snail-native-rig-candidate.glb",
+        "candidateSha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+        "auditSourceFile": "game/public/assets/models/fairy-garden/fairy_garden_snail_gloamgarden.glb",
+        "auditSourceSha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+        "generatedAtlas": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/mooncap-uv.png",
+        "generatedAtlasSha256": "6e302ab3127e32dd039dd31ed143b334040774acc3e3e082151bf0a88d2a5669",
+        "geometry": "Original mesh, normals, UV and skin retained",
+        "motion": "Original anatomical clips, retimed Death; Gloam articulated arcs strengthened; CPU weighted floor correction",
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/glimmercap-snail-gloamgarden.glb",
+        "polishSourceSha256": "2efd631a52011eee93982694f9eeb029c9effa8a495566567b0d1b426cf8b2d1",
+        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
+        "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
+        "modifications": "Silver crescent fungal caps and spore trails on a teal-lilac shell; native geometry, UV, skin and clips preserved; presentation scale is 0.56 of the staged candidate."
+      },
+      "metadata": {
+        "family": "fairy_snail",
+        "region": "gloamgarden",
+        "level": 34,
+        "anatomy": "Spiral shell, long traveling foot, paired eyestalks; no floating accessories",
+        "desiredInGameHeightMeters": 0.47550781250000007,
+        "deathPose": "original native collapse reaches final pose by .65 s and holds to 1.5 s",
+        "capIdentity": "Silver crescent fungal caps and spore trails on a teal-lilac shell"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-polish-fairy_garden\\mooncap-snail-gloamgarden.glb",
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null
+    },
+    {
+      "id": "fairy_garden_frog_faeholme",
+      "file": "models/fairy-garden/orchid-pondling-faeholme.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "Orchid Pondling",
+      "tags": [
+        "frog",
+        "toad",
+        "amphibian",
+        "water",
+        "marsh",
+        "pond",
+        "animal",
+        "passive",
+        "fairy-garden",
+        "image-generated-texture",
+        "faeholme"
+      ],
+      "bytes": 1851984,
+      "size": {
+        "x": 0.3816,
+        "y": 0.21359999999999998,
+        "z": 0.34919999999999995
+      },
+      "base": {
+        "x": -0.1908,
+        "y": -0.0012,
+        "z": -0.18839999999999998
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "materials": [
+        "animal_frog_mat_fairy_garden_frog_faeholme",
+        "Orchid frill, native patterned skin"
+      ],
+      "impliedWalkMps": 0.096,
+      "impliedRunMps": 0.36,
+      "runClipSeconds": 0.7666667103767395,
+      "sha256": "ab07f72aa53ee2dc1d6a572a19e7334ec53c6a40a3f51ce8e195f731ed4ace58",
+      "groundY": 0,
+      "sourceProvenance": {
+        "sourceAssetId": "animal_frog",
+        "sourceSha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+        "generator": "tools/fairy-population-assets.ts",
+        "modifications": "Original image-generated layered frog skin and native 53-joint body retained. Three small textured orchid frills follow the native head bone; presentation size +20%; a 0.68 s forward lunge peaks at contact.",
+        "generatedTexture": {
+          "file": "art/fairy-population/textures/generated/fairy_garden_frog_faeholme.png",
+          "sha256": "313d20fb793ea90a219b7a390a63b069e5221997a022f3a2d0a32fc434603f46",
+          "width": 1254,
+          "height": 1254,
+          "columns": 1,
+          "rows": 1,
+          "bindings": [
+            {
+              "sourceTextureIndex": 0,
+              "atlasColumn": 0,
+              "atlasRow": 0,
+              "sourceTextureSha256": "a51116102c57450f8f7f6b034fb2ce25f2361f5bb308f788375132ca66ae3c79",
+              "embeddedTextureSha256": "430d9b790ff4229aa7ababacd941de13feac6fb6ea9ee6278dccbd279429891a",
+              "width": 1254,
+              "height": 1254
+            }
+          ]
+        },
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/fairy_garden_frog_faeholme.glb",
+        "polishSourceSha256": "b6c0684d636eb16a0547cc142b4d7c0de54cbea65459c85f67208d06642442b6",
+        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
+        "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461"
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-polish-fairy_garden\\orchid-pondling-faeholme.glb",
+      "bounds": {
+        "min": [
+          -0.1908,
+          -0.0012,
+          -0.18839999999999998
+        ],
+        "max": [
+          0.1908,
+          0.21239999999999998,
+          0.16079999999999997
+        ]
+      },
+      "measuredGait": null,
+      "attackSeconds": 0.68,
+      "contactNormalized": 0.48,
+      "metadata": {
+        "family": "fairy_frog",
+        "region": "faeholme",
+        "level": 115,
+        "anatomy": "Frog body and native patterned skin with three small orchid head petals",
+        "desiredInGameHeightMeters": 0.21359999999999998
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_snail_faeholme": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-polish-fairy_garden\\starcap-snail-faeholme-optimized.glb",
+    "fairy_garden_snail_gloamgarden": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-polish-fairy_garden\\mooncap-snail-gloamgarden.glb",
+    "fairy_garden_frog_faeholme": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\assets\\art\\tripo\\imports\\creatures\\audit-polish-fairy_garden\\orchid-pondling-faeholme.glb"
+  }
+}

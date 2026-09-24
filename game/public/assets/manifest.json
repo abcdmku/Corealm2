@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T03:58:59.094Z",
+  "generatedAt": "2026-09-24T04:20:37.772Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -1026,6 +1026,22 @@
       "source": "assets/art/tripo/imports/creatures/audit-polish-arthropods/build.mjs",
       "license": "LicenseRef-Corealm-Original",
       "generatorSha256": "c5d46560e76084ab353719f780eaf503351d2f25b8291bb352a4ba6158ef79ee"
+    },
+    {
+      "id": "corealm-tripo-audit-polish-fire-golems",
+      "name": "Corealm Lava Golem adaptation",
+      "author": "User / Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/build-candidates.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "800b1e3aaee990e9cd90c99ec6a291d52093fc4f5696a77c421fa7aa3c744743"
+    },
+    {
+      "id": "corealm-polish-fairy-snails",
+      "name": "Corealm Gloamgarden Snail Art",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
+      "generatorSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
+      "license": "LicenseRef-Corealm-Original"
     }
   ],
   "assets": [
@@ -24517,23 +24533,18 @@
     {
       "id": "creature_lava_golem",
       "file": "models/creature/creature_lava_golem.glb",
-      "pack": "corealm-starred-creatures",
+      "pack": "corealm-tripo-audit-polish-fire-golems",
       "category": "character",
-      "is": "Fire Golem",
+      "is": "Lava Golem",
       "tags": [
         "creature",
-        "rpg",
-        "lava_golem",
-        "fire-golem",
-        "ashlands",
-        "t20",
-        "magma-spike-demon",
-        "demon",
-        "starred",
-        "tripo"
+        "golem",
+        "fire",
+        "image-generated-texture",
+        "polish-candidate"
       ],
-      "bytes": 6979044,
-      "sha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+      "bytes": 16676516,
+      "sha256": "1ad51fe4fd7a162d03efc2b2a629f6b8b35befa0264a6ee7e269774e74c4b881",
       "size": {
         "x": 1.9451221559105851,
         "y": 2.2,
@@ -24555,48 +24566,16 @@
         "Death"
       ],
       "materials": [
-        "tripo_node_4a7f8626-05da-45db-91ed-27230ec1c184_material"
+        "Lava Golem layered stone"
       ],
       "walkClipSeconds": 1,
-      "runClipSeconds": 0.72,
+      "runClipSeconds": 0.7200000286102295,
       "attackSeconds": 0.92,
       "sourceProvenance": {
-        "author": "Corealm candidate rig reconstruction",
-        "sourceModelId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
-        "sourceCardId": "d64af48c-ff32-405e-a05d-86ffe671cbcb",
-        "sourceFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/base.glb",
-        "sourceSha256": "b5920c3b04fe7d7dfeade19a353e4b1739f951d0258b8b6d30f8adbbb75deeb3",
-        "candidateFile": "assets/art/tripo/imports/creatures/starred-sheet-c/parts/04-magma-spike-demon/magma-spike-demon-native-rig.glb",
-        "candidateSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
-        "rigMethod": "Mixamo-named humanoid skeleton scaled to source bounds with four anatomical distance-field influences; source mesh topology, positions, normals, UVs and PBR maps are retained.",
-        "textures": [
-          {
-            "name": "demon+creature+3d+model_basecolor.jpg",
-            "width": 2048,
-            "height": 2048,
-            "mime": "image/jpeg",
-            "bytes": 2107997
-          },
-          {
-            "name": "demon+creature+3d+model_rm.png",
-            "width": 2048,
-            "height": 2048,
-            "mime": "image/png",
-            "bytes": 4025092
-          },
-          {
-            "name": "demon+creature+3d+model_normal.jpg",
-            "width": 2048,
-            "height": 2048,
-            "mime": "image/jpeg",
-            "bytes": 524633
-          }
-        ],
-        "candidateStatus": "accepted-production-lab",
-        "sourceFiltering": "Four detached C1 row-boundary shards removed (256 triangles); retained C4 mesh topology, UVs, normals, and PBR maps unchanged.",
-        "candidateDisplayName": "Magma Spike Demon",
-        "productionIdentity": "Fire Golem",
-        "acceptanceEvidence": "Accepted in production lab after C4 shard removal: normal-camera Idle, Walk, Run, Attack and Hit review; Death CPU check."
+        "sourceFile": "game/public/assets/models/creature/creature_lava_golem.glb",
+        "sourceSha256": "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_lava_golem-candidate.glb",
+        "candidateSha256": "1ad51fe4fd7a162d03efc2b2a629f6b8b35befa0264a6ee7e269774e74c4b881"
       },
       "metadata": {
         "family": "ashlands_fire_golem",
@@ -25034,7 +25013,21 @@
           2.2,
           1.1
         ]
-      }
+      },
+      "contactNormalized": null,
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
+      },
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null
     },
     {
       "id": "creature_shale_elemental",
@@ -26639,25 +26632,27 @@
       "file": "models/creature/creature_goblin_shaman.glb",
       "pack": "corealm-rpg-blink-free-rpg-weapons",
       "category": "character",
-      "is": "goblin shaman",
+      "is": "Goblin Shaman",
       "tags": [
         "creature",
-        "rpg",
-        "goblin_shaman"
+        "goblin",
+        "shaman",
+        "caster",
+        "candidate"
       ],
-      "bytes": 1254956,
-      "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421",
+      "bytes": 12546144,
+      "sha256": "812684273ffb61abc512a7df6e4958ef9aefb088c221adf944060ad2ac0fadd4",
       "size": {
-        "x": 0.4744402886657466,
-        "y": 1.3284037385110423,
-        "z": 1.5031728398789888
+        "x": 0.47444,
+        "y": 1.3284,
+        "z": 1.50317
       },
       "base": {
-        "x": -0.2677935641638479,
-        "y": 0.0019999998256083357,
-        "z": -0.9035843240991352
+        "x": -0.26779,
+        "y": 0.002,
+        "z": -0.90358
       },
-      "groundY": 0.0019999998256083357,
+      "groundY": 0.002,
       "triangles": 19861,
       "animations": [
         "Idle",
@@ -26682,39 +26677,10 @@
       "attackSeconds": 0.5,
       "contactNormalized": 0.42,
       "sourceProvenance": {
-        "sourceAssets": [
-          "base_male",
-          "outfit_male_peasant_chest",
-          "outfit_male_peasant_legs",
-          "outfit_male_peasant_boots",
-          "outfit_male_knight_scarf",
-          "animation_library_1",
-          "rpg_weapon_staff"
-        ],
-        "license": "CC0-1.0 plus Blink weapon Standard Unity Asset Store EULA",
-        "author": "Quaternius; Blink staff",
-        "animalHeadSource": null,
-        "weaponSource": {
-          "id": "blink-free-rpg-weapons",
-          "author": "Blink",
-          "license": "Standard Unity Asset Store EULA",
-          "source": "https://assetstore.unity.com/packages/3d/props/weapons/free-rpg-weapons-199738"
-        },
-        "sourcePacks": [
-          {
-            "id": "universal-base-characters",
-            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
-          },
-          {
-            "id": "modular-character-outfits-fantasy",
-            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
-          },
-          {
-            "id": "universal-animation-library",
-            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
-          }
-        ],
-        "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+        "file": "game/public/assets/models/creature/creature_goblin_shaman.glb",
+        "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421",
+        "bytes": 1254956,
+        "provenance": "Quaternius CC0 body, outfit and animations; Blink staff Standard Unity Asset Store EULA, per production manifest"
       },
       "metadata": {
         "family": "goblin",
@@ -26852,13 +26818,23 @@
         }
       },
       "acceptance": {
-        "exported": true,
-        "labAccepted": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
         "worldIntegrated": false
       },
-      "impliedWalkMps": 0.66598,
-      "impliedRunMps": 4.02264,
-      "locomotionPolicy": "speed-matched"
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": null,
+      "builderSha256": "d7ece2e219b1ae2da85c288da203f3d84e06f49d9cfafd1fdf78af7092e15dd9",
+      "strideCalibration": null,
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
+      },
+      "measuredGait": null
     },
     {
       "id": "creature_zombie",
@@ -26869,10 +26845,12 @@
       "tags": [
         "creature",
         "rpg",
-        "zombie"
+        "zombie",
+        "candidate",
+        "zombie-polish"
       ],
-      "bytes": 1422428,
-      "sha256": "4da56ba89a47940d701777b6edda08a3d4e073a0a532e7ea29e5f0ee0d0d4296",
+      "bytes": 6953980,
+      "sha256": "7139c85e0b7bd60d33fbc94f1807d0154406685ef050272bb866ca7479f2e8fe",
       "size": {
         "x": 0.7068153073102688,
         "y": 1.355348868967401,
@@ -26908,6 +26886,10 @@
       "attackSeconds": 1.7999999523162842,
       "contactNormalized": 0.34,
       "sourceProvenance": {
+        "sourceAssetId": "creature_zombie",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/sources/creature_zombie.glb",
+        "sourceSha256": "4da56ba89a47940d701777b6edda08a3d4e073a0a532e7ea29e5f0ee0d0d4296",
+        "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
         "sourceAssets": [
@@ -26918,7 +26900,33 @@
           "animation_library_1",
           "UAL2_Standard"
         ],
-        "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+        "sourceRigAndGeometryPreserved": true,
+        "sourceAnimationsPreserved": true,
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-zombies/build-candidates.mjs",
+        "builderSha256": "71827d98ebefea5550b8fbf5f5c645a3d2aeb8c0846906360d8d635d97c5d548",
+        "maps": [
+          {
+            "material": "animal_rpg_zombie_zombie_source_base_male_MI_Superhero_Male",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-skin-imagegen-v2.png",
+            "imagegenSha256": "3a0f1ee01198201c40b32076df5c1fc3c5b569cf37d4ba3d4ef76941c6f6d274",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-skin-runtime.png",
+            "runtimeSha256": "c81c5da6506b456345ef65d228b50e568d4f6dfc8d6323e9196116dc75d97c2f",
+            "width": 512,
+            "height": 512,
+            "sourceImageSha256": "a94c7b34bc9ea22aacfeafafdc0f902ad9f1a33e28667038ef59d1a03dc3d24f"
+          },
+          {
+            "material": "animal_rpg_zombie_zombie_source_outfit_male_peasant_chest_MI_Peasant",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-cloth-imagegen.png",
+            "imagegenSha256": "2d82aadbd9207acb87e9b682a497fb1e9405f998eb0db5034be296b3e252a389",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-cloth-runtime.png",
+            "runtimeSha256": "6a34344dcb885d900830a584dbe811e83e4520767db81d81f28bb7c8dbe9c01a",
+            "width": 1024,
+            "height": 1024,
+            "sourceImageSha256": "1eaebe52aa2ce8dca8fc3bb87c9234a5ce4e6b90ad70a698c431e9226696d6f3"
+          }
+        ],
+        "changes": "Layered dry pale decay, subtle bruising and restrained dusty threadbare cloth on source UVs."
       },
       "metadata": {
         "family": "zombie",
@@ -27048,13 +27056,32 @@
         }
       },
       "acceptance": {
-        "exported": true,
-        "labAccepted": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
         "worldIntegrated": false
       },
       "impliedWalkMps": 1.02122,
       "impliedRunMps": 1.02122,
-      "locomotionPolicy": "speed-matched"
+      "locomotionPolicy": "speed-matched",
+      "bounds": {
+        "min": [
+          -0.3664573356750636,
+          0.010608198623287204,
+          -0.29469200026839243
+        ],
+        "max": [
+          0.34035797163520515,
+          1.365957067590688,
+          0.4375821211167494
+        ]
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
+      }
     },
     {
       "id": "creature_skeleton_soldier",
@@ -28657,10 +28684,12 @@
       "tags": [
         "creature",
         "rpg",
-        "plague_zombie"
+        "plague_zombie",
+        "candidate",
+        "zombie-polish"
       ],
-      "bytes": 1417504,
-      "sha256": "213778109d6eabe886ac756b0f2cdd578b77a68529bd93063f633623c11c7962",
+      "bytes": 7098980,
+      "sha256": "63f2f452e34be7d4cc5dc1212b2e9a98063eb9f357d162028c48c11605a1cd53",
       "size": {
         "x": 0.7062265979047294,
         "y": 1.3542517275206305,
@@ -28696,6 +28725,10 @@
       "attackSeconds": 1.7999999523162842,
       "contactNormalized": 0.34,
       "sourceProvenance": {
+        "sourceAssetId": "creature_plague_zombie",
+        "sourceFile": "game/public/assets/models/creature/creature_plague_zombie.glb",
+        "sourceSha256": "213778109d6eabe886ac756b0f2cdd578b77a68529bd93063f633623c11c7962",
+        "sourcePack": "corealm-rpg-universal-base-characters",
         "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
         "license": "CC0-1.0",
         "sourceAssets": [
@@ -28706,7 +28739,33 @@
           "animation_library_1",
           "UAL2_Standard"
         ],
-        "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+        "sourceRigAndGeometryPreserved": true,
+        "sourceAnimationsPreserved": true,
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-zombies/build-candidates.mjs",
+        "builderSha256": "c8745e6703756490430fff0a23946318bb334640787677245ef76abc416a5096",
+        "maps": [
+          {
+            "material": "animal_rpg_plague_zombie_plague_zombie_source_base_male_MI_Superhero_Male",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-skin-imagegen.png",
+            "imagegenSha256": "57fa39ee14abc51eb19fdfaf1219b905b94f644206e74407c7df4ccef11402b2",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-skin-runtime.png",
+            "runtimeSha256": "79de2490fa9059e09691869e059918e42346fc7b1cefc14e30011087521a665e",
+            "width": 512,
+            "height": 512,
+            "sourceImageSha256": "4babc2afb8c59f3d43bc6c8236785a5ad1a969bd7fd72fa89d8cd4b6b92c318a"
+          },
+          {
+            "material": "animal_rpg_plague_zombie_plague_zombie_source_outfit_male_peasant_chest_MI_Peasant",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-cloth-imagegen.png",
+            "imagegenSha256": "e22ef14dbda578850b115383f7d379396ecdabafc853d62baed4c2f6e0047d5e",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-cloth-runtime.png",
+            "runtimeSha256": "2a5cb9491b076e85e1114faabdcff89475ace79ada8feb48ea8c3f06d45a34a1",
+            "width": 1024,
+            "height": 1024,
+            "sourceImageSha256": "bc602d9d3943faceb22512b5c3c8da5be0520acf96cf3dd201d860e79ae94fc0"
+          }
+        ],
+        "changes": "Layered olive-gray plague lesions, bruised tissue, pustules and damp mildew-frayed cloth on source UVs."
       },
       "metadata": {
         "family": "zombie",
@@ -28836,13 +28895,32 @@
         }
       },
       "acceptance": {
-        "exported": true,
-        "labAccepted": false,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
         "worldIntegrated": false
       },
       "impliedWalkMps": 1.02228,
       "impliedRunMps": 1.02228,
-      "locomotionPolicy": "speed-matched"
+      "locomotionPolicy": "speed-matched",
+      "bounds": {
+        "min": [
+          -0.36069569342900065,
+          0.01317421827718724,
+          -0.312364944669866
+        ],
+        "max": [
+          0.34553090447572876,
+          1.3674259457978177,
+          0.43834329850796994
+        ]
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
+      }
     },
     {
       "id": "creature_banshee",
@@ -33272,22 +33350,24 @@
       "is": "Kiln Marrow",
       "tags": [
         "creature",
-        "rpg",
-        "lava_golem"
+        "golem",
+        "fire",
+        "image-generated-texture",
+        "polish-candidate"
       ],
-      "bytes": 5689856,
-      "sha256": "5060643069a814557f3e47baa170bad8b583d98b274f31e6995d6cdc62c91208",
+      "bytes": 6558980,
+      "sha256": "d33ccb8155e8df794f7bd17ace02fe1625f338f4e93e902a608d0964b159460d",
       "size": {
-        "x": 1.8511195700563898,
-        "y": 2.815492737050922,
-        "z": 1.1630494836364202
+        "x": 1.4464477213994682,
+        "y": 2.2,
+        "z": 0.9087961159794131
       },
       "base": {
-        "x": -0.9431083401129667,
-        "y": 0.003,
-        "z": -0.6299987012141776
+        "x": -0.7369361394346231,
+        "y": 0.0023441722697935805,
+        "z": -0.49227516179741543
       },
-      "groundY": 0.003,
+      "groundY": 0,
       "triangles": 5502,
       "animations": [
         "Idle",
@@ -33300,39 +33380,18 @@
         "Death"
       ],
       "materials": [
-        "animal_rpg_lava_golem_lava_authored_0_golem_mat"
+        "Kiln Marrow layered stone"
       ],
       "walkClipSeconds": 1.6666666269302368,
-      "runClipSeconds": 1.1494252599518875,
+      "runClipSeconds": 1.1494252681732178,
       "attackSeconds": 2,
       "contactNormalized": 0.52,
       "sourceProvenance": {
-        "author": "gavlig",
-        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
-        "source": "https://opengameart.org/content/lava-golem",
-        "sourceAssets": [
-          "golem_clean.blend",
-          "golem_emit.png"
-        ],
-        "sourcePacks": [
-          {
-            "id": "gavlig-lava-golem-clean",
-            "author": "gavlig",
-            "license": "CC0-1.0",
-            "source": "https://opengameart.org/content/lava-golem",
-            "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
-            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
-          }
-        ],
-        "sourceRecords": [
-          {
-            "archive": "golem_clean.blend.zip",
-            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
-            "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
-            "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
-          }
-        ],
-        "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/sources/creature_kiln_marrow.glb",
+        "sourceSha256": "5060643069a814557f3e47baa170bad8b583d98b274f31e6995d6cdc62c91208",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_kiln_marrow-candidate.glb",
+        "candidateSha256": "d33ccb8155e8df794f7bd17ace02fe1625f338f4e93e902a608d0964b159460d",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps"
       },
       "metadata": {
         "id": "kiln_marrow",
@@ -33848,28 +33907,38 @@
         }
       },
       "acceptance": {
-        "exported": true,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_native_stone_final/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false
       },
-      "impliedWalkMps": 1.825079,
-      "impliedRunMps": 2.646375,
-      "locomotionPolicy": "speed-matched",
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": null,
       "bounds": {
         "min": [
-          -0.9431083401129667,
-          0.003,
-          -0.6299987012141776
+          -0.7369361394346231,
+          0.0023441722697935805,
+          -0.49227516179741543
         ],
         "max": [
-          0.9080112299434231,
-          2.818492737050922,
-          0.5330507824222428
+          0.709511581964845,
+          2.2023441722697936,
+          0.41652095418199764
         ]
-      }
+      },
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
+      },
+      "measuredGait": null
     },
     {
       "id": "creature_slag_crawler",
@@ -44458,18 +44527,19 @@
       "file": "models/creature/creature_furnace_regent.glb",
       "pack": "corealm-rpg-gavlig-lava-golem-clean",
       "category": "character",
-      "is": "A complete volcanic golem with a defined face, chest, hands and articulated stone limbs; heat follows the native fissure atlas.",
+      "is": "Furnace Regent",
       "tags": [
         "creature",
-        "wilderness",
-        "keeper",
-        "furnace_regent"
+        "golem",
+        "fire",
+        "image-generated-texture",
+        "polish-candidate"
       ],
-      "bytes": 7331792,
-      "sha256": "84be6dbd88044bc31f999166a58f60fc42422c40f1d8ad5591091a6b59dfe110",
+      "bytes": 8050312,
+      "sha256": "15d798596c95c5b95f3dda6d55594b2494358f43c2b15948c162094fb81fd5f2",
       "size": {
         "x": 2.2354191455659063,
-        "y": 3.4000000000000012,
+        "y": 3.5045161708807333,
         "z": 1.4045030560371417
       },
       "base": {
@@ -44490,39 +44560,18 @@
         "Death"
       ],
       "materials": [
-        "animal_rpg_lava_golem_lava_authored_0_golem_mat"
+        "Furnace Regent layered stone"
       ],
       "walkClipSeconds": 1.6666666269302368,
-      "runClipSeconds": 1.1494252599518875,
+      "runClipSeconds": 1.1494252681732178,
       "attackSeconds": 2,
       "contactNormalized": 0.52,
       "sourceProvenance": {
-        "author": "gavlig",
-        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
-        "source": "https://opengameart.org/content/lava-golem",
-        "sourceAssets": [
-          "golem_clean.blend",
-          "golem_emit.png"
-        ],
-        "sourcePacks": [
-          {
-            "id": "gavlig-lava-golem-clean",
-            "author": "gavlig",
-            "license": "CC0-1.0",
-            "source": "https://opengameart.org/content/lava-golem",
-            "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
-            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
-          }
-        ],
-        "sourceRecords": [
-          {
-            "archive": "golem_clean.blend.zip",
-            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
-            "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
-            "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
-          }
-        ],
-        "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+        "sourceFile": "game/public/assets/models/creature/creature_furnace_regent.glb",
+        "sourceSha256": "84be6dbd88044bc31f999166a58f60fc42422c40f1d8ad5591091a6b59dfe110",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-fire_golems/creature_furnace_regent-candidate.glb",
+        "candidateSha256": "15d798596c95c5b95f3dda6d55594b2494358f43c2b15948c162094fb81fd5f2",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps"
       },
       "metadata": {
         "id": "lava_golem",
@@ -44973,16 +45022,38 @@
         }
       },
       "acceptance": {
-        "exported": true,
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-creatures/lab-family_native_keepers_shallow_final/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "worldIntegrated": false
       },
-      "impliedWalkMps": 2.203972512000068,
-      "impliedRunMps": 3.195772761860818,
-      "locomotionPolicy": "speed-matched"
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": null,
+      "bounds": {
+        "min": [
+          -1.138901253121026,
+          0.003622812236736772,
+          -0.7607888984443372
+        ],
+        "max": [
+          1.0965178924448802,
+          3.50813898311747,
+          0.6437141575928045
+        ]
+      },
+      "gaitCalibration": {
+        "status": "uncalibrated",
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera captures; fresh Luna visual review; native rig/clip preservation checks. Shaman left-hand cast and real combat health 17?16?14.",
+        "screenshots": "test-results/creature-audit/continuation-session/polish-final-* and polish-revised-*; polish-ready-shaman-*"
+      },
+      "measuredGait": null
     },
     {
       "id": "creature_chainbound_archon",
@@ -64084,8 +64155,8 @@
     },
     {
       "id": "fairy_garden_snail_gloamgarden",
-      "file": "models/fairy-garden/fairy_garden_snail_gloamgarden.glb",
-      "pack": "animal-pack-deluxe",
+      "file": "models/fairy-garden/mooncap-snail-gloamgarden.glb",
+      "pack": "corealm-polish-fairy-snails",
       "category": "character",
       "is": "Mooncap Snail",
       "tags": [
@@ -64093,39 +64164,33 @@
         "fairy",
         "snail",
         "gloamgarden",
-        "t30",
-        "starred",
+        "image-generated-texture",
         "skinned",
-        "articulated",
-        "animal",
-        "quarry",
-        "moss",
-        "fairy-garden",
-        "image-generated-texture"
+        "candidate"
       ],
-      "bytes": 4931148,
-      "sha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+      "bytes": 6743740,
+      "sha256": "edadb4e40ad6b3e90274ac8f2b282eeda7f279e6ae313ce3eabe754ef7fb4fb9",
       "triangles": 4154,
       "size": {
-        "x": 0.6196289658546448,
-        "y": 0.84912109375,
-        "z": 0.99951171875
+        "x": 0.3469922208786011,
+        "y": 0.47550781250000007,
+        "z": 0.5597265625000001
       },
       "base": {
-        "x": -0.3098144829273224,
+        "x": -0.17349611043930055,
         "y": 0,
-        "z": -0.499755859375
+        "z": -0.27986328125000004
       },
       "bounds": {
         "min": [
-          -0.3098144829273224,
+          -0.17349611043930055,
           0,
-          -0.499755859375
+          -0.27986328125000004
         ],
         "max": [
-          0.3098144829273224,
-          0.84912109375,
-          0.499755859375
+          0.17349611043930055,
+          0.47550781250000007,
+          0.27986328125000004
         ]
       },
       "groundY": 0,
@@ -64138,7 +64203,7 @@
         "Death"
       ],
       "materials": [
-        "Material_tripo_node_2d1ed8fe-81d9-4116-94fc-4fa649c22f31"
+        "Glimmercap pearlescent shell and mantle"
       ],
       "walkClipSeconds": 1.45,
       "runClipSeconds": 0.92,
@@ -64152,53 +64217,41 @@
         "sourceSha256": "33c42451d79217f32e37ce9b47fe9b8adfee54d42a2c3f88ee08b3bf4a135d06",
         "rigMethod": "14-joint articulated snail rig with component-aware shell, foot, neck and eyestalk weights; six custom clips.",
         "candidateFile": "mooncap-snail-native-rig-candidate.glb",
-        "candidateSha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50"
+        "candidateSha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+        "auditSourceFile": "game/public/assets/models/fairy-garden/fairy_garden_snail_gloamgarden.glb",
+        "auditSourceSha256": "32baa4db780b943a65c893ab0cd672ea0f1803316ab4105e3ac39684555b1b50",
+        "generatedAtlas": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/mooncap-uv.png",
+        "generatedAtlasSha256": "6e302ab3127e32dd039dd31ed143b334040774acc3e3e082151bf0a88d2a5669",
+        "geometry": "Original mesh, normals, UV and skin retained",
+        "motion": "Original anatomical clips, retimed Death; Gloam articulated arcs strengthened; CPU weighted floor correction",
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/glimmercap-snail-gloamgarden.glb",
+        "polishSourceSha256": "2efd631a52011eee93982694f9eeb029c9effa8a495566567b0d1b426cf8b2d1",
+        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
+        "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461",
+        "modifications": "Silver crescent fungal caps and spore trails on a teal-lilac shell; native geometry, UV, skin and clips preserved; presentation scale is 0.56 of the staged candidate."
       },
       "metadata": {
-        "is": "Mooncap Snail",
-        "tags": [
-          "creature",
-          "fairy",
-          "snail",
-          "gloamgarden",
-          "t30",
-          "starred",
-          "skinned",
-          "articulated",
-          "animal",
-          "quarry",
-          "moss",
-          "fairy-garden",
-          "image-generated-texture"
-        ],
-        "walkClipSeconds": 1.45,
-        "runClipSeconds": 0.92,
-        "attackSeconds": 0.78,
-        "contactNormalized": 0.52,
-        "notes": "T30 Gloamgarden snail with a rigid layered whorl shell, traveling foot, paired eye stalks and preserved 2K image-generated PBR maps.",
-        "boneNames": [
-          "MooncapRoot",
-          "FootRear",
-          "FootMiddle",
-          "FootFront",
-          "Neck",
-          "Head",
-          "EyeStalk_L",
-          "Eye_L",
-          "EyeStalk_R",
-          "Eye_R",
-          "Feelers_L",
-          "Feelers_R",
-          "Mantle",
-          "Shell"
-        ],
-        "animationAcceptance": "accepted-production-lab; normal-camera Idle, Run, and Attack proof"
+        "family": "fairy_snail",
+        "region": "gloamgarden",
+        "level": 34,
+        "anatomy": "Spiral shell, long traveling foot, paired eyestalks; no floating accessories",
+        "desiredInGameHeightMeters": 0.47550781250000007,
+        "deathPose": "original native collapse reaches final pose by .65 s and holds to 1.5 s",
+        "capIdentity": "Silver crescent fungal caps and spore trails on a teal-lilac shell"
       },
       "acceptance": {
         "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
         "worldIntegrated": false
-      }
+      },
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "acceptanceEvidence": "Normal player camera polish-final-* and polish-clear-*-corpse-12 screenshots; Mooncap HP64?62 and playerdamage, Orchid playerdamage; root and Luna detailed skin review.",
+      "locomotionPolicy": null
     },
     {
       "id": "fairy_garden_hart_gloamgarden",
@@ -64813,10 +64866,10 @@
     },
     {
       "id": "fairy_garden_frog_faeholme",
-      "file": "models/fairy-garden/fairy_garden_frog_faeholme.glb",
+      "file": "models/fairy-garden/orchid-pondling-faeholme.glb",
       "pack": "animal-pack-deluxe",
       "category": "character",
-      "is": "frog",
+      "is": "Orchid Pondling",
       "tags": [
         "frog",
         "toad",
@@ -64830,16 +64883,16 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 1849816,
+      "bytes": 1851984,
       "size": {
-        "x": 0.318,
-        "y": 0.123,
-        "z": 0.291
+        "x": 0.3816,
+        "y": 0.21359999999999998,
+        "z": 0.34919999999999995
       },
       "base": {
-        "x": -0.159,
-        "y": -0.001,
-        "z": -0.157
+        "x": -0.1908,
+        "y": -0.0012,
+        "z": -0.18839999999999998
       },
       "animations": [
         "Idle",
@@ -64853,18 +64906,19 @@
       ],
       "walkClipSeconds": 1.3333333730697632,
       "materials": [
-        "animal_frog_mat_fairy_garden_frog_faeholme"
+        "animal_frog_mat_fairy_garden_frog_faeholme",
+        "Orchid frill, native patterned skin"
       ],
-      "impliedWalkMps": 0.08,
-      "impliedRunMps": 0.3,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
       "runClipSeconds": 0.7666667103767395,
-      "sha256": "b6c0684d636eb16a0547cc142b4d7c0de54cbea65459c85f67208d06642442b6",
-      "groundY": 0.002758,
+      "sha256": "ab07f72aa53ee2dc1d6a572a19e7334ec53c6a40a3f51ce8e195f731ed4ace58",
+      "groundY": 0,
       "sourceProvenance": {
         "sourceAssetId": "animal_frog",
         "sourceSha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
         "generator": "tools/fairy-population-assets.ts",
-        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
+        "modifications": "Original image-generated layered frog skin and native 53-joint body retained. Three small textured orchid frills follow the native head bone; presentation size +20%; a 0.68 s forward lunge peaks at contact.",
         "generatedTexture": {
           "file": "art/fairy-population/textures/generated/fairy_garden_frog_faeholme.png",
           "sha256": "313d20fb793ea90a219b7a390a63b069e5221997a022f3a2d0a32fc434603f46",
@@ -64883,13 +64937,44 @@
               "height": 1254
             }
           ]
-        }
+        },
+        "polishSourceFile": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/sources/fairy_garden_frog_faeholme.glb",
+        "polishSourceSha256": "b6c0684d636eb16a0547cc142b4d7c0de54cbea65459c85f67208d06642442b6",
+        "polishBuilder": "assets/art/tripo/imports/creatures/audit-polish-fairy_garden/build-candidates.mjs",
+        "polishBuilderSha256": "a3a06a22c6eaf072b954d1a602fec0c53e54cf1765a481a7e4c259699c493461"
       },
       "acceptance": {
         "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
         "labAccepted": true,
-        "worldIntegrated": true
-      }
+        "worldIntegrated": false
+      },
+      "bounds": {
+        "min": [
+          -0.1908,
+          -0.0012,
+          -0.18839999999999998
+        ],
+        "max": [
+          0.1908,
+          0.21239999999999998,
+          0.16079999999999997
+        ]
+      },
+      "measuredGait": null,
+      "attackSeconds": 0.68,
+      "contactNormalized": 0.48,
+      "metadata": {
+        "family": "fairy_frog",
+        "region": "faeholme",
+        "level": 115,
+        "anatomy": "Frog body and native patterned skin with three small orchid head petals",
+        "desiredInGameHeightMeters": 0.21359999999999998
+      },
+      "acceptanceEvidence": "Normal player camera polish-final-* and polish-clear-*-corpse-12 screenshots; Mooncap HP64?62 and playerdamage, Orchid playerdamage; root and Luna detailed skin review.",
+      "locomotionPolicy": null
     },
     {
       "id": "fairy_garden_imp_faeholme",

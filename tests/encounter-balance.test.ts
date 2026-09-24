@@ -17,13 +17,10 @@ describe('regional encounter strength', () => {
     }
     expect(base.maxHealth).toBe(70);
   });
-  it('puts every regional boss from tier five up in the requested three-to-five-times band', () => {
-    const scaled = Object.values(REGIONAL_BOSS_LEVELS).filter(({ tier }) => tier >= 5);
-    expect(scaled.length).toBe(5);
-    for (const { tier, multiplier } of scaled) {
+  it('uses each authored regional boss multiplier', () => {
+    for (const { tier, multiplier } of Object.values(REGIONAL_BOSS_LEVELS)) {
       const result = tuneEnemyCombatLevel(base, tier * multiplier, tier);
-      expect(enemyCombatLevel(result) / tier).toBeGreaterThanOrEqual(3);
-      expect(enemyCombatLevel(result) / tier).toBeLessThanOrEqual(5);
+      expect(enemyCombatLevel(result)).toBe(Math.round(tier * multiplier));
     }
   });
 });

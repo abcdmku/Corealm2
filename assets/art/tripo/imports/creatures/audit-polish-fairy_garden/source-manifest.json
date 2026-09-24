@@ -1,0 +1,96 @@
+{
+  "assets": [
+    {
+      "id": "fairy_garden_frog_faeholme",
+      "file": "models/fairy-garden/fairy_garden_frog_faeholme.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "frog",
+      "tags": [
+        "frog",
+        "toad",
+        "amphibian",
+        "water",
+        "marsh",
+        "pond",
+        "animal",
+        "passive",
+        "fairy-garden",
+        "image-generated-texture",
+        "faeholme"
+      ],
+      "bytes": 1849816,
+      "size": {
+        "x": 0.318,
+        "y": 0.123,
+        "z": 0.291
+      },
+      "base": {
+        "x": -0.159,
+        "y": -0.001,
+        "z": -0.157
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "materials": [
+        "animal_frog_mat_fairy_garden_frog_faeholme"
+      ],
+      "impliedWalkMps": 0.08,
+      "impliedRunMps": 0.3,
+      "runClipSeconds": 0.7666667103767395,
+      "sha256": "b6c0684d636eb16a0547cc142b4d7c0de54cbea65459c85f67208d06642442b6",
+      "groundY": 0.002758,
+      "sourceProvenance": {
+        "sourceAssetId": "animal_frog",
+        "sourceSha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+        "generator": "tools/fairy-population-assets.ts",
+        "modifications": "Image-generated UV albedo artwork assigned directly with source alpha and standalone eyes preserved. Neutral base-color factors and no vertex-color tint. Source position/normal/UV geometry, skeleton, skin weights, animation and native PBR response retained.",
+        "generatedTexture": {
+          "file": "art/fairy-population/textures/generated/fairy_garden_frog_faeholme.png",
+          "sha256": "313d20fb793ea90a219b7a390a63b069e5221997a022f3a2d0a32fc434603f46",
+          "width": 1254,
+          "height": 1254,
+          "columns": 1,
+          "rows": 1,
+          "bindings": [
+            {
+              "sourceTextureIndex": 0,
+              "atlasColumn": 0,
+              "atlasRow": 0,
+              "sourceTextureSha256": "a51116102c57450f8f7f6b034fb2ce25f2361f5bb308f788375132ca66ae3c79",
+              "embeddedTextureSha256": "430d9b790ff4229aa7ababacd941de13feac6fb6ea9ee6278dccbd279429891a",
+              "width": 1254,
+              "height": 1254
+            }
+          ]
+        }
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "animal-pack-deluxe",
+      "name": "Animal pack deluxe",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage"
+    }
+  ]
+}

@@ -86,10 +86,6 @@ type UncalibratedReplacementGaitHold = {
 };
 /** Exact-rig holds for uncalibrated replacement assets; these are not measured stride pins. */
 const UNCALIBRATED_REPLACEMENT_GAIT_HOLDS: Readonly<Record<string, UncalibratedReplacementGaitHold>> = {
-  creature_lava_golem: {
-    sha256: "fa4b036c1e4c68868e9e6c4679e5d5bedd9f3c60b4e9ceaee5770aa1e43d19cf",
-    walkClipSeconds: 1, runClipSeconds: 0.72,
-  },
   creature_marchfield_turkey: {
     sha256: "919d64ee5c67df523e0745bd9b47d1410c2422712f305f14ad179b219f214460",
     walkClipSeconds: 1.1, runClipSeconds: 0.72,

@@ -1,0 +1,117 @@
+{
+  "schema": "corealm-goblin-shaman-polish/1",
+  "id": "creature_goblin_shaman",
+  "displayName": "Goblin Shaman",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/audit-polish-shaman/sources/creature_goblin_shaman.glb",
+    "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421",
+    "bytes": 1254956,
+    "provenance": "Quaternius CC0 body, outfit and animations; Blink staff Standard Unity Asset Store EULA, per production manifest"
+  },
+  "candidate": {
+    "file": "assets/art/tripo/imports/creatures/audit-polish-shaman/goblin-shaman-polish-candidate.glb",
+    "sha256": "812684273ffb61abc512a7df6e4958ef9aefb088c221adf944060ad2ac0fadd4",
+    "bytes": 12546144,
+    "builderSha256": "604a181cd8cd8374fd83297ec751bb92c9ef4dbeb6c88802055b5615fb68a46d",
+    "geometry": "preserved",
+    "skin": "preserved 65-joint source rig",
+    "maps": [
+      {
+        "material": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male",
+        "imagegen": "assets/art/tripo/imports/creatures/audit-polish-shaman/goblin-skin-imagegen.png",
+        "imagegenSha256": "414ad58c9c4e09117b356085f394b5663b95f367f05b0186310bddadaf88a4a9",
+        "runtime": "assets/art/tripo/imports/creatures/audit-polish-shaman/goblin-skin-2k.jpg",
+        "runtimeSha256": "e22825a4f7d7c4b2edb03199ea1360e8daf1ade6fde4afd9acfa3d22955f2ce9",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "material": "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+        "imagegen": "assets/art/tripo/imports/creatures/audit-polish-shaman/goblin-cloth-imagegen.png",
+        "imagegenSha256": "cc5bac24c56b9246df1b3be7c9a4d800ddfdaed1ec54bb1b9402a9f2f8152577",
+        "runtime": "assets/art/tripo/imports/creatures/audit-polish-shaman/goblin-cloth-2k.jpg",
+        "runtimeSha256": "f752117cfab0e70cda5747a7a38b3c94f168f46e33bf320237828d5759cf9886",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "material": "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight",
+        "imagegen": "assets/art/tripo/imports/creatures/audit-polish-shaman/goblin-scarf-imagegen.png",
+        "imagegenSha256": "5fdd8f82d79bfc7e2180cab9749824be04e80bbe1363a4eb882963d22808f404",
+        "runtime": "assets/art/tripo/imports/creatures/audit-polish-shaman/goblin-scarf-2k.jpg",
+        "runtimeSha256": "e8974c8dcbac68256bda2606aaf254c0245b550d1302a695a61bb4909b491572",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "attack": {
+      "durationSeconds": 0.5,
+      "contactSeconds": 0.21,
+      "overlay": [
+        {
+          "node": "clavicle_l",
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "peakRadians": 0.35,
+          "sampledPeakRadians": 0.3283636428117752,
+          "keyCount": 13
+        },
+        {
+          "node": "upperarm_l",
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "peakRadians": 0.65,
+          "sampledPeakRadians": 0.6098181937932968,
+          "keyCount": 16
+        },
+        {
+          "node": "lowerarm_l",
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "peakRadians": 0.3,
+          "sampledPeakRadians": 0.2814545509815216,
+          "keyCount": 16
+        },
+        {
+          "node": "hand_l",
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "peakRadians": -0.16,
+          "sampledPeakRadians": 0.15010909385681154,
+          "keyCount": 16
+        }
+      ]
+    },
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "productionTarget": "game/public/assets/models/creature/creature_goblin_shaman.glb",
+    "strideCalibration": null
+  },
+  "acceptance": {
+    "cpuValidated": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

@@ -1,0 +1,495 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_plague_zombie",
+      "file": "models/creature/creature_plague_zombie.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "plague zombie",
+      "tags": [
+        "creature",
+        "rpg",
+        "plague_zombie",
+        "candidate",
+        "zombie-polish"
+      ],
+      "bytes": 7098980,
+      "sha256": "63f2f452e34be7d4cc5dc1212b2e9a98063eb9f357d162028c48c11605a1cd53",
+      "size": {
+        "x": 0.7062265979047294,
+        "y": 1.3542517275206305,
+        "z": 0.7507082431778359
+      },
+      "base": {
+        "x": -0.36069569342900065,
+        "y": 0.01317421827718724,
+        "z": -0.312364944669866
+      },
+      "groundY": 0.01317421827718724,
+      "triangles": 16374,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_plague_zombie_plague_zombie_desiccated_mouth",
+        "animal_rpg_plague_zombie_plague_zombie_exposed_teeth",
+        "animal_rpg_plague_zombie_plague_zombie_source_base_male_MI_Hair_1",
+        "animal_rpg_plague_zombie_plague_zombie_source_base_male_MI_Eyes",
+        "animal_rpg_plague_zombie_plague_zombie_source_base_male_MI_Superhero_Male",
+        "animal_rpg_plague_zombie_plague_zombie_source_outfit_male_peasant_chest_MI_Peasant"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 1.3333333730697632,
+      "attackSeconds": 1.7999999523162842,
+      "contactNormalized": 0.34,
+      "sourceProvenance": {
+        "sourceAssetId": "creature_plague_zombie",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/sources/creature_plague_zombie.glb",
+        "sourceSha256": "213778109d6eabe886ac756b0f2cdd578b77a68529bd93063f633623c11c7962",
+        "sourcePack": "corealm-rpg-universal-base-characters",
+        "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_chest",
+          "outfit_male_peasant_legs",
+          "outfit_male_peasant_boots",
+          "animation_library_1",
+          "UAL2_Standard"
+        ],
+        "sourceRigAndGeometryPreserved": true,
+        "sourceAnimationsPreserved": true,
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-zombies/build-candidates.mjs",
+        "builderSha256": "71827d98ebefea5550b8fbf5f5c645a3d2aeb8c0846906360d8d635d97c5d548",
+        "maps": [
+          {
+            "material": "animal_rpg_plague_zombie_plague_zombie_source_base_male_MI_Superhero_Male",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-skin-imagegen.png",
+            "imagegenSha256": "57fa39ee14abc51eb19fdfaf1219b905b94f644206e74407c7df4ccef11402b2",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-skin-runtime.png",
+            "runtimeSha256": "79de2490fa9059e09691869e059918e42346fc7b1cefc14e30011087521a665e",
+            "width": 512,
+            "height": 512,
+            "sourceImageSha256": "4babc2afb8c59f3d43bc6c8236785a5ad1a969bd7fd72fa89d8cd4b6b92c318a"
+          },
+          {
+            "material": "animal_rpg_plague_zombie_plague_zombie_source_outfit_male_peasant_chest_MI_Peasant",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-cloth-imagegen.png",
+            "imagegenSha256": "e22ef14dbda578850b115383f7d379396ecdabafc853d62baed4c2f6e0047d5e",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/plague-cloth-runtime.png",
+            "runtimeSha256": "2a5cb9491b076e85e1114faabdcff89475ace79ada8feb48ea8c3f06d45a34a1",
+            "width": 1024,
+            "height": 1024,
+            "sourceImageSha256": "bc602d9d3943faceb22512b5c3c8da5be0520acf96cf3dd201d860e79ae94fc0"
+          }
+        ],
+        "changes": "Layered olive-gray plague lesions, bruised tissue, pustules and damp mildew-frayed cloth on source UVs."
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "swollen-asymmetric-plague",
+        "heightM": 1.3542517275206305,
+        "dimensionsM": {
+          "width": 0.7062265979047294,
+          "height": 1.3542517275206305,
+          "depth": 0.7507082431778359
+        },
+        "sourceSkinned": true,
+        "boneCount": 65,
+        "retainedVertices": 10581,
+        "removedClothingAndHiddenBodyTriangles": 5632,
+        "attackContactPhase": 0.34,
+        "attackContactNode": "ZombieScratchContact",
+        "attackContactStatus": "Measured maximum forward right-hand extension in source Zombie_Scratch between phases .10 and .85; gameplay contact pending production review.",
+        "textureBindings": [
+          {
+            "materialName": "plague_zombie_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "plague_zombie_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\plague_zombie-clouded-eyes.png"
+          },
+          {
+            "materialName": "plague_zombie_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\plague_zombie-corpse-albedo.png"
+          },
+          {
+            "materialName": "plague_zombie_source_outfit_male_peasant_chest_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\plague_zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_chest-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_chest-0-metallicRoughnessPath.png"
+          },
+          {
+            "materialName": "plague_zombie_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\plague_zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-metallicRoughnessPath.png"
+          },
+          {
+            "materialName": "plague_zombie_source_outfit_male_peasant_boots_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\plague_zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_boots-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_boots-0-metallicRoughnessPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 201,
+            "maximumLift": 0.001
+          },
+          "Walk": {
+            "samples": 201,
+            "maximumLift": 0.008590983146803333
+          },
+          "Run": {
+            "samples": 201,
+            "maximumLift": 0.008590983146803333
+          },
+          "Attack": {
+            "samples": 269,
+            "maximumLift": 0.011350718464805287
+          },
+          "Hit": {
+            "samples": 51,
+            "maximumLift": 0.01614852961162768
+          },
+          "HitLeft": {
+            "samples": 51,
+            "maximumLift": 0.01614852961162768
+          },
+          "HitRight": {
+            "samples": 51,
+            "maximumLift": 0.01614852961162768
+          },
+          "Death": {
+            "samples": 351,
+            "maximumLift": 0.06468601786122227
+          }
+        },
+        "textureOrientation": "Original glTF UV and image rows, no flipY",
+        "corpseTextureRevision": "UV-authored-pallor-socket-cheek-decay-v2",
+        "gaitClipAliases": {
+          "Run": "Walk"
+        },
+        "gaitMeasuredSpeedMps": {
+          "Walk": 1.02228,
+          "Run": 1.02228
+        },
+        "gaitPolicy": "Zombie and plague slow pursuit uses source Zombie_Walk_Fwd_Loop for both Walk and Run requests; intended gameplay pursuit 1.2â€“1.6 m/s.",
+        "animationProvenance": {
+          "Idle": "UAL2_Standard:Zombie_Idle_Loop",
+          "Walk": "UAL2_Standard:Zombie_Walk_Fwd_Loop",
+          "Run": "UAL2_Standard:Zombie_Walk_Fwd_Loop; explicit Run alias of Walk for slow pursuit",
+          "Attack": "UAL2_Standard:Zombie_Scratch",
+          "Hit": "animation/animation_library_1:Hit_Chest",
+          "HitLeft": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added",
+          "HitRight": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added",
+          "Death": "animation/animation_library_1:Death01"
+        },
+        "provenance": {
+          "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_chest",
+            "outfit_male_peasant_legs",
+            "outfit_male_peasant_boots",
+            "animation_library_1",
+            "UAL2_Standard"
+          ],
+          "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+        },
+        "acceptance": "Source candidate; requires production browser motion and visual review. No source review is treated as gameplay acceptance.",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-geometry-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.02228,
+      "impliedRunMps": 1.02228,
+      "locomotionPolicy": "speed-matched",
+      "bounds": {
+        "min": [
+          -0.36069569342900065,
+          0.01317421827718724,
+          -0.312364944669866
+        ],
+        "max": [
+          0.34553090447572876,
+          1.3674259457978177,
+          0.43834329850796994
+        ]
+      }
+    },
+    {
+      "id": "creature_zombie",
+      "file": "models/creature/creature_zombie.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "zombie",
+      "tags": [
+        "creature",
+        "rpg",
+        "zombie",
+        "candidate",
+        "zombie-polish"
+      ],
+      "bytes": 6953980,
+      "sha256": "7139c85e0b7bd60d33fbc94f1807d0154406685ef050272bb866ca7479f2e8fe",
+      "size": {
+        "x": 0.7068153073102688,
+        "y": 1.355348868967401,
+        "z": 0.7322741213851418
+      },
+      "base": {
+        "x": -0.3664573356750636,
+        "y": 0.010608198623287204,
+        "z": -0.29469200026839243
+      },
+      "groundY": 0.010608198623287204,
+      "triangles": 16493,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_zombie_zombie_desiccated_mouth",
+        "animal_rpg_zombie_zombie_exposed_teeth",
+        "animal_rpg_zombie_zombie_source_base_male_MI_Hair_1",
+        "animal_rpg_zombie_zombie_source_base_male_MI_Eyes",
+        "animal_rpg_zombie_zombie_source_base_male_MI_Superhero_Male",
+        "animal_rpg_zombie_zombie_source_outfit_male_peasant_chest_MI_Peasant"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 1.3333333730697632,
+      "attackSeconds": 1.7999999523162842,
+      "contactNormalized": 0.34,
+      "sourceProvenance": {
+        "sourceAssetId": "creature_zombie",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/sources/creature_zombie.glb",
+        "sourceSha256": "4da56ba89a47940d701777b6edda08a3d4e073a0a532e7ea29e5f0ee0d0d4296",
+        "sourcePack": "corealm-rpg-universal-base-characters",
+        "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_chest",
+          "outfit_male_peasant_legs",
+          "outfit_male_peasant_boots",
+          "animation_library_1",
+          "UAL2_Standard"
+        ],
+        "sourceRigAndGeometryPreserved": true,
+        "sourceAnimationsPreserved": true,
+        "builder": "assets/art/tripo/imports/creatures/audit-polish-zombies/build-candidates.mjs",
+        "builderSha256": "71827d98ebefea5550b8fbf5f5c645a3d2aeb8c0846906360d8d635d97c5d548",
+        "maps": [
+          {
+            "material": "animal_rpg_zombie_zombie_source_base_male_MI_Superhero_Male",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-skin-imagegen-v2.png",
+            "imagegenSha256": "3a0f1ee01198201c40b32076df5c1fc3c5b569cf37d4ba3d4ef76941c6f6d274",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-skin-runtime.png",
+            "runtimeSha256": "c81c5da6506b456345ef65d228b50e568d4f6dfc8d6323e9196116dc75d97c2f",
+            "width": 512,
+            "height": 512,
+            "sourceImageSha256": "a94c7b34bc9ea22aacfeafafdc0f902ad9f1a33e28667038ef59d1a03dc3d24f"
+          },
+          {
+            "material": "animal_rpg_zombie_zombie_source_outfit_male_peasant_chest_MI_Peasant",
+            "imagegenFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-cloth-imagegen.png",
+            "imagegenSha256": "2d82aadbd9207acb87e9b682a497fb1e9405f998eb0db5034be296b3e252a389",
+            "runtimeFile": "assets/art/tripo/imports/creatures/audit-polish-zombies/zombie-cloth-runtime.png",
+            "runtimeSha256": "6a34344dcb885d900830a584dbe811e83e4520767db81d81f28bb7c8dbe9c01a",
+            "width": 1024,
+            "height": 1024,
+            "sourceImageSha256": "1eaebe52aa2ce8dca8fc3bb87c9234a5ce4e6b90ad70a698c431e9226696d6f3"
+          }
+        ],
+        "changes": "Layered dry pale decay, subtle bruising and restrained dusty threadbare cloth on source UVs."
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "gaunt-undead-peasant",
+        "heightM": 1.355348868967401,
+        "dimensionsM": {
+          "width": 0.7068153073102688,
+          "height": 1.355348868967401,
+          "depth": 0.7322741213851418
+        },
+        "sourceSkinned": true,
+        "boneCount": 65,
+        "retainedVertices": 10679,
+        "removedClothingAndHiddenBodyTriangles": 5513,
+        "attackContactPhase": 0.34,
+        "attackContactNode": "ZombieScratchContact",
+        "attackContactStatus": "Measured maximum forward right-hand extension in source Zombie_Scratch between phases .10 and .85; gameplay contact pending production review.",
+        "textureBindings": [
+          {
+            "materialName": "zombie_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "zombie_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-clouded-eyes.png"
+          },
+          {
+            "materialName": "zombie_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-corpse-albedo.png"
+          },
+          {
+            "materialName": "zombie_source_outfit_male_peasant_chest_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_chest-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_chest-0-metallicRoughnessPath.png"
+          },
+          {
+            "materialName": "zombie_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-metallicRoughnessPath.png"
+          },
+          {
+            "materialName": "zombie_source_outfit_male_peasant_boots_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_boots-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_boots-0-metallicRoughnessPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 201,
+            "maximumLift": 0.001
+          },
+          "Walk": {
+            "samples": 201,
+            "maximumLift": 0.009284998475531107
+          },
+          "Run": {
+            "samples": 201,
+            "maximumLift": 0.009284998475531107
+          },
+          "Attack": {
+            "samples": 269,
+            "maximumLift": 0.009792601882751086
+          },
+          "Hit": {
+            "samples": 51,
+            "maximumLift": 0.014473530304035205
+          },
+          "HitLeft": {
+            "samples": 51,
+            "maximumLift": 0.014473530304035205
+          },
+          "HitRight": {
+            "samples": 51,
+            "maximumLift": 0.014473530304035205
+          },
+          "Death": {
+            "samples": 351,
+            "maximumLift": 0.03732861562307727
+          }
+        },
+        "textureOrientation": "Original glTF UV and image rows, no flipY",
+        "corpseTextureRevision": "UV-authored-pallor-socket-cheek-decay-v2",
+        "gaitClipAliases": {
+          "Run": "Walk"
+        },
+        "gaitMeasuredSpeedMps": {
+          "Walk": 1.02122,
+          "Run": 1.02122
+        },
+        "gaitPolicy": "Zombie and plague slow pursuit uses source Zombie_Walk_Fwd_Loop for both Walk and Run requests; intended gameplay pursuit 1.2â€“1.6 m/s.",
+        "animationProvenance": {
+          "Idle": "UAL2_Standard:Zombie_Idle_Loop",
+          "Walk": "UAL2_Standard:Zombie_Walk_Fwd_Loop",
+          "Run": "UAL2_Standard:Zombie_Walk_Fwd_Loop; explicit Run alias of Walk for slow pursuit",
+          "Attack": "UAL2_Standard:Zombie_Scratch",
+          "Hit": "animation/animation_library_1:Hit_Chest",
+          "HitLeft": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added",
+          "HitRight": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added",
+          "Death": "animation/animation_library_1:Death01"
+        },
+        "provenance": {
+          "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_chest",
+            "outfit_male_peasant_legs",
+            "outfit_male_peasant_boots",
+            "animation_library_1",
+            "UAL2_Standard"
+          ],
+          "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+        },
+        "acceptance": "Source candidate; requires production browser motion and visual review. No source review is treated as gameplay acceptance.",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-geometry-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.02122,
+      "impliedRunMps": 1.02122,
+      "locomotionPolicy": "speed-matched",
+      "bounds": {
+        "min": [
+          -0.3664573356750636,
+          0.010608198623287204,
+          -0.29469200026839243
+        ],
+        "max": [
+          0.34035797163520515,
+          1.365957067590688,
+          0.4375821211167494
+        ]
+      }
+    }
+  ],
+  "files": {
+    "creature_plague_zombie": "creature_plague_zombie-polish.glb",
+    "creature_zombie": "creature_zombie-polish.glb"
+  }
+}

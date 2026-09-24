@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "95ae1d710a3d94905f98f4b407a39d8d7bb843dfe7349ca9897f75109c63a259",
-  "formulaRevision": "30205a579a8fef1ff1fa0542b1b740a84bd580c1cc486e99586ebc416a5f7322",
+  "revision": "ca13dc9f8f61fed872d5f7a434efa068eb283f1d84eaeced3dc9fc9cfca9462d",
+  "formulaRevision": "801d0380ccee6ccaf258043b76475cb38ac02be3031ab89053734e730358a4d1",
   "tables": {
     "items": [
       {
@@ -34847,17 +34847,17 @@
           "habitat": "abandoned farm circles",
           "respawnMs": 30000,
           "nativeSize": [
-            0.474369,
-            1.328404,
-            1.503733
+            0.47444,
+            1.3284,
+            1.50317
           ],
           "nativeBase": [
-            -0.267722,
+            -0.26779,
             0.002,
-            -0.904144
+            -0.90358
           ],
-          "nativeVisualRadius": 0.9429482711262585,
-          "nativeBodyRadius": 0.7518665,
+          "nativeVisualRadius": 0.7881328191523304,
+          "nativeBodyRadius": 0.751585,
           "attack": {
             "action": "staff curse",
             "proposedMechanic": "spell",
@@ -35131,17 +35131,17 @@
           "habitat": "abandoned graveyards",
           "respawnMs": 30000,
           "nativeSize": [
-            0.706815,
-            1.355349,
-            0.732274
+            0.7068153073102688,
+            1.355348868967401,
+            0.7322741213851418
           ],
           "nativeBase": [
-            -0.366457,
-            0.010608,
-            -0.294692
+            -0.3664573356750636,
+            0.010608198623287204,
+            -0.29469200026839243
           ],
-          "nativeVisualRadius": 0.5707615435302207,
-          "nativeBodyRadius": 0.366137,
+          "nativeVisualRadius": 0.5088745590758323,
+          "nativeBodyRadius": 0.3661370606925709,
           "attack": {
             "action": "grasp",
             "proposedMechanic": "melee",
@@ -35201,17 +35201,17 @@
           "habitat": "abandoned infirmaries",
           "respawnMs": 30000,
           "nativeSize": [
-            0.706227,
-            1.354252,
-            0.750708
+            0.7062265979047294,
+            1.3542517275206305,
+            0.7507082431778359
           ],
           "nativeBase": [
-            -0.360696,
-            0.013174,
-            -0.312365
+            -0.36069569342900065,
+            0.01317421827718724,
+            -0.312364944669866
           ],
-          "nativeVisualRadius": 0.5676673234078213,
-          "nativeBodyRadius": 0.375354,
+          "nativeVisualRadius": 0.515344271813329,
+          "nativeBodyRadius": 0.37535412158891795,
           "attack": {
             "action": "grasp",
             "proposedMechanic": "melee",
@@ -35695,17 +35695,17 @@
           "habitat": "cold kiln chambers",
           "respawnMs": 30000,
           "nativeSize": [
-            1.85112,
-            2.815493,
-            1.163049
+            1.9451221559105851,
+            2.2,
+            1.0865853914400427
           ],
           "nativeBase": [
-            -0.943108,
-            0.003,
-            -0.629999
+            -0.9725610779552926,
+            0,
+            0.013414608559957367
           ],
-          "nativeVisualRadius": 1.134174342711472,
-          "nativeBodyRadius": 0.92556,
+          "nativeVisualRadius": 1.114020647733375,
+          "nativeBodyRadius": 0.9725610779552926,
           "attack": {
             "action": "furnace slam",
             "proposedMechanic": "melee",
@@ -35842,7 +35842,7 @@
         "presentation": {
           "id": "lava_golem",
           "assetId": "creature_lava_golem",
-          "scale": 1,
+          "scale": 0.78,
           "regionId": "kilnhalt",
           "activity": "patrol",
           "description": "Lava Golem inhabits cooling volcanic chambers. Uses two-arm stone smash with 3.4 seconds between attacks.",
@@ -35852,17 +35852,17 @@
           "habitat": "cooling volcanic chambers",
           "respawnMs": 30000,
           "nativeSize": [
-            1.85112,
-            2.815493,
-            1.163049
+            1.9451221559105851,
+            2.2,
+            1.0865853914400427
           ],
           "nativeBase": [
-            -0.943108,
-            0.003,
-            -0.629999
+            -0.9725610779552926,
+            0,
+            0.013414608559957367
           ],
-          "nativeVisualRadius": 1.134174342711472,
-          "nativeBodyRadius": 0.92556,
+          "nativeVisualRadius": 1.114020647733375,
+          "nativeBodyRadius": 0.9725610779552926,
           "attack": {
             "action": "two-arm stone smash",
             "proposedMechanic": "melee",
@@ -140144,17 +140144,17 @@
             "habitat": "abandoned farm circles",
             "respawnMs": 30000,
             "nativeSize": [
-              0.474369,
-              1.328404,
-              1.503733
+              0.47444,
+              1.3284,
+              1.50317
             ],
             "nativeBase": [
-              -0.267722,
+              -0.26779,
               0.002,
-              -0.904144
+              -0.90358
             ],
-            "nativeVisualRadius": 0.9429482711262585,
-            "nativeBodyRadius": 0.7518665,
+            "nativeVisualRadius": 0.7881328191523304,
+            "nativeBodyRadius": 0.751585,
             "attack": {
               "action": "staff curse",
               "proposedMechanic": "spell",
@@ -140270,17 +140270,17 @@
           "habitat": "abandoned farm circles",
           "respawnMs": 30000,
           "nativeSize": [
-            0.474369,
-            1.328404,
-            1.503733
+            0.47444,
+            1.3284,
+            1.50317
           ],
           "nativeBase": [
-            -0.267722,
+            -0.26779,
             0.002,
-            -0.904144
+            -0.90358
           ],
-          "nativeVisualRadius": 0.9429482711262585,
-          "nativeBodyRadius": 0.7518665,
+          "nativeVisualRadius": 0.7881328191523304,
+          "nativeBodyRadius": 0.751585,
           "attack": {
             "action": "staff curse",
             "proposedMechanic": "spell",
@@ -141092,17 +141092,17 @@
             "habitat": "abandoned graveyards",
             "respawnMs": 30000,
             "nativeSize": [
-              0.706815,
-              1.355349,
-              0.732274
+              0.7068153073102688,
+              1.355348868967401,
+              0.7322741213851418
             ],
             "nativeBase": [
-              -0.366457,
-              0.010608,
-              -0.294692
+              -0.3664573356750636,
+              0.010608198623287204,
+              -0.29469200026839243
             ],
-            "nativeVisualRadius": 0.5707615435302207,
-            "nativeBodyRadius": 0.366137,
+            "nativeVisualRadius": 0.5088745590758323,
+            "nativeBodyRadius": 0.3661370606925709,
             "attack": {
               "action": "grasp",
               "proposedMechanic": "melee",
@@ -141214,17 +141214,17 @@
           "habitat": "abandoned graveyards",
           "respawnMs": 30000,
           "nativeSize": [
-            0.706815,
-            1.355349,
-            0.732274
+            0.7068153073102688,
+            1.355348868967401,
+            0.7322741213851418
           ],
           "nativeBase": [
-            -0.366457,
-            0.010608,
-            -0.294692
+            -0.3664573356750636,
+            0.010608198623287204,
+            -0.29469200026839243
           ],
-          "nativeVisualRadius": 0.5707615435302207,
-          "nativeBodyRadius": 0.366137,
+          "nativeVisualRadius": 0.5088745590758323,
+          "nativeBodyRadius": 0.3661370606925709,
           "attack": {
             "action": "grasp",
             "proposedMechanic": "melee",
@@ -141328,17 +141328,17 @@
             "habitat": "abandoned infirmaries",
             "respawnMs": 30000,
             "nativeSize": [
-              0.706227,
-              1.354252,
-              0.750708
+              0.7062265979047294,
+              1.3542517275206305,
+              0.7507082431778359
             ],
             "nativeBase": [
-              -0.360696,
-              0.013174,
-              -0.312365
+              -0.36069569342900065,
+              0.01317421827718724,
+              -0.312364944669866
             ],
-            "nativeVisualRadius": 0.5676673234078213,
-            "nativeBodyRadius": 0.375354,
+            "nativeVisualRadius": 0.515344271813329,
+            "nativeBodyRadius": 0.37535412158891795,
             "attack": {
               "action": "grasp",
               "proposedMechanic": "melee",
@@ -141450,17 +141450,17 @@
           "habitat": "abandoned infirmaries",
           "respawnMs": 30000,
           "nativeSize": [
-            0.706227,
-            1.354252,
-            0.750708
+            0.7062265979047294,
+            1.3542517275206305,
+            0.7507082431778359
           ],
           "nativeBase": [
-            -0.360696,
-            0.013174,
-            -0.312365
+            -0.36069569342900065,
+            0.01317421827718724,
+            -0.312364944669866
           ],
-          "nativeVisualRadius": 0.5676673234078213,
-          "nativeBodyRadius": 0.375354,
+          "nativeVisualRadius": 0.515344271813329,
+          "nativeBodyRadius": 0.37535412158891795,
           "attack": {
             "action": "grasp",
             "proposedMechanic": "melee",
@@ -142984,17 +142984,17 @@
             "habitat": "cold kiln chambers",
             "respawnMs": 30000,
             "nativeSize": [
-              1.85112,
-              2.815493,
-              1.163049
+              1.9451221559105851,
+              2.2,
+              1.0865853914400427
             ],
             "nativeBase": [
-              -0.943108,
-              0.003,
-              -0.629999
+              -0.9725610779552926,
+              0,
+              0.013414608559957367
             ],
-            "nativeVisualRadius": 1.134174342711472,
-            "nativeBodyRadius": 0.92556,
+            "nativeVisualRadius": 1.114020647733375,
+            "nativeBodyRadius": 0.9725610779552926,
             "attack": {
               "action": "furnace slam",
               "proposedMechanic": "melee",
@@ -143139,17 +143139,17 @@
           "habitat": "cold kiln chambers",
           "respawnMs": 30000,
           "nativeSize": [
-            1.85112,
-            2.815493,
-            1.163049
+            1.9451221559105851,
+            2.2,
+            1.0865853914400427
           ],
           "nativeBase": [
-            -0.943108,
-            0.003,
-            -0.629999
+            -0.9725610779552926,
+            0,
+            0.013414608559957367
           ],
-          "nativeVisualRadius": 1.134174342711472,
-          "nativeBodyRadius": 0.92556,
+          "nativeVisualRadius": 1.114020647733375,
+          "nativeBodyRadius": 0.9725610779552926,
           "attack": {
             "action": "furnace slam",
             "proposedMechanic": "melee",
@@ -143495,7 +143495,7 @@
           "presentation": {
             "id": "lava_golem",
             "assetId": "creature_lava_golem",
-            "scale": 1,
+            "scale": 0.78,
             "regionId": "kilnhalt",
             "activity": "patrol",
             "description": "Lava Golem inhabits cooling volcanic chambers. Uses two-arm stone smash with 3.4 seconds between attacks.",
@@ -143505,17 +143505,17 @@
             "habitat": "cooling volcanic chambers",
             "respawnMs": 30000,
             "nativeSize": [
-              1.85112,
-              2.815493,
-              1.163049
+              1.9451221559105851,
+              2.2,
+              1.0865853914400427
             ],
             "nativeBase": [
-              -0.943108,
-              0.003,
-              -0.629999
+              -0.9725610779552926,
+              0,
+              0.013414608559957367
             ],
-            "nativeVisualRadius": 1.134174342711472,
-            "nativeBodyRadius": 0.92556,
+            "nativeVisualRadius": 1.114020647733375,
+            "nativeBodyRadius": 0.9725610779552926,
             "attack": {
               "action": "two-arm stone smash",
               "proposedMechanic": "melee",
@@ -143613,11 +143613,11 @@
         },
         "availability": "world",
         "assetId": "creature_lava_golem",
-        "scale": 1,
+        "scale": 0.78,
         "presentation": {
           "id": "lava_golem",
           "assetId": "creature_lava_golem",
-          "scale": 1,
+          "scale": 0.78,
           "regionId": "kilnhalt",
           "activity": "patrol",
           "description": "Lava Golem inhabits cooling volcanic chambers. Uses two-arm stone smash with 3.4 seconds between attacks.",
@@ -143627,17 +143627,17 @@
           "habitat": "cooling volcanic chambers",
           "respawnMs": 30000,
           "nativeSize": [
-            1.85112,
-            2.815493,
-            1.163049
+            1.9451221559105851,
+            2.2,
+            1.0865853914400427
           ],
           "nativeBase": [
-            -0.943108,
-            0.003,
-            -0.629999
+            -0.9725610779552926,
+            0,
+            0.013414608559957367
           ],
-          "nativeVisualRadius": 1.134174342711472,
-          "nativeBodyRadius": 0.92556,
+          "nativeVisualRadius": 1.114020647733375,
+          "nativeBodyRadius": 0.9725610779552926,
           "attack": {
             "action": "two-arm stone smash",
             "proposedMechanic": "melee",
@@ -258849,17 +258849,17 @@
         "habitat": "abandoned farm circles",
         "respawnMs": 30000,
         "nativeSize": [
-          0.474369,
-          1.328404,
-          1.503733
+          0.47444,
+          1.3284,
+          1.50317
         ],
         "nativeBase": [
-          -0.267722,
+          -0.26779,
           0.002,
-          -0.904144
+          -0.90358
         ],
-        "nativeVisualRadius": 0.9429482711262585,
-        "nativeBodyRadius": 0.7518665,
+        "nativeVisualRadius": 0.7881328191523304,
+        "nativeBodyRadius": 0.751585,
         "attack": {
           "action": "staff curse",
           "proposedMechanic": "spell",
@@ -259217,17 +259217,17 @@
         "habitat": "abandoned graveyards",
         "respawnMs": 30000,
         "nativeSize": [
-          0.706815,
-          1.355349,
-          0.732274
+          0.7068153073102688,
+          1.355348868967401,
+          0.7322741213851418
         ],
         "nativeBase": [
-          -0.366457,
-          0.010608,
-          -0.294692
+          -0.3664573356750636,
+          0.010608198623287204,
+          -0.29469200026839243
         ],
-        "nativeVisualRadius": 0.5707615435302207,
-        "nativeBodyRadius": 0.366137,
+        "nativeVisualRadius": 0.5088745590758323,
+        "nativeBodyRadius": 0.3661370606925709,
         "attack": {
           "action": "grasp",
           "proposedMechanic": "melee",
@@ -259309,17 +259309,17 @@
         "habitat": "abandoned infirmaries",
         "respawnMs": 30000,
         "nativeSize": [
-          0.706227,
-          1.354252,
-          0.750708
+          0.7062265979047294,
+          1.3542517275206305,
+          0.7507082431778359
         ],
         "nativeBase": [
-          -0.360696,
-          0.013174,
-          -0.312365
+          -0.36069569342900065,
+          0.01317421827718724,
+          -0.312364944669866
         ],
-        "nativeVisualRadius": 0.5676673234078213,
-        "nativeBodyRadius": 0.375354,
+        "nativeVisualRadius": 0.515344271813329,
+        "nativeBodyRadius": 0.37535412158891795,
         "attack": {
           "action": "grasp",
           "proposedMechanic": "melee",
@@ -259953,17 +259953,17 @@
         "habitat": "cold kiln chambers",
         "respawnMs": 30000,
         "nativeSize": [
-          1.85112,
-          2.815493,
-          1.163049
+          1.9451221559105851,
+          2.2,
+          1.0865853914400427
         ],
         "nativeBase": [
-          -0.943108,
-          0.003,
-          -0.629999
+          -0.9725610779552926,
+          0,
+          0.013414608559957367
         ],
-        "nativeVisualRadius": 1.134174342711472,
-        "nativeBodyRadius": 0.92556,
+        "nativeVisualRadius": 1.114020647733375,
+        "nativeBodyRadius": 0.9725610779552926,
         "attack": {
           "action": "furnace slam",
           "proposedMechanic": "melee",
@@ -260143,7 +260143,7 @@
       {
         "id": "lava_golem",
         "assetId": "creature_lava_golem",
-        "scale": 1,
+        "scale": 0.78,
         "regionId": "kilnhalt",
         "activity": "patrol",
         "description": "Lava Golem inhabits cooling volcanic chambers. Uses two-arm stone smash with 3.4 seconds between attacks.",
@@ -260153,17 +260153,17 @@
         "habitat": "cooling volcanic chambers",
         "respawnMs": 30000,
         "nativeSize": [
-          1.85112,
-          2.815493,
-          1.163049
+          1.9451221559105851,
+          2.2,
+          1.0865853914400427
         ],
         "nativeBase": [
-          -0.943108,
-          0.003,
-          -0.629999
+          -0.9725610779552926,
+          0,
+          0.013414608559957367
         ],
-        "nativeVisualRadius": 1.134174342711472,
-        "nativeBodyRadius": 0.92556,
+        "nativeVisualRadius": 1.114020647733375,
+        "nativeBodyRadius": 0.9725610779552926,
         "attack": {
           "action": "two-arm stone smash",
           "proposedMechanic": "melee",
@@ -321286,7 +321286,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9985428374406419
+          "bodyRadius": 0.7802519612657998
         },
         "cinder_boars": {
           "id": "cinder_boars",
@@ -321860,7 +321860,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9985428374406419
+          "bodyRadius": 0.7802519612657998
         },
         "pack_kilnhalt_cinderpine_northwest_outer": {
           "id": "pack_kilnhalt_cinderpine_northwest_outer",
@@ -322240,7 +322240,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9985428374406419
+          "bodyRadius": 0.7802519612657998
         },
         "basalt_drake_residents": {
           "id": "basalt_drake_residents",
@@ -322534,7 +322534,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9985428374406419
+          "bodyRadius": 0.7802519612657998
         },
         "population_emberfast_south_penitents": {
           "id": "cinder_penitent_t20",
@@ -322720,7 +322720,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9985428374406419
+          "bodyRadius": 0.7802519612657998
         },
         "population_emberfast_west_lanterns_1": {
           "id": "grave_lantern_t20",
@@ -323216,7 +323216,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9985428374406419
+          "bodyRadius": 0.7802519612657998
         },
         "wilderness_broken_watch": {
           "id": "wilderness_broken_watch",
@@ -328132,7 +328132,7 @@
               }
             ]
           },
-          "bodyRadius": 1.11771
+          "bodyRadius": 1.11770957
         },
         "chainbound_archon": {
           "id": "chainbound_archon",
@@ -330063,7 +330063,7 @@
               }
             ]
           },
-          "bodyRadius": 1.0797498818876294
+          "bodyRadius": 0.8437063803679022
         },
         "wilderness_petrified_grove_reavers": {
           "id": "gloamfang_reaver_t50",
@@ -332499,7 +332499,7 @@
               }
             ]
           },
-          "bodyRadius": 1.049496
+          "bodyRadius": 0.587712888
         },
         "fairy_lantern_willow_hollow_residents": {
           "id": "garden_sapling_t30",
@@ -333629,7 +333629,7 @@
               }
             ]
           },
-          "bodyRadius": 0.5406
+          "bodyRadius": 0.64872
         },
         "fairy_prism_hollow_companions": {
           "id": "garden_snail_t60",
