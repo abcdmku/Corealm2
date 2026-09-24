@@ -4543,7 +4543,7 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "prowl",
-      "description": "An eight-legged fen scavenger under a broad, overlapping carapace. Curved feeding blades frame a recessed mouth beneath its low front shield.",
+      "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
       "kind": "basic"
     }
   },
@@ -7078,10 +7078,10 @@
     "presentation": {
       "id": "thicket_spirit_t30",
       "assetId": "fairy_monster_21",
-      "scale": 0.7086123195731177,
+      "scale": 0.7873470217479085,
       "regionId": "gloamgarden",
       "activity": "forage",
-      "description": "A T30 fairy grove inhabitant from Stylized Fantasy Vol 01 model 21.",
+      "description": "A moss-covered thicket spirit on four thin branch legs, with small mushrooms above its glowing face.",
       "kind": "basic"
     }
   },
@@ -7353,10 +7353,10 @@
     "presentation": {
       "id": "thicket_spirit_t60",
       "assetId": "fairy_monster_21",
-      "scale": 0.6688913025059434,
+      "scale": 0.9588212101731594,
       "regionId": "faeholme",
       "activity": "forage",
-      "description": "A T60 fairy grove inhabitant from Stylized Fantasy Vol 01 model 21.",
+      "description": "An elder thicket spirit with a broad moss canopy, mushroom crown and long branch legs.",
       "kind": "basic"
     },
     "baseId": "thicket_spirit_t30"
@@ -7547,7 +7547,7 @@
       "scale": 0.5117755641361406,
       "regionId": "gloamgarden",
       "activity": "forage",
-      "description": "A staff-carrying woodland fey with spore-dappled skin and fungal markings on its robes.",
+      "description": "A lilac mushroom spirit with a broad ribbed cap, pale fungal stem and curling root limbs.",
       "kind": "basic"
     }
   },
@@ -16019,7 +16019,7 @@
       "scale": 1.2556683033373457,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "A walking cathedral tree with a split hollow trunk, load-bearing bough arches and a recessed heart chamber.",
+      "description": "A young woodland guardian with layered bark, mossy shoulders and heavy root hands.",
       "kind": "basic"
     }
   },
@@ -16653,7 +16653,7 @@
       "scale": 0.7333469654603144,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "Rootbound Colossus",
+      "description": "A young woodland guardian with layered bark, mossy shoulders and heavy root hands.",
       "kind": "basic"
     },
     "profileId": "boss"
@@ -17003,7 +17003,7 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "prowl",
-      "description": "An eight-legged fen scavenger under a broad, overlapping carapace. Curved feeding blades frame a recessed mouth beneath its low front shield.",
+      "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
       "kind": "basic"
     }
   },
@@ -17145,7 +17145,7 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "prowl",
-      "description": "An eight-legged fen scavenger under a broad, overlapping carapace. Curved feeding blades frame a recessed mouth beneath its low front shield.",
+      "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
       "kind": "basic"
     }
   },
@@ -17182,7 +17182,7 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "prowl",
-      "description": "An eight-legged fen scavenger under a broad, overlapping carapace. Curved feeding blades frame a recessed mouth beneath its low front shield.",
+      "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
       "kind": "basic"
     }
   },

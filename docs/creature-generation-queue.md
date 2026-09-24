@@ -1,12 +1,12 @@
 # Deduplicated creature generation queue
 
-The58 remaining replacement verdicts are not58 new-model requests. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
+The original 58 remaining replacement verdicts were not 58 new-model requests. Four staged replacements have since been promoted, leaving 54. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
 
-18 recommended base concepts cover19 production IDs. Nine more IDs have staged replacements. The remaining30 should first go through owned-source adaptation review. Only generate additional bases when a reviewer establishes that the owned anatomy does not fit.
+The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Five IDs still have staged replacements awaiting acceptance; four of the original nine are now integrated. The remaining 30 IDs need owned-source adaptation review. Flag additional source gaps to the user if the owned anatomy does not fit.
 
-Generate one good base per row, not one per level or regional palette. Agents can make detailed image-generated skins, scale variants, rigs and animations afterward. Preserve distinct anatomy across unrelated families; deduplication is not permission to turn everything into the same beetle or treant. For Bloomheart, the amethyst elite may need geometry additions beyond a texture change. Ivory Castellan remains on this queue because the user explicitly authorized a matching new base; the owned Vault Custodian alternative is only a fallback, not accepted as a substitute.
+Use one user-supplied base per row, not one per level or regional palette. After delivery, agents map it to the intended IDs, optimize it, make detailed image-generated texture variants, rig and animate it, then update this queue. Preserve distinct anatomy across unrelated families; deduplication is not permission to turn everything into the same beetle or treant. For Bloomheart, the amethyst elite may need geometry additions beyond a texture change. Ivory Castellan remains on this queue because the user explicitly authorized a matching new base; the owned Vault Custodian alternative is only a fallback, not accepted as a substitute.
 
-Use simple model prompts first, review silhouettes before committing to3D. Natural connected anatomy, detailed layered surfaces, clean limb separation and game-readable shapes. Avoid chunky balloon forms and excessive decorative clutter. User specified P1,2K texture,PBR and rigging for the wasp; that wasp is already done. Those settings are a useful proposed starting point for new models, not a separately confirmed requirement for every species.
+The prompts below are for the user's manual generation. Natural connected anatomy, detailed layered surfaces, clean limb separation and game-readable shapes. Avoid chunky balloon forms and excessive decorative clutter. User specified P1,2K texture,PBR and rigging for the wasp; that wasp is already done. Those settings are a useful proposed starting point for new models, not a separately confirmed requirement for every species.
 
 | Base to generate once | Production IDs covered | Short concept prompt |
 | --- | --- | --- |
@@ -29,12 +29,15 @@ Use simple model prompts first, review silhouettes before committing to3D. Natur
 | Gorge mantis | creature_gorge_mantis | Six-legged predatory mantis with triangular head, four walking legs and two folded serrated catching arms. |
 | The Hollow Star | creature_hollow_star | Distinct nonhuman cosmic boss with a radial frame around a hollow central core and membrane-like spans; connected readable geometry. |
 
-## Already staged: do not regenerate
+## Integrated from the staged queue
 
 - creature_fen_crawler
 - creature_boss_rootheart
 - fairy_garden_sporekin_gloamgarden
 - fairy_monster_21
+
+## Already staged: do not regenerate
+
 - creature_silverthorn_harrow
 - fairy_guardian_06_faeholme
 - creature_vault_custodian
@@ -45,7 +48,7 @@ See creature-audit-handoff.md for candidate directories and missing acceptance.
 
 ## Owned-source review first, not immediate generation orders
 
-These30 IDs still need work, but local source proposals exist. Proposals are NOT accepted replacements. Some earlier proposals require large geometry changes, or would repeat an already heavily reused silhouette. Review before deciding whether to adapt or generate. Nightbloom regional/nonregional can share the accepted staged base if it fits; spectral family can share a new or owned ghost base with distinct silhouettes; paired guardian IDs should share a base plus regional/level variants.
+These30 IDs still need work, but local source proposals exist. Proposals are NOT accepted replacements. Some earlier proposals require large geometry changes, or would repeat an already heavily reused silhouette. Review before adapting; send any new generation request to the user. Nightbloom regional/nonregional can share the accepted staged base if it fits; spectral family can share a new or owned ghost base with distinct silhouettes; paired guardian IDs should share a base plus regional/level variants.
 
 - creature_boss_mossbound: Forest Ogre@15
 - creature_chainbound_archon: Chainbound Archon@233; Chainbound Archon@130

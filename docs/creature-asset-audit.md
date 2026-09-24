@@ -4,7 +4,7 @@ Audit resumed 2026-09-23 from the interrupted T3 review. Covers all 166 distinct
 
 ## Status
 
-101 replace; 43 polish; 22 keep. These are visual review verdicts, not acceptance of new assets. 43 replacement models and two polish updates are integrated, plus the missing Giant Rat reference is repaired. The rest remain open; this is not a claim that all 101 replacement verdicts are resolved.
+101 replace; 43 polish; 22 keep. These are visual review verdicts, not acceptance of new assets. 47 replacement models and two polish updates are integrated, plus the missing Giant Rat reference is repaired. The rest remain open; this is not a claim that all 101 replacement verdicts are resolved.
 
 The original idle, walk and attack captures are diagnostic views taken with a detached camera. New acceptance requires the production lab, normal player camera, semantic motion/combat checks, then world integration and a production build. Similar captured poses alone do not prove broken animation.
 
@@ -16,7 +16,8 @@ The authored world now reaches playable state within 74 seconds in the reused We
 
 | Creature | Replacement / current work | Remaining acceptance |
 | --- | --- | --- |
-| All four wasps | Integrated fantasy leaf-armored, thorn-tailed Tripo P1 wasp, project `78a332eb-c1a4-486b-85e5-27dad940f8f6`. Eight concepts reviewed. Rebuilt insect skin weights, six clips, four detailed generated 2K base-color maps with original 2K PBR maps. Small Field/Heath/Slatewing variants; larger Marsh variant with venom-gland drops. | Lab visual, motion, damage and death passed. World acceptance pending. |
+| Fen Crawler / Rootbound Colossus / Mooncap Sporekin / Thicket Spirit | Integrated detailed swamp chitin, layered bark guardian, recovered lilac mushroom and four-legged moss-canopy spirit. Thicket tiers use distinct base/elder scales; footprints and attack contact match the replacement bodies. | Matching source hashes, lab combat/damage and whole grounded death views passed. Fen world combat passed with HP 17 -> 10 -> 0, drawn geometry and no errors. Other three families retain world acceptance follow-up. |
+| All four wasps | Integrated fantasy leaf-armored, thorn-tailed Tripo P1 wasp, project `78a332eb-c1a4-486b-85e5-27dad940f8f6`. Eight concepts reviewed. Rebuilt insect skin weights, six clips, four detailed generated 2K base-color maps with original 2K PBR maps. Small Field/Heath/Slatewing variants; larger Marsh variant with venom-gland drops. | Lab visual, motion, damage and death passed. Field Wasp world interaction passed; other regions remain pending. |
 | Badger | Integrated user-selected Redmane Minotaur with rebuilt quadruped rig. Base level 25, three territorial residents, emberhorn/charhide/cinder-tusk drops. | Lab movement, combat and grounded slump passed. World acceptance pending. |
 | Gloam Fox | Integrated horned Gloam Jackal with native fur/PBR, repaired rig and six clips. Updated name, description and hide drops. | Lab visual and motion passed; world acceptance pending. |
 | Heath Jack | Integrated real hare rig with layered generated russet/heath fur. Restored coyote and lynx groups that incorrectly used Heath Jack overrides. | Lab appearance and hopping gait passed; world acceptance pending. |
@@ -41,7 +42,7 @@ The authored world now reaches playable state within 74 seconds in the reused We
 | Nightforge Marshal | Integrated the owned closed-helm knight with original black plate and burgundy cloak, articulated motion and early grounded collapse. | Lab appearance, attack, damage and death passed; world acceptance pending. |
 | Moonstone / Silverleaf Petalguards | Integrated distinct detailed generated petal skins on the repaired floral guardian rig. Higher-tier Moonstone remains larger. | Lab appearance, attack, damage and collapsed death passed; world acceptance pending. |
 | Starporcelain / Dewglass Reliquaries | Integrated four-legged enchanted vessels with distinct detailed porcelain/nacre maps and repaired leg cycles. | Lab appearance, attack, damage and collapsed death passed; world acceptance pending. |
-| Veil Reaper | Integrated the owned hooded apparition with rebuilt anatomical skin weights and eight clips. Lower-tier variants are smaller; larger elites retain richer thread and rune drops. | Lab appearance, attack, damage and side-fallen death passed; higher-tier scale and world acceptance pending. |
+| Veil Reaper | Integrated the owned hooded apparition with rebuilt anatomical skin weights and eight clips. Lower-tier variants are smaller; larger elites retain richer thread and rune drops. | Lab appearance, attack, damage, side-fallen death and higher-tier scale passed; world acceptance pending. |
 
 Candidate screenshots and machine-readable source maps remain under `test-results/creature-audit`. Candidate existence does not mean production acceptance. Remaining replacements and polish are listed below.
 

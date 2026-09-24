@@ -10,7 +10,15 @@ User explicitly requests parallel GPT-6 Sol implementation/asset workers and GPT
 
 Read AGENTS.md and docs/feature-lab.md first. The original full audit is docs/creature-asset-audit.md. Its complete-model table records ORIGINAL verdicts and old appearances, even for assets already replaced; subtract the completed list below. Old detached-camera screenshots are diagnostic only, not valid new acceptance views.
 
-## Current baseline
+## Continuation batch
+
+Fen Crawler, Rootbound Colossus, Mooncap Sporekin and Thicket Spirit are now promoted after matching-hash checks and fresh Sol/Luna review. The source preservation commit is 85f8f4b, pushed to main. Sources include the formerly local-only Mooncap and Thicket originals. Silverthorn source was preserved with the shared Rootheart builder; Silverthorn is still NOT promoted.
+
+Current acceptance evidence is in `test-results/creature-audit/continuation-session/session.jsonl`. Fen and Rootheart whole-corpse views and both Thicket tier scales were recaptured with normal player-follow cameras. Lab combat showed Fen 30 -> 26 HP, Rootheart 124 -> 118 HP, and elder Thicket 208 -> 202 -> 190 HP. Mooncap retains matching-hash round3 combat/death proof. Typecheck, six focused creature/content test files (35 tests) and content validation passed. The three known lab-only missing-model warnings remain. Production build passed, including navigation, world/server packs and asset budgets. Representative Fen Crawler world acceptance passed in the rebaked Blackwater population: HP 17 -> 10 -> 0, Run/Attack/Death, one drawn mesh throughout the sampled interaction, normal player-follow camera and no errors. The corrected tier-5 body radius is 0.38148m. Other three families still need representative world views. Initial teleport visibility was delayed; no streaming changes were made.
+
+Production catalog now has 49 entries. Remaining original verdicts: 54 replacements and 41 polish assets. Begin the next batch with Silverthorn, Nightbloom and Vault missing visual/death proof, then staged mandibles and polish. Do not redo these four promoted assets from the original verdict table.
+
+## Previous baseline
 
 Main was pushed successfully at 2bb5a19497a12d542434b081dc17e49ebc9a5500. Remote main matched HEAD. Temporary upload branch was deleted. GitHub Pages workflow 35937296213 was still running at last check; do not claim it deployed successfully without checking. No remote game server update was performed.
 
@@ -33,12 +41,12 @@ Baseline validation passed: production build including asset budgets/world/serve
 - User requested fantasy wasp, not a realistic wasp. The accepted P1/2K/PBR wasp family is already integrated. Do not follow the obsolete realistic-wasp brief in the original table.
 - Badger was intentionally replaced by user's selected Minotaur base, integrated as a quadruped. Do not replace it with another badger.
 - User rejected chunky Quarry concepts and supplied their own rock golem; it is integrated as Quarry Warden. Do not regenerate it. Original is preserved at assets/art/tripo/imports/creatures/audit-user-rock-golem/rock-golem-user-original.glb.
-- Matching new bases are authorized for genuine source gaps. Use existing owned models where they actually fit; do not force unrelated bodies or duplicate the same silhouette for every identity.
+- The user will manually create the 18 proposed new bases covering 19 IDs, including one shared botanical veilspirit base. Do not generate models or start Tripo jobs. Continue staged candidates and inspect possible owned sources first; flag additional source gaps to the user. Process each delivered model for its intended IDs, optimization, rigging, animation and detailed textures, then update docs/creature-generation-queue.md.
 - User is logged into Tripo in existing Chrome. Explicit authorization exists to attach Playwright to existing Chrome on port 9333. Reuse that session, do not create a new login profile. Inspect current tabs first. No Tripo job needs to be resumed blindly from stale context.
 
 ## Files, evidence and dirty work
 
-- Production-only accepted catalog: test-results/creature-audit/production-candidates.json, 45 entries.
+- Production-only accepted catalog: test-results/creature-audit/production-candidates.json, 49 entries.
 - Combined lab catalog: test-results/creature-audit/candidates.json, last 67 entries, including staged work. NOT a promotion/acceptance list.
 - Lab journal/evidence: test-results/creature-audit/resume-session/session.jsonl and screenshots under that session directory. Search filenames rather than dumping the huge journal.
 - Source/build directories: assets/art/tripo/imports/creatures/audit-*/. Candidate-specific catalogs and builders live there. Many staged directories are untracked and LOCAL ONLY. A fresh clone does not contain them. Preserve them on this workstation or explicitly transfer/commit reviewed source work.
@@ -52,17 +60,13 @@ All paths below are under assets/art/tripo/imports/creatures/. No items in this 
 
 | Candidate / production ID | Directory | Current proof and next action |
 | --- | --- | --- |
-| Fen Crawler / creature_fen_crawler | audit-fen-crawler | Detailed swamp six-leg model, about 0.50 m. Lab idle, attack/damage and grounded death passed. Ready for integration after checking current hash/evidence. Death screenshot round3-fen-unobstructed-death-07.png. |
-| Rootbound Colossus / creature_boss_rootheart | audit-rootwood-family | Briar Harrow source, about 2.28 m, layered bark. Idle, attack/damage and death passed. Ready for integration, preserve smaller young-guardian role if level stays 23. Use promotion-catalog.json. |
-| Mooncap Sporekin / fairy_garden_sporekin_gloamgarden | audit-mooncap-sporekin | Correct owned mushroom source, 25 joints, six clips, original detailed lilac map reduced to 2K with derived PBR. Idle, damage/attack and side-wilt death passed. Ready for integration. Source dependency also in audit-owned-plant-downloads. Death screenshot round3-mooncap-unobstructed-death-07.png. |
-| Thicket Spirit / fairy_monster_21 | audit-thicket-spirit | Correct fantasy Thicketwalker, 20 joints/six clips. Idle, combat and folded death passed. Needs tier scaling before promotion: raw 1.899 m, suggested high-tier multiplier 1.28947 gives 2.449 m; current species multipliers around .67-.71 are too small. Source has detailed 2K base color but no normal/ORM, do not claim full PBR. Reuse one asset with variant scale. |
 | Silverthorn Harrow / creature_silverthorn_harrow | audit-rootwood-family | Floating cone crown removed. Previous backflip corpse REJECTED. Latest side-fall rebuild SHA 3e6d131045b9c29ae59896f7b74c76a8d34cb0f10a646f5260df4ab934ba47a3 needs NEW normal-camera death screenshot and acceptance. Rootheart bytes were unchanged. |
 | Nightbloom / fairy_guardian_06_faeholme | audit-nightbloom | Pinkbud fantasy base with generated floral map, twig antlers/blossoms, eight clips. Idle and combat viewed; death was cropped. Needs unobstructed whole-corpse view. Correct preset species:guardian_06_faeholme, derived level189. This does NOT resolve fantasy_monster_06. |
 | Vault Custodian / creature_vault_custodian | audit-vault-custodian | Owned limestone/blue-sash sentinel, 54 joints/eight clips, CPU grounding passed. Latest SHA 7fd6db127e826c93f4c54f3322f0da0798bdb627d937fa5be2c07457035f9d67. round4-vault-idle.png captured but not reviewed by root. Needs visual, combat and death acceptance. Preset species:vault_custodian. |
 | Flint Mandible / creature_flint_mandible | audit-mandible-family | Charcoal/flint/bronze generated skin, 30 joints/six clips. Round4 idle/walk captures queued, not accepted. Needs visual/combat/death. Raw height1.371, species .8 gives about1.10m. |
 | Beetle Golem / creature_beetle_golem | audit-mandible-family | Basalt/oxidized copper/moss skin on same mandible source, raw1.554m. Needs visual/combat/death, assess silhouette repetition with Storm Scarab/Fen Crawler. Currently same derived level13/reward as Flint; if larger, increase level/reward appropriately. |
 
-Prefer a short next production batch of Fen, Rootheart, Mooncap and Thicket after scale validation. Add Vault only after its missing proof. Do not hold all work until every staged asset is accepted.
+Fen, Rootheart, Mooncap and Thicket are in the continuation batch above. Add Vault only after its missing proof. Do not hold all work until every staged asset is accepted.
 
 ## Staged polish and lab-only repairs
 
@@ -108,7 +112,7 @@ Representative authored-world acceptance remains due for most integrated familie
 
 ## Exhaustive remaining replacement list
 
-These58 IDs were computed by subtracting the45 production catalog IDs from the original audit table. Their detailed visual defects and replacement briefs are in docs/creature-asset-audit.md. Staged items above are included until promoted. Names/levels below are ORIGINAL audit observations, not authoritative current balance.
+These54 IDs were computed by subtracting the49 production catalog IDs from the original audit table. Their detailed visual defects and replacement briefs are in docs/creature-asset-audit.md. Staged items above are included until promoted. Names/levels below are ORIGINAL audit observations, not authoritative current balance.
 
 | Asset ID | Original creatures / levels |
 | --- | --- |
@@ -121,12 +125,9 @@ These58 IDs were computed by subtracting the45 production catalog IDs from the o
 | creature_beetle_golem | Beetle Golem@13 |
 | creature_boss_mossbound | Forest Ogre@15 |
 | creature_flint_mandible | Flint Mandible@13 |
-| fairy_garden_sporekin_gloamgarden | Mooncap Sporekin@34 |
 | creature_bloomheart_matriarch | Bloomheart Matriarch@79; Amethyst Sovereign@189 |
-| creature_boss_rootheart | Rootbound Colossus@23 |
 | creature_hollow_bough | Hollow Bough@76; Hollow Bough@75; Hollow Bough@73; Hollow Bough@13 |
 | creature_silverthorn_harrow | Silverthorn Harrow@63 |
-| creature_fen_crawler | Fen Crawler@6; Fen Crawler@5; Fen Crawler@12 |
 | creature_prismatic_sprite | Prismatic Sprite@96 |
 | creature_reed_strider | Reed Strider@5; Reed Strider@6; Reed Strider@12 |
 | creature_rift_carapace | Rift Carapace@105; Rift Carapace@108; Rift Carapace@107; Rift Carapace@118 |
@@ -163,7 +164,6 @@ These58 IDs were computed by subtracting the45 production catalog IDs from the o
 | fairy_monster_11 | Petal Pouncer@46; Petal Pouncer@115 |
 | fairy_monster_14 | Moss Nibbler@46; Moss Nibbler@115 |
 | fairy_monster_16 | Bloom Hopper@46; Bloom Hopper@115 |
-| fairy_monster_21 | Thicket Spirit@46; Thicket Spirit@115 |
 | fairy_monster_27 | Bramble Prowler@46; Bramble Prowler@115 |
 | fairy_monster_30 | Elder Grovebeast@46; Elder Grovebeast@115 |
 | creature_basalt_maw | Basalt Maw@90 |
@@ -220,6 +220,11 @@ These41 IDs include the staged polish candidates above. See original audit for i
 | creature_red_worm | Red Worm@1 |
 
 ## Completed production IDs, do not redo by reading stale original verdicts
+
+- creature_fen_crawler
+- creature_boss_rootheart
+- fairy_garden_sporekin_gloamgarden
+- fairy_monster_21
 
 - creature_hollowroot_spider
 - creature_marchwild_horse

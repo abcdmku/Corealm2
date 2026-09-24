@@ -164,7 +164,7 @@ CREATURE_PURSUIT_CEILING_MPS["creature_hollow_bough"] = 3.4299;
 
 // Accepted biome bodies: measured final weighted-sole run cadence.
 CREATURE_PURSUIT_CEILING_MPS["creature_briar_harrow"] = 3.8976;
-CREATURE_PURSUIT_CEILING_MPS["creature_fen_crawler"] = 2.8964;
+CREATURE_MOTION_TIMING["creature_fen_crawler"] = { seconds: 0.86, contactNormalized: 0.5 };
 CREATURE_PURSUIT_CEILING_MPS["creature_reed_strider"] = 3.3336;
 CREATURE_PURSUIT_CEILING_MPS["creature_kiln_marrow"] = 9.1254;
 CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
@@ -261,7 +261,7 @@ CREATURE_MOTION_TIMING["fantasy_monster_09"] = { seconds: 1, contactNormalized: 
 CREATURE_MOTION_TIMING["fairy_monster_11"] = { seconds: 1.1, contactNormalized: 0.5 };
 CREATURE_MOTION_TIMING["fairy_monster_14"] = { seconds: 1.1, contactNormalized: 0.5 };
 CREATURE_MOTION_TIMING["fairy_monster_16"] = { seconds: 1.1, contactNormalized: 0.5 };
-CREATURE_MOTION_TIMING["fairy_monster_21"] = { seconds: 1.1, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_monster_21"] = { seconds: 0.86, contactNormalized: 0.5 };
 CREATURE_MOTION_TIMING["fairy_monster_27"] = { seconds: 1.1, contactNormalized: 0.5 };
 CREATURE_MOTION_TIMING["fairy_monster_30"] = { seconds: 1.1, contactNormalized: 0.5 };
 // Maximum three run cycles per second for the planted trial-pack locomotion.
@@ -284,7 +284,7 @@ for (const region of ['gloamgarden', 'faeholme']) {
     ['drake', 'creature_baby_red_dragon'], ['wardling', 'fairy_monster_34'], ['petalguard', 'fairy_monster_31'],
   ] as const) {
     const id = `fairy_garden_${form}_${region}`;
-    if (form === 'petalguard' || form === 'reliquary') continue;
+    if (form === 'petalguard' || form === 'reliquary' || id === 'fairy_garden_sporekin_gloamgarden') continue;
     // These imports use their own recovered native rigs and a retargeted jab.
     if (id === 'fairy_garden_sporekin_faeholme' || id === 'fairy_garden_sapling_gloamgarden' || id === 'fairy_garden_sapling_faeholme') {
       CREATURE_MOTION_TIMING[id] = { seconds: 0.866666675, contactNormalized: 0.26 };
@@ -358,3 +358,7 @@ CREATURE_MOTION_TIMING["fairy_garden_reliquary_gloamgarden"] = {"seconds":0.8600
 CREATURE_MOTION_TIMING["fairy_garden_reliquary_faeholme"] = {"seconds":0.8600000143051147,"contactNormalized":0.5};
 
 CREATURE_MOTION_TIMING["creature_veil_reaper"] = {"seconds":0.78,"contactNormalized":0.5897435897435898};
+
+// Recovered woodland bodies have independent clips and uncalibrated strides.
+CREATURE_MOTION_TIMING["creature_boss_rootheart"] = { seconds: 0.8666666746139526, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_garden_sporekin_gloamgarden"] = { seconds: 1, contactNormalized: 0.55 };
