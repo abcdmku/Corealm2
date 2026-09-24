@@ -170,7 +170,6 @@ CREATURE_PURSUIT_CEILING_MPS["creature_kiln_marrow"] = 9.1254;
 CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
 CREATURE_PURSUIT_CEILING_MPS["creature_cairn_treader"] = 8.1089;
 CREATURE_PURSUIT_CEILING_MPS["creature_flint_mandible"] = 5.9942;
-CREATURE_PURSUIT_CEILING_MPS["creature_vault_custodian"] = 9.8903;
 CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
 
 /**
@@ -362,3 +361,6 @@ CREATURE_MOTION_TIMING["creature_veil_reaper"] = {"seconds":0.78,"contactNormali
 // Recovered woodland bodies have independent clips and uncalibrated strides.
 CREATURE_MOTION_TIMING["creature_boss_rootheart"] = { seconds: 0.8666666746139526, contactNormalized: 0.5 };
 CREATURE_MOTION_TIMING["fairy_garden_sporekin_gloamgarden"] = { seconds: 1, contactNormalized: 0.55 };
+
+CREATURE_MOTION_TIMING["creature_vault_custodian"] = { seconds: 0.8666666746139526, contactNormalized: 0.48 };
+CREATURE_MOTION_TIMING["fairy_guardian_06_faeholme"] = { seconds: 0.8500000238418579, contactNormalized: 0.5647058823529412 };

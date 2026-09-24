@@ -1,8 +1,8 @@
 # Deduplicated creature generation queue
 
-The original 58 remaining replacement verdicts were not 58 new-model requests. Four staged replacements have since been promoted, leaving 54. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
+The original 58 remaining replacement verdicts were not 58 new-model requests. Six staged replacements have since been promoted, leaving 52. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
 
-The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Five IDs still have staged replacements awaiting acceptance; four of the original nine are now integrated. The remaining 30 IDs need owned-source adaptation review. Flag additional source gaps to the user if the owned anatomy does not fit.
+The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Two IDs still have staged replacements awaiting acceptance; six of the original nine are now integrated. Beetle Golem's staged replacement was rejected and is flagged below. The remaining 30 IDs need owned-source adaptation review. Flag additional source gaps to the user if the owned anatomy does not fit.
 
 Use one user-supplied base per row, not one per level or regional palette. After delivery, agents map it to the intended IDs, optimize it, make detailed image-generated texture variants, rig and animate it, then update this queue. Preserve distinct anatomy across unrelated families; deduplication is not permission to turn everything into the same beetle or treant. For Bloomheart, the amethyst elite may need geometry additions beyond a texture change. Ivory Castellan remains on this queue because the user explicitly authorized a matching new base; the owned Vault Custodian alternative is only a fallback, not accepted as a substitute.
 
@@ -35,16 +35,26 @@ The prompts below are for the user's manual generation. Natural connected anatom
 - creature_boss_rootheart
 - fairy_garden_sporekin_gloamgarden
 - fairy_monster_21
+- fairy_guardian_06_faeholme
+- creature_vault_custodian
 
 ## Already staged: do not regenerate
 
-- creature_silverthorn_harrow
-- fairy_guardian_06_faeholme
-- creature_vault_custodian
-- creature_flint_mandible
-- creature_beetle_golem
+- creature_silverthorn_harrow: final two-angle death review pending.
+- creature_flint_mandible: repair shrinking death pose before acceptance.
 
 See creature-audit-handoff.md for candidate directories and missing acceptance.
+
+## Additional source gap flagged to the user
+
+- `creature_beetle_golem`: current enlarged Flint Mandible candidate rejected after normal-camera idle/walk review. It repeats the same silhouette and does not read as a construct. The local source review found no ready distinct insect-construct body; Stag Beetle is only a low-confidence natural-beetle alternative requiring substantial new shell/leg geometry. Await the user's source decision. Do not start generation. A suitable body would have six thick articulated stone/chitin legs, vaulted beetle elytra and a readable horn or mandibles, about 1.5 to 2m tall. The original 18 manual base requests above remain unchanged.
+
+## Owned-source findings, 2026-09-23
+
+- Moonpetal Stalker: original owned file `C:/Users/Borg/Downloads/corealm_moonpetal_stalker_a56dd8d1_8k_rigged.glb` has the rejected puckered face. Approved `assets/art/tripo/refs/fairy-moonpetal-stalker-face-r3.png` exists, but revised model `429e6167` has no local export. Retrieve the approved revision before adapting; do not reuse the rejected Knotwarden substitute.
+- Scree Watcher: local `corealm_scree_watcher_0a6ea60d_8k_rigged.glb` has a rejected face and a root-weighted, sideways rig. The approved r4 reference exists, but revised model `f6f96c07` has no local export. These are missing approved exports, not confirmed new-base requests. Live job status was not checked.
+- Mossbound / Forest Ogre: owned Grove Brute was rejected in gameplay for a generic torso, sack-like shoulder and motion grounding. Stonejaw Marauder (`corealm_stonejaw_marauder_976e7fe5.glb`) has suitable tusked ogre anatomy but needs substantial forest surface and gear adaptation. Keep this in owned-source review.
+- Cinder Ravager: proposed export `8ddfe280-fd81-4eee-a91a-5cf2c42e769e.glb` is a four-legged dragon. Inspected demon alternatives are humanoid. No inspected local source fits the intended animal-like cinder predator. Additional source gap flagged to the user; no generation started.
 
 ## Owned-source review first, not immediate generation orders
 

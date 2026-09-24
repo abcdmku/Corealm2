@@ -4,7 +4,7 @@ Audit resumed 2026-09-23 from the interrupted T3 review. Covers all 166 distinct
 
 ## Status
 
-101 replace; 43 polish; 22 keep. These are visual review verdicts, not acceptance of new assets. 47 replacement models and two polish updates are integrated, plus the missing Giant Rat reference is repaired. The rest remain open; this is not a claim that all 101 replacement verdicts are resolved.
+101 replace; 43 polish; 22 keep. These are visual review verdicts, not acceptance of new assets. 49 replacement models and two polish updates are integrated, plus the missing Giant Rat reference is repaired. The rest remain open; this is not a claim that all 101 replacement verdicts are resolved.
 
 The original idle, walk and attack captures are diagnostic views taken with a detached camera. New acceptance requires the production lab, normal player camera, semantic motion/combat checks, then world integration and a production build. Similar captured poses alone do not prove broken animation.
 
@@ -16,6 +16,7 @@ The authored world now reaches playable state within 74 seconds in the reused We
 
 | Creature | Replacement / current work | Remaining acceptance |
 | --- | --- | --- |
+| Vault Custodian / Faeholme Nightbloom | Recovered limestone sentinel with blue oath sash and layered floral guardian with twig antlers. Vault scale reduced to 0.84; footprints and attack timing match the new bodies. | Normal-camera lab appearance, combat damage and whole grounded death views passed. Representative world interaction pending. |
 | Fen Crawler / Rootbound Colossus / Mooncap Sporekin / Thicket Spirit | Integrated detailed swamp chitin, layered bark guardian, recovered lilac mushroom and four-legged moss-canopy spirit. Thicket tiers use distinct base/elder scales; footprints and attack contact match the replacement bodies. | Matching source hashes, lab combat/damage and whole grounded death views passed. Fen world combat passed with HP 17 -> 10 -> 0, drawn geometry and no errors. Other three families retain world acceptance follow-up. |
 | All four wasps | Integrated fantasy leaf-armored, thorn-tailed Tripo P1 wasp, project `78a332eb-c1a4-486b-85e5-27dad940f8f6`. Eight concepts reviewed. Rebuilt insect skin weights, six clips, four detailed generated 2K base-color maps with original 2K PBR maps. Small Field/Heath/Slatewing variants; larger Marsh variant with venom-gland drops. | Lab visual, motion, damage and death passed. Field Wasp world interaction passed; other regions remain pending. |
 | Badger | Integrated user-selected Redmane Minotaur with rebuilt quadruped rig. Base level 25, three territorial residents, emberhorn/charhide/cinder-tusk drops. | Lab movement, combat and grounded slump passed. World acceptance pending. |

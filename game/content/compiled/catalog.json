@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "cd37be06f42e74b8aaafe26ff982a4ce7c097dcbfab2d68d437c67d45c5ccb78",
-  "formulaRevision": "34520c74ec9e979bb0385e94f9271994cc317f712c0748f2ad778635147bf29f",
+  "revision": "95eb041a569a14da511bef796cd6fbc6c48dc62991f5cbc0ca2f38a5c9743190",
+  "formulaRevision": "7dbee83d9e24539e87611bd0bca5e3f54f6476d178e22b51e44a16deaf8e91a0",
   "tables": {
     "items": [
       {
@@ -27613,10 +27613,10 @@
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "kind": "basic"
         },
         "adjustments": {
@@ -34422,7 +34422,7 @@
           "scale": 0.743212558339937,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "Fantasy Monster 06. A roaming Nightbloom with a thirty-minute respawn.",
+          "description": "A towering night-blue blossom guardian with twig antlers and layered petals. It returns to its woodland patrol every thirty minutes.",
           "kind": "basic"
         },
         "loot": {
@@ -39888,10 +39888,10 @@
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "kind": "basic"
         },
         "adjustments": {
@@ -39934,10 +39934,10 @@
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40034,10 +40034,10 @@
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40125,10 +40125,10 @@
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40285,10 +40285,10 @@
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "kind": "basic"
         },
         "adjustments": {
@@ -104627,10 +104627,10 @@
           "presentation": {
             "id": "vault_custodian",
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "regionId": "gravelmaw",
             "activity": "patrol",
-            "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+            "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
             "kind": "basic"
           },
           "adjustments": {
@@ -104717,14 +104717,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "vault_custodian_t10",
             "name": "Vault Custodian",
@@ -138395,7 +138395,7 @@
             "scale": 0.743212558339937,
             "regionId": "faeholme",
             "activity": "patrol",
-            "description": "Fantasy Monster 06. A roaming Nightbloom with a thirty-minute respawn.",
+            "description": "A towering night-blue blossom guardian with twig antlers and layered petals. It returns to its woodland patrol every thirty minutes.",
             "kind": "basic"
           },
           "loot": {
@@ -138489,7 +138489,7 @@
           "scale": 0.743212558339937,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "Fantasy Monster 06. A roaming Nightbloom with a thirty-minute respawn.",
+          "description": "A towering night-blue blossom guardian with twig antlers and layered petals. It returns to its woodland patrol every thirty minutes.",
           "stats": {
             "id": "guardian_06_t60",
             "name": "Nightbloom",
@@ -147275,14 +147275,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "vault_custodian_t1",
             "name": "Vault Custodian",
@@ -147426,14 +147426,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "vault_custodian_t5",
             "name": "Vault Custodian",
@@ -147577,14 +147577,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "vault_custodian_t20",
             "name": "Vault Custodian",
@@ -175986,10 +175986,10 @@
           "presentation": {
             "id": "vault_custodian",
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "regionId": "gravelmaw",
             "activity": "patrol",
-            "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+            "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
             "kind": "basic"
           },
           "adjustments": {
@@ -176096,14 +176096,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "scree_boars",
             "name": "Vault Custodian",
@@ -176470,10 +176470,10 @@
           "presentation": {
             "id": "vault_custodian",
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "regionId": "gravelmaw",
             "activity": "patrol",
-            "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+            "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
             "kind": "basic"
           },
           "adjustments": {
@@ -176587,14 +176587,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "terrace_aurochs",
             "name": "Vault Custodian",
@@ -177208,10 +177208,10 @@
           "presentation": {
             "id": "vault_custodian",
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "regionId": "gravelmaw",
             "activity": "patrol",
-            "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+            "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
             "kind": "basic"
           },
           "adjustments": {
@@ -177287,14 +177287,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "pack_karrowmoor_moor_road_far_west_watch",
             "name": "Vault Custodian",
@@ -178001,10 +178001,10 @@
           "presentation": {
             "id": "vault_custodian",
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "regionId": "gravelmaw",
             "activity": "patrol",
-            "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+            "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
             "kind": "basic"
           },
           "adjustments": {
@@ -178080,14 +178080,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "slateback_tortoise_residents",
             "name": "Vault Custodian",
@@ -179414,10 +179414,10 @@
           "presentation": {
             "id": "vault_custodian",
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "regionId": "gravelmaw",
             "activity": "patrol",
-            "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+            "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
             "kind": "basic"
           },
           "adjustments": {
@@ -179524,14 +179524,14 @@
         },
         "availability": "world",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "presentation": {
           "id": "vault_custodian",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "regionId": "gravelmaw",
           "activity": "patrol",
-          "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+          "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
           "stats": {
             "id": "gravelmaw_ch3_bears",
             "name": "Vault Custodian",
@@ -245632,10 +245632,10 @@
       {
         "id": "vault_custodian",
         "assetId": "creature_vault_custodian",
-        "scale": 1,
+        "scale": 0.84,
         "regionId": "gravelmaw",
         "activity": "patrol",
-        "description": "A walking remnant of a sealed vault. Its hollow masonry chest and massive lintel arms close around intruders.",
+        "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
         "stats": {
           "id": "vault_custodian_t10",
           "name": "Vault Custodian",
@@ -258174,7 +258174,7 @@
         "scale": 0.743212558339937,
         "regionId": "faeholme",
         "activity": "patrol",
-        "description": "Fantasy Monster 06. A roaming Nightbloom with a thirty-minute respawn.",
+        "description": "A towering night-blue blossom guardian with twig antlers and layered petals. It returns to its woodland patrol every thirty minutes.",
         "stats": {
           "id": "guardian_06_t60",
           "name": "Nightbloom",
@@ -297121,7 +297121,7 @@
             "name": "Vault Custodian",
             "tier": 10,
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "centre": [
               176,
               -167
@@ -297151,7 +297151,7 @@
             "name": "Vault Custodian",
             "tier": 10,
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "centre": [
               77,
               -50
@@ -297228,7 +297228,7 @@
             "name": "Vault Custodian",
             "tier": 10,
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "centre": [
               7,
               -14
@@ -297289,7 +297289,7 @@
             "name": "Vault Custodian",
             "tier": 10,
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "centre": [
               55,
               -111
@@ -297365,7 +297365,7 @@
             "name": "Vault Custodian",
             "tier": 10,
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "centre": [
               100,
               -176
@@ -297485,7 +297485,7 @@
             "name": "Vault Custodian",
             "tier": 10,
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "centre": [
               52,
               -44
@@ -297592,7 +297592,7 @@
             "name": "Vault Custodian",
             "tier": 10,
             "assetId": "creature_vault_custodian",
-            "scale": 1,
+            "scale": 0.84,
             "centre": [
               22,
               -77
@@ -318500,7 +318500,7 @@
         "scree_boars": {
           "id": "scree_boars",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "stats": {
             "id": "scree_boars",
             "name": "Vault Custodian",
@@ -318596,7 +318596,7 @@
               }
             ]
           },
-          "bodyRadius": 1.27815393892255
+          "bodyRadius": 0.5557624244673522
         },
         "ridge_ibex": {
           "id": "ridge_ibex",
@@ -318702,7 +318702,7 @@
         "terrace_aurochs": {
           "id": "terrace_aurochs",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "stats": {
             "id": "terrace_aurochs",
             "name": "Vault Custodian",
@@ -318805,7 +318805,7 @@
               }
             ]
           },
-          "bodyRadius": 1.27815393892255
+          "bodyRadius": 0.5557624244673522
         },
         "tarn_coyotes": {
           "id": "tarn_coyotes",
@@ -319183,7 +319183,7 @@
         "pack_karrowmoor_moor_road_far_west_watch": {
           "id": "pack_karrowmoor_moor_road_far_west_watch",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "stats": {
             "id": "pack_karrowmoor_moor_road_far_west_watch",
             "name": "Vault Custodian",
@@ -319248,7 +319248,7 @@
               }
             ]
           },
-          "bodyRadius": 1.27815393892255
+          "bodyRadius": 0.5557624244673522
         },
         "quillback_porcupine_residents": {
           "id": "quillback_porcupine_residents",
@@ -319500,7 +319500,7 @@
         "slateback_tortoise_residents": {
           "id": "slateback_tortoise_residents",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "stats": {
             "id": "slateback_tortoise_residents",
             "name": "Vault Custodian",
@@ -319565,7 +319565,7 @@
               }
             ]
           },
-          "bodyRadius": 1.27815393892255
+          "bodyRadius": 0.5557624244673522
         },
         "scree_bustard_residents": {
           "id": "scree_bustard_residents",
@@ -319857,7 +319857,7 @@
         "population_low_moor_custodians": {
           "id": "vault_custodian_t10",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "stats": {
             "id": "vault_custodian_t10",
             "name": "Vault Custodian",
@@ -319914,7 +319914,7 @@
               }
             ]
           },
-          "bodyRadius": 1.27815393892255
+          "bodyRadius": 0.5557624244673522
         },
         "population_upper_seam_mandibles": {
           "id": "flint_mandible_t10",
@@ -320353,7 +320353,7 @@
         "population_low_terrace_custodians": {
           "id": "vault_custodian_t10",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "stats": {
             "id": "vault_custodian_t10",
             "name": "Vault Custodian",
@@ -320410,7 +320410,7 @@
               }
             ]
           },
-          "bodyRadius": 1.27815393892255
+          "bodyRadius": 0.5557624244673522
         },
         "population_northern_tarn_treaders": {
           "id": "cairn_treader_t10",
@@ -320897,7 +320897,7 @@
         "gravelmaw_ch3_bears": {
           "id": "gravelmaw_ch3_bears",
           "assetId": "creature_vault_custodian",
-          "scale": 1,
+          "scale": 0.84,
           "stats": {
             "id": "gravelmaw_ch3_bears",
             "name": "Vault Custodian",
@@ -320993,7 +320993,7 @@
               }
             ]
           },
-          "bodyRadius": 1.27815393892255
+          "bodyRadius": 0.5557624244673522
         },
         "ordrun": {
           "id": "ordrun",
