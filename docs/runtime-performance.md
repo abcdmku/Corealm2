@@ -24,10 +24,11 @@ Imported integer attributes are separated before WebGPU can promote shared
 joint/color buffers, and sampled actors pack compatible vertex attributes to fit standard
 device limits without removing shader inputs.
 
-GPU preparation builds nodes and uploads data in small serial batches. Startup overlaps at
-most four asynchronous native pipeline creations across those batches; gameplay keeps one.
-Each pipeline owns its validation scope, and startup readiness waits for the entire pool.
-Texture uploads await asynchronous queue completion, and pipeline failures prevent readiness.
+GPU preparation builds nodes and uploads data in small serial batches. Covered preparation
+(startup, portal and jump covers, debug placement) overlaps at most eight asynchronous native
+pipeline creations and fences its uploads once per job; gameplay keeps one pipeline at a time and
+a fence per batch. Batches of an already compiled scenery layout skip the fence and pace by
+animation frame. Startup readiness waits for the entire pool, and pipeline failures prevent it.
 The frame loop presents at most 60 times
 per second and permits at most two outstanding GPU frames, dropping to one under pressure.
 Input and UI updates continue while presentation waits. This leaves browser headroom and
@@ -204,6 +205,64 @@ sequences were not repeated for this particle-only follow-up.
 
 The measurements below this section describe earlier WebGL revisions, not the native renderer.
 
+## Loading and streaming, September 23 2026
+
+Every lit fragment shader used to unroll each scene light: 14 pooled point lights and four lava
+rect-area lights made them about 95 KB of WGSL and about 400 ms of D3D compilation each, and
+toggling a region's pool changed every program's key. `render/batchedLighting.ts` replaces Three's
+lighting with three fixed loops over one packed uniform array (a separate array per attribute
+pushed rich materials past the twelve uniform buffers a stage allows). Lit shaders fell to about
+30 KB and 125 ms. The program key now depends only on the shadowed sun, so caves and realms reuse
+every pipeline, and each spell pool compiles exactly once, while the world joins.
+
+Covered loading no longer paces itself like gameplay. Under the loading screen, a portal or jump
+cover, or a debug placement, preparation runs eight pipelines at once with a single upload fence and
+one error scope per job; clusters of an already compiled scenery layout are drawn directly instead of
+queued; the world is not redrawn behind the opaque cover; entity views build at once instead of eight
+per frame; and asset work takes startup budgets. Destination steps (cave rock, area models, scatter,
+hidden interior) run in parallel and primary scatter tiles load four at a time.
+
+Long moves: entity views build creatures first, nearest first; creature meshes jump the streamed
+shader queue; sampled creatures stay drawable while their shaders prepare (the rule meant to keep
+them visible never matched their meshes). A same-map jump beyond the 64 m actor radius, such as a
+respawn, goes through the destination cover. `__gameDebug.teleport` and inspection poses resolve
+only after the destination's views and shaders are ready and a frame of it has drawn. The world
+containers (`WorldScene` groups and the scene root) no longer re-derive every descendant's world
+matrix each frame: about 4,000 matrix products and 2 to 4 ms per frame at spawn.
+
+Two defects found on the way were fixed at their source. Growing a sampled animation group past its
+capacity swapped buffers onto the same `InstancedMesh`, whose node graph Three caches by uuid, so the
+extra creature drew through the old binding and failed validation; grown groups now get fresh meshes
+(and start at 64 rows). Cinder castle stone failed to compile (`f32(vec3)`) because a scalar `pow`
+exponent let the normal-mapped build type its triplanar weights as a float; the exponent is now a
+vec3 there and at four similar sites.
+
+Local production build, installed Chrome/D3D11, 1440 x 900, local play (`?play=local`), unthrottled,
+one sample each. HEAD is `2bb5a19`.
+
+| Measurement | HEAD | After |
+| --- | ---: | ---: |
+| Cold first playable | 23.4 to 34.4 s | 10.1 s |
+| Warm reload first playable | 19.4 to 23.4 s | 10.6 s |
+| Startup upload fences | 692 | 26 |
+| Cave enter / exit, cover to reveal | 31 s / 92 s | 3.9 s / 8.1 s |
+| Fairy realm enter / exit | 31 s / 185 s | 9.7 s / 2.1 s |
+| Debug teleport to a creature field | returns at once; 26 of 26 nearby enemies undrawn | 1.5 to 2.7 s; every nearby enemy drawn |
+| World-matrix products per frame at spawn | 4,021 | 2,382 |
+
+Authored server, `tools/walking-stream-test.ts --authored --desktop --channel chrome
+--require-webgpu` (20 Mbps, 80 ms): cold first playable 44.1 s at HEAD and 28.3 s after; warm
+17.4 s. HEAD and the first builds of this pass failed the walk's "graphics preparation must finish"
+check with 170 to 590 scenery clusters still hidden 12 s after walking. It now settles in 2.4 s,
+with walking frame p95 27 ms, maximum 54 ms and 81 fps. The remaining cold time at 20 Mbps is
+mostly the 42 MB of models, textures and world records requested before play.
+
+Lighting was compared against HEAD in the wilderness effects lab (torches, lava strips, moonlit
+hemisphere) and the dense cave lab (dungeon hemisphere); the inspected screenshots match apart from
+animation timing. The combat lab shard fails at its knight-chest equipment check on both builds:
+`gearAppearanceParts("grithe_cuirass")` names the knight outfit while the rig draws the cuirass's
+own item model. HEAD fails that shard earlier, at its 18 s lab readiness budget.
+
 ## Loading after multiplayer
 
 The page's asset loader now enables Meshopt's shared worker pool. Its asynchronous decode API
@@ -323,8 +382,9 @@ requirements and opacity retain the unavailable states without separate GPU filt
 
 First fairy travel exposed another cause. Four fairy lamps were allocated on arrival, and six
 surface point lights plus four lava area lights disappeared when terrain became hidden. Changing
-light counts changes Three's shader programs across lit materials. These pools now exist before
-startup preparation and stay attached outside hidden terrain, with zero intensity when unused.
+light counts changed Three's shader programs across lit materials. Point, rect-area and
+hemisphere lights are now batched (`render/batchedLighting.ts`), so light pools no longer affect
+any program; see [Loading and streaming, September 23](#loading-and-streaming-september-23-2026).
 The destination also queues its original hidden meshes for shader and texture preparation before
 reveal. Newly hydrated actors can wait behind the loading curtain; ordinary gameplay retains its
 existing visible-actor policy. Scenery already prepared during streaming is not queued twice.

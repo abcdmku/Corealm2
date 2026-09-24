@@ -55,12 +55,6 @@ async function start(): Promise<void> {
     return;
   }
   try {
-    const query = new URLSearchParams(location.search);
-    if (query.get("mode") === "combat" && query.get("gpuPoc") === "1") {
-      const { startWebGpuPoc } = await import("./render/webgpuPoc.js");
-      await startWebGpuPoc(canvas);
-      return;
-    }
     // One import, so the app's modules evaluate in one fixed order. Content modules import each other in cycles, and a second
     // dynamic entry into the same graph lets the bundler start a cycle from its other side, where a table is still undefined.
     const { boot, bootProfileFor } = await import("./app/boot.js");
