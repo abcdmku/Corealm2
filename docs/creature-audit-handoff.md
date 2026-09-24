@@ -266,3 +266,5 @@ These41 IDs include the staged polish candidates above. See original audit for i
 - fairy_garden_sporekin_faeholme
 - fairy_garden_reliquary_faeholme
 - fairy_garden_petalguard_faeholme
+
+For generation planning, use [the deduplicated generation queue](./creature-generation-queue.md). The 58 replacement verdicts are not 58 new-model requests.
