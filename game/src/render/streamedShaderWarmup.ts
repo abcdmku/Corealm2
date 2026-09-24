@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { WebGPURenderer } from "three/webgpu";
-import { COVERED_PIPELINE_CONCURRENCY, isPreparedScenery, prepareShaderMeshes } from "./shaderPreparation.js";
+import { COVERED_PIPELINE_CONCURRENCY, isPreparedScenery, prepareShaderMeshes, ShaderPreparationError } from "./shaderPreparation.js";
 import { GameplayWork } from "./gameplayWork.js";
 import { yieldToMainThread } from "../core/yield.js";
 
@@ -12,6 +12,13 @@ const COVERED_DRAIN_BATCH_SIZE = 256;
 const isActorMesh = (object: THREE.Object3D): boolean =>
   object.userData.deferFirstDraw === true || object.userData.sampledActor === true;
 
+const describe = (object: THREE.Object3D): string => {
+  const material = (object as THREE.Mesh).material;
+  const materials = (Array.isArray(material) ? material : [material]).filter(Boolean)
+    .map(material => material.name || material.type).join(", ");
+  return `${object.name || object.type} (${materials || "no material"})`;
+};
+
 /** Prepare newly resident pipelines and uploads before their first gameplay draw. */
 export class StreamedShaderWarmup {
   /** A covered destination may defer new actors; ordinary play must keep actors visible. */
@@ -21,10 +28,12 @@ export class StreamedShaderWarmup {
   private readonly pendingRoots = new Map<THREE.Object3D, number>();
   private readonly pendingAncestors = new Map<THREE.Object3D, THREE.Object3D[]>();
   private readonly queued = new Set<THREE.Object3D>();
+  /** Objects of a failed batch, each prepared again alone to find which of them failed. */
+  private readonly retrying = new Set<THREE.Object3D>();
   private readonly watched = new Set<THREE.Object3D>();
   private readonly hidden: THREE.Object3D[] = [];
-  private readonly failed = new Set<THREE.Object3D>();
-  private lastError: string | null = null;
+  /** Failed alone or by their own pipeline. Never drawn until they leave the scene and return. */
+  private readonly failed = new Map<THREE.Object3D, string>();
   private pending = false;
   private scheduled = false;
   private lastFrameAt = 0;
@@ -38,6 +47,8 @@ export class StreamedShaderWarmup {
       object.removeEventListener("childadded", this.added);
       object.removeEventListener("childremoved", this.removed);
       this.queued.delete(object);
+      this.retrying.delete(object);
+      this.failed.delete(object);
       this.releaseWaiting(object);
     });
   };
@@ -101,7 +112,6 @@ export class StreamedShaderWarmup {
   }
 
   private releaseWaiting(object: THREE.Object3D): void {
-    this.failed.delete(object);
     if (!this.waiting.delete(object)) return;
     // childremoved arrives after detachment, so retain ancestry from enrollment.
     for (const root of this.pendingAncestors.get(object) ?? []) {
@@ -119,23 +129,28 @@ export class StreamedShaderWarmup {
     if (this.lastFrameAt > 0) this.pacing.reportFrame(now - this.lastFrameAt);
     this.lastFrameAt = now;
     this.scheduleNext();
+    for (const object of this.failed.keys()) this.hide(object);
     for (const object of this.waiting) {
       // Gameplay targets stay drawable: a sampled actor pays first-use pipeline work rather than
       // vanishing. Detailed rigs wait (their sampled pose keeps drawing), as does anything covered.
       if (!this.deferGameplayDraws && (object.userData.sampledActor === true
         || object.parent?.userData.keepVisibleDuringWarmup === true)) continue;
-      if (!object.visible) continue;
-      object.visible = false;
-      this.hidden.push(object);
+      this.hide(object);
     }
   }
 
+  private hide(object: THREE.Object3D): void {
+    if (!object.visible) return;
+    object.visible = false;
+    this.hidden.push(object);
+  }
+
   private scheduleNext(): void {
-    if (this.disposed || this.pending || this.scheduled || !this.queued.size) return;
+    if (this.disposed || this.pending || this.scheduled || !(this.queued.size || this.retrying.size)) return;
     this.scheduled = true;
     const start = () => {
       this.scheduled = false;
-      if (this.disposed || this.pending || !this.queued.size) return;
+      if (this.disposed || this.pending || !(this.queued.size || this.retrying.size)) return;
       this.compileNext();
     };
     // Keep draining completed native jobs without waiting for a later render call. Every
@@ -157,7 +172,11 @@ export class StreamedShaderWarmup {
     const covered = this.deferGameplayDraws;
     const limit = covered ? COVERED_DRAIN_BATCH_SIZE : DRAIN_BATCH_SIZE;
     const batch: THREE.Object3D[] = [];
-    for (const actors of [true, false]) for (const object of this.queued) {
+    const retry = this.retrying.values().next();
+    if (!retry.done) {
+      batch.push(retry.value);
+      this.retrying.delete(retry.value);
+    } else for (const actors of [true, false]) for (const object of this.queued) {
       if (batch.length === limit) break;
       if (isActorMesh(object) === actors) batch.push(object);
     }
@@ -175,11 +194,25 @@ export class StreamedShaderWarmup {
         for (const object of prepared) if (!this.queued.has(object)) this.releaseWaiting(object);
       },
     }).catch(error => {
-      if (!this.disposed) {
-        this.lastError = error instanceof Error ? error.message : String(error);
-        for (const object of batch) if (this.waiting.has(object) && !this.queued.has(object)) this.failed.add(object);
-        console.error("Streamed shader preparation failed", error);
+      if (this.disposed) return;
+      // A batch shares its scopes and fences, so its failure names no single object unless the
+      // device rejected an object's own pipeline. Everything else is prepared again alone.
+      const own = new Set(error instanceof ShaderPreparationError ? error.failed : []);
+      const failed: THREE.Object3D[] = [];
+      let retried = 0;
+      for (const object of batch) {
+        // Released by an earlier completed sub-batch, or moved and already enrolled again.
+        if (!this.waiting.has(object) || this.queued.has(object)) continue;
+        if (batch.length === 1 || own.has(object)) failed.push(object);
+        else { this.retrying.add(object); retried++; }
       }
+      const message = error instanceof Error ? error.message : String(error);
+      if (retried) console.warn(`Shader preparation failed in a batch of ${batch.length}; preparing ${retried} alone: ${message}`);
+      for (const object of failed) {
+        this.releaseWaiting(object);
+        this.failed.set(object, message);
+      }
+      if (failed.length) console.error(`Shader preparation failed for ${failed.map(describe).join("; ")}: ${message}`);
     }).finally(() => {
       this.pendingTextures = 0;
       this.pending = false;
@@ -187,8 +220,8 @@ export class StreamedShaderWarmup {
     });
   }
 
-  getState() { return { waiting: this.waiting.size, queued: this.queued.size, compiling: this.pending,
-    textures: this.pendingTextures, failed: this.failed.size, error: this.lastError }; }
+  getState() { return { waiting: this.waiting.size, queued: this.queued.size + this.retrying.size, compiling: this.pending,
+    textures: this.pendingTextures, failed: this.failed.size, error: this.failed.values().next().value ?? null }; }
   pendingKinds() {
     const kinds = { scenery: 0, instanced: 0, skinned: 0, ordinary: 0 };
     for (const object of this.waiting) {
@@ -209,7 +242,7 @@ export class StreamedShaderWarmup {
       object.removeEventListener("childadded", this.added);
       object.removeEventListener("childremoved", this.removed);
     }
-    this.watched.clear(); this.queued.clear(); this.waiting.clear(); this.failed.clear();
+    this.watched.clear(); this.queued.clear(); this.retrying.clear(); this.waiting.clear(); this.failed.clear();
     this.pendingRoots.clear(); this.pendingAncestors.clear();
     this.pendingTextures = 0;
     this.pending = false;

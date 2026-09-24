@@ -14,24 +14,38 @@ type ValidationDevice = {
   createRenderPipelineAsync?: (descriptor: { label?: string }) => Promise<unknown>;
   createComputePipelineAsync?: (descriptor: { label?: string }) => Promise<unknown>;
 };
+/** Failures raised by one preparation job: its thrown work, its error scopes and the native
+ * pipelines it submitted. They fail that job's objects, never the device or a later job. */
+type JobFailures = { errors: Error[]; materials: Set<number> };
 type ValidationState = {
+  /** Device and frame failures. Any one stops gameplay frames and every later preparation. */
   errors: Error[];
   seen: WeakSet<object>;
   pending: Set<Promise<unknown>>;
   device?: ValidationDevice;
   restore: (() => void)[];
   report?: (error: Error) => void;
+  /** The running preparation job. Jobs are serialized per renderer. */
+  job: JobFailures | null;
+  /** Nonzero while a gameplay frame submits: its device calls never belong to the job. */
+  frames: number;
 };
 const validations = new WeakMap<WebGPURenderer, ValidationState>();
 
-function validationError(state: ValidationState, value: unknown, label: string, report = true): void {
+/** Where a device call made now reports: decided when the call is made, not when it settles. */
+const owner = (state: ValidationState): JobFailures | null => state.frames ? null : state.job;
+
+function validationError(state: ValidationState, value: unknown, label: string, report = true,
+  job: JobFailures | null = owner(state)): void {
   if (value && typeof value === "object") {
     if (state.seen.has(value)) return;
     state.seen.add(value);
   }
-  if (state.errors.length >= 32) return;
   const message = value && typeof value === "object" && "message" in value ? String(value.message) : String(value);
   const error = new Error(`${label}: ${message}`, { cause: value });
+  state.seen.add(error);
+  if (job) { job.errors.push(error); return; }
+  if (state.errors.length >= 32) return;
   state.errors.push(error);
   if (report && state.errors.length === 1) state.report?.(error);
 }
@@ -47,41 +61,46 @@ function observe<T>(state: ValidationState, promise: Promise<T>): Promise<T> {
 export function installGraphicsValidation(renderer: WebGPURenderer): void {
   if (validations.has(renderer)) return;
   const backend = (renderer.backend ?? {}) as unknown as { isWebGPUBackend?: boolean; device?: ValidationDevice };
-  const state: ValidationState = { errors: [], seen: new WeakSet(), pending: new Set(), restore: [] };
+  const state: ValidationState = { errors: [], seen: new WeakSet(), pending: new Set(), restore: [], job: null, frames: 0 };
   validations.set(renderer, state);
   const previousError = renderer.onError;
   state.report = error => previousError?.call(renderer,
     { api: "WebGPU", type: "PreparationError", message: error.message } as unknown as string);
   renderer.onError = info => {
-    validationError(state, info, "Graphics device error", false);
+    validationError(state, info, "Graphics device error", false, null);
     previousError?.call(renderer, info);
   };
   state.restore.push(() => { renderer.onError = previousError; });
   if (!backend.isWebGPUBackend || !backend.device?.popErrorScope) return;
   const device = state.device = backend.device;
   const popErrorScope = device.popErrorScope;
-  device.popErrorScope = () => observe(state, popErrorScope.call(device).then(error => {
-    if (error) validationError(state, error, "Graphics validation failed");
-    return error;
-  }, error => {
-    validationError(state, error, "Graphics validation scope failed");
-    throw error;
-  }));
+  device.popErrorScope = () => {
+    const job = owner(state);
+    return observe(state, popErrorScope.call(device).then(error => {
+      if (error) validationError(state, error, "Graphics validation failed", true, job);
+      return error;
+    }, error => {
+      validationError(state, error, "Graphics validation scope failed", true, job);
+      throw error;
+    }));
+  };
   state.restore.push(() => { device.popErrorScope = popErrorScope; });
   for (const name of ["createRenderPipelineAsync", "createComputePipelineAsync"] as const) {
     const original = device[name];
     if (!original) continue;
     device[name] = descriptor => {
       const label = `Graphics pipeline ${descriptor.label ?? name}`;
+      const job = owner(state);
+      // Three labels a render pipeline `renderPipeline_<material name>_<material id>`, and
+      // resets its reused descriptor as soon as this call returns.
+      const material = /_(\d+)$/.exec(descriptor.label ?? "")?.[1];
+      const fail = (error: unknown) => {
+        validationError(state, error, label, true, job);
+        if (job && material) job.materials.add(Number(material));
+      };
       try {
-        return observe(state, original.call(device, descriptor).catch(error => {
-          validationError(state, error, label);
-          throw error;
-        }));
-      } catch (error) {
-        validationError(state, error, label);
-        throw error;
-      }
+        return observe(state, original.call(device, descriptor).catch(error => { fail(error); throw error; }));
+      } catch (error) { fail(error); throw error; }
     };
     state.restore.push(() => { device[name] = original; });
   }
@@ -117,30 +136,40 @@ function beginValidation(renderer: WebGPURenderer): { state: ValidationState; cl
   } };
 }
 
+/** Device work outside any preparation job, such as initialization: its failures are the device's. */
 export async function validateGraphicsWork<T>(renderer: WebGPURenderer, label: string, work: () => T | Promise<T>): Promise<T> {
-  return validateWork(renderer, label, work, true);
+  return validateWork(renderer, label, work, true, null);
 }
 
-async function validateWork<T>(renderer: WebGPURenderer, label: string, work: () => T | Promise<T>, drainPipelines: boolean): Promise<T> {
+async function validateWork<T>(renderer: WebGPURenderer, label: string, work: () => T | Promise<T>,
+  drainPipelines: boolean, job: JobFailures | null): Promise<T> {
   const scope = beginValidation(renderer);
+  const before = job?.errors.length ?? 0;
   let result!: T;
   let failure: unknown;
   try { result = await work(); }
-  catch (error) { failure = error; validationError(scope.state, error, label); }
+  catch (error) { failure = error; validationError(scope.state, error, label, true, job); }
   try { await scope.close(); }
-  catch (error) { failure ??= error; validationError(scope.state, error, label); }
+  catch (error) { failure ??= error; validationError(scope.state, error, label, true, job); }
   if (drainPipelines) await waitForGraphicsValidation(renderer);
   else assertGraphicsValid(renderer);
   if (failure !== undefined) throw failure;
+  if (job && job.errors.length > before) throw job.errors[before];
   return result;
 }
 
 /** Submit a frame with asynchronous error reporting, without awaiting or reading a GPU query. */
 export function validateGraphicsSubmission<T>(renderer: WebGPURenderer, label: string, work: () => T): T {
   const scope = beginValidation(renderer);
+  scope.state.frames++;
   try { return work(); }
-  catch (error) { validationError(scope.state, error, label); throw error; }
-  finally { void scope.close().catch(error => validationError(scope.state, error, label)); }
+  catch (error) { validationError(scope.state, error, label, true, null); throw error; }
+  finally {
+    // The scope pops are issued synchronously here, so they report as the frame's own.
+    const closing = scope.close();
+    scope.state.frames--;
+    void closing.catch(error => validationError(scope.state, error, label, true, null));
+  }
 }
 
 export function disposeGraphicsValidation(renderer: WebGPURenderer): void {
@@ -161,6 +190,15 @@ export function shaderGeometryKey(mesh: THREE.Mesh): string {
 
 /** Covered preparation (startup, destinations, effects) keeps this many native pipelines compiling. */
 export const COVERED_PIPELINE_CONCURRENCY = 8;
+
+/** A preparation job failed. `failed` holds the objects whose own pipeline the device rejected;
+ * any other object of the job may be innocent, since one batch shares scopes and fences. */
+export class ShaderPreparationError extends Error {
+  constructor(error: Error, readonly failed: readonly THREE.Object3D[]) {
+    super(error.message, { cause: error });
+    this.name = "ShaderPreparationError";
+  }
+}
 
 export interface ShaderPreparationOptions {
   batchSize?: number;
@@ -517,6 +555,9 @@ async function prepare(
   // compileBatch relies on collection running synchronously until pipeline building starts.
   stage('renderer-init');
   await renderer.init();
+  installGraphicsValidation(renderer);
+  const validation = validations.get(renderer)!;
+  const failures: JobFailures = { errors: [], materials: new Set() };
   const completion = state.completion ??= createGpuCompletion(renderer);
   const cancelled = options.isCancelled ?? (() => false);
   const batchSize = Math.max(1, Math.min(4, Math.floor(options.batchSize ?? 1)));
@@ -524,14 +565,13 @@ async function prepare(
   const pipelineConcurrency = backend.isWebGLBackend && !backend.parallel ? 1 : options.pipelineConcurrency ?? 1;
   const lights = objects.length >= 16 && objects.length > batchSize ? new PreparationLights(scene) : undefined;
   const completedBatches: THREE.Object3D[][] = [];
-  const drainPipelines = pipelineConcurrency === 1;
   // Covered work (startup, destinations) is ready only as a whole, so one GPU fence at the end
   // replaces a round trip per batch. Interactive streaming keeps per-batch fences to pace uploads.
-  const covered = !drainPipelines;
+  const covered = pipelineConcurrency > 1;
   // Covered work also shares one error scope: three asynchronous scope pops per small batch
   // were another GPU round trip each.
   const scoped = <T>(label: string, work: () => T | Promise<T>): Promise<T> =>
-    covered ? Promise.resolve(work()) : validateWork(renderer, label, work, drainPipelines);
+    covered ? Promise.resolve(work()) : validateWork(renderer, label, work, true, failures);
   const prepareBatches = async () => {
     for (let offset = 0; offset < objects.length && !cancelled();) {
       const batch = nextPreparationBatch(objects, offset, batchSize, state, pipelineConcurrency);
@@ -583,23 +623,25 @@ async function prepare(
       rememberPreparedBuffers(batch, buffers, state);
       offset += batch.length;
       progress.submittedMeshes = offset;
-      if (drainPipelines) {
+      if (!covered) {
         progress.pendingMeshes -= batch.length;
         if (!cancelled()) options.onPreparedBatch?.(batch);
       } else completedBatches.push(batch);
     }
   };
+  validation.job = failures;
   try {
-    if (pipelineConcurrency === 1) await prepareBatches();
+    if (!covered) await prepareBatches();
     else {
       // Bounded pipeline compilations span batches. None of this job becomes ready before
       // its full pipeline/error drain and its single upload fence.
       try { await validateWork(renderer, "Covered graphics preparation",
-        () => withPipelineConcurrency(renderer, prepareBatches, pipelineConcurrency), false); }
+        () => withPipelineConcurrency(renderer, prepareBatches, pipelineConcurrency), false, failures); }
       finally {
         stage('pipeline-validation');
         await waitForGraphicsValidation(renderer);
       }
+      if (failures.errors.length) throw failures.errors[0];
       stage('gpu-completion');
       await finishUploads(completion);
       stage('prepared-batch-delivery');
@@ -608,7 +650,23 @@ async function prepare(
         options.onPreparedBatch?.(batch);
       }
     }
-  } finally { lights?.dispose(); options.onPendingTextures?.(0); }
+  } catch (error) {
+    validationError(validation, error, "Shader preparation", true, failures);
+    // Already a device failure: it belongs to the device, not to this job's objects.
+    if (!failures.errors.length) throw error;
+  } finally { validation.job = null; lights?.dispose(); options.onPendingTextures?.(0); }
+  if (failures.errors.length) {
+    throw new ShaderPreparationError(failures.errors[0]!, objects.filter(object => usesFailedMaterial(object, failures.materials, state)));
+  }
+}
+
+/** Three numbers every material; its render pipeline labels carry that id. */
+type NumberedMaterial = THREE.Material & { readonly id: number };
+
+function usesFailedMaterial(object: THREE.Object3D, failed: ReadonlySet<number>, state: PreparationState): boolean {
+  const material = (object as Drawable).material;
+  return Boolean(material) && (Array.isArray(material) ? material : [material!]).some(material =>
+    [material, state.fadeMaterials.get(material)?.material].some(used => used && failed.has((used as NumberedMaterial).id)));
 }
 
 /** Native asynchronous pipeline creation shared by startup and streamed content. Calls

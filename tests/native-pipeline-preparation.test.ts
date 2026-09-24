@@ -65,7 +65,7 @@ async function microtasks() { for (let index = 0; index < 20; index++) await Pro
 
 it('overlaps two pipelines, preserves serial node work, and restores hooks after every pipeline completes', async () => {
   const f = fixture(), originalGet = f.pipelines.getForRender, originalCreate = f.backend.createRenderPipeline;
-  const preparing = withPipelineConcurrency(f.renderer, () => f.compile());
+  const preparing = withPipelineConcurrency(f.renderer, () => f.compile(), 2);
   let finished = false; void preparing.then(() => { finished = true; });
   await microtasks();
   expect(f.submitted).toHaveLength(2); expect(f.built).toEqual([0, 1]);
@@ -88,7 +88,7 @@ it('overlaps two pipelines, preserves serial node work, and restores hooks after
 it('drains outstanding pipelines before a material updateAfter callback and before returning', async () => {
   const f = fixture();
   f.objects[1]!.getNodeBuilderState = () => ({ updateAfterNodes: [{}] });
-  const preparing = withPipelineConcurrency(f.renderer, () => f.compile(f.objects.slice(0, 3)));
+  const preparing = withPipelineConcurrency(f.renderer, () => f.compile(f.objects.slice(0, 3)), 2);
   await microtasks(); expect(f.after).toEqual([0]);
   f.submitted[1]!.resolve({}); await microtasks();
   expect(f.after).toEqual([0]); expect(f.submitted).toHaveLength(2);
@@ -119,7 +119,7 @@ it.each([3, 4] as const)('admits %i pending pipelines when requested and waits f
 it('drains the other pipeline on failure and restores the renderer before rejecting', async () => {
   const f = fixture(), originalGet = f.pipelines.getForRender, originalCreate = f.backend.createRenderPipeline;
   const failure = new Error('native compile failed');
-  const preparing = withPipelineConcurrency(f.renderer, () => f.compile());
+  const preparing = withPipelineConcurrency(f.renderer, () => f.compile(), 2);
   let settled = false;
   const result = preparing.catch(error => { settled = true; return error; });
   await microtasks(); f.submitted[1]!.reject(failure); await microtasks();
@@ -134,7 +134,7 @@ it('drains a submitted pipeline when the native compile loop aborts', async () =
   const preparing = withPipelineConcurrency(f.renderer, async () => {
     f.pipelines.getForRender(f.objects[0]!, []);
     throw failure;
-  });
+  }, 2);
   let settled = false;
   const result = preparing.catch(error => { settled = true; return error; });
   await microtasks(); expect(settled).toBe(false);
@@ -144,10 +144,10 @@ it('drains a submitted pipeline when the native compile loop aborts', async () =
 
 it('rejects incompatible or simultaneous native preparations before compiling', async () => {
   const f = fixture();
-  const active = withPipelineConcurrency(f.renderer, () => f.compile(f.objects.slice(0, 1)));
+  const active = withPipelineConcurrency(f.renderer, () => f.compile(f.objects.slice(0, 1)), 2);
   await microtasks();
-  await expect(withPipelineConcurrency(f.renderer, async () => {})).rejects.toThrow('serialized');
+  await expect(withPipelineConcurrency(f.renderer, async () => {}, 2)).rejects.toThrow('serialized');
   f.submitted[0]!.resolve({}); await active;
   (f.renderer as unknown as { _initialized: boolean })._initialized = false;
-  await expect(withPipelineConcurrency(f.renderer, async () => {})).rejects.toThrow('initialized Three r185');
+  await expect(withPipelineConcurrency(f.renderer, async () => {}, 2)).rejects.toThrow('initialized Three r185');
 });

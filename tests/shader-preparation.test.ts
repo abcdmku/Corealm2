@@ -3,7 +3,8 @@ import { MeshBasicNodeMaterial } from "three/webgpu";
 import type { WebGPURenderer } from "three/webgpu";
 import { texture as textureNode } from "three/tsl";
 import { expect, it, vi } from "vitest";
-import { prepareShaderMeshes, shaderPreparationState, graphicsValidationState, validateGraphicsSubmission, waitForGraphicsValidation } from "../game/src/render/shaderPreparation.js";
+import { prepareShaderMeshes, shaderPreparationState, graphicsValidationState, validateGraphicsSubmission, waitForGraphicsValidation,
+  ShaderPreparationError } from "../game/src/render/shaderPreparation.js";
 import { SceneryInstances } from '../game/src/render/sceneryInstances.js';
 
 function fixture() {
@@ -112,7 +113,8 @@ it('drains remaining WebGL program completions after rejection and restores the 
   expect(settled).toBe(false); expect(ready).not.toHaveBeenCalled();
   f.requests[0]!.resolve();
   expect(await result).toMatchObject({ message: expect.stringContaining('WebGL binding failure') });
-  expect(graphicsValidationState(f.renderer).failed).toBe(1);
+  // The job failed, not the device.
+  expect(graphicsValidationState(f.renderer).failed).toBe(0);
   expect(ready).not.toHaveBeenCalled();
   expect(pipelines.getForRender).toBe(original);
 });
@@ -146,7 +148,7 @@ it('drains cross-batch native failures without publishing any startup batch as r
   const result = preparing.catch(error => { settled = true; return error; });
   await vi.waitFor(() => expect(f.requests).toHaveLength(2));
   f.requests[1]!.reject(new Error('bad pipeline'));
-  await vi.waitFor(() => expect(graphicsValidationState(f.renderer).failed).toBe(1));
+  await new Promise(resolve => setTimeout(resolve, 0));
   expect(settled).toBe(false); expect(ready).not.toHaveBeenCalled();
   f.requests[0]!.resolve();
   expect(await result).toMatchObject({ message: expect.stringContaining('bad pipeline') });
@@ -497,20 +499,20 @@ it("prepares corpse transparency without changing live material or skinning acro
   expect(mesh.material).toBe(material);
 });
 
-it("restores live state on compilation failure and keeps readiness failed", async () => {
+it("restores live state on compilation failure without failing the device or later preparation", async () => {
   const { scene, camera, renderer, compile } = fixture();
   const mesh = new THREE.Mesh(); mesh.visible = false;
   compile.mockImplementationOnce(() => { throw new Error("pipeline failed"); });
   await expect(prepareShaderMeshes(renderer, scene, camera, [mesh])).rejects.toThrow("pipeline failed");
   expect(mesh.visible).toBe(false); expect(mesh.frustumCulled).toBe(true);
-  await expect(prepareShaderMeshes(renderer, scene, camera, [mesh])).rejects.toThrow("pipeline failed");
-  expect(compile).toHaveBeenCalledTimes(1);
-  expect(graphicsValidationState(renderer).failed).toBeGreaterThan(0);
+  expect(graphicsValidationState(renderer).failed).toBe(0);
   expect(shaderPreparationState(renderer)).toMatchObject({ pendingMeshes: 0, pendingTextures: 0, compiling: false, jobs: [] });
+  await prepareShaderMeshes(renderer, scene, camera, [mesh]);
+  expect(compile).toHaveBeenCalledTimes(2);
 });
 
 
-it("rejects native pipeline failures even when Three catches them and resolves compileAsync", async () => {
+it("rejects native pipeline failures even when Three catches them, naming only the objects using that material", async () => {
   const { scene, camera, renderer, compile } = fixture();
   const device = renderer.backend as unknown as { device: {
     pushErrorScope: ReturnType<typeof vi.fn>; popErrorScope: ReturnType<typeof vi.fn>;
@@ -521,14 +523,24 @@ it("rejects native pipeline failures even when Three catches them and resolves c
     pushErrorScope: vi.fn(), popErrorScope,
     createRenderPipelineAsync: vi.fn(async () => { throw new Error("invalid vertex binding"); }),
   });
-  compile.mockImplementation(async () => {
+  const broken = new THREE.MeshStandardMaterial({ name: "Creature" });
+  const creature = new THREE.Mesh(new THREE.BoxGeometry(), broken), rock = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+  compile.mockImplementation(async view => {
     // This is Three's real failure policy: log the rejected pipeline and resolve compilation.
-    await device.device.createRenderPipelineAsync({ label: "creature" }).catch(() => {});
+    // Three also resets its reused descriptor as soon as the call returns.
+    if (!view.children.includes(creature)) return;
+    const descriptor = { label: `renderPipeline_Creature_${(broken as unknown as { id: number }).id}` };
+    const pipeline = device.device.createRenderPipelineAsync(descriptor);
+    descriptor.label = "";
+    await pipeline.catch(() => {});
   });
-  await expect(prepareShaderMeshes(renderer, scene, camera, [new THREE.Mesh()])).rejects.toThrow("invalid vertex binding");
-  expect(graphicsValidationState(renderer).failed).toBe(1);
-  expect(device.device.pushErrorScope).toHaveBeenCalledTimes(3);
-  expect(popErrorScope).toHaveBeenCalledTimes(3);
+  const failure = await prepareShaderMeshes(renderer, scene, camera, [rock, creature], { batchSize: 1 }).catch(error => error);
+  expect(failure).toBeInstanceOf(ShaderPreparationError);
+  expect(failure.message).toContain("invalid vertex binding");
+  expect(failure.failed).toEqual([creature]);
+  expect(graphicsValidationState(renderer).failed).toBe(0);
+  expect(device.device.pushErrorScope).toHaveBeenCalledTimes(6);
+  expect(popErrorScope).toHaveBeenCalledTimes(6);
 });
 
 it("captures asynchronous validation errors before preparation reports success", async () => {
@@ -537,7 +549,24 @@ it("captures asynchronous validation errors before preparation reports success",
   Object.assign(device, { pushErrorScope: vi.fn(), popErrorScope: vi.fn()
     .mockResolvedValueOnce({ message: "texture format mismatch" }).mockResolvedValue(null) });
   await expect(prepareShaderMeshes(renderer, scene, camera, [new THREE.Mesh()])).rejects.toThrow("texture format mismatch");
-  expect(graphicsValidationState(renderer).failed).toBe(1);
+  expect(graphicsValidationState(renderer).failed).toBe(0);
+});
+
+it("keeps a gameplay frame's validation errors on the device while a preparation job runs", async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const device = (renderer.backend as unknown as { device: { popErrorScope(): Promise<unknown> } }).device;
+  let frameError: { message: string } | null = null;
+  device.popErrorScope = async () => { const error = frameError; frameError = null; return error; };
+  let finish!: () => void;
+  compile.mockImplementation(() => new Promise<void>(resolve => { finish = resolve; }));
+  const preparing = prepareShaderMeshes(renderer, scene, camera, [new THREE.Mesh()]);
+  await vi.waitFor(() => expect(compile).toHaveBeenCalledOnce());
+  validateGraphicsSubmission(renderer, "Gameplay frame", () => { frameError = { message: "frame binding mismatch" }; });
+  await vi.waitFor(() => expect(graphicsValidationState(renderer).failed).toBe(1));
+  expect(graphicsValidationState(renderer).error).toContain("frame binding mismatch");
+  finish();
+  // The device is now failed, so the job cannot certify its objects either.
+  await expect(preparing).rejects.toThrow("frame binding mismatch");
 });
 
 it("balances synchronous frame scopes while an asynchronous preparation scope is open", async () => {

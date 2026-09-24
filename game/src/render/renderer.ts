@@ -1,4 +1,3 @@
-import { bootTelemetry } from "../perf/bootTelemetry.js";
 import { BatchedLighting } from "./batchedLighting.js";
 import { usesMobileAssets } from './assetDelivery.js';
 import { PlayerSilhouette } from "./playerSilhouette.js";
@@ -366,11 +365,11 @@ export class Renderer {
     await this.waitForInteriorMeshes(root);
   }
 
+  /** A mesh that failed preparation is no longer pending: it stays hidden and reported, and
+   * the rest of the destination opens. */
   private async waitForInteriorMeshes(root: THREE.Object3D): Promise<void> {
     while (this.streamedShaders?.hasPending(root)) {
       assertGraphicsValid(this.renderer);
-      const state = this.streamedShaders?.getState();
-      if (state?.failed) throw new Error(state.error ?? "Unable to prepare destination graphics");
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
     }
   }
@@ -524,8 +523,7 @@ export class Renderer {
     const validation = graphicsValidationState(this.renderer);
     const preparation = shaderPreparationState(this.renderer);
     // The active streamed batch is already enrolled in the shared preparation queue.
-    const pendingMeshes = Math.max(streaming?.waiting ?? 0,
-      preparation.pendingMeshes + (streaming?.queued ?? 0) + (streaming?.failed ?? 0));
+    const pendingMeshes = Math.max(streaming?.waiting ?? 0, preparation.pendingMeshes + (streaming?.queued ?? 0));
     const compiling = Boolean(preparation.compiling || this.preparingResident || streaming?.compiling || this.compilingEffects);
     return { pendingMeshes, pendingTextures: preparation.pendingTextures,
       failed: (streaming?.failed ?? 0) + validation.failed, compiling,
@@ -630,12 +628,18 @@ export class Renderer {
       // No temporary mesh or visibility mutation survives an asynchronous yield.
       const preparing = [...new Set(objects), ...proxies];
       const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, preparing);
-      const batchSize = this.streamedShaders ? 1 : 4;
-      await prepareShaderMeshes(this.renderer, this.scene, this.camera, preparing,
-        { renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : COVERED_PIPELINE_CONCURRENCY });
+      const preparation = this.residentPreparation();
+      await prepareShaderMeshes(this.renderer, this.scene, this.camera, preparing, preparation);
       await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
-        this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget, batchSize, prepared));
+        this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget, preparation.batchSize, prepared));
     } finally { this.preparingResident--; }
+  }
+
+  /** Before streaming starts the boot cover is up, so resident work takes covered batches. */
+  private residentPreparation() {
+    return this.streamedShaders
+      ? { renderTarget: this.frameTarget, batchSize: 1, pipelineConcurrency: 1 }
+      : { renderTarget: this.frameTarget, batchSize: 4, pipelineConcurrency: COVERED_PIPELINE_CONCURRENCY };
   }
 
   private warmupObjects(): THREE.Object3D[] {
@@ -685,13 +689,11 @@ export class Renderer {
     root.traverse(object => {
       if ((object as THREE.Mesh).isMesh && !isElementalRefractionObject(object)) meshes.push(object);
     });
-    const batchSize = this.streamedShaders ? 1 : 4;
+    const options = this.residentPreparation();
     const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, meshes);
-    await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, {
-      renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : COVERED_PIPELINE_CONCURRENCY,
-    });
-    await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget);
-    await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget, prepared);
+    await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, options);
+    await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root, options.batchSize, this.frameTarget);
+    await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root, options.batchSize, this.frameTarget, prepared);
     this.preparedEffectRoots.add(root);
   }
 

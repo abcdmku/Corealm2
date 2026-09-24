@@ -97,7 +97,7 @@ it("drains successive bounded batches without needing another gameplay frame", a
   gate.dispose();
 });
 
-it("reveals a completed actor while unrelated preparation waits or fails", async () => {
+it("reveals a completed actor while unrelated preparation waits, then prepares a failed batch's objects alone", async () => {
   const { scene, gate, compile } = fixture();
   const actor = new THREE.Group(), background = new THREE.Group();
   for (let index = 0; index < 4; index++) {
@@ -106,7 +106,7 @@ it("reveals a completed actor while unrelated preparation waits or fails", async
   let reject!: (error: Error) => void;
   compile.mockImplementationOnce(async () => {}).mockImplementationOnce(() =>
     new Promise<void>((_resolve, fail) => { reject = fail; }));
-  const error = vi.spyOn(console, "error").mockImplementation(() => {});
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
   try {
     scene.add(actor, background);
     await vi.waitFor(() => expect(compile).toHaveBeenCalledTimes(2));
@@ -116,10 +116,48 @@ it("reveals a completed actor while unrelated preparation waits or fails", async
     expect(actor.children.every(mesh => mesh.visible)).toBe(true);
     expect(background.children.every(mesh => !mesh.visible)).toBe(true);
     gate.restore();
-    reject(new Error("unrelated pipeline failed"));
-    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ waiting: 4, failed: 4, compiling: false }));
-    expect(gate.hasPending(actor)).toBe(false);
-  } finally { error.mockRestore(); gate.dispose(); }
+    // A shared fence or scope failed: nothing names a culprit, and each object succeeds alone.
+    reject(new Error("upload fence failed"));
+    await settle(gate);
+    expect(compile.mock.calls.slice(2).map(([view]) => view.children.length)).toEqual([1, 1, 1, 1]);
+    expect(gate.getState()).toMatchObject({ failed: 0, error: null });
+    gate.prepare();
+    expect([...actor.children, ...background.children].every(mesh => mesh.visible)).toBe(true);
+    gate.restore();
+    expect(warn).toHaveBeenCalledOnce();
+  } finally { warn.mockRestore(); gate.dispose(); }
+});
+
+it("hides only the object that fails alone, and draws the rest of its batch", async () => {
+  const { scene, gate, compile } = fixture();
+  const meshes = Array.from({ length: 6 }, (_, index) => {
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ name: `stone-${index}` }));
+    mesh.name = `tile-${index}`;
+    return mesh;
+  });
+  const broken = meshes[4]!;
+  compile.mockImplementation(async view => { if (view.children.includes(broken)) throw new Error("node build failed"); });
+  const error = vi.spyOn(console, "error").mockImplementation(() => {});
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  try {
+    scene.add(...meshes);
+    await settle(gate);
+    expect(gate.getState()).toMatchObject({ waiting: 0, failed: 1, error: expect.stringContaining("node build failed") });
+    expect(gate.hasPending(scene)).toBe(false);
+    gate.prepare();
+    expect(meshes.filter(mesh => mesh.visible)).toEqual(meshes.filter(mesh => mesh !== broken));
+    gate.restore();
+    expect(broken.visible).toBe(true);
+    expect(error).toHaveBeenCalledOnce();
+    expect(error.mock.calls[0]![0]).toContain("tile-4 (stone-4)");
+    // Leaving the scene clears the failure; returning prepares it again.
+    compile.mockImplementation(async () => {});
+    scene.remove(broken);
+    expect(gate.getState().failed).toBe(0);
+    scene.add(broken);
+    await settle(gate);
+    gate.prepare(); expect(broken.visible).toBe(true); gate.restore();
+  } finally { error.mockRestore(); warn.mockRestore(); gate.dispose(); }
 });
 
 it("gives painting priority after a slow frame before continuing the drain", async () => {
@@ -172,15 +210,16 @@ it("keeps feedback visible and skips already prewarmed feedback while scenery wa
   await settle(gate); gate.dispose();
 });
 
-it("retains failed readiness instead of revealing an invalid pipeline", async () => {
+it("reports an object that fails alone and keeps it hidden without holding its destination", async () => {
   const { scene, gate, mesh, compile } = fixture();
   const error = vi.spyOn(console, "error").mockImplementation(() => {});
   try {
     compile.mockRejectedValueOnce(new Error("pipeline failed"));
     scene.add(mesh); gate.prepare(); gate.restore();
-    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ failed: 1, compiling: false,
+    await vi.waitFor(() => expect(gate.getState()).toMatchObject({ failed: 1, waiting: 0, compiling: false,
       error: expect.stringContaining("pipeline failed") }));
-    expect(gate.hasPending(scene)).toBe(true); expect(error).toHaveBeenCalledOnce();
+    expect(gate.hasPending(scene)).toBe(false); expect(error).toHaveBeenCalledOnce();
+    gate.prepare(); expect(mesh.visible).toBe(false); gate.restore();
   } finally { error.mockRestore(); gate.dispose(); }
 });
 
