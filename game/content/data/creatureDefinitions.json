@@ -13374,33 +13374,33 @@
       "scale": 1,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "Beetle Golem inhabits mossy ruin courts. Uses plated forelimb strike with 3 seconds between attacks.",
+      "description": "Iridescent horned golem that prowls on four limbs, runs down intruders in combat, then rises to swing a plated forearm.",
       "bodyFamily": "golem",
-      "rigFamily": "corealm_golem",
-      "movement": "biped",
+      "rigFamily": "tripo_native_67",
+      "movement": "quadruped",
       "habitat": "mossy ruin courts",
       "respawnMs": 30000,
       "nativeSize": [
-        2.475101,
-        2.55,
-        1.414106
+        1.113174636760322,
+        0.8887438263016982,
+        1.4285495096890712
       ],
       "nativeBase": [
-        -1.237891,
-        0.003,
-        -0.529829
+        -0.5527960530095274,
+        0.005999985320085501,
+        -0.43674907104716576
       ],
-      "nativeVisualRadius": 1.5212889076733587,
-      "nativeBodyRadius": 1.2375505,
+      "nativeVisualRadius": 1.1391629678043536,
+      "nativeBodyRadius": 0.7142747548445356,
       "attack": {
-        "action": "plated forelimb strike",
+        "action": "standing forearm swing",
         "proposedMechanic": "melee",
-        "recoveryMs": 1350
+        "recoveryMs": 1140
       },
       "source": {
-        "author": "killyoverdrive; animation by Dm3d",
-        "license": "CC-BY-SA-3.0",
-        "generator": "tools/rpg-bestiary/beetle-golem-source/beetle.mjs"
+        "author": "User / Corealm",
+        "license": "LicenseRef-Corealm-Original",
+        "generator": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs"
       },
       "acceptance": "candidate",
       "kind": "rpg"

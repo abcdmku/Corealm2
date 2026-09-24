@@ -106,7 +106,6 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_ashscale_monitor": 3.6429,
   // creature_banshee: no measured stride
   "creature_basalt_drake": 8.8191,
-  "creature_beetle_golem": 6.5016,
   "creature_blackwater_heron": 2.262,
   "creature_bracken_tapir": 3.1915,
   "creature_cairn_bighorn": 4.4681,
@@ -366,3 +365,5 @@ CREATURE_MOTION_TIMING["fairy_guardian_06_faeholme"] = { seconds: 0.850000023841
 CREATURE_MOTION_TIMING["creature_flint_mandible"] = { seconds: 0.8600000143051147, contactNormalized: 0.5 };
 
 CREATURE_MOTION_TIMING["creature_silverthorn_harrow"] = { seconds: 0.8666666746139526, contactNormalized: 0.5 };
+
+CREATURE_MOTION_TIMING["creature_beetle_golem"] = { seconds: 1.14, contactNormalized: 0.56 / 1.14 };

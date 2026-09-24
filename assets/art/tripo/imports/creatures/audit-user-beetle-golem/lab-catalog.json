@@ -1,0 +1,150 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-user-beetle-golem",
+    "name": "Corealm User Beetle Golem",
+    "author": "User / Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "9635abd9b026b15145d80252e65f79583b73485959375f70fa3ca3ae44d1fbf4"
+  },
+  "assets": [
+    {
+      "id": "creature_beetle_golem",
+      "file": "models/creature/creature_beetle_golem.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/beetle-golem-user-candidate.glb",
+      "pack": "corealm-user-beetle-golem",
+      "category": "character",
+      "is": "Beetle Golem",
+      "tags": [
+        "creature",
+        "beetle",
+        "golem",
+        "construct",
+        "quadruped",
+        "user-supplied",
+        "tripo"
+      ],
+      "bytes": 8593720,
+      "sha256": "f4a373ed1867e4c744488f1b001f788f6fea58b83379147ee00cde848b5ce8a2",
+      "size": {
+        "x": 1.113174636760322,
+        "y": 0.8887438263016982,
+        "z": 1.4285495096890712
+      },
+      "base": {
+        "x": -0.5527960530095274,
+        "y": 0.005999985320085501,
+        "z": -0.43674907104716576
+      },
+      "bounds": {
+        "min": [
+          -0.5527960530095274,
+          0.005999985320085501,
+          -0.43674907104716576
+        ],
+        "max": [
+          0.5603785837507945,
+          0.8947438116217837,
+          0.9918004386419055
+        ]
+      },
+      "groundY": 0.005999985320085501,
+      "vertices": 8266,
+      "triangles": 5166,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_1aa3aade-7d07-42b7-9818-b03e7661363a"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.14,
+      "contactNormalized": 0.4912280701754387,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": "definition-speed; authored in-place quadruped gait",
+      "metadata": {
+        "is": "User-supplied iridescent beetle golem",
+        "walkClipSeconds": 1.12,
+        "runClipSeconds": 0.72,
+        "attackSeconds": 1.14,
+        "contactSeconds": 0.56,
+        "contactNormalized": 0.4912280701754387,
+        "contactBasis": "After a hind-leg rise, the right forearm swing reaches its forward impact at 0.56 s; settles back to four-limb stance by 1.14 s.",
+        "renderedIdleHeightMeters": 0.8887438263016982,
+        "gaitCalibration": "uncalibrated; no defensible world-space stride speed inferred from in-place clip"
+      },
+      "sourceProvenance": {
+        "author": "User-supplied Tripo Beetle Golem; Corealm native rig animation",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/sources/beetle+golem.glb",
+        "sourceSha256": "fb03cd921a5ffed201d577cf4102a182d9826f12664e14d11db38b7a60db5193",
+        "sourceBytes": 7645008,
+        "referenceImage": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/sources/beetle-golem-reference.png",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/beetle-golem-user-candidate.glb",
+        "candidateSha256": "f4a373ed1867e4c744488f1b001f788f6fea58b83379147ee00cde848b5ce8a2",
+        "rigMethod": "Preserved original 67-joint skin, bind matrices, geometry, four-slot weights, and source PBR; authored a planted four-limb animation rest plus six native clips.",
+        "geometryPreserved": true,
+        "sourceSkinAndWeightsPreserved": true,
+        "pbrTexturesPreserved": true,
+        "textures": [
+          {
+            "name": "tripo_image_1aa3aade-7d07-42b7-9818-b03e7661363a_2",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 684936,
+            "sha256": "52be2fc7e19f4cbc7122c9ad024c6b199186c793b20dbb72a232a797b7543b11"
+          },
+          {
+            "name": "tripo_image_1aa3aade-7d07-42b7-9818-b03e7661363a_0",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1380890,
+            "sha256": "f1310548ccdf3978deb4ef38c68455f95587f43f65a56f5dc8420533f6f7f2a6"
+          },
+          {
+            "name": "tripo_image_1aa3aade-7d07-42b7-9818-b03e7661363a_1",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 5094978,
+            "sha256": "4eae9bc4680f94cd47188392e1f3bfb2f958ced22a42d8852e395bd10ba4b397"
+          }
+        ],
+        "optics": {
+          "file": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/textures/beetle-shell-optics-rg.png",
+          "sha256": "7cd969d8800276c580ba7e0931ebc582f6e2e6802f0559d27f6f0d058de7e5ea"
+        },
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/motion-audit.json",
+        "idleContacts": {
+          "Left_Hand": 0.00962111550138153,
+          "Right_Hand": 0.009621531281069278,
+          "Left_Foot": 0.005999985320085501,
+          "Right_Foot": 0.0067631461183791965
+        },
+        "attackPeakHeightMeters": 2.0298799476085083,
+        "deathFinalHeightRatio": 0.8183991468460182,
+        "maximumPenetrationMeters": 0.004581521342466572,
+        "candidateStatus": "root-lab-accepted"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "evidence": "test-results/creature-audit/continuation-session/session.jsonl: user-beetle-final-run, user-beetle-chase, user-beetle-timed-combat, user-beetle-corpse-side"
+      },
+      "measuredGait": null
+    }
+  ],
+  "files": {
+    "creature_beetle_golem": "C:/Users/Borg/Documents/GitHub/Corealm2/assets/art/tripo/imports/creatures/audit-user-beetle-golem/beetle-golem-user-candidate.glb"
+  }
+}

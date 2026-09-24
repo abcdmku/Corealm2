@@ -9,7 +9,7 @@ import type { SimClock } from "../core/time.js";
 import { Store, addSkillXp, type GameState } from "../state/store.js";
 import { ActivitySystem } from "../systems/activity.js";
 import { BankSystem } from "../systems/bank.js";
-import { CombatSystem } from "../systems/combat.js";
+import { attackIntervalMs, CombatSystem } from "../systems/combat.js";
 import { sameCombatRealm } from "../systems/combat.js";
 import { DeathSystem } from "../systems/death.js";
 import { DialogueSystem } from "../systems/dialogue.js";
@@ -32,6 +32,7 @@ import { DiscoverySystem, type DiscoverableLocation } from "../systems/discovery
 import { HuntContractsSystem } from "../systems/huntContracts.js";
 import { deriveHuntTargets } from "../content/huntContracts.js";
 import { content } from "../content/index.js";
+import { CREATURE_MOTION_TIMING } from "../content/creatureMotionTiming.js";
 import { getRegion } from "../content/regions.js";
 import { DungeonDoors, type DungeonDoorBarrier } from "../world/dungeonDoors.js";
 import { RespawnAnchorSystem, buildSettlementRespawnAnchors } from "../systems/respawnAnchors.js";
@@ -137,6 +138,15 @@ export class HeadlessPlayer implements CommandExecutor {
       entities: { get: localEntity, all: () => entities.all().map((entity) => localEntity(entity.id)!) }, now });
     this.combat = new CombatSystem({ store, events, rng, entities, equipment, inventory, dispatcher,
       activity, movement: this.movement, ownsEnemy: ports.ownsEnemy, lootView:LOOT_PILE_VIEW,
+      meleeTiming: (attacker, sourceId) => {
+        const entity = attacker === "enemy" ? localEntity(sourceId) : undefined;
+        const assetId = entity?.view?.assetId;
+        const timing = assetId ? CREATURE_MOTION_TIMING[assetId] : undefined;
+        // The attack action drives both authoritative damage and the rendered clip duration.
+        if (!timing || !entity) return { contactMs: 350, recoveryMs: 900 };
+        const recoveryMs = Math.min(timing.seconds * 1000, attackIntervalMs(this.combat.defFor(entity).attackSpeedMs));
+        return { contactMs: recoveryMs * timing.contactNormalized, recoveryMs };
+      },
       shareKill: ports.shareKill, assignLoot: ports.assignLoot });
     const health = new HealthSystem({ store, events, equipment });
     const respawnAnchors=new RespawnAnchorSystem({store,anchors:()=>buildSettlementRespawnAnchors(id=>nav.routeNode(id))});

@@ -1,0 +1,85 @@
+{
+  "sourceFile": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/sources/beetle+golem.glb",
+  "sourceSha256": "fb03cd921a5ffed201d577cf4102a182d9826f12664e14d11db38b7a60db5193",
+  "sourceBytes": 7645008,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/beetle-golem-user-candidate.glb",
+  "candidateSha256": "f4a373ed1867e4c744488f1b001f788f6fea58b83379147ee00cde848b5ce8a2",
+  "candidateBytes": 8593720,
+  "vertices": 8266,
+  "triangles": 5166,
+  "joints": 67,
+  "geometryPreserved": true,
+  "sourceSkinAndWeightsPreserved": true,
+  "pbrTexturesPreserved": true,
+  "nativeScale": 2.25,
+  "textures": [
+    {
+      "name": "tripo_image_1aa3aade-7d07-42b7-9818-b03e7661363a_2",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 684936,
+      "sha256": "52be2fc7e19f4cbc7122c9ad024c6b199186c793b20dbb72a232a797b7543b11"
+    },
+    {
+      "name": "tripo_image_1aa3aade-7d07-42b7-9818-b03e7661363a_0",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1380890,
+      "sha256": "f1310548ccdf3978deb4ef38c68455f95587f43f65a56f5dc8420533f6f7f2a6"
+    },
+    {
+      "name": "tripo_image_1aa3aade-7d07-42b7-9818-b03e7661363a_1",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 5094978,
+      "sha256": "4eae9bc4680f94cd47188392e1f3bfb2f958ced22a42d8852e395bd10ba4b397"
+    }
+  ],
+  "optics": {
+    "file": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/textures/beetle-shell-optics-rg.png",
+    "sha256": "7cd969d8800276c580ba7e0931ebc582f6e2e6802f0559d27f6f0d058de7e5ea"
+  },
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4,
+      "channels": 21
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.12,
+      "channels": 21
+    },
+    {
+      "name": "Run",
+      "seconds": 0.72,
+      "channels": 21
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.14,
+      "channels": 21
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.5,
+      "channels": 21
+    },
+    {
+      "name": "Death",
+      "seconds": 1.55,
+      "channels": 21
+    }
+  ],
+  "contactSeconds": 0.56,
+  "contactNormalized": 0.4912280701754387,
+  "status": "awaiting-root-lab-review",
+  "floorCorrectionWorldMeters": {
+    "Idle": 0.005130825807661941,
+    "Walk": 0.005618808281336445,
+    "Run": 0.006190991466018951,
+    "Attack": 0.017485094314373423,
+    "Hit": 0.0051566199745391155,
+    "Death": 0.1670111209621791
+  }
+}

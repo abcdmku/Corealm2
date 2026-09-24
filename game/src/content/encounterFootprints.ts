@@ -107,7 +107,7 @@ export const ENCOUNTER_ASSET_RADII: Readonly<Record<string, number>> = {
   "creature_quarry_nightmare": 1.24937,
   "creature_webweaver_spider": 0.49585,
   "creature_marsh_wasp": 1.24141,
-  "creature_beetle_golem": 1.23755,
+  "creature_beetle_golem": 0.714275,
   "creature_mossback_sentinel": 0.80887,
   "creature_lava_golem": 0.97256,
   "creature_shale_elemental": 1.38931,

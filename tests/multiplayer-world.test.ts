@@ -1,4 +1,5 @@
 import { runtimeTables } from "../game/src/content/runtimeCatalog.js";
+import { CREATURE_MOTION_TIMING } from "../game/src/content/creatureMotionTiming.js";
 import { ALL_SPELLS } from "../game/src/content/spells.js";
 import { content } from "../game/src/content/index.js";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -35,6 +36,44 @@ describe("headless production world", () => {
     player.store.get().player.position = [enemy.position[0] - 1, 0, enemy.position[2]];
     world.tick();
     expect(world.shared.enemies[enemy.id]).toBeDefined();
+  });
+  it.each(["fixture frog", "Beetle Golem", "fast Beetle Golem"] as const)("publishes %s contact and recovery while preserving player melee timing", (creature) => {
+    const world = new HeadlessWorld(descriptor, ports);
+    const player = world.join("timing");
+    const frog = world.entities.get("multiplayer:frog")!;
+    if (creature !== "fixture frog") {
+      frog.view = { ...frog.view!, assetId: "creature_beetle_golem" };
+      player.combat.setEnemyOverride(frog.id, { attackSpeedMs: creature === "fast Beetle Golem" ? 600 : 3_000 });
+    }
+    const timing = CREATURE_MOTION_TIMING[frog.view!.assetId];
+    expect(timing).toBeDefined();
+    frog.combat!.health = frog.combat!.maxHealth = 10_000;
+    player.store.get().player.position = [frog.position[0] - 1, 0, frog.position[2]];
+    player.store.get().equipment.mainHand = { itemId: "worn_sword", quantity: 1 };
+    world.tick();
+    const sequence = world.actions.currentSequence();
+    expect(world.execute("timing", { method: "attack", args: [frog.id] }).ok).toBe(true);
+    player.combat.engageEnemy(frog.id, world.clock.elapsedMs);
+    let attacks: Extract<ReturnType<typeof world.actions.since>[number], { type: "attack" }>[] = [];
+    for (let i = 0; i < 50 && (!attacks.some((action) => action.attack.attacker === "enemy")
+      || !attacks.some((action) => action.attack.attacker === "player")); i++) {
+      world.tick();
+      attacks = world.actions.since(sequence).filter((action) => action.type === "attack");
+    }
+    const enemy = attacks.find((action) => action.attack.attacker === "enemy")?.attack;
+    const own = attacks.find((action) => action.attack.attacker === "player")?.attack;
+    expect(enemy).toBeDefined();
+    expect(own).toBeDefined();
+    expect(enemy!.sourceId).toBe(frog.id);
+    const recoveryMs = creature === "fast Beetle Golem" ? 600 : timing!.seconds * 1000;
+    expect(enemy!.contactAtMs - enemy!.atMs).toBeCloseTo(recoveryMs * timing!.contactNormalized, 3);
+    expect(enemy!.recoverAtMs - enemy!.atMs).toBeCloseTo(recoveryMs, 3);
+    if (creature === "Beetle Golem") {
+      expect(enemy!.contactAtMs - enemy!.atMs).toBeCloseTo(560, 3);
+      expect(enemy!.recoverAtMs - enemy!.atMs).toBeCloseTo(1_140, 3);
+    }
+    expect(own!.contactAtMs - own!.atMs).toBe(350);
+    expect(own!.recoverAtMs - own!.atMs).toBe(900);
   });
   it("expires shared loot while no players are connected",()=>{
     const world=new HeadlessWorld(descriptor,ports);

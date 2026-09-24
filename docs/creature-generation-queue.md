@@ -1,8 +1,8 @@
 # Deduplicated creature generation queue
 
-The original 58 remaining replacement verdicts were not 58 new-model requests. Eight staged replacements have since been promoted, leaving 50. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
+The original 58 remaining replacement verdicts were not 58 new-model requests. Eight staged replacements and the user-supplied Beetle Golem have since been promoted, leaving 49. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
 
-The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Eight of the original nine staged IDs are now integrated. Beetle Golem's staged replacement was rejected and is flagged below. The 30 IDs originally assigned to owned-source review still need adaptation or source resolution; findings below record the first four reviewed. Flag additional source gaps to the user if the owned anatomy does not fit.
+The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Eight of the original nine staged IDs are now integrated. Beetle Golem's staged replacement was rejected; its user-supplied successor is now promoted below. The 30 IDs originally assigned to owned-source review still need adaptation or source resolution; findings below record the first four reviewed. Flag additional source gaps to the user if the owned anatomy does not fit.
 
 Use one user-supplied base per row, not one per level or regional palette. After delivery, agents map it to the intended IDs, optimize it, make detailed image-generated texture variants, rig and animate it, then update this queue. Preserve distinct anatomy across unrelated families; deduplication is not permission to turn everything into the same beetle or treant. For Bloomheart, the amethyst elite may need geometry additions beyond a texture change. Ivory Castellan remains on this queue because the user explicitly authorized a matching new base; the owned Vault Custodian alternative is only a fallback, not accepted as a substitute.
 
@@ -40,11 +40,11 @@ The prompts below are for the user's manual generation. Natural connected anatom
 - creature_silverthorn_harrow
 - creature_flint_mandible
 
-All original staged candidates have a disposition. Beetle Golem is the rejected ninth entry; preserve its source candidate, but do not promote it.
+All original staged candidates have a disposition. Beetle Golem was the rejected ninth entry; its distinct user-supplied successor is promoted. Preserve the rejected source candidate, but do not promote it.
 
 ## Delivered additional source
 
-- `creature_beetle_golem`: user supplied `C:/Users/Borg/Downloads/beetle+golem.glb` on 2026-09-23, replacing the rejected enlarged Flint candidate. The supplied model has a native 67-joint rig, 5,166 triangles and detailed green/gold/purple PBR textures, but no animation clips. Adaptation is underway in `assets/art/tripo/imports/creatures/audit-user-beetle-golem/`; acceptance is pending. The user's reference calls for low four-limbed walking, a faster combat chase, rising onto the hindlegs to swing a forearm, and a green iridescent shell sheen. This supersedes the earlier six-legged source suggestion. Preserve the original maps and source; do not start generation. The original 18 manual base requests above remain unchanged.
+- `creature_beetle_golem`: user supplied `C:/Users/Borg/Downloads/beetle+golem.glb` on 2026-09-23, replacing the rejected enlarged Flint candidate. The supplied model has a native 67-joint rig, 5,166 triangles and detailed green/gold/purple PBR textures, but no animation clips. The accepted adaptation is in `assets/art/tripo/imports/creatures/audit-user-beetle-golem/` and is promoted as `creature_beetle_golem`. Its six clips preserve the native rig and source maps. Normal-camera lab review, standing attack, combat pursuit and whole-corpse views passed; release checks passed. Authored-world placement remains pending because its Vellenwood regional pack is not activated. The user's reference calls for low four-limbed walking, a faster combat chase, rising onto the hindlegs to swing a forearm, and a green iridescent shell sheen. This supersedes the earlier six-legged source suggestion. Preserve the original maps and source; do not start generation. The original 18 manual base requests above remain unchanged.
 
 ## Owned-source findings, 2026-09-23
 
