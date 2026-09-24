@@ -1,10 +1,11 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { WebGLNodesHandler } from 'three/examples/jsm/tsl/WebGLNodesHandler.js';
+import { PMREMGenerator, WebGPURenderer } from 'three/webgpu';
 import { loadAssetModel } from './creature.js';
 import { viewerRegistry } from './registry.js';
 import type { ViewerModel } from './types.js';
 import type { ThumbnailProvider } from '../ui/assetThumbnails.js';
+import { itemIconSource } from '../ui/Thumb.js';
 
 /**
  * Client-side thumbnail renderer for manifest GLBs. One shared offscreen renderer draws a single
@@ -25,19 +26,19 @@ const THUMBNAILS_PATH = '/__devdocs/thumbnails';
 const VIEW_DIRECTION = new THREE.Vector3(1, .55, 1.65).normalize();
 
 class ThumbnailStage {
-  readonly renderer: THREE.WebGLRenderer;
+  readonly renderer: WebGPURenderer;
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.PerspectiveCamera(38, 1, .01, 2000);
   private readonly stage = new THREE.Group();
-  private readonly environment: THREE.WebGLRenderTarget;
+  private environment?: THREE.RenderTarget;
   lost = false;
 
   constructor() {
     const canvas = document.createElement('canvas');
     canvas.width = THUMBNAIL_SIZE; canvas.height = THUMBNAIL_SIZE;
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true, powerPreference: 'low-power' });
-    // Game materials are node materials; like ViewerCore, WebGL needs the node handler to draw them.
-    this.renderer.setNodesHandler(new WebGLNodesHandler());
+    // The game's own WebGPU renderer, so node materials render as they do in play.
+    this.renderer = new WebGPURenderer({ canvas, antialias: true, alpha: true });
+    this.renderer.onDeviceLost = () => { this.lost = true; };
     this.renderer.setPixelRatio(1);
     this.renderer.setSize(THUMBNAIL_SIZE, THUMBNAIL_SIZE, false);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -46,13 +47,7 @@ class ThumbnailStage {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.setClearColor(THUMBNAIL_BACKGROUND, THUMBNAIL_BACKGROUND_ALPHA);
-    canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); this.lost = true; });
-    const room = new RoomEnvironment();
-    const pmrem = new THREE.PMREMGenerator(this.renderer);
-    this.environment = pmrem.fromScene(room, .04);
-    this.scene.environment = this.environment.texture;
     this.scene.environmentIntensity = .65;
-    room.dispose(); pmrem.dispose();
     // Same rig as ViewerCore / production itemIconRenderer so tiles match the viewer.
     this.scene.add(new THREE.HemisphereLight(0xfff1dc, 0x302821, 1.25));
     const key = new THREE.DirectionalLight(0xffe3c2, 3); key.position.set(-3, 5, 4);
@@ -61,6 +56,15 @@ class ThumbnailStage {
     this.scene.add(key);
     const rim = new THREE.DirectionalLight(0xb9d1ff, .8); rim.position.set(4, 2, -4); this.scene.add(rim);
     this.scene.add(this.stage);
+  }
+
+  async init(): Promise<void> {
+    await this.renderer.init();
+    const room = new RoomEnvironment();
+    const pmrem = new PMREMGenerator(this.renderer);
+    this.environment = pmrem.fromScene(room, .04);
+    this.scene.environment = this.environment.texture;
+    room.dispose(); pmrem.dispose();
   }
 
   /** Renders one frame of the model at its idle clip's first pose and returns a PNG data URL. */
@@ -74,7 +78,9 @@ class ThumbnailStage {
       const clip = clipName ? model.clips.find(candidate => candidate.name === clipName) : undefined;
       if (clip) mixer.clipAction(clip).reset().play();
       mixer.update(0);
-      model.root.updateMatrixWorld(true);
+      // The shared stage still holds the previous model's offset in its world matrix; refresh it
+      // before measuring, as ViewerCore does, or the camera frames empty space.
+      this.stage.updateMatrixWorld(true);
       const bounds = new THREE.Box3().setFromObject(model.root, true);
       if (bounds.isEmpty()) return undefined;
       const center = bounds.getCenter(new THREE.Vector3());
@@ -91,7 +97,8 @@ class ThumbnailStage {
       this.camera.lookAt(target);
       this.camera.updateProjectionMatrix();
       this.renderer.render(this.scene, this.camera);
-      if (this.lost) return undefined;
+      // Read the canvas in the same task as the draw, before the frame is presented.
+      if (this.lost || this.renderer.info.render.triangles === 0) return undefined;
       return this.renderer.domElement.toDataURL('image/png');
     } finally {
       mixer.stopAllAction();
@@ -103,19 +110,22 @@ class ThumbnailStage {
   dispose(): void {
     this.scene.traverse(object => { if (object instanceof THREE.DirectionalLight) object.shadow.dispose(); });
     this.scene.clear();
-    this.environment.dispose();
+    this.environment?.dispose();
     this.renderer.dispose();
-    this.renderer.forceContextLoss();
   }
 }
 
-let stage: ThumbnailStage | undefined;
-function sharedStage(): ThumbnailStage {
-  if (stage?.lost) { stage.dispose(); stage = undefined; }
-  return stage ??= new ThumbnailStage();
+let stage: Promise<ThumbnailStage> | undefined;
+async function sharedStage(): Promise<ThumbnailStage> {
+  if (stage && (await stage).lost) { (await stage).dispose(); stage = undefined; }
+  return stage ??= (async () => {
+    const created = new ThumbnailStage();
+    await created.init();
+    return created;
+  })();
 }
 
-/** Bounded render queue: model loads run in parallel, but the GL work is serialised two at a time. */
+/** Bounded render queue: model loads run in parallel, but the GPU work is serialised two at a time. */
 let active = 0;
 const waiting: (() => void)[] = [];
 async function withSlot<T>(task: () => Promise<T>): Promise<T> {
@@ -137,7 +147,7 @@ export async function renderAssetThumbnail(assetId: string): Promise<string | un
   return withSlot(async () => {
     const model = await loadAssetModel({ mode: 'asset', assetId });
     try {
-      const dataUrl = sharedStage().render(model);
+      const dataUrl = (await sharedStage()).render(model);
       if (!dataUrl) negative.add(assetId);
       return dataUrl;
     } finally { model.dispose(); }
@@ -146,8 +156,10 @@ export async function renderAssetThumbnail(assetId: string): Promise<string | un
 
 /** The cache key carries the model's content hash, so a replaced model never shows its old render. */
 async function cachedUrl(assetId: string): Promise<string> {
-  const sha = ((await viewerRegistry()).entry(assetId) as { sha256?: string } | undefined)?.sha256;
-  return `${THUMBNAILS_PATH}/${sha ? `${assetId}-${sha.slice(0, 16)}` : assetId}.png`;
+  const entry = (await viewerRegistry()).entry(assetId) as { sha256?: string; bytes?: number } | undefined;
+  // Older manifest rows have no hash; their byte size still changes when the file is replaced.
+  const version = entry?.sha256?.slice(0, 16) ?? (entry?.bytes ? `b${entry.bytes}` : undefined);
+  return `${THUMBNAILS_PATH}/${version ? `${assetId}-${version}` : assetId}.png`;
 }
 
 async function readCached(url: string): Promise<boolean> {
@@ -170,6 +182,10 @@ async function storeRendered(url: string, dataUrl: string): Promise<boolean> {
 export function createThumbnailProvider({ repoCache }: { repoCache: boolean }): ThumbnailProvider {
   return async assetId => {
     if (!ASSET_ID.test(assetId)) return undefined;
+    // An item's picture is its generated icon, never a render of the model (docs/item-icons.md).
+    const itemId = ((await viewerRegistry()).entry(assetId) as { itemId?: string } | undefined)?.itemId
+      ?? (assetId.startsWith('corealm_item_') ? assetId.slice('corealm_item_'.length) : undefined);
+    if (itemId) return itemIconSource(itemId, true);
     const url = repoCache ? await cachedUrl(assetId) : undefined;
     if (url && await readCached(url)) return url;
     const dataUrl = await renderAssetThumbnail(assetId);

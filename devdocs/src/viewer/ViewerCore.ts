@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { WebGLNodesHandler } from 'three/examples/jsm/tsl/WebGLNodesHandler.js';
+import { PMREMGenerator, WebGPURenderer } from 'three/webgpu';
 import { loadOutfit } from './armorSet.js';
 import { loadAssetModel } from './creature.js';
 import type { ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from './types.js';
@@ -11,15 +11,17 @@ export function emptyViewerSnapshot(): ViewerSnapshot {
     manifestSize: null, body: null, parts: [], attachments: [], missingBones: [], meshCount: 0, boneSample: [], wireframe: false, bounds: false };
 }
 
-/** The documentation viewer's sole renderer. All displayed graphs come from production assets. */
+/** The documentation viewer's sole renderer. All displayed graphs come from production assets and
+ * draw through the game's own WebGPU renderer, so node materials look exactly as they do in play. */
 export class ViewerCore {
-  readonly renderer: THREE.WebGLRenderer;
+  readonly renderer: WebGPURenderer;
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.PerspectiveCamera(38, 1, .01, 2000);
   private readonly controls: OrbitControls;
   private readonly stage = new THREE.Group();
   private readonly grid = new THREE.GridHelper(10, 20, 0x677563, 0x39443a);
-  private readonly environment: THREE.WebGLRenderTarget;
+  private environment?: THREE.RenderTarget;
+  private ready = false;
   private readonly resize: ResizeObserver;
   private readonly box = new THREE.Box3Helper(new THREE.Box3(), 0xb8d57d);
   private readonly originals = new Map<THREE.Mesh, THREE.Material | THREE.Material[]>();
@@ -39,8 +41,7 @@ export class ViewerCore {
   private parked = false;
 
   constructor(private container: HTMLElement, private report: (state: ViewerSnapshot) => void) {
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    this.renderer.setNodesHandler(new WebGLNodesHandler());
+    this.renderer = new WebGPURenderer({ antialias: true, alpha: false });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -52,12 +53,16 @@ export class ViewerCore {
     this.renderer.domElement.style.cssText = 'display:block;width:100%;height:100%;touch-action:none';
     this.container.append(this.renderer.domElement);
     this.scene.background = new THREE.Color(0x202821);
-    const room = new RoomEnvironment();
-    const pmrem = new THREE.PMREMGenerator(this.renderer);
-    this.environment = pmrem.fromScene(room, .04);
-    this.scene.environment = this.environment.texture;
     this.scene.environmentIntensity = .65;
-    room.dispose(); pmrem.dispose();
+    void this.renderer.init().then(() => {
+      if (this.disposed) return;
+      const room = new RoomEnvironment();
+      const pmrem = new PMREMGenerator(this.renderer);
+      this.environment = pmrem.fromScene(room, .04);
+      this.scene.environment = this.environment.texture;
+      room.dispose(); pmrem.dispose();
+      this.ready = true;
+    });
     // Same light colours, intensities and positions as production itemIconRenderer.
     this.scene.add(new THREE.HemisphereLight(0xfff1dc, 0x302821, 1.25));
     const key = new THREE.DirectionalLight(0xffe3c2, 3); key.position.set(-3, 5, 4);
@@ -200,10 +205,9 @@ export class ViewerCore {
     this.report({ ...this.snapshot, boneSample });
   }
   /**
-   * Take the viewer off the page without destroying it. Creating a renderer compiles the environment
-   * and every material's shaders, and destroying one forces a WebGL context loss; together that was
-   * two to four seconds of blocked main thread each time an author stepped to the next record.
-   * A parked viewer keeps its context and program cache, drops its model, and stops drawing.
+   * Take the viewer off the page without destroying it. Creating a renderer initializes a device,
+   * the environment and every material's pipelines; doing that for each record was seconds of
+   * waiting. A parked viewer keeps its device and pipeline cache, drops its model, and stops drawing.
    */
   park(): void {
     this.epoch++;
@@ -233,7 +237,7 @@ export class ViewerCore {
     if (this.snapshot.playing) this.mixer?.update(delta * this.snapshot.speed);
     this.controls.update();
     if (this.box.visible && this.model) this.box.box.setFromObject(this.stage, true);
-    this.renderer.render(this.scene, this.camera);
+    if (this.ready) this.renderer.render(this.scene, this.camera);
     if (now - this.lastReport > 120) { this.lastReport = now; this.emit(); }
     this.frame = requestAnimationFrame(this.tick);
   };
@@ -251,13 +255,13 @@ export class ViewerCore {
   dispose(): void {
     this.disposed = true; this.epoch++;
     cancelAnimationFrame(this.frame); this.resize.disconnect(); this.controls.dispose();
-    this.clearModel(); this.environment.dispose();
+    this.clearModel(); this.environment?.dispose();
     this.grid.geometry.dispose();
     for (const material of Array.isArray(this.grid.material) ? this.grid.material : [this.grid.material]) material.dispose();
     this.box.geometry.dispose();
     for (const material of Array.isArray(this.box.material) ? this.box.material : [this.box.material]) material.dispose();
     this.scene.traverse(object => { if (object instanceof THREE.DirectionalLight) object.shadow.dispose(); });
     this.scene.clear();
-    this.renderer.dispose(); this.renderer.forceContextLoss(); this.renderer.domElement.remove();
+    this.renderer.dispose(); this.renderer.domElement.remove();
   }
 }
