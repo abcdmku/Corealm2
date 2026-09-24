@@ -1,0 +1,97 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-audit-crown-hart-regal",
+    "name": "Corealm Crown Hart regal coat",
+    "author": "janpec",
+    "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+    "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+    "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+    "assetStoreId": "99702",
+    "sourceArchive": "Animal pack deluxe.unitypackage",
+    "derivation": "Crown Hart native deer body, attached antlers and eight clips retained; image-generated layered coat/antler albedo replaces the original low-resolution albedo.",
+    "generator": "assets/art/tripo/imports/creatures/audit-crown-hart/build-candidate.mjs",
+    "generatorSha256": "bb5a52b2bea2f3bff8537859ac79e9e83b24b465ee0dcb2c67144419cd094ccc"
+  },
+  "assets": [
+    {
+      "id": "creature_crown_hart",
+      "file": "models/fairy-crown/creature_crown_hart.glb",
+      "pack": "corealm-audit-crown-hart-regal",
+      "category": "character",
+      "is": "crown hart",
+      "tags": [
+        "creature",
+        "crownward",
+        "regional_variant",
+        "crown_hart",
+        "regal-hart",
+        "layered-woodland-coat",
+        "image-generated-texture"
+      ],
+      "bytes": 2940640,
+      "size": {
+        "x": 0.438,
+        "y": 1.874,
+        "z": 1.709
+      },
+      "base": {
+        "x": -0.219,
+        "y": -0.007,
+        "z": -0.643
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 0.9666666388511658,
+      "materials": [
+        "crown_hart_regal_coat_and_ivory_antlers"
+      ],
+      "impliedWalkMps": 1.1216721226201816,
+      "impliedRunMps": 3.4474474408533786,
+      "runClipSeconds": 0.6333333253860474,
+      "sha256": "9f77f16a3cc47a9265e8310ee2c667ca916ddf9a160b49221ce99b4ecec3dba1",
+      "groundY": -0.007,
+      "metadata": {
+        "family": "crown_hart",
+        "height": 1.874,
+        "rig": "original deer body and antler skins",
+        "texture": "image-generated layered chestnut/russet fur, cream-gold flecks and ivory wood-grain antlers",
+        "review": "pending root lab visual acceptance"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "models/creature_crown_hart.glb",
+      "sourceProvenance": {
+        "upstreamPack": "animal-pack-deluxe",
+        "upstreamSource": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "upstreamLicense": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "upstreamArchiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "productionSourceFile": "models/fairy-crown/creature_crown_hart.glb",
+        "productionSourceSha256": "0e91fc3cfb1e3e860fca38e896d6dda5473ad03c8e439cac2b925cf3ffa39abd",
+        "originalBaseColorSha256": "35ded2189e108912ae0765a2194e08803f69e88c4ceae246bd540b9168298829",
+        "generatedMap": "textures/crown-hart-generated.png",
+        "generatedMapSha256": "296ed92f6f812a7a54b001e7b83f260f0b891084a4fe41bf41177627921f7bdf",
+        "runtimeBaseColorSha256": "01e16a826a43f1167dd86c0ab9ed9941f328655512dfa40f0f5455ebc8280663",
+        "generator": "assets/art/tripo/imports/creatures/audit-crown-hart/build-candidate.mjs",
+        "generatorSha256": "bb5a52b2bea2f3bff8537859ac79e9e83b24b465ee0dcb2c67144419cd094ccc",
+        "geometryPreserved": true,
+        "originalAntlersPreserved": true,
+        "nativeSkinsAndAnimationsPreserved": true
+      }
+    }
+  ],
+  "files": {
+    "creature_crown_hart": "models/creature_crown_hart.glb"
+  }
+}

@@ -1,0 +1,4327 @@
+{
+  "schema": "corealm-crown-hart-polish/1",
+  "source": {
+    "file": "models/fairy-crown/creature_crown_hart.glb",
+    "sha256": "0e91fc3cfb1e3e860fca38e896d6dda5473ad03c8e439cac2b925cf3ffa39abd",
+    "bytes": 2128864,
+    "pack": "animal-pack-deluxe",
+    "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+    "baseColorSha256": "35ded2189e108912ae0765a2194e08803f69e88c4ceae246bd540b9168298829",
+    "bodyVertices": 1880,
+    "antlerVertices": 397,
+    "bodyTriangles": 3098,
+    "antlerTriangles": 630
+  },
+  "candidate": {
+    "file": "models/creature_crown_hart.glb",
+    "sha256": "9f77f16a3cc47a9265e8310ee2c667ca916ddf9a160b49221ce99b4ecec3dba1",
+    "bytes": 2940640,
+    "material": "crown_hart_regal_coat_and_ivory_antlers",
+    "generatedMap": "textures/crown-hart-generated.png",
+    "generatedMapSha256": "296ed92f6f812a7a54b001e7b83f260f0b891084a4fe41bf41177627921f7bdf",
+    "runtimeBaseColorSha256": "01e16a826a43f1167dd86c0ab9ed9941f328655512dfa40f0f5455ebc8280663",
+    "generatorSha256": "bb5a52b2bea2f3bff8537859ac79e9e83b24b465ee0dcb2c67144419cd094ccc",
+    "geometry": {
+      "deer_body": {
+        "POSITION": "d1bd002b453091b6c8cce1905e7318e3a38eb7b796855146c152a61744aa337e",
+        "NORMAL": "fd6437b9eaa796439adcfddac2d049edae3bba8993abf67a09cc3f9952ba6397",
+        "TEXCOORD_0": "3cec634ba5379e0cbf1b05a711db8e61d0e49f581c7e027190b2991ed3dfe89b",
+        "JOINTS_0": "00175ea38f5266c1e77c17fadd27702789fd6801f43365ff40d718dccb271fd4",
+        "WEIGHTS_0": "d75abcd80d150a91e8cc3288482d28cf4c2d6d52ed55ed0488f7c6469ad4f1bd",
+        "INDICES": "e95e8791d0de68093ecb9843b0157f0eae0642d8e1ad2e2e2be73fe08718cca6"
+      },
+      "deer_horns": {
+        "POSITION": "e7eafd3126b956306b6ca9ef7b8adb0e6934bc94e780d6365aec829668fe1a3d",
+        "NORMAL": "b8c9d33d0ff18f327d298ad2cdbfbac7b5d580a3aa274ea767f0b848deca9d30",
+        "TEXCOORD_0": "51f87a473222493c644ff416e2be8efaea58197035fef8ee751a05fb5b9e537e",
+        "JOINTS_0": "c7660f9b75526703601ef37d5bd455f70e9b7d6d43818544e809d85cef60bacf",
+        "WEIGHTS_0": "511d27fb11ed638baaf09540498579817e7c2d55c8366e1c65f2ab4a49729212",
+        "INDICES": "bb4ec030ffabe9b00b8b93c9969152f32a8a22c492d1d883406ae50c13817828"
+      }
+    },
+    "skinFingerprints": [
+      {
+        "joints": [
+          "Deer_MAINSHJnt",
+          "Deer_ROOTSHJnt",
+          "Deer_Spine_01SHJnt",
+          "Deer_Spine_02SHJnt",
+          "Deer_Spine_03SHJnt",
+          "Deer_Spine_04SHJnt",
+          "Deer_Spine_TopSHJnt",
+          "Deer_l_Clavicle_01_01SHJnt",
+          "Deer_l_FrontLeg_HipSHJnt",
+          "Deer_l_FrontLeg_Knee1SHJnt",
+          "Deer_l_FrontLeg_Knee2SHJnt",
+          "Deer_l_FrontLeg_AnkleSHJnt",
+          "Deer_l_FrontLeg_BallSHJnt",
+          "Deer_l_FrontLeg_ToeSHJnt",
+          "Deer_r_Clavicle_01_01SHJnt",
+          "Deer_r_FrontLeg_HipSHJnt",
+          "Deer_r_FrontLeg_Knee1SHJnt",
+          "Deer_r_FrontLeg_Knee2SHJnt",
+          "Deer_r_FrontLeg_AnkleSHJnt",
+          "Deer_r_FrontLeg_BallSHJnt",
+          "Deer_r_FrontLeg_ToeSHJnt",
+          "Deer_Neck_01SHJnt",
+          "Deer_Neck_02SHJnt",
+          "Deer_Neck_TopSHJnt",
+          "Deer_Head_JawSHJnt",
+          "Deer_Head_JawEndSHJnt",
+          "Deer_Head_TopSHJnt",
+          "Deer_l_Ear_01_01SHJnt",
+          "Deer_l_Ear_01_02SHJnt",
+          "Deer_l_Ear_01_03SHJnt",
+          "Deer_r_Ear_01_01SHJnt",
+          "Deer_r_Ear_01_02SHJnt",
+          "Deer_r_Ear_01_03SHJnt",
+          "Deer_l_HindLeg_HipSHJnt",
+          "Deer_l_HindLeg_Knee1SHJnt",
+          "Deer_l_HindLeg_Knee2SHJnt",
+          "Deer_l_HindLeg_AnkleSHJnt",
+          "Deer_l_HindLeg_BallSHJnt",
+          "Deer_l_HindLeg_ToeSHJnt",
+          "Deer_r_HindLeg_HipSHJnt",
+          "Deer_r_HindLeg_Knee1SHJnt",
+          "Deer_r_HindLeg_Knee2SHJnt",
+          "Deer_r_HindLeg_AnkleSHJnt",
+          "Deer_r_HindLeg_BallSHJnt",
+          "Deer_r_HindLeg_ToeSHJnt",
+          "Deer_Tail_01_01SHJnt",
+          "Deer_Tail_01_02SHJnt",
+          "Deer_Tail_01_03SHJnt"
+        ],
+        "inverseBinds": "f74e1c4763af0e5239c29bc9373377bae08dedcc9365fe9d265f8250a521e9ac"
+      },
+      {
+        "joints": [
+          "Deer_Neck_TopSHJnt",
+          "Deer_Head_TopSHJnt",
+          "Deer_l_Ear_01_01SHJnt",
+          "Deer_l_Ear_01_02SHJnt",
+          "Deer_l_Ear_01_03SHJnt",
+          "Deer_r_Ear_01_01SHJnt",
+          "Deer_r_Ear_01_02SHJnt",
+          "Deer_r_Ear_01_03SHJnt"
+        ],
+        "inverseBinds": "e407ff6ae5ffe0a52fc59293b48f3fe0f5eff0e68603260abe01ead3fa062cae"
+      }
+    ],
+    "animationFingerprints": [
+      {
+        "name": "Idle",
+        "channels": [
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "44c7a153e2a646402bea4cde1e307312ac0c926ae395d0bc6fcb6bfc772f1a79"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "c4b9ca71612506c956f52a733207adc74af338f2c1e8841d210b50524cf31457",
+            "values": "648f441a3bf7f663245cbd88c81f853c28702280b0715b73175fed050aacf644"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "0906c70e43f48c1bddc28fba583bc474acb00004de1b0478115a4a9b5084408b",
+            "values": "7d47a3c70a682863aefbd40f2e71f4c32f316dc716afad35cb32f289341dae98"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "fb0dde68f1a147c3fc01f023523e597192f28c753a404466565b0342e18c0805",
+            "values": "78016e9679da4c34baebac2942bf311f55269a95ed5646a92950d9c22f729d79"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "04c4a1419cef9f6518e4629ea8d3a5f1e7c53fb4610aa5e75b99b7e97446ad51",
+            "values": "32fd6b95fa81cff41f64788243487ea3e1ad5ee2a1ed31ca7f7136021504be68"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "fe096e8d76dcffd10ddaeba73e2c68fcae67d1aeabd42db54f3028c1f9b3d114",
+            "values": "93700ff3513795a0eda009fac29264eaf880a286a7a444e522363763379df2a6"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "a3f38383e92cf8de3adb6f59403cc8fa902db0d87641ad916b5d7973d409884a",
+            "values": "f6a5716cb3905d62ce36c1a878a5c2e7cdd4d316ab9aec517826f7fb72498026"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ee506ce5215f831887c8eaacee0db56b571edc017b4b03ea2c8e1da394eed36c",
+            "values": "b6cf9b0ecf9fc21597e0cab4419a41cd64e34b965bb73ad6fe66ce97a8f77c08"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "0906c70e43f48c1bddc28fba583bc474acb00004de1b0478115a4a9b5084408b",
+            "values": "3bb772ffe345a1a8c9d656fe997b8864721c8ff4ad5c2886a457de4d7ff22a98"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "f4a5b9af9e1e4c7c52976817316f0010207409dcb48e0b6d9d9bb48e1bb15af9",
+            "values": "0c7d683421bcb6cdc3f3fe98cdede93880b70c952845eb2d00f0d6d35531606f"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "93adf8cf9a4c7d27e27d3f5c2f2ce3a607b355d61f22f1741790c5d74a0951b4",
+            "values": "0d20bbdd26a45d31811dac64750e93e1714472f5ac550a6bd7cdb9a2ffbd13fd"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "29060bfc51f0ec7fade79516fe77d8e2ab8435728ed283f6ca7aee4ff8986c10",
+            "values": "9c6911d0ca6ef11d105cfb86a2d6603bf15378bd52f0c92c9e589608f30d5a8b"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "9381737fbdb3aeaf8be20d07b022bc26b9a1a25cbde2cb4e158eb18c7ecfcca7"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "ed43732dcbbb4bf8e32aec6622d35a66578588e8bbfeb00773ba2996b8e7d9f3"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "008baf5d70a05951f07101e092d3a2bd07dd864589f232bcf0f9d5e2312fe080"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "c1853dd70cd956cf67dbeda342055b0ed49d08f2a29faf85bc7814140851cd20",
+            "values": "2594e045713cf1e8879783b608e9e18261098933ffef7addb806a4f9e0eaffca"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "379b2250067f2fcdae99630202e97a0cc7f1962b3c53de632ca99cc9fffc6c06"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "c5aececa32d9f05d82e1959ccfc9ca0a113a9da5726377061216751ba229f5cb",
+            "values": "9ac47a2b205105974f7f9d1379f80737d3181710a68409d63750a3fd28c4f472"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "120166fe5e3ae128eb1c24b7b5aa4ebd938dde46dd4d62cc30d2ecf4d666a528"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "d6bde8c16058fc9c16f54400524dacf53a0bf88a86110658578d6b754e9f5358",
+            "values": "fdd2fa57cd99825a972c1e196e081cc246e935d921266b91dde282df1b10ee55"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "9a677c763a7320d4099f3bebd9976ca97a5decd55b95fb5a0f92571c97c11932"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "214bfaabbe405841d064dcb4a7aaaf361c3b62e0243ca2181aee8f2d6daa6d1e",
+            "values": "16f627e76af7efe9d9902b9f359d87153c9cc371dc54980b6b97a867ac53b5af"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "294183671e609abfc4bb3243b156e2fd16ed96a7529902e7120d77420d45d81e"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "b38f26fa065bfc0c5e306ff6280e050c6ec8e4e110c22c5e55e538dc6c22219a",
+            "values": "07e4092cadc5a2ad7d1f0b09d5bb6de73ebc4283b7f4d851f9964c38b6630e8f"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "c94110a0d18754cf25856ac6c37690d499f617ae38ef353c31d8462214dc9ebb"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "6a3b86ca278f4f5237bcd247918d55f156caa2e44fc9a42f5296cb8103542f99"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "b4e953bced03484fee8f38888621aaba7d8d98a2dd3e59cf7ea34cf66a1ed17f"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "ed43732dcbbb4bf8e32aec6622d35a66578588e8bbfeb00773ba2996b8e7d9f3"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "a6b9344ab5cb23f7446f8777e45c09333861257df671f9f9e341af59c4064525"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ae97052da44aabc461ea0dbfdc2cabbb5c8475f8744d997c9d5fe516a16df3db",
+            "values": "f4b0287fafd4b9a5554b65bfe24a02cef0d6f89a8125d7c7cc9b41b88231d86f"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "1a173cc4f3cfd716e95d8809cbb08f9c119c4a4841c5e502b60606a23ef3ed0c"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "7ebcbf4b1086e904844675f854f18aea2fea7f59fb04aa6984f420af38ea61ed",
+            "values": "82423da0ab7d1c92877084f7704a36b4f35557238a41d6a9920682b11338246a"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "23ec9c27ba95b0eaa68247bd98d319ee794ee83ac10aa0fa265b35729ddd8bb7"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "f7fa478f9edc9564b0af87b4a6c76959e28b9c21eb4667017619fe226e47cb34",
+            "values": "2af820e25b20d16b439f804d5d92cacfbc613c51db58ac3fc56037ba003b1380"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "e395d3e56b2f29a58fe512f9bb865a290d76970bffb5ebe780f9d695ee42dc74"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "214bfaabbe405841d064dcb4a7aaaf361c3b62e0243ca2181aee8f2d6daa6d1e",
+            "values": "d9ecb2c91c8f89c2e6246231ae48a04af68ec01541d2d6febcfeaa08a1d1daa3"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "8d606aa49b4416fe6b06cf02446e70c2084e60046bbcf475b411ef0a7aec2a88"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "cd9b24bb7ad8f19a1853c04b66644f9d70686bbc847d099237c0b92ba7eabcde"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "0df4f74a0c7ba4701cdc44811b3fb83f097a9782cf61a095cede58c445bf36b7"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "6a3b86ca278f4f5237bcd247918d55f156caa2e44fc9a42f5296cb8103542f99"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "954c15bf05e906bea740167f8e6b3bd7eb3d6006962768743372dd1ff0e6ae87",
+            "values": "4888d8b3e9170ffe01ee016d8da64a8205a255649b43893b3490b7e88185a811"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "bd5ff8685fcb284b6f571727b80fdcf2508fd7a5a8ef3159c7cb91ab7efa2704",
+            "values": "72a23402e3efd9774232b8a9885298bd6a079e2c60588160fb3761dcd6bf8026"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "2529a5026dc83aad097422308d9c455a59dffbfe7389c503902931c127076cd6",
+            "values": "41a986f6f40a68b3f2e5d7304679f896342bc24e22a046ac412cb901f6412f9c"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "c3dd63eb7a714305a21263fa8ae2c50345fe4ba8305ecd40d14515962e093878",
+            "values": "e1ac731dc66a8f7b5d919d26e1b5336ebfe9d88aea22f44e5ebbdfa212047a4a"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "f7ba1a1407621a31c4e26be57b02cb1fa5eebeec4058a1f0b7fac2ef82615c58",
+            "values": "c7746e82eca90dd29c72c458ef39a428772ff2a30cdd6bc8ec38221a050390e4"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "a439a8dfef4beb806c87904d85cd501f1b0ec6a3fa350fd256ce1f0e01495ca0",
+            "values": "161d40fed8fe9e1d6f6fa46b091f4be9ee106c98abf61826c5d27b1b82255f2f"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "4a14c309eb74a3ab7f29270bcb5bad5e031a6575460504a241be422ccace400f"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "e120545a76a2875612ac861855fd287721ed1dfe23b3cf680cf6a9dae9dc70c4",
+            "values": "fa6a29574af286129ce486b9a42ac28671acf2983501ee9e6e1f986921858fa9"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "3c3278ba77b1a0f41874776d5b2cc8a4859f1dda772b0f502b23cb375e96e79b"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "c6b91854c414e8dbaf0451f79a5a4988731ca1ff058dd47576c41841b08405cb"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "4e6ab4827b3c749be67994f8857a5a62ec0f3daff358ce18a958379ef0dad7c6"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "287cbbc47843541e4198f6ac9e27422bed1020906db3706e5c1cc33e60b0a4a9"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "298d889982c25c00afc25054a58c2c7c43ee57af05cd147bdc4627beb34c7621"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3558cc863bb790ca2f3ae828274195e460f430445337b78bccf26b28e5b8ff15",
+            "values": "343e8918716e65a47beede814528ae095a7348220c8b5e995beb2e4738c3363d"
+          },
+          {
+            "node": "Deer_l_Ear_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "2aec4fa503e7b9c37e6f33202bdadb9e5f469c1181c2042c1d02e68862002687"
+          },
+          {
+            "node": "Deer_l_Ear_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Ear_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "fb51050618bfeaf904123ebddd860093140c979d87eb942a7e76834bab4265d7",
+            "values": "e68226e2eee656097e6bb82587c1416533a121ae1d398d5b029841ac25d0125e"
+          },
+          {
+            "node": "Deer_l_Ear_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "5f9fbb65cba83b47e7f34a011f23c73f2ebda221e35decd80d4873c153d65632"
+          },
+          {
+            "node": "Deer_l_Ear_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Ear_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "5d256aac2a8cc156ab8737abe169abe7e73f0a3628744c8236fb84f8e182f86f"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "dc9108293935c0fe2bd86a9f4825721ec2475ea7a5acdefc25dda08abed322f3"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "9af3f0271f919ec1012ba1fa0628fd54e747211e15c06874a697486ffb06e3b6",
+            "values": "222a083c6a1466bb557c5be84c37384fda910ef5eb87ba05c27569a0f415ba26"
+          },
+          {
+            "node": "Deer_r_Ear_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "74ee614cee64a08b7e7a24adc0d2905ddf018b2912f9a97d17508813f05183d7"
+          },
+          {
+            "node": "Deer_r_Ear_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Ear_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "bf1f3b20f53090f0767ef41760d5ed2b09723db40f4c77f397163aca5712e7aa",
+            "values": "e3f1fc1e159428e5a90340a16e0835e225061cd2d607de6e65f419c262051e94"
+          },
+          {
+            "node": "Deer_r_Ear_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "e676f04350deb80d061fb69295bae84c59ac222ca226881a40ac889805a256ed"
+          },
+          {
+            "node": "Deer_r_Ear_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Ear_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "9dc24017ad0b4d87547b3806c39592c0d43d7b769c0e8cc571dfbe295cda54c4"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "bebffa29ec5e286d2d467ac67b41d0bc27a13b11dabb7a3344eae11cb8989811"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "388bd0091152323a925acdc0037da08ef2279160249df8a56c33d4be31a5c0d8",
+            "values": "0c9e07299e4ec73258dfab3e68a70fe44bfe08d1d43d7e794334fbdde2600fbb"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "09eba0cb4e88c470cfa70210cc6a72d36cb4126cd02332de5e38b81dd835a65f"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "39bd72ea9f310882faaab850c3f5c8db2c9b1b441ca83aac3240600ac354f840",
+            "values": "b7b57aea5487c11a6cc2563ae799dd8785d98d5a31f85eba0de9b049c477dd6f"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "c7d7d41423fdb6a762d5125923cff1d0d017e04bcf0e7afc08c950b17d4d88a1"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "acfc740528fa54ea475cd375bae1482f2600d89ee2c8e070e2dd5a167685f82d"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "3ab3fc6f8bb928cd258f1e636b17e8af8f1434a633376d72a4ee09543fc70451"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "1417469e77c439b4c648ae3b3b9f236efe2148ebfb89214b78d7fee4e5df7bc5",
+            "values": "56ab1ef86a0b27341fecb32fe3ee57dc62639ff70c4bc6576dec1f4b73702ad5"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f346d7e65910883c4bb2284bba82051a7742774bb9326bbead837b823d4ff614"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f557af112eb86fb9c4daab932dce9245846f06d0c5a9ab8413be85e7db872c01"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "c784465e5551362c8d866b8185be0d3d20bfbc5c4b3bfe6c6602c9ad8d58fd43"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "503135b7f96840f2ffecf5a58b0d86709e091fbddffad5e20bf704251cb03840"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "36e1005466ba7d2443a070a77c8ba99c97b7c468acf666229a335cfc5ced77ab"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "bf6a579b8b4dffed1142cfc0e42d077521b059705cba23b08d65d5a6f66f688f",
+            "values": "d49c7844a8e849cb7f624af0fac14d2a69cb915a3521fd17b0eda4ce63547608"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "e02025b0dad3c982494b6a62409ee00590850e79e5a2cdcc15bac27dd4cf5adb"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "b38f26fa065bfc0c5e306ff6280e050c6ec8e4e110c22c5e55e538dc6c22219a",
+            "values": "065a4009b45df6deff7fea9ace4ff36442fe18ee781b9a4b90225cae1464a5cd"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "7ebe12b94abd6ad1cdac3e08bb441d5dd5d52c819e60eabe8a40cca34b6ff4d1"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "46c5ed915ec88b24816fe4a5f400e0a19d313f90ed33eb822a7d5ca76d44d92e"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "0fb89856437949a0bdfd70ccaffed3dad9bc7d45b1ca5a2e2bda3a6801a0c28c"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "1417469e77c439b4c648ae3b3b9f236efe2148ebfb89214b78d7fee4e5df7bc5",
+            "values": "4725c5a209c1954fadb096b935b5c87a089c870bba12c0787cc44f7e869c412e"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "ed1bdef95dd1a423e0d569fd78ef69035b5cb4f100d9bfc3efd4bbc3a6a460d0"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "1bf2decdeae397f90e7d5a4089b2a37c3b7adb4923019234e9114ac28f7eec65"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "4b93170195c06e72fb3857e770933346c0e4ac4ef919dbe088a638d8461b9fdb"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "a799450349952ecb2416d0df7cce43332044aa0fb106408528643212bec142ae"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "fa55c2927f4dbf3db129a4eed4a9cbff5ef610e0d56566199321b12b84a32b31"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "41fac3771aa6b12ea6f0c93f9ec83a1bec89cfb23252310472d05f5a8d15c6f1",
+            "values": "2586e6e18015b630e8af17bc6953671240cfc0c00df7f83de4958146bb7db13d"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "61918d53a2a4d9f3f61af1081ec38716edc0b4c73739ef89764718175224d226"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "9b2760e2e823d9a9bb74dd6511249b1fcf5d4a294b670d732c134fc0950a0144",
+            "values": "91389fef09df17b40ec800a57599a2baccc1b65adcb23de9f1ecbb82a5addaf2"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "e4041ba7899ea33610b963fa558a5e781e10cf069ff32491896ea760d1ee261f"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3430004fd24c86d3754b06e9e9e7fe94f708317ee93c3b41addc13615e678f05",
+            "values": "f59493a1967b243b9dbc2aebe6a8b0684443404312c610633734ae9cfc5a1b49"
+          }
+        ]
+      },
+      {
+        "name": "Walk",
+        "channels": [
+          {
+            "node": "deer_body",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+          },
+          {
+            "node": "deer_body",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "deer_body",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "deer_horns",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+          },
+          {
+            "node": "deer_horns",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "deer_horns",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "77bcbc07128e6d1160137c60f92a576cf40c66934b0136c399ad8319d12d8745"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "9bad8da621b24091aac41d7f400ad09180fe5a4ec5be1b13412ba5dfa56eeb3c"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "d08503630ac6592598a1a486c0982f4f9e49cf27c050802f312f1365b6d60c24"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "8af19045d107823f30b178558c8b85ea5435f0d679923ff0018b31d675a54e0f"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "9e5072dc44ffcad63cda9d0903cad8832a059b0bdd5df176787492868a55f5ed"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "fee9f8e553c174c23fdbd806b35fd5c59c1746a5cec2807db54df461f6726a0a"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "14cea36cb55af423ecd3d23aa0d6eb30a1ac3c1987051b54429126888fa0f651"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "9b1e9eac611ea6ec070cf92006290afd8909c3f4731429e639624eda676d886b"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "d1a7c222d7dd041c90a8ba321b21b6eb730de76cc896179dc3a9bd98a8bb55cf"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "35cf7a941f2e0240b9bc44b875ba2608a951de4befbcd2defb9da41c29d26a04"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "5d6cc1fee6655ba2507f9b4582542d3e21eacb52561a2955efe56dba910c4576"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "97737896eef29b8781ec35e81d06af8a612a9d117c905f9435bbc4148241b547"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "cc3f971214883726dab008508024e319fd351f870b9ca3303f69dc66e61aadd4"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "c72d5ca0d6e65fc3a1e78fd9ab033b889cbba4cc4479a50b24500b0fba349560"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "29351df763e7447ea30ffc8cc0e73ff161351b49284b30a0decf79789c5cd76e"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "da38af1c331741cecab0885d8a8fb22da6ce7178bf97697cd6bc0a725a83570a"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "fc092de5a240bbdc11ff0ac31aea4f6de1cb59de03e5d3f8b74d92e5fc96fdea"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "b1cf1efd0fcf4adf59e39bac5c12d794ca6b7f59fe7f4be533802950d460117f"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "431790c33eb9f0265e665558d4e0be7cd575f3348cadf5e9458890ccdbcf2dcd"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "2554be8f06e36b4d77b5dd0363d17116aa9cb8377134cadcef4e88e55516faa4"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "6a6c36f821565d0b47480f095a7bfe3ed173b49b6ff1740fca2494a858b28578"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "313a3e0a996650f533adf2fa61bb4ea2251d680e9e93e351ac916fd52b60ab1a"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "0fc495f6df160cdfc825bd1abac69b3f569859fd89304ad0780ddaa2b7561cd6"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "eb109476c9320ff972ddca185ec9dd59e81b79a98e6b1f02674fdd35e5f1899b"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "a6b9344ab5cb23f7446f8777e45c09333861257df671f9f9e341af59c4064525"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "e37e1b153e08da61625d1832bd32ccf43b6298e35aec5795282ee9e7d5fcefb5"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "581faca70c561c027497f791a4575d067af04b1eff73af36b213b7bce9580adc"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "72170b9de831fb433eabc7237c099b2ed1ffacef3961c307db33fd1ce1e7ab7e"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "107c86291d1570c3070af647ac19c98020ebbf7121a599a725164d17e8fe3e99"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "13b296050b5628610805b5d416d13d372efaee38c69b95bae3d81c95deb591b8"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "b601740bfa6552bf63a2a1ec7a8581078c632b5fe33c3f0be648b6cd4c70f925"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "0e21a348abece3d0f7ad6e1b8acf0b47da3cf576eae077cc8b843129dda07723"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "5b711445c7897b1d643d8eb1b72cf97a3cf1a48a13e1d08270a1d24aba583f22"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "cd9b24bb7ad8f19a1853c04b66644f9d70686bbc847d099237c0b92ba7eabcde"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "75b5fba9f0b5fb2ddcf9c5da2ae0ede134444edcaa9efc9b24eb712c48a059d3"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "e51a7616237721305e0a9f8b6ebae5ee0e91fdf8753912c99bf34fc140b4f9c3"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "cb165bcfa1e68e05e9fe7929a247edf6a52e8f99d52a4deb0147e0488e4750e1"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "3f5b5715bb45d11fade7287c3992831c936e106f74bffdd922e9137fb8acc2cf"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "c5d4361af23222f70d0a27b0d11a00d631b4c6fa8040e3875481ad02b4443e8f"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "156e81a69b25e4ae28dad8bd0a1bbb5ed7e898d3587215ec3aaa422d2ca35453"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "af58956d7080d087fb5e7a4b7c5045919b671649781d2caf5f4aaadc3341ba94"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "a2b00fad3e6d10b3205cdaada05720016424b05c41121e29df70942977cb8e49"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "3e59b5a559608de37770ea9ba3f0ac678b967f0bc5b671e9842bc953983045be"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bebffa29ec5e286d2d467ac67b41d0bc27a13b11dabb7a3344eae11cb8989811"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "31e9128bc3550c4be538d2814adaf0b669f249308c483eda2293db3d36bac4b9"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "ed8cb9a2ec99d6f088b688c52dd4f90691d2f481e6b2e47282c6bb13f966f927"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "4f79599c7cb9b01ba336d60e62fa47a0eee0d307d88e7ebae97a73350bb17398"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f0d6d85e0319a6aa7bc3229123c1ea3ab4f0bd409df406ccfe645c89fa0c52ae"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "fa8246657d185b152392581ad852509c8b8fd02caa6c50dc1dcedddab3b55832"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "5aa5cbd9f486fa8c55094a66cc3f5a4016c1582258fbc91ab2ffc7255b3380c1"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "b6116ea8476ae12496d752181d839ed4d089223698aec321c367cada695a3bcd"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f346d7e65910883c4bb2284bba82051a7742774bb9326bbead837b823d4ff614"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "7c422a6ac1ada74d324423c2cf0d0f94cd72377271386c2a2e30ec69077fbf2f"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "d3b2da0b6039e735f2313de9aedb80db271cdf1fc5cd3b3faf06bac6e3dd14d6"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "36e1005466ba7d2443a070a77c8ba99c97b7c468acf666229a335cfc5ced77ab"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "4d5b1222795847030851357c2ced493fe0bd9ebee06c60780f5ca3f756f15357"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "21c0226d982381e2c1cfdc9352108d14dbeeffff910b1a5ecc01fe2bcc0e3ead"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "7caa34d2f7531ea1bbf4be92702ac574d3d92afbbe627024b7d75770dd4465df"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "2adb0c133d490aa43ae0abd95c9fe6b2fccbe4ac871bb245ce5e0c9a9a14f763"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "6253d8adb030e66dc5537a05d7b7e33c170924d05a9551c9b3dbd164acf1bf7e",
+            "values": "a08ec831fe2b4199df4dfb680618a7104122cf94cc495465d15a78afb3641ab4"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "7d2d890d0e797fef56063cdaf10ab129a1004edd9ef63dd73a70863b603b84f0"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "771caeccc709bbbe1522566f0b04d0e54d847242a44174ccf98697e3eb43fafc"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "ed1bdef95dd1a423e0d569fd78ef69035b5cb4f100d9bfc3efd4bbc3a6a460d0"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "8efc0b5c3a4ecdb3dbb074c7715a1da4defd810e106f64293219351071987af2"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "4b93170195c06e72fb3857e770933346c0e4ac4ef919dbe088a638d8461b9fdb"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "fa55c2927f4dbf3db129a4eed4a9cbff5ef610e0d56566199321b12b84a32b31"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "c809f3d8885420e50c6079971e4ae2492ba1a6ad79a9e4105df5364370c9f4e8"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "61918d53a2a4d9f3f61af1081ec38716edc0b4c73739ef89764718175224d226"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "351e10a988414bdccc43449561e02907d299c8de4687962da8507028500f1e44"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "e4041ba7899ea33610b963fa558a5e781e10cf069ff32491896ea760d1ee261f"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f59493a1967b243b9dbc2aebe6a8b0684443404312c610633734ae9cfc5a1b49"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ec664bb57980285a820e32ebdb2b689d18569c66a868de90e1a490706e2adb9a",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          }
+        ]
+      },
+      {
+        "name": "Run",
+        "channels": [
+          {
+            "node": "deer_body",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+          },
+          {
+            "node": "deer_body",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "deer_body",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "deer_horns",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+          },
+          {
+            "node": "deer_horns",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "deer_horns",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "2dfbb7cb709ab8735e4ea8a98bfa023d96a44fa3347b260240f354bbce6f874f"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "9bad8da621b24091aac41d7f400ad09180fe5a4ec5be1b13412ba5dfa56eeb3c"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "d08503630ac6592598a1a486c0982f4f9e49cf27c050802f312f1365b6d60c24"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "8af19045d107823f30b178558c8b85ea5435f0d679923ff0018b31d675a54e0f"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "9e5072dc44ffcad63cda9d0903cad8832a059b0bdd5df176787492868a55f5ed"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "fee9f8e553c174c23fdbd806b35fd5c59c1746a5cec2807db54df461f6726a0a"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "14cea36cb55af423ecd3d23aa0d6eb30a1ac3c1987051b54429126888fa0f651"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "9b1e9eac611ea6ec070cf92006290afd8909c3f4731429e639624eda676d886b"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "d1a7c222d7dd041c90a8ba321b21b6eb730de76cc896179dc3a9bd98a8bb55cf"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "35cf7a941f2e0240b9bc44b875ba2608a951de4befbcd2defb9da41c29d26a04"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "5d6cc1fee6655ba2507f9b4582542d3e21eacb52561a2955efe56dba910c4576"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "97737896eef29b8781ec35e81d06af8a612a9d117c905f9435bbc4148241b547"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "bd332ac0d75f2a7ae1635e668c40cb14a865da39c13fc1fc17f3889abf0bdf9f"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "c72d5ca0d6e65fc3a1e78fd9ab033b889cbba4cc4479a50b24500b0fba349560"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "f6e163c9cb4a08c301df04db17d8d67f0b3ba67ed81b7daa88f4afaa6bf28513"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "da38af1c331741cecab0885d8a8fb22da6ce7178bf97697cd6bc0a725a83570a"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "22c3ddb6f922b9f99385e7e7e7a7f01fd2834a8c7d715b0cfc7e47cc2454ea1c"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "b1cf1efd0fcf4adf59e39bac5c12d794ca6b7f59fe7f4be533802950d460117f"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f0cac7c96f5f1795ef9806adce536afa398a837a2837442c346bf5437ae81776"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "2554be8f06e36b4d77b5dd0363d17116aa9cb8377134cadcef4e88e55516faa4"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "6a6c36f821565d0b47480f095a7bfe3ed173b49b6ff1740fca2494a858b28578"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "313a3e0a996650f533adf2fa61bb4ea2251d680e9e93e351ac916fd52b60ab1a"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "0fc495f6df160cdfc825bd1abac69b3f569859fd89304ad0780ddaa2b7561cd6"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "eb109476c9320ff972ddca185ec9dd59e81b79a98e6b1f02674fdd35e5f1899b"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "a6b9344ab5cb23f7446f8777e45c09333861257df671f9f9e341af59c4064525"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "bf44a69422b68980ada6e60cc176bfcba7b64373d6f48e160d7c020c6f741262"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "581faca70c561c027497f791a4575d067af04b1eff73af36b213b7bce9580adc"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "ff37e4bb8ff87359f51d3bb56bc1bdacbd8273fbd9c90d7dcf0f10a831c35640"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "107c86291d1570c3070af647ac19c98020ebbf7121a599a725164d17e8fe3e99"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "3a00ba2553016939f0f2e85ae94e6bea3f38617b7539f22d36aea29470c0144a"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "b601740bfa6552bf63a2a1ec7a8581078c632b5fe33c3f0be648b6cd4c70f925"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "c3b83276ca1a6a445bc579cb29677f430e285e431ed571fe4d0ae694d6d6a492"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "5b711445c7897b1d643d8eb1b72cf97a3cf1a48a13e1d08270a1d24aba583f22"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "cd9b24bb7ad8f19a1853c04b66644f9d70686bbc847d099237c0b92ba7eabcde"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "75b5fba9f0b5fb2ddcf9c5da2ae0ede134444edcaa9efc9b24eb712c48a059d3"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "e51a7616237721305e0a9f8b6ebae5ee0e91fdf8753912c99bf34fc140b4f9c3"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "cb165bcfa1e68e05e9fe7929a247edf6a52e8f99d52a4deb0147e0488e4750e1"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "3f5b5715bb45d11fade7287c3992831c936e106f74bffdd922e9137fb8acc2cf"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "c5d4361af23222f70d0a27b0d11a00d631b4c6fa8040e3875481ad02b4443e8f"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "156e81a69b25e4ae28dad8bd0a1bbb5ed7e898d3587215ec3aaa422d2ca35453"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "af58956d7080d087fb5e7a4b7c5045919b671649781d2caf5f4aaadc3341ba94"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "a2b00fad3e6d10b3205cdaada05720016424b05c41121e29df70942977cb8e49"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "3e59b5a559608de37770ea9ba3f0ac678b967f0bc5b671e9842bc953983045be"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bebffa29ec5e286d2d467ac67b41d0bc27a13b11dabb7a3344eae11cb8989811"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "0f2c4681f0e37685f0fa4eea1024cd8694680756642d635839105e3585318c5d"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "ed8cb9a2ec99d6f088b688c52dd4f90691d2f481e6b2e47282c6bb13f966f927"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "78606998c6cba0fa0cc868c74bf7f0c2684a243f6c7d3592050c35ed5a2c4443"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f0d6d85e0319a6aa7bc3229123c1ea3ab4f0bd409df406ccfe645c89fa0c52ae"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "c853bb92ce31780a1c210331e197115d15479437a4b0c3013e932efe9382b27f"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "5aa5cbd9f486fa8c55094a66cc3f5a4016c1582258fbc91ab2ffc7255b3380c1"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "b6116ea8476ae12496d752181d839ed4d089223698aec321c367cada695a3bcd"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f346d7e65910883c4bb2284bba82051a7742774bb9326bbead837b823d4ff614"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "7c422a6ac1ada74d324423c2cf0d0f94cd72377271386c2a2e30ec69077fbf2f"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "d3b2da0b6039e735f2313de9aedb80db271cdf1fc5cd3b3faf06bac6e3dd14d6"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "36e1005466ba7d2443a070a77c8ba99c97b7c468acf666229a335cfc5ced77ab"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "3a7385b676af47aa983b8b10befa0e1789ba09ff31dd508553ad0b5c8f6446f1"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "21c0226d982381e2c1cfdc9352108d14dbeeffff910b1a5ecc01fe2bcc0e3ead"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "03dc6eb3234e6b46de7ad65215476d3fa3b4cbdc8dae58a41923ad4ca235b825"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "2adb0c133d490aa43ae0abd95c9fe6b2fccbe4ac871bb245ce5e0c9a9a14f763"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5621f50869d39cec9dcc12a003f83f7e3fb81e3adffa0569242ba355906508f5",
+            "values": "9de167b3a02824ef63078e61337a44e43e245ba1922696080c26d8788962fe0f"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "7d2d890d0e797fef56063cdaf10ab129a1004edd9ef63dd73a70863b603b84f0"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "771caeccc709bbbe1522566f0b04d0e54d847242a44174ccf98697e3eb43fafc"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "ed1bdef95dd1a423e0d569fd78ef69035b5cb4f100d9bfc3efd4bbc3a6a460d0"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "8efc0b5c3a4ecdb3dbb074c7715a1da4defd810e106f64293219351071987af2"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "4b93170195c06e72fb3857e770933346c0e4ac4ef919dbe088a638d8461b9fdb"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "fa55c2927f4dbf3db129a4eed4a9cbff5ef610e0d56566199321b12b84a32b31"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "c809f3d8885420e50c6079971e4ae2492ba1a6ad79a9e4105df5364370c9f4e8"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "61918d53a2a4d9f3f61af1081ec38716edc0b4c73739ef89764718175224d226"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "351e10a988414bdccc43449561e02907d299c8de4687962da8507028500f1e44"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "e4041ba7899ea33610b963fa558a5e781e10cf069ff32491896ea760d1ee261f"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f59493a1967b243b9dbc2aebe6a8b0684443404312c610633734ae9cfc5a1b49"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "ac38854caafe9952f3d766f33c31d9a36314cdc6fc8e2abfd683a11c316cc28b",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          }
+        ]
+      },
+      {
+        "name": "Death",
+        "channels": [
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_MAINSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "7226a9b7bfcc1b07d4fbde1ee3b530da103342a90eabb06e42890f8c4cb02656",
+            "values": "c8158de31701f50f20aa079be05b7e0e7e04e1615a73edcd74ff4b64593b0d53"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_ROOTSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "a3585a254b12b50525ca88c44e65b5ee6bc9b1dc7be9a701490198f664de8379",
+            "values": "f5df80fb2ad2e82f91117755c03258102f024a57c958e4c2bdb1292e3315913c"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "fbc6431f7f24ad10ee18e27b441a9f44fc1630a643e0600c23204be8cd0b63be",
+            "values": "e4895c2867306ae78f45d2a602c61678b870572ac62cf49e9c17ab296211fd6c"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "fbc6431f7f24ad10ee18e27b441a9f44fc1630a643e0600c23204be8cd0b63be",
+            "values": "a0d97a0d8b799c872be8c524c2aa26437b96f5e1f1ca4bc5d536ab04b94d01fc"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "c62a86d9fcd0457466923e738def983cbc05a1291d7df71b75a25e0a110fc63f",
+            "values": "42dd04d802c6e0e5052652fce78973098dbfd742832a19a5aa5819021b3f64bd"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "fbc6431f7f24ad10ee18e27b441a9f44fc1630a643e0600c23204be8cd0b63be",
+            "values": "b103233f8ddd9e924c8f25d9be5e17fa0a1409083e701fd5523805a69051143e"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "c62a86d9fcd0457466923e738def983cbc05a1291d7df71b75a25e0a110fc63f",
+            "values": "39062f4efd4c09b1dde6f7f0eadc17963250387df48c1b084a54cf37f8e4e43a"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "e963bc480702c448142e5759b51192efdc8d11e82c598ce765af6f868d4e3893",
+            "values": "54b7a23406780f0e78edd2d000467adc7bd41f776c6a662d2ead4ad84e54dd84"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "e189230ed9cab4faad34937a0d6f94db7a8267f75a729826904509731b066f27",
+            "values": "db119e8c0d8e07749b0196929d1e2f5b6354f5ba7172864df5cef9f6bc11f8e5"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "a09c2f53925381d347115f95b11784dd555f0b65118b1fc511b49ac822359907",
+            "values": "65f572263c6741ca1ae1bed4833db9bb1ed7716df08c6fe9b6bbd908bdcb366e"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "b10ecc2d92e82cb3583963c9c459870e667edba1c8586609ebc50a478c279d8f",
+            "values": "61481c7bd7031d88ea39d449a5fba985e0240a9a541e17b91c87bac1ed81ef20"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Spine_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "a09c2f53925381d347115f95b11784dd555f0b65118b1fc511b49ac822359907",
+            "values": "244514254a2be52607ee1b3ff915f641325be44d9a18c34273679381a2520606"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "8fcb8e6c1aba04b9eedeeacbc3ca9d559c0033cb4ab995d384c3ccd18213af34",
+            "values": "574e594b0fb1df205df91279a8add5c7d0dba2658d895916338d78b9557c85aa"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "3931840f81d74cecfd50f8fac10cef063b8c3868e39a1a3d97fd8c8bfc44a047",
+            "values": "7d4bb83e6c6186dd85e07a7a88d5bcc5c26e50fdf9a931b0f08919e2a8de82e7"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "97737896eef29b8781ec35e81d06af8a612a9d117c905f9435bbc4148241b547"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "7226a9b7bfcc1b07d4fbde1ee3b530da103342a90eabb06e42890f8c4cb02656",
+            "values": "a2ab9729eecbc05c1ed1039047f9f6485556e8f02c74e3992bc422b627bb1175"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "19f6f8717f27a654d8bc3bca6889454a9c6ceb7e7ef7d05964323027e43ed081"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "7226a9b7bfcc1b07d4fbde1ee3b530da103342a90eabb06e42890f8c4cb02656",
+            "values": "413b9f52ab28694f175cd66acc591ead21d21d1554d5c25d4b64ba1b27263299"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "d5944d806f7e209ecc4dc6bed148e6742b2ff33ca960822bc1c54f690c74bb68"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8cbcf2251e96e54a1f0efca79094c5c4f7f4cd3ac71a7d893205d93a8309d4cc",
+            "values": "5be73b46cf1bba9a889e5377bcb10a866533aa13a2ec1ef474784f814bfd9006"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "2f4317b0e8783c108dd6f37e13516dfdb3ddbe881a9ba1323d52b961df0f3cdc"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "7226a9b7bfcc1b07d4fbde1ee3b530da103342a90eabb06e42890f8c4cb02656",
+            "values": "87cf6680fab1cf661af71aeac0fa166cb30f4965d78ef93f892effe304084158"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "3c50a5a36633c6e863e7d3de491a07e59359dc8cbe7f5b69a961a148988b440d"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "a1b51d00a92c7d249d6b85b2c49c21de1d7a597111cac661e9c4d0e163c986d5",
+            "values": "7a59fccc371c57e3f56b8cbb5c2f15ca53245355e4ad178ee322538290a36bf7"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "149599d89fdc5dcaa2142e9e92a2d6a0762cdf641c974c02fa101e1eea80e40a"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "6a3b86ca278f4f5237bcd247918d55f156caa2e44fc9a42f5296cb8103542f99"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "ddc7775e11c315932b0ab826bfc194e79657d33a50c1252b3eb32d9467efa677",
+            "values": "b528783612a3b1939b96df5361a71954a0c513b28fe4d48d21b91e5158b04085"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Clavicle_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "ddc7775e11c315932b0ab826bfc194e79657d33a50c1252b3eb32d9467efa677",
+            "values": "e87928d1cc6b043e61e399913ab1cf519293bfdbff7dd845a0b01a8dd468184b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f655c2ce48ac751b219f99ed1cf6a667c92edb62301eb6006b3896a726769441"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8cbcf2251e96e54a1f0efca79094c5c4f7f4cd3ac71a7d893205d93a8309d4cc",
+            "values": "4fb0793d22de5a6c788ef58900c0fb293f99168a9dc0616b070e81ed6caa7f8a"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "dd0019e8b3c101ac77b10453b50c58a72998bcc626cdccef4b93c8ad4928bbf4"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8cbcf2251e96e54a1f0efca79094c5c4f7f4cd3ac71a7d893205d93a8309d4cc",
+            "values": "158f7dce2c34982626fe6ecccf8e2a351fccb66a6b9be7880603d9eed62ba7f0"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "d934df70b23df648685ffe29ebeb7c18ba10ef998cfe7287c7e81e6679209d9f"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5125277e2692456ee5bf561dbabcff368f3213981509857ade4ff784f5f1b98f",
+            "values": "a47f0cf27000818940f5f15310bccc1b58a0693db796d111db379c005a284413"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "233047ea0f17c9690794f9393648abacb4b00d7cd64a2dc5e9fa95b5e9622a18"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8cbcf2251e96e54a1f0efca79094c5c4f7f4cd3ac71a7d893205d93a8309d4cc",
+            "values": "1cebd3f732a54cd9f3c841cacbe2909d7f86fd145a611af2e8caed923ac23ba0"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "19c5bd95ff4a11b34d3715bf31b9ed93e8db3d0937d2e418bd65bdaa25b6b5ce"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "9ee744f79c5782928b9f5ee2cfd06e91332ca2d7df996dbd183427f904e90040",
+            "values": "bb5c5a05fa04246dbb076d90487e602c869280607df0cc06f42c5c9721c2d3db"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "9e34d0fdae725d361102215988f8a609e20db140988e80ee009e6b15d62fa4bc"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_FrontLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "6a3b86ca278f4f5237bcd247918d55f156caa2e44fc9a42f5296cb8103542f99"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "1a18d3ad8e8008da9123cebb8108da450f5df5b79260e5820d2a780e6c40d61d",
+            "values": "b037f3933f399fdd8bb8dbedef935d6e024c1161148f3501c9856785d44f30b7"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "fbc6431f7f24ad10ee18e27b441a9f44fc1630a643e0600c23204be8cd0b63be",
+            "values": "7510b96729c596f348924cb046f121d7d290b868fb30a01704e17e55aa9f1f4a"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "7226a9b7bfcc1b07d4fbde1ee3b530da103342a90eabb06e42890f8c4cb02656",
+            "values": "8f4b0e7301293c0d4f1c9a687ad9ed90828759dbf15835e62b87ce09440d458f"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "c62a86d9fcd0457466923e738def983cbc05a1291d7df71b75a25e0a110fc63f",
+            "values": "99dbe01b549fa68c78ee3c73c3e19789475feb594d2410a605d08cf1173837d8"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "7226a9b7bfcc1b07d4fbde1ee3b530da103342a90eabb06e42890f8c4cb02656",
+            "values": "1461492308d22adc43dd8d2f6d019fcb1089aefb6821bbf36e02436957da01fd"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "c62a86d9fcd0457466923e738def983cbc05a1291d7df71b75a25e0a110fc63f",
+            "values": "5396905e7029b1fb921b221def7e1cac868816679dd851b357c8eedb83c67a64"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "09014e6bf78d5d39966f59a111d6d2c10977bbc76f3a0197971298a03cde2106"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "bed93a63ade2262a4d946e8467d03df791c1ac7c68c5b0782707cce9c53fb5af",
+            "values": "6a65f07a2a17798e043abd21e9aaaf8281ccb6c0d66e463005d8e11e685c3ecf"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "dc0d45d92f5bdcddd89d323111d0b7db8468813fcb466d9315f059ebb6d37d3f"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_JawEndSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "c6b91854c414e8dbaf0451f79a5a4988731ca1ff058dd47576c41841b08405cb"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f2903848b239f7127e7eefa1d72e09e1638fc98cccd012c60ed21db8a635bfa2"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "287cbbc47843541e4198f6ac9e27422bed1020906db3706e5c1cc33e60b0a4a9"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "298d889982c25c00afc25054a58c2c7c43ee57af05cd147bdc4627beb34c7621"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "96622c14c9f294a1d79a9f067a4c544262bcd39eee3c300561bd7c8fa498216c",
+            "values": "b8a7ebf17668deafe0d6f476fc03f451296ef1f4a2787b1169d76b67ebe6f190"
+          },
+          {
+            "node": "Deer_l_Ear_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "fa3aa6140d9551b9801547fbc968163b6221ebfc660a25d88c99ce154f4e5f2d"
+          },
+          {
+            "node": "Deer_l_Ear_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Ear_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "96622c14c9f294a1d79a9f067a4c544262bcd39eee3c300561bd7c8fa498216c",
+            "values": "fd847184a35097f78f551dc5db987a98b653ac5525c979ee2571e59c15646b8e"
+          },
+          {
+            "node": "Deer_l_Ear_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "d843572cba7116e2146fe44beb8bafccf9b1f42b1cf3538258be93085a2b0235"
+          },
+          {
+            "node": "Deer_l_Ear_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_Ear_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "5d256aac2a8cc156ab8737abe169abe7e73f0a3628744c8236fb84f8e182f86f"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "dc9108293935c0fe2bd86a9f4825721ec2475ea7a5acdefc25dda08abed322f3"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5125277e2692456ee5bf561dbabcff368f3213981509857ade4ff784f5f1b98f",
+            "values": "87ce9be4b2fee2b3ec31275f3fad906339ea6550b96976eccae50e64488312c3"
+          },
+          {
+            "node": "Deer_r_Ear_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "768128e2228c28a39808a2fd7f3186c1c0563ea0cd6014d1dfd76a6de3304576"
+          },
+          {
+            "node": "Deer_r_Ear_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Ear_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5125277e2692456ee5bf561dbabcff368f3213981509857ade4ff784f5f1b98f",
+            "values": "3b6248f1262ab778b7716a1fdc7f049c9ebeede1843aa5e9354398c1f492e9b4"
+          },
+          {
+            "node": "Deer_r_Ear_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "8e84de379f7a4584869b73eca9289c69d733cd6589708d2ab26a144228d3b070"
+          },
+          {
+            "node": "Deer_r_Ear_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_Ear_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "9dc24017ad0b4d87547b3806c39592c0d43d7b769c0e8cc571dfbe295cda54c4"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "bebffa29ec5e286d2d467ac67b41d0bc27a13b11dabb7a3344eae11cb8989811"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "c62a86d9fcd0457466923e738def983cbc05a1291d7df71b75a25e0a110fc63f",
+            "values": "86570458100c94c6cda7e38fed0feb3391e7bc8b55f823732233e58cedf484db"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "e242eb0c34618a2add520e8abdf4ed034de8d75b16829558dc5f635ff884eda1"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "7226a9b7bfcc1b07d4fbde1ee3b530da103342a90eabb06e42890f8c4cb02656",
+            "values": "9e20c6931ab0fb1240077fbafe9c0da774e0fd7e88159c7950e8d91c5a753c60"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "4b87b61ac2551eb1fa5ecc2f9a61db1a2f78462ec1c0f2bac246732f55ab119d"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8cbcf2251e96e54a1f0efca79094c5c4f7f4cd3ac71a7d893205d93a8309d4cc",
+            "values": "e3769b4a0f16406e3e192cc7ee4d1dfc42410c1facb4e500fcf0dc938c6173c6"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "7b07fbf13fec604eae87eea742a7e319a56a70d7a89ce1846431c84ba5d3c03d"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "a2e07d23fc413135778dec26b8e057b29754a3174a3632b3638e10f8a0177d51",
+            "values": "777453f2417f02f5fdd7aa7c920580727f4e3943cc1e40460a34e84411aa6785"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f1af27786962b78c3d706372af5978ba78aac61802ec12c4acfcf1f2d63b1f34"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "d5f717161f40d3d4bb95451abcadc545dd03c6a080bec9b91dec9379ae41308e"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "a0274e7eb6295b0a031b8eafe755b0cbb20d9b7656eca509163f45b08c3c00ea"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_l_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "503135b7f96840f2ffecf5a58b0d86709e091fbddffad5e20bf704251cb03840"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "0514928c619474ba55026628cc40bfd6b09da066e7dfaa13f306a10da3d645ea"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "1eeb99f4b402b1549b4a613b004d6f1765b661323d8c20e50b3cf1e2cf9a6a6e",
+            "values": "cd44f2ccfe58f78170197427fc91994aaee3986b52386d7eed1638990f5e8c20"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "ad4506ef7b2b87e4f08500e3c77c9f1e87c0f17b652afda3dc52da9596435f96"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8cbcf2251e96e54a1f0efca79094c5c4f7f4cd3ac71a7d893205d93a8309d4cc",
+            "values": "1635209d9af9e790c834df8b40c53fdd0d8bc287045b517945df6a594cf3c474"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "fdfc81ae7bd3399a613e0ab150e3c79ed9fa55fc03b900d8e9fce3732dd72f01"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5125277e2692456ee5bf561dbabcff368f3213981509857ade4ff784f5f1b98f",
+            "values": "08c0a54fcf2239c71156a644107516d3b072065d85cbcf02079d59989b1b4e6c"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "057777ada05c543997498a7922e056394741cb21b3ac36af391fd19b837c2914"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_AnkleSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "deae5c271b3c436881b2c1c2e28a86ed4ec43f461e421c5a9b49e6cfa24e46ad",
+            "values": "849da747b153a845c1dcb7018677ad5f3fffea040bbe8323987920efed432d54"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "4a023ac9004008d49038d266f30274e7ae2c2f0f8a774740b7c702f4829360ac"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_BallSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "5ea001c3d46e8918e4b06ea31810846be98ac0b586d4f6dc6185bd097ccec897"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "9ca51aaf504689e71b247cc0cf3205e7a63bf7ebcfbc8298b0e6ba5c2ace9b34"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_r_HindLeg_ToeSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "a799450349952ecb2416d0df7cce43332044aa0fb106408528643212bec142ae"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "92665ddfccb46baa91b6c8b44a1ae693cc00e71e5febdab205b4d625b59a5e09",
+            "values": "504e7ca9faf7881648c0700e62d070d5fbbdee0543fbdf2bc6678d92e8d70e65"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5125277e2692456ee5bf561dbabcff368f3213981509857ade4ff784f5f1b98f",
+            "values": "5a13930a48061aa871b4a89e43b939f2da210086eb1007d109ae174f01c81097"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "d102e9fbdab5e3b0f253eb08c58891fad1b1970f998ea6b9908de0d062f1efb5"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "351e10a988414bdccc43449561e02907d299c8de4687962da8507028500f1e44"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "translation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "32f271a16f87385ce58c51f283be133c120c535a4ee9bee5febb36e13617ebda"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "scale",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b"
+          },
+          {
+            "node": "Deer_Tail_01_03SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "784cbe9869cd9630f2e593acf757771e1c0a50320f7dfaa9d317eb6394cfbace",
+            "values": "f59493a1967b243b9dbc2aebe6a8b0684443404312c610633734ae9cfc5a1b49"
+          }
+        ]
+      },
+      {
+        "name": "Attack",
+        "channels": [
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "f0b61838a14aa7a9f4988d2bd75a49ad60e171c079a3df3019c3f05e6aeca13a"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "bfb5860391d2ebc92253c2956af00a3f95b9921d6c474284da86c3e00d93d1e0"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "57e893a0ecdf5ebc1288439d5b56f1f18057145d59e536c6ccc4a02bc887a2ef"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "a00f777173a3409348eeb7e43add0588cbd9bc781bc6c8fd8b5277fda4d5460e"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "812ab66871a7f7c7a1fff71471a44f5c1860bea3138d7411fb136b5b0b592a0e"
+          },
+          {
+            "node": "Deer_Neck_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "32531070db825daefa9485cf1a8c2498b0019b95916a304476ab889b8c02f331",
+            "values": "a899013e471e75df6bd509410f73e28db62d87d21111af2e4d64fcf0eba63550"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "32531070db825daefa9485cf1a8c2498b0019b95916a304476ab889b8c02f331",
+            "values": "e1d71f3096806dad6ef973ef5213703cf5d0fc44c1c4fac3e860fa2d6b8ac8f5"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "32531070db825daefa9485cf1a8c2498b0019b95916a304476ab889b8c02f331",
+            "values": "f5c1e07b44b1cea1d5940eac8c331b18c55bc41bbe45d424fc9cef1606392d2d"
+          },
+          {
+            "node": "Deer_Neck_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "32531070db825daefa9485cf1a8c2498b0019b95916a304476ab889b8c02f331",
+            "values": "bd567e56961563ea51a9cc82d398a11c9e2d8d5b32c3e06ad1c4fff75a077d30"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "867cb13883ec04de22e3455f8225b6a722892a86d692bfe1465344e3b03c4953",
+            "values": "280596166f9cc0d9360db44ba841a18892989bf1bfc0c9d72c3266088957ca5f"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "32531070db825daefa9485cf1a8c2498b0019b95916a304476ab889b8c02f331",
+            "values": "dde2221488fac8aec5050a7c4a4c9e986182c153ef7b57f688d2b122385a9976"
+          },
+          {
+            "node": "Deer_Head_TopSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "32531070db825daefa9485cf1a8c2498b0019b95916a304476ab889b8c02f331",
+            "values": "e3f51a2f0bd161cbafa9abff2c997dc15795426a374539976e6754e1d4f52a8d"
+          },
+          {
+            "node": "Deer_l_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "84372a1b1e805d0dab67a92a534b20f6074cbc024f19e8db397bd5cb1a1d1c1a"
+          },
+          {
+            "node": "Deer_l_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "e8186f3ada2a173d8f37d9f84b1c48ba5babde388a97ee801a4bc97a7cb24530"
+          },
+          {
+            "node": "Deer_r_HindLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "7a8579a8120c3e78e23edbe6b18c37d7523b875ce0c3ebfd241c5a655edd6bd9"
+          },
+          {
+            "node": "Deer_r_HindLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "5646ce7717361ce00cf844cea02eb0a248c362cc4ad4976adab9833113642d5d",
+            "values": "1364c03733933804ed5632e5df0aa0eb3aa72b9907a5535329fb2572a101d6f9"
+          }
+        ]
+      },
+      {
+        "name": "Hit",
+        "channels": [
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "94f7b56ceffbc48f79bb1bf1ab81f11acc72a99c6d0839c0650a63110a16c241",
+            "values": "576c1f0e8753c466211c742e7c28e81932844d89c67fe791fa5748f6cd401a28"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "64a1662ad40d2a066ce6b11335abb7a830520f796122cd4fee296bac61c54407"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "3532a0860c606eff4846cef7b7ea5b4ad3dabd5a089a4ffe650c70b0443a184b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "8e25975c6149277f068eae9df9e0ae17f0bed7ab0489a2fc89941007e17163bf"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "8cc52a165c6b047a5ddc1d36720227b69aade6d6dbe842e663411f882ca4bbbf"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "ccff0a0b631f1cd355e6223b537d696f77994f26ba766e97507cac723bf00606"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "e682823399324c4d06c1173c598e1340cf62545c91ca5c44a49d12b67ab43392"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "94f7b56ceffbc48f79bb1bf1ab81f11acc72a99c6d0839c0650a63110a16c241",
+            "values": "f5c18ac5fdba499b965ca7551c7566f27167f023e3f7b8a6083eb87fca8c1086"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "0051cfd064ea4a91086438ce7f6b3d21ca62d76ee264a63f3692e57cda89cd6e",
+            "values": "280596166f9cc0d9360db44ba841a18892989bf1bfc0c9d72c3266088957ca5f"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "ce889fa2928bca9ba86d119b4b7db4a788d699f626773513f71feefffacafe26"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "6bb7e126b719f53f7819b1df2a3e9214dfd12123846876482dfaf0a1fe35f9fb"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "12a1b50158d3ab838f2b3f4433dbc817d44be8a7a900b98284023531efdc7217"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "beb85cff13fa1610cc59389bc12b06ee8fa75a1c03982471bdd18f7b8de639ae"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "2b6f85723b2875ea0ef826aa7c11c24864fb9849fc3d3eeedaeaa19de9163c62"
+          }
+        ]
+      },
+      {
+        "name": "HitLeft",
+        "channels": [
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "94f7b56ceffbc48f79bb1bf1ab81f11acc72a99c6d0839c0650a63110a16c241",
+            "values": "b18554e909c755488ddcfc040cf8bbd12f0c041be489a679e94c814b46fbf03c"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "64a1662ad40d2a066ce6b11335abb7a830520f796122cd4fee296bac61c54407"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "3532a0860c606eff4846cef7b7ea5b4ad3dabd5a089a4ffe650c70b0443a184b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "8e25975c6149277f068eae9df9e0ae17f0bed7ab0489a2fc89941007e17163bf"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "8cc52a165c6b047a5ddc1d36720227b69aade6d6dbe842e663411f882ca4bbbf"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "ccff0a0b631f1cd355e6223b537d696f77994f26ba766e97507cac723bf00606"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "e682823399324c4d06c1173c598e1340cf62545c91ca5c44a49d12b67ab43392"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "94f7b56ceffbc48f79bb1bf1ab81f11acc72a99c6d0839c0650a63110a16c241",
+            "values": "27f76b2f3c9eccdaf02dc3ea9dd3585a10e20e1136847010d67068bd7cd2f430"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "0051cfd064ea4a91086438ce7f6b3d21ca62d76ee264a63f3692e57cda89cd6e",
+            "values": "280596166f9cc0d9360db44ba841a18892989bf1bfc0c9d72c3266088957ca5f"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "9ef2242cf72af94205f3de0ad853b7e029c8d86f1f4826f8bad87ef38f36f0d7"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "ece6f97cb08b23812930d6c2010139b3f4cde153280e341667a08d3fe4d5e0ed"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "07886567fc400d1bcd3eff55ce6ccad4e1c4b32a6b332ce1e92f10fec24dac3c"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "0ee399a4953417b9a9a206b54f8ca6719b98d620aa46c4221c17639596601d8b"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "639cb99f3ae9276a02c40e8189636cedfcd77fb1eae2440a375c1cf1a327a188"
+          }
+        ]
+      },
+      {
+        "name": "HitRight",
+        "channels": [
+          {
+            "node": "Deer_Spine_04SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "94f7b56ceffbc48f79bb1bf1ab81f11acc72a99c6d0839c0650a63110a16c241",
+            "values": "86cac016186d98c0ea3faaf635d2f22d86449bc4afd45d98dc0ab530d644d549"
+          },
+          {
+            "node": "Deer_l_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "64a1662ad40d2a066ce6b11335abb7a830520f796122cd4fee296bac61c54407"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "3532a0860c606eff4846cef7b7ea5b4ad3dabd5a089a4ffe650c70b0443a184b"
+          },
+          {
+            "node": "Deer_l_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "8e25975c6149277f068eae9df9e0ae17f0bed7ab0489a2fc89941007e17163bf"
+          },
+          {
+            "node": "Deer_r_FrontLeg_HipSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "8cc52a165c6b047a5ddc1d36720227b69aade6d6dbe842e663411f882ca4bbbf"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee1SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "ccff0a0b631f1cd355e6223b537d696f77994f26ba766e97507cac723bf00606"
+          },
+          {
+            "node": "Deer_r_FrontLeg_Knee2SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "e682823399324c4d06c1173c598e1340cf62545c91ca5c44a49d12b67ab43392"
+          },
+          {
+            "node": "Deer_Neck_02SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "94f7b56ceffbc48f79bb1bf1ab81f11acc72a99c6d0839c0650a63110a16c241",
+            "values": "5d80155f28bfdd5f32d042e48f4a6472f70de1d7d25dd95df3fa802d5ffbcbf1"
+          },
+          {
+            "node": "Deer_Head_JawSHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "0051cfd064ea4a91086438ce7f6b3d21ca62d76ee264a63f3692e57cda89cd6e",
+            "values": "280596166f9cc0d9360db44ba841a18892989bf1bfc0c9d72c3266088957ca5f"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "f1e26f809822f0a5b5a7a556427250a2431778544d995958d45874af0e936542"
+          },
+          {
+            "node": "Deer_l_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "ef48ccd1d8079ea44714a4a31fc4127d70c7c8f5030e3ac6d9acbf7e31345a8c"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "0770e34eaafc3bffae5a229a9130936c10dda490c923b27829dfd056678d5abd"
+          },
+          {
+            "node": "Deer_r_Ear_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "e6c91a8cb18eab6c05884543116847640cd9b1dcfbc30917674b18f9390f5414"
+          },
+          {
+            "node": "Deer_Tail_01_01SHJnt",
+            "path": "rotation",
+            "interpolation": "LINEAR",
+            "time": "8291e7ac0e33a1cdfdff8281cc173f9b531edb2ff0c401fddc024070f81042b0",
+            "values": "af4949e78e4386c3790cdc91088d62b474b4f60b830b7adc436a488d28e8643c"
+          }
+        ]
+      }
+    ]
+  },
+  "held": "Antler geometry is retained: widening the separate skinned antler mesh risks detaching its bases from the deer skull.",
+  "status": "pending-root-lab-visual-and-motion-review"
+}

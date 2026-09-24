@@ -1,0 +1,927 @@
+{
+  "nodes": [
+    {
+      "name": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.01,
+        0.01,
+        0.01
+      ]
+    },
+    {
+      "name": "deer_body",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "deer_horns",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_MAINSHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_ROOTSHJnt",
+      "translation": [
+        0,
+        87.08743699252486,
+        -38.0547176444474
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Spine_01SHJnt",
+      "translation": [
+        -1.4210051762448199e-14,
+        -0.5007078169885233,
+        15.986582253090226
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Spine_02SHJnt",
+      "translation": [
+        15.982197481760736,
+        3.1770898987350984e-14,
+        0.5079229483686873
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Spine_03SHJnt",
+      "translation": [
+        16.008446832255583,
+        -1.9108314846160828e-15,
+        0.25818328482813513
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Spine_04SHJnt",
+      "translation": [
+        15.986995747825368,
+        3.4035904638175855e-15,
+        -1.0664724604754383
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Spine_TopSHJnt",
+      "translation": [
+        15.986995747825368,
+        1.7039709070631795e-15,
+        -0.7091699431569509
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_Clavicle_01_01SHJnt",
+      "translation": [
+        -2.842170943040401e-14,
+        -8.670296872498387,
+        -4.263256414560601e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_FrontLeg_HipSHJnt",
+      "translation": [
+        3.1649625964928685,
+        1.4210854715202004e-14,
+        8.96255407044768
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_FrontLeg_Knee1SHJnt",
+      "translation": [
+        42.06097269285216,
+        1.0125233984581428e-13,
+        -7.105427357601002e-15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_FrontLeg_Knee2SHJnt",
+      "translation": [
+        26.291105328210584,
+        6.394884621840902e-14,
+        7.105427357601002e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_FrontLeg_AnkleSHJnt",
+      "translation": [
+        3.0633497578088797,
+        1.0658141036401503e-14,
+        1.4210854715202004e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_FrontLeg_BallSHJnt",
+      "translation": [
+        6.752919784135375,
+        1.7763568394002505e-14,
+        4.802278868709401
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_FrontLeg_ToeSHJnt",
+      "translation": [
+        5.773341350497276,
+        3.552713678800501e-15,
+        1.5154567156022963e-15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_Clavicle_01_01SHJnt",
+      "translation": [
+        -2.1316282072803006e-14,
+        8.670296872498387,
+        4.263256414560601e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_FrontLeg_HipSHJnt",
+      "translation": [
+        -3.164962596492783,
+        7.105427357601002e-15,
+        8.962554070447709
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_FrontLeg_Knee1SHJnt",
+      "translation": [
+        42.06097269285212,
+        9.947598300641403e-14,
+        2.1316282072803006e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_FrontLeg_Knee2SHJnt",
+      "translation": [
+        26.291105328210588,
+        6.039613253960852e-14,
+        5.684341886080802e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_FrontLeg_AnkleSHJnt",
+      "translation": [
+        3.063349757808891,
+        3.552713678800501e-15,
+        2.842170943040401e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_FrontLeg_BallSHJnt",
+      "translation": [
+        6.752919784135379,
+        1.2434497875801753e-14,
+        4.802278868709394
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_FrontLeg_ToeSHJnt",
+      "translation": [
+        5.773341350497283,
+        -1.7763568394002505e-15,
+        3.685576725807969e-15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Neck_01SHJnt",
+      "translation": [
+        10.899075835675951,
+        3.90445315886261e-14,
+        -8.41473337875469
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Neck_02SHJnt",
+      "translation": [
+        13.983032234156198,
+        5.3828412792339155e-14,
+        0.34730003235962315
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Neck_TopSHJnt",
+      "translation": [
+        13.85424281924432,
+        8.901354667182229e-15,
+        2.0675618400141715
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Neck_TopSHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Head_JawSHJnt",
+      "translation": [
+        14.43659516734229,
+        -2.2546552098793335e-14,
+        21.074474633044215
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Head_JawEndSHJnt",
+      "translation": [
+        3.752734561637927e-14,
+        -2.867044699701637,
+        11.787469852739484
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Head_TopSHJnt",
+      "translation": [
+        28.468590798596722,
+        5.6187202638750366e-14,
+        -1.208727319019136
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Head_TopSHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_Ear_01_01SHJnt",
+      "translation": [
+        7.959110518445592,
+        -5.85213236292762,
+        -2.764869289561517
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_Ear_01_01SHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_Ear_01_02SHJnt",
+      "translation": [
+        8.658441543579073,
+        7.105427357601002e-14,
+        1.5631940186722204e-13
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_Ear_01_02SHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_Ear_01_03SHJnt",
+      "translation": [
+        9.97455692291257,
+        1.4210854715202004e-13,
+        1.5631940186722204e-13
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_Ear_01_03SHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_Ear_01_01SHJnt",
+      "translation": [
+        -7.959110518445533,
+        -5.8521323629276765,
+        -2.76486928956146
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_Ear_01_01SHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_Ear_01_02SHJnt",
+      "translation": [
+        -8.658441543579087,
+        1.7053025658242404e-13,
+        1.8474111129762605e-13
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_Ear_01_02SHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_Ear_01_03SHJnt",
+      "translation": [
+        -9.974556922912626,
+        3.694822225952521e-13,
+        2.1316282072803006e-13
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_Ear_01_03SHJnt",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_HindLeg_HipSHJnt",
+      "translation": [
+        11.914254971877611,
+        -8.962554070447709,
+        7.105427357601002e-15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_HindLeg_Knee1SHJnt",
+      "translation": [
+        37.03382985037799,
+        -8.881784197001252e-15,
+        1.4210854715202004e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_HindLeg_Knee2SHJnt",
+      "translation": [
+        31.094003904578233,
+        -2.849752434030961e-9,
+        -3.552713678800501e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_HindLeg_AnkleSHJnt",
+      "translation": [
+        4.926473660720326,
+        -2.3092638912203256e-14,
+        -1.4210854715202004e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_HindLeg_BallSHJnt",
+      "translation": [
+        6.005054931069721,
+        -1.7763568394002505e-15,
+        2.306559399347762
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_l_HindLeg_ToeSHJnt",
+      "translation": [
+        7.338037165351476,
+        5.329070518200751e-15,
+        8.881784197001252e-16
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_HindLeg_HipSHJnt",
+      "translation": [
+        -11.914254971877613,
+        -8.962554070447709,
+        7.105427357601002e-15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_HindLeg_Knee1SHJnt",
+      "translation": [
+        37.033829850377984,
+        1.7763568394002505e-15,
+        2.842170943040401e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_HindLeg_Knee2SHJnt",
+      "translation": [
+        31.094003904578205,
+        2.8497506576741216e-9,
+        -4.263256414560601e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_HindLeg_AnkleSHJnt",
+      "translation": [
+        4.9264736607203545,
+        2.3092638912203256e-14,
+        2.1316282072803006e-14
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_HindLeg_BallSHJnt",
+      "translation": [
+        6.005054931069726,
+        1.7763568394002505e-15,
+        2.3065593993477336
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_r_HindLeg_ToeSHJnt",
+      "translation": [
+        7.338037165351469,
+        -1.7763568394002505e-15,
+        1.2220584787170363e-15
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Tail_01_01SHJnt",
+      "translation": [
+        2.8718424862532325e-14,
+        3.122284235401807,
+        -17.406879474351342
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Tail_01_02SHJnt",
+      "translation": [
+        6.865260124206536,
+        -3.67827200889586,
+        2.552313591071741e-16
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Deer_Tail_01_03SHJnt",
+      "translation": [
+        8.43851947784426,
+        -4.590827465057373,
+        6.591570885655408e-16
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_deer_mat_fairy_garden_hart_faeholme",
+          "vertices": 1880,
+          "triangles": 3098,
+          "attributes": [
+            "POSITION",
+            "JOINTS_0",
+            "WEIGHTS_0",
+            "NORMAL",
+            "TEXCOORD_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_deer_mat_fairy_garden_hart_faeholme",
+          "vertices": 397,
+          "triangles": 630,
+          "attributes": [
+            "POSITION",
+            "JOINTS_0",
+            "WEIGHTS_0",
+            "NORMAL",
+            "TEXCOORD_0"
+          ]
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "animal_deer_mat_fairy_garden_hart_faeholme",
+      "base": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "texture": "fairy_garden_hart_faeholme_generated_0",
+      "metallic": 0,
+      "roughness": 0.86
+    }
+  ],
+  "skins": [
+    {
+      "name": "",
+      "joints": [
+        "Deer_MAINSHJnt",
+        "Deer_ROOTSHJnt",
+        "Deer_Spine_01SHJnt",
+        "Deer_Spine_02SHJnt",
+        "Deer_Spine_03SHJnt",
+        "Deer_Spine_04SHJnt",
+        "Deer_Spine_TopSHJnt",
+        "Deer_l_Clavicle_01_01SHJnt",
+        "Deer_l_FrontLeg_HipSHJnt",
+        "Deer_l_FrontLeg_Knee1SHJnt",
+        "Deer_l_FrontLeg_Knee2SHJnt",
+        "Deer_l_FrontLeg_AnkleSHJnt",
+        "Deer_l_FrontLeg_BallSHJnt",
+        "Deer_l_FrontLeg_ToeSHJnt",
+        "Deer_r_Clavicle_01_01SHJnt",
+        "Deer_r_FrontLeg_HipSHJnt",
+        "Deer_r_FrontLeg_Knee1SHJnt",
+        "Deer_r_FrontLeg_Knee2SHJnt",
+        "Deer_r_FrontLeg_AnkleSHJnt",
+        "Deer_r_FrontLeg_BallSHJnt",
+        "Deer_r_FrontLeg_ToeSHJnt",
+        "Deer_Neck_01SHJnt",
+        "Deer_Neck_02SHJnt",
+        "Deer_Neck_TopSHJnt",
+        "Deer_Head_JawSHJnt",
+        "Deer_Head_JawEndSHJnt",
+        "Deer_Head_TopSHJnt",
+        "Deer_l_Ear_01_01SHJnt",
+        "Deer_l_Ear_01_02SHJnt",
+        "Deer_l_Ear_01_03SHJnt",
+        "Deer_r_Ear_01_01SHJnt",
+        "Deer_r_Ear_01_02SHJnt",
+        "Deer_r_Ear_01_03SHJnt",
+        "Deer_l_HindLeg_HipSHJnt",
+        "Deer_l_HindLeg_Knee1SHJnt",
+        "Deer_l_HindLeg_Knee2SHJnt",
+        "Deer_l_HindLeg_AnkleSHJnt",
+        "Deer_l_HindLeg_BallSHJnt",
+        "Deer_l_HindLeg_ToeSHJnt",
+        "Deer_r_HindLeg_HipSHJnt",
+        "Deer_r_HindLeg_Knee1SHJnt",
+        "Deer_r_HindLeg_Knee2SHJnt",
+        "Deer_r_HindLeg_AnkleSHJnt",
+        "Deer_r_HindLeg_BallSHJnt",
+        "Deer_r_HindLeg_ToeSHJnt",
+        "Deer_Tail_01_01SHJnt",
+        "Deer_Tail_01_02SHJnt",
+        "Deer_Tail_01_03SHJnt"
+      ]
+    },
+    {
+      "name": "",
+      "joints": [
+        "Deer_Neck_TopSHJnt",
+        "Deer_Head_TopSHJnt",
+        "Deer_l_Ear_01_01SHJnt",
+        "Deer_l_Ear_01_02SHJnt",
+        "Deer_l_Ear_01_03SHJnt",
+        "Deer_r_Ear_01_01SHJnt",
+        "Deer_r_Ear_01_02SHJnt",
+        "Deer_r_Ear_01_03SHJnt"
+      ]
+    }
+  ],
+  "animations": [
+    {
+      "name": "Idle",
+      "channels": 143
+    },
+    {
+      "name": "Walk",
+      "channels": 126
+    },
+    {
+      "name": "Run",
+      "channels": 126
+    },
+    {
+      "name": "Death",
+      "channels": 143
+    },
+    {
+      "name": "Attack",
+      "channels": 16
+    },
+    {
+      "name": "Hit",
+      "channels": 14
+    },
+    {
+      "name": "HitLeft",
+      "channels": 14
+    },
+    {
+      "name": "HitRight",
+      "channels": 14
+    }
+  ]
+}

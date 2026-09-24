@@ -1,0 +1,221 @@
+[
+  {
+    "id": "creature_flint_mandible",
+    "sha256": "ea7bed07eeb44578a0804af603489601f0659d50d7ee366c8714fe24ce4ebe82",
+    "size": {
+      "x": 1.2589160156249999,
+      "y": 1.370693359375,
+      "z": 1.939052734375
+    },
+    "motion": [
+      {
+        "name": "Idle",
+        "duration": 2.799999952316284,
+        "minY": 0.005999998437379696,
+        "finalHeight": 1.3706934300734772
+      },
+      {
+        "name": "Walk",
+        "duration": 1.1200000047683716,
+        "minY": 0.005999994142487157,
+        "finalHeight": 1.3706934300734772
+      },
+      {
+        "name": "Run",
+        "duration": 0.7200000286102295,
+        "minY": 0.005999989201142058,
+        "finalHeight": 1.3706934300734772
+      },
+      {
+        "name": "Attack",
+        "duration": 0.8600000143051147,
+        "minY": 0.0059999946232381475,
+        "finalHeight": 1.3706934300734772
+      },
+      {
+        "name": "Hit",
+        "duration": 0.4399999976158142,
+        "minY": 0.005999989706344324,
+        "finalHeight": 1.3706934300734772
+      },
+      {
+        "name": "Death",
+        "duration": 1.5,
+        "minY": 0.005999964343484538,
+        "finalHeight": 1.0036098147754993
+      }
+    ],
+    "legMotion": {
+      "Walk": {
+        "FrontLeft": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.10137555844778443
+        },
+        "FrontRight": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.0893685919798128
+        },
+        "MiddleLeft": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.09062463252987929
+        },
+        "MiddleRight": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.10181749611477015
+        },
+        "RearLeft": {
+          "weightedVertices": 193,
+          "meanExcursionMeters": 0.09499672141732253
+        },
+        "RearRight": {
+          "weightedVertices": 194,
+          "meanExcursionMeters": 0.06908671071743482
+        }
+      },
+      "Run": {
+        "FrontLeft": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.15697066051419742
+        },
+        "FrontRight": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.13786098635853056
+        },
+        "MiddleLeft": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.13911850717849886
+        },
+        "MiddleRight": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.15794275206622013
+        },
+        "RearLeft": {
+          "weightedVertices": 193,
+          "meanExcursionMeters": 0.1487190992218665
+        },
+        "RearRight": {
+          "weightedVertices": 194,
+          "meanExcursionMeters": 0.10931878103597313
+        }
+      }
+    },
+    "holdDelta": 0,
+    "deathFootprint": {
+      "idleWidth": 1.9390830383701791,
+      "corpseWidth": 1.9390527586793003,
+      "ratio": 0.9999843845311007
+    },
+    "textureHashes": {
+      "base": "854f148b286acddd3aa888e64dafc445321daa8715a45a49759bab774d153789",
+      "normal": "d0c1e8e9c0af7108880a9fc78b04d857c067fa9ae7fd54920944212816725f9b",
+      "orm": "9d5f49d2901c55aa15becd7fc1fe9e18c6cc0a7d35fb453f9ddeec3c85702226"
+    }
+  },
+  {
+    "id": "creature_beetle_golem",
+    "sha256": "5cd385645561aa7418bfaf0530d700210d1449eb3ab1b19d6fd2dcbb577fbe15",
+    "size": {
+      "x": 1.42763671875,
+      "y": 1.55439453125,
+      "z": 2.1989257812500003
+    },
+    "motion": [
+      {
+        "name": "Idle",
+        "duration": 2.799999952316284,
+        "minY": 0.005999998229883125,
+        "finalHeight": 1.5543946113965708
+      },
+      {
+        "name": "Walk",
+        "duration": 1.1200000047683716,
+        "minY": 0.005999993789362967,
+        "finalHeight": 1.5543946113965708
+      },
+      {
+        "name": "Run",
+        "duration": 0.7200000286102295,
+        "minY": 0.005999988185775718,
+        "finalHeight": 1.5543946113965708
+      },
+      {
+        "name": "Attack",
+        "duration": 0.8600000143051147,
+        "minY": 0.005999994016883413,
+        "finalHeight": 1.5543946113965708
+      },
+      {
+        "name": "Hit",
+        "duration": 0.4399999976158142,
+        "minY": 0.0059999887624301905,
+        "finalHeight": 1.5543946113965708
+      },
+      {
+        "name": "Death",
+        "duration": 1.5,
+        "minY": 0.005999978462330447,
+        "finalHeight": 0.9050075278461333
+      }
+    ],
+    "legMotion": {
+      "Walk": {
+        "FrontLeft": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.11521136956903255
+        },
+        "FrontRight": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.10160007036324956
+        },
+        "MiddleLeft": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.10304430980798261
+        },
+        "MiddleRight": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.11571508108423519
+        },
+        "RearLeft": {
+          "weightedVertices": 193,
+          "meanExcursionMeters": 0.10809342222427314
+        },
+        "RearRight": {
+          "weightedVertices": 194,
+          "meanExcursionMeters": 0.07863247563433945
+        }
+      },
+      "Run": {
+        "FrontLeft": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.17826827990704053
+        },
+        "FrontRight": {
+          "weightedVertices": 202,
+          "meanExcursionMeters": 0.15660620878504616
+        },
+        "MiddleLeft": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.15806381726255211
+        },
+        "MiddleRight": {
+          "weightedVertices": 188,
+          "meanExcursionMeters": 0.17940030177074062
+        },
+        "RearLeft": {
+          "weightedVertices": 193,
+          "meanExcursionMeters": 0.16901172347155433
+        },
+        "RearRight": {
+          "weightedVertices": 194,
+          "meanExcursionMeters": 0.1242756842683415
+        }
+      }
+    },
+    "holdDelta": 0,
+    "textureHashes": {
+      "base": "bdbd0e3cfd740c995003a28e336f26486cc2baccd0f1b9a7e90edd38c7ffbd7b",
+      "normal": "9e225a5c0a0bf0ed46424d0f01d27331d5b1fc9c4d3c7eb8272309dc8d96619b",
+      "orm": "3dcb30c59da1374bed36b03750da676d2fff1e8bf65514683d9423cc0c7620d6"
+    }
+  }
+]

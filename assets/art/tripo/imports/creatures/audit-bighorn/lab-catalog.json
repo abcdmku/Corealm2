@@ -1,0 +1,91 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_cairn_bighorn",
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "pack": "corealm-audit-bighorn",
+      "category": "character",
+      "is": "Cairn Bighorn",
+      "tags": [
+        "creature",
+        "bighorn",
+        "ram",
+        "quadruped",
+        "image-generated-texture",
+        "candidate"
+      ],
+      "bytes": 2797664,
+      "sha256": "2fd328bea978d29e724bdb9eca68a8f96712def3efd212c7b46edfb3c9c88620",
+      "triangles": 47900,
+      "size": {
+        "x": 0.7842915196418763,
+        "y": 1.7042760280612856,
+        "z": 2.333097236341173
+      },
+      "base": {
+        "x": -0.39214575982093813,
+        "y": 0.002000002479180696,
+        "z": -1.0114468121528626
+      },
+      "bounds": {
+        "min": [
+          -0.39214575982093813,
+          0.002000002479180696,
+          -1.0114468121528626
+        ],
+        "max": [
+          0.39214575982093813,
+          1.7062760305404663,
+          1.32165042418831
+        ]
+      },
+      "groundY": 0.002000002479180696,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Horn_ivory",
+        "Wet_eye",
+        "Inner_ear",
+        "Muzzle_skin"
+      ],
+      "walkClipSeconds": 0.949999988079071,
+      "runClipSeconds": 0.6399999856948853,
+      "attackSeconds": 1.0499999523162842,
+      "sourceProvenance": {
+        "sourceAssetId": "creature_cairn_bighorn",
+        "sourceFile": "game/public/assets/models/creature/creature_cairn_bighorn.glb",
+        "sourceSha256": "7e4c24863118769f6ec335a4d5a4ec71a898df5fb318b4d4e1370395e50e365e",
+        "imagegenAtlas": "assets/art/tripo/imports/creatures/audit-bighorn/bighorn-wool-imagegen.png",
+        "imagegenSha256": "ef238598e1782e20c8ce06cb0b4c8dc8eaff56d58b81ada7c4270f08d7fdb548",
+        "runtimeAtlas": "assets/art/tripo/imports/creatures/audit-bighorn/bighorn-wool-runtime.jpg",
+        "runtimeAtlasSha256": "9545a4ab4c1038a618ff6b2d77c517ff9186eaa0cad0c07f2e01a5acdfa58ef7",
+        "preservedRigJointCount": 26,
+        "preservedClips": true,
+        "geometryChange": "coat vertices broadened up to 7% laterally above lower legs; horn and other material geometry untouched",
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_cairn_bighorn": "bighorn-candidate.glb"
+  }
+}

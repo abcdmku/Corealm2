@@ -1,0 +1,27 @@
+{
+  "sourceFile": "game/public/assets/models/creature/creature_antler_beetle.glb",
+  "sourceSha256": "20d84497501fe66ce610b3a28f1fd050d161f94e382d2bca08d5381a27046779",
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-antler-beetle/creature_antler_beetle.glb",
+  "candidateSha256": "ca94af139abe3fb452b18f2ac95261217c05b2286e16eaa48d0538bb6407f5fc",
+  "sourceBinSha256": "16535f2c67af66627071e7c78270ffd26b5705427e0c7f48c0a339a01f8ae71b",
+  "sourceAuditFile": "test-results/creature-expansion/antler_beetle.audit.json",
+  "sourceAuditSha256": "13da034c44e413c20b7941361344f06c71c2585def6592e38ab6826f7b830293",
+  "sourceAuditPassed": true,
+  "sourceAuditFailures": [],
+  "equivalence": {
+    "originalBinPrefixByteIdentical": true,
+    "animationDefinitionsIdentical": true,
+    "meshDefinitionsIdentical": true,
+    "skinDefinitionsIdentical": true,
+    "nodeDefinitionsIdentical": true,
+    "accessorsIdentical": true,
+    "originalBufferViewsIdentical": true,
+    "newEmbeddedBaseColorImages": 4,
+    "newEmbeddedBaseColorTextures": 4
+  },
+  "cpuFloorEvidence": "The existing source CPU deform audit remains mathematically applicable because all positions, weights, joint transforms, animation samplers, original binary data and buffer views are byte-identical. Across eight sampled clips the original minimum deformed Y was 0.00656 m or higher; no candidate motion channel changed.",
+  "decodeProof": "@gltf-transform/core NodeIO decoded 6 meshes, 1 skin, 8 clips, 13 textures and all 6 materials; five chitin materials bind the intended image-generated surface roles.",
+  "promotionDryRun": true,
+  "labScreenshotAccepted": false,
+  "productionApplied": false
+}

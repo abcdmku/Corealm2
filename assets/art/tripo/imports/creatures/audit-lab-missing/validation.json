@@ -1,0 +1,488 @@
+[
+  {
+    "id": "creature_wild_goblin",
+    "sourceFile": "art/rebuild/candidates/finish-bestiary/wild-goblin-round1/models/creature/creature_wild_goblin.glb",
+    "sourceSha256": "c29d05dcded96e1d028bacc0045454d2cd1107d07a285797b97cc851252bf9d2",
+    "sourceDeath": {
+      "duration": 3.5833332538604736,
+      "startHeight": 1.4789980438166288,
+      "endHeight": 0.47688522469237254,
+      "endHeightRatio": 0.3224380361327228,
+      "minY": 0.005976422132448783,
+      "samples": [
+        {
+          "fraction": 0,
+          "height": 1.4789980438166288,
+          "minY": 0.006000001007281375
+        },
+        {
+          "fraction": 0.1,
+          "height": 0.8790388882015705,
+          "minY": 0.5434036821220203
+        },
+        {
+          "fraction": 0.2,
+          "height": 1.327900167846998,
+          "minY": 0.09010872140263682
+        },
+        {
+          "fraction": 0.3,
+          "height": 0.5682357904492981,
+          "minY": 0.005976422132448783
+        },
+        {
+          "fraction": 0.4,
+          "height": 0.41385669965218275,
+          "minY": 0.006000000650119408
+        },
+        {
+          "fraction": 0.5,
+          "height": 0.5012577132732466,
+          "minY": 0.0060148373189717885
+        },
+        {
+          "fraction": 0.6,
+          "height": 0.47824575149269455,
+          "minY": 0.005999998430606807
+        },
+        {
+          "fraction": 0.7,
+          "height": 0.4783782176854885,
+          "minY": 0.005999997240920846
+        },
+        {
+          "fraction": 0.8,
+          "height": 0.47755250913696723,
+          "minY": 0.005999999331244316
+        },
+        {
+          "fraction": 0.9,
+          "height": 0.4763410970628633,
+          "minY": 0.005999998680081081
+        },
+        {
+          "fraction": 1,
+          "height": 0.47688522469237254,
+          "minY": 0.0060000049933287
+        }
+      ]
+    },
+    "candidateFile": "models/creature/creature_wild_goblin.glb",
+    "candidateSha256": "5a164eb45882df6a41b128270ecb1da980f726f408a508411dc926c52b71a00f",
+    "candidateBytes": 7261448,
+    "clips": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "AttackSecondary",
+      "Death",
+      "Hit",
+      "HitLeft",
+      "HitRight"
+    ],
+    "materials": [
+      "animal_rpg_wild_goblin_mocap_goblin_original_body",
+      "animal_rpg_wild_goblin_mocap_goblin_original_knife"
+    ],
+    "rigSkins": [
+      25
+    ],
+    "materialRepair": null,
+    "deathRetime": {
+      "duration": 1.5,
+      "endHeight": 0.47688522469237254,
+      "endHeightRatio": 0.3224380361327228,
+      "endMinY": 0.0060000049933287,
+      "finalReachedAtSeconds": 0.72,
+      "collapseHeight": 0.4768852212927378,
+      "collapseMinY": 0.006000004993287039,
+      "heldUntilSeconds": 1.5,
+      "authoredFall": null,
+      "cpuCollapseByHeight": true,
+      "visualAcceptancePending": true
+    },
+    "cpuMotion": {
+      "Idle": {
+        "minY": 0.006000082937688431,
+        "maxY": 1.3623703372031115,
+        "duration": 2.8333332538604736,
+        "samples": 5
+      },
+      "Walk": {
+        "minY": 0.005999999897663116,
+        "maxY": 1.391321511716124,
+        "duration": 1.125,
+        "samples": 5
+      },
+      "Run": {
+        "minY": 0.005999999897663116,
+        "maxY": 1.391321511716124,
+        "duration": 0.7875000238418579,
+        "samples": 5
+      },
+      "Attack": {
+        "minY": 0.006000000009257142,
+        "maxY": 1.4533805610434292,
+        "duration": 1.375,
+        "samples": 5
+      },
+      "AttackSecondary": {
+        "minY": 0.005999999876995912,
+        "maxY": 1.4829079497565236,
+        "duration": 1.3333333730697632,
+        "samples": 5
+      },
+      "Death": {
+        "minY": 0.005891925938207046,
+        "maxY": 1.7195415841331068,
+        "duration": 1.5,
+        "samples": 32
+      },
+      "Hit": {
+        "minY": 0.006000082937688306,
+        "maxY": 1.362538222851259,
+        "duration": 0.47999998927116394,
+        "samples": 5
+      },
+      "HitLeft": {
+        "minY": 0.006000082937688306,
+        "maxY": 1.3646089014948257,
+        "duration": 0.47999998927116394,
+        "samples": 5
+      },
+      "HitRight": {
+        "minY": 0.006000082937688306,
+        "maxY": 1.3602786833190703,
+        "duration": 0.47999998927116394,
+        "samples": 5
+      }
+    }
+  },
+  {
+    "id": "creature_troll_mauler",
+    "sourceFile": "art/rebuild/candidates/finish-bestiary/troll-mauler-round2/models/creature/creature_troll_mauler.glb",
+    "sourceSha256": "ecb54b9ad184664b3748d48fbf57d10e3f8766b8b2094f8ad104fa242bfc9294",
+    "sourceDeath": {
+      "duration": 2,
+      "startHeight": 3.0752316872440306,
+      "endHeight": 2.518564940252987,
+      "endHeightRatio": 0.818983802326153,
+      "minY": 0.0009999990585366977,
+      "samples": [
+        {
+          "fraction": 0,
+          "height": 3.0752316872440306,
+          "minY": 0.0010000526335905014
+        },
+        {
+          "fraction": 0.1,
+          "height": 3.075231772142337,
+          "minY": 0.0010000526917199042
+        },
+        {
+          "fraction": 0.2,
+          "height": 3.067408280097258,
+          "minY": 0.0009999991144327902
+        },
+        {
+          "fraction": 0.3,
+          "height": 3.0034213486496584,
+          "minY": 0.0010000026129606857
+        },
+        {
+          "fraction": 0.4,
+          "height": 2.8348402733360683,
+          "minY": 0.0010000025453424293
+        },
+        {
+          "fraction": 0.5,
+          "height": 2.537164227958456,
+          "minY": 0.0009999990585366977
+        },
+        {
+          "fraction": 0.6,
+          "height": 2.394021425013786,
+          "minY": 0.0010004553172388575
+        },
+        {
+          "fraction": 0.7,
+          "height": 2.3205134984192632,
+          "minY": 0.0010005336379438345
+        },
+        {
+          "fraction": 0.8,
+          "height": 2.494419266399288,
+          "minY": 0.001000452410127084
+        },
+        {
+          "fraction": 0.9,
+          "height": 2.5185637730410906,
+          "minY": 0.0010006615326663137
+        },
+        {
+          "fraction": 1,
+          "height": 2.518564940252987,
+          "minY": 0.0010009896173996946
+        }
+      ]
+    },
+    "candidateFile": "models/creature/creature_troll_mauler.glb",
+    "candidateSha256": "24c86e2e630a521fc818cc32cc64740d5604d807fcfff801a132b2ee011fdeeb",
+    "candidateBytes": 16514700,
+    "clips": [
+      "Attack",
+      "Death",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Idle",
+      "Run",
+      "Walk"
+    ],
+    "materials": [
+      "animal_rpg_troll_mauler_cloth",
+      "animal_rpg_troll_mauler_eye",
+      "animal_rpg_troll_mauler_med"
+    ],
+    "rigSkins": [
+      33
+    ],
+    "materialRepair": {
+      "material": "animal_rpg_troll_mauler_cloth",
+      "alphaMode": "MASK",
+      "alphaCutoff": 0.5,
+      "reason": "Cloth PNG contains a transparent ragged hem; OPAQUE rendered its white atlas backing as a rectangle."
+    },
+    "deathRetime": {
+      "duration": 1.5,
+      "endHeight": 2.5185649393640546,
+      "endHeightRatio": 0.818983802037091,
+      "endMinY": 0.0010009878089142776,
+      "finalReachedAtSeconds": 0.72,
+      "collapseHeight": 2.518564940252524,
+      "collapseMinY": 0.0010009896127455287,
+      "heldUntilSeconds": 1.5,
+      "authoredFall": null,
+      "cpuCollapseByHeight": false,
+      "visualAcceptancePending": true
+    },
+    "cpuMotion": {
+      "Attack": {
+        "minY": 0.001000216309617896,
+        "maxY": 3.0762319588548417,
+        "duration": 1.5,
+        "samples": 5
+      },
+      "Death": {
+        "minY": 0.0009999989757930993,
+        "maxY": 3.0762318578403303,
+        "duration": 1.5,
+        "samples": 32
+      },
+      "Hit": {
+        "minY": 0.0010002180597652826,
+        "maxY": 3.0762319588548417,
+        "duration": 0.6666666865348816,
+        "samples": 5
+      },
+      "HitLeft": {
+        "minY": 0.0010002180597652826,
+        "maxY": 3.0762319588548417,
+        "duration": 0.6666666865348816,
+        "samples": 5
+      },
+      "HitRight": {
+        "minY": 0.0010002180597652826,
+        "maxY": 3.0762319588548417,
+        "duration": 0.6666666865348816,
+        "samples": 5
+      },
+      "Idle": {
+        "minY": 0.0010002256203977885,
+        "maxY": 3.171883324031325,
+        "duration": 1.6666666269302368,
+        "samples": 5
+      },
+      "Run": {
+        "minY": 0.0010002204108949797,
+        "maxY": 3.0526467486157234,
+        "duration": 1.5,
+        "samples": 5
+      },
+      "Walk": {
+        "minY": 0.0010002074644627026,
+        "maxY": 3.0639543029352243,
+        "duration": 2,
+        "samples": 5
+      }
+    }
+  },
+  {
+    "id": "creature_cave_roach",
+    "sourceFile": "art/rebuild/candidates/finish-bestiary/cave-roach-round1/models/creature/creature_cave_roach.glb",
+    "sourceSha256": "dd1da7331eff7cb6cad91d0db24201c725cd4e29f70554f7932f9288ab9bd114",
+    "sourceDeath": {
+      "duration": 1.8333333730697632,
+      "startHeight": 1.1500000527805996,
+      "endHeight": 0.7961460319632299,
+      "endHeightRatio": 0.6923008655853696,
+      "minY": 0.004999999770838676,
+      "samples": [
+        {
+          "fraction": 0,
+          "height": 1.1500000527805996,
+          "minY": 0.00500000000088621
+        },
+        {
+          "fraction": 0.1,
+          "height": 1.1313645979342857,
+          "minY": 0.005000000001698913
+        },
+        {
+          "fraction": 0.2,
+          "height": 1.093309127181812,
+          "minY": 0.0050000002393544365
+        },
+        {
+          "fraction": 0.3,
+          "height": 1.0793843537526648,
+          "minY": 0.005000000926902379
+        },
+        {
+          "fraction": 0.4,
+          "height": 1.0965252382404143,
+          "minY": 0.004999999770838676
+        },
+        {
+          "fraction": 0.5,
+          "height": 1.1358200642884424,
+          "minY": 0.005000000014008549
+        },
+        {
+          "fraction": 0.6,
+          "height": 1.1621340280023984,
+          "minY": 0.00499999986627192
+        },
+        {
+          "fraction": 0.7,
+          "height": 1.0668047538689038,
+          "minY": 0.0050000177998247575
+        },
+        {
+          "fraction": 0.8,
+          "height": 0.8288467170415477,
+          "minY": 0.005000004326148174
+        },
+        {
+          "fraction": 0.9,
+          "height": 0.79614603196323,
+          "minY": 0.005000035758138408
+        },
+        {
+          "fraction": 1,
+          "height": 0.7961460319632299,
+          "minY": 0.005000035758138641
+        }
+      ]
+    },
+    "candidateFile": "models/creature/creature_cave_roach.glb",
+    "candidateSha256": "177f4cae253b1ebfe1498fb6618e104cb8df4f9eba56d7edac6284965c550cc0",
+    "candidateBytes": 4208116,
+    "clips": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "AttackSecondary",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "materials": [
+      "animal_rpg_cave_roach_roach_original_rock"
+    ],
+    "rigSkins": [
+      54
+    ],
+    "materialRepair": null,
+    "deathRetime": {
+      "duration": 1.5,
+      "endHeight": 0.7350679067875966,
+      "endHeightRatio": 0.6391894548267774,
+      "endMinY": 0.005999514478139801,
+      "finalReachedAtSeconds": 0.72,
+      "collapseHeight": 0.7350679066425356,
+      "collapseMinY": 0.0059999985490692565,
+      "heldUntilSeconds": 1.5,
+      "authoredFall": {
+        "joint": "roach_2_SpineHigh",
+        "additiveLocalPitchDegrees": -30,
+        "keys": 49,
+        "trialFinalMinY": -0.1540499337431191,
+        "floorResponseGain": 0.9999976633600104,
+        "finalVerticalOffset": 0.16005030772306847,
+        "method": "Native death limb pose with subtle shell sag and per-key grounded vertical offsets"
+      },
+      "cpuCollapseByHeight": false,
+      "visualAcceptancePending": true
+    },
+    "cpuMotion": {
+      "Idle": {
+        "minY": 0.004999886196477621,
+        "maxY": 1.1550000605346245,
+        "duration": 4.166666507720947,
+        "samples": 5
+      },
+      "Walk": {
+        "minY": 0.004999999965845381,
+        "maxY": 1.187103948870217,
+        "duration": 1,
+        "samples": 5
+      },
+      "Run": {
+        "minY": 0.004999999942045558,
+        "maxY": 1.1871039488390065,
+        "duration": 0.5833333134651184,
+        "samples": 5
+      },
+      "Attack": {
+        "minY": 0.004999978034995256,
+        "maxY": 1.4157608461015574,
+        "duration": 1.8333333730697632,
+        "samples": 5
+      },
+      "AttackSecondary": {
+        "minY": 0.004990458784666446,
+        "maxY": 1.2433983543368563,
+        "duration": 1.2083333730697632,
+        "samples": 5
+      },
+      "Hit": {
+        "minY": 0.004999999889356836,
+        "maxY": 1.1550000062127994,
+        "duration": 0.4166666567325592,
+        "samples": 5
+      },
+      "HitLeft": {
+        "minY": 0.004999999889356836,
+        "maxY": 1.1550000062127994,
+        "duration": 0.4166666567325592,
+        "samples": 5
+      },
+      "HitRight": {
+        "minY": 0.004999999889356836,
+        "maxY": 1.1550000062127994,
+        "duration": 0.4166666567325592,
+        "samples": 5
+      },
+      "Death": {
+        "minY": 0.005997016279059103,
+        "maxY": 1.156000055101446,
+        "duration": 1.5,
+        "samples": 32
+      }
+    }
+  }
+]

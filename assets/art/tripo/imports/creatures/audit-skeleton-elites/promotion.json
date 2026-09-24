@@ -1,0 +1,277 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "pack": {
+    "id": "corealm-rpg-dungeon-skeletons-demo",
+    "name": "Corealm RPG derivatives — Dungeon Skeletons Demo",
+    "author": "Polygon Blacksmith",
+    "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dungeon-skeletons-demo-71087",
+    "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+    "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+    "assetStoreId": "71087",
+    "sourceArchive": "Dungeon Skeletons Demo.unitypackage",
+    "upstreamPackId": "dungeon-skeletons-demo",
+    "derivation": "Licensed source mesh, rig and animation retained; distinct Corealm image-generated albedo atlases and modest elite presentation scale."
+  },
+  "assets": [
+    {
+      "id": "creature_skeleton_archer_elite",
+      "file": "models/creature/creature_skeleton_archer_elite.glb",
+      "candidateFile": "creature_skeleton_archer_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Archer",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "archer"
+      ],
+      "bytes": 11402232,
+      "sha256": "8366153e7b1c845da2cde13e523e73c75bfd948cba9a6eef47217e2273d661b0",
+      "size": {
+        "x": 0.9041791825996722,
+        "y": 1.7810750730587035,
+        "z": 0.8780299337071102
+      },
+      "base": {
+        "x": -0.49434630549417996,
+        "y": 0.0035360399331534234,
+        "z": -0.4182512858718113
+      },
+      "groundY": 0.0035360399331534234,
+      "triangles": 1844,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_archer_DS_Skeleton_standard",
+        "animal_rpg_skeleton_archer_DS_equipment_standard",
+        "animal_rpg_skeleton_archer_Variant_oiled_yew",
+        "animal_rpg_skeleton_archer_Variant_aged_brass",
+        "animal_rpg_skeleton_archer_Variant_worn_leather",
+        "animal_rpg_skeleton_archer_Variant_bowstring",
+        "animal_rpg_skeleton_archer_Variant_arrowhead"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_archer",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_archer.glb",
+        "sourceSha256": "aadfc7aa677557a9a6f50076b2ef8b19cd99dcf7ad4682c8b65d2b2f33c94ba0",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_archer_elite.glb",
+        "candidateSha256": "8366153e7b1c845da2cde13e523e73c75bfd948cba9a6eef47217e2273d661b0",
+        "modification": "Corealm built-in imagegen edited two UV albedo atlases; source geometry, skeleton, skin, props and eight animation clips retained. Presentation scaled for elite tier.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-bone.png",
+            "sha256": "3234878e79fbc5753c88da1ca93593e9cd08a8306f120f64ec015f3a8ebd8279",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/archer-equipment.png",
+            "sha256": "2d6c06e6d91476eb1c4a63367051b349b8aaca6a9fd87fc4ee54731fcdc2d527",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-skeleton-elites/build-candidate.mjs",
+        "generatorSha256": "5b1e8ecc7bf84fef76d2f7601186dcb777b227aee51a3852004741159ba98d54"
+      },
+      "metadata": {
+        "family": "skeleton_archer",
+        "tier": "elite",
+        "scaleFactor": 1.08,
+        "artDirection": "Veteran crypt undead with restrained weathered gear, layered bone wear and fine material detail.",
+        "silhouetteLimit": "The licensed source gear geometry is unchanged; lab must decide whether the upgraded textures read as high-tier at normal camera distance."
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_mage_elite",
+      "file": "models/creature/creature_skeleton_mage_elite.glb",
+      "candidateFile": "creature_skeleton_mage_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Mage",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "mage"
+      ],
+      "bytes": 11124140,
+      "sha256": "f0e9b965d602912ca4eee0a6a0f5fafd7214fa62b0df75a75d98d382c9ddecc7",
+      "size": {
+        "x": 0.910264888792008,
+        "y": 2.0606432977714646,
+        "z": 0.8617701201199416
+      },
+      "base": {
+        "x": -0.4937450340031507,
+        "y": 0.0034705577121691006,
+        "z": -0.410505891689
+      },
+      "groundY": 0.0034705577121691006,
+      "triangles": 2878,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_mage_DS_Skeleton_standard",
+        "animal_rpg_skeleton_mage_DS_equipment_standard",
+        "animal_rpg_skeleton_mage_Variant_indigo_wool",
+        "animal_rpg_skeleton_mage_Variant_cloth_seams",
+        "animal_rpg_skeleton_mage_Variant_oiled_yew",
+        "animal_rpg_skeleton_mage_Variant_aged_brass",
+        "animal_rpg_skeleton_mage_Variant_amethyst"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_mage",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_mage.glb",
+        "sourceSha256": "81e99af3566e3f57e9ccc1d876d59e222835c73d7f64c753b9eff0bd450bf4ec",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_mage_elite.glb",
+        "candidateSha256": "f0e9b965d602912ca4eee0a6a0f5fafd7214fa62b0df75a75d98d382c9ddecc7",
+        "modification": "Corealm built-in imagegen edited two UV albedo atlases; source geometry, skeleton, skin, props and eight animation clips retained. Presentation scaled for elite tier.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-bone.png",
+            "sha256": "46aadd857218f99d1f3843ff5f583af75f4c987292d298aedcaa873d0a84cccc",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/mage-equipment.png",
+            "sha256": "07ddb912a151570a87c7e1ef394cc2e6ba5ce753f51a4eb0c3d81dd959e79a90",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-skeleton-elites/build-candidate.mjs",
+        "generatorSha256": "5b1e8ecc7bf84fef76d2f7601186dcb777b227aee51a3852004741159ba98d54"
+      },
+      "metadata": {
+        "family": "skeleton_mage",
+        "tier": "elite",
+        "scaleFactor": 1.06,
+        "artDirection": "Veteran crypt undead with restrained weathered gear, layered bone wear and fine material detail.",
+        "silhouetteLimit": "The licensed source gear geometry is unchanged; lab must decide whether the upgraded textures read as high-tier at normal camera distance."
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_soldier_elite",
+      "file": "models/creature/creature_skeleton_soldier_elite.glb",
+      "candidateFile": "creature_skeleton_soldier_elite.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "Veteran Skeleton Soldier",
+      "tags": [
+        "creature",
+        "skeleton",
+        "undead",
+        "elite",
+        "imagegen-texture",
+        "soldier"
+      ],
+      "bytes": 11116288,
+      "sha256": "0b9baec494226bae39ef04d57998b3dbb9316085cb565ccf2a7ccb25ee6fcc12",
+      "size": {
+        "x": 1.3769930956133791,
+        "y": 1.7874552837839663,
+        "z": 0.9353510982740516
+      },
+      "base": {
+        "x": -0.977733766462767,
+        "y": 0.003667004375122069,
+        "z": -0.433742074237434
+      },
+      "groundY": 0.003667004375122069,
+      "triangles": 1150,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_soldier_DS_Skeleton_standard",
+        "animal_rpg_skeleton_soldier_DS_equipment_standard"
+      ],
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+        "sourceAssetId": "creature_skeleton_soldier",
+        "sourceFile": "game/public/assets/models/creature/creature_skeleton_soldier.glb",
+        "sourceSha256": "b2eea4126ec0042d046960724cb03e631ddc1738c73ab0434a3b69c1f58b0710",
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-skeleton-elites/creature_skeleton_soldier_elite.glb",
+        "candidateSha256": "0b9baec494226bae39ef04d57998b3dbb9316085cb565ccf2a7ccb25ee6fcc12",
+        "modification": "Corealm built-in imagegen edited two UV albedo atlases; source geometry, skeleton, skin, props and eight animation clips retained. Presentation scaled for elite tier.",
+        "imagegenMaps": {
+          "bone": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-bone.png",
+            "sha256": "c7ec2102a716ba37a2ff66706e96d80cf689c1c6df1ffa6bae0067d545b49d52",
+            "originalSha256": "fbfde7b044cb4b1d620e1af453feb368faf6224b2aed3714faaf84c84275dea9"
+          },
+          "equipment": {
+            "file": "assets/art/tripo/imports/creatures/audit-skeleton-elites/textures/soldier-equipment.png",
+            "sha256": "133c271b27c41b03b0a80d52b86795410f7eee03c7d09e44c67bd2b4aa3f002c",
+            "originalSha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b"
+          }
+        },
+        "generator": "assets/art/tripo/imports/creatures/audit-skeleton-elites/build-candidate.mjs",
+        "generatorSha256": "5b1e8ecc7bf84fef76d2f7601186dcb777b227aee51a3852004741159ba98d54"
+      },
+      "metadata": {
+        "family": "skeleton_soldier",
+        "tier": "elite",
+        "scaleFactor": 1.12,
+        "artDirection": "Veteran crypt undead with restrained weathered gear, layered bone wear and fine material detail.",
+        "silhouetteLimit": "The licensed source gear geometry is unchanged; lab must decide whether the upgraded textures read as high-tier at normal camera distance."
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "sourceRoot": "assets/art/tripo/imports/creatures/audit-skeleton-elites",
+  "destinationRoot": "game/public/assets",
+  "apply": false,
+  "prerequisite": "Root lab screenshot review must show elite visual distinction at normal gameplay distance; source gear geometry remains unchanged."
+}

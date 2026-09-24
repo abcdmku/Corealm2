@@ -1,0 +1,11 @@
+import {NodeIO} from '@gltf-transform/core';
+import {ALL_EXTENSIONS} from '@gltf-transform/extensions';
+import {Matrix4,Quaternion,Vector3} from 'three';
+const doc=await new NodeIO().registerExtensions(ALL_EXTENSIONS).read('game/public/assets/models/creature/creature_goblin_shaman.glb');
+const root=doc.getRoot();
+const attack=root.listAnimations().find(a=>a.getName()==='Attack');
+function sample(channel,time){const s=channel.getSampler(),times=s.getInput().getArray(),v=s.getOutput().getArray(),n=channel.getTargetPath()==='rotation'?4:3;let i=1;while(i<times.length-1&&times[i]<time)i++;const p=i-1,f=Math.max(0,Math.min(1,(time-times[p])/(times[i]-times[p])));if(n===4)return new Quaternion(...v.slice(p*4,p*4+4)).slerp(new Quaternion(...v.slice(i*4,i*4+4)),f).toArray();return new Vector3(...v.slice(p*3,p*3+3)).lerp(new Vector3(...v.slice(i*3,i*3+3)),f).toArray();}
+function pose(time,overrides=[]){const map=new Map();for(const c of attack.listChannels()){const n=c.getTargetNode(),o=map.get(n)??{};o[c.getTargetPath()]=sample(c,time);map.set(n,o);}const world=new Map();function visit(n,parent){const o=map.get(n)??{};let q=new Quaternion(...(o.rotation??n.getRotation()));for(const override of overrides)if(override.name===n.getName())q.multiply(new Quaternion().setFromAxisAngle(new Vector3(...override.axis),override.angle));const m=parent.clone().multiply(new Matrix4().compose(new Vector3(...(o.translation??n.getTranslation())),q,new Vector3(...n.getScale())));world.set(n.getName(),m);for(const child of n.listChildren())visit(child,m);}for(const n of root.listScenes()[0].listChildren())visit(n,new Matrix4());return Object.fromEntries(['clavicle_l','upperarm_l','lowerarm_l','hand_l','hand_r','Head'].map(n=>[n,new Vector3().setFromMatrixPosition(world.get(n)).toArray().map(x=>+x.toFixed(3))]));}
+for(const time of [0,.167,.3,.42,.5])console.log('base',time,pose(time));
+for(const name of ['clavicle_l','upperarm_l','lowerarm_l'])for(const axis of [[1,0,0],[0,1,0],[0,0,1]])for(const angle of [-.5,.5])console.log('perturb',name,axis,angle,pose(.167,[{name,axis,angle}]).hand_l);
+console.log('proposed',pose(.21,[{name:'clavicle_l',axis:[1,0,0],angle:.35},{name:'upperarm_l',axis:[0,0,1],angle:.65},{name:'lowerarm_l',axis:[0,0,1],angle:.3}]));

@@ -1,0 +1,2516 @@
+{
+  "source": "game/public/assets/models/creature/creature_goblin_shaman.glb",
+  "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421",
+  "bytes": 1254956,
+  "meshes": [
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material",
+          "vertices": 2865,
+          "triangles": 2616,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Hair_1",
+          "vertices": 646,
+          "triangles": 984,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Eyes",
+          "vertices": 420,
+          "triangles": 768,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male",
+          "vertices": 7147,
+          "triangles": 7466,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+          "vertices": 3006,
+          "triangles": 3856,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+          "vertices": 656,
+          "triangles": 1112,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+          "vertices": 1878,
+          "triangles": 2588,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "primitives": [
+        {
+          "material": "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight",
+          "vertices": 493,
+          "triangles": 471,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "goblin_shaman",
+      "translation": [
+        0,
+        0.014442741625770639,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Armature",
+      "parent": "goblin_shaman",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "root",
+      "parent": "Armature",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        -0.7071067690849304,
+        0,
+        0,
+        0.7071067690849304
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pelvis",
+      "parent": "root",
+      "translation": [
+        0,
+        0.03224998387676565,
+        0.6169150112587621
+      ],
+      "rotation": [
+        0.8005710244178772,
+        0,
+        0,
+        0.5992379188537598
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "spine_01",
+      "parent": "pelvis",
+      "translation": [
+        0,
+        0.09481226058514669,
+        0.00036917050410087415
+      ],
+      "rotation": [
+        -0.09185619652271271,
+        0,
+        0,
+        0.9957723021507263
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "spine_02",
+      "parent": "spine_01",
+      "translation": [
+        0,
+        0.07870977805846657,
+        0.00010744055043430956
+      ],
+      "rotation": [
+        -0.03958535194396973,
+        0,
+        0,
+        0.9992161989212036
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "spine_03",
+      "parent": "spine_02",
+      "translation": [
+        0,
+        0.09851959893571749,
+        0.0000299923483236212
+      ],
+      "rotation": [
+        -0.12418898940086365,
+        0,
+        0,
+        0.9922585487365723
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "neck_01",
+      "parent": "spine_03",
+      "translation": [
+        0,
+        0.16471668007870222,
+        0.0033126827679685333
+      ],
+      "rotation": [
+        0.25725916028022766,
+        0,
+        0,
+        0.9663424491882324
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Head",
+      "parent": "neck_01",
+      "translation": [
+        0,
+        0.09173520369438881,
+        0.018400134676498148
+      ],
+      "rotation": [
+        -0.13207007944583893,
+        0,
+        0,
+        0.991240382194519
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "clavicle_l",
+      "parent": "spine_03",
+      "translation": [
+        0.022607999145984648,
+        0.12849132798733354,
+        0.05008226218839265
+      ],
+      "rotation": [
+        -0.5287374258041382,
+        -0.32910192012786865,
+        -0.41380804777145386,
+        0.663996696472168
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "upperarm_l",
+      "parent": "clavicle_l",
+      "translation": [
+        -0.009240779628885412,
+        0.14944076043000148,
+        -0.029358370205129984
+      ],
+      "rotation": [
+        0.149803027510643,
+        0.6911307573318481,
+        -0.14938844740390778,
+        0.6910719275474548
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "lowerarm_l",
+      "parent": "upperarm_l",
+      "translation": [
+        9.258314670468336e-9,
+        0.18080976068081303,
+        -0.00022789948339926863
+      ],
+      "rotation": [
+        0.030732227489352226,
+        0.0000416175062127877,
+        -0.0000012497959005486337,
+        0.9995276927947998
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "hand_l",
+      "parent": "lowerarm_l",
+      "translation": [
+        -1.1212620110168103e-7,
+        0.1753949585244992,
+        0.00022789109276113995
+      ],
+      "rotation": [
+        -0.015601660124957561,
+        -4.1717584053913015e-7,
+        -9.051257521264233e-9,
+        0.9998782873153687
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_01_l",
+      "parent": "hand_l",
+      "translation": [
+        0.005298011976819339,
+        0.0845298492278389,
+        0.03048250885572522
+      ],
+      "rotation": [
+        0.008505093865096569,
+        0.7068116664886475,
+        -0.01852414943277836,
+        0.7071080803871155
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_02_l",
+      "parent": "index_01_l",
+      "translation": [
+        0.000013853684218568387,
+        0.023482097210982926,
+        0.000024990301128235963
+      ],
+      "rotation": [
+        3.8516853351211466e-7,
+        0.000049490859964862466,
+        -0.0005330402054823935,
+        0.9999998807907104
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_03_l",
+      "parent": "index_02_l",
+      "translation": [
+        0.000012746091770963333,
+        0.02009717633125496,
+        0.0000213564512996367
+      ],
+      "rotation": [
+        0.0000019416402210481465,
+        -0.000007145895324356388,
+        -0.00018566079961601645,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_04_leaf_l",
+      "parent": "index_03_l",
+      "translation": [
+        0.000011278128233474169,
+        0.0173601196929013,
+        0.000018315154669990008
+      ],
+      "rotation": [
+        -1.789221437675792e-9,
+        0.9998229742050171,
+        3.712300440383842e-7,
+        0.018816031515598297
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_01_l",
+      "parent": "hand_l",
+      "translation": [
+        0.003465086451928112,
+        0.08311592278327651,
+        0.011335035941537834
+      ],
+      "rotation": [
+        0.005067416001111269,
+        0.7067627906799316,
+        -0.02195817232131958,
+        0.7070916295051575
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_02_l",
+      "parent": "middle_01_l",
+      "translation": [
+        0.00002686447940123196,
+        0.027020514181820943,
+        0.00002862343056464489
+      ],
+      "rotation": [
+        5.612571953861334e-7,
+        0.0000784045914770104,
+        0.0020528144668787718,
+        0.9999979138374329
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_03_l",
+      "parent": "middle_02_l",
+      "translation": [
+        0.000017856299217213628,
+        0.021685213547347315,
+        0.000022941483809546526
+      ],
+      "rotation": [
+        -4.686012857746391e-7,
+        -0.00005432930265669711,
+        -0.0014198303688317537,
+        0.9999990463256836
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_04_leaf_l",
+      "parent": "middle_03_l",
+      "translation": [
+        0.00002069501665271506,
+        0.021975524519062373,
+        0.00002343639124702257
+      ],
+      "rotation": [
+        -1.5724443969133972e-8,
+        0.9998255372047424,
+        5.420716675530457e-8,
+        0.018679797649383545
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_01_l",
+      "parent": "hand_l",
+      "translation": [
+        0.004467919060901937,
+        0.07094981972603831,
+        -0.0259630319535532
+      ],
+      "rotation": [
+        0.002601056592538953,
+        0.7066821455955505,
+        -0.024414697661995888,
+        0.7071049809455872
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_02_l",
+      "parent": "pinky_01_l",
+      "translation": [
+        0.000029249361074998315,
+        0.022776164082845773,
+        0.000023986384720009468
+      ],
+      "rotation": [
+        3.9539517615594377e-7,
+        0.00009536039578961208,
+        -0.0015674401074647903,
+        0.9999988079071045
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_03_l",
+      "parent": "pinky_02_l",
+      "translation": [
+        0.00002792231102419912,
+        0.019751948002154518,
+        0.000021048021139780104
+      ],
+      "rotation": [
+        0.0000033508222259115428,
+        -0.00013744289753958583,
+        0.0004660093109123409,
+        0.9999998807907104
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_04_leaf_l",
+      "parent": "pinky_03_l",
+      "translation": [
+        0.000021318256351036957,
+        0.0154981200706088,
+        0.00001638011524285332
+      ],
+      "rotation": [
+        -6.453817924523264e-9,
+        0.9998291730880737,
+        2.147510969052746e-7,
+        0.018483733758330345
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_01_l",
+      "parent": "hand_l",
+      "translation": [
+        0.003516342428687591,
+        0.07876843215287022,
+        -0.009277623673836846
+      ],
+      "rotation": [
+        0.015323746018111706,
+        0.7069170475006104,
+        -0.011713176034390926,
+        0.7070334553718567
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_02_l",
+      "parent": "ring_01_l",
+      "translation": [
+        -0.000005503846192494999,
+        0.025921967068160967,
+        0.000027445896185085417
+      ],
+      "rotation": [
+        -0.00000473642239740002,
+        0.00021853116049896926,
+        0.00239976542070508,
+        0.9999971389770508
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_03_l",
+      "parent": "ring_02_l",
+      "translation": [
+        -0.00000841011497218491,
+        0.02037703910847943,
+        0.00002165242904128561
+      ],
+      "rotation": [
+        0.000003849756012641592,
+        -0.00025297756656073034,
+        -0.003387551987543702,
+        0.9999942183494568
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_04_leaf_l",
+      "parent": "ring_03_l",
+      "translation": [
+        -0.0000027361463897160325,
+        0.020954051955637158,
+        0.000022237758694254598
+      ],
+      "rotation": [
+        8.940817863845041e-9,
+        0.9998185634613037,
+        5.402291662903735e-7,
+        0.019049758091568947
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_01_l",
+      "parent": "hand_l",
+      "translation": [
+        0.02033617767299878,
+        0.024345756686070752,
+        0.03079734172263121
+      ],
+      "rotation": [
+        -0.24446295201778412,
+        -0.94356769323349,
+        -0.21606169641017914,
+        0.05687990039587021
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_02_l",
+      "parent": "thumb_01_l",
+      "translation": [
+        -0.00023981867828481995,
+        0.02881211460721112,
+        -0.0004060977709290925
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_03_l",
+      "parent": "thumb_02_l",
+      "translation": [
+        -0.0002153083592895122,
+        0.025874735888917443,
+        -0.0003647422940029066
+      ],
+      "rotation": [
+        -5.349284037947655e-8,
+        -0.000029730843380093575,
+        0.0000017080456018447876,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_04_leaf_l",
+      "parent": "thumb_03_l",
+      "translation": [
+        -0.0002097369550269068,
+        0.02519467062080917,
+        -0.00035510513245373687
+      ],
+      "rotation": [
+        1.285916511051255e-7,
+        0.38270875811576843,
+        -4.782022244853579e-8,
+        0.9238690137863159
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "clavicle_r",
+      "parent": "spine_03",
+      "translation": [
+        -0.022607999145984648,
+        0.12849132798733354,
+        0.05008226218839265
+      ],
+      "rotation": [
+        -0.5287374258041382,
+        0.32910192012786865,
+        0.41380804777145386,
+        0.663996696472168
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "upperarm_r",
+      "parent": "clavicle_r",
+      "translation": [
+        0.009240779628885412,
+        0.14944076043000148,
+        -0.029358370205129984
+      ],
+      "rotation": [
+        0.1498030126094818,
+        -0.6911307573318481,
+        0.14938844740390778,
+        0.6910719275474548
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "lowerarm_r",
+      "parent": "upperarm_r",
+      "translation": [
+        -4.199085079648057e-9,
+        0.18080976068854795,
+        -0.00022789793965644067
+      ],
+      "rotation": [
+        0.030732227489352226,
+        -0.000041677081753732637,
+        0.000001251685375791567,
+        0.9995276927947998
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "hand_r",
+      "parent": "lowerarm_r",
+      "translation": [
+        1.1201650473857683e-7,
+        0.1753949370555249,
+        0.00022789039974192848
+      ],
+      "rotation": [
+        -0.015601660124957561,
+        4.7677681891400425e-7,
+        8.121838313002172e-9,
+        0.9998782873153687
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_01_r",
+      "parent": "hand_r",
+      "translation": [
+        -0.005298009625059441,
+        0.08452985993489004,
+        0.030482508776917886
+      ],
+      "rotation": [
+        0.008505097590386868,
+        -0.706811785697937,
+        0.01852414757013321,
+        0.7071079611778259
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_02_r",
+      "parent": "index_01_r",
+      "translation": [
+        -0.000013853365871561649,
+        0.023482110625957953,
+        0.000024992030372539276
+      ],
+      "rotation": [
+        3.823500378530298e-7,
+        -0.00004935889955959283,
+        0.0005330423591658473,
+        0.9999998807907104
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_03_r",
+      "parent": "index_02_r",
+      "translation": [
+        -0.000012746184951183823,
+        0.020097192429073155,
+        0.00002135875894926365
+      ],
+      "rotation": [
+        0.000001943404186022235,
+        0.0000071459307946497574,
+        0.00018566078506410122,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "index_04_leaf_r",
+      "parent": "index_03_r",
+      "translation": [
+        -0.00001127815211652422,
+        0.01736013042310003,
+        0.00001831469146207354
+      ],
+      "rotation": [
+        -1.934766347133632e-9,
+        -0.9998229742050171,
+        -3.711606666456646e-7,
+        0.018816031515598297
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_01_r",
+      "parent": "hand_r",
+      "translation": [
+        -0.003465082029236566,
+        0.08311593350490898,
+        0.01133503935629282
+      ],
+      "rotation": [
+        0.005067416001111269,
+        -0.7067628502845764,
+        0.02195817045867443,
+        0.7070915699005127
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_02_r",
+      "parent": "middle_01_r",
+      "translation": [
+        -0.000026864115896682583,
+        0.027020481992297563,
+        0.000028620653386379757
+      ],
+      "rotation": [
+        5.584595896834799e-7,
+        -0.00007839182944735512,
+        -0.0020528144668787718,
+        0.9999979138374329
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_03_r",
+      "parent": "middle_02_r",
+      "translation": [
+        -0.00001785763106621971,
+        0.02168518940753872,
+        0.00002294048404838378
+      ],
+      "rotation": [
+        -4.687495334110281e-7,
+        0.00005432928810478188,
+        0.001419831532984972,
+        0.9999990463256836
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "middle_04_leaf_r",
+      "parent": "middle_03_r",
+      "translation": [
+        -0.00002069505421541107,
+        0.021975543296266276,
+        0.000023435429022056198
+      ],
+      "rotation": [
+        -1.5782660511831637e-8,
+        -0.9998255372047424,
+        -5.4032970098205624e-8,
+        0.018679797649383545
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_01_r",
+      "parent": "hand_r",
+      "translation": [
+        -0.004467910145648402,
+        0.07094982511440184,
+        -0.02596303201969722
+      ],
+      "rotation": [
+        0.0026010593865066767,
+        -0.7066822052001953,
+        0.024414699524641037,
+        0.7071049213409424
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_02_r",
+      "parent": "pinky_01_r",
+      "translation": [
+        -0.00002924646479332549,
+        0.02277616685238426,
+        0.000024071854184404273
+      ],
+      "rotation": [
+        3.925948135474755e-7,
+        -0.00009534749551676214,
+        0.0015674429014325142,
+        0.9999988079071045
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_03_r",
+      "parent": "pinky_02_r",
+      "translation": [
+        -0.000027925190137743916,
+        0.019751915817220245,
+        0.000021046053759743444
+      ],
+      "rotation": [
+        0.0000033533979149069637,
+        0.0001374428829876706,
+        -0.00046601047506555915,
+        0.9999998807907104
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "pinky_04_leaf_r",
+      "parent": "pinky_03_r",
+      "translation": [
+        -0.000021317142218285623,
+        0.015498130795993159,
+        0.000016375424898518176
+      ],
+      "rotation": [
+        -9.396038613829205e-9,
+        -0.9998291730880737,
+        -2.1258703952753422e-7,
+        0.018483733758330345
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_01_r",
+      "parent": "hand_r",
+      "translation": [
+        -0.003516335588328201,
+        0.07876844289141505,
+        -0.009277622350464462
+      ],
+      "rotation": [
+        0.01532374694943428,
+        -0.7069171071052551,
+        0.011713176965713501,
+        0.7070333957672119
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_02_r",
+      "parent": "ring_01_r",
+      "translation": [
+        0.0000055065229338999155,
+        0.02592193488202843,
+        0.000027445875864673397
+      ],
+      "rotation": [
+        -0.000004736421942652669,
+        -0.0002185181510867551,
+        -0.002399763325229287,
+        0.9999971389770508
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_03_r",
+      "parent": "ring_02_r",
+      "translation": [
+        0.000008410098282701783,
+        0.02037705251926336,
+        0.00002165096512074527
+      ],
+      "rotation": [
+        0.000003850367193081183,
+        0.00025285835727117956,
+        0.0033875522203743458,
+        0.9999942183494568
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ring_04_leaf_r",
+      "parent": "ring_03_r",
+      "translation": [
+        0.00000273394192972648,
+        0.0209540238045568,
+        0.000022249878484315033
+      ],
+      "rotation": [
+        8.93445140093263e-9,
+        -0.9998185634613037,
+        -5.40070118404401e-7,
+        0.019049877300858498
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_01_r",
+      "parent": "hand_r",
+      "translation": [
+        -0.020336176314845966,
+        0.024345767401891205,
+        0.030797341702257976
+      ],
+      "rotation": [
+        -0.24446293711662292,
+        0.9435676336288452,
+        0.21606166660785675,
+        0.05687989294528961
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_02_r",
+      "parent": "thumb_01_r",
+      "translation": [
+        0.0002397081897913545,
+        0.028812168062237662,
+        -0.00040610480219210887
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_03_r",
+      "parent": "thumb_02_r",
+      "translation": [
+        0.00021530830453819766,
+        0.025874659436150766,
+        -0.00036471317373038
+      ],
+      "rotation": [
+        -5.1935785450041294e-8,
+        0.000029705788620049134,
+        -0.0000017005951349347015,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thumb_04_leaf_r",
+      "parent": "thumb_03_r",
+      "translation": [
+        0.0002096697869455877,
+        0.025194675505425035,
+        -0.00035510836997224016
+      ],
+      "rotation": [
+        1.2106264080102846e-7,
+        -0.3827088177204132,
+        2.8808685215153673e-8,
+        0.9238690137863159
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_shaman_rpg_weapon_staff",
+      "parent": "hand_r",
+      "translation": [
+        -0.027479781716825115,
+        0.07110602002881194,
+        -0.10479474603326791
+      ],
+      "rotation": [
+        0.7363485859984319,
+        0.06960543482636282,
+        -0.06333607248865859,
+        0.6700256601522468
+      ],
+      "scale": [
+        0.47,
+        0.47,
+        0.47
+      ]
+    },
+    {
+      "name": "prop_0",
+      "parent": "goblin_shaman_rpg_weapon_staff",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_shaman_rpg_weapon_staff_mesh0",
+      "parent": "prop_0",
+      "mesh": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thigh_l",
+      "parent": "pelvis",
+      "translation": [
+        0.08229969978332519,
+        0.017092948513640405,
+        0.00045098519511793667
+      ],
+      "rotation": [
+        0.9898310303688049,
+        0,
+        0,
+        0.14224845170974731
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "calf_l",
+      "parent": "thigh_l",
+      "translation": [
+        -5.36441803478116e-9,
+        0.2806280098700092,
+        0.000009573177912721581
+      ],
+      "rotation": [
+        0.05598893761634827,
+        0,
+        0,
+        0.998431384563446
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "foot_l",
+      "parent": "calf_l",
+      "translation": [
+        1.3877787807814457e-17,
+        0.29878831400321726,
+        0.005107650435041078
+      ],
+      "rotation": [
+        -0.5721680521965027,
+        1.9553584706955007e-7,
+        -1.3641555085541768e-7,
+        0.8201364278793335
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ball_l",
+      "parent": "foot_l",
+      "translation": [
+        2.833870638152547e-11,
+        0.11610948201922688,
+        -0.006373673736984799
+      ],
+      "rotation": [
+        6.497470650401738e-8,
+        0.9731196165084839,
+        -0.23030038177967072,
+        1.894733969720619e-7
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ball_leaf_l",
+      "parent": "ball_l",
+      "translation": [
+        -9.567545783406572e-10,
+        0.059174878522753306,
+        -2.1987317799787576e-9
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "thigh_r",
+      "parent": "pelvis",
+      "translation": [
+        -0.08229969978332519,
+        0.017092948513640405,
+        0.00045098519511793667
+      ],
+      "rotation": [
+        0.9898310303688049,
+        0,
+        0,
+        0.14224845170974731
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "calf_r",
+      "parent": "thigh_r",
+      "translation": [
+        5.36441803478116e-9,
+        0.2806280098700092,
+        0.000009573177912721581
+      ],
+      "rotation": [
+        0.05598893761634827,
+        0,
+        0,
+        0.998431384563446
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "foot_r",
+      "parent": "calf_r",
+      "translation": [
+        -1.3877787807814457e-17,
+        0.29878831400321726,
+        0.005107650435041078
+      ],
+      "rotation": [
+        -0.5721680521965027,
+        -1.9553584706955007e-7,
+        1.3641555085541768e-7,
+        0.8201364278793335
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ball_r",
+      "parent": "foot_r",
+      "translation": [
+        -2.833870638152547e-11,
+        0.11610948201922688,
+        -0.006373673736984799
+      ],
+      "rotation": [
+        6.497470650401738e-8,
+        -0.9731196165084839,
+        0.23030038177967072,
+        1.894733969720619e-7
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ball_leaf_r",
+      "parent": "ball_r",
+      "translation": [
+        9.567545783406572e-10,
+        0.059174878522753306,
+        -2.1987317799787576e-9
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_Eyebrows",
+      "parent": "goblin_shaman",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_Eyes",
+      "parent": "goblin_shaman",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_SuperHero_Male",
+      "parent": "goblin_shaman",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_Male_Peasant_Body",
+      "parent": "goblin_shaman",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_Male_Peasant_Legs",
+      "parent": "goblin_shaman",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_Male_Peasant_Feet",
+      "parent": "goblin_shaman",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "goblin_Male_Knight_Acc_Scarf",
+      "parent": "goblin_shaman",
+      "mesh": "",
+      "skin": "",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "skins": [
+    {
+      "name": "",
+      "joints": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "animal_rpg_goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "baseColorTexture": "goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material_albedo",
+      "normalTexture": "goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material_normal",
+      "metallic": 0,
+      "roughness": 0.82
+    },
+    {
+      "name": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Hair_1",
+      "baseColorFactor": [
+        0.0722718506743852,
+        0.06662593863608139,
+        0.040915196900556984,
+        1
+      ],
+      "baseColorTexture": "goblin_shaman_goblin_source_base_male_MI_Hair_1_albedo",
+      "metallic": 0,
+      "roughness": 0.87
+    },
+    {
+      "name": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Eyes",
+      "baseColorFactor": [
+        0.55201140150344,
+        0.45641102317066595,
+        0.12213877222015301,
+        1
+      ],
+      "baseColorTexture": "goblin_shaman_goblin_source_base_male_MI_Eyes_albedo",
+      "metallic": 0,
+      "roughness": 0.87
+    },
+    {
+      "name": "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male",
+      "baseColorFactor": [
+        0.28314874041918053,
+        0.4019777798219466,
+        0.14702726648767014,
+        1
+      ],
+      "baseColorTexture": "goblin_shaman_goblin_source_base_male_MI_Superhero_Male_albedo",
+      "metallic": 0,
+      "roughness": 0.87
+    },
+    {
+      "name": "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+      "baseColorFactor": [
+        0.4019777798219466,
+        0.36130677977297226,
+        0.31854677811435356,
+        1
+      ],
+      "baseColorTexture": "goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant_albedo",
+      "normalTexture": "goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant_normal",
+      "metallic": 0,
+      "roughness": 0.87
+    },
+    {
+      "name": "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight",
+      "baseColorFactor": [
+        0.4019777798219466,
+        0.36130677977297226,
+        0.31854677811435356,
+        1
+      ],
+      "baseColorTexture": "goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight_albedo",
+      "normalTexture": "goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight_normal",
+      "metallic": 0,
+      "roughness": 0.87
+    }
+  ],
+  "textures": [
+    {
+      "index": 0,
+      "name": "goblin_shaman_goblin_source_base_male_MI_Hair_1_albedo",
+      "mimeType": "image/png",
+      "width": 512,
+      "height": 512,
+      "bytes": 328014,
+      "sha256": "3e072661161e016505f909f42a4bd983182d1f2ee29a2f7a32f0678c99159de7",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-0.png"
+    },
+    {
+      "index": 1,
+      "name": "goblin_shaman_goblin_source_base_male_MI_Eyes_albedo",
+      "mimeType": "image/png",
+      "width": 256,
+      "height": 256,
+      "bytes": 46055,
+      "sha256": "58877905688f31a998f54fdd93de2c57e06e5cd3e8646ef7a04125fcb19e4f74",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-1.png"
+    },
+    {
+      "index": 2,
+      "name": "goblin_shaman_goblin_source_base_male_MI_Superhero_Male_albedo",
+      "mimeType": "image/png",
+      "width": 512,
+      "height": 512,
+      "bytes": 242746,
+      "sha256": "a976852e713e677c7302a046c35b1d0dee8247fbc7d195ee5301b73543e2a1c9",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-2.png"
+    },
+    {
+      "index": 3,
+      "name": "goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant_albedo",
+      "mimeType": "image/png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 1025872,
+      "sha256": "38718254d32701a70236197e5453766c052a8572b3048d294de6f4efd33dfbdc",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-3.png"
+    },
+    {
+      "index": 4,
+      "name": "goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant_normal",
+      "mimeType": "image/png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 1296003,
+      "sha256": "f3d3e5443a3c33b0282fb44d924951c86caefb9ee97a0ce2bc756a2e702b6d59",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-4.png"
+    },
+    {
+      "index": 5,
+      "name": "goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight_albedo",
+      "mimeType": "image/png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 2138678,
+      "sha256": "315635e2be4d52b9b7d4a2443b1b2edf75c2d9ace88b25814a6174815839f8a8",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-5.png"
+    },
+    {
+      "index": 6,
+      "name": "goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight_normal",
+      "mimeType": "image/png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 1517543,
+      "sha256": "41f75156b5f12e7a9f6705c3c25df461e0b9244a25d15b692f7d86d145a75731",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-6.png"
+    },
+    {
+      "index": 7,
+      "name": "goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material_albedo",
+      "mimeType": "image/png",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1606682,
+      "sha256": "ee3e0cf432e80473f1fe3453feb2ffb798e3266d1096f63eeacc98b819f9a376",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-7.png"
+    },
+    {
+      "index": 8,
+      "name": "goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material_normal",
+      "mimeType": "image/png",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 2823562,
+      "sha256": "276177743ab5c688dd2698d293e9022073303ad759c65a3793bda5a84deb8fe8",
+      "file": "assets/art/tripo/imports/creatures/audit-goblin-shaman/source-texture-8.png"
+    }
+  ],
+  "animations": [
+    {
+      "name": "Idle",
+      "channels": 130,
+      "seconds": 2.0999999046325684,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    },
+    {
+      "name": "Walk",
+      "channels": 130,
+      "seconds": 1.3333333730697632,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    },
+    {
+      "name": "Run",
+      "channels": 130,
+      "seconds": 0.9333333373069763,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    },
+    {
+      "name": "Attack",
+      "channels": 130,
+      "seconds": 0.5,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    },
+    {
+      "name": "Hit",
+      "channels": 130,
+      "seconds": 0.3333333432674408,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    },
+    {
+      "name": "HitLeft",
+      "channels": 130,
+      "seconds": 0.3333333432674408,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    },
+    {
+      "name": "HitRight",
+      "channels": 130,
+      "seconds": 0.3333333432674408,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    },
+    {
+      "name": "Death",
+      "channels": 130,
+      "seconds": 2.4000000953674316,
+      "nodes": [
+        "root",
+        "pelvis",
+        "spine_01",
+        "spine_02",
+        "spine_03",
+        "neck_01",
+        "Head",
+        "clavicle_l",
+        "upperarm_l",
+        "lowerarm_l",
+        "hand_l",
+        "index_01_l",
+        "index_02_l",
+        "index_03_l",
+        "index_04_leaf_l",
+        "middle_01_l",
+        "middle_02_l",
+        "middle_03_l",
+        "middle_04_leaf_l",
+        "pinky_01_l",
+        "pinky_02_l",
+        "pinky_03_l",
+        "pinky_04_leaf_l",
+        "ring_01_l",
+        "ring_02_l",
+        "ring_03_l",
+        "ring_04_leaf_l",
+        "thumb_01_l",
+        "thumb_02_l",
+        "thumb_03_l",
+        "thumb_04_leaf_l",
+        "clavicle_r",
+        "upperarm_r",
+        "lowerarm_r",
+        "hand_r",
+        "index_01_r",
+        "index_02_r",
+        "index_03_r",
+        "index_04_leaf_r",
+        "middle_01_r",
+        "middle_02_r",
+        "middle_03_r",
+        "middle_04_leaf_r",
+        "pinky_01_r",
+        "pinky_02_r",
+        "pinky_03_r",
+        "pinky_04_leaf_r",
+        "ring_01_r",
+        "ring_02_r",
+        "ring_03_r",
+        "ring_04_leaf_r",
+        "thumb_01_r",
+        "thumb_02_r",
+        "thumb_03_r",
+        "thumb_04_leaf_r",
+        "thigh_l",
+        "calf_l",
+        "foot_l",
+        "ball_l",
+        "ball_leaf_l",
+        "thigh_r",
+        "calf_r",
+        "foot_r",
+        "ball_r",
+        "ball_leaf_r"
+      ]
+    }
+  ]
+}

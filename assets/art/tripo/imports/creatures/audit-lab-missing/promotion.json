@@ -1,0 +1,840 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "sourceRoot": ".",
+  "packs": [
+    {
+      "id": "corealm-rpg-mocap-goblin",
+      "name": "Goblin animated by Motion capture",
+      "author": "Danimal; original body xGhostx7; knife Wind astella",
+      "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+      "license": "CC-BY-3.0",
+      "sourceArchive": "Goblin.zip",
+      "archiveSha256": "9dd294e6a509ec9a4036d3694e73e13eeaaf80e800604e4e7e7957088d46cc3f",
+      "attribution": "Goblin animated by Motion capture by Danimal, based on the CC0 goblin by xGhostx7, with CC BY 3.0 knife by Wind astella. Converted for Corealm with source geometry preserved and runtime clip adaptations.",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "upstreamPackId": "mocap-goblin",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
+      "derivativeLicense": "CC-BY-3.0"
+    },
+    {
+      "id": "corealm-rpg-troll-mauler",
+      "name": "Troll Mauler",
+      "author": "piacenti",
+      "source": "https://opengameart.org/content/troll-mauler",
+      "license": "CC-BY-3.0",
+      "sourceArchive": "troll mauler.blend",
+      "archiveSha256": "83fc5e524d31020d8b7c9641517f965cecd65840b3119582b4e984649f708c51",
+      "attribution": "Troll Mauler by piacenti, CC BY 3.0. Original complete body, rig and Idle retained; experimental additional runtime motions and four-influence conversion documented in sourceProvenance.",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "upstreamPackId": "troll-mauler",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
+      "derivativeLicense": "CC-BY-3.0"
+    },
+    {
+      "id": "corealm-rpg-danimal-roach",
+      "name": "Roach — game ready and animated",
+      "author": "Atmostatic; rig, animation and textures by Danimal",
+      "source": "https://opengameart.org/content/roach-game-ready-and-animated",
+      "license": "CC-BY-SA-3.0",
+      "sourceArchive": "Roach.zip",
+      "archiveSha256": "038d01360b353a4d4ebaf1e67293f8554e67ebdb06f34627cbc9538489487594",
+      "attribution": "Credit Danimal https://opengameart.org/users/danimal and Atmostatic https://opengameart.org/users/atmostatic, CC-BY-SA 3.0, OGA https://opengameart.org. Adapted creature asset remains CC-BY-SA 3.0.",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "upstreamPackId": "danimal-roach",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
+      "derivativeLicense": "CC-BY-SA-3.0"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_wild_goblin",
+      "file": "models/creature/creature_wild_goblin.glb",
+      "pack": "corealm-rpg-mocap-goblin",
+      "category": "character",
+      "is": "wild goblin",
+      "tags": [
+        "creature",
+        "rpg",
+        "wild_goblin"
+      ],
+      "size": {
+        "x": 0.9872662060954573,
+        "y": 1.3499999999999994,
+        "z": 0.5126541495836587
+      },
+      "base": {
+        "x": -0.49363310304772867,
+        "y": 0.006000000000000002,
+        "z": -0.25632707479182937
+      },
+      "groundY": 0.006000000000000002,
+      "triangles": 8858,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "AttackSecondary",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "animal_rpg_wild_goblin_mocap_goblin_original_body",
+        "animal_rpg_wild_goblin_mocap_goblin_original_knife"
+      ],
+      "walkClipSeconds": 1.125,
+      "runClipSeconds": 0.7875000238418579,
+      "attackSeconds": 1.375,
+      "contactNormalized": 0.5,
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-lab-missing/models/creature/creature_wild_goblin.glb",
+      "bytes": 7261448,
+      "sha256": "5a164eb45882df6a41b128270ecb1da980f726f408a508411dc926c52b71a00f",
+      "sourceProvenance": {
+        "upstream": {
+          "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+          "sourceUrl": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+          "attribution": "Goblin animated by Motion capture by Danimal, based on the CC0 goblin by xGhostx7, with knife by Wind astella. Converted for Corealm with source geometry preserved and runtime clip adaptation.",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+          "licenseURLs": [
+            "https://creativecommons.org/licenses/by/3.0/",
+            "https://creativecommons.org/publicdomain/zero/1.0/"
+          ],
+          "contributors": [
+            {
+              "author": "Danimal",
+              "role": "animation and derivative",
+              "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+              "license": "CC-BY-3.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+            },
+            {
+              "author": "xGhostx7",
+              "role": "original body",
+              "source": "https://www.blendswap.com/blends/view/72394",
+              "license": "CC0-1.0",
+              "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+            },
+            {
+              "author": "Wind astella",
+              "role": "original knife",
+              "source": "https://opengameart.org/content/wind-weapon-pack-1",
+              "license": "CC-BY-3.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+            }
+          ],
+          "author": "Danimal; body xGhostx7; knife Wind astella",
+          "license": "CC-BY-3.0 derivative; body CC0; knife CC-BY-3.0",
+          "sourcePacks": [
+            {
+              "id": "goblin-animated-by-motion-capture",
+              "sha256": "9dd294e6a509ec9a4036d3694e73e13eeaaf80e800604e4e7e7957088d46cc3f"
+            }
+          ],
+          "sourceFiles": [
+            {
+              "file": "test-results\\fantasy-collection-source\\goblin-animated-by-motion-capture\\Goblin.blend",
+              "sha256": "33069887af50af1053310e4b39861b9fae6925d20520229de705c42f30e809c3"
+            }
+          ],
+          "modifications": "Original whole mesh, knife, normals, material-specific UV layers and all four native influences preserved. Original NLA strips sampled at 48 Hz with native timing. Primary Attack uses native Attack2; clipped Attack1 preserved as AttackSecondary. Run uses Walk at .70 duration because native Flee has confirmed knife/torso intersections; Flee remains in original source data only. Uniform height normalization; locomotion origin held in place; whole-mesh floor correction. Three authored hit reactions added because source has none."
+        },
+        "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/wild-goblin-round1/models/creature/creature_wild_goblin.glb",
+        "sourceCandidateSha256": "c29d05dcded96e1d028bacc0045454d2cd1107d07a285797b97cc851252bf9d2",
+        "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
+        "rebuildSha256": "59c16029e4150c291c1fef102a77c7f8e8aed395ec65e87ccc0000fafe7f55f3",
+        "motionRepair": {
+          "duration": 1.5,
+          "endHeight": 0.47688522469237254,
+          "endHeightRatio": 0.3224380361327228,
+          "endMinY": 0.0060000049933287,
+          "finalReachedAtSeconds": 0.72,
+          "collapseHeight": 0.4768852212927378,
+          "collapseMinY": 0.006000004993287039,
+          "heldUntilSeconds": 1.5,
+          "authoredFall": null,
+          "cpuCollapseByHeight": true,
+          "visualAcceptancePending": true
+        },
+        "cpuMotion": {
+          "Idle": {
+            "minY": 0.006000082937688431,
+            "maxY": 1.3623703372031115,
+            "duration": 2.8333332538604736,
+            "samples": 5
+          },
+          "Walk": {
+            "minY": 0.005999999897663116,
+            "maxY": 1.391321511716124,
+            "duration": 1.125,
+            "samples": 5
+          },
+          "Run": {
+            "minY": 0.005999999897663116,
+            "maxY": 1.391321511716124,
+            "duration": 0.7875000238418579,
+            "samples": 5
+          },
+          "Attack": {
+            "minY": 0.006000000009257142,
+            "maxY": 1.4533805610434292,
+            "duration": 1.375,
+            "samples": 5
+          },
+          "AttackSecondary": {
+            "minY": 0.005999999876995912,
+            "maxY": 1.4829079497565236,
+            "duration": 1.3333333730697632,
+            "samples": 5
+          },
+          "Death": {
+            "minY": 0.005891925938207046,
+            "maxY": 1.7195415841331068,
+            "duration": 1.5,
+            "samples": 32
+          },
+          "Hit": {
+            "minY": 0.006000082937688306,
+            "maxY": 1.362538222851259,
+            "duration": 0.47999998927116394,
+            "samples": 5
+          },
+          "HitLeft": {
+            "minY": 0.006000082937688306,
+            "maxY": 1.3646089014948257,
+            "duration": 0.47999998927116394,
+            "samples": 5
+          },
+          "HitRight": {
+            "minY": 0.006000082937688306,
+            "maxY": 1.3602786833190703,
+            "duration": 0.47999998927116394,
+            "samples": 5
+          }
+        },
+        "rigSkins": [
+          25
+        ],
+        "reviewStatus": "awaiting-root-lab-visual-acceptance",
+        "candidateSha256": "5a164eb45882df6a41b128270ecb1da980f726f408a508411dc926c52b71a00f",
+        "materialRepair": null
+      }
+    },
+    {
+      "id": "creature_troll_mauler",
+      "file": "models/creature/creature_troll_mauler.glb",
+      "pack": "corealm-rpg-troll-mauler",
+      "category": "character",
+      "is": "troll mauler",
+      "tags": [
+        "creature",
+        "rpg",
+        "troll_mauler"
+      ],
+      "size": {
+        "x": 3.110015343734311,
+        "y": 3.0752324243374902,
+        "z": 1.6756534058008716
+      },
+      "base": {
+        "x": -1.5583385012828894,
+        "y": 0.0010000000172307733,
+        "z": -0.8192564793237161
+      },
+      "groundY": 0.0010000000172307733,
+      "triangles": 6370,
+      "animations": [
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Idle",
+        "Run",
+        "Walk"
+      ],
+      "materials": [
+        "animal_rpg_troll_mauler_cloth",
+        "animal_rpg_troll_mauler_eye",
+        "animal_rpg_troll_mauler_med"
+      ],
+      "walkClipSeconds": 2,
+      "runClipSeconds": 1.5,
+      "attackSeconds": 1.5,
+      "contactNormalized": 0.55,
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-lab-missing/models/creature/creature_troll_mauler.glb",
+      "bytes": 16514700,
+      "sha256": "24c86e2e630a521fc818cc32cc64740d5604d807fcfff801a132b2ee011fdeeb",
+      "sourceProvenance": {
+        "upstream": {
+          "sourceUrl": "https://opengameart.org/content/troll-mauler",
+          "author": "piacenti",
+          "license": "CC-BY-3.0",
+          "sourceSha256": "83fc5e524d31020d8b7c9641517f965cecd65840b3119582b4e984649f708c51",
+          "textureBindings": [
+            {
+              "materialName": "med",
+              "flipY": false,
+              "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\troll-mauler-source\\derived\\med-base.png",
+              "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\troll-mauler-source\\derived\\med-normal.png",
+              "occlusionPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\troll-mauler-source\\derived\\med-occlusion.png"
+            },
+            {
+              "materialName": "cloth",
+              "flipY": false,
+              "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\troll-mauler-source\\derived\\cloth-base.png",
+              "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\troll-mauler-source\\derived\\cloth-normal.png",
+              "occlusionPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\troll-mauler-source\\derived\\cloth-occlusion.png"
+            },
+            {
+              "materialName": "eye",
+              "flipY": false,
+              "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\troll-mauler-source\\derived\\eye-med-base.png"
+            }
+          ],
+          "weightReduction": {
+            "med": {
+              "maxDiscardedWeightFraction": 0.2395354034447384,
+              "meanDiscardedWeightFraction": 0.010503386622260068,
+              "maxIdleWorldError": 0.032562376856020474,
+              "rmsIdleWorldError": 0.0019196369204352263,
+              "fittedMaxIdleWorldError": 0.010991860410871876
+            },
+            "cloth": {
+              "maxDiscardedWeightFraction": 0.2084227587718829,
+              "meanDiscardedWeightFraction": 0.17546894709305583,
+              "maxIdleWorldError": 0.02163214219575583,
+              "rmsIdleWorldError": 0.008278886113503019,
+              "fittedMaxIdleWorldError": 0.031559381087173044
+            },
+            "eye med": {
+              "maxDiscardedWeightFraction": 0,
+              "meanDiscardedWeightFraction": 0,
+              "maxIdleWorldError": 0,
+              "rmsIdleWorldError": 0,
+              "fittedMaxIdleWorldError": 0
+            }
+          },
+          "authoredWeightReduction": {
+            "Walk": {
+              "maxWorldError": 0.05526516039622097,
+              "rmsWorldError": 0.0022151370035111665,
+              "byMesh": {
+                "med": 0.008193808115354617,
+                "cloth": 0.05526516039622097,
+                "eye med": 0
+              }
+            },
+            "Run": {
+              "maxWorldError": 0.06687463302423619,
+              "rmsWorldError": 0.002817036718989515,
+              "byMesh": {
+                "med": 0.008193808115354617,
+                "cloth": 0.06687463302423619,
+                "eye med": 0
+              }
+            },
+            "Attack": {
+              "maxWorldError": 0.050367878606247043,
+              "rmsWorldError": 0.0014378250304276394,
+              "byMesh": {
+                "med": 0.010920546760849735,
+                "cloth": 0.050367878606247043,
+                "eye med": 0
+              }
+            },
+            "Hit": {
+              "maxWorldError": 0.028165102399567425,
+              "rmsWorldError": 0.0012886262190564392,
+              "byMesh": {
+                "med": 0.01077791204995548,
+                "cloth": 0.028165102399567425,
+                "eye med": 0
+              }
+            },
+            "HitLeft": {
+              "maxWorldError": 0.032707502213909376,
+              "rmsWorldError": 0.0015498157515890165,
+              "byMesh": {
+                "med": 0.011240793060087784,
+                "cloth": 0.032707502213909376,
+                "eye med": 0
+              }
+            },
+            "HitRight": {
+              "maxWorldError": 0.032707491536052645,
+              "rmsWorldError": 0.001577381583016097,
+              "byMesh": {
+                "med": 0.011236064564065923,
+                "cloth": 0.032707491536052645,
+                "eye med": 0
+              }
+            },
+            "Death": {
+              "maxWorldError": 0.06687460227463951,
+              "rmsWorldError": 0.002494497764371705,
+              "byMesh": {
+                "med": 0.006840505811011537,
+                "cloth": 0.06687460227463951,
+                "eye med": 0
+              }
+            }
+          },
+          "authoredClips": {
+            "Walk": {
+              "frames": [
+                0,
+                48
+              ],
+              "fps": 24,
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "attackContactPhase": null
+            },
+            "Run": {
+              "frames": [
+                0,
+                36
+              ],
+              "fps": 24,
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "attackContactPhase": null
+            },
+            "Attack": {
+              "frames": [
+                0,
+                36
+              ],
+              "fps": 24,
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "attackContactPhase": 0.55
+            },
+            "Hit": {
+              "frames": [
+                0,
+                16
+              ],
+              "fps": 24,
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "attackContactPhase": null
+            },
+            "HitLeft": {
+              "frames": [
+                0,
+                16
+              ],
+              "fps": 24,
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "attackContactPhase": null
+            },
+            "HitRight": {
+              "frames": [
+                0,
+                16
+              ],
+              "fps": 24,
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "attackContactPhase": null
+            },
+            "Death": {
+              "frames": [
+                0,
+                48
+              ],
+              "fps": 24,
+              "provenance": "Corealm authored on original Troll Mauler bones; not a source motion",
+              "attackContactPhase": null
+            }
+          },
+          "nativeClips": {
+            "Idle": "ArmatureAction frames 1–40 at 24 fps; CPU inferred idle/breathing"
+          },
+          "legacyOcclusionLayers": {
+            "method": "Read original Blender 2.73 SDNA Material/MTex/Tex/Image blocks; all decoded struct byte sizes match stored SDNA lengths.",
+            "sourceSha256": "83fc5e524d31020d8b7c9641517f965cecd65840b3119582b4e984649f708c51",
+            "rawEvidence": "test-results/troll-mauler-source/legacy-slots.json",
+            "constantSources": [
+              "https://raw.githubusercontent.com/blender/blender/v2.73/source/blender/makesdna/DNA_texture_types.h",
+              "https://raw.githubusercontent.com/blender/blender/v2.73/source/blender/makesdna/DNA_material_types.h"
+            ],
+            "layers": [
+              {
+                "materialName": "med",
+                "slotIndex": 2,
+                "active": true,
+                "septex": 0,
+                "textureName": "med occ",
+                "imageName": "troll_occlusion.png",
+                "mapto": 1,
+                "maptoMeaning": "MAP_COL: diffuse color",
+                "blendtype": 1,
+                "blendMeaning": "MTEX_MUL: multiply",
+                "colfac": 0.5,
+                "texco": 16,
+                "texcoMeaning": "TEXCO_UV",
+                "uvname": "",
+                "standardAOEquivalent": false
+              },
+              {
+                "materialName": "cloth",
+                "slotIndex": 2,
+                "active": true,
+                "septex": 0,
+                "textureName": "cloth occ",
+                "imageName": "cloth uv_OCC.png",
+                "mapto": 1,
+                "maptoMeaning": "MAP_COL: diffuse color",
+                "blendtype": 1,
+                "blendMeaning": "MTEX_MUL: multiply",
+                "colfac": 1,
+                "texco": 16,
+                "texcoMeaning": "TEXCO_UV",
+                "uvname": "",
+                "standardAOEquivalent": false
+              }
+            ],
+            "decision": "These packed images were active diffuse-color multiply layers, not ambient-only occlusion bindings. The verified sRGB images are now decoded to linear light and composited into separate runtime base-color textures, using med colfac .5 and cloth1, modulated by layer alpha. Preserve occlusionPath as unbound metadata; do not relabel aoPath/aoStrength/aoTexCoord.",
+            "changesThisAudit": "Original diffuse/normal images remain unchanged. Separate derived base-color PNGs reproduce color multiplication; recipe and input/output hashes are in derived/legacy-color-recipe.json. No geometry, motion or catalogue edits."
+          },
+          "legacyColorRecipe": {
+            "source": "Blender2.73 original active MTex MAP_COL/MTEX_MUL slots",
+            "colorEvidence": "test-results/troll-mauler-source/source-colors.json",
+            "sourceCode": "https://raw.githubusercontent.com/blender/blender/v2.73/source/blender/render/intern/source/render_texture.c",
+            "equation": "runtime_sRGB = encode_sRGB(decode_sRGB(diffuse_RGB) * (1 - colfac * layer_alpha + colfac * layer_alpha * decode_sRGB(layer_RGB)))",
+            "alpha": "Preserve original diffuse alpha; layer alpha scales colfac, matching texture_rgb_blend.",
+            "sourceColorSpaces": "Both original diffuse and color-occlusion images are sRGB, isData=false, straight alpha. Original view Standard, exposure0, gamma1. Texture brightness/contrast1; same UV, identity offsets/scales.",
+            "normalChanges": "None",
+            "standardAO": false,
+            "outputs": [
+              {
+                "materialName": "med",
+                "colfac": 0.5,
+                "path": "med-legacy-color.png",
+                "sha256": "712b34c8e78949cf61ec1140d5187b18f4ae04c934ed6ccd10b4eac4eb68986c",
+                "width": 4096,
+                "height": 4096,
+                "changedRgbChannels": 27538859,
+                "layerAlphaRange": [
+                  0,
+                  255
+                ],
+                "originals": {
+                  "baseColor": {
+                    "path": "med-base.png",
+                    "sha256": "1f5d82498fa9987b0e0e701c8aa05cf23ef82d689c91213ef957d27708ea6a37"
+                  },
+                  "colorLayer": {
+                    "path": "med-occlusion.png",
+                    "sha256": "0f2b2bb1ed1476a1be1bc8799119d266666ef627a248dc5a121a35ce83c781e7"
+                  },
+                  "normal": {
+                    "path": "med-normal.png",
+                    "sha256": "695c8c79b7679d74cd22d663f48a37827265f430a9d5d949b5dae53734d6c240"
+                  }
+                }
+              },
+              {
+                "materialName": "cloth",
+                "colfac": 1,
+                "path": "cloth-legacy-color.png",
+                "sha256": "00b74c0491326bee8dd67d78f59857d0914252626840dc8a4525386b1fc7e649",
+                "width": 1024,
+                "height": 1024,
+                "changedRgbChannels": 3136367,
+                "layerAlphaRange": [
+                  255,
+                  255
+                ],
+                "originals": {
+                  "baseColor": {
+                    "path": "cloth-base.png",
+                    "sha256": "48b22b41333ea759c4db2df937a5a6c0e181ec91ad3e5eeef4a5768a6004d3c1"
+                  },
+                  "colorLayer": {
+                    "path": "cloth-occlusion.png",
+                    "sha256": "18ee7cee1ebadd7ce9cbc41c12f1706f8e0036ca88a0e5d9ce412613398f9883"
+                  },
+                  "normal": {
+                    "path": "cloth-normal.png",
+                    "sha256": "6e8b294549b98cb0d8cb3898a0cd1f267c564b97928d7b357c3ba2cca3c40d6b"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/troll-mauler-round2/models/creature/creature_troll_mauler.glb",
+        "sourceCandidateSha256": "ecb54b9ad184664b3748d48fbf57d10e3f8766b8b2094f8ad104fa242bfc9294",
+        "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
+        "rebuildSha256": "59c16029e4150c291c1fef102a77c7f8e8aed395ec65e87ccc0000fafe7f55f3",
+        "motionRepair": {
+          "duration": 1.5,
+          "endHeight": 2.5185649393640546,
+          "endHeightRatio": 0.818983802037091,
+          "endMinY": 0.0010009878089142776,
+          "finalReachedAtSeconds": 0.72,
+          "collapseHeight": 2.518564940252524,
+          "collapseMinY": 0.0010009896127455287,
+          "heldUntilSeconds": 1.5,
+          "authoredFall": null,
+          "cpuCollapseByHeight": false,
+          "visualAcceptancePending": true
+        },
+        "cpuMotion": {
+          "Attack": {
+            "minY": 0.001000216309617896,
+            "maxY": 3.0762319588548417,
+            "duration": 1.5,
+            "samples": 5
+          },
+          "Death": {
+            "minY": 0.0009999989757930993,
+            "maxY": 3.0762318578403303,
+            "duration": 1.5,
+            "samples": 32
+          },
+          "Hit": {
+            "minY": 0.0010002180597652826,
+            "maxY": 3.0762319588548417,
+            "duration": 0.6666666865348816,
+            "samples": 5
+          },
+          "HitLeft": {
+            "minY": 0.0010002180597652826,
+            "maxY": 3.0762319588548417,
+            "duration": 0.6666666865348816,
+            "samples": 5
+          },
+          "HitRight": {
+            "minY": 0.0010002180597652826,
+            "maxY": 3.0762319588548417,
+            "duration": 0.6666666865348816,
+            "samples": 5
+          },
+          "Idle": {
+            "minY": 0.0010002256203977885,
+            "maxY": 3.171883324031325,
+            "duration": 1.6666666269302368,
+            "samples": 5
+          },
+          "Run": {
+            "minY": 0.0010002204108949797,
+            "maxY": 3.0526467486157234,
+            "duration": 1.5,
+            "samples": 5
+          },
+          "Walk": {
+            "minY": 0.0010002074644627026,
+            "maxY": 3.0639543029352243,
+            "duration": 2,
+            "samples": 5
+          }
+        },
+        "rigSkins": [
+          33
+        ],
+        "reviewStatus": "awaiting-root-lab-visual-acceptance",
+        "candidateSha256": "24c86e2e630a521fc818cc32cc64740d5604d807fcfff801a132b2ee011fdeeb",
+        "materialRepair": {
+          "material": "animal_rpg_troll_mauler_cloth",
+          "alphaMode": "MASK",
+          "alphaCutoff": 0.5,
+          "reason": "Cloth PNG contains a transparent ragged hem; OPAQUE rendered its white atlas backing as a rectangle."
+        }
+      }
+    },
+    {
+      "id": "creature_cave_roach",
+      "file": "models/creature/creature_cave_roach.glb",
+      "pack": "corealm-rpg-danimal-roach",
+      "category": "character",
+      "is": "cave roach",
+      "tags": [
+        "creature",
+        "rpg",
+        "cave_roach"
+      ],
+      "size": {
+        "x": 1.184503630193351,
+        "y": 1.1499999999999997,
+        "z": 1.6263280940551208
+      },
+      "base": {
+        "x": -0.5922519101307477,
+        "y": 0.00500000010916512,
+        "z": -0.9247917328463533
+      },
+      "groundY": 0.00500000010916512,
+      "triangles": 3004,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "AttackSecondary",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_cave_roach_roach_original_rock"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.5833333333333334,
+      "attackSeconds": 1.833333333333333,
+      "contactNormalized": 0.5,
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-lab-missing/models/creature/creature_cave_roach.glb",
+      "bytes": 4208116,
+      "sha256": "177f4cae253b1ebfe1498fb6618e104cb8df4f9eba56d7edac6284965c550cc0",
+      "sourceProvenance": {
+        "upstream": {
+          "url": "https://opengameart.org/content/roach-game-ready-and-animated",
+          "author": "Atmostatic",
+          "animator": "Danimal",
+          "license": "CC-BY-SA-3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+          "attribution": "Roach, original model by Atmostatic https://opengameart.org/users/atmostatic; rig, animation and retexture by Danimal https://opengameart.org/users/danimal. CC BY-SA 3.0, OGA https://opengameart.org/content/roach-game-ready-and-animated. Converted asset and its documented adaptations retain CC BY-SA 3.0.",
+          "sourceFiles": [
+            {
+              "file": "test-results\\fantasy-collection-source\\roach-game-ready-and-animated\\Roach.blend",
+              "sha256": "abe2385da3a4b52e25bb1a417fc48535da178abe8f1fe0b5b869dd85d4f4c2d4"
+            },
+            {
+              "file": "tools/rpg-bestiary/roach-source/derived/Roach.png",
+              "channel": "baseColor",
+              "sha256": "9d3f8bdb9aef0e3d3e4f823cf757a4107f72bcd8e2e9af05d1c2083618841712",
+              "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+            },
+            {
+              "file": "tools/rpg-bestiary/roach-source/derived/RoachNormal.png",
+              "channel": "normal",
+              "sha256": "f21b368ed06b69c67ac9c4f62c2c482dc708f97f6d3d60a86322ba99a62da3a7",
+              "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+            },
+            {
+              "file": "tools/rpg-bestiary/roach-source/derived/Roach-Spec.png",
+              "channel": "specularIntensity",
+              "sha256": "5466e4613cbf6b58139fd12e5528f340f908b68aed0b0241c97cca2717cd6832",
+              "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+            },
+            {
+              "file": "test-results\\fantasy-collection-source\\roach-game-ready-and-animated-Roach.zip",
+              "sha256": "038d01360b353a4d4ebaf1e67293f8554e67ebdb06f34627cbc9538489487594",
+              "downloadUrl": "https://opengameart.org/sites/default/files/Roach.zip"
+            }
+          ],
+          "modifications": "Original body and all54bones preserved without weight reduction. Native NLA timings sampled at48Hz; Blender Z-up to glTF Y-up, 1.15m normalization, floor correction. Missing Hit reactions derive from native Idle with an authored SpineHigh recoil. No grafts or body edits.",
+          "weightReduction": {
+            "sourceMaximum": 2,
+            "runtimeMaximum": 4,
+            "maxDiscardedFraction": 0,
+            "affectedControlVertices": 0,
+            "measuredError": {
+              "maxMeters": 5.784679582912413e-08,
+              "rmsMeters": 6.097555500535855e-09,
+              "samples": 2676564
+            }
+          },
+          "materialConversion": {
+            "sourceNormalStrength": 0.125,
+            "sourceSpecularIntensity": 0.02127659320831299,
+            "sourceHardness": 50,
+            "sourceSpecularPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\roach-source\\derived\\Roach-Spec.png",
+            "roughness": 0.65,
+            "roughnessMeaning": "Constant preview roughness, not derived from specular intensity; original specular map retained for future explicit channel support",
+            "normalMeaning": "Original tangent normal image with original normal strength0.125 baked into XY and renormalized; image rows adapted to glTF",
+            "evidence": "test-results/roach-source/legacy-material-slots.json"
+          }
+        },
+        "sourceCandidateFile": "art/rebuild/candidates/finish-bestiary/cave-roach-round1/models/creature/creature_cave_roach.glb",
+        "sourceCandidateSha256": "dd1da7331eff7cb6cad91d0db24201c725cd4e29f70554f7932f9288ab9bd114",
+        "rebuildScript": "assets/art/tripo/imports/creatures/audit-lab-missing/build-candidates.mjs",
+        "rebuildSha256": "59c16029e4150c291c1fef102a77c7f8e8aed395ec65e87ccc0000fafe7f55f3",
+        "motionRepair": {
+          "duration": 1.5,
+          "endHeight": 0.7350679067875966,
+          "endHeightRatio": 0.6391894548267774,
+          "endMinY": 0.005999514478139801,
+          "finalReachedAtSeconds": 0.72,
+          "collapseHeight": 0.7350679066425356,
+          "collapseMinY": 0.0059999985490692565,
+          "heldUntilSeconds": 1.5,
+          "authoredFall": {
+            "joint": "roach_2_SpineHigh",
+            "additiveLocalPitchDegrees": -30,
+            "keys": 49,
+            "trialFinalMinY": -0.1540499337431191,
+            "floorResponseGain": 0.9999976633600104,
+            "finalVerticalOffset": 0.16005030772306847,
+            "method": "Native death limb pose with subtle shell sag and per-key grounded vertical offsets"
+          },
+          "cpuCollapseByHeight": false,
+          "visualAcceptancePending": true
+        },
+        "cpuMotion": {
+          "Idle": {
+            "minY": 0.004999886196477621,
+            "maxY": 1.1550000605346245,
+            "duration": 4.166666507720947,
+            "samples": 5
+          },
+          "Walk": {
+            "minY": 0.004999999965845381,
+            "maxY": 1.187103948870217,
+            "duration": 1,
+            "samples": 5
+          },
+          "Run": {
+            "minY": 0.004999999942045558,
+            "maxY": 1.1871039488390065,
+            "duration": 0.5833333134651184,
+            "samples": 5
+          },
+          "Attack": {
+            "minY": 0.004999978034995256,
+            "maxY": 1.4157608461015574,
+            "duration": 1.8333333730697632,
+            "samples": 5
+          },
+          "AttackSecondary": {
+            "minY": 0.004990458784666446,
+            "maxY": 1.2433983543368563,
+            "duration": 1.2083333730697632,
+            "samples": 5
+          },
+          "Hit": {
+            "minY": 0.004999999889356836,
+            "maxY": 1.1550000062127994,
+            "duration": 0.4166666567325592,
+            "samples": 5
+          },
+          "HitLeft": {
+            "minY": 0.004999999889356836,
+            "maxY": 1.1550000062127994,
+            "duration": 0.4166666567325592,
+            "samples": 5
+          },
+          "HitRight": {
+            "minY": 0.004999999889356836,
+            "maxY": 1.1550000062127994,
+            "duration": 0.4166666567325592,
+            "samples": 5
+          },
+          "Death": {
+            "minY": 0.005997016279059103,
+            "maxY": 1.156000055101446,
+            "duration": 1.5,
+            "samples": 32
+          }
+        },
+        "rigSkins": [
+          54
+        ],
+        "reviewStatus": "awaiting-root-lab-visual-acceptance",
+        "candidateSha256": "177f4cae253b1ebfe1498fb6618e104cb8df4f9eba56d7edac6284965c550cc0",
+        "materialRepair": null
+      }
+    }
+  ]
+}

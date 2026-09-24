@@ -1,0 +1,421 @@
+{
+  "schema": "corealm-goblin-shaman-cpu-validation/1",
+  "geometry": [
+    {
+      "i": 0,
+      "vertices": 2865,
+      "triangles": 2616,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true
+      },
+      "indices": true
+    },
+    {
+      "i": 1,
+      "vertices": 646,
+      "triangles": 984,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true,
+        "JOINTS_0": true,
+        "WEIGHTS_0": true
+      },
+      "indices": true
+    },
+    {
+      "i": 2,
+      "vertices": 420,
+      "triangles": 768,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true,
+        "JOINTS_0": true,
+        "WEIGHTS_0": true
+      },
+      "indices": true
+    },
+    {
+      "i": 3,
+      "vertices": 7147,
+      "triangles": 7466,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true,
+        "JOINTS_0": true,
+        "WEIGHTS_0": true
+      },
+      "indices": true
+    },
+    {
+      "i": 4,
+      "vertices": 3006,
+      "triangles": 3856,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true,
+        "JOINTS_0": true,
+        "WEIGHTS_0": true
+      },
+      "indices": true
+    },
+    {
+      "i": 5,
+      "vertices": 656,
+      "triangles": 1112,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true,
+        "JOINTS_0": true,
+        "WEIGHTS_0": true
+      },
+      "indices": true
+    },
+    {
+      "i": 6,
+      "vertices": 1878,
+      "triangles": 2588,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true,
+        "JOINTS_0": true,
+        "WEIGHTS_0": true
+      },
+      "indices": true
+    },
+    {
+      "i": 7,
+      "vertices": 493,
+      "triangles": 471,
+      "attributes": {
+        "POSITION": true,
+        "NORMAL": true,
+        "TEXCOORD_0": true,
+        "JOINTS_0": true,
+        "WEIGHTS_0": true
+      },
+      "indices": true
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": []
+    },
+    {
+      "name": "Walk",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": []
+    },
+    {
+      "name": "Run",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": []
+    },
+    {
+      "name": "Attack",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": [
+        "clavicle_l",
+        "hand_l",
+        "lowerarm_l",
+        "upperarm_l"
+      ]
+    },
+    {
+      "name": "Hit",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": []
+    },
+    {
+      "name": "HitLeft",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": []
+    },
+    {
+      "name": "HitRight",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": []
+    },
+    {
+      "name": "Death",
+      "channels": 130,
+      "inputMatches": true,
+      "changedNodes": []
+    }
+  ],
+  "attack": [
+    {
+      "time": 0,
+      "sourceHandY": 1.0183197104547443,
+      "candidateHandY": 1.0183197583664474,
+      "sourceAboveHead": -0.10129984895944633,
+      "candidateAboveHead": -0.10129980104774328,
+      "staffDelta": 0
+    },
+    {
+      "time": 0.1,
+      "sourceHandY": 0.9992453018515195,
+      "candidateHandY": 1.1108343984159532,
+      "sourceAboveHead": -0.11713737117843115,
+      "candidateAboveHead": -0.005548274613997428,
+      "staffDelta": 0
+    },
+    {
+      "time": 0.21,
+      "sourceHandY": 1.0011552082159423,
+      "candidateHandY": 1.279825735193039,
+      "sourceAboveHead": -0.1150578579425956,
+      "candidateAboveHead": 0.16361266903450122,
+      "staffDelta": 0
+    },
+    {
+      "time": 0.32,
+      "sourceHandY": 1.009134603551394,
+      "candidateHandY": 1.2049686288601094,
+      "sourceAboveHead": -0.10867301149055719,
+      "candidateAboveHead": 0.08716101381815822,
+      "staffDelta": 0
+    },
+    {
+      "time": 0.42,
+      "sourceHandY": 1.0160795937603901,
+      "candidateHandY": 1.0706410656728613,
+      "sourceAboveHead": -0.10309580584239608,
+      "candidateAboveHead": -0.0485343339299249,
+      "staffDelta": 0
+    },
+    {
+      "time": 0.5,
+      "sourceHandY": 1.0183199162883936,
+      "candidateHandY": 1.018319909872886,
+      "sourceAboveHead": -0.10129979562986868,
+      "candidateAboveHead": -0.10129980204537636,
+      "staffDelta": 0
+    }
+  ],
+  "floor": [
+    {
+      "clip": "Idle",
+      "time": 0,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1191,
+      "candidateNearFloorVertices": 1191
+    },
+    {
+      "clip": "Idle",
+      "time": 0.525,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1190,
+      "candidateNearFloorVertices": 1190
+    },
+    {
+      "clip": "Idle",
+      "time": 1.05,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1186,
+      "candidateNearFloorVertices": 1186
+    },
+    {
+      "clip": "Idle",
+      "time": 1.575,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1190,
+      "candidateNearFloorVertices": 1190
+    },
+    {
+      "clip": "Idle",
+      "time": 2.1,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1191,
+      "candidateNearFloorVertices": 1191
+    },
+    {
+      "clip": "Walk",
+      "time": 0,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 820,
+      "candidateNearFloorVertices": 820
+    },
+    {
+      "clip": "Walk",
+      "time": 0.333,
+      "sourceMinY": 0.0102,
+      "candidateMinY": 0.0102,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 576,
+      "candidateNearFloorVertices": 576
+    },
+    {
+      "clip": "Walk",
+      "time": 0.667,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 615,
+      "candidateNearFloorVertices": 615
+    },
+    {
+      "clip": "Walk",
+      "time": 1,
+      "sourceMinY": 0.0122,
+      "candidateMinY": 0.0122,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 513,
+      "candidateNearFloorVertices": 513
+    },
+    {
+      "clip": "Walk",
+      "time": 1.333,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 820,
+      "candidateNearFloorVertices": 820
+    },
+    {
+      "clip": "Run",
+      "time": 0,
+      "sourceMinY": 0.0428,
+      "candidateMinY": 0.0428,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 49,
+      "candidateNearFloorVertices": 49
+    },
+    {
+      "clip": "Run",
+      "time": 0.233,
+      "sourceMinY": 0.0802,
+      "candidateMinY": 0.0802,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 0,
+      "candidateNearFloorVertices": 0
+    },
+    {
+      "clip": "Run",
+      "time": 0.467,
+      "sourceMinY": 0.0422,
+      "candidateMinY": 0.0422,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 49,
+      "candidateNearFloorVertices": 49
+    },
+    {
+      "clip": "Run",
+      "time": 0.7,
+      "sourceMinY": 0.0047,
+      "candidateMinY": 0.0047,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 115,
+      "candidateNearFloorVertices": 115
+    },
+    {
+      "clip": "Run",
+      "time": 0.933,
+      "sourceMinY": 0.0428,
+      "candidateMinY": 0.0428,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 49,
+      "candidateNearFloorVertices": 49
+    },
+    {
+      "clip": "Attack",
+      "time": 0,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1191,
+      "candidateNearFloorVertices": 1191
+    },
+    {
+      "clip": "Attack",
+      "time": 0.21,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1186,
+      "candidateNearFloorVertices": 1186
+    },
+    {
+      "clip": "Attack",
+      "time": 0.5,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1191,
+      "candidateNearFloorVertices": 1191
+    },
+    {
+      "clip": "Death",
+      "time": 0,
+      "sourceMinY": 0.0022,
+      "candidateMinY": 0.0022,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1162,
+      "candidateNearFloorVertices": 1162
+    },
+    {
+      "clip": "Death",
+      "time": 0.6,
+      "sourceMinY": 0.0024,
+      "candidateMinY": 0.0024,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1156,
+      "candidateNearFloorVertices": 1156
+    },
+    {
+      "clip": "Death",
+      "time": 1.2,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1201,
+      "candidateNearFloorVertices": 1201
+    },
+    {
+      "clip": "Death",
+      "time": 1.8,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1186,
+      "candidateNearFloorVertices": 1186
+    },
+    {
+      "clip": "Death",
+      "time": 2.4,
+      "sourceMinY": 0.002,
+      "candidateMinY": 0.002,
+      "floorDelta": 0,
+      "sourceNearFloorVertices": 1191,
+      "candidateNearFloorVertices": 1191
+    }
+  ]
+}

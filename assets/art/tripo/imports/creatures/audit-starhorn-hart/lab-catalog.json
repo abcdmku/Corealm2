@@ -1,0 +1,93 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "fairy_garden_hart_faeholme",
+      "file": "models/fairy-garden/fairy_garden_hart_faeholme.glb",
+      "pack": "corealm-starhorn-hart-candidate",
+      "category": "character",
+      "is": "Starhorn Hart",
+      "tags": [
+        "deer",
+        "stag",
+        "hart",
+        "doe",
+        "antler",
+        "forest",
+        "animal",
+        "territorial",
+        "fairy-garden",
+        "image-generated-texture",
+        "faeholme",
+        "starhorn",
+        "candidate"
+      ],
+      "bytes": 2827392,
+      "sha256": "d2a5b7c57ec92138881d873ddc624d8765ef375c32c90752e19cc4a9a12d28b4",
+      "triangles": 3728,
+      "size": {
+        "x": 0.5505114746093749,
+        "y": 2.2464553557728686,
+        "z": 1.982817187921998
+      },
+      "base": {
+        "x": -0.27525544967651416,
+        "y": -0.008154192561293802,
+        "z": -0.7455878846031727
+      },
+      "bounds": {
+        "min": [
+          -0.27525544967651416,
+          -0.008154192561293802,
+          -0.7455878846031727
+        ],
+        "max": [
+          0.2752560249328607,
+          2.238301163211575,
+          1.2372293033188253
+        ]
+      },
+      "groundY": -0.008154192561293802,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "Starhorn fur and native moon-ivory antlers"
+      ],
+      "walkClipSeconds": 0.9666666388511658,
+      "runClipSeconds": 0.6333333253860474,
+      "attackSeconds": 1.0800000429153442,
+      "sourceProvenance": {
+        "sourceAssetId": "fairy_garden_hart_faeholme",
+        "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_hart_faeholme.glb",
+        "sourceSha256": "49821bd9a72ef768ff3fe9f721f188bd2fcd3eb57a597c8cda17c5e494fdb447",
+        "imagegenAtlas": "assets/art/tripo/imports/creatures/audit-starhorn-hart/starhorn-imagegen-atlas.png",
+        "imagegenSha256": "377d67a4e0d8617d26bbe07b3d961b0a1ef004df6f0e221681f3b6e85b1d4f48",
+        "runtimeAtlas": "assets/art/tripo/imports/creatures/audit-starhorn-hart/starhorn-runtime-atlas.jpg",
+        "runtimeAtlasSha256": "1ffc7d7fce5ddf6847b3930ef532fe8d2451383b07d0f842f2533064d7f61c8d",
+        "originalBodyGeometryRigWeightsAndClipsPreserved": true,
+        "nativeAntlerMeshSculpted": true,
+        "uniformScaleFactor": 1.16,
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "sourceIdentityVerified": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_hart_faeholme": "starhorn-hart-candidate.glb"
+  }
+}

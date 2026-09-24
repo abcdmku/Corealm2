@@ -1,0 +1,70 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_goblin_shaman",
+      "file": "models/creature/creature_goblin_shaman.glb",
+      "pack": "corealm-goblin-shaman-polish",
+      "category": "character",
+      "is": "Goblin Shaman",
+      "tags": [
+        "creature",
+        "goblin",
+        "shaman",
+        "caster",
+        "candidate"
+      ],
+      "bytes": 12546144,
+      "sha256": "812684273ffb61abc512a7df6e4958ef9aefb088c221adf944060ad2ac0fadd4",
+      "size": {
+        "x": 0.47444,
+        "y": 1.3284,
+        "z": 1.50317
+      },
+      "base": {
+        "x": -0.26779,
+        "y": 0.002,
+        "z": -0.90358
+      },
+      "groundY": 0.002,
+      "triangles": 19861,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material",
+        "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Hair_1",
+        "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Eyes",
+        "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male",
+        "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+        "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight"
+      ],
+      "attackSeconds": 0.5,
+      "contactNormalized": 0.42,
+      "sourceProvenance": {
+        "file": "game/public/assets/models/creature/creature_goblin_shaman.glb",
+        "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421",
+        "bytes": 1254956,
+        "provenance": "Quaternius CC0 body, outfit and animations; Blink staff Standard Unity Asset Store EULA, per production manifest"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_goblin_shaman": "goblin-shaman-polish-candidate.glb"
+  }
+}

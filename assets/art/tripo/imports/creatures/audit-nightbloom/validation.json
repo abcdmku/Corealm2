@@ -1,0 +1,364 @@
+{
+  "schema": "corealm-nightbloom-cpu-validation/1",
+  "geometryPreserved": {
+    "POSITION": true,
+    "NORMAL": true,
+    "TEXCOORD_0": true,
+    "JOINTS_0": true,
+    "WEIGHTS_0": true,
+    "indices": true
+  },
+  "skin": {
+    "jointCount": 65,
+    "normalizedWeights": true,
+    "minimumWeightSum": 1,
+    "maximumWeightSum": 1,
+    "maximumWeightError": 0,
+    "unweightedVertices": 0
+  },
+  "motions": [
+    {
+      "name": "Idle",
+      "seconds": 2.4000000953674316,
+      "channels": 4,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        },
+        {
+          "seconds": 0.6,
+          "rmsDisplacement": 0.0248,
+          "maximumDisplacement": 0.0822,
+          "minY": 0,
+          "maxY": 2.4452
+        },
+        {
+          "seconds": 1.2,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        },
+        {
+          "seconds": 1.8,
+          "rmsDisplacement": 0.024,
+          "maximumDisplacement": 0.0714,
+          "minY": 0,
+          "maxY": 2.4531
+        },
+        {
+          "seconds": 2.4,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        }
+      ]
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.2000000476837158,
+      "channels": 8,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0.3986,
+          "maximumDisplacement": 0.6681,
+          "minY": 0.1904,
+          "maxY": 2.7673
+        },
+        {
+          "seconds": 0.3,
+          "rmsDisplacement": 0.1792,
+          "maximumDisplacement": 0.3516,
+          "minY": 0.0983,
+          "maxY": 2.6245
+        },
+        {
+          "seconds": 0.6,
+          "rmsDisplacement": 0.3258,
+          "maximumDisplacement": 0.6608,
+          "minY": 0.1295,
+          "maxY": 2.6571
+        },
+        {
+          "seconds": 0.9,
+          "rmsDisplacement": 0.1977,
+          "maximumDisplacement": 0.3627,
+          "minY": 0.1128,
+          "maxY": 2.6327
+        },
+        {
+          "seconds": 1.2,
+          "rmsDisplacement": 0.3986,
+          "maximumDisplacement": 0.6681,
+          "minY": 0.1904,
+          "maxY": 2.7673
+        }
+      ]
+    },
+    {
+      "name": "Run",
+      "seconds": 0.7599999904632568,
+      "channels": 8,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0.4736,
+          "maximumDisplacement": 0.8761,
+          "minY": 0.1583,
+          "maxY": 2.7061
+        },
+        {
+          "seconds": 0.19,
+          "rmsDisplacement": 0.1792,
+          "maximumDisplacement": 0.3516,
+          "minY": 0.0983,
+          "maxY": 2.6245
+        },
+        {
+          "seconds": 0.38,
+          "rmsDisplacement": 0.3883,
+          "maximumDisplacement": 0.8651,
+          "minY": 0.0527,
+          "maxY": 2.5223
+        },
+        {
+          "seconds": 0.57,
+          "rmsDisplacement": 0.1977,
+          "maximumDisplacement": 0.3627,
+          "minY": 0.1128,
+          "maxY": 2.6327
+        },
+        {
+          "seconds": 0.76,
+          "rmsDisplacement": 0.4736,
+          "maximumDisplacement": 0.8761,
+          "minY": 0.1583,
+          "maxY": 2.7061
+        }
+      ]
+    },
+    {
+      "name": "Attack",
+      "seconds": 0.8500000238418579,
+      "channels": 6,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        },
+        {
+          "seconds": 0.213,
+          "rmsDisplacement": 0.072,
+          "maximumDisplacement": 0.1673,
+          "minY": 0,
+          "maxY": 2.4658
+        },
+        {
+          "seconds": 0.425,
+          "rmsDisplacement": 0.1734,
+          "maximumDisplacement": 0.4806,
+          "minY": 0,
+          "maxY": 2.4337
+        },
+        {
+          "seconds": 0.638,
+          "rmsDisplacement": 0.1365,
+          "maximumDisplacement": 0.3742,
+          "minY": 0,
+          "maxY": 2.4354
+        },
+        {
+          "seconds": 0.85,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        }
+      ]
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.47999998927116394,
+      "channels": 4,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        },
+        {
+          "seconds": 0.12,
+          "rmsDisplacement": 0.1115,
+          "maximumDisplacement": 0.3034,
+          "minY": 0,
+          "maxY": 2.5428
+        },
+        {
+          "seconds": 0.24,
+          "rmsDisplacement": 0.0103,
+          "maximumDisplacement": 0.0312,
+          "minY": 0,
+          "maxY": 2.449
+        },
+        {
+          "seconds": 0.36,
+          "rmsDisplacement": 0.0246,
+          "maximumDisplacement": 0.0723,
+          "minY": 0,
+          "maxY": 2.4486
+        },
+        {
+          "seconds": 0.48,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        }
+      ]
+    },
+    {
+      "name": "HitLeft",
+      "seconds": 0.47999998927116394,
+      "channels": 4,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        },
+        {
+          "seconds": 0.12,
+          "rmsDisplacement": 0.1327,
+          "maximumDisplacement": 0.3857,
+          "minY": 0,
+          "maxY": 2.432
+        },
+        {
+          "seconds": 0.24,
+          "rmsDisplacement": 0.0092,
+          "maximumDisplacement": 0.028,
+          "minY": 0,
+          "maxY": 2.4491
+        },
+        {
+          "seconds": 0.36,
+          "rmsDisplacement": 0.0301,
+          "maximumDisplacement": 0.0918,
+          "minY": 0,
+          "maxY": 2.4647
+        },
+        {
+          "seconds": 0.48,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        }
+      ]
+    },
+    {
+      "name": "HitRight",
+      "seconds": 0.47999998927116394,
+      "channels": 4,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        },
+        {
+          "seconds": 0.12,
+          "rmsDisplacement": 0.1115,
+          "maximumDisplacement": 0.3034,
+          "minY": 0,
+          "maxY": 2.5428
+        },
+        {
+          "seconds": 0.24,
+          "rmsDisplacement": 0.0103,
+          "maximumDisplacement": 0.0312,
+          "minY": 0,
+          "maxY": 2.449
+        },
+        {
+          "seconds": 0.36,
+          "rmsDisplacement": 0.0246,
+          "maximumDisplacement": 0.0723,
+          "minY": 0,
+          "maxY": 2.4486
+        },
+        {
+          "seconds": 0.48,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        }
+      ]
+    },
+    {
+      "name": "Death",
+      "seconds": 1.5,
+      "channels": 5,
+      "samples": [
+        {
+          "seconds": 0,
+          "rmsDisplacement": 0,
+          "maximumDisplacement": 0,
+          "minY": 0,
+          "maxY": 2.4488
+        },
+        {
+          "seconds": 0.375,
+          "rmsDisplacement": 1.0439,
+          "maximumDisplacement": 1.8952,
+          "minY": -0.0075,
+          "maxY": 1.9126
+        },
+        {
+          "seconds": 0.645,
+          "rmsDisplacement": 1.7056,
+          "maximumDisplacement": 3.1769,
+          "minY": -0.0138,
+          "maxY": 0.8377
+        },
+        {
+          "seconds": 0.65,
+          "rmsDisplacement": 1.7149,
+          "maximumDisplacement": 3.1957,
+          "minY": -0.0275,
+          "maxY": 0.8409
+        },
+        {
+          "seconds": 1.5,
+          "rmsDisplacement": 1.7149,
+          "maximumDisplacement": 3.1957,
+          "minY": -0.0275,
+          "maxY": 0.8409
+        }
+      ]
+    }
+  ],
+  "death": {
+    "collapsedAtSeconds": 0.65,
+    "finalHeightMeters": 0.8684,
+    "finalGroundErrorMeters": -0.0275,
+    "heldFinalPoseFromSeconds": 0.65,
+    "toSeconds": 1.5
+  }
+}

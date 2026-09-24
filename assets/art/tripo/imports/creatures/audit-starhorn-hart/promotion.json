@@ -1,0 +1,31 @@
+{
+  "schema": "corealm-creature-candidate-promotion/1",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "assetId": "fairy_garden_hart_faeholme",
+  "creature": "Starhorn Hart",
+  "definition": "Starhorn Hart@115",
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-starhorn-hart/starhorn-hart-candidate.glb",
+  "productionFile": "game/public/assets/models/fairy-garden/fairy_garden_hart_faeholme.glb",
+  "sourceProvenance": {
+    "sourceAssetId": "fairy_garden_hart_faeholme",
+    "sourceFile": "game/public/assets/models/fairy-garden/fairy_garden_hart_faeholme.glb",
+    "sourceSha256": "49821bd9a72ef768ff3fe9f721f188bd2fcd3eb57a597c8cda17c5e494fdb447",
+    "imagegenAtlas": "assets/art/tripo/imports/creatures/audit-starhorn-hart/starhorn-imagegen-atlas.png",
+    "imagegenSha256": "377d67a4e0d8617d26bbe07b3d961b0a1ef004df6f0e221681f3b6e85b1d4f48",
+    "runtimeAtlas": "assets/art/tripo/imports/creatures/audit-starhorn-hart/starhorn-runtime-atlas.jpg",
+    "runtimeAtlasSha256": "1ffc7d7fce5ddf6847b3930ef532fe8d2451383b07d0f842f2533064d7f61c8d",
+    "originalBodyGeometryRigWeightsAndClipsPreserved": true,
+    "nativeAntlerMeshSculpted": true,
+    "uniformScaleFactor": 1.16,
+    "candidateStatus": "awaiting-root-lab-review"
+  },
+  "cpuValidation": "assets/art/tripo/imports/creatures/audit-starhorn-hart/validation.json",
+  "labCatalog": "assets/art/tripo/imports/creatures/audit-starhorn-hart/lab-catalog.json",
+  "remainingAcceptance": [
+    "Inspect real gameplay-camera screenshots in the production feature lab.",
+    "Verify idle, walk, run, attack, hit, side hits and death semantic state in Chromium.",
+    "Confirm broadened native antlers and detailed coat read at gameplay distance.",
+    "Copy accepted model to production and run relevant build."
+  ]
+}

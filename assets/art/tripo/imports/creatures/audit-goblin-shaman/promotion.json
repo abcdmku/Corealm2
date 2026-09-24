@@ -1,0 +1,17 @@
+{
+  "schema": "corealm-creature-candidate-promotion/1",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "assetId": "creature_goblin_shaman",
+  "creature": "Goblin Shaman",
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-goblin-shaman/goblin-shaman-polish-candidate.glb",
+  "productionFile": "game/public/assets/models/creature/creature_goblin_shaman.glb",
+  "sourceProvenance": "game/public/assets/manifest.json",
+  "cpuValidation": "assets/art/tripo/imports/creatures/audit-goblin-shaman/validation.json",
+  "labCatalog": "assets/art/tripo/imports/creatures/audit-goblin-shaman/lab-catalog.json",
+  "remainingAcceptance": [
+    "Review the skin, garment, scarf, face, and staff in the production creature lab at normal gameplay camera angles.",
+    "Compare Idle, Walk, Run, and Attack playback; check that the free hand clears the head at the curse release without intersecting the face or scarf.",
+    "Build after promotion to the production target."
+  ]
+}
