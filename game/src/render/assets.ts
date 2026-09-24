@@ -461,8 +461,12 @@ export class AssetRegistry {
   private assetClips = new Map<string, THREE.AnimationClip>();
 
   async loadManifest(): Promise<AssetManifest> {
-    const response = await fetch(this.urls.manifestUrl ?? assetManifestUrl());
-    if (!response.ok) throw new Error(`Asset manifest failed: ${response.status} ${response.statusText}`);
+    const url = this.urls.manifestUrl ?? assetManifestUrl();
+    // A network or CORS failure is a bare "Failed to fetch"; the URL is the one clue worth keeping.
+    const response = await fetch(url).catch((error: unknown) => {
+      throw new Error(`Asset manifest unreachable at ${url}: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
+    });
+    if (!response.ok) throw new Error(`Asset manifest failed at ${url}: ${response.status} ${response.statusText}`);
     const manifest = (await response.json()) as AssetManifest;
     configureAssetDelivery(this.urls.assetBaseUrl ?? assetBaseUrl(), manifest.compactTextures, manifest.optimizedTextures);
     this.manifest = manifest;

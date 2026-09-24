@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, expect, it } from "vitest";
 import {
-  canStorePendingLaunch, joinRoute, lastPlayChoice, parsePlayTarget, playTargetOf, playTargetText,
+  assetHostReadable, canStorePendingLaunch, joinRoute, lastPlayChoice, parsePlayTarget, playTargetOf, playTargetText,
   rememberPlayChoice, storePendingLaunch, takePendingLaunch,
 } from "../game/src/multiplayer/playIntent.js";
 
@@ -84,4 +84,18 @@ it("refuses rather than reloads when the page cannot remember why it reloaded", 
   expect(canStorePendingLaunch()).toBe(true);
   globals.sessionStorage = storage(true);
   expect(canStorePendingLaunch()).toBe(false);
+});
+
+it("reads a world's asset host before reloading onto it", async () => {
+  const asked: string[] = [];
+  const answer = (outcome: Response | Error): typeof fetch => async (input, init) => {
+    asked.push(`${init?.method} ${init?.mode} ${String(input)}`);
+    if (outcome instanceof Error) throw outcome;
+    return outcome;
+  };
+  expect(await assetHostReadable("https://play.test/dev-assets/", answer(new Response(null, { status: 200 })))).toBe(true);
+  expect(asked).toEqual(["HEAD cors https://play.test/dev-assets/assets/manifest.json"]);
+  // What a browser reports for a host that sends no Access-Control-Allow-Origin.
+  expect(await assetHostReadable("https://play.test/dev-assets/", answer(new TypeError("Failed to fetch")))).toBe(false);
+  expect(await assetHostReadable("https://play.test/dev-assets/", answer(new Response(null, { status: 404 })))).toBe(false);
 });

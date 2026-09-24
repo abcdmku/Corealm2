@@ -106,10 +106,11 @@ export interface WorldSelectorOptions {
    */
   play?:PlayTarget|null;
   /**
-   * Joining this world needs the page to reload onto its asset host first. Returns true when it
+   * Joining this world needs the page to reload onto its asset host first. Resolves true when it
    * took the join over, which means a reload is already under way and nothing else should happen.
+   * Rejects with the reason when the world's host cannot be reached from this page.
    */
-  rebase?:(world:WorldDescriptor)=>boolean;
+  rebase?:(world:WorldDescriptor)=>Promise<boolean>;
   /**
    * Local play as a world: the descriptor of the page's own worker-hosted world, whose provider is
    * among `providers`. With it, "Play local" joins that world through the session controller like
@@ -389,14 +390,17 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     rememberPlayChoice(target);
     panel.dispatchEvent(new CustomEvent("worldschosen",{detail:{play:playTargetText(target)}}));
   };
-  const joinSelected=()=>{
+  const joinSelected=async()=>{
     if(selected===LOCAL&&localWorld){void controller.join(localWorld);return;}
     const world=worlds.find(w=>worldKey(w)===selected);
     if(!world)return;
     chose({kind:"world",providerId:world.providerId,worldId:world.worldId});
     // A world on another asset host cannot be joined by this page: everything already loaded came
     // from the page's own origin. The caller writes the choice down and reloads.
-    if(options.rebase?.(world)===true){status.textContent=`Loading ${world.name} from its own asset host…`;updateButtons();return;}
+    let rebased=false;
+    try{rebased=await options.rebase?.(world)===true;}
+    catch(error){status.textContent=error instanceof Error?error.message:`${world.name} cannot be joined from this page.`;return;}
+    if(rebased){status.textContent=`Loading ${world.name} from its own asset host…`;updateButtons();return;}
     void controller.join(world);
   };
   /** Local play chosen: step out of the way. Over the loading screen that means hiding the panel. */
@@ -416,7 +420,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     if(selected===LOCAL&&localWorld){chose({kind:"local"});dismiss();}
     if(!ready&&selected===LOCAL&&localWorld){pendingJoin=true;updateButtons();return;}
     if(!ready){pendingJoin=true;status.textContent="Joining as soon as the game finishes loading.";updateButtons();return;}
-    joinSelected();
+    void joinSelected();
   };
   refresh.addEventListener("click",()=>{directory=null;void reload();});
   commit.addEventListener("click",runPrimary);
@@ -472,9 +476,9 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     return found;
   })();
   // `?play=local` with a worker-hosted world: the answer is already given, so it joins when the engine is ready.
-  if(autoLocal&&localWorld){selected=LOCAL;if(ready)joinSelected();else{pendingJoin=true;updateButtons();}}
+  if(autoLocal&&localWorld){selected=LOCAL;if(ready)void joinSelected();else{pendingJoin=true;updateButtons();}}
   if(play?.kind==="invalid")status.textContent="That play link does not name a world. Choose one below.";
-  if(autoWorld&&ready)joinSelected();
+  if(autoWorld&&ready)void joinSelected();
   else if(autoWorld){pendingJoin=true;status.textContent=`Joining ${autoWorld.name} as soon as the game finishes loading.`;updateButtons();}
   return {panel,controller,
     /** True when `?play=local` answered for the player, so the picker must never be mounted. */
@@ -482,7 +486,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     /** The panel is on the page: put focus on the row this browser played last, so Enter repeats it. */
     mounted(){focusChoice();},
     /** The engine is live: enable joining, and honour a choice made during loading. */
-    setReady(){if(ready)return;ready=true;const queued=pendingJoin;pendingJoin=false;updateButtons();if(queued)joinSelected();},
+    setReady(){if(ready)return;ready=true;const queued=pendingJoin;pendingJoin=false;updateButtons();if(queued)void joinSelected();},
     /**
      * Local play without being asked: the page finished loading, nobody answered the picker, and there is no
      * server on it to choose instead, so the page's own world starts.
@@ -491,7 +495,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     playLocal():boolean{
       if(!localWorld||controller.session||pendingJoin)return false;
       selected=LOCAL;dismiss();
-      if(ready)joinSelected();else{pendingJoin=true;updateButtons();}
+      if(ready)void joinSelected();else{pendingJoin=true;updateButtons();}
       return true;
     },
     /** Repaints availability after late ports arrive with the scene's seed check. */

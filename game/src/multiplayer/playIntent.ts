@@ -107,6 +107,21 @@ export function canStorePendingLaunch(): boolean {
   } catch { return false; }
 }
 
+/**
+ * Whether this page can read a world's asset host, asked before reloading onto it.
+ *
+ * The reloaded boot fetches the manifest first and has no way back if that fails: a host without
+ * `Access-Control-Allow-Origin` surfaced as a bare "Failed to fetch" on the loading screen. A CORS
+ * `HEAD` for the same file fails the same way, while this page can still say which world and why.
+ */
+export async function assetHostReadable(assetBaseUrl: string, fetcher: typeof fetch = fetch, timeoutMs = 8_000): Promise<boolean> {
+  try {
+    const response = await fetcher(new URL("assets/manifest.json", assetBaseUrl).href,
+      { method: "HEAD", mode: "cors", cache: "no-store", signal: AbortSignal.timeout(timeoutMs) });
+    return response.ok;
+  } catch { return false; }
+}
+
 /** What joining a world costs this page. */
 export type JoinRoute = "join" | "reload" | "refuse";
 

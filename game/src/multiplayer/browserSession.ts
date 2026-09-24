@@ -12,7 +12,7 @@ import { SessionFailure } from "./protocol.js";
 import { foreignAssetHost, identityUrl } from "../app/config.js";
 import { IdentityClient } from "./identityClient.js";
 import { createWorldSelector, savedHosts } from "../multiplayer/worldSelector.js";
-import { canStorePendingLaunch, joinRoute, storePendingLaunch, type PendingLaunch, type PlayTarget } from "./playIntent.js";
+import { assetHostReadable, canStorePendingLaunch, joinRoute, storePendingLaunch, type PendingLaunch, type PlayTarget } from "./playIntent.js";
 import type { SessionControllerPorts } from "./providers.js";
 import type { LocalLaunch } from "./localLaunch.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
@@ -117,11 +117,13 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     throw new SessionFailure("UNAUTHORIZED","This deployment must provide a sign-in adapter");
   }, [...(window.__COREALM_PROVIDERS__ ?? []), ...(local ? [local.provider] : [])], {ready:false,identity,identityError,play,
     ...(local ? {local:local.provider.world,localNotice:local.notice} : {}),
-    rebase(world){
+    async rebase(world){
       const route=joinRoute({assetHostForeign:foreignAssetHost(world.assetBaseUrl),
         rebaseAttempts:launch?.attempts??0,canStore:canStorePendingLaunch()});
       if(route==="join")return false;
       if(route==="refuse")throw new SessionFailure("INCOMPATIBLE","This world loads its files from another host, and this page could not switch to it.");
+      if(!await assetHostReadable(world.assetBaseUrl!))
+        throw new SessionFailure("UNAVAILABLE",`${world.name}'s files at ${new URL(world.assetBaseUrl!).host} cannot be read from this page. The host may be down or may not allow other sites to load them.`);
       // Everything fetched so far came from this page's own origin, and `app/config.ts` locks the
       // base once a URL is built. Reloading is the only way to start again on the world's host.
       storePendingLaunch({providerId:world.providerId,worldId:world.worldId,
