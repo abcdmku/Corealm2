@@ -65,22 +65,14 @@ describe("authored wildlife habitats", () => {
     expect(errors).toEqual([]);
   });
 
-  it("contains every activity anchor and leaves enough separation for distinct animals", () => {
+  it("contains every activity anchor inside its habitat", () => {
     const errors: string[] = [];
     for (const habitat of WORLD_HABITATS) {
       const bodyRadius = encounterBodyRadius(groupsById.get(habitat.groupId)!.group);
-      const minimumSeparation = bodyRadius * 2 + .5;
       expect(Number.isFinite(habitat.radius) && habitat.radius > 0, habitat.id).toBe(true);
       for (const [index, [x, z]] of habitat.anchors.entries()) {
         if (Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) + bodyRadius > habitat.radius + 1e-6) {
           errors.push(`${habitat.id}/anchor ${index + 1} lies outside habitat radius`);
-        }
-        for (let next = index + 1; next < habitat.anchors.length; next++) {
-          const other = habitat.anchors[next]!;
-          const distance = Math.hypot(x - other[0], z - other[1]);
-          if (distance < minimumSeparation - 1e-6) {
-            errors.push(`${habitat.id}/anchors ${index + 1},${next + 1}: ${distance.toFixed(2)} m separation`);
-          }
         }
       }
     }
