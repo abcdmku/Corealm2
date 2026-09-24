@@ -65,8 +65,9 @@ pools without reducing their capacities or skipping buffer and binding preparati
 and refracting air currents share their pose attributes, with separate geometry ownership.
 Completed glow preparation is reused only while its mesh, material, camera, scene and target
 still match. Refraction prepares against its actual target. Both authored elemental PNGs
-download during world warmup and finish decoding before spell preparation. Effects compile
-against the final scene lighting, and every local and remote pool is ready before play.
+download during world warmup and finish decoding before spell preparation. Batched lighting keeps
+effect programs independent of region lights, so effects compile once while the world joins,
+and every local and remote pool is ready before play.
 
 Background assets use frame-pressure budgets, bounded downloads and buffered bytes. Foliage
 pixel conversion and hashing now run in a worker, alongside the existing world-data, Meshopt
