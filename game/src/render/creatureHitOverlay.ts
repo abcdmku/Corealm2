@@ -90,6 +90,22 @@ function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
   else if(edge('Bone013','Bone012') && edge('Bone023','Bone022') && edge('Bone029','Bone028') && named('Bone022(mirrored)')) roots=bones.filter(b=>b.name==='Bone012');
   else if(edge('Bone007','Bone006') && edge('Bone026','Bone025') && edge('Bone031','Bone030') && named('Bone030(mirrored)')) roots=bones.filter(b=>b.name==='Bone006');
   else if(named('CATRigLLegAnkle') && named('CATRigLArmPalm')) roots=bones.filter(b=>/^CATRigHub003(?:_\d+)?$/.test(b.name));
+  // Supplied bodies with their own rigs. Each keeps the bone that carries its legs, feet or ground
+  // roots fixed and lets the branches beside it recoil.
+  else if(named('Carapace') && named('Claw_L') && named('Claw_R') && bones.some(b=>/Leg_/.test(b.name)))
+    roots=bones.filter(b=>['Carapace','Claw_L','Claw_R'].includes(b.name)); // crab, rift carapace
+  else if(named('VaultweaverRoot') && named('Hood')) roots=bones.filter(b=>['Carapace','Hood','SilkSac'].includes(b.name));
+  else if(named('Stalk') && named('Maw') && named('FrontLeftFoot')) roots=bones.filter(b=>b.name==='Stalk');
+  else if(named('Bole') && named('LeftRoot') && named('Crown')) roots=bones.filter(b=>b.name==='Bole');
+  else if(named('MooncapRoot') && named('EyeStalk_L')) roots=bones.filter(b=>b.name==='Neck' || b.name==='Mantle');
+  else if(named('ReliquaryRoot') && named('PearlHusk')) roots=bones.filter(b=>['PearlHusk','Neck','Tail'].includes(b.name));
+  // Hovering bodies have no support: keep the core that anchors their float height.
+  else if(named('SpiritRoot') && edge('Spine','TailBase')) roots=bones.filter(b=>b.name==='Spine');
+  else if(named('HollowCore') && named('MembraneSector0')) roots=bones.filter(b=>/^MembraneSector\d+$/.test(b.name));
+  // Marchwild horse: Bone carries the forelegs and the unparented Bone_*003 chains are hind legs;
+  // Bone001 is the neck and head, Bone003 the tail.
+  else if(edge('Bone001_L','Bone001') && edge('Bone002','Bone001') && edge('Bone_L001','Bone_L') && named('Bone_R005'))
+    roots=bones.filter(b=>b.name==='Bone001' || b.name==='Bone003');
   else return null;
   const selected=new Set<THREE.Bone>();
   for(const root of roots)root.traverse(node=>{if((node as THREE.Bone).isBone)selected.add(node as THREE.Bone);});
@@ -140,7 +156,10 @@ export function createMaskedHitOverlay(
     support.traverse(node => blocked.add(node));
     for (let node: THREE.Object3D | null = support; node; node = node.parent) blocked.add(node);
   }
-  for(const bone of bones)if((/root|main|hips|pelvis/i.test(bone.name) && !/tree/i.test(bone.name)) || bone.name==='beetle_1_Bone')blocked.add(bone);
+  // A root/hips-named bone anchors the body only when nothing upper-body carries it; a cape or
+  // accessory "root" hanging off the spine moves with the spine anyway.
+  const carriedByUpperBody=(bone:THREE.Object3D)=>{for(let node=bone.parent;node;node=node.parent)if(upperName.test(node.name)||headName.test(node.name))return true;return false;};
+  for(const bone of bones)if((/root|main|hips|pelvis/i.test(bone.name) && !/tree/i.test(bone.name) && !carriedByUpperBody(bone)) || bone.name==='beetle_1_Bone')blocked.add(bone);
   const knownUpright = bones.some(bone => /^(lava_src_|earth_|forest_src_)/.test(bone.name)) || isNamedUprightBiped(bones);
   const safe = new Set(bones.filter(bone => !blocked.has(bone)
     && !/IK|target/i.test(bone.name)
