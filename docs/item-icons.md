@@ -6,13 +6,13 @@ The game loads `game/public/assets/icons/items/48/<id>.png`. The docs use the 25
 
 ## Sources and regeneration
 
-September 12, 2026 requirement: every new or replacement item icon starts with prompted image generation. Do not build basic procedural item geometry, render a fake 3D item, or screenshot a model to create an inventory icon. Missing generated artwork is an unfinished asset, never permission to use that fallback. This rule supersedes older procedural icon instructions in run PRDs and tools.
+Every item icon comes from prompted GPT image generation (GPT Image 2.5). There are no exceptions: do not build procedural item geometry, render a 3D item or model, or screenshot a model to create an inventory icon, and devdocs shows an item's generated icon rather than a render of its model. Missing generated artwork is an unfinished asset, never permission to use a fallback. This rule supersedes older procedural or rendered icon instructions in run PRDs and tools.
 
 First consolidate the item catalogue so retired duplicates do not receive new artwork. Generate the icon from the surviving item's name, materials, tier, shape, and purpose. Record its exact prompt and original source, then review the 256px master and 48px inventory derivative. Only accepted artwork may be published.
 
 Create a 3D asset from the accepted icon reference only when gameplay needs a visible held, worn, placed, or world object. Rings, earrings, and other minor jewelry need inventory artwork, not dedicated 3D assets. An item must not require a model mapping merely to publish its generated icon. Model inspection screenshots remain valid for reviewing actual gameplay assets; they are not icon sources.
 
-Item artwork follows the item's name, description, material, and purpose. The September 11, 2026 art direction explicitly allows new designs independent of existing 3D models; future models can follow the approved artwork. `game/src/render/itemIconAppearances.ts` retains the older model mappings for rendering tools.
+Item artwork follows the item's name, description, material, and purpose. The September 11, 2026 art direction explicitly allows new designs independent of existing 3D models; future models can follow the approved artwork.
 
 Generated artwork uses the original PNG under `art/item-icons/generated/`. Its registry records the item ID, original source, SHA-256, exact prompt, source selection or art direction, and review status. Keep the original transparency. The generator trims and scales it to a 256px master, then derives the outlined 48px inventory image.
 
@@ -51,25 +51,3 @@ catalog to 399. Those icons and the nine Crownward raw/cooked/burnt fish icons h
 prompted originals, root and independent review at 256px and 48px, and production
 inventory loading and hover checks. Sources are preserved in the regional directories
 under `art/item-icons/generated/` and the shared registry.
-
-## Tier 0 salvage armour: rendered, not prompted
-
-September 18, 2026: the ten tier 0 pieces (`worn_helm`, `worn_cuirass`, `worn_greaves`,
-`worn_gloves`, `worn_boots` and the five `worn_hide_*` pieces) carry renders of the production
-armour instead of prompted artwork. The user reviewed prompted tier-1 art on this set, rejected it
-as too fancy for basic starter gear, and asked for icons taken from the real armour. Their registry
-entries record `"generator": "production item icon renderer"`, which `tools/lib/item-icon-art.ts`
-accepts alongside prompted sources. Everything after the source is unchanged: the published
-pipeline still trims each source to a 256px master and derives the outlined 48px inventory image.
-
-Regenerate a source with the renderer page the icons came from, then republish:
-
-```sh
-npx vite game --config game/vite.nohmr.config.ts --host 127.0.0.1 --port 4179 --strictPort
-# render worn_* through window.__itemIconRenderer on /item-icon-renderer.html into
-# art/item-icons/generated/, refresh the sha256 in registry.json, then:
-npm run icons -- --only worn_helm,worn_cuirass,worn_greaves,worn_gloves,worn_boots
-```
-
-This exception covers that set only. Every other new or replacement icon still starts with prompted
-image generation.
