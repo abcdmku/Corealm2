@@ -1544,9 +1544,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   const traversalPresentation = new TraversalPresentation(async () => {
     const player = store.get().player;
-    scene.syncPlayer(player.position, player.facingRad, true);
-    camera.update(...player.position, true);
-    refreshVisualResidency(player.position, player.regionId, true);
+    landView(player.position, player.facingRad, player.regionId);
     await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
     renderer.render(performance.now());
   });
@@ -1627,6 +1625,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       });
     }
   };
+  /** The view follows a player who arrived somewhere without walking: body, camera (on `focus`),
+   * the resident world around them and their region's music. */
+  const landView = (position: Vec3, facingRad: number, regionId: RegionId, focus: Vec3 = position): void => {
+    scene.syncPlayer(position, facingRad, true);
+    camera.update(focus[0], focus[1], focus[2], true);
+    refreshVisualResidency(position, regionId, true);
+    audioDirector.setRegion(regionId, position);
+  };
 
   const hunts = new HuntContractsSystem({
     state: () => store.get().huntContracts,
@@ -1654,15 +1660,28 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     spawn: huntFixture.spawn,
   };
   let pausedBeforePortal = false;
-  /** Covered loading hides unprepared meshes and gives graphics and asset work startup-sized
-   * budgets: nothing interactive is drawn until it lifts. */
-  const coverLoading = (covered: boolean): void => {
-    renderer.setDestinationLoading(covered);
-    renderer.setFramesSuppressed(covered);
-    if (debugReady) assets.setGameplayActive(!covered && runtimePerformanceEnabled);
+  /** Every covered load (the portal curtain, a debug placement) holds a cover until it lifts. While
+   * any is held, unprepared meshes stay hidden and graphics and asset work get startup-sized budgets.
+   * Frames are suppressed until each holder has released or asked to draw behind its cover. */
+  const covers = new Set<{ drawing: boolean }>();
+  const applyCovers = (): void => {
+    renderer.setDestinationLoading(covers.size > 0);
+    renderer.setFramesSuppressed([...covers].some(cover => !cover.drawing));
+    if (debugReady) assets.setGameplayActive(!covers.size && runtimePerformanceEnabled);
   };
+  const acquireCover = () => {
+    const cover = { drawing: false };
+    covers.add(cover);
+    applyCovers();
+    return {
+      draw: (): void => { cover.drawing = true; applyCovers(); },
+      release: (): void => { if (covers.delete(cover)) applyCovers(); },
+    };
+  };
+  let portalCover: ReturnType<typeof acquireCover> | null = null;
   const portalTransition = new PortalTransition((locked) => {
-    coverLoading(locked);
+    portalCover?.release();
+    portalCover = locked ? acquireCover() : null;
     if (locked) pausedBeforePortal = clock.paused;
     clock.paused = locked || pausedBeforePortal;
     input.clear();
@@ -1684,7 +1703,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         ? Promise.resolve(cave).then(() => renderer.prepareInterior(dungeon.group)) : cave,
     ]);
   };
-  const transitionThroughPortal = (destination: { position: Vec3; regionId: RegionId; name: string }, commit: () => void): Promise<void> => portalTransition.run({
+  /** The host already moved the player across maps or beyond the actor radius: curtain the arrival. */
+  const coverArrival = (destination: { position: Vec3; regionId: RegionId; name: string }): Promise<void> => portalTransition.run({
     name: destination.name,
     prepare: async (report) => {
       report(0, "Loading destination…");
@@ -1693,12 +1713,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
     commit: () => {
       camera.setFreeTarget(null);
-      commit();
       const player = store.get().player;
-      audioDirector.setRegion(player.regionId, player.position);
-      scene.syncPlayer(player.position, player.facingRad, true);
-      camera.update(...player.position, true);
-      refreshVisualResidency(player.position, player.regionId, true);
+      landView(player.position, player.facingRad, player.regionId);
     },
     settled: async () => {
       // The host keeps simulating behind the cover. A player killed while the destination loaded
@@ -1718,11 +1734,37 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       // while those programs and textures prepare, instead of forcing their first draw here.
       await renderer.waitForInterior(renderer.scene);
       await renderer.prepareEffects(spellVfx.preparationRoot());
-      renderer.setFramesSuppressed(false);
-      renderer.render(performance.now());
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      // Let the loop draw behind the curtain: its frame syncs interiors, the rig and residency.
+      const drawn = renderer.getPresentationState().submitted;
+      portalCover?.draw();
+      await renderer.waitForFrame(drawn);
     },
   });
+  /**
+   * Where a debug pose or teleport puts the player. The host owns the player, so this asks the local
+   * world and resolves once the new position has been replicated back; `then` runs after that. A page
+   * with no local world (the multiplayer lab, a capture) has nobody to ask, and the pose is refused.
+   */
+  const localDebug = localLaunch ? (op: import("../worker/localDebugProtocol.js").DebugOp) => localLaunch.provider.debug(op) : null;
+  /** Debug placements frame their own camera, so they skip the jump cover and resolve only once
+   * the creatures and scenery around the new position are built and drawable. */
+  const debugPlace = async <T>(position: Vec3, regionId: RegionId, facingRad: number | undefined, then: () => T): Promise<T> => {
+    if (!localDebug) throw new Error("UNAVAILABLE: only a local world lets the debug surface place the player.");
+    debugPlacements++;
+    try { await localDebug({ op: "place", position, regionId, ...(facingRad === undefined ? {} : { facingRad }) }); }
+    finally { debugPlacements--; }
+    const result = then();
+    await portalTransition.idle();
+    const cover = acquireCover();
+    try {
+      await entityViews.retryHydration();
+      await renderer.waitForInterior(renderer.scene);
+    } finally { cover.release(); }
+    // Resolve on a drawn frame of the new position, not the one the cover left on the canvas.
+    const drawn = renderer.getPresentationState().submitted;
+    await renderer.waitForFrame(drawn);
+    return result;
+  };
   api.register("quests", questSystem);
   api.register("bank", {
     op: (op, args) => {
@@ -2298,12 +2340,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         camera.update(centreX, focusY, centreZ, true);
         return;
       }
-      await localLaunch!.provider.debug({ op: "place", position: point, regionId: spawnSpec.regionId, facingRad: 0 });
-      input.clear();
-      scene.syncPlayer(point, 0, true);
-      if (rigged) playerRig.setPosition(point, 0);
-      camera.setPose(Math.PI, 0.46, viewingDistance);
-      camera.update(point[0], point[1], point[2], true);
+      await debugPlace(point, spawnSpec.regionId, 0, () => {
+        input.clear();
+        scene.syncPlayer(point, 0, true);
+        if (rigged) playerRig.setPosition(point, 0);
+        camera.setPose(Math.PI, 0.46, viewingDistance);
+        camera.update(point[0], point[1], point[2], true);
+      });
     };
 
     const initialStructure: FeatureLabStructureView = {
@@ -2325,7 +2368,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
     const params = new URLSearchParams(window.location.search);
     // The music stops are places to stand, and standing somewhere is the worker's to decide. The page follows the replicated position.
-    musicLab?.createMusicWorkbench(point => { void localLaunch?.provider.debug({ op: "place", position: nav.closestPoint(point) ?? point, regionId: "fallowmarch" }); });
+    musicLab?.createMusicWorkbench(point => { void debugPlace(nav.closestPoint(point) ?? point, "fallowmarch", undefined, () => {}); });
     if (params.get("atmosphere") === "1") {
       const { createBiomeAtmosphereWorkbench } = await import("../featureLab/biomeAtmosphere.js");
       createBiomeAtmosphereWorkbench(renderer.biomeAtmosphere);
@@ -2843,7 +2886,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // The range is drawn here. Standing the player on it and dressing them is the worker's, so it waits for the join.
     labAfterJoin.push(async (lab) => {
       lab.setWalkingEnabled(true);
-      await localLaunch!.provider.debug({ op: "place", position: rangeSpawn, regionId: store.get().player.regionId, facingRad: 0 });
+      await debugPlace(rangeSpawn, store.get().player.regionId, 0, () => {});
       // Production robe and staff, through the same equipment path as the combat workbench.
       // The lab worker keeps nothing; this fixture never changes a saved character.
       await lab.equipPlayer("offHand", null);
@@ -2960,31 +3003,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
    * Places the camera around a documentation subject without adding a second camera system.
    * The normal orbit camera still owns projection, occlusion, region streaming, and rendering.
    */
-  /**
-   * Where a debug pose or teleport puts the player. The host owns the player, so this asks the local
-   * world and resolves once the new position has been replicated back; `then` runs after that. A page
-   * with no local world (the multiplayer lab, a capture) has nobody to ask, and the pose is refused.
-   */
-  const localDebug = localLaunch ? (op: import("../worker/localDebugProtocol.js").DebugOp) => localLaunch.provider.debug(op) : null;
-  /** Debug placements frame their own camera, so they skip the jump cover and resolve only once
-   * the creatures and scenery around the new position are built and drawable. */
-  const debugPlace = async <T>(position: Vec3, regionId: RegionId, facingRad: number | undefined, then: () => T): Promise<T> => {
-    if (!localDebug) throw new Error("UNAVAILABLE: only a local world lets the debug surface place the player.");
-    debugPlacements++;
-    try { await localDebug({ op: "place", position, regionId, ...(facingRad === undefined ? {} : { facingRad }) }); }
-    finally { debugPlacements--; }
-    const result = then();
-    await portalTransition.idle();
-    coverLoading(true);
-    try {
-      await entityViews.retryHydration();
-      await renderer.waitForInterior(renderer.scene);
-    } finally { coverLoading(false); }
-    // Resolve on a drawn frame of the new position, not the one the cover left on the canvas.
-    const drawn = renderer.getPresentationState().submitted;
-    await renderer.waitForFrame(drawn);
-    return result;
-  };
   const frameDocumentationTarget = (
     target: Vec3,
     yaw: number,
@@ -2997,16 +3015,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const landed = nav.closestPoint(playerTarget) ?? playerTarget;
     const regionId = regionAtPoint(landed);
     return debugPlace(landed, regionId, playerFacingRad, () => {
-    if (profile.kind === "feature-lab") entityViews.sync(entityStore.all());
-    else refreshVisualResidency(landed, regionId, true);
-    audioDirector.setRegion(regionId, landed);
-    movement.stop(store.get(), clock.elapsedMs, reason);
-    scene.syncPlayer(landed, playerFacingRad, true);
-    // Documentation poses may deliberately move inside the player-facing comfort zoom floor so a
-    // held item can be inspected. Interactive mouse-wheel zoom still keeps CAMERA.minDistance.
-    camera.setPose(yaw, pitch, distance, 2);
-    camera.update(target[0], target[1], target[2], true);
-    renderer.followShadow(renderer.camera.position.clone().setY(landed[1]));
+      movement.stop(store.get(), clock.elapsedMs, reason);
+      // Documentation poses may deliberately move inside the player-facing comfort zoom floor so a
+      // held item can be inspected. Interactive mouse-wheel zoom still keeps CAMERA.minDistance.
+      camera.setPose(yaw, pitch, distance, 2);
+      landView(landed, playerFacingRad, regionId, target);
+      // A lab shows every entity it placed, whichever map it stands on.
+      if (profile.kind === "feature-lab") entityViews.sync(entityStore.all());
+      renderer.followShadow(renderer.camera.position.clone().setY(landed[1]));
     });
   };
   const framed = (placed: void | Promise<void>): boolean | Promise<boolean> => placed ? placed.then(() => true) : true;
@@ -3039,10 +3055,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const { position, facingRad, regionId } = store.get().player;
     portalTransition.cancel(); traversalPresentation.reset(); input.clear(); loop.resetPresentation(); gameAudio.reset();
     if (rigged) playerRig.setPosition(position, facingRad);
-    scene.syncPlayer(position, facingRad, true);
     camera.reset(); camera.setPose(facingRad + Math.PI, CAMERA.defaultPitch, CAMERA.defaultDistance);
-    camera.update(position[0], position[1], position[2], true);
-    audioDirector.setRegion(regionId, position); refreshVisualResidency(position, regionId, true); ui.update();
+    landView(position, facingRad, regionId); ui.update();
   };
   const localSession = (): boolean => localLaunch !== null && worldSelectionResult?.controller.session?.world?.providerId === localLaunch.provider.id;
   installGameDebug({
@@ -3120,11 +3134,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const snapped: Vec3 = regionId === dungeonSpec?.regionId
         ? [navPoint[0], movementHeightAt(regionId, navPoint[0], navPoint[2]), navPoint[2]] : navPoint;
       return debugPlace(snapped, regionId, undefined, () => {
-        audioDirector.setRegion(regionId, snapped);
         movement.stop(store.get(), clock.elapsedMs, "teleport");
-        scene.syncPlayer(snapped, store.get().player.facingRad, true);
-        camera.update(snapped[0], snapped[1], snapped[2], true);
-        refreshVisualResidency(snapped, regionId, true);
+        landView(snapped, store.get().player.facingRad, regionId);
       });
     },
     // Observation must not update the renderer or repair a missed state transition.
@@ -3299,12 +3310,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       if (dungeon) dungeon.group.visible = regionId === "gravelmaw";
       const stand: Vec3 = [target[0], terrain.meshHeightAt(target[0], target[2]), target[2]];
       return debugPlace(stand, regionId, yaw + Math.PI, () => {
-        refreshVisualResidency(stand, regionId, true);
-        audioDirector.setRegion(regionId, stand);
         movement.stop(store.get(), clock.elapsedMs, "inspect-pose");
-        scene.syncPlayer(stand, yaw + Math.PI, true);
         camera.setPose(yaw, pitch, distance);
-        camera.update(...stand, true);
+        landView(stand, yaw + Math.PI, regionId);
         renderer.followShadow(renderer.camera.position.clone().setY(stand[1]));
         return true;
       });
@@ -3432,7 +3440,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           ||(player.regionId==="gravelmaw"&&deferredCave!==null&&!deferredCave.getState().ready);
         if(!crossed){refreshVisualResidency(player.position,player.regionId,update.snapshot);return;}
         if(portalTransition.active)return;
-        void transitionThroughPortal({position:[...player.position] as Vec3,regionId:player.regionId,name:getRegion(player.regionId)?.name??"Gravelmaw"},()=>{})
+        void coverArrival({position:[...player.position] as Vec3,regionId:player.regionId,name:getRegion(player.regionId)?.name??"Gravelmaw"})
           .catch(cause=>{errors.push({atMs:atMs(),source:"portalTransition",message:describeError(cause)});});
       },
       restored(){for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
