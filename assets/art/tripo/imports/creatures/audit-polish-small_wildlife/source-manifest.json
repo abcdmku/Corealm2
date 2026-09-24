@@ -1,0 +1,208 @@
+{
+  "schema": "corealm-small-wildlife-pinned-sources/1",
+  "assets": [
+    {
+      "id": "animal_chicken",
+      "file": "models/animal/animal_chicken.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "chicken",
+      "tags": [
+        "chicken",
+        "hen",
+        "fowl",
+        "bird",
+        "farm",
+        "plains",
+        "animal",
+        "passive"
+      ],
+      "bytes": 388976,
+      "size": {
+        "x": 0.245,
+        "y": 0.613,
+        "z": 0.556
+      },
+      "base": {
+        "x": -0.123,
+        "y": -0.001,
+        "z": -0.268
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.0333333015441895,
+      "materials": [
+        "animal_chicken_mat"
+      ],
+      "impliedWalkMps": 0.48204361375890803,
+      "impliedRunMps": 1.0368160285737749,
+      "runClipSeconds": 0.5666666626930237,
+      "sha256": "FA23A1289583064E65A73E7DD0E0E950B516817AEA74795D71A53E696866F900",
+      "groundY": -0.001
+    },
+    {
+      "id": "animal_rat",
+      "file": "models/animal/animal_rat.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "rat",
+      "tags": [
+        "rat",
+        "rodent",
+        "vermin",
+        "cave",
+        "dungeon",
+        "animal",
+        "aggressive"
+      ],
+      "bytes": 1201164,
+      "size": {
+        "x": 0.135,
+        "y": 0.139,
+        "z": 0.6
+      },
+      "base": {
+        "x": -0.068,
+        "y": -0.001,
+        "z": -0.36
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.399999976158142,
+      "materials": [
+        "animal_rat_mat"
+      ],
+      "impliedWalkMps": 0.12231044887073027,
+      "sha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+      "groundY": -0.001
+    },
+    {
+      "id": "animal_viper",
+      "file": "models/animal/animal_viper.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "viper",
+      "tags": [
+        "viper",
+        "adder",
+        "snake",
+        "serpent",
+        "venom",
+        "forest",
+        "animal",
+        "territorial"
+      ],
+      "bytes": 459596,
+      "size": {
+        "x": 0.074,
+        "y": 0.07,
+        "z": 1.508
+      },
+      "base": {
+        "x": -0.037,
+        "y": -0.01,
+        "z": -0.732
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.5333333015441895,
+      "materials": [
+        "animal_viper_mat"
+      ],
+      "runClipSeconds": 1.066666603088379,
+      "sha256": "E51F6386DE6B0CB9ACD952306041B2CE4BA3A60F242532DFB8ACBE5672DA037B",
+      "groundY": -0.01
+    },
+    {
+      "id": "creature_red_worm",
+      "file": "models/creature/creature_red_worm.glb",
+      "pack": "sr-studios-worms-free",
+      "category": "character",
+      "is": "worm",
+      "tags": [
+        "creature",
+        "worm",
+        "source-rig"
+      ],
+      "bytes": 883576,
+      "sha256": "6d3a8e920aee8d90739b6ff11971175e76e0c588f99fc9b51d94d4d2a9c87055",
+      "size": {
+        "x": 0.04704650697447787,
+        "y": 0.03805613807514629,
+        "z": 0.20270504951477047
+      },
+      "base": {
+        "x": -0.02352325343996233,
+        "y": -0.00004070411572375254,
+        "z": -0.10135252475738522
+      },
+      "triangles": 736,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "animal_red_worm_skin"
+      ],
+      "walkClipSeconds": 2.4,
+      "runClipSeconds": 1.5,
+      "attackSeconds": 1,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "archiveSha256": "3c3662e2929be886843d5fd18f4d47db2487cc63181fd6fbc16b4451ca4697c2",
+        "model": "Assets/Worms FREE/1-Small Worm/Meshes/Worm_HighPoly.fbx",
+        "texture": "Assets/Worms FREE/1-Small Worm/Textures/Base_Colors/Pink_Red.png",
+        "modifications": "Unity centimetres/globalScale 4; darker red albedo factor [0.52,0.26,0.15]; original Look as Idle; authored segment-wave locomotion and bend reactions on the source skeleton. Species scale 9.6."
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "animal-pack-deluxe",
+      "name": "Animal pack deluxe",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage"
+    },
+    {
+      "id": "sr-studios-worms-free",
+      "name": "Worms FREE",
+      "author": "SR Studios Kerala",
+      "source": "https://assetstore.unity.com/packages/3d/characters/worms-free-342926",
+      "license": "Standard Unity Asset Store EULA",
+      "assetStoreId": "342926",
+      "sourceArchive": "Worms FREE.unitypackage",
+      "archiveSha256": "3c3662e2929be886843d5fd18f4d47db2487cc63181fd6fbc16b4451ca4697c2"
+    }
+  ]
+}

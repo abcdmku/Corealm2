@@ -16,7 +16,7 @@ Fen Crawler, Rootbound Colossus, Mooncap Sporekin and Thicket Spirit are now pro
 
 Current acceptance evidence is in `test-results/creature-audit/continuation-session/session.jsonl`. Fen and Rootheart whole-corpse views and both Thicket tier scales were recaptured with normal player-follow cameras. Lab combat showed Fen 30 -> 26 HP, Rootheart 124 -> 118 HP, and elder Thicket 208 -> 202 -> 190 HP. Mooncap retains matching-hash round3 combat/death proof. Typecheck, six focused creature/content test files (35 tests) and content validation passed. The three known lab-only missing-model warnings remain. Production build passed, including navigation, world/server packs and asset budgets. Representative Fen Crawler world acceptance passed in the rebaked Blackwater population: HP 17 -> 10 -> 0, Run/Attack/Death, one drawn mesh throughout the sampled interaction, normal player-follow camera and no errors. The corrected tier-5 body radius is 0.38148m. Other three families still need representative world views. Initial teleport visibility was delayed; no streaming changes were made.
 
-Production catalog now has 54 entries. Remaining original verdicts: 49 replacements and 41 polish assets.
+Production catalog now has 58 entries. Remaining original verdicts: 49 replacements and 37 polish assets.
 
 Vault Custodian and Faeholme Nightbloom are promoted in the second continuation batch. Their source preservation commit is 72ddc08. Fresh whole-corpse views passed at normal camera angles; Vault combat showed 38 -> 35 -> 29 HP and Nightbloom 724 -> 715 -> 695 HP with Attack. Vault scale is 0.84. Typecheck, the six focused files / 35 tests, content validation and production build passed for this second batch. Luna source review found no defects. The first Vault world check was interrupted by a stopped development server and failed model requests. After restart, normal-camera world combat at scree_boars_1 showed HP 30 -> 17 -> 0 and visible full-size sentinels, with no current-document game errors. Instanced bodies were slow to enter the animated Death path; world death animation remains a follow-up for the separate rendering thread. See vault-world-contact-12.png and its motion journal.
 
@@ -288,3 +288,41 @@ These41 IDs include the staged polish candidates above. See original audit for i
 - fairy_garden_petalguard_faeholme
 
 For generation planning, use [the deduplicated generation queue](./creature-generation-queue.md). The 58 replacement verdicts are not 58 new-model requests.
+
+## Parallel polish sweep, 41 assets
+
+User requested a large Sol/Luna sweep to finish all 41 remaining polish assets. The table below is exclusive implementation ownership. Each worker writes ONLY its `assets/art/tripo/imports/creatures/audit-polish-<group>/` directory, plus disposable diagnostics under `test-results/creature-audit/polish-<group>/`. All existing sources, staged directories, production assets, shared code/content/contracts, docs and catalogs outside that directory are read-only. Root owns integration, acceptance, shared changes, commits and pushes. No worker launches a server/browser or runs combined tests/build. Root reuses Vite at http://127.0.0.1:62553 and the continuation lab session.
+
+Read AGENTS.md, docs/feature-lab.md, original audit rows, and relevant existing staged source work. Reuse existing generated textures/candidates first, preserve all untracked originals, and adapt the actual accepted source rather than blindly restoring an older model. User creates new models manually: NO Tripo jobs or 3D model generation. Needed raster skins must use the imagegen skill and built-in image_gen tool, with detailed layered maps and preserved UV layout, never flat recolors or procedural painted replacement skins. Inspect images before and after edits. Do not use API/CLI fallback without user authorization. Report a source/texture tool blocker instead of fabricating completion.
+
+Preserve healthy rigs, clips, weights, topology and source PBR where possible; fix actual audit defects with minimum distortion. Avoid shape changes solely from a still-frame animation accusation. Treat size/tier/loot requirements as root integration recommendations; do not edit global creature definitions. High-tier variants may add dedicated IDs in your candidate catalog only, preserving low-tier assets and stating exact intended presets. No cross-family silhouette reuse. No world activation or streaming/invisible-enemy fixes.
+
+Deliver a small ready batch early. Reuse existing asset tools/builders; do not add a fixture, npm alias, or separate report document per creature. Candidate GLBs and a lab-catalog.json plus promotion.json must pin SHA256/bytes, original provenance/license, geometry bounds, material and animation names, correct attack contact/duration and source builder hash. Clear inherited stride data if animation changed and no valid calibration exists. CPU validation is not visual acceptance; all acceptance flags remain false until root review. Send root the candidate paths, exact IDs, changes, bounds/timing and any content recommendations. Keep root informed before destructive changes or shared-contract needs.
+
+| Worker group | Exact production IDs | Status |
+| --- | --- | --- |
+| small_wildlife | animal_chicken, animal_rat, animal_viper, creature_red_worm | Promoted; root/Luna visuals, 35 regressions, content check and production build passed |
+| harts_ram | creature_crown_hart, fairy_garden_hart_faeholme, creature_cairn_bighorn | Assigned |
+| reptiles | creature_kiln_salamander, creature_reedjaw_crocodile, creature_ashscale_monitor, creature_slateback_tortoise | Assigned |
+| mammals | creature_bracken_tapir, creature_duskoak_lynx, creature_quillback_porcupine | Assigned |
+| arthropods | creature_antler_beetle, creature_slag_centipede | Assigned |
+| fairy_garden | fairy_garden_frog_faeholme, fairy_garden_snail_faeholme, fairy_garden_snail_gloamgarden | Assigned |
+| shaman | creature_goblin_shaman | Assigned |
+| skeletons | creature_skeleton_archer, creature_skeleton_mage, creature_skeleton_soldier | Assigned |
+| earth_golems | creature_cairn_treader, creature_chalk_warden, creature_shale_elemental | Assigned |
+| fire_golems | creature_furnace_regent, creature_kiln_marrow, creature_lava_golem | Assigned |
+| zombies | creature_plague_zombie, creature_zombie | Assigned |
+| reaver | creature_gloamfang_reaver | Assigned |
+| rootwood | creature_starroot_guardian, creature_briar_harrow | Assigned |
+| votary | creature_cinder_penitent | Assigned |
+| drakes | creature_basalt_drake, creature_furnace_grazer | Assigned |
+| dragons | creature_amethyst_dragon, creature_purple_wilderness_dragon | Assigned |
+| bandits | outfit_female_ranger, outfit_male_ranger | Assigned |
+
+## Thirteen delivered replacement bases and polish acceptance
+
+The user delivered thirteen new GLBs from Downloads at 22:27?22:28 on September 23 and requested completion alongside all polish. Mapping and preserved-source directories are recorded in docs/creature-generation-queue.md. All are static textured exports; Sol workers prepared anatomical rigs/clips, with Luna source review. Candidate files alone are not accepted. Thirteen bases yield fifteen candidate IDs because Bloomheart has a separate Sovereign variant and the veilspirit base serves two IDs. The spider-named export fits Gorge Mantis rather than Reed Strider.
+
+Root accepted the four small-wildlife texture finishes using normal-camera idle/walk screenshots and Luna map/source/visual review. Native geometry and clips are unchanged. Exact original GLBs are preserved under audit-polish-small_wildlife/sources and the builder uses those pinned copies. All 35 focused creature/content regressions and content validation passed. Production build passed, including world/server packs and asset budgets. Other polish candidates and all new deliveries remain pending acceptance.
+
+Current Vite is http://127.0.0.1:62553. Port 4173 serves another worktree and is not valid evidence for this checkout. Early shaman screenshots without polish-ready prefix used that other server and must not count. The proper-checkout continuation session can stall after many gallery swaps; reopen between small groups and inspect actual visibility. Empty or occluded captures are rejected, even when drawn bounds report meshes. No renderer or streaming fix was made.

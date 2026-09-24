@@ -44,6 +44,28 @@ All original staged candidates have a disposition. Beetle Golem was the rejected
 
 ## Delivered additional source
 
+### Thirteen user exports, September 23 evening
+
+The user delivered thirteen textured static GLBs and requested completion alongside all 41 polish assets. Originals are preserved in the corresponding `audit-user-*` directories. Candidate rigs and clips remain pending root visual/gameplay acceptance and production validation. Staged files are not completed replacements.
+
+| Download | Intended replacement | Candidate directory |
+| --- | --- | --- |
+| crab+3d+model.glb | Creek Crab | audit-user-crab |
+| lava+salamander+3d+model.glb | Cindercrest Salamander | audit-user-cindercrest |
+| stone+turtle+3d+model.glb | Rimeback Tortoise | audit-user-rimeback |
+| medieval+rogue+3d+model.glb | Road Bandit, preserving player peasant outfits | audit-user-road-bandit |
+| tree+spirit+3d+model.glb | Bloomheart Matriarch and Amethyst Sovereign variant | audit-user-bloomheart |
+| tree+humanoid+3d+model.glb | Hollow Bough | audit-user-hollow-bough |
+| fantasy+creature+3d+model (1).glb | Rift Carapace | audit-user-rift-carapace |
+| prehistoric+bird+3d+model.glb | Scree Bustard | audit-user-bustard |
+| fantasy+symbol+3d+model.glb | The Hollow Star | audit-user-hollow-star |
+| fantasy+insect+3d+model.glb | Prismatic Sprite | audit-user-prismatic |
+| fantasy+creature+3d+model.glb | Galeskin | audit-user-galeskin |
+| stylized+spider+3d+model.glb | Gorge Mantis, inferred from six limbs and catching arms | audit-user-reed-strider |
+| fantasy+elf+3d+model.glb | Orchid and Thistledown Veilspirits, inferred botanical shared base | audit-user-veilspirits |
+
+The last two mappings were initially uncertain. Anatomical inspection supports Gorge Mantis over Reed Strider and confirms the elf-named export has bark, branch antlers and a petal mantle. The directory named `audit-user-reed-strider` retains its initial triage name; its candidate ID is `creature_gorge_mantis`. Reed Strider remains undelivered. No new model generation or Tripo job was started.
+
 - `creature_beetle_golem`: user supplied `C:/Users/Borg/Downloads/beetle+golem.glb` on 2026-09-23, replacing the rejected enlarged Flint candidate. The supplied model has a native 67-joint rig, 5,166 triangles and detailed green/gold/purple PBR textures, but no animation clips. The accepted adaptation is in `assets/art/tripo/imports/creatures/audit-user-beetle-golem/` and is promoted as `creature_beetle_golem`. Its six clips preserve the native rig and source maps. Normal-camera lab review, standing attack, combat pursuit and whole-corpse views passed; release checks passed. Authored-world placement remains pending because its Vellenwood regional pack is not activated. The user's reference calls for low four-limbed walking, a faster combat chase, rising onto the hindlegs to swing a forearm, and a green iridescent shell sheen. This supersedes the earlier six-legged source suggestion. Preserve the original maps and source; do not start generation. The original 18 manual base requests above remain unchanged.
 
 ## Owned-source findings, 2026-09-23

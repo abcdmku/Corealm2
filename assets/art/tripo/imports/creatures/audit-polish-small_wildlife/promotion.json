@@ -1,0 +1,157 @@
+{
+  "schema": "corealm-audit-polish-promotion/1",
+  "status": "pending-root-lab-acceptance",
+  "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+  "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+  "assets": [
+    {
+      "id": "animal_chicken",
+      "candidateFile": "models/animal_chicken.glb",
+      "bytes": 1003468,
+      "sha256": "6f56f5cd48e2382cd83964fc18220ef8cb7e516909c127a03f8f9fc113bfab4b",
+      "sourceSha256": "FA23A1289583064E65A73E7DD0E0E950B516817AEA74795D71A53E696866F900",
+      "pinnedSourceFile": "sources/animal_chicken.glb",
+      "sourceManifestFile": "source-manifest.json",
+      "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+      "bounds": {
+        "size": {
+          "x": 0.245,
+          "y": 0.613,
+          "z": 0.556
+        },
+        "base": {
+          "x": -0.123,
+          "y": -0.001,
+          "z": -0.268
+        }
+      },
+      "material": "hen_layered_cream_plumage",
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "attackSeconds": 0.7,
+      "contactNormalized": 0.43,
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+      "labAccepted": false,
+      "worldIntegrated": false
+    },
+    {
+      "id": "animal_rat",
+      "candidateFile": "models/animal_rat.glb",
+      "bytes": 1709160,
+      "sha256": "15b7932ae475ab53b7a1bf169e2201bef010fdf90a9c40081a088f015e03bc56",
+      "sourceSha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+      "pinnedSourceFile": "sources/animal_rat.glb",
+      "sourceManifestFile": "source-manifest.json",
+      "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+      "bounds": {
+        "size": {
+          "x": 0.135,
+          "y": 0.139,
+          "z": 0.6
+        },
+        "base": {
+          "x": -0.068,
+          "y": -0.001,
+          "z": -0.36
+        }
+      },
+      "material": "grainback_walnut_and_wheat_coat",
+      "animations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "attackSeconds": 0.58,
+      "contactNormalized": 0.43,
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+      "labAccepted": false,
+      "worldIntegrated": false
+    },
+    {
+      "id": "animal_viper",
+      "candidateFile": "models/animal_viper.glb",
+      "bytes": 1294660,
+      "sha256": "fd1c7524bbcba7f89822d7e03c5ec5fef4ac45b2a4f51197c7e625b3c5c2be3f",
+      "sourceSha256": "E51F6386DE6B0CB9ACD952306041B2CE4BA3A60F242532DFB8ACBE5672DA037B",
+      "pinnedSourceFile": "sources/animal_viper.glb",
+      "sourceManifestFile": "source-manifest.json",
+      "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+      "bounds": {
+        "size": {
+          "x": 0.074,
+          "y": 0.07,
+          "z": 1.508
+        },
+        "base": {
+          "x": -0.037,
+          "y": -0.01,
+          "z": -0.732
+        }
+      },
+      "material": "grassscale_olive_diamond_scales",
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "attackSeconds": 1.666667,
+      "contactNormalized": 0.525,
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+      "labAccepted": false,
+      "worldIntegrated": false
+    },
+    {
+      "id": "creature_red_worm",
+      "candidateFile": "models/creature_red_worm.glb",
+      "bytes": 1075660,
+      "sha256": "3d10cd1323149b2a7e9b5f7981a7ab471e6a41fb8605ddcfc4d264c7c4f9b8e7",
+      "sourceSha256": "6d3a8e920aee8d90739b6ff11971175e76e0c588f99fc9b51d94d4d2a9c87055",
+      "pinnedSourceFile": "sources/creature_red_worm.glb",
+      "sourceManifestFile": "source-manifest.json",
+      "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+      "bounds": {
+        "size": {
+          "x": 0.04704650697447787,
+          "y": 0.03805613807514629,
+          "z": 0.20270504951477047
+        },
+        "base": {
+          "x": -0.02352325343996233,
+          "y": -0.00004070411572375254,
+          "z": -0.10135252475738522
+        }
+      },
+      "material": "red_worm_moist_ringed_cuticle",
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "attackSeconds": 1,
+      "contactNormalized": 0.5,
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  ]
+}

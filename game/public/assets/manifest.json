@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T02:27:07.206Z",
+  "generatedAt": "2026-09-24T03:48:25.417Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -938,6 +938,58 @@
       "source": "assets/art/tripo/imports/creatures/audit-user-beetle-golem/build-candidate.mjs",
       "license": "LicenseRef-Corealm-Original",
       "generatorSha256": "9635abd9b026b15145d80252e65f79583b73485959375f70fa3ca3ae44d1fbf4"
+    },
+    {
+      "id": "corealm-audit-polish-animal-chicken",
+      "name": "Animal pack deluxe — animal_chicken image-generated finish",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage",
+      "derivation": "image-generated layered cream feathers, buff tips and intact red comb; original native topology, UVs, skeleton, weights and clips preserved.",
+      "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61"
+    },
+    {
+      "id": "corealm-audit-polish-animal-rat",
+      "name": "Animal pack deluxe — animal_rat image-generated finish",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage",
+      "derivation": "image-generated walnut fur with tawny dorsal grain and detailed face; original native topology, UVs, skeleton, weights and clips preserved.",
+      "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61"
+    },
+    {
+      "id": "corealm-audit-polish-animal-viper",
+      "name": "Animal pack deluxe — animal_viper image-generated finish",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage",
+      "derivation": "image-generated olive scales and ochre-edged dorsal diamonds; original native topology, UVs, skeleton, weights and clips preserved.",
+      "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61"
+    },
+    {
+      "id": "corealm-audit-polish-creature-red-worm",
+      "name": "Worms FREE — creature_red_worm image-generated finish",
+      "author": "SR Studios Kerala",
+      "source": "https://assetstore.unity.com/packages/3d/characters/worms-free-342926",
+      "license": "Standard Unity Asset Store EULA",
+      "assetStoreId": "342926",
+      "sourceArchive": "Worms FREE.unitypackage",
+      "archiveSha256": "3c3662e2929be886843d5fd18f4d47db2487cc63181fd6fbc16b4451ca4697c2",
+      "derivation": "image-generated maroon and rust annuli, pores and moist cuticle; original native topology, UVs, skeleton, weights and clips preserved.",
+      "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+      "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61"
     }
   ],
   "assets": [
@@ -8340,7 +8392,7 @@
     {
       "id": "animal_chicken",
       "file": "models/animal/animal_chicken.glb",
-      "pack": "animal-pack-deluxe",
+      "pack": "corealm-audit-polish-animal-chicken",
       "category": "character",
       "is": "chicken",
       "tags": [
@@ -8351,9 +8403,10 @@
         "farm",
         "plains",
         "animal",
-        "passive"
+        "passive",
+        "image-generated-texture"
       ],
-      "bytes": 388976,
+      "bytes": 1003468,
       "size": {
         "x": 0.245,
         "y": 0.613,
@@ -8376,13 +8429,43 @@
       ],
       "walkClipSeconds": 1.0333333015441895,
       "materials": [
-        "animal_chicken_mat"
+        "hen_layered_cream_plumage"
       ],
       "impliedWalkMps": 0.48204361375890803,
       "impliedRunMps": 1.0368160285737749,
       "runClipSeconds": 0.5666666626930237,
-      "sha256": "FA23A1289583064E65A73E7DD0E0E950B516817AEA74795D71A53E696866F900",
-      "groundY": -0.001
+      "sha256": "6f56f5cd48e2382cd83964fc18220ef8cb7e516909c127a03f8f9fc113bfab4b",
+      "groundY": -0.001,
+      "attackSeconds": 0.7,
+      "contactNormalized": 0.43,
+      "sourceProvenance": {
+        "upstreamPack": "animal-pack-deluxe",
+        "upstreamSource": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "upstreamLicense": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "upstreamArchiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "productionSourceFile": "models/animal/animal_chicken.glb",
+        "pinnedSourceFile": "sources/animal_chicken.glb",
+        "sourceManifestFile": "source-manifest.json",
+        "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+        "productionSourceSha256": "FA23A1289583064E65A73E7DD0E0E950B516817AEA74795D71A53E696866F900",
+        "originalBaseColorSha256": "ec42232935b7af8da695cadc4ad4674291176228ca200af6b58c78792af890f0",
+        "generatedMap": "textures/animal_chicken-generated.png",
+        "generatedMapSha256": "267b8f1376642e15ffcc9b2fe61061fbf91d10185b1e7a790c14d9bd64bffd91",
+        "runtimeBaseColorSha256": "ecbb77f3653fc7335afa3f271788594713ccff01ec12b3221e30e01916b24760",
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+        "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+        "geometryPreserved": true,
+        "nativeSkinAndAnimationsPreserved": true
+      },
+      "metadata": {
+        "finish": "image-generated layered cream feathers, buff tips and intact red comb",
+        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_chicken-idle.png and walk-02.png in continuation journal."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      }
     },
     {
       "id": "animal_chicken_speckled",
@@ -8896,7 +8979,7 @@
     {
       "id": "animal_viper",
       "file": "models/animal/animal_viper.glb",
-      "pack": "animal-pack-deluxe",
+      "pack": "corealm-audit-polish-animal-viper",
       "category": "character",
       "is": "viper",
       "tags": [
@@ -8907,9 +8990,10 @@
         "venom",
         "forest",
         "animal",
-        "territorial"
+        "territorial",
+        "image-generated-texture"
       ],
-      "bytes": 459596,
+      "bytes": 1294660,
       "size": {
         "x": 0.074,
         "y": 0.07,
@@ -8932,11 +9016,41 @@
       ],
       "walkClipSeconds": 1.5333333015441895,
       "materials": [
-        "animal_viper_mat"
+        "grassscale_olive_diamond_scales"
       ],
       "runClipSeconds": 1.066666603088379,
-      "sha256": "E51F6386DE6B0CB9ACD952306041B2CE4BA3A60F242532DFB8ACBE5672DA037B",
-      "groundY": -0.01
+      "sha256": "fd1c7524bbcba7f89822d7e03c5ec5fef4ac45b2a4f51197c7e625b3c5c2be3f",
+      "groundY": -0.01,
+      "attackSeconds": 1.666667,
+      "contactNormalized": 0.525,
+      "sourceProvenance": {
+        "upstreamPack": "animal-pack-deluxe",
+        "upstreamSource": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "upstreamLicense": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "upstreamArchiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "productionSourceFile": "models/animal/animal_viper.glb",
+        "pinnedSourceFile": "sources/animal_viper.glb",
+        "sourceManifestFile": "source-manifest.json",
+        "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+        "productionSourceSha256": "E51F6386DE6B0CB9ACD952306041B2CE4BA3A60F242532DFB8ACBE5672DA037B",
+        "originalBaseColorSha256": "6c2ff530133f9c00fc8afbcbf08bbdc2a5f90e7c9e8beefc9e0cc1af212e4a66",
+        "generatedMap": "textures/animal_viper-generated.png",
+        "generatedMapSha256": "5548b36ac5f298485f849b025b793dd012a2a990ee8c7656be2c6b6b513fca55",
+        "runtimeBaseColorSha256": "46dbffd24fd9721ca7d218912aef7e95f8d6ead3d8eea700ea7cef8007cf307d",
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+        "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+        "geometryPreserved": true,
+        "nativeSkinAndAnimationsPreserved": true
+      },
+      "metadata": {
+        "finish": "image-generated olive scales and ochre-edged dorsal diamonds",
+        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_viper-idle.png and walk-02.png in continuation journal."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      }
     },
     {
       "id": "animal_bear",
@@ -9079,7 +9193,7 @@
     {
       "id": "animal_rat",
       "file": "models/animal/animal_rat.glb",
-      "pack": "animal-pack-deluxe",
+      "pack": "corealm-audit-polish-animal-rat",
       "category": "character",
       "is": "rat",
       "tags": [
@@ -9089,9 +9203,10 @@
         "cave",
         "dungeon",
         "animal",
-        "aggressive"
+        "aggressive",
+        "image-generated-texture"
       ],
-      "bytes": 1201164,
+      "bytes": 1709160,
       "size": {
         "x": 0.135,
         "y": 0.139,
@@ -9113,11 +9228,41 @@
       ],
       "walkClipSeconds": 1.399999976158142,
       "materials": [
-        "animal_rat_mat"
+        "grainback_walnut_and_wheat_coat"
       ],
       "impliedWalkMps": 0.12231044887073027,
-      "sha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
-      "groundY": -0.001
+      "sha256": "15b7932ae475ab53b7a1bf169e2201bef010fdf90a9c40081a088f015e03bc56",
+      "groundY": -0.001,
+      "attackSeconds": 0.58,
+      "contactNormalized": 0.43,
+      "sourceProvenance": {
+        "upstreamPack": "animal-pack-deluxe",
+        "upstreamSource": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "upstreamLicense": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "upstreamArchiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "productionSourceFile": "models/animal/animal_rat.glb",
+        "pinnedSourceFile": "sources/animal_rat.glb",
+        "sourceManifestFile": "source-manifest.json",
+        "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+        "productionSourceSha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+        "originalBaseColorSha256": "d92c9fd50674f7093e7682ae338380cef52db34cb45d6625027785d88267761c",
+        "generatedMap": "textures/animal_rat-generated.png",
+        "generatedMapSha256": "fd566b52e6d8a5ab80b864954cc6514a6eb04b3b1be4c3fdef3d854011a30644",
+        "runtimeBaseColorSha256": "e8dc1607064f28a169e4c79645ae4c745f2e93310285d88691c2341e63a8ae78",
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+        "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+        "geometryPreserved": true,
+        "nativeSkinAndAnimationsPreserved": true
+      },
+      "metadata": {
+        "finish": "image-generated walnut fur with tawny dorsal grain and detailed face",
+        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_rat-idle.png and walk-02.png in continuation journal."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      }
     },
     {
       "id": "animal_scorpion",
@@ -66214,16 +66359,17 @@
     {
       "id": "creature_red_worm",
       "file": "models/creature/creature_red_worm.glb",
-      "pack": "sr-studios-worms-free",
+      "pack": "corealm-audit-polish-creature-red-worm",
       "category": "character",
       "is": "worm",
       "tags": [
         "creature",
         "worm",
-        "source-rig"
+        "source-rig",
+        "image-generated-texture"
       ],
-      "bytes": 883576,
-      "sha256": "6d3a8e920aee8d90739b6ff11971175e76e0c588f99fc9b51d94d4d2a9c87055",
+      "bytes": 1075660,
+      "sha256": "3d10cd1323149b2a7e9b5f7981a7ab471e6a41fb8605ddcfc4d264c7c4f9b8e7",
       "size": {
         "x": 0.04704650697447787,
         "y": 0.03805613807514629,
@@ -66244,17 +66390,39 @@
         "Death"
       ],
       "materials": [
-        "animal_red_worm_skin"
+        "red_worm_moist_ringed_cuticle"
       ],
       "walkClipSeconds": 2.4,
       "runClipSeconds": 1.5,
       "attackSeconds": 1,
       "contactNormalized": 0.5,
       "sourceProvenance": {
-        "archiveSha256": "3c3662e2929be886843d5fd18f4d47db2487cc63181fd6fbc16b4451ca4697c2",
-        "model": "Assets/Worms FREE/1-Small Worm/Meshes/Worm_HighPoly.fbx",
-        "texture": "Assets/Worms FREE/1-Small Worm/Textures/Base_Colors/Pink_Red.png",
-        "modifications": "Unity centimetres/globalScale 4; darker red albedo factor [0.52,0.26,0.15]; original Look as Idle; authored segment-wave locomotion and bend reactions on the source skeleton. Species scale 9.6."
+        "upstreamPack": "sr-studios-worms-free",
+        "upstreamSource": "https://assetstore.unity.com/packages/3d/characters/worms-free-342926",
+        "upstreamLicense": "Standard Unity Asset Store EULA",
+        "upstreamArchiveSha256": "3c3662e2929be886843d5fd18f4d47db2487cc63181fd6fbc16b4451ca4697c2",
+        "productionSourceFile": "models/creature/creature_red_worm.glb",
+        "pinnedSourceFile": "sources/creature_red_worm.glb",
+        "sourceManifestFile": "source-manifest.json",
+        "sourceManifestSha256": "0f72610d2b35483b09bc873849928583bd9fbb84b5b979c7a1b855d9538ed994",
+        "productionSourceSha256": "6d3a8e920aee8d90739b6ff11971175e76e0c588f99fc9b51d94d4d2a9c87055",
+        "originalBaseColorSha256": "9bce14f3eff85e75ead94580367a9799360cdbbb7d58cd3366ddb7d4949888d2",
+        "generatedMap": "textures/creature_red_worm-generated.png",
+        "generatedMapSha256": "b6933169d9cbc144e0f98ff5d5eea86a3945256dac278ec23c0540b26829be3f",
+        "runtimeBaseColorSha256": "81c719c9c4e7e030476e403704162d5ac1f5eac2b029c42bf69d8a5150b0d876",
+        "generator": "assets/art/tripo/imports/creatures/audit-polish-small_wildlife/build-candidates.mjs",
+        "generatorSha256": "3fa37ced69f15c2e8a67817a665175de7e06f511734d4cb61d7a3e2af4547d61",
+        "geometryPreserved": true,
+        "nativeSkinAndAnimationsPreserved": true
+      },
+      "metadata": {
+        "finish": "image-generated maroon and rust annuli, pores and moist cuticle",
+        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-creature_red_worm-idle.png and walk-02.png in continuation journal."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": false
       }
     },
     {
