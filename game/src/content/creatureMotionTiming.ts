@@ -169,7 +169,6 @@ CREATURE_PURSUIT_CEILING_MPS["creature_reed_strider"] = 3.3336;
 CREATURE_PURSUIT_CEILING_MPS["creature_kiln_marrow"] = 9.1254;
 CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
 CREATURE_PURSUIT_CEILING_MPS["creature_cairn_treader"] = 8.1089;
-CREATURE_PURSUIT_CEILING_MPS["creature_flint_mandible"] = 5.9942;
 CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
 
 /**
@@ -237,7 +236,6 @@ CREATURE_MOTION_TIMING["creature_ivory_castellan"] = { seconds: 1.12666666507720
 // static alias table independent of the species catalogue, which imports the combat registry.
 for (const [variant, source] of [
   ['creature_crown_hart', 'animal_deer'],
-  ['creature_silverthorn_harrow', 'creature_briar_harrow'],
   ['creature_moonpetal_stalker', 'creature_heath_jack'],
   ['creature_bloomheart_matriarch', 'creature_boss_rootheart'],
   ['creature_starroot_guardian', 'creature_briar_harrow'],
@@ -364,3 +362,7 @@ CREATURE_MOTION_TIMING["fairy_garden_sporekin_gloamgarden"] = { seconds: 1, cont
 
 CREATURE_MOTION_TIMING["creature_vault_custodian"] = { seconds: 0.8666666746139526, contactNormalized: 0.48 };
 CREATURE_MOTION_TIMING["fairy_guardian_06_faeholme"] = { seconds: 0.8500000238418579, contactNormalized: 0.5647058823529412 };
+
+CREATURE_MOTION_TIMING["creature_flint_mandible"] = { seconds: 0.8600000143051147, contactNormalized: 0.5 };
+
+CREATURE_MOTION_TIMING["creature_silverthorn_harrow"] = { seconds: 0.8666666746139526, contactNormalized: 0.5 };

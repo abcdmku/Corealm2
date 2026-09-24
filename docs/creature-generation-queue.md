@@ -1,8 +1,8 @@
 # Deduplicated creature generation queue
 
-The original 58 remaining replacement verdicts were not 58 new-model requests. Six staged replacements have since been promoted, leaving 52. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
+The original 58 remaining replacement verdicts were not 58 new-model requests. Eight staged replacements have since been promoted, leaving 50. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
 
-The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Two IDs still have staged replacements awaiting acceptance; six of the original nine are now integrated. Beetle Golem's staged replacement was rejected and is flagged below. The remaining 30 IDs need owned-source adaptation review. Flag additional source gaps to the user if the owned anatomy does not fit.
+The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Eight of the original nine staged IDs are now integrated. Beetle Golem's staged replacement was rejected and is flagged below. The 30 IDs originally assigned to owned-source review still need adaptation or source resolution; findings below record the first four reviewed. Flag additional source gaps to the user if the owned anatomy does not fit.
 
 Use one user-supplied base per row, not one per level or regional palette. After delivery, agents map it to the intended IDs, optimize it, make detailed image-generated texture variants, rig and animate it, then update this queue. Preserve distinct anatomy across unrelated families; deduplication is not permission to turn everything into the same beetle or treant. For Bloomheart, the amethyst elite may need geometry additions beyond a texture change. Ivory Castellan remains on this queue because the user explicitly authorized a matching new base; the owned Vault Custodian alternative is only a fallback, not accepted as a substitute.
 
@@ -37,13 +37,10 @@ The prompts below are for the user's manual generation. Natural connected anatom
 - fairy_monster_21
 - fairy_guardian_06_faeholme
 - creature_vault_custodian
+- creature_silverthorn_harrow
+- creature_flint_mandible
 
-## Already staged: do not regenerate
-
-- creature_silverthorn_harrow: final two-angle death review pending.
-- creature_flint_mandible: repair shrinking death pose before acceptance.
-
-See creature-audit-handoff.md for candidate directories and missing acceptance.
+All original staged candidates have a disposition. Beetle Golem is the rejected ninth entry; preserve its source candidate, but do not promote it.
 
 ## Additional source gap flagged to the user
 

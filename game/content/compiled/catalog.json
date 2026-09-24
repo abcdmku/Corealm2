@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "95eb041a569a14da511bef796cd6fbc6c48dc62991f5cbc0ca2f38a5c9743190",
-  "formulaRevision": "7dbee83d9e24539e87611bd0bca5e3f54f6476d178e22b51e44a16deaf8e91a0",
+  "revision": "3831ff9865ebe0faf304cb7235dd317b7da737da01d438a2142342e603836825",
+  "formulaRevision": "4a143713c3bb6b44035f6a53abcd6372ac550952777a0fe2e3559893bc19e1a6",
   "tables": {
     "items": [
       {
@@ -27574,7 +27574,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40014,7 +40014,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40106,7 +40106,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40174,7 +40174,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "kind": "basic"
         },
         "adjustments": {
@@ -40266,7 +40266,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "kind": "basic"
         },
         "adjustments": {
@@ -104450,7 +104450,7 @@
             "scale": 0.8,
             "regionId": "karrowmoor",
             "activity": "patrol",
-            "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+            "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
             "kind": "basic"
           },
           "adjustments": {
@@ -104544,7 +104544,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "flint_mandible_t10",
             "name": "Flint Mandible",
@@ -146829,7 +146829,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "flint_mandible_t1",
             "name": "Flint Mandible",
@@ -146980,7 +146980,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "flint_mandible_t5",
             "name": "Flint Mandible",
@@ -147131,7 +147131,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "flint_mandible_t20",
             "name": "Flint Mandible",
@@ -177001,7 +177001,7 @@
             "scale": 0.8,
             "regionId": "karrowmoor",
             "activity": "patrol",
-            "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+            "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
             "kind": "basic"
           },
           "adjustments": {
@@ -177099,7 +177099,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "pack_karrowmoor_tarn_track_east_mandibles",
             "name": "Flint Mandible",
@@ -177795,7 +177795,7 @@
             "scale": 0.8,
             "regionId": "karrowmoor",
             "activity": "patrol",
-            "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+            "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
             "kind": "basic"
           },
           "adjustments": {
@@ -177892,7 +177892,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "reedjaw_crocodile_residents",
             "name": "Flint Mandible",
@@ -178378,7 +178378,7 @@
             "scale": 0.8,
             "regionId": "karrowmoor",
             "activity": "patrol",
-            "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+            "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
             "kind": "basic"
           },
           "adjustments": {
@@ -178461,7 +178461,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "antler_beetle_residents",
             "name": "Flint Mandible",
@@ -179192,7 +179192,7 @@
             "scale": 0.8,
             "regionId": "karrowmoor",
             "activity": "patrol",
-            "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+            "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
             "kind": "basic"
           },
           "adjustments": {
@@ -179297,7 +179297,7 @@
           "scale": 0.8,
           "regionId": "karrowmoor",
           "activity": "patrol",
-          "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+          "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
           "stats": {
             "id": "gravelmaw_ch2_crabs",
             "name": "Flint Mandible",
@@ -245571,7 +245571,7 @@
         "scale": 0.8,
         "regionId": "karrowmoor",
         "activity": "patrol",
-        "description": "A stone burrower with a flattened shovel cranium and wide digging claws. Its upper body sweeps sideways while its feet brace.",
+        "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
         "stats": {
           "id": "flint_mandible_t10",
           "name": "Flint Mandible",
@@ -319178,7 +319178,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5918781354297082
+          "bodyRadius": 0.892391706549463
         },
         "pack_karrowmoor_moor_road_far_west_watch": {
           "id": "pack_karrowmoor_moor_road_far_west_watch",
@@ -319495,7 +319495,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5918781354297082
+          "bodyRadius": 0.892391706549463
         },
         "slateback_tortoise_residents": {
           "id": "slateback_tortoise_residents",
@@ -319712,7 +319712,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5918781354297082
+          "bodyRadius": 0.892391706549463
         },
         "quarry_nightmare_residents": {
           "id": "quarry_nightmare_residents",
@@ -319976,7 +319976,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5918781354297082
+          "bodyRadius": 0.892391706549463
         },
         "population_south_ridge_watchers": {
           "id": "scree_watcher_t10",
@@ -320286,7 +320286,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5918781354297082
+          "bodyRadius": 0.892391706549463
         },
         "population_gravelmaw_west_weavers": {
           "id": "blind_cave_weaver_t10",
@@ -320892,7 +320892,7 @@
               }
             ]
           },
-          "bodyRadius": 1.5918781354297082
+          "bodyRadius": 0.892391706549463
         },
         "gravelmaw_ch3_bears": {
           "id": "gravelmaw_ch3_bears",
@@ -331123,7 +331123,7 @@
               }
             ]
           },
-          "bodyRadius": 1.011024
+          "bodyRadius": 1.013754
         },
         "crownward_east_meadow_harts": {
           "id": "crown_hart_t40",
@@ -331393,7 +331393,7 @@
               }
             ]
           },
-          "bodyRadius": 1.011024
+          "bodyRadius": 1.013754
         },
         "crownward_copse_harts": {
           "id": "crown_hart_t40",
@@ -331663,7 +331663,7 @@
               }
             ]
           },
-          "bodyRadius": 1.011024
+          "bodyRadius": 1.013754
         },
         "ivory_castellan_court": {
           "id": "ivory_castellan_t40",
