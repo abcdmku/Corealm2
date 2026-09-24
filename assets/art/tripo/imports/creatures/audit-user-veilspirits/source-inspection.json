@@ -1,0 +1,102 @@
+{
+  "source": "assets/art/tripo/imports/creatures/audit-user-veilspirits/sources/fantasy-elf-user-original.glb",
+  "sha256": "07cf4fc63601c9323bfbf266f14393cbca698975c4dcf63feb7f6efc3ca077ae",
+  "bytes": 5033248,
+  "meshes": [
+    {
+      "name": "tripo_mesh_914a6eca-3347-43de-ac22-68954b78ad8b",
+      "primitives": [
+        {
+          "material": "tripo_mat_914a6eca-3347-43de-ac22-68954b78ad8b",
+          "vertices": 6297,
+          "triangles": 3944,
+          "semantics": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0"
+          ],
+          "bounds": [
+            -0.3134760856628418,
+            0,
+            -0.4716796576976776,
+            0.3134760856628418,
+            0.9980467557907104,
+            0.4716796576976776
+          ]
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "tripo_node_914a6eca-3347-43de-ac22-68954b78ad8b",
+      "mesh": "tripo_mesh_914a6eca-3347-43de-ac22-68954b78ad8b",
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "skins": [],
+  "materials": [
+    {
+      "name": "tripo_mat_914a6eca-3347-43de-ac22-68954b78ad8b",
+      "baseColorFactor": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "baseColorTexture": "tripo_image_914a6eca-3347-43de-ac22-68954b78ad8b_0",
+      "normalTexture": "tripo_image_914a6eca-3347-43de-ac22-68954b78ad8b_2",
+      "metallicRoughnessTexture": "tripo_image_914a6eca-3347-43de-ac22-68954b78ad8b_1",
+      "metallic": 1,
+      "roughness": 1
+    }
+  ],
+  "textures": [
+    {
+      "index": 0,
+      "name": "tripo_image_914a6eca-3347-43de-ac22-68954b78ad8b_2",
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 439144,
+      "sha256": "1a0b52f9e61076b1ad3fdade523d949a7d135f1f827d65f518193076f7565fea",
+      "file": "assets/art/tripo/imports/creatures/audit-user-veilspirits/source-texture-0.jpg"
+    },
+    {
+      "index": 1,
+      "name": "tripo_image_914a6eca-3347-43de-ac22-68954b78ad8b_0",
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 987033,
+      "sha256": "733e027ed44f55640b56bf9d8deab5abd989a7c075fb17d112ca0cc57eeb9242",
+      "file": "assets/art/tripo/imports/creatures/audit-user-veilspirits/source-texture-1.jpg"
+    },
+    {
+      "index": 2,
+      "name": "tripo_image_914a6eca-3347-43de-ac22-68954b78ad8b_1",
+      "mimeType": "image/png",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 3379999,
+      "sha256": "7661652676785a0e640bb2977d81f5bc5b5f3aa50183dacd0a2625ac3b3ad9d5",
+      "file": "assets/art/tripo/imports/creatures/audit-user-veilspirits/source-texture-2.png"
+    }
+  ],
+  "animations": []
+}

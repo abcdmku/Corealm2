@@ -1,0 +1,21 @@
+{
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-bloomheart/amethyst-sovereign-candidate.glb",
+  "sha256": "52bb0fedc2ca8512a01d40a00ab365b9e4aa127f03b7b7118c7dd8501f4a3157",
+  "bytes": 4360136,
+  "derivedFrom": "assets/art/tripo/imports/creatures/audit-user-bloomheart/bloomheart-matriarch-candidate.glb",
+  "sourceSha256": "b910e4ae7848a9b8f8da73e05df58b08de9388535daee58452ce158afb50d9ab",
+  "silverwoodMap": "assets/art/tripo/imports/creatures/audit-user-bloomheart/textures/sovereign-silverwood-uv-imagegen.png",
+  "silverwoodPrompt": "Preserve the exact Bloomheart UV atlas layout and material anatomy; layered pale silverwood and deep plum heartwood with fine violet prismatic veins and tiny gold mineral fissures; variegated midnight violet, aubergine, dusky teal and pearl-lavender foliage with silver leaf veins; opalescent lilac and amethyst blossoms with luminous gold centers.",
+  "silverwoodRuntimeSha256": "f3c6808c135c16082f6aafabbb1226cf30a133372e8340c628896d0c8b78df45",
+  "imageGeneratedMap": "assets/art/tripo/imports/creatures/audit-user-bloomheart/textures/amethyst-imagegen.png",
+  "imagePrompt": "Seamless tileable 2D amethyst crystal with lavender-to-violet facets, silver inclusions, gold mineral veins, magenta glints and internal fractures.",
+  "runtimeMapSha256": "20083d2ae3195dfedd1aa0a3576e57f36a3ca1b7bddfc752dddb40e3341d6837",
+  "crystalCount": 36,
+  "attachedBones": [
+    "Crown",
+    "LeftTwig",
+    "RightTwig",
+    "Bole"
+  ],
+  "status": "awaiting-root-lab-review"
+}

@@ -1,0 +1,86 @@
+{
+  "sourceFile": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/sources/rift-carapace-original.glb",
+  "sourceSha256": "ca486cf636be02a8615e45446d57bbde3922a9ba351235c8d258bcb7c91bc93a",
+  "sourceBytes": 4980604,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/rift-carapace-candidate.glb",
+  "candidateSha256": "e97c94df7607834a75e362251c637e86c3244bc7cb76fd0f03b0cfc568e4f674",
+  "candidateBytes": 5094876,
+  "vertices": 3807,
+  "triangles": 5150,
+  "joints": 10,
+  "jointInfluence": {
+    "Root": 0,
+    "Carapace": 1892,
+    "Claw_L": 342,
+    "Pincer_L": 307,
+    "RearLeg_L": 213,
+    "MidLeg_L": 108,
+    "Claw_R": 357,
+    "Pincer_R": 282,
+    "RearLeg_R": 214,
+    "MidLeg_R": 92
+  },
+  "textures": [
+    {
+      "name": "tripo_image_0c4f36c6-f3a5-4330-8937-980b84c04bf5_2",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 642573,
+      "sha256": "fdf8803492e92745f64a061a9209b1ddaf9f4addd1aec039afb3552724f9224b"
+    },
+    {
+      "name": "tripo_image_0c4f36c6-f3a5-4330-8937-980b84c04bf5_0",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1207482,
+      "sha256": "31a7829928ff72f4e40dfe2463e8e37d641862fe148b41f0203714c2c7247490"
+    },
+    {
+      "name": "tripo_image_0c4f36c6-f3a5-4330-8937-980b84c04bf5_1",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 2975914,
+      "sha256": "b23381413d043e6029d27d2f7edfb0a96c3b71f08ed91eb6fbf87797738a7706"
+    }
+  ],
+  "sourceGeometryPreserved": true,
+  "sourcePBRPreserved": true,
+  "scale": 2.35,
+  "sourceForward": "+X",
+  "gameForward": "+Z",
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.2,
+      "channels": 5
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.05,
+      "channels": 8
+    },
+    {
+      "name": "Run",
+      "seconds": 0.68,
+      "channels": 8
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.18,
+      "channels": 5
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.5,
+      "channels": 2
+    },
+    {
+      "name": "Death",
+      "seconds": 1.62,
+      "channels": 11
+    }
+  ],
+  "contactSeconds": 0.58,
+  "contactNormalized": 0.4915254237288135,
+  "status": "awaiting-root-lab-review"
+}

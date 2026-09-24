@@ -115,7 +115,9 @@
       "acceptanceEvidence": {
         "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
         "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
-      }
+      },
+      "attackSeconds": 1.55,
+      "contactNormalized": 0.5
     },
     {
       "id": "creature_skeleton_mage_elite",
@@ -242,7 +244,9 @@
       "acceptanceEvidence": {
         "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
         "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
-      }
+      },
+      "attackSeconds": 1.55,
+      "contactNormalized": 0.56
     },
     {
       "id": "creature_skeleton_soldier_elite",
@@ -359,7 +363,9 @@
       "acceptanceEvidence": {
         "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
         "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
-      }
+      },
+      "attackSeconds": 1.5,
+      "contactNormalized": 0.4
     }
   ],
   "packs": [

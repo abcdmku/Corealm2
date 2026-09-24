@@ -1,0 +1,122 @@
+{
+  "assets": [
+    {
+      "id": "creature_prismatic_sprite",
+      "file": "models/creature/creature_prismatic_sprite.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-prismatic/prismatic-sprite-candidate.glb",
+      "pack": "corealm-user-prismatic",
+      "category": "character",
+      "is": "Prismatic Sprite",
+      "tags": [
+        "creature",
+        "fae",
+        "dragonfly",
+        "sprite",
+        "user-supplied"
+      ],
+      "bytes": 7394368,
+      "sha256": "1c50079120ad0d0079daf76473d2cde7584c4ecd10511d4a44d25da10c554729",
+      "size": {
+        "x": 1.996094,
+        "y": 1.996094,
+        "z": 1.535975
+      },
+      "base": {
+        "x": -0.998047,
+        "y": 0,
+        "z": -1.319766
+      },
+      "bounds": {
+        "min": [
+          -0.998047,
+          0,
+          -1.319766
+        ],
+        "max": [
+          0.998047,
+          1.996094,
+          0.216209
+        ]
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_e886e77f-dbbf-440b-957f-8c83d52485a7",
+        "Opaline segmented crystal"
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.7,
+      "attackSeconds": 1.12,
+      "contactNormalized": 0.5178571428571428,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": "definition-speed; in-place hovering",
+      "metadata": {
+        "contactSeconds": 0.58,
+        "contactBasis": "Thorax and head dive reach forward maximum at 0.58 s"
+      },
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-user-prismatic/sources/fantasy+insect+3d+model.glb",
+        "sha256": "10d092f72e9bac46e2bdd88b157dd4b1d1b1b6eb0d1a0cb9e8c4c9b81f39c174",
+        "bytes": 7181400,
+        "nativeTextures": [
+          {
+            "name": "tripo_image_e886e77f-dbbf-440b-957f-8c83d52485a7_2",
+            "sha256": "026424cf6bb235d9a0a334c3e21da6d25c77b56a3b2d7b5763312be1a725ae9a",
+            "bytes": 905162,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "name": "tripo_image_e886e77f-dbbf-440b-957f-8c83d52485a7_0",
+            "sha256": "1aaeba1a8308bd5856966f5e36e17252cbd6fdc6ecc1ba58ead312a1ebd9dee6",
+            "bytes": 1528838,
+            "mimeType": "image/jpeg"
+          },
+          {
+            "name": "tripo_image_e886e77f-dbbf-440b-957f-8c83d52485a7_1",
+            "sha256": "8645be66b669b29e1f12d9bf82a454e7dbd379da08d7c1bb4cec2adef3f180df",
+            "bytes": 4507110,
+            "mimeType": "image/png"
+          }
+        ],
+        "sourceVertices": 6537,
+        "sourceTriangles": 4866,
+        "sourceGeometryPreserved": true,
+        "addedAbdomen": {
+          "vertices": 96,
+          "triangles": 96
+        },
+        "rig": "Anatomical 17-joint skin with native legs and four independently fluttering wing roots"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-user-prismatic",
+      "name": "User Prismatic Sprite",
+      "author": "User / Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-user-prismatic/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "4946bc8417777a7e8a8da222cbeb9a6ea5f69acc8d619deb2c6dc82074a6a73e"
+    }
+  ]
+}

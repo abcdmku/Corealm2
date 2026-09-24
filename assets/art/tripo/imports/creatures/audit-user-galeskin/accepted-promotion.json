@@ -1,0 +1,108 @@
+{
+  "assets": [
+    {
+      "id": "creature_boss_galeskin",
+      "file": "models/creature/creature_boss_galeskin.glb",
+      "pack": "corealm-audit-user-galeskin",
+      "category": "character",
+      "is": "Galeskin",
+      "tags": [
+        "creature",
+        "boss",
+        "galeskin",
+        "quadruped",
+        "storm",
+        "user-supplied",
+        "candidate"
+      ],
+      "bytes": 3996224,
+      "sha256": "7e1626a6df633ea3b765a3155177b1df6511c75234b66b6b9f6ee4315138b1b0",
+      "triangles": 5156,
+      "size": {
+        "x": 0.964746082616639,
+        "y": 1.6223638067477413,
+        "z": 1.8450342060143377
+      },
+      "base": {
+        "x": -0.4823730413083195,
+        "y": 0.0029999999805323295,
+        "z": -0.9219122744867979
+      },
+      "groundY": 0.0029999999805323295,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_687f56a4-a0d5-419d-8f1b-de0b78964565"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.62,
+      "attackSeconds": 1.05,
+      "attackContactNormalized": 0.63,
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-user-galeskin/sources/fantasy-creature.glb",
+        "originalDownload": "C:/Users/Borg/Downloads/fantasy+creature+3d+model.glb",
+        "sha256": "0574a1e4d13b784d945b9b9fb9bf4f3549a193572e4cde74aa2a1cd612fdf10d",
+        "bytes": 3856756,
+        "vertices": 4533,
+        "triangles": 5156,
+        "geometryHashes": {
+          "POSITION": "e4c915ad8432c36e772600528286b729ed395396052d9a4b20280c9019ccfcdb",
+          "NORMAL": "4f19dac9540cd92cc086d9f0761513e30c7de95edc1ede09311c23c1ae7d48ef",
+          "TEXCOORD_0": "841643ac5a52655ddddd3c502e7938105381a876f580bbe947a52bc9b609b582",
+          "indices": "10b64fe5c4d87bc73537eb413d9492e09847887ba95a4b2306ea1438b872758e"
+        },
+        "textures": [
+          {
+            "name": "tripo_image_687f56a4-a0d5-419d-8f1b-de0b78964565_2",
+            "mimeType": "image/jpeg",
+            "bytes": 370739,
+            "sha256": "ffda2628b910b0d95ca69a28657cf4b4a5f16fd273159333ba4347e40d3a9739"
+          },
+          {
+            "name": "tripo_image_687f56a4-a0d5-419d-8f1b-de0b78964565_0",
+            "mimeType": "image/jpeg",
+            "bytes": 683939,
+            "sha256": "3a169295ccb0b421c91accb87b129351fc6ded9bda42f306dc5dace907206a3b"
+          },
+          {
+            "name": "tripo_image_687f56a4-a0d5-419d-8f1b-de0b78964565_1",
+            "mimeType": "image/png",
+            "bytes": 2624206,
+            "sha256": "d76353a46d00efc99b1374bb20ebaae06737a9f525402b3cf9cab93b0d6723ad"
+          }
+        ]
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-galeskin/galeskin-candidate.glb",
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-audit-user-galeskin",
+      "name": "User supplied Galeskin candidate",
+      "author": "User / Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-user-galeskin/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "archiveSha256": "0574a1e4d13b784d945b9b9fb9bf4f3549a193572e4cde74aa2a1cd612fdf10d",
+      "derivation": "Corealm rig and anatomy edits; sourceProvenance on asset retains the exact original file pin.",
+      "generatorSha256": "46049122a1e9f3332d5376ba8f8fba6928367f6716863071680cc29c3ec51d4a"
+    }
+  ]
+}

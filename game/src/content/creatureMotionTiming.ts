@@ -152,7 +152,6 @@ for (const [variant, source] of [
 }
 
 // Complete-body reshaping changes the stride length; retiming changes contact duration.
-CREATURE_PURSUIT_CEILING_MPS["creature_hollow_bough"] = 3.4299;
 
 // Accepted biome bodies: measured final weighted-sole run cadence.
 CREATURE_MOTION_TIMING["creature_fen_crawler"] = { seconds: 0.86, contactNormalized: 0.5 };
@@ -179,7 +178,6 @@ CREATURE_PURSUIT_CEILING_MPS["creature_baby_red_dragon"] = 1.2841;
 CREATURE_PURSUIT_CEILING_MPS["creature_baby_black_dragon"] = 3.2393;
 CREATURE_PURSUIT_CEILING_MPS["creature_baby_lava_dragon"] = 1.2582;
 CREATURE_PURSUIT_CEILING_MPS["creature_red_wilderness_dragon"] = 3.5593;
-CREATURE_PURSUIT_CEILING_MPS["creature_rift_carapace"] = 4.0333;
 CREATURE_PURSUIT_CEILING_MPS["creature_basalt_maw"] = 6;
 CREATURE_PURSUIT_CEILING_MPS["creature_black_wilderness_dragon"] = 7.8385;
 CREATURE_PURSUIT_CEILING_MPS["creature_furnace_grazer"] = 6.3498;
@@ -191,7 +189,6 @@ CREATURE_PURSUIT_CEILING_MPS["creature_purple_wilderness_dragon"] = 3.6817;
 // drop both under the shared speed a boss has to keep. Their run cycles need the longer stride,
 // not a lower ceiling.
 CREATURE_PURSUIT_CEILING_MPS["creature_boss_mossbound"] = 6.6059;
-CREATURE_PURSUIT_CEILING_MPS["creature_hollow_star"] = 10.8546;
 
 CREATURE_PURSUIT_CEILING_MPS["creature_ivory_castellan"] = 31.7487;
 
@@ -212,7 +209,6 @@ CREATURE_MOTION_TIMING["creature_furnace_regent"] = { seconds: 2, contactNormali
 
 CREATURE_MOTION_TIMING["creature_chainbound_archon"] = { seconds: 0.5, contactNormalized: 0.42 };
 
-CREATURE_MOTION_TIMING["creature_hollow_star"] = { seconds: 1, contactNormalized: 0.316667 };
 
 
 CREATURE_MOTION_TIMING["creature_kiln_marrow"] = { seconds: 2, contactNormalized: 0.52 };
@@ -224,9 +220,7 @@ CREATURE_MOTION_TIMING["creature_ivory_castellan"] = { seconds: 1.12666666507720
 for (const [variant, source] of [
   ['creature_crown_hart', 'animal_deer'],
   ['creature_moonpetal_stalker', 'creature_heath_jack'],
-  ['creature_bloomheart_matriarch', 'creature_boss_rootheart'],
   ['creature_starroot_guardian', 'creature_briar_harrow'],
-  ['creature_amethyst_sovereign', 'creature_hollow_star'],
 ] as const) {
   if (CREATURE_MOTION_TIMING[source]) CREATURE_MOTION_TIMING[variant] = { ...CREATURE_MOTION_TIMING[source] };
   if (CREATURE_PURSUIT_CEILING_MPS[source]) CREATURE_PURSUIT_CEILING_MPS[variant] = CREATURE_PURSUIT_CEILING_MPS[source];
@@ -264,7 +258,7 @@ for (const region of ['gloamgarden', 'faeholme']) {
   for (const [form, source] of [
     ['spriggle', 'fairy_monster_10'], ['sporekin', 'creature_goblin_shaman'], ['frog', 'animal_frog'],
     ['imp', 'fairy_monster_19'], ['snail', 'creature_quarry_snail'], ['reliquary', 'fairy_monster_28'],
-    ['hart', 'animal_deer'], ['veilspirit', 'creature_wraith'], ['sapling', 'creature_briar_harrow'],
+    ['hart', 'animal_deer'], ['sapling', 'creature_briar_harrow'],
     ['drake', 'creature_baby_red_dragon'], ['wardling', 'fairy_monster_34'], ['petalguard', 'fairy_monster_31'],
   ] as const) {
     const id = `fairy_garden_${form}_${region}`;
@@ -393,3 +387,20 @@ CREATURE_MOTION_TIMING["bandit_quarry_ranger"] = { seconds: 0.8666666746139526, 
 CREATURE_MOTION_TIMING["creature_amethyst_dragon"] = { seconds: 1.306666612625122, contactNormalized: 0.4336734873237641 };
 
 CREATURE_MOTION_TIMING["creature_purple_wilderness_dragon"] = { seconds: 1.0800000429153442, contactNormalized: 0.5092592390231153 };
+
+// User-supplied bodies use independent anatomical clips, without retired stride caps.
+CREATURE_MOTION_TIMING["creature_road_bandit"] = { seconds: 0.96, contactNormalized: 0.43 };
+CREATURE_MOTION_TIMING["creature_bloomheart_matriarch"] = { seconds: 1.3, contactNormalized: 0.5153846153846154 };
+CREATURE_MOTION_TIMING["creature_amethyst_sovereign"] = { seconds: 1.3, contactNormalized: 0.5153846153846154 };
+CREATURE_MOTION_TIMING["creature_hollow_bough"] = { seconds: 1.2, contactNormalized: 0.43333333333333335 };
+CREATURE_MOTION_TIMING["creature_rift_carapace"] = { seconds: 1.18, contactNormalized: 0.4915254237288135 };
+CREATURE_MOTION_TIMING["creature_hollow_star"] = { seconds: 1.28, contactNormalized: 0.4296875 };
+CREATURE_MOTION_TIMING["creature_prismatic_sprite"] = { seconds: 1.12, contactNormalized: 0.5178571428571428 };
+CREATURE_MOTION_TIMING["creature_boss_galeskin"] = { seconds: 1.05, contactNormalized: 0.63 };
+CREATURE_MOTION_TIMING["fairy_garden_veilspirit_gloamgarden"] = { seconds: 0.95, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fairy_garden_veilspirit_faeholme"] = { seconds: 0.95, contactNormalized: 0.4 };
+
+// Elite skeleton variants retain these authored native contact phases.
+CREATURE_MOTION_TIMING["creature_skeleton_archer_elite"] = { seconds: 1.55, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["creature_skeleton_mage_elite"] = { seconds: 1.55, contactNormalized: 0.56 };
+CREATURE_MOTION_TIMING["creature_skeleton_soldier_elite"] = { seconds: 1.5, contactNormalized: 0.4 };

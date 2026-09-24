@@ -1,0 +1,8 @@
+{
+  "tool": "built-in image_gen",
+  "mode": "edit",
+  "reference": "source-texture-1.jpg",
+  "constraints": "Preserve exact UV island boundaries, layout, orientation and relative shading; edit only painted material color and detail within islands. No added objects, lettering, border or rearrangement.",
+  "orchid": "Faeholme Orchid Veilspirit: layered ivory to deep violet orchid petals with fine magenta veins and pearl edges; indigo brown fibrous bark; jade to teal leaves with gold veins; tiny orchid flowers and gold seed glints.",
+  "thistledown": "Gloamgarden Thistledown Veilspirit: smoky lilac and dusky rose petals with silver thistle veins and pale seed down filaments; mossy umber fibrous bark; sage and blue green foliage with plum undersides; pale blossoms and dewdrop glints."
+}

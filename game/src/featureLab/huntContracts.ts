@@ -10,7 +10,7 @@ export function assembleHuntContractsFixture(
 ): { entities: SemanticEntity[]; spawn: Vec3 } {
   const entities: SemanticEntity[] = [];
   buildEnemyGroup("fallowmarch", { id: "lab_hunt_bandits", family: "reaver", name: "Road Bandit",
-    tier: 1, count: 8, centre: [-56, -35], radius: 14, assetId: "outfit_male_peasant", scale: 1.12 },
+    tier: 1, count: 8, centre: [-56, -35], radius: 14, assetId: "creature_road_bandit", scale: 1 },
   new Rng(606), (point, assetId, scale) => [point[0], heightAt(...point) - baseY(assetId) * scale, point[1]],
   entities, assetSize);
   for (const entity of entities) entity.meta = { ...entity.meta, huntFixture: true };

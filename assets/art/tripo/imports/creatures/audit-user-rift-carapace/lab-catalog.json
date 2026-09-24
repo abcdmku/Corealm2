@@ -1,0 +1,129 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-audit-user-rift-carapace",
+    "name": "User Rift Carapace candidate",
+    "author": "User / Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/build-candidate.mjs",
+    "license": "User supplied; source license pending user confirmation",
+    "generatorSha256": "bc08007bfdd90ec186b25d846b3891a1c586e4cafef6e797623bc89ba8d8980d"
+  },
+  "assets": [
+    {
+      "id": "creature_rift_carapace",
+      "file": "models/creature/creature_rift_carapace.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/rift-carapace-candidate.glb",
+      "pack": "corealm-audit-user-rift-carapace",
+      "category": "character",
+      "is": "Rift Carapace",
+      "tags": [
+        "creature",
+        "wilderness",
+        "rift",
+        "crab",
+        "arachnid",
+        "user-supplied"
+      ],
+      "bytes": 5094876,
+      "sha256": "e97c94df7607834a75e362251c637e86c3244bc7cb76fd0f03b0cfc568e4f674",
+      "size": {
+        "x": 2.3454104616045957,
+        "y": 2.143457294583321,
+        "z": 2.1709966540336616
+      },
+      "base": {
+        "x": -1.1727052308022978,
+        "y": 0,
+        "z": -1.0854983266666536
+      },
+      "bounds": {
+        "min": [
+          -1.1727052308022978,
+          0,
+          -1.0854983266666536
+        ],
+        "max": [
+          1.1727052308022978,
+          2.143457294583321,
+          1.085498327367008
+        ]
+      },
+      "groundY": 0,
+      "vertices": 3807,
+      "triangles": 5150,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_0c4f36c6-f3a5-4330-8937-980b84c04bf5"
+      ],
+      "walkClipSeconds": 1.05,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.18,
+      "contactNormalized": 0.4915254237288135,
+      "metadata": {
+        "is": "User-supplied violet crystalline armored crab-arachnid",
+        "walkClipSeconds": 1.05,
+        "runClipSeconds": 0.68,
+        "attackSeconds": 1.18,
+        "contactSeconds": 0.58,
+        "contactNormalized": 0.4915254237288135,
+        "contactBasis": "Paired crushing claws converge at 0.58 seconds.",
+        "renderedIdleHeightMeters": 2.143457294583321,
+        "gaitCalibration": "uncalibrated in-place gait; use creature definition speed"
+      },
+      "sourceProvenance": {
+        "author": "User supplied original; Corealm anatomical skin and animation",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/sources/rift-carapace-original.glb",
+        "sourceSha256": "ca486cf636be02a8615e45446d57bbde3922a9ba351235c8d258bcb7c91bc93a",
+        "sourceBytes": 4980604,
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/rift-carapace-candidate.glb",
+        "candidateSha256": "e97c94df7607834a75e362251c637e86c3244bc7cb76fd0f03b0cfc568e4f674",
+        "geometryPreserved": true,
+        "pbrTexturesPreserved": true,
+        "textures": [
+          {
+            "name": "tripo_image_0c4f36c6-f3a5-4330-8937-980b84c04bf5_2",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 642573,
+            "sha256": "fdf8803492e92745f64a061a9209b1ddaf9f4addd1aec039afb3552724f9224b"
+          },
+          {
+            "name": "tripo_image_0c4f36c6-f3a5-4330-8937-980b84c04bf5_0",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1207482,
+            "sha256": "31a7829928ff72f4e40dfe2463e8e37d641862fe148b41f0203714c2c7247490"
+          },
+          {
+            "name": "tripo_image_0c4f36c6-f3a5-4330-8937-980b84c04bf5_1",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 2975914,
+            "sha256": "b23381413d043e6029d27d2f7edfb0a96c3b71f08ed91eb6fbf87797738a7706"
+          }
+        ],
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/motion-audit.json",
+        "rigMethod": "10-joint shell, paired claw/pincer, rear and middle leg skin with socket blends; six native clips"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "evidence": "CPU skinned geometry audit only; root browser/screenshot acceptance pending"
+      }
+    }
+  ],
+  "files": {
+    "creature_rift_carapace": "assets/art/tripo/imports/creatures/audit-user-rift-carapace/rift-carapace-candidate.glb"
+  }
+}

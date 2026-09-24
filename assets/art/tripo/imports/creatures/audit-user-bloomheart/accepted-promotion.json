@@ -1,0 +1,320 @@
+{
+  "assets": [
+    {
+      "id": "creature_bloomheart_matriarch",
+      "file": "models/fairy-crown/creature_bloomheart_matriarch.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-bloomheart/bloomheart-matriarch-candidate.glb",
+      "pack": "corealm-user-bloomheart",
+      "category": "character",
+      "is": "Bloomheart Matriarch",
+      "tags": [
+        "creature",
+        "fairy",
+        "treant",
+        "flower-crown",
+        "root-skirt",
+        "user-supplied",
+        "tripo"
+      ],
+      "bytes": 2499576,
+      "sha256": "e7d77d0c4a0dd4e4f6ecb392afeb6a8ef4e8fcd2bc4e7572b736faa9d20ea5c9",
+      "size": {
+        "x": 3.5916009448040462,
+        "y": 3.69277441618253,
+        "z": 1.857226559417096
+      },
+      "base": {
+        "x": -1.795800448987437,
+        "y": -7.55878980071349e-9,
+        "z": -0.9286132812500003
+      },
+      "bounds": {
+        "min": [
+          -1.795800448987437,
+          -7.55878980071349e-9,
+          -0.9286132812500003
+        ],
+        "max": [
+          1.7958004958166094,
+          3.6927744086237406,
+          0.9286132781670958
+        ]
+      },
+      "groundY": -7.55878980071349e-9,
+      "vertices": 7992,
+      "triangles": 4922,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_0c874055-9610-46bd-b3f1-f6eed9ee426d"
+      ],
+      "walkClipSeconds": 1.3,
+      "runClipSeconds": 0.82,
+      "attackSeconds": 1.3,
+      "contactNormalized": 0.5153846153846154,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": "definition-speed; authored in-place planted root gait",
+      "metadata": {
+        "is": "Bloomheart Matriarch",
+        "contactSeconds": 0.67,
+        "contactNormalized": 0.5153846153846154,
+        "renderedIdleHeightMeters": 3.69277441618253,
+        "sourceTexturePolicy": "source PBR downsampled to 2K",
+        "rig": "13 anatomical joints, four normalized weights",
+        "deathFinalHeightRatio": 0.5621667881797107
+      },
+      "sourceProvenance": {
+        "author": "User-supplied Tripo Tree Spirit; Corealm fitted skin and motion",
+        "license": "LicenseRef-Corealm-Original",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-bloomheart/sources/tree+spirit+3d+model.glb",
+        "sourceSha256": "b910e4ae7848a9b8f8da73e05df58b08de9388535daee58452ce158afb50d9ab",
+        "sourceBytes": 22034016,
+        "sourceGeometryPreserved": true,
+        "sourcePositionSha256": "d976f435307b39444eeddbfbbdffd22a238a1b7c0f60f20006e90e2b31af70bc",
+        "sourceIndicesSha256": "9ec019ff2dae43798dfc420a82611982a88161b6ae8b392df46de94a65d689d1",
+        "pbrTextures": [
+          {
+            "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_2",
+            "source": [
+              4096,
+              4096
+            ],
+            "sourceSha256": "7ed201e4ba6c6a374832d8b035a51d6db54767110a9fb56a4038d181cf1c6651",
+            "runtime": [
+              2048,
+              2048
+            ],
+            "runtimeSha256": "a972e961da5e558c7a53340233b1537db04603cc05c56568343370c5561cd26f"
+          },
+          {
+            "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_0",
+            "source": [
+              8192,
+              8192
+            ],
+            "sourceSha256": "f824a98780cb126b811caac16e3960b33f9ffb48d7fc4a417ae7d48c7254a693",
+            "runtime": [
+              2048,
+              2048
+            ],
+            "runtimeSha256": "62863b210b95b5688cb6dd1079c77197a4042b777dbe370e18c4ccbd1ee506dc"
+          },
+          {
+            "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_1",
+            "source": [
+              4096,
+              4096
+            ],
+            "sourceSha256": "fc89aef5390b83a0238bca4960a1a3d17aad24d56235058b0184926dfacaa49b",
+            "runtime": [
+              2048,
+              2048
+            ],
+            "runtimeSha256": "32be2ba94f261e03e9b36bd8e7c865c3e9325e85afc0f72671dded4df261b0cc"
+          }
+        ],
+        "animationMethod": "Fitted anatomical root, trunk, face, crown, branch and root-limb skin; authored six clips; CPU floor correction",
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-bloomheart/motion-audit.json",
+        "minimumY": {
+          "Idle": -0.0010105188339346624,
+          "Walk": 0.005999985416056185,
+          "Run": 0.0059999740138329686,
+          "Attack": 0.005999999909020231,
+          "Hit": 0.005999999909020231,
+          "Death": 0.005999984334982398
+        },
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*",
+        "worldReview": "Representative normal-camera authored-world placement/combat passed, new-world-* captures and semantic journal."
+      }
+    },
+    {
+      "id": "creature_amethyst_sovereign",
+      "file": "models/fairy-crown/creature_amethyst_sovereign.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-bloomheart/amethyst-sovereign-candidate.glb",
+      "pack": "corealm-user-bloomheart",
+      "category": "character",
+      "is": "Amethyst Sovereign",
+      "tags": [
+        "creature",
+        "fairy",
+        "treant",
+        "flower-crown",
+        "root-skirt",
+        "user-supplied",
+        "tripo",
+        "amethyst",
+        "sovereign",
+        "crystal"
+      ],
+      "bytes": 4360136,
+      "sha256": "52bb0fedc2ca8512a01d40a00ab365b9e4aa127f03b7b7118c7dd8501f4a3157",
+      "size": {
+        "x": 3.8702000097036375,
+        "y": 4.181000003148047,
+        "z": 1.857226559417096
+      },
+      "base": {
+        "x": -1.9351000048518188,
+        "y": -7.55878980071349e-9,
+        "z": -0.9286132812500003
+      },
+      "bounds": {
+        "min": [
+          -1.9351000048518188,
+          -7.55878980071349e-9,
+          -0.9286132812500003
+        ],
+        "max": [
+          1.9351000048518188,
+          4.180999995589257,
+          0.9286132781670958
+        ]
+      },
+      "groundY": -7.55878980071349e-9,
+      "vertices": 9936,
+      "triangles": 5570,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_0c874055-9610-46bd-b3f1-f6eed9ee426d",
+        "Amethyst crystal with silver and gold inclusions"
+      ],
+      "walkClipSeconds": 1.3,
+      "runClipSeconds": 0.82,
+      "attackSeconds": 1.3,
+      "contactNormalized": 0.5153846153846154,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": "definition-speed; authored in-place planted root gait",
+      "metadata": {
+        "is": "Amethyst Sovereign",
+        "contactSeconds": 0.67,
+        "contactNormalized": 0.5153846153846154,
+        "renderedIdleHeightMeters": 4.181000003148047,
+        "sourceTexturePolicy": "image-generated UV-aligned silverwood albedo, source normal and ORM at 2K",
+        "rig": "13 anatomical joints, four normalized weights",
+        "deathFinalHeightRatio": 0.5076385703052382,
+        "crystalGrowths": 36,
+        "imageGeneratedCrystalMap": "assets/art/tripo/imports/creatures/audit-user-bloomheart/textures/amethyst-imagegen.png",
+        "imageGeneratedSilverwoodMap": "assets/art/tripo/imports/creatures/audit-user-bloomheart/textures/sovereign-silverwood-uv-imagegen.png"
+      },
+      "sourceProvenance": {
+        "author": "User-supplied Tripo Tree Spirit; Corealm fitted skin and motion",
+        "license": "LicenseRef-Corealm-Original",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-bloomheart/sources/tree+spirit+3d+model.glb",
+        "sourceSha256": "b910e4ae7848a9b8f8da73e05df58b08de9388535daee58452ce158afb50d9ab",
+        "sourceBytes": 22034016,
+        "sourceGeometryPreserved": true,
+        "sourcePositionSha256": "d976f435307b39444eeddbfbbdffd22a238a1b7c0f60f20006e90e2b31af70bc",
+        "sourceIndicesSha256": "9ec019ff2dae43798dfc420a82611982a88161b6ae8b392df46de94a65d689d1",
+        "pbrTextures": [
+          {
+            "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_2",
+            "source": [
+              4096,
+              4096
+            ],
+            "sourceSha256": "7ed201e4ba6c6a374832d8b035a51d6db54767110a9fb56a4038d181cf1c6651",
+            "runtime": [
+              2048,
+              2048
+            ],
+            "runtimeSha256": "a972e961da5e558c7a53340233b1537db04603cc05c56568343370c5561cd26f"
+          },
+          {
+            "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_0",
+            "source": [
+              8192,
+              8192
+            ],
+            "sourceSha256": "f824a98780cb126b811caac16e3960b33f9ffb48d7fc4a417ae7d48c7254a693",
+            "runtime": [
+              2048,
+              2048
+            ],
+            "runtimeSha256": "62863b210b95b5688cb6dd1079c77197a4042b777dbe370e18c4ccbd1ee506dc"
+          },
+          {
+            "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_1",
+            "source": [
+              4096,
+              4096
+            ],
+            "sourceSha256": "fc89aef5390b83a0238bca4960a1a3d17aad24d56235058b0184926dfacaa49b",
+            "runtime": [
+              2048,
+              2048
+            ],
+            "runtimeSha256": "32be2ba94f261e03e9b36bd8e7c865c3e9325e85afc0f72671dded4df261b0cc"
+          }
+        ],
+        "animationMethod": "Fitted anatomical root, trunk, face, crown, branch and root-limb skin; authored six clips; CPU floor correction",
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-bloomheart/motion-audit.json",
+        "minimumY": {
+          "Idle": -0.0010105188339346624,
+          "Walk": 0.005999985416066288,
+          "Run": 0.0059999740138329686,
+          "Attack": 0.005999999909020231,
+          "Hit": 0.005999999909020231,
+          "Death": 0.005999984334982398
+        },
+        "generatedSilverwoodMap": "assets/art/tripo/imports/creatures/audit-user-bloomheart/textures/sovereign-silverwood-uv-imagegen.png",
+        "silverwoodMapSha256": "6ebdef4f839a7639c2936b07c748274877d8d7766f4ec369bc0107fb9a7ff508",
+        "generatedCrystalMap": "assets/art/tripo/imports/creatures/audit-user-bloomheart/textures/amethyst-imagegen.png",
+        "crystalMapSha256": "05c7343468895dff8a55925d963e5ef059f2b5377d0740c0d4e2fd4c375b208d",
+        "crystalCount": 36,
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*",
+        "worldReview": "Representative normal-camera authored-world placement/combat passed, new-world-* captures and semantic journal."
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-user-bloomheart",
+      "name": "Corealm User Bloomheart",
+      "author": "User / Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-user-bloomheart/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "d98df45cc590232322cf5c2c39b8981f874db4a580aeebef610e42729f219790"
+    }
+  ]
+}

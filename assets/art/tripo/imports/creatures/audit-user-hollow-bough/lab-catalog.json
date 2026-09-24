@@ -1,0 +1,145 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-user-hollow-bough",
+    "name": "Corealm User Hollow Bough",
+    "author": "User / Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "109993e585d80426e367203948f20b557ce6fb4028eb07336cb436bfa56ad8ab"
+  },
+  "assets": [
+    {
+      "id": "creature_hollow_bough",
+      "file": "models/creature/creature_hollow_bough.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/creature_hollow_bough.glb",
+      "pack": "corealm-user-hollow-bough",
+      "category": "character",
+      "is": "Hollow Bough",
+      "tags": [
+        "creature",
+        "treant",
+        "rootwood",
+        "hollow-bough",
+        "user-supplied",
+        "tripo"
+      ],
+      "bytes": 1565812,
+      "sha256": "2fb302f98fd497a31b0e956586d876fedb13584fc4a84ea617a1c08ccd293dba",
+      "size": {
+        "x": 3.24365196,
+        "y": 2.67236464,
+        "z": 0.8442384
+      },
+      "base": {
+        "x": -1.62182598,
+        "y": 0,
+        "z": -0.4221192
+      },
+      "bounds": {
+        "min": [
+          -1.62182598,
+          0,
+          -0.4221192
+        ],
+        "max": [
+          1.62182598,
+          2.67236464,
+          0.4221192
+        ]
+      },
+      "groundY": 0,
+      "vertices": 7492,
+      "triangles": 4771,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_52f94696-1c7b-48cb-896f-b9bb6a1a1709"
+      ],
+      "walkClipSeconds": 1.18,
+      "runClipSeconds": 0.78,
+      "attackSeconds": 1.2,
+      "contactNormalized": 0.43333333333333335,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": "definition-speed; authored in-place biped gait",
+      "metadata": {
+        "is": "User-supplied branch-armed rootwood humanoid",
+        "walkClipSeconds": 1.18,
+        "runClipSeconds": 0.78,
+        "attackSeconds": 1.2,
+        "contactSeconds": 0.52,
+        "contactNormalized": 0.43333333333333335,
+        "contactBasis": "Right branch arm and trunk lunge reach at 0.52 s.",
+        "renderedIdleHeightMeters": 2.672364589941184,
+        "gaitCalibration": "uncalibrated; in-place clips"
+      },
+      "sourceProvenance": {
+        "author": "User-supplied static Tripo tree humanoid; Corealm anatomical rig and animation",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/sources/tree-humanoid-user-original.glb",
+        "sourceSha256": "95b9f687b3a3209de01c2deebb1e34b571974bbd2ebb9ecdcf5734cc5b4864e4",
+        "sourceBytes": 28439000,
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/creature_hollow_bough.glb",
+        "candidateSha256": "2fb302f98fd497a31b0e956586d876fedb13584fc4a84ea617a1c08ccd293dba",
+        "rigMethod": "Custom 18-joint Y-up biped skin, four normalized influences per vertex, geometry/UVs/normals/source material roles preserved; PBR maps downsampled.",
+        "sourceGeometryPreserved": true,
+        "sourceTextures": [
+          {
+            "name": "tripo_image_52f94696-1c7b-48cb-896f-b9bb6a1a1709_2",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 2123159,
+            "sha256": "525b824a1c9ea59b0972b53c99d025a8c7e39c8e4ced4fce708498ea063b718f"
+          },
+          {
+            "name": "tripo_image_52f94696-1c7b-48cb-896f-b9bb6a1a1709_0",
+            "width": 8192,
+            "height": 8192,
+            "bytes": 14588864,
+            "sha256": "2ea29b282a03315a5d6e8e943a59d97c3dc1f40137f403fc2a42e00fad44ae2f"
+          },
+          {
+            "name": "tripo_image_52f94696-1c7b-48cb-896f-b9bb6a1a1709_1",
+            "width": 4096,
+            "height": 4096,
+            "bytes": 11456695,
+            "sha256": "bf76458ba14d9baf06f1023cdbe594ffae3fa3bbfed1bead31ef84799120b2c3"
+          }
+        ],
+        "runtimeTextures": [
+          {
+            "name": "hollow-bough-normal-1024",
+            "bytes": 163050
+          },
+          {
+            "name": "hollow-bough-basecolor-2048",
+            "bytes": 827108
+          },
+          {
+            "name": "hollow-bough-roughness-metallic-1024",
+            "bytes": 100701
+          }
+        ],
+        "nativeScale": 3.25,
+        "faceAxis": "source +X rotated to runtime +Z",
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/motion-audit.json",
+        "deathFinalHeightRatio": 0.3733504965810123,
+        "deathGroundY": 0.0008074315421335995
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_hollow_bough": "C:/Users/Borg/Documents/GitHub/Corealm2/assets/art/tripo/imports/creatures/audit-user-hollow-bough/creature_hollow_bough.glb"
+  }
+}

@@ -1,0 +1,300 @@
+{
+  "schema": "corealm-creature-replacement-promotion/1",
+  "id": "creature_boss_galeskin",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-galeskin/galeskin-candidate.glb",
+  "sha256": "7e1626a6df633ea3b765a3155177b1df6511c75234b66b6b9f6ee4315138b1b0",
+  "bytes": 3996224,
+  "bounds": {
+    "seconds": 0,
+    "min": [
+      -0.4823730413083195,
+      0.0029999999805323295,
+      -0.9219122744867979
+    ],
+    "max": [
+      0.4823730413083195,
+      1.6253638067282736,
+      0.9231219315275399
+    ]
+  },
+  "joints": [
+    {
+      "index": 0,
+      "name": "Root",
+      "parent": null,
+      "restPosition": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "index": 1,
+      "name": "Torso",
+      "parent": "Root",
+      "restPosition": [
+        0,
+        0.75,
+        0
+      ]
+    },
+    {
+      "index": 2,
+      "name": "Neck",
+      "parent": "Torso",
+      "restPosition": [
+        0,
+        1.02,
+        0.38
+      ]
+    },
+    {
+      "index": 3,
+      "name": "Head",
+      "parent": "Neck",
+      "restPosition": [
+        0,
+        1.18,
+        0.61
+      ]
+    },
+    {
+      "index": 4,
+      "name": "Tail",
+      "parent": "Torso",
+      "restPosition": [
+        0,
+        0.67,
+        -0.49
+      ]
+    },
+    {
+      "index": 5,
+      "name": "ForeLUpper",
+      "parent": "Torso",
+      "restPosition": [
+        -0.27,
+        0.73,
+        0.41
+      ]
+    },
+    {
+      "index": 6,
+      "name": "ForeLLower",
+      "parent": "ForeLUpper",
+      "restPosition": [
+        -0.31,
+        0.35,
+        0.48
+      ]
+    },
+    {
+      "index": 7,
+      "name": "ForeLFoot",
+      "parent": "ForeLLower",
+      "restPosition": [
+        -0.34,
+        0.085,
+        0.52
+      ]
+    },
+    {
+      "index": 8,
+      "name": "ForeRUpper",
+      "parent": "Torso",
+      "restPosition": [
+        0.27,
+        0.73,
+        0.41
+      ]
+    },
+    {
+      "index": 9,
+      "name": "ForeRLower",
+      "parent": "ForeRUpper",
+      "restPosition": [
+        0.31,
+        0.35,
+        0.48
+      ]
+    },
+    {
+      "index": 10,
+      "name": "ForeRFoot",
+      "parent": "ForeRLower",
+      "restPosition": [
+        0.34,
+        0.085,
+        0.52
+      ]
+    },
+    {
+      "index": 11,
+      "name": "HindLUpper",
+      "parent": "Torso",
+      "restPosition": [
+        -0.22,
+        0.56,
+        -0.31
+      ]
+    },
+    {
+      "index": 12,
+      "name": "HindLLower",
+      "parent": "HindLUpper",
+      "restPosition": [
+        -0.27,
+        0.28,
+        -0.28
+      ]
+    },
+    {
+      "index": 13,
+      "name": "HindLFoot",
+      "parent": "HindLLower",
+      "restPosition": [
+        -0.3,
+        0.09,
+        -0.25
+      ]
+    },
+    {
+      "index": 14,
+      "name": "HindRUpper",
+      "parent": "Torso",
+      "restPosition": [
+        0.22,
+        0.56,
+        -0.31
+      ]
+    },
+    {
+      "index": 15,
+      "name": "HindRLower",
+      "parent": "HindRUpper",
+      "restPosition": [
+        0.27,
+        0.28,
+        -0.28
+      ]
+    },
+    {
+      "index": 16,
+      "name": "HindRFoot",
+      "parent": "HindRLower",
+      "restPosition": [
+        0.3,
+        0.09,
+        -0.25
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4000000953674316
+    },
+    {
+      "name": "Walk",
+      "seconds": 1
+    },
+    {
+      "name": "Run",
+      "seconds": 0.6200000047683716
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.0499999523162842
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.5199999809265137
+    },
+    {
+      "name": "Death",
+      "seconds": 1.5
+    }
+  ],
+  "timing": {
+    "walkClipSeconds": 1,
+    "runClipSeconds": 0.62,
+    "attackSeconds": 1.05,
+    "contactSeconds": 0.66,
+    "contactNormalized": 0.63,
+    "contactBasis": "Horn thrust and forward lunge peak around 0.66 seconds."
+  },
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/audit-user-galeskin/sources/fantasy-creature.glb",
+    "originalDownload": "C:/Users/Borg/Downloads/fantasy+creature+3d+model.glb",
+    "sha256": "0574a1e4d13b784d945b9b9fb9bf4f3549a193572e4cde74aa2a1cd612fdf10d",
+    "bytes": 3856756,
+    "vertices": 4533,
+    "triangles": 5156,
+    "geometryHashes": {
+      "POSITION": "e4c915ad8432c36e772600528286b729ed395396052d9a4b20280c9019ccfcdb",
+      "NORMAL": "4f19dac9540cd92cc086d9f0761513e30c7de95edc1ede09311c23c1ae7d48ef",
+      "TEXCOORD_0": "841643ac5a52655ddddd3c502e7938105381a876f580bbe947a52bc9b609b582",
+      "indices": "10b64fe5c4d87bc73537eb413d9492e09847887ba95a4b2306ea1438b872758e"
+    },
+    "textures": [
+      {
+        "name": "tripo_image_687f56a4-a0d5-419d-8f1b-de0b78964565_2",
+        "mimeType": "image/jpeg",
+        "bytes": 370739,
+        "sha256": "ffda2628b910b0d95ca69a28657cf4b4a5f16fd273159333ba4347e40d3a9739"
+      },
+      {
+        "name": "tripo_image_687f56a4-a0d5-419d-8f1b-de0b78964565_0",
+        "mimeType": "image/jpeg",
+        "bytes": 683939,
+        "sha256": "3a169295ccb0b421c91accb87b129351fc6ded9bda42f306dc5dace907206a3b"
+      },
+      {
+        "name": "tripo_image_687f56a4-a0d5-419d-8f1b-de0b78964565_1",
+        "mimeType": "image/png",
+        "bytes": 2624206,
+        "sha256": "d76353a46d00efc99b1374bb20ebaae06737a9f525402b3cf9cab93b0d6723ad"
+      }
+    ]
+  },
+  "builder": {
+    "file": "assets/art/tripo/imports/creatures/audit-user-galeskin/build-candidate.mjs",
+    "sha256": "46049122a1e9f3332d5376ba8f8fba6928367f6716863071680cc29c3ec51d4a"
+  },
+  "rig": {
+    "basis": "Y up, +Z muzzle; anatomical four-leg, head, neck and tail weights",
+    "vertexCount": 4533,
+    "multiInfluenceVertices": 3808,
+    "maxWeightSumError": 4.470348358154297e-8,
+    "jointInfluenceCounts": [
+      0,
+      4533,
+      1501,
+      693,
+      235,
+      278,
+      307,
+      298,
+      317,
+      317,
+      306,
+      142,
+      344,
+      245,
+      384,
+      381,
+      250
+    ]
+  },
+  "textureNote": "Three detailed native PBR maps retained byte-for-byte.",
+  "acceptance": {
+    "sourceIdentityVerified": true,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "texturesAccepted": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

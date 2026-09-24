@@ -4405,7 +4405,7 @@
       "scale": 1,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+      "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
       "kind": "basic"
     }
   },
@@ -5840,7 +5840,7 @@
       "scale": 0.7340616505132458,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "A winged deep-earth hunter with layered chitin, long antennae and hooked claws. Folded membranes rise behind its shoulders as it reaches for its prey.",
+      "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
       "kind": "basic"
     }
   },
@@ -6367,7 +6367,7 @@
       "scale": 1.0629184793596764,
       "regionId": "gloamgarden",
       "activity": "patrol",
-      "description": "An ancient violet tree guardian with teal inner growth and pale rose edges. A recessed luminous heart sits inside the split trunk.",
+      "description": "A flowering treant queen with a wood-knot face, branching crown and heavy planted root limbs.",
       "kind": "basic"
     }
   },
@@ -6421,7 +6421,7 @@
       "scale": 0.6317306745889465,
       "regionId": "faeholme",
       "activity": "forage",
-      "description": "A large violet-winged garden spirit with a deep turquoise shell. Magenta and cyan marks trace its familiar winged insect body.",
+      "description": "A winged insect fae with a crystal abdomen and intricately veined prismatic wings.",
       "kind": "basic"
     }
   },
@@ -6619,11 +6619,11 @@
     },
     "presentation": {
       "id": "amethyst_sovereign",
-      "assetId": "creature_bloomheart_matriarch",
+      "assetId": "creature_amethyst_sovereign",
       "scale": 0.9290156979249213,
       "regionId": "faeholme",
       "activity": "patrol",
-      "description": "A tall winged chitin sovereign with amethyst plates, wine-purple membranes and a pale teal sheen. Long antennae and hooked claws retain its ancient insect silhouette.",
+      "description": "An ancient silverwood treant with plum foliage, opal flowers and sharp amethyst growths.",
       "kind": "basic"
     }
   },
@@ -7859,7 +7859,7 @@
       "scale": 0.5905102663109314,
       "regionId": "gloamgarden",
       "activity": "prowl",
-      "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+      "description": "A small thistledown fae with pale fronds, dusky mauve petals and an intricately veined mantle.",
       "kind": "basic"
     }
   },
@@ -8418,7 +8418,7 @@
       "scale": 0.5574094187549528,
       "regionId": "faeholme",
       "activity": "prowl",
-      "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+      "description": "A small orchid fae with layered violet petals, delicate leaf veins and an embroidered floral mantle.",
       "kind": "basic"
     },
     "baseId": "garden_veilspirit_t30"
@@ -16206,7 +16206,7 @@
       "scale": 1.5,
       "regionId": "fallowmarch",
       "activity": "patrol",
-      "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+      "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
       "kind": "basic"
     }
   },
@@ -16793,8 +16793,8 @@
     "availability": "world",
     "presentation": {
       "id": "march_road_reavers",
-      "assetId": "outfit_male_peasant",
-      "scale": 1.12,
+      "assetId": "creature_road_bandit",
+      "scale": 1,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "Road Bandit",
@@ -16986,7 +16986,7 @@
       "scale": 0.9025808805665407,
       "regionId": "fallowmarch",
       "activity": "patrol",
-      "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+      "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
       "kind": "basic"
     },
     "profileId": "boss"
@@ -21101,11 +21101,11 @@
     "availability": "world",
     "presentation": {
       "id": "hollow_star",
-      "assetId": "creature_voidstone_colossus",
+      "assetId": "creature_hollow_star",
       "scale": 0.7340616505132458,
       "regionId": "wilderness",
       "activity": "patrol",
-      "description": "A towering dark stone guardian with jagged obsidian armor and violet mineral seams.",
+      "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
       "kind": "basic"
     },
     "profileId": "boss",

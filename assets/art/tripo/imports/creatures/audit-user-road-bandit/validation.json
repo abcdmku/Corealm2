@@ -1,0 +1,157 @@
+{
+  "sourceFile": "assets/art/tripo/imports/creatures/audit-user-road-bandit/sources/medieval+rogue+3d+model.glb",
+  "sourceSha256": "0977c5394de5f99f72c8c3f34b5768339d6cd7fefcf8e92537995b794d9a9afe",
+  "sourceBytes": 5397856,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-road-bandit/creature_road_bandit.glb",
+  "candidateSha256": "2e85abdc76cdd6bc2f2637d686ee45f6f5315a4d2a11a5719811179d0b75737d",
+  "candidateBytes": 5542708,
+  "builderSha256": "f94f3f344cb4ff1aa572aef3332e01e4cf3c6e95c2ad9651bfa03c6ed0b00edf",
+  "sourceBounds": {
+    "min": [
+      -0.1142578274,
+      0,
+      -0.4833984375
+    ],
+    "max": [
+      0.1142578274,
+      0.9980469942,
+      0.4833984375
+    ]
+  },
+  "presentationScale": 1.76,
+  "vertices": 3711,
+  "triangles": 4880,
+  "joints": [
+    {
+      "name": "Hips",
+      "coverage": 1350
+    },
+    {
+      "name": "Spine",
+      "coverage": 1436
+    },
+    {
+      "name": "Chest",
+      "coverage": 1404
+    },
+    {
+      "name": "Neck",
+      "coverage": 435
+    },
+    {
+      "name": "Head",
+      "coverage": 480
+    },
+    {
+      "name": "LeftUpperArm",
+      "coverage": 425
+    },
+    {
+      "name": "LeftForeArm",
+      "coverage": 612
+    },
+    {
+      "name": "LeftHand",
+      "coverage": 472
+    },
+    {
+      "name": "RightUpperArm",
+      "coverage": 498
+    },
+    {
+      "name": "RightForeArm",
+      "coverage": 621
+    },
+    {
+      "name": "RightHand",
+      "coverage": 493
+    },
+    {
+      "name": "LeftUpperLeg",
+      "coverage": 434
+    },
+    {
+      "name": "LeftLowerLeg",
+      "coverage": 422
+    },
+    {
+      "name": "LeftFoot",
+      "coverage": 411
+    },
+    {
+      "name": "RightUpperLeg",
+      "coverage": 392
+    },
+    {
+      "name": "RightLowerLeg",
+      "coverage": 426
+    },
+    {
+      "name": "RightFoot",
+      "coverage": 371
+    }
+  ],
+  "textures": [
+    {
+      "name": "tripo_image_57b55bac-0656-4bbf-b456-c90f5ad0be82_2",
+      "sha256": "ded92a9618db3f37dea8ad030e3b81823f705309daf4566be26a6d4d0b555ac8",
+      "bytes": 482868,
+      "width": 2048,
+      "height": 2048,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "name": "tripo_image_57b55bac-0656-4bbf-b456-c90f5ad0be82_0",
+      "sha256": "d4315f76e143785a9d6f90aa791c80e5569f1663c0ae180abd19d280981fdedd",
+      "bytes": 919155,
+      "width": 2048,
+      "height": 2048,
+      "mimeType": "image/jpeg"
+    },
+    {
+      "name": "tripo_image_57b55bac-0656-4bbf-b456-c90f5ad0be82_1",
+      "sha256": "92eefb9f5c796363121a42359dffdf49135f3bd79a3162d6986d30ee2f6ec2a2",
+      "bytes": 3845909,
+      "width": 2048,
+      "height": 2048,
+      "mimeType": "image/png"
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4,
+      "channels": 7
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.08,
+      "channels": 13
+    },
+    {
+      "name": "Run",
+      "seconds": 0.72,
+      "channels": 13
+    },
+    {
+      "name": "Attack",
+      "seconds": 0.96,
+      "channels": 10
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.46,
+      "channels": 8
+    },
+    {
+      "name": "Death",
+      "seconds": 1.5,
+      "channels": 13
+    }
+  ],
+  "attackContactSeconds": 0.413,
+  "attackContactNormalized": 0.43,
+  "geometryUvNormalsIndicesAndPbrPreserved": true,
+  "sourceWasUnrigged": true,
+  "acceptance": false
+}

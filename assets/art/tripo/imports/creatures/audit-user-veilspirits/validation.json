@@ -1,0 +1,458 @@
+{
+  "schema": "corealm-veilspirit-cpu-validation/1",
+  "sourceSha256": "07cf4fc63601c9323bfbf266f14393cbca698975c4dcf63feb7f6efc3ca077ae",
+  "results": [
+    {
+      "id": "fairy_garden_veilspirit_gloamgarden",
+      "sha256": "3eae6e5eac49b19b540df7aeffdcbfa2bb0bd326fdb91936c893f79a31358e91",
+      "bounds": {
+        "min": [
+          -0.6509179228794044,
+          7.62742403591957e-9,
+          -0.4325969933800735
+        ],
+        "max": [
+          0.6509179422545678,
+          1.377304544221945,
+          0.4325969917685241
+        ]
+      },
+      "influences": [
+        {
+          "name": "SpiritRoot",
+          "vertices": 0
+        },
+        {
+          "name": "Pelvis",
+          "vertices": 2031
+        },
+        {
+          "name": "Spine",
+          "vertices": 2717
+        },
+        {
+          "name": "Chest",
+          "vertices": 4547
+        },
+        {
+          "name": "Neck",
+          "vertices": 1419
+        },
+        {
+          "name": "Head",
+          "vertices": 2414
+        },
+        {
+          "name": "Crown",
+          "vertices": 1915
+        },
+        {
+          "name": "LeftShoulder",
+          "vertices": 408
+        },
+        {
+          "name": "LeftElbow",
+          "vertices": 1325
+        },
+        {
+          "name": "LeftHand",
+          "vertices": 974
+        },
+        {
+          "name": "RightShoulder",
+          "vertices": 423
+        },
+        {
+          "name": "RightElbow",
+          "vertices": 1242
+        },
+        {
+          "name": "RightHand",
+          "vertices": 843
+        },
+        {
+          "name": "LeftMantle",
+          "vertices": 1223
+        },
+        {
+          "name": "LeftMantleTip",
+          "vertices": 834
+        },
+        {
+          "name": "RightMantle",
+          "vertices": 1093
+        },
+        {
+          "name": "RightMantleTip",
+          "vertices": 816
+        },
+        {
+          "name": "LeftHip",
+          "vertices": 51
+        },
+        {
+          "name": "LeftKnee",
+          "vertices": 217
+        },
+        {
+          "name": "LeftFoot",
+          "vertices": 231
+        },
+        {
+          "name": "RightHip",
+          "vertices": 45
+        },
+        {
+          "name": "RightKnee",
+          "vertices": 204
+        },
+        {
+          "name": "RightFoot",
+          "vertices": 216
+        }
+      ],
+      "motion": [
+        {
+          "name": "Idle",
+          "seconds": 2.5999999046325684,
+          "channels": 7,
+          "minY": 0.002999980364452092,
+          "maxY": 1.3962857566703586,
+          "final": {
+            "time": 2.5999999046325684,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          }
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.350000023841858,
+          "channels": 13,
+          "minY": 0.0029999790184176848,
+          "maxY": 1.4070045589566074,
+          "final": {
+            "time": 1.350000023841858,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.8199999928474426,
+          "channels": 13,
+          "minY": 0.0029999794580535125,
+          "maxY": 1.4205252070355532,
+          "final": {
+            "time": 0.8199999928474426,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.949999988079071,
+          "channels": 11,
+          "minY": 0.0029430579059484593,
+          "maxY": 1.4152897966080469,
+          "final": {
+            "time": 0.949999988079071,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "channels": 5,
+          "minY": 0.0029999789397270656,
+          "maxY": 1.3850891606034,
+          "final": {
+            "time": 0.5,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.649999976158142,
+          "channels": 7,
+          "minY": 0.0029021457372510676,
+          "maxY": 1.3931576541812802,
+          "final": {
+            "time": 1.649999976158142,
+            "minY": 0.00299999977089945,
+            "maxY": 0.8338564068171405,
+            "width": 1.4112106125679018
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.0029999954636058613,
+            "maxY": 1.3803045320357752,
+            "width": 0.8651939851485977
+          }
+        }
+      ]
+    },
+    {
+      "id": "fairy_garden_veilspirit_faeholme",
+      "sha256": "f2311ac699c21201125d79f87b9cb1de39c8c3738d658f5ba77aeb6a742de455",
+      "bounds": {
+        "min": [
+          -0.7782714295297227,
+          9.119746049526887e-9,
+          -0.5172355355631314
+        ],
+        "max": [
+          0.778271452695679,
+          1.6467771724392821,
+          0.5172355336362788
+        ]
+      },
+      "influences": [
+        {
+          "name": "SpiritRoot",
+          "vertices": 0
+        },
+        {
+          "name": "Pelvis",
+          "vertices": 2031
+        },
+        {
+          "name": "Spine",
+          "vertices": 2717
+        },
+        {
+          "name": "Chest",
+          "vertices": 4547
+        },
+        {
+          "name": "Neck",
+          "vertices": 1419
+        },
+        {
+          "name": "Head",
+          "vertices": 2414
+        },
+        {
+          "name": "Crown",
+          "vertices": 1915
+        },
+        {
+          "name": "LeftShoulder",
+          "vertices": 408
+        },
+        {
+          "name": "LeftElbow",
+          "vertices": 1325
+        },
+        {
+          "name": "LeftHand",
+          "vertices": 974
+        },
+        {
+          "name": "RightShoulder",
+          "vertices": 423
+        },
+        {
+          "name": "RightElbow",
+          "vertices": 1242
+        },
+        {
+          "name": "RightHand",
+          "vertices": 843
+        },
+        {
+          "name": "LeftMantle",
+          "vertices": 1223
+        },
+        {
+          "name": "LeftMantleTip",
+          "vertices": 834
+        },
+        {
+          "name": "RightMantle",
+          "vertices": 1093
+        },
+        {
+          "name": "RightMantleTip",
+          "vertices": 816
+        },
+        {
+          "name": "LeftHip",
+          "vertices": 51
+        },
+        {
+          "name": "LeftKnee",
+          "vertices": 217
+        },
+        {
+          "name": "LeftFoot",
+          "vertices": 231
+        },
+        {
+          "name": "RightHip",
+          "vertices": 45
+        },
+        {
+          "name": "RightKnee",
+          "vertices": 204
+        },
+        {
+          "name": "RightFoot",
+          "vertices": 216
+        }
+      ],
+      "motion": [
+        {
+          "name": "Idle",
+          "seconds": 2.5999999046325684,
+          "channels": 7,
+          "minY": 0.0029999753500524846,
+          "maxY": 1.6688851615108873,
+          "final": {
+            "time": 2.5999999046325684,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          }
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.350000023841858,
+          "channels": 13,
+          "minY": 0.0029999782255183097,
+          "maxY": 1.6817011207660715,
+          "final": {
+            "time": 1.350000023841858,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.8199999928474426,
+          "channels": 13,
+          "minY": 0.002999975011473475,
+          "maxY": 1.6978671130344896,
+          "final": {
+            "time": 0.8199999928474426,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.949999988079071,
+          "channels": 11,
+          "minY": 0.002931902494736141,
+          "maxY": 1.6916073831755147,
+          "final": {
+            "time": 0.949999988079071,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "channels": 5,
+          "minY": 0.0029999760314104477,
+          "maxY": 1.6554979270829613,
+          "final": {
+            "time": 0.5,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.649999976158142,
+          "channels": 7,
+          "minY": 0.0028830032364467856,
+          "maxY": 1.6651449897848327,
+          "final": {
+            "time": 1.649999976158142,
+            "minY": 0.003000017376663163,
+            "maxY": 0.9964152866907605,
+            "width": 1.68731703676597
+          },
+          "first": {
+            "time": 0,
+            "minY": 0.003000012226638246,
+            "maxY": 1.6497771755238229,
+            "width": 1.0344710691994101
+          }
+        }
+      ]
+    }
+  ]
+}

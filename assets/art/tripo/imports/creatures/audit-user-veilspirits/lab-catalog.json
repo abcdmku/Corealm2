@@ -1,0 +1,258 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-user-veilspirits-candidate",
+    "name": "User botanical veilspirit variants",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-veilspirits/sources/fantasy-elf-user-original.glb",
+    "license": "LicenseRef-Tripo-Generated; user supplied export"
+  },
+  "assets": [
+    {
+      "id": "fairy_garden_veilspirit_gloamgarden",
+      "file": "models/fairy-garden/fairy_garden_veilspirit_gloamgarden.glb",
+      "pack": "corealm-user-veilspirits-candidate",
+      "category": "character",
+      "is": "botanical veilspirit",
+      "tags": [
+        "creature",
+        "fairy",
+        "fantastical",
+        "botanical",
+        "veilspirit",
+        "image-generated-texture"
+      ],
+      "name": "Thistledown Veilspirit",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/thistledown-veilspirit-candidate.glb",
+      "bytes": 4989008,
+      "sha256": "3eae6e5eac49b19b540df7aeffdcbfa2bb0bd326fdb91936c893f79a31358e91",
+      "triangles": 3944,
+      "size": {
+        "x": 1.301835865133972,
+        "y": 1.377304536594521,
+        "z": 0.8651939851485977
+      },
+      "base": {
+        "x": -0.6509179228794044,
+        "y": 7.62742403591957e-9,
+        "z": -0.4325969933800735
+      },
+      "bounds": {
+        "min": [
+          -0.6509179228794044,
+          7.62742403591957e-9,
+          -0.4325969933800735
+        ],
+        "max": [
+          0.6509179422545678,
+          1.377304544221945,
+          0.4325969917685241
+        ]
+      },
+      "groundY": 7.62742403591957e-9,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.35,
+      "runClipSeconds": 0.82,
+      "attackSeconds": 0.95,
+      "contactNormalized": 0.4,
+      "materials": [
+        "Thistledown Veilspirit PBR"
+      ],
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/sources/fantasy-elf-user-original.glb",
+        "sourceSha256": "07cf4fc63601c9323bfbf266f14393cbca698975c4dcf63feb7f6efc3ca077ae",
+        "sourceVertices": 6297,
+        "sourceTriangles": 3944,
+        "originalGeometryPreserved": true,
+        "originalNormalAndMRPreserved": true,
+        "generatedColorAtlas": "assets/art/tripo/imports/creatures/audit-user-veilspirits/thistledown-atlas-imagegen.png",
+        "generatedColorSha256": "fa0e9dc856e8927175c95991cfd38ce9737548a680d649ac8be07f9fe8419f3e",
+        "originalGeometryHashes": {
+          "POSITION": "2d80576141d838b5e09b397013e1853e53a8aba522e9cef93382659b5299d9db",
+          "NORMAL": "0e655a52b5fca9ba5a632db176ed47b999dd6c5c085c9e40ba1ef05324d5a6c9",
+          "TEXCOORD_0": "91d3c763ec928be6d462fd57c42dfb46550320a01fdf00cd51804a46dc998a50"
+        },
+        "builderFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/build-candidates.mjs",
+        "builderSha256": "e3b0eddf06838e18e91087833f25034c8b232fe6703942431e07e70877a1916e",
+        "rigMethod": "23-joint region and segment weighted native mesh rig"
+      },
+      "metadata": {
+        "is": "thistledown veilspirit",
+        "tags": [
+          "fairy",
+          "fantastical",
+          "botanical",
+          "veilspirit",
+          "image-generated-texture"
+        ],
+        "targetHeight": 1.38,
+        "boneNames": [
+          "SpiritRoot",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Crown",
+          "LeftShoulder",
+          "LeftElbow",
+          "LeftHand",
+          "RightShoulder",
+          "RightElbow",
+          "RightHand",
+          "LeftMantle",
+          "LeftMantleTip",
+          "RightMantle",
+          "RightMantleTip",
+          "LeftHip",
+          "LeftKnee",
+          "LeftFoot",
+          "RightHip",
+          "RightKnee",
+          "RightFoot"
+        ],
+        "notes": "User supplied botanical mesh, preserved topology, UV and supporting PBR maps. Six newly authored clips; root lab review pending."
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "fairy_garden_veilspirit_faeholme",
+      "file": "models/fairy-garden/fairy_garden_veilspirit_faeholme.glb",
+      "pack": "corealm-user-veilspirits-candidate",
+      "category": "character",
+      "is": "botanical veilspirit",
+      "tags": [
+        "creature",
+        "fairy",
+        "fantastical",
+        "botanical",
+        "veilspirit",
+        "image-generated-texture"
+      ],
+      "name": "Orchid Veilspirit",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/orchid-veilspirit-candidate.glb",
+      "bytes": 5251520,
+      "sha256": "f2311ac699c21201125d79f87b9cb1de39c8c3738d658f5ba77aeb6a742de455",
+      "triangles": 3944,
+      "size": {
+        "x": 1.5565428822254017,
+        "y": 1.646777163319536,
+        "z": 1.0344710691994101
+      },
+      "base": {
+        "x": -0.7782714295297227,
+        "y": 9.119746049526887e-9,
+        "z": -0.5172355355631314
+      },
+      "bounds": {
+        "min": [
+          -0.7782714295297227,
+          9.119746049526887e-9,
+          -0.5172355355631314
+        ],
+        "max": [
+          0.778271452695679,
+          1.6467771724392821,
+          0.5172355336362788
+        ]
+      },
+      "groundY": 9.119746049526887e-9,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.35,
+      "runClipSeconds": 0.82,
+      "attackSeconds": 0.95,
+      "contactNormalized": 0.4,
+      "materials": [
+        "Orchid Veilspirit PBR"
+      ],
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/sources/fantasy-elf-user-original.glb",
+        "sourceSha256": "07cf4fc63601c9323bfbf266f14393cbca698975c4dcf63feb7f6efc3ca077ae",
+        "sourceVertices": 6297,
+        "sourceTriangles": 3944,
+        "originalGeometryPreserved": true,
+        "originalNormalAndMRPreserved": true,
+        "generatedColorAtlas": "assets/art/tripo/imports/creatures/audit-user-veilspirits/orchid-atlas-imagegen.png",
+        "generatedColorSha256": "767df27d6ad5dcb4de06b6e0385a162b82deddc8f2abe20d6d9c53d9b428a3eb",
+        "originalGeometryHashes": {
+          "POSITION": "2d80576141d838b5e09b397013e1853e53a8aba522e9cef93382659b5299d9db",
+          "NORMAL": "0e655a52b5fca9ba5a632db176ed47b999dd6c5c085c9e40ba1ef05324d5a6c9",
+          "TEXCOORD_0": "91d3c763ec928be6d462fd57c42dfb46550320a01fdf00cd51804a46dc998a50"
+        },
+        "builderFile": "assets/art/tripo/imports/creatures/audit-user-veilspirits/build-candidates.mjs",
+        "builderSha256": "e3b0eddf06838e18e91087833f25034c8b232fe6703942431e07e70877a1916e",
+        "rigMethod": "23-joint region and segment weighted native mesh rig"
+      },
+      "metadata": {
+        "is": "orchid veilspirit",
+        "tags": [
+          "fairy",
+          "fantastical",
+          "botanical",
+          "veilspirit",
+          "image-generated-texture"
+        ],
+        "targetHeight": 1.65,
+        "boneNames": [
+          "SpiritRoot",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Crown",
+          "LeftShoulder",
+          "LeftElbow",
+          "LeftHand",
+          "RightShoulder",
+          "RightElbow",
+          "RightHand",
+          "LeftMantle",
+          "LeftMantleTip",
+          "RightMantle",
+          "RightMantleTip",
+          "LeftHip",
+          "LeftKnee",
+          "LeftFoot",
+          "RightHip",
+          "RightKnee",
+          "RightFoot"
+        ],
+        "notes": "User supplied botanical mesh, preserved topology, UV and supporting PBR maps. Six newly authored clips; root lab review pending."
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "fairy_garden_veilspirit_gloamgarden": "thistledown-veilspirit-candidate.glb",
+    "fairy_garden_veilspirit_faeholme": "orchid-veilspirit-candidate.glb"
+  }
+}

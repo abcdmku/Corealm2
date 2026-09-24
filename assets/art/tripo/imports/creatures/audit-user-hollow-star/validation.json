@@ -1,0 +1,137 @@
+{
+  "sourceFile": "assets/art/tripo/imports/creatures/audit-user-hollow-star/sources/fantasy+symbol+3d+model.glb",
+  "sourceSha256": "7b15f0d0bbaa9be8d154d26383ef74a042d0e10dc9895285b8c8776ee862629c",
+  "sourceBytes": 26877672,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-hollow-star/hollow-star-user-candidate.glb",
+  "candidateSha256": "f1bf0af6d3c5b39a8127a0cf50e29428e60491f342ad628c97e22d80e44d82d1",
+  "candidateBytes": 3693212,
+  "vertices": 7169,
+  "triangles": 4862,
+  "sourceGeometry": {
+    "positionSha256": "14e96d8c57b431d3629bb2f330be4a4a34911240e6463201a4d5e1bcb32f0923",
+    "indexSha256": "1b6d628d3558212e33aac3075015b54ce0cbb53dec2bb1d312c709e78ce78cf9"
+  },
+  "sourceGeometryPreserved": true,
+  "textureMaps": [
+    {
+      "kind": "normal",
+      "name": "tripo_image_2d2299b2-1c9c-4e7d-a2cb-11cf046df19f_2",
+      "sourceSize": [
+        4096,
+        4096
+      ],
+      "sourceBytes": 2155532,
+      "sourceSha256": "3a49f15ecfc727d6d153193ed123d406cff6a5f15cd89b4a38523c352e02b497",
+      "runtimeSize": [
+        2048,
+        2048
+      ],
+      "runtimeBytes": 978649,
+      "runtimeSha256": "347cfcd419c225be22ec35d24b7eb80d7ff44a8f53a67e1148c6b9f7f86ecdaf"
+    },
+    {
+      "kind": "baseColor",
+      "name": "tripo_image_2d2299b2-1c9c-4e7d-a2cb-11cf046df19f_0",
+      "sourceSize": [
+        8192,
+        8192
+      ],
+      "sourceBytes": 10873134,
+      "sourceSha256": "7fb730c76af7f69ce5b6c72187a1f3dbe3a66c4b64e49f6843eb3a01ef4a4d37",
+      "runtimeSize": [
+        2048,
+        2048
+      ],
+      "runtimeBytes": 1232103,
+      "runtimeSha256": "e53a8c7c20acfc7b568375d6734f0d7a5546f9fbef7c4f99394928eac79b24ce"
+    },
+    {
+      "kind": "metallicRoughness",
+      "name": "tripo_image_2d2299b2-1c9c-4e7d-a2cb-11cf046df19f_1",
+      "sourceSize": [
+        4096,
+        4096
+      ],
+      "sourceBytes": 13588516,
+      "sourceSha256": "55403194bf7671c6702af94f95c0020ab282d6ea57b9b4ea292c6f6a200a9463",
+      "runtimeSize": [
+        2048,
+        2048
+      ],
+      "runtimeBytes": 1009837,
+      "runtimeSha256": "df9090cb1e71a3fd805ff2eb56e6e86cfa1011cd25304fd8c1839aaae44ce13c"
+    }
+  ],
+  "joints": [
+    "HollowCore",
+    "MembraneSector0",
+    "MembraneSector1",
+    "MembraneSector2",
+    "MembraneSector3",
+    "MembraneSector4",
+    "MembraneSector5",
+    "MembraneSector6",
+    "MembraneSector7"
+  ],
+  "weightMass": [
+    2741.5496930097133,
+    390.94311019891137,
+    893.9836213858833,
+    1161.0377705519072,
+    855.2310475092474,
+    400.39765527962373,
+    233.62346708784924,
+    241.3109866665337,
+    250.92264831010306
+  ],
+  "blendedVertices": 6873,
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4,
+      "channels": 11
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.55,
+      "channels": 11
+    },
+    {
+      "name": "Run",
+      "seconds": 0.92,
+      "channels": 11
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.28,
+      "channels": 11
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.62,
+      "channels": 11
+    },
+    {
+      "name": "Death",
+      "seconds": 1.8,
+      "channels": 11
+    }
+  ],
+  "attackContactSeconds": 0.55,
+  "attackContactNormalized": 0.4296875,
+  "restBounds": {
+    "min": [
+      -0.4345703423,
+      0,
+      -0.4990233183
+    ],
+    "max": [
+      0.4345703423,
+      0.9902342558,
+      0.4990233183
+    ]
+  },
+  "presentationScale": 3.6,
+  "status": "awaiting-root-lab-review",
+  "accepted": false
+}

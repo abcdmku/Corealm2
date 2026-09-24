@@ -1,0 +1,120 @@
+{
+  "sourceFile": "assets/art/tripo/imports/creatures/audit-user-bloomheart/sources/tree+spirit+3d+model.glb",
+  "sourceSha256": "b910e4ae7848a9b8f8da73e05df58b08de9388535daee58452ce158afb50d9ab",
+  "sourceBytes": 22034016,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-bloomheart/bloomheart-matriarch-candidate.glb",
+  "candidateSha256": "e7d77d0c4a0dd4e4f6ecb392afeb6a8ef4e8fcd2bc4e7572b736faa9d20ea5c9",
+  "candidateBytes": 2499576,
+  "vertices": 7992,
+  "triangles": 4922,
+  "sourcePositionSha256": "d976f435307b39444eeddbfbbdffd22a238a1b7c0f60f20006e90e2b31af70bc",
+  "sourceIndicesSha256": "9ec019ff2dae43798dfc420a82611982a88161b6ae8b392df46de94a65d689d1",
+  "sourceGeometryPreserved": true,
+  "joints": [
+    "Root",
+    "Trunk",
+    "Bole",
+    "Face",
+    "Crown",
+    "LeftBranch",
+    "LeftTwig",
+    "RightBranch",
+    "RightTwig",
+    "LeftRoot",
+    "LeftTip",
+    "RightRoot",
+    "RightTip"
+  ],
+  "blendedVertices": 7992,
+  "weightMass": [
+    403.61368336632216,
+    847.7015909134931,
+    935.9680525400838,
+    992.6775220954735,
+    1739.9615015941827,
+    375.53194298326935,
+    460.10547941289354,
+    344.42878785233665,
+    431.40387234526844,
+    407.2147391768828,
+    311.85157127122085,
+    416.9378701609461,
+    324.6033862876244
+  ],
+  "textures": [
+    {
+      "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_2",
+      "source": [
+        4096,
+        4096
+      ],
+      "sourceSha256": "7ed201e4ba6c6a374832d8b035a51d6db54767110a9fb56a4038d181cf1c6651",
+      "runtime": [
+        2048,
+        2048
+      ],
+      "runtimeSha256": "a972e961da5e558c7a53340233b1537db04603cc05c56568343370c5561cd26f"
+    },
+    {
+      "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_0",
+      "source": [
+        8192,
+        8192
+      ],
+      "sourceSha256": "f824a98780cb126b811caac16e3960b33f9ffb48d7fc4a417ae7d48c7254a693",
+      "runtime": [
+        2048,
+        2048
+      ],
+      "runtimeSha256": "62863b210b95b5688cb6dd1079c77197a4042b777dbe370e18c4ccbd1ee506dc"
+    },
+    {
+      "name": "tripo_image_0c874055-9610-46bd-b3f1-f6eed9ee426d_1",
+      "source": [
+        4096,
+        4096
+      ],
+      "sourceSha256": "fc89aef5390b83a0238bca4960a1a3d17aad24d56235058b0184926dfacaa49b",
+      "runtime": [
+        2048,
+        2048
+      ],
+      "runtimeSha256": "32be2ba94f261e03e9b36bd8e7c865c3e9325e85afc0f72671dded4df261b0cc"
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4,
+      "channels": 15
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.3,
+      "channels": 15
+    },
+    {
+      "name": "Run",
+      "seconds": 0.82,
+      "channels": 15
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.3,
+      "channels": 15
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.56,
+      "channels": 15
+    },
+    {
+      "name": "Death",
+      "seconds": 1.65,
+      "channels": 15
+    }
+  ],
+  "contactSeconds": 0.67,
+  "contactNormalized": 0.5153846153846154,
+  "status": "awaiting-root-lab-review"
+}

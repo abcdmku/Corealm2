@@ -1,0 +1,164 @@
+{
+  "schema": "corealm-creature-candidate-promotion/1",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "labCatalog": "assets/art/tripo/imports/creatures/audit-user-veilspirits/lab-catalog.json",
+  "cpuValidation": "assets/art/tripo/imports/creatures/audit-user-veilspirits/validation.json",
+  "candidates": [
+    {
+      "id": "fairy_garden_veilspirit_gloamgarden",
+      "file": "assets/art/tripo/imports/creatures/audit-user-veilspirits/thistledown-veilspirit-candidate.glb",
+      "sha256": "3eae6e5eac49b19b540df7aeffdcbfa2bb0bd326fdb91936c893f79a31358e91",
+      "bytes": 4989008,
+      "bounds": {
+        "min": [
+          -0.6509179228794044,
+          7.62742403591957e-9,
+          -0.4325969933800735
+        ],
+        "max": [
+          0.6509179422545678,
+          1.377304544221945,
+          0.4325969917685241
+        ]
+      },
+      "joints": [
+        "SpiritRoot",
+        "Pelvis",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Crown",
+        "LeftShoulder",
+        "LeftElbow",
+        "LeftHand",
+        "RightShoulder",
+        "RightElbow",
+        "RightHand",
+        "LeftMantle",
+        "LeftMantleTip",
+        "RightMantle",
+        "RightMantleTip",
+        "LeftHip",
+        "LeftKnee",
+        "LeftFoot",
+        "RightHip",
+        "RightKnee",
+        "RightFoot"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 2.5999999046325684,
+          "channels": 7
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.350000023841858,
+          "channels": 13
+        },
+        {
+          "name": "Run",
+          "seconds": 0.8199999928474426,
+          "channels": 13
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.949999988079071,
+          "channels": 11
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "channels": 5
+        },
+        {
+          "name": "Death",
+          "seconds": 1.649999976158142,
+          "channels": 7
+        }
+      ]
+    },
+    {
+      "id": "fairy_garden_veilspirit_faeholme",
+      "file": "assets/art/tripo/imports/creatures/audit-user-veilspirits/orchid-veilspirit-candidate.glb",
+      "sha256": "f2311ac699c21201125d79f87b9cb1de39c8c3738d658f5ba77aeb6a742de455",
+      "bytes": 5251520,
+      "bounds": {
+        "min": [
+          -0.7782714295297227,
+          9.119746049526887e-9,
+          -0.5172355355631314
+        ],
+        "max": [
+          0.778271452695679,
+          1.6467771724392821,
+          0.5172355336362788
+        ]
+      },
+      "joints": [
+        "SpiritRoot",
+        "Pelvis",
+        "Spine",
+        "Chest",
+        "Neck",
+        "Head",
+        "Crown",
+        "LeftShoulder",
+        "LeftElbow",
+        "LeftHand",
+        "RightShoulder",
+        "RightElbow",
+        "RightHand",
+        "LeftMantle",
+        "LeftMantleTip",
+        "RightMantle",
+        "RightMantleTip",
+        "LeftHip",
+        "LeftKnee",
+        "LeftFoot",
+        "RightHip",
+        "RightKnee",
+        "RightFoot"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 2.5999999046325684,
+          "channels": 7
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.350000023841858,
+          "channels": 13
+        },
+        {
+          "name": "Run",
+          "seconds": 0.8199999928474426,
+          "channels": 13
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.949999988079071,
+          "channels": 11
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "channels": 5
+        },
+        {
+          "name": "Death",
+          "seconds": 1.649999976158142,
+          "channels": 7
+        }
+      ]
+    }
+  ],
+  "remainingAcceptance": [
+    "Root normal-camera lab visual and motion review",
+    "Root semantic combat and corpse verification",
+    "Root production integration and build"
+  ]
+}

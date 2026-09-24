@@ -57,12 +57,12 @@ interface PackSource {
 export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
   {
     "id": "march_road_reavers",
-    "assetId": "outfit_male_peasant",
-    "scale": 1.12,
+    "assetId": "creature_road_bandit",
+    "scale": 1,
     "baseEnemyDefId": "reaver_t1",
     "activity": "patrol",
-    "nativeBodyRadius": 0.8995,
-    "nativeVisualRadius": 0.9186163508233456
+    "nativeBodyRadius": 0.85078125,
+    "nativeVisualRadius": 0.874223908496897
   },
   {
     "id": "open_march_goats",
@@ -151,8 +151,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "redbrush_fox_t1",
     "activity": "forage",
-    "nativeBodyRadius": 0.7671434755255592,
-    "nativeVisualRadius": 0.8766702550812312
+    "nativeBodyRadius": 0.499755859375,
+    "nativeVisualRadius": 0.5222469940863341
   },
   {
     "id": "rootdelve_badger_residents",
@@ -160,8 +160,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "redmane_minotaur_t25",
     "activity": "forage",
-    "nativeBodyRadius": 0.8969810831546783,
-    "nativeVisualRadius": 0.9480502382399154
+    "nativeBodyRadius": 1.2088172043010752,
+    "nativeVisualRadius": 1.6439787027019965
   },
   {
     "id": "quillback_porcupine_residents",
@@ -169,8 +169,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "quillback_porcupine_t10",
     "activity": "forage",
-    "nativeBodyRadius": 0.8032790833711625,
-    "nativeVisualRadius": 0.9516092637493768
+    "nativeBodyRadius": 0.8032790720462799,
+    "nativeVisualRadius": 0.951609256374217
   },
   {
     "id": "marchwild_horse_residents",
@@ -178,8 +178,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "marchwild_horse_t5",
     "activity": "graze",
-    "nativeBodyRadius": 1.550673290217461,
-    "nativeVisualRadius": 1.7794178954964508
+    "nativeBodyRadius": 1.8106417288210157,
+    "nativeVisualRadius": 1.8745129198306039
   },
   {
     "id": "cairn_bighorn_residents",
@@ -188,7 +188,7 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "baseEnemyDefId": "cairn_bighorn_t10",
     "activity": "graze",
     "nativeBodyRadius": 1.1665486181705864,
-    "nativeVisualRadius": 1.3731898101282751
+    "nativeVisualRadius": 1.3891922329311246
   },
   {
     "id": "ashscale_monitor_residents",
@@ -205,8 +205,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "scree_bustard_t10",
     "activity": "prowl",
-    "nativeBodyRadius": 0.5778399973750117,
-    "nativeVisualRadius": 0.710137992894533
+    "nativeBodyRadius": 0.4990234971046448,
+    "nativeVisualRadius": 0.5657745520876587
   },
   {
     "id": "antler_beetle_residents",
@@ -232,8 +232,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "hollowroot_spider_t5",
     "activity": "prowl",
-    "nativeBodyRadius": 1.240081889629364,
-    "nativeVisualRadius": 1.7506315645603658
+    "nativeBodyRadius": 0.4958496391773224,
+    "nativeVisualRadius": 0.6347229222344468
   },
   {
     "id": "cinder_ravager_residents",
@@ -268,8 +268,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "quarry_nightmare_t10",
     "activity": "patrol",
-    "nativeBodyRadius": 2.4705198314708756,
-    "nativeVisualRadius": 3.3066887568297276
+    "nativeBodyRadius": 1.2493682544275324,
+    "nativeVisualRadius": 1.7522764135919913
   }
 ];
 

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "c452fc8891198fa8fc8244dc3c83ab0b2654abf5b2cab118c8ba4108fdf5c2a6",
-  "formulaRevision": "bc7f79c8032df36c929a97d025937f0910d50a236458742f8659cab5d2d317d8",
+  "revision": "028e579ab2921fa98a3a74e87550442d357e087fe3c1a272a22cb94cc2a21830",
+  "formulaRevision": "fc796c1ea7697cd4a847ea71a9a6742667efd73a67dfd082117d8be33305a969",
   "tables": {
     "items": [
       {
@@ -27016,7 +27016,7 @@
           "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+          "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28464,7 +28464,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A winged deep-earth hunter with layered chitin, long antennae and hooked claws. Folded membranes rise behind its shoulders as it reaches for its prey.",
+          "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
           "kind": "basic"
         },
         "adjustments": {
@@ -28926,7 +28926,7 @@
           "scale": 1.0629184793596764,
           "regionId": "gloamgarden",
           "activity": "patrol",
-          "description": "An ancient violet tree guardian with teal inner growth and pale rose edges. A recessed luminous heart sits inside the split trunk.",
+          "description": "A flowering treant queen with a wood-knot face, branching crown and heavy planted root limbs.",
           "kind": "basic"
         },
         "adjustments": {
@@ -29020,7 +29020,7 @@
           "scale": 0.6317306745889465,
           "regionId": "faeholme",
           "activity": "forage",
-          "description": "A large violet-winged garden spirit with a deep turquoise shell. Magenta and cyan marks trace its familiar winged insect body.",
+          "description": "A winged insect fae with a crystal abdomen and intricately veined prismatic wings.",
           "kind": "basic"
         },
         "adjustments": {
@@ -29178,11 +29178,11 @@
         "profileId": "boss",
         "presentation": {
           "id": "amethyst_sovereign",
-          "assetId": "creature_bloomheart_matriarch",
+          "assetId": "creature_amethyst_sovereign",
           "scale": 0.9290156979249213,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "A tall winged chitin sovereign with amethyst plates, wine-purple membranes and a pale teal sheen. Long antennae and hooked claws retain its ancient insect silhouette.",
+          "description": "An ancient silverwood treant with plum foliage, opal flowers and sharp amethyst growths.",
           "kind": "basic"
         },
         "adjustments": {
@@ -30460,7 +30460,7 @@
           "scale": 0.5905102663109314,
           "regionId": "gloamgarden",
           "activity": "prowl",
-          "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+          "description": "A small thistledown fae with pale fronds, dusky mauve petals and an intricately veined mantle.",
           "kind": "basic"
         },
         "adjustments": {
@@ -31027,7 +31027,7 @@
           "scale": 0.5574094187549528,
           "regionId": "faeholme",
           "activity": "prowl",
-          "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+          "description": "A small orchid fae with layered violet petals, delicate leaf veins and an embroidered floral mantle.",
           "kind": "basic"
         },
         "loot": {
@@ -38806,7 +38806,7 @@
           "scale": 1.5,
           "regionId": "fallowmarch",
           "activity": "patrol",
-          "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+          "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
           "kind": "basic"
         },
         "adjustments": {
@@ -39429,8 +39429,8 @@
         "availability": "world",
         "presentation": {
           "id": "march_road_reavers",
-          "assetId": "outfit_male_peasant",
-          "scale": 1.12,
+          "assetId": "creature_road_bandit",
+          "scale": 1,
           "regionId": "fallowmarch",
           "activity": "patrol",
           "description": "Road Bandit",
@@ -39623,7 +39623,7 @@
           "scale": 0.9025808805665407,
           "regionId": "fallowmarch",
           "activity": "patrol",
-          "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+          "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
           "kind": "basic"
         }
       },
@@ -43738,11 +43738,11 @@
         "profileId": "boss",
         "presentation": {
           "id": "hollow_star",
-          "assetId": "creature_voidstone_colossus",
+          "assetId": "creature_hollow_star",
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A towering dark stone guardian with jagged obsidian armor and violet mineral seams.",
+          "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
           "kind": "basic"
         },
         "loot": {
@@ -70795,71 +70795,71 @@
         "scaleMultiplier": 0.8678973672475164,
         "formation": {
           "kind": "authored",
-          "spacing": 2.922637351318179,
+          "spacing": 4,
           "rotation": 0
         },
         "anchorAdjustments": [
           {
             "index": 0,
             "offset": [
-              12.610441656458022,
-              3.900866727929724
+              11.464037869507273,
+              3.5462424799360743
             ]
           },
           {
             "index": 1,
             "offset": [
-              -3.9008667279296674,
-              12.610441656457965
+              6.5024817785946,
+              10.08552084520404
             ]
           },
           {
             "index": 2,
             "offset": [
-              -12.610441656458022,
-              -3.900866727929724
+              -1.501657803557669,
+              11.905671918922273
             ]
           },
           {
             "index": 3,
             "offset": [
-              3.9008667279296674,
-              -12.610441656457965
+              -8.8031550103578,
+              8.155026784972097
             ]
           },
           {
             "index": 4,
             "offset": [
-              0,
-              0
+              -11.985558151641502,
+              0.588553985306326
             ]
           },
           {
             "index": 5,
             "offset": [
-              -2.6277073893643887,
-              -1.279438534357837
+              -9.55978542913088,
+              -7.253309765133218
             ]
           },
           {
             "index": 6,
             "offset": [
-              -0.20582742134757837,
-              -2.9153806200805548
+              -2.660882859149475,
+              -11.701269264908166
             ]
           },
           {
             "index": 7,
             "offset": [
-              2.4218799680168672,
-              -1.6359420857227178
+              5.483076373046897,
+              -10.674074830510365
             ]
           },
           {
             "index": 8,
             "offset": [
-              2.6277073893643887,
-              1.279438534357837
+              11.061443232688546,
+              -4.652362153789057
             ]
           }
         ],
@@ -71549,71 +71549,71 @@
         "scaleMultiplier": 0.8678973672475164,
         "formation": {
           "kind": "authored",
-          "spacing": 2.922637351318179,
+          "spacing": 4,
           "rotation": 0
         },
         "anchorAdjustments": [
           {
             "index": 0,
             "offset": [
-              0,
-              0
+              6.687355423879242,
+              2.068641446629377
             ]
           },
           {
             "index": 1,
             "offset": [
-              1.7872653585078524,
-              -2.312464405260698
+              3.265923973674469,
+              6.191424763184833
             ]
           },
           {
             "index": 2,
             "offset": [
-              2.896285599557018,
-              0.3915850011412658
+              -2.068641446629377,
+              6.687355423879242
             ]
           },
           {
             "index": 3,
             "offset": [
-              1.1090202410491656,
-              2.7040494064020777
+              -6.191424763184832,
+              3.2659239736744707
             ]
           },
           {
             "index": 4,
             "offset": [
-              -1.7872653585078524,
-              2.312464405260698
+              -6.687355423879243,
+              -2.0686414466293748
             ]
           },
           {
             "index": 5,
             "offset": [
-              -2.896285599557018,
-              -0.3915850011412658
+              -3.265923973674471,
+              -6.191424763184832
             ]
           },
           {
             "index": 6,
             "offset": [
-              -1.1090202410491656,
-              -2.7040494064020777
+              2.0686414466293743,
+              -6.687355423879243
             ]
           },
           {
             "index": 7,
             "offset": [
-              3.574530717015705,
-              -4.62492881052151
+              6.191424763184832,
+              -3.2659239736744716
             ]
           },
           {
             "index": 8,
             "offset": [
-              4.68355095806487,
-              -1.9208794041194324
+              0,
+              0
             ]
           }
         ],
@@ -75530,92 +75530,92 @@
         "scaleMultiplier": 0.8678973672475164,
         "formation": {
           "kind": "authored",
-          "spacing": 2.922637351318179,
+          "spacing": 4,
           "rotation": 0
         },
         "anchorAdjustments": [
           {
             "index": 0,
             "offset": [
-              5.015999999999991,
-              1.5510000000000446
+              6.687355423879242,
+              2.068641446629377
             ]
           },
           {
             "index": 1,
             "offset": [
-              -1.5509999999999877,
-              5.015999999999963
+              3.265923973674469,
+              6.191424763184833
             ]
           },
           {
             "index": 2,
             "offset": [
-              -5.0160000000000196,
-              -1.5510000000000446
+              -2.068641446629377,
+              6.687355423879242
             ]
           },
           {
             "index": 3,
             "offset": [
-              1.5509999999999877,
-              -5.015999999999963
+              -6.191424763184832,
+              3.2659239736744707
             ]
           },
           {
             "index": 4,
             "offset": [
-              0,
-              0
+              -6.687355423879243,
+              -2.0686414466293748
             ]
           },
           {
             "index": 5,
             "offset": [
-              2.554396173285056,
-              -1.4201652288472815
+              -3.265923973674471,
+              -6.191424763184832
             ]
           },
           {
             "index": 6,
             "offset": [
-              -2.554396173285056,
-              1.4201652288472815
+              2.0686414466293743,
+              -6.687355423879243
             ]
           },
           {
             "index": 7,
             "offset": [
-              5.108792346570084,
-              -2.840330457694563
+              6.191424763184832,
+              -3.2659239736744716
             ]
           },
           {
             "index": 8,
             "offset": [
-              2.4597983315061356,
-              4.424343954789265
+              2.6749421695516964,
+              0.8274565786517507
             ]
           },
           {
             "index": 9,
             "offset": [
-              -5.108792346570112,
-              2.840330457694563
+              -0.8274565786517507,
+              2.6749421695516964
             ]
           },
           {
             "index": 10,
             "offset": [
-              -2.4597983315061356,
-              -4.424343954789265
+              -2.674942169551697,
+              -0.8274565786517499
             ]
           },
           {
             "index": 11,
             "offset": [
-              0.14189676266840934,
-              -8.766763775454706
+              0.8274565786517497,
+              -2.674942169551697
             ]
           }
         ],
@@ -78125,12 +78125,12 @@
           65
         ],
         "count": 1,
-        "radius": 1.659889,
+        "radius": 3,
         "rank": "boss",
         "scaleMultiplier": 0.625,
         "formation": {
           "kind": "authored",
-          "spacing": 3.799778,
+          "spacing": 6,
           "rotation": 0
         },
         "anchorAdjustments": [
@@ -78700,12 +78700,12 @@
           420
         ],
         "count": 1,
-        "radius": 1.659889,
+        "radius": 3,
         "rank": "boss",
         "scaleMultiplier": 0.675,
         "formation": {
           "kind": "authored",
-          "spacing": 3.799778,
+          "spacing": 6,
           "rotation": 0
         },
         "anchorAdjustments": [
@@ -102673,7 +102673,7 @@
             "scale": 1,
             "regionId": "wilderness",
             "activity": "patrol",
-            "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+            "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
             "kind": "basic"
           },
           "adjustments": {
@@ -102767,7 +102767,7 @@
           "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+          "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
           "stats": {
             "id": "hollow_bough_t10",
             "name": "Hollow Bough",
@@ -108893,7 +108893,7 @@
             "scale": 0.7340616505132458,
             "regionId": "wilderness",
             "activity": "patrol",
-            "description": "A winged deep-earth hunter with layered chitin, long antennae and hooked claws. Folded membranes rise behind its shoulders as it reaches for its prey.",
+            "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
             "kind": "basic"
           },
           "adjustments": {
@@ -108959,7 +108959,7 @@
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A winged deep-earth hunter with layered chitin, long antennae and hooked claws. Folded membranes rise behind its shoulders as it reaches for its prey.",
+          "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
           "stats": {
             "id": "hollow_star_t70",
             "name": "The Hollow Star",
@@ -110842,7 +110842,7 @@
             "scale": 1.0629184793596764,
             "regionId": "gloamgarden",
             "activity": "patrol",
-            "description": "An ancient violet tree guardian with teal inner growth and pale rose edges. A recessed luminous heart sits inside the split trunk.",
+            "description": "A flowering treant queen with a wood-knot face, branching crown and heavy planted root limbs.",
             "kind": "basic"
           },
           "adjustments": {
@@ -111033,7 +111033,7 @@
           "scale": 1.0629184793596764,
           "regionId": "gloamgarden",
           "activity": "patrol",
-          "description": "An ancient violet tree guardian with teal inner growth and pale rose edges. A recessed luminous heart sits inside the split trunk.",
+          "description": "A flowering treant queen with a wood-knot face, branching crown and heavy planted root limbs.",
           "stats": {
             "id": "bloomheart_matriarch_t30",
             "name": "Bloomheart Matriarch",
@@ -111164,7 +111164,7 @@
             "scale": 0.6317306745889465,
             "regionId": "faeholme",
             "activity": "forage",
-            "description": "A large violet-winged garden spirit with a deep turquoise shell. Magenta and cyan marks trace its familiar winged insect body.",
+            "description": "A winged insect fae with a crystal abdomen and intricately veined prismatic wings.",
             "kind": "basic"
           },
           "adjustments": {
@@ -111301,7 +111301,7 @@
           "scale": 0.6317306745889465,
           "regionId": "faeholme",
           "activity": "forage",
-          "description": "A large violet-winged garden spirit with a deep turquoise shell. Magenta and cyan marks trace its familiar winged insect body.",
+          "description": "A winged insect fae with a crystal abdomen and intricately veined prismatic wings.",
           "stats": {
             "id": "prismatic_sprite_t60",
             "name": "Prismatic Sprite",
@@ -111922,11 +111922,11 @@
           "profileId": "boss",
           "presentation": {
             "id": "amethyst_sovereign",
-            "assetId": "creature_bloomheart_matriarch",
+            "assetId": "creature_amethyst_sovereign",
             "scale": 0.9290156979249213,
             "regionId": "faeholme",
             "activity": "patrol",
-            "description": "A tall winged chitin sovereign with amethyst plates, wine-purple membranes and a pale teal sheen. Long antennae and hooked claws retain its ancient insect silhouette.",
+            "description": "An ancient silverwood treant with plum foliage, opal flowers and sharp amethyst growths.",
             "kind": "basic"
           },
           "adjustments": {
@@ -112109,15 +112109,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_bloomheart_matriarch",
+        "assetId": "creature_amethyst_sovereign",
         "scale": 0.9290156979249213,
         "presentation": {
           "id": "amethyst_sovereign",
-          "assetId": "creature_bloomheart_matriarch",
+          "assetId": "creature_amethyst_sovereign",
           "scale": 0.9290156979249213,
           "regionId": "faeholme",
           "activity": "patrol",
-          "description": "A tall winged chitin sovereign with amethyst plates, wine-purple membranes and a pale teal sheen. Long antennae and hooked claws retain its ancient insect silhouette.",
+          "description": "An ancient silverwood treant with plum foliage, opal flowers and sharp amethyst growths.",
           "stats": {
             "id": "amethyst_sovereign_t60",
             "name": "Amethyst Sovereign",
@@ -117908,7 +117908,7 @@
             "scale": 0.5905102663109314,
             "regionId": "gloamgarden",
             "activity": "prowl",
-            "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+            "description": "A small thistledown fae with pale fronds, dusky mauve petals and an intricately veined mantle.",
             "kind": "basic"
           },
           "adjustments": {
@@ -118043,7 +118043,7 @@
           "scale": 0.5905102663109314,
           "regionId": "gloamgarden",
           "activity": "prowl",
-          "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+          "description": "A small thistledown fae with pale fronds, dusky mauve petals and an intricately veined mantle.",
           "stats": {
             "id": "garden_veilspirit_t30",
             "name": "Thistledown Veilspirit",
@@ -120879,7 +120879,7 @@
             "scale": 0.5574094187549528,
             "regionId": "faeholme",
             "activity": "prowl",
-            "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+            "description": "A small orchid fae with layered violet petals, delicate leaf veins and an embroidered floral mantle.",
             "kind": "basic"
           },
           "loot": {
@@ -121007,7 +121007,7 @@
           "scale": 0.5574094187549528,
           "regionId": "faeholme",
           "activity": "prowl",
-          "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+          "description": "A small orchid fae with layered violet petals, delicate leaf veins and an embroidered floral mantle.",
           "stats": {
             "id": "garden_veilspirit_t60",
             "name": "Orchid Veilspirit",
@@ -156737,7 +156737,7 @@
           "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+          "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
           "stats": {
             "id": "hollow_bough_t50",
             "name": "Hollow Bough",
@@ -157027,7 +157027,7 @@
           "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+          "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
           "stats": {
             "id": "hollow_bough_t70",
             "name": "Hollow Bough",
@@ -164663,7 +164663,7 @@
             "scale": 1.5,
             "regionId": "fallowmarch",
             "activity": "patrol",
-            "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+            "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
             "kind": "basic"
           },
           "adjustments": {
@@ -164768,7 +164768,7 @@
           "scale": 1.5,
           "regionId": "fallowmarch",
           "activity": "patrol",
-          "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+          "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
           "stats": {
             "id": "boss_galeskin_t10",
             "name": "Galeskin",
@@ -168594,8 +168594,8 @@
           "availability": "world",
           "presentation": {
             "id": "march_road_reavers",
-            "assetId": "outfit_male_peasant",
-            "scale": 1.12,
+            "assetId": "creature_road_bandit",
+            "scale": 1,
             "regionId": "fallowmarch",
             "activity": "patrol",
             "description": "Road Bandit",
@@ -168814,12 +168814,12 @@
           ]
         },
         "availability": "world",
-        "assetId": "outfit_male_peasant",
-        "scale": 1.12,
+        "assetId": "creature_road_bandit",
+        "scale": 1,
         "presentation": {
           "id": "march_road_reavers",
-          "assetId": "outfit_male_peasant",
-          "scale": 1.12,
+          "assetId": "creature_road_bandit",
+          "scale": 1,
           "regionId": "fallowmarch",
           "activity": "patrol",
           "description": "Road Bandit",
@@ -170179,7 +170179,7 @@
             "scale": 0.9025808805665407,
             "regionId": "fallowmarch",
             "activity": "patrol",
-            "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+            "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
             "kind": "basic"
           }
         },
@@ -170279,7 +170279,7 @@
           "scale": 0.9025808805665407,
           "regionId": "fallowmarch",
           "activity": "patrol",
-          "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+          "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
           "stats": {
             "id": "galeskin",
             "name": "Galeskin",
@@ -184053,7 +184053,7 @@
           "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+          "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
           "stats": {
             "id": "wilderness_dead_boughs",
             "name": "Hollow Bough",
@@ -186655,7 +186655,7 @@
           "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+          "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
           "stats": {
             "id": "wilderness_petrified_grove",
             "name": "Hollow Bough",
@@ -198471,11 +198471,11 @@
           "profileId": "boss",
           "presentation": {
             "id": "hollow_star",
-            "assetId": "creature_voidstone_colossus",
+            "assetId": "creature_hollow_star",
             "scale": 0.7340616505132458,
             "regionId": "wilderness",
             "activity": "patrol",
-            "description": "A towering dark stone guardian with jagged obsidian armor and violet mineral seams.",
+            "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
             "kind": "basic"
           },
           "loot": {
@@ -198855,15 +198855,15 @@
           ]
         },
         "availability": "world",
-        "assetId": "creature_voidstone_colossus",
+        "assetId": "creature_hollow_star",
         "scale": 0.7340616505132458,
         "presentation": {
           "id": "hollow_star",
-          "assetId": "creature_voidstone_colossus",
+          "assetId": "creature_hollow_star",
           "scale": 0.7340616505132458,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A towering dark stone guardian with jagged obsidian armor and violet mineral seams.",
+          "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
           "stats": {
             "id": "hollow_star",
             "name": "The Hollow Star",
@@ -200417,7 +200417,7 @@
           "scale": 1,
           "regionId": "wilderness",
           "activity": "patrol",
-          "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+          "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
           "stats": {
             "id": "population_deadwood_west_boughs",
             "name": "Hollow Bough",
@@ -245894,7 +245894,7 @@
         "scale": 1,
         "regionId": "wilderness",
         "activity": "patrol",
-        "description": "A leafless, petrified forest guardian. Its split trunk bends forward before a sweeping root-arm strike.",
+        "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
         "stats": {
           "id": "hollow_bough_t10",
           "name": "Hollow Bough",
@@ -248105,7 +248105,7 @@
         "scale": 0.7340616505132458,
         "regionId": "wilderness",
         "activity": "patrol",
-        "description": "A winged deep-earth hunter with layered chitin, long antennae and hooked claws. Folded membranes rise behind its shoulders as it reaches for its prey.",
+        "description": "A radial cosmic being whose curved spines and membrane spans surround a hollow, luminous core.",
         "stats": {
           "id": "hollow_star_t70",
           "name": "The Hollow Star",
@@ -248809,7 +248809,7 @@
         "scale": 1.0629184793596764,
         "regionId": "gloamgarden",
         "activity": "patrol",
-        "description": "An ancient violet tree guardian with teal inner growth and pale rose edges. A recessed luminous heart sits inside the split trunk.",
+        "description": "A flowering treant queen with a wood-knot face, branching crown and heavy planted root limbs.",
         "stats": {
           "id": "bloomheart_matriarch_t30",
           "name": "Bloomheart Matriarch",
@@ -248918,7 +248918,7 @@
         "scale": 0.6317306745889465,
         "regionId": "faeholme",
         "activity": "forage",
-        "description": "A large violet-winged garden spirit with a deep turquoise shell. Magenta and cyan marks trace its familiar winged insect body.",
+        "description": "A winged insect fae with a crystal abdomen and intricately veined prismatic wings.",
         "stats": {
           "id": "prismatic_sprite_t60",
           "name": "Prismatic Sprite",
@@ -249199,11 +249199,11 @@
       },
       {
         "id": "amethyst_sovereign",
-        "assetId": "creature_bloomheart_matriarch",
+        "assetId": "creature_amethyst_sovereign",
         "scale": 0.9290156979249213,
         "regionId": "faeholme",
         "activity": "patrol",
-        "description": "A tall winged chitin sovereign with amethyst plates, wine-purple membranes and a pale teal sheen. Long antennae and hooked claws retain its ancient insect silhouette.",
+        "description": "An ancient silverwood treant with plum foliage, opal flowers and sharp amethyst growths.",
         "stats": {
           "id": "amethyst_sovereign_t60",
           "name": "Amethyst Sovereign",
@@ -251444,7 +251444,7 @@
         "scale": 0.5905102663109314,
         "regionId": "gloamgarden",
         "activity": "prowl",
-        "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+        "description": "A small thistledown fae with pale fronds, dusky mauve petals and an intricately veined mantle.",
         "stats": {
           "id": "garden_veilspirit_t30",
           "name": "Thistledown Veilspirit",
@@ -252584,7 +252584,7 @@
         "scale": 0.5574094187549528,
         "regionId": "faeholme",
         "activity": "prowl",
-        "description": "A hovering fey spirit wrapped in trailing veils sewn with branching veins and tiny stars.",
+        "description": "A small orchid fae with layered violet petals, delicate leaf veins and an embroidered floral mantle.",
         "stats": {
           "id": "garden_veilspirit_t60",
           "name": "Orchid Veilspirit",
@@ -263517,7 +263517,7 @@
         "scale": 1.5,
         "regionId": "fallowmarch",
         "activity": "patrol",
-        "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+        "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
         "stats": {
           "id": "boss_galeskin_t10",
           "name": "Galeskin",
@@ -265062,8 +265062,8 @@
       },
       {
         "id": "march_road_reavers",
-        "assetId": "outfit_male_peasant",
-        "scale": 1.12,
+        "assetId": "creature_road_bandit",
+        "scale": 1,
         "regionId": "fallowmarch",
         "activity": "patrol",
         "description": "Road Bandit",
@@ -265724,7 +265724,7 @@
         "scale": 0.9025808805665407,
         "regionId": "fallowmarch",
         "activity": "patrol",
-        "description": "A wary Fallowmarch guardian, Galeskin keeps to wind-swept grassland edges and watches over tucked-away grain stores. Ochre clan pigment marks its callused skin; a plain flax wrap and seed pouch reflect its work.",
+        "description": "An agile horned storm beast with a low, muscular body and wind-swept vanes.",
         "stats": {
           "id": "galeskin",
           "name": "Galeskin",
@@ -291316,71 +291316,71 @@
           "scaleMultiplier": 0.8678973672475164,
           "formation": {
             "kind": "authored",
-            "spacing": 2.922637351318179,
+            "spacing": 4,
             "rotation": 0
           },
           "anchorAdjustments": [
             {
               "index": 0,
               "offset": [
-                12.610441656458022,
-                3.900866727929724
+                11.464037869507273,
+                3.5462424799360743
               ]
             },
             {
               "index": 1,
               "offset": [
-                -3.9008667279296674,
-                12.610441656457965
+                6.5024817785946,
+                10.08552084520404
               ]
             },
             {
               "index": 2,
               "offset": [
-                -12.610441656458022,
-                -3.900866727929724
+                -1.501657803557669,
+                11.905671918922273
               ]
             },
             {
               "index": 3,
               "offset": [
-                3.9008667279296674,
-                -12.610441656457965
+                -8.8031550103578,
+                8.155026784972097
               ]
             },
             {
               "index": 4,
               "offset": [
-                0,
-                0
+                -11.985558151641502,
+                0.588553985306326
               ]
             },
             {
               "index": 5,
               "offset": [
-                -2.6277073893643887,
-                -1.279438534357837
+                -9.55978542913088,
+                -7.253309765133218
               ]
             },
             {
               "index": 6,
               "offset": [
-                -0.20582742134757837,
-                -2.9153806200805548
+                -2.660882859149475,
+                -11.701269264908166
               ]
             },
             {
               "index": 7,
               "offset": [
-                2.4218799680168672,
-                -1.6359420857227178
+                5.483076373046897,
+                -10.674074830510365
               ]
             },
             {
               "index": 8,
               "offset": [
-                2.6277073893643887,
-                1.279438534357837
+                11.061443232688546,
+                -4.652362153789057
               ]
             }
           ],
@@ -292070,71 +292070,71 @@
           "scaleMultiplier": 0.8678973672475164,
           "formation": {
             "kind": "authored",
-            "spacing": 2.922637351318179,
+            "spacing": 4,
             "rotation": 0
           },
           "anchorAdjustments": [
             {
               "index": 0,
               "offset": [
-                0,
-                0
+                6.687355423879242,
+                2.068641446629377
               ]
             },
             {
               "index": 1,
               "offset": [
-                1.7872653585078524,
-                -2.312464405260698
+                3.265923973674469,
+                6.191424763184833
               ]
             },
             {
               "index": 2,
               "offset": [
-                2.896285599557018,
-                0.3915850011412658
+                -2.068641446629377,
+                6.687355423879242
               ]
             },
             {
               "index": 3,
               "offset": [
-                1.1090202410491656,
-                2.7040494064020777
+                -6.191424763184832,
+                3.2659239736744707
               ]
             },
             {
               "index": 4,
               "offset": [
-                -1.7872653585078524,
-                2.312464405260698
+                -6.687355423879243,
+                -2.0686414466293748
               ]
             },
             {
               "index": 5,
               "offset": [
-                -2.896285599557018,
-                -0.3915850011412658
+                -3.265923973674471,
+                -6.191424763184832
               ]
             },
             {
               "index": 6,
               "offset": [
-                -1.1090202410491656,
-                -2.7040494064020777
+                2.0686414466293743,
+                -6.687355423879243
               ]
             },
             {
               "index": 7,
               "offset": [
-                3.574530717015705,
-                -4.62492881052151
+                6.191424763184832,
+                -3.2659239736744716
               ]
             },
             {
               "index": 8,
               "offset": [
-                4.68355095806487,
-                -1.9208794041194324
+                0,
+                0
               ]
             }
           ],
@@ -296051,92 +296051,92 @@
           "scaleMultiplier": 0.8678973672475164,
           "formation": {
             "kind": "authored",
-            "spacing": 2.922637351318179,
+            "spacing": 4,
             "rotation": 0
           },
           "anchorAdjustments": [
             {
               "index": 0,
               "offset": [
-                5.015999999999991,
-                1.5510000000000446
+                6.687355423879242,
+                2.068641446629377
               ]
             },
             {
               "index": 1,
               "offset": [
-                -1.5509999999999877,
-                5.015999999999963
+                3.265923973674469,
+                6.191424763184833
               ]
             },
             {
               "index": 2,
               "offset": [
-                -5.0160000000000196,
-                -1.5510000000000446
+                -2.068641446629377,
+                6.687355423879242
               ]
             },
             {
               "index": 3,
               "offset": [
-                1.5509999999999877,
-                -5.015999999999963
+                -6.191424763184832,
+                3.2659239736744707
               ]
             },
             {
               "index": 4,
               "offset": [
-                0,
-                0
+                -6.687355423879243,
+                -2.0686414466293748
               ]
             },
             {
               "index": 5,
               "offset": [
-                2.554396173285056,
-                -1.4201652288472815
+                -3.265923973674471,
+                -6.191424763184832
               ]
             },
             {
               "index": 6,
               "offset": [
-                -2.554396173285056,
-                1.4201652288472815
+                2.0686414466293743,
+                -6.687355423879243
               ]
             },
             {
               "index": 7,
               "offset": [
-                5.108792346570084,
-                -2.840330457694563
+                6.191424763184832,
+                -3.2659239736744716
               ]
             },
             {
               "index": 8,
               "offset": [
-                2.4597983315061356,
-                4.424343954789265
+                2.6749421695516964,
+                0.8274565786517507
               ]
             },
             {
               "index": 9,
               "offset": [
-                -5.108792346570112,
-                2.840330457694563
+                -0.8274565786517507,
+                2.6749421695516964
               ]
             },
             {
               "index": 10,
               "offset": [
-                -2.4597983315061356,
-                -4.424343954789265
+                -2.674942169551697,
+                -0.8274565786517499
               ]
             },
             {
               "index": 11,
               "offset": [
-                0.14189676266840934,
-                -8.766763775454706
+                0.8274565786517497,
+                -2.674942169551697
               ]
             }
           ],
@@ -298646,12 +298646,12 @@
             65
           ],
           "count": 1,
-          "radius": 1.659889,
+          "radius": 3,
           "rank": "boss",
           "scaleMultiplier": 0.625,
           "formation": {
             "kind": "authored",
-            "spacing": 3.799778,
+            "spacing": 6,
             "rotation": 0
           },
           "anchorAdjustments": [
@@ -299221,12 +299221,12 @@
             420
           ],
           "count": 1,
-          "radius": 1.659889,
+          "radius": 3,
           "rank": "boss",
           "scaleMultiplier": 0.675,
           "formation": {
             "kind": "authored",
-            "spacing": 3.799778,
+            "spacing": 6,
             "rotation": 0
           },
           "anchorAdjustments": [
@@ -299969,8 +299969,8 @@
             "family": "reaver",
             "name": "Road Bandit",
             "tier": 1,
-            "assetId": "outfit_male_peasant",
-            "scale": 1.12,
+            "assetId": "creature_road_bandit",
+            "scale": 1,
             "centre": [
               -245,
               -21
@@ -302665,7 +302665,7 @@
             "family": "hollow_star",
             "name": "The Hollow Star",
             "tier": 70,
-            "assetId": "creature_voidstone_colossus",
+            "assetId": "creature_hollow_star",
             "scale": 0.5646628080871121,
             "centre": [
               -21.19872040953759,
@@ -303336,7 +303336,7 @@
             ],
             "count": 1,
             "countPolicy": "fixed",
-            "radius": 1.659889,
+            "radius": 3,
             "legacyCount": 1,
             "boss": true
           }
@@ -303527,7 +303527,7 @@
             "family": "amethyst_sovereign",
             "name": "Amethyst Sovereign",
             "tier": 60,
-            "assetId": "creature_bloomheart_matriarch",
+            "assetId": "creature_amethyst_sovereign",
             "scale": 0.6270855960993219,
             "centre": [
               2450,
@@ -303535,7 +303535,7 @@
             ],
             "count": 1,
             "countPolicy": "fixed",
-            "radius": 1.659889,
+            "radius": 3,
             "legacyCount": 1,
             "boss": true
           }
@@ -310632,40 +310632,40 @@
           "radius": 22,
           "anchors": [
             [
-              -273.389558343542,
-              641.9008667279297
+              -274.53596213049275,
+              641.546242479936
             ],
             [
-              -289.90086672792967,
-              650.610441656458
+              -279.4975182214054,
+              648.0855208452041
             ],
             [
-              -298.610441656458,
-              634.0991332720703
+              -287.5016578035577,
+              649.9056719189223
             ],
             [
-              -282.09913327207033,
-              625.389558343542
+              -294.8031550103578,
+              646.155026784972
             ],
             [
-              -286,
-              638
+              -297.9855581516415,
+              638.5885539853064
             ],
             [
-              -288.6277073893644,
-              636.7205614656422
+              -295.5597854291309,
+              630.7466902348668
             ],
             [
-              -286.2058274213476,
-              635.0846193799194
+              -288.66088285914947,
+              626.2987307350918
             ],
             [
-              -283.57812003198313,
-              636.3640579142773
+              -280.5169236269531,
+              627.3259251694897
             ],
             [
-              -283.3722926106356,
-              639.2794385343578
+              -274.93855676731147,
+              633.3476378462109
             ]
           ],
           "activity": "patrol",
@@ -311099,40 +311099,40 @@
           "radius": 12,
           "anchors": [
             [
+              261.68735542387924,
+              622.0686414466294
+            ],
+            [
+              258.2659239736745,
+              626.1914247631848
+            ],
+            [
+              252.93135855337061,
+              626.6873554238792
+            ],
+            [
+              248.80857523681516,
+              623.2659239736745
+            ],
+            [
+              248.31264457612076,
+              617.9313585533706
+            ],
+            [
+              251.73407602632554,
+              613.8085752368152
+            ],
+            [
+              257.0686414466294,
+              613.3126445761208
+            ],
+            [
+              261.19142476318484,
+              616.7340760263255
+            ],
+            [
               255,
               620
-            ],
-            [
-              256.78726535850785,
-              617.6875355947393
-            ],
-            [
-              257.896285599557,
-              620.3915850011413
-            ],
-            [
-              256.10902024104917,
-              622.7040494064021
-            ],
-            [
-              253.21273464149215,
-              622.3124644052607
-            ],
-            [
-              252.10371440044298,
-              619.6084149988587
-            ],
-            [
-              253.89097975895083,
-              617.2959505935979
-            ],
-            [
-              258.5745307170157,
-              615.3750711894785
-            ],
-            [
-              259.68355095806487,
-              618.0791205958806
             ]
           ],
           "activity": "patrol",
@@ -313411,52 +313411,52 @@
           "radius": 9.979230729613626,
           "anchors": [
             [
-              -254.984,
-              581.551
+              -253.31264457612076,
+              582.0686414466294
             ],
             [
-              -261.551,
-              585.016
+              -256.7340760263255,
+              586.1914247631848
             ],
             [
-              -265.016,
-              578.449
+              -262.0686414466294,
+              586.6873554238792
             ],
             [
-              -258.449,
-              574.984
+              -266.19142476318484,
+              583.2659239736745
             ],
             [
-              -260,
-              580
+              -266.68735542387924,
+              577.9313585533706
             ],
             [
-              -257.44560382671494,
-              578.5798347711527
+              -263.2659239736745,
+              573.8085752368152
             ],
             [
-              -262.55439617328506,
-              581.4201652288473
+              -257.9313585533706,
+              573.3126445761208
             ],
             [
-              -254.89120765342992,
-              577.1596695423054
+              -253.80857523681516,
+              576.7340760263255
             ],
             [
-              -257.54020166849386,
-              584.4243439547893
+              -257.3250578304483,
+              580.8274565786518
             ],
             [
-              -265.1087923465701,
-              582.8403304576946
+              -260.8274565786518,
+              582.6749421695517
             ],
             [
-              -262.45979833150614,
-              575.5756560452107
+              -262.6749421695517,
+              579.1725434213482
             ],
             [
-              -259.8581032373316,
-              571.2332362245453
+              -259.1725434213482,
+              577.3250578304483
             ]
           ],
           "activity": "patrol",
@@ -316459,8 +316459,8 @@
         },
         "march_road_reavers": {
           "id": "march_road_reavers",
-          "assetId": "outfit_male_peasant",
-          "scale": 1.12,
+          "assetId": "creature_road_bandit",
+          "scale": 1,
           "stats": {
             "id": "march_road_reavers",
             "name": "Road Bandit",
@@ -316644,7 +316644,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9066960000000002
+          "bodyRadius": 0.765702
         },
         "tempest_roc": {
           "id": "tempest_roc",
@@ -316829,7 +316829,7 @@
               }
             ]
           },
-          "bodyRadius": 0.7904873076923077
+          "bodyRadius": 0.9580015384615385
         },
         "regional_gloam_fox": {
           "id": "regional_gloam_fox",
@@ -327245,7 +327245,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3956934556682812
+          "bodyRadius": 2.150013788877955
         },
         "wilderness_lost_procession": {
           "id": "wilderness_lost_procession",
@@ -328109,7 +328109,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3956934556682812
+          "bodyRadius": 2.150013788877955
         },
         "wilderness_bone_patrol": {
           "id": "wilderness_bone_patrol",
@@ -329377,7 +329377,7 @@
               }
             ]
           },
-          "bodyRadius": 1.136
+          "bodyRadius": 1.17271
         },
         "wilderness_far_east_colossi": {
           "id": "wilderness_far_east_colossi",
@@ -329518,7 +329518,7 @@
               }
             ]
           },
-          "bodyRadius": 1.136
+          "bodyRadius": 1.17271
         },
         "ashwind_cloister_sentries": {
           "id": "ashwind_cloister_sentries",
@@ -329706,7 +329706,7 @@
               }
             ]
           },
-          "bodyRadius": 1.136
+          "bodyRadius": 1.17271
         },
         "wilderness_red_hatchling_nest": {
           "id": "wilderness_red_hatchling_nest",
@@ -330125,7 +330125,7 @@
               }
             ]
           },
-          "bodyRadius": 1.136
+          "bodyRadius": 1.17271
         },
         "wilderness_foundry_north_carapaces": {
           "id": "wilderness_foundry_north_carapaces",
@@ -330172,7 +330172,7 @@
               }
             ]
           },
-          "bodyRadius": 1.136
+          "bodyRadius": 1.17271
         },
         "wilderness_rift_mouth_conclave": {
           "id": "wilderness_rift_mouth_conclave",
@@ -330266,7 +330266,7 @@
               }
             ]
           },
-          "bodyRadius": 1.136
+          "bodyRadius": 1.17271
         },
         "wilderness_nightforge_east_colossi": {
           "id": "wilderness_nightforge_east_colossi",
@@ -330715,7 +330715,7 @@
               }
             ]
           },
-          "bodyRadius": 1.136
+          "bodyRadius": 1.17271
         },
         "wilderness_sanctum_west_colossi": {
           "id": "wilderness_sanctum_west_colossi",
@@ -332259,7 +332259,7 @@
         },
         "hollow_star": {
           "id": "hollow_star",
-          "assetId": "creature_voidstone_colossus",
+          "assetId": "creature_hollow_star",
           "scale": 0.7340616505132458,
           "stats": {
             "id": "hollow_star",
@@ -332464,7 +332464,7 @@
               }
             ]
           },
-          "bodyRadius": 1.14492
+          "bodyRadius": 1.79648
         },
         "population_broken_watch_lanterns": {
           "id": "population_broken_watch_lanterns",
@@ -333004,7 +333004,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3956934556682812
+          "bodyRadius": 2.150013788877955
         },
         "population_abbey_east_lanterns": {
           "id": "population_abbey_east_lanterns",
@@ -336018,7 +336018,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47445000000000004
+          "bodyRadius": 0.4881900000000001
         },
         "fairy_moonpath_hollow_residents": {
           "id": "garden_frog_t30",
@@ -336683,7 +336683,7 @@
               }
             ]
           },
-          "bodyRadius": 1.649889
+          "bodyRadius": 2.42433
         },
         "fairy_prism_table_residents": {
           "id": "garden_spriggle_t60",
@@ -337241,7 +337241,7 @@
               }
             ]
           },
-          "bodyRadius": 0.47445
+          "bodyRadius": 0.5837025
         },
         "fairy_prism_hollow_residents": {
           "id": "garden_frog_t60",
@@ -337803,7 +337803,7 @@
         },
         "amethyst_sovereign_court": {
           "id": "amethyst_sovereign_t60",
-          "assetId": "creature_bloomheart_matriarch",
+          "assetId": "creature_amethyst_sovereign",
           "scale": 0.9290156979249213,
           "stats": {
             "id": "amethyst_sovereign_t60",
@@ -337906,7 +337906,7 @@
               }
             ]
           },
-          "bodyRadius": 1.527675
+          "bodyRadius": 2.418875
         }
       }
     }

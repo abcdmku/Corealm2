@@ -1,0 +1,139 @@
+{
+  "sourceFile": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/sources/tree-humanoid-user-original.glb",
+  "sourceSha256": "95b9f687b3a3209de01c2deebb1e34b571974bbd2ebb9ecdcf5734cc5b4864e4",
+  "sourceBytes": 28439000,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-hollow-bough/creature_hollow_bough.glb",
+  "candidateSha256": "2fb302f98fd497a31b0e956586d876fedb13584fc4a84ea617a1c08ccd293dba",
+  "candidateBytes": 1565812,
+  "vertices": 7492,
+  "triangles": 4771,
+  "joints": [
+    "Root",
+    "Pelvis",
+    "LowerTrunk",
+    "Chest",
+    "Neck",
+    "Crown",
+    "Shoulder_L",
+    "Elbow_L",
+    "Wrist_L",
+    "Shoulder_R",
+    "Elbow_R",
+    "Wrist_R",
+    "Hip_L",
+    "Knee_L",
+    "Foot_L",
+    "Hip_R",
+    "Knee_R",
+    "Foot_R"
+  ],
+  "influence": [
+    0,
+    1193,
+    4305,
+    4695,
+    4603,
+    3112,
+    926,
+    926,
+    690,
+    966,
+    966,
+    699,
+    724,
+    672,
+    611,
+    776,
+    736,
+    684
+  ],
+  "sourceTextures": [
+    {
+      "name": "tripo_image_52f94696-1c7b-48cb-896f-b9bb6a1a1709_2",
+      "width": 4096,
+      "height": 4096,
+      "bytes": 2123159,
+      "sha256": "525b824a1c9ea59b0972b53c99d025a8c7e39c8e4ced4fce708498ea063b718f"
+    },
+    {
+      "name": "tripo_image_52f94696-1c7b-48cb-896f-b9bb6a1a1709_0",
+      "width": 8192,
+      "height": 8192,
+      "bytes": 14588864,
+      "sha256": "2ea29b282a03315a5d6e8e943a59d97c3dc1f40137f403fc2a42e00fad44ae2f"
+    },
+    {
+      "name": "tripo_image_52f94696-1c7b-48cb-896f-b9bb6a1a1709_1",
+      "width": 4096,
+      "height": 4096,
+      "bytes": 11456695,
+      "sha256": "bf76458ba14d9baf06f1023cdbe594ffae3fa3bbfed1bead31ef84799120b2c3"
+    }
+  ],
+  "runtimeTextures": [
+    {
+      "name": "hollow-bough-normal-1024",
+      "bytes": 163050
+    },
+    {
+      "name": "hollow-bough-basecolor-2048",
+      "bytes": 827108
+    },
+    {
+      "name": "hollow-bough-roughness-metallic-1024",
+      "bytes": 100701
+    }
+  ],
+  "nativeScale": 3.25,
+  "sourceBounds": {
+    "min": [
+      -0.1298828274,
+      0,
+      -0.4990233779
+    ],
+    "max": [
+      0.1298828274,
+      0.8222660422,
+      0.4990233779
+    ]
+  },
+  "modelHeight": 2.67236463715,
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.4,
+      "channels": 4
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.18,
+      "channels": 9
+    },
+    {
+      "name": "Run",
+      "seconds": 0.78,
+      "channels": 9
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.2,
+      "channels": 6
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.48,
+      "channels": 5
+    },
+    {
+      "name": "Death",
+      "seconds": 1.5,
+      "channels": 10
+    }
+  ],
+  "attackContactSeconds": 0.52,
+  "acceptance": {
+    "assetAudit": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

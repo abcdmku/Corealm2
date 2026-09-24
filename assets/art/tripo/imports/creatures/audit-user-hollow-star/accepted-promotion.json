@@ -1,0 +1,165 @@
+{
+  "assets": [
+    {
+      "id": "creature_hollow_star",
+      "file": "models/creature/creature_hollow_star.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-hollow-star/hollow-star-user-candidate.glb",
+      "pack": "corealm-user-hollow-star",
+      "category": "character",
+      "is": "The Hollow Star",
+      "tags": [
+        "creature",
+        "cosmic",
+        "radial",
+        "membrane",
+        "nonhuman",
+        "user-supplied",
+        "tripo"
+      ],
+      "bytes": 3693212,
+      "sha256": "f1bf0af6d3c5b39a8127a0cf50e29428e60491f342ad628c97e22d80e44d82d1",
+      "size": {
+        "x": 3.128906554182874,
+        "y": 3.564843354679175,
+        "z": 3.592967864923418
+      },
+      "base": {
+        "x": -1.5644532723561524,
+        "y": 0.2880000696033256,
+        "z": -1.796483932461709
+      },
+      "bounds": {
+        "min": [
+          -1.5644532723561524,
+          0.2880000696033256,
+          -1.796483932461709
+        ],
+        "max": [
+          1.5644532818267216,
+          3.8528434242825007,
+          1.796483932461709
+        ]
+      },
+      "groundY": 0.2880000696033256,
+      "vertices": 7169,
+      "triangles": 4862,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_2d2299b2-1c9c-4e7d-a2cb-11cf046df19f"
+      ],
+      "walkClipSeconds": 1.55,
+      "runClipSeconds": 0.92,
+      "attackSeconds": 1.28,
+      "contactNormalized": 0.4296875,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": "definition-speed; in-place radial floating motion",
+      "metadata": {
+        "is": "User-supplied radial cosmic frame with an open core",
+        "walkClipSeconds": 1.55,
+        "runClipSeconds": 0.92,
+        "attackSeconds": 1.28,
+        "contactSeconds": 0.55,
+        "contactNormalized": 0.4296875,
+        "contactBasis": "Radial membranes flare and the core lunges forward at .55 s; recovery completes at 1.28 s.",
+        "renderedIdleHeightMeters": 3.564843354679175,
+        "gaitCalibration": "floating in-place; no foot stride"
+      },
+      "sourceProvenance": {
+        "author": "User-supplied Tripo Hollow Star; Corealm radial rig and animation",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-hollow-star/sources/fantasy+symbol+3d+model.glb",
+        "sourceSha256": "7b15f0d0bbaa9be8d154d26383ef74a042d0e10dc9895285b8c8776ee862629c",
+        "sourceBytes": 26877672,
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-user-hollow-star/hollow-star-user-candidate.glb",
+        "candidateSha256": "f1bf0af6d3c5b39a8127a0cf50e29428e60491f342ad628c97e22d80e44d82d1",
+        "rigMethod": "Nine-joint radial skin with overlapping membrane sectors around the hollow core; no humanoid skeleton.",
+        "geometryPreserved": true,
+        "pbrTexturesPreserved": true,
+        "textures": [
+          {
+            "kind": "normal",
+            "name": "tripo_image_2d2299b2-1c9c-4e7d-a2cb-11cf046df19f_2",
+            "sourceSize": [
+              4096,
+              4096
+            ],
+            "sourceBytes": 2155532,
+            "sourceSha256": "3a49f15ecfc727d6d153193ed123d406cff6a5f15cd89b4a38523c352e02b497",
+            "runtimeSize": [
+              2048,
+              2048
+            ],
+            "runtimeBytes": 978649,
+            "runtimeSha256": "347cfcd419c225be22ec35d24b7eb80d7ff44a8f53a67e1148c6b9f7f86ecdaf"
+          },
+          {
+            "kind": "baseColor",
+            "name": "tripo_image_2d2299b2-1c9c-4e7d-a2cb-11cf046df19f_0",
+            "sourceSize": [
+              8192,
+              8192
+            ],
+            "sourceBytes": 10873134,
+            "sourceSha256": "7fb730c76af7f69ce5b6c72187a1f3dbe3a66c4b64e49f6843eb3a01ef4a4d37",
+            "runtimeSize": [
+              2048,
+              2048
+            ],
+            "runtimeBytes": 1232103,
+            "runtimeSha256": "e53a8c7c20acfc7b568375d6734f0d7a5546f9fbef7c4f99394928eac79b24ce"
+          },
+          {
+            "kind": "metallicRoughness",
+            "name": "tripo_image_2d2299b2-1c9c-4e7d-a2cb-11cf046df19f_1",
+            "sourceSize": [
+              4096,
+              4096
+            ],
+            "sourceBytes": 13588516,
+            "sourceSha256": "55403194bf7671c6702af94f95c0020ab282d6ea57b9b4ea292c6f6a200a9463",
+            "runtimeSize": [
+              2048,
+              2048
+            ],
+            "runtimeBytes": 1009837,
+            "runtimeSha256": "df9090cb1e71a3fd805ff2eb56e6e86cfa1011cd25304fd8c1839aaae44ce13c"
+          }
+        ],
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-hollow-star/motion-audit.json",
+        "deathFinalMinY": 0.02260014993707271,
+        "deathFinalHeightMeters": 1.6347460753611924,
+        "candidateStatus": "awaiting-root-lab-review"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "measuredGait": null,
+      "acceptanceEvidence": {
+        "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
+        "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-user-hollow-star",
+      "name": "Corealm User Hollow Star",
+      "author": "User / Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-user-hollow-star/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "d9fa3699d7e51db5f0803360429e605bab28bfe53b95d197490103e5c53a6ec1"
+    }
+  ]
+}

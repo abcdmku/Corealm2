@@ -1,0 +1,24 @@
+{
+  "amethyst-sovereign": {
+    "Walk": {
+      "rawMinimumY": 0.005999963416840255,
+      "maximumCorrectionMeters": 0.14988342560827733
+    },
+    "Run": {
+      "rawMinimumY": 0.005999970077696214,
+      "maximumCorrectionMeters": 0.2009366640841887
+    },
+    "Attack": {
+      "rawMinimumY": 0.005999999909020231,
+      "maximumCorrectionMeters": 0.006000007558789834
+    },
+    "Hit": {
+      "rawMinimumY": 0.005999999909020231,
+      "maximumCorrectionMeters": 0.006000007558789834
+    },
+    "Death": {
+      "rawMinimumY": 0.005999958001571461,
+      "maximumCorrectionMeters": 0.9005170704747597
+    }
+  }
+}
