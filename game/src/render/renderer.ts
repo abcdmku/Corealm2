@@ -318,6 +318,8 @@ export class Renderer {
   private readonly warmupMaterials: THREE.Material[] = [];
   private streamedShaders: StreamedShaderWarmup | null = null;
   private readonly preparedInteriors = new WeakSet<THREE.Object3D>();
+  private readonly interiorPreparation = new WeakMap<THREE.Object3D, Promise<void>>();
+  private readonly readyInteriors = new WeakSet<THREE.Object3D>();
 
   startStreamingWarmup(): void {
     this.streamedShaders ??= new StreamedShaderWarmup(this.renderer, this.scene, this.camera, this.frameTarget);
@@ -332,7 +334,10 @@ export class Renderer {
     this.streamedShaders!.deferGameplayDraws = active;
   }
 
-  isInteriorReady(root: THREE.Object3D): boolean { return !this.streamedShaders?.hasPending(root); }
+  isInteriorReady(root: THREE.Object3D): boolean {
+    return !this.streamedShaders?.hasPending(root)
+      && (!this.interiorPreparation.has(root) || this.readyInteriors.has(root));
+  }
 
   /** Hidden terrain and architecture predate the streaming watcher. Prepare them once before
    * the first portal reveal; subsequent additions are already tracked by childadded. */
@@ -341,13 +346,28 @@ export class Renderer {
     if (!this.preparedInteriors.has(root)) {
       this.streamedShaders!.enqueue(root);
       this.preparedInteriors.add(root);
+      const preparation = (async () => {
+        await this.waitForInteriorMeshes(root);
+        // Fallback glow uses its own depth pass. Its hidden meshes must have
+        // occlusion pipelines ready before the destination becomes drawable.
+        await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera,
+          root, 1, this.frameTarget);
+        this.readyInteriors.add(root);
+      })();
+      this.interiorPreparation.set(root, preparation);
     }
     await this.waitForInterior(root);
   }
 
   /** Keep portal loading covered while the streaming compiler still suppresses its meshes. */
   async waitForInterior(root: THREE.Object3D): Promise<void> {
-    while (!this.isInteriorReady(root)) {
+    const preparation = this.interiorPreparation.get(root);
+    if (preparation) await preparation;
+    await this.waitForInteriorMeshes(root);
+  }
+
+  private async waitForInteriorMeshes(root: THREE.Object3D): Promise<void> {
+    while (this.streamedShaders?.hasPending(root)) {
       assertGraphicsValid(this.renderer);
       const state = this.streamedShaders?.getState();
       if (state?.failed) throw new Error(state.error ?? "Unable to prepare destination graphics");
@@ -957,6 +977,7 @@ export class Renderer {
     const size = this.renderer.getDrawingBufferSize(new THREE.Vector2());
     return {
       backend: this.getBackendState(), preparation: this.getPreparationState(),
+      shaderPreparation: shaderPreparationState(this.renderer),
       validation: graphicsValidationState(this.renderer),
       cpuPrepareMs: this.cpuPrepareMs, cpuSubmitMs: this.cpuSubmitMs, cpuShadowMs: this.cpuShadowMs,
       presentation: this.getPresentationState(), gpuTimingEnabled: this.gpuTimingEnabled,

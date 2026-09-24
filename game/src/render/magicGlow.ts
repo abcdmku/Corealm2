@@ -193,7 +193,10 @@ export class MagicGlow {
       this.occlusionMaterials.set(source, { version: source.version, material });
       return material;
     };
-    root.traverse(object => {
+    // The startup pass only draws visible scene branches. Hidden interiors are
+    // prepared explicitly by Renderer.prepareInterior before their portal reveal.
+    const visit = root === scene ? root.traverseVisible.bind(root) : root.traverse.bind(root);
+    visit((object: THREE.Object3D) => {
       const mesh = object as THREE.Mesh;
       if (!mesh.isMesh || !mesh.material || !mesh.layers.test(camera.layers)) return;
       if (!selected.has(mesh) && !writesGlowOcclusion(mesh.material)) return;
@@ -206,7 +209,9 @@ export class MagicGlow {
       proxy.children = []; proxy.matrixWorldAutoUpdate = false;
       objects.push(proxy);
     });
-    await prepareShaderMeshes(renderer, scene, camera, objects, { renderTarget: this.target, batchSize });
+    await prepareShaderMeshes(renderer, scene, camera, objects, {
+      renderTarget: this.target, batchSize, pipelineConcurrency: batchSize > 1 ? 4 : 1,
+    });
   }
 
   /** Exercise the actual depth-aware bloom pyramid before the first visible spell. */

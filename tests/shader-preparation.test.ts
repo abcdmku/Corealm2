@@ -25,7 +25,7 @@ function fixture() {
   return { scene, camera, renderer, compile, initTexture, completed };
 }
 
-function nativePipelineFixture(count: number) {
+function nativePipelineFixture(count: number, webgl = false) {
   const f = fixture();
   type RenderObject = { name: string; getNodeBuilderState(): { updateAfterNodes: unknown[] } };
   type Device = { pushErrorScope(filter: string): void; popErrorScope(): Promise<unknown>;
@@ -41,6 +41,10 @@ function nativePipelineFixture(count: number) {
     return new Promise<void>((resolve, reject) => requests.push({ resolve, reject })).finally(() => { active--; });
   };
   backend.createRenderPipeline = function (object, promises) {
+    if (webgl) {
+      promises.push(this.device.createRenderPipelineAsync({ label: object.name }));
+      return;
+    }
     const device = this.device;
     device.pushErrorScope('validation');
     promises.push((async () => {
@@ -49,6 +53,10 @@ function nativePipelineFixture(count: number) {
       await device.popErrorScope();
     })());
   };
+  if (webgl) Object.assign(backend, { isWebGPUBackend: false, isWebGLBackend: true, parallel: {}, gl: {
+    SYNC_GPU_COMMANDS_COMPLETE: 1, WAIT_FAILED: 2, TIMEOUT_EXPIRED: 3,
+    isContextLost: () => false, fenceSync: () => ({}), flush: () => {}, deleteSync: () => {}, clientWaitSync: () => 4,
+  } });
   pipelines.getForRender = (object, promises) => backend.createRenderPipeline(object, promises);
   const batches: THREE.Object3D[][] = [];
   f.compile.mockImplementation(async view => {
@@ -70,6 +78,43 @@ function nativePipelineFixture(count: number) {
   });
   return { ...f, requests, batches, meshes, peak: () => peak };
 }
+
+it('overlaps WebGL links across bounded uploads but waits for every program binding completion', async () => {
+  const f = nativePipelineFixture(5, true), ready = vi.fn();
+  const preparing = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
+    { batchSize: 4, pipelineConcurrency: 4, onPreparedBatch: ready });
+  await vi.waitFor(() => expect(f.requests).toHaveLength(4));
+  expect(ready).not.toHaveBeenCalled();
+  f.requests[1]!.resolve();
+  await vi.waitFor(() => expect(f.requests).toHaveLength(5));
+  expect(f.batches.map(batch => batch.length)).toEqual([1, 1, 1, 1, 1]);
+  expect(f.peak()).toBe(4);
+  for (let index = 2; index < 5; index++) f.requests[index]!.resolve();
+  await vi.waitFor(() => expect(shaderPreparationState(f.renderer).jobs[0]?.stage).toBe('gpu-completion'));
+  expect(ready).not.toHaveBeenCalled();
+  expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(5);
+  f.requests[0]!.resolve(); await preparing;
+  expect(ready).toHaveBeenCalledTimes(5);
+  expect(shaderPreparationState(f.renderer).pendingMeshes).toBe(0);
+});
+
+it('drains remaining WebGL program completions after rejection and restores the compiler', async () => {
+  const f = nativePipelineFixture(2, true), ready = vi.fn();
+  const pipelines = (f.renderer as unknown as { _pipelines: { getForRender: unknown } })._pipelines;
+  const original = pipelines.getForRender;
+  let settled = false;
+  const result = prepareShaderMeshes(f.renderer, f.scene, f.camera, f.meshes,
+    { batchSize: 4, pipelineConcurrency: 2, onPreparedBatch: ready })
+    .catch(error => { settled = true; return error; });
+  await vi.waitFor(() => expect(f.requests).toHaveLength(2));
+  f.requests[1]!.reject(new Error('WebGL binding failure'));
+  await vi.waitFor(() => expect(graphicsValidationState(f.renderer).failed).toBe(1));
+  expect(settled).toBe(false); expect(ready).not.toHaveBeenCalled();
+  f.requests[0]!.resolve();
+  expect(await result).toMatchObject({ message: expect.stringContaining('WebGL binding failure') });
+  expect(ready).not.toHaveBeenCalled();
+  expect(pipelines.getForRender).toBe(original);
+});
 
 it('overlaps startup pipelines across byte-bounded upload batches without publishing readiness before the final drain', async () => {
   const f = nativePipelineFixture(3), ready = vi.fn();
@@ -241,7 +286,7 @@ it.each([1, 1280])('allows startup scenery seeds in groups of four within the ex
   for (const mesh of meshes) mesh.dispose();
 });
 
-it('keeps explicit WebGL fallback preparation serial when startup requests native overlap', async () => {
+it('keeps WebGL preparation serial without parallel shader compile support', async () => {
   const { scene, camera, renderer, compile } = fixture();
   Object.assign(renderer.backend, { isWebGPUBackend: false, isWebGLBackend: true, gl: {
     SYNC_GPU_COMMANDS_COMPLETE: 1, WAIT_FAILED: 2, TIMEOUT_EXPIRED: 3,
@@ -253,6 +298,35 @@ it('keeps explicit WebGL fallback preparation serial when startup requests nativ
   await prepareShaderMeshes(renderer, scene, camera, meshes, { pipelineConcurrency: 2 });
   expect(sizes).toEqual([1, 1, 1]);
   for (const mesh of meshes) mesh.dispose();
+});
+
+it('groups fallback startup scenery seeds without dropping objects or exceeding the byte cap', async () => {
+  const { scene, camera, renderer, compile } = fixture();
+  const fenceSync = vi.fn(() => ({}));
+  Object.assign(renderer.backend, { isWebGPUBackend: false, isWebGLBackend: true, gl: {
+    SYNC_GPU_COMMANDS_COMPLETE: 1, WAIT_FAILED: 2, TIMEOUT_EXPIRED: 3,
+    isContextLost: () => false, fenceSync, flush: () => {}, deleteSync: () => {}, clientWaitSync: () => 4,
+  } });
+  const geometry = new THREE.BoxGeometry(), material = new THREE.MeshStandardMaterial();
+  const meshes = Array.from({ length: 9 }, () => new SceneryInstances(geometry, material, 1));
+  const batches: THREE.Object3D[][] = [];
+  compile.mockImplementation(async view => { batches.push([...view.children]); });
+  await prepareShaderMeshes(renderer, scene, camera, meshes, { batchSize: 4, pipelineConcurrency: 4 });
+  expect(batches.map(batch => batch.length)).toEqual([4, 5]);
+  expect(batches.flat()).toEqual(meshes);
+  expect(fenceSync).toHaveBeenCalledTimes(2);
+  for (const mesh of meshes) mesh.dispose();
+
+  const largeGeometry = new THREE.BufferGeometry().setAttribute('position',
+    new THREE.BufferAttribute(new Float32Array(30_000), 3));
+  const large = Array.from({ length: 4 }, () => new SceneryInstances(largeGeometry, material, 1280));
+  batches.length = 0;
+  fenceSync.mockClear();
+  await prepareShaderMeshes(renderer, scene, camera, large, { batchSize: 4, pipelineConcurrency: 4 });
+  expect(batches.map(batch => batch.length)).toEqual([1, 3]);
+  expect(batches.flat()).toEqual(large);
+  expect(fenceSync).toHaveBeenCalledTimes(2);
+  for (const mesh of large) mesh.dispose();
 });
 
 it.each(['version', 'disposed-wrapper', 'disposed-source'] as const)('recounts shared scenery buffers after %s', async change => {
@@ -314,14 +388,16 @@ it("reports queued resident meshes until each complete batch finishes", async ()
   compile.mockImplementation(() => new Promise<void>(resolve => { releases.push(resolve); }));
   const first = prepareShaderMeshes(renderer, scene, camera, [new THREE.Mesh(), new THREE.Mesh()]);
   const second = prepareShaderMeshes(renderer, scene, camera, [new THREE.Mesh()]);
-  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 3, pendingTextures: 0, compiling: true });
+  expect(shaderPreparationState(renderer)).toMatchObject({ pendingMeshes: 3, pendingTextures: 0, compiling: true });
+  expect(shaderPreparationState(renderer).jobs).toHaveLength(2);
+  expect(shaderPreparationState(renderer).jobs[1]).toMatchObject({ stage: "queued", totalMeshes: 1, submittedMeshes: 0, batch: [] });
   for (let index = 0; index < 3; index++) {
     await vi.waitFor(() => expect(releases).toHaveLength(index + 1));
     expect(shaderPreparationState(renderer).pendingMeshes).toBe(3 - index);
     releases[index]!();
   }
   await Promise.all([first, second]);
-  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 0, pendingTextures: 0, compiling: false });
+  expect(shaderPreparationState(renderer)).toMatchObject({ pendingMeshes: 0, pendingTextures: 0, compiling: false, jobs: [] });
 });
 
 it("indexes lights once per preparation while retaining live visibility, topology, and authored traversal", async () => {
@@ -386,9 +462,9 @@ it("waits for each texture upload, discovers TSL maps, and reuses only unchanged
   const preparation = prepareShaderMeshes(renderer, scene, camera, [first, second]);
   await vi.waitFor(() => expect(initTexture).toHaveBeenCalledTimes(1));
   expect(compile).not.toHaveBeenCalled();
-  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 2, pendingTextures: 1, compiling: true });
+  expect(shaderPreparationState(renderer)).toMatchObject({ pendingMeshes: 2, pendingTextures: 1, compiling: true });
   finish(); await preparation;
-  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 0, pendingTextures: 0, compiling: false });
+  expect(shaderPreparationState(renderer)).toMatchObject({ pendingMeshes: 0, pendingTextures: 0, compiling: false, jobs: [] });
   expect(initTexture.mock.calls.map(call => call[0])).toEqual(maps);
   await prepareShaderMeshes(renderer, scene, camera, [first, second]);
   expect(initTexture).toHaveBeenCalledTimes(2);
@@ -430,7 +506,7 @@ it("restores live state on compilation failure and keeps readiness failed", asyn
   await expect(prepareShaderMeshes(renderer, scene, camera, [mesh])).rejects.toThrow("pipeline failed");
   expect(compile).toHaveBeenCalledTimes(1);
   expect(graphicsValidationState(renderer).failed).toBeGreaterThan(0);
-  expect(shaderPreparationState(renderer)).toEqual({ pendingMeshes: 0, pendingTextures: 0, compiling: false });
+  expect(shaderPreparationState(renderer)).toMatchObject({ pendingMeshes: 0, pendingTextures: 0, compiling: false, jobs: [] });
 });
 
 

@@ -4,7 +4,7 @@ import type { WebGPURenderer } from "three/webgpu";
 import { createGpuCompletion } from "./framePacer.js";
 import type { GpuCompletion } from "./framePacer.js";
 import { isSceneryInstances } from "./sceneryInstances.js";
-import { withNativePipelineConcurrency } from "./nativePipelinePreparation.js";
+import { withPipelineConcurrency } from "./nativePipelinePreparation.js";
 
 
 type DeviceError = { message?: string };
@@ -161,7 +161,7 @@ export function shaderGeometryKey(mesh: THREE.Mesh): string {
 
 export interface ShaderPreparationOptions {
   batchSize?: number;
-  /** Startup may overlap up to four native pipeline waits while node building stays serial. */
+  /** Startup may overlap up to four asynchronous pipeline waits while node building stays serial. */
   pipelineConcurrency?: 1 | 2 | 3 | 4;
   renderTarget?: THREE.RenderTarget | null;
   isCancelled?: () => boolean;
@@ -171,7 +171,12 @@ export interface ShaderPreparationOptions {
 }
 type Drawable = THREE.Object3D & { material?: THREE.Material | THREE.Material[] };
 type TextureNode = { isNode: true; value?: unknown; getChildren?: () => Iterable<TextureNode> };
-type PreparationProgress = { pendingMeshes: number; pendingTextures: number };
+type PreparationProgress = {
+  pendingMeshes: number; pendingTextures: number;
+  totalMeshes: number; submittedMeshes: number;
+  startedAt: number; stageStartedAt: number; stage: string;
+  batch: readonly THREE.Object3D[];
+};
 type AttributeBuffer = THREE.BufferAttribute | THREE.InterleavedBuffer;
 type PreparedBuffer = { version: number; array: THREE.TypedArray };
 const MAX_PREPARATION_BUFFER_BYTES = 256 * 1024;
@@ -246,15 +251,18 @@ function nextPreparationBatch(objects: readonly THREE.Object3D[], offset: number
   state: PreparationState, pipelineConcurrency: 1 | 2 | 3 | 4): THREE.Object3D[] {
   const first = objects[offset]!;
   const scenery = isSceneryInstances(first);
+  const firstPrepared = scenery && preparedScenery(first, state);
   // Startup's native loop builds nodes serially, so later items reuse the completed
-  // builder even while its GPU pipeline is pending. Interactive admission is unchanged.
-  let limit = scenery ? preparedScenery(first, state) ? 8 : pipelineConcurrency > 1 ? 4 : 1 : batchSize;
+  // builder even while its GPU pipeline is pending. On fallback, group fresh
+  // layouts up to the caller's batch size; every object still compiles and the
+  // byte cap plus GPU fence remain per batch. Interactive default stays one.
+  let limit = scenery ? firstPrepared ? 8 : pipelineConcurrency > 1 ? 4 : batchSize : batchSize;
   const batch: THREE.Object3D[] = [], selectedBuffers = new Set<AttributeBuffer>();
   let bytes = 0;
   for (let index = offset; index < objects.length && batch.length < limit; index++) {
     const object = objects[index]!;
     if (index > offset && (scenery
-      ? pipelineConcurrency > 1 ? !isSceneryInstances(object) : !preparedScenery(object, state)
+      ? !isSceneryInstances(object) || (pipelineConcurrency === 1 && firstPrepared && !preparedScenery(object, state))
       : isSceneryInstances(object))) break;
     if (scenery && pipelineConcurrency > 1 && !preparedScenery(object, state)) {
       limit = Math.min(limit, 4);
@@ -304,14 +312,33 @@ function rememberPreparedBuffers(objects: readonly THREE.Object3D[], buffers: Ma
 }
 
 /** Includes queued startup, effect, and streamed work, before its first asynchronous yield. */
-export function shaderPreparationState(renderer: WebGPURenderer): PreparationProgress & { compiling: boolean } {
+export function shaderPreparationState(renderer: WebGPURenderer) {
   const jobs = states.get(renderer)?.jobs;
   let pendingMeshes = 0, pendingTextures = 0;
   for (const job of jobs ?? []) {
     pendingMeshes += job.pendingMeshes;
     pendingTextures += job.pendingTextures;
   }
-  return { pendingMeshes, pendingTextures, compiling: Boolean(jobs?.size) };
+  const now = performance.now();
+  return {
+    pendingMeshes, pendingTextures, compiling: Boolean(jobs?.size),
+    jobs: Array.from(jobs ?? []).slice(0, 4).map(job => ({
+      stage: job.stage,
+      elapsedMs: Math.round(now - job.startedAt),
+      stageElapsedMs: Math.round(now - job.stageStartedAt),
+      totalMeshes: job.totalMeshes,
+      submittedMeshes: job.submittedMeshes,
+      pendingMeshes: job.pendingMeshes,
+      pendingTextures: job.pendingTextures,
+      batch: job.batch.slice(0, 8).map(object => {
+        const drawable = object as Drawable;
+        const materials = Array.isArray(drawable.material) ? drawable.material : [drawable.material];
+        return { object: object.name || object.type, objectId: object.uuid.slice(0, 8),
+          materials: materials.filter((material): material is THREE.Material => Boolean(material))
+            .slice(0, 4).map(material => material.name || material.type) };
+      }),
+    })),
+  };
 }
 
 function collectTextures(objects: readonly THREE.Object3D[], scene: THREE.Scene): THREE.Texture[] {
@@ -469,19 +496,26 @@ async function prepare(
   objects: readonly THREE.Object3D[], options: ShaderPreparationOptions, state: PreparationState,
   progress: PreparationProgress,
 ): Promise<void> {
+  const stage = (name: string, batch: readonly THREE.Object3D[] = progress.batch) => {
+    progress.stage = name;
+    progress.stageStartedAt = performance.now();
+    progress.batch = batch;
+  };
   // compileBatch relies on collection running synchronously until pipeline building starts.
+  stage('renderer-init');
   await renderer.init();
   const completion = state.completion ??= createGpuCompletion(renderer);
   const cancelled = options.isCancelled ?? (() => false);
   const batchSize = Math.max(1, Math.min(4, Math.floor(options.batchSize ?? 1)));
-  const fallback = (renderer.backend as unknown as { isWebGLBackend?: boolean }).isWebGLBackend === true;
-  const pipelineConcurrency = fallback ? 1 : options.pipelineConcurrency ?? 1;
+  const backend = renderer.backend as unknown as { isWebGLBackend?: boolean; parallel?: unknown };
+  const pipelineConcurrency = backend.isWebGLBackend && !backend.parallel ? 1 : options.pipelineConcurrency ?? 1;
   const lights = objects.length >= 16 && objects.length > batchSize ? new PreparationLights(scene) : undefined;
   const completedBatches: THREE.Object3D[][] = [];
   const drainPipelines = pipelineConcurrency === 1;
   const prepareBatches = async () => {
     for (let offset = 0; offset < objects.length && !cancelled();) {
       const batch = nextPreparationBatch(objects, offset, batchSize, state, pipelineConcurrency);
+      stage('texture-uploads', batch);
       const textures = collectTextures(batch, scene).filter(texture => state.textures.get(texture) !== texture.version);
       progress.pendingTextures = textures.length;
       options.onPendingTextures?.(progress.pendingTextures);
@@ -501,11 +535,13 @@ async function prepare(
         options.onPendingTextures?.(progress.pendingTextures);
       }
       if (cancelled()) return;
+      stage('main-thread-yield', batch);
       await yieldToMainThread();
       const buffers = new Map<AttributeBuffer, PreparedBuffer>();
       for (const object of batch) for (const buffer of geometryBuffers(object)) {
         buffers.set(buffer, { version: buffer.version, array: buffer.array });
       }
+      stage('resident-pipelines', batch);
       await validateWork(renderer, "Resident graphics pipelines", () =>
         compileBatch(renderer, scene, camera, batch, state, false, options.renderTarget, lights), drainPipelines);
       if (cancelled()) {
@@ -513,11 +549,16 @@ async function prepare(
         return;
       }
       const fading = batch.filter(object => object.userData.prepareCorpseFade === true);
-      if (fading.length) await validateWork(renderer, "Creature fade pipelines", () =>
-        compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights), drainPipelines);
+      if (fading.length) {
+        stage('creature-fade-pipelines', fading);
+        await validateWork(renderer, "Creature fade pipelines", () =>
+          compileBatch(renderer, scene, camera, fading, state, true, options.renderTarget, lights), drainPipelines);
+      }
+      stage('gpu-completion', batch);
       await finishUploads(completion);
       rememberPreparedBuffers(batch, buffers, state);
       offset += batch.length;
+      progress.submittedMeshes = offset;
       if (drainPipelines) {
         progress.pendingMeshes -= batch.length;
         if (!cancelled()) options.onPreparedBatch?.(batch);
@@ -527,11 +568,15 @@ async function prepare(
   try {
     if (pipelineConcurrency === 1) await prepareBatches();
     else {
-      // Upload batches retain their fences and byte limits while bounded native pipeline
+      // Upload batches retain their fences and byte limits while bounded pipeline
       // compilations may span batches. None of this job becomes ready before its full
       // pipeline/error drain, including objects whose uploads finished much earlier.
-      try { await withNativePipelineConcurrency(renderer, prepareBatches, pipelineConcurrency); }
-      finally { await waitForGraphicsValidation(renderer); }
+      try { await withPipelineConcurrency(renderer, prepareBatches, pipelineConcurrency); }
+      finally {
+        stage('pipeline-validation');
+        await waitForGraphicsValidation(renderer);
+      }
+      stage('prepared-batch-delivery');
       if (!cancelled()) for (const batch of completedBatches) {
         progress.pendingMeshes -= batch.length;
         options.onPreparedBatch?.(batch);
@@ -547,7 +592,10 @@ export function prepareShaderMeshes(
   objects: readonly THREE.Object3D[], options: ShaderPreparationOptions = {},
 ): Promise<void> {
   const state = stateFor(renderer);
-  const progress: PreparationProgress = { pendingMeshes: objects.length, pendingTextures: 0 };
+  const now = performance.now();
+  const progress: PreparationProgress = { pendingMeshes: objects.length, pendingTextures: 0,
+    totalMeshes: objects.length, submittedMeshes: 0, startedAt: now, stageStartedAt: now,
+    stage: 'queued', batch: [] };
   state.jobs.add(progress);
   const result = state.tail.then(() => prepare(renderer, scene, camera, objects, options, state, progress))
     .finally(() => { state.jobs.delete(progress); });

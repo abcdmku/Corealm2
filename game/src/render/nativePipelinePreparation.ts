@@ -10,6 +10,8 @@ interface Device {
 }
 interface Backend {
   isWebGPUBackend?: boolean;
+  isWebGLBackend?: boolean;
+  parallel?: unknown;
   device: Device;
   createRenderPipeline(object: RenderObject, promises: PipelinePromise[] | null): void;
 }
@@ -61,19 +63,21 @@ function scopedPipelineDevice(device: Device): { device: Device; close(): void }
 }
 
 /** Keep Three's node building, geometry uploads, bindings, and per-object yields in
- * their native serial order. Only native pipeline promises overlap, with bounded slots.
+ * their native serial order. Only pipeline promises overlap, with bounded slots.
  * One preparation job may call compileAsync repeatedly under this adapter. The caller
  * retains each upload fence and publishes readiness only after the whole job resolves. */
-export async function withNativePipelineConcurrency(renderer: WebGPURenderer, compile: () => Promise<void>, limit: 2 | 3 | 4 = 2): Promise<void> {
+export async function withPipelineConcurrency(renderer: WebGPURenderer, compile: () => Promise<void>, limit: 2 | 3 | 4 = 2): Promise<void> {
   const internal = renderer as unknown as Internals;
   const backend = internal.backend, pipelines = internal._pipelines;
-  if (REVISION !== '185' || internal._initialized !== true || backend?.isWebGPUBackend !== true
+  const native = backend?.isWebGPUBackend === true;
+  const parallelWebGL = backend?.isWebGLBackend === true && Boolean(backend.parallel);
+  if (REVISION !== '185' || internal._initialized !== true || (!native && !parallelWebGL)
     || !pipelines || typeof pipelines.getForRender !== 'function' || typeof backend.createRenderPipeline !== 'function'
-    || typeof backend.device?.createRenderPipelineAsync !== 'function'
-    || typeof backend.device.pushErrorScope !== 'function' || typeof backend.device.popErrorScope !== 'function') {
-    throw new Error('Pipeline concurrency requires initialized Three r185 native pipeline stores');
+    || (native && (typeof backend.device?.createRenderPipelineAsync !== 'function'
+    || typeof backend.device.pushErrorScope !== 'function' || typeof backend.device.popErrorScope !== 'function'))) {
+    throw new Error('Pipeline concurrency requires initialized Three r185 asynchronous pipeline stores');
   }
-  if (active.has(renderer)) throw new Error('Native pipeline preparation must remain serialized');
+  if (active.has(renderer)) throw new Error('Pipeline preparation must remain serialized');
   active.add(renderer);
   const getForRender = pipelines.getForRender, createRenderPipeline = backend.createRenderPipeline;
   const pending = new Set<PipelinePromise>();
@@ -82,6 +86,9 @@ export async function withNativePipelineConcurrency(renderer: WebGPURenderer, co
   backend.createRenderPipeline = function (object, promises) {
     if (!submitting) return createRenderPipeline.call(this, object, promises);
     if (++submittedCount > 1 || pending.size >= limit) throw new Error('Unexpected native pipeline submission count');
+    // WebGL's own promise resolves only after _completeCompile installs the program
+    // bindings. Retain that whole promise; a GPU fence alone cannot replace it.
+    if (!native) return createRenderPipeline.call(this, object, promises);
     const device = this.device, scoped = scopedPipelineDevice(device);
     this.device = scoped.device;
     try { return createRenderPipeline.call(this, object, promises); }

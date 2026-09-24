@@ -3,6 +3,7 @@ import * as THREE from "three/webgpu";
 import { captureMagicGlowPreparation, MagicGlow, registerMagicGlow } from "../game/src/render/magicGlow.js";
 import { ElementalRefraction, isElementalRefractionObject, registerElementalRefraction } from "../game/src/render/elementalRefraction.js";
 import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
+import { Renderer } from "../game/src/render/renderer.js";
 import { lowerToWgsl } from "./helpers/wgsl.js";
 
 function harness(native = false) {
@@ -73,6 +74,65 @@ function harness(native = false) {
 }
 
 describe("magic glow preparation", () => {
+  it('defers hidden fallback occluders until their interior is explicitly prepared', async () => {
+    const h = harness(), compiled: THREE.Mesh[] = [];
+    const hidden = new THREE.Group();
+    const rock = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+    hidden.add(rock); hidden.visible = false; h.scene.add(hidden);
+    h.renderer.compileAsync = async root => {
+      root.traverse(object => { if ((object as THREE.Mesh).isMesh) compiled.push(object as THREE.Mesh); });
+    };
+    try {
+      await h.glow.compileOcclusion(h.renderer, h.scene, h.camera, h.scene, 4, h.initialTarget);
+      expect(compiled).toHaveLength(2);
+      expect(compiled.some(object => object.geometry === rock.geometry)).toBe(false);
+      compiled.length = 0;
+      await h.glow.compileOcclusion(h.renderer, h.scene, h.camera, hidden, 4, h.initialTarget);
+      expect(compiled).toHaveLength(1);
+      expect(compiled[0]!.geometry).toBe(rock.geometry);
+    } finally { rock.geometry.dispose(); rock.material.dispose(); h.dispose(); }
+  });
+
+  it('keeps a destination unready until its hidden occlusion pass completes', async () => {
+    const h = harness();
+    const interior = new THREE.Group();
+    let release!: () => void, calls = 0, laterMeshPending = false;
+    const occlusion = new Promise<void>(resolve => { release = resolve; });
+    const renderer = Object.assign(Object.create(Renderer.prototype), {
+      startStreamingWarmup: () => {},
+      streamedShaders: { enqueue: () => {}, hasPending: () => laterMeshPending, getState: () => ({ failed: 0 }) },
+      preparedInteriors: new WeakSet<THREE.Object3D>(),
+      interiorPreparation: new WeakMap<THREE.Object3D, Promise<void>>(),
+      readyInteriors: new WeakSet<THREE.Object3D>(),
+      magicGlow: { compileOcclusion: async () => { calls++; await occlusion; } },
+      renderer: h.renderer, scene: h.scene, camera: h.camera, frameTarget: h.initialTarget,
+    }) as Renderer;
+    try {
+      const pending = renderer.prepareInterior(interior);
+      expect(renderer.isInteriorReady(interior)).toBe(false);
+      await Promise.resolve();
+      expect(calls).toBe(1);
+      const waiter = renderer.waitForInterior(interior);
+      expect(renderer.isInteriorReady(interior)).toBe(false);
+      release();
+      await Promise.all([pending, waiter]);
+      expect(renderer.isInteriorReady(interior)).toBe(true);
+      await renderer.prepareInterior(interior);
+      expect(calls).toBe(1);
+      laterMeshPending = true;
+      const originalFrame = globalThis.requestAnimationFrame;
+      globalThis.requestAnimationFrame = callback => {
+        queueMicrotask(() => { laterMeshPending = false; callback(0); });
+        return 1;
+      };
+      try {
+        expect(renderer.isInteriorReady(interior)).toBe(false);
+        await renderer.waitForInterior(interior);
+        expect(renderer.isInteriorReady(interior)).toBe(true);
+      } finally { globalThis.requestAnimationFrame = originalFrame; }
+    } finally { h.dispose(); }
+  });
+
   it('reuses completed native base preparation but compiles new meshes and changed materials', async () => {
     const h = harness(true), compiled: THREE.Object3D[] = [];
     const unregister = registerMagicGlow(h.scene);
