@@ -42,9 +42,9 @@ The prompts below are for the user's manual generation. Natural connected anatom
 
 All original staged candidates have a disposition. Beetle Golem is the rejected ninth entry; preserve its source candidate, but do not promote it.
 
-## Additional source gap flagged to the user
+## Delivered additional source
 
-- `creature_beetle_golem`: current enlarged Flint Mandible candidate rejected after normal-camera idle/walk review. It repeats the same silhouette and does not read as a construct. The local source review found no ready distinct insect-construct body; Stag Beetle is only a low-confidence natural-beetle alternative requiring substantial new shell/leg geometry. Await the user's source decision. Do not start generation. A suitable body would have six thick articulated stone/chitin legs, vaulted beetle elytra and a readable horn or mandibles, about 1.5 to 2m tall. The original 18 manual base requests above remain unchanged.
+- `creature_beetle_golem`: user supplied `C:/Users/Borg/Downloads/beetle+golem.glb` on 2026-09-23, replacing the rejected enlarged Flint candidate. The supplied model has a native 67-joint rig, 5,166 triangles and detailed green/gold/purple PBR textures, but no animation clips. Adaptation is underway in `assets/art/tripo/imports/creatures/audit-user-beetle-golem/`; acceptance is pending. The user's reference calls for low four-limbed walking, a faster combat chase, rising onto the hindlegs to swing a forearm, and a green iridescent shell sheen. This supersedes the earlier six-legged source suggestion. Preserve the original maps and source; do not start generation. The original 18 manual base requests above remain unchanged.
 
 ## Owned-source findings, 2026-09-23
 
@@ -52,6 +52,9 @@ All original staged candidates have a disposition. Beetle Golem is the rejected 
 - Scree Watcher: local `corealm_scree_watcher_0a6ea60d_8k_rigged.glb` has a rejected face and a root-weighted, sideways rig. The approved r4 reference exists, but revised model `f6f96c07` has no local export. These are missing approved exports, not confirmed new-base requests. Live job status was not checked.
 - Mossbound / Forest Ogre: owned Grove Brute was rejected in gameplay for a generic torso, sack-like shoulder and motion grounding. Stonejaw Marauder (`corealm_stonejaw_marauder_976e7fe5.glb`) has suitable tusked ogre anatomy but needs substantial forest surface and gear adaptation. Keep this in owned-source review.
 - Cinder Ravager: proposed export `8ddfe280-fd81-4eee-a91a-5cf2c42e769e.glb` is a four-legged dragon. Inspected demon alternatives are humanoid. No inspected local source fits the intended animal-like cinder predator. Additional source gap flagged to the user; no generation started.
+- Prism / Dewdrop Spriggles: proposed `nine-pack-two/flint-mandible/flint-mandible-native-rig-candidate.glb` has useful six-legged anatomy and clips, but repeats the now-integrated Flint silhouette. Prism needs distinct faceted growth; Dewdrop needs leaf fringe and dew sacs, with detailed texture variants and separate scale review. Conditional owned-source adaptation, not a ready replacement or confirmed new-base request.
+- Amethyst Wardling: proposed `cragbound-keeper/models/creature_stone_golem.glb` remains explicitly held in `docs/asset-review.md` for a generic mud/stone humanoid appearance, indistinct face and floating feet. It lacks geode/quartz anatomy. Additional source/design gap flagged to the user unless substantial geometry rework succeeds; do not promote the held source or start generation.
+- Dewstone Wardling: proposed `nine-pack-two/shalewake/stone-shalewake-native-rig-candidate.glb` has a useful four-legged rig, but its stratified shale silhouette does not yet fit a pebble spirit with root joints. Substantial pebble, dew-glass and root geometry changes would be needed. Conditional owned-source adaptation; no new-base request yet.
 
 ## Owned-source review first, not immediate generation orders
 

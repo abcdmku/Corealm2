@@ -1,0 +1,32 @@
+{
+  "materialName": "tripo_mat_1aa3aade-7d07-42b7-9818-b03e7661363a",
+  "sourceBaseColorTexture": "unchanged",
+  "sourceNormalTexture": "unchanged",
+  "sourceMetallicRoughnessTexture": "unchanged",
+  "opticsTexture": "beetle-shell-optics-rg.png",
+  "opticsChannels": {
+    "red": "shell coverage; use as both iridescenceTexture and clearcoatTexture",
+    "green": "thin-film thickness; use as iridescenceThicknessTexture",
+    "blue": "unused"
+  },
+  "KHR_materials_iridescence": {
+    "iridescenceFactor": 0.72,
+    "iridescenceIor": 1.35,
+    "iridescenceThicknessMinimum": 210,
+    "iridescenceThicknessMaximum": 440,
+    "iridescenceTexture": "beetle-shell-optics-rg.png",
+    "iridescenceThicknessTexture": "beetle-shell-optics-rg.png"
+  },
+  "KHR_materials_clearcoat": {
+    "clearcoatFactor": 0.42,
+    "clearcoatRoughnessFactor": 0.28,
+    "clearcoatTexture": "beetle-shell-optics-rg.png"
+  },
+  "maskSource": {
+    "file": "../sources/beetle+golem.glb",
+    "sha256": "fb03cd921a5ffed201d577cf4102a182d9826f12664e14d11db38b7a60db5193",
+    "embeddedBaseColorSha256": "f1310548ccdf3978deb4ef38c68455f95587f43f65a56f5dc8420533f6f7f2a6",
+    "builder": "build-mask.mjs",
+    "method": "Hue, saturation, and value selection of the authored teal-green-blue-purple shell colors, feathered by 0.7 pixels; dark joints, claws, and warm gold trim excluded. No base-color repaint."
+  }
+}
