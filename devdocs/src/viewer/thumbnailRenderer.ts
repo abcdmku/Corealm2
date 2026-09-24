@@ -141,18 +141,22 @@ export async function renderAssetThumbnail(assetId: string): Promise<string | un
   });
 }
 
-function cachedUrl(assetId: string): string { return `${THUMBNAILS_PATH}/${assetId}.png`; }
+/** The cache key carries the model's content hash, so a replaced model never shows its old render. */
+async function cachedUrl(assetId: string): Promise<string> {
+  const sha = ((await viewerRegistry()).entry(assetId) as { sha256?: string } | undefined)?.sha256;
+  return `${THUMBNAILS_PATH}/${sha ? `${assetId}-${sha.slice(0, 16)}` : assetId}.png`;
+}
 
-async function readCached(assetId: string): Promise<boolean> {
+async function readCached(url: string): Promise<boolean> {
   try {
-    const response = await fetch(cachedUrl(assetId), { method: 'HEAD', cache: 'no-cache' });
+    const response = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
     return response.ok && (response.headers.get('content-type') ?? '').startsWith('image/png');
   } catch { return false; }
 }
 
-async function storeRendered(assetId: string, dataUrl: string): Promise<boolean> {
+async function storeRendered(url: string, dataUrl: string): Promise<boolean> {
   try {
-    const response = await fetch(cachedUrl(assetId), { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dataUrl }) });
+    const response = await fetch(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dataUrl }) });
     return response.ok;
   } catch { return false; }
 }
@@ -163,9 +167,10 @@ async function storeRendered(assetId: string, dataUrl: string): Promise<boolean>
 export function createThumbnailProvider({ repoCache }: { repoCache: boolean }): ThumbnailProvider {
   return async assetId => {
     if (!ASSET_ID.test(assetId)) return undefined;
-    if (repoCache && await readCached(assetId)) return cachedUrl(assetId);
+    const url = repoCache ? await cachedUrl(assetId) : undefined;
+    if (url && await readCached(url)) return url;
     const dataUrl = await renderAssetThumbnail(assetId);
-    if (repoCache && dataUrl) void storeRendered(assetId, dataUrl);
+    if (url && dataUrl) void storeRendered(url, dataUrl);
     return dataUrl;
   };
 }
@@ -175,5 +180,6 @@ export async function regenerateAssetThumbnail(assetId: string): Promise<string 
   negative.delete(assetId);
   const dataUrl = await renderAssetThumbnail(assetId);
   if (!dataUrl) return undefined;
-  return await storeRendered(assetId, dataUrl) ? `${cachedUrl(assetId)}?v=${Date.now()}` : dataUrl;
+  const url = await cachedUrl(assetId);
+  return await storeRendered(url, dataUrl) ? `${url}?v=${Date.now()}` : dataUrl;
 }
