@@ -463,7 +463,8 @@ export class AssetRegistry {
   async loadManifest(): Promise<AssetManifest> {
     const url = this.urls.manifestUrl ?? assetManifestUrl();
     // A network or CORS failure is a bare "Failed to fetch"; the URL is the one clue worth keeping.
-    const response = await fetch(url).catch((error: unknown) => {
+    // Revalidate: the manifest keeps its URL across releases and must list this build's assets.
+    const response = await fetch(url, { cache: "no-cache" }).catch((error: unknown) => {
       throw new Error(`Asset manifest unreachable at ${url}: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
     });
     if (!response.ok) throw new Error(`Asset manifest failed at ${url}: ${response.status} ${response.statusText}`);

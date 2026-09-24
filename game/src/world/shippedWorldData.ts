@@ -75,7 +75,9 @@ export class ShippedWorldData implements GenerationCachePort {
   private index(): Promise<WorldDataManifest | null> {
     return this.manifest ??= (async () => {
       try {
-        const response = await fetch(this.url, { signal: AbortSignal.timeout(15_000) });
+        // Revalidate: the manifest keeps its URL across releases, and a copy cached before a deploy
+        // names another revision, which fails the boot.
+        const response = await fetch(this.url, { signal: AbortSignal.timeout(15_000), cache: "no-cache" });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const manifest = await response.json() as WorldDataManifest;
         if (manifest.format !== 'corealm-world' || manifest.version !== 1

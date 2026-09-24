@@ -1234,7 +1234,8 @@ function defaultArtifactUrl(): string {
 export async function loadArtifactBytes(url: string, options: NavArtifactOptions): Promise<Uint8Array> {
   if (options.artifactBytes) return options.artifactBytes;
   if (options.loadArtifact) return options.loadArtifact();
-  const response = await fetch(url, { signal: options.signal });
+  // Revalidate: the file keeps its name across releases and must match this build.
+  const response = await fetch(url, { signal: options.signal, cache: "no-cache" });
   if (!response.ok) throw new Error(`artifact request failed with HTTP ${response.status}`);
   if (new URL(url, typeof location === 'undefined' ? 'http://localhost/' : location.href).pathname.endsWith('.nav')) {
     return new Uint8Array(await new Response(response.body!.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
