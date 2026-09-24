@@ -48,7 +48,7 @@ describe('offline ground gait repair', () => {
   it('keeps every source geometry/image byte and all nonlocomotion animation data exact in the staged GLB', async () => {
     const bytes = await readFile('game/public/assets/models/animal/animal_crab.glb');
     const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS), doc = await io.readBinary(bytes);
-    const node = doc.getRoot().listNodes().find(node => node.getName() === 'Bone002')!;
+    const node = doc.getRoot().listSkins()[0]!.listJoints()[1]!;
     const gait: BakedGait = { name: 'Walk', seconds: 1, nativeMps: .1, feet: [], notes: [], tracks: [{ node, path: 'translation', times: [0, 1], values: [...node.getTranslation(), ...node.getTranslation()] }] };
     const result = appendGaitAnimations(bytes, [gait]);
     expect(() => assertSourcePreserved(bytes, result)).not.toThrow();

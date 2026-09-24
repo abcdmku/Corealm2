@@ -159,6 +159,14 @@ describe("miniboss rewards", () => {
 
 describe("miniboss placements", () => {
   /** The registered group an authored boss is built from, wherever it is placed. */
+  /**
+   * The accepted drawn size of each dedicated boss body, with the tier silhouette divided back out.
+   * Galeskin and Rootheart draw 1.35x so their short briar_harrow stride stays under the 3 Hz
+   * cadence ceiling (see `content/regionalBossBodies.ts`); the retier kept these drawn sizes.
+   */
+  const DRAWN_BODY_SCALE: Record<string, number> = { galeskin: 1.35, rootheart: 1.35 };
+  const drawnBodyScale = (id: string) => DRAWN_BODY_SCALE[id] ?? 1;
+
   function bossGroup(id: string) {
     const group = REGIONS
       .flatMap((region) => [...region.enemyGroups, ...region.dungeon?.enemyGroups ?? []])
@@ -170,8 +178,9 @@ describe("miniboss placements", () => {
   it("places the four minibosses at their authored spots with the miniboss rank and 1.3x scale", () => {
     const world = buildWorld(1337, () => 0);
     const expectations = [
-      ["galeskin", "fallowmarch", 1, [-300, 145]],
-      ["mossbound", "vellenwood", 5, [318, 72]],
+      // Tiers after the creature-ecology retier (4980125).
+      ["galeskin", "fallowmarch", 10, [-300, 145]],
+      ["mossbound", "vellenwood", 10, [318, 72]],
       ["tideworn", "karrowmoor", 10, [18, -164]],
       ["cinderwake", "kilnhalt", 20, [286, 420]],
     ] as const;
@@ -193,8 +202,7 @@ describe("miniboss placements", () => {
       expect(entity!.view?.scale, id).toBeCloseTo(bossGroup(id).scale * 1.3, 10);
       // The dedicated body is modelled at final world size, so `content/fantasyEncounters.ts`
       // divides the rank multiplier and the tier silhouette back out: it draws at scale 1.0.
-      expect(entity!.view!.scale! * tierSilhouetteScale(tier), id)
-        .toBeCloseTo(REGIONAL_BOSS_BODIES[id].scale, 10);
+      expect(entity!.view!.scale! * tierSilhouetteScale(tier), id).toBeCloseTo(drawnBodyScale(id), 10);
     }
   });
 
@@ -206,8 +214,7 @@ describe("miniboss placements", () => {
       expect(entity.meta?.rank, id).toBe("boss");
       expect(entity.view?.assetId, id).toBe(REGIONAL_BOSS_BODIES[id].assetId);
       expect(entity.view?.scale, id).toBeCloseTo(bossGroup(id).scale * 1.6, 10);
-      expect(entity.view!.scale! * tierSilhouetteScale(entity.tier!), id)
-        .toBeCloseTo(REGIONAL_BOSS_BODIES[id].scale, 10);
+      expect(entity.view!.scale! * tierSilhouetteScale(entity.tier!), id).toBeCloseTo(drawnBodyScale(id), 10);
     }
   });
 });

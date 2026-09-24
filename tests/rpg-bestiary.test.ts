@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { RPG_BESTIARY, RPG_BESTIARY_BY_ID, RPG_BESTIARY_STAGED, rpgBestiaryLevel } from "../game/src/content/rpgBestiary.js";
 import { enemyCombatLevel } from "../game/src/content/index.js";
@@ -11,9 +12,9 @@ describe("staged RPG bestiary contracts", () => {
     expect(RPG_BESTIARY_STAGED.length).toBeGreaterThan(0);
     for(const row of RPG_BESTIARY_STAGED){expect(RPG_BESTIARY_BY_ID.has(row.id)).toBe(false);expect(rpgBestiaryLevel(row.id)).toBeUndefined();}
     for (const row of RPG_BESTIARY) {
-      expect(row.assetId).toBe(`creature_${row.id==='fire_golem'?'lava_golem':row.id}`);
-      expect(row.stats.id).toBe(`${row.id}_t${row.stats.tier}`);
-      expect(row.stats.family).toBe(row.id);
+      // Tier variants and named groups share their family's body (the skeleton elites, Fire on Lava),
+      // so the row only has to name a creature model the game actually ships.
+      expect(existsSync(`game/public/assets/models/creature/${row.assetId}.glb`), `${row.id}: ${row.assetId}`).toBe(true);
       expect(rpgBestiaryLevel(row.id)).toBe(enemyCombatLevel(row.stats));
       expect(row.stats.name).not.toMatch(/\bT\d/);
       expect(row.acceptance).toBe("candidate");

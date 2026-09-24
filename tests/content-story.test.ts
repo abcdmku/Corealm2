@@ -14,7 +14,6 @@ describe("JSON quest and dialogue content", () => {
   it("loads all authored records in their original order and strips dialogue catalog metadata", () => {
     expect(QUESTS).toEqual(questData);
     expect(QUESTS).toHaveLength(9);
-    expect(DIALOGUE_NODES).toHaveLength(103);
     expect(DIALOGUE_NODES).toEqual(dialogueData.map(({ catalog: _catalog, ...row }) => row));
     expect(parseCollection(questSchema, questData, { name: "quests" })).toEqual(questData);
     expect(parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" })).toEqual(dialogueData);

@@ -29,6 +29,10 @@ const assets = new Map(MANIFEST.assets.map((asset) => [asset.id, asset]));
 const packIds = new Set(REGIONAL_PACKS.map((pack) => pack.id));
 const compiledPopulationIds = new Set(WORLD_PLACEMENTS.filter(placement => placement.id.startsWith("population_"))
   .map(placement => placement.id));
+// A placement whose encounter has several member creatures compiles one group per member,
+// `${placement.id}_${memberIndex + 1}` (`content/worldCompiler.ts`), each with its own habitat.
+const populationPlacementOf = (groupId: string): string | undefined => compiledPopulationIds.has(groupId) ? groupId
+  : [groupId.replace(/_\d+$/, "")].find(id => compiledPopulationIds.has(id));
 // Match boot's accepted catalogue, including assignment overrides and native asset measurements.
 // The other source plans remain useful authoring candidates, but do not occupy the live world.
 const activatedPackIds = activatedRegionalPackIds();
@@ -176,7 +180,7 @@ function reserveHabitats(habitats: readonly HabitatDef[]): Reservation[] {
 const habitatReservations = reserveHabitats(existingHabitats);
 // Preserve the original source-plan gate against the original habitats. The accepted population
 // may use pockets held only by unactivated candidates; its live overlap gate follows below.
-const originalHabitatReservations = reserveHabitats(existingHabitats.filter(habitat => !compiledPopulationIds.has(habitat.groupId)));
+const originalHabitatReservations = reserveHabitats(existingHabitats.filter(habitat => !populationPlacementOf(habitat.groupId)));
 const fullyAnchoredGroups = surfaceGroups.filter((group) => !group.boss && !group.miniBoss
   && (habitatForGroup(group.id)?.anchors.length ?? 0) >= group.count);
 const fullyAnchoredIds = new Set(fullyAnchoredGroups.map((group) => group.id));
@@ -349,8 +353,8 @@ describe("regional pack source reservations", () => {
   it("checks activated production packs against every current habitat and the original world exclusions", () => {
     expect(activeCatalogue.packs.length).toBeGreaterThan(0);
     expect(activeCatalogue.packs.map(pack => pack.id).sort()).toEqual([...activatedPackIds].sort());
-    const populationHabitats = existingHabitats.filter(habitat => compiledPopulationIds.has(habitat.groupId));
-    expect(populationHabitats.map(habitat => habitat.groupId).sort()).toEqual([...compiledPopulationIds].sort());
+    const populationHabitats = existingHabitats.filter(habitat => populationPlacementOf(habitat.groupId));
+    expect([...new Set(populationHabitats.map(habitat => populationPlacementOf(habitat.groupId)))].sort()).toEqual([...compiledPopulationIds].sort());
     expect(failures([
       ...habitatReservations, ...encounterReservations, ...roadReservations,
       ...waterReservations, ...siteReservations, ...resourceReservations,

@@ -4,15 +4,16 @@ import { NodeIO } from '@gltf-transform/core';
 import { KHRONOS_EXTENSIONS } from '@gltf-transform/extensions';
 import { Vector3 } from 'three';
 import { describe, expect, it } from 'vitest';
-import { assertSourcePreserved } from '../repair-ground-creature-gaits.js';
 import { contactAt, createSkinReader, type ContactFoot } from '../lib/ground-gait.js';
 import { applyClip, duration, restorePose, storedPose } from './pose.js';
 import { generatorFileSha256 } from './generator-hash.js';
 
 const out = 'art/rebuild/candidates/finish-motion/legacy-small-mammals';
-describe('rat and rabbits serialized physical paws', () => {
-  for (const id of ['animal_rat', 'animal_rabbit', 'animal_rabbit_dark']) {
-    it(`${id} retains original source and original native gait speeds`, async () => {
+// The rat candidate was superseded by a polished skin and no longer ships; only the promoted
+// rabbit candidates are the served bytes.
+describe('rabbits serialized physical paws', () => {
+  for (const id of ['animal_rabbit', 'animal_rabbit_dark']) {
+    it(`${id} ships the audited candidate with original native gait speeds`, async () => {
       const report = JSON.parse(await readFile(`${out}/${id}.json`, 'utf8'));
       const bytes = await readFile(`${out}/${id}.glb`), source = await readFile(`game/public/assets/models/animal/${id}.glb`);
       expect(createHash('sha256').update(bytes).digest('hex')).toBe(report.sha256);
@@ -20,25 +21,18 @@ describe('rat and rabbits serialized physical paws', () => {
       const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8')).assets.find((a: any) => a.id === id);
       const publicSha256 = createHash('sha256').update(source).digest('hex');
       expect(manifest.sha256.toLowerCase()).toBe(publicSha256);
-      if (publicSha256 === report.sha256) {
-        // Promoted: the served model is this audited candidate. Its repaired gaits were proven
-        // against the recorded original source before promotion, so the original bytes no longer
-        // ship; the pinned source hash and byte count remain the provenance record.
-        expect(report.sourceSha256).toMatch(/^[0-9a-f]{64}$/);
-        expect(manifest.bytes).toBe(bytes.length);
-      } else {
-        expect(publicSha256).toBe(report.sourceSha256);
-        expect(() => assertSourcePreserved(source, bytes)).not.toThrow();
-      }
+      // The served model is this audited candidate. Its repaired gaits were proven against the
+      // recorded original source before promotion; the pinned source hash is the provenance record.
+      expect(publicSha256).toBe(report.sha256);
+      expect(report.sourceSha256).toMatch(/^[0-9a-f]{64}$/);
+      expect(manifest.bytes).toBe(bytes.length);
       expect(report.offlinePassed).toBe(true);
-      expect(report.audit.map((a: any) => a.nativeMps)).toEqual([manifest.impliedWalkMps, ...(id === 'animal_rat' ? [] : [manifest.impliedRunMps]) ]);
-      const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS), original = await io.readBinary(source), staged = await io.readBinary(bytes);
-      for (const name of report.audit.map((audit: { name: string }) => audit.name)) expect(duration(staged.getRoot().listAnimations().find(clip => clip.getName() === name)!)).toBe(duration(original.getRoot().listAnimations().find(clip => clip.getName() === name)!));
+      expect(report.audit.map((a: any) => a.nativeMps)).toEqual([manifest.impliedWalkMps, manifest.impliedRunMps]);
     });
     it(`${id} keeps original weighted soles planted across serialized stance`, async () => {
       const report = JSON.parse(await readFile(`${out}/${id}.json`, 'utf8'));
       const doc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).read(`${out}/${id}.glb`), rest = storedPose(doc);
-      const skin = createSkinReader(doc, id === 'animal_rat' ? 'rat_exp15' : 'wild_rabbit_test5');
+      const skin = createSkinReader(doc, 'wild_rabbit_test5');
       const sourceDoc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).read(report.sourceFile);
       for (const clip of doc.getRoot().listAnimations()) expect(duration(clip)).toBe(duration(sourceDoc.getRoot().listAnimations().find(c => c.getName() === clip.getName())!));
       for (const audit of report.audit) {
@@ -50,7 +44,7 @@ describe('rat and rabbits serialized physical paws', () => {
           restorePose(rest); applyClip(clip, (phase + step / 2) * seconds);
           rest.forEach(p => {
             p.node.getScale().forEach((v,k) => expect([p.s[k]!, Math.fround(p.s[k]!)]).toContain(v));
-            if (!['Bone001', 'WildRabbit_ROOTSHJnt'].includes(p.node.getName())) p.node.getTranslation().forEach((v,k) => expect([p.t[k]!, Math.fround(p.t[k]!)]).toContain(v));
+            if (p.node.getName() !== 'WildRabbit_ROOTSHJnt') p.node.getTranslation().forEach((v,k) => expect([p.t[k]!, Math.fround(p.t[k]!)]).toContain(v));
           });
           active.forEach((f, j) => skin.points(f.vertices).forEach((p, k) => {
             const prev = before[j]![k]!, primary = f.primaryVertices.includes(f.vertices[k]!);
@@ -70,6 +64,3 @@ describe('rat and rabbits serialized physical paws', () => {
     });
   }
 });
-
-
-

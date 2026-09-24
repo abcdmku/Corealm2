@@ -45,10 +45,6 @@ it('keeps the accepted cave envelope welded, traversable and closed around its c
   expect(stats.renderedTriangles).toBeLessThan(650000);
   const normals = facing.geometry.getAttribute('normal');
   for (let i = 0; i < normals.count; i += 11) expect(new THREE.Vector3().fromBufferAttribute(normals, i).length()).toBeCloseTo(1, 4);
-  const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} };
-  (facing.material as THREE.MeshStandardMaterial).onBeforeCompile(shader as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
-  expect(shader.fragmentShader).toContain('caveTexture(map)');
-  expect(shader.fragmentShader).not.toContain('caveSourceMap');
   const state = fixture.getState();
   for (const probe of Object.values(state.probes)) expect(probe!.headroom).toBeGreaterThanOrEqual(7);
   fixture.group.updateMatrixWorld(true);

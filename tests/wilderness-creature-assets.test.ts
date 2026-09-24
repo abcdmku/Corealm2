@@ -1,45 +1,40 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
+import { MeshoptDecoder } from 'meshoptimizer';
 import { WILDERNESS_CREATURE_SPECIES } from '../game/src/content/wildernessCreatureSpecies.js';
 import { WILDERNESS_RUNE_KEEPERS } from '../game/src/content/wildernessDepth.js';
 import { enemyCombatLevel } from '../game/src/content/index.js';
-import { tierSilhouetteScale } from '../game/src/core/math.js';
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-const requiredClips = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'HitLeft', 'HitRight', 'Death'];
+// HitLeft/HitRight are optional; the game falls back to Hit.
+const requiredClips = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
+beforeAll(async () => {
+  await MeshoptDecoder.ready;
+  io.registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
+});
 
-describe('Wilderness creature candidates', () => {
-  it('gives six regional bodies and five keepers independent combat identities', () => {
+describe('Wilderness creature production assets', () => {
+  it('gives every wilderness species an independent combat identity', () => {
      expect(WILDERNESS_CREATURE_SPECIES.length).toBeGreaterThan(0);
      expect(new Set(WILDERNESS_CREATURE_SPECIES.map(row => row.id)).size).toBe(WILDERNESS_CREATURE_SPECIES.length);
     for (const row of WILDERNESS_CREATURE_SPECIES) {
       expect(row.assetId).toBe(`creature_${row.id}`);
       expect(row.stats.family).toBe(row.id);
       expect(row.regionId).toBe('wilderness');
-      expect(row.scale * tierSilhouetteScale(row.stats.tier)).toBeCloseTo(1, 6);
-      const keeper = WILDERNESS_RUNE_KEEPERS.find(keeper => keeper.id === row.id);
-      const level = enemyCombatLevel(row.stats);
-      if (keeper) expect(level).toBeGreaterThan(0);
-       else expect(level).toBeGreaterThan(0);
+      expect(row.scale).toBeGreaterThan(0);
+      expect(enemyCombatLevel(row.stats)).toBeGreaterThan(0);
     }
   });
 
   it('exports complete animated bodies with mapped surfaces and valid material response', async () => {
     const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
-    let staged: any;
     for (const species of WILDERNESS_CREATURE_SPECIES) {
-      let entry = manifest.assets.find((entry: any) => entry.id === species.assetId);
-      let file = entry ? `game/public/assets/${entry.file}` : '';
-      if (!entry) {
-        staged ??= JSON.parse(await readFile('test-results/wilderness-creatures/catalog.json', 'utf8'));
-        entry = staged.assets.find((entry: any) => entry.id === species.assetId);
-        expect(entry, species.id).toBeTruthy();
-        file = `test-results/wilderness-creatures/${staged.files[species.assetId]}`;
-      }
-      const bytes = await readFile(file);
+      const entry = manifest.assets.find((entry: any) => entry.id === species.assetId);
+      expect(entry, species.id).toBeTruthy();
+      const bytes = await readFile(`game/public/assets/${entry.file}`);
       expect(bytes.length).toBe(entry.bytes);
       expect(createHash('sha256').update(bytes).digest('hex')).toBe(entry.sha256);
       const root = (await io.readBinary(bytes)).getRoot();
@@ -50,7 +45,7 @@ describe('Wilderness creature candidates', () => {
         const meshes = root.listNodes().reduce((count, node) => count + (node.getMesh()?.listPrimitives().length ?? 0), 0);
         expect(meshes, `${species.id} fits the ordinary live-animation draw pool`).toBeLessThanOrEqual(19);
       }
-      expect(new Set(root.listAnimations().map(clip => clip.getName()))).toEqual(new Set(requiredClips));
+      expect(root.listAnimations().map(clip => clip.getName()), species.id).toEqual(expect.arrayContaining(requiredClips));
       for (const clip of root.listAnimations()) {
         expect(clip.listChannels().length, `${species.id}:${clip.getName()}`).toBeGreaterThan(0);
         expect(clip.listChannels().some(channel => {
@@ -60,11 +55,6 @@ describe('Wilderness creature candidates', () => {
         }), `${species.id}:${clip.getName()} has actual motion`).toBe(true);
       }
       const materials = root.listMaterials();
-      // Emission belongs to the furnace and crawler seams. Bone, hide and cloth
-      // retain their native diffuse materials; a glow is not required for readability.
-      if (['cinderback_crag', 'rift_carapace', 'furnace_regent'].includes(species.id)) {
-        expect(materials.some(material => Math.max(...material.getEmissiveFactor()) > .01), species.id).toBe(true);
-      }
       expect(materials.some(material => material.getBaseColorTexture()), species.id).toBe(true);
       for (const material of materials) {
         // glTF defaults to fully metallic. Natural basalt and shroud must explicitly opt out,

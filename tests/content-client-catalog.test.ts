@@ -48,10 +48,13 @@ describe("client catalog", () => {
     }
     for (const creature of client.tables.compiledCreatures) expect(Object.keys(creature).every(key => ["assetId", "availability", "enemy", "id", "level", "presentation", "profileId", "scale"].includes(key))).toBe(true);
     expect(Object.keys(client.tables.enemies.find(enemy => enemy.id === "redbrush_fox_t1")!)).toEqual(["id", "name", "family", "tier"]);
-    expect(client.tables.enemies.find(enemy => enemy.id === "redbrush_fox_t1")).toEqual({ id: "redbrush_fox_t1", name: "Red Fox", family: "redbrush_fox", tier: 1 });
+    // The client row carries the server's display name and nothing else from the combat block.
+    const foxName = (fromDisk.catalog.tables.enemies as { id: string; name: string }[]).find(enemy => enemy.id === "redbrush_fox_t1")!.name;
+    expect(foxName).toBe("Vetchrunner");
+    expect(client.tables.enemies.find(enemy => enemy.id === "redbrush_fox_t1")).toEqual({ id: "redbrush_fox_t1", name: foxName, family: "redbrush_fox", tier: 1 });
     expect(client.tables.creatures.find(creature => creature.id === "redbrush_fox")).toEqual({ id: "redbrush_fox", assetId: "creature_redbrush_fox", scale: 1,
-      regionId: "fallowmarch", activity: "forage", description: "A narrow hedge hunter with a broad brush tail. Forages near cover and bites only when provoked.",
-      name: "Red Fox", family: "redbrush_fox", tier: 1 });
+      regionId: "fallowmarch", activity: "forage", description: (fromDisk.catalog.tables.species as { id: string; description: string }[]).find(species => species.id === "redbrush_fox")!.description,
+      name: foxName, family: "redbrush_fox", tier: 1 });
     expect(client.tables.items).toBe(fromDisk.catalog.tables.items);
   });
   it("is a fraction of the server catalog", () => {

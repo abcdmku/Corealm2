@@ -240,7 +240,7 @@ describe("creature voices", () => {
       "cinder_ravager", "cinderback_crag", "cindercrest_salamander", "cinderwake", "creek_crab",
       "crown_hart", "dewglass_weaver", "duskoak_lynx", "fen_crawler", "field_wasp",
       "fire_golem", "flint_mandible", "furnace_grazer", "furnace_regent", "galeskin",
-      "gloam_fox", "gloam_wraith", "goblin_archer", "goblin_scout", "goblin_shaman",
+      "gloam_fox", "gloam_wraith", "gloamfang_reaver", "goblin_archer", "goblin_scout", "goblin_shaman",
       "gorge_mantis", "granary_rat", "grass_viper", "grave_ghoul", "grave_lantern",
       "heath_jack", "heath_wasp", "hollow_bough", "hollow_star", "hollowroot_spider",
       "iron_golem", "ivory_castellan", "kiln_marrow", "kiln_salamander", "lantern_sprite",

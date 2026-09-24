@@ -4,7 +4,7 @@ import path from 'node:path';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone } from 'three/addons/utils/SkeletonUtils.js';
-import { AnimationLod } from '../game/src/render/animationLod.js';
+import { AnimationLod, sampledAnimationPalette } from '../game/src/render/animationLod.js';
 
 const directory = process.env.FEY_ASSET_DIRECTORY ?? 'game/public/assets/models/character';
 
@@ -40,11 +40,9 @@ describe('Fey native skin at world coordinates', () => {
       const exact = new THREE.Box3();
       for (const [part, child] of parent.children.entries()) {
         const mesh = child as THREE.InstancedMesh;
-        const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader,
-          fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} } as Parameters<THREE.Material['onBeforeCompile']>[0];
-        (mesh.material as THREE.Material).onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-        const data = (shader.uniforms.lodPalette!.value as THREE.DataTexture).image.data as Float32Array;
-        const bones = shader.uniforms.lodBoneCount!.value as number;
+        // The exact palette texture consumed by the sampled animation node graph.
+        const { texture, bones } = sampledAnimationPalette(mesh.material as THREE.Material)!;
+        const data = texture.image.data as Float32Array;
         const frames = mesh.geometry.getAttribute('lodFrames');
         const matrices = Array.from({ length: bones }, (_, bone) => {
           const first = new THREE.Matrix4().fromArray(data, (frames.getX(0) * bones + bone) * 16);
@@ -52,6 +50,8 @@ describe('Fey native skin at world coordinates', () => {
           first.elements.forEach((value, index) => { first.elements[index] = value * (1 - frames.getZ(0)) + second.elements[index]! * frames.getZ(0); });
           return first;
         });
+        const instance = new THREE.Matrix4();
+        mesh.getMatrixAt(0, instance);
         const positions = mesh.geometry.getAttribute('position');
         const indices = mesh.geometry.getAttribute('skinIndex'), weights = mesh.geometry.getAttribute('skinWeight');
         const source = new THREE.Vector4(), point = new THREE.Vector4(), transformed = new THREE.Vector4();
@@ -61,8 +61,8 @@ describe('Fey native skin at world coordinates', () => {
           for (let influence = 0; influence < 4; influence++) {
             point.add(transformed.copy(source).applyMatrix4(matrices[indices.getComponent(vertex, influence)]!).multiplyScalar(weights.getComponent(vertex, influence)));
           }
-          // Match GLSL: the palette's xyz becomes the instance-local position with w=1.
-          const drawn = new THREE.Vector3(point.x, point.y, point.z).applyMatrix4(placement);
+          // The palette's xyz becomes the instance-local position with w=1.
+          const drawn = new THREE.Vector3(point.x, point.y, point.z).applyMatrix4(instance);
           exact.expandByPoint(drawn);
           const expected = liveMeshes[part]!.getVertexPosition(vertex, new THREE.Vector3())
             .applyMatrix4(liveMeshes[part]!.matrixWorld).applyMatrix4(placement);

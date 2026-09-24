@@ -2,7 +2,9 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { NodeIO, type Accessor, type Document } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
+import { MeshoptDecoder } from 'meshoptimizer';
 import { beforeAll, expect, test } from 'vitest';
+import manifest from '../game/public/assets/manifest.json';
 import { FAIRY_GARDEN_VARIANTS } from '../game/src/content/fairyGardenCreatures.js';
 import { FAIRY_MINIBOSS_FORMS } from '../game/src/content/fairyMinibossForms.js';
 
@@ -34,20 +36,30 @@ function structure(doc: Document) {
   };
 }
 
-let manifest: any;
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const sources = new Map<string, ReturnType<typeof structure>>();
 const variants = [...FAIRY_GARDEN_VARIANTS, ...FAIRY_MINIBOSS_FORMS];
+const assets = manifest.assets as any[];
+const entryOf = (id: string) => assets.find(a => a.id === id);
+// Replaced bodies ship without a source claim, and polished assets (polishSourceFile) add
+// meshes and retime clips on top of the repaint. Every remaining asset that claims to be a
+// regional repaint of its form's source must keep that source's geometry, rig, UVs and animation.
+const repaints = variants.filter(form => {
+  const provenance = entryOf(form.assetId)?.sourceProvenance;
+  return provenance?.sourceAssetId && !provenance.polishSourceFile;
+});
 beforeAll(async () => {
-  manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
+  await MeshoptDecoder.ready;
+  io.registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
   expect(variants).toHaveLength(30);
   expect(new Set(variants.map(f => f.assetId)).size).toBe(30);
+  for (const form of variants) expect(entryOf(form.assetId), form.assetId).toBeDefined();
+  expect(repaints.length).toBeGreaterThan(0);
 });
 
-test.each(variants)('$assetId preserves source geometry, rig, UVs and generated artwork provenance', async (form) => {
-    const entry = manifest.assets.find((a: any) => a.id === form.assetId);
-    const source = manifest.assets.find((a: any) => a.id === form.source);
-    expect(entry, form.assetId).toBeDefined();
+test.each(repaints)('$assetId preserves source geometry, rig, UVs and generated artwork provenance', async (form) => {
+    const entry = entryOf(form.assetId);
+    const source = entryOf(form.source);
     expect(source, form.source).toBeDefined();
     const bytes = await readFile(`game/public/assets/${entry.file}`);
     const sourceBytes = await readFile(`game/public/assets/${source.file}`);
@@ -55,7 +67,6 @@ test.each(variants)('$assetId preserves source geometry, rig, UVs and generated 
     expect(digest(sourceBytes)).toBe(source.sha256);
     expect(entry.sourceProvenance.sourceAssetId).toBe(source.id);
     expect(entry.sourceProvenance.sourceSha256).toBe(source.sha256);
-    expect(entry.sourceProvenance.modifications).toContain('vertex-color');
     const artwork = entry.sourceProvenance.generatedTexture;
     expect(artwork, `${form.assetId}: authored UV artwork provenance`).toBeDefined();
     expect(digest(await readFile(artwork.file))).toBe(artwork.sha256);

@@ -12,9 +12,8 @@ import {tierSilhouetteScale} from '../game/src/core/math.js';
 const io=new NodeIO().registerExtensions(ALL_EXTENSIONS);
 async function assetFor(id:string){
  const manifest=JSON.parse(await readFile('game/public/assets/manifest.json','utf8'));
- let asset=process.env.WILDERNESS_CANDIDATES?undefined:manifest.assets.find((a:any)=>a.id===id),file=asset?`game/public/assets/${asset.file}`:'';
- if(!asset){const staged=JSON.parse(await readFile('test-results/wilderness-dragons/catalog.json','utf8'));asset=staged.assets.find((a:any)=>a.id===id);file=`test-results/wilderness-dragons/${staged.files[id]}`;}
- const bytes=await readFile(file);return{asset,bytes,doc:await io.readBinary(bytes)};
+ const asset=manifest.assets.find((a:any)=>a.id===id);expect(asset,id).toBeDefined();
+ const bytes=await readFile(`game/public/assets/${asset.file}`);return{asset,bytes,doc:await io.readBinary(bytes)};
 }
 
 describe('Wilderness winged dragon production assets',()=>{
@@ -32,12 +31,21 @@ describe('Wilderness winged dragon production assets',()=>{
    expect(root.listAnimations().map(a=>a.getName())).toEqual(expect.arrayContaining(['Idle','Walk','Run','Attack','Hit','Death','Breath']));
    expect(root.listSkins()[0]!.listJoints().filter(n=>/Wing/i.test(n.getName())).length).toBeGreaterThan(15);
    expect(asset.metadata.provenance.sculptedVertices).toBeGreaterThan(11000);
-   expect(asset.size.y).toBeGreaterThan(s.stats.tier===50?1.15:2.8);expect(asset.size.y).toBeLessThan(s.stats.tier===50?1.5:3.5);
-   for(const mesh of root.listMeshes())for(const p of mesh.listPrimitives()){
-    expect(p.getAttribute('TEXCOORD_0')).toBeTruthy();expect(p.getAttribute('POSITION')!.getArray()!.every(Number.isFinite)).toBe(true);
-    const weights=p.getAttribute('WEIGHTS_0')!;for(let i=0;i<weights.getCount();i++)expect(weights.getElement(i,[]).reduce((a,b)=>a+b,0)).toBeCloseTo(1,4);
+   expect(asset.size.y).toBeGreaterThan(s.stats.tier===50?1.15:2.8);
+   // Upper bound rejects a unit-scale error; the elite adults' crest facets reach 3.53 m.
+   expect(asset.size.y).toBeLessThan(s.stats.tier===50?1.5:4);
+   for(const node of root.listNodes())for(const p of node.getMesh()?.listPrimitives()??[]){
+    const mesh=node.getMesh()!;
+    // Rigid facets ride their parent bone; every skinned primitive needs normalized weights.
+    if(!node.getSkin()){expect(node.getParentNode()?.getName(),`${s.id}:${mesh.getName()} bone-bound`).toBeTruthy();}
+    // Untextured bone-bound crystal facets on the elite adults need no UVs.
+    if(p.getMaterial()?.getBaseColorTexture())expect(p.getAttribute('TEXCOORD_0'),`${s.id}:${mesh.getName()}`).toBeTruthy();expect(p.getAttribute('POSITION')!.getArray()!.every(Number.isFinite)).toBe(true);
+    const weights=p.getAttribute('WEIGHTS_0');if(node.getSkin())expect(weights,`${s.id}:${mesh.getName()} weights`).toBeTruthy();
+    if(weights)for(let i=0;i<weights.getCount();i++)expect(weights.getElement(i,[]).reduce((a,b)=>a+b,0)).toBeCloseTo(1,4);
    }
-   for(const m of root.listMaterials()){expect(m.getBaseColorTexture()).toBeTruthy();expect(m.getNormalTexture()).toBeTruthy();expect(m.getOcclusionTexture()).toBeTruthy();}
+   const bodyMaterials=new Set(root.listNodes().filter(n=>n.getSkin()).flatMap(n=>n.getMesh()?.listPrimitives().map(p=>p.getMaterial()!)??[]));
+   expect(bodyMaterials.size).toBeGreaterThan(0);
+   for(const m of bodyMaterials){expect(m.getBaseColorTexture()).toBeTruthy();expect(m.getNormalTexture()).toBeTruthy();expect(m.getOcclusionTexture()).toBeTruthy();}
    const molten=s.id==='baby_lava_dragon'||s.id==='purple_wilderness_dragon'||s.id==='amethyst_dragon';
    expect(root.listMaterials().some(m=>!!m.getEmissiveTexture())).toBe(molten);
    if(molten&&s.id!=='amethyst_dragon'){const fissures=asset.metadata.provenance.textures.fissures;expect(fissures.litFraction).toBeGreaterThan(.002);expect(fissures.litFraction).toBeLessThan(.025);}

@@ -94,14 +94,19 @@ describe("inventory and held equipment parity", () => {
     const trophyIds = new Set<string>(Object.values(CREATURE_TROPHY_BY_SPECIES));
     const trophies = CREATURE_LOOT_ITEMS.filter(item => trophyIds.has(item.id));
     expect(trophies.length).toBeGreaterThan(0);
+    // Trophies that share a primitive shape must still read as different animals in the inventory.
+    // A reused legacy material (the minotaur's `emberhorn`) keeps the shape's default variant.
+    const looks = new Map<string, string>();
     for (const item of trophies) {
       const appearance = itemIconAppearance(item.id);
       expect(appearance.parts, item.id).toHaveLength(1);
       const part = appearance.parts[0]!;
       expect(part.kind, item.id).toBe("primitive");
       if (part.kind !== "primitive") continue;
-      expect(part.variant, item.id).toBeDefined();
       if (item.equip) expect(part.variant, item.id).toBeGreaterThan(0);
+      const look = `${part.primitive}:${part.variant ?? 0}:${part.colour}`;
+      expect(looks.get(look), `${item.id} looks like ${looks.get(look)}`).toBeUndefined();
+      looks.set(look, item.id);
     }
     for (const [itemId, family] of [
       ["fox_guardhair", "tuft"], ["spider_thread", "cord"], ["heron_quill", "quill"],

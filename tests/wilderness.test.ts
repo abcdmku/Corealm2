@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import MANIFEST from '../game/public/assets/manifest.json';
 import { REGIONS, WORLD_BOUNDS } from '../game/src/content/regions.js';
 import { enemyBlockFor } from '../game/src/content/enemies.js';
-import { inStarterWildlifeArea, isStarterAnimalAsset } from '../game/src/content/fantasyEncounters.js';
+import { inStarterWildlifeArea } from '../game/src/content/fantasyEncounters.js';
 import { WILDERNESS_GROUPS } from '../game/src/content/wilderness.js';
 import { buildWorldTerrainSpec } from '../game/src/app/worldSpec.js';
 import { sampleOrganicBiomeWeights } from '../game/src/world/organicFields.js';
@@ -11,12 +11,20 @@ import { createInitialState } from '../game/src/state/store.js';
 import { loadSerializedSave, serializeSave } from '../game/src/persistence/storage.js';
 
 describe('northern wilderness and fantasy encounters', () => {
-  it('confines every authored animal footprint to the starting area and resolves its actual occupant stats', () => {
+  it('confines farmyard animal footprints to the starting area and resolves the actual stats of every occupant', () => {
+    // The creature-ecology retier (4980125) lets wild fauna bodies (vipers, rats, foxes, wasps, deer,
+    // coyotes) range across Fallowmarch and Vellenwood; penned farm stock still never leaves the fields.
+    const farmyard = /^(animal_(chicken|chicken_speckled|cattle|goat|hog)|creature_(marchfield_turkey|reedbank_goose))$/;
+    let farmGroups = 0;
     for (const region of REGIONS) for (const group of [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]) {
-      if (isStarterAnimalAsset(group.assetId)) expect(inStarterWildlifeArea(region.id, group.centre, group.radius), group.id).toBe(true);
+      if (farmyard.test(group.assetId)) {
+        farmGroups++;
+        expect(inStarterWildlifeArea(region.id, group.centre, group.radius), group.id).toBe(true);
+      }
       expect(enemyBlockFor(group.id, group.family, group.tier)?.family, group.id).toBe(group.family);
       expect(MANIFEST.assets.some(asset => asset.id === group.assetId), group.id).toBe(true);
     }
+    expect(farmGroups).toBeGreaterThan(0);
   });
 
   it('keeps a continuous northern night climate across the island and daylight at the starting town', () => {
