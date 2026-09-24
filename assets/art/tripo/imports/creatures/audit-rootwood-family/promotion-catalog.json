@@ -1,13 +1,13 @@
 {
   "schema": "corealm-promoted-asset-candidates/1",
-  "generatorSha256": "66269caf68f126a228bcbab2b06a6ad2ae880805f19203e8973ce9aadd5156a0",
+  "generatorSha256": "dbae629b94ae9a65008862156652d3bfc8744726ef6b9f14357adc1be27be70a",
   "pack": {
     "id": "corealm-tripo-audit-rootwood-family",
     "name": "Corealm Rootwood family candidates",
     "author": "Corealm",
     "source": "assets/art/tripo/imports/creatures/audit-rootwood-family/build-candidates.mjs",
     "license": "LicenseRef-Corealm-Original",
-    "generatorSha256": "66269caf68f126a228bcbab2b06a6ad2ae880805f19203e8973ce9aadd5156a0"
+    "generatorSha256": "dbae629b94ae9a65008862156652d3bfc8744726ef6b9f14357adc1be27be70a"
   },
   "assets": [
     {
@@ -104,8 +104,8 @@
         "candidate",
         "silverthorn"
       ],
-      "bytes": 6002172,
-      "sha256": "3e6d131045b9c29ae59896f7b74c76a8d34cb0f10a646f5260df4ab934ba47a3",
+      "bytes": 6006456,
+      "sha256": "0acc1a96ca6f2464f79ba6c19272d4d5691a5046f6184e05f1aa4f972a2c43a0",
       "size": {
         "x": 1.9309551410415982,
         "y": 2.5649999597662907,
@@ -151,7 +151,7 @@
           "uvs": "a551173736a0076cbc628c669dfba74117d79efd996f953957773113777a6a20",
           "indices": "0616a0ccd1cf01019494cceba51052075bfa2887cff10547c01f973d14502469"
         },
-        "modifications": "Existing repaired source skin and eight clips retained; body geometry and UVs preserved; unique image-generated 2K layered color map replaces original color, source normal and roughness maps retained; uniform body scale 0.95; Silverthorn Death hip track authored as a side fall with source bent-limb tracks; Death reaches final pose by 0.65 seconds and holds to 1.5 seconds."
+        "modifications": "Existing repaired source skin and eight clips retained; body geometry and UVs preserved; unique image-generated 2K layered color map replaces original color, source normal and roughness maps retained; uniform body scale 0.95; Silverthorn Death blends to a relaxed rest-based skeleton with parallel legs, lowered arms and a grounded whole-body side roll without scaling; Death reaches final pose by 0.65 seconds and holds to 1.5 seconds."
       },
       "metadata": {
         "family": "silverthorn_harrow",
@@ -162,9 +162,13 @@
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": false,
+        "labAccepted": true,
         "worldIntegrated": false
-      }
+      },
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null
     }
   ],
   "status": "pending-root-lab-acceptance"

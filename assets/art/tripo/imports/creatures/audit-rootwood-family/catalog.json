@@ -6,7 +6,7 @@
     "author": "Corealm",
     "source": "assets/art/tripo/imports/creatures/audit-rootwood-family/build-candidates.mjs",
     "license": "LicenseRef-Corealm-Original",
-    "generatorSha256": "66269caf68f126a228bcbab2b06a6ad2ae880805f19203e8973ce9aadd5156a0"
+    "generatorSha256": "dbae629b94ae9a65008862156652d3bfc8744726ef6b9f14357adc1be27be70a"
   },
   "records": [
     {
@@ -35,7 +35,7 @@
       "source": "assets/art/tripo/imports/creatures/starred-grove-guardian/models/creature_starroot_guardian.glb",
       "sourceSha256": "17553763768b11b388adadf219dc65e39d0f17a12da56c3dcce96da6d1fe980e",
       "candidate": "models/creature_silverthorn_harrow.glb",
-      "candidateSha256": "3e6d131045b9c29ae59896f7b74c76a8d34cb0f10a646f5260df4ab934ba47a3",
+      "candidateSha256": "0acc1a96ca6f2464f79ba6c19272d4d5691a5046f6184e05f1aa4f972a2c43a0",
       "generatedMap": "textures/silverthorn-generated.png",
       "generatedMapSha256": "14c2fe2248de8c54971f1f72cdab685c10d693ac6608a53283e120baf353e1be",
       "sourceGeometry": {
@@ -49,7 +49,11 @@
         "finalHoldUntilSeconds": 1.5
       },
       "addedGeometryTriangles": 0,
-      "status": "pending-root-feature-lab-review"
+      "status": "pending-root-feature-lab-review",
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "measuredGait": null,
+      "locomotionPolicy": null
     }
   ],
   "held": [
