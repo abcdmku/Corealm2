@@ -83,8 +83,8 @@ export const ANIMAL_PACK = {
   name: "Animal pack deluxe",
   author: "janpec",
   // Same shape the imported Unity weapon and rock packs use, because the same rules apply: a real
-  // HTTPS product page, the Standard EULA spelled exactly as `validateGatheringProduction` and
-  // `gen-docs` match on, and no archive hash — per-file `sha256` on each asset row is the audit.
+  // HTTPS product page, the Standard EULA spelled exactly as `validateGatheringProduction` matches
+  // on, and no archive hash — per-file `sha256` on each asset row is the audit.
   // TODO: pin the exact package URL once the purchasing account can be checked; this search URL
   // resolves to the product but is not the permanent product id.
   source: "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",

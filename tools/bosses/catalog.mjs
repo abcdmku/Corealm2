@@ -8,7 +8,7 @@
  * Recorded in the manifest so the pack's provenance travels with the assets.
  *
  * Same shape and the same licence string as the other imported Unity packs, which is what
- * `content/validateGatheringProduction.ts` and `tools/gen-docs.ts` both match on. No archive hash:
+ * `content/validateGatheringProduction.ts` matches on. No archive hash:
  * there is no redistributable archive of ours to hash, so each asset row carries its own `sha256`
  * and that is the audit.
  */

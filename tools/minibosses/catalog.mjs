@@ -28,7 +28,7 @@
  * Recorded in the manifest so the pack's provenance travels with the assets.
  *
  * Same shape and licence string as the other imported Unity packs - what
- * `content/validateGatheringProduction.ts` and `tools/gen-docs.ts` match on. No archive hash:
+ * `content/validateGatheringProduction.ts` matches on. No archive hash:
  * there is no redistributable archive of ours to hash, so each asset row carries its own `sha256`
  * and `tools/build-assets.ts: preservedManifestRows` re-checks it against the file on disk.
  */

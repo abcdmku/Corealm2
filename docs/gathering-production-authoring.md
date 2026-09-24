@@ -88,11 +88,10 @@ npm run build-assets
 npm run build-assets -- --verify
 npm run icons
 npm run icons:verify
-npm run gen-docs
-npm run docs:build
+npm run guide:build
 ```
 
-`npm run gen-docs` rewrites the public skill guides, item table, recipe table, resource presentation table, gathering and production guide, and campfire table. Review its diff. A missing row usually means the catalog points at the wrong resource or item, or the tier has no recipe for an expected output.
+`npm run guide:build` compiles content and bundles the read-only player guide from the same collections. Review the new rows in the guide. A missing row usually means the catalog points at the wrong resource or item, or the tier has no recipe for an expected output.
 
 ## Required checks
 

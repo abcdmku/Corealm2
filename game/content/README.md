@@ -52,10 +52,6 @@ ownership are checked against the same parsed snapshot in the app and CLI. Four 
 RPG species still reference unpromoted model IDs; missing lab-only models are reported as
 warnings. A missing model on a registered species remains a blocking reference error.
 
-`npm run content:export` validates the migration without writing; `-- --apply` replaces JSON from
-the saved `.baseline` TypeScript snapshot. Do not rerun it over authored edits.
-`npm run content:baseline` creates that snapshot from HEAD only if it does not already exist.
-
 `npm run devdocs:requests -- --help` documents the request CLI. Agents may open, claim and reply
 to requests. Claim and reply require the revision returned by listing. They cannot close requests
 or approve assets.
