@@ -1,0 +1,67 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-audit-user-rimeback",
+    "name": "Rimeback tortoise replacement",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-rimeback/build-candidate.mjs",
+    "license": "User supplied; source license pending user confirmation",
+    "generatorSha256": "f084298695f3ee296cf9621faffe24e7d4c7984d9f08a54e3230e2694c2d6c93"
+  },
+  "assets": [
+    {
+      "id": "creature_rimeback_tortoise",
+      "file": "models/creature/creature_rimeback_tortoise.glb",
+      "pack": "corealm-audit-user-rimeback",
+      "category": "character",
+      "is": "rimeback tortoise",
+      "tags": [
+        "creature",
+        "tortoise",
+        "rimeback",
+        "frost",
+        "user-supplied"
+      ],
+      "bytes": 5334096,
+      "size": {
+        "x": 1.67578125,
+        "y": 1.4882731437683105,
+        "z": 1.99609375
+      },
+      "base": {
+        "x": -0.837890625,
+        "y": 0,
+        "z": -0.998046875
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.55,
+      "runClipSeconds": 0.96,
+      "attackSeconds": 1.25,
+      "attackContactNormalized": 0.5,
+      "sha256": "9da985f7462a7fd6b911346715516f65cf17f0e219751edde72adfcebfa161ef",
+      "materials": [
+        "tripo_mat_62b61e34-16ab-454d-bc71-4e45e52922b1"
+      ],
+      "candidateFile": "rimeback-tortoise-candidate.glb",
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_rimeback_tortoise": "rimeback-tortoise-candidate.glb"
+  }
+}

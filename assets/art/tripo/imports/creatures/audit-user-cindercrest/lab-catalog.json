@@ -1,0 +1,203 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "pack": {
+    "id": "corealm-user-cindercrest-candidate",
+    "name": "User Cindercrest Salamander candidate",
+    "author": "Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-cindercrest/source-original.glb",
+    "license": "LicenseRef-Tripo-Generated; user-supplied export, entitlement to be confirmed by project owner",
+    "generatorSha256": "ff987aba4b5c6f3ccb4eb8833bef17c479fc3fd8fa9788c0c11c36db08d4f98f"
+  },
+  "assets": [
+    {
+      "id": "creature_cindercrest_salamander",
+      "file": "models/creature/creature_cindercrest_salamander.glb",
+      "pack": "corealm-user-cindercrest-candidate",
+      "category": "character",
+      "is": "cindercrest salamander",
+      "tags": [
+        "salamander",
+        "amphibian",
+        "animal",
+        "warm-bank",
+        "spit"
+      ],
+      "bytes": 4504848,
+      "sha256": "218ed546b2fd84a75c572261a2ba73a64512b09bb3868c13e640731e6fb62ece",
+      "size": {
+        "x": 0.8990884500262757,
+        "y": 1.120800768662779,
+        "z": 1.332586268079933
+      },
+      "base": {
+        "x": -0.42055898067900443,
+        "y": 1.1970215193754528e-9,
+        "z": -0.6595167416795363
+      },
+      "bounds": {
+        "min": [
+          -0.42055898067900443,
+          1.1970215193754528e-9,
+          -0.6595167416795363
+        ],
+        "max": [
+          0.47852946934727125,
+          1.1208007698598006,
+          0.6730695264003967
+        ]
+      },
+      "groundY": 1.1970215193754528e-9,
+      "triangles": 5000,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_52064c3f-6697-41d9-bda7-33cb4a9bd1c0"
+      ],
+      "sourceProvenance": {
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-cindercrest/source-original.glb",
+        "sourceOriginalPath": "C:/Users/Borg/Downloads/lava+salamander+3d+model.glb",
+        "sourceSha256": "2578c1c3957b3cbe6e00dbca719f5e9d2a833e5105b8fa8cc6a338111fdbb478",
+        "sourceBytes": 4395972,
+        "sourceGenerator": "Tripo",
+        "sourceLicense": "LicenseRef-Tripo-Generated; user-supplied export, entitlement to be confirmed by project owner",
+        "sourceTextures": [
+          {
+            "name": "tripo_image_52064c3f-6697-41d9-bda7-33cb4a9bd1c0_2",
+            "mime": "image/jpeg",
+            "bytes": 374949,
+            "sha256": "075a5f2612a90c5c8efe0b29b0aa4f959efc1f5962832dd73a6197f0cad9df6d"
+          },
+          {
+            "name": "tripo_image_52064c3f-6697-41d9-bda7-33cb4a9bd1c0_0",
+            "mime": "image/jpeg",
+            "bytes": 685912,
+            "sha256": "a338def7b1b7e64e5601e48b865376d2cde424ab2d4675f6100472ef3c8964ff"
+          },
+          {
+            "name": "tripo_image_52064c3f-6697-41d9-bda7-33cb4a9bd1c0_1",
+            "mime": "image/png",
+            "bytes": 3189278,
+            "sha256": "db9bfdc9dbff2c84ebd05a290ea1dfd228e9a4b6bc7e2e447a3e72f14fe19029"
+          }
+        ],
+        "builderFile": "assets/art/tripo/imports/creatures/audit-user-cindercrest/build-candidate.mjs",
+        "builderSha256": "ff987aba4b5c6f3ccb4eb8833bef17c479fc3fd8fa9788c0c11c36db08d4f98f",
+        "sourceTopologyPreserved": true,
+        "sourcePbrImagesPreservedByteForByte": true,
+        "rigMethod": "18-joint geometry-aware quadruped skin fitted to the delivered static mesh"
+      },
+      "walkClipSeconds": 1.2000000476837158,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 0.8799999952316284,
+      "contactNormalized": 0.41,
+      "metadata": {
+        "is": "cindercrest salamander",
+        "tags": [
+          "salamander",
+          "amphibian",
+          "cindercrest",
+          "volcanic",
+          "quadruped"
+        ],
+        "provenance": {
+          "sourceFile": "assets/art/tripo/imports/creatures/audit-user-cindercrest/source-original.glb",
+          "sourceOriginalPath": "C:/Users/Borg/Downloads/lava+salamander+3d+model.glb",
+          "sourceSha256": "2578c1c3957b3cbe6e00dbca719f5e9d2a833e5105b8fa8cc6a338111fdbb478",
+          "sourceBytes": 4395972,
+          "sourceGenerator": "Tripo",
+          "sourceLicense": "LicenseRef-Tripo-Generated; user-supplied export, entitlement to be confirmed by project owner",
+          "sourceTextures": [
+            {
+              "name": "tripo_image_52064c3f-6697-41d9-bda7-33cb4a9bd1c0_2",
+              "mime": "image/jpeg",
+              "bytes": 374949,
+              "sha256": "075a5f2612a90c5c8efe0b29b0aa4f959efc1f5962832dd73a6197f0cad9df6d"
+            },
+            {
+              "name": "tripo_image_52064c3f-6697-41d9-bda7-33cb4a9bd1c0_0",
+              "mime": "image/jpeg",
+              "bytes": 685912,
+              "sha256": "a338def7b1b7e64e5601e48b865376d2cde424ab2d4675f6100472ef3c8964ff"
+            },
+            {
+              "name": "tripo_image_52064c3f-6697-41d9-bda7-33cb4a9bd1c0_1",
+              "mime": "image/png",
+              "bytes": 3189278,
+              "sha256": "db9bfdc9dbff2c84ebd05a290ea1dfd228e9a4b6bc7e2e447a3e72f14fe19029"
+            }
+          ],
+          "builderFile": "assets/art/tripo/imports/creatures/audit-user-cindercrest/build-candidate.mjs",
+          "builderSha256": "ff987aba4b5c6f3ccb4eb8833bef17c479fc3fd8fa9788c0c11c36db08d4f98f",
+          "sourceTopologyPreserved": true,
+          "sourcePbrImagesPreservedByteForByte": true,
+          "rigMethod": "18-joint geometry-aware quadruped skin fitted to the delivered static mesh"
+        },
+        "attackSeconds": 0.8799999952316284,
+        "contactNormalized": 0.41,
+        "walkClipSeconds": 1.2000000476837158,
+        "runClipSeconds": 0.7200000286102295,
+        "sourceBuilderSha256": "ff987aba4b5c6f3ccb4eb8833bef17c479fc3fd8fa9788c0c11c36db08d4f98f",
+        "boneNames": [
+          "SalamanderRoot",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Muzzle",
+          "TailBase",
+          "TailMid",
+          "TailTip",
+          "FrontLeftUpper",
+          "FrontLeftFoot",
+          "FrontRightUpper",
+          "FrontRightFoot",
+          "HindLeftUpper",
+          "HindLeftFoot",
+          "HindRightUpper",
+          "HindRightFoot"
+        ],
+        "gaitFootBones": [
+          "FrontLeftFoot",
+          "FrontRightFoot",
+          "HindLeftFoot",
+          "HindRightFoot"
+        ],
+        "regionalVariant": {
+          "sourceAssetId": "creature_kiln_salamander",
+          "sourceSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+          "tint": [
+            1,
+            0.46,
+            0.18
+          ],
+          "glow": [
+            0.23,
+            0.045,
+            0.008
+          ],
+          "generator": "tools/build-regional-variants.mjs"
+        },
+        "notes": "User-supplied salamander with original PBR maps and topology preserved. New anatomy-aware rig and clips; gait calibration awaits moving lab review."
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-cindercrest/creature_cindercrest_salamander.glb"
+    }
+  ],
+  "files": {
+    "creature_cindercrest_salamander": "creature_cindercrest_salamander.glb"
+  }
+}

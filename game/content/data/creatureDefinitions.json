@@ -13171,17 +13171,17 @@
       "habitat": "exposed shale beds",
       "respawnMs": 30000,
       "nativeSize": [
-        2.778613,
-        2.55,
-        1.281181
+        1.1744384617530712,
+        1.0711669538906479,
+        2.2489013204886774
       ],
       "nativeBase": [
-        -1.393284,
-        0.003,
-        -0.795828
+        -0.5872192396201251,
+        -3.245913139985264e-9,
+        -1.1244506946578623
       ],
-      "nativeVisualRadius": 1.6045505633167187,
-      "nativeBodyRadius": 1.3893065,
+      "nativeVisualRadius": 1.26854866380252,
+      "nativeBodyRadius": 1.1244506602443387,
       "attack": {
         "action": "stone punch",
         "proposedMechanic": "melee",

@@ -1,6 +1,6 @@
 # Deduplicated creature generation queue
 
-The original 58 remaining replacement verdicts were not 58 new-model requests. Eight staged replacements and the user-supplied Beetle Golem have since been promoted, leaving 49. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
+The original 58 remaining replacement verdicts were not 58 new-model requests. Eight staged replacements and the user-supplied Beetle Golem and five additional delivered bases have since been promoted, leaving 44. This is a recommended generation plan, not a claim that every listed base is impossible to recover from the owned library. Based on local source triage and staged work; the live Tripo library was not re-audited for this document.
 
 The user will manually create the 18 proposed bases covering 19 production IDs and announce each delivery. Agents must not generate models or start Tripo jobs. Eight of the original nine staged IDs are now integrated. Beetle Golem's staged replacement was rejected; its user-supplied successor is now promoted below. The 30 IDs originally assigned to owned-source review still need adaptation or source resolution; findings below record the first four reviewed. Flag additional source gaps to the user if the owned anatomy does not fit.
 
@@ -46,7 +46,7 @@ All original staged candidates have a disposition. Beetle Golem was the rejected
 
 ### Thirteen user exports, September 23 evening
 
-The user delivered thirteen textured static GLBs and requested completion alongside all 41 polish assets. Originals are preserved in the corresponding `audit-user-*` directories. Candidate rigs and clips remain pending root visual/gameplay acceptance and production validation. Staged files are not completed replacements.
+The user delivered thirteen textured static GLBs and requested completion alongside all 41 polish assets. Originals are preserved in the corresponding `audit-user-*` directories. Creek Crab, Cindercrest Salamander, Rimeback Tortoise, Scree Bustard and Reed Strider have passed root/Luna lab acceptance and are promoted. The other eight bases remain pending acceptance. Staged files are not completed replacements.
 
 | Download | Intended replacement | Candidate directory |
 | --- | --- | --- |

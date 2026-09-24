@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "ca13dc9f8f61fed872d5f7a434efa068eb283f1d84eaeced3dc9fc9cfca9462d",
-  "formulaRevision": "801d0380ccee6ccaf258043b76475cb38ac02be3031ab89053734e730358a4d1",
+  "revision": "89bdf15c21085ca3f736f51578b1bb05d0d32485a41c5913192adda45dd3feed",
+  "formulaRevision": "a476631508cd84903a4c6ed95d622ff2c54d10e3f8b7e2558ebc48e88dac99d6",
   "tables": {
     "items": [
       {
@@ -35782,17 +35782,17 @@
           "habitat": "exposed shale beds",
           "respawnMs": 30000,
           "nativeSize": [
-            2.778613,
-            2.55,
-            1.281181
+            1.1744384617530712,
+            1.0711669538906479,
+            2.2489013204886774
           ],
           "nativeBase": [
-            -1.393284,
-            0.003,
-            -0.795828
+            -0.5872192396201251,
+            -3.245913139985264e-9,
+            -1.1244506946578623
           ],
-          "nativeVisualRadius": 1.6045505633167187,
-          "nativeBodyRadius": 1.3893065,
+          "nativeVisualRadius": 1.26854866380252,
+          "nativeBodyRadius": 1.1244506602443387,
           "attack": {
             "action": "stone punch",
             "proposedMechanic": "melee",
@@ -143269,17 +143269,17 @@
             "habitat": "exposed shale beds",
             "respawnMs": 30000,
             "nativeSize": [
-              2.778613,
-              2.55,
-              1.281181
+              1.1744384617530712,
+              1.0711669538906479,
+              2.2489013204886774
             ],
             "nativeBase": [
-              -1.393284,
-              0.003,
-              -0.795828
+              -0.5872192396201251,
+              -3.245913139985264e-9,
+              -1.1244506946578623
             ],
-            "nativeVisualRadius": 1.6045505633167187,
-            "nativeBodyRadius": 1.3893065,
+            "nativeVisualRadius": 1.26854866380252,
+            "nativeBodyRadius": 1.1244506602443387,
             "attack": {
               "action": "stone punch",
               "proposedMechanic": "melee",
@@ -143391,17 +143391,17 @@
           "habitat": "exposed shale beds",
           "respawnMs": 30000,
           "nativeSize": [
-            2.778613,
-            2.55,
-            1.281181
+            1.1744384617530712,
+            1.0711669538906479,
+            2.2489013204886774
           ],
           "nativeBase": [
-            -1.393284,
-            0.003,
-            -0.795828
+            -0.5872192396201251,
+            -3.245913139985264e-9,
+            -1.1244506946578623
           ],
-          "nativeVisualRadius": 1.6045505633167187,
-          "nativeBodyRadius": 1.3893065,
+          "nativeVisualRadius": 1.26854866380252,
+          "nativeBodyRadius": 1.1244506602443387,
           "attack": {
             "action": "stone punch",
             "proposedMechanic": "melee",
@@ -260061,17 +260061,17 @@
         "habitat": "exposed shale beds",
         "respawnMs": 30000,
         "nativeSize": [
-          2.778613,
-          2.55,
-          1.281181
+          1.1744384617530712,
+          1.0711669538906479,
+          2.2489013204886774
         ],
         "nativeBase": [
-          -1.393284,
-          0.003,
-          -0.795828
+          -0.5872192396201251,
+          -3.245913139985264e-9,
+          -1.1244506946578623
         ],
-        "nativeVisualRadius": 1.6045505633167187,
-        "nativeBodyRadius": 1.3893065,
+        "nativeVisualRadius": 1.26854866380252,
+        "nativeBodyRadius": 1.1244506602443387,
         "attack": {
           "action": "stone punch",
           "proposedMechanic": "melee",
@@ -313913,7 +313913,7 @@
               }
             ]
           },
-          "bodyRadius": 0.40698
+          "bodyRadius": 0.3961247810304165
         },
         "pack_fallowmarch_bracken_northeast_spiders": {
           "id": "pack_fallowmarch_bracken_northeast_spiders",
@@ -315534,7 +315534,7 @@
               }
             ]
           },
-          "bodyRadius": 0.40698
+          "bodyRadius": 0.3961247810304165
         },
         "population_galeskin_south_jacks": {
           "id": "granary_rat_t1",
@@ -316479,7 +316479,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9518616475571683
+          "bodyRadius": 0.5365124203856008
         },
         "rootfall_coneys": {
           "id": "rootfall_coneys",
@@ -317486,7 +317486,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9518616475571683
+          "bodyRadius": 0.5365124203856008
         },
         "quarry_snail_residents": {
           "id": "quarry_snail_residents",
@@ -317812,7 +317812,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9518616475571683
+          "bodyRadius": 0.5365124203856008
         },
         "population_mossbound_south_harrows": {
           "id": "briar_harrow_t10",
@@ -318200,7 +318200,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9518616475571683
+          "bodyRadius": 0.5365124203856008
         },
         "population_hollowcut_east_harrows": {
           "id": "briar_harrow_t10",
@@ -318495,7 +318495,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3861822290515928
+          "bodyRadius": 1.2174828403496898
         },
         "scree_boars": {
           "id": "scree_boars",
@@ -318906,7 +318906,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3861822290515928
+          "bodyRadius": 1.2174828403496898
         },
         "karrow_reavers": {
           "id": "karrow_reavers",
@@ -319410,7 +319410,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3861822290515928
+          "bodyRadius": 1.2174828403496898
         },
         "reedjaw_crocodile_residents": {
           "id": "reedjaw_crocodile_residents",
@@ -319790,7 +319790,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3861822290515928
+          "bodyRadius": 1.2174828403496898
         },
         "population_cairn_south_weavers": {
           "id": "blind_cave_weaver_t10",
@@ -320162,7 +320162,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3861822290515928
+          "bodyRadius": 1.2174828403496898
         },
         "population_cairn_tarn_west_watchers": {
           "id": "scree_watcher_t10",
@@ -320472,7 +320472,7 @@
               }
             ]
           },
-          "bodyRadius": 1.3861822290515928
+          "bodyRadius": 1.2174828403496898
         },
         "population_east_tarn_watchers": {
           "id": "scree_watcher_t10",
@@ -330768,7 +330768,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9399500000000002
+          "bodyRadius": 0.9401288391009475
         },
         "crownward_royal_grove_harts": {
           "id": "crown_hart_t40",
@@ -330868,7 +330868,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9399500000000002
+          "bodyRadius": 0.9401288391009475
         },
         "crownward_quarry_knights": {
           "id": "pearl_knight_t40",
@@ -331223,7 +331223,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9399500000000002
+          "bodyRadius": 0.9401288391009475
         },
         "crownward_midroad_knights": {
           "id": "pearl_knight_t40",
@@ -331493,7 +331493,7 @@
               }
             ]
           },
-          "bodyRadius": 0.9399500000000002
+          "bodyRadius": 0.9401288391009475
         },
         "crownward_north_knights": {
           "id": "pearl_knight_t40",
@@ -333443,7 +333443,7 @@
               }
             ]
           },
-          "bodyRadius": 0.726325
+          "bodyRadius": 0.842697304866849
         },
         "fairy_orchid_crown_companions": {
           "id": "garden_veilspirit_t60",
@@ -333722,7 +333722,7 @@
               }
             ]
           },
-          "bodyRadius": 0.6749820000000001
+          "bodyRadius": 1.5187101185027665
         },
         "fairy_twilight_hollow_residents": {
           "id": "garden_sapling_t60",

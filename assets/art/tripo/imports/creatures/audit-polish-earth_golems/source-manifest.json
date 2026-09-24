@@ -1,0 +1,1022 @@
+{
+  "assets": [
+    {
+      "id": "creature_cairn_treader",
+      "file": "models/creature/creature_cairn_treader.glb",
+      "pack": "corealm-rpg-earth-elemental-golem",
+      "category": "character",
+      "is": "cairn treader",
+      "tags": [
+        "creature",
+        "rpg",
+        "shale_elemental"
+      ],
+      "bytes": 11827340,
+      "sha256": "118d8e7328ecfc6eee2a0c20a18c92718fbe7f9db98adaffe4fc8cf688c5a2ba",
+      "size": {
+        "x": 2.677345610912231,
+        "y": 2.0824757718293863,
+        "z": 1.6123333365642423
+      },
+      "base": {
+        "x": -1.3659291891109147,
+        "y": 0.003,
+        "z": -1.0815594180241348
+      },
+      "groundY": 0,
+      "triangles": 3892,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_cairn_treader_earth_elemental_original_rock"
+      ],
+      "walkClipSeconds": 1.399999976158142,
+      "runClipSeconds": 0.9800000190734863,
+      "attackSeconds": 0.699999988079071,
+      "contactNormalized": 0.3095238147949687,
+      "sourceProvenance": {
+        "url": "https://opengameart.org/content/earth-elemental-golem",
+        "author": "piacenti",
+        "license": "CC-BY-3.0",
+        "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
+        "sourceFiles": [
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
+            "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
+            "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
+            "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
+            "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
+          }
+        ],
+        "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
+        "weightReduction": {
+          "sourceMaximum": 8,
+          "runtimeMaximum": 4,
+          "maxDiscardedFraction": 0.20108696798913034,
+          "affectedControlVertices": 413,
+          "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+          "refitVertices": 413,
+          "measuredError": {
+            "maxMeters": 0.022353774179003694,
+            "rmsMeters": 0.0009368683786992584,
+            "samples": 3082464
+          }
+        }
+      },
+      "metadata": {
+        "floorCorrection": {
+          "Idle": {
+            "samples": 777,
+            "maximumLift": 0.0030224450555079796
+          },
+          "Walk": {
+            "samples": 113,
+            "maximumLift": 0.012560350374048214
+          },
+          "Run": {
+            "samples": 91,
+            "maximumLift": 0.012556478415976749
+          },
+          "Attack": {
+            "samples": 58,
+            "maximumLift": 0.0027840663714199182
+          },
+          "Hit": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "HitLeft": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "HitRight": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "Death": {
+            "samples": 80,
+            "maximumLift": 0.06635493789459146
+          }
+        },
+        "family": "golem",
+        "height": 2.55,
+        "source": "Earth Elemental / Golem by piacenti, original first body",
+        "license": "CC-BY-3.0",
+        "rig": "original-earth-elemental-63-joint",
+        "provenance": {
+          "url": "https://opengameart.org/content/earth-elemental-golem",
+          "author": "piacenti",
+          "license": "CC-BY-3.0",
+          "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
+          "sourceFiles": [
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
+              "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
+              "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
+              "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
+              "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
+            }
+          ],
+          "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
+          "weightReduction": {
+            "sourceMaximum": 8,
+            "runtimeMaximum": 4,
+            "maxDiscardedFraction": 0.20108696798913034,
+            "affectedControlVertices": 413,
+            "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+            "refitVertices": 413,
+            "measuredError": {
+              "maxMeters": 0.022353774179003694,
+              "rmsMeters": 0.0009368683786992584,
+              "samples": 3082464
+            }
+          }
+        },
+        "textureBindings": [
+          {
+            "materialName": "earth_elemental_original_rock",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-color-gltf.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-normal-gltf.png",
+            "flipY": false
+          }
+        ],
+        "clipProvenance": [
+          {
+            "name": "Idle",
+            "source": "idle",
+            "take": "Default Take",
+            "firstFrame": 1,
+            "lastFrame": 208,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Walk",
+            "source": "walking",
+            "take": "Default Take",
+            "firstFrame": 337,
+            "lastFrame": 367,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Run",
+            "source": "walking",
+            "take": "Default Take",
+            "firstFrame": 337,
+            "lastFrame": 367,
+            "fps": 24,
+            "derivation": "Source walking at 1/0.7 speed; no native run take"
+          },
+          {
+            "name": "Attack",
+            "source": "right punch",
+            "take": "Default Take",
+            "firstFrame": 380,
+            "lastFrame": 395,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Hit",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "HitLeft",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Alias of native take hit; no native directional hit takes"
+          },
+          {
+            "name": "HitRight",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Alias of native take hit; no native directional hit takes"
+          },
+          {
+            "name": "Death",
+            "source": "death",
+            "take": "Default Take",
+            "firstFrame": 419,
+            "lastFrame": 440,
+            "fps": 24,
+            "derivation": "Original source take"
+          }
+        ],
+        "sourceAnimationCount": 10,
+        "attackContact": 0.45,
+        "animationAcceptance": "candidate-needs-browser-review",
+        "textureOrientation": "Original FBX UVs preserved; source base-color and normal image rows flipped once for glTF sampling",
+        "revision": "earth-elemental-source-1",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "source": "art/biome-creatures/stone/gait-calibration.json",
+          "status": "measured-weighted-sole",
+          "visualContactAccepted": false
+        },
+        "redesign": {
+          "sourceAssetId": "creature_shale_elemental",
+          "sourceSha256": "9cb99043a70d4fcad789a865b94c3be69673904c190aa96ed8dca8585ab2aa09",
+          "design": "Compressed lower body, head recessed into a widened shoulder shelf, enlarged shovel-like stone hands; weighted torso sway and delayed punch recovery.",
+          "generator": "tools/biome-creatures/stone/build.mjs",
+          "albedo": "art/biome-creatures/stone/ancient-limestone-albedo.png",
+          "deformedVertices": 11676,
+          "removedTriangles": 0,
+          "motionEdits": [
+            "Idle:earth_15_chest",
+            "Walk:earth_15_chest",
+            "Run:earth_15_chest",
+            "Attack:earth_15_chest",
+            "Hit:earth_15_chest",
+            "HitLeft:earth_15_chest",
+            "HitRight:earth_15_chest",
+            "Death:earth_15_chest"
+          ],
+          "measurement": {
+            "size": {
+              "x": 2.677345610912231,
+              "y": 2.0824757718293863,
+              "z": 1.6123333365642423
+            },
+            "base": {
+              "x": -1.3659291891109147,
+              "y": 0.003,
+              "z": -1.0815594180241348
+            },
+            "animatedMin": [
+              -2.309650372299177,
+              0.002999999999999999,
+              -2.518279114340177
+            ],
+            "animatedMax": [
+              2.3250677667595054,
+              2.151918382676535,
+              1.3166628121994992
+            ],
+            "clips": {
+              "Idle": {
+                "duration": 9.65999984741211,
+                "samples": 1161,
+                "min": [
+                  -1.3659291891109147,
+                  0.003,
+                  -1.0815982055768805
+                ],
+                "max": [
+                  1.3165950619414113,
+                  2.0993763740189872,
+                  0.5384184013334561
+                ],
+                "floorCorrection": {
+                  "maxLift": 4.828510927774171e-7,
+                  "maxDrop": -0.007231688199167355
+                }
+              },
+              "Walk": {
+                "duration": 1.399999976158142,
+                "samples": 169,
+                "min": [
+                  -1.3754408093518893,
+                  0.002999999999999999,
+                  -1.0765759248373838
+                ],
+                "max": [
+                  1.3244142572373483,
+                  2.146826248108869,
+                  0.6773933191224812
+                ],
+                "floorCorrection": {
+                  "maxLift": 0,
+                  "maxDrop": -0.06065224607428217
+                }
+              },
+              "Run": {
+                "duration": 0.9800000190734863,
+                "samples": 119,
+                "min": [
+                  -1.3754442034014545,
+                  0.002999999999999999,
+                  -1.073415240657066
+                ],
+                "max": [
+                  1.324447534105622,
+                  2.146792946959866,
+                  0.6770418504107719
+                ],
+                "floorCorrection": {
+                  "maxLift": 0,
+                  "maxDrop": -0.060261020014488756
+                }
+              },
+              "Attack": {
+                "duration": 0.699999988079071,
+                "samples": 85,
+                "min": [
+                  -1.386070376154781,
+                  0.002999999999999999,
+                  -1.0902341143150858
+                ],
+                "max": [
+                  1.5434481442357484,
+                  2.151918382676535,
+                  1.3166628121994992
+                ],
+                "floorCorrection": {
+                  "maxLift": 0,
+                  "maxDrop": -0.026410377234261137
+                }
+              },
+              "Hit": {
+                "duration": 0.41999998688697815,
+                "samples": 52,
+                "min": [
+                  -1.6401511430177127,
+                  0.003,
+                  -1.1752571709848103
+                ],
+                "max": [
+                  1.5797594989301627,
+                  2.0822795173223345,
+                  0.5316404676207682
+                ],
+                "floorCorrection": {
+                  "maxLift": 0,
+                  "maxDrop": -0.004419519927778106
+                }
+              },
+              "HitLeft": {
+                "duration": 0.41999998688697815,
+                "samples": 52,
+                "min": [
+                  -1.6401511430177127,
+                  0.003,
+                  -1.1752571709848103
+                ],
+                "max": [
+                  1.5797594989301627,
+                  2.0822795173223345,
+                  0.5316404676207682
+                ],
+                "floorCorrection": {
+                  "maxLift": 0,
+                  "maxDrop": -0.004419519927778106
+                }
+              },
+              "HitRight": {
+                "duration": 0.41999998688697815,
+                "samples": 52,
+                "min": [
+                  -1.6401511430177127,
+                  0.003,
+                  -1.1752571709848103
+                ],
+                "max": [
+                  1.5797594989301627,
+                  2.0822795173223345,
+                  0.5316404676207682
+                ],
+                "floorCorrection": {
+                  "maxLift": 0,
+                  "maxDrop": -0.004419519927778106
+                }
+              },
+              "Death": {
+                "duration": 0.9800000190734863,
+                "samples": 119,
+                "min": [
+                  -2.309650372299177,
+                  0.002999999999999999,
+                  -2.518279114340177
+                ],
+                "max": [
+                  2.3250677667595054,
+                  2.0749854048597562,
+                  0.5307039000459306
+                ],
+                "floorCorrection": {
+                  "maxLift": 0.19204839811670127,
+                  "maxDrop": -0.39000154831860506
+                }
+              }
+            },
+            "attackContact": 0.3095238147949687,
+            "attackContactSource": "Maximum forward reach of earth_35_hand_R, sampled at 120 Hz",
+            "grounding": "Actual deformed geometry per clip at 120 Hz; wrapper correction preserves native skeletal contacts"
+          },
+          "sourceLicense": "CC-BY-3.0"
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      },
+      "impliedWalkMps": 1.9306958476453484,
+      "impliedRunMps": 2.7581364455772777,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_chalk_warden",
+      "file": "models/creature/creature_chalk_warden.glb",
+      "pack": "corealm-rpg-earth-elemental-golem",
+      "category": "character",
+      "is": "chalk warden",
+      "tags": [
+        "creature",
+        "rpg",
+        "shale_elemental"
+      ],
+      "bytes": 10146604,
+      "sha256": "7449a44168b62ef14233c1378649d76d9399584c2957bda4e1a8ee3bdcc3888b",
+      "size": {
+        "x": 3.2231913493660094,
+        "y": 2.091,
+        "z": 1.4477344395570846
+      },
+      "base": {
+        "x": -1.6162098249626817,
+        "y": 0.0024600000445276792,
+        "z": -0.8992859925951152
+      },
+      "groundY": 0,
+      "triangles": 3892,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_chalk_warden_earth_elemental_original_rock"
+      ],
+      "walkClipSeconds": 1.4500000476837158,
+      "runClipSeconds": 1.0149999856948853,
+      "attackSeconds": 0.7250000238418579,
+      "contactNormalized": 0.45,
+      "sourceProvenance": {
+        "url": "https://opengameart.org/content/earth-elemental-golem",
+        "author": "piacenti",
+        "license": "CC-BY-3.0",
+        "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
+        "sourceFiles": [
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
+            "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
+            "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
+            "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
+            "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
+          }
+        ],
+        "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
+        "weightReduction": {
+          "sourceMaximum": 8,
+          "runtimeMaximum": 4,
+          "maxDiscardedFraction": 0.20108696798913034,
+          "affectedControlVertices": 413,
+          "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+          "refitVertices": 413,
+          "measuredError": {
+            "maxMeters": 0.022353774179003694,
+            "rmsMeters": 0.0009368683786992584,
+            "samples": 3082464
+          }
+        }
+      },
+      "metadata": {
+        "floorCorrection": {
+          "Idle": {
+            "samples": 777,
+            "maximumLift": 0.0030224450555079796
+          },
+          "Walk": {
+            "samples": 113,
+            "maximumLift": 0.012560350374048214
+          },
+          "Run": {
+            "samples": 91,
+            "maximumLift": 0.012556478415976749
+          },
+          "Attack": {
+            "samples": 58,
+            "maximumLift": 0.0027840663714199182
+          },
+          "Hit": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "HitLeft": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "HitRight": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "Death": {
+            "samples": 80,
+            "maximumLift": 0.06635493789459146
+          }
+        },
+        "family": "golem",
+        "height": 2.55,
+        "source": "Earth Elemental / Golem by piacenti, original first body",
+        "license": "CC-BY-3.0",
+        "rig": "original-earth-elemental-63-joint",
+        "provenance": {
+          "url": "https://opengameart.org/content/earth-elemental-golem",
+          "author": "piacenti",
+          "license": "CC-BY-3.0",
+          "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
+          "sourceFiles": [
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
+              "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
+              "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
+              "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
+              "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
+            }
+          ],
+          "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
+          "weightReduction": {
+            "sourceMaximum": 8,
+            "runtimeMaximum": 4,
+            "maxDiscardedFraction": 0.20108696798913034,
+            "affectedControlVertices": 413,
+            "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+            "refitVertices": 413,
+            "measuredError": {
+              "maxMeters": 0.022353774179003694,
+              "rmsMeters": 0.0009368683786992584,
+              "samples": 3082464
+            }
+          }
+        },
+        "textureBindings": [
+          {
+            "materialName": "earth_elemental_original_rock",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-color-gltf.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-normal-gltf.png",
+            "flipY": false
+          }
+        ],
+        "clipProvenance": [
+          {
+            "name": "Idle",
+            "source": "idle",
+            "take": "Default Take",
+            "firstFrame": 1,
+            "lastFrame": 208,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Walk",
+            "source": "walking",
+            "take": "Default Take",
+            "firstFrame": 337,
+            "lastFrame": 367,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Run",
+            "source": "walking",
+            "take": "Default Take",
+            "firstFrame": 337,
+            "lastFrame": 367,
+            "fps": 24,
+            "derivation": "Source walking at 1/0.7 speed; no native run take"
+          },
+          {
+            "name": "Attack",
+            "source": "right punch",
+            "take": "Default Take",
+            "firstFrame": 380,
+            "lastFrame": 395,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Hit",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "HitLeft",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Alias of native take hit; no native directional hit takes"
+          },
+          {
+            "name": "HitRight",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Alias of native take hit; no native directional hit takes"
+          },
+          {
+            "name": "Death",
+            "source": "death",
+            "take": "Default Take",
+            "firstFrame": 419,
+            "lastFrame": 440,
+            "fps": 24,
+            "derivation": "Original source take"
+          }
+        ],
+        "sourceAnimationCount": 10,
+        "attackContact": 0.45,
+        "animationAcceptance": "candidate-needs-browser-review",
+        "textureOrientation": "Original FBX UVs preserved; source base-color and normal image rows flipped once for glTF sampling",
+        "revision": "earth-elemental-source-1",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-geometry-estimate",
+          "source": "tools/rpg-bestiary/replacement-inventory/complete-source-gaits.json",
+          "visualContactAccepted": false,
+          "contactReview": "Moderate stride estimate. Left/right stance medians differ 18.37%; pooled median favors the longer right stance. Whole model rises to 40.93 mm above y=0 during gait. Speed matching cannot remove this vertical separation or every local slip."
+        },
+        "redesign": {
+          "sourceAssetId": "creature_shale_elemental",
+          "sourceSha256": "9cb99043a70d4fcad789a865b94c3be69673904c190aa96ed8dca8585ab2aa09",
+          "axes": [
+            1.16,
+            0.82,
+            1.13
+          ],
+          "clipTimeMultiplier": 1.16,
+          "removedLeafCanopy": false,
+          "albedo": "art\\creature-redesign\\chalk-warden-albedo.png",
+          "generator": "tools/build-creature-redesign.mjs",
+          "labEvidence": "tools/creature-redesign-lab-test.ts"
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      },
+      "impliedWalkMps": 2.444611801724138,
+      "impliedRunMps": 3.4923020172413786,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_shale_elemental",
+      "file": "models/creature/creature_shale_elemental.glb",
+      "pack": "corealm-rpg-earth-elemental-golem",
+      "category": "character",
+      "is": "shale elemental",
+      "tags": [
+        "creature",
+        "rpg",
+        "shale_elemental"
+      ],
+      "bytes": 1822876,
+      "sha256": "9cb99043a70d4fcad789a865b94c3be69673904c190aa96ed8dca8585ab2aa09",
+      "size": {
+        "x": 2.778613232212077,
+        "y": 2.5500000000000003,
+        "z": 1.2811809199620219
+      },
+      "base": {
+        "x": -1.3932843318643808,
+        "y": 0.003000000054302048,
+        "z": -0.7958283120310755
+      },
+      "groundY": 0,
+      "triangles": 3892,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_shale_elemental_earth_elemental_original_rock"
+      ],
+      "walkClipSeconds": 1.25,
+      "runClipSeconds": 0.875,
+      "attackSeconds": 0.6249999999999982,
+      "contactNormalized": 0.45,
+      "sourceProvenance": {
+        "url": "https://opengameart.org/content/earth-elemental-golem",
+        "author": "piacenti",
+        "license": "CC-BY-3.0",
+        "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
+        "sourceFiles": [
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
+            "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
+            "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
+            "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
+          },
+          {
+            "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
+            "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
+          }
+        ],
+        "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
+        "weightReduction": {
+          "sourceMaximum": 8,
+          "runtimeMaximum": 4,
+          "maxDiscardedFraction": 0.20108696798913034,
+          "affectedControlVertices": 413,
+          "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+          "refitVertices": 413,
+          "measuredError": {
+            "maxMeters": 0.022353774179003694,
+            "rmsMeters": 0.0009368683786992584,
+            "samples": 3082464
+          }
+        }
+      },
+      "metadata": {
+        "floorCorrection": {
+          "Idle": {
+            "samples": 777,
+            "maximumLift": 0.0030224450555079796
+          },
+          "Walk": {
+            "samples": 113,
+            "maximumLift": 0.012560350374048214
+          },
+          "Run": {
+            "samples": 91,
+            "maximumLift": 0.012556478415976749
+          },
+          "Attack": {
+            "samples": 58,
+            "maximumLift": 0.0027840663714199182
+          },
+          "Hit": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "HitLeft": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "HitRight": {
+            "samples": 35,
+            "maximumLift": 0.0076957327304453685
+          },
+          "Death": {
+            "samples": 80,
+            "maximumLift": 0.06635493789459146
+          }
+        },
+        "family": "golem",
+        "height": 2.55,
+        "source": "Earth Elemental / Golem by piacenti, original first body",
+        "license": "CC-BY-3.0",
+        "rig": "original-earth-elemental-63-joint",
+        "provenance": {
+          "url": "https://opengameart.org/content/earth-elemental-golem",
+          "author": "piacenti",
+          "license": "CC-BY-3.0",
+          "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained.",
+          "sourceFiles": [
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx",
+              "sha256": "2622700bfae7419e854de93dea56e8894101685a69ebbb6aafd66ca1cdd204cc"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/earth elemental.fbx.meta",
+              "sha256": "9d7eb7f62e81d746b84ae2ad581db59bddd7cce705010a1006bd4be252af9102"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly text.png",
+              "sha256": "66a91a1741d235cda8801444e9cd265e9009dfbd12ae5b1aed62576518978b6d"
+            },
+            {
+              "file": "test-results/richer-creatures-source-cache/earth-elemental/earth elemental 1.1/textures/low poly normal.png",
+              "sha256": "d5dc3b9565d2649add84866bfa042e9ee5f98ea7c0eb452fc0e7dbc4f15c5861"
+            }
+          ],
+          "conversion": "ufbx 0.0.5 isolated Windows Python wheel; FBX6100 ASCII; source UVs/normals and 63 native joints preserved",
+          "weightReduction": {
+            "sourceMaximum": 8,
+            "runtimeMaximum": 4,
+            "maxDiscardedFraction": 0.20108696798913034,
+            "affectedControlVertices": 413,
+            "method": "Select four of native influences and nonnegative refit across 85 poses of five native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+            "refitVertices": 413,
+            "measuredError": {
+              "maxMeters": 0.022353774179003694,
+              "rmsMeters": 0.0009368683786992584,
+              "samples": 3082464
+            }
+          }
+        },
+        "textureBindings": [
+          {
+            "materialName": "earth_elemental_original_rock",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-color-gltf.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\earth-elemental-source\\derived\\source-normal-gltf.png",
+            "flipY": false
+          }
+        ],
+        "clipProvenance": [
+          {
+            "name": "Idle",
+            "source": "idle",
+            "take": "Default Take",
+            "firstFrame": 1,
+            "lastFrame": 208,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Walk",
+            "source": "walking",
+            "take": "Default Take",
+            "firstFrame": 337,
+            "lastFrame": 367,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Run",
+            "source": "walking",
+            "take": "Default Take",
+            "firstFrame": 337,
+            "lastFrame": 367,
+            "fps": 24,
+            "derivation": "Source walking at 1/0.7 speed; no native run take"
+          },
+          {
+            "name": "Attack",
+            "source": "right punch",
+            "take": "Default Take",
+            "firstFrame": 380,
+            "lastFrame": 395,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "Hit",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Original source take"
+          },
+          {
+            "name": "HitLeft",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Alias of native take hit; no native directional hit takes"
+          },
+          {
+            "name": "HitRight",
+            "source": "take hit",
+            "take": "Default Take",
+            "firstFrame": 410,
+            "lastFrame": 419,
+            "fps": 24,
+            "derivation": "Alias of native take hit; no native directional hit takes"
+          },
+          {
+            "name": "Death",
+            "source": "death",
+            "take": "Default Take",
+            "firstFrame": 419,
+            "lastFrame": 440,
+            "fps": 24,
+            "derivation": "Original source take"
+          }
+        ],
+        "sourceAnimationCount": 10,
+        "attackContact": 0.45,
+        "animationAcceptance": "candidate-needs-browser-review",
+        "textureOrientation": "Original FBX UVs preserved; source base-color and normal image rows flipped once for glTF sampling",
+        "revision": "earth-elemental-source-1",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-geometry-estimate",
+          "source": "tools/rpg-bestiary/replacement-inventory/complete-source-gaits.json",
+          "visualContactAccepted": false,
+          "contactReview": "Moderate stride estimate. Left/right stance medians differ 18.37%; pooled median favors the longer right stance. Whole model rises to 40.93 mm above y=0 during gait. Speed matching cannot remove this vertical separation or every local slip."
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 2.509513,
+      "impliedRunMps": 3.585018,
+      "locomotionPolicy": "speed-matched"
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-rpg-earth-elemental-golem",
+      "name": "Earth Elemental / Golem",
+      "author": "piacenti",
+      "source": "https://opengameart.org/content/earth-elemental-golem",
+      "license": "CC-BY-3.0",
+      "sourceArchive": "earth elemental 1.1.zip",
+      "archiveSha256": "a3f76b3961cdf18073b5d2337450c5e9753722f71d9b6e811e42458023a491c8",
+      "upstreamPackId": "earth-elemental-golem",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
+      "derivativeLicense": "CC-BY-3.0",
+      "attribution": "Earth Elemental / Golem by piacenti. Source: https://opengameart.org/content/earth-elemental-golem. Converted and adapted for Corealm with the complete source body and rig retained; scale, grounded pivot and runtime animation bindings adapted. The adapted asset is distributed under CC BY 3.0.",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+    }
+  ]
+}

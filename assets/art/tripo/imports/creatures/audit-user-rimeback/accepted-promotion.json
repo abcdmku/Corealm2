@@ -1,0 +1,106 @@
+{
+  "schema": "corealm-root-accepted-candidates/1",
+  "assets": [
+    {
+      "id": "creature_rimeback_tortoise",
+      "file": "models/creature/creature_rimeback_tortoise.glb",
+      "pack": "corealm-audit-user-rimeback",
+      "category": "character",
+      "is": "rimeback tortoise",
+      "tags": [
+        "creature",
+        "tortoise",
+        "rimeback",
+        "frost",
+        "user-supplied"
+      ],
+      "bytes": 5334096,
+      "size": {
+        "x": 1.67578125,
+        "y": 1.4882731437683105,
+        "z": 1.99609375
+      },
+      "base": {
+        "x": -0.837890625,
+        "y": 0,
+        "z": -0.998046875
+      },
+      "groundY": 0,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "walkClipSeconds": 1.55,
+      "runClipSeconds": 0.96,
+      "attackSeconds": 1.25,
+      "attackContactNormalized": 0.5,
+      "sha256": "9da985f7462a7fd6b911346715516f65cf17f0e219751edde72adfcebfa161ef",
+      "materials": [
+        "tripo_mat_62b61e34-16ab-454d-bc71-4e45e52922b1"
+      ],
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rimeback/rimeback-tortoise-candidate.glb",
+      "acceptance": {
+        "exported": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "assetAudit": true
+      },
+      "sourceProvenance": {
+        "file": "assets/art/tripo/imports/creatures/audit-user-rimeback/source-stone-turtle.glb",
+        "originalDownload": "C:/Users/Borg/Downloads/stone+turtle+3d+model.glb",
+        "sha256": "d12e23499f6e46a06768f6e6bca5913289b617e46105063f9298b0544081690e",
+        "bytes": 5215244,
+        "license": "User supplied; license to be confirmed by project owner",
+        "vertices": 3418,
+        "triangles": 5018,
+        "originalGeometryHashes": {
+          "position": "5a02dbe2fc5cc1e142f3a594c954acfdaf6c1a21f72273c82bb79837d9f40443",
+          "normal": "5837d1e25842b54cb76f3a6ac947668a009a932c1babb07a31b078c21f62fa7c",
+          "uv": "2733a12a4befadc023c64a9d4842414f3d54cd17a7b3faad9ad913c35bc8dd71",
+          "indices": "804b77b25c47cb27d3c14c455f53968b9bda098d3a0fc9dbc9b10ddf8dbb46dd"
+        },
+        "sourceTextures": [
+          {
+            "name": "tripo_image_62b61e34-16ab-454d-bc71-4e45e52922b1_2",
+            "mimeType": "image/jpeg",
+            "bytes": 401069,
+            "sha256": "d154fbace688447804607342f8593a029554a0c2dda0898dcad20d7f488db418"
+          },
+          {
+            "name": "tripo_image_62b61e34-16ab-454d-bc71-4e45e52922b1_0",
+            "mimeType": "image/jpeg",
+            "bytes": 697092,
+            "sha256": "7cc21144082ce48654df316b8254f15617077b6548b778c2b0397b0e8e31529c"
+          },
+          {
+            "name": "tripo_image_62b61e34-16ab-454d-bc71-4e45e52922b1_1",
+            "mimeType": "image/png",
+            "bytes": 3975719,
+            "sha256": "21d25e6c303b06be310a3546dc8f335ad5341ba9dc730b1b5d6868175bd78cf6"
+          }
+        ]
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-audit-user-rimeback",
+      "name": "Rimeback tortoise replacement",
+      "author": "Corealm",
+      "source": "assets/art/tripo/imports/creatures/audit-user-rimeback/build-candidate.mjs",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "f084298695f3ee296cf9621faffe24e7d4c7984d9f08a54e3230e2694c2d6c93"
+    }
+  ]
+}

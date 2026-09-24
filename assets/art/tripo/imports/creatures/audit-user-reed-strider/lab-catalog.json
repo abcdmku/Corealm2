@@ -1,0 +1,66 @@
+{
+  "schema": "corealm-lab-asset-candidates/1",
+  "assets": [
+    {
+      "id": "creature_reed_strider",
+      "file": "models/creature/creature_reed_strider.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "Reed Strider",
+      "tags": [
+        "creature",
+        "insect",
+        "strider",
+        "reed",
+        "skinned",
+        "articulated"
+      ],
+      "bytes": 4805948,
+      "sha256": "eb532eae9f6a04f8a549c3048021ad08d2cb65f2199d2751ef6daf3d15eaca26",
+      "size": {
+        "x": 0.5449216365814209,
+        "y": 0.8847652673721313,
+        "z": 0.998046875
+      },
+      "base": {
+        "x": -0.27246081829071045,
+        "y": 0,
+        "z": -0.4990234375
+      },
+      "bounds": {
+        "min": [
+          -0.27246081829071045,
+          0,
+          -0.4990234375
+        ],
+        "max": [
+          0.27246081829071045,
+          0.8847652673721313,
+          0.4990234375
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4874,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_347c31d7-f1eb-41b1-ad74-0d237e1434c0"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.95,
+      "contactNormalized": 0.53,
+      "sourceProvenance": {
+        "author": "User-supplied Tripo model; Corealm candidate rig",
+        "source": "stylized+spider+3d+model.glb",
+        "sourceSha256": "131f6e7d859aef558e55506e5e184bb229e5b7b010a57c58e81a5a89f62b6d54"
+      }
+    }
+  ]
+}

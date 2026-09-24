@@ -1,0 +1,145 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "sourceRoot": ".",
+  "destinationRoot": "game/public/assets",
+  "pack": {
+    "id": "corealm-user-scree-bustard",
+    "name": "Corealm User Scree Bustard",
+    "author": "User / Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-bustard/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "a6e018bd513ee1d972861f8ffaaa0a423959e614efe53f5ed558669793cb4987"
+  },
+  "assets": [
+    {
+      "id": "creature_scree_bustard",
+      "file": "models/creature/creature_scree_bustard.glb",
+      "pack": "corealm-user-scree-bustard",
+      "category": "character",
+      "is": "Scree Bustard",
+      "tags": [
+        "creature",
+        "ground",
+        "bird",
+        "field",
+        "scree-bustard",
+        "skinned",
+        "articulated",
+        "plumage"
+      ],
+      "bytes": 5873328,
+      "sha256": "6c55018db7a34a46e06dc60cb5c7192ba69433cb8ae8564f40dc3722be2f1dd0",
+      "size": {
+        "x": 0.533203125,
+        "y": 0.970703125,
+        "z": 0.9980469942092896
+      },
+      "base": {
+        "x": -0.2666015625,
+        "y": 0,
+        "z": -0.4990234971046448
+      },
+      "bounds": {
+        "min": [
+          -0.2666015625,
+          0,
+          -0.4990234971046448
+        ],
+        "max": [
+          0.2666015625,
+          0.970703125,
+          0.4990234971046448
+        ]
+      },
+      "groundY": 0,
+      "triangles": 4970,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_f8e84b2a-e505-4812-9d8d-a2f710303664"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm candidate rig reconstruction",
+        "source": "User-supplied Tripo static groundbird; original geometry, UVs and native 2K PBR map bytes preserved.",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-bustard/sources/prehistoric-bird-user-original.glb",
+        "sourceSha256": "650ea86923fe61bb6ec9a37d3a07ec8614cf2b17f8208d06ec40e6e95db62708",
+        "rigMethod": "22-joint authored non-humanoid groundbird skeleton with model-specific normalized weights and six authored clips.",
+        "candidateFile": "creature_scree_bustard.glb",
+        "candidateSha256": "6c55018db7a34a46e06dc60cb5c7192ba69433cb8ae8564f40dc3722be2f1dd0",
+        "sourceBytes": 5600236,
+        "sourceTextureSha256": {
+          "tripo_image_f8e84b2a-e505-4812-9d8d-a2f710303664_2": "bfb2b96762005c0e8d4528efdad3eb6cace27d724cf1a5a4b22795079d4b51fe",
+          "tripo_image_f8e84b2a-e505-4812-9d8d-a2f710303664_0": "52c787a895eb7d2aa15a1789c977b079f4fa257dd5b13f8931fd9c74bac2062b",
+          "tripo_image_f8e84b2a-e505-4812-9d8d-a2f710303664_1": "52d53e609a485af995f1f7987859bba569a32a9661a4f7544a28e37764a27bdb"
+        }
+      },
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 0.82,
+      "contactNormalized": 0.46,
+      "metadata": {
+        "is": "Scree Bustard",
+        "tags": [
+          "creature",
+          "ground",
+          "bird",
+          "field",
+          "scree-bustard",
+          "skinned",
+          "articulated",
+          "plumage"
+        ],
+        "provenance": {
+          "sourceSha256": "650ea86923fe61bb6ec9a37d3a07ec8614cf2b17f8208d06ec40e6e95db62708",
+          "candidateSha256": "6c55018db7a34a46e06dc60cb5c7192ba69433cb8ae8564f40dc3722be2f1dd0"
+        },
+        "walkClipSeconds": 1.1,
+        "runClipSeconds": 0.72,
+        "attackSeconds": 0.82,
+        "contactNormalized": 0.46,
+        "notes": "Stocky Scree groundbird. Uses a named 22-joint non-humanoid rig, layered 2K base color and PBR maps, and six authored clips. Candidate visuals and gameplay remain unaccepted.",
+        "boneNames": [
+          "BustardRoot",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Beak",
+          "Wing_L",
+          "WingTip_L",
+          "Wing_R",
+          "WingTip_R",
+          "Tail",
+          "Thigh_L",
+          "Hock_L",
+          "Foot_L",
+          "Toe_L",
+          "RearToe_L",
+          "Thigh_R",
+          "Hock_R",
+          "Foot_R",
+          "Toe_R",
+          "RearToe_R"
+        ]
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-bustard/creature_scree_bustard.glb",
+      "vertices": 7513,
+      "measuredGait": null
+    }
+  ]
+}

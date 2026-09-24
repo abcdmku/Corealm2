@@ -1,0 +1,148 @@
+{
+  "schema": "corealm-creature-promotion/1",
+  "sourceRoot": ".",
+  "destinationRoot": "game/public/assets",
+  "pack": {
+    "id": "corealm-user-creek-crab",
+    "name": "Corealm User Creek Crab",
+    "author": "User / Corealm",
+    "source": "assets/art/tripo/imports/creatures/audit-user-crab/build-candidate.mjs",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "550ab59f7853894e782c1361b6842a67dfebeaa63a859f37c0c820c8b37f82ad"
+  },
+  "assets": [
+    {
+      "id": "animal_crab",
+      "file": "models/animal/animal_crab.glb",
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-user-crab/animal_crab-candidate.glb",
+      "pack": "corealm-user-creek-crab",
+      "category": "character",
+      "is": "Creek Crab",
+      "tags": [
+        "animal",
+        "creature",
+        "crab",
+        "creek",
+        "user-supplied"
+      ],
+      "bytes": 6386548,
+      "sha256": "e556441ffc1f01c44f67da56a5de6dd5ebbfad8d284334a52d2d0bd5290836e8",
+      "size": {
+        "x": 0.3143847468495369,
+        "y": 0.29961915940046313,
+        "z": 0.2417871469259262
+      },
+      "base": {
+        "x": -0.15719237342476844,
+        "y": 0,
+        "z": -0.1208935734629631
+      },
+      "bounds": {
+        "min": [
+          -0.15719237342476844,
+          0,
+          -0.1208935734629631
+        ],
+        "max": [
+          0.15719237342476844,
+          0.29961915940046313,
+          0.1208935734629631
+        ]
+      },
+      "groundY": 0,
+      "vertices": 3784,
+      "triangles": 5074,
+      "joints": [
+        "CrabRoot",
+        "Carapace",
+        "Claw_L",
+        "Pincer_L",
+        "Leg_L_1",
+        "Leg_L_2",
+        "Leg_L_3",
+        "Leg_L_4",
+        "Claw_R",
+        "Pincer_R",
+        "Leg_R_1",
+        "Leg_R_2",
+        "Leg_R_3",
+        "Leg_R_4"
+      ],
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "tripo_mat_d907274b-cfef-4368-a703-024a793505f7"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.62,
+      "attackSeconds": 0.9,
+      "contactNormalized": 0.4666666666666666,
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "locomotionPolicy": "definition-speed; in-place sideways scuttle",
+      "metadata": {
+        "walkClipSeconds": 1,
+        "runClipSeconds": 0.62,
+        "attackSeconds": 0.9,
+        "contactSeconds": 0.42,
+        "contactNormalized": 0.4666666666666666,
+        "contactBasis": "Paired claws and distal pincers close at 0.42 seconds.",
+        "nativeScale": 0.315,
+        "renderedIdleHeightMeters": 0.29961915940046313,
+        "gaitCalibration": "uncalibrated; no world-space stride inferred"
+      },
+      "sourceProvenance": {
+        "author": "User-supplied Tripo crab; Corealm native rig animation",
+        "sourceFile": "assets/art/tripo/imports/creatures/audit-user-crab/sources/crab+3d+model.glb",
+        "sourceSha256": "4a9c381f600c428f8ed14364f8ad8b3702caa2129b833e50ae3a3f3c32026f33",
+        "sourceBytes": 6269100,
+        "candidateFile": "assets/art/tripo/imports/creatures/audit-user-crab/animal_crab-candidate.glb",
+        "candidateSha256": "e556441ffc1f01c44f67da56a5de6dd5ebbfad8d284334a52d2d0bd5290836e8",
+        "rigMethod": "Added 14-joint geometry-aware skin; original source had no rig or clips.",
+        "geometryPreserved": true,
+        "pbrTexturesPreserved": true,
+        "textures": [
+          {
+            "name": "tripo_image_d907274b-cfef-4368-a703-024a793505f7_2",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 667641,
+            "sha256": "4013ff3943c757216dd604c6a9fff0aba97c9161b08a1cdd3c6bb2811d051f75"
+          },
+          {
+            "name": "tripo_image_d907274b-cfef-4368-a703-024a793505f7_0",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 1133929,
+            "sha256": "dac8dffb0ae003615e0120b659caab1e0a8424634d36413c302a93f2e55f0387"
+          },
+          {
+            "name": "tripo_image_d907274b-cfef-4368-a703-024a793505f7_1",
+            "width": 2048,
+            "height": 2048,
+            "bytes": 4314089,
+            "sha256": "0eb37ec314570fb74886e8f8600d5f4f2814b8064ce92ea19c02762247891dd3"
+          }
+        ],
+        "cpuMotionAudit": "assets/art/tripo/imports/creatures/audit-user-crab/motion-audit.json",
+        "cpuMotionSamplesPerClip": 193,
+        "maximumPenetrationMeters": 0.00163,
+        "deathFinalHeightMeters": 0.29982
+      },
+      "acceptance": {
+        "assetAudit": false,
+        "rigAccepted": false,
+        "motionAccepted": false,
+        "texturesAccepted": false,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

@@ -11,7 +11,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "animal_chicken": { seconds: 0.7, contactNormalized: 0.43 },
   "animal_chicken_speckled": { seconds: 0.7, contactNormalized: 0.43 },
   "animal_coyote": { seconds: 1.4, contactNormalized: 0.525 },
-  "animal_crab": { seconds: 0.88, contactNormalized: 0.43 },
+  "animal_crab": { seconds: 0.9, contactNormalized: 0.4666666666666666 },
   "animal_deer": { seconds: 1.08, contactNormalized: 0.43 },
   "animal_frog": { seconds: 0.68, contactNormalized: 0.43 },
   "animal_frog_green": { seconds: 0.68, contactNormalized: 0.43 },
@@ -43,7 +43,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "creature_ashscale_monitor": { seconds: 1.1, contactNormalized: 0.48 },
   "creature_reedbank_goose": { seconds: 1.14, contactNormalized: 0.46 },
   "creature_blackwater_heron": { seconds: 1.05, contactNormalized: 0.455 },
-  "creature_scree_bustard": { seconds: 0.8, contactNormalized: 0.455 },
+  "creature_scree_bustard": { seconds: 0.82, contactNormalized: 0.46 },
   "creature_marchfield_turkey": { seconds: 0.78, contactNormalized: 0.455 },
   "creature_quarry_snail": { seconds: 1.5, contactNormalized: 0.48 },
   "creature_antler_beetle": { seconds: 1.1, contactNormalized: 0.5 },
@@ -87,7 +87,6 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "animal_chicken": 1.7626,
   "animal_chicken_speckled": 1.7626,
   "animal_coyote": 7.3224,
-  "animal_crab": 0.3957,
   "animal_deer": 6.5502,
   "animal_frog": 0.69,
   "animal_frog_green": 0.69,
@@ -127,8 +126,6 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_reedbank_goose": 0.6933,
   "creature_reedjaw_crocodile": 2.9833,
   // creature_revenant: no measured stride
-  "creature_scree_bustard": 2.184,
-  "creature_shale_elemental": 9.4107,
   "creature_skeleton_archer": 5.1914,
   "creature_skeleton_mage": 5.1914,
   "creature_skeleton_soldier": 5.1914,
@@ -147,7 +144,6 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
 
 // Material variants retain their source animation samples and cadence limits.
 for (const [variant, source] of [
-  ["rimeback_tortoise", "slateback_tortoise"], ["cindercrest_salamander", "kiln_salamander"],
   ["amethyst_spider", "webweaver_spider"],
 ]) {
   const base = `creature_${source}`, id = `creature_${variant}`;
@@ -156,15 +152,12 @@ for (const [variant, source] of [
 }
 
 // Complete-body reshaping changes the stride length; retiming changes contact duration.
-CREATURE_PURSUIT_CEILING_MPS["creature_chalk_warden"] = 10.6341;
 CREATURE_PURSUIT_CEILING_MPS["creature_hollow_bough"] = 3.4299;
 
 // Accepted biome bodies: measured final weighted-sole run cadence.
 CREATURE_PURSUIT_CEILING_MPS["creature_briar_harrow"] = 3.8976;
 CREATURE_MOTION_TIMING["creature_fen_crawler"] = { seconds: 0.86, contactNormalized: 0.5 };
-CREATURE_PURSUIT_CEILING_MPS["creature_reed_strider"] = 3.3336;
 CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
-CREATURE_PURSUIT_CEILING_MPS["creature_cairn_treader"] = 8.1089;
 CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
 
 /**
@@ -369,3 +362,17 @@ CREATURE_MOTION_TIMING["creature_goblin_shaman"] = { seconds: 0.5, contactNormal
 CREATURE_MOTION_TIMING["creature_lava_golem"] = { seconds: 0.92, contactNormalized: 0.5 };
 CREATURE_MOTION_TIMING["fairy_garden_snail_gloamgarden"] = { seconds: 0.78, contactNormalized: 0.52 };
 CREATURE_MOTION_TIMING["fairy_garden_frog_faeholme"] = { seconds: 0.68, contactNormalized: 0.48 };
+
+CREATURE_MOTION_TIMING["creature_cindercrest_salamander"] = { seconds: 0.8799999952316284, contactNormalized: 0.41 };
+
+CREATURE_MOTION_TIMING["creature_reed_strider"] = { seconds: 0.95, contactNormalized: 0.53 };
+
+CREATURE_MOTION_TIMING["creature_cairn_treader"] = { seconds: 0.699999988079071, contactNormalized: 0.3095238147949687 };
+
+CREATURE_MOTION_TIMING["creature_chalk_warden"] = { seconds: 0.7250000238418579, contactNormalized: 0.45 };
+
+CREATURE_MOTION_TIMING["creature_shale_elemental"] = { seconds: 0.8399999737739563, contactNormalized: 0.58 };
+
+CREATURE_MOTION_TIMING["fairy_garden_snail_faeholme"] = { seconds: 1.5, contactNormalized: 0.48 };
+
+CREATURE_MOTION_TIMING["creature_rimeback_tortoise"] = { seconds: 1.25, contactNormalized: 0.5 };

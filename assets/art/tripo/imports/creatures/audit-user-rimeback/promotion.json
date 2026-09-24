@@ -1,0 +1,458 @@
+{
+  "schema": "corealm-creature-replacement-promotion/1",
+  "id": "creature_rimeback_tortoise",
+  "status": "awaiting-root-lab-review",
+  "accepted": false,
+  "candidateFile": "assets/art/tripo/imports/creatures/audit-user-rimeback/rimeback-tortoise-candidate.glb",
+  "sha256": "9da985f7462a7fd6b911346715516f65cf17f0e219751edde72adfcebfa161ef",
+  "bytes": 5334096,
+  "bounds": {
+    "min": [
+      -0.837890625,
+      0,
+      -0.998046875
+    ],
+    "max": [
+      0.837890625,
+      1.4882731437683105,
+      0.998046875
+    ]
+  },
+  "joints": [
+    {
+      "index": 0,
+      "name": "Root",
+      "parent": null,
+      "restPosition": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "index": 1,
+      "name": "Shell",
+      "parent": "Root",
+      "restPosition": [
+        0,
+        0.7,
+        -0.12
+      ]
+    },
+    {
+      "index": 2,
+      "name": "Neck",
+      "parent": "Shell",
+      "restPosition": [
+        0,
+        0.7,
+        0.48
+      ]
+    },
+    {
+      "index": 3,
+      "name": "Head",
+      "parent": "Neck",
+      "restPosition": [
+        0,
+        0.75,
+        0.79
+      ]
+    },
+    {
+      "index": 4,
+      "name": "Tail",
+      "parent": "Shell",
+      "restPosition": [
+        0,
+        0.4,
+        -0.71
+      ]
+    },
+    {
+      "index": 5,
+      "name": "ForeLUpper",
+      "parent": "Shell",
+      "restPosition": [
+        -0.51,
+        0.53,
+        0.33
+      ]
+    },
+    {
+      "index": 6,
+      "name": "ForeLLower",
+      "parent": "ForeLUpper",
+      "restPosition": [
+        -0.55,
+        0.25,
+        0.38
+      ]
+    },
+    {
+      "index": 7,
+      "name": "ForeLFoot",
+      "parent": "ForeLLower",
+      "restPosition": [
+        -0.56,
+        0.055,
+        0.43
+      ]
+    },
+    {
+      "index": 8,
+      "name": "ForeRUpper",
+      "parent": "Shell",
+      "restPosition": [
+        0.51,
+        0.53,
+        0.33
+      ]
+    },
+    {
+      "index": 9,
+      "name": "ForeRLower",
+      "parent": "ForeRUpper",
+      "restPosition": [
+        0.55,
+        0.25,
+        0.38
+      ]
+    },
+    {
+      "index": 10,
+      "name": "ForeRFoot",
+      "parent": "ForeRLower",
+      "restPosition": [
+        0.56,
+        0.055,
+        0.43
+      ]
+    },
+    {
+      "index": 11,
+      "name": "HindLUpper",
+      "parent": "Shell",
+      "restPosition": [
+        -0.51,
+        0.52,
+        -0.47
+      ]
+    },
+    {
+      "index": 12,
+      "name": "HindLLower",
+      "parent": "HindLUpper",
+      "restPosition": [
+        -0.55,
+        0.25,
+        -0.51
+      ]
+    },
+    {
+      "index": 13,
+      "name": "HindLFoot",
+      "parent": "HindLLower",
+      "restPosition": [
+        -0.56,
+        0.055,
+        -0.54
+      ]
+    },
+    {
+      "index": 14,
+      "name": "HindRUpper",
+      "parent": "Shell",
+      "restPosition": [
+        0.51,
+        0.52,
+        -0.47
+      ]
+    },
+    {
+      "index": 15,
+      "name": "HindRLower",
+      "parent": "HindRUpper",
+      "restPosition": [
+        0.55,
+        0.25,
+        -0.51
+      ]
+    },
+    {
+      "index": 16,
+      "name": "HindRFoot",
+      "parent": "HindRLower",
+      "restPosition": [
+        0.56,
+        0.055,
+        -0.54
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "name": "Idle",
+      "seconds": 2.799999952316284
+    },
+    {
+      "name": "Walk",
+      "seconds": 1.5499999523162842
+    },
+    {
+      "name": "Run",
+      "seconds": 0.9599999785423279
+    },
+    {
+      "name": "Attack",
+      "seconds": 1.25
+    },
+    {
+      "name": "Hit",
+      "seconds": 0.699999988079071
+    },
+    {
+      "name": "Death",
+      "seconds": 1.7999999523162842
+    }
+  ],
+  "timing": {
+    "walkClipSeconds": 1.55,
+    "runClipSeconds": 0.96,
+    "attackSeconds": 1.25,
+    "contactNormalized": 0.5,
+    "contactBasis": "Maximum neck thrust and forward lunge at 0.625 s."
+  },
+  "source": {
+    "file": "assets/art/tripo/imports/creatures/audit-user-rimeback/source-stone-turtle.glb",
+    "originalDownload": "C:/Users/Borg/Downloads/stone+turtle+3d+model.glb",
+    "sha256": "d12e23499f6e46a06768f6e6bca5913289b617e46105063f9298b0544081690e",
+    "bytes": 5215244,
+    "license": "User supplied; license to be confirmed by project owner",
+    "vertices": 3418,
+    "triangles": 5018,
+    "originalGeometryHashes": {
+      "position": "5a02dbe2fc5cc1e142f3a594c954acfdaf6c1a21f72273c82bb79837d9f40443",
+      "normal": "5837d1e25842b54cb76f3a6ac947668a009a932c1babb07a31b078c21f62fa7c",
+      "uv": "2733a12a4befadc023c64a9d4842414f3d54cd17a7b3faad9ad913c35bc8dd71",
+      "indices": "804b77b25c47cb27d3c14c455f53968b9bda098d3a0fc9dbc9b10ddf8dbb46dd"
+    },
+    "sourceTextures": [
+      {
+        "name": "tripo_image_62b61e34-16ab-454d-bc71-4e45e52922b1_2",
+        "mimeType": "image/jpeg",
+        "bytes": 401069,
+        "sha256": "d154fbace688447804607342f8593a029554a0c2dda0898dcad20d7f488db418"
+      },
+      {
+        "name": "tripo_image_62b61e34-16ab-454d-bc71-4e45e52922b1_0",
+        "mimeType": "image/jpeg",
+        "bytes": 697092,
+        "sha256": "7cc21144082ce48654df316b8254f15617077b6548b778c2b0397b0e8e31529c"
+      },
+      {
+        "name": "tripo_image_62b61e34-16ab-454d-bc71-4e45e52922b1_1",
+        "mimeType": "image/png",
+        "bytes": 3975719,
+        "sha256": "21d25e6c303b06be310a3546dc8f335ad5341ba9dc730b1b5d6868175bd78cf6"
+      }
+    ]
+  },
+  "builder": {
+    "file": "assets/art/tripo/imports/creatures/audit-user-rimeback/build-candidate.mjs",
+    "sha256": "f084298695f3ee296cf9621faffe24e7d4c7984d9f08a54e3230e2694c2d6c93"
+  },
+  "rig": {
+    "basis": "Y up, +Z muzzle; rigid shell with anatomical four-leg, neck, head and tail weights",
+    "vertexCount": 3418,
+    "multiInfluenceVertices": 2599,
+    "maxWeightSumError": 4.4703483803587574e-8,
+    "jointInfluenceCounts": [
+      0,
+      3276,
+      833,
+      591,
+      809,
+      368,
+      263,
+      162,
+      349,
+      278,
+      171,
+      438,
+      327,
+      133,
+      266,
+      209,
+      118
+    ]
+  },
+  "textureNote": "Original layered 2K albedo, normal and PBR maps retained exactly; no reskin.",
+  "motionCpu": {
+    "Idle": {
+      "seconds": 2.799999952316284,
+      "minY": 0.0029999989880891307,
+      "maxMinY": 0.0030000006352362803,
+      "final": {
+        "min": [
+          -0.8378906181546519,
+          0.003000000027068203,
+          -0.997569408935705
+        ],
+        "max": [
+          0.8378906181546519,
+          1.4912731489632278,
+          0.9979423214199035
+        ],
+        "size": [
+          1.6757812363093039,
+          1.4882731489361596,
+          1.9955117303556085
+        ]
+      },
+      "footZRange": [
+        0.4222205859730996,
+        0.43770021431975126
+      ]
+    },
+    "Walk": {
+      "seconds": 1.5499999523162842,
+      "minY": 0.0022990558451553727,
+      "maxMinY": 0.003000000027068203,
+      "final": {
+        "min": [
+          -0.8378906181546519,
+          0.003000000027068203,
+          -0.9980468882533133
+        ],
+        "max": [
+          0.8378906181546519,
+          1.4912731489632278,
+          0.9980468664135574
+        ],
+        "size": [
+          1.6757812363093039,
+          1.4882731489361596,
+          1.996093754666871
+        ]
+      },
+      "footZRange": [
+        0.3381065768795201,
+        0.5385424727992079
+      ]
+    },
+    "Run": {
+      "seconds": 0.9599999785423279,
+      "minY": 0.0015057958580226268,
+      "maxMinY": 0.003000000027068203,
+      "final": {
+        "min": [
+          -0.8378906181546519,
+          0.003000000027068203,
+          -0.9980468882533133
+        ],
+        "max": [
+          0.8378906181546519,
+          1.4912731489632278,
+          0.9980468664135574
+        ],
+        "size": [
+          1.6757812363093039,
+          1.4882731489361596,
+          1.996093754666871
+        ]
+      },
+      "footZRange": [
+        0.29220444556813646,
+        0.5896445657895685
+      ]
+    },
+    "Attack": {
+      "seconds": 1.25,
+      "minY": 0.0016098496503756613,
+      "maxMinY": 0.003000000027068203,
+      "final": {
+        "min": [
+          -0.8378906181546519,
+          0.003000000027068203,
+          -0.9980468882533133
+        ],
+        "max": [
+          0.8378906181546519,
+          1.4912731489632278,
+          0.9980468664135574
+        ],
+        "size": [
+          1.6757812363093039,
+          1.4882731489361596,
+          1.996093754666871
+        ]
+      },
+      "footZRange": [
+        0.381096720162352,
+        0.4768711245810945
+      ]
+    },
+    "Hit": {
+      "seconds": 0.699999988079071,
+      "minY": 0.0029962280431118983,
+      "maxMinY": 0.003067963939810945,
+      "final": {
+        "min": [
+          -0.8378906181546519,
+          0.003000000027068203,
+          -0.9980468882533133
+        ],
+        "max": [
+          0.8378906181546519,
+          1.4912731489632278,
+          0.9980468664135574
+        ],
+        "size": [
+          1.6757812363093039,
+          1.4882731489361596,
+          1.996093754666871
+        ]
+      },
+      "footZRange": [
+        0.41288110265909816,
+        0.4657752819885685
+      ]
+    },
+    "Death": {
+      "seconds": 1.7999999523162842,
+      "minY": 0.002955432008503675,
+      "maxMinY": 0.003000011300353413,
+      "final": {
+        "min": [
+          -1.0124461269132958,
+          0.003000000823600578,
+          -1.0173229406536475
+        ],
+        "max": [
+          0.6873240689615334,
+          1.7246121635507141,
+          0.9255974520117847
+        ],
+        "size": [
+          1.6997701958748292,
+          1.7216121627271135,
+          1.9429203926654321
+        ]
+      },
+      "footZRange": [
+        0.43,
+        0.6227964141805675
+      ]
+    }
+  },
+  "validation": {
+    "sourceTopologyAndUvsPreserved": true,
+    "sourcePbrPixelsPreserved": true,
+    "weightSumErrorMax": 4.4703483803587574e-8,
+    "groundedAllClips": true,
+    "fullSizeCorpse": true,
+    "deathShellTiltRadians": 1.0400000001951222,
+    "locomotionLegMotion": true
+  }
+}

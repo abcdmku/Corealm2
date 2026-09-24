@@ -1,0 +1,36 @@
+{
+  "schema": "corealm-creature-source-inspection/1",
+  "provisionalId": "creature_reed_strider",
+  "status": "user-confirmed-reed-strider",
+  "confirmedId": "creature_reed_strider",
+  "source": "sources/stylized-spider-user-original.glb",
+  "sourceSha256": "131f6e7d859aef558e55506e5e184bb229e5b7b010a57c58e81a5a89f62b6d54",
+  "sourceBytes": 4639204,
+  "vertices": 3316,
+  "triangles": 4874,
+  "bounds": {
+    "min": [-0.27246081829071045, 0, -0.4990234375],
+    "max": [0.27246081829071045, 0.8847652673721313, 0.4990234375]
+  },
+  "textures": {
+    "baseColor": "2048x2048 JPEG",
+    "normal": "2048x2048 JPEG",
+    "metallicRoughness": "2048x2048 PNG"
+  },
+  "skinCount": 0,
+  "clipCount": 0,
+  "anatomyAssessment": "Offline orthographic source views show an upright blade body with six prominent limbs: two raised grasping forelimbs, a lateral middle pair, and a planted lower pair, plus small mandibles. Although its silhouette prompted an earlier Gorge Mantis inference, the user explicitly confirmed this source for Reed Strider. The candidate retains the delivered anatomy intact.",
+  "diagnosticViews": [
+    "test-results/creature-audit/user-reed-strider/front-source.png",
+    "test-results/creature-audit/user-reed-strider/back-source.png",
+    "test-results/creature-audit/user-reed-strider/side-source.png"
+  ],
+  "acceptance": {
+    "geometryApprovedForReedStriderId": false,
+    "rigAccepted": false,
+    "motionAccepted": false,
+    "promotable": false,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

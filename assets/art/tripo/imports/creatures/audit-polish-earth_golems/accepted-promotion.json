@@ -1,0 +1,202 @@
+{
+  "schema": "corealm-root-accepted-candidates/1",
+  "assets": [
+    {
+      "id": "creature_cairn_treader",
+      "file": "models/creature/creature_cairn_treader.glb",
+      "pack": "corealm-rpg-earth-elemental-golem",
+      "category": "character",
+      "is": "creature cairn treader",
+      "tags": [
+        "creature",
+        "earth",
+        "polish",
+        "candidate"
+      ],
+      "bytes": 8964568,
+      "sha256": "d857bdb25e851ebd365aee1cc9210adbc4bb6ec0641027fffd0594d59bde4255",
+      "triangles": 3892,
+      "size": {
+        "x": 2.351505768481842,
+        "y": 1.7678020536703485,
+        "z": 1.435589219634839
+      },
+      "base": {
+        "x": -1.1757528568408946,
+        "y": 0.00006135116338566153,
+        "z": -0.9933036580499739
+      },
+      "groundY": 0.00006135116338566153,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_cairn_treader_earth_elemental_original_rock"
+      ],
+      "walkClipSeconds": 1.399999976158142,
+      "runClipSeconds": 0.9800000190734863,
+      "attackSeconds": 0.699999988079071,
+      "contactNormalized": 0.3095238147949687,
+      "candidateReview": {
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/models/creature_cairn_treader.glb",
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      }
+    },
+    {
+      "id": "creature_chalk_warden",
+      "file": "models/creature/creature_chalk_warden.glb",
+      "pack": "corealm-rpg-earth-elemental-golem",
+      "category": "character",
+      "is": "creature chalk warden",
+      "tags": [
+        "creature",
+        "earth",
+        "polish",
+        "candidate"
+      ],
+      "bytes": 8630988,
+      "sha256": "3936fbf2a64ea59ae9979c786b1eb11cc72825f1bd9f8910b21f1e2d9061321d",
+      "triangles": 3892,
+      "size": {
+        "x": 1.4586881156245521,
+        "y": 1.9120978385288885,
+        "z": 1.15832543868017
+      },
+      "base": {
+        "x": -0.7293440598320532,
+        "y": 0.00005084625816621065,
+        "z": -0.8507835632729244
+      },
+      "groundY": 0.00005084625816621065,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_chalk_warden_earth_elemental_original_rock"
+      ],
+      "walkClipSeconds": 1.4500000476837158,
+      "runClipSeconds": 1.0149999856948853,
+      "attackSeconds": 0.7250000238418579,
+      "contactNormalized": 0.45,
+      "candidateReview": {
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/models/creature_chalk_warden.glb",
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      }
+    },
+    {
+      "id": "creature_shale_elemental",
+      "file": "models/creature/creature_shale_elemental.glb",
+      "pack": "corealm-rpg-earth-elemental-golem",
+      "category": "character",
+      "is": "creature shale elemental",
+      "tags": [
+        "creature",
+        "earth",
+        "polish",
+        "candidate"
+      ],
+      "bytes": 6952992,
+      "sha256": "1860a058edebf0dcea1a8b8b1c7b844c1b55228441771344d6c1cb6833d4fbb3",
+      "triangles": 5294,
+      "size": {
+        "x": 1.1744384617530712,
+        "y": 1.0711669538906479,
+        "z": 2.2489013204886774
+      },
+      "base": {
+        "x": -0.5872192396201251,
+        "y": -3.245913139985264e-9,
+        "z": -1.1244506946578623
+      },
+      "groundY": -3.245913139985264e-9,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death"
+      ],
+      "materials": [
+        "Material_tripo_node_3c423ccd-407d-4ce3-ae95-68eca78c41a3"
+      ],
+      "walkClipSeconds": 1.2000000476837158,
+      "runClipSeconds": 0.7799999713897705,
+      "attackSeconds": 0.8399999737739563,
+      "contactNormalized": 0.58,
+      "candidateReview": {
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/models/creature_shale_elemental.glb",
+      "acceptance": {
+        "assetAudit": true,
+        "rigAccepted": true,
+        "motionAccepted": true,
+        "texturesAccepted": true,
+        "labAccepted": true,
+        "worldIntegrated": false
+      },
+      "acceptanceEvidence": {
+        "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
+        "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-rpg-earth-elemental-golem",
+      "name": "Earth Elemental / Golem",
+      "author": "piacenti",
+      "source": "https://opengameart.org/content/earth-elemental-golem",
+      "license": "CC-BY-3.0",
+      "sourceArchive": "earth elemental 1.1.zip",
+      "archiveSha256": "a3f76b3961cdf18073b5d2337450c5e9753722f71d9b6e811e42458023a491c8",
+      "upstreamPackId": "earth-elemental-golem",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
+      "derivativeLicense": "CC-BY-3.0",
+      "attribution": "Earth Elemental / Golem by piacenti. Source: https://opengameart.org/content/earth-elemental-golem. Converted and adapted for Corealm with the complete source body and rig retained; scale, grounded pivot and runtime animation bindings adapted. The adapted asset is distributed under CC BY 3.0.",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+    }
+  ]
+}

@@ -1,0 +1,368 @@
+{
+  "schema": "corealm-earth-golem-polish/1",
+  "variants": [
+    {
+      "id": "creature_cairn_treader",
+      "status": "awaiting-root-lab-review",
+      "source": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/sources/creature_cairn_treader.glb",
+        "sha256": "118d8e7328ecfc6eee2a0c20a18c92718fbe7f9db98adaffe4fc8cf688c5a2ba",
+        "bytes": 11827340,
+        "original": {
+          "url": "https://opengameart.org/content/earth-elemental-golem",
+          "author": "piacenti",
+          "license": "CC-BY-3.0",
+          "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained."
+        }
+      },
+      "builder": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/build-candidates.mjs",
+        "sha256": "29d946ff1a67d25c088b2f5f98d364b2744bc24703c8f55aa120f658097a148a"
+      },
+      "candidate": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/models/creature_cairn_treader.glb",
+        "sha256": "d857bdb25e851ebd365aee1cc9210adbc4bb6ec0641027fffd0594d59bde4255",
+        "bytes": 8964568,
+        "bounds": {
+          "min": [
+            -1.1757528568408946,
+            0.00006135116338566153,
+            -0.9933036580499739
+          ],
+          "max": [
+            1.1757529116409478,
+            1.767863404833734,
+            0.4422855615848651
+          ]
+        },
+        "vertices": 11676,
+        "triangles": 3892,
+        "joints": 63,
+        "materials": [
+          "animal_rpg_cairn_treader_earth_elemental_original_rock"
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration": 9.65999984741211
+          },
+          {
+            "name": "Walk",
+            "duration": 1.399999976158142
+          },
+          {
+            "name": "Run",
+            "duration": 0.9800000190734863
+          },
+          {
+            "name": "Attack",
+            "duration": 0.699999988079071
+          },
+          {
+            "name": "Hit",
+            "duration": 0.41999998688697815
+          },
+          {
+            "name": "HitLeft",
+            "duration": 0.41999998688697815
+          },
+          {
+            "name": "HitRight",
+            "duration": 0.41999998688697815
+          },
+          {
+            "name": "Death",
+            "duration": 0.9800000190734863
+          }
+        ],
+        "attack": {
+          "duration": 0.699999988079071,
+          "contactNormalized": 0.3095238147949687,
+          "contactReviewRequired": true
+        }
+      },
+      "texture": {
+        "imagegenTile": "textures/cairn-imagegen.png",
+        "imagegenTileSha256": "a75047797b4a9b285ec50e8e1aba691aab7598fba813cf6dea4b3434d2508371",
+        "runtimeAtlas": "textures/creature_cairn_treader-atlas.jpg",
+        "runtimeAtlasSha256": "4a5dc14849c0933b3f05be9b7c134ab231c70722ceabbd870983a730335fbb32",
+        "uvPreserved": true,
+        "sourceNormalPreserved": true
+      },
+      "geometryWarp": {
+        "factors": {
+          "body": 1.13,
+          "head": 0.9,
+          "arms": 1,
+          "hands": 1,
+          "legs": 1.12
+        },
+        "changedVertices": 6027,
+        "maxLocalDisplacement": 0.0835995078086853,
+        "protectedArmHandVertices": 5413,
+        "maxProtectedArmHandDisplacement": 1.1920928955078125e-7,
+        "uvPreserved": true,
+        "weightsPreserved": true,
+        "clipsPreserved": true
+      },
+      "design": "compact broad-hipped cairn with intact native hands and recessed head",
+      "recommendation": {
+        "level": 13,
+        "bodyHeightM": 1.77,
+        "clearanceRadiusM": 1.2
+      },
+      "acceptance": {
+        "cpuStructureChecked": true,
+        "labAccepted": false,
+        "visualAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_chalk_warden",
+      "status": "awaiting-root-lab-review",
+      "source": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/sources/creature_chalk_warden.glb",
+        "sha256": "7449a44168b62ef14233c1378649d76d9399584c2957bda4e1a8ee3bdcc3888b",
+        "bytes": 10146604,
+        "original": {
+          "url": "https://opengameart.org/content/earth-elemental-golem",
+          "author": "piacenti",
+          "license": "CC-BY-3.0",
+          "attribution": "Earth Elemental / Golem by piacenti, https://opengameart.org/content/earth-elemental-golem, CC BY 3.0. Converted from original FBX; clips sliced by source Unity metadata, normalized to 2.55m, runtime skin weights refit to four with measured error, floor correction, texture rows adapted for glTF. Geometry and native rig retained."
+        }
+      },
+      "builder": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/build-candidates.mjs",
+        "sha256": "29d946ff1a67d25c088b2f5f98d364b2744bc24703c8f55aa120f658097a148a"
+      },
+      "candidate": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/models/creature_chalk_warden.glb",
+        "sha256": "3936fbf2a64ea59ae9979c786b1eb11cc72825f1bd9f8910b21f1e2d9061321d",
+        "bytes": 8630988,
+        "bounds": {
+          "min": [
+            -0.7293440598320532,
+            0.00005084625816621065,
+            -0.8507835632729244
+          ],
+          "max": [
+            0.7293440557924991,
+            1.9121486847870548,
+            0.30754187540724576
+          ]
+        },
+        "vertices": 11676,
+        "triangles": 3892,
+        "joints": 63,
+        "materials": [
+          "animal_rpg_chalk_warden_earth_elemental_original_rock"
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration": 10.005000114440918
+          },
+          {
+            "name": "Walk",
+            "duration": 1.4500000476837158
+          },
+          {
+            "name": "Run",
+            "duration": 1.0149999856948853
+          },
+          {
+            "name": "Attack",
+            "duration": 0.7250000238418579
+          },
+          {
+            "name": "Hit",
+            "duration": 0.4350000023841858
+          },
+          {
+            "name": "HitLeft",
+            "duration": 0.4350000023841858
+          },
+          {
+            "name": "HitRight",
+            "duration": 0.4350000023841858
+          },
+          {
+            "name": "Death",
+            "duration": 1.0149999856948853
+          }
+        ],
+        "attack": {
+          "duration": 0.7250000238418579,
+          "contactNormalized": 0.45,
+          "contactReviewRequired": true
+        }
+      },
+      "texture": {
+        "imagegenTile": "textures/chalk-imagegen.png",
+        "imagegenTileSha256": "94a1c86184b17ce2c21bd7ba0e20f21416cc4ede5b518fd95aeb4f89bd983893",
+        "runtimeAtlas": "textures/creature_chalk_warden-atlas.jpg",
+        "runtimeAtlasSha256": "a434eb6f5c89f65e80d470ba1838535dac0bfca9e9a310b7065ba14be74c108d",
+        "uvPreserved": true,
+        "sourceNormalPreserved": true
+      },
+      "geometryWarp": {
+        "factors": {
+          "body": 0.86,
+          "head": 2,
+          "arms": 1,
+          "hands": 1,
+          "legs": 0.85
+        },
+        "changedVertices": 6027,
+        "maxLocalDisplacement": 3.2816754579544067,
+        "protectedArmHandVertices": 5413,
+        "maxProtectedArmHandDisplacement": 4.76837158203125e-7,
+        "uvPreserved": true,
+        "weightsPreserved": true,
+        "clipsPreserved": true
+      },
+      "design": "tall chalk column with flared capstone and intact native hands",
+      "recommendation": {
+        "level": 13,
+        "bodyHeightM": 1.91,
+        "clearanceRadiusM": 0.8
+      },
+      "acceptance": {
+        "cpuStructureChecked": true,
+        "labAccepted": false,
+        "visualAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_shale_elemental",
+      "status": "awaiting-root-lab-review",
+      "source": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/sources/stone-shalewake-native-rig-candidate.glb",
+        "sha256": "30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e",
+        "bytes": 6834172,
+        "original": {
+          "schema": "corealm-creature-candidate-provenance/1",
+          "batchId": "shale-elemental",
+          "candidateSearch": "No other candidate found in the prior nine-pack-two batch.",
+          "sourceAudit": {
+            "status": "approved",
+            "reviewer": "stone_audit",
+            "verdict": "approved-with-face-audit",
+            "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+            "reason": "Flowing geological body, integrated sensing cleft, balanced four limbs and violet/ochre seams; no dinosaur neck or tail."
+          },
+          "modelId": "da0d598a-9330-4856-a88f-6341c1da299d",
+          "sourceImageId": "8a12eddb-3390-4475-9270-bc4efcacb8d3",
+          "sourceReference": "assets/art/tripo/references/stone-shalewake.png",
+          "sourceReferenceSha256": "81dc3a08840683ed96d4d65a3b21682c60203dc14f257070aed5fe7a17f6b101",
+          "sourceFile": "assets/art/tripo/exports/corealm_shalewake_da0d598a_8k_rigged.glb",
+          "sourceSha256": "ab8111c81684fe47d41987fabca680c142779130b87cc84a5b022bc690c58dc1",
+          "sourceBytes": 17721380,
+          "sourceBaseColor": "8192x8192 image-generated layered stone atlas",
+          "sourceSkin": "1 skin, 5 joints, rounded 100% of original weight mass on bone_0; 0 clips; residual weight on other joints is below 0.0001% of total.",
+          "sourceWeightAudit": {
+            "totalMass": 3188.000000011323,
+            "bone0Mass": 3187.999970972538,
+            "otherJointMass": 0.000029038785214652307,
+            "otherJointFraction": 9.108778298164732e-9
+          },
+          "sourceGeometry": {
+            "vertices": 3188,
+            "triangles": 5294,
+            "positionsPreserved": true,
+            "normalsPreserved": true,
+            "indicesPreserved": true,
+            "uv": "TEXCOORD_0 retained unchanged; no retopology or unwrap"
+          },
+          "candidate": {
+            "file": "stone-shalewake-native-rig-candidate.glb",
+            "sha256": "30c0e0c674cdcb30ed90aae25d3a0a233a6513f465256a943ccc53b61651351e",
+            "bytes": 6834172
+          },
+          "status": "source-audit-approved; runtime-candidate-acceptance-pending-root-lab"
+        }
+      },
+      "builder": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/build-candidates.mjs",
+        "sha256": "29d946ff1a67d25c088b2f5f98d364b2744bc24703c8f55aa120f658097a148a"
+      },
+      "candidate": {
+        "file": "assets/art/tripo/imports/creatures/audit-polish-earth_golems/models/creature_shale_elemental.glb",
+        "sha256": "1860a058edebf0dcea1a8b8b1c7b844c1b55228441771344d6c1cb6833d4fbb3",
+        "bytes": 6952992,
+        "bounds": {
+          "min": [
+            -0.5872192396201251,
+            -3.245913139985264e-9,
+            -1.1244506946578623
+          ],
+          "max": [
+            0.587219222132946,
+            1.0711669506447348,
+            1.1244506258308153
+          ]
+        },
+        "vertices": 3188,
+        "triangles": 5294,
+        "joints": 20,
+        "materials": [
+          "Material_tripo_node_3c423ccd-407d-4ce3-ae95-68eca78c41a3"
+        ],
+        "clips": [
+          {
+            "name": "Idle",
+            "duration": 3
+          },
+          {
+            "name": "Walk",
+            "duration": 1.2000000476837158
+          },
+          {
+            "name": "Run",
+            "duration": 0.7799999713897705
+          },
+          {
+            "name": "Attack",
+            "duration": 0.8399999737739563
+          },
+          {
+            "name": "Hit",
+            "duration": 0.47999998927116394
+          },
+          {
+            "name": "Death",
+            "duration": 1.7000000476837158
+          }
+        ],
+        "attack": {
+          "duration": 0.8399999737739563,
+          "contactNormalized": 0.58,
+          "contactReviewRequired": true
+        }
+      },
+      "texture": {
+        "imagegenTile": "textures/shale-imagegen.png",
+        "imagegenTileSha256": "d220042686fce389eea051b21a7ad938aa730548093f40cf6aec75c725e6df49",
+        "runtimeAtlas": "textures/creature_shale_elemental-atlas.jpg",
+        "runtimeAtlasSha256": "8bf3674c7ba85cf8c7bf2da332e9549348aab638dd889bb47e86eacf6fc6b824",
+        "uvPreserved": true,
+        "sourceNormalPreserved": true
+      },
+      "geometryWarp": null,
+      "design": "low four-legged stratified shale body",
+      "recommendation": {
+        "level": 13,
+        "bodyHeightM": 1.07,
+        "clearanceRadiusM": 1.2
+      },
+      "acceptance": {
+        "cpuStructureChecked": true,
+        "labAccepted": false,
+        "visualAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}
