@@ -119,7 +119,8 @@ export function createCastleStoneMaterial(
     ? previous.color.mul(vertexColor().rgb) : previous.color)();
   const normal = previous.normal;
   const worldNormal = transformDirection(normal, cameraWorldMatrix).normalize();
-  const rawWeights = worldNormal.abs().pow(5);
+  // A scalar exponent lets a normal-mapped build type this as f32(vec3), an invalid shader.
+  const rawWeights = worldNormal.abs().pow(vec3(5));
   const weights = rawWeights.div(max(rawWeights.dot(vec3(1)), .0001));
   const point = positionWorld.div(style === 'pearl' ? 5.8 : 5.4);
   const warp = vec3(

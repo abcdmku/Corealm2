@@ -1,4 +1,5 @@
 import { bootTelemetry } from "../perf/bootTelemetry.js";
+import { BatchedLighting } from "./batchedLighting.js";
 import { usesMobileAssets } from './assetDelivery.js';
 import { PlayerSilhouette } from "./playerSilhouette.js";
 import { BiomeAtmosphere, type BiomeWeights } from "./biomeAtmosphere.js";
@@ -28,7 +29,7 @@ import { installSharedGeometryBuffers } from "./sharedGeometryBuffers.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
 import { prepareShaderMeshes, shaderGeometryKey, installGraphicsValidation, graphicsValidationState,
   assertGraphicsValid, waitForGraphicsValidation, validateGraphicsWork, validateGraphicsSubmission,
-  disposeGraphicsValidation, shaderPreparationState } from "./shaderPreparation.js";
+  disposeGraphicsValidation, shaderPreparationState, COVERED_PIPELINE_CONCURRENCY } from "./shaderPreparation.js";
 
 export interface RenderStats {
   fps: number;
@@ -326,8 +327,7 @@ export class Renderer {
   }
 
   streamingShaderState() { const state = this.streamedShaders?.getState() ?? null; return state ? { ...state,
-    pendingKinds: this.streamedShaders!.pendingKinds(), effectsReady: this.effectsReady,
-    deferredEffectPrograms: this.compilingEffects ? 1 : 0 } : null; }
+    pendingKinds: this.streamedShaders!.pendingKinds(), effectsReady: this.effectsReady } : null; }
 
   setDestinationLoading(active: boolean): void {
     this.startStreamingWarmup();
@@ -388,6 +388,7 @@ export class Renderer {
     });
     this.screenAntialiasing.timingEnabled = this.gpuTimingEnabled;
     this.renderer.info.autoReset = false;
+    this.renderer.lighting = new BatchedLighting();
     this.presentationMaterial.fragmentNode = texture(this.frameTarget.texture);
     this.renderer.onDeviceLost = info => {
       this.initialized = false;
@@ -402,6 +403,8 @@ export class Renderer {
     this.renderer.toneMappingExposure = DAYLIGHT_LOOK.toneMappingExposure;
 
     this.scene = new THREE.Scene();
+    // The scene root never moves; see WorldScene for why its containers are static too.
+    this.scene.matrixAutoUpdate = false;
 
     this.camera = new THREE.PerspectiveCamera(CAMERA.fov, 1, CAMERA.near, CAMERA.far);
     this.camera.position.set(0, 14, 18);
@@ -629,7 +632,7 @@ export class Renderer {
       const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, preparing);
       const batchSize = this.streamedShaders ? 1 : 4;
       await prepareShaderMeshes(this.renderer, this.scene, this.camera, preparing,
-        { renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 4 });
+        { renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : COVERED_PIPELINE_CONCURRENCY });
       await validateGraphicsWork(this.renderer, "Resident glow preparation", () =>
         this.magicGlow.prepare(this.renderer, this.scene, this.camera, this.frameTarget, batchSize, prepared));
     } finally { this.preparingResident--; }
@@ -640,12 +643,12 @@ export class Renderer {
     this.scene.traverseVisible(object => {
       const drawable = object as THREE.Mesh & THREE.Points & THREE.Line & THREE.Sprite;
       const needsOwnBindings = (object as THREE.InstancedMesh).isInstancedMesh
-        || isSceneryInstances(object)
         || (object as THREE.SkinnedMesh).isSkinnedMesh || (object as THREE.BatchedMesh).isBatchedMesh
         || (drawable.count ?? 0) > 1;
-      // Scenery shares lowered shaders, but every cluster still needs its own matrix
-      // buffers uploaded. Actors also need their skeleton and palette bindings ready.
-      if (drawable.isMesh && !needsOwnBindings) {
+      // Scenery clusters share one lowered pipeline per layout: the first compiles it and the
+      // rest upload their matrices in the first frame, which completes before the reveal.
+      // Actors need their skeleton and palette bindings ready.
+      if (drawable.isMesh && (!needsOwnBindings || isSceneryInstances(object))) {
         const key = `${shaderGeometryKey(drawable)}:${(Array.isArray(drawable.material) ? drawable.material : [drawable.material])
           .map(material => material.uuid).join(",")}:${drawable.castShadow}:${Boolean(drawable.userData.prepareCorpseFade)}`;
         if (seen.has(key)) return;
@@ -656,9 +659,10 @@ export class Renderer {
     return objects;
   }
 
-  private readonly requiredEffectRoots = new Set<THREE.Object3D>();
-  private readonly deferredEffectRoots = new Set<THREE.Object3D>();
-  private deferredEffectsDone: Promise<void> | null = null;
+  /** Enrolled effect roots not yet compiled. Batched lighting keeps effect programs valid in
+   * every region, so each root compiles exactly once, before play. */
+  private readonly pendingEffectRoots = new Set<THREE.Object3D>();
+  private readonly preparedEffectRoots = new WeakSet<THREE.Object3D>();
   private compilingEffects = false;
   private effectPreparation: Promise<void> = Promise.resolve();
 
@@ -667,16 +671,12 @@ export class Renderer {
     await Promise.all([prepareElementalFlowTexture(), prepareElementalFlameTexture()]);
   }
 
-  get effectsReady(): boolean { return !this.compilingEffects && this.deferredEffectRoots.size === 0
-    && this.requiredEffectRoots.size === 0 && !graphicsValidationState(this.renderer).failed; }
+  get effectsReady(): boolean { return !this.compilingEffects && this.pendingEffectRoots.size === 0
+    && !graphicsValidationState(this.renderer).failed; }
 
-  /** Enrollment is cheap. Compilation is awaited at the readiness gate or paced after it. */
-  compileEffects(root: THREE.Object3D, options: { deferred?: boolean } = {}): void {
-    if (options.deferred && !this.deferredEffectsDone) this.deferredEffectRoots.add(root);
-    else {
-      this.deferredEffectRoots.delete(root);
-      this.requiredEffectRoots.add(root);
-    }
+  /** Enrollment is cheap; `prepareEffects` compiles every enrolled root. */
+  compileEffects(root: THREE.Object3D): void {
+    if (!this.preparedEffectRoots.has(root)) this.pendingEffectRoots.add(root);
   }
 
   private async submitEffects(root: THREE.Object3D): Promise<void> {
@@ -688,41 +688,26 @@ export class Renderer {
     const batchSize = this.streamedShaders ? 1 : 4;
     const prepared = captureMagicGlowPreparation(this.renderer, this.scene, this.camera, this.frameTarget, meshes);
     await prepareShaderMeshes(this.renderer, this.scene, this.camera, meshes, {
-      renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : 4,
+      renderTarget: this.frameTarget, batchSize, pipelineConcurrency: this.streamedShaders ? 1 : COVERED_PIPELINE_CONCURRENCY,
     });
     await this.elementalRefraction.compile(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget);
     await this.magicGlow.compileOcclusion(this.renderer, this.scene, this.camera, root, batchSize, this.frameTarget, prepared);
+    this.preparedEffectRoots.add(root);
   }
 
-  /** Serialize effects with each other; each helper yields between a bounded number of pipelines. */
-  finishDeferredEffects(): Promise<void> {
-    this.deferredEffectsDone ??= this.effectPreparation = this.effectPreparation.then(async () => {
-      const span = bootTelemetry.startSpan("boot.effects.ready");
-      this.compilingEffects = true;
-      try {
-        for (const root of [...this.requiredEffectRoots, ...this.deferredEffectRoots]) {
-          await this.submitEffects(root);
-          this.requiredEffectRoots.delete(root); this.deferredEffectRoots.delete(root);
-        }
-        span.end();
-      } catch (error) { span.fail(error); throw error; }
-      finally { this.compilingEffects = false; }
-    });
-    return this.deferredEffectsDone;
-  }
-
-  async prepareEffects(root: THREE.Object3D, options: { deferred?: boolean } = {}): Promise<void> {
-    this.compileEffects(root, options);
+  /** Compiles every enrolled root, serialized with earlier effect work. */
+  prepareEffects(root?: THREE.Object3D): Promise<void> {
+    if (root) this.compileEffects(root);
     this.effectPreparation = this.effectPreparation.then(async () => {
       this.compilingEffects = true;
       try {
-        for (const effect of this.requiredEffectRoots) {
-          await bootTelemetry.measureAsync("boot.effects.programs", () => this.submitEffects(effect));
-          this.requiredEffectRoots.delete(effect);
+        for (const effect of this.pendingEffectRoots) {
+          await this.submitEffects(effect);
+          this.pendingEffectRoots.delete(effect);
         }
       } finally { this.compilingEffects = false; }
     });
-    await this.effectPreparation;
+    return this.effectPreparation;
   }
 
   render(nowMs: number): void {
@@ -960,8 +945,13 @@ export class Renderer {
 
   getFramePressureMs(): number { return this.framePacer.pressureMs(performance.now()); }
 
-  canRenderFrame(): boolean { return this.initialized && !graphicsValidationState(this.renderer).failed
+  canRenderFrame(): boolean { return this.initialized && !this.framesSuppressed && !graphicsValidationState(this.renderer).failed
     && this.framePacer.ready(performance.now()); }
+
+  private framesSuppressed = false;
+  /** An opaque loading cover hides the canvas, which keeps showing its last frame. Drawing the
+   * whole world behind it only competed with the destination's own preparation. */
+  setFramesSuppressed(suppressed: boolean): void { this.framesSuppressed = suppressed; }
 
   /** No driver calls: safe to sample alongside input without perturbing GPU timings. */
   getPresentationState() { return this.framePacer.snapshot(performance.now()); }

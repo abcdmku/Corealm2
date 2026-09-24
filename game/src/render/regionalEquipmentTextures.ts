@@ -82,7 +82,7 @@ function overlay(material: SurfaceNodeMaterial, tier: Tier, mode: Treatment): vo
   const hasNativeMap = Boolean(shaded.map);
   const uvScale = surface === 'wood' ? 2.5 : surface === 'metal' ? 2 : 3;
   const tileMetres = surface === 'wood' ? .30 : surface === 'metal' ? .48 : .20;
-  const powers = varying(normalGeometry).normalize().abs().pow(4);
+  const powers = varying(normalGeometry).normalize().abs().pow(vec3(4));
   const weights = powers.div(powers.dot(vec3(1)).max(0.0001));
   const point = varying(positionGeometry).div(tileMetres);
   // Native atlases can crop/rotate UV0; preserve that transform before applying detail tiling.

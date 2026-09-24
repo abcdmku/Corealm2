@@ -167,7 +167,7 @@ function applyArmorPartTexture(material: THREE.MeshStandardNodeMaterial, tier: A
   // cloth treatment. Varyings keep the pattern attached to each moving armor part.
   const localPosition = varying(positionGeometry);
   const localNormal = varying(normalGeometry);
-  const weights = localNormal.normalize().abs().pow(6);
+  const weights = localNormal.normalize().abs().pow(vec3(6));
   const blend = weights.div(weights.dot(vec3(1)).max(0.0001));
   const point = localPosition.div(tileMetres);
   const value = triplanar(albedo, point, blend).dot(vec3(0.2126, 0.7152, 0.0722));

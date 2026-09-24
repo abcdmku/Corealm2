@@ -495,7 +495,7 @@ function applyCaveRockProjection(material: MeshStandardNodeMaterial, maps: Corea
   const worldPosition = varying(modelWorldMatrix.mul(vec4(positionLocal, 1)).xyz);
   const worldNormal = varying(modelWorldMatrix.mul(vec4(normalLocal, 0)).xyz.normalize()).normalize();
   const p = worldPosition.div(maps.tileMetres);
-  const unscaledWeights = worldNormal.abs().pow(4);
+  const unscaledWeights = worldNormal.abs().pow(vec3(4));
   const weights = unscaledWeights.div(unscaledWeights.dot(vec3(1)).max(0.0001));
   const projected = (map: THREE.Texture) => texture(map, p.zy).mul(weights.x)
     .add(texture(map, p.xz).mul(weights.y)).add(texture(map, p.xy).mul(weights.z));

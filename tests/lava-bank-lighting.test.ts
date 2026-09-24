@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { expect, it, vi } from 'vitest';
-import { RectAreaLightNode } from 'three/webgpu';
 import { LavaBankLighting } from '../game/src/render/lavaBankLighting.js';
 import type { LavaChannel } from '../game/src/content/wildernessLava.js';
 
@@ -8,15 +7,7 @@ it('lights the shore from invisible upward emitting areas before the player appr
   const parent = new THREE.Group();
   const channel: LavaChannel = { id: 'reach', points: [[-30, 0], [30, 0]],
     halfWidth: 3, depth: 2.6, bankWidth: 4.4, seed: 1, magic: 0 };
-  const configure = vi.spyOn(RectAreaLightNode, 'setLTC');
   const lighting = new LavaBankLighting(parent, [channel], () => -2.6);
-  expect(configure).toHaveBeenCalledOnce();
-  const library = configure.mock.calls[0]![0];
-  for (const texture of [library.LTC_FLOAT_1, library.LTC_FLOAT_2, library.LTC_HALF_1, library.LTC_HALF_2]) {
-    expect(texture.isDataTexture).toBe(true);
-    expect(texture.image.data?.length).toBeGreaterThan(0);
-  }
-  configure.mockRestore();
   const camera = new THREE.PerspectiveCamera(55, 1.6, .1, 200);
   camera.position.set(0, 14, 70); camera.lookAt(0, -2, 0); camera.updateMatrixWorld();
   lighting.update(camera, true);

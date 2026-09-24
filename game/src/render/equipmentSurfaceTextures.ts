@@ -73,7 +73,7 @@ export function applyEquipmentSurfaceTexture(material: SurfaceNodeMaterial, asse
   // Keep the original local projection so skinned/held tools retain their authored grain.
   const tileMetres = surface === "metal" ? 1.8 : 0.075;
   const normal = varying(normalGeometry).normalize();
-  const powers = normal.abs().pow(4);
+  const powers = normal.abs().pow(vec3(4));
   const weights = powers.div(powers.dot(vec3(1)).max(0.0001));
   const point = varying(positionGeometry).div(tileMetres);
   const sample = textureNode(texture, point.yz).rgb.mul(weights.x)
