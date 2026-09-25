@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "602afe72dcf963c53bfc3732e746f86b4ff41f9476afa41d0a90eca2fcf21fa7",
-  "formulaRevision": "0cf39b4e937d60d905412bfea01afef3d09a0305112a48d98acfed802daefb07",
+  "revision": "6ebe95a916a8b10e32953b0b461903cefe09323a71f0e8f1d83517920a89e8a4",
+  "formulaRevision": "a901ce40af2a5fd8d26f549924595c74161a15cc6aca3aa87ee1d9d7833d1718",
   "tables": {
     "items": [
       {
@@ -77685,7 +77685,7 @@
         "regionId": "wilderness",
         "centre": [
           -304,
-          812
+          804
         ],
         "count": 7,
         "radius": 28,
@@ -84911,7 +84911,7 @@
         "locationId": "lastlight_south_gate",
         "assetId": "creature_skeleton_soldier",
         "bindHeightMetres": 1.5959422176642555,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_lastlight_banker",
@@ -84925,7 +84925,7 @@
         "locationId": "lastlight_bank_approach",
         "assetId": "creature_wraith",
         "bindHeightMetres": 1.7314751689466006,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_lastlight_apothecary",
@@ -84939,7 +84939,7 @@
         "locationId": "lastlight_square",
         "assetId": "creature_skeleton_mage",
         "bindHeightMetres": 1.944003111105155,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_lastlight_smith",
@@ -84953,7 +84953,7 @@
         "locationId": "lastlight_square",
         "assetId": "creature_revenant",
         "bindHeightMetres": 1.8490965694189072,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_lastlight_seer",
@@ -84967,7 +84967,7 @@
         "locationId": "lastlight_square",
         "assetId": "creature_banshee",
         "bindHeightMetres": 1.4992661476135254,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_starhaven_watch",
@@ -84981,7 +84981,7 @@
         "locationId": "starhaven_south_gate",
         "assetId": "creature_skeleton_soldier",
         "bindHeightMetres": 1.5959422176642555,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_starhaven_banker",
@@ -84995,7 +84995,7 @@
         "locationId": "starhaven_bank_approach",
         "assetId": "creature_wraith",
         "bindHeightMetres": 1.7314751689466006,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_starhaven_apothecary",
@@ -85009,7 +85009,7 @@
         "locationId": "starhaven_square",
         "assetId": "creature_skeleton_mage",
         "bindHeightMetres": 1.944003111105155,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_starhaven_smith",
@@ -85023,7 +85023,7 @@
         "locationId": "starhaven_square",
         "assetId": "creature_revenant",
         "bindHeightMetres": 1.8490965694189072,
-        "catalog": "fairy"
+        "catalog": "resident"
       },
       {
         "id": "npc_starhaven_host",
@@ -85037,7 +85037,7 @@
         "locationId": "starhaven_square",
         "assetId": "creature_banshee",
         "bindHeightMetres": 1.4992661476135254,
-        "catalog": "fairy"
+        "catalog": "resident"
       }
     ],
     "quests": [
@@ -89726,7 +89726,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_watch_detail_a",
@@ -89739,7 +89739,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_watch_detail_b",
@@ -89752,7 +89752,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_banker_root",
@@ -89775,7 +89775,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_banker_detail_a",
@@ -89788,7 +89788,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_banker_detail_b",
@@ -89801,7 +89801,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_apothecary_root",
@@ -89824,7 +89824,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_apothecary_detail_a",
@@ -89837,7 +89837,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_apothecary_detail_b",
@@ -89850,7 +89850,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_smith_root",
@@ -89873,7 +89873,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_smith_detail_a",
@@ -89886,7 +89886,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_smith_detail_b",
@@ -89899,7 +89899,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_seer_root",
@@ -89922,7 +89922,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_seer_detail_a",
@@ -89935,7 +89935,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "lastlight_seer_detail_b",
@@ -89948,7 +89948,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_watch_root",
@@ -89971,7 +89971,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_watch_detail_a",
@@ -89984,7 +89984,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_watch_detail_b",
@@ -89997,7 +89997,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_banker_root",
@@ -90020,7 +90020,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_banker_detail_a",
@@ -90033,7 +90033,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_banker_detail_b",
@@ -90046,7 +90046,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_apothecary_root",
@@ -90069,7 +90069,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_apothecary_detail_a",
@@ -90082,7 +90082,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_apothecary_detail_b",
@@ -90095,7 +90095,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_smith_root",
@@ -90118,7 +90118,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_smith_detail_a",
@@ -90131,7 +90131,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_smith_detail_b",
@@ -90144,7 +90144,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_host_root",
@@ -90167,7 +90167,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_host_detail_a",
@@ -90180,7 +90180,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       },
       {
         "id": "starhaven_host_detail_b",
@@ -90193,7 +90193,7 @@
             "next": null
           }
         ],
-        "catalog": "fairy"
+        "catalog": "base"
       }
     ],
     "spells": [
@@ -303542,7 +303542,7 @@
           "regionId": "wilderness",
           "centre": [
             -304,
-            812
+            804
           ],
           "count": 7,
           "radius": 28,
@@ -311540,7 +311540,7 @@
             "scale": 0.7340616505132458,
             "centre": [
               -304,
-              812
+              804
             ],
             "count": 7,
             "countPolicy": "fixed",
@@ -321662,37 +321662,37 @@
           "regionId": "wilderness",
           "centre": [
             -304,
-            812
+            804
           ],
           "radius": 28,
           "anchors": [
             [
               -304,
-              812
+              804
             ],
             [
               -300.7373247185135,
-              798.3854875222219
+              790.3854875222219
             ],
             [
               -290.5781486933606,
-              808.0183034391778
+              800.0183034391778
             ],
             [
               -293.8408239748471,
-              821.6328159169559
+              813.6328159169559
             ],
             [
               -307.2626752814865,
-              825.6145124777781
+              817.6145124777781
             ],
             [
               -317.4218513066394,
-              815.9816965608222
+              807.9816965608222
             ],
             [
               -314.1591760251529,
-              802.3671840830441
+              794.3671840830441
             ]
           ],
           "activity": "patrol",

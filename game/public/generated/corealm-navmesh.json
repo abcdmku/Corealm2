@@ -7,7 +7,7 @@
     "terrain": 175,
     "water": 0
   },
-  "fingerprint": "d4a8857dfa0da520879b901261b9dd2a5f33e8ef27471ff85c4aa47492330ad6",
+  "fingerprint": "7718e9cffd69db9f79441c531a4c67eb495c990a02b5c3d030d1b67a2ced4895",
   "format": "corealm-navmesh",
   "formatVersion": 1,
   "navDataSha256": "2267c7857249365da05ad56d2901656b69961485c794949e2844b3b2a421ae58",
@@ -31,10 +31,10 @@
   "bytes": 3301710,
   "worldSeed": "1337",
   "authoredInputs": {
-    "terrainGeometry": "2f4f9f06847b80ffefeb53a283d3b2449e50637ab0a140bcd2e1285d6873acca",
+    "terrainGeometry": "b16d69b0bd9fa313318c0308e8507b91a8302919d219e96d9b7c5a9f69443ff6",
     "roads": "0adc33f0666a2ecbdabdc0df4e293a575ea2b1537f27cb86e908346a6d2e1e64",
     "water": "39f27f0316a06bff15d7288d6ce34c8d380e49f0d9789272dcd808654eac45e8",
-    "solidCarves": "766f0e4a77323661655947f8675743976afb65e84e06a3631703ae21c7f38314",
+    "solidCarves": "cdb270de2e7c42dcad4a4c4b8e4ebb2b3932bde0a1872a6ac0fc548488471f91",
     "dungeonGeometry": "a69f9c4c88d0a514f4a3ea7ac949490eaee61425ec50b81623fd5916a29088f9",
     "seedDependentInputs": "bf3916f005e7d9270ee673b1711f68b9bccb5dcb215bbd2bd6d3b94c3e08f0f2",
     "navigationSettings": "f97bac7c9fa4f9e75b6afae7573639f212c633a4c03b983332088a0c7cfcd139"
