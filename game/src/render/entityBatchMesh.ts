@@ -9,7 +9,8 @@ interface DrawList {
 }
 
 /**
- * A `BatchedMesh` whose camera draw list survives the sun-shadow pass.
+ * A `BatchedMesh` whose camera draw list survives the sun-shadow pass and whose draws follow it
+ * when it grows.
  *
  * `BatchedMesh` culls its instances into one shared draw list (starts, counts and the indirect
  * texture that maps each draw to its instance) in `onBeforeRender`, for whichever camera is drawing.
@@ -53,6 +54,17 @@ export function createEntityBatchMesh(maxInstances: number, maxVertices: number,
     list._multiDrawCount = saved;
     list._indirectTexture.needsUpdate = true;
     saved = -1;
+  };
+  // Growing swaps in new matrices, indirect and colour textures, but a compiled WebGPU draw binds
+  // the textures its shader was built with, and the renderer only re-keys a draw when its material
+  // version changes. A batch that grew after its first frame kept drawing through the old textures:
+  // an instance map and matrices frozen at the moment of growth, against the current draw list, so
+  // parts landed on other instances' transforms. Bumping the version rebuilds this batch's draws;
+  // other draws of the shared material re-key once and keep their pipelines.
+  const grow = mesh.setInstanceCount;
+  mesh.setInstanceCount = function (maxInstanceCount) {
+    grow.call(this, maxInstanceCount);
+    (this.material as THREE.Material).needsUpdate = true;
   };
   return mesh;
 }
