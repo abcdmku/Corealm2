@@ -269,7 +269,7 @@ export const WorldRegionSchema = obj({
   locations: arr(LocationDefSchema, {}, { label: 'Locations' }),
   roads: arr(RoadDefSchema, {}, { label: 'Roads', role: 'Road end' }),
   stations: arr(StationDefSchema, {}, { label: 'Stations', role: 'Station in' }),
-  settlements: arr(SettlementDefSchema, {}, { label: 'Settlements' }),
+  settlements: arr(SettlementDefSchema, {}, { label: 'Settlements', role: 'Settlement in' }),
   obstacles: arr(ObstacleDefSchema, {}, { label: 'Obstacles', role: 'Obstacle in' }),
   landmarks: arr(LandmarkDefSchema, {}, { label: 'Landmarks', role: 'Landmark in' }),
   gates: arr(GateDefSchema, {}, { label: 'Gates', role: 'Gate in' }),
