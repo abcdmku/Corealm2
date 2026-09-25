@@ -192,7 +192,8 @@ describe("Oakwood layout", () => {
   });
 
   it("keeps every neighbour out of the default camera arm at the respawn and at every stand", () => {
-    // A gatehouse cannot move off its wall, so the cutaway opens it (tests/gatehouse-cutaway.test.ts).
+    // A gatehouse cannot move off its wall. Roofs are not cut away for the camera (that flickered);
+    // the player silhouette shows through a gatehouse between camera and player instead.
     const gatehouses = new Set(oakwood.buildings.filter((building) => building.prefab === "gatehouse").map((building) => building.id));
     expect(armBlockers(hamlet[0]!, hamlet[1]!)).toEqual([]);
     const services = [oakwood.bank, ...oakwood.stations, ...oakwood.shops];
