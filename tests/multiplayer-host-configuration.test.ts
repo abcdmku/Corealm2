@@ -46,7 +46,7 @@ describe('reference deployment configuration',()=>{
    identityUrl:'https://identity.example.com/',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two'}]}});
   expect(hostConfiguration([],{},read)).toEqual({authored:false,authentication:'account',developmentGuests:false,guests:false,host:'127.0.0.1',port:4200,
    data:'./data',publicEndpoint:'ws://127.0.0.1:4200/',allowedOrigins:[],
-   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,threads:true,threadMode:'auto',registerWithDirectory:false,adminUiDir:'dist/devdocs-server',
+   assetBaseUrl:'https://cdn.example.com/corealm/',identityUrl:'https://identity.example.com/',authModule:undefined,followRepoCatalog:false,baseUpdate:null,threads:true,threadMode:'auto',registerWithDirectory:false,adminUiDir:'dist/devdocs-server',
    configFile:'corealm-server.json',worlds:[{id:'one',name:'One',seed:7,capacity:12},{id:'two',name:'two',seed:1337,capacity:64}]});
  });
  it('reads the defaults of the runtime settings and the admin UI directory, and checks them',()=>{
@@ -121,6 +121,20 @@ it('follows the repo catalog only when the flag asks, never from a configuration
   expect(hostConfiguration(['--guests', '--follow-repo-catalog'], {}, () => undefined).followRepoCatalog).toBe(true);
   expect(hostConfiguration(['--guests'], {}, () => undefined).followRepoCatalog).toBe(false);
   expect(() => hostConfiguration([], {}, () => JSON.stringify({ guests: true, followRepoCatalog: true }))).toThrow(/followRepoCatalog/);
+});
+
+it('applies the bundled base at start only when the flag asks, with decisions from the flag or a file', () => {
+  const decisions = '[{"collection":"lootTables","id":"shared_t0_frog","take":"mine"}]';
+  const read = (files: Record<string, string>) => (path: string) => files[path];
+  const baseUpdate = (args: string[], files: Record<string, string> = {}) => hostConfiguration(['--guests', ...args], {}, read(files)).baseUpdate;
+  expect([baseUpdate([]), baseUpdate(['--apply-base-update']), baseUpdate(['--apply-base-update', '--decisions', decisions]),
+    baseUpdate(['--apply-base-update', '--decisions-file', 'decisions.json'], { 'decisions.json': decisions })])
+    .toEqual([null, { decisions: null }, { decisions }, { decisions }]);
+  expect(() => baseUpdate(['--decisions', decisions])).toThrow(/go with --apply-base-update/);
+  expect(() => baseUpdate(['--apply-base-update', '--decisions-file', 'missing.json'])).toThrow(/Decisions file not found: missing.json/);
+  expect(() => baseUpdate(['--apply-base-update', '--decisions', decisions, '--decisions-file', 'decisions.json'], { 'decisions.json': decisions })).toThrow(/once/);
+  expect(() => baseUpdate(['--apply-base-update', '--follow-repo-catalog'])).toThrow(/Choose one/);
+  expect(() => hostConfiguration([], {}, () => JSON.stringify({ guests: true, applyBaseUpdate: true }))).toThrow(/applyBaseUpdate/);
 });
 
 it('runs a thread per world when there is more than one world, unless told otherwise', () => {

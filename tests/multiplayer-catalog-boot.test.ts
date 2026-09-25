@@ -1,5 +1,5 @@
 import { afterEach, expect, it } from "vitest";
-import { spawn, spawnSync, type ChildProcess } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
@@ -11,27 +11,15 @@ import { WebSocketProvider, type WebSocketSession } from "../game/src/multiplaye
 import { compileContent, formulaSourceRevision, readContentSources } from "../tools/content/compile.js";
 import { repoRoot } from "../tools/lib/paths.js";
 import { repoBaseVersion } from "../tools/lib/baseVersion.js";
+import { startServerProcess } from "./helpers/serverProcess.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => { for (const cleanup of cleanups.splice(0).reverse()) await cleanup(); });
 
-/** The content modules read their tables as they load, so only a fresh process can prove which catalog a server runs on. */
 function startServer(data: string) {
-  const child: ChildProcess = spawn(process.execPath, ["--import", "tsx", "tools/multiplayer-server.ts", "--development-guests", "--port", "0", "--data", data],
-    { cwd: repoRoot, stdio: ["ignore", "pipe", "pipe", "ipc"], windowsHide: true });
-  const lines: Record<string, unknown>[] = []; let pending = "", errors = "";
-  child.stderr!.on("data", chunk => { errors += String(chunk); });
-  child.stdout!.on("data", chunk => {
-    pending += String(chunk); const parts = pending.split("\n"); pending = parts.pop()!;
-    for (const part of parts) try { lines.push(JSON.parse(part)); } catch { /* not a log line */ }
-  });
-  const exited = new Promise<number | null>(done => child.once("exit", done));
-  cleanups.push(async () => { if (child.exitCode === null) { if (child.connected) child.send({ type: "shutdown" }); else child.kill(); await exited; } });
-  const ready = new Promise<Record<string, unknown>>((done, fail) => {
-    const poll = setInterval(() => { const line = lines.find(entry => entry.ready === true); if (line) { clearInterval(poll); done(line); } }, 20);
-    void exited.then(code => { clearInterval(poll); fail(new Error(`The server exited with code ${code} before it was ready\n${errors}`)); });
-  });
-  return { lines, ready };
+  const server = startServerProcess(["--development-guests", "--port", "0", "--data", data]);
+  cleanups.push(server.stop);
+  return server;
 }
 
 it("boots on the database's catalog, not the one the build ships, and tells clients its revision", async () => {
@@ -58,7 +46,7 @@ it("boots on the database's catalog, not the one the build ships, and tells clie
   // The shipped base is not the one this content derives from, so the host says an update is there to take, and changes nothing.
   expect(server.lines.filter(line => typeof line.event === "string" && (line.event.startsWith("catalog-") || line.event.startsWith("base-"))).map(({ t, ...rest }) => rest))
     .toEqual([{ level: "info", event: "base-update-available", current: { version: "0.0.9", revision }, bundled: { version: repoBaseVersion(), revision: shipped.revision },
-      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it." }]);
+      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it, or restart the server with --apply-base-update." }]);
   expect([ready.baseVersion, ready.bundledBaseVersion]).toEqual(["0.0.9", repoBaseVersion()]);
 
   const port = Number(ready.port);

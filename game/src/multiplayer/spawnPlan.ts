@@ -45,29 +45,6 @@ export interface SpawnContext {
 const mob = (entity: SemanticEntity): boolean => entity.archetype === "enemy" || entity.archetype === "boss";
 export const spawnGroupOf = (entity: SemanticEntity): string => String(entity.meta?.groupId ?? entity.id);
 
-function signatures(world: CompiledWorld): Map<string, { regionId: string; signature: string }> {
-  const habitats = new Map(world.habitats.map(habitat => [habitat.groupId, habitat]));
-  const found = new Map<string, { regionId: string; signature: string }>();
-  for (const [regionId, groups] of Object.entries(world.groupsByRegion)) for (const group of groups) {
-    const creature = world.creatureByGroup[group.id];
-    // Loot is read from the registry at each kill, so a loot edit must not rebuild a spawn.
-    const { lootRolls: _rolls, gold: _gold, ...stats } = creature?.stats ?? {} as Partial<NonNullable<typeof creature>["stats"]>;
-    found.set(group.id, { regionId, signature: JSON.stringify([regionId, group, habitats.get(group.id) ?? null, creature && { ...creature, stats }]) });
-  }
-  return found;
-}
-
-/** Groups whose placement, habitat or creature differs between two world tables, with the regions they are in. */
-export function changedSpawnGroups(before: CompiledWorld, after: CompiledWorld): { groupIds: Set<string>; regionIds: string[] } {
-  const old = signatures(before), next = signatures(after), groupIds = new Set<string>(), regionIds = new Set<string>();
-  for (const id of new Set([...old.keys(), ...next.keys()])) {
-    if (old.get(id)?.signature === next.get(id)?.signature) continue;
-    groupIds.add(id);
-    for (const entry of [old.get(id), next.get(id)]) if (entry) regionIds.add(entry.regionId);
-  }
-  return { groupIds, regionIds: [...regionIds].sort() };
-}
-
 /**
  * Builds the named groups from `world` and spaces them among `residents`. Works on its own entities
  * only, so the live store is never touched. Throws when a creature has no walkable floor, which the

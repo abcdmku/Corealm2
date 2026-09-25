@@ -98,6 +98,14 @@ Startup keeps the active revision and logs `base-update-available` with the curr
 markers. The database stores the source snapshot for the base the active content derives from. That
 snapshot is the ancestor for the merge.
 
+A new executable can change the content format, for example by turning a field into a list or by
+removing a composition id. If the stored content no longer compiles under that executable, the
+server refuses to start, names the problem and changes nothing. The same update then runs before any
+world starts: `corealm-server --apply-base-update`, with `--decisions-file` for any conflicts. It uses
+the same merge, decisions, checks and history record as the procedure below. See
+[Updating before the worlds start](multiplayer-hosting.md#updating-before-the-worlds-start) and
+[Deploying a new executable](multiplayer-hosting.md#deploying-a-new-executable).
+
 The update procedure is:
 
 1. Check `GET /admin/content/base` with `content:read`. It reports the current and bundled

@@ -1,21 +1,18 @@
 import { CATALOG_REVISION, serializeClientCatalog } from "../content/clientCatalog.js";
 import { compileCatalog, type ContentSources } from "../content/compiler/catalog.js";
-import { affectedCompiled, affectedSources, changedCollections, changedTables, staleCollections, type AffectedRecord } from "../content/compiler/changes.js";
+import { affectedCompiled, affectedSources, changedCollections, changedSpawnGroups, changedTables, staleCollections, type AffectedRecord } from "../content/compiler/changes.js";
 import { collectionRevision } from "../content/compiler/revision.js";
 import { CONTENT_COLLECTIONS } from "../content/compiler/collections.js";
 import type { ContentDiagnostic } from "../content/compiler/contracts.js";
-import { RESOLVED_CATALOG } from "../content/resolvedCatalog.js";
 import type { CompiledWorld } from "../content/worldData.js";
 import type { AdminActor, ServerAdminStorage } from "./adminStorage.js";
 import { AssetManifestFailure, type AssetHost } from "./assetManifest.js";
-import { baseMarkerOf, type BaseCatalog, type CatalogHost } from "./catalogHost.js";
+import { baseMarkerOf, CATALOG_TABLE_APPLIES, type BaseCatalog, type CatalogHost } from "./catalogHost.js";
 import type { BaseMarker, BaseWrite } from "./catalogStorage.js";
 import { mergeBase, BaseDecisionError, type BaseConflict, type BaseDecision, type BaseMergeCounts } from "../content/compiler/baseMerge.js";
 import { sameContent } from "../content/compiler/canonical.js";
 import { compareSemver } from "./semver.js";
-import { CATALOG_TABLE_APPLIES } from "./contentSwap.js";
 import { HoldFailure, type HostControl, type PublishCheck } from "./hostControl.js";
-import { changedSpawnGroups } from "./spawnPlan.js";
 
 /**
  * Publishing content into a running server, and rolling it back.
@@ -29,6 +26,10 @@ import { changedSpawnGroups } from "./spawnPlan.js";
  * The worlds are reached through `HostControl`, because with a thread per world each world has its
  * own content registry: the compiled catalog is staged in every world before the hold, each world
  * plans its own spawns inside it, and after the database has moved each world swaps itself.
+ *
+ * This module loads no content table: what it compares against comes from `PublishPorts.running`.
+ * So a base update can also run at start, before any catalog is installed or any world is built,
+ * through exactly this path: see `contentAtStart.ts`.
  */
 export const MAX_PUBLISH_NOTE_CHARS = 512;
 const MAX_LISTED = 1000;
@@ -63,12 +64,20 @@ export interface PublishPorts {
   admin: ServerAdminStorage;
   assets: AssetHost;
   /** The running worlds: the tick hold, who holds what, the swap and the broadcast. A failed swap fails it closed, because a half-applied catalog must never tick. */
-  host: HostControl;
+  host: PublishHost;
+  /**
+   * The compiled catalog the worlds run now: what a publish is compared against, for the tables it
+   * changes and the definitions it removes, and whose formulas an ordinary publish compiles with.
+   */
+  running(): { tables: Readonly<Record<string, unknown>>; formulaRevision: string };
   /** The base game this process ships with: what an update from base merges in. Null offers no update. */
   bundled?: BaseCatalog | null;
   now(): number;
   log(event: Record<string, unknown>): void;
 }
+
+/** What a publish asks of the worlds. A running server's `HostControl` is one; `contentAtStart.ts` has one for a server with no world yet. */
+export type PublishHost = Pick<HostControl, "betweenTicks" | "broadcast" | "failClosed" | "configure" | "publishStage" | "publishCheck" | "publishCommit" | "publishAbort">;
 
 const record = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === "object" && !Array.isArray(value);
 
@@ -132,7 +141,7 @@ export function createContentPublisher(ports: PublishPorts) {
   const inherited = (): Lineage => ({ base: ports.catalog.base });
 
   async function apply({ sources, changed, affected }: Edit, actor: AdminActor | null, audit: { action: string; base: string | null; note: string | null }, lineage: Lineage = inherited()): Promise<PublishResult> {
-    const started = performance.now(), previous = ports.catalog.revision, before = RESOLVED_CATALOG.tables as unknown as Record<string, unknown>;
+    const started = performance.now(), previous = ports.catalog.revision, running = ports.running(), before = running.tables;
     const timings: PublishTimings = { manifestMs: 0, compileMs: 0, blockersMs: 0, spawnPlanMs: 0, storeMs: 0, swapMs: 0, tickStallMs: 0, totalMs: 0 };
     let mark = performance.now();
     const pools = await ports.assets.pools(sources).catch(error => {
@@ -142,7 +151,7 @@ export function createContentPublisher(ports: PublishPorts) {
     timings.manifestMs = performance.now() - mark;
     // The compile is about a tenth of a second on the full catalog. It runs between two ticks of the event loop, outside the tick hold.
     await tick(); mark = performance.now();
-    const compiled = compileCatalog(sources, { formulaRevision: lineage.formulaRevision ?? RESOLVED_CATALOG.formulaRevision, pools });
+    const compiled = compileCatalog(sources, { formulaRevision: lineage.formulaRevision ?? running.formulaRevision, pools });
     timings.compileMs = performance.now() - mark;
     if (!compiled.ok) throw new PublishFailure(422, "content_invalid", "Content failed validation. Nothing was stored and the running catalog is unchanged.",
       { problems: compiled.problems.filter(problem => problem.severity === "error").slice(0, MAX_LISTED) });

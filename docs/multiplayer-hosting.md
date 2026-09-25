@@ -82,6 +82,8 @@ Only `id` is required per world. `name` defaults to the id, `seed` to 1337 and `
 | `worlds` | `--worlds a,b` | `COREALM_WORLDS` |
 | `threads` | `--threads auto\|on\|off` | `COREALM_THREADS` |
 | follow the repo catalog | `--follow-repo-catalog` | none |
+| apply the bundled base before the worlds start | `--apply-base-update` | none |
+| the decisions for it | `--decisions <json>` or `--decisions-file <path>` | none |
 | every world's capacity | `--capacity` | `COREALM_CAPACITY` |
 
 ### Content catalog
@@ -101,7 +103,7 @@ overwrite a database that already has a catalog. When its bundled base differs f
 the active catalog, it prints `base-update-available` and leaves the active revision alone:
 
 ```json
-{"t":"2026-09-21T12:34:56.000Z","level":"info","event":"base-update-available","current":{"version":"0.1.0","revision":"dee09b..."},"bundled":{"version":"0.2.0","revision":"41c7aa..."},"message":"This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it."}
+{"t":"2026-09-21T12:34:56.000Z","level":"info","event":"base-update-available","current":{"version":"0.1.0","revision":"dee09b..."},"bundled":{"version":"0.2.0","revision":"41c7aa..."},"message":"This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it, or restart the server with --apply-base-update."}
 ```
 
 Run from source, the shipped base is compiled at start from `game/content/data/` and the
@@ -110,7 +112,21 @@ the checkout's catalog over the active one when they differ. `npm run multiplaye
 `npm run multiplayer:prod` pass it. A live server never sets it, and no configuration file key
 exists for it.
 
-The host opens storage, seeds it, reads the active server catalog, installs it with `installCatalog` from `game/src/content/catalogInstall.ts`, and only then imports the simulation, because the content modules read their tables as they load. `installCatalog` throws if a content module loaded first. An embedder that passes `catalog` to `startReferenceServer` must do the same. The server refuses to start when the store's active revision is not the catalog the process runs on. Without `catalog` the server keeps the catalog compiled into the build in memory, which is what tests and harnesses use.
+Before it installs anything, the host compiles the active source collections with its own compiler,
+as a publish would but without the asset host. Content this build cannot run, such as a field that
+became a list or a composition id the renderer no longer has, stops the start with one line, before
+any world is built, and changes nothing:
+
+```json
+{"t":"2026-09-25T14:37:11.240Z","level":"error","event":"start.failed","message":"The stored content predates this build's content format, so no world can run on it. The active revision cd0ba4ccb59f derives from base 0.1.0 (f3e72f6ea0ea); this build ships base 0.1.0 (972dee5bd7db). Nothing was changed. Update it from the bundled base before the worlds start: run the server once with --apply-base-update. 1 problem, the first: worldRegions: Content collection \"worldRegions\" failed validation (15 errors):
+  [error] worldRegions[0:fallowmarch].settlements: missing required field
+ …"}
+```
+
+Run it as [Updating before the worlds start](#updating-before-the-worlds-start) describes. A
+revision stored without its source collections cannot be checked, and starts as before.
+
+The host opens storage, seeds it, applies a base update when `--apply-base-update` asks for one, checks the active sources, reads the active server catalog, installs it with `installCatalog` from `game/src/content/catalogInstall.ts`, and only then imports the simulation, because the content modules read their tables as they load. `installCatalog` throws if a content module loaded first. An embedder that passes `catalog` to `startReferenceServer` must do the same. The server refuses to start when the store's active revision is not the catalog the process runs on. Without `catalog` the server keeps the catalog compiled into the build in memory, which is what tests and harnesses use.
 
 Every descriptor the server sends carries `catalogRevision` and `baseVersion`, in
 `/worlds` and in the `joined` reply. A static page configuration may leave both out.
@@ -201,6 +217,49 @@ server edits. Ordinary rollback restores the base recorded on its target revisio
 
 The server-mode Base game view presents this flow and warns for marker-only results. The focused
 base-update tests and bounded browser audit cover the HTTP contract and its failure cases.
+
+#### Updating before the worlds start
+
+The admin endpoints need a running server. When the new executable cannot run the stored content,
+no world starts, so the same update runs at start instead:
+
+```sh
+./corealm-server --apply-base-update
+```
+
+After seeding, and before it installs a catalog or builds a world, the host runs preview and then
+apply through the same publisher as the endpoints (`game/src/multiplayer/contentAtStart.ts`), with no
+world behind it. The merge, the decisions, the compile and the retire check against stored players
+are the same. The server stores the same rows as an admin apply: the bundled base's sources in
+`catalog_bases`, the merged revision, and a `catalog_history` move with the new base marker and
+`activated_by` set to `offline-base-update`. It also writes a `content.base-update` audit entry with
+the credential `offline-base-update`. Asset ids are checked against the manifest built into the
+executable (`assetValidation: "bundled"`), never against `assetBaseUrl`, because the asset host may
+not have the release's assets yet. The server then starts on the result.
+
+It logs `base-update.preview` with the merge summary, the conflict count and a `verdict`, then
+`base-update.applied` with the new revision and base. When the content already derives from the
+bundled base, it logs `base-update.none` and starts as usual.
+
+While a conflict has no decision, it changes nothing and exits with code 1. Each conflict is a
+`base-update.conflict` line with the fields each side changed. `base-update.decisions-needed`
+carries a `decisions` list that keeps every server record, and `start.failed` repeats it as the
+exact flag to run. Decide each conflict, then run again:
+
+```sh
+./corealm-server --apply-base-update --decisions '[{"collection":"lootTables","id":"shared_t0_frog","take":"mine"}]'
+./corealm-server --apply-base-update --decisions-file decisions.json
+```
+
+`mine` keeps the server's record, and `theirs` takes the bundled base's. Windows PowerShell 5.1
+removes the double quotes from arguments it passes to a program, so on Windows put the list in a file
+and use `--decisions-file`. The path is resolved against the executable's directory. Merged content
+that the publish checks refuse, for example `content_invalid` or `definition_in_use`, also exits
+with code 1 and changes nothing. An older bundled base is refused; a downgrade is still only the
+admin endpoint's `allowDowngrade`. The flag cannot be combined with `--follow-repo-catalog`.
+
+Run it once by hand, not from the service definition. The flag is harmless on a later start, but it
+would make every later deploy apply its base without review whenever the merge has no conflict.
 
 ### Publishing content
 
@@ -448,6 +507,30 @@ asserts a clean exit, then attaches both executables, the systemd unit, a sample
 and `SHA256SUMS` to a GitHub release. It needs no secret beyond the default `GITHUB_TOKEN` with
 `contents: write`. A `workflow_dispatch` run does everything except publish, which is the way to try
 a release without tagging.
+
+### Deploying a new executable
+
+A deploy replaces the executable and keeps `data/`. This works for every release, including one
+whose content format changed:
+
+1. Stop the server.
+2. Back up `data/`. While the server is stopped, copy `worlds.sqlite` and any `worlds.sqlite-wal`
+   beside it together.
+3. Replace the executable. Publish the release's assets to the asset host now or later. The update
+   below checks asset ids against the executable's own manifest, but players need those assets
+   before they join.
+4. Run the new executable once in a terminal with `--apply-base-update`. Read the
+   `base-update.preview` line. If the executable exits after `base-update.conflict` lines, decide
+   each conflict in a file. Start from the logged `decisions` list, which keeps every server record,
+   and run it again with `--apply-base-update --decisions-file decisions.json`.
+5. When it logs `base-update.applied` and `ready`, confirm that `baseVersion` equals
+   `bundledBaseVersion` on the ready line. Stop it and start the service as usual.
+6. Devdocs, Server, Base game now reports the server as up to date, and the content history shows the
+   base update by `offline-base-update`.
+
+To undo it, stop the server and restore both the previous executable and the `data/` backup. A server
+that should keep its content unchanged can skip step 4 only when the new executable can run that
+content. Otherwise the server refuses to start and names step 4.
 
 ## Registration and authentication
 

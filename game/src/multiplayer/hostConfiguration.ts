@@ -41,6 +41,13 @@ export interface HostConfiguration {
    */
   followRepoCatalog: boolean;
   /**
+   * `--apply-base-update`, flags only. Before any world starts, the bundled base is merged into the
+   * database's content exactly as `POST /admin/content/base/apply` merges it, and the server starts
+   * on the result. `decisions` is the JSON text `--decisions` gives, or the file `--decisions-file`
+   * names holds. See `contentAtStart.ts`.
+   */
+  baseUpdate: { decisions: string | null } | null;
+  /**
    * Whether each world runs in a thread of its own, with one more thread owning the database.
    * `auto`, the default, does so when the server runs more than one world: one world gains nothing
    * from a thread of its own and pays for the messages. `on` and `off` say so outright.
@@ -175,8 +182,15 @@ export function hostConfiguration(args: readonly string[], env: NodeJS.ProcessEn
   const threadMode = value("--threads", "COREALM_THREADS", "threads", "auto")!;
   if (!["auto", "on", "off"].includes(threadMode)) throw new Error('threads must be "auto", "on" or "off"');
   const threads = threadMode === "on" || (threadMode === "auto" && worlds.length > 1);
+  const followRepoCatalog = args.includes("--follow-repo-catalog"), applyBaseUpdate = args.includes("--apply-base-update");
+  const decisionsText = flag("--decisions"), decisionsFile = flag("--decisions-file");
+  if ((decisionsText !== undefined || decisionsFile !== undefined) && !applyBaseUpdate) throw new Error("--decisions and --decisions-file go with --apply-base-update");
+  if (decisionsText !== undefined && decisionsFile !== undefined) throw new Error("Give the decisions once: --decisions or --decisions-file");
+  if (applyBaseUpdate && followRepoCatalog) throw new Error("--apply-base-update merges the bundled base into the server's content and --follow-repo-catalog replaces that content. Choose one");
+  const decisions = decisionsFile === undefined ? decisionsText ?? null : readFile(decisionsFile);
+  if (decisions === undefined) throw new Error(`Decisions file not found: ${decisionsFile}`);
   return { threads, threadMode: threadMode as "auto" | "on" | "off", authored, authentication, developmentGuests, guests, host, port, data, publicEndpoint, allowedOrigins,
-    assetBaseUrl, identityUrl, ownerAccount, authModule, name, description, registerWithDirectory, adminUiDir, followRepoCatalog: args.includes("--follow-repo-catalog"), worlds, configFile: text === undefined ? null : path };
+    assetBaseUrl, identityUrl, ownerAccount, authModule, name, description, registerWithDirectory, adminUiDir, followRepoCatalog, baseUpdate: applyBaseUpdate ? { decisions } : null, worlds, configFile: text === undefined ? null : path };
 }
 
 /** The same rule the browser applies to a descriptor: HTTPS, or plain HTTP only on loopback. */

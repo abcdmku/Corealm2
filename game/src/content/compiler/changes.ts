@@ -1,4 +1,5 @@
 import { CONTENT_COLLECTIONS, type ContentCollection } from './collections.js';
+import type { CompiledWorld } from '../worldData.js';
 
 /**
  * What a content write changed, for the three places that accept one: the devdocs repo transaction,
@@ -45,4 +46,27 @@ export function affectedCompiled(before: Readonly<Record<string, unknown>>, afte
 /** Compiled tables whose value differs, by name, in table order. */
 export function changedTables(before: Readonly<Record<string, unknown>>, after: Readonly<Record<string, unknown>>): string[] {
   return [...new Set([...Object.keys(before), ...Object.keys(after)])].filter(name => JSON.stringify(before[name]) !== JSON.stringify(after[name]));
+}
+
+function spawnSignatures(world: CompiledWorld): Map<string, { regionId: string; signature: string }> {
+  const habitats = new Map(world.habitats.map(habitat => [habitat.groupId, habitat]));
+  const found = new Map<string, { regionId: string; signature: string }>();
+  for (const [regionId, groups] of Object.entries(world.groupsByRegion)) for (const group of groups) {
+    const creature = world.creatureByGroup[group.id];
+    // Loot is read from the registry at each kill, so a loot edit must not rebuild a spawn.
+    const { lootRolls: _rolls, gold: _gold, ...stats } = creature?.stats ?? {} as Partial<NonNullable<typeof creature>["stats"]>;
+    found.set(group.id, { regionId, signature: JSON.stringify([regionId, group, habitats.get(group.id) ?? null, creature && { ...creature, stats }]) });
+  }
+  return found;
+}
+
+/** Groups whose placement, habitat or creature differs between two world tables, with the regions they are in. */
+export function changedSpawnGroups(before: CompiledWorld, after: CompiledWorld): { groupIds: Set<string>; regionIds: string[] } {
+  const old = spawnSignatures(before), next = spawnSignatures(after), groupIds = new Set<string>(), regionIds = new Set<string>();
+  for (const id of new Set([...old.keys(), ...next.keys()])) {
+    if (old.get(id)?.signature === next.get(id)?.signature) continue;
+    groupIds.add(id);
+    for (const entry of [old.get(id), next.get(id)]) if (entry) regionIds.add(entry.regionId);
+  }
+  return { groupIds, regionIds: [...regionIds].sort() };
 }

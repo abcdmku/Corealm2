@@ -100,7 +100,7 @@ describe("seeding", () => {
     logs.length = 0;
     expect(await seedCatalog(storage, base(B, "Shipped later", "0.2.0"), event => logs.push(event), { now: () => 2000 })).toBe(A);
     expect(logs).toEqual([{ event: "base-update-available", current: marker, bundled: { version: "0.2.0", revision: B },
-      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it." }]);
+      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it, or restart the server with --apply-base-update." }]);
     expect(await storage.activeRevision()).toBe(A);
     expect(await storage.catalog(B, "server")).toBeNull();
     // The same base again is silent.

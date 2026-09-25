@@ -16,6 +16,7 @@ import { quietSqliteWarning, runThread, threadRole } from "../game/src/multiplay
 import type { ServerWorldPack } from "../game/src/multiplayer/worldPack.js";
 import { installCatalog } from "../game/src/content/catalogInstall.js";
 import { activeServerCatalog, baseMarkerOf, seedCatalog, type BaseCatalog } from "../game/src/multiplayer/catalogHost.js";
+import { applyBaseUpdateAtStart, checkActiveContent } from "../game/src/multiplayer/contentAtStart.js";
 import { semver } from "../game/src/multiplayer/semver.js";
 import { guestAuthentication } from "../game/src/multiplayer/guestAuthentication.js";
 import { createIdentityAuthentication } from "../game/src/multiplayer/identityAuthentication.js";
@@ -54,6 +55,11 @@ Options:
   --config <path>          Configuration file. Defaults to corealm-server.json beside the server.
   --write-sample-config    Write a documented corealm-server.json and exit.
   --tui                    Draw the live console. Log lines go to server.log in the data directory.
+  --apply-base-update      Before any world starts, merge the base game this build ships into the
+                           server's content, as the admin base update does, then start on the result.
+                           Stops, changing nothing, while a conflict has no decision.
+  --decisions <json>       With --apply-base-update: [{"collection","id","take":"mine"|"theirs"}].
+  --decisions-file <path>  The same list, read from a file.
   --host, --port, --data, --public-endpoint, --origins, --asset-base-url, --identity-url,
   --owner-account, --auth-module, --name, --description, --admin-ui-dir, --worlds, --capacity,
   --authored, --guests, --development-guests, --register-with-directory, --threads
@@ -261,8 +267,13 @@ async function main(argv: readonly string[]): Promise<number> {
     const { SqliteWorldStorage } = await import("../game/src/multiplayer/sqliteStorage.js");
     storage = new SqliteWorldStorage(resolve(directory, "worlds.sqlite"), { log: storageLog, bundledBase: baseMarkerOf(shipped) });
   }
+  const manifest = embedded.text(ASSET_MANIFEST_ASSET);
   const revision = await (async () => {
     await seedCatalog(storage.catalog, shipped, event => logger.emit(event), { follow: config.followRepoCatalog });
+    // Both run before any content module loads: stored content this build cannot run must never reach world assembly.
+    if (config.baseUpdate) await applyBaseUpdateAtStart({ storage, bundled: shipped, decisions: config.baseUpdate.decisions,
+      manifest: manifest === null ? null : async () => JSON.parse(manifest), now: Date.now, log: event => logger.emit(event) });
+    await checkActiveContent(storage.catalog, shipped);
     const catalog = await activeServerCatalog(storage.catalog);
     installCatalog(catalog);
     return catalog.revision;
@@ -279,7 +290,6 @@ async function main(argv: readonly string[]): Promise<number> {
   // Every world thread reads the pack through one block of shared memory, so ten megabytes are held once however many worlds there are.
   let sharedPack: Uint8Array | null = null;
   if (database && packBytes) { sharedPack = new Uint8Array(new SharedArrayBuffer(packBytes.byteLength)); sharedPack.set(packBytes); }
-  const manifest = embedded.text(ASSET_MANIFEST_ASSET);
   const adminUiArchive = embedded.asset(ADMIN_UI_ASSET);
   const server = await startReferenceServer({
     worlds, port: config.port, host: config.host, storage, admin: storage.admin, catalog: storage.catalog, bundledBase: shipped, log: event => logger.emit(event),

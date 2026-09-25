@@ -72,7 +72,7 @@ export async function runWorldThread(data: WorldThreadData, parent: MessagePort)
     if (text === null) throw new Error("The database holds no active server catalog for this world to run");
     installCatalog(JSON.parse(text) as InstalledCatalog);
   } else await import(data.catalog.specifier);
-  const [{ createWorldHost }, { localHostControl }, { RESOLVED_CATALOG }] = await Promise.all([import("../worldHost.js"), import("../hostControl.js"), import("../../content/resolvedCatalog.js")]);
+  const [{ createWorldHost }, { localHostControl }, { RESOLVED_CATALOG }] = await Promise.all([import("../worldHost.js"), import("../localHostControl.js"), import("../../content/resolvedCatalog.js")]);
 
   const outbox = createOutbox(data.peerEncoding, (batch: OutboundBatch, transfer) => main.note("peer.out", [batch], transfer));
   const connections = new Map<number, { link: ThreadPeerLink; connection: PeerConnection; account: string | null }>();

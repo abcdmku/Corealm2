@@ -4,7 +4,8 @@ import type { WorldDescriptor, WorldKey, WorldStorage } from "../contracts.js";
 import { adminUnavailable, createAdminApi } from "./adminApi.js";
 import { ACCOUNT_ID, banMessage, hashSecret, newSetupCode, setupCodeDigits, type AdminActor, type ServerAdminStorage } from "./adminStorage.js";
 import { createAdminUi, type AdminUiSource } from "./adminUi.js";
-import { HoldFailure, localHostControl, type HostControl, type WorldStatus } from "./hostControl.js";
+import { HoldFailure, type HostControl, type WorldStatus } from "./hostControl.js";
+import { localHostControl } from "./localHostControl.js";
 import { editDiff, EditFailure, type PlayerPatch } from "./playerEdits.js";
 import { playerRevision } from "./playerRevision.js";
 import { createDirectoryHeartbeat, DEFAULT_SERVER_NAME, effectiveSettings, settingsPatch, type ServerSettings } from "./serverSettings.js";
@@ -262,7 +263,7 @@ export async function startReferenceServer(options: ReferenceServerOptions) {
       worlds: host.status().map(world => ({ providerId: world.key.providerId, worldId: world.key.worldId,
         name: world.descriptor.name, seed: world.descriptor.seed, capacity: world.capacity })) };
   }
-  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, host, bundled: options.bundledBase ?? null }) : null;
+  const publisher = accounts ? createContentPublisher({ catalog, admin: accounts, assets: createAssetHost({ ...options.assets, now }), now, log, host, running: () => RESOLVED_CATALOG, bundled: options.bundledBase ?? null }) : null;
   const adminApi = accounts && publisher ? createAdminApi({
     admin: accounts, catalog, publisher, allowedOrigins: options.allowedOrigins ?? [], now, log,
     ui: createAdminUi({ source: options.adminUi ?? null, identityUrl: options.identityUrl, assetBaseUrl: host.status()[0]?.descriptor.assetBaseUrl }),

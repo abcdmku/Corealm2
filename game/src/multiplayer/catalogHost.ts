@@ -42,7 +42,7 @@ export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, lo
   if (active !== null && !(options.follow && active !== revision)) {
     const current = await storage.activeBase();
     if (baseDiffers(current, marker)) log({ event: "base-update-available", current, bundled: marker,
-      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it." });
+      message: "This server ships a different base game than its content derives from. Nothing was changed. Open devdocs, Server, Base game to preview the update and apply it, or restart the server with --apply-base-update." });
     return active;
   }
   const at = now(), by = active === null ? "seed" : "follow";
@@ -55,6 +55,41 @@ export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, lo
   log(active === null ? { event: "catalog-seeded", revision, baseVersion: base.version } : { event: "catalog-followed", revision, previousRevision: active, baseVersion: base.version });
   return revision;
 }
+
+/**
+ * Which changed tables a running process picks up when a publish moves it onto a new catalog.
+ *
+ * About 144 modules copy content tables as they load, and a publish cannot reach those copies. What
+ * `swapCatalog` in `contentSwap.ts` can reach is declared here, table by table, and the publish reply
+ * reads this map to tell the author which of their changed tables are live and which wait for the
+ * next start. A test holds every table of the compiled catalog against it.
+ *
+ * `live` means one of:
+ *  - the `ContentRegistry` holds the table and `swapCatalog` registers it again (`items`, `recipes`,
+ *    `shops`, `enemies`), so the next kill, purchase or craft reads the new row;
+ *  - `swapCatalog` refills the index that serves it (`compiledCreatures` and `species` through
+ *    `reindexCreatures`, `world` through `reindexWorldContent`, `reindexHabitats` and each world's
+ *    spawn plan, which takes effect creature by creature at the next respawn);
+ *  - nothing reads the table while the game runs: it is an input the compiler folds into one of the
+ *    tables above, so its whole effect arrives through them.
+ *
+ * `restart` means a module derives something from the table at import and keeps it.
+ */
+export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">> = {
+  // Registry rows.
+  items: "live", recipes: "live", shops: "live", enemies: "live",
+  // Refilled indexes.
+  compiledCreatures: "live", species: "live", world: "live",
+  // Compiler inputs with no reader at run time.
+  creatureDefinitions: "live", creatureProfiles: "live", lootTables: "live", encounters: "live", placements: "live",
+  // Derived at import: resource nodes and their entities, spells, region geometry and everything built on it, tier tables, tuning, audio.
+  resources: "restart", spells: "restart", spellRunes: "restart", elementalSpells: "restart",
+  worldRegions: "restart", resourcePlacements: "restart", npcs: "restart", quests: "restart", dialogue: "restart",
+  progression: "restart", materials: "restart", equipmentFamilies: "restart", recipeTemplates: "restart",
+  campfireFuels: "restart", equipmentSets: "restart",
+  "balance/recipes": "restart", "balance/sets": "restart", "balance/formation": "restart", "balance/campfires": "restart",
+  audio: "restart",
+};
 
 /** The active server catalog, parsed, ready for `installCatalog`. */
 export async function activeServerCatalog(storage: CatalogStorage): Promise<InstalledCatalog> {

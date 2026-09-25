@@ -27,5 +27,5 @@ for (const entry of ["game/src/multiplayer/threads/threadEntry.ts", "tools/multi
   expect(graph.has("game/src/multiplayer/threads/worldThread.ts")).toBe(true);
   expect(graph.has(READS_TABLES)).toBe(false);
   // The check can see a content read when there is one.
-  expect((await staticGraph("game/src/multiplayer/hostControl.ts")).has(READS_TABLES)).toBe(true);
+  expect((await staticGraph("game/src/multiplayer/localHostControl.ts")).has(READS_TABLES)).toBe(true);
 }, 120_000);
