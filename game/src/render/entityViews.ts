@@ -116,6 +116,7 @@ import {remoteEquipmentParts,RemoteEquipmentSources,type PublicEquipment} from "
 import { POSE_CLIPS } from "./characterRig.js";
 import type { RemotePlayerPose } from "../contracts.js";
 import {weaponAttachment,type GearAppearance} from "./equipmentVisuals.js";
+import { createEntityBatchMesh } from "./entityBatchMesh.js";
 import {
   advanceCreaturePlayback, createCreaturePlayback, creatureBlend, missingCreatureHit,
   transitionCreaturePlayback, type CreaturePlayback,
@@ -4987,7 +4988,7 @@ export class EntityViews {
     const maxInstances = BATCH_INSTANCE_STEP;
     const maxVertices = Math.max(BATCH_VERTEX_STEP, vertices * 2);
     const maxIndices = Math.max(BATCH_VERTEX_STEP * 3, indices * 2);
-    const mesh = new THREE.BatchedMesh(maxInstances, maxVertices, maxIndices, part.material);
+    const mesh = createEntityBatchMesh(maxInstances, maxVertices, maxIndices, part.material);
     mesh.name = `entity-batch-${this.batches.size}`;
     const castsShadow = part.material.userData.entityCastShadow !== false;
     mesh.castShadow = castsShadow;
