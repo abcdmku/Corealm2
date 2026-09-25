@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { SolidVolume, Vec3 } from "../game/src/contracts.js";
-import { buildComposition, COMPOSITION_IDS, KIT_IDS, type PartPlacement } from "../game/src/render/buildings.js";
+import { buildComposition, KIT_IDS, type PartPlacement } from "../game/src/render/buildings.js";
+import { COMPOSITION_IDS } from "../game/src/render/compositionIds.js";
 import {
   structureCollisionFromCompositionParts,
   type StructureAssetMeasurements,

@@ -37,7 +37,8 @@ import { WildernessEffects, wildernessEffectsLabTorches, deepWildernessEffectsLa
 import { WildernessCreatureEffects, type WildernessCreatureEmitter } from '../render/wildernessCreatureEffects.js';
 import { assertCreatureCatalog } from '../content/creatureCatalog.js';
 import { wildernessMagicAt } from '../content/wildernessDepth.js';
-import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
+import { DEEP_WILDERNESS_STRUCTURES } from '../render/compositions/deepWildernessStructures.js';
+import type { DeepWildernessStructureId } from "../render/compositionIds.js";
 import { coastalBodyOnSafeGround } from '../content/coastalEncounterFormation.js';
 import { lavaObstacles } from "../world/lavaObstacles.js";
 import { WILDERNESS_ROAD_BRAZIERS } from "../content/wildernessLandmarks.js";

@@ -52,13 +52,13 @@ import {
   type SettlementDef, type Spot, type WallRunDef,
 } from "../content/regions.js";
 import {
-  BUILDING_KITS, GATE_GAP_METRES, MODULE_METRES,
-  buildComposition, buildPrefab, buildWallRun, prefabCollision, variantSeed, wallRunCollision,
-  type BuildingKit, type CompositionId, type PartPlacement, type PrefabBox,
+  BUILDING_KITS, GATE_GAP_METRES, MODULE_METRES, buildComposition, buildPrefab, buildWallRun,
+  prefabCollision, variantSeed, wallRunCollision, type BuildingKit, type PartPlacement, type PrefabBox,
 } from "../render/buildings.js";
 import { tierSilhouetteScale } from "../core/math.js";
 import { buildWildernessRuinCollisionParts, WILDERNESS_RUIN_IDS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
-import { buildDeepWildernessStructureCollisionParts, DEEP_WILDERNESS_STRUCTURE_IDS, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
+import { buildDeepWildernessStructureCollisionParts } from '../render/compositions/deepWildernessStructures.js';
+import { DEEP_WILDERNESS_STRUCTURE_IDS, type CompositionId, type DeepWildernessStructureId } from "../render/compositionIds.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
 import type { KnownLocation } from "./entities.js";
 import { WATER_FILL_DEPTH } from "./waterBodies.js";

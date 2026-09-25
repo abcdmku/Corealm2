@@ -1,10 +1,7 @@
 import type { PartPlacement } from '../buildings.js';
 import { WILDERNESS_EXPANSION_SITES } from '../../content/wildernessDepth.js';
+import type { DeepWildernessStructureId } from '../compositionIds.js';
 
-export const DEEP_WILDERNESS_STRUCTURE_IDS = [
-  'cinder_chain_foundry', 'nightforge_bastion', 'hollow_star_sanctum',
-] as const;
-export type DeepWildernessStructureId = typeof DEEP_WILDERNESS_STRUCTURE_IDS[number];
 type Point = readonly [number, number];
 type TorchMount = {
   readonly position: readonly [number, number, number];

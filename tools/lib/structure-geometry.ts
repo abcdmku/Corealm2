@@ -18,17 +18,16 @@
  */
 import {
   BUILDING_KITS,
-  COMPOSITION_IDS,
   KIT_IDS,
   PREFAB_IDS,
   buildComposition,
   buildPrefab,
   buildWallRun,
-  type CompositionId,
   type KitId,
   type PartPlacement,
   type PrefabId,
 } from "../../game/src/render/buildings.js";
+import { COMPOSITION_IDS, type CompositionId } from "../../game/src/render/compositionIds.js";
 import { structureVariantCount } from "../../game/src/render/structures/catalog.js";
 import { compositionHero } from "../../game/src/featureLab/structures.js";
 import manifest from "../../game/public/assets/manifest.json" with { type: "json" };

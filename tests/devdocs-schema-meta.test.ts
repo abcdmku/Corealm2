@@ -19,6 +19,7 @@ import { RecipeRecordSchema } from "../game/src/content/schema/recipes.js";
 import { CampfireFuelRecordSchema } from "../game/src/content/schema/campfireFuels.js";
 import { dialogueRecordSchema, questSchema } from "../game/src/content/schema/story.js";
 import { WorldRegionSchema } from "../game/src/content/schema/worldRegions.js";
+import { COMPOSITION_IDS } from "../game/src/render/compositionIds.js";
 import { fieldCore, fieldPath, recordLabelKey, serialFieldSpec } from "../devdocs/src/model/fields.js";
 
 const REF_KINDS = [
@@ -26,7 +27,7 @@ const REF_KINDS = [
   "npc", "shop", "quest", "dialogue", "spell", "rune", "set",
   "asset", "audio", "region", "skill", "station", "element",
   "entity", "location", "settlement", "enemyFamily", "campfireFuel",
-  "material", "equipmentFamily", "recipeTemplate", "creatureProfile", "encounter",
+  "material", "equipmentFamily", "recipeTemplate", "creatureProfile", "encounter", "composition",
 ] as const satisfies readonly RefKind[];
 
 interface FoundRef { path: string; kind: string; role: string | undefined; inArray: boolean }
@@ -72,9 +73,10 @@ describe("schema reference sources", () => {
     for (const kind of REF_KINDS) expect(REF_KIND_SOURCES[kind], kind).toBeDefined();
   });
 
-  it("resolves the seven kinds that have no collection of their own", () => {
+  it("resolves the eight kinds that have no collection of their own", () => {
     expect(REF_KIND_SOURCES.skill).toEqual({ enum: SKILL_IDS });
     expect(REF_KIND_SOURCES.element).toEqual({ enum: SPELL_ELEMENTS });
+    expect(REF_KIND_SOURCES.composition).toEqual({ enum: COMPOSITION_IDS });
     expect(REF_KIND_SOURCES.station).toEqual({ derive: "stations" });
     expect(REF_KIND_SOURCES.location).toEqual({ derive: "locations" });
     expect(REF_KIND_SOURCES.settlement).toEqual({ derive: "settlements" });

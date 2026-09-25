@@ -173,7 +173,7 @@ const ObstacleDefSchema = obj({
   savesMeters: num({}, { unit: 'm' }),
   // Traversal prefabs (corealm_traversal_climb) are not manifest assets, so this stays a plain id.
   assetId: str({}, { label: 'Model' }),
-  composition: opt(str()),
+  composition: opt(ref('composition', { label: 'Composition', role: 'Set dressing for' })),
   scale: opt(num()),
   rotationY: opt(num({}, { unit: 'rad' })),
   fromLocationId: ref('location', { label: 'From', role: 'Obstacle end' }),
@@ -191,7 +191,7 @@ const LandmarkDefSchema = obj({
   rotationY: opt(num()),
   clipFraction: opt(num()),
   blurb: str(),
-  composition: opt(str()),
+  composition: opt(ref('composition', { label: 'Composition', role: 'Set dressing for' })),
   solid: opt(bool()),
   compositionOnly: opt(bool()),
   originOnGround: opt(bool()),
@@ -205,7 +205,7 @@ const GateDefSchema = obj({
   toRegionId: ref('region', { label: 'To region', role: 'Gate into' }),
   toLocationId: ref('location', { label: 'To location', role: 'Gate into' }),
   rotationY: opt(num()),
-  composition: opt(str()),
+  composition: opt(ref('composition', { label: 'Composition', role: 'Set dressing for' })),
 });
 
 const RegionAdjacencyDefSchema = obj({
@@ -242,7 +242,7 @@ const DungeonDefSchema = obj({
   entranceAssetId: ref('asset', { label: 'Entrance model', role: 'Model for' }),
   entranceRotationY: opt(num()),
   entranceScale: opt(num()),
-  entranceComposition: opt(str()),
+  entranceComposition: opt(ref('composition', { label: 'Entrance composition', role: 'Set dressing for' })),
   palette: arr(str(), {}, { label: 'Palette' }),
   chambers: arr(DungeonChamberDefSchema, {}, { label: 'Chambers' }),
   doors: arr(DungeonDoorDefSchema, {}, { label: 'Doors', role: 'Door in' }),

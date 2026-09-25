@@ -13,6 +13,7 @@ import type { WorldRegionGeometry } from '../schema/worldRegions.js';
 import type { CreatureDefinition, CreatureProfile } from '../schema/creatureDefinitions.js';
 import type { LootTableRecord } from '../schema/loot.js';
 import { SKILL_IDS, SPELL_ELEMENTS } from '../../contracts.js';
+import { COMPOSITION_IDS } from '../../render/compositionIds.js';
 
 /**
  * The server catalog: every resolved table, authoring inputs included. `revision` names this catalog
@@ -95,7 +96,7 @@ export function compileContent(values: ReadonlyMap<string, unknown>, external: R
   }catch(error){diagnostics.push({path:'placements',message:error instanceof Error?error.message:String(error),severity:'error'});}
   const ids = (name: string, key = 'id') => new Set((Array.isArray(tables[name]) ? tables[name] as Record<string, unknown>[] : []).map(row => String(row[key])));
   const audio = tables.audio as {cues?: object; loops?: object} | undefined;
-  const pools: ReferencePools = {...external, material:ids('materials'), equipmentFamily:ids('equipmentFamilies'), recipeTemplate:ids('recipeTemplates'), creatureProfile:ids('creatureProfiles'), encounter:ids('encounters'), region:new Set(regionBounds.map(row=>row.id)), item: ids('items'), recipe: authoredRecipes, resource: ids('resources'), npc: ids('npcs'), shop: ids('shops'), quest: ids('quests'), dialogue: ids('dialogue'), spell: ids('spells'), rune: ids('spellRunes','itemId'), set: ids('equipmentSets'), campfireFuel: ids('campfireFuels','logItemId'), enemy: ids('creatureDefinitions'), species: ids('creatureDefinitions'), lootTable: ids('lootTables'), skill: new Set(SKILL_IDS), element: new Set(SPELL_ELEMENTS), audio: new Set([...Object.keys(audio?.cues ?? {}), ...Object.keys(audio?.loops ?? {})])};
+  const pools: ReferencePools = {...external, material:ids('materials'), equipmentFamily:ids('equipmentFamilies'), recipeTemplate:ids('recipeTemplates'), creatureProfile:ids('creatureProfiles'), encounter:ids('encounters'), region:new Set(regionBounds.map(row=>row.id)), item: ids('items'), recipe: authoredRecipes, resource: ids('resources'), npc: ids('npcs'), shop: ids('shops'), quest: ids('quests'), dialogue: ids('dialogue'), spell: ids('spells'), rune: ids('spellRunes','itemId'), set: ids('equipmentSets'), campfireFuel: ids('campfireFuels','logItemId'), enemy: ids('creatureDefinitions'), species: ids('creatureDefinitions'), lootTable: ids('lootTables'), skill: new Set(SKILL_IDS), element: new Set(SPELL_ELEMENTS), composition: new Set(COMPOSITION_IDS), audio: new Set([...Object.keys(audio?.cues ?? {}), ...Object.keys(audio?.loops ?? {})])};
   if (!diagnostics.some(issue => issue.severity === 'error')) for (const spec of CONTENT_COLLECTIONS) {
     const rows = spec.shape === 'array' ? tables[spec.name] as unknown[] : [tables[spec.name]];
     rows.forEach((row,index) => diagnostics.push(...collectionReferenceIssues(spec.name,spec.schema,row,pools,`${spec.name}[${index}]`)));

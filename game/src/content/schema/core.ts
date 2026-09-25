@@ -15,6 +15,7 @@
  */
 
 import { SKILL_IDS, SPELL_ELEMENTS } from "../../contracts.js";
+import { COMPOSITION_IDS } from "../../render/compositionIds.js";
 
 export type IssueSeverity = "error" | "warning";
 
@@ -31,7 +32,8 @@ export type RefKind =
   | "npc" | "shop" | "quest" | "dialogue" | "spell" | "rune" | "set"
   | "asset" | "audio" | "region" | "skill" | "station" | "element"
   | "entity" | "location" | "settlement" | "enemyFamily" | "campfireFuel"
-  | "material" | "equipmentFamily" | "recipeTemplate" | "creatureProfile" | "encounter";
+  | "material" | "equipmentFamily" | "recipeTemplate" | "creatureProfile" | "encounter"
+  | "composition";
 
 export interface FieldMeta {
   /** Short form label. Defaults to the field name. */
@@ -95,9 +97,9 @@ export type RefKindSource =
   | { derive: "stations" | "locations" | "settlements" | "enemyFamilies" | "entities" };
 
 /**
- * Every `RefKind` resolves here. The seven kinds with no collection of their own (`skill`,
- * `station`, `element`, `entity`, `location`, `settlement`, `enemyFamily`) name an enum or a
- * derivation so they stop falling back to a raw text box.
+ * Every `RefKind` resolves here. The eight kinds with no collection of their own (`skill`,
+ * `element`, `composition`, `station`, `entity`, `location`, `settlement`, `enemyFamily`) name an
+ * enum or a derivation so they stop falling back to a raw text box.
  */
 export const REF_KIND_SOURCES: Record<RefKind, RefKindSource> = {
   item: { collection: "items" },
@@ -127,6 +129,8 @@ export const REF_KIND_SOURCES: Record<RefKind, RefKindSource> = {
   skill: { enum: SKILL_IDS },
   /** The four attack elements. `SPELL_ELEMENTS` is the frozen runtime list. */
   element: { enum: SPELL_ELEMENTS },
+  /** Set dressing the renderer can build around a landmark, gate, obstacle or dungeon mouth. `COMPOSITION_IDS` is the running build's list. */
+  composition: { enum: COMPOSITION_IDS },
   /**
    * Production station categories. The closed list lives on `RecipeSchema.stations`, and every
    * recipe template repeats it, so the app reads the distinct values off `recipeTemplates`.

@@ -2,9 +2,10 @@
 import type { BuildingModel, ItemId, QuestId, RecipeId, RegionId, SkillId, StationKind } from "../contracts.js";
 import { PLAYER_SPEED } from "../app/config.js";
 import {
-  COMPOSITION_IDS, KIT_IDS, MODULE_METRES, PREFAB_IDS, compositionPartAssetIds, isCompositionId,
-  isKitId, isPrefabId, prefabPartAssetIds, type CompositionId, type KitId, type PrefabId,
+  KIT_IDS, MODULE_METRES, PREFAB_IDS, compositionPartAssetIds, isKitId, isPrefabId, prefabPartAssetIds,
+  type KitId, type PrefabId,
 } from "../render/buildings.js";
+import { COMPOSITION_IDS, isCompositionId, type CompositionId } from "../render/compositionIds.js";
 
 import { resourceDef } from './resources.js';
 import { WORLD_REGION_GEOMETRY, WORLD_CONTENT, RESOURCE_PLACEMENTS } from './worldData.js';

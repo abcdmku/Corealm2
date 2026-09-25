@@ -29,7 +29,8 @@ import { seedFromText, type OrganicBiomeSpec } from "../world/organicFields.js";
 import { WATER_BASIN_DEPTH, waterBasinForCluster } from "../world/waterBodies.js";
 import { WILDERNESS_LAVA_CHANNELS } from "../content/wildernessLava.js";
 import { WILDERNESS_RUINS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
-import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
+import { DEEP_WILDERNESS_STRUCTURES } from '../render/compositions/deepWildernessStructures.js';
+import type { DeepWildernessStructureId } from "../render/compositionIds.js";
 
 // Kept here as a re-export because boot and its existing callers already own this import path.
 export { WATER_BASIN_DEPTH };

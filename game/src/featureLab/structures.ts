@@ -10,10 +10,9 @@ import type {
   Vec3,
 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
-import { DEEP_WILDERNESS_STRUCTURE_IDS } from '../render/compositions/deepWildernessStructures.js';
+import { DEEP_WILDERNESS_STRUCTURE_IDS } from "../render/compositionIds.js";
 import {
   BUILDING_KITS,
-  COMPOSITION_IDS,
   KIT_IDS,
   PREFAB_IDS,
   STOREY_METRES,
@@ -24,10 +23,10 @@ import {
   prefabHeight,
   wallRunCollision,
   variantSeed,
-  type CompositionId,
   type PartPlacement,
   type PrefabId,
 } from "../render/buildings.js";
+import { COMPOSITION_IDS, type CompositionId } from "../render/compositionIds.js";
 import { selectedStructureVariantId } from "../render/structures/catalog.js";
 import {
   structureCollisionFromCompositionParts,

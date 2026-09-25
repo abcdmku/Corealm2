@@ -2,10 +2,9 @@ import "../lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import {
-  DEEP_WILDERNESS_STRUCTURE_IDS, DEEP_WILDERNESS_STRUCTURES,
-  buildDeepWildernessStructure, buildDeepWildernessStructureCollisionParts,
-  type DeepWildernessStructureId,
+  DEEP_WILDERNESS_STRUCTURES, buildDeepWildernessStructure, buildDeepWildernessStructureCollisionParts,
 } from '../../game/src/render/compositions/deepWildernessStructures.js';
+import { DEEP_WILDERNESS_STRUCTURE_IDS, type DeepWildernessStructureId } from '../../game/src/render/compositionIds.js';
 import { CAMERA } from '../../game/src/app/config.js';
 import { wildernessTorchPalette } from '../../game/src/render/wildernessEffects.js';
 import { GameDriver } from '../lib/driver.js';

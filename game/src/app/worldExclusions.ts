@@ -1,6 +1,7 @@
 import { WILDERNESS_ROAD_BRAZIERS } from "../content/wildernessLandmarks.js";
 import { WILDERNESS_RUINS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
-import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from "../render/compositions/deepWildernessStructures.js";
+import { DEEP_WILDERNESS_STRUCTURES } from "../render/compositions/deepWildernessStructures.js";
+import type { DeepWildernessStructureId } from "../render/compositionIds.js";
 import { WILDERNESS_LAVA_CHANNELS, lavaSections } from "../content/wildernessLava.js";
 import type { SolidVolume, Vec3 } from "../contracts.js";
 import type { WorldScene } from "../render/scene.js";

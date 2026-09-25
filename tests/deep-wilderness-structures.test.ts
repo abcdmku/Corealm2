@@ -4,9 +4,9 @@ import { lintParts } from '../tools/lib/structure-geometry.js';
 import type { PartPlacement } from '../game/src/render/buildings.js';
 import { structureCollisionFromCompositionParts } from '../game/src/world/regionBuilder.js';
 import {
-  DEEP_WILDERNESS_STRUCTURE_IDS, DEEP_WILDERNESS_STRUCTURES,
-  buildDeepWildernessStructure, buildDeepWildernessStructureCollisionParts,
+  DEEP_WILDERNESS_STRUCTURES, buildDeepWildernessStructure, buildDeepWildernessStructureCollisionParts,
 } from '../game/src/render/compositions/deepWildernessStructures.js';
+import { DEEP_WILDERNESS_STRUCTURE_IDS } from '../game/src/render/compositionIds.js';
 
 const assets = new Map(manifest.assets.map(asset => [asset.id, asset]));
 function bounds(part: PartPlacement) {

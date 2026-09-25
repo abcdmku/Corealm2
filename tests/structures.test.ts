@@ -12,7 +12,6 @@ import {
 import { buildGravelmawMouthComposition } from "../game/src/render/compositions/gravelmawMouth.js";
 import {
   BUILDING_KITS,
-  COMPOSITION_IDS,
   KIT_IDS,
   PREFAB_IDS,
   buildComposition,
@@ -24,6 +23,7 @@ import {
   wallRunCollision,
   type PartPlacement,
 } from "../game/src/render/buildings.js";
+import { COMPOSITION_IDS } from "../game/src/render/compositionIds.js";
 import {
   STRUCTURE_VARIANTS,
   selectedStructureVariantId,

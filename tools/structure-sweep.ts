@@ -18,11 +18,11 @@ import type {
 } from "../game/src/contracts.js";
 import {
   BUILDING_KITS,
-  COMPOSITION_IDS,
   KIT_IDS,
   PREFAB_IDS,
   type PrefabId,
 } from "../game/src/render/buildings.js";
+import { COMPOSITION_IDS } from "../game/src/render/compositionIds.js";
 import { structureVariantCount } from "../game/src/render/structures/catalog.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot, safeName } from "./lib/paths.js";
