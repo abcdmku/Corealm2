@@ -16,7 +16,7 @@ import { jewelrySlots, selectEquipmentSlot } from '../content/jewelry.js';
  *
  * Owner: W-INV. State lives in `state.equipment`; this file adds none.
  */
-import type { EquipSlot, EquipmentBonuses, ItemId, ItemStack, Result, SkillId } from "../contracts.js";
+import type { ActivePotionBuff, EquipSlot, EquipmentBonuses, ItemId, ItemStack, PotionBuffKind, Result, SkillId } from "../contracts.js";
 import { EQUIP_SLOTS, err, ok } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import { content } from "../content/index.js";
@@ -35,6 +35,28 @@ export interface EquipmentDeps {
 
 export function emptyEquipmentBonuses(): EquipmentBonuses {
   return { meleeAccuracy: 0, meleePower: 0, defence: 0, magicAccuracy: 0, magicPower: 0, health: 0, vitality: 0 };
+}
+
+/**
+ * Adds every potion still active at `atMs` to gear totals. Combat, the spellbook and the equipment
+ * panel all read through this, so a quoted max hit matches the swing that lands.
+ */
+export function withPotionBuffs(
+  totals: EquipmentBonuses,
+  buffs: Partial<Record<PotionBuffKind, ActivePotionBuff>> | undefined,
+  atMs: number,
+): EquipmentBonuses {
+  const active = (kind: PotionBuffKind): number => {
+    const buff = buffs?.[kind];
+    return buff && buff.expiresAtMs > atMs ? buff.strength : 0;
+  };
+  const melee = active("melee"), magic = active("magic");
+  return {
+    ...totals,
+    meleeAccuracy: totals.meleeAccuracy + melee, meleePower: totals.meleePower + melee,
+    magicAccuracy: totals.magicAccuracy + magic, magicPower: totals.magicPower + magic,
+    defence: totals.defence + active("defence"),
+  };
 }
 
 /**
@@ -89,19 +111,7 @@ export class EquipmentSystem {
   }
 
   totals(): EquipmentBonuses {
-    const totals = equipmentTotalsOf(this.state.equipment);
-    const buffs = this.state.combat.potionBuffs;
-    const now = this.deps.now();
-    if (buffs?.melee && buffs.melee.expiresAtMs > now) {
-      totals.meleeAccuracy += buffs.melee.strength;
-      totals.meleePower += buffs.melee.strength;
-    }
-    if (buffs?.magic && buffs.magic.expiresAtMs > now) {
-      totals.magicAccuracy += buffs.magic.strength;
-      totals.magicPower += buffs.magic.strength;
-    }
-    if (buffs?.defence && buffs.defence.expiresAtMs > now) totals.defence += buffs.defence.strength;
-    return totals;
+    return withPotionBuffs(equipmentTotalsOf(this.state.equipment), this.state.combat.potionBuffs, this.deps.now());
   }
 
   equip(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }> {

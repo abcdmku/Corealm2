@@ -148,6 +148,9 @@ function recompute(state: GameState): GameState {
   state.combat.engagedBy = [];
   state.combat.inCombatUntilMs = 0;
   state.combat.nextAttackAtMs = 0;
+  // Potion deadlines are on the same restarting clock, so a restored buff would outlast its five
+  // minutes by the previous session's age. Reload ends active potions.
+  delete state.combat.potionBuffs;
   state.magic = state.magic ?? fresh.magic;
   state.magic.weaponCharges = state.magic.weaponCharges ?? {};
   state.magic.consumedOrbs = state.magic.consumedOrbs ?? {};

@@ -45,6 +45,7 @@ describe("combat state across a reload", () => {
     state.combat.inCombatUntilMs = 295_000;
     state.combat.nextAttackAtMs = 298_400;
     state.combat.preferredSpellId = "skirlbolt";
+    state.combat.potionBuffs = { melee: { itemId: "melee_potion_t1", strength: 5, expiresAtMs: 600_000 } };
 
 
     const loaded = loadSerializedSave(serializeSave(state));
@@ -55,6 +56,7 @@ describe("combat state across a reload", () => {
     expect(combat.engagedBy).toEqual([]);
     expect(combat.inCombatUntilMs).toBe(0);
     expect(combat.nextAttackAtMs).toBe(0);
+    expect(combat.potionBuffs).toBeUndefined();
     // The one combat field that is MEANT to outlive a session.
     expect(combat.preferredSpellId).toBe("skirlbolt");
   });

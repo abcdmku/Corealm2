@@ -27,7 +27,7 @@ import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { Navigation, RouteLeg } from "../systems/navigation.js";
 import { ARRIVE_EPSILON, ENTITY_ARRIVAL_ALLOWANCE, type Movement, type MovementPathPlan } from "../systems/movement.js";
-import { equipmentTotalsOf } from "../systems/equipment.js";
+import { equipmentTotalsOf, withPotionBuffs } from "../systems/equipment.js";
 import { agilityDurationOf, resolveShortcutEndpoints } from "../systems/agility.js";
 import type { SimClock } from "../core/time.js";
 import { levelProgress, xpToNextLevel } from "../content/xp.js";
@@ -306,7 +306,7 @@ export class CorealmGameApi implements GameApiContract {
     // absent, which is indistinguishable from wearing nothing — the worst of the three possible
     // answers, because it is wrong and it looks right. `equipmentTotalsOf` is the same derivation
     // the hook runs, over the slots this branch has already read out of the store.
-    return { slots, totals: equipmentTotalsOf(slots) };
+    return { slots, totals: withPotionBuffs(equipmentTotalsOf(slots), this.store.get().combat.potionBuffs, this.clock.elapsedMs) };
   }
 
   getActivity(): ActivitySummary | null {
@@ -782,7 +782,7 @@ export class CorealmGameApi implements GameApiContract {
   getSpellbook(): SpellbookView {
     const state = this.store.get();
     const magicLevel = state.skills.magic.level;
-    const gear = equipmentTotalsOf(state.equipment);
+    const gear = withPotionBuffs(equipmentTotalsOf(state.equipment), state.combat.potionBuffs, this.clock.elapsedMs);
     const inventory = this.hooks.inventory;
 
     const slots = inventory ? inventory.slots() : state.inventory.slots;
