@@ -18,7 +18,7 @@ import { tierSilhouetteScale } from "./materials.js";
 import { buildEquipmentCoreGeometry } from "./equipmentDetails.js";
 import { applyEquipmentSurfaceTexture, equipmentSurfaceTexturesEnabled } from "./equipmentSurfaceTextures.js";
 import { applyIconWeaponMaterials } from "./equipmentIconMaterials.js";
-import { applyArmorTexture } from "./equipmentArmorTextures.js";
+import { applyArmorTexture, SALVAGE_PLATE_METALNESS } from "./equipmentArmorTextures.js";
 import { applyFabArmorMaterials, fabArmorAppearance } from './fabArmor.js';
 import { BOSS_ARMOR_ITEMS } from '../content/bossArmor.js';
 import { MINIBOSS_JEWELLERY } from '../content/universalMinibossLoot.js';
@@ -1043,7 +1043,8 @@ function tintedMaterial(material: THREE.Material, appearance: GearAppearance, pa
     if (shaded.metalnessMap && tintable
       && (isKnightOutfitAsset(appearance.assetId) || ["sword", "axe", "pickaxe", "corealm_axe_1"].includes(appearance.assetId)
         || /^corealm_sword_[1-4]$/.test(appearance.assetId))) {
-      applyMetalTierColour(clone, source, appearance.tint, isKnightOutfitAsset(appearance.assetId) ? 0.22 : 0.10);
+      const plate = isKnightOutfitAsset(appearance.assetId);
+      applyMetalTierColour(clone, source, appearance.tint, plate ? 0.22 : 0.10, plate ? SALVAGE_PLATE_METALNESS : undefined);
     }
   }
   // CharacterRig merges modular parts by material name and base colour. Shader-owned colour is
@@ -1067,12 +1068,17 @@ function isKnightOutfitAsset(assetId: string): boolean {
  * UV-weighted source samples put metal luminance near .10 for the bronze weapons, .061 for
  * shield fittings and .22 for Knight plate. These references restore a shared tier colour while
  * retaining dark seams, bright wear, native map colour and all authored roughness/normal detail.
+ *
+ * `maxMetalness` caps the native mask. The Knight mask marks plate as fully metallic, and fully
+ * metallic dyed plate reflects only the dim sky, so salvage plate measured near black in Coldbrace
+ * and Rootfall with shadows off.
  */
 function applyMetalTierColour(
   material: SurfaceNodeMaterial,
   source: THREE.MeshStandardMaterial,
   tint: number,
   reference: number,
+  maxMetalness?: number,
 ): void {
   const shaded = material as MeshStandardNodeMaterial;
   shaded.color.copy(source.color);
@@ -1094,6 +1100,7 @@ function applyMetalTierColour(
     color: previous => mix(previous.mul(vertex), compressed, mask),
     opacity: previous => previous.mul(vertexTint.a),
   });
+  if (maxMetalness !== undefined) composeSurface(material, { metalness: previous => previous.min(maxMetalness) });
   material.userData.gearColorTreatment = { kind: "metal", tint, reference };
 }
 

@@ -15,6 +15,8 @@ const tiers = {
   cindersteel: { metalRoughness: 0.27, leatherRoughness: 0.54, metalness: 0.58, relief: 0.0031 },
   nightglass: { metalRoughness: 0.25, leatherRoughness: 0.50, metalness: 0.62, relief: 0.0035 },
 } as const;
+/** Salvage plate is Grithe's fitted Knight parts, so its untextured plate uses Grithe's response. */
+export const SALVAGE_PLATE_METALNESS = tiers.grithe.metalness;
 type ArmorTier = keyof typeof tiers;
 type ArmorMap = "albedo" | "height";
 const textures = new Map<string, THREE.Texture>();
