@@ -146,6 +146,34 @@ describe("imported structure movement grounding", () => {
     expect(descent.some((point) => point[1] > 0.3 && point[1] < 0.9)).toBe(true);
   });
 
+  it("walks onto and off a footprint whose navmesh floats over the terrain, from a standstill at host substeps", () => {
+    // The navmesh stands 0.2 m over the drawn ground, as it does around imported stairs.
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 20).rotateX(-Math.PI / 2).translate(0, 0.2, 0));
+    const platform = new THREE.Mesh(new THREE.BoxGeometry(4, 0.6, 4));
+    platform.position.set(4, 0.3, 0);
+    const nav = new Navigation();
+    expect(nav.build([floor, platform])).toBe(true);
+    const bounds = new THREE.Box3().setFromObject(platform).expandByScalar(0.35);
+    const movement = new Movement(nav, new EventBus(), {
+      heightAt: () => 0, authoritativeGround: true,
+      preserveNavigationHeight: (point) => bounds.containsPoint(new THREE.Vector3(...point)),
+    });
+    const state = createInitialState();
+    for (const [start, goal] of [[[-2, 0, 0], [4, 0.6, 0]], [[4, 0.6, 0], [-2, 0, 0]], [[1.6, 0, 1], [9, 0, 1]]] as const) {
+      const snapped = nav.closestPoint([start[0], 1, start[2]])!;
+      // The player stands at the grounded height: the terrain's off the platform.
+      state.player.position = [snapped[0], start[1], snapped[2]];
+      const destination = nav.closestPoint([goal[0], 1, goal[2]])!;
+      expect(movement.startPath(state, destination, null, 0)).not.toBeNull();
+      // Host movement: five 20 ms collision substeps per 100 ms tick.
+      for (let tick = 0; tick < 400 && state.player.movement.mode === "path"; tick++) movement.update(state, 20, tick * 20);
+      expect(state.player.movement.mode).toBe("idle");
+      expect(Math.hypot(state.player.position[0] - destination[0], state.player.position[2] - destination[2])).toBeLessThan(0.4);
+      // On the platform the player keeps the navmesh height; on the ground, the terrain's.
+      expect(state.player.position[1]).toBeCloseTo(goal[1] > 0 ? destination[1] : 0, 1);
+    }
+  });
+
   it("retains analytic terrain grounding outside structure footprints and without the port", () => {
     const { nav, preserveNavigationHeight } = stairsFixture();
     for (const preserve of [undefined, preserveNavigationHeight]) {

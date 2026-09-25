@@ -25,6 +25,9 @@ import type { InteractionDispatcher } from "../world/interactions.js";
 import { cloneVec3 } from "./combat.js";
 import type { CombatEntityPort, CombatInventoryPort, CombatMovementPort } from "./combat.js";
 
+/** How far a respawn point may sit from the navmesh before it is moved onto it: movement's step slack. */
+const RESPAWN_OFF_MESH_M = 0.05;
+
 /** PRD 2.11: the cache expires 15 real minutes after creation. */
 export const RECOVERY_CACHE_TTL_MS = 15 * 60_000;
 
@@ -87,7 +90,7 @@ export interface DeathDeps {
   enemyAi?: DeathEnemyAiPort;
   activity?: DeathActivityPort;
   movement?: CombatMovementPort;
-  /** Optional navmesh snap, so the cache lands somewhere reachable. */
+  /** Optional navmesh snap, so the cache and the respawned player land somewhere reachable. */
   snapToGround?: (point: Vec3) => Vec3 | null;
   /** View block for the cache entity. Omitted means the cache is state-only, not rendered. */
   cacheView?: SemanticEntity["view"];
@@ -145,8 +148,15 @@ export class DeathSystem implements TickSystem {
 
       const point = this.deps.respawn.resolve(state.player.respawnPointId, deathRegion);
       const target = point ?? { position: cloneVec3(DEFAULT_SPAWN), regionId: deathRegion };
+      // Movement only takes steps that end on the navmesh, within a few centimetres of where they
+      // were aimed, and the host has no off-mesh rescue once forest trunks are live, so a player
+      // respawned off the mesh could never take a first step. Such a point moves onto the mesh; one
+      // already on it keeps its authored ground height.
+      const snapped = this.deps.snapToGround?.(target.position);
+      const respawnPosition = snapped && Math.hypot(snapped[0] - target.position[0], snapped[2] - target.position[2]) > RESPAWN_OFF_MESH_M
+        ? snapped : cloneVec3(target.position);
 
-      state.player.position = cloneVec3(target.position);
+      state.player.position = cloneVec3(respawnPosition);
       state.player.regionId = target.regionId;
       state.player.movement = {
         mode: "idle", path: null, pathIndex: 0, destination: null, destinationEntityId: null,
@@ -161,7 +171,7 @@ export class DeathSystem implements TickSystem {
           position: deathPosition,
           regionId: deathRegion,
           respawnPointId: state.player.respawnPointId,
-          respawnPosition: cloneVec3(target.position),
+          respawnPosition: cloneVec3(respawnPosition),
           cacheId,
           itemsLost: items.length,
           expiresAtMs: state.world.recoveryCache?.expiresAtMs ?? null,

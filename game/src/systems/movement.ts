@@ -809,10 +809,31 @@ export class Movement {
       point = [constrained[0], walkable[1], constrained[2]];
     }
     const previousRegionId = state.player.regionId;
-    point = this.ground(state, point);
-    if (slopeStepAllowed(from, point)) return point;
+    const grounded = this.ground(state, point);
+    if (this.stepClimbAllowed(from, point, grounded)) return grounded;
     state.player.regionId = previousRegionId;
     return null;
+  }
+
+  /**
+   * The slope limit, measured on one surface.
+   *
+   * `ground` keeps the navmesh height inside a structure footprint and puts the player on the
+   * terrain outside it, and around imported stairs and platforms the navmesh floats 0.1-0.6 m over
+   * the terrain. Comparing the player's height with the grounded target therefore read a change of
+   * height source as a ledge: at a footprint edge, and on the first step after a respawn placed the
+   * player at the terrain height inside a footprint. Host movement runs 20 ms substeps, so a step
+   * from a standstill is 7 mm long and may rise 12 mm. Every such step was refused, the velocity
+   * stayed zero, and the walk failed as `stuck` where the navmesh had planned it: 332 of 444 walks
+   * onto and off the altar ruins and bridges outside Oakwood, and nearly every walk from Oakwood's
+   * respawn at the foot of the stump stair. Near a structure both ends are compared on the navmesh,
+   * which is continuous there; terrain steps keep the terrain.
+   */
+  private stepClimbAllowed(from: Vec3, navPoint: Vec3, grounded: Vec3): boolean {
+    const preserve = this.ports.preserveNavigationHeight;
+    if (!preserve || (!preserve(from) && !preserve(navPoint))) return slopeStepAllowed(from, grounded);
+    const fromOnNav = this.nav.closestPoint(from);
+    return fromOnNav !== null && slopeStepAllowed(fromOnNav, navPoint);
   }
 
   /**

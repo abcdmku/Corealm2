@@ -160,6 +160,37 @@ describe("settlement respawn anchors", () => {
     });
     expect(current.system.update()).toBeNull();
   });
+
+  it("moves a respawn point that stands off the navmesh onto it, and leaves one on it where it was authored", () => {
+    for (const [walkable, expected] of [
+      [[200.3, 25.4, 100.1] as Vec3, [200.3, 25.4, 100.1]],
+      [[200.02, 25.2, 100.01] as Vec3, ROOTFALL.position],
+    ] as const) {
+      const { store, system } = runtime();
+      const state = store.get();
+      state.player.respawnPointId = "rootfall";
+      state.player.regionId = "karrowmoor";
+      state.player.position = [320, 80, -170];
+      const events = new EventBus();
+      const skillLevels = () => Object.fromEntries(
+        Object.entries(state.skills).map(([id, skill]) => [id, skill.level]),
+      ) as Record<SkillId, number>;
+      const entities = new EntityStore({ skillLevels });
+      const dispatcher = new InteractionDispatcher({
+        get: (id) => entities.get(id), playerPosition: () => state.player.position, skillLevels,
+      });
+      const inventory = new InventorySystem({ store, events, now: () => 200 });
+      const death = new DeathSystem({
+        store, events, entities, inventory, dispatcher, respawn: system,
+        snapToGround: (point) => point[0] === ROOTFALL.position[0] ? [...walkable] : [...point],
+      });
+      state.player.health = 0;
+      death.tick(100, 200);
+      events.flush();
+      expect(state.player.position).toEqual(expected);
+      expect(events.since(0, ["player.died"]).events[0]?.data).toMatchObject({ respawnPosition: expected });
+    }
+  });
 });
 
 describe("production settlement anchor mapping", () => {
