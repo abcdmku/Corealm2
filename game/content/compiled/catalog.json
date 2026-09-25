@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "88264bfd8917a445662b29bca2e6325429395191ba95d681ae149b782f7ef4a7",
-  "formulaRevision": "4e8328aea60516586b43488b1e7193b8d36807141cbdfc58b77e63768333f510",
+  "revision": "f3e72f6ea0ea58966238aef02e8f8696729791fc9c3d55a499ab377ed34c2923",
+  "formulaRevision": "6dd195b8609686ac5edfce3a389a55faf4a74baa8fa750287db5794d25032f33",
   "tables": {
     "items": [
       {
@@ -49193,7 +49193,7 @@
         "id": "vellenwood",
         "name": "Woodlands",
         "tier": 5,
-        "lore": "Within two hundred metres of the gate the sky closes. The Ash here are old enough that the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only settlement: nine buildings and a bank chest built on and around a stump so large the stump is the town square. The people there will tell you which paths are safe. They will not tell you why the stags only move at the edges of the clearings.",
+        "lore": "Within two hundred metres of the gate the sky closes. The Ash here are old enough that the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only settlement: a palisaded timber hamlet around a plank-decked square, with a trade row, a forge and a counting house. The people there will tell you which paths are safe. They will not tell you why the stags only move at the edges of the clearings.",
         "bounds": {
           "min": [
             -20,
@@ -49240,23 +49240,23 @@
             "id": "rootfall_hamlet",
             "name": "Oakwood",
             "position": [
-              64,
-              127
+              60,
+              121.5
             ],
             "kind": "settlement",
             "routeNode": true,
-            "blurb": "Nine buildings around a Ash stump the size of a square."
+            "blurb": "A palisaded timber hamlet around a plank-decked square: a trade row, a forge, a counting house and four gates."
           },
           {
             "id": "rootfall_bank",
             "name": "Oakwood Bank Chest",
             "position": [
               60,
-              128
+              132
             ],
             "kind": "bank",
             "routeNode": true,
-            "blurb": "One chest, set into the stump. Thirty-eight metres from the Forest Quarry."
+            "blurb": "One chest on the Counting House porch, facing the square. About 36 metres from the Forest Quarry."
           },
           {
             "id": "hollowcut_seam",
@@ -49267,7 +49267,7 @@
             ],
             "kind": "seam",
             "routeNode": true,
-            "blurb": "Five Iron seams, 38 m from the bank chest. The best XP in the game until Agility 10."
+            "blurb": "Five Iron seams, 36 m from the bank chest. The best XP in the game until Agility 10."
           },
           {
             "id": "vellenwood_canopy",
@@ -49473,188 +49473,6 @@
           "respawnPointId": "rootfall",
           "buildings": [
             {
-              "id": "rootfall_house_1",
-              "name": "Stumpside House",
-              "prefab": "cottage",
-              "position": [
-                50,
-                131
-              ],
-              "rotationY": -1.5707963267948966,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_house_2",
-              "name": "Woodward's House",
-              "prefab": "cottage",
-              "position": [
-                50,
-                117
-              ],
-              "rotationY": -1.5707963267948966,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_house_3",
-              "name": "Trapper's House",
-              "prefab": "cottage",
-              "position": [
-                52,
-                108
-              ],
-              "rotationY": 3.141592653589793,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_house_4",
-              "name": "Cook House",
-              "prefab": "cottage",
-              "position": [
-                62,
-                108
-              ],
-              "rotationY": 3.141592653589793,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_house_5",
-              "name": "Root House",
-              "prefab": "cottage",
-              "position": [
-                72,
-                106
-              ],
-              "rotationY": 3.141592653589793,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_house_6",
-              "name": "Seamer's House",
-              "prefab": "cottage",
-              "position": [
-                72,
-                118
-              ],
-              "rotationY": 1.5707963267948966,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_house_7",
-              "name": "Warden's House",
-              "prefab": "townhouse",
-              "position": [
-                72,
-                128
-              ],
-              "rotationY": 1.5707963267948966,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_house_8",
-              "name": "North House",
-              "prefab": "cottage",
-              "position": [
-                61,
-                138
-              ],
-              "rotationY": 0,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_shed",
-              "name": "Drying Shed",
-              "prefab": "shed",
-              "position": [
-                48,
-                140
-              ],
-              "rotationY": 0,
-              "footprint": [
-                4,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_forge",
-              "name": "Oakwood Forge",
-              "prefab": "forge",
-              "position": [
-                70.5,
-                137
-              ],
-              "rotationY": 3.141592653589793,
-              "footprint": [
-                6,
-                4
-              ]
-            },
-            {
-              "id": "rootfall_sawpit",
-              "name": "The Sawpit",
-              "prefab": "arcade",
-              "position": [
-                54,
-                137
-              ],
-              "rotationY": 3.141592653589793,
-              "footprint": [
-                6,
-                3
-              ]
-            },
-            {
-              "id": "rootfall_counter",
-              "name": "Stump Counter",
-              "prefab": "porch",
-              "position": [
-                60,
-                128.6
-              ],
-              "rotationY": 3.141592653589793,
-              "footprint": [
-                6,
-                2.2
-              ]
-            },
-            {
-              "id": "rootfall_cookhouse",
-              "name": "Cook Shelter",
-              "prefab": "porch",
-              "position": [
-                57,
-                112.5
-              ],
-              "rotationY": 0,
-              "footprint": [
-                4,
-                2.2
-              ]
-            },
-            {
               "id": "rootfall_gate_west",
               "name": "West Gate",
               "prefab": "gatehouse",
@@ -49687,7 +49505,7 @@
               "name": "Log Gate",
               "prefab": "gatehouse",
               "position": [
-                72,
+                70,
                 144
               ],
               "rotationY": 0,
@@ -49698,16 +49516,170 @@
             },
             {
               "id": "rootfall_postern",
-              "name": "Forest Quarry Postern",
+              "name": "Quarry Gate",
               "prefab": "gatehouse",
               "position": [
-                74,
+                80,
                 138
               ],
               "rotationY": 1.5707963267948966,
               "footprint": [
                 8,
                 4
+              ]
+            },
+            {
+              "id": "rootfall_house_1",
+              "name": "Gatewarden's House",
+              "prefab": "cottage",
+              "position": [
+                50.5,
+                132.5
+              ],
+              "rotationY": 0,
+              "footprint": [
+                6,
+                4
+              ]
+            },
+            {
+              "id": "rootfall_house_2",
+              "name": "Seamer's House",
+              "prefab": "cottage",
+              "position": [
+                49,
+                115.5
+              ],
+              "rotationY": 3.141592653589793,
+              "footprint": [
+                6,
+                4
+              ]
+            },
+            {
+              "id": "rootfall_house_3",
+              "name": "Sawyer's House",
+              "prefab": "cottage",
+              "position": [
+                48,
+                107.5
+              ],
+              "rotationY": -1.5707963267948966,
+              "footprint": [
+                6,
+                4
+              ]
+            },
+            {
+              "id": "rootfall_house_4",
+              "name": "Trapper's House",
+              "prefab": "cottage",
+              "position": [
+                72.2,
+                106
+              ],
+              "rotationY": 3.141592653589793,
+              "footprint": [
+                6,
+                4
+              ]
+            },
+            {
+              "id": "rootfall_counting_house",
+              "name": "Oakwood Counting House",
+              "prefab": "townhouse",
+              "position": [
+                60,
+                137
+              ],
+              "rotationY": 3.141592653589793,
+              "footprint": [
+                6,
+                4
+              ]
+            },
+            {
+              "id": "rootfall_bank_porch",
+              "name": "Counting House Porch",
+              "prefab": "porch",
+              "position": [
+                60,
+                133
+              ],
+              "rotationY": 3.141592653589793,
+              "footprint": [
+                6,
+                3
+              ]
+            },
+            {
+              "id": "rootfall_trade_row",
+              "name": "Oakwood Trade Row",
+              "prefab": "arcade",
+              "position": [
+                58.5,
+                109.5
+              ],
+              "rotationY": 0,
+              "footprint": [
+                10,
+                3
+              ]
+            },
+            {
+              "id": "rootfall_forge",
+              "name": "Oakwood Forge",
+              "prefab": "forge",
+              "position": [
+                74,
+                122
+              ],
+              "rotationY": -1.5707963267948966,
+              "footprint": [
+                6,
+                4
+              ]
+            },
+            {
+              "id": "rootfall_smokehouse",
+              "name": "Mott's Smokehouse",
+              "prefab": "porch",
+              "position": [
+                65.2,
+                105.3
+              ],
+              "rotationY": 0,
+              "footprint": [
+                4,
+                3
+              ]
+            },
+            {
+              "id": "rootfall_shed",
+              "name": "Drying Shed",
+              "prefab": "shed",
+              "position": [
+                49,
+                139.75
+              ],
+              "rotationY": -1.5707963267948966,
+              "footprint": [
+                4,
+                4
+              ]
+            },
+            {
+              "id": "rootfall_well",
+              "name": "Oakwood Well",
+              "prefab": "well",
+              "position": [
+                67.4,
+                126.8
+              ],
+              "rotationY": 0,
+              "footprint": [
+                2,
+                2
               ]
             }
           ],
@@ -49718,14 +49690,14 @@
               "kind": "range",
               "skill": "cooking",
               "position": [
-                57,
-                112.4
+                64.2,
+                105.1
               ],
               "rotationY": 0,
               "assetId": "cooking_pot",
               "scale": 2.2,
               "recipeIds": [],
-              "attachedTo": "rootfall_cookhouse"
+              "attachedTo": "rootfall_smokehouse"
             },
             {
               "id": "rootfall_anvil",
@@ -49733,10 +49705,10 @@
               "kind": "anvil",
               "skill": "smithing",
               "position": [
-                70.5,
-                137.2
+                75,
+                122.4
               ],
-              "rotationY": 3.141592653589793,
+              "rotationY": -1.5707963267948966,
               "assetId": "anvil",
               "scale": 1.4,
               "recipeIds": [],
@@ -49748,13 +49720,13 @@
               "kind": "crafting_table",
               "skill": "crafting",
               "position": [
-                52.6,
-                137.4
+                58.3,
+                108.75
               ],
-              "rotationY": 3.141592653589793,
+              "rotationY": 0,
               "assetId": "workbench",
               "recipeIds": [],
-              "attachedTo": "rootfall_sawpit"
+              "attachedTo": "rootfall_trade_row"
             },
             {
               "id": "rootfall_fletching",
@@ -49762,14 +49734,14 @@
               "kind": "fletching_bench",
               "skill": "fletching",
               "position": [
-                55.4,
-                137.4
+                60.5,
+                108.85
               ],
-              "rotationY": 3.141592653589793,
-              "assetId": "workbench_drawers",
-              "scale": 3.5,
+              "rotationY": 0,
+              "assetId": "weapon_rack",
+              "scale": 1.3,
               "recipeIds": [],
-              "attachedTo": "rootfall_sawpit"
+              "attachedTo": "rootfall_trade_row"
             }
           ],
           "bank": {
@@ -49777,11 +49749,11 @@
             "name": "Oakwood Bank Chest",
             "position": [
               60,
-              128
+              133.9
             ],
             "rotationY": 3.141592653589793,
             "assetId": "chest_wood",
-            "attachedTo": "rootfall_counter"
+            "attachedTo": "rootfall_bank_porch"
           },
           "shops": [
             {
@@ -49789,35 +49761,35 @@
               "name": "Oakwood Trade Post",
               "shopKind": "general",
               "position": [
-                62,
-                128.8
+                54.5,
+                109.1
               ],
-              "rotationY": 0,
+              "rotationY": 3.141592653589793,
               "assetId": "market_stall",
-              "attachedTo": "rootfall_counter"
+              "attachedTo": "rootfall_trade_row"
+            },
+            {
+              "id": "rootfall_smith",
+              "name": "Corra's Iron",
+              "shopKind": "smith",
+              "position": [
+                73.5,
+                116.3
+              ],
+              "rotationY": 1.5707963267948966,
+              "assetId": "market_stall_cart",
+              "attachedTo": "rootfall_forge"
             }
           ],
           "npcs": [
             {
-              "id": "npc_woodward_ansel",
-              "name": "Woodward Ansel",
-              "position": [
-                57.4,
-                122.8
-              ],
-              "facingRad": 2.39,
-              "assetId": "base_male",
-              "dialogueRootId": "ansel_root",
-              "questIds": []
-            },
-            {
               "id": "npc_seamer_juno",
               "name": "Seamer Juno",
               "position": [
-                58.4,
-                129.2
+                52.8,
+                110.2
               ],
-              "facingRad": 3.141592653589793,
+              "facingRad": 1.5707963267948966,
               "assetId": "base_female",
               "dialogueRootId": "juno_root",
               "questIds": []
@@ -49826,12 +49798,36 @@
               "id": "npc_trapper_mott",
               "name": "Trapper Mott",
               "position": [
-                69.2,
-                118.6
+                68.2,
+                108.6
               ],
-              "facingRad": -1.42,
+              "facingRad": -0.45,
               "assetId": "base_male",
               "dialogueRootId": "mott_root",
+              "questIds": []
+            },
+            {
+              "id": "npc_woodward_ansel",
+              "name": "Woodward Ansel",
+              "position": [
+                66.7,
+                137
+              ],
+              "facingRad": -2.75,
+              "assetId": "base_male",
+              "dialogueRootId": "ansel_root",
+              "questIds": []
+            },
+            {
+              "id": "npc_smith_corra",
+              "name": "Smith Corra",
+              "position": [
+                74.6,
+                114.4
+              ],
+              "facingRad": -1.6,
+              "assetId": "base_female",
+              "dialogueRootId": "corra_root",
               "questIds": []
             }
           ],
@@ -49867,7 +49863,7 @@
               ],
               "openings": [
                 {
-                  "at": 28,
+                  "at": 26,
                   "width": 8
                 }
               ]
@@ -49911,58 +49907,97 @@
             {
               "id": "rootfall_paving_green",
               "rect": {
-                "minX": 52,
-                "minZ": 114,
-                "maxX": 68,
-                "maxZ": 128
-              },
-              "assetId": "floor_wood",
-              "kerb": true
-            },
-            {
-              "id": "rootfall_paving_cart_road",
-              "rect": {
-                "minX": 60,
-                "minZ": 110,
-                "maxX": 84,
-                "maxZ": 114
+                "minX": 54,
+                "minZ": 112,
+                "maxX": 72,
+                "maxZ": 131.5
               },
               "assetId": "floor_wood"
             },
             {
-              "id": "rootfall_paving_log_road",
+              "id": "rootfall_paving_oak_row",
               "rect": {
                 "minX": 40,
                 "minZ": 122,
-                "maxX": 52,
+                "maxX": 54,
                 "maxZ": 126
               },
               "assetId": "floor_wood"
             },
             {
-              "id": "rootfall_paving_sawpit_yard",
+              "id": "rootfall_paving_trade_row",
               "rect": {
-                "minX": 52,
-                "minZ": 128,
-                "maxX": 58,
-                "maxZ": 138
+                "minX": 53,
+                "minZ": 107.5,
+                "maxX": 63,
+                "maxZ": 112
+              },
+              "assetId": "floor_wood"
+            },
+            {
+              "id": "rootfall_paving_cart_lane",
+              "rect": {
+                "minX": 63,
+                "minZ": 108,
+                "maxX": 84,
+                "maxZ": 112
+              },
+              "assetId": "floor_wood"
+            },
+            {
+              "id": "rootfall_paving_smokehouse",
+              "rect": {
+                "minX": 63,
+                "minZ": 103.8,
+                "maxX": 68,
+                "maxZ": 108
+              },
+              "assetId": "floor_wood"
+            },
+            {
+              "id": "rootfall_paving_bank",
+              "rect": {
+                "minX": 56,
+                "minZ": 131.5,
+                "maxX": 64,
+                "maxZ": 134.5
+              },
+              "assetId": "floor_wood"
+            },
+            {
+              "id": "rootfall_paving_north_lane",
+              "rect": {
+                "minX": 64,
+                "minZ": 131.5,
+                "maxX": 72,
+                "maxZ": 140
+              },
+              "assetId": "floor_wood"
+            },
+            {
+              "id": "rootfall_paving_gate_yard",
+              "rect": {
+                "minX": 72,
+                "minZ": 126,
+                "maxX": 80,
+                "maxZ": 140
               },
               "assetId": "floor_wood"
             },
             {
               "id": "rootfall_paving_north_gate",
               "rect": {
-                "minX": 70,
-                "minZ": 138,
-                "maxX": 74,
+                "minX": 68,
+                "minZ": 140,
+                "maxX": 72,
                 "maxZ": 148
               },
               "assetId": "floor_wood"
             },
             {
-              "id": "rootfall_paving_postern",
+              "id": "rootfall_paving_quarry_gate",
               "rect": {
-                "minX": 76,
+                "minX": 80,
                 "minZ": 136,
                 "maxX": 84,
                 "maxZ": 140
@@ -49972,80 +50007,138 @@
           ],
           "props": [
             {
-              "id": "rootfall_prop_whetstone",
-              "assetId": "whetstone",
+              "id": "rootfall_prop_well_bench",
+              "assetId": "bench",
               "position": [
-                67.6,
-                133.2
+                69.6,
+                126.8
               ],
-              "rotationY": 0.5,
+              "rotationY": 1.5707963267948966,
               "solid": true
             },
             {
-              "id": "rootfall_prop_forge_barrel_1",
-              "assetId": "barrel",
+              "id": "rootfall_prop_well_flowers",
+              "assetId": "flower_a_group",
               "position": [
-                68.6,
-                132.2
+                65.4,
+                125.6
               ],
-              "rotationY": 0.3,
+              "rotationY": 0.4,
+              "scale": 0.35
+            },
+            {
+              "id": "rootfall_prop_row_bench",
+              "assetId": "bench",
+              "position": [
+                51.4,
+                119.3
+              ],
+              "rotationY": 0,
               "solid": true
             },
             {
-              "id": "rootfall_prop_forge_barrel_2",
-              "assetId": "barrel",
+              "id": "rootfall_prop_row_flowers",
+              "assetId": "flower_b_group",
               "position": [
-                74,
-                136.2
+                53.2,
+                129.4
               ],
-              "rotationY": 1.1,
-              "solid": true
+              "rotationY": 0,
+              "scale": 0.5
             },
             {
-              "id": "rootfall_prop_forge_crate",
+              "id": "rootfall_prop_trade_carrots",
+              "assetId": "farm_crate_carrot",
+              "position": [
+                56.5,
+                108.45
+              ],
+              "rotationY": 0
+            },
+            {
+              "id": "rootfall_prop_trade_crate",
               "assetId": "crate_village",
               "position": [
-                73,
-                132.6
+                62.5,
+                108.75
               ],
-              "rotationY": 0.8,
+              "rotationY": 0,
               "solid": true
             },
             {
-              "id": "rootfall_prop_forge_sack",
+              "id": "rootfall_prop_bank_crate",
+              "assetId": "crate_village",
+              "position": [
+                58,
+                133.75
+              ],
+              "rotationY": 0,
+              "solid": true
+            },
+            {
+              "id": "rootfall_prop_bank_sack",
               "assetId": "sack",
               "position": [
-                68.2,
-                131.6
+                62,
+                133.9
               ],
-              "rotationY": 2.1
+              "rotationY": 0.4
             },
             {
-              "id": "rootfall_prop_trestle_1",
-              "assetId": "support_beam",
+              "id": "rootfall_prop_forge_whetstone",
+              "assetId": "whetstone",
               "position": [
-                51.6,
-                134.6
+                71,
+                127
               ],
               "rotationY": 0,
-              "scale": 0.8
+              "solid": true
             },
             {
-              "id": "rootfall_prop_trestle_2",
-              "assetId": "support_beam",
+              "id": "rootfall_prop_forge_barrel",
+              "assetId": "barrel",
               "position": [
-                56.4,
-                134.6
+                73.2,
+                126.9
               ],
               "rotationY": 0,
-              "scale": 0.8
+              "solid": true
+            },
+            {
+              "id": "rootfall_prop_wagon",
+              "assetId": "wagon",
+              "position": [
+                77.2,
+                130
+              ],
+              "rotationY": 0,
+              "solid": true
+            },
+            {
+              "id": "rootfall_prop_yard_crate",
+              "assetId": "crate_village",
+              "position": [
+                78.4,
+                132.4
+              ],
+              "rotationY": 0,
+              "solid": true
+            },
+            {
+              "id": "rootfall_prop_yard_sack",
+              "assetId": "sack",
+              "position": [
+                76.4,
+                132.6
+              ],
+              "rotationY": 1.2
             },
             {
               "id": "rootfall_prop_log_1",
               "assetId": "roof_log",
               "position": [
-                50.8,
-                132.2
+                65,
+                138
               ],
               "rotationY": 0,
               "scale": 0.28,
@@ -50055,8 +50148,8 @@
               "id": "rootfall_prop_log_2",
               "assetId": "roof_log",
               "position": [
-                51.2,
-                132.2
+                65.4,
+                138
               ],
               "rotationY": 0,
               "scale": 0.28,
@@ -50066,373 +50159,75 @@
               "id": "rootfall_prop_log_3",
               "assetId": "roof_log",
               "position": [
-                51,
-                132.2
+                65.2,
+                138
               ],
               "rotationY": 0,
               "scale": 0.28,
               "dy": 0.36
             },
             {
-              "id": "rootfall_prop_saw_crate",
-              "assetId": "crate_village",
+              "id": "rootfall_prop_woodyard_log_1",
+              "assetId": "roof_log",
               "position": [
-                56.4,
-                137.6
+                54.5,
+                136.3
               ],
-              "rotationY": 0.4,
+              "rotationY": 1.5707963267948966,
+              "scale": 0.28,
               "solid": true
             },
             {
-              "id": "rootfall_prop_saw_sack",
-              "assetId": "sack",
+              "id": "rootfall_prop_woodyard_log_2",
+              "assetId": "roof_log",
               "position": [
-                51.6,
-                137.4
+                54.5,
+                136.7
               ],
-              "rotationY": 1.7
+              "rotationY": 1.5707963267948966,
+              "scale": 0.28,
+              "solid": true
             },
             {
-              "id": "rootfall_prop_saw_rope",
-              "assetId": "rope_coil",
+              "id": "rootfall_prop_woodyard_log_3",
+              "assetId": "roof_log",
+              "position": [
+                54.5,
+                136.5
+              ],
+              "rotationY": 1.5707963267948966,
+              "scale": 0.28,
+              "dy": 0.36
+            },
+            {
+              "id": "rootfall_prop_woodyard_trestle",
+              "assetId": "support_beam",
               "position": [
                 55.8,
-                135.2
-              ],
-              "rotationY": 0.6
-            },
-            {
-              "id": "rootfall_prop_counter_table",
-              "assetId": "table_large",
-              "position": [
-                58.2,
-                127.9
+                141
               ],
               "rotationY": 1.5707963267948966,
-              "solid": true
+              "scale": 0.8
             },
             {
-              "id": "rootfall_prop_counter_torch_l",
-              "assetId": "torch",
-              "position": [
-                57.2,
-                127.8
-              ],
-              "rotationY": 0,
-              "dy": 1.9
-            },
-            {
-              "id": "rootfall_prop_counter_torch_r",
-              "assetId": "torch",
-              "position": [
-                62.8,
-                127.8
-              ],
-              "rotationY": 0,
-              "dy": 1.9
-            },
-            {
-              "id": "rootfall_prop_counter_rope",
-              "assetId": "rope_coil",
-              "position": [
-                61.6,
-                127.8
-              ],
-              "rotationY": 0.9
-            },
-            {
-              "id": "rootfall_prop_bench_1",
-              "assetId": "bench",
-              "position": [
-                54.4,
-                122
-              ],
-              "rotationY": 0.35,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_bench_2",
-              "assetId": "bench",
-              "position": [
-                66.8,
-                119.8
-              ],
-              "rotationY": -0.35,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_green_barrel",
-              "assetId": "barrel",
-              "position": [
-                54.8,
-                127.8
-              ],
-              "rotationY": 0.4,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_green_crate",
-              "assetId": "crate_village",
-              "position": [
-                54.8,
-                126.6
-              ],
-              "rotationY": 1.3,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_cauldron",
+              "id": "rootfall_prop_smoke_cauldron",
               "assetId": "cauldron",
               "position": [
-                58.4,
-                112.4
+                66.2,
+                105.1
               ],
               "rotationY": 0,
               "solid": true
             },
             {
-              "id": "rootfall_prop_cook_sack",
-              "assetId": "sack",
-              "position": [
-                55.6,
-                112.6
-              ],
-              "rotationY": 0.4
-            },
-            {
-              "id": "rootfall_prop_wagon",
-              "assetId": "wagon",
-              "position": [
-                69,
-                113.4
-              ],
-              "rotationY": 1.5707963267948966,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_cart_crate",
-              "assetId": "crate_village",
-              "position": [
-                75.6,
-                113.2
-              ],
-              "rotationY": 0.7,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_cart_barrel",
+              "id": "rootfall_prop_smoke_barrel",
               "assetId": "barrel",
               "position": [
-                76.8,
-                113.4
-              ],
-              "rotationY": 0.2,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_cart_sack",
-              "assetId": "sack",
-              "position": [
-                74.6,
-                112.9
-              ],
-              "rotationY": 1.9
-            },
-            {
-              "id": "rootfall_fence_sw_n1",
-              "assetId": "fence_wood_single",
-              "position": [
-                46,
-                112
-              ],
-              "rotationY": 0
-            },
-            {
-              "id": "rootfall_fence_sw_n2",
-              "assetId": "fence_wood_single",
-              "position": [
-                48,
-                112
-              ],
-              "rotationY": 0
-            },
-            {
-              "id": "rootfall_fence_sw_w1",
-              "assetId": "fence_wood_single",
-              "position": [
-                45,
-                106
-              ],
-              "rotationY": 1.5707963267948966
-            },
-            {
-              "id": "rootfall_fence_sw_w2",
-              "assetId": "fence_wood_single",
-              "position": [
-                45,
-                108
-              ],
-              "rotationY": 1.5707963267948966
-            },
-            {
-              "id": "rootfall_fence_sw_w3",
-              "assetId": "fence_wood_single",
-              "position": [
-                45,
-                110
-              ],
-              "rotationY": 1.5707963267948966
-            },
-            {
-              "id": "rootfall_fence_sw_s1",
-              "assetId": "fence_wood_single",
-              "position": [
-                46,
-                104
-              ],
-              "rotationY": 0
-            },
-            {
-              "id": "rootfall_fence_sw_s2",
-              "assetId": "fence_wood_single",
-              "position": [
-                48,
-                104
-              ],
-              "rotationY": 0
-            },
-            {
-              "id": "rootfall_prop_yard_crate",
-              "assetId": "crate_village",
-              "position": [
-                46.4,
-                108.6
-              ],
-              "rotationY": 0.9,
-              "solid": true
-            },
-            {
-              "id": "rootfall_prop_yard_sack",
-              "assetId": "sack",
-              "position": [
-                47.4,
-                106.4
-              ],
-              "rotationY": 2.2
-            },
-            {
-              "id": "rootfall_fence_e1",
-              "assetId": "fence_wood_single",
-              "position": [
-                76,
-                115
-              ],
-              "rotationY": 1.5707963267948966
-            },
-            {
-              "id": "rootfall_fence_e2",
-              "assetId": "fence_wood_single",
-              "position": [
-                76,
-                117
-              ],
-              "rotationY": 1.5707963267948966
-            },
-            {
-              "id": "rootfall_fence_e3",
-              "assetId": "fence_wood_single",
-              "position": [
-                76,
-                119
-              ],
-              "rotationY": 1.5707963267948966
-            },
-            {
-              "id": "rootfall_fence_e4",
-              "assetId": "fence_wood_single",
-              "position": [
-                76,
-                121
-              ],
-              "rotationY": 1.5707963267948966
-            },
-            {
-              "id": "rootfall_fence_e5",
-              "assetId": "fence_wood_single",
-              "position": [
-                75,
-                114
-              ],
-              "rotationY": 0
-            },
-            {
-              "id": "rootfall_fence_e6",
-              "assetId": "fence_wood_single",
-              "position": [
-                75,
-                123
-              ],
-              "rotationY": 0
-            },
-            {
-              "id": "rootfall_lamp_h1",
-              "assetId": "lamp_wall",
-              "position": [
-                51.25,
-                131
-              ],
-              "rotationY": 1.5707963267948966,
-              "dy": 1.8
-            },
-            {
-              "id": "rootfall_lamp_h2",
-              "assetId": "lamp_wall",
-              "position": [
-                51.25,
-                117
-              ],
-              "rotationY": 1.5707963267948966,
-              "dy": 1.8
-            },
-            {
-              "id": "rootfall_lamp_h6",
-              "assetId": "lamp_wall",
-              "position": [
-                69.75,
-                118
-              ],
-              "rotationY": -1.5707963267948966,
-              "dy": 1.8
-            },
-            {
-              "id": "rootfall_lamp_h7",
-              "assetId": "lamp_wall",
-              "position": [
-                69.75,
-                128
-              ],
-              "rotationY": -1.5707963267948966,
-              "dy": 1.8
-            },
-            {
-              "id": "rootfall_lamp_h4",
-              "assetId": "lamp_wall",
-              "position": [
-                62,
-                110.25
+                68.2,
+                104.6
               ],
               "rotationY": 0,
-              "dy": 1.8
-            },
-            {
-              "id": "rootfall_lamp_h8",
-              "assetId": "lamp_wall",
-              "position": [
-                61,
-                135.75
-              ],
-              "rotationY": 3.141592653589793,
-              "dy": 1.8
+              "solid": true
             }
           ],
           "padShape": {
@@ -50491,7 +50286,7 @@
             "reqLevel": 8,
             "position": [
               86,
-              138
+              132
             ],
             "exitPosition": [
               188,
@@ -50520,20 +50315,6 @@
             "scale": 1,
             "rotationY": 0,
             "blurb": "A root-bound stone court ringed by Earth Essence. Rootbound Colossus's Orb can wake it.",
-            "solid": false,
-            "originOnGround": true
-          },
-          {
-            "id": "rootfall_stump",
-            "name": "The Oakwood Stump",
-            "position": [
-              60,
-              120
-            ],
-            "assetId": "corealm_stump_oak",
-            "scale": 4,
-            "blurb": "The stump is the square. Stone steps climb its southeast face.",
-            "composition": "rootfall_stump",
             "solid": false,
             "originOnGround": true
           },
@@ -79474,6 +79255,42 @@
         ]
       },
       {
+        "id": "rootfall_smith",
+        "name": "Corra's Iron",
+        "buyMultiplier": 1,
+        "sellMultiplier": 0.6,
+        "stock": [
+          {
+            "itemId": "corven_dagger",
+            "quantity": 4
+          },
+          {
+            "itemId": "corven_sword",
+            "quantity": 2
+          },
+          {
+            "itemId": "corven_helm",
+            "quantity": 2
+          },
+          {
+            "itemId": "corven_boots",
+            "quantity": 2
+          },
+          {
+            "itemId": "corven_gauntlets",
+            "quantity": 2
+          },
+          {
+            "itemId": "duskoak_shield",
+            "quantity": 3
+          },
+          {
+            "itemId": "march_stone",
+            "quantity": 60
+          }
+        ]
+      },
+      {
         "id": "highcairn_general",
         "name": "Hillcrest Camp Store",
         "buyMultiplier": 1,
@@ -79996,6 +79813,18 @@
         "questIds": [
           "eleven_empty_days"
         ],
+        "locationId": "rootfall_hamlet",
+        "catalog": "base"
+      },
+      {
+        "id": "npc_smith_corra",
+        "name": "Smith Corra",
+        "regionId": "vellenwood",
+        "settlementId": "rootfall",
+        "role": "Oakwood's smith. Works quarry iron at the forge on the square and sells from the cart beside it.",
+        "voice": "Short sentences. Talks about metal by grade and temper. Names her price once and never haggles.",
+        "dialogueRootId": "corra_root",
+        "questIds": [],
         "locationId": "rootfall_hamlet",
         "catalog": "base"
       },
@@ -80670,7 +80499,7 @@
                 "id": "rootfall_hamlet"
               }
             ],
-            "hint": "She works the trade post side of the Oakwood stump. The handover takes both.",
+            "hint": "She keeps the Trade Row counter on the south side of the Oakwood square. The handover takes both.",
             "completion": {
               "kind": "talk",
               "npcId": "npc_seamer_juno",
@@ -83440,6 +83269,70 @@
           {
             "id": "mott_luck#bye",
             "text": "That is all for now.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "corra_root",
+        "speaker": "Smith Corra",
+        "text": "Corra. I work iron. Quarry ore, Oakwood charcoal, nothing softer. The prices are on the cart and they stay there. What do you need?",
+        "options": [
+          {
+            "id": "corra_root#iron",
+            "text": "What do you make?",
+            "next": "corra_iron"
+          },
+          {
+            "id": "corra_root#quarry",
+            "text": "Where does the iron come from?",
+            "next": "corra_quarry"
+          },
+          {
+            "id": "corra_root#bye",
+            "text": "Nothing today.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "corra_iron",
+        "speaker": "Smith Corra",
+        "text": "Iron blades, helms, boots and gauntlets. Hard at the edge, soft at the spine, so it bends before it snaps. Ash shields for anyone who wants wood between them and the teeth. Limestone by the sack for your own furnace. Look over the cart. What you see is what it costs.",
+        "options": [
+          {
+            "id": "corra_iron#quarry",
+            "text": "Where does the iron come from?",
+            "next": "corra_quarry"
+          },
+          {
+            "id": "corra_iron#back",
+            "text": "Something else.",
+            "next": "corra_root"
+          },
+          {
+            "id": "corra_iron#bye",
+            "text": "Thanks.",
+            "next": null
+          }
+        ],
+        "catalog": "base"
+      },
+      {
+        "id": "corra_quarry",
+        "speaker": "Smith Corra",
+        "text": "The Forest Quarry. Out the Quarry Gate by the wagon, a short walk east. Five seams, all iron, good grade. Mine it, bank it on the Counting House porch, walk back. Smelt your own. You learn the metal that way.",
+        "options": [
+          {
+            "id": "corra_quarry#iron",
+            "text": "What do you make?",
+            "next": "corra_iron"
+          },
+          {
+            "id": "corra_quarry#bye",
+            "text": "I will go and look.",
             "next": null
           }
         ],
@@ -269714,7 +269607,7 @@
           "id": "vellenwood",
           "name": "Woodlands",
           "tier": 5,
-          "lore": "Within two hundred metres of the gate the sky closes. The Ash here are old enough that the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only settlement: nine buildings and a bank chest built on and around a stump so large the stump is the town square. The people there will tell you which paths are safe. They will not tell you why the stags only move at the edges of the clearings.",
+          "lore": "Within two hundred metres of the gate the sky closes. The Ash here are old enough that the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only settlement: a palisaded timber hamlet around a plank-decked square, with a trade row, a forge and a counting house. The people there will tell you which paths are safe. They will not tell you why the stags only move at the edges of the clearings.",
           "bounds": {
             "min": [
               -20,
@@ -269761,23 +269654,23 @@
               "id": "rootfall_hamlet",
               "name": "Oakwood",
               "position": [
-                64,
-                127
+                60,
+                121.5
               ],
               "kind": "settlement",
               "routeNode": true,
-              "blurb": "Nine buildings around a Ash stump the size of a square."
+              "blurb": "A palisaded timber hamlet around a plank-decked square: a trade row, a forge, a counting house and four gates."
             },
             {
               "id": "rootfall_bank",
               "name": "Oakwood Bank Chest",
               "position": [
                 60,
-                128
+                132
               ],
               "kind": "bank",
               "routeNode": true,
-              "blurb": "One chest, set into the stump. Thirty-eight metres from the Forest Quarry."
+              "blurb": "One chest on the Counting House porch, facing the square. About 36 metres from the Forest Quarry."
             },
             {
               "id": "hollowcut_seam",
@@ -269788,7 +269681,7 @@
               ],
               "kind": "seam",
               "routeNode": true,
-              "blurb": "Five Iron seams, 38 m from the bank chest. The best XP in the game until Agility 10."
+              "blurb": "Five Iron seams, 36 m from the bank chest. The best XP in the game until Agility 10."
             },
             {
               "id": "vellenwood_canopy",
@@ -269994,188 +269887,6 @@
             "respawnPointId": "rootfall",
             "buildings": [
               {
-                "id": "rootfall_house_1",
-                "name": "Stumpside House",
-                "prefab": "cottage",
-                "position": [
-                  50,
-                  131
-                ],
-                "rotationY": -1.5707963267948966,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_house_2",
-                "name": "Woodward's House",
-                "prefab": "cottage",
-                "position": [
-                  50,
-                  117
-                ],
-                "rotationY": -1.5707963267948966,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_house_3",
-                "name": "Trapper's House",
-                "prefab": "cottage",
-                "position": [
-                  52,
-                  108
-                ],
-                "rotationY": 3.141592653589793,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_house_4",
-                "name": "Cook House",
-                "prefab": "cottage",
-                "position": [
-                  62,
-                  108
-                ],
-                "rotationY": 3.141592653589793,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_house_5",
-                "name": "Root House",
-                "prefab": "cottage",
-                "position": [
-                  72,
-                  106
-                ],
-                "rotationY": 3.141592653589793,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_house_6",
-                "name": "Seamer's House",
-                "prefab": "cottage",
-                "position": [
-                  72,
-                  118
-                ],
-                "rotationY": 1.5707963267948966,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_house_7",
-                "name": "Warden's House",
-                "prefab": "townhouse",
-                "position": [
-                  72,
-                  128
-                ],
-                "rotationY": 1.5707963267948966,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_house_8",
-                "name": "North House",
-                "prefab": "cottage",
-                "position": [
-                  61,
-                  138
-                ],
-                "rotationY": 0,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_shed",
-                "name": "Drying Shed",
-                "prefab": "shed",
-                "position": [
-                  48,
-                  140
-                ],
-                "rotationY": 0,
-                "footprint": [
-                  4,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_forge",
-                "name": "Oakwood Forge",
-                "prefab": "forge",
-                "position": [
-                  70.5,
-                  137
-                ],
-                "rotationY": 3.141592653589793,
-                "footprint": [
-                  6,
-                  4
-                ]
-              },
-              {
-                "id": "rootfall_sawpit",
-                "name": "The Sawpit",
-                "prefab": "arcade",
-                "position": [
-                  54,
-                  137
-                ],
-                "rotationY": 3.141592653589793,
-                "footprint": [
-                  6,
-                  3
-                ]
-              },
-              {
-                "id": "rootfall_counter",
-                "name": "Stump Counter",
-                "prefab": "porch",
-                "position": [
-                  60,
-                  128.6
-                ],
-                "rotationY": 3.141592653589793,
-                "footprint": [
-                  6,
-                  2.2
-                ]
-              },
-              {
-                "id": "rootfall_cookhouse",
-                "name": "Cook Shelter",
-                "prefab": "porch",
-                "position": [
-                  57,
-                  112.5
-                ],
-                "rotationY": 0,
-                "footprint": [
-                  4,
-                  2.2
-                ]
-              },
-              {
                 "id": "rootfall_gate_west",
                 "name": "West Gate",
                 "prefab": "gatehouse",
@@ -270208,7 +269919,7 @@
                 "name": "Log Gate",
                 "prefab": "gatehouse",
                 "position": [
-                  72,
+                  70,
                   144
                 ],
                 "rotationY": 0,
@@ -270219,16 +269930,170 @@
               },
               {
                 "id": "rootfall_postern",
-                "name": "Forest Quarry Postern",
+                "name": "Quarry Gate",
                 "prefab": "gatehouse",
                 "position": [
-                  74,
+                  80,
                   138
                 ],
                 "rotationY": 1.5707963267948966,
                 "footprint": [
                   8,
                   4
+                ]
+              },
+              {
+                "id": "rootfall_house_1",
+                "name": "Gatewarden's House",
+                "prefab": "cottage",
+                "position": [
+                  50.5,
+                  132.5
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  6,
+                  4
+                ]
+              },
+              {
+                "id": "rootfall_house_2",
+                "name": "Seamer's House",
+                "prefab": "cottage",
+                "position": [
+                  49,
+                  115.5
+                ],
+                "rotationY": 3.141592653589793,
+                "footprint": [
+                  6,
+                  4
+                ]
+              },
+              {
+                "id": "rootfall_house_3",
+                "name": "Sawyer's House",
+                "prefab": "cottage",
+                "position": [
+                  48,
+                  107.5
+                ],
+                "rotationY": -1.5707963267948966,
+                "footprint": [
+                  6,
+                  4
+                ]
+              },
+              {
+                "id": "rootfall_house_4",
+                "name": "Trapper's House",
+                "prefab": "cottage",
+                "position": [
+                  72.2,
+                  106
+                ],
+                "rotationY": 3.141592653589793,
+                "footprint": [
+                  6,
+                  4
+                ]
+              },
+              {
+                "id": "rootfall_counting_house",
+                "name": "Oakwood Counting House",
+                "prefab": "townhouse",
+                "position": [
+                  60,
+                  137
+                ],
+                "rotationY": 3.141592653589793,
+                "footprint": [
+                  6,
+                  4
+                ]
+              },
+              {
+                "id": "rootfall_bank_porch",
+                "name": "Counting House Porch",
+                "prefab": "porch",
+                "position": [
+                  60,
+                  133
+                ],
+                "rotationY": 3.141592653589793,
+                "footprint": [
+                  6,
+                  3
+                ]
+              },
+              {
+                "id": "rootfall_trade_row",
+                "name": "Oakwood Trade Row",
+                "prefab": "arcade",
+                "position": [
+                  58.5,
+                  109.5
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  10,
+                  3
+                ]
+              },
+              {
+                "id": "rootfall_forge",
+                "name": "Oakwood Forge",
+                "prefab": "forge",
+                "position": [
+                  74,
+                  122
+                ],
+                "rotationY": -1.5707963267948966,
+                "footprint": [
+                  6,
+                  4
+                ]
+              },
+              {
+                "id": "rootfall_smokehouse",
+                "name": "Mott's Smokehouse",
+                "prefab": "porch",
+                "position": [
+                  65.2,
+                  105.3
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  4,
+                  3
+                ]
+              },
+              {
+                "id": "rootfall_shed",
+                "name": "Drying Shed",
+                "prefab": "shed",
+                "position": [
+                  49,
+                  139.75
+                ],
+                "rotationY": -1.5707963267948966,
+                "footprint": [
+                  4,
+                  4
+                ]
+              },
+              {
+                "id": "rootfall_well",
+                "name": "Oakwood Well",
+                "prefab": "well",
+                "position": [
+                  67.4,
+                  126.8
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  2,
+                  2
                 ]
               }
             ],
@@ -270239,14 +270104,14 @@
                 "kind": "range",
                 "skill": "cooking",
                 "position": [
-                  57,
-                  112.4
+                  64.2,
+                  105.1
                 ],
                 "rotationY": 0,
                 "assetId": "cooking_pot",
                 "scale": 2.2,
                 "recipeIds": [],
-                "attachedTo": "rootfall_cookhouse"
+                "attachedTo": "rootfall_smokehouse"
               },
               {
                 "id": "rootfall_anvil",
@@ -270254,10 +270119,10 @@
                 "kind": "anvil",
                 "skill": "smithing",
                 "position": [
-                  70.5,
-                  137.2
+                  75,
+                  122.4
                 ],
-                "rotationY": 3.141592653589793,
+                "rotationY": -1.5707963267948966,
                 "assetId": "anvil",
                 "scale": 1.4,
                 "recipeIds": [],
@@ -270269,13 +270134,13 @@
                 "kind": "crafting_table",
                 "skill": "crafting",
                 "position": [
-                  52.6,
-                  137.4
+                  58.3,
+                  108.75
                 ],
-                "rotationY": 3.141592653589793,
+                "rotationY": 0,
                 "assetId": "workbench",
                 "recipeIds": [],
-                "attachedTo": "rootfall_sawpit"
+                "attachedTo": "rootfall_trade_row"
               },
               {
                 "id": "rootfall_fletching",
@@ -270283,14 +270148,14 @@
                 "kind": "fletching_bench",
                 "skill": "fletching",
                 "position": [
-                  55.4,
-                  137.4
+                  60.5,
+                  108.85
                 ],
-                "rotationY": 3.141592653589793,
-                "assetId": "workbench_drawers",
-                "scale": 3.5,
+                "rotationY": 0,
+                "assetId": "weapon_rack",
+                "scale": 1.3,
                 "recipeIds": [],
-                "attachedTo": "rootfall_sawpit"
+                "attachedTo": "rootfall_trade_row"
               }
             ],
             "bank": {
@@ -270298,11 +270163,11 @@
               "name": "Oakwood Bank Chest",
               "position": [
                 60,
-                128
+                133.9
               ],
               "rotationY": 3.141592653589793,
               "assetId": "chest_wood",
-              "attachedTo": "rootfall_counter"
+              "attachedTo": "rootfall_bank_porch"
             },
             "shops": [
               {
@@ -270310,35 +270175,35 @@
                 "name": "Oakwood Trade Post",
                 "shopKind": "general",
                 "position": [
-                  62,
-                  128.8
+                  54.5,
+                  109.1
                 ],
-                "rotationY": 0,
+                "rotationY": 3.141592653589793,
                 "assetId": "market_stall",
-                "attachedTo": "rootfall_counter"
+                "attachedTo": "rootfall_trade_row"
+              },
+              {
+                "id": "rootfall_smith",
+                "name": "Corra's Iron",
+                "shopKind": "smith",
+                "position": [
+                  73.5,
+                  116.3
+                ],
+                "rotationY": 1.5707963267948966,
+                "assetId": "market_stall_cart",
+                "attachedTo": "rootfall_forge"
               }
             ],
             "npcs": [
               {
-                "id": "npc_woodward_ansel",
-                "name": "Woodward Ansel",
-                "position": [
-                  57.4,
-                  122.8
-                ],
-                "facingRad": 2.39,
-                "assetId": "base_male",
-                "dialogueRootId": "ansel_root",
-                "questIds": []
-              },
-              {
                 "id": "npc_seamer_juno",
                 "name": "Seamer Juno",
                 "position": [
-                  58.4,
-                  129.2
+                  52.8,
+                  110.2
                 ],
-                "facingRad": 3.141592653589793,
+                "facingRad": 1.5707963267948966,
                 "assetId": "base_female",
                 "dialogueRootId": "juno_root",
                 "questIds": []
@@ -270347,12 +270212,36 @@
                 "id": "npc_trapper_mott",
                 "name": "Trapper Mott",
                 "position": [
-                  69.2,
-                  118.6
+                  68.2,
+                  108.6
                 ],
-                "facingRad": -1.42,
+                "facingRad": -0.45,
                 "assetId": "base_male",
                 "dialogueRootId": "mott_root",
+                "questIds": []
+              },
+              {
+                "id": "npc_woodward_ansel",
+                "name": "Woodward Ansel",
+                "position": [
+                  66.7,
+                  137
+                ],
+                "facingRad": -2.75,
+                "assetId": "base_male",
+                "dialogueRootId": "ansel_root",
+                "questIds": []
+              },
+              {
+                "id": "npc_smith_corra",
+                "name": "Smith Corra",
+                "position": [
+                  74.6,
+                  114.4
+                ],
+                "facingRad": -1.6,
+                "assetId": "base_female",
+                "dialogueRootId": "corra_root",
                 "questIds": []
               }
             ],
@@ -270388,7 +270277,7 @@
                 ],
                 "openings": [
                   {
-                    "at": 28,
+                    "at": 26,
                     "width": 8
                   }
                 ]
@@ -270432,58 +270321,97 @@
               {
                 "id": "rootfall_paving_green",
                 "rect": {
-                  "minX": 52,
-                  "minZ": 114,
-                  "maxX": 68,
-                  "maxZ": 128
-                },
-                "assetId": "floor_wood",
-                "kerb": true
-              },
-              {
-                "id": "rootfall_paving_cart_road",
-                "rect": {
-                  "minX": 60,
-                  "minZ": 110,
-                  "maxX": 84,
-                  "maxZ": 114
+                  "minX": 54,
+                  "minZ": 112,
+                  "maxX": 72,
+                  "maxZ": 131.5
                 },
                 "assetId": "floor_wood"
               },
               {
-                "id": "rootfall_paving_log_road",
+                "id": "rootfall_paving_oak_row",
                 "rect": {
                   "minX": 40,
                   "minZ": 122,
-                  "maxX": 52,
+                  "maxX": 54,
                   "maxZ": 126
                 },
                 "assetId": "floor_wood"
               },
               {
-                "id": "rootfall_paving_sawpit_yard",
+                "id": "rootfall_paving_trade_row",
                 "rect": {
-                  "minX": 52,
-                  "minZ": 128,
-                  "maxX": 58,
-                  "maxZ": 138
+                  "minX": 53,
+                  "minZ": 107.5,
+                  "maxX": 63,
+                  "maxZ": 112
+                },
+                "assetId": "floor_wood"
+              },
+              {
+                "id": "rootfall_paving_cart_lane",
+                "rect": {
+                  "minX": 63,
+                  "minZ": 108,
+                  "maxX": 84,
+                  "maxZ": 112
+                },
+                "assetId": "floor_wood"
+              },
+              {
+                "id": "rootfall_paving_smokehouse",
+                "rect": {
+                  "minX": 63,
+                  "minZ": 103.8,
+                  "maxX": 68,
+                  "maxZ": 108
+                },
+                "assetId": "floor_wood"
+              },
+              {
+                "id": "rootfall_paving_bank",
+                "rect": {
+                  "minX": 56,
+                  "minZ": 131.5,
+                  "maxX": 64,
+                  "maxZ": 134.5
+                },
+                "assetId": "floor_wood"
+              },
+              {
+                "id": "rootfall_paving_north_lane",
+                "rect": {
+                  "minX": 64,
+                  "minZ": 131.5,
+                  "maxX": 72,
+                  "maxZ": 140
+                },
+                "assetId": "floor_wood"
+              },
+              {
+                "id": "rootfall_paving_gate_yard",
+                "rect": {
+                  "minX": 72,
+                  "minZ": 126,
+                  "maxX": 80,
+                  "maxZ": 140
                 },
                 "assetId": "floor_wood"
               },
               {
                 "id": "rootfall_paving_north_gate",
                 "rect": {
-                  "minX": 70,
-                  "minZ": 138,
-                  "maxX": 74,
+                  "minX": 68,
+                  "minZ": 140,
+                  "maxX": 72,
                   "maxZ": 148
                 },
                 "assetId": "floor_wood"
               },
               {
-                "id": "rootfall_paving_postern",
+                "id": "rootfall_paving_quarry_gate",
                 "rect": {
-                  "minX": 76,
+                  "minX": 80,
                   "minZ": 136,
                   "maxX": 84,
                   "maxZ": 140
@@ -270493,80 +270421,138 @@
             ],
             "props": [
               {
-                "id": "rootfall_prop_whetstone",
-                "assetId": "whetstone",
+                "id": "rootfall_prop_well_bench",
+                "assetId": "bench",
                 "position": [
-                  67.6,
-                  133.2
+                  69.6,
+                  126.8
                 ],
-                "rotationY": 0.5,
+                "rotationY": 1.5707963267948966,
                 "solid": true
               },
               {
-                "id": "rootfall_prop_forge_barrel_1",
-                "assetId": "barrel",
+                "id": "rootfall_prop_well_flowers",
+                "assetId": "flower_a_group",
                 "position": [
-                  68.6,
-                  132.2
+                  65.4,
+                  125.6
                 ],
-                "rotationY": 0.3,
+                "rotationY": 0.4,
+                "scale": 0.35
+              },
+              {
+                "id": "rootfall_prop_row_bench",
+                "assetId": "bench",
+                "position": [
+                  51.4,
+                  119.3
+                ],
+                "rotationY": 0,
                 "solid": true
               },
               {
-                "id": "rootfall_prop_forge_barrel_2",
-                "assetId": "barrel",
+                "id": "rootfall_prop_row_flowers",
+                "assetId": "flower_b_group",
                 "position": [
-                  74,
-                  136.2
+                  53.2,
+                  129.4
                 ],
-                "rotationY": 1.1,
-                "solid": true
+                "rotationY": 0,
+                "scale": 0.5
               },
               {
-                "id": "rootfall_prop_forge_crate",
+                "id": "rootfall_prop_trade_carrots",
+                "assetId": "farm_crate_carrot",
+                "position": [
+                  56.5,
+                  108.45
+                ],
+                "rotationY": 0
+              },
+              {
+                "id": "rootfall_prop_trade_crate",
                 "assetId": "crate_village",
                 "position": [
-                  73,
-                  132.6
+                  62.5,
+                  108.75
                 ],
-                "rotationY": 0.8,
+                "rotationY": 0,
                 "solid": true
               },
               {
-                "id": "rootfall_prop_forge_sack",
+                "id": "rootfall_prop_bank_crate",
+                "assetId": "crate_village",
+                "position": [
+                  58,
+                  133.75
+                ],
+                "rotationY": 0,
+                "solid": true
+              },
+              {
+                "id": "rootfall_prop_bank_sack",
                 "assetId": "sack",
                 "position": [
-                  68.2,
-                  131.6
+                  62,
+                  133.9
                 ],
-                "rotationY": 2.1
+                "rotationY": 0.4
               },
               {
-                "id": "rootfall_prop_trestle_1",
-                "assetId": "support_beam",
+                "id": "rootfall_prop_forge_whetstone",
+                "assetId": "whetstone",
                 "position": [
-                  51.6,
-                  134.6
+                  71,
+                  127
                 ],
                 "rotationY": 0,
-                "scale": 0.8
+                "solid": true
               },
               {
-                "id": "rootfall_prop_trestle_2",
-                "assetId": "support_beam",
+                "id": "rootfall_prop_forge_barrel",
+                "assetId": "barrel",
                 "position": [
-                  56.4,
-                  134.6
+                  73.2,
+                  126.9
                 ],
                 "rotationY": 0,
-                "scale": 0.8
+                "solid": true
+              },
+              {
+                "id": "rootfall_prop_wagon",
+                "assetId": "wagon",
+                "position": [
+                  77.2,
+                  130
+                ],
+                "rotationY": 0,
+                "solid": true
+              },
+              {
+                "id": "rootfall_prop_yard_crate",
+                "assetId": "crate_village",
+                "position": [
+                  78.4,
+                  132.4
+                ],
+                "rotationY": 0,
+                "solid": true
+              },
+              {
+                "id": "rootfall_prop_yard_sack",
+                "assetId": "sack",
+                "position": [
+                  76.4,
+                  132.6
+                ],
+                "rotationY": 1.2
               },
               {
                 "id": "rootfall_prop_log_1",
                 "assetId": "roof_log",
                 "position": [
-                  50.8,
-                  132.2
+                  65,
+                  138
                 ],
                 "rotationY": 0,
                 "scale": 0.28,
@@ -270576,8 +270562,8 @@
                 "id": "rootfall_prop_log_2",
                 "assetId": "roof_log",
                 "position": [
-                  51.2,
-                  132.2
+                  65.4,
+                  138
                 ],
                 "rotationY": 0,
                 "scale": 0.28,
@@ -270587,373 +270573,75 @@
                 "id": "rootfall_prop_log_3",
                 "assetId": "roof_log",
                 "position": [
-                  51,
-                  132.2
+                  65.2,
+                  138
                 ],
                 "rotationY": 0,
                 "scale": 0.28,
                 "dy": 0.36
               },
               {
-                "id": "rootfall_prop_saw_crate",
-                "assetId": "crate_village",
+                "id": "rootfall_prop_woodyard_log_1",
+                "assetId": "roof_log",
                 "position": [
-                  56.4,
-                  137.6
+                  54.5,
+                  136.3
                 ],
-                "rotationY": 0.4,
+                "rotationY": 1.5707963267948966,
+                "scale": 0.28,
                 "solid": true
               },
               {
-                "id": "rootfall_prop_saw_sack",
-                "assetId": "sack",
+                "id": "rootfall_prop_woodyard_log_2",
+                "assetId": "roof_log",
                 "position": [
-                  51.6,
-                  137.4
+                  54.5,
+                  136.7
                 ],
-                "rotationY": 1.7
+                "rotationY": 1.5707963267948966,
+                "scale": 0.28,
+                "solid": true
               },
               {
-                "id": "rootfall_prop_saw_rope",
-                "assetId": "rope_coil",
+                "id": "rootfall_prop_woodyard_log_3",
+                "assetId": "roof_log",
+                "position": [
+                  54.5,
+                  136.5
+                ],
+                "rotationY": 1.5707963267948966,
+                "scale": 0.28,
+                "dy": 0.36
+              },
+              {
+                "id": "rootfall_prop_woodyard_trestle",
+                "assetId": "support_beam",
                 "position": [
                   55.8,
-                  135.2
-                ],
-                "rotationY": 0.6
-              },
-              {
-                "id": "rootfall_prop_counter_table",
-                "assetId": "table_large",
-                "position": [
-                  58.2,
-                  127.9
+                  141
                 ],
                 "rotationY": 1.5707963267948966,
-                "solid": true
+                "scale": 0.8
               },
               {
-                "id": "rootfall_prop_counter_torch_l",
-                "assetId": "torch",
-                "position": [
-                  57.2,
-                  127.8
-                ],
-                "rotationY": 0,
-                "dy": 1.9
-              },
-              {
-                "id": "rootfall_prop_counter_torch_r",
-                "assetId": "torch",
-                "position": [
-                  62.8,
-                  127.8
-                ],
-                "rotationY": 0,
-                "dy": 1.9
-              },
-              {
-                "id": "rootfall_prop_counter_rope",
-                "assetId": "rope_coil",
-                "position": [
-                  61.6,
-                  127.8
-                ],
-                "rotationY": 0.9
-              },
-              {
-                "id": "rootfall_prop_bench_1",
-                "assetId": "bench",
-                "position": [
-                  54.4,
-                  122
-                ],
-                "rotationY": 0.35,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_bench_2",
-                "assetId": "bench",
-                "position": [
-                  66.8,
-                  119.8
-                ],
-                "rotationY": -0.35,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_green_barrel",
-                "assetId": "barrel",
-                "position": [
-                  54.8,
-                  127.8
-                ],
-                "rotationY": 0.4,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_green_crate",
-                "assetId": "crate_village",
-                "position": [
-                  54.8,
-                  126.6
-                ],
-                "rotationY": 1.3,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_cauldron",
+                "id": "rootfall_prop_smoke_cauldron",
                 "assetId": "cauldron",
                 "position": [
-                  58.4,
-                  112.4
+                  66.2,
+                  105.1
                 ],
                 "rotationY": 0,
                 "solid": true
               },
               {
-                "id": "rootfall_prop_cook_sack",
-                "assetId": "sack",
-                "position": [
-                  55.6,
-                  112.6
-                ],
-                "rotationY": 0.4
-              },
-              {
-                "id": "rootfall_prop_wagon",
-                "assetId": "wagon",
-                "position": [
-                  69,
-                  113.4
-                ],
-                "rotationY": 1.5707963267948966,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_cart_crate",
-                "assetId": "crate_village",
-                "position": [
-                  75.6,
-                  113.2
-                ],
-                "rotationY": 0.7,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_cart_barrel",
+                "id": "rootfall_prop_smoke_barrel",
                 "assetId": "barrel",
                 "position": [
-                  76.8,
-                  113.4
-                ],
-                "rotationY": 0.2,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_cart_sack",
-                "assetId": "sack",
-                "position": [
-                  74.6,
-                  112.9
-                ],
-                "rotationY": 1.9
-              },
-              {
-                "id": "rootfall_fence_sw_n1",
-                "assetId": "fence_wood_single",
-                "position": [
-                  46,
-                  112
-                ],
-                "rotationY": 0
-              },
-              {
-                "id": "rootfall_fence_sw_n2",
-                "assetId": "fence_wood_single",
-                "position": [
-                  48,
-                  112
-                ],
-                "rotationY": 0
-              },
-              {
-                "id": "rootfall_fence_sw_w1",
-                "assetId": "fence_wood_single",
-                "position": [
-                  45,
-                  106
-                ],
-                "rotationY": 1.5707963267948966
-              },
-              {
-                "id": "rootfall_fence_sw_w2",
-                "assetId": "fence_wood_single",
-                "position": [
-                  45,
-                  108
-                ],
-                "rotationY": 1.5707963267948966
-              },
-              {
-                "id": "rootfall_fence_sw_w3",
-                "assetId": "fence_wood_single",
-                "position": [
-                  45,
-                  110
-                ],
-                "rotationY": 1.5707963267948966
-              },
-              {
-                "id": "rootfall_fence_sw_s1",
-                "assetId": "fence_wood_single",
-                "position": [
-                  46,
-                  104
-                ],
-                "rotationY": 0
-              },
-              {
-                "id": "rootfall_fence_sw_s2",
-                "assetId": "fence_wood_single",
-                "position": [
-                  48,
-                  104
-                ],
-                "rotationY": 0
-              },
-              {
-                "id": "rootfall_prop_yard_crate",
-                "assetId": "crate_village",
-                "position": [
-                  46.4,
-                  108.6
-                ],
-                "rotationY": 0.9,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_yard_sack",
-                "assetId": "sack",
-                "position": [
-                  47.4,
-                  106.4
-                ],
-                "rotationY": 2.2
-              },
-              {
-                "id": "rootfall_fence_e1",
-                "assetId": "fence_wood_single",
-                "position": [
-                  76,
-                  115
-                ],
-                "rotationY": 1.5707963267948966
-              },
-              {
-                "id": "rootfall_fence_e2",
-                "assetId": "fence_wood_single",
-                "position": [
-                  76,
-                  117
-                ],
-                "rotationY": 1.5707963267948966
-              },
-              {
-                "id": "rootfall_fence_e3",
-                "assetId": "fence_wood_single",
-                "position": [
-                  76,
-                  119
-                ],
-                "rotationY": 1.5707963267948966
-              },
-              {
-                "id": "rootfall_fence_e4",
-                "assetId": "fence_wood_single",
-                "position": [
-                  76,
-                  121
-                ],
-                "rotationY": 1.5707963267948966
-              },
-              {
-                "id": "rootfall_fence_e5",
-                "assetId": "fence_wood_single",
-                "position": [
-                  75,
-                  114
-                ],
-                "rotationY": 0
-              },
-              {
-                "id": "rootfall_fence_e6",
-                "assetId": "fence_wood_single",
-                "position": [
-                  75,
-                  123
-                ],
-                "rotationY": 0
-              },
-              {
-                "id": "rootfall_lamp_h1",
-                "assetId": "lamp_wall",
-                "position": [
-                  51.25,
-                  131
-                ],
-                "rotationY": 1.5707963267948966,
-                "dy": 1.8
-              },
-              {
-                "id": "rootfall_lamp_h2",
-                "assetId": "lamp_wall",
-                "position": [
-                  51.25,
-                  117
-                ],
-                "rotationY": 1.5707963267948966,
-                "dy": 1.8
-              },
-              {
-                "id": "rootfall_lamp_h6",
-                "assetId": "lamp_wall",
-                "position": [
-                  69.75,
-                  118
-                ],
-                "rotationY": -1.5707963267948966,
-                "dy": 1.8
-              },
-              {
-                "id": "rootfall_lamp_h7",
-                "assetId": "lamp_wall",
-                "position": [
-                  69.75,
-                  128
-                ],
-                "rotationY": -1.5707963267948966,
-                "dy": 1.8
-              },
-              {
-                "id": "rootfall_lamp_h4",
-                "assetId": "lamp_wall",
-                "position": [
-                  62,
-                  110.25
+                  68.2,
+                  104.6
                 ],
                 "rotationY": 0,
-                "dy": 1.8
-              },
-              {
-                "id": "rootfall_lamp_h8",
-                "assetId": "lamp_wall",
-                "position": [
-                  61,
-                  135.75
-                ],
-                "rotationY": 3.141592653589793,
-                "dy": 1.8
+                "solid": true
               }
             ],
             "padShape": {
@@ -271012,7 +270700,7 @@
               "reqLevel": 8,
               "position": [
                 86,
-                138
+                132
               ],
               "exitPosition": [
                 188,
@@ -271041,20 +270729,6 @@
               "scale": 1,
               "rotationY": 0,
               "blurb": "A root-bound stone court ringed by Earth Essence. Rootbound Colossus's Orb can wake it.",
-              "solid": false,
-              "originOnGround": true
-            },
-            {
-              "id": "rootfall_stump",
-              "name": "The Oakwood Stump",
-              "position": [
-                60,
-                120
-              ],
-              "assetId": "corealm_stump_oak",
-              "scale": 4,
-              "blurb": "The stump is the square. Stone steps climb its southeast face.",
-              "composition": "rootfall_stump",
               "solid": false,
               "originOnGround": true
             },

@@ -2313,10 +2313,10 @@
           "id": "npc_seamer_juno",
           "name": "Seamer Juno",
           "position": [
-            56.4,
+            52.8,
             110.2
           ],
-          "facingRad": 0,
+          "facingRad": 1.5707963267948966,
           "assetId": "base_female",
           "dialogueRootId": "juno_root",
           "questIds": []

@@ -30,11 +30,11 @@ describe("Hollowcut approach beside Rootfall", () => {
         },
       });
       const solids = new Solids(world.solids);
-      // These are unmodified nav-path samples from the failed production world probe.
-      // Root Tunnel's partly buried left decorative rock caused a 0.64 m body correction.
+      // Samples of the shipped route from Oakwood's Quarry Gate (in its wall opening) to the seam,
+      // where it passes Root Tunnel. Its partly buried decorative rock once cost a 0.64 m body correction.
       const samples: Vec3[] = [
-        [85.01168, 8.267, 136.22288], [85.45292, 8.243, 135.83072],
-        [85.7536585366, 8.2057317073, 135.5792682927], [86.2146341463, 8.1179268293, 135.2170731707],
+        [84.278, 7.798, 138.785], [85.13, 7.469, 139.309],
+        [85.982, 7.141, 139.833], [86.834, 6.813, 140.356],
       ];
       for (const point of samples) {
         const resolved = solids.resolve(point, point, 0.35);
