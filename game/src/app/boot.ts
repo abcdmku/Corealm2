@@ -1741,6 +1741,22 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
   });
   /**
+   * The view follows the host's player. Within a map the working set follows them. Across maps (a
+   * portal, a join that lands in the cave) or beyond the actor radius (a respawn, a join far from
+   * the boot spawn) the curtain covers the arrival while the destination loads, because nothing
+   * there has views, terrain draw data or prepared shaders yet.
+   */
+  const followPlayer = (force: boolean): void => {
+    const player = store.get().player;
+    const jumped = debugPlacements === 0 && distanceXZ(player.position, activeVisualCentre) > ENTITY_ACTIVE_RADIUS;
+    const crossed = worldMapForRegion(player.regionId) !== worldMapForRegion(activeVisualRegion) || jumped
+      || (player.regionId === "gravelmaw" && deferredCave !== null && !deferredCave.getState().ready);
+    if (!crossed) { refreshVisualResidency(player.position, player.regionId, force); return; }
+    if (portalTransition.active) return;
+    void coverArrival({ position: [...player.position] as Vec3, regionId: player.regionId, name: getRegion(player.regionId)?.name ?? "Gravelmaw" })
+      .catch(cause => { errors.push({ atMs: atMs(), source: "portalTransition", message: describeError(cause) }); });
+  };
+  /**
    * Where a debug pose or teleport puts the player. The host owns the player, so this asks the local
    * world and resolves once the new position has been replicated back; `then` runs after that. A page
    * with no local world (the multiplayer lab, a capture) has nobody to ask, and the pose is refused.
@@ -2988,9 +3004,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     return entitiesForVisualRegion(store.get().player.regionId);
   }, () => {
     refreshCarriedAssets();
-    if (profile.kind === "feature-lab") return;
-    const player = store.get().player;
-    refreshVisualResidency(player.position, player.regionId);
+    // Boot's frames run before it has prepared the joined position; the end of boot follows the
+    // player. Moving the working set here first would skip that position's preparation for good.
+    if (profile.kind === "feature-lab" || !debugReady) return;
+    followPlayer(false);
   }, () => forestPresentation.reconcile((id) => entityViews.hasView(id)));
   ui.setHuntContracts(huntContractsView(hunts, api));
 
@@ -3429,19 +3446,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         // travel prefetch, audio downloads or a second portal curtain while it is doing that.
         if (!debugReady) return;
         gameAudio.tick(0,update.simMs);
-        // Within a map the working set follows the player. Across maps (a portal, or a join that lands in the cave) the
-        // curtain covers the change while the destination loads, because the cave's rock and a realm's dressing load on arrival.
-        // A same-map jump beyond the actor radius (a respawn) lands among creatures that have no views yet: cover it too.
-        const player=store.get().player;
-        const jumped=debugPlacements===0&&distanceXZ(player.position,activeVisualCentre)>ENTITY_ACTIVE_RADIUS;
-        const crossed=worldMapForRegion(player.regionId)!==worldMapForRegion(activeVisualRegion)||jumped
-          ||(player.regionId==="gravelmaw"&&deferredCave!==null&&!deferredCave.getState().ready);
-        if(!crossed){refreshVisualResidency(player.position,player.regionId,update.snapshot);return;}
-        if(portalTransition.active)return;
-        void coverArrival({position:[...player.position] as Vec3,regionId:player.regionId,name:getRegion(player.regionId)?.name??"Gravelmaw"})
-          .catch(cause=>{errors.push({atMs:atMs(),source:"portalTransition",message:describeError(cause)});});
+        followPlayer(update.snapshot);
       },
-      restored(){for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}refreshVisualResidency(store.get().player.position,store.get().player.regionId,true);},
+      restored(){
+        for(const id of forestInstances.keys()){forestPresentation.deactivate(id);forestObstacles.remove(id);}
+        // A join after boot's own join window is an arrival from the boot spawn, not a step: it
+        // takes the same cover as any jump. During boot, the end of boot follows the player.
+        if (debugReady) followPlayer(true);
+      },
     }, {crowds:true,equipment:true}, selection);
     // Only when there was something to join. The picker shows on every page now, but a page with
     // no servers behind it has nothing to offer a player who let loading finish without choosing,
@@ -3580,6 +3592,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       bootTelemetry.milestone(BOOT_MILESTONES.FIRST_PLAYABLE);
       debugReady = true;
       assets.setGameplayActive(runtimePerformanceEnabled);
+      // A world joined after boot prepared its view (the player chose it while loading finished)
+      // put the player somewhere boot did not prepare. Arrive there now.
+      if (profile.kind === "game") followPlayer(true);
       if (featureLab) window.__featureLab = featureLab;
       if (environmentLab) (window as Window & { __environmentLab?: typeof environmentLab }).__environmentLab = environmentLab;
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
