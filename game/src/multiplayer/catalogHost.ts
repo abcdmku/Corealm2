@@ -73,7 +73,9 @@ export async function seedCatalog(storage: CatalogStorage, base: BaseCatalog, lo
  *  - nothing reads the table while the game runs: it is an input the compiler folds into one of the
  *    tables above, so its whole effect arrives through them.
  *
- * `restart` means a module derives something from the table at import and keeps it.
+ * `restart` means a module derives something from the table at import and keeps it. The next start
+ * builds every world's entities from it again, a saved world's included: a save keeps only what play
+ * made or moves (creatures, loot piles, recovery caches, campfires), never a structure, station or node.
  */
 export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">> = {
   // Registry rows.

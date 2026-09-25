@@ -11,7 +11,6 @@ import type { Navigation } from "../systems/navigation.js";
 import { EntityStore } from "../world/entities.js";
 import { SpatialIndex } from "../world/spatial.js";
 import { HeadlessPlayer } from "./headlessPlayer.js";
-import { isStaticScenery } from "./replicatedEntities.js";
 import { SessionFailure } from "./protocol.js";
 import { PublicActions } from "./publicActions.js";
 import { WorldExchange } from "./exchange.js";
@@ -44,6 +43,20 @@ export interface HeadlessWorldPorts {
   beforeTick?(world:HeadlessWorld):void;
   /** After every system has run and before the tick is committed, so what it writes replicates with the tick that caused it. */
   afterTick?(world:HeadlessWorld):void;
+}
+
+/**
+ * What a world save keeps of the entity table: what play made or moves. A creature carries its position, health and
+ * pending spawn; a loot pile, a recovery cache and a campfire exist only because something happened. Every other
+ * entity is the content build's (`HeadlessWorldPorts.entities`, and the forest's trees), built again at every start,
+ * so a structure content moved, added or removed is exactly as current content says. What play changes on those
+ * lives in `SharedWorldState` (a node's depletion) or with the player (a door they opened, an altar they woke).
+ */
+function savedWithWorld(entity: SemanticEntity): boolean {
+  switch (entity.archetype) {
+    case "enemy": case "boss": case "loot": case "recovery_cache": return true;
+    default: return entity.meta?.campfire === true;
+  }
 }
 
 /** How far from a player a sparse snapshot still compares entities: past the interest radius, so nothing a player can touch is skipped. */
@@ -81,7 +94,6 @@ export class HeadlessWorld {
   private readonly sentinel: HeadlessPlayer;
   private selected: HeadlessPlayer;
   private persistedEntities = new Map<string, string>();
-  private readonly sceneryRows = new WeakMap<SemanticEntity, string>();
   /** The current habitat of each spawn group. A publish replaces the entries of the groups it rebuilt. */
   private readonly habitats = new Map<string, HabitatDef>();
   /** A creature that outlived the habitat of its group keeps the one it was spawned into until it dies. */
@@ -98,7 +110,10 @@ export class HeadlessWorld {
     const catalog = runtimeTables(descriptor.fixture === "lab");
     content.register({ ...catalog, enemies: [...new Map([...catalog.enemies, ...(ports.enemies ?? [])].map(enemy => [enemy.id, enemy])).values()] });
     this.entities = new EntityStore({ skillLevels: () => Object.fromEntries(SKILL_IDS.map((id) => [id, 99])) as Record<SkillId, number> });
-    this.entities.load(saved?.entities ?? structuredClone(ports.entities));
+    // A save holds what play made or moves, and the content build everything else. The creatures are the save's:
+    // `applySpawns` below brings them in line with the build the way a live publish does.
+    this.entities.load(saved ? [...structuredClone(ports.entities.filter(entity => entity.archetype !== "enemy" && entity.archetype !== "boss")),
+      ...saved.entities.filter(savedWithWorld)] : structuredClone(ports.entities));
     // A creature's model and scale are stamped from the catalog when the world is built, and a save keeps
     // what it was built with. `ports` was built from the catalog this server runs on now, so a model
     // an admin changed reaches the saved creature here, and the client through its replicated view.
@@ -110,7 +125,8 @@ export class HeadlessWorld {
       }
     }
     for (const habitat of ports.habitats ?? []) this.habitats.set(habitat.groupId, habitat);
-    // Seed from the durable baseline before initialization can remove resident entities.
+    // Every row storage holds, before initialization can remove resident entities. The first snapshot deletes the
+    // rows a save no longer keeps, including the structures an older build stored.
     for (const entity of saved?.entities ?? []) this.persistedEntities.set(entity.id, JSON.stringify(entity));
     this.shared = saved?.world ?? { nodes: {}, enemies: {}, lootPiles: {} };
     this.clock.skipMs((saved?.tick ?? 0) * 100);
@@ -400,7 +416,7 @@ export class HeadlessWorld {
     this.clock.commitTick();
   }
   /**
-   * `thorough` compares every entity with what storage holds. Without it, only what could have changed this tick is
+   * `thorough` compares every entity a save keeps with what storage holds. Without it, only what could have changed this tick is
    * compared: what stands near an active player, what the enemy AI ran, and anything storage has never seen. A change
    * anywhere else waits for the next thorough snapshot. Local play asks for that between thorough ones, because
    * serializing five thousand creatures ten times a second is most of its tick and all of what limits debug time scale.
@@ -417,14 +433,10 @@ export class HeadlessWorld {
         for (const id of this.active) this.entities.index().forEachInRadius(this.players.get(id)!.store.get().player.position, SPARSE_SNAPSHOT_RADIUS, near => { touched!.add(near); });
       }
       for (const entity of this.entities.all()) {
+        if (!savedWithWorld(entity)) continue;
         const unchanged = touched && !touched.has(entity.id) ? this.persistedEntities.get(entity.id) : undefined;
         if (unchanged !== undefined) { nextEntities.set(entity.id, unchanged); continue; }
-        // Scenery is most of an authored world and nothing in the simulation writes to it, so the same object is not
-        // serialized again each tick to find that out. A replaced object is, and so is everything a player can act on.
-        const scenery = isStaticScenery(entity), known = scenery ? this.sceneryRows.get(entity) : undefined;
-        if (known !== undefined && this.persistedEntities.get(entity.id) === known) { nextEntities.set(entity.id, known); continue; }
         const json = JSON.stringify(entity);
-        if (scenery) this.sceneryRows.set(entity, json);
         nextEntities.set(entity.id, json);
         if (this.persistedEntities.get(entity.id) !== json) {
           entities.push(structuredClone(entity));
@@ -433,7 +445,7 @@ export class HeadlessWorld {
       for (const id of this.persistedEntities.keys()) if (!nextEntities.has(id)) {
         removedEntityIds.push(id);
       }
-    } else entities = structuredClone(this.entities.all());
+    } else entities = structuredClone(this.entities.all().filter(savedWithWorld));
     const snapshot: WorldStorageRecord = {
       parties: this.social.snapshot(),
       schemaVersion: 1, key: { providerId: this.descriptor.providerId, worldId: this.descriptor.worldId },

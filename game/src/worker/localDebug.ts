@@ -185,7 +185,7 @@ export function createLocalDebug(ports: LocalDebugPorts): (op: unknown) => Promi
           catalogRevision: running.descriptor.catalogRevision ?? null, seed: running.descriptor.seed, tick: Math.max(0, Math.round(op.state.meta.playSeconds * 10)),
           // Forest trees are entities only while a player is near, so their node rows are kept by seed, not by the entity table.
           world: structuredClone({ nodes: op.state.world.nodes ?? {}, enemies: kept(op.state.world.enemies), lootPiles: op.state.world.lootPiles ?? {} }),
-          entities: structuredClone(running.ports.entities), receipts: {}, players: {},
+          entities: [], receipts: {}, players: {},
         } : null;
         const joined = replaceWorld(saved, { character: { ...character, player: { ...character.player, id: playerId } }, lastWorld: here ? running.descriptor : null,
           world: here ? { ownedWorld: owned, receipts: [] } : null }, name);

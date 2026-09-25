@@ -163,19 +163,19 @@ describe("a sparse snapshot", () => {
       fixture: "lab", seed: 1337, population: 0, capacity: 1, availability: "available" };
     const runtime = new HeadlessWorld(world, await createMultiplayerLabWorld(), null);
     runtime.join("alice");
-    const far = { id: "far:crate", archetype: "station" as const, name: "Crate", tier: 1, regionId: "fallowmarch" as const, position: [900, 0, 900] as [number, number, number], state: "available", interactions: ["inspect" as const] };
+    const far = { id: "far:pile", archetype: "loot" as const, name: "Pile", tier: 1, regionId: "fallowmarch" as const, position: [900, 0, 900] as [number, number, number], state: "available", interactions: ["inspect" as const, "loot" as const] };
     runtime.entities.add(structuredClone(far));
     const baseline = runtime.snapshot({}, true); runtime.committed(baseline);
-    expect(baseline.entities.length).toBe(runtime.entities.all().length);
+    expect(baseline.entities.map(entity => entity.id).sort()).toEqual(["far:pile", "multiplayer:caster", "multiplayer:frog"]);
 
-    runtime.entities.get("far:crate")!.state = "used"; runtime.entities.get("multiplayer:ore")!.state = "depleted";
+    runtime.entities.get("far:pile")!.state = "looted"; runtime.entities.get("multiplayer:frog")!.combat!.health = 1;
     const sparse = runtime.snapshot({}, true, false); runtime.committed(sparse);
-    expect(sparse.entities.map(entity => entity.id)).toEqual(["multiplayer:ore"]);
+    expect(sparse.entities.map(entity => entity.id)).toEqual(["multiplayer:frog"]);
     const thorough = runtime.snapshot({}, true, true); runtime.committed(thorough);
-    expect(thorough.entities.map(entity => [entity.id, entity.state])).toEqual([["far:crate", "used"]]);
+    expect(thorough.entities.map(entity => [entity.id, entity.state])).toEqual([["far:pile", "looted"]]);
 
-    runtime.entities.remove("far:crate");
-    expect(runtime.snapshot({}, true, false).removedEntityIds).toEqual(["far:crate"]);
+    runtime.entities.remove("far:pile");
+    expect(runtime.snapshot({}, true, false).removedEntityIds).toEqual(["far:pile"]);
   });
 });
 

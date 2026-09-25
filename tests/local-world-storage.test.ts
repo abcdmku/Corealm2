@@ -45,7 +45,7 @@ it("commits without touching the port, then hydrates the whole world back from o
   const counted: KeyValuePort = { ...port, async write(batch) { writes.push(batch.length); return port.write(batch); } };
   const { storage, world } = await open({ port: counted, flushMs: 60_000, guard: free });
   world.players.get("alice")!.store.get().currency = 40;
-  world.entities.get("multiplayer:ore")!.state = "depleted";
+  world.entities.get("multiplayer:frog")!.combat!.health = 1;
   await commit(storage, world);
   expect(writes).toEqual([]);
   expect(storage.dirty).toBe(true);
@@ -59,7 +59,7 @@ it("commits without touching the port, then hydrates the whole world back from o
   cleanups.push(() => reopened.close());
   expect(stable(await reopened.load(descriptor))).toEqual(stable(before));
   expect((await reopened.load(descriptor))!.players.alice!.currency).toBe(40);
-  expect((await reopened.load(descriptor))!.entities.find(entity => entity.id === "multiplayer:ore")!.state).toBe("depleted");
+  expect((await reopened.load(descriptor))!.entities.find(entity => entity.id === "multiplayer:frog")!.combat!.health).toBe(1);
   // A previous tab's leases are never stored, so nothing has to expire before this one can play.
   expect(await reopened.claimPlayer(descriptor, "alice", "s2", "Alice")).not.toBeNull();
 });
@@ -71,13 +71,30 @@ it("writes only the entity rows a tick changed", async () => {
   const { storage, world } = await open({ port: counted, flushMs: 60_000, guard: free });
   await commit(storage, world);
   await storage.flush();
-  const baseline = batches[0]!.filter(row => row.startsWith("entities/")).length;
-  expect(baseline).toBe(world.entities.all().length);
+  const row = (id: string) => `entities/${JSON.stringify(["local", "home"])}\u0000${id}`;
+  // A save keeps what play made or moves: on a fresh pad, its two creatures.
+  expect(batches[0]!.filter(row => row.startsWith("entities/")).sort()).toEqual([row("multiplayer:caster"), row("multiplayer:frog")]);
 
-  world.entities.get("multiplayer:ore")!.state = "depleted";
+  world.entities.get("multiplayer:frog")!.combat!.health = 1;
   await commit(storage, world);
   await storage.flush();
-  expect(batches[1]!.filter(row => row.startsWith("entities/"))).toEqual([`entities/${JSON.stringify(["local", "home"])}\u0000multiplayer:ore`]);
+  expect(batches[1]!.filter(row => row.startsWith("entities/"))).toEqual([row("multiplayer:frog")]);
+});
+
+it("heals a local save an older build wrote with every structure in it", async () => {
+  const port = memoryPort();
+  const first = await open({ port, flushMs: 60_000, guard: free });
+  // What local play stored before a save kept only what play made: the whole entity table, and a stump content has since removed.
+  const legacy = first.world.snapshot({}, true);
+  legacy.entities = [...structuredClone(first.world.entities.all()), { id: "multiplayer:stump", name: "Old stump", archetype: "landmark", tier: 1,
+    regionId: "fallowmarch", position: [0, 0, -12], state: "available", interactions: ["inspect"] }];
+  legacy.leases = leases; await first.storage.commit(legacy); await first.storage.close();
+  expect((await port.getAll("entities")).length).toBe(first.world.entities.all().length + 1);
+
+  const { storage, world } = await open({ port, flushMs: 60_000, guard: free });
+  expect([world.entities.get("multiplayer:stump"), world.entities.get("multiplayer:range")?.archetype]).toEqual([undefined, "station"]);
+  await commit(storage, world); await storage.flush();
+  expect((await port.getAll("entities")).map(([key]) => key.slice(key.indexOf("\u0000") + 1)).sort()).toEqual(["multiplayer:caster", "multiplayer:frog"]);
 });
 
 it("keeps a killed tab on the last flushed cut instead of a torn one", async () => {
