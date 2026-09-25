@@ -389,7 +389,7 @@
     "locationId": "lastlight_south_gate",
     "assetId": "creature_skeleton_soldier",
     "bindHeightMetres": 1.5959422176642555,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_lastlight_banker",
@@ -403,7 +403,7 @@
     "locationId": "lastlight_bank_approach",
     "assetId": "creature_wraith",
     "bindHeightMetres": 1.7314751689466006,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_lastlight_apothecary",
@@ -417,7 +417,7 @@
     "locationId": "lastlight_square",
     "assetId": "creature_skeleton_mage",
     "bindHeightMetres": 1.944003111105155,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_lastlight_smith",
@@ -431,7 +431,7 @@
     "locationId": "lastlight_square",
     "assetId": "creature_revenant",
     "bindHeightMetres": 1.8490965694189072,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_lastlight_seer",
@@ -445,7 +445,7 @@
     "locationId": "lastlight_square",
     "assetId": "creature_banshee",
     "bindHeightMetres": 1.4992661476135254,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_starhaven_watch",
@@ -459,7 +459,7 @@
     "locationId": "starhaven_south_gate",
     "assetId": "creature_skeleton_soldier",
     "bindHeightMetres": 1.5959422176642555,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_starhaven_banker",
@@ -473,7 +473,7 @@
     "locationId": "starhaven_bank_approach",
     "assetId": "creature_wraith",
     "bindHeightMetres": 1.7314751689466006,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_starhaven_apothecary",
@@ -487,7 +487,7 @@
     "locationId": "starhaven_square",
     "assetId": "creature_skeleton_mage",
     "bindHeightMetres": 1.944003111105155,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_starhaven_smith",
@@ -501,7 +501,7 @@
     "locationId": "starhaven_square",
     "assetId": "creature_revenant",
     "bindHeightMetres": 1.8490965694189072,
-    "catalog": "fairy"
+    "catalog": "resident"
   },
   {
     "id": "npc_starhaven_host",
@@ -515,6 +515,6 @@
     "locationId": "starhaven_square",
     "assetId": "creature_banshee",
     "bindHeightMetres": 1.4992661476135254,
-    "catalog": "fairy"
+    "catalog": "resident"
   }
 ]

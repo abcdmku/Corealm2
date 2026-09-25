@@ -58,7 +58,7 @@ function NpcPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"]
           <Field label={npc("regionId").label}><ChoiceField value={text(record.regionId)} options={regions} readOnly={readOnly} onChange={value => draft.setPath(["regionId"], value)} /></Field>
           <RefField kind="settlement" label={npc("settlementId").label} hint={npc("settlementId").hint} value={text(record.settlementId)} readOnly={readOnly} onChange={value => draft.setPath(["settlementId"], value)} />
           <RefField kind="location" label={npc("locationId").label} hint={npc("locationId").hint} value={text(record.locationId)} readOnly={readOnly} onChange={value => draft.setPath(["locationId"], value)} />
-          {record.catalog === "fairy" && <>
+          {record.catalog !== "base" && <>
             <RefField kind="asset" label={fairy("assetId").label} value={text(record.assetId)} readOnly={readOnly} onChange={value => draft.setPath(["assetId"], value)} />
             <Field label={fairy("bindHeightMetres").label} unit={fairy("bindHeightMetres").unit}>
               <NumberField value={typeof record.bindHeightMetres === "number" ? record.bindHeightMetres : undefined} min={fairy("bindHeightMetres").min} step={0.05} unit={fairy("bindHeightMetres").unit} readOnly={readOnly} ariaLabel={fairy("bindHeightMetres").label} onChange={value => draft.setPath(["bindHeightMetres"], value)} />

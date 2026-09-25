@@ -46,7 +46,7 @@ export interface NpcDef {
 export const NPCS: readonly NpcDef[] = [
   ...FAIRY_NPC_CANDIDATES,
   ...parseCollection(npcRecordSchema, npcData, { name: "npcs" })
-    .filter((row) => row.catalog === "base")
+    .filter((row) => row.catalog !== "fairy")
     .map((row) => stripExtras(row, ["catalog"])),
 ];
 

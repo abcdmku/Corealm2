@@ -34,4 +34,6 @@ export const fairyNpcSchema = npcSchema.extend({
 export const npcRecordSchema = discriminated("catalog", {
   base: npcSchema.extend({ catalog: lit("base", { hidden: true }) }),
   fairy: fairyNpcSchema.extend({ catalog: lit("fairy", { hidden: true }) }),
+  /** Non-fairy town residents that name their own creature model, such as the Wilderness towns. */
+  resident: fairyNpcSchema.extend({ catalog: lit("resident", { hidden: true }) }),
 });
