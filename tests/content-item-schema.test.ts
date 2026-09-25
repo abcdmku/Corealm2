@@ -12,7 +12,7 @@ function item(id: string): ItemDef {
 
 describe("item runtime schema", () => {
   it("parses every current runtime item and its JSON representation without changing values or order", () => {
-    expect(ALL_ITEMS).toHaveLength(409);
+    expect(ALL_ITEMS).toHaveLength(421);
     const parsed: ItemDef[] = parseCollection(ItemSchema, ALL_ITEMS, { name: "items" });
     expect(parsed).toEqual(ALL_ITEMS);
     expect(parseCollection(ItemSchema, JSON.parse(JSON.stringify(ALL_ITEMS)), { name: "items" })).toEqual(ALL_ITEMS);

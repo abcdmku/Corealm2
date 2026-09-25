@@ -175,7 +175,7 @@ describe("shop sale quotes and receipts", () => {
   });
 
   it("buys a stocked item at face value and sells it for the same price quoted on both sides", () => {
-    const fixture = runtime();
+    const fixture = runtime("coldbrace_smith");
     fixture.inventory.addCurrency(100);
     const listed = view(fixture.economy.op("list"));
     const stock = listed.stock.find((row) => row.itemId === "grithe_pickaxe");

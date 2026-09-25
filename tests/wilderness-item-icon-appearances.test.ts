@@ -26,7 +26,9 @@ const manifest = JSON.parse(readFileSync(new URL('../game/public/assets/manifest
 };
 const assets = new Map(manifest.assets.map(asset => [asset.id, asset]));
 const regionalIds = new Set(REGIONAL_TIER_ITEMS.map(item => item.id));
-const itemsWith3dAppearance = WILDERNESS_LOOT_ITEMS.filter(item => !regionalIds.has(item.id) && !item.equip?.slot.startsWith('accessory'));
+// Potions are drunk, never held or placed, so they publish prompted icons without a model.
+const itemsWith3dAppearance = WILDERNESS_LOOT_ITEMS.filter(item => !regionalIds.has(item.id)
+  && !item.equip?.slot.startsWith('accessory') && item.category !== 'potion');
 
 function assetParts(itemId: string): readonly ItemIconAssetPart[] {
   const parts = itemIconAppearance(itemId).parts;
@@ -46,7 +48,8 @@ describe('Wilderness loot icon appearances', () => {
   it('accepts model-backed candidate items without missing rows or phantom item IDs', () => {
     // Regional equipment has reviewed generated raster art. Its legacy 3D model appearance is
     // optional, so keep this catalogue parity check on the model-backed item set.
-    const modelItems = ALL_ITEMS.filter(item => !regionalIds.has(item.id) && !/^(crafted_|guardian_)/.test(item.id));
+    const modelItems = ALL_ITEMS.filter(item => !regionalIds.has(item.id)
+      && !/^(crafted_|guardian_)/.test(item.id) && item.category !== 'potion');
     const modelAppearanceIds = [...ITEM_ICON_APPEARANCE_IDS].filter(id => !regionalIds.has(id));
     expect(modelAppearanceIds.sort()).toEqual(modelItems.map(item => item.id).sort());
     expect([...ITEM_ICON_APPEARANCE_IDS].every(id => ALL_ITEMS.some(item => item.id === id))).toBe(true);

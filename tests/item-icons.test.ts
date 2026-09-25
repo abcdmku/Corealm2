@@ -21,7 +21,8 @@ describe("3D item icon catalog", () => {
   it("covers every item explicitly", () => {
     expect(new Set(ALL_ITEMS.map((item) => item.id)).size).toBe(ALL_ITEMS.length);
     const regionalIds = new Set(REGIONAL_TIER_ITEMS.map((item) => item.id));
-    const legacyModelItems = ALL_ITEMS.filter(item => !regionalIds.has(item.id) && !/^(crafted_|guardian_)/.test(item.id));
+    const legacyModelItems = ALL_ITEMS.filter(item => !regionalIds.has(item.id)
+      && !/^(crafted_|guardian_)/.test(item.id) && item.category !== 'potion');
     const legacyModelIds = [...ITEM_ICON_APPEARANCE_IDS].filter(id => !regionalIds.has(id));
     expect(legacyModelIds.sort()).toEqual(legacyModelItems.map((item) => item.id).sort());
     expect([...ITEM_ICON_APPEARANCE_IDS].every(id => ALL_ITEMS.some(item => item.id === id))).toBe(true);

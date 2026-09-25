@@ -337,8 +337,15 @@ describe('authored fairy dressing scatter', () => {
       expect(points.filter(point => !point.id.includes('_village_tree_')).length).toBeGreaterThanOrEqual(140);
       const roads = scene.getRoadPolylines(), stamps = collectRoadStamps(scene);
       expect(roads).toHaveLength(stamps.length);
-      const buildings = FAIRY_REGIONS.flatMap(region => region.settlements.flatMap(settlement => settlement.buildings));
-      expect(buildings).toHaveLength(12);
+      // Imported market stalls replaced Lantern Rest's constructed market row, so they reserve
+      // their own measured footprints alongside the remaining eleven buildings.
+      const stalls = FAIRY_REGIONS.flatMap(region => region.settlements.flatMap(settlement => settlement.shops.map(shop => {
+        const size = manifest.assets.find(entry => entry.id === shop.assetId)!.size;
+        return { id: shop.id, position: shop.position, rotationY: shop.rotationY, footprint: [size.x, size.z] as const };
+      })));
+      expect(stalls).toHaveLength(6);
+      const buildings = [...FAIRY_REGIONS.flatMap(region => region.settlements.flatMap(settlement => settlement.buildings)), ...stalls];
+      expect(buildings).toHaveLength(17);
       const overlaps: string[] = [];
       for (const point of points) {
         const native = villageTreeEntries.find(entry => entry.id === point.assetId)!;

@@ -48,7 +48,7 @@ describe("magic weapon recipes", () => {
     ]);
   });
 
-  it("does not bypass production with finished weapon drops, quest grants, or shop stock", () => {
+  it("sells finished elemental weapons only at cosmic stalls, never through drops or quest grants", () => {
     const weaponIds = new Set(GATHERING_PRODUCTION_TIERS.flatMap((tier) => [
       tier.items.wand,
       tier.items.staff,
@@ -59,7 +59,7 @@ describe("magic weapon recipes", () => {
     ]));
 
     const enemyDrops = ENEMIES.flatMap((enemy) => enemy.lootRolls.flatMap(roll => roll.drops).map((drop) => drop.itemId));
-    const shopStock = SHOPS.flatMap((shop) => shop.stock.map((stock) => stock.itemId));
+    const shopStock = SHOPS.flatMap((shop) => shop.stock.map((stock) => [shop.id, stock.itemId] as const));
     const questGrants = QUEST_RULES.flatMap((quest) => [
       ...(quest.onStart?.items ?? []).map((item) => item.itemId),
       ...quest.rewards.items.map((item) => item.itemId),
@@ -67,7 +67,14 @@ describe("magic weapon recipes", () => {
     ]);
 
     expect(enemyDrops.filter((itemId) => weaponIds.has(itemId))).toEqual([]);
-    expect(shopStock.filter((itemId) => weaponIds.has(itemId))).toEqual([]);
+    // Each early town's cosmic stall carries its region's awakened wand and staff; fletched
+    // wooden weapons and the starter pair still come only from production.
+    expect(shopStock.filter(([, itemId]) => weaponIds.has(itemId))).toEqual([
+      ["coldbrace_cosmic", "air_wand"], ["coldbrace_cosmic", "air_staff"],
+      ["rootfall_cosmic", "earth_wand"], ["rootfall_cosmic", "earth_staff"],
+      ["highcairn_cosmic", "water_wand"], ["highcairn_cosmic", "water_staff"],
+      ["emberfast_cosmic", "fire_wand"], ["emberfast_cosmic", "fire_staff"],
+    ]);
     expect(questGrants.filter((itemId) => weaponIds.has(itemId))).toEqual([]);
   });
 });
