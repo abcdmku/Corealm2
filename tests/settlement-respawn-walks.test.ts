@@ -133,7 +133,8 @@ it("walks from the Oakwood green to every service and talks to every keeper", ()
   const services = ["rootfall_bank_chest", "rootfall_cosmic", "rootfall_crafting", "rootfall_fletching", "rootfall_anvil",
     "rootfall_smith", "rootfall_range"];
   const keepers = ["npc_seamer_juno", "npc_smith_corra", "npc_trapper_mott", "npc_woodward_ansel"];
-  expect(walkServicesAndTalk("rootfall", services, keepers)).toEqual([]);
+  // In and out through the West Gate first: the road the player arrives by.
+  expect(walkServicesAndTalk("rootfall", services, keepers, [34, 124])).toEqual([]);
 }, 120_000);
 
 it("reaches Lastlight and Starhaven services and residents through their south gates", () => {

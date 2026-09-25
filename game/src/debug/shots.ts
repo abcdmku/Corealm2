@@ -90,7 +90,7 @@ export const SHOTS: readonly CameraShot[] = [
   {
     id: "rootfall", locationId: "rootfall_hamlet", regionId: "vellenwood",
     yaw: SOUTH, pitch: 0.55, distance: 24,
-    intent: "Oakwood from the respawn on the Green: the Counting House and bank porch across the deck, the forge and smith's cart to the east. Enclosed by canopy, not buried in it.",
+    intent: "Oakwood from the respawn on the Green: the Counting House and bank porch across the cobbles, the well in the middle, the forge and Corra's stall to the east. Enclosed by canopy, not buried in it.",
   },
   {
     id: "vellenwood_canopy", locationId: "vellenwood_canopy", regionId: "vellenwood",

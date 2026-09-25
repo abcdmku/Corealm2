@@ -95,9 +95,14 @@ describe("Corealm audio catalog", () => {
       regionId: "fallowmarch",
       surface: footstepSurfaceAt("fallowmarch", [-160, 0, -80], ground("dirt")),
     })).toBe("movement.footstep_stone");
+    // Oakwood: a cobbled Green, reached along Oak Row's planks.
     expect(cueForMovement({
       regionId: "vellenwood",
       surface: footstepSurfaceAt("vellenwood", [60, 0, 120], ground("grass")),
+    })).toBe("movement.footstep_stone");
+    expect(cueForMovement({
+      regionId: "vellenwood",
+      surface: footstepSurfaceAt("vellenwood", [48, 0, 124], ground("grass")),
     })).toBe("movement.footstep_wood");
     expect(cueForMovement({
       regionId: "vellenwood",

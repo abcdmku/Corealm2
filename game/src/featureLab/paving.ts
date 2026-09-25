@@ -9,7 +9,7 @@ const productionStamps = collectPavingStamps();
 export const PAVING_LAB_PATCHES = ([
   { id: "stone", sourcePavingId: "coldbrace_pave_square", centre: [-16, -12] },
   { id: "brick", sourcePavingId: "highcairn_yard", centre: [0, -12] },
-  { id: "plank", sourcePavingId: "rootfall_paving_green", centre: [16, -12] },
+  { id: "plank", sourcePavingId: "rootfall_paving_oak_row", centre: [16, -12] },
 ] as const).map((patch) => {
   const authored = authoredPaving.find((paving) => paving.id === patch.sourcePavingId);
   if (!authored) throw new Error(`The paving lab requires production pavement ${patch.sourcePavingId}`);
