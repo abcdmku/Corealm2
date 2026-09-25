@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { roofOwner, structureOwner } from "./roofVisibility.js";
 import type { SemanticEntity } from "../contracts.js";
 import type { AssetLoadOptions, AssetRegistry } from "./assets.js";
-import { ROOTFALL_STUMP } from '../world/rootfallStump.js';
 import { CROWNWARD_BRIDGE } from './compositions/crownwardBridge.js';
 
 export interface StructureCameraSources {
@@ -16,9 +15,6 @@ function isStructurePart(entity: SemanticEntity): boolean {
   // Release navigation is imported before these meshes load. Retain their camera collision locally.
   if (entity.view?.assetId === 'altar_ruins_site' && entity.meta?.essenceAltarRuins === true) return true;
   if (entity.view?.assetId === CROWNWARD_BRIDGE.assetId) return true;
-  if (entity.view?.assetId === ROOTFALL_STUMP.assetId
-    && (entity.id === 'rootfall_stump' || entity.meta?.structureId === 'rootfall_stump')) return true;
-  if (entity.view?.assetId === 'stairs_exterior' && entity.id.startsWith('rootfall_stump#step_')) return true;
   if (entity.archetype !== "landmark" || !entity.view || !entity.id.includes("#")) return false;
   // Premade keeps use low-body collision slices for walking, but orbit rays need the actual
   // towers and overhanging battlements. Camera-only triangles leave the arch navmesh intact.

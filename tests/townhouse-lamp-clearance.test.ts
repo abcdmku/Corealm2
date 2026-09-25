@@ -12,7 +12,7 @@ describe("townhouse entrance lantern headroom", () => {
     let checked = 0;
     for (const kit of KIT_IDS) {
       const count = structureVariantCount("townhouse", [6, 4], BUILDING_KITS[kit]);
-      for (const seed of [variantSeed("rootfall_house_7"), ...Array.from({length:count}, (_, index) => index)]) {
+      for (const seed of [variantSeed("rootfall_counting_house"), ...Array.from({length:count}, (_, index) => index)]) {
         const parts = buildPrefab("townhouse", [6, 4], seed, kit);
         const floors = parts.filter(part => part.tag.startsWith("balcony_floor_"));
         const underside = Math.min(...floors.map(part => part.dy + floorAsset.base.y * part.scale));

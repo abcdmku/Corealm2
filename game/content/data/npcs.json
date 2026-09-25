@@ -276,6 +276,18 @@
     "catalog": "base"
   },
   {
+    "id": "npc_smith_corra",
+    "name": "Smith Corra",
+    "regionId": "vellenwood",
+    "settlementId": "rootfall",
+    "role": "Oakwood's smith. Works quarry iron at the forge on the square and sells from the cart beside it.",
+    "voice": "Short sentences. Talks about metal by grade and temper. Names her price once and never haggles.",
+    "dialogueRootId": "corra_root",
+    "questIds": [],
+    "locationId": "rootfall_hamlet",
+    "catalog": "base"
+  },
+  {
     "id": "npc_foreman_arden",
     "name": "Foreman Arden",
     "regionId": "karrowmoor",

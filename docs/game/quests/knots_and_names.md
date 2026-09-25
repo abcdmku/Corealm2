@@ -91,7 +91,7 @@ The Air Essence Cache lies deep in southern Farmland. Mine any of its five glowi
 
 ### 3. Bring Seamer Juno the 4 shafts and 5 Air Essence so she can show you what they are for.
 
-She works the trade post side of the Oakwood stump. The handover takes both.
+She keeps the Trade Row counter on the south side of the Oakwood square. The handover takes both.
 
 <nav class="corealm-quest-where" aria-label="Locations for step 3"><span>Where</span><a href="../../regions/#oakwood">Oakwood</a></nav>
 <nav class="corealm-quest-items" aria-label="Items for step 3"><span>Items</span><a href="../../items/palewood_shaft/">Pine Shaft</a><a href="../../items/air_essence/">Air Essence</a></nav>

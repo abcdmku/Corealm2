@@ -1,4 +1,3 @@
-import { ROOTFALL_STUMP } from "../world/rootfallStump.js";
 import type {
   FeatureLabCatalog,
   FeatureLabStructureKit,
@@ -452,9 +451,6 @@ export function compositionHero(selection: FeatureLabStructureSelection): Compos
     // Must track content/regions.ts: the world moved off `boulder_medium` because it is one of
     // the six untextured platformer rocks and drew as a smooth tan cone.
     standing_stones: { assetId: "rock_medium_2", scale: 1.35, solid: true },
-    rootfall_stump: {
-      assetId: ROOTFALL_STUMP.assetId, scale: ROOTFALL_STUMP.scale, solid: false,
-    },
     region_gate: { assetId: "wall_arch", scale: 1.4, solid: false },
     root_tunnel_entrance: { assetId: "wall_arch", scale: 1.2, solid: true },
     canopy_walk_entrance: { assetId: "stairs_exterior", scale: 1.4, solid: true },

@@ -11,7 +11,6 @@ import { buildCrownwardBridgeNavigationSources } from './crownwardBridgeNavigati
 import * as THREE from "three";
 import type { SemanticEntity } from "../contracts.js";
 import type { AssetRegistry } from "./assets.js";
-import { buildRootfallNavigationSources } from "./rootfallNavigation.js";
 
 export interface StructureNavigationSources {
   /** Keeps each cloned hierarchy alive while its child meshes are in use. */
@@ -34,15 +33,13 @@ export async function buildStructureNavigationSources(
   assets: StructureNavigationAssets,
   entities: readonly SemanticEntity[],
 ): Promise<StructureNavigationSources> {
-  const rootfall = await buildRootfallNavigationSources(assets, entities);
   const bridges = await buildCrownwardBridgeNavigationSources(assets, entities);
-  rootfall.roots.push(...bridges.roots); rootfall.meshes.push(...bridges.meshes);
   const targets = entities.filter(isAltarRuins);
-  if (targets.length === 0) return rootfall;
+  if (targets.length === 0) return bridges;
 
   await assets.load("altar_ruins_site");
-  const roots: THREE.Group[] = [...rootfall.roots];
-  const meshes: THREE.Mesh[] = [...rootfall.meshes];
+  const roots: THREE.Group[] = [...bridges.roots];
+  const meshes: THREE.Mesh[] = [...bridges.meshes];
 
   for (const entity of targets) {
     const view = entity.view!;

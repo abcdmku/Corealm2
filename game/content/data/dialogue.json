@@ -1968,6 +1968,70 @@
     "catalog": "base"
   },
   {
+    "id": "corra_root",
+    "speaker": "Smith Corra",
+    "text": "Corra. I work iron. Quarry ore, Oakwood charcoal, nothing softer. The prices are on the cart and they stay there. What do you need?",
+    "options": [
+      {
+        "id": "corra_root#iron",
+        "text": "What do you make?",
+        "next": "corra_iron"
+      },
+      {
+        "id": "corra_root#quarry",
+        "text": "Where does the iron come from?",
+        "next": "corra_quarry"
+      },
+      {
+        "id": "corra_root#bye",
+        "text": "Nothing today.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "corra_iron",
+    "speaker": "Smith Corra",
+    "text": "Iron blades, helms, boots and gauntlets. Hard at the edge, soft at the spine, so it bends before it snaps. Ash shields for anyone who wants wood between them and the teeth. Limestone by the sack for your own furnace. Look over the cart. What you see is what it costs.",
+    "options": [
+      {
+        "id": "corra_iron#quarry",
+        "text": "Where does the iron come from?",
+        "next": "corra_quarry"
+      },
+      {
+        "id": "corra_iron#back",
+        "text": "Something else.",
+        "next": "corra_root"
+      },
+      {
+        "id": "corra_iron#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "corra_quarry",
+    "speaker": "Smith Corra",
+    "text": "The Forest Quarry. Out the Quarry Gate by the wagon, a short walk east. Five seams, all iron, good grade. Mine it, bank it on the Counting House porch, walk back. Smelt your own. You learn the metal that way.",
+    "options": [
+      {
+        "id": "corra_quarry#iron",
+        "text": "What do you make?",
+        "next": "corra_iron"
+      },
+      {
+        "id": "corra_quarry#bye",
+        "text": "I will go and look.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
     "id": "arden_root",
     "text": "Hillcrest. Nineteen crew, one wall, no dig. We stopped six months ago and we have eaten for six months, which is a harder trick than digging. State your business and state it in the order you intend to do it.",
     "variants": [

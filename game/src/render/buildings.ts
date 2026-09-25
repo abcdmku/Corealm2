@@ -86,7 +86,6 @@ import { buildCrownwardBridge } from './compositions/crownwardBridge.js';
  *   building's ground position, so a prefab is authored once facing +Z and reused at any bearing.
  */
 import { Rng } from "../core/rng.js";
-import { ROOTFALL_STUMP } from "../world/rootfallStump.js";
 import { wallMountedBanner } from "./bannerPlacement.js";
 import { buildCanopyWalkComposition } from "./compositions/canopyWalk.js";
 import {
@@ -244,7 +243,6 @@ export type CompositionId =
   | "gravelmaw_exit"
   | "great_cairn"
   | "standing_stones"
-  | "rootfall_stump"
   | "region_gate"
   | "path_waypoint"
   | "root_tunnel_entrance"
@@ -264,7 +262,7 @@ export const COMPOSITION_IDS: readonly CompositionId[] = [
   "black_knight_castle",
   "white_knight_castle",
   "essence_altar_ruins", "vault_door", "milestone", "highcairn_crane", "gravelmaw_mouth", "gravelmaw_exit",
-  "great_cairn", "standing_stones", "rootfall_stump", "region_gate", "path_waypoint",
+  "great_cairn", "standing_stones", "region_gate", "path_waypoint",
   "root_tunnel_entrance", "canopy_walk_entrance",
   "bank_counter", "forge_yard", "market_pitch", "wood_pile", "garden", "farm_yard",
 ] as const;
@@ -2545,7 +2543,6 @@ export function buildComposition(
     case "gravelmaw_exit": return buildGravelmawExitComposition(seed, kit);
     case "great_cairn": return greatCairn();
     case "standing_stones": return standingStones(rng);
-    case "rootfall_stump": return rootfallStump();
     case "region_gate": return buildRegionGateComposition(seed, kit);
     case "path_waypoint": return buildPathWaypointComposition(seed, kit);
     case "root_tunnel_entrance": return buildRootTunnelComposition(seed, kit);
@@ -2794,24 +2791,6 @@ function standingStones(rng: Rng): PartPlacement[] {
   out.push(loose("fallen", "rock_medium_2", 2.6, -0.9, 3.4, 1.1, 1.35));
   out.push(loose("stump", "rock_medium_1", -3.1, -0.55, -2.8, 2.5, 0.8));
   return out;
-}
-
-/** Somebody has cut steps into the north face of it. */
-/** Four fitted stone flights reach the native oak stump's 3.527 m cut face. */
-function rootfallStump(): PartPlacement[] {
-  const stair = ROOTFALL_STUMP.stairScale;
-  const yaw = ROOTFALL_STUMP.stairYaw;
-  return [
-    ...Array.from({length: ROOTFALL_STUMP.stairFlights}, (_, index) => ({...loose(`step_${index + 1}`, "stairs_exterior",
-      Math.sin(yaw) * (ROOTFALL_STUMP.stairFrontZ - index * 2 * stair),
-      index * stair,
-      Math.cos(yaw) * (ROOTFALL_STUMP.stairFrontZ - index * 2 * stair), yaw, stair),scaleAxes:[ROOTFALL_STUMP.stairWidthScale,1,1] as const})),
-    // Small brackets sit against the broad native trunk, away from the climbing route.
-    loose("shelf_1", "mushroom_bracket", -2.45, 1.25, 0.45, 0.8, 0.68),
-    loose("shelf_2", "mushroom_bracket", 2.35, 1.9, -0.65, 2.4, 0.6),
-    // Side growth leaves the stone approach clear.
-    loose("vine", "vine_1", -2.35, 0.45, 0.7, 1.9, 0.65),
-  ];
 }
 
 // ------------------------------------------------- settlement compositions

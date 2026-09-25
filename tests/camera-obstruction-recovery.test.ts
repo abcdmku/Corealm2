@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { OrbitCamera } from "../game/src/render/camera.js";
 import { StaticCameraQueries } from "../game/src/systems/staticCameraQueries.js";
-import { ROOTFALL } from "../game/src/content/settlements/rootfall.js";
+import { REGIONS } from "../game/src/content/regions.js";
 import { prefabCollision } from "../game/src/render/buildings.js";
 import type { Vec3 } from "../game/src/contracts.js";
 
@@ -10,7 +10,7 @@ afterEach(() => vi.restoreAllMocks());
 
 function rootfallQuery() {
   const query = new StaticCameraQueries();
-  for (const building of ROOTFALL.buildings) {
+  for (const building of REGIONS.find(r => r.id === "vellenwood")!.settlement!.buildings) {
     const c = Math.cos(building.rotationY), s = Math.sin(building.rotationY);
     for (const box of prefabCollision(building.prefab, building.footprint)) {
       query.addStaticBox([
@@ -77,8 +77,8 @@ describe("camera obstruction recovery", () => {
     expect(cave.requestedDistance).toBe(11);
   });
   it.each([
-    ["real Rootfall stair descent", [68.443, 8.287, 128.443]],
-    ["normal Rootfall bank arrival", [60.289, 8.287, 127.219]],
+    ["Oak Row inside the West Gate", [49, 8.287, 124]],
+    ["normal Oakwood bank arrival", [60, 8.287, 132]],
   ] as const)("keeps the chosen heading at %s without putting the lens through a wall", (_name, position) => {
     const query = rootfallQuery();
     const view = new THREE.PerspectiveCamera(55, 1.6, 0.1, 280);

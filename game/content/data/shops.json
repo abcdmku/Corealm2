@@ -136,6 +136,42 @@
     ]
   },
   {
+    "id": "rootfall_smith",
+    "name": "Corra's Iron",
+    "buyMultiplier": 1,
+    "sellMultiplier": 0.6,
+    "stock": [
+      {
+        "itemId": "corven_dagger",
+        "quantity": 4
+      },
+      {
+        "itemId": "corven_sword",
+        "quantity": 2
+      },
+      {
+        "itemId": "corven_helm",
+        "quantity": 2
+      },
+      {
+        "itemId": "corven_boots",
+        "quantity": 2
+      },
+      {
+        "itemId": "corven_gauntlets",
+        "quantity": 2
+      },
+      {
+        "itemId": "duskoak_shield",
+        "quantity": 3
+      },
+      {
+        "itemId": "march_stone",
+        "quantity": 60
+      }
+    ]
+  },
+  {
     "id": "highcairn_general",
     "name": "Hillcrest Camp Store",
     "buyMultiplier": 1,

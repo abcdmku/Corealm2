@@ -578,7 +578,7 @@
             "id": "rootfall_hamlet"
           }
         ],
-        "hint": "She works the trade post side of the Oakwood stump. The handover takes both.",
+        "hint": "She keeps the Trade Row counter on the south side of the Oakwood square. The handover takes both.",
         "completion": {
           "kind": "talk",
           "npcId": "npc_seamer_juno",

@@ -854,10 +854,8 @@ function compositionPartBlocks(
   part: PartPlacement,
   size: AssetSize | null,
 ): boolean {
-  // These compositions are route dressing around an already-semantic anchor. In particular, the
-  // Rootfall stump's visible stair flight is the road into the hamlet, not three invisible walls.
-  if (composition === "milestone" || composition === "rootfall_stump" ||
-      composition === "vault_door" || composition === "highcairn_crane") return false;
+  // These compositions are route dressing around an already-semantic anchor.
+  if (composition === "milestone" || composition === "vault_door" || composition === "highcairn_crane") return false;
   if (!size || part.dy > 0.45 || size.y * part.scale * (part.scaleAxes?.[1] ?? 1) <= 0.45) return false;
   if (NON_BLOCKING_COMPOSITION_ASSET.test(part.assetId)
     && !((composition.startsWith('wilderness_') || (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(composition))
@@ -1676,8 +1674,10 @@ function emitProp(
   ));
   // Uncapped: dressing carries no interaction of its own, so nothing depends on reaching its
   // centre. A prop big enough to block the station it stands next to is an authoring error, and
-  // `validateRegions`' attachment check is the right place to catch that.
-  if (prop.solid) pushAssetSolid(ctx, prop.id, position, prop.assetId, scale, prop.rotationY, false);
+  // `validateRegions`' attachment check is the right place to catch that. The volume starts at the
+  // drawn bbox floor, not the pivot: a solid `roof_log` from the pivot was 1.08 m underground.
+  if (prop.solid) pushAssetSolid(ctx, prop.id, [position[0], round2(position[1] + ctx.baseY(prop.assetId) * scale),
+    position[2]], prop.assetId, scale, prop.rotationY, false);
 }
 
 /** A drawn, hovered, never-interacted entity: paving, kerbs, props, plot beds. */

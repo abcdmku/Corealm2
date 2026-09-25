@@ -47,8 +47,4 @@ describe("authored structure fixture fidelity", () => {
     expect(assembly.focus[1]).toBeGreaterThan(10);
     expect(assembly.focus[2]).toBeCloseTo(-16.65,2);
   });
-
-  it("keeps the native unclipped Rootfall hero", () => {
-    expect(compositionHero({kind:"composition",id:"rootfall_stump",kit:"timber",width:6,depth:4,seed:0})).toEqual({assetId:"corealm_stump_oak",scale:4,solid:false});
-  });
 });

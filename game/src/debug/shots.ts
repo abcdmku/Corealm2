@@ -90,7 +90,7 @@ export const SHOTS: readonly CameraShot[] = [
   {
     id: "rootfall", locationId: "rootfall_hamlet", regionId: "vellenwood",
     yaw: SOUTH, pitch: 0.55, distance: 24,
-    intent: "The Vellenwood settlement. Should feel enclosed by canopy, not buried in it.",
+    intent: "Oakwood from the respawn on the Green: the Counting House and bank porch across the deck, the forge and smith's cart to the east. Enclosed by canopy, not buried in it.",
   },
   {
     id: "vellenwood_canopy", locationId: "vellenwood_canopy", regionId: "vellenwood",
@@ -170,7 +170,7 @@ export const SHOTS: readonly CameraShot[] = [
     id: "root_tunnel", locationId: "rootfall_hamlet", regionId: "vellenwood",
     // Inspect from the open trail side. The arch is nearly symmetric front-to-back, while this
     // target keeps the camera clear of the postern and lets the complete structure stay in frame.
-    position: [89, 136.5],
+    position: [89, 130.5],
     yaw: EAST, pitch: 0.4, distance: 16,
     intent: "The Root Tunnel entrance, with its arch and root bracing at the trail split.",
   },
