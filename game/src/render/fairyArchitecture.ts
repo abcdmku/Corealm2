@@ -25,7 +25,7 @@ export function fairyArchitectureSurface(assetId: string, materialName: string):
   if (name === 'MI_WindowGlass') return 'glass';
   if (assetId === 'lamp_wall' && name === 'MI_Trim_Metal') return 'lamp';
   if (/^door_/.test(assetId) && name === 'MI_MetalOrnaments') return 'iron';
-  if (name === 'MI_Banner' && /^(market_stall|banner)/.test(assetId)) return 'cloth';
+  if (name === 'MI_Banner' && assetId.startsWith('banner')) return 'cloth';
   return architectureMaterialRoleForAsset(assetId, name);
 }
 
@@ -35,73 +35,11 @@ export const FAIRY_LANTERN_GLASS = Object.freeze({
 });
 export const FAIRY_LAMP_LIGHT_BUDGET = 4;
 
-/** Cloth hangs between the rear posts and the full native front crossbar, then drapes past them. */
-export function createFairyMarketCanopyGeometry(): THREE.BufferGeometry {
-  const positions: number[] = [], uv: number[] = [], indices: number[] = [];
-  const across = 28, along = 22;
-  const smooth = (value: number) => {
-    const t = THREE.MathUtils.clamp(value, 0, 1);
-    return t * t * (3 - 2 * t);
-  };
-  const height = (x: number, z: number) => {
-    // Native front timber tops out at 2.572 m over z=.309.. .432. It supports the entire
-    // cloth width there, so the central sag must end at the beam rather than cut through it.
-    const betweenTies = THREE.MathUtils.clamp((z + .85) / 1.25, 0, 1);
-    const acrossTies = Math.max(0, 1 - (x / .845) ** 2) ** 2;
-    const hanging = Math.sin(betweenTies * Math.PI) ** 2 * acrossTies;
-    const sag = .10 * hanging;
-    const softFold = .009 * Math.sin(x * 8 + z * 1.4) * hanging;
-    const sideDrop = .06 * smooth((Math.abs(x) - .845) / .605);
-    return 2.82 - .18 * (z + .85) - sag + softFold - sideDrop;
-  };
-  const roofPoint = (u: number, v: number) => {
-    // Tension pulls each free edge slightly inward between the corners.
-    const x = (-1.45 + 2.9 * u) * (1 - .025 * Math.sin(v * Math.PI) ** 2);
-    const z = -1.1 + 2.2 * v + .06 * Math.sin(u * Math.PI) ** 2 * (1 - 2 * v);
-    return [x, height(x, z), z] as const;
-  };
-  for (let row = 0; row <= along; row++) {
-    const v = row / along;
-    for (let col = 0; col <= across; col++) {
-      const u = col / across;
-      positions.push(...roofPoint(u, v));
-      // Plain weathered cloth on the source atlas, clear of its black pictogram panels.
-      uv.push(.65 + .31 * u, .17 + .24 * v);
-      if (row < along && col < across) {
-        const a = row * (across + 1) + col, b = a + across + 1;
-        indices.push(a, b, a + 1, a + 1, b, b + 1);
-      }
-    }
-  }
-  const frontStart = positions.length / 3;
-  for (let row = 0; row < 2; row++) {
-    for (let col = 0; col <= across; col++) {
-      const u = col / across, [x, y, z] = roofPoint(u, 1);
-      positions.push(x, y - row * (.14 + .035 * Math.sin(u * Math.PI)), z + row * .015);
-      uv.push(.65 + .31 * u, .41 + row * .035);
-      if (row === 0 && col < across) {
-        const a = frontStart + col, b = a + across + 1;
-        indices.push(a, b, a + 1, a + 1, b, b + 1);
-      }
-    }
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-  geometry.computeBoundingBox();
-  geometry.computeBoundingSphere();
-  return geometry;
-}
-
 /** Shared source textures retain their grain and normal maps; only fairy settlements use these clones. */
 export class FairyArchitecture {
   private readonly materials = new Map<string, MeshStandardNodeMaterial>();
   private glassGeometry: THREE.BufferGeometry | null = null;
   private glassMaterial: MeshStandardNodeMaterial | null = null;
-  private canopyGeometry: THREE.BufferGeometry | null = null;
-  private readonly canopySources = new Map<THREE.Material, MeshStandardNodeMaterial>();
   private readonly lights: THREE.PointLight[] = [];
 
   material(base: THREE.Material, assetId: string, regionId: RegionId | null): THREE.Material | null {
@@ -194,26 +132,6 @@ export class FairyArchitecture {
     };
   }
 
-  marketCanopyPart(base: THREE.Material, regionId: RegionId | null) {
-    this.canopyGeometry ??= createFairyMarketCanopyGeometry();
-    let source = this.canopySources.get(base);
-    if (!source) {
-      source = cloneNodeMaterial(base) as MeshStandardNodeMaterial;
-      source.name = 'MI_Banner';
-      source.vertexColors = false;
-      source.color.setRGB(.54, .54, .54);
-      source.metalness = 0;
-      source.roughness = .96;
-      source.side = THREE.DoubleSide;
-      this.canopySources.set(base, source);
-    }
-    const material = this.material(source, 'market_stall', regionId)!;
-    return {
-      geometry: this.canopyGeometry, material, matrix: new THREE.Matrix4(),
-      triangles: this.canopyGeometry.index!.count / 3,
-    };
-  }
-
   /** Four unshadowed lamps share a fixed light budget, including when a whole town is resident. */
   updateLights(parent: THREE.Object3D, positions: readonly THREE.Vector3[], viewer: THREE.Vector3): void {
     // Reserve the pool on the first update, before startup shader preparation. Adding lights
@@ -243,10 +161,6 @@ export class FairyArchitecture {
     this.glassMaterial?.dispose();
     this.glassGeometry = null;
     this.glassMaterial = null;
-    this.canopyGeometry?.dispose();
-    this.canopyGeometry = null;
-    for (const source of this.canopySources.values()) source.dispose();
-    this.canopySources.clear();
     for (const light of this.lights) { light.removeFromParent(); light.dispose(); }
     this.lights.length = 0;
   }

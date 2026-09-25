@@ -680,7 +680,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
   const shopLab = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("shop") === "1"
     ? await import("../featureLab/shop.js") : null;
-  const shopFixture = shopLab?.assembleShopFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), worldPorts);
+  const shopFixture = shopLab?.assembleShopFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), worldPorts,
+    new URLSearchParams(window.location.search).get("shopId") ?? undefined);
   const portalLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("portal") === "1"
     ? await import("../featureLab/portal.js") : null;
   const portalFixture = portalLab?.assemblePortalFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), (id) => assets.baseY(id));
@@ -3160,7 +3161,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     select: (entityId) => { input.select(entityId); },
     groundHeight: (x: number, z: number) => terrainAt(x, z).meshHeightAt(x, z),
     roadPolylines: () => scene.getRoadPolylines(),
-    listBuildings: () => REGIONS.flatMap((region) => (region.settlement?.buildings ?? []).map((building) => ({
+    listBuildings: () => REGIONS.flatMap((region) => region.settlements.flatMap((settlement) => settlement.buildings.map((building) => ({
       id: building.id,
       prefab: building.prefab,
       x: building.position[0],
@@ -3168,7 +3169,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       width: building.footprint[0],
       depth: building.footprint[1],
       rotationY: building.rotationY,
-    }))),
+    })))),
 
     openBank: (bankId?: string) => {
       ui.openBank(bankId);
@@ -3247,7 +3248,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const settlementRegion = settlementEntity
         ? REGIONS.find((region) => region.id === entity.regionId)
         : undefined;
-      const settlementCentre = settlementRegion?.settlement?.centre;
+      const settlementCentre = settlementRegion ? [...settlementRegion.settlements].sort((a, b) =>
+        Math.hypot(a.centre[0] - entity.position[0], a.centre[1] - entity.position[2])
+        - Math.hypot(b.centre[0] - entity.position[0], b.centre[1] - entity.position[2]))[0]?.centre : undefined;
       const centreYaw = settlementCentre
         ? Math.atan2(settlementCentre[0] - entity.position[0], settlementCentre[1] - entity.position[2])
         : authoredYaw;
@@ -3359,12 +3362,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       }
       const node = nav.routeNode(locationId);
       if (!node) return false;
-      const centre = locationRegion?.settlement?.centre;
+      const settlement = locationRegion?.settlements.find((town) => town.bankLocationId === locationId)
+        ?? (locationRegion ? [...locationRegion.settlements].sort((a, b) =>
+          Math.hypot(a.centre[0] - node.position[0], a.centre[1] - node.position[2])
+          - Math.hypot(b.centre[0] - node.position[0], b.centre[1] - node.position[2]))[0] : undefined);
+      const centre = settlement?.centre;
       const contextX = centre ? node.position[0] - centre[0] : 0;
       const contextZ = centre ? node.position[2] - centre[1] : 0;
       const bankLocation = location?.kind === "bank" && locationRegion;
       const yaw = bankLocation
-        ? bankLocation.settlement?.bank.rotationY ?? 0
+        ? settlement?.bank.rotationY ?? 0
         : !dungeonLocation && centre && Math.hypot(contextX, contextZ) > 2
           ? Math.atan2(contextX, contextZ)
           : stableCaptureYaw(locationId);
@@ -3663,7 +3670,7 @@ function collectAmbienceEmitters(scene: WorldScene, built: { entities: readonly 
 
   // Forge fire and cooking heat, from the stations themselves.
   for (const region of REGIONS) {
-    for (const station of region.settlement?.stations ?? []) {
+    for (const station of region.settlements.flatMap((settlement) => settlement.stations)) {
       const kind: AmbienceKind | null =
         station.kind === "furnace" ? "spark" : station.kind === "range" ? "smoke" : null;
       if (!kind) continue;

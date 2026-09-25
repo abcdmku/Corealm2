@@ -1,4 +1,5 @@
 import type {
+  BuildingModel,
   FeatureLabCatalog,
   FeatureLabStructureKit,
   FeatureLabStructureKind,
@@ -133,6 +134,8 @@ export function sanitizeFeatureLabStructureSelection(
   const depth = kind === "wall-run"
     ? wallModuleSize(candidate?.depth, fallbackFootprint[1], 2, width - 4)
     : structureSize(candidate?.depth, fallbackFootprint[1]);
+  const model = candidate?.model === undefined ? undefined : structureModel(candidate.model);
+  if (model && kind !== "prefab") throw new Error("Complete structure models require a prefab selection");
 
   return {
     kind,
@@ -141,6 +144,7 @@ export function sanitizeFeatureLabStructureSelection(
     width,
     depth,
     seed: structureSeed(candidate?.seed),
+    ...(model ? { model } : {}),
   };
 }
 
@@ -167,7 +171,10 @@ export function assembleFeatureLabStructure(
   const placementOrigin: Vec3 = sanitized.kind === "wall-run"
     ? [origin[0] - sanitized.width / 2, origin[1], origin[2]]
     : [...origin];
-  const parts = buildFeatureLabStructureParts(sanitized);
+  if (sanitized.model && measurements && !measurements.assetSize(sanitized.model.assetId)) {
+    throw new Error(`Unknown complete structure asset ${sanitized.model.assetId}`);
+  }
+  const parts = buildFeatureLabStructureParts(sanitized, measurements);
   const entities = structureEntitiesFromParts(parts, {
     origin: placementOrigin,
     rotationY: 0,
@@ -232,7 +239,7 @@ export function assembleFeatureLabStructure(
   const collision = collisionFor(
     sanitized, parts, placementOrigin, context.regionId, name, hero, measurements,
   );
-  const variant = sanitized.kind === "prefab"
+  const variant = sanitized.kind === "prefab" && !sanitized.model
     ? selectedStructureVariantId(
       sanitized.id as PrefabId,
       [sanitized.width, sanitized.depth],
@@ -251,13 +258,21 @@ export function assembleFeatureLabStructure(
       ...parts.map((part) => part.assetId),
       ...(hero ? [hero.assetId] : []),
     ])].sort(),
-    focus: [origin[0], round2(origin[1] + focusHeight(sanitized, parts) / 2), origin[2] + (sanitized.kind === "composition" && sanitized.id === "vault_door" ? vaultHost().offset[2] / 2 : 0)],
+    focus: [origin[0], round2(origin[1] + focusHeight(sanitized, parts, measurements) / 2), origin[2] + (sanitized.kind === "composition" && sanitized.id === "vault_door" ? vaultHost().offset[2] / 2 : 0)],
   };
 }
 
 /** Exact selectable production parts, including a composition's authored structural host. */
-export function buildFeatureLabStructureParts(selection: FeatureLabStructureSelection): PartPlacement[] {
+export function buildFeatureLabStructureParts(
+  selection: FeatureLabStructureSelection,
+  measurements?: FeatureLabStructureMeasurements,
+): PartPlacement[] {
   if (selection.kind === "prefab") {
+    if (selection.model) return [{
+      tag: "model", assetId: selection.model.assetId,
+      dx: 0, dy: -(measurements?.baseY(selection.model.assetId) ?? 0) * selection.model.scale,
+      dz: 0, rotationY: 0, scale: selection.model.scale,
+    }];
     return buildPrefab(
       selection.id as PrefabId,
       [selection.width, selection.depth],
@@ -278,15 +293,16 @@ export function buildFeatureLabStructureParts(selection: FeatureLabStructureSele
 
 /** Resolve the real tower relative to its south-facing landmark, preserving its authored seed. */
 function vaultHost() {
-  const region = REGIONS.find(region => region.settlement?.buildings.some(building => building.id === "coldbrace_vault"));
-  const building = region?.settlement?.buildings.find(building => building.id === "coldbrace_vault");
+  const region = REGIONS.find(region => region.settlements.some(settlement => settlement.id === "coldbrace"));
+  const settlement = region?.settlements.find(settlement => settlement.id === "coldbrace");
+  const building = settlement?.buildings.find(building => building.id === "coldbrace_vault");
   const landmark = region?.landmarks.find(landmark => landmark.id === "march_vault_tower");
   if (!region || !building || !landmark) throw new Error("Vault fixture requires authored coldbrace_vault and march_vault_tower");
   const yaw = landmark.rotationY ?? 0;
   const dx = building.position[0] - landmark.position[0];
   const dz = building.position[1] - landmark.position[1];
   const offset: Vec3 = [dx * Math.cos(yaw) - dz * Math.sin(yaw), 0, dx * Math.sin(yaw) + dz * Math.cos(yaw)];
-  return {region, building, offset, rotationY:building.rotationY - yaw};
+  return {region, settlement: settlement!, building, offset, rotationY:building.rotationY - yaw};
 }
 
 /** Native host geometry is shared with review fingerprints instead of hidden camera-only props. */
@@ -294,7 +310,7 @@ export function compositionHostParts(selection: FeatureLabStructureSelection): P
   if (selection.kind !== "composition" || selection.id !== "vault_door") return [];
   const host = vaultHost();
   const cos = Math.cos(host.rotationY); const sin = Math.sin(host.rotationY);
-  return buildPrefab(host.building.prefab, host.building.footprint, variantSeed(host.building.id), host.region.settlement?.kit ?? "stone").map(part => ({
+  return buildPrefab(host.building.prefab, host.building.footprint, variantSeed(host.building.id), host.settlement.kit).map(part => ({
     ...part, tag:`host_${part.tag}`,
     dx:host.offset[0] + part.dx*cos + part.dz*sin,
     dz:host.offset[2] - part.dx*sin + part.dz*cos,
@@ -351,7 +367,7 @@ function collisionFor(
 
   const prefab = selection.kind === "prefab" ? selection.id as PrefabId : "wall_segment";
   const boxes = selection.kind === "prefab"
-    ? prefabCollision(prefab, [selection.width, selection.depth], selection.seed)
+    ? selection.model?.collision ?? prefabCollision(prefab, [selection.width, selection.depth], selection.seed)
     : wallRunCollision(
       selection.width,
       [{ at: selection.width / 2, width: Math.min(selection.depth, selection.width) }],
@@ -456,7 +472,6 @@ export function compositionHero(selection: FeatureLabStructureSelection): Compos
     canopy_walk_entrance: { assetId: "stairs_exterior", scale: 1.4, solid: true },
     bank_counter: { assetId: "chest_wood", scale: 1, solid: true },
     forge_yard: { assetId: "anvil", scale: 1.4, solid: true },
-    market_pitch: { assetId: "market_stall", scale: 1, solid: true },
     farm_yard: { assetId: "farm_crate_empty", scale: 0.8, solid: true },
   };
   if (selection.id === "path_waypoint") {
@@ -467,8 +482,17 @@ export function compositionHero(selection: FeatureLabStructureSelection): Compos
   return fixed[selection.id as CompositionId] ?? null;
 }
 
-function focusHeight(selection: FeatureLabStructureSelection, parts: readonly PartPlacement[]): number {
+function focusHeight(
+  selection: FeatureLabStructureSelection,
+  parts: readonly PartPlacement[],
+  measurements?: FeatureLabStructureMeasurements,
+): number {
   if (selection.kind === "composition" && selection.id === "vault_door") return prefabHeight(vaultHost().building.prefab);
+  if (selection.model) return Math.max(
+    (measurements?.assetSize(selection.model.assetId)?.y ?? 0) * selection.model.scale,
+    ...selection.model.collision.map((box) => box.height),
+    2,
+  );
   if (selection.kind === "prefab") return prefabHeight(selection.id as PrefabId);
   if (selection.kind === "wall-run") return STOREY_METRES;
   let top = 2;
@@ -512,6 +536,28 @@ function wallModuleSize(value: number | undefined, fallback: number, min: number
 function structureSeed(value: number | undefined): number {
   if (typeof value !== "number" || !Number.isFinite(value)) return 0;
   return Math.min(MAX_SEED, Math.max(0, Math.floor(value)));
+}
+
+function structureModel(value: BuildingModel): BuildingModel {
+  if (!value || typeof value !== "object") throw new Error("Complete structure model is invalid");
+  if (typeof value.assetId !== "string" || value.assetId.trim() === "") {
+    throw new Error("Complete structure model requires an asset ID");
+  }
+  if (!Number.isFinite(value.scale) || value.scale <= 0) {
+    throw new Error("Complete structure model scale must be positive and finite");
+  }
+  if (!Array.isArray(value.collision)) throw new Error("Complete structure model requires collision boxes");
+  const tags = new Set<string>();
+  const collision = value.collision.map((box) => {
+    if (!box || typeof box !== "object" || typeof box.tag !== "string" || !box.tag || tags.has(box.tag)
+      || ![box.dx, box.dz, box.sizeX, box.sizeZ, box.height].every(Number.isFinite)
+      || box.sizeX <= 0 || box.sizeZ <= 0 || box.height <= 0) {
+      throw new Error(`Invalid complete structure collision box ${String(box.tag)}`);
+    }
+    tags.add(box.tag);
+    return { ...box };
+  });
+  return { assetId: value.assetId, scale: value.scale, collision };
 }
 
 function titleCaseIdentifier(value: string): string {

@@ -2,7 +2,7 @@ import { collectPavingStamps, DEFAULT_WORLD_SEED } from "../app/worldSurface.js"
 import { REGIONS } from "../content/regions.js";
 import { pavingStampFromRect, type PavingStamp, type WorldScene } from "../render/scene.js";
 
-const authoredPaving = REGIONS.flatMap((region) => region.settlement?.paving ?? []);
+const authoredPaving = REGIONS.flatMap((region) => region.settlements.flatMap((settlement) => settlement.paving ?? []));
 const productionStamps = collectPavingStamps();
 
 /** Twelve-metre samples of the three production pavements, separated by four metres of grass. */

@@ -65,12 +65,13 @@ export interface RegionalTierFixtureApi {
  */
 export function createRegionalTierFixture(deps: CreatureLootFixtureDeps): RegionalTierFixtureApi {
   const region = REGIONS.find((candidate) => candidate.id === "fallowmarch");
-  if (!region?.settlement) throw new Error("The regional tier fixture requires the Fallowmarch settlement.");
+  const settlement = region?.settlements.find((town) => town.id === "coldbrace");
+  if (!settlement) throw new Error("The regional tier fixture requires Coldbrace.");
 
   const sources = new Map<RegionalTierStationKind, StationDef>();
   for (const kind of REGIONAL_TIER_STATION_KINDS) {
     const sourceId = SOURCE_STATION_IDS[kind];
-    const source = region.settlement.stations.find((station) => station.id === sourceId && station.kind === kind);
+    const source = settlement.stations.find((station) => station.id === sourceId && station.kind === kind);
     if (!source) throw new Error(`The regional tier fixture requires authored station ${sourceId}.`);
     sources.set(kind, source);
   }

@@ -1,0 +1,9 @@
+{
+  "asset": "bank-t70.png",
+  "purpose": "T70 material variant of the shared bank geometry",
+  "tool": "built-in image_gen edit",
+  "editTarget": "bank-base.png",
+  "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6d4-90dc-7801-ae0b-f8650a5a7f4b\\exec-efe11748-8f2b-4fc6-b60d-94238070eb92.png",
+  "prompt": "Use case: precise-object-edit. The input is the exact approved T50 BANK base image. Make a T70 material-only reskin of THIS SAME compact countinghouse. Preserve absolutely its silhouette, roof shape, door, barred teller window, skull reliefs, stone step dimensions, side niches, camera angle, framing, studio-gray background, and lighting direction. Do not move, add, or remove architectural features or props. Refinish existing stone into slightly ashier charcoal basalt with layered pale mineral weathering and hairline cracks, existing timber into desaturated rotted brown-gray grain, existing iron bands and grille into deeper oxidized iron with subtle teal corrosion, and the existing little interior cold light into a faint spectral teal. Keep material variation rich and tactile, with individual stones and timber grain still distinct; this is a close counterpart, not a new grand structure or monochrome recolor. No flags, banners, cloth, text, people, terrain, new windows or doors.",
+  "visualReview": "Same complete bank silhouette, door, barred window, side niches, steps, roof and camera as base. Ashier masonry, paler mineral marks, aged wood, teal oxidized metal and sparse spectral teal light."
+}

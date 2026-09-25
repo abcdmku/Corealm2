@@ -1,0 +1,23 @@
+{
+  "set": "Generic broad town building, shared geometry T50/T70 material references",
+  "created": "2026-09-25",
+  "assets": [
+    {
+      "file": "building-wide-base.png",
+      "role": "generic T50 base",
+      "editSource": "arcane-outfitter-base.png",
+      "selectedGeneratedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-1b294c6a-4b32-4bb9-99f9-8a331a9b708a.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "Edit the supplied two-story building into a GENERIC broad town building with no trade identity. Preserve EXACT building geometry, roof silhouette, both offset gables, chimneys, buttresses, stone courses, upper windows, door, steps, camera angle, framing and light-gray studio backdrop. Change only the large left ground-floor shop display opening: REMOVE every robe, staff, bottle, shelf, mannequin, goods, counter display and any service-window cues. In the same opening, install an ordinary continuous dark glazed multi-pane window in the existing gothic stone arch, with simple aged iron muntins and a modest interior shadow; a few panes may be shuttered from inside. Keep its width and position, and the building's prominent usable front door. The frontage must read as a nonspecific occupied two-story building, usable for several civic or residential functions. Match the approved ancient haunted town kit: aged charcoal basalt, blackened timber, rusted iron, slate roof, worn funerary relief, richly layered hand-painted surface. No flags, banners, signage, text, people, loose props, terrain/base, glowing merchandise, cozy golden window light or new additions."
+    },
+    {
+      "file": "building-wide-t70.png",
+      "role": "generic T70 material edit of same base",
+      "editSource": "building-wide-base.png",
+      "selectedGeneratedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-5adbee15-44ee-4e95-921b-225831d91f17.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "MATERIAL RESKIN ONLY of the supplied generic broad two-story town building into its T70 deep-wilderness haunted necropolis variant. Preserve EXACT geometry and camera: offset gables, slate roof and chimneys, wide ordinary dark glazed multi-pane ground-floor window with NO goods or display, all other windows, carved stone buttresses, steps, and prominent usable door. Same building, same openings and proportions, no new structure or functional cues. Repaint the charcoal stone to cold deep ash-gray cracked basalt with layered mineral streaking, pale lichen and eroded mortar; blackened timber becomes desaturated rotted starwood with detailed grain; iron bands become dull oxidized metal with subtle verdigris. Very sparse cool teal glimmers may appear behind existing glass; keep the broad ordinary window dark and nonspecific. Rich intricate hand-painted surface variation, not flat monochrome. It is a generic occupied building in a town of friendly undead, bleak, old and maintained enough to use. Full isolated footprint and roof in three-quarter front view against plain light gray studio background. No robes, staffs, bottles, shelves, signs, text, flags, banners, people, terrain, diorama base, loose props, cozy golden light, crystals, hovering parts or sci-fi."
+    }
+  ],
+  "visualReview": "Both images inspected. The former outfitter display has been replaced by ordinary dark multi-pane glazing; no merchandise, signs, staff, robes, bottles, or service cue remains. Door and overall roof/facade geometry stay aligned across the base and T70 material variant. Production should use one geometry mesh with separate surface treatments."
+}

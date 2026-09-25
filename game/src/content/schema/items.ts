@@ -56,7 +56,7 @@ export const ItemSchema = obj({
   stackable: bool({ label: "Stackable" }),
   value: int({ min: 0 }, { label: "Buy value", unit: "gold", step: 1 }),
   category: enumOf([
-    "resource", "bar", "equipment", "food", "tool", "quest", "currency", "component",
+    "resource", "bar", "equipment", "food", "tool", "quest", "currency", "component", "potion",
   ] as const satisfies readonly ItemCategory[], { label: "Category" }),
   equip: opt(obj({
     slot: enumOf(EQUIP_SLOTS, { label: "Equipment slot" }),
@@ -69,6 +69,11 @@ export const ItemSchema = obj({
   food: opt(obj({
     healAmount: num({ min: 0 }, { label: "Health restored" }),
   }), { label: "Food effect", help: "Burnt food has no food effect." }),
+  potion: opt(obj({
+    kind: enumOf(["melee", "magic", "defence"] as const, { label: "Potion effect" }),
+    strength: int({ min: 1 }, { label: "Bonus strength", step: 1 }),
+    durationMs: int({ min: 1 }, { label: "Duration", unit: "ms", step: 1 }),
+  }), { label: "Potion effect" }),
   tool: opt(obj({
     skill,
     gatherBonus: num({ min: 0 }, { label: "Effective gathering levels" }),

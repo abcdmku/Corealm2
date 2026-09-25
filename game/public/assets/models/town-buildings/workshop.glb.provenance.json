@@ -1,0 +1,40 @@
+{
+  "source": "game/public/assets/models/town-shared/workshop.glb",
+  "destination": "game/public/assets/models/town-buildings/workshop.glb",
+  "sourceBounds": {
+    "min": [
+      -0.49902352690696716,
+      0,
+      -0.39550793170928955
+    ],
+    "max": [
+      0.49902352690696716,
+      0.611328125,
+      0.39550793170928955
+    ]
+  },
+  "normalizedBounds": {
+    "min": [
+      -4,
+      0,
+      -3.1702547906766245
+    ],
+    "max": [
+      4,
+      4.900194816778406,
+      3.1702547906766245
+    ]
+  },
+  "targetWidth": 8,
+  "quarterTurns": 0,
+  "scale": 8.015654141183846,
+  "textures": [
+    {
+      "name": "tripo_image_d21413a1-239c-4536-8b6f-6c9ae8dac040_0",
+      "mime": "image/jpeg",
+      "bytes": 926959
+    }
+  ],
+  "meshes": 1,
+  "triangles": 4478
+}

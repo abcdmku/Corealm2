@@ -57,6 +57,14 @@ const BuildingDefSchema = obj({
   id: str(),
   name: str(),
   prefab: str(),
+  model: opt(obj({
+    assetId: ref('asset', { label: 'Model', role: 'Model for' }),
+    scale: num({ min: 0.0001 }),
+    collision: arr(obj({
+      tag: str(), dx: num(), dz: num(),
+      sizeX: num({ min: 0.0001 }), sizeZ: num({ min: 0.0001 }), height: num({ min: 0.0001 }),
+    })),
+  })),
   position: SpotSchema,
   rotationY: num(),
   footprint: tuple([num(), num()] as const),
@@ -74,7 +82,7 @@ const BankDefSchema = obj({
 const ShopDefSchema = obj({
   id: str(),
   name: str(),
-  shopKind: union([lit("general"), lit("smith")] as const),
+  shopKind: union([lit("general"), lit("smith"), lit("potion"), lit("cloth"), lit("fish"), lit("meat"), lit("cosmic")] as const),
   position: SpotSchema,
   rotationY: num({}, { unit: 'rad' }),
   assetId: ref('asset', { label: 'Model', role: 'Model for' }),
@@ -139,6 +147,8 @@ const PadShapeDefSchema = obj({
 const SettlementDefSchema = obj({
   id: str(),
   name: str({}, { display: true }),
+  tier: num({ min: 1 }, { label: 'Town tier' }),
+  bankLocationId: ref('location', { label: 'Bank approach', role: 'Bank approach for' }),
   kit: str(),
   centre: SpotSchema,
   respawnPointId: ref('location', { label: 'Respawn point', role: 'Respawn for' }),
@@ -259,7 +269,7 @@ export const WorldRegionSchema = obj({
   locations: arr(LocationDefSchema, {}, { label: 'Locations' }),
   roads: arr(RoadDefSchema, {}, { label: 'Roads', role: 'Road end' }),
   stations: arr(StationDefSchema, {}, { label: 'Stations', role: 'Station in' }),
-  settlement: opt(SettlementDefSchema, { label: 'Settlement' }),
+  settlements: arr(SettlementDefSchema, {}, { label: 'Settlements' }),
   obstacles: arr(ObstacleDefSchema, {}, { label: 'Obstacles', role: 'Obstacle in' }),
   landmarks: arr(LandmarkDefSchema, {}, { label: 'Landmarks', role: 'Landmark in' }),
   gates: arr(GateDefSchema, {}, { label: 'Gates', role: 'Gate in' }),

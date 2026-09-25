@@ -3767,5 +3767,173 @@
     "stackable": true,
     "value": 825,
     "category": "component"
+  },
+  {
+    "id": "melee_potion_t1",
+    "name": "Melee Potion 1",
+    "tier": 10,
+    "description": "Raises melee by 5 for five minutes.",
+    "stackable": true,
+    "value": 1500,
+    "category": "potion",
+    "potion": {
+      "kind": "melee",
+      "strength": 5,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "melee_potion_t2",
+    "name": "Melee Potion 2",
+    "tier": 30,
+    "description": "Raises melee by 10 for five minutes.",
+    "stackable": true,
+    "value": 6000,
+    "category": "potion",
+    "potion": {
+      "kind": "melee",
+      "strength": 10,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "melee_potion_t3",
+    "name": "Melee Potion 3",
+    "tier": 50,
+    "description": "Raises melee by 15 for five minutes.",
+    "stackable": true,
+    "value": 18000,
+    "category": "potion",
+    "potion": {
+      "kind": "melee",
+      "strength": 15,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "melee_potion_t4",
+    "name": "Melee Potion 4",
+    "tier": 70,
+    "description": "Raises melee by 20 for five minutes.",
+    "stackable": true,
+    "value": 45000,
+    "category": "potion",
+    "potion": {
+      "kind": "melee",
+      "strength": 20,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "magic_potion_t1",
+    "name": "Magic Potion 1",
+    "tier": 10,
+    "description": "Raises magic by 5 for five minutes.",
+    "stackable": true,
+    "value": 1500,
+    "category": "potion",
+    "potion": {
+      "kind": "magic",
+      "strength": 5,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "magic_potion_t2",
+    "name": "Magic Potion 2",
+    "tier": 30,
+    "description": "Raises magic by 10 for five minutes.",
+    "stackable": true,
+    "value": 6000,
+    "category": "potion",
+    "potion": {
+      "kind": "magic",
+      "strength": 10,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "magic_potion_t3",
+    "name": "Magic Potion 3",
+    "tier": 50,
+    "description": "Raises magic by 15 for five minutes.",
+    "stackable": true,
+    "value": 18000,
+    "category": "potion",
+    "potion": {
+      "kind": "magic",
+      "strength": 15,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "magic_potion_t4",
+    "name": "Magic Potion 4",
+    "tier": 70,
+    "description": "Raises magic by 20 for five minutes.",
+    "stackable": true,
+    "value": 45000,
+    "category": "potion",
+    "potion": {
+      "kind": "magic",
+      "strength": 20,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "defence_potion_t1",
+    "name": "Defence Potion 1",
+    "tier": 10,
+    "description": "Raises defence by 5 for five minutes.",
+    "stackable": true,
+    "value": 1500,
+    "category": "potion",
+    "potion": {
+      "kind": "defence",
+      "strength": 5,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "defence_potion_t2",
+    "name": "Defence Potion 2",
+    "tier": 30,
+    "description": "Raises defence by 10 for five minutes.",
+    "stackable": true,
+    "value": 6000,
+    "category": "potion",
+    "potion": {
+      "kind": "defence",
+      "strength": 10,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "defence_potion_t3",
+    "name": "Defence Potion 3",
+    "tier": 50,
+    "description": "Raises defence by 15 for five minutes.",
+    "stackable": true,
+    "value": 18000,
+    "category": "potion",
+    "potion": {
+      "kind": "defence",
+      "strength": 15,
+      "durationMs": 300000
+    }
+  },
+  {
+    "id": "defence_potion_t4",
+    "name": "Defence Potion 4",
+    "tier": 70,
+    "description": "Raises defence by 20 for five minutes.",
+    "stackable": true,
+    "value": 45000,
+    "category": "potion",
+    "potion": {
+      "kind": "defence",
+      "strength": 20,
+      "durationMs": 300000
+    }
   }
 ]

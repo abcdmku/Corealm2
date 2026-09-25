@@ -977,6 +977,19 @@ html, body {
 }
 .hud__activity-count { font-size: var(--size-xs); text-shadow: var(--shadow-text); }
 
+.hud__potions {
+  display: grid;
+  gap: 2px;
+  padding: 3px 6px;
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.42);
+  color: var(--ink);
+  font-size: var(--size-xs);
+  text-shadow: var(--shadow-text);
+}
+.hud__potions[hidden] { display: none; }
+
 .hud__right {
   position: absolute;
   top: var(--space-3);

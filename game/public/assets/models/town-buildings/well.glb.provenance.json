@@ -1,0 +1,40 @@
+{
+  "source": "game/public/assets/models/town-shared/well.glb",
+  "destination": "game/public/assets/models/town-buildings/well.glb",
+  "sourceBounds": {
+    "min": [
+      -0.3798828721046448,
+      0,
+      -0.3798828721046448
+    ],
+    "max": [
+      0.3798828721046448,
+      0.998046875,
+      0.3798828721046448
+    ]
+  },
+  "normalizedBounds": {
+    "min": [
+      -1.5,
+      0,
+      -1.5
+    ],
+    "max": [
+      1.5,
+      3.9408734176559777,
+      1.5
+    ]
+  },
+  "targetWidth": 3,
+  "quarterTurns": 0,
+  "scale": 3.948585498708142,
+  "textures": [
+    {
+      "name": "tripo_image_7acff64b-e98b-4eec-8b29-5b40ccc87e42_0",
+      "mime": "image/jpeg",
+      "bytes": 1399450
+    }
+  ],
+  "meshes": 1,
+  "triangles": 4431
+}

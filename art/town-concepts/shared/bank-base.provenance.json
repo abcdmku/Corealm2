@@ -1,0 +1,9 @@
+{
+  "asset": "bank-base.png",
+  "purpose": "Shared T50 bank geometry for T50 and T70 town material variants",
+  "tool": "built-in image_gen generation",
+  "styleReferences": ["../t50/hall-v2.png", "../t50/gatehouse-v2.png", "../t50/wall-section-v2.png"],
+  "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6d4-90dc-7801-ae0b-f8650a5a7f4b\\exec-e3335af3-70fa-4e90-83a9-9aad44e40b68.png",
+  "prompt": "Use case: stylized-concept. Asset type: isolated 3D game-building concept for a shared haunted friendly-undead town model, T50 base. Create ONE compact secure mausoleum countinghouse bank, complete freestanding usable building, clean front-left three-quarter orthographic-like view on flat neutral light-gray studio background. Functional front: one clearly visible reinforced timber-and-rusted-iron door wide enough for people, massive stone jambs, separate barred teller/service window beside it. Simple readable one-story rectangle, steep dark slate roof and low battered gable, no tall towers. Rich layered decayed charcoal masonry with individually chipped stones, weathered brown timber beams, rusty iron straps and grilles, sparse cold blue glow deep inside teller window. Modest skull reliefs and bone niches tie to friendly-undead settlement. High-quality plausible game asset concept, whole base and roof visible, crisp material detail, soft neutral shadow. No people, landscape, foliage, loose objects, text, signs, flags, banners, hanging cloth, pennants, wall extensions, or adjacent buildings. Functional bank, not castle or grand hall.",
+  "visualReview": "One-story complete bank with reinforced front entry and separate barred service window. No cloth or banners. Matches approved charcoal stone, timber, iron and bone detail."
+}

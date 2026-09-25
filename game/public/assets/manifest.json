@@ -1198,6 +1198,19 @@
       "upstreamPackId": "danimal-roach",
       "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
       "derivativeLicense": "CC-BY-SA-3.0"
+    },
+    {
+      "id": "supplied-medieval-market-stalls",
+      "name": "Medieval market stalls",
+      "author": "Unspecified in supplied file",
+      "source": "User attachment medieval+market+stalls+3d+model.glb",
+      "license": "User supplied; license not specified in source",
+      "archiveSha256": "c5da27e6d77697d1f1e5a7b845b7b2f1b8b7bcffe7852e97be2b1c630e8f9db3"
+    },
+    {
+      "id": "haunted-wilderness-towns",
+      "name": "Haunted Wilderness Towns",
+      "source": "Buildings: Tripo P1 Fast from approved image-generated references. Stalls: cleaned supplied market GLB. Town and stall variants use image-generated texture maps."
     }
   ],
   "assets": [
@@ -69260,6 +69273,1160 @@
         "cpuCollapseByHeight": true,
         "motionBlocked": false
       }
+    },
+    {
+      "id": "market_stall_potion",
+      "file": "models/market-stalls/potion.glb",
+      "pack": "supplied-medieval-market-stalls",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "market",
+        "shop",
+        "potion"
+      ],
+      "bytes": 2677376,
+      "size": {
+        "x": 3,
+        "y": 2.790816068649292,
+        "z": 2.3163259029388428
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.1581629514694214
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_cloth",
+      "file": "models/market-stalls/cloth.glb",
+      "pack": "supplied-medieval-market-stalls",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "market",
+        "shop",
+        "cloth"
+      ],
+      "bytes": 1419248,
+      "size": {
+        "x": 3,
+        "y": 3.0460751056671143,
+        "z": 2.365187883377075
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.1825939416885376
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_fish",
+      "file": "models/market-stalls/fish.glb",
+      "pack": "supplied-medieval-market-stalls",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "market",
+        "shop",
+        "fish"
+      ],
+      "bytes": 1908448,
+      "size": {
+        "x": 3,
+        "y": 2.6541059017181396,
+        "z": 2.25
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.125
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_arms",
+      "file": "models/market-stalls/arms.glb",
+      "pack": "supplied-medieval-market-stalls",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "market",
+        "shop",
+        "arms"
+      ],
+      "bytes": 1498808,
+      "size": {
+        "x": 3,
+        "y": 2.519047975540161,
+        "z": 2.209523916244507
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.1047619581222534
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_meat",
+      "file": "models/market-stalls/meat.glb",
+      "pack": "supplied-medieval-market-stalls",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "market",
+        "shop",
+        "meat"
+      ],
+      "bytes": 1512296,
+      "size": {
+        "x": 3,
+        "y": 3.161864995956421,
+        "z": 2.719763994216919
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.3598819971084595
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_cosmic",
+      "file": "models/market-stalls/cosmic.glb",
+      "pack": "supplied-medieval-market-stalls",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "market",
+        "shop",
+        "cosmic"
+      ],
+      "bytes": 1825444,
+      "size": {
+        "x": 3,
+        "y": 3.13588809967041,
+        "z": 2.9006969928741455
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.4503484964370728
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "town_t50_gate",
+      "file": "models/town-buildings/gate.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1317520,
+      "size": {
+        "x": 12,
+        "y": 11.99999785003402,
+        "z": 5.095890931270306
+      },
+      "base": {
+        "x": -6,
+        "y": 0,
+        "z": -2.547945465635153
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_0fdf42da-86f3-4c86-a13e-4c838e992f93"
+      ]
+    },
+    {
+      "id": "market_stall_cloth_t50",
+      "file": "models/market-stalls-t50/cloth.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2634984,
+      "size": {
+        "x": 3.000000238418579,
+        "y": 3.0460751056671143,
+        "z": 2.365187883377075
+      },
+      "base": {
+        "x": -1.500000238418579,
+        "y": 0,
+        "z": -1.1825939416885376
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_cloth_t70",
+      "file": "models/market-stalls-t70/cloth.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2364020,
+      "size": {
+        "x": 3.000000238418579,
+        "y": 3.0460751056671143,
+        "z": 2.365187883377075
+      },
+      "base": {
+        "x": -1.500000238418579,
+        "y": 0,
+        "z": -1.1825939416885376
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "town_t50_wall",
+      "file": "models/town-buildings/wall.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1447036,
+      "size": {
+        "x": 6,
+        "y": 2.78277853258841,
+        "z": 1.2328764754888935
+      },
+      "base": {
+        "x": -3,
+        "y": 0,
+        "z": -0.6164382377444467
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_f0b5fd25-6b2f-4dca-83db-b1ed630d56d4"
+      ]
+    },
+    {
+      "id": "town_t50_wall_corner",
+      "file": "models/town-buildings/wall-corner.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1532900,
+      "size": {
+        "x": 3.283,
+        "y": 2.781876712328767,
+        "z": 3.283000784259953
+      },
+      "base": {
+        "x": -1.6415,
+        "y": 0,
+        "z": -1.6415003921299764
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_cb335b8e-5535-47da-842f-a9477667fdd1"
+      ]
+    },
+    {
+      "id": "town_t70_gate",
+      "file": "models/town-buildings-t70/gate.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1324328,
+      "size": {
+        "x": 12,
+        "y": 11.99999785003402,
+        "z": 5.095890931270306
+      },
+      "base": {
+        "x": -6,
+        "y": 0,
+        "z": -2.547945465635153
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_0fdf42da-86f3-4c86-a13e-4c838e992f93"
+      ]
+    },
+    {
+      "id": "town_t50_building_wide",
+      "file": "models/town-buildings/building-wide.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 2093944,
+      "size": {
+        "x": 10,
+        "y": 11.084596497125556,
+        "z": 10.26030231196757
+      },
+      "base": {
+        "x": -5,
+        "y": 0,
+        "z": -5.130151155983785
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_3299135c-93fd-4ace-a6d0-11249f14a937",
+        "Weathered timber gable infill",
+        "Dark slate roof backing"
+      ]
+    },
+    {
+      "id": "town_t70_wall",
+      "file": "models/town-buildings-t70/wall.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1393796,
+      "size": {
+        "x": 6,
+        "y": 2.78277853258841,
+        "z": 1.2328764754888935
+      },
+      "base": {
+        "x": -3,
+        "y": 0,
+        "z": -0.6164382377444467
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_f0b5fd25-6b2f-4dca-83db-b1ed630d56d4"
+      ]
+    },
+    {
+      "id": "town_t70_wall_corner",
+      "file": "models/town-buildings-t70/wall-corner.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1378724,
+      "size": {
+        "x": 3.283,
+        "y": 2.781876712328767,
+        "z": 3.283000784259953
+      },
+      "base": {
+        "x": -1.6415,
+        "y": 0,
+        "z": -1.6415003921299764
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_cb335b8e-5535-47da-842f-a9477667fdd1"
+      ]
+    },
+    {
+      "id": "town_t70_building_wide",
+      "file": "models/town-buildings-t70/building-wide.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 2014344,
+      "size": {
+        "x": 10,
+        "y": 11.084596497125556,
+        "z": 10.26030231196757
+      },
+      "base": {
+        "x": -5,
+        "y": 0,
+        "z": -5.130151155983785
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_3299135c-93fd-4ace-a6d0-11249f14a937",
+        "Weathered timber gable infill",
+        "Dark slate roof backing"
+      ]
+    },
+    {
+      "id": "town_t50_hall",
+      "file": "models/town-buildings/hall.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1925872,
+      "size": {
+        "x": 12,
+        "y": 13.41794131517255,
+        "z": 13.312908506443215
+      },
+      "base": {
+        "x": -6,
+        "y": 0,
+        "z": -6.656454253221607
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_45ccef4b-9293-422b-90b5-0866961f2a69",
+        "Foundation infill masonry"
+      ]
+    },
+    {
+      "id": "town_t50_bank",
+      "file": "models/town-buildings/bank.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1547700,
+      "size": {
+        "x": 7.999999999999999,
+        "y": 7.934825897549208,
+        "z": 8.325866037171773
+      },
+      "base": {
+        "x": -3.9999999999999996,
+        "y": 0,
+        "z": -4.162933018585886
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_3210f237-92e6-4532-be8e-fe158adff1b6"
+      ]
+    },
+    {
+      "id": "town_t50_home",
+      "file": "models/town-buildings/home.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 2237144,
+      "size": {
+        "x": 6,
+        "y": 5.483365294172099,
+        "z": 6
+      },
+      "base": {
+        "x": -3,
+        "y": 0,
+        "z": -3
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_f2df5c5d-b6a7-4d1a-895e-3c0232995d81",
+        "Recessed weathered home infill"
+      ]
+    },
+    {
+      "id": "town_t70_hall",
+      "file": "models/town-buildings-t70/hall.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1406360,
+      "size": {
+        "x": 12,
+        "y": 13.41794131517255,
+        "z": 13.312908506443215
+      },
+      "base": {
+        "x": -6,
+        "y": 0,
+        "z": -6.656454253221607
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_45ccef4b-9293-422b-90b5-0866961f2a69",
+        "Foundation infill masonry"
+      ]
+    },
+    {
+      "id": "town_t70_bank",
+      "file": "models/town-buildings-t70/bank.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1405068,
+      "size": {
+        "x": 7.999999999999999,
+        "y": 7.934825897549208,
+        "z": 8.325866037171773
+      },
+      "base": {
+        "x": -3.9999999999999996,
+        "y": 0,
+        "z": -4.162933018585886
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_3210f237-92e6-4532-be8e-fe158adff1b6"
+      ]
+    },
+    {
+      "id": "town_t70_home",
+      "file": "models/town-buildings-t70/home.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1815748,
+      "size": {
+        "x": 6,
+        "y": 5.483365294172099,
+        "z": 6
+      },
+      "base": {
+        "x": -3,
+        "y": 0,
+        "z": -3
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_f2df5c5d-b6a7-4d1a-895e-3c0232995d81",
+        "Recessed weathered home infill"
+      ]
+    },
+    {
+      "id": "market_stall_arms_t50",
+      "file": "models/market-stalls-t50/arms.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2780800,
+      "size": {
+        "x": 2.961904764175415,
+        "y": 2.519047737121582,
+        "z": 2.2095240354537964
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.1047619581222534
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_fish_t50",
+      "file": "models/market-stalls-t50/fish.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2714256,
+      "size": {
+        "x": 3,
+        "y": 2.6541059017181396,
+        "z": 2.250000238418579
+      },
+      "base": {
+        "x": -1.5000001192092896,
+        "y": 0,
+        "z": -1.125000238418579
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_meat_t50",
+      "file": "models/market-stalls-t50/meat.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2280524,
+      "size": {
+        "x": 2.9999998807907104,
+        "y": 3.161864995956421,
+        "z": 2.7197635173797607
+      },
+      "base": {
+        "x": -1.499999761581421,
+        "y": 0,
+        "z": -1.3598817586898804
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_potion_t50",
+      "file": "models/market-stalls-t50/potion.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 3796388,
+      "size": {
+        "x": 3.0000001192092896,
+        "y": 2.790816307067871,
+        "z": 2.31632661819458
+      },
+      "base": {
+        "x": -1.5000001192092896,
+        "y": 0,
+        "z": -1.1581631898880005
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_cosmic_t50",
+      "file": "models/market-stalls-t50/cosmic.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 3026304,
+      "size": {
+        "x": 2.9999998807907104,
+        "y": 3.1358885765075684,
+        "z": 2.9006967544555664
+      },
+      "base": {
+        "x": -1.4999998807907104,
+        "y": 0,
+        "z": -1.4503483772277832
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_arms_t70",
+      "file": "models/market-stalls-t70/arms.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2895004,
+      "size": {
+        "x": 2.961904764175415,
+        "y": 2.519047737121582,
+        "z": 2.2095240354537964
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.1047619581222534
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_fish_t70",
+      "file": "models/market-stalls-t70/fish.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2697860,
+      "size": {
+        "x": 3,
+        "y": 2.6541059017181396,
+        "z": 2.250000238418579
+      },
+      "base": {
+        "x": -1.5000001192092896,
+        "y": 0,
+        "z": -1.125000238418579
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_meat_t70",
+      "file": "models/market-stalls-t70/meat.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2423384,
+      "size": {
+        "x": 2.9999998807907104,
+        "y": 3.161864995956421,
+        "z": 2.7197635173797607
+      },
+      "base": {
+        "x": -1.499999761581421,
+        "y": 0,
+        "z": -1.3598817586898804
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_potion_t70",
+      "file": "models/market-stalls-t70/potion.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 3722728,
+      "size": {
+        "x": 3.0000001192092896,
+        "y": 2.790816307067871,
+        "z": 2.31632661819458
+      },
+      "base": {
+        "x": -1.5000001192092896,
+        "y": 0,
+        "z": -1.1581631898880005
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "market_stall_cosmic_t70",
+      "file": "models/market-stalls-t70/cosmic.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "stall",
+      "tags": [
+        "wilderness",
+        "town",
+        "stall"
+      ],
+      "bytes": 2931204,
+      "size": {
+        "x": 2.9999998807907104,
+        "y": 3.1358885765075684,
+        "z": 2.9006967544555664
+      },
+      "base": {
+        "x": -1.4999998807907104,
+        "y": 0,
+        "z": -1.4503483772277832
+      },
+      "animations": [],
+      "materials": [
+        "supplied_painted_wood_cloth_and_stock"
+      ]
+    },
+    {
+      "id": "town_t50_inn",
+      "file": "models/town-buildings/inn.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 2467348,
+      "size": {
+        "x": 10,
+        "y": 11.911420216747333,
+        "z": 9.114219240241882
+      },
+      "base": {
+        "x": -5,
+        "y": 0,
+        "z": -4.557109620120941
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_2c8170cd-f2d3-4af2-8b85-275d5ab2b682",
+        "Inn infill weathered boards",
+        "Inn infill basalt"
+      ]
+    },
+    {
+      "id": "town_t50_workshop",
+      "file": "models/town-buildings/workshop.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1212848,
+      "size": {
+        "x": 8,
+        "y": 4.900194816778406,
+        "z": 6.340509581353249
+      },
+      "base": {
+        "x": -4,
+        "y": 0,
+        "z": -3.1702547906766245
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_d21413a1-239c-4536-8b6f-6c9ae8dac040"
+      ]
+    },
+    {
+      "id": "town_t50_smithy",
+      "file": "models/town-buildings/smithy.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1719112,
+      "size": {
+        "x": 8.399999618530273,
+        "y": 7.765280014779757,
+        "z": 9.99510972671923
+      },
+      "base": {
+        "x": -4.199999809265137,
+        "y": 0,
+        "z": -4.997554863359615
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_5bc39d5f-46d0-4463-80db-4c262b3427b2",
+        "Smithy weathered gable timber"
+      ]
+    },
+    {
+      "id": "town_t70_workshop",
+      "file": "models/town-buildings-t70/workshop.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1311472,
+      "size": {
+        "x": 8,
+        "y": 4.900194816778406,
+        "z": 6.340509581353249
+      },
+      "base": {
+        "x": -4,
+        "y": 0,
+        "z": -3.1702547906766245
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_d21413a1-239c-4536-8b6f-6c9ae8dac040"
+      ]
+    },
+    {
+      "id": "town_t70_smithy",
+      "file": "models/town-buildings-t70/smithy.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1760872,
+      "size": {
+        "x": 8.399999618530273,
+        "y": 7.765280014779757,
+        "z": 9.99510972671923
+      },
+      "base": {
+        "x": -4.199999809265137,
+        "y": 0,
+        "z": -4.997554863359615
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_5bc39d5f-46d0-4463-80db-4c262b3427b2",
+        "Smithy weathered gable timber"
+      ]
+    },
+    {
+      "id": "town_t50_well",
+      "file": "models/town-buildings/well.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1667260,
+      "size": {
+        "x": 3,
+        "y": 3.9408734176559777,
+        "z": 3
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.5
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_7acff64b-e98b-4eec-8b29-5b40ccc87e42"
+      ]
+    },
+    {
+      "id": "town_t70_well",
+      "file": "models/town-buildings-t70/well.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1352924,
+      "size": {
+        "x": 3,
+        "y": 3.9408734176559777,
+        "z": 3
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": -1.5
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_7acff64b-e98b-4eec-8b29-5b40ccc87e42"
+      ]
+    },
+    {
+      "id": "town_t50_building_narrow",
+      "file": "models/town-buildings/building-narrow.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 8056460,
+      "size": {
+        "x": 8,
+        "y": 9.573767754864587,
+        "z": 7.625291131894506
+      },
+      "base": {
+        "x": -4,
+        "y": 0,
+        "z": -3.812645565947253
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_e773ba1e-b264-4cc6-a871-ed2ba16fce5d",
+        "Generated slate repair",
+        "Generated wood repair",
+        "Generated stone repair"
+      ]
+    },
+    {
+      "id": "town_t70_building_narrow",
+      "file": "models/town-buildings-t70/building-narrow.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 7775404,
+      "size": {
+        "x": 8,
+        "y": 9.573767754864587,
+        "z": 7.625291131894506
+      },
+      "base": {
+        "x": -4,
+        "y": 0,
+        "z": -3.812645565947253
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_e773ba1e-b264-4cc6-a871-ed2ba16fce5d",
+        "Generated slate repair",
+        "Generated wood repair",
+        "Generated stone repair"
+      ]
+    },
+    {
+      "id": "town_t70_inn",
+      "file": "models/town-buildings-t70/inn.glb",
+      "pack": "haunted-wilderness-towns",
+      "category": "prop",
+      "is": "building",
+      "tags": [
+        "wilderness",
+        "town",
+        "building"
+      ],
+      "bytes": 1961676,
+      "size": {
+        "x": 10,
+        "y": 11.911420216747333,
+        "z": 9.114219240241882
+      },
+      "base": {
+        "x": -5,
+        "y": 0,
+        "z": -4.557109620120941
+      },
+      "animations": [],
+      "materials": [
+        "tripo_mat_2c8170cd-f2d3-4af2-8b85-275d5ab2b682",
+        "Inn infill weathered boards",
+        "Inn infill basalt"
+      ]
     }
   ]
 }

@@ -1,0 +1,49 @@
+{
+    "source":  "game/public/assets/models/town-shared/inn.glb",
+    "destination":  "game/public/assets/models/town-buildings/inn.glb",
+    "sourceBounds":  {
+                         "min":  [
+                                     -0.4189453721046448,
+                                     0,
+                                     -0.3818359971046448
+                                 ],
+                         "max":  [
+                                     0.4189453721046448,
+                                     0.998046875,
+                                     0.3818359971046448
+                                 ]
+                     },
+    "normalizedBounds":  {
+                             "min":  [
+                                         -5,
+                                         0,
+                                         -4.557109620120941
+                                     ],
+                             "max":  [
+                                         5,
+                                         11.911420216747333,
+                                         4.557109620120941
+                                     ]
+                         },
+    "targetWidth":  10,
+    "quarterTurns":  0,
+    "scale":  11.934730236740968,
+    "textures":  [
+                     {
+                         "name":  "tripo_image_2c8170cd-f2d3-4af2-8b85-275d5ab2b682_0",
+                         "mime":  "image/jpeg",
+                         "bytes":  1152521
+                     }
+                 ],
+    "meshes":  1,
+    "triangles":  4284,
+    "repair":  {
+                   "panels":  "Right upper timber wall and rear lower basalt wall; same two mesh panels in T50 and T70",
+                   "textures":  "Image-generated layered wood and stone, JPEG quality 92",
+                   "qaFront":  "test-results/town-models-secondary/inn-base-final/front.png",
+                   "qaAngle":  "test-results/town-models-secondary/inn-base-final/angle.png",
+                   "qaBack":  "test-results/town-models-secondary/inn-base-final/back.png",
+                   "finalTriangles":  4288,
+                   "finalTextures":  3
+               }
+}

@@ -8,7 +8,7 @@ import type { SceneryInstances } from '../game/src/render/sceneryInstances.js';
 import { resolveFairyDressing } from '../game/src/app/fairyDressing.js';
 import { buildFairyTerrainSpec } from '../game/src/app/worldSpec.js';
 import { collectRoadStamps, prepareWorldSurface } from '../game/src/app/worldSurface.js';
-import { FAIRY_REGIONS } from '../game/src/content/fairyRegions.js';
+import { FAIRY_REGIONS } from '../game/src/content/regions.js';
 import { treeSpeciesForAsset } from '../game/src/content/treeSpecies.js';
 import { FAIRY_ROCK_NATIVE_BOUNDS } from '../game/src/world/fairyLandformDressing.js';
 import type { ForestTreeDescriptor } from '../game/src/world/forestResources.js';
@@ -337,7 +337,7 @@ describe('authored fairy dressing scatter', () => {
       expect(points.filter(point => !point.id.includes('_village_tree_')).length).toBeGreaterThanOrEqual(140);
       const roads = scene.getRoadPolylines(), stamps = collectRoadStamps(scene);
       expect(roads).toHaveLength(stamps.length);
-      const buildings = FAIRY_REGIONS.flatMap(region => region.settlement?.buildings ?? []);
+      const buildings = FAIRY_REGIONS.flatMap(region => region.settlements.flatMap(settlement => settlement.buildings));
       expect(buildings).toHaveLength(12);
       const overlaps: string[] = [];
       for (const point of points) {

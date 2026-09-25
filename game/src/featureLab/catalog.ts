@@ -27,7 +27,7 @@ import { WILDERNESS_RUNE_KEEPERS } from '../content/wildernessDepth.js';
 import { CROWNWARD_DRAGON_SPECIES, crownwardDragonGroup } from '../content/crownwardDragons.js';
 import { FAIRY_CROWN_SPECIES, FAIRY_CROWN_BOSS_IDS } from '../content/fairyCrownCreatures.js';
 import { UNIVERSAL_MINIBOSS_SPECIES } from '../content/universalMinibosses.js';
-import { FAIRY_NPC_CANDIDATES, fairyNpcPresentation } from '../content/fairyNpcs.js';
+import { FAIRY_NPC_CANDIDATES, fairyNpcPresentation, type FairyNpcCandidate } from '../content/fairyNpcs.js';
 import { ALL_ITEMS } from "../content/items.js";
 import { QUESTS } from "../content/quests.js";
 import {
@@ -65,22 +65,28 @@ function creatureOptionLabel(group: EnemyGroupDef): string {
   return stats ? `${group.name} (Level ${enemyCombatLevel(stats)})` : group.name;
 }
 
+function unplacedNpcTier(npc: FairyNpcCandidate): number {
+  const region = REGIONS.find((entry) => entry.id === npc.regionId);
+  if (!region) throw new Error(`Unknown NPC region ${npc.regionId} for ${npc.id}`);
+  return region.settlements.find((town) => town.id === npc.settlementId)?.tier ?? region.tier;
+}
+
 const NPC_SOURCES: readonly NpcTargetSource[] = [...REGIONS.flatMap((region) => (
-  (region.settlement?.npcs ?? []).map((npc) => ({
+  region.settlements.flatMap((settlement) => settlement.npcs.map((npc) => ({
     kind: "npc" as const,
     preset: {
       id: npc.id,
       label: npc.name,
       kind: "npc" as const,
-      tier: region.tier,
+      tier: settlement.tier,
     },
     regionId: region.id,
-    settlementId: region.settlement!.id,
+    settlementId: settlement.id,
     npc,
-  }))
-)), ...FAIRY_NPC_CANDIDATES.filter(npc => !REGIONS.some(region => region.settlement?.npcs.some(placed => placed.id === npc.id))).map(npc => ({
+  })))
+)), ...FAIRY_NPC_CANDIDATES.filter(npc => !REGIONS.some(region => region.settlements.some(settlement => settlement.npcs.some(placed => placed.id === npc.id)))).map(npc => ({
   kind: 'npc' as const,
-  preset: { id: npc.id, label: npc.name, kind: 'npc' as const, tier: npc.regionId === 'gloamgarden' ? 30 : 60 },
+  preset: { id: npc.id, label: npc.name, kind: 'npc' as const, tier: unplacedNpcTier(npc) },
   regionId: npc.regionId, settlementId: npc.settlementId,
   npc: { ...npc, position: [0, 0] as const, facingRad: 0 },
 }))];

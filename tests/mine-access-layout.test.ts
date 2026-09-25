@@ -104,9 +104,9 @@ describe("authored mining access layout", () => {
     expect(distanceToFootprint(region.dungeon!.entrance, envelope)).toBeGreaterThanOrEqual(39);
     const slide = region.obstacles.find((obstacle) => obstacle.id === "scree_slide")!;
     expect(distanceToFootprint(slide.exitPosition, envelope)).toBeGreaterThanOrEqual(8);
-    for (const wall of region.settlement!.walls ?? []) {
+    for (const settlement of region.settlements) for (const wall of settlement.walls ?? []) {
       const result = corridorClearance(wall.from, wall.to, [envelope]);
-      expect(result.clearance, wall.id).toBeGreaterThanOrEqual(8);
+      expect(result.clearance, `${settlement.id}/${wall.id}`).toBeGreaterThanOrEqual(8);
     }
     const halfWorldZ = Math.abs(Math.sin(site.rotationY)) * site.extent[0]
       + Math.abs(Math.cos(site.rotationY)) * site.extent[1];

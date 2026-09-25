@@ -1,0 +1,35 @@
+{
+  "set": "Shared town watchtower and inn geometry, T50 base with T70 material reskin",
+  "created": "2026-09-25",
+  "assets": [
+    {
+      "file": "watchtower-base.png",
+      "reference": "C:/Users/Borg/Documents/GitHub/Corealm2/art/town-concepts/t50/watchtower.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-3590b508-c459-421b-8364-d0fb27ff700a.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "Edit the provided watchtower into a shared-geometry T50 town asset compatible with the flag-free gatehouse reference. Preserve the basic compact single lookout tower with raised enclosed observation chamber, pitched roof, four support corners, and usable staircase to its entry. Increase the masonry presence: stout aged charcoal basalt lower pier and stone footings carry weathered dark brown starwood braces and upper lookout, rusted iron joining straps, a few narrow defensive view slots, broken and repaired roof tiles. Make the stair and elevated doorway continuous, stable and physically walkable. Remove ALL red banners, flags, hanging fabric, awnings, flower pots and loose props. Replace amber/orange lamps and windows with dim neutral or faint blue fire; avoid cozy warmth. Keep one full isolated structure in three-quarter front view on plain light gray studio background, entire roof and footing visible. No second tower, gate, connected wall, terrain, base, people or text. Rich layered hand-painted stone and timber texture, age and repairs, functioning friendly-undead wilderness settlement rather than a villain fortress."
+    },
+    {
+      "file": "watchtower-t70.png",
+      "reference": "C:/Users/Borg/Documents/GitHub/Corealm2/art/town-concepts/shared/watchtower-base.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-e834ad39-664c-43aa-a55a-1c0af1a8ad74.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "MATERIAL RESKIN ONLY of the supplied flag-free watchtower base into its T70 haunted necropolis variant. Preserve EXACT geometry and silhouette: roof outline, enclosed lookout, balcony railing, four load-bearing posts and stone footings, staircase and entry, window slots, iron bands, camera and framing. Same model, same polygonal form, no structural changes. Give stone deeper cold ash-gray basalt with layered lichen, erosion and mineral stains; turn weathered brown timber into desaturated rotted dark starwood with visible grain and old repairs; oxidize iron to dull rust and muted verdigris; add only faint teal spectral light in existing windows. Functional friendly-undead wilderness settlement, bleak but maintained. Detailed painterly color variation, NOT a monochrome tint. Plain light gray studio background, full isolated asset. No flags, banners, drapes, awnings, warm light, new roof/tower/props, people, terrain, base or text."
+    },
+    {
+      "file": "inn-base.png",
+      "reference": "C:/Users/Borg/Documents/GitHub/Corealm2/art/town-concepts/t50/inn.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-f94f2005-4cf1-41c4-a446-a860950bf3c1.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "Edit the provided inn into a shared-geometry T50 town asset compatible with the flag-free gatehouse reference. Keep a modest two-story lodging house, slightly larger than a home, with a single clear street-facing public entrance, visible upper guest windows, sturdy stone ground story, weathered brown starwood upper framing, charcoal slate roof, two chimneys and a small usable porch. Simplify the over-decorated silhouette and oversized balcony while retaining believable inhabited structure. Age the masonry with dark stains, chipped plaster, iron repairs and a few patched roof tiles. Remove ALL banners, flags, drapes, cloth awnings, flowerboxes, loose tables, barrels and props. Eliminate bright amber/golden warmth: windows hold only sparse dim neutral or pale blue occupancy glow. Haunted friendly-undead town, practical and maintained yet bleak, no pristine storybook cottage look. Full isolated asset on plain light gray background, three-quarter front view, all footprint visible with margin, no people, terrain, base or text. Detailed layered hand-painted materials."
+    },
+    {
+      "file": "inn-t70.png",
+      "reference": "C:/Users/Borg/Documents/GitHub/Corealm2/art/town-concepts/shared/inn-base.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-59e74165-9c67-4051-ace6-2b8fbae9bacb.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "MATERIAL RESKIN ONLY of the supplied flag-free inn base into its T70 haunted necropolis variant. Preserve EXACT geometry and silhouette: two-story roof and both chimneys, timber framing, stone ground floor, all windows, central porch, steps, public door, camera and framing. Same model and proportions, no structural changes. Repaint stone as deeper cold ash-gray weatherworn basalt with layered lichen, eroded mortar, cracked plaster and mineral staining; brown timber becomes desaturated rotted dark starwood with visible grain and old repairs; iron turns dull oxidized/rusted with muted verdigris; existing windows carry sparse pale teal spectral occupancy glow. It is a practical functioning lodging house for friendly undead, bleak and lived-in, never cozy. Detailed layered hand-painted materials with rich value and color variation, NOT a flat monochrome filter. Plain light gray studio background, entire isolated asset. No flags, fabric, flowerboxes, warm windows, loose props, extra wings/roof, people, terrain, base or text."
+    }
+  ],
+  "review": "Inspected all four images. Each T70 version retains the matching base roof, openings, entrance/stair, overall form and camera. No flags, awnings, people, terrain or loose props. T70 adds dark ash stone, greenish lichen/oxidation, desaturated worn timber and restrained teal windows. Geometry identity in production must come from a single mesh per building."
+}

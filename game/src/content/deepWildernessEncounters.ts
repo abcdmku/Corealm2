@@ -38,7 +38,7 @@ export const DEEP_WILDERNESS_PACKS: readonly DeepWildernessPackPlan[] = [
   { id: 'wilderness_furnace_grazers', speciesId: 'furnace_grazer', centre: [190, 484], count: 7, radius: 28, bodyRadius: 2.6 },
   { id: 'wilderness_basalt_maw_hollow', speciesId: 'basalt_maw', centre: [-8, 680], count: 7, radius: 28, bodyRadius: 3 },
   { id: 'wilderness_foundry_west_carapaces', speciesId: 'rift_carapace', centre: [-292, 732], count: 7, radius: 28, bodyRadius: 2.5 },
-  { id: 'wilderness_foundry_north_carapaces', speciesId: 'rift_carapace', centre: [-200, 791], count: 7, radius: 28, bodyRadius: 2.5 },
+  { id: 'wilderness_foundry_north_carapaces', speciesId: 'rift_carapace', centre: [-304, 812], count: 7, radius: 28, bodyRadius: 2.5 },
   { id: 'wilderness_rift_mouth_conclave', speciesId: 'gloam_wraith', centre: [-31, 738], count: 7, radius: 28, bodyRadius: 1.5 },
   { id: 'wilderness_midnight_carapaces', speciesId: 'rift_carapace', centre: [163, 740], count: 7, radius: 28, bodyRadius: 2.5 },
   { id: 'wilderness_nightforge_east_colossi', speciesId: 'voidstone_colossus', centre: [254, 812], count: 7, radius: 28, bodyRadius: 3.3 },

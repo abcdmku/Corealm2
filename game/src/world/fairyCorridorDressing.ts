@@ -1,4 +1,5 @@
-import { FAIRY_REGIONS } from '../content/fairyRegions.js';
+import { REGIONS } from '../content/regions.js';
+import { isFairyRegion } from '../contracts.js';
 import { Rng } from '../core/rng.js';
 import { FAIRY_BANK_HEIGHTMAPS, sampleFairyBankHeight } from './fairyBankHeightmaps.js';
 import {
@@ -82,7 +83,7 @@ function roadFrame(line: RoadLength, distance: number): RoadFrame | null {
 }
 
 function regionAt([x, z]: FairyLandformPoint): FairyLandformRegion | null {
-  const region = FAIRY_REGIONS.find(region => x >= region.bounds.min[0] && x <= region.bounds.max[0]
+  const region = REGIONS.filter(region => isFairyRegion(region.id)).find(region => x >= region.bounds.min[0] && x <= region.bounds.max[0]
     && z >= region.bounds.min[1] && z <= region.bounds.max[1]);
   return region?.id === 'gloamgarden' || region?.id === 'faeholme' ? region.id : null;
 }

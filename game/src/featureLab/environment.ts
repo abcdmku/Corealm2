@@ -1,7 +1,7 @@
 import { Box3, Vector3, type Mesh, type Object3D } from "three";
 import type { SemanticEntity, SolidVolume, Vec3 } from "../contracts.js";
 import { respawnSeconds, yieldRange } from "../content/index.js";
-import { getRegion } from "../content/regions.js";
+import { getRegion, REGIONS } from "../content/regions.js";
 import { resourceDef } from "../content/resources.js";
 import { WORLD_SITES, worldSitePoint, type WorldSite, type WorldSiteResourceSlot } from "../content/worldSites.js";
 import { tierSilhouetteScale } from "../core/math.js";
@@ -20,15 +20,14 @@ import { FOLIAGE_RENDER_TILE_METRES, shardByTile } from "../world/scatter.js";
 import { miningAccessPositions } from "../app/miningAccess.js";
 import { WILDERNESS_RESOURCE_SITES, WILDERNESS_RESOURCE_CLUSTERS, WILDERNESS_ORE_RESOURCES, WILDERNESS_TREE_RESOURCES, WILDERNESS_TREE_VARIANTS } from '../content/wildernessResources.js';
 import { FAIRY_ORE_RESOURCES, FAIRY_TREE_RESOURCES } from '../content/fairyOres.js';
-import { CROWNWARD } from '../content/crownward.js';
-import { FAIRY_REGIONS } from '../content/fairyRegions.js';
+import { isFairyRegion } from '../contracts.js';
 import { isNativeTreeAsset } from '../content/treeSpecies.js';
 
 const REVIEW_SITES = [...new Map([...WORLD_SITES, ...WILDERNESS_RESOURCE_SITES].map(site => [site.id, site])).values()];
 const reviewTreeAsset = (id: string): boolean => WILDERNESS_TREE_VARIANTS.some(row => row.assetId === id);
 const REVIEW_RESOURCE_CLUSTERS = [
-  ...WILDERNESS_RESOURCE_CLUSTERS, ...CROWNWARD.clusters,
-  ...FAIRY_REGIONS.flatMap(region => region.clusters),
+  ...WILDERNESS_RESOURCE_CLUSTERS, ...(getRegion("crownward")?.clusters ?? []),
+  ...REGIONS.filter(region => isFairyRegion(region.id)).flatMap(region => region.clusters),
 ];
 const REVIEW_ORE_RESOURCES = [...WILDERNESS_ORE_RESOURCES, ...FAIRY_ORE_RESOURCES];
 
@@ -433,7 +432,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         const origin: Vec3 = [0, scene.meshHeightAt(0, 25), 25];
         const rotationY = dungeon.entranceRotationY ?? 0;
         const scale = dungeon.entranceScale ?? 4;
-        const parts = buildComposition(dungeon.entranceComposition, variantSeed(sourceOwnerId), region.settlement?.kit ?? "stone");
+        const parts = buildComposition(dungeon.entranceComposition, variantSeed(sourceOwnerId), region.settlements[0]?.kit ?? "stone");
         // Match regionBuilder's separate origins: the hero rests on its measured source base;
         // composition parts retain the authored ground origin. Region/tier preserve world materials.
         const entity: SemanticEntity = {

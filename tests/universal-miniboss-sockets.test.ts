@@ -23,7 +23,7 @@ describe('universal miniboss socket selection', () => {
       expect(buildUniversalMinibossGroups(region.id, 42, sockets)).toHaveLength(2);
       for (const socket of sockets) {
         const gap = (point: readonly [number, number]) => Math.hypot(socket.position[0] - point[0], socket.position[1] - point[1]);
-        if (region.settlement) expect(gap(region.settlement.centre)).toBeGreaterThanOrEqual(45);
+        for (const settlement of region.settlements) expect(gap(settlement.centre)).toBeGreaterThanOrEqual(45);
         for (const cluster of region.clusters) expect(gap(cluster.centre)).toBeGreaterThanOrEqual(cluster.radius + 14);
         for (const group of region.enemyGroups) if (!group.id.startsWith('universal_miniboss_')) {
           expect(gap(group.centre)).toBeGreaterThanOrEqual(group.radius + (group.boss || group.miniBoss ? 15 : 12));

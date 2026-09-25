@@ -1,0 +1,35 @@
+{
+  "set": "Starhaven T70 haunted necropolis direction check",
+  "created": "2026-09-25",
+  "status": "three references for direction review before revising remaining eight",
+  "assets": [
+    {
+      "name": "hall",
+      "file": "hall-v2.png",
+      "sourceReference": "hall.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-195e84bf-662f-4842-a5be-e1cbff08e6a1.png",
+      "tool": "image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the provided architectural concept into Starhaven, a deep-wilderness haunted necropolis reclaimed as a functioning town by ghosts and friendly undead. Preserve the asset's overall function and isolated complete three-quarter view, but redesign its surfaces and silhouette substantially. Make it feel like an ancient civilization's funerary ruin inhabited again: monumental cracked obsidian and weatherworn dark basalt blockwork with subtle layered mineral tones, eroded burial carvings and faded constellation reliefs, crooked rotted starwood bracing, oxidized iron bands, fractured steep slate roofs with missing and patched tiles, sparse cold spectral cyan and green light. Rich, intricate hand-painted material layers; believable load-bearing medieval architecture with age, asymmetry, and repairs. Bleak and eerie yet inhabited and maintained enough to use. Plain light gray studio background, whole structure and footprint visible with margin. No people, ghosts, skeletons, figures, terrain, diorama base, text, warm golden windows, flowers, polished silver trim, clean storybook roofs, cozy village mood, villain spikes, gore, sci-fi forms, floating pieces, excessive crystals.\nAsset-specific direction: Keep a civic meeting hall with a clear wide public entrance and a small upper bell stage. Transform the symmetrical pristine facade into an ancient mausoleum-like council hall, heavy funerary archways, broken and repaired roofline, uneven buttresses, faded reliefs, a few narrow cold-lit windows. Door must remain visibly usable and unobstructed. Avoid cathedral-palace grandeur and warm hospitality."
+    },
+    {
+      "name": "home-a",
+      "file": "home-a-v2.png",
+      "sourceReference": "home-a.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-d1619f85-886a-47e3-9c58-f9ca541de35f.png",
+      "tool": "image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the provided architectural concept into Starhaven, a deep-wilderness haunted necropolis reclaimed as a functioning town by ghosts and friendly undead. Preserve the asset's overall function and isolated complete three-quarter view, but redesign its surfaces and silhouette substantially. Make it feel like an ancient civilization's funerary ruin inhabited again: monumental cracked obsidian and weatherworn dark basalt blockwork with subtle layered mineral tones, eroded burial carvings and faded constellation reliefs, crooked rotted starwood bracing, oxidized iron bands, fractured steep slate roofs with missing and patched tiles, sparse cold spectral cyan and green light. Rich, intricate hand-painted material layers; believable load-bearing medieval architecture with age, asymmetry, and repairs. Bleak and eerie yet inhabited and maintained enough to use. Plain light gray studio background, whole structure and footprint visible with margin. No people, ghosts, skeletons, figures, terrain, diorama base, text, warm golden windows, flowers, polished silver trim, clean storybook roofs, cozy village mood, villain spikes, gore, sci-fi forms, floating pieces, excessive crystals.\nAsset-specific direction: Keep this one narrow two-story home with its readable single ground-floor front door, but make it a modest undead resident's restored tomb dwelling. More stone mass and a crooked, patched steep roof, eroded memorial tablet in upper gable, worn dark timber and iron, only sparse spectral window glimmers. House silhouette distinct from a civic building. No flowerboxes or domestic golden warmth."
+    },
+    {
+      "name": "gatehouse",
+      "file": "gatehouse-v2.png",
+      "sourceReference": "gatehouse.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-fe6d70dd-215c-4e8f-8c3b-e60715812234.png",
+      "tool": "image_gen.imagegen",
+      "mode": "edit",
+      "prompt": "Edit the provided architectural concept into Starhaven, a deep-wilderness haunted necropolis reclaimed as a functioning town by ghosts and friendly undead. Preserve the asset's overall function and isolated complete three-quarter view, but redesign its surfaces and silhouette substantially. Make it feel like an ancient civilization's funerary ruin inhabited again: monumental cracked obsidian and weatherworn dark basalt blockwork with subtle layered mineral tones, eroded burial carvings and faded constellation reliefs, crooked rotted starwood bracing, oxidized iron bands, fractured steep slate roofs with missing and patched tiles, sparse cold spectral cyan and green light. Rich, intricate hand-painted material layers; believable load-bearing medieval architecture with age, asymmetry, and repairs. Bleak and eerie yet inhabited and maintained enough to use. Plain light gray studio background, whole structure and footprint visible with margin. No people, ghosts, skeletons, figures, terrain, diorama base, text, warm golden windows, flowers, polished silver trim, clean storybook roofs, cozy village mood, villain spikes, gore, sci-fi forms, floating pieces, excessive crystals.\nAsset-specific direction: Keep one freestanding gatehouse with two towers and an elevated linking bridge; transform it into an ancient necropolis threshold in the wilderness. Massive weatherworn basalt, broken funerary friezes, damaged patched turret roofs, asymmetrical ruin scars and pale spectral beacons. Preserve a wide EMPTY passable wagon arch with clear open daylight visible through it; no hanging spikes, portcullis, doors, rubble, or steps in the passage. No extending town wall."
+    }
+  ],
+  "visualReview": "All three have aged, damaged structures, funerary reliefs, repaired roofs, cool spectral accents and gray isolation backgrounds. Hall and home have unobstructed visible doors; gate passage is fully open. The gate's decorative skull motifs read as architectural carving rather than hostile gore."
+}

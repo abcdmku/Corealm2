@@ -1,0 +1,36 @@
+{
+  "collection": "T50 Lastlight wilderness mortuary direction samples v2",
+  "status": "The three v2 direction samples were accepted. This newly requested wall sector is saved as a separate reference for review; other assets and Tripo models are outside this entry.",
+  "tool": "built-in image_gen edit",
+  "assets": [
+    {
+      "name": "hall-v2",
+      "file": "hall-v2.png",
+      "sourceReference": "hall.png",
+      "generatedSource": "exec-0e4a95a9-8f50-4b3c-9b8c-c38b5ca8d94a.png",
+      "prompt": "Redesign this same town hall concept into the civic heart of T50 Lastlight, a bleak deep-wilderness mortuary frontier reclaimed by friendly ghosts and undead. Preserve its broad civic facade and distinctive high central bell cupola, while changing every cozy cue into desperate age: squat and weighty battered charcoal basalt base, blackened splintered teak beams, crude iron straps, weather-beaten oxblood hide panels with ragged edges (no decorative heraldry), shallow damaged slate roofing, broken jagged parapet edges, narrow unlit window slits. Keep the main double doors visible, reinforced but open or welcomingly ajar, with a dim cold blue-white ghostlight at the threshold; no amber windows. Add subtle funerary carvings, worn bone/ossuary reliefs built into the stone, weathered and restrained. Deep wilderness mood comes through the age and materials, not scenery. High-detail layered hand-painted fantasy materials, tactile surface texture. Keep a distinct three-quarter front view, one complete isolated building, entire footprint visible with margin, plain light gray studio background, soft neutral contact shadow. No terrain, no diorama base, no people, no ghosts/characters, no text, no labels. Avoid cozy, picturesque, ornate polished trim, bright warm light, pristine storybook roofs, photorealism, voxel."
+    },
+    {
+      "name": "home-a-v2",
+      "file": "home-a-v2.png",
+      "sourceReference": "home-a.png",
+      "generatedSource": "exec-d3898d96-1b81-434c-b0ac-9d0f46e039cc.png",
+      "prompt": "Redesign this same modest cottage concept as a bleak wilderness mortuary dwelling in T50 Lastlight, now inhabited by gentle undead. Preserve its compact one-story footprint and recognizable steep asymmetrical roof silhouette, but make it squat, sheltering and severely weathered: battered charcoal basalt lower walls, blackened splintered timber, crude iron braces, patched ragged oxblood hide over damaged sections of slate roof, several stone slabs and subtle carved ossuary/funerary motifs integrated into the facade. No flowers or domestic garden cues. Keep one clear, readable front doorway, reinforced timber door cracked open in a welcoming way, with faint cold blue-white ghostlight visible just inside; no warm glowing windows, windows mostly dark or narrow slit-like. High-detail layered hand-painted surface texture. Three-quarter front view, one complete isolated building, full footprint visible with margin, plain light gray studio background and soft neutral contact shadow. No terrain, no base, no loose props, no people or undead visible, no ghosts, no text, no labels. Deep wilderness, abandoned yet inhabited by friendly undead; bleak and not hostile toward guests. Avoid cozy cottage charm, picturesque clean roof, polished trim, photorealism, voxel."
+    },
+    {
+      "name": "gatehouse-v2",
+      "file": "gatehouse-v2.png",
+      "sourceReference": "gatehouse.png",
+      "generatedSource": "exec-95191870-b2be-4c7f-92f5-db80f47640db.png",
+      "prompt": "Redesign this same twin-tower gatehouse as an aged mortuary frontier threshold of T50 Lastlight in deep wilderness, reclaimed by friendly ghosts and undead. Preserve the two-tower composition and make the central stone arch genuinely wide open and passable, fully unobstructed with a plain gray background visible through it; remove every gate leaf or obstruction. Change the cozy trim into squat battered charcoal basalt masses, blackened splintered timber braces, crude iron bands, chipped broken parapet edges, patched weather-beaten oxblood hide strips instead of decorative banners, subtle funerary and ossuary carvings worked into stone. No heraldry, no polished metal. Cold dim blue-white ghostlight only in small sconces near the inside of the arch, no amber windows. The arch should feel like a safe, welcoming passage for travelers despite the bleak wilderness. High-detail layered hand-painted materials and surface wear. Three-quarter front view, a single complete isolated gatehouse with full bases of both towers visible and margin, plain light gray studio background, soft neutral shadow. No terrain, no diorama platform, no people, no ghosts/characters, no text, no labels. Avoid cozy, grand ceremonial luxury, bright warmth, photorealism, voxel."
+    },
+    {
+      "name": "wall-section-v2",
+      "file": "wall-section-v2.png",
+      "sourceReference": "gatehouse-v2.png",
+      "generatedSource": "exec-554643a4-8ef4-4c72-9f57-ab2d404235a5.png",
+      "review": "Straight opaque wall face and level parapet align visually with gatehouse-v2. Both terminal faces read vertically aligned, with no return or tower. Repeated timber braces and funerary reliefs form the cadence along the sector.",
+      "prompt": "Create one standalone straight repeatable town-wall sector in the exact visual language of the supplied T50 Lastlight gatehouse reference: bleak deep-wilderness mortuary frontier, battered charcoal basalt lower wall, weathered blackened timber parapet and walkway, crude iron repairs, sparse ragged muted oxblood hide accents, subtle worn ossuary reliefs. This is a modular wall piece, approximately 6 meters long, with a thick fully opaque uninterrupted lower barrier and a continuous level parapet/walkway that can join identical copies flush end-to-end. Both ends must be perfectly vertical, flat, square-cut planes at exactly the same height and depth; terminate every stone course, timber beam, parapet rail, and walkway cleanly at those planes. Absolutely no endcaps, corner returns, towers, buttresses, finials, spikes or footings that extend past either endpoint. No holes, gaps, breaks or ruins at the seams. Show a modest three-quarter front view so the viewer can see the long face, wall thickness, and both clean endpoints. One complete isolated asset with generous margin on a plain light-gray studio background and a subtle neutral contact shadow. No ground, terrain, base, people, ghosts, text or labels. High-detail layered hand-painted surface texture, not photorealistic, not voxel."
+    }
+  ]
+}

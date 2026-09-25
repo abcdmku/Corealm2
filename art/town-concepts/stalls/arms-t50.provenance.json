@@ -1,0 +1,9 @@
+﻿{
+  "asset": "arms-t50.png",
+  "purpose": "T50 haunted-market material reskin of the existing arms and wizard-equipment stall.",
+  "tool": "built-in image_gen edit",
+  "sourceReference": "../../test-results/market-stalls/arms.png; ../../town-concepts/t50/wall-section-v2.png (material reference only)",
+  "generatedSource": "exec-903fad4a-3142-4a28-9feb-826c5caf2f93.png",
+  "prompt": "Edit Image 1 into the T50 market-towns material reskin. Image 2 is material mood only. Preserve Image 1's stall frame, canopy shape, posts, counter, side chest, all weapons, wizard equipment, skull ornament and shield exactly where they are, with same camera, scale and crop. Change only their surface materials and textile colors. Remove the gold emblem from the large canopy, leaving plain cloth; remove the separate narrow blue pennant/sign panel on the right and its support frame, leaving the existing main right support post intact. Do not add replacements. Canopy cloth is functional stained gray-beige textile. Deep layered weathered brown wood, worn rusted iron and muted charcoal details, subtle cold mint glints in a few existing metal edges. Keep all displayed goods recognizable and unchanged; no added props, symbols, signs, banners, flags, bones or gore. The whole asset must be fully visible on a solid opaque uniform light-gray background (#e8e8e8), no transparency or black background. Detailed, varied materials, no monochrome recolor, no geometry redesign.",
+  "review": "The canopy emblem and separate blue pennant/sign are removed; the main canopy remains functional cloth. Weapons, equipment, counter, side chest, skull ornament and shield remain recognizable in their original arrangement. T50 uses layered dark brown timber, tarnished metal and restrained cold glints on opaque light gray."
+}

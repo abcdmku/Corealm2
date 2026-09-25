@@ -1,0 +1,22 @@
+{
+  "assets": [
+    {
+      "file": "apothecary-base.png",
+      "townStyle": "T50 Lastlight",
+      "tool": "built-in image_gen generate with reference images",
+      "sourceReferences": ["bank-base.png", "hall-base.png"],
+      "generatedSource": "exec-d32cbf9a-3c02-4f89-b439-5de59820fc1d.png",
+      "prompt": "Create a new standalone apothecary building for T50 Lastlight, using the two supplied buildings only as exact style references for materials, detailing, and the bleak friendly-undead frontier mood. Distinct narrow two-story silhouette with compact footprint: heavy charcoal stone ground floor, weathered dark teak timber upper floor, asymmetrical steep slate roof, simple structural construction. Clearly visible reinforced front door and a recessed service/work window beside it; inside the recessed window show only a few small potion bottles and dried herbs, orderly and integrated, with a faint cold blue-green spectral glimmer, never cozy amber. Add a restrained worn mortuary relief carved into stone, no skull signage or readable symbols. Rich layered hand-painted stone, timber, slate, rusted iron and subtle mineral details; varied colors and texture, not a flat recolor. Full isolated asset in three-quarter front view, whole footprint and roof visible with margin, plain light gray studio background, soft neutral shadow. No terrain, no separate display base, no flags, banners, people, text, labels, extra props, clutter, flowers, bright warm windows, photorealism, voxel.",
+      "review": "Distinct two-story apothecary with visible door and recessed service window; a few bottles and herbs are visible in cool light, with no text, people, or surrounding scene."
+    },
+    {
+      "file": "apothecary-t70.png",
+      "townStyle": "T70 material reskin",
+      "tool": "built-in image_gen edit",
+      "sourceReference": "apothecary-base.png",
+      "generatedSource": "exec-1f2190dd-efab-4825-abad-965fc6695366.png",
+      "prompt": "Create the T70 town material reskin of this exact T50 apothecary. This is a material-only edit: preserve exact building geometry, dimensions, silhouette, roof shape, door and service-window openings, all bottle and herb props already present, stone and timber courses, beams and braces, ossuary relief, framing, three-quarter camera, lighting, background and shadow. Do not add, remove, move, or reshape any structure or prop. Shift the T50 charcoal stone and brown teak toward ashier, more desaturated weathered gray stone and gray-brown aged timber; change metal to oxidized iron with subtle mineral weathering and add faint spectral teal residues in a few cracks and metal seams. Maintain rich layered hand-painted surface detail and varied material values, never flat monochrome. Keep the existing subtle cool glimmer in the service window, no warm welcoming windows, no flags, banners, people, terrain, text, or extra clutter.",
+      "review": "T70 retains the T50 base silhouette and camera with ashier stone, desaturated timber, oxidized metal, subtle mineral wear, and cool spectral accents."
+    }
+  ]
+}

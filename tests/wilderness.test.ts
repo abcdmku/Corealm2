@@ -38,7 +38,7 @@ describe('northern wilderness and fantasy encounters', () => {
     }
     expect(blendBiomeSky(Object.fromEntries(sampleOrganicBiomeWeights(-160, -72, spec.biomes!).map(row => [row.id, row.weight]))).night).toBeLessThan(.01);
     const north = REGIONS.find(region => region.id === 'wilderness')!;
-    expect(north.settlement).toBeUndefined();
+    expect(north.settlements.map(town => [town.id, town.tier])).toEqual([["lastlight", 50], ["starhaven", 70]]);
     expect(north.terrainAmplitude).toBeGreaterThan(6);
     expect(north.terrainAmplitude).toBeLessThan(20);
     expect(WILDERNESS_GROUPS.reduce((sum, group) => sum + group.count, 0)).toBeGreaterThan(35);

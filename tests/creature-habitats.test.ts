@@ -172,7 +172,7 @@ describe("staged creature habitats", () => {
         const footprints = [
           ...WORLD_SITES.filter((site) => site.kind === "mine" || site.kind === "grove")
             .map((site) => ({ id: site.id, centre: site.centre, yaw: site.rotationY, halfX: site.extent[0], halfZ: site.extent[1] })),
-          ...REGIONS.flatMap((candidate) => candidate.settlement?.buildings ?? [])
+          ...REGIONS.flatMap((candidate) => candidate.settlements.flatMap(settlement => settlement.buildings))
             .map((building) => ({ id: building.id, centre: building.position, yaw: building.rotationY,
               halfX: building.footprint[0] / 2, halfZ: building.footprint[1] / 2 })),
         ];

@@ -1,0 +1,36 @@
+{
+    "source":  "../town-shared/smithy.glb",
+    "baseModel":  "../town-buildings/smithy.glb",
+    "t70Model":  "smithy.glb",
+    "normalization":  {
+                          "widthMetres":  8,
+                          "quarterTurns":  -1,
+                          "centerXZ":  true,
+                          "groundY":  0,
+                          "boundsMetres":  [
+                                               8,
+                                               7.765280014779757,
+                                               9.99510972671923
+                                           ]
+                      },
+    "material":  {
+                     "sourceAtlas":  "2048x2048 Tripo JPEG preserved in base GLB",
+                     "reskinSheet":  "test-results/town-models/material-sheet-t70-cold.png",
+                     "bakeStrength":  0.85,
+                     "bake":  "UV-aware triplanar swatch blend with source glass and slate retention",
+                     "t70Atlas":  "2048x2048 JPEG quality 92 4:4:4 embedded"
+                 },
+    "qa":  {
+               "front":  "test-results/town-models-secondary/smithy-t70-gable-final/front.png",
+               "angle":  "test-results/town-models-secondary/smithy-t70-gable-final/angle.png",
+               "finding":  "Enclosed smithy with +Z gable door; recessed timber infill closes sky-visible gable behind skull and rafters."
+           },
+    "geometry":  "Identical base and T70 mesh, 2K atlases; raw source untouched.",
+    "repair":  {
+                   "panel":  "Same recessed timber triangle in base and T70",
+                   "texture":  "Image-generated layered timber, JPEG quality 92",
+                   "triangles":  4422,
+                   "textureCount":  2,
+                   "panelLocation":  "Indexed triangle at +Z 4.54, x ±4.2 at y3.5 through apex y6.48; lower edge behind wall/lintel, skull and front rafters remain forward"
+               }
+}

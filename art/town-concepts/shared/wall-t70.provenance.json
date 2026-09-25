@@ -1,0 +1,9 @@
+{
+  "asset": "wall-t70.png",
+  "purpose": "T70 material reskin of the shared town wall geometry.",
+  "tool": "built-in image_gen edit",
+  "sourceReference": "wall-base.png",
+  "generatedSource": "exec-3a113feb-c857-46fa-9c08-7909000ed239.png",
+  "prompt": "Create the T70 town material reskin of this exact shared wall base. This is a material-only edit: keep geometry, exact dimensions, silhouette, endpoint planes, height and depth at both ends, every stone/timber course and brace, parapet/walkway, ossuary reliefs, framing, three-quarter camera, lighting, background, and shadow unchanged. Do not add, remove, move, or reshape any structural part. Preserve the completely flag-free wall with no cloth or drapes. Shift materials from T50 charcoal basalt and blackened timber to a slightly ashier, more desaturated gray stone, deeply weathered and rotted gray-brown wood, oxidized iron repairs and subtle mineral staining; add only faint spectral teal residue in a few stone seams and iron crevices. Keep rich layered hand-painted texture and varied material values; not a flat monochrome recolor. Match the same bleak wilderness mortuary style and detailing. No text, people, terrain, props, new geometry, openings, or extra decoration.",
+  "review": "Wall geometry, camera, layout, and flag-free state match wall-base.png. Material treatment is ashier and more desaturated with layered gray stone, rotted gray-brown timber, oxidized iron, mineral weathering, and restrained spectral teal in seams."
+}

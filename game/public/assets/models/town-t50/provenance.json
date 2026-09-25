@@ -1,0 +1,24 @@
+{
+  "bank.glb": {
+    "source": "Tripo AI",
+    "acceptanceStatus": "first visual direction; not yet accepted",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/8397b09f-a254-4933-abf0-90372e968676",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB",
+    "prompt": "Single standalone fantasy RPG frontier town bank building, T50 dark frontier style. Compact two-story rectangular stone and dark teak timber structure, reinforced arched front entrance, heavy iron-bound oak door, narrow barred windows, slate gabled roof, carved coin crest above door, subtle brass fittings. Distinct readable silhouette, complete exterior visible from front three-quarter view, physically coherent roof and back walls, mid-poly game asset, rich layered charcoal stone and warm brown wood surface detail. No people, no terrain, no display base, no surrounding buildings, no text labels."
+  },
+  "hall.glb": {
+    "source": "Tripo AI",
+    "acceptanceStatus": "first visual direction; not yet accepted",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/c3fa3010-8aec-4c89-8a6f-ed90c8bdb033",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB",
+    "prompt": "Single standalone fantasy RPG frontier town hall building, T50 dark frontier style. Broad two-story civic hall with symmetrical front, dark weathered stone lower walls, heavy dark teak timber upper frame, tall slate gabled roof, central arched oak double doors, covered entry porch, two flanking windows, carved town crest and modest bell cupola. Complete exterior mass from front three-quarter view, coherent roof and side walls, mid-poly game asset, layered charcoal masonry and warm wood material detail. No people, no terrain, no display base, no neighboring buildings, no text labels."
+  }
+}

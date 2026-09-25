@@ -10,6 +10,13 @@
 
 // ---------------------------------------------------------------- primitives
 
+/** Complete building model and measured collision in world metres at its authored scale. */
+export interface BuildingModel {
+  assetId: string;
+  scale: number;
+  collision: Array<{ tag: string; dx: number; dz: number; sizeX: number; sizeZ: number; height: number }>;
+}
+
 /** Particle geometry and shading remain the same for CPU-authored and GPU-evaluated motion. */
 export type ParticleKind = "light" | "smoke" | "fragment" | "droplet";
 
@@ -570,7 +577,21 @@ export interface EquipmentBonuses {
 
 export type ItemCategory =
   | "resource" | "bar" | "equipment" | "food" | "tool"
-  | "quest" | "currency" | "component";
+  | "quest" | "currency" | "component" | "potion";
+
+export type PotionBuffKind = "melee" | "magic" | "defence";
+
+export interface PotionEffect {
+  kind: PotionBuffKind;
+  strength: number;
+  durationMs: number;
+}
+
+export interface ActivePotionBuff {
+  itemId: ItemId;
+  strength: number;
+  expiresAtMs: number;
+}
 
 export type MagicWeaponKind = "wand" | "staff";
 
@@ -620,6 +641,7 @@ export interface ItemDef {
   /** Present only on boss-drop Orbs used to awaken their matching regional altar. */
   orb?: EssenceOrbSpec;
   food?: { healAmount: number };
+  potion?: PotionEffect;
   tool?: { skill: SkillId; gatherBonus: number };
   /** Still resolves for held stacks. The compiler takes it out of every loot roll and shop. */
   retired?: boolean;
@@ -1147,6 +1169,7 @@ export type AgentApprovalKind = "control" | "trade";
 // ------------------------------------------------------------- state views
 
 export interface PlayerView {
+  potionBuffs?: Partial<Record<PotionBuffKind, ActivePotionBuff>>;
   position: Vec3;
   regionId: RegionId;
   health: number;
@@ -1410,6 +1433,8 @@ export interface FeatureLabStructureSelection {
   width: number;
   depth: number;
   seed: number;
+  /** Complete imported structure and its production collision, staged before world placement. */
+  model?: BuildingModel;
 }
 
 /** JSON-safe proof of the structure currently assembled through the production entity renderer. */

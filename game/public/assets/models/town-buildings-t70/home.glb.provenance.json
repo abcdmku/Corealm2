@@ -1,0 +1,18 @@
+{
+  "source": "game/public/assets/models/town-buildings/home.glb",
+  "destination": "game/public/assets/models/town-buildings-t70/home.glb",
+  "normalizedBounds": {
+    "min": [-3, 0, -3],
+    "max": [3, 5.483365294172099, 3]
+  },
+  "width": 6,
+  "front": "+Z",
+  "meshes": 3,
+  "triangles": 4396,
+  "geometry": "Identical to town-buildings/home.glb, including recessed gable and lower-right wall panels",
+  "mainTexture": "2048x2048 layered T70 cool material atlas baked into original UV chart; embedded as JPEG quality 92",
+  "repairTexture": "test-results/town-models/gable-wood-t70.png, image-generated layered cool weathered timber; embedded as 2048x2048 JPEG quality 92",
+  "gableTextureRepeatU": 2,
+  "sourceTexturePreserved": true,
+  "sha256": "5e92d07fe622c34f05280eb1ae001937d5cce2f6061da43684a942037fbe743e"
+}

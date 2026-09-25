@@ -1,0 +1,85 @@
+{
+  "id": "building-wide",
+  "tier": "t70",
+  "processedAsset": "game/public/assets/models/town-buildings-t70/building-wide.glb",
+  "processedSha256": "9541ad53f3235c017e903bca36f093e68bf59e648212949ac7107003f6b6c1b6",
+  "rawAsset": "game/public/assets/models/town-shared/building-wide.glb",
+  "rawSha256": "57f180be84d9221a952a3a0f3c7e1707730815e2b69d2e56c14134083a17f86d",
+  "rawModel": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/a8e0041e-c1c6-4725-88a4-d3c8b8914fc6",
+    "referenceImage": "art/town-concepts/shared/building-wide-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "geometry": {
+    "front": "+Z",
+    "groundY": 0,
+    "centeredXZ": true,
+    "bounds": {
+      "min": [
+        -5,
+        0,
+        -5.130151155983785
+      ],
+      "max": [
+        5,
+        11.084596497125556,
+        5.130151155983785
+      ]
+    },
+    "dimensions": [
+      10,
+      11.0846,
+      10.2603
+    ],
+    "triangles": 4453
+  },
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1212514
+    },
+    {
+      "index": 1,
+      "mimeType": "image/jpeg",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 421938
+    },
+    {
+      "index": 2,
+      "mimeType": "image/jpeg",
+      "width": 627,
+      "height": 627,
+      "bytes": 104759
+    }
+  ],
+  "processing": [
+    "Uniform metric normalization, no raw mesh or original UV edits.",
+    "UV-preserving material bake onto the original embedded 2048×2048 atlas.",
+    "Embedded texture JPEG quality 92, 4:4:4; resolution unchanged."
+  ],
+  "t70Material": {
+    "referenceConcept": "art/town-concepts/shared/building-wide-t70.png",
+    "sheetSource": "built-in imagegen",
+    "sheetPrompt": "Create a SQUARE FLAT MATERIAL SWATCH sheet for UV-preserving reskin of an EXISTING 3D haunted town gate. Use the supplied gate T70 concept as COLOR and material reference, but output ONLY four precisely equal quadrants, each a straight-on seamless-looking 2D texture, with ruler-straight center division. Do not show any architecture, structure, landscape, lighting fixture, text, UV atlas, or perspective. TOP LEFT: chipped charcoal basalt and mortar, richly layered distinct cold blue-gray, muted violet mineral streaks, pale chalk efflorescence, speckles of silver-blue lichen; intricate stone variation and clear visible cold hue. TOP RIGHT: old timber grain with gray-brown core and desaturated blue-teal weathering embedded in cracks, rusted fastener marks; still visibly wood, not painted solid cyan. BOTTOM LEFT: pitted dark iron and bronze straps with substantial but varied green-blue oxidation/verdigris and brown rust; still reads metal. BOTTOM RIGHT: dark slate shingles with subtly distinct midnight blue-gray, violet mineral dust and pale broken edges. Fine detail, layered material colors, coherent texture scale. Saturated enough to read blue/teal against neutral charcoal at game camera distance, but not fluorescent or monochrome. EXACTLY four equal quadrants, no borders/gutters/labels/shadows/vignette. No flags or banners.",
+    "referenceImage": "art/town-concepts/shared/gate-t70.png",
+    "bake": "Rasterize original UV triangles; triplanar sample four image-generated materials by source-color and face orientation; blend with source relief/shadows; preserve cool glass and slate courses.",
+    "mainAtlasSource": "game/public/assets/models/town-buildings/building-wide.glb"
+  },
+  "repair": {
+    "reason": "Missing front gable infill and roof strip in raw mesh.",
+    "mesh": "Recessed generated timber triangle behind original beams/window, plus generated slate roof backing/seal; no original geometry deleted or moved.",
+    "baseTimberPrompt": "A single square seamless-looking flat MATERIAL TEXTURE MAP, no object or scene: weathered DARK BROWN medieval timber gable infill boards for a haunted friendly-undead town building. Front-on 2D surface with tightly spaced vertical wood grain and narrow overlapping boards, uneven charcoal-brown and deep umber tone matching aged oak, subtle gray dust, fine cracks, dark seams, a few tiny oxidized nails. Rich layered real material detail but low contrast so it sits behind existing sculpted roof beams and blue glass window. Fully fills canvas edge to edge, uniform diffuse light, no perspective, no shadows cast by an object, no framing, no text, no symbols, no borders, no flags, no banners. Use case: 3D model gable infill texture.",
+    "baseTimberSource": "built-in imagegen; source image prefix exec-92cdef6a",
+    "slateSource": "built-in imagegen neutral/cold material-sheet bottom-right quadrants; mirror-tiled into standalone maps",
+    "geometryIdenticalAcrossTiers": true
+  }
+}

@@ -102,9 +102,9 @@ export function collectRoadStamps(scene: WorldScene, access: ReadonlyMap<string,
       if (from.id === 'crownward_town_square' && to.id === 'crownward_castle_approach') {
         waypoints.push([502, -104], [531, -111]);
       }
-      const settlement = region.settlement;
-      const gates = settlement?.buildings.filter((building) => building.prefab === "gatehouse") ?? [];
-      if (settlement && gates.length > 0) {
+      for (const settlement of region.settlements) {
+      const gates = settlement.buildings.filter((building) => building.prefab === "gatehouse");
+      if (gates.length > 0) {
         const distanceToCentre = (point: readonly [number, number]): number =>
           Math.hypot(point[0] - settlement.centre[0], point[1] - settlement.centre[1]);
         const perimeter = Math.max(...gates.map((gate) => distanceToCentre(gate.position)));
@@ -145,6 +145,7 @@ export function collectRoadStamps(scene: WorldScene, access: ReadonlyMap<string,
             waypoints.push(gate.position);
           }
         }
+      }
       }
       waypoints.push(...(toMine ? mineRoadApproach(toMine, from.position).reverse() : [to.position]));
 
@@ -210,7 +211,7 @@ export function collectPavingStamps(scene?: WorldScene): PavingStamp[] {
       if (!layout) continue;
       stamps.push({centre:castle.position,halfExtents:[layout.paving[0]/2,layout.paving[1]/2],rotationY:castle.rotationY ?? 0,surface:'stone',kerb:false});
     }
-    for (const paving of region.settlement?.paving ?? []) {
+    for (const paving of region.settlements.flatMap(town => town.paving ?? [])) {
       stamps.push(pavingStampFromRect(paving.rect, {
         surface: PAVING_SURFACES[paving.assetId],
         kerb: paving.kerb,

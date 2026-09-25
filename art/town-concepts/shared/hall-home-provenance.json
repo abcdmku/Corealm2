@@ -1,0 +1,32 @@
+{
+  "set": "Shared T50 and T70 hall and home concept geometry",
+  "created": "2026-09-25",
+  "tool": "built-in image_gen.imagegen edit",
+  "assets": [
+    {
+      "file": "hall-base.png",
+      "sourceReference": "../t50/hall-v2.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6d5-78b0-7000-a52e-dab69093136c\\exec-0fec99fe-7b88-4a05-892c-19ef53ff2462.png",
+      "prompt": "Edit this exact approved game environment concept image. Remove every cloth flag, hanging banner, vertical drape and rag from the hall: the central banner below the front gable and all three long ragged cloth strips hanging between the front portico posts, plus any other cloth signage. Reconstruct the underlying timber beams, stone wall, roof tiles and empty air naturally where cloth was. Keep the entire hall geometry, silhouette, bell tower, roof heights, chimneys, entrance, steps, skull carvings, fences, camera angle, framing, neutral studio background, lighting, and existing rich weathered brown/grey material detail exactly the same. Preserve 3D game asset concept rendering quality. Do not add or redesign architecture. No flags, banners, drapes, pennants, fabric signage or text anywhere."
+    },
+    {
+      "file": "home-base.png",
+      "sourceReference": "../t50/home-a-v2.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6d5-78b0-7000-a52e-dab69093136c\\exec-1907e6c5-834b-4bcf-bcdc-bf1b43d31740.png",
+      "prompt": "Edit this exact approved haunted-friendly-undead home concept image. Remove ALL torn red-brown fabric and cloth from every roof plane and eave, including the stitched rag patches draped over the left roof slope, main central roof slope, right upper roof, and far right eave. Reconstruct natural weathered slate tiles, timber battens and gaps beneath, following the existing roof planes and perspective. Keep the entire house geometry, footprint, gables, chimney, entry, steps, skull carvings, downpipe, window placement, camera angle, framing, neutral studio background, lighting, and richly detailed brown/grey materials otherwise unchanged. No extra additions or redesign. No flags, banners, pennants, hide drapes, fabric roof patches or fabric signage anywhere."
+    },
+    {
+      "file": "hall-t70.png",
+      "sourceReference": "hall-base.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6d5-78b0-7000-a52e-dab69093136c\\exec-496cbc9b-612a-4b65-b14e-f46137597e94.png",
+      "prompt": "Create the T70 material reskin of this exact T50 hall game asset concept. This is the SAME physical hall, with identical geometry, silhouette, bell tower, chimneys, roof heights, timber beams, porches, entrance, stairs, skull ornaments, camera angle, framing, perspective, neutral studio background and image composition. Change surface materials only: stone blocks slightly ashier and darker with varied charcoal, cool grey, faded umber and mineral deposits; wood more desaturated and rotted with layered grain, splits and moss staining; iron fittings subtly oxidized. Add localized lichen and mineral weathering in joints, never flattening textures to one color. Change only the existing pale light visible through the partly open main doors to a subtle spectral teal glow, casting a restrained teal hint nearby; retain natural overall lighting and readability. Keep all banners, flags, cloth drapes and hide patches absent. Haunted but friendly undead village, detailed hand-painted realistic 3D game concept. Do not add architecture, extensions, silhouettes, figures, props or signs."
+    },
+    {
+      "file": "home-t70.png",
+      "sourceReference": "home-base.png",
+      "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6d5-78b0-7000-a52e-dab69093136c\\exec-98b074c6-ed69-44d2-afb5-e1223ffc7040.png",
+      "prompt": "Create the T70 material reskin of this exact T50 haunted-friendly-undead home game asset concept. It is the SAME physical house: preserve identical wall and roof geometry, footprint, chimney, gables, slate layout, timber members, downpipe, door, windows, skull ornaments, steps, camera angle, perspective, neutral studio background and framing. Edit surface materials only. Make masonry slightly ashier and darker, with layered charcoal, grey and umber stones, subtle lichen and mineral staining between blocks. Desaturate and age timber with varied rotted grain, cracks and damp moss stains. Oxidize iron fittings slightly. Keep detailed color variation and original material texture; avoid a flat monochrome recolor. Change only the pale glow through the existing partly open door/window to a restrained spectral teal, with a faint local reflection. Do not add or remove architecture, figures, objects or cloth. No flags, banners, hide drapes or fabric roof patches. No grander style; just an older more haunted material state of precisely this same home."
+    }
+  ],
+  "review": "Inspected all four full images. Base edits remove cloth and reconstruct underlying slate, wood, masonry and open air. T70 images retain the same apparent silhouette, camera and architectural features while adding layered ashier weathering and localized spectral teal light. These images are visual references; production must reuse one mesh for both tiers."
+}

@@ -1123,6 +1123,8 @@ interface SourcePart {
   material: THREE.Material;
   matrix: THREE.Matrix4;
   triangles: number;
+  /** The audited medieval kit has byte-identical images under each repeated texture name. */
+  shareMaterialByName?: boolean;
   /** Local displacement bound for shader wind; copied into the batch's per-geometry bounds. */
   windStrength?: number;
   /** Optional local motion for generated resource details. It never affects gameplay position. */
@@ -3328,11 +3330,6 @@ export class EntityViews {
       if (!mesh.isMesh || !mesh.geometry) return;
       const base = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
       if (!base) return;
-      if (assetId === 'market_stall' && isFairyArchitectureRegion(regionId)
-        && fairyArchitectureSurface(assetId, base.name) === 'cloth') {
-        parts.push(this.fairyArchitecture.marketCanopyPart(base, regionId));
-        return;
-      }
       parts.push({
         geometry: mesh.geometry,
         material: this.variantFor(
@@ -3340,6 +3337,7 @@ export class EntityViews {
         ),
         matrix: mesh.matrixWorld.clone(),
         triangles: triangleCount(mesh.geometry),
+        shareMaterialByName: this.assets.entry(assetId)?.pack === "medieval-village-megakit",
         windStrength: !spent && isNativeTreeAsset(assetId) && artSurfaceRoleForMaterial(base.name) === "foliage"
           ? NATIVE_TREE_FOLIAGE_WIND : 0,
       });
@@ -4979,7 +4977,7 @@ export class EntityViews {
   private batchFor(part: SourcePart, cell: string): Batch | null {
     const position = part.geometry.getAttribute("position");
     if (!position) return null;
-    const key = `${cell}||${materialBatchKey(part.material)}||${attributeSignature(part.geometry)}`;
+    const key = `${cell}||${materialBatchKey(part.material, part.shareMaterialByName)}||${attributeSignature(part.geometry)}`;
     const existing = this.batches.get(key);
     if (existing) return existing;
 
@@ -6887,26 +6885,18 @@ function attributeSignature(geometry: THREE.BufferGeometry): string {
 }
 
 /**
- * Material identity ACROSS separately loaded GLBs, so one batch can serve every asset that paints
- * with the same material.
- *
- * The same problem `characterMaterialKey` solves for outfit parts, at world scale: two loads of the
- * medieval-village kit are two `Material` instances holding two `Texture` instances, and comparing
- * by UUID would mean 356 batches instead of 43. Everything the renderer can distinguish is in the
- * key — name, every map's name, colour, the PBR scalars, side, blending and alpha.
- *
- * It is safe because the textures really are the same texture. runs/corealm/dc/matkey.mjs hashes
- * the embedded image bytes of every material in all 213 manifest GLBs and groups them by this key:
- * 63 distinct keys, and ZERO keys carrying more than one image hash. `MI_WoodTrim` is one key
- * across 29 GLBs and one sha1 (f02e4f9db3) across all of them. If that ever stops being true the
- * scan says so, and the failure mode is one wrong texture rather than a crash.
+ * Material identity across separately loaded GLBs. Most imported assets use texture source
+ * identity because reskins can keep identical material and texture names with different pixels.
+ * The audited medieval-village kit is the one name-sharing exception: its repeated named images
+ * are byte-identical, retaining the 43 shared batches instead of splitting them by load.
  */
-function materialBatchKey(material: THREE.Material): string {
+function materialBatchKey(material: THREE.Material, shareByName = false): string {
   // Authored items may deliberately reuse material names with different embedded images
   // or physical settings. Their loader-cached material identity is the safe batch boundary.
   if (material.userData["iconAuthored"]) return `item:${material.uuid}`;
   const standard = material as THREE.MeshStandardMaterial;
-  const mapName = (map: THREE.Texture | null | undefined): string => (map ? map.name || map.uuid : "-");
+  const mapName = (map: THREE.Texture | null | undefined): string =>
+    map ? shareByName ? map.name || map.uuid : `${map.name || "-"}@${map.source?.uuid ?? map.uuid}` : "-";
   return [
     material.name || material.type,
     material.type,

@@ -4,9 +4,7 @@ import { NAV_CONFIG, PLAYER_RADIUS } from '../game/src/app/config.js';
 import { buildFairyTerrainSpec } from '../game/src/app/worldSpec.js';
 import { prepareWorldSurface } from '../game/src/app/worldSurface.js';
 import { WorldScene } from '../game/src/render/scene.js';
-import { FAIRY_REGIONS } from '../game/src/content/fairyRegions.js';
-import { LANTERN_REST, LANTERN_REST_LOCATIONS } from '../game/src/content/settlements/lanternRest.js';
-import { PRISM_HOLLOW, PRISM_HOLLOW_LOCATIONS } from '../game/src/content/settlements/prismHollow.js';
+import { FAIRY_REGIONS, getRegion } from '../game/src/content/regions.js';
 import {
   applyFairyLandforms, FAIRY_COMBAT_PLATEAUS, FAIRY_DEEP_PATH_CLEARINGS,
   FAIRY_LANDFORMS, FAIRY_MINIBOSS_SOCKETS, FAIRY_ASCENT_ROUTES, FAIRY_VALLEY_ROUTE_CONTROLS, sampleFairyRamp,
@@ -368,7 +366,7 @@ describe('fairy landform access', () => {
         }
         expect(steepest, `production road ${index}: ${road[0]} to ${road.at(-1)}`).toBeLessThan(maxSlope - .1);
       }
-      for (const region of FAIRY_REGIONS) for (const building of region.settlement?.buildings ?? []) {
+      for (const region of FAIRY_REGIONS) for (const building of region.settlements.flatMap(settlement => settlement.buildings)) {
         const centre = scene.meshHeightAt(...building.position);
         const cosine = Math.cos(building.rotationY), sine = Math.sin(building.rotationY);
         for (let x = -building.footprint[0] / 2; x <= building.footprint[0] / 2; x += .5) {
@@ -379,9 +377,10 @@ describe('fairy landform access', () => {
           }
         }
       }
-      for (const [town, locations] of [
-        [LANTERN_REST, LANTERN_REST_LOCATIONS], [PRISM_HOLLOW, PRISM_HOLLOW_LOCATIONS],
-      ] as const) {
+      for (const [regionId, townId] of [['gloamgarden', 'lantern_rest'], ['faeholme', 'prism_hollow']] as const) {
+        const region = getRegion(regionId)!;
+        const town = region.settlements.find(settlement => settlement.id === townId)!;
+        const locations = region.locations.filter(location => location.id.startsWith(`${townId}_`));
         const valleyHeight = scene.meshHeightAt(...town.centre);
         // Read current authored doors, approach nodes and services. Former cottage coordinates
         // can now lie behind walls on planted banks and no longer describe a player approach.

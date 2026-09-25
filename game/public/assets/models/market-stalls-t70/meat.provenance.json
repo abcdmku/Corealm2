@@ -1,0 +1,60 @@
+{
+  "asset": "market_stall_meat_t70",
+  "sourceGeometry": "../market-stalls/meat.glb",
+  "sourceSha256": "d4b734823cf4af70e1671f32c5f5e08ae253cde915018cab16b0afb1c9e73257",
+  "concept": "art/town-concepts/stalls/meat-t70.png",
+  "generation": {
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Flat 3D game material texture sheet for the T70 butcher market stall in the attached approved reference. Entire square divided EXACTLY into four equal square swatches, edge to edge, no borders, no gaps, no labels. TOP LEFT: worn dirty warm-grey canvas, rich brown age stains and mottling, irregular sewn repairs and exposed beige yarn; no red coloration or symbols. TOP RIGHT: deep grey-brown aged timber, vertical grain, dark damp stains, warm rubbed edges, minor moss flecks and varied abrasion; pure timber surface. BOTTOM LEFT: weathered dark iron/bronze with blue-green verdigris mottling, rusty seams and scratched silver highlights; pure flat metal, no bolts. BOTTOM RIGHT: rough tan-brown old end-grain chopping wood with knife scoring and age rings, no meat and no objects. Every swatch has layered realistic variation and intricate material detail. All texture fills every corner; entire image fully opaque RGB alpha255, even flat exposure. NO transparent background, NO vignette, NO fading at edges. No 3D stall, hanging food, people, flags, symbols, heraldry, text, perspective, bevels, frames or cast shadows. Only flat albedo surfaces based on reference materials. Highest square resolution.",
+    "sourceMap": "source-maps/meat.png",
+    "sourceMapSha256": "952c3545ded8fb9d6ee380152a281dbdfb49bfd44ceb35e3b4a18591b8b09d98"
+  },
+  "bake": {
+    "method": "Rasterize existing UV triangles; sample generated material swatches using interpolated original model positions/normals and continuous triplanar projection; preserve original baked lighting and merchandise texture pixels. No generated mesh.",
+    "atlasSize": [
+      4096,
+      4096
+    ],
+    "encoding": "JPEG quality 95, 4:4:4",
+    "properties": "Original single double-sided roughness 0.9 dielectric material retained.",
+    "goods": "Original merchandise triangles and UV samples preserved."
+  },
+  "geometry": {
+    "retainedAttributes": "All surviving source position, normal, UV values unchanged. UV topology unchanged.",
+    "removedSourceComponents": [
+      23
+    ],
+    "removalReason": "Separate bull-emblem hanging banner."
+  },
+  "front": "+Z",
+  "origin": "Original center-ground origin preserved. No recentering after flag removal.",
+  "measurements": {
+    "dimensions": [
+      3.0,
+      3.161864995956421,
+      2.7197635173797607
+    ],
+    "bounds": {
+      "min": [
+        -1.499999761581421,
+        0.0,
+        -1.3598817586898804
+      ],
+      "max": [
+        1.5000001192092896,
+        3.161864995956421,
+        1.3598817586898804
+      ]
+    },
+    "triangles": 3923,
+    "vertices": 5885,
+    "bytes": 2423384,
+    "removedComponents": [
+      23
+    ]
+  },
+  "bytes": 2423384,
+  "sha256": "484237d406c09baf6ed2e1179d469ff3ef4d365eda8c5e032e5f99389dee60ec",
+  "rights": "Base geometry is user supplied; no author/license declaration was present. Texture swatches generated for this task.",
+  "review": "Offline model render reviewed. Root owns production lab and authored-world acceptance."
+}

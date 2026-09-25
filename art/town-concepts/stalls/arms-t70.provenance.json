@@ -1,0 +1,9 @@
+﻿{
+  "asset": "arms-t70.png",
+  "purpose": "T70 haunted-market material reskin of the existing arms and wizard-equipment stall.",
+  "tool": "built-in image_gen edit",
+  "sourceReference": "../../test-results/market-stalls/arms.png; ../stalls/fish-t70.png (material mood only)",
+  "generatedSource": "exec-95a5341a-3c54-4391-a047-8aaada8d8c10.png",
+  "prompt": "Image 1 is the exact existing arms-and-wizard-equipment stall. Image 2 is material mood reference only; do not borrow its geometry. Make a T70 material-only reskin. Preserve precisely Image 1's stall frame, canopy shape, posts, counter, side chest, displayed weapons, wizard equipment, skull ornament and shield in their same locations, with same camera, scale and crop. Change only surface materials and textile colors. Remove the gold emblem from the main canopy, leaving plain functional cloth; remove the separate narrow blue pennant/sign panel on the right and its support frame, leaving the existing main right support post intact. Do not add replacements. Use ash-gray and weathered taupe canopy textile with visible weave and repairs, deeply weathered partly rotted desaturated brown wood with varied grain and splits, dark oxidized metal with restrained blue-green patina and faint spectral reflections in a few existing crevices. Keep every weapon, shield, armor piece and wizard item unchanged and recognizable. No added props, signs, symbols, flags, banners, bones or gore. Rich layered contrast, not monochrome. Show the complete asset on a solid opaque uniform light-gray background (#e8e8e8), no transparency or black backdrop; no geometry redesign.",
+  "review": "The canopy emblem and blue pennant/sign are removed while the main cloth canopy and support frame remain. The same weapons, wizard goods, skull ornament and shield stay readable in the original layout. T70 uses ashier cloth, varied rotted brown timber and dark oxidized fittings with restrained teal accents on opaque light gray."
+}

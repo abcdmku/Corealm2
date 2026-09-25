@@ -1,14 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { FAIRY_ORE_RESOURCES, FAIRY_TREE_RESOURCES } from '../game/src/content/fairyOres.js';
-import { CROWNWARD } from '../game/src/content/crownward.js';
-import { FAIRY_REGIONS } from '../game/src/content/fairyRegions.js';
+import { FAIRY_REGIONS, getRegion } from '../game/src/content/regions.js';
 import { ALL_ITEMS } from '../game/src/content/items.js';
 import { RECIPES } from '../game/src/content/recipes.js';
 import { resourceDef } from '../game/src/content/resources.js';
 import { FAIRY_RESOURCE_SITES, authoredSiteForCluster, worldSitePoint } from '../game/src/content/worldSites.js';
 
-const regions = [CROWNWARD, ...FAIRY_REGIONS];
+const regions = [getRegion('crownward')!, ...FAIRY_REGIONS];
 const manifest = JSON.parse(readFileSync(new URL('../game/public/assets/manifest.json', import.meta.url), 'utf8'));
 const assets = new Set<string>(manifest.assets.map((asset: { id: string }) => asset.id));
 

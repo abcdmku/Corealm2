@@ -836,8 +836,11 @@ export class MapPanel implements ManagedPanel {
 
     const metres = Math.round(place.distance);
     const region = REGIONS.find((entry) => entry.id === place.regionId);
+    const town = place.kind === "settlement" ? region?.settlements.find((settlement) => (
+      settlement.respawnPointId === place.locationId
+    )) : undefined;
     this.readoutName.textContent = place.name;
-    this.readoutMeta.textContent = `${KIND_LABEL[place.kind]} · ${region?.name ?? place.regionId}`;
+    this.readoutMeta.textContent = `${KIND_LABEL[place.kind]}${town ? ` · tier ${town.tier}` : ""} · ${region?.name ?? place.regionId}`;
     this.readoutRange.textContent = metres < 4 ? "you are here" : `${metres} m in a straight line`;
 
     if (!leader || !this.lastPos || !place.screen.visible) {

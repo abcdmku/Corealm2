@@ -70,7 +70,7 @@ export function validUniversalMinibossFootprint(
 }
 
 function clearOfAuthoredContent(region: RegionDef, point: Spot): boolean {
-  if (region.settlement && distance(point, region.settlement.centre) < 45) return false;
+  if (region.settlements.some((town) => distance(point, town.centre) < 45)) return false;
   if (region.locations.some(location => location.kind === 'settlement' && distance(point, location.position) < 45)) return false;
   if (distance(point, region.spawnPoint) < 32) return false;
   if (region.clusters.some(cluster => distance(point, cluster.centre) < cluster.radius + 14)) return false;

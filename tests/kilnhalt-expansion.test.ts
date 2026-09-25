@@ -71,17 +71,17 @@ describe("world extension", () => {
 
 describe("Emberfast", () => {
   it("ships the complete production station set inside one settlement", () => {
-    const settlement = getRegion("kilnhalt")!.settlement!;
+    const settlement = getRegion("kilnhalt")!.settlements.find(town => town.id === "emberfast")!;
     expect(settlement.id).toBe("emberfast");
     const kinds = settlement.stations.map((station) => station.kind).sort();
     expect(kinds).toEqual(["anvil", "crafting_table", "fletching_bench", "furnace", "range"]);
     expect(settlement.bank.id).toBe("emberfast_bank_counter");
-    expect(settlement.shops.map((shop) => shop.shopKind).sort()).toEqual(["general", "smith"]);
+    expect(settlement.shops.map((shop) => shop.shopKind).sort()).toEqual(["cosmic", "smith"]);
   });
 
   it("stocks Fire Essence locally like the other elements at their region stores", () => {
-    const general = SHOPS.find((shop) => shop.id === "emberfast_general")!;
-    expect(general.stock.some((row) => row.itemId === "fire_essence")).toBe(true);
+    const cosmic = SHOPS.find((shop) => shop.id === "emberfast_cosmic")!;
+    expect(cosmic.stock.some((row) => row.itemId === "fire_essence")).toBe(true);
     const smith = SHOPS.find((shop) => shop.id === "emberfast_smith")!;
     expect(smith.stock.some((row) => row.itemId === "emberite_bar")).toBe(true);
   });

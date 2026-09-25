@@ -109,6 +109,12 @@ export function itemTooltipContent(itemId: ItemId, options: ItemTooltipOptions =
     if (!def.orb.released) details.push("This orb is not released.");
   }
   if (def.food) details.push(`Heals ${def.food.healAmount} health.`);
+  if (def.potion) {
+    const bonus = def.potion.kind === "melee" ? "melee accuracy and power"
+      : def.potion.kind === "magic" ? "magic accuracy and power" : "defence";
+    details.push(`Drink for +${def.potion.strength} ${bonus} for ${Math.round(def.potion.durationMs / 60_000)} minutes.`);
+    details.push("A stronger potion of the same kind must expire before you can drink this one.");
+  }
   if (def.tool) details.push(`${SKILLS[def.tool.skill].name} tool, +${def.tool.gatherBonus} effective levels.`);
 
   const requirements: ItemTooltipRequirement[] = [];

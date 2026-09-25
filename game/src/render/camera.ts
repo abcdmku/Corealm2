@@ -106,10 +106,11 @@ let coverCache: readonly CoverSlab[] | null = null;
 function overheadCover(): readonly CoverSlab[] {
   if (coverCache) return coverCache;
   const slabs: CoverSlab[] = [];
-  for (const region of REGIONS) {
-    if (!region.settlement) continue;
-    const kit = region.settlement.kit;
-    for (const building of region.settlement.buildings) {
+  for (const region of REGIONS) for (const settlement of region.settlements) {
+    const kit = settlement.kit;
+    for (const building of settlement.buildings) {
+      // Imported buildings do not share the modular kit's measured roof bands.
+      if (building.model) continue;
       const rect = coverRect(building.prefab, building.footprint, kit);
       if (!rect) continue;
       const cos = Math.cos(building.rotationY);

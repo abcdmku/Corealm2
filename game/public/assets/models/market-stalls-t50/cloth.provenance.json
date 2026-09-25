@@ -1,0 +1,56 @@
+{
+  "asset": "market_stall_cloth_t50",
+  "sourceGeometry": "../market-stalls/cloth.glb",
+  "sourceSha256": "25435fc3af59d2d688a645974b032c0ff67dc37a2df51623d528c489b63b9d13",
+  "concept": "art/town-concepts/stalls/cloth-t50.png",
+  "generation": {
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: four-square 3D game material texture sheet to be baked onto a cloth merchant stall. Use the reference only for exact material style and palette. Output a square image split exactly into FOUR equal edge-to-edge square material swatches, no borders or gaps, no labels, no perspective and no objects. TOP LEFT: oxblood red canvas/brocade with charcoal repairs, woven low-contrast repeating floral detail, subtle beige stitching, abraded yarn, varied brown grime, small carefully sewn patches; top-down flat material, consistent lighting. TOP RIGHT: weathered honey-brown old oak timber, dense vertical wood grain, dark cracks, worn pale edges within the grain, water stains, subtle moss/ochre grime, no plank frames, no added objects. BOTTOM LEFT: old forged dark iron and tarnished bronze mottled metal, rivet-free texture, scratches, rust freckling, edgewear as a flat mottled material. BOTTOM RIGHT: charcoal cloth with faded oxblood threads, woven brocade, hand-sewn repairs and small rubbed patches. All swatches intricate, layered colors, physically credible surfaces, seamless repeating edges when possible. No heraldry, flags, emblems, text, shape silhouettes, casting shadows, 3D model, canopy or building. This is ONLY flat surface albedo material textures. Highest square resolution.",
+    "sourceMap": "source-maps/cloth.png",
+    "sourceMapSha256": "f264419196b517e14ae627cd9702e8815d26f91137b9dfb13894a09a37e103a8"
+  },
+  "bake": {
+    "method": "Rasterize existing UV triangles; sample generated material swatches using interpolated original model positions/normals and continuous triplanar projection; preserve original baked lighting and merchandise texture pixels. No generated mesh.",
+    "atlasSize": [
+      4096,
+      4096
+    ],
+    "encoding": "JPEG quality 95, 4:4:4",
+    "properties": "Original single double-sided roughness 0.9 dielectric material retained.",
+    "goods": "Original merchandise triangles and UV samples preserved."
+  },
+  "geometry": {
+    "retainedAttributes": "All surviving source position, normal, UV values unchanged. UV topology unchanged.",
+    "removedSourceComponents": [],
+    "removalReason": "None. Hanging textiles are merchandise."
+  },
+  "front": "+Z",
+  "origin": "Original center-ground origin preserved. No recentering after flag removal.",
+  "measurements": {
+    "dimensions": [
+      3.000000238418579,
+      3.0460751056671143,
+      2.365187883377075
+    ],
+    "bounds": {
+      "min": [
+        -1.500000238418579,
+        0.0,
+        -1.1825939416885376
+      ],
+      "max": [
+        1.5,
+        3.0460751056671143,
+        1.1825939416885376
+      ]
+    },
+    "triangles": 2661,
+    "vertices": 4089,
+    "bytes": 2634984,
+    "removedComponents": []
+  },
+  "bytes": 2634984,
+  "sha256": "2e42fba12b7281890d66bdd56c762fefa16f53ae2c785efa9d4a952c197ed6ee",
+  "rights": "Base geometry is user supplied; no author/license declaration was present. Texture swatches generated for this task.",
+  "review": "Offline model render reviewed. Root owns production lab and authored-world acceptance."
+}

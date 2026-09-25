@@ -1,4 +1,4 @@
-import { FAIRY_REGIONS } from '../content/fairyRegions.js';
+import { FAIRY_REGIONS } from '../content/regions.js';
 import { WORLD_SITES } from '../content/worldSites.js';
 import { Rng } from '../core/rng.js';
 import {
@@ -111,9 +111,11 @@ export function fairyDressingClearance(entry: Pick<FairyLandformDressing, 'asset
     clearance = Math.min(clearance, segmentDistance(entry.position, from, to) - radius - road.halfWidth - sway - 1);
   }
   for (const region of FAIRY_REGIONS) {
-    for (const building of region.settlement?.buildings ?? []) clearance = Math.min(clearance,
-      rectangleDistance(entry.position, building.position, building.footprint[0] / 2,
-        building.footprint[1] / 2, building.rotationY) - radius - 2);
+    for (const settlement of region.settlements) for (const building of settlement.buildings) {
+      clearance = Math.min(clearance,
+        rectangleDistance(entry.position, building.position, building.footprint[0] / 2,
+          building.footprint[1] / 2, building.rotationY) - radius - 2);
+    }
     for (const location of region.locations) if (location.kind !== 'junction') clearance = Math.min(clearance,
       Math.hypot(x - location.position[0], z - location.position[1]) - radius - 3);
     for (const gate of region.gates) clearance = Math.min(clearance,

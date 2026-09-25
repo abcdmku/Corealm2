@@ -20,8 +20,7 @@ const SOURCE_GROUPS = {
   terrainGeometry: [
     "game/src/app/worldSpec.ts",
     "game/src/app/realmTerrain.ts",
-    "game/src/content/crownward.ts",
-    "game/src/content/fairyRegions.ts",
+    "game/src/content/regions.ts",
     "game/src/world/fairyLandforms.ts",
     "game/src/world/fairyRegionalRelief.ts",
     "game/src/world/fairyGardenShoulders.ts",
@@ -30,8 +29,6 @@ const SOURCE_GROUPS = {
     "game/src/world/fairyCorridorDressing.ts",
     "game/src/world/fairyLandformDressing.ts",
     "game/src/app/fairyDressing.ts",
-    "game/src/content/settlements/lanternRest.ts",
-    "game/src/content/settlements/prismHollow.ts",
     "game/src/render/scene.ts",
     "game/src/world/organicFields.ts",
     "game/src/world/siteTerrain.ts",
@@ -54,8 +51,6 @@ const SOURCE_GROUPS = {
     "game/src/content/wilderness.ts",
     "game/src/content/wildernessLandmarks.ts",
     "game/src/content/wildernessExpansion.ts",
-    "game/src/content/crownward.ts",
-    "game/src/content/fairyRegions.ts",
   ],
   water: [
     "game/src/world/riverChannels.ts",
@@ -106,8 +101,6 @@ const SOURCE_GROUPS = {
     "game/src/app/worldSpec.ts",
     "game/src/world/organicFields.ts",
     "game/src/content/regions.ts",
-    "game/src/content/crownward.ts",
-    "game/src/content/fairyRegions.ts",
   ],
   navigationSettings: [
     "game/src/app/config.ts",

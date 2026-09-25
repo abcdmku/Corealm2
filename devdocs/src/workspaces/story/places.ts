@@ -57,9 +57,10 @@ function build(index: ReferenceIndex): Places {
     // Dungeon places are not on the overworld map layers; they open their region.
     for (const location of list(dungeon.locations).map(asRecord)) put(places.locations, location, regionId, undefined);
     for (const entity of [...list(dungeon.doors), ...list(dungeon.obstacles)].map(asRecord)) put(places.entities, entity, regionId, undefined);
-    const settlement = asRecord(region.settlement);
-    for (const npc of list(settlement.npcs).map(asRecord)) put(places.npcs, npc, regionId, "npcs");
-    for (const shop of list(settlement.shops).map(asRecord)) put(places.shops, shop, regionId, "shops");
+    for (const settlement of list(region.settlements).map(asRecord)) {
+      for (const npc of list(settlement.npcs).map(asRecord)) put(places.npcs, npc, regionId, "npcs");
+      for (const shop of list(settlement.shops).map(asRecord)) put(places.shops, shop, regionId, "shops");
+    }
   }
   // An NPC without a settlement stand (a fairy on a terrace) is where its location is.
   for (const npc of rows(index, "npcs")) {

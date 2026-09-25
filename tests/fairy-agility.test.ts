@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { FAIRY_AGILITY_LINKS, fairyAgilityLocations, fairyAgilityObstacles, fairyAgilityApproachRoads,
   type FairyAgilityLink } from '../game/src/content/fairyAgility.js';
-import { FAIRY_REGIONS } from '../game/src/content/fairyRegions.js';
+import { FAIRY_REGIONS } from '../game/src/content/regions.js';
 import { agilityXp } from '../game/src/content/index.js';
 import { FAIRY_COMBAT_PLATEAUS, FAIRY_LANDFORM_PROBES } from '../game/src/world/fairyLandforms.js';
 import { SKILL_IDS, type SemanticEntity, type SkillId, type Vec3 } from '../game/src/contracts.js';

@@ -1,0 +1,49 @@
+{
+  "source": "game/public/assets/models/town-shared/home.glb",
+  "destination": "game/public/assets/models/town-buildings/home.glb",
+  "sourceBounds": {
+    "min": [
+      -0.4990234971046448,
+      0,
+      -0.4990234971046448
+    ],
+    "max": [
+      0.4990234971046448,
+      0.912109375,
+      0.4990234971046448
+    ]
+  },
+  "normalizedBounds": {
+    "min": [
+      -3,
+      0,
+      -3
+    ],
+    "max": [
+      3,
+      5.483365294172099,
+      3
+    ]
+  },
+  "targetWidth": 6,
+  "quarterTurns": 0,
+  "scale": 6.011740964916734,
+  "textures": [
+    {
+      "name": "tripo_image_f2df5c5d-b6a7-4d1a-895e-3c0232995d81_0",
+      "mime": "image/jpeg",
+      "bytes": 1035948
+    }
+  ],
+  "meshes": 3,
+  "triangles": 4396,
+  "repair": {
+    "reason": "Missing front gable and lower-right wall infill in normalized source mesh",
+    "method": "Two recessed, double-sided textured meshes behind the preserved source facade",
+    "geometry": "Identical to town-buildings-t70/home.glb; 9 added vertices and 3 added triangles",
+    "texture": "test-results/town-models/gable-wood-base.png, image-generated layered weathered timber; embedded as 2048x2048 JPEG quality 92",
+    "gableTextureRepeatU": 2,
+    "sourceTexturePreserved": true
+  },
+  "sha256": "5ff7253e3f90e126de6d29a5548f1a465ee693f3ec04dacc80fe73edb0326eb0"
+}

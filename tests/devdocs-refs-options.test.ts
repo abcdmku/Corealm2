@@ -36,7 +36,7 @@ describe("optionsFor", () => {
   });
 
   it("derives locations and settlements from worldRegions, including dungeon locations", () => {
-    const regions = dataFile("worldRegions") as { id: string; name: string; locations: { id: string; name: string }[]; dungeon?: { locations?: { id: string }[] }; settlement?: { id: string; name: string } }[];
+    const regions = dataFile("worldRegions") as { id: string; name: string; locations: { id: string; name: string }[]; dungeon?: { locations?: { id: string }[] }; settlements: { id: string; name: string }[] }[];
     const locations = optionsFor("location", index)!;
     const expectedCount = new Set(regions.flatMap(region => [...region.locations.map(location => location.id), ...(region.dungeon?.locations ?? []).map(location => location.id)])).size;
     expect(locations.length).toBe(expectedCount);
@@ -46,7 +46,7 @@ describe("optionsFor", () => {
     expect(locations.some(option => option.value === dungeonLocation)).toBe(true);
 
     const settlements = optionsFor("settlement", index)!;
-    expect(settlements.map(option => option.value)).toEqual(regions.flatMap(region => region.settlement ? [region.settlement.id] : []));
+    expect(settlements.map(option => option.value)).toEqual(regions.flatMap(region => region.settlements.map(settlement => settlement.id)));
     expect(settlements[0]).toMatchObject({ label: "Millfield · " + first.name });
   });
 

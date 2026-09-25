@@ -13,9 +13,7 @@ import { CROWNWARD_RIVER_CHANNELS, CROWNWARD_RIVER_BRIDGES } from '../content/cr
  * FROZEN. Only the root edits this file.
  */
 import { isFairyRegion, type RegionId } from "../contracts.js";
-import { FAIRY_REGIONS } from "../content/fairyRegions.js";
-import { LANTERN_REST_FOUNDATIONS } from '../content/settlements/lanternRest.js';
-import { PRISM_HOLLOW_FOUNDATIONS } from '../content/settlements/prismHollow.js';
+import { FAIRY_REGIONS } from "../content/regions.js";
 import { castleGroundLayout } from '../render/compositions/crownwardCastles.js';
 import {
   ESSENCE_ALTAR_COURT_BLEND,
@@ -95,8 +93,7 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
       halfExtents,rotationY:landmark.rotationY,blend:12});
   }
 
-  const settlement = region.settlement;
-  if (settlement) {
+  for (const settlement of region.settlements) {
     // The pad is sized from what actually stands on it, not from a round number.
     //
     // A fixed 34 m radius left the outer ring of Coldbrace and Highcairn straddling the blend:
@@ -457,8 +454,13 @@ export function buildFairyTerrainSpec(): WorldTerrainSpec {
   return {
     bounds: { minX: 2000, maxX: 2600, minZ: -200, maxZ: 460 },
     chunkSize: 100, metresPerQuad: 1, blendMetres: 35, regions, fairyLandforms: true,
-    flats: [...[...LANTERN_REST_FOUNDATIONS, ...PRISM_HOLLOW_FOUNDATIONS].map(footing => ({ ...footing, landformFooting: true })),
-      ...FAIRY_REGIONS.flatMap(region => flatSpotsFor({ ...region, settlement: undefined,
+    flats: [...FAIRY_REGIONS.flatMap(region => region.settlements.flatMap(town => town.buildings.map(building => ({
+      buildingId: building.id, x: building.position[0], z: building.position[1],
+      halfExtents: [building.footprint[0] / 2 + 1, building.footprint[1] / 2 + 1] as const,
+      rotationY: building.rotationY, radius: Math.hypot(building.footprint[0] / 2 + 1, building.footprint[1] / 2 + 1),
+      blend: 1, landformFooting: true,
+    })))),
+      ...FAIRY_REGIONS.flatMap(region => flatSpotsFor({ ...region, settlements: [],
         locations: region.locations.filter(location => !location.id.startsWith('lantern_rest_')
           && !location.id.startsWith('prism_hollow_') && !location.id.includes('_ascent_')) }))],
     worldSites: WORLD_SITES.filter(site => isFairyRegion(site.regionId)),

@@ -1,0 +1,9 @@
+{
+  "asset": "wall-corner-base.png",
+  "townStyle": "T50 Lastlight",
+  "tool": "built-in image_gen generate with reference image",
+  "sourceReference": "wall-base.png",
+  "generatedSource": "exec-150ed24c-3382-4efd-aa31-8078a54a7ba1.png",
+  "prompt": "Using the provided wall-base only as the exact T50 Lastlight visual and construction reference, create one new wall kit corner module. One standalone 90-degree L-shaped corner joining two equal short straight wall legs (about half a standard wall sector each). Both legs must use the same height, depth, lower charcoal basalt thickness, blackened timber parapet, walkway elevation and timber/iron cadence as the reference wall. The parapet and walkway turn continuously through a clean right angle with no gap or height change. Each free end away from the corner terminates in a perfectly vertical flat square joining plane flush with the straight wall; no terminal caps or any part protruding beyond those planes. Make the L shape unmistakable in a three-quarter view that shows both faces and thickness. No tower, turret, gate, return beyond the simple 90-degree corner, finial, flags, cloth, separate footing, ruins, broken seam or hole. Reuse the bleak mortuary frontier character: layered battered dark charcoal basalt, blackened weathered timber, crude iron repairs, subtle ossuary reliefs, high-detail hand-painted surface texture. Complete isolated asset with generous margin on plain light-gray studio background and soft neutral shadow, no terrain, people, text or labels. Not photorealistic, not voxel.",
+  "review": "Both corner legs use a continuous level parapet and turn through a readable 90-degree corner; proportions and materials follow wall-base.png."
+}

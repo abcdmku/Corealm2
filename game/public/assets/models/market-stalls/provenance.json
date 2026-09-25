@@ -1,0 +1,210 @@
+{
+  "source": "40811a19-20c5-4cfb-a44f-51413a922ddc-2a9ffe96-24da-42ee-9084-a3a734b3ac7c-glb.glb",
+  "sourceSha256": "c5da27e6d77697d1f1e5a7b845b7b2f1b8b7bcffe7852e97be2b1c630e8f9db3",
+  "sourceDescription": "User-supplied Tripo GLB containing nine textured stalls in a fused 3 by 3 display grid.",
+  "sourceGrid": [
+    [
+      "produce",
+      "arms",
+      "potion"
+    ],
+    [
+      "fish",
+      "bakery",
+      "cloth"
+    ],
+    [
+      "meat",
+      "pottery",
+      "cosmic"
+    ]
+  ],
+  "units": "meters",
+  "origin": "Center of full X/Z bounds at minimum Y; identity node transform.",
+  "front": "+Z",
+  "cleanup": [
+    "Separated six requested stalls by geometric regions including depth, so overlapping finials stay with their own stalls.",
+    "Removed unintended connecting beams between stalls and extended posts between rows. Capped cut cross sections.",
+    "Removed zero-area triangles, merged identical full vertices and normalized supplied normals.",
+    "Baked individual scale and centered ground origins. Each full stall is 3 meters wide.",
+    "Repacked supplied color texture chart crops at original texel density into individual 4096-square atlases with gutters; JPEG quality 95, no chroma subsampling. No recoloring or replacement art.",
+    "Removed both detached finial-and-cap assemblies from the meat stall. The source supplied no supporting posts beneath them."
+  ],
+  "assets": [
+    {
+      "id": "market_stall_potion",
+      "file": "potion.glb",
+      "dimensions": [
+        3.0,
+        2.790816068649292,
+        2.3163259029388428
+      ],
+      "sourceBounds": [
+        [
+          0.2126464694738388,
+          0.609375,
+          -0.2824707329273224
+        ],
+        [
+          0.499755859375,
+          0.87646484375,
+          -0.06079103425145149
+        ]
+      ],
+      "sourceToMeters": 10.448979377746582,
+      "triangles": 14001,
+      "vertices": 23912,
+      "removedDegenerates": 1,
+      "atlasSize": 4096,
+      "atlasCharts": 4827,
+      "bytes": 2677376,
+      "sha256": "56a3f4fa5d198dc8b480b4b69ed2e18218e278d9c701cd44211ec60d5d1e3fc4"
+    },
+    {
+      "id": "market_stall_cloth",
+      "file": "cloth.glb",
+      "dimensions": [
+        3.0,
+        3.0460751056671143,
+        2.365187883377075
+      ],
+      "sourceBounds": [
+        [
+          0.2038574069738388,
+          0.2734375,
+          -0.2360840141773224
+        ],
+        [
+          0.489990234375,
+          0.56396484375,
+          -0.010498065501451492
+        ]
+      ],
+      "sourceToMeters": 10.484642028808594,
+      "triangles": 2661,
+      "vertices": 4089,
+      "removedDegenerates": 0,
+      "atlasSize": 4096,
+      "atlasCharts": 752,
+      "bytes": 1419248,
+      "sha256": "25435fc3af59d2d688a645974b032c0ff67dc37a2df51623d528c489b63b9d13"
+    },
+    {
+      "id": "market_stall_fish",
+      "file": "fish.glb",
+      "dimensions": [
+        3.0,
+        2.6541059017181396,
+        2.25
+      ],
+      "sourceBounds": [
+        [
+          -0.489990234375,
+          0.30908203125,
+          -0.2443847507238388
+        ],
+        [
+          -0.1950683742761612,
+          0.5699999928474426,
+          -0.023193327710032463
+        ]
+      ],
+      "sourceToMeters": 10.172185897827148,
+      "triangles": 9911,
+      "vertices": 14787,
+      "removedDegenerates": 0,
+      "atlasSize": 4096,
+      "atlasCharts": 2456,
+      "bytes": 1908448,
+      "sha256": "130633de444f72df6f2e87647b8f1de9fc46bae2788b7b6a76d9335c71819f3d"
+    },
+    {
+      "id": "market_stall_arms",
+      "file": "arms.glb",
+      "dimensions": [
+        3.0,
+        2.519047975540161,
+        2.209523916244507
+      ],
+      "sourceBounds": [
+        [
+          -0.1384277492761612,
+          0.625,
+          -0.285888671875
+        ],
+        [
+          0.1691894382238388,
+          0.88330078125,
+          -0.0593261644244194
+        ]
+      ],
+      "sourceToMeters": 9.752381324768066,
+      "triangles": 3121,
+      "vertices": 5129,
+      "removedDegenerates": 0,
+      "atlasSize": 4096,
+      "atlasCharts": 1004,
+      "bytes": 1498808,
+      "sha256": "4925ebe714f02f5d53a45ab590913023714bd5259b53360838fc893f00241088"
+    },
+    {
+      "id": "market_stall_meat",
+      "file": "meat.glb",
+      "dimensions": [
+        3.0,
+        3.161864995956421,
+        2.719763994216919
+      ],
+      "sourceBounds": [
+        [
+          -0.499755859375,
+          0.029296875,
+          -0.01977536827325821
+        ],
+        [
+          -0.23800000548362732,
+          0.30517578125,
+          0.2175293117761612
+        ]
+      ],
+      "sourceToMeters": 11.461061477661133,
+      "triangles": 3937,
+      "vertices": 5907,
+      "removedDegenerates": 0,
+      "atlasSize": 4096,
+      "atlasCharts": 1004,
+      "bytes": 1512296,
+      "sha256": "d4b734823cf4af70e1671f32c5f5e08ae253cde915018cab16b0afb1c9e73257"
+    },
+    {
+      "id": "market_stall_cosmic",
+      "file": "cosmic.glb",
+      "dimensions": [
+        3.0,
+        3.13588809967041,
+        2.9006969928741455
+      ],
+      "sourceBounds": [
+        [
+          0.1584472805261612,
+          0.0,
+          0.024658171460032463
+        ],
+        [
+          0.438720703125,
+          0.29296875,
+          0.2956542670726776
+        ]
+      ],
+      "sourceToMeters": 10.703832626342773,
+      "triangles": 5190,
+      "vertices": 7905,
+      "removedDegenerates": 2,
+      "atlasSize": 4096,
+      "atlasCharts": 1343,
+      "bytes": 1825444,
+      "sha256": "e68e5b7d239161c1033b0d7545d7d3607744f9a8cd53cdf4be2db7456723cf66"
+    }
+  ],
+  "rights": "User-supplied asset. No author or license declaration is present in the supplied GLB; no license inferred."
+}

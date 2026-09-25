@@ -4,7 +4,9 @@ The September 10 direction combines grounded fantasy, high fantasy RPG creatures
 
 ## Authored world
 
-The Wilderness occupies the full northern band, x −350…350 and z 460…700. The world is now 700 × 900 m before its coastal collar. Ashford's east gate connects to Last Light by a road that clears the reserved northern encounters. This region has no friendly settlement; its respawn fallback is Ashford.
+The Wilderness occupies the northern region, x -350 to 700 and z 460 to 940. Lastlight is its tier 50 town; Starhaven is its tier 70 town. Both have their own bank, respawn, market and crafting services, with friendly undead residents.
+
+The towns share twelve imported structure models with separate weathered T50 and cold T70 texture sets. Their potion, arms and cosmic traders use the cleaned market-stall models with matching town textures. Lastlight unlocks rank 3 buff potions and Starhaven unlocks rank 4. Starhaven sits west of Chainfire on dry ground, with its southern approach routed around the foundry.
 
 The visual boundary follows the existing warped, normalized biome field. A northward climate term establishes the geographic band; circular intents hold the castle, graves and petrified grove. Terrain, stone surface, scatter and atmosphere consume that same field. The semantic rectangle does not mask the rendered boundary.
 
@@ -53,7 +55,7 @@ The trap-line and Stone Cavern quests now count the new inhabitants. Save repair
 
 ## Acceptance and scope
 
-The castle, creature derivatives, atmosphere and native deadwood were exercised in the production feature lab before world integration. The full-world exception covers the geographic extension, organic climate field, terrain, roads and scatter: their behavior depends on the authored island and cannot be proven in an isolated yard. Reused burial settings retain their existing lab proof.
+The castle, creature derivatives, atmosphere and native deadwood were exercised in the production feature lab before world integration. The full-world exception covers the geographic extension, organic climate field, terrain, roads and scatter: their behavior depends on the authored island and cannot be proven in an isolated yard. Reused burial settings retain their existing lab proof. Town layout, approach roads and settlement foundations also use the full-world exception because their clearances depend on surrounding terrain and encounters. Imported structures, stall materials, gate collision, residents and potion interactions are checked separately in the existing feature lab before placement.
 
 Reproducible checks:
 

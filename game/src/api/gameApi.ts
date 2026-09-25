@@ -237,6 +237,7 @@ export class CorealmGameApi implements GameApiContract {
       regionId: player.regionId,
       health: player.health,
       maxHealth: player.maxHealth,
+      potionBuffs: structuredClone(state.combat.potionBuffs ?? {}),
       facingRad: player.facingRad,
       // A live fight, not the regen window. An agent that waits for `inCombat === false` after a
       // kill used to hang for the full eight-second no-regen stamp; that stamp is `regenBlocked`.

@@ -1,0 +1,24 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Contact-sheet concepts; material variants use shared geometry, not yet baked 3D texture maps",
+  "assets": [
+    {
+      "file": "well-base.png",
+      "source": "../t50/well.png",
+      "generatedSource": "exec-53de1ba6-33f0-40fb-9efd-fa001dcfa47e.png",
+      "prompt": "Edit this isolated well into the shared haunted deep wilderness town kit inhabited by ghosts and friendly undead. Preserve precisely the well's circular stone rim, roof, posts, crank, rope and bucket geometry and this camera. Replace comfortable warm materials with intricately layered aged charcoal basalt, heavily weathered gray-brown timber, rusty iron bands instead of polished brass, soot/damp staining and subtle mineral lichen. Worn slate roof stays intact and functional. Very subtle worn funerary carvings etched shallowly into a few existing rim stones; no new statues, skull props or new geometry. No flags, banners, extra props, terrain, base, people, text, warm glow. Full isolated object on same plain light gray studio background. Rich handpainted game-asset concept, readable material variation and detailed surface weathering; not monochromatic. This is T50 base, keep practical complete silhouette."
+    },
+    {
+      "file": "well-t70.png",
+      "source": "well-base.png",
+      "generatedSource": "exec-c3510edd-ccb5-4d56-8ca2-ca646bf05c40.png",
+      "prompt": "Material-only T70 variant of this EXACT well image. Preserve exact geometry, camera, crop, silhouette, roof tiles, posts, stones, crank, rope, bucket positions and gray studio background. Same shared model inhabited by friendly undead in deep wilderness. Shift to deeper ash-gray basalt with intricate pale mineral deposits, subtle varied dull green lichen, desaturated rotted dark wood with detailed grain and oxidized metal with restrained blue-green patina. Add a faint cold spectral teal reflected light only inside the well opening. Maintain many layered material colors; not a monochrome recolor. No geometry changes, new objects, flags, banners, terrain, base, characters or text. Keep readable midtone texture detail."
+    },
+    {
+      "file": "smithy-t70.png",
+      "source": "smithy-base.png",
+      "generatedSource": "exec-72bcff8a-e9dd-4370-8b44-037630762ed4.png",
+      "prompt": "Create a T70 MATERIAL-ONLY reskin of this exact blacksmith building image. Preserve precisely all geometry and silhouette, camera, framing, masonry blocks, roof, chimney, open workfront, anvil, hearth, benches, tool and ingot positions, door and gray background. Same shared mesh for T50 and T70 friendly-undead wilderness towns. Change textures to darker ash-gray basalt with varied chalky mineral deposits and subdued lichen, desaturated rotted wood with complex grain, corroded iron with sparse green-blue patina. Replace the small orange forge flame with pale spectral cyan forge flame in the same position and extent. Keep many layered natural material colors, not monochromatic, no new props or carvings. No banners/flags, terrain, characters, labels or text. High-detail handpainted asset concept."
+    }
+  ]
+}

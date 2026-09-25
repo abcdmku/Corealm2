@@ -1,0 +1,68 @@
+{
+  "id": "hall",
+  "tier": "base",
+  "processedAsset": "game/public/assets/models/town-buildings/hall.glb",
+  "processedSha256": "27ded19db0e506a034dec0b4ae321bfc2eedad10921e9d567b02f79bdcdc673a",
+  "rawAsset": "game/public/assets/models/town-shared/hall.glb",
+  "rawSha256": "6e3e417a405796f957fb9e00b693c756a8136672eb7607b5868abe3efca40bd7",
+  "rawModel": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/9f58823d-76db-4582-81e4-ff53193dab50",
+    "referenceImage": "art/town-concepts/shared/hall-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "geometry": {
+    "front": "+Z",
+    "groundY": 0,
+    "centeredXZ": true,
+    "bounds": {
+      "min": [
+        -6,
+        0,
+        -6.656454253221607
+      ],
+      "max": [
+        6,
+        13.41794131517255,
+        6.656454253221607
+      ]
+    },
+    "dimensions": [
+      12,
+      13.4179,
+      13.3129
+    ],
+    "triangles": 4346
+  },
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1071480
+    },
+    {
+      "index": 1,
+      "mimeType": "image/jpeg",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 590637
+    }
+  ],
+  "processing": [
+    "Uniform metric normalization, no raw mesh or original UV edits."
+  ],
+  "repair": {
+    "reason": "Two lower foundation openings in raw mesh.",
+    "mesh": "Two recessed masonry panels behind existing front reliefs; original doors/geometry preserved.",
+    "baseMasonryPrompt": "A single square seamless-looking flat material TEXTURE MAP for the recessed foundation wall of a haunted friendly-undead medieval hall, T50. Front-on 2D weathered charcoal-gray stone blocks and deep mortar, irregular small rectangular stones, subtle warm brown earth deposits, pale mineral chips, cracks, pitting and individually varied stone faces. Dark but readable, richly layered surface detail at game-camera scale, clearly stone masonry matching a decayed hall, not a monochrome recolor. Uniform diffuse light, fill canvas edge to edge, no perspective, no building/object/symbol/window/door, no borders, text, flags, banners, or vignette.",
+    "baseMasonrySource": "built-in imagegen; source image prefix exec-64859cb5",
+    "t70MasonrySource": "built-in imagegen cold material-sheet top-left quadrant",
+    "geometryIdenticalAcrossTiers": true
+  }
+}

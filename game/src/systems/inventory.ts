@@ -96,7 +96,7 @@ export class InventorySystem {
   }
 
   /**
-   * Use an item on itself or on a target. Today that means eating food, and equipping gear when the
+   * Use an item on itself or on a target. This includes food, potions, and equipping gear when the
    * equipment system is wired. Combination recipes (knife on logs) belong to production, not here.
    */
   use(itemId: ItemId, target?: { itemId: ItemId }): Result<{ effect: string }> {
@@ -106,6 +106,7 @@ export class InventorySystem {
       return err("INVALID_ARGUMENT", `${def.name} does nothing when used on that`);
     }
     if (def.food) return this.eat(def);
+    if (def.potion) return this.drink(def);
     if (def.equip) {
       const equip = this.deps.equip;
       if (!equip) return err("UNAVAILABLE", "Equipment system is not available yet");
@@ -312,6 +313,29 @@ export class InventorySystem {
   }
 
   // -------------------------------------------------------------------- food
+
+  private drink(def: ItemDef): Result<{ effect: string }> {
+    const state = this.state;
+    const potion = def.potion;
+    if (!potion) return err("INVALID_ARGUMENT", `${def.name} is not a potion`);
+    if (state.player.health <= 0) return err("DEAD", "The player is dead");
+    if (this.countOf(def.id) < 1) return err("NOT_ENOUGH_ITEMS", `You have no ${def.name}`);
+
+    const atMs = this.deps.now();
+    const active = state.combat.potionBuffs?.[potion.kind];
+    if (active && active.expiresAtMs > atMs && active.strength > potion.strength) {
+      return err("INVALID_ARGUMENT", `A stronger ${potion.kind} potion is already active`);
+    }
+
+    const removed = this.removeItem(def.id, 1);
+    if (!removed.ok) return { ok: false, error: removed.error };
+    state.combat.potionBuffs ??= {};
+    state.combat.potionBuffs[potion.kind] = {
+      itemId: def.id, strength: potion.strength, expiresAtMs: atMs + potion.durationMs,
+    };
+    this.deps.store.markDirty();
+    return ok({ effect: `drank ${def.name}: +${potion.strength} ${potion.kind} for ${Math.round(potion.durationMs / 60_000)} minutes` });
+  }
 
   private eat(def: ItemDef): Result<{ effect: string }> {
     const state = this.state;

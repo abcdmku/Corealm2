@@ -1,0 +1,57 @@
+{
+  "asset": "market_stall_cloth_t70",
+  "sourceGeometry": "../market-stalls/cloth.glb",
+  "sourceSha256": "25435fc3af59d2d688a645974b032c0ff67dc37a2df51623d528c489b63b9d13",
+  "concept": "art/town-concepts/stalls/cloth-t70.png",
+  "generation": {
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Asset type: four-square flat 3D game material texture sheet for the approved T70 cloth merchant stall. Match the attached reference materials. Square image split EXACTLY into four equal edge-to-edge square material swatches with no borders/gaps/labels. TOP LEFT: layered dark charcoal blue-black canvas with subtle woven brocade, extensive brown weathering, irregular small repairs, beige stitches, fine worn yarn and grime. Keep it readable textured charcoal, not pure black. TOP RIGHT: old dark grey-brown oak with dense vertical grain, splintered cracks, rubbed tan streaks, damp stains and subtle moss. BOTTOM LEFT: aged dark iron/bronze metal with verdigris blue-green patina, pitting and scratches, a flat mottled surface, no rivets or objects. BOTTOM RIGHT: charcoal woven fabric with muted dark red and purple threads, fine mending and rubbed patches. The cloth is plain repaired material with faint woven detail, no large decorative emblems or heraldry. All four swatches must have rich layered tones and physical surface detail, even flat lighting, top-down, tileable when possible. No flags, banners, words, 3D objects, buildings, framing, perspective or cast shadows. Highest available square resolution.",
+    "sourceMap": "source-maps/cloth.png",
+    "sourceMapSha256": "b1ee9c9dfaa6e07c614bffd80115c2289f8b9ceef1af2f01cf3926a8c2af8797"
+  },
+  "bake": {
+    "method": "Rasterize existing UV triangles; sample generated material swatches using interpolated original model positions/normals and continuous triplanar projection; preserve original baked lighting and merchandise texture pixels. No generated mesh.",
+    "atlasSize": [
+      4096,
+      4096
+    ],
+    "encoding": "JPEG quality 95, 4:4:4",
+    "properties": "Original single double-sided roughness 0.9 dielectric material retained.",
+    "goods": "Original merchandise triangles and UV samples preserved.",
+    "visibilityAdjustment": "18% generated violet-thread swatch blended with charcoal cloth; neutral 1.4 exposure lift in cloth bake to retain night visibility."
+  },
+  "geometry": {
+    "retainedAttributes": "All surviving source position, normal, UV values unchanged. UV topology unchanged.",
+    "removedSourceComponents": [],
+    "removalReason": "None. Hanging textiles are merchandise."
+  },
+  "front": "+Z",
+  "origin": "Original center-ground origin preserved. No recentering after flag removal.",
+  "measurements": {
+    "dimensions": [
+      3.000000238418579,
+      3.0460751056671143,
+      2.365187883377075
+    ],
+    "bounds": {
+      "min": [
+        -1.500000238418579,
+        0.0,
+        -1.1825939416885376
+      ],
+      "max": [
+        1.5,
+        3.0460751056671143,
+        1.1825939416885376
+      ]
+    },
+    "triangles": 2661,
+    "vertices": 4089,
+    "bytes": 2364020,
+    "removedComponents": []
+  },
+  "bytes": 2364020,
+  "sha256": "5e0da6926ca93de3ab8d499eb4bf2e035a528fab64244fdfff4a57632b576bf8",
+  "rights": "Base geometry is user supplied; no author/license declaration was present. Texture swatches generated for this task.",
+  "review": "Offline model render reviewed. Root owns production lab and authored-world acceptance."
+}

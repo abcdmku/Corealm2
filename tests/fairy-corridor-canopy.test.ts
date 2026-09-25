@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { FAIRY_REGIONS } from '../game/src/content/fairyRegions.js';
+import { FAIRY_REGIONS } from '../game/src/content/regions.js';
 import { WORLD_SITES } from '../game/src/content/worldSites.js';
 import { sampleFairyBankHeight } from '../game/src/world/fairyBankHeightmaps.js';
 import { buildFairyCorridorCanopy, censusFairyCorridorCanopy } from '../game/src/world/fairyCorridorCanopy.js';
@@ -75,8 +75,8 @@ describe('fairy upper corridor canopy', () => {
       }
       expect(point.scale).toBeGreaterThanOrEqual(hero ? .75 : .9);
       expect(point.scale).toBeLessThanOrEqual(hero ? 1 : 1.1);
-      for (const region of FAIRY_REGIONS) if (region.settlement) expect(Math.hypot(
-        point.position[0] - region.settlement.centre[0], point.position[1] - region.settlement.centre[1])
+      for (const region of FAIRY_REGIONS) for (const settlement of region.settlements) expect(Math.hypot(
+        point.position[0] - settlement.centre[0], point.position[1] - settlement.centre[1])
         - trunk(point.assetId, point.scale)).toBeGreaterThanOrEqual(55);
     }
     expect(buildFairyCorridorCanopy(() => -120, roads, [])).toEqual([]);

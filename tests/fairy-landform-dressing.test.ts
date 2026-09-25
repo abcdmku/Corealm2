@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { buildFairyTerrainSpec } from '../game/src/app/worldSpec.js';
 import { prepareWorldSurface } from '../game/src/app/worldSurface.js';
 import { resolveFairyDressing } from '../game/src/app/fairyDressing.js';
-import { FAIRY_REGIONS } from '../game/src/content/fairyRegions.js';
+import { FAIRY_REGIONS } from '../game/src/content/regions.js';
 import { WORLD_SITES } from '../game/src/content/worldSites.js';
 import { WorldScene } from '../game/src/render/scene.js';
 import { Solids } from '../game/src/systems/solids.js';
@@ -121,7 +121,7 @@ describe('fairy native cliff dressing', () => {
         expect(Math.hypot(p[0] - clearing.position[0], p[1] - clearing.position[1]) - radius, entry.id)
           .toBeGreaterThanOrEqual(clearing.radius + 1);
       }
-      for (const region of FAIRY_REGIONS) for (const building of region.settlement?.buildings ?? []) {
+      for (const region of FAIRY_REGIONS) for (const building of region.settlements.flatMap(settlement => settlement.buildings)) {
         expect(boxDistance(p, building.position, building.footprint[0] / 2, building.footprint[1] / 2,
           building.rotationY) - radius, `${entry.id} beside ${building.id}`).toBeGreaterThanOrEqual(2);
       }

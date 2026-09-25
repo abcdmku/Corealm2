@@ -81,9 +81,7 @@ export function buildSettlementRespawnAnchors(
   routeNode: (id: string) => { position: Vec3; regionId: string } | undefined,
 ): RespawnAnchor[] {
   const anchors: RespawnAnchor[] = [];
-  for (const region of REGIONS) {
-    const settlement = region.settlement;
-    if (!settlement) continue;
+  for (const region of REGIONS) for (const settlement of region.settlements) {
     const locations = region.locations.filter((location) => location.kind === "settlement" && location.routeNode);
     locations.sort((a, b) => {
       const distance = (position: readonly number[]) =>

@@ -85,9 +85,10 @@ export function findStand(index: ReferenceIndex, key: "npcs" | "shops", id: stri
   const world = index.collections.get("worldRegions");
   if (!world) return undefined;
   for (const region of contentRows(world)) {
-    const settlement = asRecord(region.settlement);
-    const stand = list(settlement[key]).map(asRecord).find(entry => entry.id === id);
-    if (stand) return { regionId: String(region.id), regionName: text(region.name) ?? titleCase(String(region.id)), settlement, stand };
+    for (const row of list(region.settlements).map(asRecord)) {
+      const stand = list(row[key]).map(asRecord).find(entry => entry.id === id);
+      if (stand) return { regionId: String(region.id), regionName: text(region.name) ?? titleCase(String(region.id)), settlement: row, stand };
+    }
   }
   return undefined;
 }

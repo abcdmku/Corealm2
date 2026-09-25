@@ -30,6 +30,7 @@ const BY_CATEGORY: Record<ItemCategory, IconShape> = {
   quest: "scroll",
   currency: "coin",
   component: "shard",
+  potion: "food",
 };
 
 /**

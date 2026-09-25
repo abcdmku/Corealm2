@@ -3,6 +3,12 @@ import { NodeIO } from "@gltf-transform/core";
 import { KHRONOS_EXTENSIONS } from "@gltf-transform/extensions";
 import { getBounds } from "@gltf-transform/functions";
 import { describe, expect, it } from "vitest";
+import type { BuildingModel } from "../game/src/contracts.js";
+import { REGIONS } from "../game/src/content/regions.js";
+import {
+  assembleFeatureLabStructure,
+  type FeatureLabStructureMeasurements,
+} from "../game/src/featureLab/structures.js";
 import { buildGravelmawMouthComposition } from "../game/src/render/compositions/gravelmawMouth.js";
 import {
   BUILDING_KITS,
@@ -23,6 +29,7 @@ import {
   selectedStructureVariantId,
   structureVariantCount,
 } from "../game/src/render/structures/catalog.js";
+import { buildWorld, structureCollisionFromBoxes } from "../game/src/world/regionBuilder.js";
 
 interface ManifestRow { id: string }
 
@@ -68,13 +75,95 @@ function collisionProblems(owner: string, boxes: readonly {
 }
 
 describe("isolated structure constructors", () => {
-  it("keeps fixed-size stall collision aligned with its measured hero mesh for every footprint", () => {
+  it("previews one complete gate model with the production two-pier opening", () => {
+    const model: BuildingModel = {
+      assetId: "market_stall_potion", scale: 1.15,
+      collision: [
+        { tag: "left_pier", dx: -2.7, dz: 0, sizeX: 1.4, sizeZ: 2.2, height: 3.6 },
+        { tag: "right_pier", dx: 2.7, dz: 0, sizeX: 1.4, sizeZ: 2.2, height: 3.6 },
+      ],
+    };
+    const measurements: FeatureLabStructureMeasurements = {
+      assetSize: (assetId) => assetId === model.assetId ? { x: 8, y: 3, z: 2.2 } : null,
+      assetCenterXZ: () => ({ x: 0, z: 0 }),
+      baseY: () => 0.2,
+    };
+    const selection = {
+      kind: "prefab" as const, id: "gatehouse", kit: "stone" as const,
+      width: 8, depth: 4, seed: 0, model,
+    };
+    const assembled = assembleFeatureLabStructure(selection, [0, 0, 0], measurements);
+    expect(assembled.selection.model).toEqual(model);
+    expect(assembled.variant).toBeNull();
+    expect(assembled.assetIds).toEqual([model.assetId]);
+    expect(assembled.entities).toHaveLength(1);
+    expect(assembled.entities[0]).toMatchObject({
+      id: "feature-lab:structure#model", position: [0, -0.23, 0],
+      view: { assetId: model.assetId, scale: model.scale },
+    });
+    const expected = structureCollisionFromBoxes(model.collision, {
+      origin: [0, 0, 0], rotationY: 0, regionId: "karrowmoor",
+      ownerId: "feature-lab:structure", name: "Gatehouse", prefab: "gatehouse",
+    });
+    expect(assembled.buildings).toEqual(expected.buildings);
+    expect(assembled.solids).toEqual(expected.solids);
+    expect(assembled.solids).toHaveLength(2);
+    expect(assembled.solids.every((solid) =>
+      solid.kind === "box" && Math.abs(solid.position[0]) - solid.size[0] / 2 > 0
+    )).toBe(true);
+    expect(assembled.focus[1]).toBe(1.8);
+
+    const cleared = assembleFeatureLabStructure({ ...selection, model: undefined }, [0, 0, 0], measurements);
+    expect(cleared.selection.model).toBeUndefined();
+    expect(cleared.entities.length).toBeGreaterThan(1);
+    expect(cleared.assetIds).not.toEqual([model.assetId]);
+    expect(() => assembleFeatureLabStructure({ ...selection, model: { ...model, scale: 0 } }, [0, 0, 0], measurements)).toThrow(/scale/);
+    expect(() => assembleFeatureLabStructure({ ...selection, model: { ...model, assetId: "missing_asset" } }, [0, 0, 0], measurements)).toThrow(/Unknown complete structure asset/);
+  });
+
+  it("emits a complete building model once and uses its authored collision boxes", () => {
+    const region = REGIONS.find((entry) => entry.id === "fallowmarch")!;
+    const settlement = region.settlements.find((entry) => entry.id === "coldbrace")!;
+    const building = settlement.buildings.find((entry) => entry.id === "coldbrace_gate_south")!;
+    const previous = building.model;
+    const model: BuildingModel = {
+      assetId: "market_stall_potion", scale: 1.15,
+      collision: [
+        { tag: "left_pier", dx: -2.7, dz: 0, sizeX: 1.4, sizeZ: 2.2, height: 3.6 },
+        { tag: "right_pier", dx: 2.7, dz: 0, sizeX: 1.4, sizeZ: 2.2, height: 3.6 },
+      ],
+    };
+    building.model = model;
+    try {
+      const world = buildWorld(1337, () => 0);
+      const drawn = world.entities.filter((entity) => entity.meta?.buildingId === building.id);
+      expect(drawn).toHaveLength(1);
+      expect(drawn[0]).toMatchObject({
+        id: building.id,
+        view: { assetId: model.assetId, scale: model.scale },
+      });
+      const expected = structureCollisionFromBoxes(model.collision, {
+        origin: [building.position[0], 0, building.position[1]],
+        rotationY: building.rotationY, regionId: region.id,
+        ownerId: building.id, name: building.name, prefab: building.prefab,
+      });
+      expect(world.buildings.filter((box) => box.buildingId === building.id)).toEqual(expected.buildings);
+      expect(world.solids.filter((solid) => solid.id.startsWith(`${building.id}#`))).toEqual(expected.solids);
+    } finally {
+      building.model = previous;
+    }
+  });
+
+  it("uses one complete themed stall with a native-size collision on every footprint", () => {
     for (const footprint of FOOTPRINTS) {
-      const hero = buildPrefab("stall", footprint, 0).find(part => part.assetId === "market_stall")!;
+      const parts = buildPrefab("stall", footprint, 0);
+      expect(parts).toHaveLength(1);
+      const hero = parts[0]!;
+      expect(hero.assetId).toBe("market_stall_potion");
       expect(hero.scale).toBe(1);
       expect([hero.dx, hero.dy, hero.dz]).toEqual([0, 0, 0]);
       expect(prefabCollision("stall", footprint)).toEqual([
-        { tag: "stall", dx: 0.0005, dz: 0.005, sizeX: 1.845, sizeZ: 0.932, height: 2.622 },
+        { tag: "stall", dx: 0, dz: 0, sizeX: 3, sizeZ: 2.91, height: 3.4 },
       ]);
     }
   });

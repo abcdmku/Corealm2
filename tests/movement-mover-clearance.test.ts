@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { PLAYER_RADIUS } from "../game/src/app/config.js";
 import type { SemanticEntity, SkillId, SolidVolume, Vec3 } from "../game/src/contracts.js";
-import { COLDBRACE } from "../game/src/content/settlements/coldbrace.js";
+import { getRegion } from "../game/src/content/regions.js";
 import { EventBus } from "../game/src/core/events.js";
 import { distanceXZ } from "../game/src/core/math.js";
 import { createInitialState } from "../game/src/state/store.js";
@@ -13,8 +13,9 @@ import { EntityStore } from "../game/src/world/entities.js";
 import { ForestObstacles } from "../game/src/world/forestObstacles.js";
 import { assetSolidFromMeasurements } from "../game/src/world/regionBuilder.js";
 
-const dorn = COLDBRACE.npcs.find((npc) => npc.id === "npc_pitmaster_dorn")!;
-const counter = COLDBRACE.props!.find((prop) => prop.id === "coldbrace_prop_bank_counter")!;
+const coldbrace = getRegion("fallowmarch")!.settlements.find(town => town.id === "coldbrace")!;
+const dorn = coldbrace.npcs.find((npc) => npc.id === "npc_pitmaster_dorn")!;
+const counter = coldbrace.props!.find((prop) => prop.id === "coldbrace_prop_bank_counter")!;
 const manifest = JSON.parse(readFileSync(new URL("../game/public/assets/manifest.json", import.meta.url), "utf8")) as {
   assets: { id: string; size: { x: number; y: number; z: number }; base: { x: number; y: number; z: number } }[];
 };

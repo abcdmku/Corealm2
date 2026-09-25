@@ -3276,5 +3276,495 @@
       }
     ],
     "catalog": "base"
+  },
+  {
+    "id": "lastlight_watch_root",
+    "speaker": "Morrow",
+    "text": "The gate is open. Keep your eyes on the road beyond it. What are you looking for?",
+    "options": [
+      {
+        "id": "lastlight_watch_root#a",
+        "text": "Where is the market?",
+        "next": "lastlight_watch_detail_a"
+      },
+      {
+        "id": "lastlight_watch_root#b",
+        "text": "Which way to Starhaven?",
+        "next": "lastlight_watch_detail_b"
+      },
+      {
+        "id": "lastlight_watch_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_watch_detail_a",
+    "speaker": "Morrow",
+    "text": "Three stalls face the square: potions to the west, arms in the middle, and cosmic goods to the east. The bank is farther west.",
+    "options": [
+      {
+        "id": "lastlight_watch_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_watch_detail_b",
+    "speaker": "Morrow",
+    "text": "Take the road north past the foundry turn, then follow the lamps toward Starhaven. Do not mistake a light off the road for a guide.",
+    "options": [
+      {
+        "id": "lastlight_watch_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_banker_root",
+    "speaker": "Vell",
+    "text": "I keep the ledgers here. Their ink has outlasted more than one keeper.",
+    "options": [
+      {
+        "id": "lastlight_banker_root#a",
+        "text": "Where is the bank counter?",
+        "next": "lastlight_banker_detail_a"
+      },
+      {
+        "id": "lastlight_banker_root#b",
+        "text": "Where can I buy supplies?",
+        "next": "lastlight_banker_detail_b"
+      },
+      {
+        "id": "lastlight_banker_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_banker_detail_a",
+    "speaker": "Vell",
+    "text": "The bank counter is west of the square, beneath the short porch. Bring your goods to the counter.",
+    "options": [
+      {
+        "id": "lastlight_banker_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_banker_detail_b",
+    "speaker": "Vell",
+    "text": "The market stalls are just east of here. The apothecary has potions; the arms and cosmic stalls keep the rest.",
+    "options": [
+      {
+        "id": "lastlight_banker_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_apothecary_root",
+    "speaker": "Ossin",
+    "text": "The bottles are sorted by strength. Read the label before you drink.",
+    "options": [
+      {
+        "id": "lastlight_apothecary_root#a",
+        "text": "What potions are sold here?",
+        "next": "lastlight_apothecary_detail_a"
+      },
+      {
+        "id": "lastlight_apothecary_root#b",
+        "text": "How long do they last?",
+        "next": "lastlight_apothecary_detail_b"
+      },
+      {
+        "id": "lastlight_apothecary_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_apothecary_detail_a",
+    "speaker": "Ossin",
+    "text": "Lastlight stocks melee, magic and defence potions through rank three. Rank three begins at tier fifty; earlier ranks are still on the shelf.",
+    "options": [
+      {
+        "id": "lastlight_apothecary_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_apothecary_detail_b",
+    "speaker": "Ossin",
+    "text": "Each potion lasts five minutes. A stronger one replaces a weaker effect of the same kind; they do not add together.",
+    "options": [
+      {
+        "id": "lastlight_apothecary_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_smith_root",
+    "speaker": "Edda",
+    "text": "A sound edge and a sound clasp will take you farther than a grand name.",
+    "options": [
+      {
+        "id": "lastlight_smith_root#a",
+        "text": "What arms do you sell?",
+        "next": "lastlight_smith_detail_a"
+      },
+      {
+        "id": "lastlight_smith_root#b",
+        "text": "Where are the other stalls?",
+        "next": "lastlight_smith_detail_b"
+      },
+      {
+        "id": "lastlight_smith_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_smith_detail_a",
+    "speaker": "Edda",
+    "text": "The arms stall has ordinary cindersteel weapons and a complete armour set, along with a teak shield. The forge stands just east of the square.",
+    "options": [
+      {
+        "id": "lastlight_smith_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_smith_detail_b",
+    "speaker": "Edda",
+    "text": "The potion stall is west of the arms. The cosmic stall is east. All three face the square.",
+    "options": [
+      {
+        "id": "lastlight_smith_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_seer_root",
+    "speaker": "Neris",
+    "text": "The lamps show the path. They cannot make it harmless.",
+    "options": [
+      {
+        "id": "lastlight_seer_root#a",
+        "text": "What does the cosmic stall carry?",
+        "next": "lastlight_seer_detail_a"
+      },
+      {
+        "id": "lastlight_seer_root#b",
+        "text": "What lies farther north?",
+        "next": "lastlight_seer_detail_b"
+      },
+      {
+        "id": "lastlight_seer_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_seer_detail_a",
+    "speaker": "Neris",
+    "text": "Look for wands, staves, robes and runes at the east stall. The trader keeps practical tools there, not prophecies.",
+    "options": [
+      {
+        "id": "lastlight_seer_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lastlight_seer_detail_b",
+    "speaker": "Neris",
+    "text": "Starhaven stands beyond the foundry road. Its lamps burn colder, but someone still tends every one.",
+    "options": [
+      {
+        "id": "lastlight_seer_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_watch_root",
+    "speaker": "Tarn",
+    "text": "You reached the gate. That is reason enough to stop and check your gear.",
+    "options": [
+      {
+        "id": "starhaven_watch_root#a",
+        "text": "Where is the market?",
+        "next": "starhaven_watch_detail_a"
+      },
+      {
+        "id": "starhaven_watch_root#b",
+        "text": "Which road leads south?",
+        "next": "starhaven_watch_detail_b"
+      },
+      {
+        "id": "starhaven_watch_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_watch_detail_a",
+    "speaker": "Tarn",
+    "text": "The three stalls stand north of the square. Potions are west, arms in the centre, and cosmic goods east. The bank is down the west walk.",
+    "options": [
+      {
+        "id": "starhaven_watch_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_watch_detail_b",
+    "speaker": "Tarn",
+    "text": "The south gate returns to the foundry road. Keep to its lamps until the Lastlight track comes into view.",
+    "options": [
+      {
+        "id": "starhaven_watch_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_banker_root",
+    "speaker": "Maer",
+    "text": "The ledger is open. I can still read every hand that wrote in it.",
+    "options": [
+      {
+        "id": "starhaven_banker_root#a",
+        "text": "Where is the bank?",
+        "next": "starhaven_banker_detail_a"
+      },
+      {
+        "id": "starhaven_banker_root#b",
+        "text": "Where can I buy supplies?",
+        "next": "starhaven_banker_detail_b"
+      },
+      {
+        "id": "starhaven_banker_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_banker_detail_a",
+    "speaker": "Maer",
+    "text": "Follow the west walk to the bank porch. The counter is inside the northern end of the yard.",
+    "options": [
+      {
+        "id": "starhaven_banker_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_banker_detail_b",
+    "speaker": "Maer",
+    "text": "Return to the square and look north. The potion, arms and cosmic stalls face the same lane.",
+    "options": [
+      {
+        "id": "starhaven_banker_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_apothecary_root",
+    "speaker": "Sable",
+    "text": "The glass is old. The measures are exact.",
+    "options": [
+      {
+        "id": "starhaven_apothecary_root#a",
+        "text": "What is your strongest potion?",
+        "next": "starhaven_apothecary_detail_a"
+      },
+      {
+        "id": "starhaven_apothecary_root#b",
+        "text": "How should I use one?",
+        "next": "starhaven_apothecary_detail_b"
+      },
+      {
+        "id": "starhaven_apothecary_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_apothecary_detail_a",
+    "speaker": "Sable",
+    "text": "Starhaven stocks rank-four melee, magic and defence potions at tier seventy. Ranks one through three remain available here.",
+    "options": [
+      {
+        "id": "starhaven_apothecary_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_apothecary_detail_b",
+    "speaker": "Sable",
+    "text": "Choose the effect you need before a hard fight. It lasts five minutes; another potion of the same kind replaces it rather than stacking.",
+    "options": [
+      {
+        "id": "starhaven_apothecary_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_smith_root",
+    "speaker": "Orun",
+    "text": "Nightglass takes patience. It has no use for speeches.",
+    "options": [
+      {
+        "id": "starhaven_smith_root#a",
+        "text": "What do you keep in stock?",
+        "next": "starhaven_smith_detail_a"
+      },
+      {
+        "id": "starhaven_smith_root#b",
+        "text": "Where are the other stalls?",
+        "next": "starhaven_smith_detail_b"
+      },
+      {
+        "id": "starhaven_smith_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_smith_detail_a",
+    "speaker": "Orun",
+    "text": "The arms stall has an ordinary nightglass sword, shield and full armour set, plus gathering tools. Each piece is made for long use.",
+    "options": [
+      {
+        "id": "starhaven_smith_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_smith_detail_b",
+    "speaker": "Orun",
+    "text": "Potions stand west of my counter. Cosmic goods are east. The bank is across the square and down the west walk.",
+    "options": [
+      {
+        "id": "starhaven_smith_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_host_root",
+    "speaker": "Hush",
+    "text": "You may stand under this roof until you know your next step.",
+    "options": [
+      {
+        "id": "starhaven_host_root#a",
+        "text": "Where can I find the bank?",
+        "next": "starhaven_host_detail_a"
+      },
+      {
+        "id": "starhaven_host_root#b",
+        "text": "What keeps this town here?",
+        "next": "starhaven_host_detail_b"
+      },
+      {
+        "id": "starhaven_host_root#bye",
+        "text": "Goodbye.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_host_detail_a",
+    "speaker": "Hush",
+    "text": "Take the west walk from the square. Maer keeps the bank counter beneath the porch.",
+    "options": [
+      {
+        "id": "starhaven_host_detail_a#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "starhaven_host_detail_b",
+    "speaker": "Hush",
+    "text": "The road still needs a place to pause. We mend the gates, keep the lamps lit and send travellers onward with what they need.",
+    "options": [
+      {
+        "id": "starhaven_host_detail_b#bye",
+        "text": "Thank you.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
   }
 ]

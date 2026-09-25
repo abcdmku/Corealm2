@@ -89,7 +89,19 @@ export class EquipmentSystem {
   }
 
   totals(): EquipmentBonuses {
-    return equipmentTotalsOf(this.state.equipment);
+    const totals = equipmentTotalsOf(this.state.equipment);
+    const buffs = this.state.combat.potionBuffs;
+    const now = this.deps.now();
+    if (buffs?.melee && buffs.melee.expiresAtMs > now) {
+      totals.meleeAccuracy += buffs.melee.strength;
+      totals.meleePower += buffs.melee.strength;
+    }
+    if (buffs?.magic && buffs.magic.expiresAtMs > now) {
+      totals.magicAccuracy += buffs.magic.strength;
+      totals.magicPower += buffs.magic.strength;
+    }
+    if (buffs?.defence && buffs.defence.expiresAtMs > now) totals.defence += buffs.defence.strength;
+    return totals;
   }
 
   equip(itemId: ItemId, targetSlot?: EquipSlot): Result<{ slot: EquipSlot; replaced: ItemId | null }> {

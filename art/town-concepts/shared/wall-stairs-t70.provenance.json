@@ -1,0 +1,9 @@
+{
+  "asset": "wall-stairs-t70.png",
+  "townStyle": "T70 material reskin",
+  "tool": "built-in image_gen edit",
+  "sourceReference": "wall-stairs-base.png",
+  "generatedSource": "exec-e5544b0f-8b7b-4a8e-8e20-143ca6e5b5ba.png",
+  "prompt": "Create the T70 town material reskin of this exact shared wall-access stair module. This is a material-only edit: preserve exact geometry, dimensions, silhouette, every stair tread and riser, rails, cheek walls, upper landing and its flush walkway connection, parapet, wall courses and braces, ossuary reliefs, framing, camera, lighting, background, and shadow. Do not add, remove, move, or reshape any structural part. Keep it completely flag-free with no cloth or drapes. Shift materials from T50 charcoal basalt and blackened timber to slightly ashier, more desaturated gray stone, deeply weathered and rotted gray-brown wood, oxidized iron repairs and subtle mineral staining; add only faint spectral teal residue in a few stone seams and iron crevices. Keep rich layered hand-painted texture and varied material values; not a flat monochrome recolor. Match the same bleak wilderness mortuary style. No text, people, terrain, props, new geometry, openings, or extra decoration.",
+  "review": "Stair silhouette and landing match the T50 stair module. T70 material treatment is ashier and desaturated, with layered stone, weathered timber, oxidized iron, mineral staining, and restrained teal accents."
+}

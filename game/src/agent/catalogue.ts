@@ -181,7 +181,7 @@ export const TOOL_SPECS = {
     name: "corealm_use_item",
     title: "Use an item",
     access: "act",
-    description: "Use a carried item to eat food or equip gear.",
+    description: "Use a carried item to drink a buff potion, eat food, or equip gear.",
     inputSchema: obj({
       itemId: STR("Item to use", { minLength: 1 }),
     }, ["itemId"]),

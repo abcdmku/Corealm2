@@ -14,7 +14,7 @@ import { setPath, type Path } from "../../model/draft.js";
 
 export type Point = [number, number];
 export type Region = WorldRegionGeometry;
-export type Settlement = NonNullable<Region["settlement"]>;
+export type Settlement = Region["settlements"][number];
 export type Location = Region["locations"][number];
 export type Landmark = Region["landmarks"][number];
 export type Gate = Region["gates"][number];
@@ -49,10 +49,10 @@ export const titleCase = (value: string): string => value.replace(/[_-]+/g, " ")
 const KIND_COLLECTION: Record<Kind, string> = { region: "worldRegions", location: "locations", landmark: "landmarks", gate: "gates", obstacle: "obstacles", npc: "npcs", building: "buildings", station: "stations", shop: "shops", bank: "bank", placement: "placements", resource: "resourcePlacements" };
 const COLLECTION_KIND = new Map(Object.entries(KIND_COLLECTION).map(([kind, collection]) => [collection, kind as Kind]));
 
-/** `placements:redsill_frogs`, `locations:fallowmarch/town_center`, `bank:fallowmarch`, `npcs:npc_warden_ilse`. */
+/** `placements:redsill_frogs`, `locations:fallowmarch/town_center`, `bank:coldbrace_bank`, `npcs:npc_warden_ilse`. */
 export function selectionId(selection: Selection): string {
   const collection = KIND_COLLECTION[selection.kind];
-  if (selection.kind === "bank") return `bank:${selection.regionId ?? selection.id}`;
+  if (selection.kind === "bank") return `bank:${selection.id}`;
   return selection.regionId && selection.kind !== "region" && selection.kind !== "npc" && selection.kind !== "placement" && selection.kind !== "resource" ? `${collection}:${selection.regionId}/${selection.id}` : `${collection}:${selection.id}`;
 }
 
@@ -66,11 +66,14 @@ export function parseSelection(recordId: string | undefined, draft: Draft | unde
     const placement = draft?.placements.find(row => row.encounterId === rest);
     return placement ? { kind: "placement", id: placement.id } : undefined;
   }
-  if (collection === "bank") return { kind: "bank", id: rest, regionId: rest };
+  if (collection === "bank") {
+    const owner = draft?.worldRegions.find(region => region.settlements.some(settlement => settlement.bank.id === rest));
+    return owner ? { kind: "bank", id: rest, regionId: owner.id } : undefined;
+  }
   const kind = COLLECTION_KIND.get(collection);
   if (!kind) return undefined;
   if (kind === "npc") {
-    const owner = draft?.worldRegions.find(region => region.settlement?.npcs.some(npc => npc.id === rest));
+    const owner = draft?.worldRegions.find(region => region.settlements.some(settlement => settlement.npcs.some(npc => npc.id === rest)));
     return { kind, id: rest, regionId: owner?.id };
   }
   const slash = rest.indexOf("/");
@@ -95,11 +98,11 @@ export function findOwned(region: Region, kind: Kind, id: string): unknown {
     case "landmark": return region.landmarks.find(row => row.id === id);
     case "gate": return region.gates.find(row => row.id === id);
     case "obstacle": return region.obstacles.find(row => row.id === id);
-    case "station": return region.settlement?.stations.find(row => row.id === id) ?? region.stations.find(row => row.id === id);
-    case "building": return region.settlement?.buildings.find(row => row.id === id);
-    case "shop": return region.settlement?.shops.find(row => row.id === id);
-    case "bank": return region.settlement?.bank;
-    case "npc": return region.settlement?.npcs.find(row => row.id === id);
+    case "station": return region.settlements.flatMap(settlement => settlement.stations).find(row => row.id === id) ?? region.stations.find(row => row.id === id);
+    case "building": return region.settlements.flatMap(settlement => settlement.buildings).find(row => row.id === id);
+    case "shop": return region.settlements.flatMap(settlement => settlement.shops).find(row => row.id === id);
+    case "bank": return region.settlements.find(settlement => settlement.bank.id === id)?.bank;
+    case "npc": return region.settlements.flatMap(settlement => settlement.npcs).find(row => row.id === id);
     default: return undefined;
   }
 }
@@ -107,16 +110,22 @@ export function findOwned(region: Region, kind: Kind, id: string): unknown {
 /** Path inside the region record to the owned row, so edits go through `setPath`. */
 export function ownedPath(region: Region, kind: Kind, id: string): Path | undefined {
   const index = (rows: readonly { id: string }[] | undefined) => { const i = rows?.findIndex(row => row.id === id) ?? -1; return i < 0 ? undefined : i; };
+  const settlementPath = <K extends "stations" | "buildings" | "shops" | "npcs">(key: K) => {
+    const settlementIndex = region.settlements.findIndex(settlement => settlement[key].some(row => row.id === id));
+    if (settlementIndex < 0) return undefined;
+    const rowIndex = index(region.settlements[settlementIndex]![key]);
+    return rowIndex === undefined ? undefined : ["settlements", settlementIndex, key, rowIndex] as Path;
+  };
   switch (kind) {
     case "location": { const i = index(region.locations); return i === undefined ? undefined : ["locations", i]; }
     case "landmark": { const i = index(region.landmarks); return i === undefined ? undefined : ["landmarks", i]; }
     case "gate": { const i = index(region.gates); return i === undefined ? undefined : ["gates", i]; }
     case "obstacle": { const i = index(region.obstacles); return i === undefined ? undefined : ["obstacles", i]; }
-    case "station": { const s = index(region.settlement?.stations); if (s !== undefined) return ["settlement", "stations", s]; const r = index(region.stations); return r === undefined ? undefined : ["stations", r]; }
-    case "building": { const i = index(region.settlement?.buildings); return i === undefined ? undefined : ["settlement", "buildings", i]; }
-    case "shop": { const i = index(region.settlement?.shops); return i === undefined ? undefined : ["settlement", "shops", i]; }
-    case "bank": return region.settlement ? ["settlement", "bank"] : undefined;
-    case "npc": { const i = index(region.settlement?.npcs); return i === undefined ? undefined : ["settlement", "npcs", i]; }
+    case "station": return settlementPath("stations") ?? (() => { const i = index(region.stations); return i === undefined ? undefined : ["stations", i]; })();
+    case "building": return settlementPath("buildings");
+    case "shop": return settlementPath("shops");
+    case "bank": { const i = region.settlements.findIndex(settlement => settlement.bank.id === id); return i < 0 ? undefined : ["settlements", i, "bank"]; }
+    case "npc": return settlementPath("npcs");
     default: return undefined;
   }
 }
@@ -233,8 +242,7 @@ export function deriveFeatures(draft: Draft, lookups: Lookups): { features: Feat
     for (const station of region.stations) {
       features.push({ key: `stations:${rid}/${station.id}`, selection: { kind: "station", id: station.id, regionId: rid }, layer: "settlements", x: station.position[0], z: station.position[1], name: station.name, fact: `${titleCase(station.kind)} · ${station.skill} · ${region.name}`, regionId: rid, glyph: "station", rotation: station.rotationY, movable: true });
     }
-    const settlement = region.settlement;
-    if (settlement) {
+    for (const settlement of region.settlements) {
       for (const building of settlement.buildings) {
         features.push({ key: `buildings:${rid}/${building.id}`, selection: { kind: "building", id: building.id, regionId: rid }, layer: "settlements", x: building.position[0], z: building.position[1], name: building.name, fact: `${titleCase(building.prefab)} · ${settlement.name}`, regionId: rid, glyph: "building", rotation: building.rotationY, footprint: building.footprint, movable: true });
       }
@@ -244,7 +252,7 @@ export function deriveFeatures(draft: Draft, lookups: Lookups): { features: Feat
       for (const shop of settlement.shops) {
         features.push({ key: `shops:${rid}/${shop.id}`, selection: { kind: "shop", id: shop.id, regionId: rid }, layer: "settlements", x: shop.position[0], z: shop.position[1], name: shop.name, fact: `${titleCase(shop.shopKind)} shop · ${settlement.name}`, regionId: rid, glyph: "shop", rotation: shop.rotationY, movable: true });
       }
-      features.push({ key: `bank:${rid}`, selection: { kind: "bank", id: settlement.bank.id, regionId: rid }, layer: "settlements", x: settlement.bank.position[0], z: settlement.bank.position[1], name: settlement.bank.name, fact: `Bank · ${settlement.name}`, regionId: rid, glyph: "bank", rotation: settlement.bank.rotationY, movable: true });
+      features.push({ key: `bank:${settlement.bank.id}`, selection: { kind: "bank", id: settlement.bank.id, regionId: rid }, layer: "settlements", x: settlement.bank.position[0], z: settlement.bank.position[1], name: settlement.bank.name, fact: `Bank · ${settlement.name}`, regionId: rid, glyph: "bank", rotation: settlement.bank.rotationY, movable: true });
       for (const stand of settlement.npcs) {
         const npc = lookups.npc(stand.id);
         const role = typeof npc?.role === "string" ? npc.role : "";

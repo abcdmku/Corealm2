@@ -1,4 +1,4 @@
-import { FAIRY_REGIONS } from '../content/fairyRegions.js';
+import { FAIRY_REGIONS } from '../content/regions.js';
 import { WORLD_SITES } from '../content/worldSites.js';
 import { Rng } from '../core/rng.js';
 import { sampleFairyBankHeight } from './fairyBankHeightmaps.js';
@@ -105,7 +105,7 @@ function protectedFloor(position: FairyLandformPoint, radius: number, roads: rea
   const [x, z] = position;
   if (x - radius < 2000 || x + radius > 2600 || z - radius < -200 || z + radius > 460) return true;
   for (const region of FAIRY_REGIONS) {
-    if (region.settlement && Math.hypot(x - region.settlement.centre[0], z - region.settlement.centre[1]) < TOWN_RESERVE + radius) return true;
+    if (region.settlements.some((town) => Math.hypot(x - town.centre[0], z - town.centre[1]) < TOWN_RESERVE + radius)) return true;
     for (const group of region.enemyGroups) if (group.boss && Math.hypot(x - group.centre[0], z - group.centre[1]) < 28 + radius) return true;
     for (const gate of region.gates) if (Math.hypot(x - gate.position[0], z - gate.position[1]) < 7 + radius) return true;
   }

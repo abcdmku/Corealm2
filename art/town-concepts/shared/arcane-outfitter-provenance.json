@@ -1,0 +1,26 @@
+{
+  "set": "Shared arcane outfitter T50 base and T70 material variant",
+  "created": "2026-09-25",
+  "assets": [
+    {
+      "file": "arcane-outfitter-base.png",
+      "role": "T50 shared geometry reference",
+      "styleReferences": [
+        "bank-base.png",
+        "hall-base.png"
+      ],
+      "selectedGeneratedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-0b1d326f-8e85-4ff5-8f8d-2c955da2ac2d.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "Generate a NEW standalone ARCANE OUTFITTER building for the same town kit. The two supplied images (bank and hall) are STYLE AND MATERIAL REFERENCES ONLY, not edit targets: match their ancient haunted deep-wilderness construction, charcoal basalt stone courses, blackened weathered starwood, aged rusted iron straps, cracked slate roofing, eroded funerary carvings, intricate layered hand-painted textures and practical inhabited condition. The shop is a broad compact TWO-STORY wizard-equipment outfitter, smaller than a town hall and distinct from a home. One offset steep gable creates an angled street-facing shopfront; at ground level show a wide but structurally supported angled service/display window with a counter ledge, containing a FEW small clearly readable robe and staff silhouettes secured inside, next to a prominent usable public entry door. Upper level has two small dim cold-lit windows and a restrained repaired roof. Believable medieval load-bearing joinery and stone buttresses, no giant magic crystals or hovering parts. Functional shop for ghosts and friendly undead; eerie and practical, not villainous or cozy. ONE complete isolated building, three-quarter front view showing front and one side, entire footprint and roof within frame with margin, plain light gray seamless studio background. No flags, banners, fabric awnings, people, terrain, diorama base, text or lettering, excessive loose props, warm golden windows, sci-fi forms, pristine cathedral ornament or extravagant palace scale."
+    },
+    {
+      "file": "arcane-outfitter-t70.png",
+      "role": "T70 material edit of base",
+      "sourceReference": "arcane-outfitter-base.png",
+      "selectedGeneratedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-638b9928-5f8b-438f-86d8-fd7143c444dc.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "MATERIAL RESKIN ONLY of the provided arcane outfitter base into its T70 deep-wilderness haunted necropolis variant. Preserve EXACT geometry, camera, framing and layout: both roof gables and chimneys, all walls and stone courses, the angled street-facing display window with its robe and staff silhouettes, counter ledge, front door, stairs, upper windows, carved reliefs and iron bands. Same model and same openings, no new forms. Change surfaces to deeper cold ash-gray cracked basalt with layered erosion, mineral staining, pale lichen in mortar, desaturated rotted dark starwood grain and oxidized iron with muted verdigris; existing shop display and windows carry restrained spectral teal light. Richly layered hand-painted colors and weathering, NOT a flat monochrome filter. Functional outfitter for friendly undead, bleak and maintained, not pristine or cozy. Complete isolated asset on plain light gray studio background. No flags, banners, fabric awnings, people, terrain, base, text, extra props, enlarged crystals, floating objects, warm gold windows or sci-fi additions."
+    }
+  ],
+  "visualReview": "Both images inspected. Same roof silhouette, chimneys, windows, buttresses, counter display and entry. T70 surfaces show heavier ash basalt, lichen and oxidized teal iron; shop robes and staffs remain readable. Figures inside the display are empty robes, not characters. These are concept references; mesh geometry identity must be enforced from one production model."
+}

@@ -1,0 +1,29 @@
+{
+  "source": "../town-shared/well.glb",
+  "baseModel": "../town-buildings/well.glb",
+  "t70Model": "well.glb",
+  "normalization": {
+    "widthMetres": 3,
+    "quarterTurns": 0,
+    "centerXZ": true,
+    "groundY": 0,
+    "boundsMetres": [
+      3,
+      3.9408734176559777,
+      3
+    ]
+  },
+  "material": {
+    "sourceAtlas": "2048x2048 Tripo JPEG preserved in base GLB",
+    "reskinSheet": "test-results/town-models/material-sheet-t70-cold.png",
+    "bakeStrength": 0.85,
+    "bake": "UV-aware triplanar swatch blend with source details retained",
+    "t70Atlas": "2048x2048 JPEG quality 92 4:4:4 embedded"
+  },
+  "qa": {
+    "front": "test-results/town-models-secondary/well-t70-final/front.png",
+    "angle": "test-results/town-models-secondary/well-t70-final/angle.png",
+    "finding": "Complete canopy, posts, circular basin, bucket, rope and winch. No missing structural parts."
+  },
+  "geometry": "Identical base and T70 mesh; raw source untouched."
+}

@@ -1,0 +1,86 @@
+{
+  "source": "../town-shared/building-narrow.glb",
+  "normalizedSourceSha256": "8ff45497e996be044ed2274258e4708647dfb9860b42ae06a3e213ab81f73f8b",
+  "reference": "art/town-concepts/shared/building-narrow-base.png",
+  "tier": "T70",
+  "front": "+Z",
+  "origin": "Centered XZ; grounded Y=0; original normalization retained",
+  "bounds": {
+    "min": [
+      -4,
+      0,
+      -3.812645565947253
+    ],
+    "max": [
+      4,
+      9.573767754864587,
+      3.812645565947253
+    ]
+  },
+  "dimensions": [
+    8,
+    9.573767754864587,
+    7.625291131894506
+  ],
+  "triangles": 11685,
+  "vertices": 29673,
+  "bytes": 7775404,
+  "sha256": "ac6b893a5e41dc9dbdb69cfd5dfb2d2e5b257bbacfaf9585de011a330881e3af",
+  "repair": {
+    "reason": "Tripo output omitted main roof planes and recessed facade/gable infill; reroll reproduced missing surfaces.",
+    "geometry": "Added continuous intersecting gable roof slopes, recessed timber gable backing, and recessed stone wall backing. All original positions, normals, UVs and indices preserved byte-for-byte, including walls/windows/beams/chimney. Both tiers have identical geometry.",
+    "addedTriangles": 7498,
+    "materialProperties": "Added rough dielectric double-sided slate, timber and stone surfaces; original material retained."
+  },
+  "textures": [
+    {
+      "name": "tripo_image_e773ba1e-b264-4cc6-a871-ed2ba16fce5d_0",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "3ef1d291340063ec77e7f3710538e46e7aac951e16a7d1138a73dba1ffdabfcc",
+      "bytes": 1489576
+    },
+    {
+      "name": "Generated slate repair",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "fa880af21f7d12a6aa44b370c83641fda2fe6774d5c8f7441c3f041b0d1bed6d",
+      "bytes": 1540197
+    },
+    {
+      "name": "Generated wood repair",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "d09b0085710e75b586b644dbbc8a33d4ee812e27c3ae0995656d94d87971c5f7",
+      "bytes": 1723423
+    },
+    {
+      "name": "Generated stone repair",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "d6d27f709060256c535c3645e1da576889c6b2d309ec86a37a01296613ea66da",
+      "bytes": 2042979
+    }
+  ],
+  "generation": {
+    "tool": "built-in imagegen",
+    "reusedTownMaterialMaps": true,
+    "prompts": {
+      "cold": "Create a SQUARE FLAT MATERIAL SWATCH sheet for UV-preserving reskin of an EXISTING 3D haunted town gate. Use the supplied gate T70 concept as COLOR and material reference, but output ONLY four precisely equal quadrants, each a straight-on seamless-looking 2D texture, with ruler-straight center division. Do not show any architecture, structure, landscape, lighting fixture, text, UV atlas, or perspective. TOP LEFT: chipped charcoal basalt and mortar, richly layered distinct cold blue-gray, muted violet mineral streaks, pale chalk efflorescence, speckles of silver-blue lichen; intricate stone variation and clear visible cold hue. TOP RIGHT: old timber grain with gray-brown core and desaturated blue-teal weathering embedded in cracks, rusted fastener marks; still visibly wood, not painted solid cyan. BOTTOM LEFT: pitted dark iron and bronze straps with substantial but varied green-blue oxidation/verdigris and brown rust; still reads metal. BOTTOM RIGHT: dark slate shingles with subtly distinct midnight blue-gray, violet mineral dust and pale broken edges. Fine detail, layered material colors, coherent texture scale. Saturated enough to read blue/teal against neutral charcoal at game camera distance, but not fluorescent or monochrome. EXACTLY four equal quadrants, no borders/gutters/labels/shadows/vignette. No flags or banners."
+    },
+    "reference": "art/town-concepts/shared/gate-t70.png",
+    "method": "Reuse generated cold slate, timber and stone maps; original UV atlas receives layered material bake at strength 0.55 preserving underlying sculpted detail. Same geometry as T50.",
+    "encoding": "All four embedded maps 2048x2048 JPEG quality 92, 4:4:4"
+  },
+  "qa": {
+    "originalAttributesPreserved": true,
+    "tierGeometryIdentical": true,
+    "finiteAttributes": true,
+    "frontAndAngledActualGlbRendersReviewed": true,
+    "productionLabAcceptance": "Root agent owns production browser acceptance."
+  }
+}

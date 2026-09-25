@@ -1,7 +1,10 @@
 import type { RegionId } from "../contracts.js";
 import { WILDERNESS_RESOURCE_SITES } from './wildernessResources.js';
-import { CROWNWARD_RESOURCE_INTENTS, CROWNWARD_FISHERIES } from './crownward.js';
-import { FAIRY_RESOURCE_INTENTS } from './fairyRegions.js';
+import { CROWNWARD_RESOURCE_INTENTS, FAIRY_RESOURCE_INTENTS } from './regionalResourceIntents.js';
+import { crownwardFisheries } from './crownwardFishing.js';
+import { CROWNWARD_RIVER_CHANNELS } from './crownwardRiver.js';
+
+const CROWNWARD_FISHERIES = crownwardFisheries(CROWNWARD_RIVER_CHANNELS);
 
 export interface WorldSiteResourceSlot {
   readonly clusterId: string;

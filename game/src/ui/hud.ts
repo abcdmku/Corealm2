@@ -15,7 +15,7 @@ import { sendGameCommand } from "../api/commands.js";
  * There is no per-frame work here. `update()` is called on a 100 ms cadence and each channel keeps
  * a signature of what it last wrote. Nothing touches the DOM unless the underlying number changed.
  */
-import type { GameEvent, SkillId } from "../contracts.js";
+import type { ActivePotionBuff, GameEvent, PotionBuffKind, SkillId } from "../contracts.js";
 import { SKILL_IDS } from "../contracts.js";
 import { UNREACHABLE_DESTINATION_MESSAGE } from "../api/gameApi.js";
 import { content } from "../content/index.js";
@@ -29,6 +29,22 @@ import { formatQuantity } from "./panels.js";
 const XP_DROP_LIMIT = 6;
 const XP_DROP_MS = 2_200;
 const EVENT_INTERVAL_MS = 250;
+const POTION_KINDS: readonly PotionBuffKind[] = ["melee", "magic", "defence"];
+
+/** The server clock and the buff deadline share simulation milliseconds. */
+export function activePotionLines(
+  buffs: Partial<Record<PotionBuffKind, ActivePotionBuff>> | undefined,
+  simMs: number,
+): string[] {
+  return POTION_KINDS.flatMap((kind) => {
+    const buff = buffs?.[kind];
+    if (!buff || buff.expiresAtMs <= simMs) return [];
+    const seconds = Math.ceil((buff.expiresAtMs - simMs) / 1_000);
+    const clock = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+    const label = kind === "defence" ? "Defence" : kind === "melee" ? "Melee" : "Magic";
+    return [`${label} +${buff.strength} · ${clock}`];
+  });
+}
 
 /** Turns the canonical recharge payload into the one receipt shown to the player. */
 export function describeEssenceRecharge(data: GameEvent["data"]): string {
@@ -94,12 +110,14 @@ export class Hud {
   private readonly activityLabel: HTMLElement;
   private readonly activityFill: HTMLElement;
   private readonly activityCount: HTMLElement;
+  private readonly potionBuffs: HTMLElement;
   private readonly xpFeed: HTMLElement;
   private readonly cacheBanner: HTMLElement;
   private readonly cacheDetail: HTMLElement;
 
   private healthSig = "";
   private activitySig = "";
+  private potionSig = "";
 
   private xpBaseline: Partial<Record<SkillId, number>> = {};
   private xpSeeded = false;
@@ -146,6 +164,11 @@ export class Hud {
     activityBar.appendChild(activityFill);
     activity.append(activityHead, activityBar);
 
+    const potionBuffs = document.createElement("div");
+    potionBuffs.className = "hud__potions u-numeric";
+    potionBuffs.setAttribute("aria-label", "Active potion effects");
+    potionBuffs.hidden = true;
+
     // ---- recovery cache, under the vitals
     //
     // `systems/death.ts` has said since round 3 that "the HUD is supposed to show a countdown
@@ -179,7 +202,7 @@ export class Hud {
     // The chat block rides in the vitals column, directly under the health bar: the input on top,
     // lines running down from it. In flow, so an activity bar or a cache banner pushes it down
     // instead of drawing over it.
-    vitals.append(health, activity, cache, this.messages.root);
+    vitals.append(health, activity, potionBuffs, cache, this.messages.root);
     this.cacheBanner = cache;
     this.cacheDetail = cacheDetail;
 
@@ -201,6 +224,7 @@ export class Hud {
     this.activityLabel = activityLabel;
     this.activityFill = activityFill;
     this.activityCount = activityCount;
+    this.potionBuffs = potionBuffs;
     this.xpFeed = xpFeed;
   }
 
@@ -233,6 +257,7 @@ export class Hud {
     // The bar stays hot for the whole no-regen window, not just while a target is alive.
     this.updateHealth(player.health, player.maxHealth, player.inCombat || player.regenBlocked, player.dead);
     this.updateActivity();
+    this.updatePotions(player.potionBuffs, api.getTime().simMs);
     this.updateXpFeed();
     this.updateCache();
 
@@ -285,6 +310,19 @@ export class Hud {
   }
 
   // ---------------------------------------------------------------- vitals
+
+  private updatePotions(buffs: Partial<Record<PotionBuffKind, ActivePotionBuff>> | undefined, simMs: number): void {
+    const lines = activePotionLines(buffs, simMs);
+    const signature = lines.join("|");
+    if (signature === this.potionSig) return;
+    this.potionSig = signature;
+    this.potionBuffs.replaceChildren(...lines.map((line) => {
+      const row = document.createElement("div");
+      row.textContent = line;
+      return row;
+    }));
+    this.potionBuffs.hidden = lines.length === 0;
+  }
 
   private updateHealth(health: number, maxHealth: number, inCombat: boolean, dead: boolean): void {
     const signature = `${health}/${maxHealth}/${inCombat}/${dead}`;

@@ -1,0 +1,60 @@
+{
+  "asset": "market_stall_cosmic_t50",
+  "sourceGeometry": "../market-stalls/cosmic.glb",
+  "sourceSha256": "e68e5b7d239161c1033b0d7545d7d3607744f9a8cd53cdf4be2db7456723cf66",
+  "concept": "art/town-concepts/stalls/cosmic-t50.png",
+  "generation": {
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Flat four-square game albedo material sheet for the approved T50 cosmic wizard-gear market stall reference. Exactly FOUR equal square swatches occupy entire image, no labels, frames, borders or gaps. TOP LEFT: weathered medium-dark indigo/navy canvas with fine woven detail, restrained faded ochre stitch repairs, rubbed slate-blue yarn and irregular grey-brown age patches; no celestial symbols or heraldry. TOP RIGHT: aged dark oak timber with warm rubbed brown and silvery grain, small nicks, splinters and grey dirt; flat pure wood surface. BOTTOM LEFT: tarnished dark bronze and forged iron, coppery wear, fine pitting and restrained turquoise oxide; flat material, no rivets or objects. BOTTOM RIGHT: muted worn burgundy-brown rug weave with faint ochre threads, no symbols or carpet framing. Intricate layered material details across all swatches, realistic restrained contrast, even flat illumination. FULLY OPAQUE RGB with alpha255 everywhere, texture fills all corners, no transparency, no corner fade, no vignette. No stall, objects, globe, lamps, books, signs, banners, flags, emblems, words, perspective or cast shadows. Reference only guides material style. Highest square resolution.",
+    "sourceMap": "source-maps/cosmic.png",
+    "sourceMapSha256": "46cf89b4a38608d83c26a5023fac9d1f8fe0abbc3c829b410fc9a63a459bb7ba"
+  },
+  "bake": {
+    "method": "Rasterize existing UV triangles; sample generated material swatches using interpolated original model positions/normals and continuous triplanar projection; preserve original baked lighting and merchandise texture pixels. No generated mesh.",
+    "atlasSize": [
+      4096,
+      4096
+    ],
+    "encoding": "JPEG quality 95, 4:4:4",
+    "properties": "Original single double-sided roughness 0.9 dielectric material retained.",
+    "goods": "Original merchandise triangles and UV samples preserved."
+  },
+  "geometry": {
+    "retainedAttributes": "All surviving source position, normal, UV values unchanged. UV topology unchanged.",
+    "removedSourceComponents": [
+      28
+    ],
+    "removalReason": "Separate left pennant plus isolated front faces of the right pennant removed; attached rear fabric and frame retained. Fused front emblem panel preserved structurally and retextured with generated aged timber."
+  },
+  "front": "+Z",
+  "origin": "Original center-ground origin preserved. No recentering after flag removal.",
+  "measurements": {
+    "dimensions": [
+      3.0,
+      3.1358885765075684,
+      2.9006967544555664
+    ],
+    "bounds": {
+      "min": [
+        -1.4999998807907104,
+        0.0,
+        -1.4503483772277832
+      ],
+      "max": [
+        1.5,
+        3.1358885765075684,
+        1.4503483772277832
+      ]
+    },
+    "triangles": 4879,
+    "vertices": 7439,
+    "bytes": 3026304,
+    "removedComponents": [
+      28
+    ]
+  },
+  "bytes": 3026304,
+  "sha256": "ec2b4113d7a6a8884e9592166dd08358d83a9fdd7c5e2f6682ed6c74be006321",
+  "rights": "Base geometry is user supplied; no author/license declaration was present. Texture swatches generated for this task.",
+  "review": "Offline model render reviewed. Root owns production lab and authored-world acceptance."
+}

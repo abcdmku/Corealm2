@@ -1,0 +1,53 @@
+{
+  "id": "bank",
+  "tier": "base",
+  "processedAsset": "game/public/assets/models/town-buildings/bank.glb",
+  "processedSha256": "c5e4e2dd49b06ac0061c7b6f4f5db0f00c80c5238699d8a8480101a105df9cef",
+  "rawAsset": "game/public/assets/models/town-shared/bank.glb",
+  "rawSha256": "d353aad977d2bda11feb2192460fcca236e1616e3de148d205317632c546b062",
+  "rawModel": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/60ae64c7-c81e-4828-a121-413f18ef7a67",
+    "referenceImage": "art/town-concepts/shared/bank-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "geometry": {
+    "front": "+Z",
+    "groundY": 0,
+    "centeredXZ": true,
+    "bounds": {
+      "min": [
+        -3.9999999999999996,
+        0,
+        -4.162933018585886
+      ],
+      "max": [
+        3.9999999999999996,
+        7.934825897549208,
+        4.162933018585886
+      ]
+    },
+    "dimensions": [
+      8,
+      7.9348,
+      8.3259
+    ],
+    "triangles": 4257
+  },
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1271239
+    }
+  ],
+  "processing": [
+    "Uniform metric normalization, no raw mesh or original UV edits."
+  ]
+}

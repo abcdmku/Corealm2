@@ -1,7 +1,6 @@
 import type { Vec3 } from '../contracts.js';
 import type { WorldSite } from '../content/worldSites.js';
-import { LANTERN_REST } from '../content/settlements/lanternRest.js';
-import { PRISM_HOLLOW } from '../content/settlements/prismHollow.js';
+import { FAIRY_REGIONS } from '../content/regions.js';
 import { FAIRY_NPC_STANDS } from '../content/fairyNpcs.js';
 import { FAIRY_COMBAT_PLATEAUS, FAIRY_DEEP_PATH_CLEARINGS, sampleFairyRamp, type FairyRamp } from './fairyLandforms.js';
 import { organicDistance, seedFromText, smoothNoise2D } from './organicFields.js';
@@ -82,7 +81,7 @@ export function createFairyRegionalRelief(roads: readonly (readonly Vec3[])[], s
       }
     }
   }
-  const settlements = [LANTERN_REST, PRISM_HOLLOW];
+  const settlements = FAIRY_REGIONS.flatMap(region => region.settlements);
   const buildings = settlements.flatMap(settlement => settlement.buildings);
   const pockets = [...FAIRY_DEEP_PATH_CLEARINGS,
     ...settlements.flatMap(town => [town.bank, ...town.stations, ...town.shops].map(service => ({ position: service.position, radius: 2.6 }))),
@@ -119,7 +118,9 @@ export function createFairyRegionalRelief(roads: readonly (readonly Vec3[])[], s
       if (Math.abs(x - site.centre[0]) > 60 || Math.abs(z - site.centre[1]) > 60) continue;
       edge = Math.min(edge, rectangleDistance(x, z, ...site.centre, site.extent[0] + 2, site.extent[1] + 2, site.rotationY));
     }
-    const townDistance = Math.min(...settlements.map(town => Math.hypot(x - town.centre[0], z - town.centre[1])));
+    const townDistance = settlements.length
+      ? Math.min(...settlements.map(town => Math.hypot(x - town.centre[0], z - town.centre[1])))
+      : Infinity;
     const regional = 7.2 + smoothNoise2D(x / 85, z / 85, SEED) * 1.5 + smoothNoise2D(x / 23, z / 23, SEED ^ 0x4129) * .55;
     const rise = 4.7 + (regional - 4.7) * ease((townDistance - 25) / 55);
     // Rounded toes meet a steep receiving face, with broader fractured shoulders in the wilderness.

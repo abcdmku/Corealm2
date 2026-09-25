@@ -17,7 +17,7 @@ import { lintStructures, structureCaseCount } from "../tools/lib/structure-geome
  * Parts that are correct in the world and unsupported in isolation.
  *
  * `vault_door` is authored against the `coldbrace_vault` tower - see the note in
- * `content/settlements/coldbrace.ts`, which explains why the tower cannot move. Its braziers now
+ * the Fallowmarch settlement record in `content/regions.ts`, which explains why the tower cannot move. Its braziers now
  * mount on that tower's wall plane and its banners hang on the same masonry, but the tower is a
  * separate building, so in the feature lab (and here) the composition has nothing behind it. This
  * is the only structure allowed to report a floating assembly, and it is a lab-fidelity gap rather

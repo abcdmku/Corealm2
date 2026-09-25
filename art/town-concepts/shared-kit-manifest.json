@@ -1,0 +1,146 @@
+{
+  "status": "Generic building references completed; user authorized model generation and game integration",
+  "tool": "built-in image_gen",
+  "townStructures": [
+    {
+      "id": "gate",
+      "t50": "shared/gate-base.png",
+      "t70": "shared/gate-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "wall",
+      "t50": "shared/wall-base.png",
+      "t70": "shared/wall-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "wall-corner",
+      "t50": "shared/wall-corner-base.png",
+      "t70": "shared/wall-corner-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "building-narrow",
+      "t50": "shared/building-narrow-base.png",
+      "t70": "shared/building-narrow-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "building-wide",
+      "t50": "shared/building-wide-base.png",
+      "t70": "shared/building-wide-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "hall",
+      "t50": "shared/hall-base.png",
+      "t70": "shared/hall-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "bank",
+      "t50": "shared/bank-base.png",
+      "t70": "shared/bank-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "home",
+      "t50": "shared/home-base.png",
+      "t70": "shared/home-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "inn",
+      "t50": "shared/inn-base.png",
+      "t70": "shared/inn-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "workshop",
+      "t50": "shared/workshop-base.png",
+      "t70": "shared/workshop-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "smithy",
+      "t50": "shared/smithy-base.png",
+      "t70": "shared/smithy-t70.png",
+      "sharedGeometry": true
+    },
+    {
+      "id": "well",
+      "t50": "shared/well-base.png",
+      "t70": "shared/well-t70.png",
+      "sharedGeometry": true
+    }
+  ],
+  "existingStalls": [
+    {
+      "id": "potion",
+      "t50": "stalls/potion-t50.png",
+      "t70": "stalls/potion-t70.png",
+      "model": "../../game/public/assets/models/market-stalls/potion.glb",
+      "newTripoModel": false
+    },
+    {
+      "id": "cloth",
+      "t50": "stalls/cloth-t50.png",
+      "t70": "stalls/cloth-t70.png",
+      "model": "../../game/public/assets/models/market-stalls/cloth.glb",
+      "newTripoModel": false
+    },
+    {
+      "id": "fish",
+      "t50": "stalls/fish-t50.png",
+      "t70": "stalls/fish-t70.png",
+      "model": "../../game/public/assets/models/market-stalls/fish.glb",
+      "newTripoModel": false
+    },
+    {
+      "id": "meat",
+      "t50": "stalls/meat-t50.png",
+      "t70": "stalls/meat-t70.png",
+      "model": "../../game/public/assets/models/market-stalls/meat.glb",
+      "newTripoModel": false
+    },
+    {
+      "id": "arms",
+      "t50": "stalls/arms-t50.png",
+      "t70": "stalls/arms-t70.png",
+      "model": "../../game/public/assets/models/market-stalls/arms.glb",
+      "newTripoModel": false
+    },
+    {
+      "id": "cosmic",
+      "t50": "stalls/cosmic-t50.png",
+      "t70": "stalls/cosmic-t70.png",
+      "model": "../../game/public/assets/models/market-stalls/cosmic.glb",
+      "newTripoModel": false
+    }
+  ],
+  "prompts": [
+    "shared/bank-base.provenance.json",
+    "shared/bank-t70.provenance.json",
+    "shared/gate-provenance.json",
+    "shared/hall-home-provenance.json",
+    "shared/smithy-base.provenance.json",
+    "shared/wall-base.provenance.json",
+    "shared/wall-corner-base.provenance.json",
+    "shared/wall-corner-t70.provenance.json",
+    "shared/wall-t70.provenance.json",
+    "shared/watchtower-inn-provenance.json",
+    "shared/well-smithy-provenance.json",
+    "shared/workshop-base.provenance.json",
+    "shared/workshop-t70.provenance.json",
+    "stalls/arms-t50.provenance.json",
+    "stalls/arms-t70.provenance.json",
+    "stalls/fish-t50.provenance.json",
+    "stalls/fish-t70.provenance.json",
+    "stalls/market-content.provenance.json",
+    "stalls/meat-t50.provenance.json",
+    "stalls/meat-t70.provenance.json",
+    "shared/building-narrow-provenance.json",
+    "shared/building-wide-provenance.json"
+  ]
+}

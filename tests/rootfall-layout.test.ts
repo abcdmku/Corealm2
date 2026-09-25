@@ -41,7 +41,7 @@ const world = buildWorld(1337, flat, {
 });
 const solids = new Solids(world.solids);
 const vellenwood = REGIONS.find((region) => region.id === "vellenwood")!;
-const oakwood = vellenwood.settlement!;
+const oakwood = vellenwood.settlements.find(town => town.id === "rootfall")!;
 const hamlet = vellenwood.locations.find((location) => location.id === "rootfall_hamlet")!.position;
 const CLEARANCE = 0.8;
 
@@ -74,12 +74,12 @@ function roofBox(building: (typeof oakwood.buildings)[number]) {
 
 const STANDS: Record<string, readonly [number, number]> = {
   rootfall_bank_chest: [60, 132],
-  rootfall_general: [54.5, 110.9],
+  rootfall_cosmic: [55.5, 110.65],
   rootfall_crafting: [58.3, 110.6],
   rootfall_fletching: [60.5, 110.7],
   rootfall_anvil: [73.2, 122.4],
   rootfall_range: [64.2, 107],
-  rootfall_smith: [71.6, 116.6],
+  rootfall_smith: [71.15, 116.3],
 };
 
 describe("Oakwood layout", () => {

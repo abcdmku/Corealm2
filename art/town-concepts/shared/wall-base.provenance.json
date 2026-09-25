@@ -1,0 +1,9 @@
+{
+  "asset": "wall-base.png",
+  "purpose": "Common visual base for T50 and T70 wall reskins; geometry, camera, and construction are intended to remain shared.",
+  "tool": "built-in image_gen edit",
+  "sourceReference": "../t50/wall-section-v2.png",
+  "generatedSource": "exec-e0e46199-6e2d-47d8-8d98-748e96a34375.png",
+  "prompt": "Edit this exact wall reference by removing every muted red flag, banner, hanging cloth panel, or fabric drape completely. Restore the areas behind each cloth with continuous weathered blackened timber parapet, stonework, and iron fastening that match the adjacent structure. Preserve the wall's exact length, thickness, silhouette, height, flat vertical ends, repeated supports, continuous level walkway/parapet, three-quarter camera angle, framing, lighting, gray studio background, and all remaining geometry and details. Keep the lower stone barrier fully opaque and uninterrupted. Do not add any replacement decoration, new geometry, breakage, openings, flags, cloth, text, people, or scene elements. Match the same high-detail hand-painted charcoal basalt, blackened timber, crude iron, and subtle ossuary relief style.",
+  "review": "All three visible red cloth panels were removed and replaced by continuous timber/iron parapet detail. Wall silhouette and camera remain consistent with the T50 source reference; the result contains no flags or drapes. Intended for town-specific material reskins, not separate structural redesigns."
+}

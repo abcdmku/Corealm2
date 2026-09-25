@@ -195,10 +195,7 @@ const resourceReservations = REGIONS.flatMap((region) => region.clusters
   .filter((cluster) => resourceDef(cluster.resourceId).archetype !== "fishing_spot")
   .map((cluster) => disc(cluster.id, cluster.centre, cluster.radius, 3)));
 
-const settlementReservations = REGIONS.flatMap((region) => {
-  const town = region.settlement;
-  if (!town) return [];
-  return [
+const settlementReservations = REGIONS.flatMap(region => region.settlements.flatMap(town => [
     ...(town.padShape ? [box(`${town.id}/pad`, { centre: town.centre,
       half: [town.padShape.halfX, town.padShape.halfZ], yaw: town.padShape.rotationY }, 6)] : []),
     ...town.buildings.flatMap((building) => partBoxes(building.id,
@@ -212,15 +209,16 @@ const settlementReservations = REGIONS.flatMap((region) => {
     }),
     ...(town.props ?? []).map((prop) => nativeBox(prop.id, prop.assetId, prop.position,
       prop.rotationY, prop.scale ?? 1)),
-  ];
-});
+  ]));
+
+const regionKit = (region: typeof REGIONS[number]) => region.settlements[0]?.kit ?? "stone";
 
 const routeAndLandmarkReservations = REGIONS.flatMap((region) => [
   ...region.obstacles.flatMap((obstacle) => [
     corridor(obstacle.id, obstacle.position, obstacle.exitPosition, 6),
     nativeBox(obstacle.id, obstacle.assetId, obstacle.position, obstacle.rotationY ?? 0, obstacle.scale ?? 1),
     ...(obstacle.composition ? partBoxes(`${obstacle.id}/setting`,
-      buildComposition(obstacle.composition, variantSeed(obstacle.id), region.settlement?.kit ?? "stone"),
+      buildComposition(obstacle.composition, variantSeed(obstacle.id), regionKit(region)),
       obstacle.position, obstacle.rotationY ?? 0) : []),
   ]),
   ...region.landmarks.flatMap((landmark) => [
@@ -228,13 +226,13 @@ const routeAndLandmarkReservations = REGIONS.flatMap((region) => [
     ...(assets.has(landmark.assetId) ? [nativeBox(landmark.id, landmark.assetId, landmark.position,
       landmark.rotationY ?? 0, landmark.scale ?? 1)] : []),
     ...(landmark.composition ? partBoxes(`${landmark.id}/setting`,
-      buildComposition(landmark.composition, variantSeed(landmark.id), region.settlement?.kit ?? "stone"),
+      buildComposition(landmark.composition, variantSeed(landmark.id), regionKit(region)),
       landmark.position, landmark.rotationY ?? 0) : []),
   ]),
   ...region.gates.flatMap((gate) => [
     disc(gate.id, gate.position, 12),
     ...(gate.composition ? partBoxes(`${gate.id}/setting`,
-      buildComposition(gate.composition, variantSeed(gate.id), region.settlement?.kit ?? "stone"),
+      buildComposition(gate.composition, variantSeed(gate.id), regionKit(region)),
       gate.position, gate.rotationY ?? 0) : []),
   ]),
   ...region.stations.filter((station) => station.kind === "essence_altar")
@@ -250,7 +248,7 @@ const dungeonReservations = REGIONS.flatMap((region) => {
     disc(`${dungeon.id}/original quarry approach`, [60, -16], 16),
     corridor(`${dungeon.id}/mouth approach`, dungeon.entrance, [60, -16], 8),
     ...(dungeon.entranceComposition ? partBoxes(`${dungeon.id}/mouth setting`,
-      buildComposition(dungeon.entranceComposition, variantSeed("gravelmaw_mouth_portal"), region.settlement?.kit ?? "stone"),
+      buildComposition(dungeon.entranceComposition, variantSeed("gravelmaw_mouth_portal"), regionKit(region)),
       dungeon.entrance, dungeon.entranceRotationY ?? 0) : []),
     ...dungeon.chambers.map((chamber) => disc(chamber.id, chamber.centre, chamber.radius + 5)),
     // Production boot connects consecutive chambers with 6 m corridors. The seven-metre

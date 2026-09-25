@@ -283,11 +283,11 @@ function derivedOptions(derive: Extract<RefKindSource, { derive: string }>["deri
       return out;
     case "settlements":
       for (const region of regions) {
-        const settlement = region.settlement !== null && typeof region.settlement === "object" ? region.settlement as ContentRow : undefined;
-        if (!settlement) continue;
-        const id = String(settlement.id ?? "");
-        const centre = settlement.centre;
-        push({ value: id, label: `${nameOf(settlement, id)} · ${nameOf(region, String(region.id ?? ""))}`, thumb: Array.isArray(centre) && typeof centre[0] === "number" && typeof centre[1] === "number" ? { kind: "map", x: centre[0], z: centre[1], span: 120, icon: Landmark } : undefined });
+        for (const settlement of asRows(region.settlements)) {
+          const id = String(settlement.id ?? "");
+          const centre = settlement.centre;
+          push({ value: id, label: `${nameOf(settlement, id)} · ${nameOf(region, String(region.id ?? ""))}`, thumb: Array.isArray(centre) && typeof centre[0] === "number" && typeof centre[1] === "number" ? { kind: "map", x: centre[0], z: centre[1], span: 120, icon: Landmark } : undefined });
+        }
       }
       return out;
     case "enemyFamilies":

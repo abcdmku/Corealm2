@@ -1,0 +1,56 @@
+{
+  "asset": "market_stall_fish_t70",
+  "sourceGeometry": "../market-stalls/fish.glb",
+  "sourceSha256": "130633de444f72df6f2e87647b8f1de9fc46bae2788b7b6a76d9335c71819f3d",
+  "concept": "art/town-concepts/stalls/fish-t70.png",
+  "generation": {
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Flat four-square material albedo sheet for the approved T70 fish merchant stall shown in reference. Divide entire square exactly into FOUR equal square swatches, seamless edge-to-edge layout with no dividers, gaps, labels or borders. TOP LEFT: heavily weathered taupe-ivory canvas, salt stains, mending stitches, worn weave and small repaired tears, varied grey-brown abrasion; light enough to read in dark environment. TOP RIGHT: aged dark wharf oak, damp brown-grey vertical grain, pale worn streaks, deep cracks and subtle algae traces. BOTTOM LEFT: old iron and bronze with layered blue-green verdigris, rust speckles, scratched silver and dark pitting; no actual bolts or metal object. BOTTOM RIGHT: brown coarse rope-fibre surface texture, rich strand detail and salt grime, a flat material not a drawn rope or net. All swatches richly layered with intricate physical detail. Fully OPAQUE RGB alpha255 everywhere, no transparency, no corner fading, no vignette, constant even flat lighting. Flat top-down texture surfaces only, no fish, no stall, no 3D objects, flags, signs, emblems, words, framing or cast shadows. Reference is MATERIAL style only. Highest square resolution.",
+    "sourceMap": "source-maps/fish.png",
+    "sourceMapSha256": "349b97fec220c4275c90dc9b42049ec030272d3c1605553c356810190c16fcb0"
+  },
+  "bake": {
+    "method": "Rasterize existing UV triangles; sample generated material swatches using interpolated original model positions/normals and continuous triplanar projection; preserve original baked lighting and merchandise texture pixels. No generated mesh.",
+    "atlasSize": [
+      4096,
+      4096
+    ],
+    "encoding": "JPEG quality 95, 4:4:4",
+    "properties": "Original single double-sided roughness 0.9 dielectric material retained.",
+    "goods": "Original merchandise triangles and UV samples preserved."
+  },
+  "geometry": {
+    "retainedAttributes": "All surviving source position, normal, UV values unchanged. UV topology unchanged.",
+    "removedSourceComponents": [],
+    "removalReason": "None."
+  },
+  "front": "+Z",
+  "origin": "Original center-ground origin preserved. No recentering after flag removal.",
+  "measurements": {
+    "dimensions": [
+      3.0,
+      2.6541059017181396,
+      2.250000238418579
+    ],
+    "bounds": {
+      "min": [
+        -1.5000001192092896,
+        0.0,
+        -1.125000238418579
+      ],
+      "max": [
+        1.4999998807907104,
+        2.6541059017181396,
+        1.125
+      ]
+    },
+    "triangles": 9911,
+    "vertices": 14787,
+    "bytes": 2697860,
+    "removedComponents": []
+  },
+  "bytes": 2697860,
+  "sha256": "518aa5ddd9a5cdecb237c3c8b2ef4bac6e2fd917e296d9cba8fcffdbfecbbb22",
+  "rights": "Base geometry is user supplied; no author/license declaration was present. Texture swatches generated for this task.",
+  "review": "Offline model render reviewed. Root owns production lab and authored-world acceptance."
+}

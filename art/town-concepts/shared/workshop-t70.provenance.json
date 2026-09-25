@@ -1,0 +1,9 @@
+{
+  "asset": "workshop-t70.png",
+  "purpose": "T70 material variant of the shared crafting workshop geometry",
+  "tool": "built-in image_gen edit",
+  "editTarget": "workshop-base.png",
+  "generatedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6d4-90dc-7801-ae0b-f8650a5a7f4b\\exec-d02ecad8-867a-4dfe-bf27-748c0a4d84ec.png",
+  "prompt": "Use case: precise-object-edit. The input is the exact T50 CRAFTING WORKSHOP base image. Create a T70 material-only reskin of THIS SAME compact building. Preserve the entire shape, roof pitch, open front canopy, two workbenches, wall of hand tools, shelves, right-side door, positions of every post, stone footing, camera view, framing and neutral gray studio background. Do not add, remove or relocate any structural or functional feature. Refinish existing charcoal stone into slightly ashier weathered basalt with layered light mineral deposits and fine cracks, existing timber into more desaturated aged/rotted brown-gray grain, iron brackets/tools into oxidized metal with faint teal corrosion, and the existing cold blue ambient light into subtle spectral teal. Keep layered tactile detail and natural material distinctions; not a monochrome recolor. No chimney, fire, forge, anvil, smoke, flags, banners, fabric, text, people, loose exterior props, towers or new architecture.",
+  "visualReview": "Same roof and open canopy, posts, two benches, tool racks, side door and camera as base. Ashier layered stone, rotted wood grain, oxidized teal metal and faint spectral teal light distinguish T70 without changing function."
+}

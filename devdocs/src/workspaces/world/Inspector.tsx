@@ -316,7 +316,7 @@ function RegionSheet({ draft, selection, feature, editable, update, navigate, on
   const set = (path: (string | number)[], value: unknown) => update(current => patchRegion(current, region.id, path, value));
   const spawns = draft.placements.filter(row => row.regionId === region.id).length;
   const nodes = draft.resourcePlacements.filter(row => row.regionId === region.id).length;
-  const npcs = region.settlement?.npcs.length ?? 0;
+  const npcs = region.settlements.reduce((count, settlement) => count + settlement.npcs.length, 0);
   return <Sheet compact className={RAIL_SHEET}>
     <Head feature={feature} title={region.name} facts={[`Tier ${region.tier}`, `${region.locations.length} locations`, `${spawns} spawns`, `${nodes} nodes`, `${npcs} NPCs`]}
       aside={<Button variant="secondary" size="sm" onClick={() => onFit(regionBounds(region))}><Crosshair size={12} /> Fit</Button>} />
@@ -328,7 +328,7 @@ function RegionSheet({ draft, selection, feature, editable, update, navigate, on
       <PointFields label={at(WorldRegionSchema, "spawnPoint").label} value={region.spawnPoint} disabled={disabled} onChange={point => set(["spawnPoint"], point)} />
       {/* `respawnPointId` is declared ref('location') but every region stores a settlement id, so a location picker would flag all eight. Read-only until the schema and the data agree. */}
       <Row label={at(WorldRegionSchema, "respawnPointId").label}><Static mono>{region.respawnPointId}</Static></Row>
-      {region.settlement && <Row label={at(WorldRegionSchema, "settlement").label}><Static>{region.settlement.name}</Static></Row>}
+      {region.settlements.length > 0 && <Row label={at(WorldRegionSchema, "settlements").label}><Static>{region.settlements.map(settlement => settlement.name).join(", ")}</Static></Row>}
     </Section>
     <Section title="Lore"><TextRow spec={at(WorldRegionSchema, "lore")} value={region.lore} disabled={disabled} onChange={lore => set(["lore"], lore)} /></Section>
     <ReferencedBy collection="worldRegions" id={region.id} navigate={navigate} cap={6} />
@@ -448,19 +448,20 @@ function ObstacleSheet({ draft, selection, feature, editable, update, onSelect }
 
 // ---------------------------------------------------------------- npc stand
 
-const STAND = (key: string) => at(WorldRegionSchema, "settlement", "npcs", 0, key);
+const STAND = (key: string) => at(WorldRegionSchema, "settlements", 0, "npcs", 0, key);
 
 function NpcSheet({ draft, selection, feature, editable, ctx, update, navigate }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
   const stand = region && findOwned(region, "npc", selection.id) as NpcStand | undefined;
   if (!region || !stand) return null;
+  const settlement = region.settlements.find(town => town.npcs.some(row => row.id === stand.id));
   const npc = ctx.lookup("npc", stand.id);
   const disabled = !editable;
   const set = (path: (string | number)[], value: unknown) => update(current => patchOwned(current, selection, path, value));
   const quests = [...new Set([...stand.questIds, ...strings(npc?.questIds)])];
   const dialogueRootId = stand.dialogueRootId || text(npc?.dialogueRootId);
   return <Sheet compact className={RAIL_SHEET}>
-    <Head feature={feature} title={npc ? rowName(npc) : stand.name} facts={[region.settlement?.name, quests.length ? `${quests.length} ${quests.length === 1 ? "quest" : "quests"}` : undefined]} />
+    <Head feature={feature} title={npc ? rowName(npc) : stand.name} facts={[settlement?.name, quests.length ? `${quests.length} ${quests.length === 1 ? "quest" : "quests"}` : undefined]} />
     <Section title="NPC">
       <TextRow spec={STAND("name")} value={stand.name} disabled={disabled} onChange={name => set(["name"], name)} />
       {npc && <Row label="Role"><Static>{text(npc.role)}</Static></Row>}
@@ -480,16 +481,19 @@ function NpcSheet({ draft, selection, feature, editable, ctx, update, navigate }
 // ---------------------------------------------------------------- building / station / shop / bank
 
 const PIECE: Record<string, (key: string) => SchemaFieldSpec> = {
-  building: key => at(WorldRegionSchema, "settlement", "buildings", 0, key),
+  building: key => at(WorldRegionSchema, "settlements", 0, "buildings", 0, key),
   station: key => at(WorldRegionSchema, "stations", 0, key),
-  shop: key => at(WorldRegionSchema, "settlement", "shops", 0, key),
-  bank: key => at(WorldRegionSchema, "settlement", "bank", key),
+  shop: key => at(WorldRegionSchema, "settlements", 0, "shops", 0, key),
+  bank: key => at(WorldRegionSchema, "settlements", 0, "bank", key),
 };
 
 function PieceSheet({ draft, selection, feature, editable, ctx, update, navigate }: InspectorProps & { selection: Selection; feature: Feature }) {
   const region = regionById(draft, selection.regionId);
   const piece = region && findOwned(region, selection.kind, selection.id) as (Building | Station | Shop | Bank) | undefined;
   if (!region || !piece) return null;
+  const settlement = region.settlements.find(town => town.buildings.some(row => row.id === selection.id)
+    || town.stations.some(row => row.id === selection.id) || town.shops.some(row => row.id === selection.id)
+    || town.bank.id === selection.id);
   const disabled = !editable;
   const set = (path: (string | number)[], value: unknown) => update(current => patchOwned(current, selection, path, value));
   const spec = PIECE[selection.kind] ?? PIECE.station!;
@@ -499,7 +503,7 @@ function PieceSheet({ draft, selection, feature, editable, ctx, update, navigate
   const shopRecord = shop ? ctx.lookup("shop", shop.id) : undefined;
   const kind = building ? titleCase(building.prefab) : station ? `${titleCase(station.kind)} · ${station.skill}` : shop ? `${titleCase(shop.shopKind)} shop` : "Bank";
   return <Sheet compact className={RAIL_SHEET}>
-    <Head feature={feature} title={piece.name} facts={[kind, region.settlement?.name ?? region.name]} />
+    <Head feature={feature} title={piece.name} facts={[kind, settlement?.name ?? region.name]} />
     <Section title={titleCase(selection.kind)}>
       <TextRow spec={spec("name")} value={piece.name} disabled={disabled} onChange={name => set(["name"], name)} />
       {building && <TextRow spec={spec("prefab")} value={building.prefab} disabled={disabled} mono width="id" onChange={value => set(["prefab"], value)} />}
@@ -510,7 +514,7 @@ function PieceSheet({ draft, selection, feature, editable, ctx, update, navigate
       <NumberRow spec={spec("rotationY")} value={piece.rotationY} disabled={disabled} unit={spec("rotationY").unit ?? "rad"} onChange={value => set(["rotationY"], value ?? 0)} />
       {building && <PointFields label={spec("footprint").label} value={building.footprint} disabled={disabled} onChange={value => set(["footprint"], value)} />}
       {!building && "assetId" in piece && <RefField kind="asset" label={spec("assetId").label} hint={spec("assetId").hint} value={piece.assetId} readOnly={disabled} onChange={id => id && set(["assetId"], id)} />}
-      {"attachedTo" in piece && piece.attachedTo && <Row label={spec("attachedTo").label}><Link onClick={() => navigate("world/map", `buildings:${region.id}/${piece.attachedTo!}`)}>{region.settlement?.buildings.find(row => row.id === piece.attachedTo)?.name ?? piece.attachedTo}</Link></Row>}
+      {"attachedTo" in piece && piece.attachedTo && <Row label={spec("attachedTo").label}><Link onClick={() => navigate("world/map", `buildings:${region.id}/${piece.attachedTo!}`)}>{region.settlements.flatMap(town => town.buildings).find(row => row.id === piece.attachedTo)?.name ?? piece.attachedTo}</Link></Row>}
       {station && <Row label={spec("recipeIds").label}>{station.recipeIds.length ? <span className={LINKS}>{station.recipeIds.map(id => <Link key={id} onClick={() => navigate("recipes", id)}>{id}</Link>)}</span> : <Static muted>None</Static>}</Row>}
       {station?.scale !== undefined && <NumberRow spec={spec("scale")} value={num(station.scale)} disabled={disabled} onChange={value => set(["scale"], value)} />}
     </Section>

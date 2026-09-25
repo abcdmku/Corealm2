@@ -1,0 +1,9 @@
+﻿{
+  "asset": "meat-t70.png",
+  "purpose": "T70 haunted-market material reskin of the existing butcher stall.",
+  "tool": "built-in image_gen edit",
+  "sourceReference": "../../test-results/market-stalls/meat.png; ../../town-concepts/t50/wall-section-v2.png (material reference only)",
+  "generatedSource": "exec-c2b33dad-ca3c-4b6e-a448-96db4b296917.png",
+  "prompt": "Image 1 is the exact existing butcher stall. Image 2 is a material reference only. Make a T70 material-only reskin for the haunted-friendly-undead town. Preserve precisely the same geometry, object count, arrangement, butcher goods, perspective, crop and light-gray background. Do not add or remove structural parts, shelves, supports, or goods. Remove only the existing red banner/flag and emblem; continue the existing counter surface/material behind it. Keep normal recognizable butcher food, no blood, gore, skulls, bones, or body parts. Functional canopy stays cloth, with muted ash-gray and taupe weave, repairs, stains, and varied subtle color. Deeply weathered, partly rotted desaturated brown wood with grain and splits; oxidized dark metal with faint blue-green patina and a few restrained spectral edge reflections. Rich layered textures, not monochrome gray. No other signs, symbols, props, fog, aura, or redesign.",
+  "review": "Existing stall structure and ordinary butcher goods remain recognizable; the red banner is removed. T70 is ashier than T50 through varied worn cloth, rotted brown timber and oxidized iron with restrained teal patina. No gore or added props; light-gray background retained."
+}

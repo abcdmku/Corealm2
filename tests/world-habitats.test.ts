@@ -150,7 +150,7 @@ describe("authored wildlife habitats", () => {
 
   it("keeps actor centres at least 0.75 m clear of settlement building footprints", () => {
     const errors: string[] = [];
-    const buildings = REGIONS.flatMap((region) => region.settlement?.buildings ?? []);
+    const buildings = REGIONS.flatMap(region => region.settlements.flatMap(settlement => settlement.buildings));
     for (const habitat of WORLD_HABITATS) {
       for (const [index, [x, z]] of habitat.anchors.entries()) {
         for (const building of buildings) {

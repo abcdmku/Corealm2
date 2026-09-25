@@ -222,7 +222,7 @@ export class InventoryPanel implements ManagedPanel {
 
     items.push({
       id: "use",
-      label: def?.food ? `Eat ${name}` : `Use ${name}`,
+      label: def?.food ? `Eat ${name}` : def?.potion ? `Drink ${name}` : `Use ${name}`,
       enabled: true,
       onSelect: () => this.use(stack.itemId),
     });

@@ -1,0 +1,50 @@
+{
+    "source":  "game/public/assets/models/town-shared/smithy.glb",
+    "destination":  "game/public/assets/models/town-buildings/smithy.glb",
+    "sourceBounds":  {
+                         "min":  [
+                                     -0.4990234971046448,
+                                     0,
+                                     -0.3994141221046448
+                                 ],
+                         "max":  [
+                                     0.4990234971046448,
+                                     0.775390625,
+                                     0.3994141221046448
+                                 ]
+                     },
+    "normalizedBounds":  {
+                             "min":  [
+                                         -4,
+                                         0,
+                                         -4.997554863359615
+                                     ],
+                             "max":  [
+                                         3.9999999999999982,
+                                         7.765280014779757,
+                                         4.997554863359615
+                                     ]
+                         },
+    "targetWidth":  8,
+    "quarterTurns":  -1,
+    "scale":  10.014668432159283,
+    "textures":  [
+                     {
+                         "name":  "tripo_image_5bc39d5f-46d0-4463-80db-4c262b3427b2_0",
+                         "mime":  "image/jpeg",
+                         "bytes":  994377
+                     }
+                 ],
+    "meshes":  1,
+    "triangles":  4421,
+    "repair":  {
+                   "panel":  "Recessed triangle behind front gable rafters and skull; same mesh in T50 and T70",
+                   "texture":  "Image-generated layered timber, JPEG quality 92",
+                   "qaFront":  "test-results/town-models-secondary/smithy-base-gable-final/front.png",
+                   "qaAngle":  "test-results/town-models-secondary/smithy-base-gable-final/angle.png",
+                   "finalTriangles":  4422,
+                   "finalTextures":  2,
+                   "qaLowFront":  "test-results/town-models-secondary/smithy-base-gable-final/front-low.png",
+                   "panelLocation":  "Indexed triangle at +Z 4.54, x ±4.2 at y3.5 through apex y6.48; lower edge behind wall/lintel, skull and front rafters remain forward"
+               }
+}

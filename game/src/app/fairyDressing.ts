@@ -6,7 +6,7 @@ import type { SolidVolume } from '../contracts.js';
 import type { WorldScene } from '../render/scene.js';
 import { buildFairyLandformDressing, fairyDressingBodyRadius, FAIRY_ROCK_NATIVE_BOUNDS } from '../world/fairyLandformDressing.js';
 import { DEFAULT_SCATTER, type RegionScatterSpec } from '../world/scatter.js';
-import { FAIRY_REGIONS } from '../content/fairyRegions.js';
+import { FAIRY_REGIONS } from '../content/regions.js';
 import { FAIRY_VILLAGE_BANKS } from '../world/fairyLandforms.js';
 import { seedFromText } from '../world/organicFields.js';
 import { Rng } from '../core/rng.js';
@@ -32,11 +32,11 @@ function distanceToRoad(x: number, z: number, roads: readonly (readonly (readonl
 }
 
 function insideBuilding(x: number, z: number, margin: number): boolean {
-  return FAIRY_REGIONS.some(region => region.settlement?.buildings.some(building => {
+  return FAIRY_REGIONS.some(region => region.settlements.some(town => town.buildings.some(building => {
     const dx = x - building.position[0], dz = z - building.position[1], c = Math.cos(building.rotationY), s = Math.sin(building.rotationY);
     return Math.abs(dx * c - dz * s) < building.footprint[0] / 2 + margin
       && Math.abs(dx * s + dz * c) < building.footprint[1] / 2 + margin;
-  }));
+  })));
 }
 
 /** Native geology and its collision share the final terrain sample and exact instance transform. */
@@ -97,11 +97,11 @@ export function resolveFairyDressing(scene: WorldScene) {
           const t = Math.max(0, Math.min(1, ((x - from[0]) * dx + (z - from[2]) * dz) / Math.max(1e-6, dx * dx + dz * dz)));
           return Math.hypot(x - from[0] - dx * t, z - from[2] - dz * t) < 2.2;
         }))) continue;
-        if (FAIRY_REGIONS.some(region => region.settlement?.buildings.some(building => {
+        if (FAIRY_REGIONS.some(region => region.settlements.some(town => town.buildings.some(building => {
           const dx = x - building.position[0], dz = z - building.position[1], c = Math.cos(building.rotationY), s = Math.sin(building.rotationY);
           return Math.abs(dx * c - dz * s) < building.footprint[0] / 2 + .15
             && Math.abs(dx * s + dz * c) < building.footprint[1] / 2 + .15;
-        }))) continue;
+        })))) continue;
         if (accepted.some(plant => Math.hypot(x - plant.position[0], z - plant.position[1]) < .64)) continue;
         const assetId = index % 7 === 0 ? 'corealm_flower_1' : index % 3 === 0 ? 'corealm_fern_gloam_1' : index % 5 === 0 ? 'corealm_shrub_1' : 'corealm_fern_1';
         accepted.push({ id: `${crag.id}_garden_${index}`, assetId, position: [x, z], rotationY: angle,

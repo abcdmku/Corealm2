@@ -10,7 +10,8 @@ afterEach(() => vi.restoreAllMocks());
 
 function rootfallQuery() {
   const query = new StaticCameraQueries();
-  for (const building of REGIONS.find(r => r.id === "vellenwood")!.settlement!.buildings) {
+  const rootfall = REGIONS.find(r => r.id === "vellenwood")!.settlements.find(town => town.id === "rootfall")!;
+  for (const building of rootfall.buildings) {
     const c = Math.cos(building.rotationY), s = Math.sin(building.rotationY);
     for (const box of prefabCollision(building.prefab, building.footprint)) {
       query.addStaticBox([

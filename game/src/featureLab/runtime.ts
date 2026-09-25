@@ -203,8 +203,11 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
     },
 
     async setStructure(patch) {
+      const changedRecipe = (patch.kind !== undefined && patch.kind !== requestedStructureSelection.kind)
+        || (patch.id !== undefined && patch.id !== requestedStructureSelection.id);
       requestedStructureSelection = {
         ...requestedStructureSelection,
+        ...(changedRecipe && !Object.hasOwn(patch, "model") ? { model: undefined } : {}),
         ...patch,
       };
       const selection = { ...requestedStructureSelection };

@@ -14647,8 +14647,8 @@
     "encounterId": "wilderness_foundry_north_carapaces_patrol",
     "regionId": "wilderness",
     "centre": [
-      -200,
-      791
+      -304,
+      812
     ],
     "count": 7,
     "radius": 28,

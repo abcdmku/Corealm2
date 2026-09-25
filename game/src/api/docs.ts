@@ -324,7 +324,7 @@ export function buildDocs(): DocEntry[] {
       section: "Regions",
       body:
         `${region.name}. ${region.lore ?? ""} `
-        + `${region.settlement ? `Its settlement is ${region.settlement.name}. ` : ""}`
+        + `${region.settlements.length ? `Settlements: ${region.settlements.map((town) => `${town.name} (tier ${town.tier})`).join(", ")}. ` : ""}`
         + `${resources ? `Resources here: ${resources}.` : ""}`,
       keywords: [region.id, "region", "area", "where"],
     });

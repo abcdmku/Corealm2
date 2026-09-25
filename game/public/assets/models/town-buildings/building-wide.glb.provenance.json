@@ -1,0 +1,75 @@
+{
+  "id": "building-wide",
+  "tier": "base",
+  "processedAsset": "game/public/assets/models/town-buildings/building-wide.glb",
+  "processedSha256": "3b2bd4e50e27add1fc7e870fd097b2120a603bd3f41962eeff3f6050b236241b",
+  "rawAsset": "game/public/assets/models/town-shared/building-wide.glb",
+  "rawSha256": "57f180be84d9221a952a3a0f3c7e1707730815e2b69d2e56c14134083a17f86d",
+  "rawModel": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/a8e0041e-c1c6-4725-88a4-d3c8b8914fc6",
+    "referenceImage": "art/town-concepts/shared/building-wide-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "geometry": {
+    "front": "+Z",
+    "groundY": 0,
+    "centeredXZ": true,
+    "bounds": {
+      "min": [
+        -5,
+        0,
+        -5.130151155983785
+      ],
+      "max": [
+        5,
+        11.084596497125556,
+        5.130151155983785
+      ]
+    },
+    "dimensions": [
+      10,
+      11.0846,
+      10.2603
+    ],
+    "triangles": 4453
+  },
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1242888
+    },
+    {
+      "index": 1,
+      "mimeType": "image/jpeg",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 447658
+    },
+    {
+      "index": 2,
+      "mimeType": "image/jpeg",
+      "width": 627,
+      "height": 627,
+      "bytes": 128270
+    }
+  ],
+  "processing": [
+    "Uniform metric normalization, no raw mesh or original UV edits."
+  ],
+  "repair": {
+    "reason": "Missing front gable infill and roof strip in raw mesh.",
+    "mesh": "Recessed generated timber triangle behind original beams/window, plus generated slate roof backing/seal; no original geometry deleted or moved.",
+    "baseTimberPrompt": "A single square seamless-looking flat MATERIAL TEXTURE MAP, no object or scene: weathered DARK BROWN medieval timber gable infill boards for a haunted friendly-undead town building. Front-on 2D surface with tightly spaced vertical wood grain and narrow overlapping boards, uneven charcoal-brown and deep umber tone matching aged oak, subtle gray dust, fine cracks, dark seams, a few tiny oxidized nails. Rich layered real material detail but low contrast so it sits behind existing sculpted roof beams and blue glass window. Fully fills canvas edge to edge, uniform diffuse light, no perspective, no shadows cast by an object, no framing, no text, no symbols, no borders, no flags, no banners. Use case: 3D model gable infill texture.",
+    "baseTimberSource": "built-in imagegen; source image prefix exec-92cdef6a",
+    "slateSource": "built-in imagegen neutral/cold material-sheet bottom-right quadrants; mirror-tiled into standalone maps",
+    "geometryIdenticalAcrossTiers": true
+  }
+}

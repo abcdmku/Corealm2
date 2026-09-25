@@ -86,6 +86,7 @@ export interface GameState {
   currency: number;
   activity: ActivityState | null;
   combat: {
+    potionBuffs?: Partial<Record<import("../contracts.js").PotionBuffKind, import("../contracts.js").ActivePotionBuff>>;
     /** Replicated invocation timing for the owner's action bar. */
     castLock?: import("../contracts.js").SpellCastLock | null;
     targetId: EntityId | null;

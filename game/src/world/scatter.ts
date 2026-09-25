@@ -1016,9 +1016,7 @@ let authoredZoneCache: ExclusionZones | null = null;
 function authoredZones(): ExclusionZones {
   if (authoredZoneCache) return authoredZoneCache;
   const zones = new ExclusionZones();
-  for (const region of REGIONS) {
-    const settlement = region.settlement;
-    if (!settlement) continue;
+  for (const region of REGIONS) for (const settlement of region.settlements) {
 
     for (const building of settlement.buildings) {
       // Use the authored collision footprint in its own rotated frame. The old circumscribed circle

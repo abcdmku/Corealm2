@@ -1,0 +1,9 @@
+{
+  "asset": "wall-stairs-base.png",
+  "townStyle": "T50 Lastlight",
+  "tool": "built-in image_gen generate with reference image",
+  "sourceReference": "wall-base.png",
+  "generatedSource": "exec-51fcd14c-fa70-4460-8004-87e3ce3fd9b2.png",
+  "prompt": "Using the provided wall-base only as the exact T50 Lastlight visual and construction reference, create one new compact wall-access stair module that reaches the wall's parapet walkway. The stair climbs from ground level to exactly the same top landing and walkway elevation as the reference wall; keep the wall height and parapet scale consistent. A sturdy, plausible run of regular unbroken stone steps with weathered blackened timber handrail and simple basalt cheek wall, turning only as needed for a compact footprint. At top, provide a small flat landing that joins flush to a short continuation of the same raised wall walkway/parapet with matching height, thickness and rail profile; make the landing-to-walkway connection obvious and level. This is a stair-access part, not a new tower or huge platform. All treads are complete, even and walkable. Use layered battered charcoal basalt, blackened weathered timber, crude iron repairs, and subtle ossuary reliefs in the same hand-painted style. Three-quarter view should clearly show the full stair from its ground-level first tread to the flush upper landing and the short joining parapet. One complete isolated asset on plain light-gray studio background with soft neutral shadow, generous margin. No terrain, oversized base, tower, gate, flags, cloth, broken/missing steps, loose props, people, text, or labels. Not photorealistic, not voxel.",
+  "review": "The access module presents regular complete treads and rails from ground level to a level landing adjoining the wall walkway. Its scale follows the shared wall height; no separate giant platform or tower was added."
+}

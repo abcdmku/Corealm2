@@ -1,0 +1,54 @@
+{
+  "id": "wall-corner",
+  "tier": "base",
+  "processedAsset": "game/public/assets/models/town-buildings/wall-corner.glb",
+  "processedSha256": "f20704c1e54a7b286b2076dc526edc88217a7da555056d41d2c8b6606d1a5fc0",
+  "rawAsset": "game/public/assets/models/town-shared/wall-corner.glb",
+  "rawSha256": "cf66640aa7548010c9f93b42ef4d68a41a26c965bd069cc7eb377e2f2215478a",
+  "rawModel": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/61885f5b-f219-4d13-a989-c12a6fa382f6",
+    "referenceImage": "art/town-concepts/shared/wall-corner-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "geometry": {
+    "front": "+Z",
+    "groundY": 0,
+    "centeredXZ": true,
+    "bounds": {
+      "min": [
+        -1.6415,
+        0,
+        -1.6415003921299764
+      ],
+      "max": [
+        1.6415,
+        2.781876712328767,
+        1.6415003921299764
+      ]
+    },
+    "dimensions": [
+      3.283,
+      2.7819,
+      3.283
+    ],
+    "triangles": 3953,
+    "connection": "L corner: +X arm at local z≈+1.35; −Z arm at local x≈−1.35; top aligns to straight wall y≈2.782."
+  },
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1293755
+    }
+  ],
+  "processing": [
+    "Uniform metric normalization, no raw mesh or original UV edits."
+  ]
+}

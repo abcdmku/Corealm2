@@ -1,0 +1,22 @@
+{
+  "assets": [
+    {
+      "file": "building-narrow-base.png",
+      "purpose": "Generic haunted-town building base, with no apothecary-specific visual cues.",
+      "tool": "built-in image_gen edit",
+      "sourceReference": "apothecary-base.png",
+      "generatedSource": "exec-89be72f9-7ca0-4785-b574-33793f94728a.png",
+      "prompt": "Edit this exact building into a generic T50 Lastlight town structure. Preserve its approved narrow two-story silhouette, asymmetrical steep slate roof and chimney, facade, proportions, doors, every stone and timber structural element, haunted mortuary style, three-quarter camera, framing, lighting, gray background and shadow. Remove every potion bottle, herb, hanging plant, shelf display, medicinal or alchemical object from the recessed ground-floor service window. Replace that opening with a neutral ordinary dark-glazed window and simple weathered shutters, no merchandise or display. Remove any specialized role cue or sign; retain only subtle generic mortuary stone relief that matches the approved haunted town kit. Do not add flags or banners. Keep the rest exactly as-is with no new structural geometry. Full isolated building, no terrain or base, no people, text, labels, extra props, warm welcoming window glow, or clutter. Maintain richly layered hand-painted weathered charcoal stone, brown timber, slate and iron textures.",
+      "review": "The recessed display is now an ordinary dark-glazed shuttered window. No bottles, herbs, merchandise, role-specific marks, or signs remain; roof, facade, shape, camera, and haunted style are retained."
+    },
+    {
+      "file": "building-narrow-t70.png",
+      "purpose": "T70 material-only reskin of the generic building base.",
+      "tool": "built-in image_gen edit",
+      "sourceReference": "building-narrow-base.png",
+      "generatedSource": "exec-ea590b1f-bd28-4966-8b0f-182c5e1a4bc8.png",
+      "prompt": "Create the T70 material reskin of this exact generic two-story building. This must be material-only: preserve its complete geometry, dimensions, silhouette, narrow massing, asymmetrical roof, chimney, door, ordinary shuttered dark-glazed ground-floor window, mortuary relief, every stone and timber element, camera, framing, lighting, gray background, and shadow exactly. Do not add, remove, move, or reshape any structure or detail. Shift materials to ashier desaturated gray stone, more weathered gray-brown timber, oxidized iron, subtle mineral weathering, and only faint spectral teal residue in a few cracks and metal seams. Keep rich layered hand-painted texture and distinct material values, not a flat monochrome recolor. No potion bottles, herbs, service displays, role-specific symbols, text, flags, banners, people, terrain, props, or clutter.",
+      "review": "The T70 variant retains the T50 generic-building silhouette and camera with ashier stone, desaturated timber, oxidized iron, mineral weathering, and restrained teal accents."
+    }
+  ]
+}

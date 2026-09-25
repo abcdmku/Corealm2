@@ -6,7 +6,6 @@ import { FARMSTEAD_VARIANTS } from "./farmstead.js";
 import { FORGE_VARIANTS } from "./forge.js";
 import { GATEHOUSE_VARIANTS } from "./gatehouse.js";
 import { HALL_VARIANTS } from "./hall.js";
-import { MARKET_ROW_VARIANTS } from "./marketRow.js";
 import { PORCH_VARIANTS } from "./porch.js";
 import { QUARRY_HUT_VARIANTS } from "./quarryHut.js";
 import { RUIN_VARIANTS } from "./ruin.js";
@@ -33,7 +32,6 @@ const ALL_VARIANTS: readonly StructureVariantRecipe[] = [
   ...PORCH_VARIANTS,
   ...ARCADE_VARIANTS,
   ...STALL_VARIANTS,
-  ...MARKET_ROW_VARIANTS,
   ...WELL_VARIANTS,
 ];
 

@@ -101,6 +101,7 @@ import { buildWildernessRuin, WILDERNESS_RUIN_IDS, type WildernessRuinId } from 
 import { buildDeepWildernessStructure, DEEP_WILDERNESS_STRUCTURE_IDS, type DeepWildernessStructureId } from "./compositions/deepWildernessStructures.js";
 import { applyStructureVariant, structureVariantCount } from "./structures/catalog.js";
 import { fairyStructureParts, LANTERN_MARKET_SEED, LANTERN_MARKET_STALLS } from './structures/fairyStructureParts.js';
+import { MARKET_STALL_ASSETS } from './structures/stall.js';
 
 // ------------------------------------------------------------------ constants
 
@@ -249,7 +250,6 @@ export type CompositionId =
   | "canopy_walk_entrance"
   | "bank_counter"
   | "forge_yard"
-  | "market_pitch"
   | "wood_pile"
   | "garden"
   | "farm_yard";
@@ -264,7 +264,7 @@ export const COMPOSITION_IDS: readonly CompositionId[] = [
   "essence_altar_ruins", "vault_door", "milestone", "highcairn_crane", "gravelmaw_mouth", "gravelmaw_exit",
   "great_cairn", "standing_stones", "region_gate", "path_waypoint",
   "root_tunnel_entrance", "canopy_walk_entrance",
-  "bank_counter", "forge_yard", "market_pitch", "wood_pile", "garden", "farm_yard",
+  "bank_counter", "forge_yard", "wood_pile", "garden", "farm_yard",
 ] as const;
 
 export function isCompositionId(value: string): value is CompositionId {
@@ -1197,12 +1197,12 @@ export function buildPrefab(
     case "quarry_hut": base = quarryHut(width, depth, rng, kit); break;
     case "gatehouse": base = gatehouse(width, depth, kit); break;
     case "wall_segment": base = wallSegment(width, kit); break;
-    case "stall": base = stall(rng); break;
+    case "stall": base = stall(); break;
     case "ruin": base = ruin(width, depth, rng, kit); break;
     case "forge": base = forge(width, depth, rng, kit); break;
     case "porch": base = porch(width, depth, kit); break;
     case "arcade": base = arcade(width, depth, kit); break;
-    case "market_row": base = marketRow(width, depth, rng); break;
+    case "market_row": base = marketRow(width, depth, seed); break;
     case "well": base = well(kit); break;
     case "farmstead": base = farmstead(width, depth, rng, kit); break;
   }
@@ -1223,13 +1223,13 @@ export function prefabHeight(prefab: PrefabId): number {
     case "gatehouse": return 2 * STOREY_METRES + 3.35;
     case "wall_segment": return STOREY_METRES;
     case "ruin": return STOREY_METRES;
-    case "stall": return 2.7;
+    case "stall": return 3.4;
     case "forge": return STOREY_METRES + 3.0;
     // The porch and the arcade are roofs you walk under; the number is the height of the thing that
     // is actually solid, which for both is the back wall, not the canopy over your head.
     case "porch": return STOREY_METRES;
     case "arcade": return STOREY_METRES;
-    case "market_row": return 2.7;
+    case "market_row": return 3.4;
     // The curb is solid; its walk-under roof is handled separately by camera cover. 0.25 was the
     // old flat trim ring; the curb now stands 0.55 m out of the ground, so the box has to as well
     // or the player walks through masonry they can see.
@@ -1970,14 +1970,9 @@ function wallSegment(width: number, kit: BuildingKit): PartPlacement[] {
   return out;
 }
 
-/** A market pitch. No authored settlement uses it yet; kept so the prefab table is total. */
-function stall(rng: Rng): PartPlacement[] {
-  return [
-    loose("stall", "market_stall", 0, 0, 0, 0, 1),
-    loose("crate", "crate_wood", -1.1, 0, -0.7, rng.float(0, Math.PI), 1),
-    loose("barrel", "barrel", 1.1, 0, -0.6, rng.float(0, Math.PI), 1),
-    loose("sack", "sack", 0.9, 0, 0.5, rng.float(0, Math.PI), 1),
-  ];
+/** A complete themed stall at its native ground-centred placement. */
+function stall(): PartPlacement[] {
+  return [loose("stall", MARKET_STALL_ASSETS[0], 0, 0, 0, 0, 1)];
 }
 
 /** A collapsed shell: two standing walls, a fallen corner, rubble and vines. */
@@ -2183,42 +2178,16 @@ function arcade(width: number, depth: number, kit: BuildingKit): PartPlacement[]
   return out;
 }
 
-/**
- * A row of market pitches with goods stacked between them and a kerb along the customer side.
- *
- * Pitches sit on ~3 m centres, which is `market_stall`'s 1.845 m body plus room to stand between
- * two of them.
- */
-function marketRow(width: number, depth: number, rng: Rng): PartPlacement[] {
+/** Complete imported stalls spaced wide enough for their full canopies and goods. */
+function marketRow(width: number, depth: number, seed: number): PartPlacement[] {
   const out: PartPlacement[] = [];
-  const pitches = Math.max(1, Math.round(width / 3));
+  const pitches = Math.max(1, Math.floor(width / 3.5));
   const spacing = width / pitches;
-  const backZ = -depth / 2 + 0.55;
-
   for (let index = 0; index < pitches; index += 1) {
     const x = (index + 0.5) * spacing - width / 2;
-    out.push(loose(`stall${index}`, "market_stall", x, 0, backZ, 0));
-    if (index === pitches - 1) continue;
-    // Goods go on the joint between two pitches, never in front of one, or they block the counter
-    // the shop's interaction is anchored to.
-    const bx = (index + 1) * spacing - width / 2;
-    const pick = rng.int(0, 2);
-    const first = pick === 0 ? "crate_wood" : pick === 1 ? "barrel" : "sack";
-    const second = pick === 0 ? "sack" : "crate_wood";
-    out.push(loose(`goods${index}a`, first, bx - 0.25, 0, backZ + 0.15, rng.float(0, Math.PI)));
-    out.push(loose(`goods${index}b`, second, bx + 0.45, 0, backZ + 0.75, rng.float(0, Math.PI)));
+    const assetId = MARKET_STALL_ASSETS[((seed >>> 0) + index) % MARKET_STALL_ASSETS.length]!;
+    out.push(loose(`stall${index}`, assetId, x, 0, -depth / 2 + 1, 0));
   }
-
-  const kerbs = Math.max(1, Math.round(width / MODULE_METRES));
-  const kerbSpacing = width / kerbs;
-  for (let index = 0; index < kerbs; index += 1) {
-    // kerb_straight is 2.000 x 0.134 x 0.700 with its body entirely on the +Z side of its pivot.
-    out.push(loose(
-      `kerb${index}`, "kerb_straight",
-      (index + 0.5) * kerbSpacing - width / 2, 0, depth / 2 - 0.7, 0, kerbSpacing / MODULE_METRES,
-    ));
-  }
-
   return out;
 }
 
@@ -2549,7 +2518,6 @@ export function buildComposition(
     case "canopy_walk_entrance": return buildCanopyWalkComposition(seed, kit);
     case "bank_counter": return bankCounter(kit);
     case "forge_yard": return forgeYard(rng);
-    case "market_pitch": return marketPitch(rng);
     case "wood_pile": return woodPile();
     case "garden": return garden(rng);
     case "farm_yard": return farmYard(rng, kit);
@@ -2844,23 +2812,6 @@ function forgeYard(rng: Rng): PartPlacement[] {
 }
 
 /**
- * Goods around one market pitch. The stall itself is the shop entity's own `view`, so this is only
- * what stands around it; emitting a second `market_stall` here would double-draw the hero mesh.
- */
-function marketPitch(rng: Rng): PartPlacement[] {
-  return [
-    loose("crate_1", "crate_wood", -1.35, 0, -0.5, rng.float(0, Math.PI)),
-    // crate_wood is 0.931 tall and its pivot is 0.052 below its base, so 0.88 stacks flush.
-    loose("crate_2", "crate_wood", -1.28, 0.88, -0.46, rng.float(0, Math.PI), 0.92),
-    loose("barrel", "barrel", 1.3, 0, -0.55, rng.float(0, Math.PI)),
-    loose("apples", "barrel_apples", 1.45, 0, 0.55, rng.float(0, Math.PI)),
-    loose("sack_l", "sack", -1.5, 0, 0.65, rng.float(0, Math.PI)),
-    loose("sack_r", "sack", 0.95, 0, 0.9, rng.float(0, Math.PI)),
-    loose("carrots", "farm_crate_carrot", 0.15, 0, 0.95, rng.float(0, Math.PI)),
-  ];
-}
-
-/**
  * Four logs stacked against a gable.
  *
  * `roof_log` pivots 3.849 m BELOW the log and the log runs along its local Z for 10.696 m, so at
@@ -3061,10 +3012,7 @@ export function prefabCollision(prefab: PrefabId, footprint: readonly [number, n
     }];
   }
   if (prefab === "stall") {
-    // The hero mesh stays at native scale for every footprint. Its measured bounds are
-    // 1.845 x 2.627 x 0.932 m, with base [-0.922, -0.005, -0.461].
-    // This box covers the structural counter; loose recipe goods are dressing.
-    return [{ tag: "stall", dx: 0.0005, dz: 0.005, sizeX: 1.845, sizeZ: 0.932, height: 2.622 }];
+    return [{ tag: "stall", dx: 0, dz: 0, sizeX: 3, sizeZ: 2.91, height: 3.4 }];
   }
   if (prefab === "forge") {
     // Three walls and an open mouth. 0.6 m thick, which is the 0.406 m panel plus the corner posts
@@ -3118,25 +3066,21 @@ export function prefabCollision(prefab: PrefabId, footprint: readonly [number, n
     }];
   }
   if (prefab === "market_row" && (seed >>> 0) === LANTERN_MARKET_SEED && (footprint[0] === 9 || footprint[0] === 12) && footprint[1] === 3) {
-    return LANTERN_MARKET_STALLS.flatMap((stall, index) => [{
+    return LANTERN_MARKET_STALLS.map((stall, index) => ({
       tag: `pitch${index}`, dx: stall.x, dz: stall.z,
-      sizeX: 1.9 * Math.abs(Math.cos(stall.yaw)) + .95 * Math.abs(Math.sin(stall.yaw)),
-      sizeZ: 1.9 * Math.abs(Math.sin(stall.yaw)) + .95 * Math.abs(Math.cos(stall.yaw)), height: 1.25,
-    }, ...[-.845, .845].map((x, side) => ({
-      tag: `pitch${index}_rear_${side}`, dx: stall.x + x * Math.cos(stall.yaw) - .85 * Math.sin(stall.yaw),
-      dz: stall.z - x * Math.sin(stall.yaw) - .85 * Math.cos(stall.yaw), sizeX: .17, sizeZ: .17, height: 2.8,
-    }))]);
+      sizeX: 3 * Math.abs(Math.cos(stall.yaw)) + 2.91 * Math.abs(Math.sin(stall.yaw)),
+      sizeZ: 3 * Math.abs(Math.sin(stall.yaw)) + 2.91 * Math.abs(Math.cos(stall.yaw)), height: 3.4,
+    }));
   }
   if (prefab === "market_row") {
-    // One thin counter per pitch, so the player walks between the stalls rather than around the row.
-    const pitches = Math.max(1, Math.round(width / 3));
+    const pitches = Math.max(1, Math.floor(width / 3.5));
     const spacing = width / pitches;
     return Array.from({ length: pitches }, (_unused, index) => ({
       tag: `pitch${index}`,
       dx: r3((index + 0.5) * spacing - width / 2),
-      dz: r3(-depth / 2 + 0.55),
-      sizeX: 1.9,
-      sizeZ: 0.7,
+      dz: r3(-depth / 2 + 1),
+      sizeX: 3,
+      sizeZ: 2.91,
       height,
     }));
   }

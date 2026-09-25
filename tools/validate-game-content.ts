@@ -142,7 +142,7 @@ export async function validateGameContent(onReferences?: (pools: GameContentRefe
     asset: knownAssetIds,
     entity: new Set(world.entities.map(entity => entity.id)),
     location: new Set(world.routeNodes.map(node => node.id)),
-    settlement: new Set(REGIONS.flatMap(region => region.settlement ? [region.settlement.id] : [])),
+    settlement: new Set(REGIONS.flatMap(region => region.settlements.map(settlement => settlement.id))),
   });
   if (questProblems.length > 0) throw new Error(`Game quest target validation failed:\n${questProblems.map((problem) => `- ${problem}`).join("\n")}`);
   return { seed, assets: assets.size, items: tables.items.length, recipes: tables.recipes.length,

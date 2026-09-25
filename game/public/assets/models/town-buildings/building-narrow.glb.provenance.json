@@ -1,0 +1,87 @@
+{
+  "source": "../town-shared/building-narrow.glb",
+  "normalizedSourceSha256": "8ff45497e996be044ed2274258e4708647dfb9860b42ae06a3e213ab81f73f8b",
+  "reference": "art/town-concepts/shared/building-narrow-base.png",
+  "tier": "T50",
+  "front": "+Z",
+  "origin": "Centered XZ; grounded Y=0; original normalization retained",
+  "bounds": {
+    "min": [
+      -4,
+      0,
+      -3.812645565947253
+    ],
+    "max": [
+      4,
+      9.573767754864587,
+      3.812645565947253
+    ]
+  },
+  "dimensions": [
+    8,
+    9.573767754864587,
+    7.625291131894506
+  ],
+  "triangles": 11685,
+  "vertices": 29673,
+  "bytes": 8056460,
+  "sha256": "70a818c07c08325be10e52c4940534052c174a4aec9787d76c008cde796d2f9f",
+  "repair": {
+    "reason": "Tripo output omitted main roof planes and recessed facade/gable infill; reroll reproduced missing surfaces.",
+    "geometry": "Added continuous intersecting gable roof slopes, recessed timber gable backing, and recessed stone wall backing. All original positions, normals, UVs and indices preserved byte-for-byte, including walls/windows/beams/chimney. Both tiers have identical geometry.",
+    "addedTriangles": 7498,
+    "materialProperties": "Added rough dielectric double-sided slate, timber and stone surfaces; original material retained."
+  },
+  "textures": [
+    {
+      "name": "tripo_image_e773ba1e-b264-4cc6-a871-ed2ba16fce5d_0",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "6c2d9581f8e828937008fbcd4619ca9b73ea34005ff678ed5aa0772e81b64497",
+      "bytes": 1189888
+    },
+    {
+      "name": "Generated slate repair",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "f0ad82044b815371a31ef570888f887920ec36c4686ad0cd3aa4b7463615093e",
+      "bytes": 1923012
+    },
+    {
+      "name": "Generated wood repair",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "62ccecdd18d90c7e996f60712f2ae2b9f8c87d0fd1c787a1114db0d78675ce7c",
+      "bytes": 1729458
+    },
+    {
+      "name": "Generated stone repair",
+      "width": 2048,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "sha256": "5a76d7b782de6ccf3b357ae7cccb5db8ca60e78e13d5d9d81de6a862c970132f",
+      "bytes": 2234868
+    }
+  ],
+  "generation": {
+    "tool": "built-in imagegen",
+    "reusedTownMaterialMaps": true,
+    "prompts": {
+      "neutral": "Use case: stylized-concept. Asset type: high-detail PBR-style material source sheet to retexture an existing 3D game gate for a T70 haunted friendly-undead town. Create a square image divided into EXACTLY FOUR EQUAL QUADRANTS with ruler-straight center boundaries, NO gutters, borders, labels, shadows, lighting gradients, perspective or objects. Each quadrant is a seamless-looking, straight-on FLAT surface texture with rich fine-scale detail: TOP LEFT ash-charcoal basalt blocks and mortar with individual chips, layered pale mineral weathering and sparse cold blue-gray lichen; TOP RIGHT desaturated rotten weathered brown timber planks with deep grain, cracks and fastening wear; BOTTOM LEFT dark oxidized iron plates and straps with rust, pitting and subtle teal verdigris, clearly metallic; BOTTOM RIGHT dark slate roof shingles with broken edges, gray mineral dust and sparse teal-black stains. All material colors distinguish one another, no monochrome recolor. Fine texture must stay consistent scale across each quadrant. No architecture silhouettes, statues, UV islands, text, icons, flags, banners, people, scenery or vignette.",
+      "wood": "A single square seamless-looking flat MATERIAL TEXTURE MAP, no object or scene: weathered DARK BROWN medieval timber gable infill boards for a haunted friendly-undead town building. Front-on 2D surface with tightly spaced vertical wood grain and narrow overlapping boards, uneven charcoal-brown and deep umber tone matching aged oak, subtle gray dust, fine cracks, dark seams, a few tiny oxidized nails. Rich layered real material detail but low contrast so it sits behind existing sculpted roof beams and blue glass window. Fully fills canvas edge to edge, uniform diffuse light, no perspective, no shadows cast by an object, no framing, no text, no symbols, no borders, no flags, no banners. Use case: 3D model gable infill texture."
+    },
+    "reference": null,
+    "method": "Reuse generated slate, timber and stone maps; crop selected quadrants and repeat consistently across new surfaces.",
+    "encoding": "All four embedded maps 2048x2048 JPEG quality 92, 4:4:4"
+  },
+  "qa": {
+    "originalAttributesPreserved": true,
+    "tierGeometryIdentical": true,
+    "finiteAttributes": true,
+    "frontAndAngledActualGlbRendersReviewed": true,
+    "productionLabAcceptance": "Root agent owns production browser acceptance."
+  }
+}

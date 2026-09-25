@@ -1,0 +1,23 @@
+{
+  "set": "Shared town gatehouse geometry with T50 and T70 material references",
+  "created": "2026-09-25",
+  "assets": [
+    {
+      "file": "gate-base.png",
+      "role": "T50 flag-free shared geometry reference",
+      "sourceReference": "../t50/gatehouse-v2.png",
+      "selectedGeneratedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-bf951699-c288-4442-93e5-d35f96ce39c5.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "Edit the supplied T50 town gatehouse reference. Preserve its EXACT geometry, silhouette, camera angle, proportions, arch shape and clear wagon passage, tower positions, battlement and bridge structure, skeletal relief niches, blue lantern placements, aged charcoal stone, weathered brown wood, rusted iron and pale gray studio background. Remove EVERY hanging fabric element: all torn red banners, flags, drapes, strips of cloth, and fabric scraps on towers, bridge and lower walls. Reconstruct the stone or timber visibly behind the removed fabric using matching weathered materials. Do not add any new decoration, towers, roof, spikes, gate door, people, terrain, base or text. Keep the same isolated complete asset with generous margin. This is the shared geometry base for two town material variants; change only the fabric removal."
+    },
+    {
+      "file": "gate-t70.png",
+      "role": "T70 material reskin of same gate-base geometry",
+      "sourceReference": "gate-base.png",
+      "selectedGeneratedSource": "C:\\Users\\Borg\\.codex\\generated_images\\01a0d6e8-2276-76f1-bd9e-752432a55022\\exec-80f5818b-71f7-412a-910e-7d76b11cebd7.png",
+      "tool": "image_gen.imagegen",
+      "prompt": "MATERIAL RESKIN ONLY of the supplied flag-free Starhaven gatehouse base. Keep the EXACT same geometry, silhouette, tower heights and positions, bridge, crenellations, stone block courses, skeletal relief niches, lantern locations, arch profile and clear open wagon passage, camera angle, framing, and plain light gray background. Do not move, add or delete structural elements. Give the same model a T70 deep-wilderness haunted necropolis material treatment: deeper ash-gray and blue-black basalt stone with intricate layered erosion, mineral staining, pale lichen in cracks and weathered mortar, desaturated rotted starwood grain with splintered paint, more oxidized iron with muted verdigris, cool faint teal spectral lanterns and sparse soft teal glints in crevices. It remains a functioning gate for a town inhabited by ghosts and friendly undead: ancient, worn, eerie, repaired and usable. Keep surface contrast rich and hand-painted, never a flat monochrome filter. Absolutely NO flags, banners, drapes, cloth, bright gold, warm windows, polished celestial trim, pristine cathedral style, extra ornament, new tower forms, gate doors, obstacles, people, terrain, base or text."
+    }
+  ],
+  "review": "Inspected both full images. No fabric remains. Arch, towers, upper walkway, lantern locations and skeletal niches are visually aligned. T70 adds layered cold ash-gray basalt, lichen, rotted wood and verdigris/teal accents while retaining readable surface color variation. Concept images are references; 3D geometry identity must be enforced from one mesh."
+}

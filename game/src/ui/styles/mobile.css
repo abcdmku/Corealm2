@@ -148,6 +148,7 @@
   .hud__health .bar__text { font-size: 9px; }
   .hud__activity { padding: 2px 5px 3px; }
   .hud__activity-count { font-size: 9px; }
+  .hud__potions { padding: 2px 5px; font-size: 9px; }
   .hud__cache { padding: 1px 5px; }
 
   /* ---- minimap, top right, half size. The three buttons keep their full targets. */

@@ -1,0 +1,36 @@
+{
+    "source":  "../town-shared/inn.glb",
+    "baseModel":  "../town-buildings/inn.glb",
+    "t70Model":  "inn.glb",
+    "normalization":  {
+                          "widthMetres":  10,
+                          "quarterTurns":  0,
+                          "centerXZ":  true,
+                          "groundY":  0,
+                          "boundsMetres":  [
+                                               10,
+                                               11.911420216747333,
+                                               9.1142192402418818
+                                           ]
+                      },
+    "material":  {
+                     "sourceAtlas":  "2048x2048 Tripo JPEG preserved in base GLB",
+                     "reskinSheet":  "test-results/town-models/material-sheet-t70-cold.png",
+                     "bakeStrength":  0.85,
+                     "bake":  "UV-aware triplanar swatch blend with source glass and slate retention",
+                     "t70Atlas":  "2048x2048 JPEG quality 92 4:4:4 embedded"
+                 },
+    "repair":  {
+                   "panels":  "Matching recessed right upper timber wall and rear lower basalt wall in base and T70",
+                   "textures":  "Image-generated layered wood and stone, JPEG quality 92",
+                   "triangles":  4288,
+                   "textureCount":  3
+               },
+    "qa":  {
+               "front":  "test-results/town-models-secondary/inn-t70-final/front.png",
+               "angle":  "test-results/town-models-secondary/inn-t70-final/angle.png",
+               "back":  "test-results/town-models-secondary/inn-t70-final/back.png",
+               "finding":  "Side and rear through-holes closed; main front entry remains accessible."
+           },
+    "geometry":  "Identical base and T70 mesh; raw source untouched."
+}

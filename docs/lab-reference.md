@@ -1,5 +1,9 @@
 # Lab fixture reference
 
+The shop fixture accepts `?mode=combat&shop=1&shopId=<authored-shop-id>`.
+It draws that shop's production stall and uses its real inventory and prices.
+Omit `shopId` to use the starting town's fish stall.
+
 Read [the development workflow](./feature-lab.md) first. This file describes existing fixtures and specialized diagnostics. Read only the section needed for the current change; these commands are not a checklist. Do not append feature histories or acceptance reports here.
 
 `npx tsx tools/creature-death-stability-test.ts` checks a Granary Rat's first death with two independent Chromium clients in the production lab. It measures RAF intervals, GPU completion and pending-frame time through combat, loot creation and corpse fading while the observer walks. Each must stay below 150 ms, with XP, loot, continued movement and simulation ticks asserted. `--frog` checks another creature; `--authored` uses the nearest authored Granary Rat to spawn and the shipped Attack context menu after lab acceptance. Lab and authored budgets are 60 and 120 seconds. `--profile --diagnostic` records CPU profiles and slow GL calls for investigation; use an unprofiled run for acceptance. Screenshots run outside measurement, and reports stay under ignored `test-results/creature-death-stability-*` directories.

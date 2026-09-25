@@ -1,0 +1,62 @@
+{
+  "asset": "market_stall_arms_t70",
+  "sourceGeometry": "../market-stalls/arms.glb",
+  "sourceSha256": "4925ebe714f02f5d53a45ab590913023714bd5259b53360838fc893f00241088",
+  "concept": "art/town-concepts/stalls/arms-t70.png",
+  "generation": {
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Flat 3D game material texture sheet for the approved T70 weapons-and-armor stall in the reference. Square image split EXACTLY into four equal square edge-to-edge swatches, no borders, no labels, no gaps. TOP LEFT: heavily worn taupe-grey canvas, beige mending stitches, small irregular repaired tears, layered soot and dirt; plain fabric with NO symbols. TOP RIGHT: dark grey-brown oak, deep vertical grain, scratched tan streaks, moss traces, dark water staining; flat timber grain without frames or objects. BOTTOM LEFT: dark iron and bronze with restrained blue-green verdigris, pits, scratches and worn silver flecks; no rivets or objects. BOTTOM RIGHT: coarse dirty brown leather with small scuffs and stitching. Every swatch rich and intricately layered with readable surface variation, even flat illumination, top-down, repeatable edges. No 3D stall, weapons, helmet, shield, flags, heraldry, words, shadows, borders or perspective. The reference guides material appearance only. Highest square resolution. CRITICAL: The entire image must be fully OPAQUE RGB, alpha 255 everywhere. Every swatch completely fills its square corner-to-corner with uniform exposure. NO transparency, NO fading or vignetting at edges, NO spotlighting, NO empty corners. Texture details must continue right through every corner.",
+    "sourceMap": "source-maps/arms.png",
+    "sourceMapSha256": "647bd93bc04ac14211e63ac49f3f774e589980b42c3a195e7a58e90aede15324"
+  },
+  "bake": {
+    "method": "Rasterize existing UV triangles; sample generated material swatches using interpolated original model positions/normals and continuous triplanar projection; preserve original baked lighting and merchandise texture pixels. No generated mesh.",
+    "atlasSize": [
+      4096,
+      4096
+    ],
+    "encoding": "JPEG quality 95, 4:4:4",
+    "properties": "Original single double-sided roughness 0.9 dielectric material retained.",
+    "goods": "Original merchandise triangles and UV samples preserved."
+  },
+  "geometry": {
+    "retainedAttributes": "All surviving source position, normal, UV values unchanged. UV topology unchanged.",
+    "removedSourceComponents": [
+      70,
+      72
+    ],
+    "removalReason": "Decorative side banner and its cantilevered pole."
+  },
+  "front": "+Z",
+  "origin": "Original center-ground origin preserved. No recentering after flag removal.",
+  "measurements": {
+    "dimensions": [
+      2.961904764175415,
+      2.519047737121582,
+      2.209524154663086
+    ],
+    "bounds": {
+      "min": [
+        -1.5,
+        0.0,
+        -1.1047619581222534
+      ],
+      "max": [
+        1.461904764175415,
+        2.519047737121582,
+        1.104762077331543
+      ]
+    },
+    "triangles": 3043,
+    "vertices": 4995,
+    "bytes": 2895004,
+    "removedComponents": [
+      70,
+      72
+    ]
+  },
+  "bytes": 2895004,
+  "sha256": "123f5d3a21724f34c06720bc5fafc68210169489b85bd4a11c443d386e094d2e",
+  "rights": "Base geometry is user supplied; no author/license declaration was present. Texture swatches generated for this task.",
+  "review": "Offline model render reviewed. Root owns production lab and authored-world acceptance."
+}

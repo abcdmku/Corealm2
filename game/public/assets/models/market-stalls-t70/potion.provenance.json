@@ -1,0 +1,60 @@
+{
+  "asset": "market_stall_potion_t70",
+  "sourceGeometry": "../market-stalls/potion.glb",
+  "sourceSha256": "56a3f4fa5d198dc8b480b4b69ed2e18218e278d9c701cd44211ec60d5d1e3fc4",
+  "concept": "art/town-concepts/stalls/potion-t70.png",
+  "generation": {
+    "tool": "built-in imagegen",
+    "prompt": "Use case: stylized-concept. Flat four-square surface albedo material sheet for the T70 alchemist/potion stall in attached approved concept. Exactly four equal square swatches completely fill image with no borders/gaps/labels. TOP LEFT: readable medium-dark slate charcoal blue canvas, fine woven texture, beige repair seams, grey-brown wear, small rubbed blue-violet fibres and weathered patches, never pure black; no crests, gold decoration or emblems. TOP RIGHT: aged charcoal-grey oak with vertical grain, warm exposed wood under worn blackened surface, weathered tan speckles and deep cracks; wood surface only. BOTTOM LEFT: dark forged iron with coppery rust, bronze wear, subtle cool oxide flecks and scratched metal; no rivets or objects. BOTTOM RIGHT: matte dark leather with scratches and muted dusty olive-brown variation. All surfaces rich and layered with intricate physical detail and restrained colors matching reference. Entire square fully OPAQUE RGB alpha255 everywhere, material continues to every corner, even flat illumination, no fade or vignette. No transparent areas, no 3D render, potions, plants, people, signs, flags, labels, heraldry, perspective, frames or cast shadows. Only flat surface textures. Highest square resolution.",
+    "sourceMap": "source-maps/potion.png",
+    "sourceMapSha256": "ae529de34a0747cd11fb7de7a2d4a5ce02f0ead739534024505e74d09bce31c1"
+  },
+  "bake": {
+    "method": "Rasterize existing UV triangles; sample generated material swatches using interpolated original model positions/normals and continuous triplanar projection; preserve original baked lighting and merchandise texture pixels. No generated mesh.",
+    "atlasSize": [
+      4096,
+      4096
+    ],
+    "encoding": "JPEG quality 95, 4:4:4",
+    "properties": "Original single double-sided roughness 0.9 dielectric material retained.",
+    "goods": "Original merchandise triangles and UV samples preserved."
+  },
+  "geometry": {
+    "retainedAttributes": "All surviving source position, normal, UV values unchanged. UV topology unchanged.",
+    "removedSourceComponents": [
+      107
+    ],
+    "removalReason": "Separate emblem cloth over counter."
+  },
+  "front": "+Z",
+  "origin": "Original center-ground origin preserved. No recentering after flag removal.",
+  "measurements": {
+    "dimensions": [
+      3.0,
+      2.790816307067871,
+      2.31632661819458
+    ],
+    "bounds": {
+      "min": [
+        -1.5000001192092896,
+        0.0,
+        -1.1581631898880005
+      ],
+      "max": [
+        1.5,
+        2.790816307067871,
+        1.1581634283065796
+      ]
+    },
+    "triangles": 13947,
+    "vertices": 23823,
+    "bytes": 3722728,
+    "removedComponents": [
+      107
+    ]
+  },
+  "bytes": 3722728,
+  "sha256": "2656aa3430980f5696d466c40c9556962c4e50fc03b881698293be5f1b46ef8c",
+  "rights": "Base geometry is user supplied; no author/license declaration was present. Texture swatches generated for this task.",
+  "review": "Offline model render reviewed. Root owns production lab and authored-world acceptance."
+}

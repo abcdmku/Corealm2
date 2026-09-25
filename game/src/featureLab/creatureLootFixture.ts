@@ -36,8 +36,9 @@ export interface CreatureLootFixtureApi {
 /** A production crafting station only. Ingredients, rewards and equipment stay in their systems. */
 export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): CreatureLootFixtureApi {
   const region = REGIONS.find((candidate) => candidate.id === "fallowmarch");
-  const source = region?.settlement?.stations.find((station) => station.id === "coldbrace_crafting");
-  if (!region || !source || source.kind !== "crafting_table") {
+  const settlement = region?.settlements.find((town) => town.id === "coldbrace");
+  const source = settlement?.stations.find((station) => station.id === "coldbrace_crafting");
+  if (!region || !settlement || !source || source.kind !== "crafting_table") {
     throw new Error("The creature loot fixture requires the production Coldbrace crafting table.");
   }
   const assetId = source.assetId;
@@ -94,7 +95,7 @@ export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): Creatu
       },
       meta: {
         stationKind: source!.kind,
-        settlementId: region!.settlement!.id,
+        settlementId: settlement!.id,
         featureLab: true,
         creatureLootFixture: true,
         sourceStationId: source!.id,

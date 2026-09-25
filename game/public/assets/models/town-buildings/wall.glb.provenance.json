@@ -1,0 +1,53 @@
+{
+  "id": "wall",
+  "tier": "base",
+  "processedAsset": "game/public/assets/models/town-buildings/wall.glb",
+  "processedSha256": "04ac979ef6499cb6b17dbec220acaa1757be084eddba8fe5817bf76b7d8bc4be",
+  "rawAsset": "game/public/assets/models/town-shared/wall.glb",
+  "rawSha256": "d63b53451333bb2dabc4aeefca31ee379f6cbb70d6ed82529319032a10315705",
+  "rawModel": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/742c796f-598b-4b92-b7c1-607981ae4bc7",
+    "referenceImage": "art/town-concepts/shared/wall-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "geometry": {
+    "front": "+Z",
+    "groundY": 0,
+    "centeredXZ": true,
+    "bounds": {
+      "min": [
+        -3,
+        0,
+        -0.6164382377444467
+      ],
+      "max": [
+        3,
+        2.78277853258841,
+        0.6164382377444467
+      ]
+    },
+    "dimensions": [
+      6,
+      2.7828,
+      1.2329
+    ],
+    "triangles": 4218
+  },
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1197367
+    }
+  ],
+  "processing": [
+    "Uniform metric normalization, no raw mesh or original UV edits."
+  ]
+}

@@ -11,8 +11,8 @@ export function footstepSurfaceAt(
   if (regionId === "gravelmaw") return "cave";
 
   const [x, , z] = position;
-  const paving = getRegion(regionId)?.settlement?.paving?.find(({ rect }) =>
-    x >= rect.minX && x <= rect.maxX && z >= rect.minZ && z <= rect.maxZ);
+  const paving = getRegion(regionId)?.settlements.flatMap((settlement) => settlement.paving ?? [])
+    .find(({ rect }) => x >= rect.minX && x <= rect.maxX && z >= rect.minZ && z <= rect.maxZ);
   if (paving) return paving.assetId === "floor_wood" || paving.assetId === "floor_wood_light"
     ? "wood"
     : "stone";

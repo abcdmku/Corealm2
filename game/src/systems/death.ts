@@ -134,6 +134,7 @@ export class DeathSystem implements TickSystem {
       this.deps.activity?.cancel(atMs);
       this.deps.movement?.stop(state, atMs, "dead");
       this.deps.combat?.resetOnDeath(atMs);
+      state.combat.potionBuffs = {};
       this.deps.enemyAi?.resetOnPlayerDeath(atMs);
 
       const deathPosition = cloneVec3(state.player.position);

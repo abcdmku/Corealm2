@@ -1,0 +1,29 @@
+{
+  "source": "../town-shared/workshop.glb",
+  "baseModel": "../town-buildings/workshop.glb",
+  "t70Model": "workshop.glb",
+  "normalization": {
+    "widthMetres": 8,
+    "quarterTurns": 0,
+    "centerXZ": true,
+    "groundY": 0,
+    "boundsMetres": [
+      8,
+      4.900194816778406,
+      6.340509581353249
+    ]
+  },
+  "material": {
+    "sourceAtlas": "2048x2048 Tripo JPEG preserved in base GLB",
+    "reskinSheet": "test-results/town-models/material-sheet-t70-cold.png",
+    "bakeStrength": 0.85,
+    "bake": "UV-aware triplanar swatch blend with source glass and slate retention",
+    "t70Atlas": "2048x2048 JPEG quality 92 4:4:4 embedded"
+  },
+  "qa": {
+    "front": "test-results/town-models-secondary/workshop-t70-final/front.png",
+    "angle": "test-results/town-models-secondary/workshop-t70-final/angle.png",
+    "finding": "Intentional open work counter spans +Z frontage; stone back wall and gable door intact."
+  },
+  "geometry": "Identical base and T70 mesh, 2K atlases; raw source untouched."
+}

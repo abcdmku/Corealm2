@@ -1,0 +1,54 @@
+{
+  "id": "gate",
+  "tier": "base",
+  "processedAsset": "game/public/assets/models/town-buildings/gate.glb",
+  "processedSha256": "0a177e7d2d3bc864809788c1796b7aeee988caa768c63ccabbe6b930a470c263",
+  "rawAsset": "game/public/assets/models/town-shared/gate.glb",
+  "rawSha256": "3181b066b26951efb1d63f297e50c502dca5ae1ee80083abdc4f41c21ae7b81d",
+  "rawModel": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/ca3f6b69-1410-4e59-9277-e67ab03b1587",
+    "referenceImage": "art/town-concepts/shared/gate-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "geometry": {
+    "front": "+Z",
+    "groundY": 0,
+    "centeredXZ": true,
+    "bounds": {
+      "min": [
+        -6,
+        0,
+        -2.547945465635153
+      ],
+      "max": [
+        6,
+        11.99999785003402,
+        2.547945465635153
+      ]
+    },
+    "dimensions": [
+      12,
+      12,
+      5.0959
+    ],
+    "triangles": 4332,
+    "arch": "At mid-depth opening width ≈3.44m at y0.6 and ≈4.26m at y1.8; two separate pier colliders preserve passage."
+  },
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/jpeg",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 1038784
+    }
+  ],
+  "processing": [
+    "Uniform metric normalization, no raw mesh or original UV edits."
+  ]
+}

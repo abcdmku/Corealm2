@@ -250,6 +250,7 @@ export function installGameDebug(deps: DebugDeps): void {
         regionId: view.regionId,
         health: view.health,
         maxHealth: view.maxHealth,
+        potionBuffs: view.potionBuffs,
         inCombat: view.inCombat,
         dead: view.dead,
         moving: view.moving,

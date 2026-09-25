@@ -1,0 +1,9 @@
+{
+  "asset": "wall-corner-t70.png",
+  "townStyle": "T70 material reskin",
+  "tool": "built-in image_gen edit",
+  "sourceReference": "wall-corner-base.png",
+  "generatedSource": "exec-0c144ccc-b3ea-4701-8916-c326eeac6782.png",
+  "prompt": "Create the T70 town material reskin of this exact shared wall-kit module. This is a material-only edit: preserve exact geometry, every dimension and silhouette edge, endpoint planes, corner angle or stair rise and landing, all stone/timber courses and braces, parapet/walkway, railings, ossuary reliefs, framing, camera, lighting, background, and shadow. Do not add, remove, move, or reshape any structural part. Keep it completely flag-free with no cloth or drapes. Shift materials from T50 charcoal basalt and blackened timber to slightly ashier, more desaturated gray stone, deeply weathered and rotted gray-brown wood, oxidized iron repairs and subtle mineral staining; add only faint spectral teal residue in a few stone seams and iron crevices. Keep rich layered hand-painted texture and varied material values; not a flat monochrome recolor. Match the same bleak wilderness mortuary style. No text, people, terrain, props, new geometry, openings, or extra decoration.",
+  "review": "Corner profile and camera match the T50 corner. T70 material treatment is ashier and desaturated, with layered stone, weathered timber, oxidized iron, mineral staining, and restrained teal accents."
+}

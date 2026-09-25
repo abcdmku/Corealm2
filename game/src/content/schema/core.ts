@@ -134,7 +134,7 @@ export const REF_KIND_SOURCES: Record<RefKind, RefKindSource> = {
   station: { derive: "stations" },
   /** Route-graph nodes: `worldRegions[].locations` plus each region's `dungeon.locations`. */
   location: { derive: "locations" },
-  /** `worldRegions[].settlement`, at most one per region. */
+  /** `worldRegions[].settlements[]`, including separate progression towns in one region. */
   settlement: { derive: "settlements" },
   /** The distinct `family` values authored on `creatureDefinitions`. */
   enemyFamily: { derive: "enemyFamilies" },

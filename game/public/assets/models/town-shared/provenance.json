@@ -1,0 +1,129 @@
+{
+  "gate.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/ca3f6b69-1410-4e59-9277-e67ab03b1587",
+    "referenceImage": "art/town-concepts/shared/gate-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "wall.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/742c796f-598b-4b92-b7c1-607981ae4bc7",
+    "referenceImage": "art/town-concepts/shared/wall-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "wall-corner.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/61885f5b-f219-4d13-a989-c12a6fa382f6",
+    "referenceImage": "art/town-concepts/shared/wall-corner-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "building-narrow.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/204e5b0f-c61d-42f1-93c6-35c873575f0d",
+    "referenceImage": "art/town-concepts/shared/building-narrow-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB",
+    "qualityStatus": "rejected: missing major roof planes",
+    "reroll": {
+      "modelUrl": "https://studio.tripo3d.ai/workspace/generate/1779c84e-436f-42d8-a1b9-ca2bbcb726b4",
+      "geometryTokens": 35,
+      "textureTokens": 0,
+      "qualityStatus": "rejected before texturing: missing major roof slope"
+    }
+  },
+  "building-wide.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/a8e0041e-c1c6-4725-88a4-d3c8b8914fc6",
+    "referenceImage": "art/town-concepts/shared/building-wide-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "hall.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/9f58823d-76db-4582-81e4-ff53193dab50",
+    "referenceImage": "art/town-concepts/shared/hall-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "bank.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/60ae64c7-c81e-4828-a121-413f18ef7a67",
+    "referenceImage": "art/town-concepts/shared/bank-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "home.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/17066a6f-c217-4a4f-b980-2ce6bd3eb48b",
+    "referenceImage": "art/town-concepts/shared/home-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "inn.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/208b822b-35ce-4a40-be1b-52efb390e314",
+    "referenceImage": "art/town-concepts/shared/inn-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "workshop.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/32be2a33-de0f-4e12-8071-09cff785bba8",
+    "referenceImage": "art/town-concepts/shared/workshop-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "smithy.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/83a04c75-612e-4db7-92d9-4c58ffed8a00",
+    "referenceImage": "art/town-concepts/shared/smithy-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  },
+  "well.glb": {
+    "source": "Tripo AI",
+    "modelUrl": "https://studio.tripo3d.ai/workspace/generate/39840839-24c7-44f0-b8b2-d64ed1ad061c",
+    "referenceImage": "art/town-concepts/shared/well-base.png",
+    "geometryModel": "Smart Mesh P1.0 Fast",
+    "geometryTokens": 35,
+    "textureResolution": "2K",
+    "textureTokens": 10,
+    "exportFormat": "GLB"
+  }
+}

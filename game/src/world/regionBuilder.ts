@@ -894,7 +894,7 @@ function emitBuildingCollision(
   regionId: RegionId,
 ): void {
   const collision = structureCollisionFromBoxes(
-    prefabCollision(building.prefab, building.footprint, variantSeed(building.id)),
+    building.model?.collision ?? prefabCollision(building.prefab, building.footprint, variantSeed(building.id)),
     {
       origin,
       rotationY: building.rotationY,
@@ -1280,16 +1280,24 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     buildCluster(regionId, cluster, rng, place, normal, ctx);
   }
 
-  const settlement = region.settlement;
-  if (settlement) {
+  for (const settlement of region.settlements) {
+  const tier = settlement.tier;
   const kit = BUILDING_KITS[settlement.kit];
 
-  // Buildings. Round-1 critique finding 1: `settlement.buildings` was authored and never read, so
-  // 37 buildings across three settlements rendered as nothing at all. Each one is now assembled by
-  // `render/buildings.ts` into 2 m modules and emitted as one instanced part per piece: the render
-  // path already batches by (assetId, tier), so a whole street of cottages is a dozen draw calls.
+  // Complete imported buildings retain their authored mesh and collision. Modular prefabs
+  // emit their individual parts through the same production entity renderer.
   for (const building of settlement.buildings) {
     const origin = ground(building.position);
+    if (building.model) {
+      const { assetId, scale } = building.model;
+      ctx.out.push(sceneryEntity(
+        building.id, building.name, tier, regionId, place(building.position, assetId, scale),
+        assetId, scale, building.rotationY, 1,
+        { buildingId: building.id, prefab: building.prefab, settlementId: settlement.id, scenery: true },
+      ));
+      emitBuildingCollision(ctx, building, origin, regionId);
+      continue;
+    }
     const seed = variantSeed(building.id);
     emitParts(
       buildPrefab(building.prefab, building.footprint, seed, settlement.kit),
@@ -1301,9 +1309,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     emitBuildingCollision(ctx, building, origin, regionId);
   }
 
-  // Walls, paving and props. All three are new content vocabulary (`content/regions.ts`) and no
-  // settlement authors any of it yet, so all three loops are no-ops on today's data - which is
-  // exactly what makes them safe to land a wave ahead of the layouts they exist for.
+  // Additional settlement walls, paving and props share the town's tier and kit.
   for (const run of settlement.walls ?? []) {
     emitWallRun(ctx, regionId, tier, settlement, run, kit, ground);
   }
@@ -1328,11 +1334,16 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
   }));
   pushAssetSolid(ctx, settlement.bank.id, bankPosition, settlement.bank.assetId, bankScale,
     settlement.bank.rotationY, true);
-  ctx.locationEntity.set(bankLocationId(region), settlement.bank.id);
+  ctx.locationEntity.set(settlement.bankLocationId, settlement.bank.id);
 
   for (const shop of settlement.shops) {
     const scale = drawnScale("shop", undefined, tier);
     const position = place(shop.position, shop.assetId, scale);
+    const approach = (ctx.assetSize(shop.assetId)?.z ?? 2.8) * scale / 2 + 0.6;
+    const interactionPosition = ground([
+      shop.position[0] + Math.sin(shop.rotationY) * approach,
+      shop.position[1] + Math.cos(shop.rotationY) * approach,
+    ]);
     ctx.out.push({
       id: shop.id,
       archetype: "shop",
@@ -1340,6 +1351,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       tier,
       regionId,
       position,
+      interactionPosition,
       state: "open",
       interactions: ["inspect", "trade"],
       view: { assetId: shop.assetId, rotationY: shop.rotationY, labelHeight: 3 },
@@ -1349,7 +1361,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
   }
 
   }
-  const emitStation = (station: import("../content/regions.js").StationDef, settlementId?: string): void => {
+  const emitStation = (station: import("../content/regions.js").StationDef, settlementId?: string, tier = region.tier): void => {
     const scale = drawnScale("station", station.scale, tier);
     const position = place(station.position, station.assetId, scale);
     const essenceAltar = station.kind === "essence_altar" && station.essenceElement !== undefined;
@@ -1380,14 +1392,15 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     pushAssetSolid(ctx, station.id, position, station.assetId, scale, station.rotationY, true);
   };
 
-  for (const station of settlement?.stations ?? []) {
-    emitStation(station, settlement?.id);
+  for (const settlement of region.settlements) for (const station of settlement.stations) {
+    emitStation(station, settlement.id, settlement.tier);
   }
   for (const station of region.stations) {
     emitStation(station);
   }
 
-  for (const npc of settlement?.npcs ?? []) {
+  for (const settlement of region.settlements) for (const npc of settlement.npcs) {
+    const tier = settlement.tier;
     const presentation = fairyNpcPresentation(npc.assetId);
     ctx.out.push({
       id: npc.id,
@@ -1433,7 +1446,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       obstacle.rotationY ?? 0,
       regionId,
       tier,
-      region.settlement?.kit ?? "stone",
+      region.settlements[0]?.kit ?? "stone",
       obstacle.id,
       obstacle.name,
       { scenery: true, traversal: true },
@@ -1507,7 +1520,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     // still the clickable, inspectable entity; these parts are what the player navigates by.
     emitComposition(
       landmark.composition, origin, landmark.rotationY ?? 0, regionId, tier,
-      region.settlement?.kit ?? "stone", landmark.id, landmark.name,
+      region.settlements[0]?.kit ?? "stone", landmark.id, landmark.name,
       { blurb: landmark.blurb, scenery: true }, ctx.out, ctx,
     );
   }
@@ -1525,7 +1538,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     ctx.locationEntity.set(gate.id, gate.id);
     emitComposition(
       gate.composition, origin, gate.rotationY ?? 0, regionId, tier,
-      region.settlement?.kit ?? "stone", gate.id, gate.name,
+      region.settlements[0]?.kit ?? "stone", gate.id, gate.name,
       { toRegionId: gate.toRegionId, scenery: true }, ctx.out, ctx,
     );
   }
@@ -1951,7 +1964,7 @@ function buildDungeonEntities(
       bearing + Math.PI,
       dungeon.id,
       dungeon.tier,
-      region.settlement?.kit ?? "stone",
+      region.settlements[0]?.kit ?? "stone",
       "gravelmaw_exit_portal",
       `${dungeon.name} Mouth`,
       { scenery: true, dungeonId: dungeon.id },
@@ -1975,7 +1988,7 @@ function buildDungeonEntities(
   // a hole, and a box across it would seal the entrance to the dungeon.
   emitComposition(
     dungeon.entranceComposition, mouth, mouthRotation, region.id, region.tier,
-    region.settlement?.kit ?? "stone", "gravelmaw_mouth_portal", dungeon.name,
+    region.settlements[0]?.kit ?? "stone", "gravelmaw_mouth_portal", dungeon.name,
     { scenery: true, dungeonId: dungeon.id }, out, ctx,
   );
 
@@ -2399,13 +2412,4 @@ function round4(value: number): number {
  */
 function trueScale(authored: number | undefined, _tier: number): number {
   return round4(authored ?? 1);
-}
-
-/** The bank's route node id differs per settlement; this keeps the mapping in one place. */
-function bankLocationId(region: RegionDef): string {
-  switch (region.id) {
-    case "fallowmarch": return "bank_interior";
-    case "vellenwood": return "rootfall_bank";
-    default: return "highcairn_bank";
-  }
 }

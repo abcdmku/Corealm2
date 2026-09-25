@@ -1,5 +1,5 @@
 /** World geometry and placement projections share one authored source per field. */
-import type { ItemId, QuestId, RecipeId, RegionId, SkillId, StationKind } from "../contracts.js";
+import type { BuildingModel, ItemId, QuestId, RecipeId, RegionId, SkillId, StationKind } from "../contracts.js";
 import { PLAYER_SPEED } from "../app/config.js";
 import {
   COMPOSITION_IDS, KIT_IDS, MODULE_METRES, PREFAB_IDS, compositionPartAssetIds, isCompositionId,
@@ -79,16 +79,13 @@ export interface ResourceClusterDef {
  */
 export type { PrefabId };
 
-/**
- * Buildings are composed, not loaded: the Medieval Village kit ships no prebuilt house, only a 2 m
- * modular grid (asset-report, "No prebuilt house or cottage"). A placement names a prefab and a
- * pose; `render/buildings.ts` turns that into an ordered list of part placements on the kit's 2 m /
- * 3.123 m grid, and `world/regionBuilder.ts` emits one instanced entity per part.
- */
+/** A building placement uses modular parts or a complete model with measured collision. */
 export interface BuildingDef {
   id: string;
   name: string;
   prefab: PrefabId;
+  /** Replaces the modular prefab with one complete authored model. */
+  model?: BuildingModel;
   position: Spot;
   rotationY: number;
   /** Footprint in metres, used for scatter exclusion and collision boxes. */
@@ -152,7 +149,7 @@ export interface BankDef {
 export interface ShopDef {
   id: string;
   name: string;
-  shopKind: "general" | "smith";
+  shopKind: "general" | "smith" | "potion" | "cloth" | "fish" | "meat" | "cosmic";
   position: Spot;
   rotationY: number;
   assetId: string;
@@ -342,6 +339,8 @@ export interface PadShapeDef {
 export interface SettlementDef {
   id: string;
   name: string;
+  tier: number;
+  bankLocationId: string;
   /**
    * Which building vernacular this settlement is made of. See `BUILDING_KITS` in
    * render/buildings.ts: wall family, corner post, roof pitch and roofline. Phase 1 shipped every
@@ -589,7 +588,7 @@ export interface RegionDef {
   clusters: ResourceClusterDef[];
   /** Production stations outside the settlement, such as regional Essence Altars. */
   stations: StationDef[];
-  settlement?: SettlementDef;
+  settlements: SettlementDef[];
   obstacles: ObstacleDef[];
   enemyGroups: EnemyGroupDef[];
   landmarks: LandmarkDef[];
@@ -826,14 +825,16 @@ export function validateRegions(knownAssetIds?: ReadonlySet<string>): string[] {
       }
     }
 
-    if (region.settlement) {
-    if (!inBounds(region.bounds, region.settlement.centre)) {
-      problems.push(`${region.id}: settlement ${region.settlement.id} is outside the region bounds`);
+    for (const settlement of region.settlements) {
+    if (!inBounds(region.bounds, settlement.centre)) {
+      problems.push(`${region.id}: settlement ${settlement.id} is outside the region bounds`);
     }
 
     // Buildings. An unknown prefab, a zero footprint, or a building outside its own region all
     // produce a settlement that is invisible or in the wrong place, and all three are silent.
-    const settlement = region.settlement;
+    if (!region.locations.some(location => location.id === settlement.bankLocationId && location.kind === "bank")) {
+      problems.push(`${settlement.id}: missing bank approach ${settlement.bankLocationId}`);
+    }
     if (!isKitId(settlement.kit)) {
       problems.push(
         `${region.id}: settlement ${settlement.id} names unknown building kit ` +
@@ -843,6 +844,7 @@ export function validateRegions(knownAssetIds?: ReadonlySet<string>): string[] {
     for (const building of settlement.buildings) {
       if (seenIds.has(building.id)) problems.push(`duplicate building id ${building.id}`);
       seenIds.add(building.id);
+      if (building.model) checkAsset(building.id, building.model.assetId);
       if (!isPrefabId(building.prefab)) {
         problems.push(
           `${region.id}: building ${building.id} names unknown prefab "${String(building.prefab)}" ` +
