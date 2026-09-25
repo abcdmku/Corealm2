@@ -58,7 +58,23 @@ export const DAYLIGHT_LOOK = {
   hemisphereSky: 0xcac7c0,
   hemisphereGround: 0x66513d,
   hemisphereIntensity: 0.18,
+  sunShadowIntensity: 0.7,
 } as const;
+
+/**
+ * How much of the sun a cast shadow removes: 0.7 leaves 30% of the key in shade.
+ *
+ * The rig has no bounce light. With shadows off that never shows, because no sun-facing surface is
+ * ever occluded. With shadows on, a full-strength shadow drops a sun-facing surface to the sky
+ * fill alone. Under the 25-degree sun, 88% of the default view from Rootfall's respawn point is
+ * out of the sun (rays cast from each visible surface toward the sun), so nearly the whole frame
+ * runs on fill. Fill-only values on the town's dark planks, roofs and plate sit in the ACES toe:
+ * the frame averaged (28, 37, 32) against (56, 61, 45) with shadows off, and Vellenwood's shade
+ * grade then removes red from those dark pixels. At 0.7 the decking reads (17, 17, 11) in shadow
+ * against (35, 31, 19) in sun, and the stair treads read (38, 53, 47) against (71, 83, 65).
+ * Shadows keep a clear edge and direction, and shaded surfaces keep their material colour.
+ */
+const SUN_SHADOW_INTENSITY = DAYLIGHT_LOOK.sunShadowIntensity;
 
 /**
  * The sky gradient, authored by elevation rather than by texture row.
@@ -446,6 +462,7 @@ export class Renderer {
     // Keep that offset below a centimetre; normal bias handles surface acne.
     this.sun.shadow.bias = -0.00003;
     this.sun.shadow.normalBias = 0.01;
+    this.sun.shadow.intensity = SUN_SHADOW_INTENSITY;
     this.scene.add(this.sun);
     this.scene.add(this.sun.target);
 
