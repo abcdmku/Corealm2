@@ -49,8 +49,7 @@ export interface LoopDeps {
   clock: SimClock;
   renderer: Renderer;
   camera: OrbitCamera;
-  /** The roof cutaway step (`roofCutawayFrame`). Required: fixed follow has nothing else between the lens and a roof. */
-  updateRoofVisibility(position: Vec3 | null): void;
+  updateRoofVisibility?(position: Vec3 | null): void;
   scene: WorldScene;
   input: InputController;
 }
@@ -470,7 +469,7 @@ export class GameLoop {
     this.syncPlayerEquipment();
     this.syncPlayerRig(position, facingRad, realDeltaMs, nowMs, traversal);
     scene.syncPlayer(position, facingRad);
-    this.deps.updateRoofVisibility(this.playerRig?.root.visible === false ? null : position);
+    this.deps.updateRoofVisibility?.(this.playerRig?.root.visible === false ? null : position);
     camera.update(position[0], position[1], position[2]);
     renderer.followShadow(renderer.camera.position.clone().setY(position[1]));
     renderer.camera.updateMatrixWorld();

@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import type { SemanticEntity, Vec3 } from "../contracts.js";
-import type { OrbitCamera } from "./camera.js";
 
 /** Building identity is shared by every storey, including its floors, walls and dressing. */
 export function structureOwner(entity: SemanticEntity): string | null {
@@ -158,30 +157,4 @@ export class RoofVisibility {
     return { roofCount: this.parts.length, hiddenBuildingIds: [...this.hiddenBuildings],
       hiddenEntityIds: [...this.hiddenEntities], cutHeights: Object.fromEntries(this.cutHeights) };
   }
-}
-
-/** The three places a cut has to land: the drawn parts, the camera's rays and its walk-under slabs. */
-export interface RoofCutawayTargets {
-  readonly roofs: RoofVisibility;
-  /** Where the lens sits this frame, before the camera moves. */
-  readonly lens: () => Vec3;
-  readonly camera: Pick<OrbitCamera, "requestedPosition" | "setHiddenRoofs">;
-  readonly views: { setHiddenRoofs(entityIds: ReadonlySet<string>): void };
-  readonly rays: { setHiddenEntities(entityIds: ReadonlySet<string>, cutHeights: ReadonlyMap<string, number>): void };
-}
-
-/**
- * The per-frame cutaway step the game loop runs before the camera update. Production follow keeps
- * a fixed frame and never pulls in for a building, so this is the only thing that stops a roof or
- * a gatehouse's head course from filling the screen. `null` (a hidden player) restores everything.
- */
-export function roofCutawayFrame(targets: RoofCutawayTargets): (position: Vec3 | null) => void {
-  return (position) => {
-    if (!targets.roofs.update(position, position ? {
-      actual: targets.lens(), requested: targets.camera.requestedPosition(position), nowMs: performance.now(),
-    } : undefined)) return;
-    targets.views.setHiddenRoofs(targets.roofs.hiddenEntities);
-    targets.rays.setHiddenEntities(targets.roofs.hiddenEntities, targets.roofs.cutHeights);
-    targets.camera.setHiddenRoofs(targets.roofs.hiddenBuildings);
-  };
 }
