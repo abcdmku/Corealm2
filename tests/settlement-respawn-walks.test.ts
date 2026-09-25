@@ -150,3 +150,15 @@ it("reaches Lastlight and Starhaven services and residents through their south g
   ];
   expect(failed).toEqual([]);
 }, 120_000);
+
+it("moves a player saved inside what content later built there onto clear ground when they join", () => {
+  // The old Oakwood stump top, now inside the rebuilt square's structures: every step from here was refused.
+  const state = player.store.get();
+  state.player.position = [64, 8.287293434143066, 127];
+  state.player.regionId = "vellenwood";
+  world.join("walker");
+  const settled = [...state.player.position];
+  expect(Math.hypot(settled[0]! - 64, settled[2]! - 127)).toBeLessThan(8);
+  const goal = world.ports.nav.closestPoint([settled[0]! + 5, settled[1]!, settled[2]!])!;
+  expect(walk(goal)).toBe("navigation.completed");
+}, 120_000);

@@ -11,6 +11,9 @@ import type { Navigation } from "../systems/navigation.js";
 import { EntityStore } from "../world/entities.js";
 import { SpatialIndex } from "../world/spatial.js";
 import { HeadlessPlayer } from "./headlessPlayer.js";
+import { PLACE_SNAP_METRES } from "./playerEdits.js";
+import { PLAYER_RADIUS } from "../app/config.js";
+import { distanceXZ } from "../core/math.js";
 import { SessionFailure } from "./protocol.js";
 import { PublicActions } from "./publicActions.js";
 import { WorldExchange } from "./exchange.js";
@@ -326,10 +329,33 @@ export class HeadlessWorld {
       if (random) player.random.restore(random);
       this.players.set(id, player);
     }
+    this.settleOnWalkableGround(player);
     if (!this.active.has(id)) this.membershipVersion++;
     this.active.add(id); this.spatial.insert(id, player.store.get().player.position);
     this.social.join(id);
     return player;
+  }
+  /**
+   * A saved position that content has since built over (a wall, a well, a counter) or moved off the
+   * walkable mesh leaves the player unable to take a single step: movement refuses every step that
+   * starts inside a solid. Joining puts them on the nearest clear walkable point, or the world spawn.
+   */
+  private settleOnWalkableGround(player: HeadlessPlayer): void {
+    const state = player.store.get().player, nav = this.ports.nav, solids = this.ports.movement.solids;
+    const clear = (point: Vec3) => !solids || distanceXZ(solids.resolve(point, point, PLAYER_RADIUS), point) <= 0.005;
+    const onMesh = nav.closestPoint(state.position);
+    if (onMesh && distanceXZ(onMesh, state.position) <= 0.05 && clear(state.position)) return;
+    const [x, y, z] = state.position;
+    for (let radius = 0; radius <= PLACE_SNAP_METRES; radius += 0.5) {
+      for (let step = 0, steps = radius === 0 ? 1 : 16; step < steps; step++) {
+        const angle = (step / steps) * Math.PI * 2;
+        const candidate = nav.closestPoint([x + Math.sin(angle) * radius, y, z + Math.cos(angle) * radius]);
+        if (candidate && distanceXZ(candidate, state.position) <= PLACE_SNAP_METRES && clear(candidate)) {
+          state.position = [...candidate] as Vec3; return;
+        }
+      }
+    }
+    state.position = [...this.ports.spawn] as Vec3;
   }
   /**
    * An admin edit lands on the character this world holds, in place, between ticks. The systems read
