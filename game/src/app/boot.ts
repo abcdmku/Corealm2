@@ -72,7 +72,7 @@ import { registerProceduralGear } from "../render/proceduralGearFactories.js";
 import { WorldScene } from "../render/scene.js";
 import { EntityViews } from "../render/entityViews.js";
 import { buildStructureNavigationSources } from "../render/structureNavigation.js";
-import { RoofVisibility } from "../render/roofVisibility.js";
+import { RoofVisibility, roofCutawayFrame } from "../render/roofVisibility.js";
 import { buildStructureCameraSources, StructureCameraStreaming } from "../render/structureCameraSources.js";
 import { STOREY_METRES } from "../render/buildings.js";
 import { StaticCameraQueries } from "../systems/staticCameraQueries.js";
@@ -2853,6 +2853,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   const loop = new GameLoop({
     store, events, clock, renderer, camera, scene, input,
+    updateRoofVisibility: roofCutawayFrame({
+      roofs: roofVisibility, camera, views: entityViews, rays: cameraQueries,
+      lens: () => renderer.camera.position.toArray() as Vec3,
+    }),
   });
   // The Gravelmaw chambers are authored a few metres below the surface, right beside the entrance,
   // so rendering every entity unconditionally drew the whole dungeon population on top of the

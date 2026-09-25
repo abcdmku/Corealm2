@@ -22,6 +22,7 @@ function fixture() {
     clock: { advance: (_delta: number) => 0, paused: false, timeScale: 1, alpha: () => 0.375, elapsedMs: 0 },
     scene: { overlayGroup: new THREE.Group(), syncPlayer: vi.fn(), materials: { updatePlayerOcclusion: vi.fn() } },
     camera: { update: vi.fn() },
+    updateRoofVisibility: vi.fn(),
     renderer: { camera, renderer: {}, followShadow: vi.fn(), render: vi.fn() },
     input: { update: vi.fn() },
   };
