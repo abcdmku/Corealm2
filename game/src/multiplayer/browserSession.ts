@@ -35,8 +35,6 @@ import { ContentNotice, SessionNotice } from "../ui/contentNotice.js";
 /** World selection that outlives the loading screen: built early, wired to the engine later. */
 export type WorldSelection = Awaited<ReturnType<typeof createWorldSelector>> & {
   attach(ports: SessionControllerPorts): void;
-  /** Whether this page had any world to offer: a configuration, a saved host or an identity service. */
-  configured: boolean;
   /** "Play local": a world hosted in a worker on this page. Null on a page that offers none (the multiplayer lab). */
   local: LocalLaunch | null;
 };
@@ -78,8 +76,7 @@ export interface BrowserSessionPorts {
  * `setReady` opens joining once the engine can apply its snapshot.
  *
  * The picker always exists now, including on a page with no servers at all, because "play local" is
- * a choice a player makes rather than the absence of one. `configured` still reports whether there
- * was anything to join, which is what decides if the menu opens on the worlds view afterwards.
+ * a choice a player makes rather than the absence of one. Loading can finish without joining.
  */
 export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTarget|null;launch?:PendingLaunch|null;local?:LocalLaunch|null}={}):Promise<WorldSelection|null> {
   const local = options.local ?? null;
@@ -141,7 +138,7 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
     if(play?.kind==="local"||(!configured&&play===null))local.provider.prestart();
     selector.panel.addEventListener("worldschosen",event=>{if((event as CustomEvent<{play:string|null}>).detail?.play==="local")local.provider.prestart();});
   }
-  return {...selector, configured, local, attach(ports){attached.ports=ports;selector.refresh();}};
+  return {...selector, local, attach(ports){attached.ports=ports;selector.refresh();}};
 }
 
 /** Shared browser presentation and session lifecycle; simulation remains behind the session boundary. */

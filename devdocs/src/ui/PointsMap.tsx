@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { WORLD_MAP_DETAIL_RENDITIONS } from "../../../game/src/generated/worldMapFingerprint.js";
 import { gameUrl } from "../model/gameUrl.js";
-import { IMAGE_BOX, boxFraction, cropPosition, zAtFraction } from "../model/worldMap.js";
+import { IMAGE_BOX, boxFraction, cropPosition, xAtFraction, zAtFraction } from "../model/worldMap.js";
 import { useReferenceIndex } from "../model/refs.js";
 import { contentRows } from "../model/rows.js";
 import { cn } from "../lib/utils.js";
@@ -72,13 +72,14 @@ export function PointsMap({ points, onOpen, onOpenAt, className, labels, caption
     backgroundSize: `${grid} ${(40 / view.spanZ) * 100}%`,
   };
   const scale = Math.round(view.spanX);
-  return <div className={cn("points-map relative w-full cursor-crosshair overflow-hidden rounded-md border border-border bg-art bg-no-repeat [container-type:inline-size] focus-within:border-primary", className)} style={style} role="img" aria-label={`Map of ${points.length} ${points.length === 1 ? "place" : "places"}`}
-    onClick={event => { if (!onOpenAt || event.target !== event.currentTarget) return; const box = event.currentTarget.getBoundingClientRect(); onOpenAt(view.x0 + ((event.clientX - box.left) / box.width) * view.spanX, zAtFraction(view, (event.clientY - box.top) / box.height)); }}>
+  return <div className={cn("points-map relative w-full cursor-crosshair overflow-hidden rounded-md border border-border bg-art bg-no-repeat [container-type:inline-size] focus-within:border-primary", className)} style={{ aspectRatio: String(ASPECT) }} role="img" aria-label={`Map of ${points.length} ${points.length === 1 ? "place" : "places"}`}
+    onClick={event => { if (!onOpenAt || event.target !== event.currentTarget) return; const box = event.currentTarget.getBoundingClientRect(); onOpenAt(xAtFraction(view, (event.clientX - box.left) / box.width), zAtFraction(view, (event.clientY - box.top) / box.height)); }}>
+    <div className="pointer-events-none absolute inset-0 -scale-x-100 bg-no-repeat" style={style} />
     {!drawn && regions.filter(region => region.x1 > view.x0 && region.x0 < x1 && region.z1 > view.z0 && region.z0 < z1).map(region => {
       // Clipped to the crop, so the name sits in the visible part of the region. `top` is the region's north edge.
       const west = Math.max(region.x0, view.x0), east = Math.min(region.x1, x1), south = Math.max(region.z0, view.z0), north = Math.min(region.z1, z1);
       return <span key={region.id} className="pointer-events-none absolute border border-dashed border-muted-foreground/40 bg-secondary/50"
-        style={{ left: `${px(west)}%`, top: `${pz(north)}%`, width: `${((east - west) / view.spanX) * 100}%`, height: `${((north - south) / view.spanZ) * 100}%` }}>
+        style={{ left: `${px(east)}%`, top: `${pz(north)}%`, width: `${((east - west) / view.spanX) * 100}%`, height: `${((north - south) / view.spanZ) * 100}%` }}>
         <span className="absolute bottom-1 left-1.5 text-[11px] font-medium text-muted-foreground">{region.name}</span>
       </span>;
     })}

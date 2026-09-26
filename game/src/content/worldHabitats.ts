@@ -1,6 +1,6 @@
 import type { RegionId, Vec3 } from '../contracts.js';
-import { isFairyRegion } from '../contracts.js';
-import { REGIONS, WORLD_BOUNDS } from './regions.js';
+import { REGIONS } from './regions.js';
+import { regionForPoint } from './regionOwnership.js';
 import { WORLD_CONTENT } from './worldData.js';
 
 export interface HabitatDef {
@@ -31,13 +31,9 @@ export function habitatContains(habitat: HabitatDef, position: Vec3): boolean {
   const [x, , z] = position;
   if (!Number.isFinite(x) || !Number.isFinite(z)
     || Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) > habitat.radius) return false;
-  // Underground residents use their bounded pack circle and the dungeon navmesh.
+  // The same ownership as terrain regionAt, including land beyond the core rectangles.
   if (REGIONS.some(region => region.dungeon?.id === habitat.regionId)) return true;
-  const bounds = REGIONS.find(region => region.id === habitat.regionId)?.bounds;
-  return bounds !== undefined
-    && (isFairyRegion(habitat.regionId) || (x >= WORLD_BOUNDS.min[0] && x <= WORLD_BOUNDS.max[0]
-    && z >= WORLD_BOUNDS.min[1] && z <= WORLD_BOUNDS.max[1]))
-    && x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[1] && z <= bounds.max[1];
+  return regionForPoint(REGIONS, x, z)?.id === habitat.regionId;
 }
 
 

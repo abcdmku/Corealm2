@@ -1,3 +1,4 @@
+import { regionForPoint } from '../game/src/content/regionOwnership.js';
 import { describe, expect, it } from "vitest";
 import { REGIONS } from "../game/src/content/regions.js";
 import { resourceDef } from "../game/src/content/resources.js";
@@ -45,7 +46,7 @@ describe("authored wildlife habitats", () => {
     }
   });
 
-  it("keeps habitat centres, actor anchors and dressing inside their exact playable region", () => {
+  it("keeps habitat centres, actor anchors and dressing in their owning region, including coastal land", () => {
     const errors: string[] = [];
     for (const habitat of WORLD_HABITATS) {
       const { region } = groupsById.get(habitat.groupId)!;
@@ -56,8 +57,7 @@ describe("authored wildlife habitats", () => {
       ];
       for (const { name, point: [x, z] } of points) {
         if (!Number.isFinite(x) || !Number.isFinite(z)
-          || x < region.bounds.min[0] || x > region.bounds.max[0]
-          || z < region.bounds.min[1] || z > region.bounds.max[1]) {
+          || regionForPoint(REGIONS, x, z)?.id !== region.id) {
           errors.push(`${habitat.id}/${name}: ${x},${z} outside ${region.id}`);
         }
       }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
 import { REGIONS } from "../game/src/content/regions.js";
+import { WORLD_TERRAIN } from "../game/src/content/worldData.js";
 import { resourceDef } from "../game/src/content/resources.js";
 import {
   organicDistance,
@@ -23,6 +24,19 @@ const SHAPE: OrganicShapeSpec = {
 };
 
 describe("organic world fields", () => {
+  it("uses the catalog's editable coast and mountain settings for production terrain", () => {
+    const terrain = WORLD_TERRAIN.find(row => row.id === 'corealm')!;
+    const originalCoast = terrain.coast.shoreline, originalMountain = terrain.mountains[0]!.width;
+    try {
+      terrain.coast.shoreline = [originalCoast[0], 199];
+      terrain.mountains[0]!.width = 211;
+      const spec = buildWorldTerrainSpec();
+      expect(spec.coast?.shoreline[1]).toBe(199);
+      const boundary = spec.biomes?.fields.find(row => row.id === 'crownward')?.boundary;
+      expect(boundary?.kind).toBe('mountain');
+      if (boundary?.kind === 'mountain') expect(boundary.width).toBe(211);
+    } finally { terrain.coast.shoreline = originalCoast; terrain.mountains[0]!.width = originalMountain; }
+  });
   it("keeps elongated asymmetric contours deterministic, bounded, and invertible", () => {
     expect(seedFromText("blackwater_spots")).toBe(seedFromText("blackwater_spots"));
     expect(seedFromText("blackwater_spots")).not.toBe(seedFromText("cairn_tarn_spots"));

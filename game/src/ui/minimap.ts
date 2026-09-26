@@ -1,4 +1,5 @@
 import { sendGameCommand } from "../api/commands.js";
+import { mapFacing } from "../world/mapOrientation.js";
 /**
  * The circular minimap cluster, top-right: a player-centred cutout of the baked world map with no
  * labels, plus the two controls that live in the square corners the disc leaves open — the X that
@@ -457,7 +458,7 @@ export class Minimap {
     context.save();
     context.translate(half, half);
     // Negated: the disc's frame draws +x leftward, and a mirror flips angles.
-    context.rotate(-facingRad);
+    context.rotate(mapFacing(facingRad));
     context.beginPath();
     context.moveTo(0, -5.5);
     context.lineTo(4, 4.5);

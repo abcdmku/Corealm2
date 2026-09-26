@@ -58,7 +58,7 @@ a harness that wants a specific world joined during startup.
 
 Local play runs in a Web Worker: the page renders and predicts, and the world lives in the
 worker, joined over the same session a socket uses. `?play=local` joins it before final graphics preparation, so the authoritative spawn and
-nearby actors are included in the first playable view. A page with no server to offer joins it on its own when loading finishes.
+nearby actors are included in the first playable view. A page without a `play` target preloads behind the main menu and waits for a Local or server selection.
 `getState().ready` is true once the local world is joined and its first snapshot is what the page
 shows. The page has no simulation of its own in any mode. One escape hatch:
 

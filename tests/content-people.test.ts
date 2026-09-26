@@ -11,7 +11,7 @@ describe("JSON people content", () => {
   it("loads catalogs without leaking tags and retains fairy row identity", () => {
     expect(SHOPS).toEqual(shopData);
     expect(NPCS.map((row) => row.id)).toEqual(npcData.map((row) => row.id));
-    expect(FAIRY_NPC_CANDIDATES).toHaveLength(12);
+    expect(FAIRY_NPC_CANDIDATES.map(row => row.id)).toEqual(npcData.filter(row => row.catalog === "fairy").map(row => row.id));
     for (const candidate of FAIRY_NPC_CANDIDATES) {
       expect(npc(candidate.id)).toBe(candidate);
       expect(fairyNpcCandidate(candidate.id)).toBe(candidate);
@@ -24,8 +24,7 @@ describe("JSON people content", () => {
     expect(npcGivingQuest("dorns_tally")?.id).toBe("npc_pitmaster_dorn");
     expect(dialogueRootFor("npc_fey_lantern_keeper")).toBe("fey_luma_root");
     expect(npcsForRegion("gloamgarden").map((row) => row.id)).toEqual(
-      // The fairy candidates plus the Fairyland slayer master stationed at Lantern Rest.
-      [...FAIRY_NPC_CANDIDATES.filter((row) => row.regionId === "gloamgarden").map((row) => row.id), "npc_slayer_aevra"],
+      npcData.filter(row => row.regionId === "gloamgarden").map(row => row.id),
     );
     expect(npc("missing")).toBeUndefined();
     expect(npcName("missing")).toBe("missing");

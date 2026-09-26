@@ -22,7 +22,7 @@ export const CATALOG_REVISION = /^[0-9a-f]{64}$/;
 /** Whole tables copied as they are. Every one is already visible to a player in the game's UI. */
 export const CLIENT_TABLES = [
   'items', 'recipes', 'resources', 'progression', 'materials', 'campfireFuels', 'equipmentSets',
-  'shops', 'npcs', 'spells', 'spellRunes', 'elementalSpells',
+  'shops', 'npcs', 'spells', 'spellRunes', 'elementalSpells', 'worldTerrain',
   'balance/recipes', 'balance/sets', 'balance/campfires', 'audio',
 ] as const;
 /** What the quest log shows: the name, the region, who starts it, what it asks for, and each stage's prose. */

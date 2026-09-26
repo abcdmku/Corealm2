@@ -86,7 +86,7 @@ export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">>
   creatureDefinitions: "live", creatureProfiles: "live", lootTables: "live", encounters: "live", placements: "live",
   // Derived at import: resource nodes and their entities, spells, region geometry and everything built on it, tier tables, tuning, audio.
   resources: "restart", spells: "restart", spellRunes: "restart", elementalSpells: "restart",
-  worldRegions: "restart", resourcePlacements: "restart", npcs: "restart", quests: "restart", dialogue: "restart",
+  worldRegions: "restart", worldTerrain: "restart", resourcePlacements: "restart", npcs: "restart", quests: "restart", dialogue: "restart",
   progression: "restart", materials: "restart", equipmentFamilies: "restart", recipeTemplates: "restart",
   campfireFuels: "restart", equipmentSets: "restart",
   "balance/recipes": "restart", "balance/sets": "restart", "balance/formation": "restart", "balance/campfires": "restart",

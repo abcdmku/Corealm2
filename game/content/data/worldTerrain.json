@@ -1,0 +1,73 @@
+[
+  {
+    "id": "corealm",
+    "regionIds": [
+      "fallowmarch",
+      "vellenwood",
+      "karrowmoor",
+      "kilnhalt",
+      "wilderness",
+      "crownward"
+    ],
+    "coast": {
+      "seed": 3681559774,
+      "collar": 210,
+      "shoreline": [
+        18,
+        190
+      ],
+      "seaLevel": -5.25,
+      "floorDepth": 3,
+      "gridStep": 2,
+      "oceanSize": 2400
+    },
+    "mountains": [
+      {
+        "regionId": "crownward",
+        "kind": "mountain",
+        "edge": "east",
+        "startX": 660,
+        "width": 200,
+        "seed": 111915420,
+        "massifs": [
+          {
+            "x": 808,
+            "z": -85,
+            "radiusX": 110,
+            "radiusZ": 225,
+            "height": 72,
+            "variant": 1,
+            "rotation": -0.1
+          },
+          {
+            "x": 810,
+            "z": 260,
+            "radiusX": 112,
+            "radiusZ": 185,
+            "height": 95,
+            "variant": 0,
+            "rotation": 0.18
+          },
+          {
+            "x": 728,
+            "z": 65,
+            "radiusX": 74,
+            "radiusZ": 235,
+            "height": 48,
+            "variant": 2,
+            "rotation": -0.12
+          },
+          {
+            "x": 815,
+            "z": 493,
+            "radiusX": 82,
+            "radiusZ": 145,
+            "height": 62,
+            "variant": 2,
+            "rotation": 0.24
+          }
+        ]
+      }
+    ]
+  }
+]

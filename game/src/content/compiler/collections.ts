@@ -5,6 +5,7 @@ import { SpellRecordSchema, SpellRuneSchema, ElementalSpellSchema } from "../sch
 import { audioCatalogSchema } from "../schema/audio.js";
 import { BALANCE_SCHEMAS } from '../schema/balance.js';
 import { WorldRegionSchema } from '../schema/worldRegions.js';
+import { WorldTerrainSchema } from '../schema/worldTerrain.js';
 import { ItemRecordSchema } from "../schema/itemRecords.js";
 import { RecipeRecordSchema } from "../schema/recipes.js";
 import { ResourceRecordSchema } from "../schema/resources.js";
@@ -35,7 +36,7 @@ export const CONTENT_COLLECTIONS: readonly ContentCollection[] = [
   collection("equipmentSets", EquipmentSetRecordSchema),
   
   collection('creatureDefinitions', CreatureDefinitionSchema), collection('creatureProfiles', CreatureProfileSchema), collection('lootTables', LootTableSchema),
-  collection('worldRegions', WorldRegionSchema), collection('encounters', EncounterDefinitionSchema), collection('placements', WorldPlacementSchema), collection('resourcePlacements', ResourcePlacementSchema),
+  collection('worldRegions', WorldRegionSchema), collection('worldTerrain', WorldTerrainSchema), collection('encounters', EncounterDefinitionSchema), collection('placements', WorldPlacementSchema), collection('resourcePlacements', ResourcePlacementSchema),
   collection("shops", shopSchema), collection("npcs", npcRecordSchema),
   collection("quests", questSchema), collection("dialogue", dialogueRecordSchema),
   collection("spells", SpellRecordSchema), collection("spellRunes", SpellRuneSchema, "itemId"),

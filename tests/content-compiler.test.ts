@@ -11,9 +11,43 @@ import { compileCreatures } from '../game/src/content/creatureCompiler.js';
 import { CREATURE_DEFINITIONS, CREATURE_PROFILES } from '../game/src/content/creatureRuntime.js';
 import { LOOT_RECORDS } from '../game/src/content/lootData.js';
 import { previewFormula } from '../game/src/content/formulas/index.js';
+import { compileCatalog } from '../game/src/content/compiler/catalog.js';
+import { readContentSources } from '../tools/content/compile.js';
+import { RESOLVED_CATALOG } from '../game/src/content/resolvedCatalog.js';
 const PROGRESSION_SOURCES = { items, recipes, resources, materials, progression, equipmentFamilies, recipeTemplates };
 
 describe('authored content compiler', () => {
+  it('publishes terrain settings to clients and rejects widths outside their sampled extent', async () => {
+    const sources = Object.fromEntries(await readContentSources());
+    const valid = compileCatalog(sources, { formulaRevision: RESOLVED_CATALOG.formulaRevision });
+    expect(valid.ok).toBe(true);
+    if (!valid.ok) throw new Error('Terrain catalog failed');
+    expect(valid.client.tables.worldTerrain).toEqual(sources.worldTerrain);
+    const terrain = structuredClone(sources.worldTerrain) as { coast: { shoreline: number[]; collar: number } }[];
+    terrain[0]!.coast.shoreline[1] = terrain[0]!.coast.collar + 1;
+    const invalid = compileCatalog({ ...sources, worldTerrain: terrain }, { formulaRevision: RESOLVED_CATALOG.formulaRevision });
+    expect(invalid.ok).toBe(false);
+    expect(invalid.problems.some(row => row.path === 'worldTerrain.corealm.coast.collar')).toBe(true);
+  });
+  it('accepts the scree boars on the Highlands coast while rejecting another region', async () => {
+    const sources = Object.fromEntries(await readContentSources());
+    const placements = structuredClone(sources.placements) as { id: string; count: number; centre: [number, number] }[];
+    const boars = placements.find(row => row.id === 'scree_boars')!;
+    boars.centre = [171.66, -243.7];
+    const moved = { ...sources, placements };
+    const coastal = compileCatalog(moved, { formulaRevision: RESOLVED_CATALOG.formulaRevision });
+    expect(coastal.problems.filter(problem => problem.severity === 'error')).toEqual([]);
+    expect(coastal.ok).toBe(true);
+    if (!coastal.ok) throw new Error('Coastal placement failed');
+    const world = coastal.catalog.tables.world as { habitats: { groupId: string; regionId: string; centre: number[]; anchors: number[][] }[] };
+    expect(world.habitats.find(row => row.groupId === boars.id)).toMatchObject({ regionId: 'karrowmoor', centre: boars.centre });
+    expect(world.habitats.find(row => row.groupId === boars.id)?.anchors).toHaveLength(boars.count);
+    boars.centre = [-240, -50];
+    const wrongRegion = compileCatalog(moved, { formulaRevision: RESOLVED_CATALOG.formulaRevision });
+    expect(wrongRegion.ok).toBe(false);
+    expect(wrongRegion.problems.some(problem => problem.path.startsWith('placements.scree_boars.anchors') && problem.severity === 'error')).toBe(true);
+  });
+
   it('adds a tier through data and keeps one explicit equipment adjustment', () => {
     const source = structuredClone(PROGRESSION_SOURCES);
     const base = source.progression.find(row => row.equipment.length > 0)!;

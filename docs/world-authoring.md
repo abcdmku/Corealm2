@@ -20,6 +20,10 @@ Keep the exception narrow. Build reusable structures, foliage assets, materials,
   their cluster/index IDs while site transforms place veins, trees and fishing access meaningfully.
 - `game/src/app/worldSpec.ts` is the authored Corealm terrain and visual-field configuration. It is
   root-owned and frozen while workers are changing world details.
+- `game/content/data/worldTerrain.json` owns island membership, coast dimensions and mountain
+  boundary profiles. Devdocs edits the widths from the region inspector. The compiler publishes
+  these settings to both runtime catalogs, and `worldSpec.ts` consumes them without duplicate
+  width constants. Terrain changes apply on world rebuild/restart.
 - `game/src/world/organicFields.ts` owns reusable deterministic math, including biome, coast, and
   lake-shape sampling. `game/src/world/waterBodies.ts` owns lake profile dimensions.
 - `game/src/app/worldSurface.ts` turns authored roads, paving, and fishing clusters into surface
@@ -39,6 +43,15 @@ Outside those rectangles, coastal land inherits the nearest semantic region. Map
 include the coastal terrain extent; dry ground and navigation determine the actual playable edge.
 These rectangles are semantic ownership, not the shape of the land. They may still be useful as
 content envelopes, but they must never be used as visual biome masks or scatter limits.
+
+Devdocs draws a solid full-extent envelope including the maximum authored coastal reach, with
+dashed blue coast bands and amber mountain-profile bands. These envelopes include water and
+unwalkable slopes; they do not replace dry-ground or navigation checks. Core bounds remain
+separately editable. Coast widths are shared island settings, while mountain profiles belong to
+their named region. Fit Region includes these outer bands. The raster is the last generated map;
+draft outlines update immediately without claiming the terrain image has been regenerated.
+Boundary acceptance uses the authored-world exception because the overlays describe the full
+island; its existing map UI and regression checks are reused, without a separate lab fixture.
 
 Terrain relief, palette, scatter, and `sampleWorld()` use one normalized competing field from
 `sampleOrganicBiomeWeights()`. It samples two broad climate channels, moisture and exposure, from
@@ -459,3 +472,11 @@ extent. Regions with no authored terrace axis use rolling relief. Do not extend 
 plateau height indefinitely into small climate pockets: that created isolated 70 m peaks
 along the southern coast. The two former southwest coastal anchors were removed; the
 shared climate field still decides biome coverage there.
+
+### Map orientation
+
+Gameplay, the north-up minimap, the full map, the world editor, and guide maps use the same frame: +Z is up and +X is left. `game/src/world/mapOrientation.ts` defines the world/screen conversion. Facing angles use the same frame; the minimap can additionally rotate with the camera.
+
+The baked atlas is storage data with +X to the right and row zero at maxZ. Renderers mirror the atlas horizontally together with world geometry, keeping text and icons readable. Crop and tile lookup use the original atlas coordinates. Pointer placement and dragging convert screen coordinates back to world coordinates; a rightward drag decreases X. Do not mirror authored positions or regenerate terrain to fix a display mismatch.
+
+This orientation check uses the authored full-world editor and gameplay maps under the full-world exception: the issue is alignment with the island atlas, which an isolated asset fixture cannot establish.

@@ -6,7 +6,7 @@ import { Flag, Footprints, MapPin, Maximize2, Minus, Pickaxe, Plus } from "lucid
 import type { ApiDiagnostic, CollectionResponse, ContentOperation } from "../../../shared/contracts.js";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
-import { recordOperations, runTransaction } from "../../model/draft.js";
+import { recordOperations, runTransaction, TransactionError } from "../../model/draft.js";
 import { draftStore } from "../../model/store.js";
 import { summaryContext } from "../../model/refs.js";
 import { rowName } from "../../model/rows.js";
@@ -18,7 +18,7 @@ import { Inspector } from "./Inspector.js";
 import { MapCanvas, type MapHandle, type Tool, type View } from "./MapCanvas.js";
 import { Rail } from "./Rail.js";
 import {
-  DRAFT_COLLECTIONS, LAYERS, addLandmark, addLocation, addResourceNode, addSpawn, deriveFeatures, moveSelection, parseSelection, patchPlacement, regionBounds, regionById, round, safeAnchors, sameSelection, selectionId, selectionPoint, worldBounds,
+  DRAFT_COLLECTIONS, LAYERS, addLandmark, addLocation, addResourceNode, addSpawn, deriveFeatures, moveSelection, parseSelection, patchPlacement, patchResource, regionBounds, regionById, round, safeAnchors, sameSelection, selectionId, selectionPoint, worldBounds,
   type Bounds, type Draft, type Feature, type Layer, type Point, type Selection,
 } from "./model.js";
 import { WORLD_MAP_IMAGE_BOUNDS } from "../../../../game/src/generated/worldMapFingerprint.js";
@@ -61,7 +61,7 @@ export default function MapView({ recordId, navigate }: ViewProps) {
     if (DRAFT_COLLECTIONS.some(name => !responses.has(name))) return undefined;
     const pick = (name: string) => responses.get(name)!;
     return {
-      draft: { worldRegions: pick("worldRegions").data as Draft["worldRegions"], placements: pick("placements").data as Draft["placements"], encounters: pick("encounters").data as Draft["encounters"], resourcePlacements: pick("resourcePlacements").data as Draft["resourcePlacements"] },
+      draft: { worldTerrain: pick("worldTerrain").data as Draft["worldTerrain"], worldRegions: pick("worldRegions").data as Draft["worldRegions"], placements: pick("placements").data as Draft["placements"], encounters: pick("encounters").data as Draft["encounters"], resourcePlacements: pick("resourcePlacements").data as Draft["resourcePlacements"] },
       revisions: Object.fromEntries(DRAFT_COLLECTIONS.map(name => [name, pick(name).revision])),
     };
   }, [responses]);
@@ -85,17 +85,26 @@ export default function MapView({ recordId, navigate }: ViewProps) {
     setBase(serverDraft); setDraft(structuredClone(serverDraft.draft));
   }, [serverDraft]);
 
-  const update = useCallback((change: (draft: Draft) => Draft) => { if (!editable) return; setDraft(current => current ? change(current) : current); setDiagnostics([]); setError(""); }, [editable]);
+  const draftRef = useRef(draft); draftRef.current = draft;
+  const restoreDraft = useCallback((next: Draft) => { draftRef.current = next; setDraft(next); setDiagnostics([]); setError(""); }, []);
+  const update = useCallback((change: (draft: Draft) => Draft) => {
+    const current = draftRef.current;
+    if (!editable || !current) return;
+    const next = change(current);
+    draftStore.commitContributor("world/map", current, next, restoreDraft, "Map edit");
+    restoreDraft(next);
+  }, [editable, restoreDraft]);
 
   async function preview() {
     if (!base || !draft || !operations.length || busy) return;
-    setBusy(true); setError("");
+    setBusy(true); setError(""); setDiagnostics([]);
     try {
       const response = await runTransaction("preview", base.revisions, operations);
       setDiagnostics(response.diagnostics ?? []);
       toast.message(response.diagnostics?.length ? `${response.diagnostics.length} diagnostics` : "Preview clean");
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : String(reason));
+      if (reason instanceof TransactionError) setDiagnostics(reason.body.diagnostics ?? []);
     } finally { setBusy(false); }
   }
 
@@ -108,7 +117,7 @@ export default function MapView({ recordId, navigate }: ViewProps) {
     count: () => live.current.operations.length,
     operations: () => live.current.operations,
     revisions: () => live.current.base?.revisions ?? {},
-    reset: () => { const current = live.current.base; if (current) { setDraft(structuredClone(current.draft)); setDiagnostics([]); setError(""); } },
+    reset: () => { const current = live.current.base; if (current) update(() => structuredClone(current.draft)); },
     afterSave: response => {
       const current = live.current;
       if (!current.base || !current.draft) return;
@@ -121,8 +130,8 @@ export default function MapView({ recordId, navigate }: ViewProps) {
       setBase({ draft: structuredClone(next), revisions }); setDraft(next); setDiagnostics(response.diagnostics ?? []);
     },
     onError: (message, _status, body) => { setError(message); if (body?.diagnostics) setDiagnostics(body.diagnostics); },
-  }), []);
-  useEffect(() => { draftStore.touch(); }, [dirty]);
+  }), [update]);
+  useEffect(() => { draftStore.touch(); }, [operations]);
 
   // ---------------------------------------------------------------- derived geometry
 
@@ -157,13 +166,13 @@ export default function MapView({ recordId, navigate }: ViewProps) {
     centred.current = recordId;
     const target = parseSelection(recordId, draft);
     if (!target) return;
-    if (target.kind === "region") { const region = regionById(draft, target.id); if (region) map.current?.fit(regionBounds(region)); return; }
+    if (target.kind === "region") { const region = regionById(draft, target.id); if (region) map.current?.fit(regionBounds(region, draft)); return; }
     const point = selectionPoint(draft, target);
     if (point) map.current?.centre(point[0], point[1], Math.min(map.current.view().span, 260));
   }, [recordId, draft]);
   useEffect(() => {
-    // First load without a route: show the whole world.
-    if (draft && !recordId && !centred.current) { centred.current = ""; map.current?.fit(ISLAND_BOUNDS, 1.02); }
+    // Empty string marks an initialized view without a selection. Draft edits must not refit it.
+    if (draft && !recordId && centred.current === undefined) { centred.current = ""; map.current?.fit(ISLAND_BOUNDS, 1.02); }
   }, [draft, recordId]);
 
   const [layers, setLayers] = useState(loadLayers);
@@ -185,6 +194,8 @@ export default function MapView({ recordId, navigate }: ViewProps) {
   // ---------------------------------------------------------------- editing from the map
 
   const onMove = useCallback((target: Selection, point: Point) => update(current => moveSelection(current, target, point)), [update]);
+  const onResize = useCallback((target: Selection, radius: number) => update(current => target.kind === "placement"
+    ? patchPlacement(current, target.id, { radius }) : target.kind === "resource" ? patchResource(current, target.id, { radius }) : current), [update]);
   const onMoveAnchor = useCallback((index: number, point: Point) => {
     if (!selectedPlacement) return;
     const offset: Point = [round(point[0] - selectedPlacement.centre[0]), round(point[1] - selectedPlacement.centre[1])];
@@ -237,17 +248,17 @@ export default function MapView({ recordId, navigate }: ViewProps) {
         <Button variant="secondary" size="icon-sm" className="shrink-0" aria-label="Fit world" title="Fit world" onClick={() => map.current?.fit(worldBounds(draft))}><Maximize2 size={13} /></Button>
         <ChoiceField display="select" value={fitRegion || undefined} width="short" className="w-36 shrink-0" ariaLabel="Fit region" allowEmpty="Fit region…"
           options={draft.worldRegions.map(region => ({ value: region.id, label: region.name }))}
-          onChange={value => { setFitRegion(value ?? ""); const region = regionById(draft, value); if (region) map.current?.fit(regionBounds(region)); }} />
+          onChange={value => { setFitRegion(value ?? ""); const region = regionById(draft, value); if (region) map.current?.fit(regionBounds(region, draft)); }} />
         <Button variant="ghost" size="icon-sm" className="shrink-0" aria-label="Zoom in" onClick={() => map.current?.zoom(1 / 1.5)}><Plus size={14} /></Button>
         <Button variant="ghost" size="icon-sm" className="shrink-0" aria-label="Zoom out" onClick={() => map.current?.zoom(1.5)}><Minus size={14} /></Button>
         {tool && <span className="min-w-0 truncate text-[11px] text-primary">Click the map to place · Esc cancels</span>}
-        {(dirty || error) && <span className="ml-auto flex h-7 shrink-0 items-center gap-1.5 rounded-md border border-primary bg-brass-soft pr-1 pl-2.5 text-xs whitespace-nowrap" role={error ? "alert" : undefined}>
-          {error ? <span className="max-w-[360px] truncate text-destructive" title={error}>{error}</span> : <span className="font-medium text-primary">{operations.length} {operations.length === 1 ? "change" : "changes"}</span>}
+        {(dirty || error) && <span className="ml-auto flex shrink-0 items-center gap-1.5 text-xs" role={error ? "alert" : undefined}>
+          {error && <span className="max-w-[240px] truncate text-destructive" title={error}>{error}</span>}
           <Button variant="secondary" size="sm" aria-label="Preview changes" disabled={busy || !dirty} onClick={() => void preview()}>{busy ? "Working…" : "Preview"}</Button>
         </span>}
       </div>
       <MapCanvas ref={map} features={features} roads={derived.roads} layers={layers} selection={selection} anchors={anchors} editable={editable} tool={tool}
-        onSelect={select} onMove={onMove} onMoveAnchor={onMoveAnchor} onNudge={onNudge} onPlace={onPlace} onViewChange={onViewChange} onEscape={onEscape} />
+        onSelect={select} onMove={onMove} onResize={onResize} onMoveAnchor={onMoveAnchor} onNudge={onNudge} onPlace={onPlace} onViewChange={onViewChange} onEscape={onEscape} />
       {pending && <RecordPicker collection={pending.tool === "spawn" ? "creatureDefinitions" : pending.tool === "resource" ? "resources" : "assets"} ctx={ctx} open onOpenChange={open => { if (!open) { setPending(undefined); setTool(undefined); } }} onPick={finishAdd}
         placeholder={pending.tool === "spawn" ? "Which creature spawns here?" : pending.tool === "resource" ? "Which resource?" : "Which asset?"}
         trigger={<span className="fixed size-px" style={{ left: pending.client.x, top: pending.client.y }} aria-hidden="true" />} />}

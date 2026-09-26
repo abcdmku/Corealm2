@@ -43,12 +43,8 @@ export interface NpcDef {
 }
 
 /** Fairy rows retain the same object identity as their dedicated export. */
-export const NPCS: readonly NpcDef[] = [
-  ...FAIRY_NPC_CANDIDATES,
-  ...parseCollection(npcRecordSchema, npcData, { name: "npcs" })
-    .filter((row) => row.catalog !== "fairy")
-    .map((row) => stripExtras(row, ["catalog"])),
-];
+export const NPCS: readonly NpcDef[] = parseCollection(npcRecordSchema, npcData, { name: "npcs" })
+  .map(row => FAIRY_NPC_CANDIDATES.find(candidate => candidate.id === row.id) ?? stripExtras(row, ["catalog"]));
 
 const BY_ID = new Map<EntityId, NpcDef>(NPCS.map((row) => [row.id, row]));
 

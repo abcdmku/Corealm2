@@ -1,6 +1,11 @@
 import type { EncounterDefinition, ResourcePlacement, WorldPlacement } from "../../../../game/src/content/schema/encounters.js";
 import type { WorldRegionGeometry } from "../../../../game/src/content/schema/worldRegions.js";
+import type { WorldTerrain } from "../../../../game/src/content/schema/worldTerrain.js";
+import { regionBoundaryGeometry, type BoundaryBand } from "../../../../game/src/content/terrainBoundaries.js";
 import { placementAnchors } from "../../../../game/src/content/worldCompiler.js";
+import { regionForPoint } from "../../../../game/src/content/regionOwnership.js";
+import { Rng } from "../../../../game/src/core/rng.js";
+import { seedFromText } from "../../../../game/src/world/organicFields.js";
 import { WORLD_MAP_IMAGE_BOUNDS } from "../../../../game/src/generated/worldMapFingerprint.js";
 import type { ContentRow } from "../../model/contracts.js";
 import { setPath, type Path } from "../../model/draft.js";
@@ -27,11 +32,12 @@ export type NpcStand = Settlement["npcs"][number];
 
 export interface Draft {
   worldRegions: Region[];
+  worldTerrain: WorldTerrain[];
   placements: WorldPlacement[];
   encounters: EncounterDefinition[];
   resourcePlacements: ResourcePlacement[];
 }
-export const DRAFT_COLLECTIONS = ["worldRegions", "placements", "encounters", "resourcePlacements"] as const;
+export const DRAFT_COLLECTIONS = ["worldRegions", "worldTerrain", "placements", "encounters", "resourcePlacements"] as const;
 export type DraftCollection = typeof DRAFT_COLLECTIONS[number];
 
 export const LAYERS = ["regions", "roads", "locations", "settlements", "npcs", "landmarks", "gates", "obstacles", "spawns", "resources"] as const;
@@ -62,6 +68,11 @@ export function parseSelection(recordId: string | undefined, draft: Draft | unde
   const colon = recordId.indexOf(":");
   const collection = colon < 0 ? "placements" : recordId.slice(0, colon);
   const rest = colon < 0 ? recordId : recordId.slice(colon + 1);
+  if (collection === "worldTerrain") {
+    const terrain = draft?.worldTerrain.find(row => row.id === rest);
+    const id = terrain?.mountains[0]?.regionId ?? terrain?.regionIds[0];
+    return id ? { kind: "region", id } : undefined;
+  }
   if (collection === "encounters") {
     const placement = draft?.placements.find(row => row.encounterId === rest);
     return placement ? { kind: "placement", id: placement.id } : undefined;
@@ -131,16 +142,7 @@ export function ownedPath(region: Region, kind: Kind, id: string): Path | undefi
 }
 
 export function regionContaining(draft: Draft, point: Point): Region | undefined {
-  const inside = draft.worldRegions.find(region => point[0] >= region.bounds.min[0] && point[0] <= region.bounds.max[0] && point[1] >= region.bounds.min[1] && point[1] <= region.bounds.max[1]);
-  if (inside) return inside;
-  let best: Region | undefined; let bestDistance = Infinity;
-  for (const region of draft.worldRegions) {
-    const dx = Math.max(region.bounds.min[0] - point[0], 0, point[0] - region.bounds.max[0]);
-    const dz = Math.max(region.bounds.min[1] - point[1], 0, point[1] - region.bounds.max[1]);
-    const distance = Math.hypot(dx, dz);
-    if (distance < bestDistance) { best = region; bestDistance = distance; }
-  }
-  return best;
+  return regionForPoint(draft.worldRegions, point[0], point[1]);
 }
 
 export function nearestLocation(region: Region, point: Point): Location | undefined {
@@ -166,6 +168,32 @@ export function idTaken(draft: Draft, id: string): boolean {
 /** Anchors as offsets from the centre, for switching a formation to authored. */
 export function authoredOffsets(placement: WorldPlacement): { index: number; offset: Point }[] {
   return placementAnchors(placement).map((anchor, index) => ({ index, offset: [round(anchor[0] - placement.centre[0]), round(anchor[1] - placement.centre[1])] }));
+}
+
+/** Fill new authored slots randomly; existing offsets survive count and radius edits unchanged. */
+export function scatteredOffsets(placement: WorldPlacement, seed = seedFromText(`${placement.id}:${placement.count}:${placement.radius}`)): { index: number; offset: Point }[] {
+  const rng = new Rng(seed);
+  const margin = Math.min(placement.formation.spacing / 2, placement.radius / 4);
+  const reach = Math.max(0, placement.radius - margin - .01);
+  const existing = new Map((placement.anchorAdjustments ?? []).filter(row => row.index < placement.count).map(row => [row.index, row.offset]));
+  const offsets: (readonly [number, number])[] = [...existing.values()];
+  const result: { index: number; offset: Point }[] = [];
+  for (let index = 0; index < placement.count; index++) {
+    const saved = existing.get(index);
+    if (saved) { result.push({ index, offset: [...saved] }); continue; }
+    let best: Point = [0, 0], bestDistance = -1;
+    // Prefer roomy random candidates over clumps, without turning the scatter into a grid.
+    for (let attempt = 0; attempt < 48; attempt++) {
+      const angle = rng.next() * Math.PI * 2, radius = Math.sqrt(rng.next()) * reach;
+      const candidate: Point = [round(Math.cos(angle) * radius), round(Math.sin(angle) * radius)];
+      const distance = offsets.length ? Math.min(...offsets.map(point => Math.hypot(point[0] - candidate[0], point[1] - candidate[1]))) : Infinity;
+      if (distance > bestDistance) { best = candidate; bestDistance = distance; }
+      if (distance >= placement.formation.spacing) break;
+    }
+    offsets.push(best);
+    result.push({ index, offset: best });
+  }
+  return result;
 }
 
 export function safeAnchors(placement: WorldPlacement): Point[] {
@@ -195,6 +223,8 @@ export interface Feature {
   to?: Point;
   /** Region rectangle. */
   bounds?: { min: Point; max: Point };
+  coreBounds?: Bounds;
+  boundaryBands?: BoundaryBand[];
   /** What this is an instance of (a creature, a resource): the list shows one entry per group with its places under it. */
   group?: { key: string; name: string };
   movable: boolean;
@@ -219,7 +249,8 @@ export function deriveFeatures(draft: Draft, lookups: Lookups): { features: Feat
 
   for (const region of draft.worldRegions) {
     const rid = region.id;
-    features.push({ key: `worldRegions:${rid}`, selection: { kind: "region", id: rid }, layer: "regions", x: (region.bounds.min[0] + region.bounds.max[0]) / 2, z: (region.bounds.min[1] + region.bounds.max[1]) / 2, name: region.name, fact: `Tier ${region.tier} · ${region.locations.length} locations`, regionId: rid, glyph: "region", bounds: { min: point(region.bounds.min), max: point(region.bounds.max) }, movable: false });
+    const boundary = regionBoundaryGeometry(region, draft.worldRegions, draft.worldTerrain);
+    features.push({ key: `worldRegions:${rid}`, selection: { kind: "region", id: rid }, layer: "regions", x: (boundary.full.minX + boundary.full.maxX) / 2, z: (boundary.full.minZ + boundary.full.maxZ) / 2, name: region.name, fact: `Tier ${region.tier} · ${region.locations.length} locations`, regionId: rid, glyph: "region", bounds: { min: [boundary.full.minX, boundary.full.minZ], max: [boundary.full.maxX, boundary.full.maxZ] }, coreBounds: boundary.core, boundaryBands: boundary.bands, movable: false });
     const locations = new Map(region.locations.map(row => [row.id, row]));
     for (const location of region.locations) {
       features.push({ key: `locations:${rid}/${location.id}`, selection: { kind: "location", id: location.id, regionId: rid }, layer: "locations", x: location.position[0], z: location.position[1], name: location.name, fact: `${titleCase(location.kind)} · ${region.name}`, regionId: rid, glyph: location.kind, movable: true });
@@ -401,10 +432,11 @@ export interface Bounds { minX: number; maxX: number; minZ: number; maxZ: number
 export function worldBounds(draft: Draft | undefined): Bounds {
   const bounds: Bounds = { ...WORLD_MAP_IMAGE_BOUNDS };
   for (const region of draft?.worldRegions ?? []) {
-    bounds.minX = Math.min(bounds.minX, region.bounds.min[0]); bounds.maxX = Math.max(bounds.maxX, region.bounds.max[0]);
-    bounds.minZ = Math.min(bounds.minZ, region.bounds.min[1]); bounds.maxZ = Math.max(bounds.maxZ, region.bounds.max[1]);
+    const full = regionBounds(region, draft!);
+    bounds.minX = Math.min(bounds.minX, full.minX); bounds.maxX = Math.max(bounds.maxX, full.maxX);
+    bounds.minZ = Math.min(bounds.minZ, full.minZ); bounds.maxZ = Math.max(bounds.maxZ, full.maxZ);
   }
   return bounds;
 }
 
-export function regionBounds(region: Region): Bounds { return { minX: region.bounds.min[0], maxX: region.bounds.max[0], minZ: region.bounds.min[1], maxZ: region.bounds.max[1] }; }
+export function regionBounds(region: Region, draft: Draft): Bounds { return regionBoundaryGeometry(region, draft.worldRegions, draft.worldTerrain).full; }

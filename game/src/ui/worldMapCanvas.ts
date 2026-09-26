@@ -13,6 +13,7 @@
  * frame resampled all 31.7 megapixels of it.
  */
 import { publicUrl } from "../app/config.js";
+import { worldToMap } from "../world/mapOrientation.js";
 import type { Vec3 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
 import { REGION_PALETTES } from "../render/materials.js";
@@ -888,7 +889,7 @@ export class WorldMapCanvas {
    * it horizontally to match this frame; markers, the pip and clicks all come through here.
    */
   private project(x: number, _height: number, z: number): ProjectedPoint {
-    return { u: -x, v: -z };
+    return worldToMap(x, z);
   }
 
   private projectBounds(bounds: Readonly<{

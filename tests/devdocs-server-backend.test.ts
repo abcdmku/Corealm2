@@ -5,6 +5,7 @@ import { API_SCOPES as EDITOR_SCOPES, SCOPE_HELP } from "../devdocs/src/api/admi
 import { can, describeBlocker, setBackend, type PublishBlocker } from "../devdocs/src/api/backend.js";
 import { createRepoBackend } from "../devdocs/src/api/repoBackend.js";
 import { createServerBackend } from "../devdocs/src/api/serverBackend.js";
+import { runTransaction, TransactionError } from "../devdocs/src/model/draft.js";
 import { applyBase, baseErrorLines, baseRecord, completeBaseBodies, previewBase, type BasePreview } from "../devdocs/src/api/baseGame.js";
 import { audienceOf, chooseIdentity, exchangeSession, normalizeServerUrl, readDescriptor, AdminFailure, type AdminSession } from "../devdocs/src/api/session.js";
 
@@ -254,6 +255,16 @@ describe("writes", () => {
 });
 
 describe("refusals", () => {
+  it("preserves validation details through the map preview transaction", async () => {
+    const problems = [{ path: "lootTables[redsill].rolls[0].itemId", message: "Unknown item x", severity: "error" }];
+    const server = fakeServer({ "/admin/content/validate": { status: 422, body: { error: { code: "content_invalid", message: "Content failed validation.", problems } } } });
+    setBackend(createServerBackend({ session: SESSION, descriptor: DESCRIPTOR, fetch: server.fetch }));
+    const result = runTransaction("preview", REVISIONS, [{ kind: "put", collection: "lootTables", id: "redsill", record: { id: "redsill", rolls: [{ itemId: "x" }] } }]);
+    await expect(result).rejects.toBeInstanceOf(TransactionError);
+    await expect(result).rejects.toMatchObject({ status: 422, body: { diagnostics: problems, revisions: REVISIONS } });
+    expect(server.calls.some(call => call.url.endsWith("/publish"))).toBe(false);
+  });
+
   const edit = { kind: "put", collection: "lootTables", id: "redsill", record: { id: "redsill", rolls: [] as unknown[] } } as const;
   const sent = { lootTables: "0".repeat(64), items: "1".repeat(64) };
   async function refuse(status: number, body: unknown) {

@@ -230,7 +230,7 @@ html, body {
   max-height: 50vh;
 }
 
-/* The entry could not fetch the game's content. One way out, and it is the fetch again. */
+/* A failed startup can always be retried with a fresh document. */
 .boot-retry {
   margin-top: 14px;
   padding: 8px 22px;

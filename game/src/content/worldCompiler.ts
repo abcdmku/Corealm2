@@ -3,9 +3,10 @@ import type { EnemyGroupDef, Spot } from './regions.js';
 import type { HabitatDef } from './worldHabitats.js';
 import type { EncounterDefinition, WorldPlacement } from './schema/encounters.js';
 import type { SchemaIssue } from './schema/core.js';
+import { regionForPoint } from './regionOwnership.js';
 
 export interface WorldCreature { id: string; assetId: string; scale: number; stats: EnemyDef; bodyRadius: number }
-export interface WorldRegionBounds { id: string; bounds: { min: Spot; max: Spot } }
+export interface WorldRegionBounds { id: string; bounds: { min: Spot; max: Spot }; underground?: boolean }
 export interface WorldCompilerInput {
   encounters: readonly EncounterDefinition[];
   placements: readonly WorldPlacement[];
@@ -47,6 +48,8 @@ export function compileWorld(input: WorldCompilerInput) {
   const creatureByGroup = new Map<string, WorldCreature>();
   const encounters = new Map<string, EncounterDefinition>();
   const regions = new Map(input.regions.map(row => [row.id, row.bounds]));
+  const surfaceRegions = input.regions.filter(region => !region.underground);
+  const undergroundRegions = new Set(input.regions.filter(region => region.underground).map(region => region.id));
   const seen = new Set<string>();
   const issue = (path: string, message: string) => diagnostics.push({ path, message, severity: 'error' });
   for (const encounter of input.encounters) {
@@ -95,8 +98,10 @@ export function compileWorld(input: WorldCompilerInput) {
         if (!anchor.every(Number.isFinite)) issue(`${path}.anchors[${index}]`, 'Anchor must be finite');
         if (Math.hypot(anchor[0] - placement.centre[0], anchor[1] - placement.centre[1]) + bodyRadius > placement.radius + .01)
           issue(`${path}.anchors[${index}]`, 'Creature body exceeds placement radius');
-        if (anchor[0] < bounds.min[0] || anchor[0] > bounds.max[0]
-          || anchor[1] < bounds.min[1] || anchor[1] > bounds.max[1]) issue(`${path}.anchors[${index}]`, 'Anchor falls outside region');
+        const outside = undergroundRegions.has(placement.regionId)
+          ? anchor[0] < bounds.min[0] || anchor[0] > bounds.max[0] || anchor[1] < bounds.min[1] || anchor[1] > bounds.max[1]
+          : regionForPoint(surfaceRegions, anchor[0], anchor[1])?.id !== placement.regionId;
+        if (outside) issue(`${path}.anchors[${index}]`, 'Anchor falls outside assigned region, including its coastal extent');
       }
       const groupId = encounter.members.length === 1 ? placement.id : `${placement.id}_${memberIndex + 1}`;
       const group: EnemyGroupDef = { id: groupId, family: source.stats.family, name: source.stats.name,

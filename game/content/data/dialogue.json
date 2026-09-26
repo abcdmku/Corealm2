@@ -3766,5 +3766,291 @@
       }
     ],
     "catalog": "base"
+  },
+  {
+    "id": "coldbrace_general_vendor_root",
+    "speaker": "Tessa",
+    "text": "I keep travel supplies here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "coldbrace_general_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "coldbrace_meat_vendor_root",
+    "speaker": "Bram",
+    "text": "I keep food for the road here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "coldbrace_meat_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "coldbrace_cosmic_vendor_root",
+    "speaker": "Iven",
+    "text": "I keep cosmic materials here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "coldbrace_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "rootfall_cosmic_vendor_root",
+    "speaker": "Mira",
+    "text": "I keep cosmic goods here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "rootfall_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "highcairn_general_vendor_root",
+    "speaker": "Rook",
+    "text": "I keep travel supplies here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "highcairn_general_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "highcairn_smith_vendor_root",
+    "speaker": "Nera",
+    "text": "I keep arms and ironwork here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "highcairn_smith_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "highcairn_cosmic_vendor_root",
+    "speaker": "Vale",
+    "text": "I keep cosmic materials here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "highcairn_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "emberfast_smith_vendor_root",
+    "speaker": "Kerr",
+    "text": "I keep arms from the forge here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "emberfast_smith_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "emberfast_cosmic_vendor_root",
+    "speaker": "Sola",
+    "text": "I keep cosmic materials here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "emberfast_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "starhaven_cosmic_vendor_root",
+    "speaker": "Vey",
+    "text": "I keep cosmic materials here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "starhaven_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "crownward_fish_vendor_root",
+    "speaker": "Fenn",
+    "text": "I keep the day's catch here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "crownward_fish_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "crownward_meat_vendor_root",
+    "speaker": "Rusk",
+    "text": "I keep prepared meat here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "crownward_meat_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "crownward_cloth_vendor_root",
+    "speaker": "Ada",
+    "text": "I keep cloth and thread here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "crownward_cloth_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "crownward_potion_vendor_root",
+    "speaker": "Mara",
+    "text": "I keep potions here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "crownward_potion_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "crownward_smith_vendor_root",
+    "speaker": "Toren",
+    "text": "I keep ordinary arms here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "crownward_smith_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "crownward_cosmic_vendor_root",
+    "speaker": "Lior",
+    "text": "I keep cosmic supplies here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "crownward_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "base"
+  },
+  {
+    "id": "lantern_rest_general_vendor_root",
+    "speaker": "Pollen",
+    "text": "I keep supplies for the paths here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "lantern_rest_general_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lantern_rest_smith_vendor_root",
+    "speaker": "Glim",
+    "text": "I keep worked arms here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "lantern_rest_smith_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "lantern_rest_cosmic_vendor_root",
+    "speaker": "Vexa",
+    "text": "I keep cosmic goods here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "lantern_rest_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "prism_hollow_smith_vendor_root",
+    "speaker": "Cinderwing",
+    "text": "I keep arms for the colder paths here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "prism_hollow_smith_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "prism_hollow_cosmic_vendor_root",
+    "speaker": "Iris",
+    "text": "I keep cosmic goods here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "prism_hollow_cosmic_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
+  },
+  {
+    "id": "prism_hollow_potion_vendor_root",
+    "speaker": "Nacre",
+    "text": "I keep potions here. Check the counter for what is in stock.",
+    "options": [
+      {
+        "id": "prism_hollow_potion_vendor_root#bye",
+        "text": "Thanks.",
+        "next": null
+      }
+    ],
+    "catalog": "fairy"
   }
 ]

@@ -45,6 +45,7 @@ server catalog instead.
 | `balance/recipes`, `balance/sets`, `balance/campfires` | whole | Displayed XP, set thresholds and campfire timings. |
 | `audio` | whole | Cue and loop tables. The current client still plays from the copy in its build. |
 | `world.regions` | as `regions` | Region geometry for the map. |
+| `worldTerrain` | whole | Coast dimensions and mountain boundary profiles used by terrain generation and devdocs. |
 | `species` | as `creatures`: id, asset id, scale, region, activity, description, rig and native size fields, plus name, family and tier | Presentation only. `stats`, `attack`, `habitat` and `respawnMs` stay on the server. |
 | `enemies` | id, name, family, tier | The death screen, effects and hunt text need a name and a level. |
 | `enemies` combat and AI fields, `lootRolls`, `gold` | no | Server only. |
@@ -156,7 +157,7 @@ process onto a new catalog. A test compiles the shipped content and fails if a t
 | `world`, `encounters`, `placements` | live, at the next respawn | Each world builds the changed spawn groups again. See below. |
 | `resources`, `resourcePlacements` | on restart | Resource nodes are stamped onto world entities when the world is built. |
 | `spells`, `spellRunes`, `elementalSpells` | on restart | The spell tables are derived as their modules load. |
-| `worldRegions`, `npcs`, `quests`, `dialogue` | on restart | Region geometry, settlements, quest and dialogue graphs are built at load. |
+| `worldRegions`, `worldTerrain`, `npcs`, `quests`, `dialogue` | on restart | Region geometry, terrain boundaries, settlements, quest and dialogue graphs are built at load. |
 | `progression`, `materials`, `equipmentFamilies`, `recipeTemplates`, `campfireFuels`, `equipmentSets`, `balance/*`, `audio` | on restart | Tier tables and tuning are read at load. The `items` and `recipes` the compiler generates from them are live. |
 
 A spawn change touches only the groups whose placement, encounter, habitat or creature changed. Loot

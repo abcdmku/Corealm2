@@ -1,6 +1,7 @@
 import { RESOLVED_TABLES } from './resolvedCatalog.js';
 import type { EncounterDefinition, WorldPlacement, ResourcePlacement } from './schema/encounters.js';
 import type { WorldRegionGeometry } from './schema/worldRegions.js';
+import type { WorldTerrain } from './schema/worldTerrain.js';
 import type { EnemyGroupDef } from './regions.js';
 import type { HabitatDef } from './worldHabitats.js';
 import type { WorldCreature } from './worldCompiler.js';
@@ -23,6 +24,7 @@ export const ENCOUNTER_DEFINITIONS = world.encounters;
 export const WORLD_PLACEMENTS = world.placements;
 export const RESOURCE_PLACEMENTS = world.resources;
 export const WORLD_REGION_GEOMETRY = world.regions;
+export const WORLD_TERRAIN = RESOLVED_TABLES.worldTerrain as WorldTerrain[];
 export const WORLD_CONTENT = {
   groupsByRegion: new Map(Object.entries(world.groupsByRegion)),
   habitats: world.habitats,

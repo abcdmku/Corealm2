@@ -1043,8 +1043,8 @@
             "id": "npc_smith_harrow",
             "name": "Harrow the Smith",
             "position": [
-              -147.4,
-              -87.4
+              -151.4,
+              -91.3
             ],
             "facingRad": -1.5707963267948966,
             "assetId": "base_male",
@@ -1085,6 +1085,42 @@
             "facingRad": 0.7,
             "assetId": "base_male",
             "dialogueRootId": "slayer_garek_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_coldbrace_general_vendor",
+            "name": "Tessa",
+            "position": [
+              -174.2,
+              -80.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "coldbrace_general_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_coldbrace_meat_vendor",
+            "name": "Bram",
+            "position": [
+              -165.8,
+              -80.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_male",
+            "dialogueRootId": "coldbrace_meat_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_coldbrace_cosmic_vendor",
+            "name": "Iven",
+            "position": [
+              -171.8,
+              -85.5
+            ],
+            "facingRad": 0,
+            "assetId": "base_male",
+            "dialogueRootId": "coldbrace_cosmic_vendor_root",
             "questIds": []
           }
         ],
@@ -2232,6 +2268,62 @@
               10,
               3
             ]
+          },
+          {
+            "id": "rootfall_house_2",
+            "name": "South Lane House",
+            "prefab": "cottage",
+            "position": [
+              50,
+              116
+            ],
+            "rotationY": 1.5707963267948966,
+            "footprint": [
+              6,
+              6
+            ],
+            "model": {
+              "assetId": "town_t50_home",
+              "scale": 1,
+              "collision": [
+                {
+                  "tag": "body",
+                  "dx": 0,
+                  "dz": 0,
+                  "sizeX": 6,
+                  "sizeZ": 6,
+                  "height": 5.483365294172099
+                }
+              ]
+            }
+          },
+          {
+            "id": "rootfall_house_3",
+            "name": "West Green House",
+            "prefab": "cottage",
+            "position": [
+              51,
+              129
+            ],
+            "rotationY": 1.5707963267948966,
+            "footprint": [
+              6,
+              6
+            ],
+            "model": {
+              "assetId": "town_t50_home",
+              "scale": 1,
+              "collision": [
+                {
+                  "tag": "body",
+                  "dx": 0,
+                  "dz": 0,
+                  "sizeX": 6,
+                  "sizeZ": 6,
+                  "height": 5.483365294172099
+                }
+              ]
+            }
           }
         ],
         "walls": [
@@ -2568,12 +2660,24 @@
             "id": "npc_smith_corra",
             "name": "Smith Corra",
             "position": [
-              75.7,
-              115
+              72.3,
+              114.1
             ],
             "facingRad": -1.5707963267948966,
             "assetId": "base_female",
             "dialogueRootId": "corra_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_rootfall_cosmic_vendor",
+            "name": "Mira",
+            "position": [
+              60.6,
+              114.8
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "rootfall_cosmic_vendor_root",
             "questIds": []
           }
         ],
@@ -3889,6 +3993,42 @@
             "assetId": "base_male",
             "dialogueRootId": "slayer_vardan_root",
             "questIds": []
+          },
+          {
+            "id": "npc_highcairn_general_vendor",
+            "name": "Rook",
+            "position": [
+              132.8,
+              -63.4
+            ],
+            "facingRad": 0,
+            "assetId": "base_male",
+            "dialogueRootId": "highcairn_general_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_highcairn_smith_vendor",
+            "name": "Nera",
+            "position": [
+              150.2,
+              -65.6
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "highcairn_smith_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_highcairn_cosmic_vendor",
+            "name": "Vale",
+            "position": [
+              141.2,
+              -63.4
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "highcairn_cosmic_vendor_root",
+            "questIds": []
           }
         ],
         "props": [
@@ -5118,7 +5258,32 @@
             "assetId": "market_stall_cosmic"
           }
         ],
-        "npcs": [],
+        "npcs": [
+          {
+            "id": "npc_emberfast_smith_vendor",
+            "name": "Kerr",
+            "position": [
+              8.2,
+              325.4
+            ],
+            "facingRad": 0,
+            "assetId": "base_male",
+            "dialogueRootId": "emberfast_smith_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_emberfast_cosmic_vendor",
+            "name": "Sola",
+            "position": [
+              -7.6,
+              327.6
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "emberfast_cosmic_vendor_root",
+            "questIds": []
+          }
+        ],
         "props": [
           {
             "id": "emberfast_gate_torch_n",
@@ -8694,8 +8859,8 @@
             "assetId": "creature_skeleton_mage",
             "dialogueRootId": "lastlight_apothecary_root",
             "position": [
-              -12,
-              526
+              -10.2,
+              526.8
             ],
             "facingRad": 3.141592653589793,
             "questIds": []
@@ -8706,10 +8871,10 @@
             "assetId": "creature_revenant",
             "dialogueRootId": "lastlight_smith_root",
             "position": [
-              18.003,
-              545
+              1.2,
+              526.8
             ],
-            "facingRad": -1.5707963267948966,
+            "facingRad": 3.141592653589793,
             "questIds": []
           },
           {
@@ -8718,8 +8883,8 @@
             "assetId": "creature_banshee",
             "dialogueRootId": "lastlight_seer_root",
             "position": [
-              12,
-              526
+              10.2,
+              526.8
             ],
             "facingRad": 3.141592653589793,
             "questIds": []
@@ -10575,8 +10740,8 @@
             "assetId": "creature_skeleton_mage",
             "dialogueRootId": "starhaven_apothecary_root",
             "position": [
-              -196,
-              816
+              -194.2,
+              816.8
             ],
             "facingRad": 3.141592653589793,
             "questIds": []
@@ -10587,10 +10752,10 @@
             "assetId": "creature_revenant",
             "dialogueRootId": "starhaven_smith_root",
             "position": [
-              -165.997,
-              835
+              -182.8,
+              816.8
             ],
-            "facingRad": -1.5707963267948966,
+            "facingRad": 3.141592653589793,
             "questIds": []
           },
           {
@@ -10603,6 +10768,18 @@
               815
             ],
             "facingRad": -1.5707963267948966,
+            "questIds": []
+          },
+          {
+            "id": "npc_starhaven_cosmic_vendor",
+            "name": "Vey",
+            "position": [
+              -173.8,
+              816.8
+            ],
+            "facingRad": 3.141592653589793,
+            "assetId": "creature_revenant",
+            "dialogueRootId": "starhaven_cosmic_vendor_root",
             "questIds": []
           }
         ],
@@ -11372,7 +11549,80 @@
             "assetId": "market_stall_cosmic"
           }
         ],
-        "npcs": [],
+        "npcs": [
+          {
+            "id": "npc_crownward_fish_vendor",
+            "name": "Fenn",
+            "position": [
+              471.8,
+              -40.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_male",
+            "dialogueRootId": "crownward_fish_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_crownward_meat_vendor",
+            "name": "Rusk",
+            "position": [
+              480.2,
+              -40.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_male",
+            "dialogueRootId": "crownward_meat_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_crownward_cloth_vendor",
+            "name": "Ada",
+            "position": [
+              491.8,
+              -38.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "crownward_cloth_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_crownward_potion_vendor",
+            "name": "Mara",
+            "position": [
+              491.8,
+              -45.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "crownward_potion_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_crownward_smith_vendor",
+            "name": "Toren",
+            "position": [
+              501.2,
+              -45.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_male",
+            "dialogueRootId": "crownward_smith_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_crownward_cosmic_vendor",
+            "name": "Lior",
+            "position": [
+              501.2,
+              -52.0
+            ],
+            "facingRad": 0,
+            "assetId": "base_female",
+            "dialogueRootId": "crownward_cosmic_vendor_root",
+            "questIds": []
+          }
+        ],
         "paving": [
           {
             "id": "crownward_borough_paving",
@@ -12417,6 +12667,42 @@
             "facingRad": 2.3,
             "dialogueRootId": "slayer_aevra_root",
             "questIds": []
+          },
+          {
+            "id": "npc_lantern_rest_general_vendor",
+            "name": "Pollen",
+            "position": [
+              2075.8,
+              -96.25
+            ],
+            "facingRad": 0,
+            "assetId": "npc_fey_autumn",
+            "dialogueRootId": "lantern_rest_general_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_lantern_rest_smith_vendor",
+            "name": "Glim",
+            "position": [
+              2053.8,
+              -117.6
+            ],
+            "facingRad": 0,
+            "assetId": "npc_fey_frostbloom",
+            "dialogueRootId": "lantern_rest_smith_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_lantern_rest_cosmic_vendor",
+            "name": "Vexa",
+            "position": [
+              2085.2,
+              -96.25
+            ],
+            "facingRad": 0,
+            "assetId": "npc_fey_nightshade",
+            "dialogueRootId": "lantern_rest_cosmic_vendor_root",
+            "questIds": []
           }
         ],
         "props": [
@@ -13366,6 +13652,42 @@
             ],
             "facingRad": -1.5707963267948966,
             "dialogueRootId": "fey_dew_scribe_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_prism_hollow_smith_vendor",
+            "name": "Cinderwing",
+            "position": [
+              2294.8,
+              149.0
+            ],
+            "facingRad": 0,
+            "assetId": "npc_fey_autumn",
+            "dialogueRootId": "prism_hollow_smith_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_prism_hollow_cosmic_vendor",
+            "name": "Iris",
+            "position": [
+              2305.2,
+              149.0
+            ],
+            "facingRad": 0,
+            "assetId": "npc_fey_frostbloom",
+            "dialogueRootId": "prism_hollow_cosmic_vendor_root",
+            "questIds": []
+          },
+          {
+            "id": "npc_prism_hollow_potion_vendor",
+            "name": "Nacre",
+            "position": [
+              2295.8,
+              135.0
+            ],
+            "facingRad": 0,
+            "assetId": "npc_fey_opaline",
+            "dialogueRootId": "prism_hollow_potion_vendor_root",
             "questIds": []
           }
         ],

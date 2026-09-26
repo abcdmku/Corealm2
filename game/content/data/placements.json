@@ -2311,8 +2311,8 @@
       {
         "id": "stump_edge",
         "assetId": "corealm_stump_oak",
-        "x": 264.0,
-        "z": 36.0,
+        "x": 264,
+        "z": 36,
         "yaw": 0.75,
         "scale": 0.85
       },
@@ -2320,7 +2320,7 @@
         "id": "stump_fern",
         "assetId": "corealm_fern_2",
         "x": 262.7,
-        "z": 34.0,
+        "z": 34,
         "yaw": -0.4,
         "scale": 0.75
       }
@@ -3057,8 +3057,8 @@
     "encounterId": "scree_boars_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      176,
-      -167
+      165.07,
+      -269.56
     ],
     "count": 2,
     "radius": 24,

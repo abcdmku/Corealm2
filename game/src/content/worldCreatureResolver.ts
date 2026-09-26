@@ -20,7 +20,7 @@ export function createWorldCreatureResolver(
   };
 }
 export function worldRegionBounds(regions: readonly WorldRegionGeometry[]): WorldRegionBounds[] {
-  return regions.flatMap(region => [region, ...(region.dungeon ? [{ id: region.dungeon.id, bounds: {
+  return regions.flatMap(region => [region, ...(region.dungeon ? [{ id: region.dungeon.id, underground: true, bounds: {
     min: [Math.min(...region.dungeon.chambers.map(c => c.centre[0] - c.radius)), Math.min(...region.dungeon.chambers.map(c => c.centre[1] - c.radius))] as const,
     max: [Math.max(...region.dungeon.chambers.map(c => c.centre[0] + c.radius)), Math.max(...region.dungeon.chambers.map(c => c.centre[1] + c.radius))] as const,
   } }] : [])]);

@@ -62,7 +62,7 @@ export interface Contributor {
   onError?(message: string, status: number | undefined, body: TransactionFailure | undefined): void;
 }
 
-export interface HistoryStep { key: string; before: ContentRow | undefined; after: ContentRow | undefined; label: string; at: number }
+export interface HistoryStep { key: string; before: ContentRow | undefined; after: ContentRow | undefined; label: string; at: number; restore?: (direction: "undo" | "redo") => void }
 
 export interface DraftState {
   entries: ReadonlyMap<string, RecordEntry>;
@@ -179,6 +179,7 @@ class DraftStore {
     if (!step) return undefined;
     const to = from === "undo" ? "redo" : "undo";
     this.set({ [from]: stack.slice(0, -1), [to]: [...this.state[to], step] } as Partial<DraftState>);
+    if (step.restore) { step.restore(from); this.touch(); return step; }
     const entry = this.state.entries.get(step.key);
     if (entry) this.put({ ...entry, draft: clone(from === "undo" ? step.before : step.after), saveError: "", diagnostics: [] });
     return step;
@@ -206,6 +207,14 @@ class DraftStore {
 
   // ------------------------------------------------------------------ contributors
 
+  /** Record a multi-record editor action in the same chronological history as record edits. */
+  commitContributor<T>(key: string, before: T, after: T, restore: (draft: T) => void, label: string): void {
+    if (!this.state.contributors.has(key) || same(before, after)) return;
+    const previous = structuredClone(before), next = structuredClone(after);
+    const step: HistoryStep = { key, before: undefined, after: undefined, label, at: Date.now(), restore: direction => restore(structuredClone(direction === "undo" ? previous : next)) };
+    this.set({ undo: [...this.state.undo, step].slice(-HISTORY_LIMIT), redo: [], error: "", blockers: [], published: undefined });
+  }
+
   registerContributor(contributor: Contributor): () => void {
     const contributors = new Map(this.state.contributors);
     contributors.set(contributor.key, contributor);
@@ -214,7 +223,7 @@ class DraftStore {
       const remaining = new Map(this.state.contributors);
       if (remaining.get(contributor.key) !== contributor) return;
       remaining.delete(contributor.key);
-      this.set({ contributors: remaining });
+      this.set({ contributors: remaining, undo: this.state.undo.filter(step => !(step.restore && step.key === contributor.key)), redo: this.state.redo.filter(step => !(step.restore && step.key === contributor.key)) });
     };
   }
   /** Contributors call this when their dirtiness changed. */

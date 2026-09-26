@@ -9,6 +9,7 @@ import { PanelFrame } from "./panelFrame.js";
  */
 import type { ObservedEntity, RegionId, Vec3 } from "../contracts.js";
 import { worldMapForRegion } from "../contracts.js";
+import { mapFacing } from "../world/mapOrientation.js";
 import type { LocationDef, LocationKind } from "../content/regions.js";
 import { REGIONS, WORLD_BOUNDS as CONTENT_WORLD_BOUNDS, allLocations } from "../content/regions.js";
 import { REGION_PALETTES } from "../render/materials.js";
@@ -798,7 +799,7 @@ export class MapPanel implements ManagedPanel {
     const heading = this.headingRad;
     // Negated: the map frame draws +x leftward (see WorldMapCanvas.project), and a mirror flips
     // angles. Without this the arrow pointed east while the player walked west.
-    const rotation = heading === null ? 0 : -(heading * 180) / Math.PI;
+    const rotation = heading === null ? 0 : (mapFacing(heading) * 180) / Math.PI;
     mark.setAttribute("transform", `translate(${round(screen.x)} ${round(screen.y)}) rotate(${round(rotation)})`);
     mark.setAttribute("visibility", screen.visible ? "visible" : "hidden");
     this.playerArrow?.setAttribute("visibility", heading === null ? "hidden" : "visible");

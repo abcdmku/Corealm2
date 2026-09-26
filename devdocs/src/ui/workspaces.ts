@@ -52,7 +52,7 @@ const ALL_WORKSPACES: readonly Workspace[] = [
     { key: "loot", label: "Loot tables", collection: "lootTables" },
   ] },
   { key: "world", label: "World", icon: MapIcon, fullBleed: true, views: [
-    { key: "map", label: "Map", aliases: ["worldRegions", "placements", "encounters", "resourcePlacements"] },
+    { key: "map", label: "Map", aliases: ["worldRegions", "worldTerrain", "placements", "encounters", "resourcePlacements"] },
   ] },
   { key: "quests", label: "Quests", icon: ScrollText, views: [
     { key: "quests", label: "Quests", collection: "quests" },

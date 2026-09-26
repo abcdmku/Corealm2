@@ -285,7 +285,6 @@ describe("authored enemy habitat behavior", () => {
   it.each([
     { name: "habitat", centre: [-240, -20], radius: 1, outside: [-243, -20] },
     { name: "region", centre: [-21, -50], radius: 8, outside: [-18, -50] },
-    { name: "world", centre: [-349, -50], radius: 8, outside: [-352, -50] },
   ] as const)("does not walk toward an anchor outside the $name boundary", ({ centre, radius, outside }) => {
     const habitat: HabitatDef = {
       id: "invalid_anchor_fixture", groupId: "invalid_anchor_fixture", regionId: "fallowmarch",
@@ -299,6 +298,22 @@ describe("authored enemy habitat behavior", () => {
       expect(distance(actor.position, spawn)).toBeLessThanOrEqual(0.5);
       expect(distance(actor.position, point(outside))).toBeGreaterThan(2);
     });
+  });
+
+  it.each([
+    { name: "coastal", centre: [-349, -50], destination: [-352, -50] },
+  ] as const)("patrols walkable anchors across a $name boundary", ({ centre, destination }) => {
+    const habitat: HabitatDef = { id: "border_pack", groupId: "border_pack", regionId: "fallowmarch",
+      centre, radius: 8, anchors: [centre, destination], activity: "patrol", dressing: [] };
+    const actor = enemy(habitat, "border_patrol");
+    const sim = fixture([actor], { nearestWalkable: wanted => [...wanted] }, undefined, () => habitat);
+    let closest = Infinity;
+    sim.advance(30_000, () => {
+      closest = Math.min(closest, distance(actor.position, point(destination)));
+      expect(habitats.habitatContains(habitat, actor.position)).toBe(true);
+    });
+    expect(closest).toBeLessThanOrEqual(0.6); // Production patrol arrival distance.
+    expect(actor.regionId).toBe("fallowmarch");
   });
 
   it.each(["open_march_goats", "pack_test"])("keeps idle %s inside its habitat during separation", groupId => {

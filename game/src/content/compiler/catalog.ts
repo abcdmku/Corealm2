@@ -10,6 +10,7 @@ import { compileCreatures } from '../creatureCompiler.js';
 import { CATALOG_REVISION, clientCatalog, type ClientCatalog } from '../clientCatalog.js';
 import type { EncounterDefinition, WorldPlacement } from '../schema/encounters.js';
 import type { WorldRegionGeometry } from '../schema/worldRegions.js';
+import type { WorldTerrain } from '../schema/worldTerrain.js';
 import type { CreatureDefinition, CreatureProfile } from '../schema/creatureDefinitions.js';
 import type { LootTableRecord } from '../schema/loot.js';
 import { SKILL_IDS, SPELL_ELEMENTS } from '../../contracts.js';
@@ -78,6 +79,20 @@ export function compileContent(values: ReadonlyMap<string, unknown>, external: R
     for(const creature of output.creatures) sourceMap[`enemies:${creature.id}`] = {collection:'creatureDefinitions',id:creature.id,formula:'creature.combat',profile:creature.profileId,inputs:{tier:creature.level}};
   } catch(error) {diagnostics.push({path:'creatureDefinitions',message:error instanceof Error?error.message:String(error),severity:'error'});}
   const regionGeometry=(tables.worldRegions??[]) as WorldRegionGeometry[];
+  const terrainRows = (tables.worldTerrain ?? []) as WorldTerrain[];
+  if (!terrainRows.some(row => row.id === 'corealm')) diagnostics.push({ path: 'worldTerrain', message: 'Corealm terrain settings are required', severity: 'error' });
+  for (const terrain of terrainRows) {
+    const error = (field: string, message: string) => diagnostics.push({ path: `worldTerrain.${terrain.id}.${field}`, message, severity: 'error' });
+    if (terrain.coast.shoreline[0] > terrain.coast.shoreline[1]) error('coast.shoreline', 'Minimum coast width must not exceed maximum width');
+    if (terrain.coast.shoreline[1] >= terrain.coast.collar) error('coast.collar', 'Terrain collar must extend beyond the maximum coast width');
+    if (!terrain.regionIds.length || new Set(terrain.regionIds).size !== terrain.regionIds.length) error('regionIds', 'Choose unique surface regions');
+    for (const mountain of terrain.mountains) {
+      if (!terrain.regionIds.includes(mountain.regionId)) error('mountains', 'Mountain region must belong to this terrain');
+      const members = regionGeometry.filter(region => terrain.regionIds.includes(region.id));
+      const edge = Math.max(...members.map(region => region.bounds.max[0]));
+      if (mountain.startX + mountain.width > edge + terrain.coast.collar) error('mountains', 'Mountain width extends beyond the terrain collar');
+    }
+  }
   const regionBounds=worldRegionBounds(regionGeometry);
   if(!diagnostics.some(issue=>issue.severity==='error'))try{
     const creatures=tables.compiledCreatures as ReturnType<typeof compileCreatures>['creatures'];

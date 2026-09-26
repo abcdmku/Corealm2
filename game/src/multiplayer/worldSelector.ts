@@ -508,17 +508,6 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     mounted(){focusChoice();},
     /** The engine is live: enable joining, and honour a choice made during loading. */
     setReady(){if(ready)return;ready=true;const queued=pendingJoin;pendingJoin=false;updateButtons();if(queued)void joinSelected();},
-    /**
-     * Local play without being asked: the page finished loading, nobody answered the picker, and there is no
-     * server on it to choose instead, so the page's own world starts.
-     * Nothing is remembered as a choice. False when there is no worker-hosted world or a join is already under way.
-     */
-    playLocal():boolean{
-      if(!localWorld||controller.session||pendingJoin)return false;
-      selected=LOCAL;dismiss();
-      if(ready)void joinSelected();else{pendingJoin=true;updateButtons();}
-      return true;
-    },
     /** Repaints availability after late ports arrive with the scene's seed check. */
     refresh(){renderList();},
     async command(command:GameCommand){

@@ -1,13 +1,10 @@
 import { WORLD_MAP_IMAGE_BOUNDS } from "../../../game/src/generated/worldMapFingerprint.js";
+import { worldToMap } from "../../../game/src/world/mapOrientation.js";
 
-/*
-  Placing world metres on the drawn map image. The image is north-up: +z is north, so its top edge
-  is maxZ and a point's share of the height is measured down from there. Getting that flip wrong
-  puts every pin and every crop on the far side of the island, so both the thumbnails and the
-  record maps go through these; only the world workspace's SVG does its own (y = -z).
-*/
+/* Display maps share the gameplay frame: +Z up, +X left. The baked atlas stores +X
+   to the right; crop it in storage coordinates, then mirror only its rendered background. */
 
-/** A rectangle of world metres: its south-west corner and how far it reaches east and north. */
+/** Minimum world coordinates and dimensions in metres. */
 export interface MapBox { x0: number; z0: number; spanX: number; spanZ: number }
 
 const { minX, maxX, minZ, maxZ } = WORLD_MAP_IMAGE_BOUNDS;
@@ -15,8 +12,11 @@ export const IMAGE_BOX: MapBox = { x0: minX, z0: minZ, spanX: maxX - minX, spanZ
 
 /** Where a world point sits in a box, as fractions from its left and top edges. */
 export function boxFraction(box: MapBox, x: number, z: number): { u: number; v: number } {
-  return { u: (x - box.x0) / box.spanX, v: (box.z0 + box.spanZ - z) / box.spanZ };
+  const point = worldToMap(x, z), origin = worldToMap(box.x0 + box.spanX, box.z0 + box.spanZ);
+  return { u: (point.u - origin.u) / box.spanX, v: (point.v - origin.v) / box.spanZ };
 }
+
+export function xAtFraction(box: MapBox, u: number): number { return box.x0 + box.spanX - u * box.spanX; }
 
 /** The world z a box shows at a fraction down from its top edge: `boxFraction` read backwards. */
 export function zAtFraction(box: MapBox, v: number): number {
@@ -24,7 +24,7 @@ export function zAtFraction(box: MapBox, v: number): number {
 }
 
 /**
- * `background-position` for a crop of the whole map image, as fractions. A percentage position
+ * Raw atlas `background-position` before display mirroring, for a crop of the whole map image, as fractions. A percentage position
  * aligns the same fraction of image and box, so the crop's offset is its share of the leftover
  * image; a crop as big as the image has no leftover and sits at 0.
  */

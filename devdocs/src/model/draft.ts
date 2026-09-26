@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ApiDiagnostic, ContentOperation, ContentTransactionRequest, ContentTransactionResponse } from "../../shared/contracts.js";
-import { backend, can } from "../api/backend.js";
+import { backend, can, type TransactionRefusal } from "../api/backend.js";
 import { collectionQuery } from "../api/client.js";
 import type { ContentRow } from "./contracts.js";
 import { contentRows, rowId } from "./rows.js";
@@ -115,10 +115,17 @@ export function useRecordDraft<T extends ContentRow = ContentRow>(collection: st
 
 const NO_DIAGNOSTICS: ApiDiagnostic[] = [];
 
+export class TransactionError extends Error {
+  constructor(readonly status: number, readonly body: TransactionRefusal) {
+    super(status === 409 ? CONFLICT_MESSAGE : body.error ?? `Request failed (${status})`);
+    this.name = "TransactionError";
+  }
+}
+
 /** Preview or save a multi-record change through whichever backend is installed. */
 export async function runTransaction(operation: ContentTransactionRequest["operation"], revisions: Record<string, string>, changes: ContentOperation[]): Promise<ContentTransactionResponse> {
   const result = await backend().transact({ operation, revisions, changes });
-  if (!result.ok) throw new Error(result.status === 409 ? CONFLICT_MESSAGE : result.body.error ?? `Request failed (${result.status})`);
+  if (!result.ok) throw new TransactionError(result.status, result.body);
   return result.body;
 }
 

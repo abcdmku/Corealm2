@@ -277,8 +277,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Set when the player answers "Play local" on the loading screen, or when `?play=local` answered
   // for them: the menu must not then open over the game they just asked to start.
   let choseLocalPlay = false;
-  /** Local play started because nobody chose and the page had no server to offer. */
-  let localDefaulted = false;
   let worldSelectionResult: Awaited<typeof worldSelection> = null;
   void worldSelection.then((selection) => {
     worldSelectionResult = selection;
@@ -3059,7 +3057,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       resolveSolid: (desired, from, radius) => movementSolids.resolve(desired, from, radius),
     });
   }
-  // When local play is what this page starts, by `?play=local` or because there was nothing else to choose, "ready"
+  // When local play is explicitly selected, "ready"
   // means it is joined and its first snapshot is what the page shows. Otherwise the picker is still the player's to answer.
   /** Camera, input and presentation state that a new character or a loaded one must not inherit. */
   const presentationReset = (): void => {
@@ -3073,8 +3071,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   installGameDebug({
     store, events, clock, nav, movement, api, renderer, camera, assets, errors,
     isReady: () => debugReady
-      && (profile.kind !== "game" || !worldSelectionResult?.configured || worldSelectionResult.controller.session !== null)
-      && (!localLaunch || !(worldSelectionResult?.autoLocal || localDefaulted) || localSession()),
+      && (profile.kind !== "game" || worldSelectionResult?.controller.session != null)
+      && (!localLaunch || !worldSelectionResult?.autoLocal || localSession()),
     version,
     remote: localLaunch ? {
       joined: localSession,
@@ -3441,7 +3439,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     await installBrowserSession({store,loop,clock,entities:entityStore,views:entityViews,assets,api,events,movement,traversal:traversalPresentation,expectedSeed:store.get().meta.seed,
       mountWorlds:panel=>{mountWorldSelector=()=>{
         panel.classList.remove("worlds--boot");panel.hidden=false;ui.setWorlds(panel);
-        if(!choseLocalPlay&&selection.configured&&!selection.controller.session)ui.openTitle("worlds");
+        if(!choseLocalPlay&&!selection.controller.session)ui.openTitle("worlds");
       };},
       phase(phase){
         if(["reconnecting","unavailable","incompatible","full"].includes(phase))ui.openTitle("worlds");
@@ -3461,10 +3459,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         if (debugReady) followPlayer(true);
       },
     }, {crowds:true,equipment:true}, selection);
-    // Only when there was something to join. The picker shows on every page now, but a page with
-    // no servers behind it has nothing to offer a player who let loading finish without choosing,
-    // so their own world starts. It is a world to join, not a game already running behind the picker.
-    if(!choseLocalPlay&&!selection.configured&&selection.local&&selection.playLocal()){choseLocalPlay=true;localDefaulted=true;selection.local.provider.prestart();}
   }
   // Effect programs depend on neither the joined world nor its lights (see batchedLighting.ts),
   // so every pool compiles while the world joins. Their PNGs must decode first.

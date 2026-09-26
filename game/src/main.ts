@@ -2,6 +2,7 @@
 // catalog is fetched and installed here first, and only then is the app imported. Keep every static
 // import of this file content-free: `tests/client-catalog-page-graph.test.ts` checks it.
 import { installPageCatalog, pageCatalogKind, type InstalledPageCatalog } from "./content/catalogEntry.js";
+import { createBootRecovery } from "./app/bootRecovery.js";
 
 // The game owns right-click interactions; never let Chromium replace them with its menu.
 document.addEventListener("contextmenu", (event) => event.preventDefault());
@@ -12,33 +13,7 @@ if (!(viewport instanceof HTMLCanvasElement)) {
 }
 const canvas = viewport;
 
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, (character) => {
-    switch (character) {
-      case "&": return "&amp;";
-      case "<": return "&lt;";
-      case ">": return "&gt;";
-      case '"': return "&quot;";
-      default: return "&#39;";
-    }
-  });
-}
-
-/** The boot screen as a dead end with a way out. `retry` absent means only a reload can help. */
-function showFailure(message: string, retry?: () => void): void {
-  const screen = document.getElementById("boot-screen");
-  if (!screen) return;
-  screen.classList.remove("hidden");
-  screen.innerHTML = `<div class="boot-mark">COREALM</div><pre class="boot-error">${escapeHtml(message)}</pre>`;
-  if (!retry) return;
-  const button = document.createElement("button");
-  button.type = "button"; button.className = "boot-retry"; button.textContent = "Retry";
-  button.addEventListener("click", () => {
-    screen.innerHTML = `<div class="boot-mark">COREALM</div><div class="boot-status">Downloading the game...</div>`;
-    retry();
-  }, { once: true });
-  screen.append(button);
-}
+const recovery = createBootRecovery();
 
 // The engine has no content in it, so its download and parse overlap the catalog fetch.
 void import("three").catch(() => {});
@@ -49,9 +24,8 @@ async function start(): Promise<void> {
   try {
     catalog = await installPageCatalog(generated, pageCatalogKind(location.search));
   } catch (error) {
-    // Offline, or a host that is half deployed: say so and offer the fetch again. Nothing was evaluated, so a retry is clean.
     console.error("Corealm could not load its content", error);
-    showFailure(error instanceof Error ? error.message : String(error), () => { void start(); });
+    recovery.fail(error);
     return;
   }
   try {
@@ -66,10 +40,11 @@ async function start(): Promise<void> {
       document.body.dataset["labMode"] = profile.labMode ?? "combat";
     }
     await boot(canvas, { profile, catalog });
+    recovery.complete();
   } catch (error) {
-    const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
     console.error("Corealm failed to boot", error);
-    showFailure(message);
+    // A fresh document retries failed module imports and obtains current chunk names after a deployment.
+    recovery.fail(error);
   }
 }
 void start();

@@ -1,3 +1,4 @@
+import { mapToWorld, worldToMap } from "../../../../game/src/world/mapOrientation.js";
 import { forwardRef, memo, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { WORLD_MAP_DETAIL_RENDITIONS, WORLD_MAP_IMAGE_BOUNDS, WORLD_MAP_MINIMAP_RENDITION, WORLD_MAP_TILED_LEVELS } from "../../../../game/src/generated/worldMapFingerprint.js";
 import { gameUrl } from "../../model/gameUrl.js";
@@ -6,7 +7,7 @@ import { glyphColor, glyphIcon } from "./glyphs.js";
 import { LAYERS, round, sameSelection, type Bounds, type Feature, type Layer, type Point, type Road, type Selection } from "./model.js";
 
 /*
-  The map. An SVG whose viewBox is world metres with y = -z (the image is north-up, +z north).
+  The map. An SVG whose viewBox uses the gameplay map frame: x = -worldX, y = -z (the image is north-up, +z north).
   Renditions are chosen by pixels per metre: the 800px minimap when zoomed out, the detail
   renditions in between, and the 600px tiles at the top level, only those intersecting the view.
   Layer groups are memoised on their data and the marker scale so panning only rewrites the
@@ -46,6 +47,7 @@ export interface MapCanvasProps {
   tool?: Tool;
   onSelect: (selection: Selection | undefined) => void;
   onMove: (selection: Selection, point: Point) => void;
+  onResize: (selection: Selection, radius: number) => void;
   onMoveAnchor: (index: number, offset: Point) => void;
   onNudge: (dx: number, dz: number) => void;
   onPlace: (point: Point, client: { x: number; y: number }) => void;
@@ -53,13 +55,15 @@ export interface MapCanvasProps {
   onEscape: () => void;
 }
 
+type ResizeAxis = "x" | "y" | "radial";
 type Drag =
   | { kind: "pan"; startX: number; startY: number; view: View; moved: boolean }
   | { kind: "move"; feature: Feature; startX: number; startY: number; origin: Point; moved: boolean }
+  | { kind: "resize"; feature: Feature; axis: ResizeAxis; cursor: string; startX: number; startY: number; moved: boolean }
   | { kind: "anchor"; index: number; startX: number; startY: number; origin: Point; moved: boolean }
   | { kind: "place"; startX: number; startY: number; moved: boolean };
 
-export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanvas({ features, roads, layers, selection, anchors, editable, tool, onSelect, onMove, onMoveAnchor, onNudge, onPlace, onViewChange, onEscape }, ref) {
+export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanvas({ features, roads, layers, selection, anchors, editable, tool, onSelect, onMove, onResize, onMoveAnchor, onNudge, onPlace, onViewChange, onEscape }, ref) {
   const frame = useRef<HTMLDivElement>(null);
   const svg = useRef<SVGSVGElement>(null);
   const tip = useRef<HTMLDivElement>(null);
@@ -68,6 +72,7 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
   const [hover, setHover] = useState<Feature | undefined>(undefined);
   const [liveMove, setLiveMove] = useState<{ key: string; x: number; z: number } | undefined>(undefined);
   const [liveAnchor, setLiveAnchor] = useState<{ index: number; point: Point } | undefined>(undefined);
+  const [liveRadius, setLiveRadius] = useState<{ key: string; radius: number } | undefined>(undefined);
   const drag = useRef<Drag | undefined>(undefined);
   const viewRef = useRef(view); viewRef.current = view;
   const sizeRef = useRef(size); sizeRef.current = size;
@@ -148,6 +153,14 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
       if (origin) { drag.current = { kind: "anchor", index, startX: event.clientX, startY: event.clientY, origin: [origin[0], origin[1]], moved: false }; event.currentTarget.setPointerCapture(event.pointerId); return; }
     }
     const feature = tool ? undefined : featureAt(event.target);
+    const resizeTarget = (event.target as Element).closest?.("[data-resize]");
+    if (feature?.radius !== undefined && feature.key === selectedKey && editable && resizeTarget) {
+      const axis = resizeTarget.getAttribute("data-resize-axis");
+      drag.current = { kind: "resize", feature, axis: axis === "x" || axis === "y" ? axis : "radial", cursor: axis === "y" ? "ns-resize" : axis === "x" ? "ew-resize" : edgeCursor(feature, worldPoint(event)), startX: event.clientX, startY: event.clientY, moved: false };
+      onSelect(feature.selection);
+      event.currentTarget.setPointerCapture(event.pointerId);
+      return;
+    }
     if (feature && feature.movable && editable) drag.current = { kind: "move", feature, startX: event.clientX, startY: event.clientY, origin: [feature.x, feature.z], moved: false };
     else if (feature) drag.current = { kind: "move", feature, startX: event.clientX, startY: event.clientY, origin: [feature.x, feature.z], moved: false };
     else if (tool) drag.current = { kind: "place", startX: event.clientX, startY: event.clientY, moved: false };
@@ -159,6 +172,8 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
     const current = drag.current;
     if (!current) {
       const feature = featureAt(event.target);
+      const edge = (event.target as Element).closest?.('[data-resize="edge"]') as SVGElement | null;
+      if (edge && feature) edge.style.cursor = edgeCursor(feature, worldPoint(event));
       if (feature !== hover) setHover(feature);
       if (feature) placeTip(event);
       return;
@@ -167,9 +182,10 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
     if (!current.moved && Math.hypot(dx, dy) < 3) return;
     current.moved = true;
     const scale = current.kind === "pan" ? current.view.span / sizeRef.current.width : viewRef.current.span / sizeRef.current.width;
-    if (current.kind === "pan") setView({ ...current.view, x: current.view.x - dx * scale, z: current.view.z + dy * scale });
-    else if (current.kind === "move" && current.feature.movable && editable) setLiveMove({ key: current.feature.key, x: current.origin[0] + dx * scale, z: current.origin[1] - dy * scale });
-    else if (current.kind === "anchor") setLiveAnchor({ index: current.index, point: [current.origin[0] + dx * scale, current.origin[1] - dy * scale] });
+    if (current.kind === "pan") setView({ ...current.view, x: current.view.x + dx * scale, z: current.view.z + dy * scale });
+    else if (current.kind === "resize") setLiveRadius({ key: current.feature.key, radius: radiusAt(current.feature, worldPoint(event), current.axis) });
+    else if (current.kind === "move" && current.feature.movable && editable) setLiveMove({ key: current.feature.key, x: current.origin[0] - dx * scale, z: current.origin[1] - dy * scale });
+    else if (current.kind === "anchor") setLiveAnchor({ index: current.index, point: [current.origin[0] - dx * scale, current.origin[1] - dy * scale] });
   }
 
   function pointerEnd(event: ReactPointerEvent<SVGSVGElement>) {
@@ -179,22 +195,31 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
     const dx = event.clientX - current.startX, dy = event.clientY - current.startY;
     const scale = viewRef.current.span / sizeRef.current.width;
-    if (current.kind === "move") {
-      if (current.moved && current.feature.movable && editable) onMove(current.feature.selection, [round(current.origin[0] + dx * scale), round(current.origin[1] - dy * scale)]);
+    if (current.kind === "resize") {
+      if (current.moved) onResize(current.feature.selection, radiusAt(current.feature, worldPoint(event), current.axis));
+      setLiveRadius(undefined);
+    } else if (current.kind === "move") {
+      if (current.moved && current.feature.movable && editable) onMove(current.feature.selection, [round(current.origin[0] - dx * scale), round(current.origin[1] - dy * scale)]);
       else if (!current.moved) onSelect(current.feature.selection);
       setLiveMove(undefined);
     } else if (current.kind === "anchor") {
-      if (current.moved) onMoveAnchor(current.index, [current.origin[0] + dx * scale, current.origin[1] - dy * scale]);
+      if (current.moved) onMoveAnchor(current.index, [current.origin[0] - dx * scale, current.origin[1] - dy * scale]);
       setLiveAnchor(undefined);
     } else if (current.kind === "place") {
       if (!current.moved) onPlace(worldPoint(event), { x: event.clientX, y: event.clientY });
     } else if (!current.moved) onSelect(undefined);
   }
 
+  function pointerCancel(event: ReactPointerEvent<SVGSVGElement>) {
+    drag.current = undefined;
+    setLiveMove(undefined); setLiveAnchor(undefined); setLiveRadius(undefined);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  }
+
   function keyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
     if ((event.target as HTMLElement).tagName === "INPUT") return;
     const step = event.shiftKey ? 10 : 1;
-    const nudge: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] };
+    const nudge: Record<string, [number, number]> = { ArrowLeft: [step, 0], ArrowRight: [-step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] };
     const delta = nudge[event.key];
     if (delta && selection && editable) { event.preventDefault(); onNudge(delta[0], delta[1]); return; }
     if (delta) { event.preventDefault(); setView(current => ({ ...current, x: current.x - delta[0] * current.span * 0.1, z: current.z - delta[1] * current.span * 0.1 })); return; }
@@ -219,10 +244,10 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
   const neededWidth = IMAGE.width * pixelsPerMetre;
   const useTiles = neededWidth > DETAIL.at(-1)!.width;
   const rendition = neededWidth <= WORLD_MAP_MINIMAP_RENDITION.width ? WORLD_MAP_MINIMAP_RENDITION : DETAIL.find(row => row.width >= neededWidth) ?? DETAIL.at(-1)!;
-  const viewBox = { x: view.x - view.span / 2, y: -view.z - (view.span * aspect) / 2, width: view.span, height: view.span * aspect };
+  const viewBox = { x: worldToMap(view.x, view.z).u - view.span / 2, y: -view.z - (view.span * aspect) / 2, width: view.span, height: view.span * aspect };
   const tiles = useTiles ? TILES.tiles.filter(tile => {
     const metres = TILES.tileMetres;
-    const c0 = Math.floor((viewBox.x - IMAGE.x) / metres), c1 = Math.floor((viewBox.x + viewBox.width - IMAGE.x) / metres);
+    const c0 = Math.floor((view.x - view.span / 2 - IMAGE.x) / metres), c1 = Math.floor((view.x + view.span / 2 - IMAGE.x) / metres);
     const r0 = Math.floor((viewBox.y - IMAGE.y) / metres), r1 = Math.floor((viewBox.y + viewBox.height - IMAGE.y) / metres);
     return tile.column >= c0 && tile.column <= c1 && tile.row >= r0 && tile.row <= r1;
   }) : [];
@@ -230,16 +255,17 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
   const showLabels = { far: view.span < 600, mid: view.span < 320, near: view.span < 140 };
   const Icon = hover ? glyphIcon(hover) : undefined;
 
-  const dragging = Boolean(liveMove || liveAnchor);
+  const dragging = Boolean(liveMove || liveAnchor || liveRadius);
   return <div ref={frame} className="relative min-h-0 flex-1 overflow-hidden bg-art outline-none focus-visible:shadow-[inset_0_0_0_2px_var(--color-primary)]" tabIndex={0} onKeyDown={keyDown} data-tool={tool ?? undefined} data-dragging={dragging || undefined}>
-    <svg ref={svg} className={cn("block size-full touch-none select-none", tool ? "cursor-crosshair" : dragging ? "cursor-grabbing" : "cursor-grab active:cursor-grabbing")} role="img" aria-label="World map" viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} preserveAspectRatio="xMidYMid slice"
-      onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerEnd} onPointerCancel={pointerEnd} onPointerLeave={() => { if (!drag.current) setHover(undefined); }}>
+    <svg ref={svg} style={liveRadius && drag.current?.kind === "resize" ? { cursor: drag.current.cursor } : undefined} className={cn("block size-full touch-none select-none", tool ? "cursor-crosshair" : dragging ? "cursor-grabbing" : "cursor-grab active:cursor-grabbing")} role="img" aria-label="World map" viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`} preserveAspectRatio="xMidYMid slice"
+      onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerEnd} onPointerCancel={pointerCancel} onPointerLeave={() => { if (!drag.current) setHover(undefined); }}>
+      <g transform="scale(-1 1)">
       <image href={gameUrl(useTiles ? DETAIL.at(-1)!.path : rendition.path)} x={IMAGE.x} y={IMAGE.y} width={IMAGE.width} height={IMAGE.height} preserveAspectRatio="none" />
       {tiles.map(tile => <image key={tile.path} href={gameUrl(tile.path)} x={IMAGE.x + tile.column * TILES.tileMetres} y={IMAGE.y + tile.row * TILES.tileMetres} width={TILES.tileMetres} height={TILES.tileMetres} preserveAspectRatio="none" />)}
       {layers.regions && <RegionLayer features={perLayer.regions} marker={marker} selectedKey={selectedKey} />}
       {layers.roads && <RoadLayer roads={roads} />}
-      {layers.spawns && <AreaLayer features={perLayer.spawns} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} dragging={dragging} override={overrideFor("spawns", liveMove, features)} />}
-      {layers.resources && <AreaLayer features={perLayer.resources} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} dragging={dragging} override={overrideFor("resources", liveMove, features)} />}
+      {layers.spawns && <AreaLayer features={perLayer.spawns} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} dragging={dragging} editable={editable && !tool} liveRadius={liveRadius} override={overrideFor("spawns", liveMove, features)} />}
+      {layers.resources && <AreaLayer features={perLayer.resources} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.mid} dragging={dragging} editable={editable && !tool} liveRadius={liveRadius} override={overrideFor("resources", liveMove, features)} />}
       {layers.settlements && <PointLayer features={perLayer.settlements} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.near} shapes dragging={dragging} override={overrideFor("settlements", liveMove, features)} />}
       {layers.obstacles && <PointLayer features={perLayer.obstacles} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} dragging={dragging} override={overrideFor("obstacles", liveMove, features)} />}
       {layers.gates && <PointLayer features={perLayer.gates} marker={marker} selectedKey={selectedKey} hoverKey={hover?.key} labels={showLabels.far} dragging={dragging} override={overrideFor("gates", liveMove, features)} />}
@@ -256,7 +282,9 @@ export const MapCanvas = forwardRef<MapHandle, MapCanvasProps>(function MapCanva
           </g>;
         })}
       </g>}
+      </g>
     </svg>
+    {liveRadius && <div className="pointer-events-none absolute top-2 left-2 rounded-sm bg-popover px-2 py-1 text-xs text-popover-foreground shadow-sm" role="status">Diameter {round(liveRadius.radius * 2)} m</div>}
     {hover && Icon && <div ref={tip} className="pointer-events-none fixed top-0 left-0 z-30 flex max-w-80 items-center gap-1.5 rounded-sm border border-border bg-popover px-2 py-1 text-xs whitespace-nowrap text-popover-foreground shadow-lg" role="presentation" style={{ transform: "translate(-1000px, -1000px)" }}>
       <Icon size={12} className="shrink-0 text-primary" /><strong className="font-semibold">{hover.name}</strong><span className="truncate text-muted-foreground">{hover.fact}</span>
     </div>}
@@ -268,7 +296,20 @@ function toWorld(element: SVGSVGElement | null, clientX: number, clientY: number
   const matrix = element?.getScreenCTM();
   if (!matrix) return undefined;
   const point = new DOMPoint(clientX, clientY).matrixTransform(matrix.inverse());
-  return [point.x, -point.y];
+  const world = mapToWorld(point.x, point.y);
+  return [world.x, world.z];
+}
+
+function edgeCursor(feature: Feature, point: Point): string {
+  const angle = Math.atan2(-(point[1] - feature.z), -(point[0] - feature.x));
+  const direction = (Math.round(angle / (Math.PI / 4)) + 8) % 4;
+  return ["ew-resize", "nwse-resize", "ns-resize", "nesw-resize"][direction]!;
+}
+
+function radiusAt(feature: Feature, point: Point, axis: ResizeAxis): number {
+  // Screen Y maps to world Z; vertical handles ignore horizontal pointer drift.
+  const dx = point[0] - feature.x, dy = point[1] - feature.z;
+  return Math.max(.01, round(axis === "y" ? Math.abs(dy) : axis === "x" ? Math.abs(dx) : Math.hypot(dx, dy)));
 }
 
 function keyOf(selection: Selection, features: readonly Feature[]): string | undefined {
@@ -285,10 +326,14 @@ function overrideFor(layer: Layer, live: { key: string; x: number; z: number } |
 
 const RegionLayer = memo(function RegionLayer({ features, marker, selectedKey }: { features: readonly Feature[]; marker: number; selectedKey?: string }) {
   return <g>
-    {features.map(feature => { const selected = feature.key === selectedKey; return feature.bounds && <g key={feature.key}>
+    {features.map(feature => { const selected = feature.key === selectedKey; return feature.bounds && <g key={feature.key} data-region={feature.regionId}>
       <rect x={feature.bounds.min[0]} y={-feature.bounds.max[1]} width={feature.bounds.max[0] - feature.bounds.min[0]} height={feature.bounds.max[1] - feature.bounds.min[1]}
-        className={cn("pointer-events-none", selected ? "stroke-primary" : "stroke-white/40")} fill="none" strokeWidth={selected ? 2 : 1.5} strokeDasharray={selected ? undefined : "6 4"} {...THIN} />
-      <text data-key={feature.key} x={feature.bounds.min[0] + marker * 1.2} y={-feature.bounds.max[1] + marker * 3.4} fontSize={marker * 2.8} {...LABEL}
+        data-boundary="full" className={cn("pointer-events-none", selected ? "stroke-primary" : "stroke-white/60")} fill="none" strokeWidth={selected ? 2 : 1.5} {...THIN} />
+      {feature.boundaryBands?.map(band => <g key={`${band.kind}:${band.edge}`} className="pointer-events-none">
+        <rect data-boundary={band.kind} data-edge={band.edge} x={band.bounds.minX} y={-band.bounds.maxZ} width={band.bounds.maxX - band.bounds.minX} height={band.bounds.maxZ - band.bounds.minZ} fill={band.kind === "coast" ? "#66c8e8" : "#e9b766"} fillOpacity={selected ? .07 : .025} stroke={band.kind === "coast" ? "#66c8e8" : "#e9b766"} strokeOpacity={selected ? .95 : .5} strokeWidth={selected ? 1.5 : 1} strokeDasharray="6 4" {...THIN} />
+        {selected && <text transform={`translate(${2 * (band.bounds.maxX - marker * 1.2)} 0) scale(-1 1)`} x={band.bounds.maxX - marker * 1.2} y={-band.bounds.maxZ + marker * 6.4} fontSize={marker * 2.2} {...LABEL}>{band.kind === "coast" ? "Coast" : "Mountains"} · {band.width} m</text>}
+      </g>)}
+      <text transform={`translate(${2 * (feature.bounds.max[0] - marker * 1.2)} 0) scale(-1 1)`} data-key={feature.key} x={feature.bounds.max[0] - marker * 1.2} y={-feature.bounds.max[1] + marker * 3.4} fontSize={marker * 2.8} {...LABEL}
         className="cursor-pointer font-sans font-semibold tracking-[.02em] select-none hover:fill-primary">{feature.name}</text>
     </g>; })}
   </g>;
@@ -307,7 +352,7 @@ function Disc({ feature, x, z, size, colour, hover, icon = true }: { feature: Fe
   const Icon = glyphIcon(feature);
   return <>
     <circle cx={x} cy={-z} r={size} fill={colour} stroke={hover ? "#fff" : "#0a0d12"} strokeWidth={hover ? 2 : 1} {...THIN} />
-    {icon && <Icon x={x - size * 0.62} y={-z - size * 0.62} width={size * 1.24} height={size * 1.24} className="pointer-events-none" color="#fff" strokeWidth={2.2} />}
+    {icon && <Icon transform={`translate(${2 * x} 0) scale(-1 1)`} x={x - size * 0.62} y={-z - size * 0.62} width={size * 1.24} height={size * 1.24} className="pointer-events-none" color="#fff" strokeWidth={2.2} />}
   </>;
 }
 
@@ -315,23 +360,30 @@ function Disc({ feature, x, z, size, colour, hover, icon = true }: { feature: Fe
 const Ring = ({ x, z, r }: { x: number; z: number; r: number }) => <circle cx={x} cy={-z} r={r} fill="none" className="stroke-primary" strokeWidth={2} {...THIN} />;
 
 function Label({ x, y, size, hover, faint = false, children }: { x: number; y: number; size: number; hover: boolean; faint?: boolean; children: string }) {
-  return <text x={x} y={y} fontSize={size} {...LABEL} fill={hover ? "#fff" : faint ? "#c7ccd4" : LABEL.fill} className={LABEL_CLASS}>{children}</text>;
+  return <text transform={`translate(${2 * x} 0) scale(-1 1)`} x={x} y={y} fontSize={size} {...LABEL} fill={hover ? "#fff" : faint ? "#c7ccd4" : LABEL.fill} className={LABEL_CLASS}>{children}</text>;
 }
 
 /** Spawns and resource nodes: a translucent radius circle in metres plus a marker-scaled disc. */
-const AreaLayer = memo(function AreaLayer({ features, marker, selectedKey, hoverKey, labels, dragging, override }: LayerProps) {
+const AreaLayer = memo(function AreaLayer({ features, marker, selectedKey, hoverKey, labels, dragging, override, editable, liveRadius }: LayerProps & { editable: boolean; liveRadius?: { key: string; radius: number } }) {
   return <g>
     {features.map(feature => {
       const x = override?.key === feature.key ? override.x : feature.x, z = override?.key === feature.key ? override.z : feature.z;
       const colour = glyphColor(feature);
       const size = marker * 1.5;
       const hover = feature.key === hoverKey;
+      const radius = liveRadius?.key === feature.key ? liveRadius.radius : feature.radius;
       return <g key={feature.key} data-key={feature.key} className={dragging ? "cursor-grabbing" : "cursor-pointer"}>
-        {feature.radius !== undefined && <circle cx={x} cy={-z} r={feature.radius} fill={colour} fillOpacity={0.16} stroke={colour} strokeOpacity={0.7} strokeWidth={1} {...THIN} />}
+        {radius !== undefined && <>
+          <circle cx={x} cy={-z} r={radius} fill={colour} fillOpacity={0.16} stroke={colour} strokeOpacity={0.7} strokeWidth={feature.key === selectedKey ? 2 : 1} {...THIN} />
+          {editable && feature.key === selectedKey && <>
+            <circle data-resize="edge" cx={x} cy={-z} r={radius} fill="none" stroke="transparent" strokeWidth={12} pointerEvents="stroke" className="cursor-ew-resize" {...THIN}><title>Drag edge to resize · Diameter {round(radius * 2)} m</title></circle>
+            {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((angle, index) => <circle key={angle} data-resize="handle" data-resize-axis={index % 2 ? "y" : "x"} cx={x + Math.cos(angle) * radius} cy={-z + Math.sin(angle) * radius} r={marker * .8} fill="#fff" stroke={colour} strokeWidth={2} className={index % 2 ? "cursor-ns-resize" : "cursor-ew-resize"} {...THIN}><title>Drag to resize · Diameter {round(radius * 2)} m</title></circle>)}
+          </>}
+        </>}
         {feature.rank && <circle cx={x} cy={-z} r={size * 1.55} fill="none" stroke={RANK_STROKE[feature.rank]} strokeWidth={2} {...THIN} />}
         {feature.key === selectedKey && <Ring x={x} z={z} r={size * 1.9} />}
         <Disc feature={feature} x={x} z={z} size={size} colour={colour} hover={hover} />
-        {labels && <Label x={x + size * 1.4} y={-z + marker * 0.8} size={marker * 2.2} hover={hover}>{feature.name}</Label>}
+        {labels && <Label x={x - size * 1.4} y={-z + marker * 0.8} size={marker * 2.2} hover={hover}>{feature.name}</Label>}
       </g>;
     })}
   </g>;
@@ -355,8 +407,8 @@ const PointLayer = memo(function PointLayer({ features, marker, selectedKey, hov
           fill="#d9c8a0" fillOpacity={selected ? 0.5 : 0.35} stroke={selected ? undefined : "#d9c8a0"} className={selected ? "stroke-primary" : undefined} strokeWidth={1} {...THIN} />}
         {selected && <Ring x={x} z={z} r={size * 1.9} />}
         <Disc feature={feature} x={x} z={z} size={size} colour={colour} hover={hover} icon={!junction && !piece} />
-        {labels && !junction && <Label x={x + size * 1.4} y={-z + marker * 0.8} size={marker * 2.2} hover={hover}>{feature.name}</Label>}
-        {labels && junction && <Label x={x + size * 1.6} y={-z + marker * 0.7} size={marker * 1.8} hover={hover} faint>{feature.name}</Label>}
+        {labels && !junction && <Label x={x - size * 1.4} y={-z + marker * 0.8} size={marker * 2.2} hover={hover}>{feature.name}</Label>}
+        {labels && junction && <Label x={x - size * 1.6} y={-z + marker * 0.7} size={marker * 1.8} hover={hover} faint>{feature.name}</Label>}
       </g>;
     })}
   </g>;

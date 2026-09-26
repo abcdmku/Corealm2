@@ -49,6 +49,32 @@ afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 const flush = async () => { for (let i = 0; i < 5; i++) await Promise.resolve(); };
 
 describe("commit, undo, redo", () => {
+  it("interleaves map actions with record edits and clears abandoned redo and detached history", () => {
+    adoptTiers(store);
+    const key = draftKey("progression", "tier_1");
+    let map = { radius: 15, anchors: [[1, 2], [3, 4]] };
+    const unregister = store.registerContributor({ key: "world/map", label: "Map", isDirty: () => map.radius !== 15, operations: () => [], revisions: () => ({}), reset() {}, afterSave() {} });
+    const edit = (radius: number) => {
+      const next = { ...map, radius };
+      store.commitContributor("world/map", map, next, value => { map = value; }, "Map edit");
+      map = next;
+    };
+    edit(16);
+    store.commit(key, { ...tierA, reqLevel: 2 }, "Level");
+    edit(17);
+    store.undo(); expect(map.radius).toBe(16);
+    store.undo(); expect(store.entry(key)?.draft).toEqual(tierA);
+    store.undo(); expect(map.radius).toBe(15);
+    expect(store.isDirty()).toBe(false);
+    expect(store.redoLabel()).toBe("Map edit");
+    store.redo(); expect(map.radius).toBe(16);
+    expect(map.anchors).toEqual([[1, 2], [3, 4]]);
+    edit(18);
+    expect(store.redoLabel()).toBeUndefined();
+    unregister();
+    expect(store.undoLabel()).toBeUndefined();
+  });
+
   it("keeps one step per commit and restores drafts in order", () => {
     adoptTiers(store);
     const key = draftKey("progression", "tier_1");

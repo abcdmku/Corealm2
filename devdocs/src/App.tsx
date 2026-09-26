@@ -31,19 +31,6 @@ function initialTheme(): "dark" | "light" {
 
 const isEditing = (target: EventTarget | null): boolean => target instanceof HTMLElement && (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName) || target.isContentEditable);
 
-/**
- * Whether the browser's own text undo should win over the draft history. A field owns its edit
- * buffer, so it only matters while that buffer is open: once a value is committed the field keeps
- * focus, and Ctrl+Z there means "undo the change I just made". Controls outside the field model
- * (search boxes and the like) keep native undo.
- */
-function textUndoWins(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false;
-  const field = target.closest<HTMLElement>(".field[data-phase]");
-  if (field) return field.dataset.phase === "editing";
-  return isEditing(target);
-}
-
 function focusSearch(): void {
   document.querySelector<HTMLInputElement>('main input[aria-label^="Search"], main input[aria-label^="Find"]')?.focus();
 }
@@ -65,7 +52,7 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
     try { localStorage.setItem("corealm-codex-theme", theme); } catch { /* Theme still works without persistence. */ }
   }, [theme]);
 
-  useEffect(() => { draftStore.configure({ queryClient, notify: { success: message => { toast.success(message); }, error: message => { toast.error(message); }, message: message => { toast.message(message); } } }); }, [queryClient]);
+  useEffect(() => { draftStore.configure({ queryClient, notify: { success: message => { toast.success(message); }, error: message => { toast.error(message); }, message: message => { toast.message(message); } } }); }, [queryClient, draftStore]);
 
   // One guard for the whole editor: leaving with unsaved records or contributor drafts asks first.
   useEffect(() => {
@@ -82,11 +69,6 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
       if (modifier && key === "k") { event.preventDefault(); setPalette(value => !value); }
       // Ctrl+S always saves everything; the browser's "save page" dialog is never wanted here.
       if (modifier && key === "s" && !event.shiftKey && !event.altKey) { event.preventDefault(); void draftStore.saveAll(); return; }
-      // Undo and redo are global, except while a field's edit buffer is open.
-      if (modifier && !event.altKey && !textUndoWins(event.target)) {
-        if (key === "z" && !event.shiftKey) { event.preventDefault(); draftStore.undo(); return; }
-        if ((key === "z" && event.shiftKey) || key === "y") { event.preventDefault(); draftStore.redo(); return; }
-      }
       if (event.key === "Escape") setMobileNav(false);
       const target = event.target as HTMLElement;
       if (event.key === "/" && !isEditing(target)) {
@@ -97,7 +79,8 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
     }
     document.addEventListener("keydown", keys);
     return () => document.removeEventListener("keydown", keys);
-  }, []);
+  // Rebind when development hot reload replaces the store, just as the header buttons do.
+  }, [draftStore]);
 
   useEffect(() => {
     setMobileNav(false);
@@ -162,7 +145,8 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
         {id !== undefined && <span className="min-w-0 ml-1 inline-flex items-center gap-1 overflow-hidden text-xs text-faint"><ChevronRight size={12} />
           <code className="truncate text-[11px] text-muted-foreground">{Crumb ? <Suspense fallback={id}><Crumb id={id} /></Suspense> : id}</code>
         </span>}
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex shrink-0 items-center gap-1">
+          {can("write") && <ShellSaveBar navigate={go} />}
           <Button variant="ghost" size="icon-sm" aria-label="Search" onClick={() => setPalette(true)}><Search size={16} /></Button>
         </div>
       </header>
@@ -176,7 +160,6 @@ export default function App({ route, navigate }: { route: Route; navigate: AppPr
             : content}
         </RecordSetKey.Provider>
       </main>
-      {can("write") && <ShellSaveBar navigate={go} />}
     </div>
     <CommandPalette open={palette} onOpenChange={setPalette} collections={collections} navigate={go} />
   </div></PeekProvider>;

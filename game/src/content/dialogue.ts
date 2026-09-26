@@ -83,11 +83,8 @@ export interface DialogueNodeDef {
 }
 
 /** Fairy nodes are shared with their source export, including object identity. */
-export const DIALOGUE_NODES: readonly DialogueNodeDef[] = [
-  ...FAIRY_NPC_DIALOGUE,
-  ...parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" }).filter(row => row.catalog === 'base')
-    .map((row) => stripExtras(row, ["catalog"])),
-];
+export const DIALOGUE_NODES: readonly DialogueNodeDef[] = parseCollection(dialogueRecordSchema, dialogueData, { name: "dialogue" })
+  .map(row => FAIRY_NPC_DIALOGUE.find(candidate => candidate.id === row.id) ?? stripExtras(row, ["catalog"]));
 
 const NODES_BY_ID = new Map<string, DialogueNodeDef>(DIALOGUE_NODES.map((row) => [row.id, row]));
 

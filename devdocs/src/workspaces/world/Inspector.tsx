@@ -1,8 +1,10 @@
 import { memo, type ReactNode } from "react";
-import { ArrowUpRight, Crosshair } from "lucide-react";
+import { ArrowUpRight, Crosshair, Minus, Plus } from "lucide-react";
 import { ArraySchema, ObjectSchema, TupleSchema, type Schema } from "../../../../game/src/content/schema/core.js";
 import { EncounterDefinitionSchema, ResourcePlacementSchema, WorldPlacementSchema, type EncounterDefinition, type ResourcePlacement, type WorldPlacement } from "../../../../game/src/content/schema/encounters.js";
 import { WorldRegionSchema } from "../../../../game/src/content/schema/worldRegions.js";
+import { WorldTerrainSchema } from "../../../../game/src/content/schema/worldTerrain.js";
+import { setPath } from "../../model/draft.js";
 import type { ApiDiagnostic } from "../../../shared/contracts.js";
 import type { SummaryContext } from "../../model/summaries.js";
 import { fieldCore } from "../../model/fields.js";
@@ -13,7 +15,7 @@ import {
 } from "../../ui/field/index.js";
 import { GLYPH_DISC, glyphColor, glyphIcon } from "./glyphs.js";
 import {
-  authoredOffsets, detachEncounter, findOwned, patchEncounter, patchOwned, patchPlacement, patchResource, patchRegion, regionBounds, regionById, removeSelection, round, safeAnchors, titleCase,
+  authoredOffsets, scatteredOffsets, detachEncounter, findOwned, patchEncounter, patchOwned, patchPlacement, patchResource, patchRegion, regionBounds, regionById, removeSelection, round, safeAnchors, titleCase,
   type Bank, type Bounds, type Building, type Draft, type Feature, type Gate, type Landmark, type Location, type NpcStand, type Obstacle, type Point, type Selection, type Shop, type Station,
 } from "./model.js";
 import { Button, Input } from "../../components/ui/index.js";
@@ -67,12 +69,18 @@ function at(schema: Schema, ...path: (string | number)[]): SchemaFieldSpec {
 // ---------------------------------------------------------------- field shapes
 
 /** A number from the schema: label, help, unit, step, integer and range all come from `spec`. */
-function NumberRow({ spec, value, onChange, disabled, unit, optional, placeholder, min }: {
-  spec: SchemaFieldSpec; value: number | undefined; onChange: (value: number | undefined) => void; disabled: boolean; unit?: string; optional?: boolean; placeholder?: string; min?: number;
+function NumberRow({ spec, value, onChange, disabled, unit, optional, placeholder, min, steppers }: {
+  spec: SchemaFieldSpec; value: number | undefined; onChange: (value: number | undefined) => void; disabled: boolean; unit?: string; optional?: boolean; placeholder?: string; min?: number; steppers?: boolean;
 }) {
   const shown = unit ?? spec.unit;
+  const lower = min ?? (steppers && spec.min !== undefined && spec.min > 0 ? Math.max(.01, spec.min) : spec.min), step = steppers ? 1 : spec.step;
+  const change = (direction: number) => onChange(round(Math.max(lower ?? -Infinity, Math.min(spec.max ?? Infinity, (value ?? 0) + direction))));
   return <Field label={spec.label} hint={spec.hint} unit={shown} disabled={disabled}>
-    <NumberField value={value} unit={shown} integer={spec.integer} min={min ?? spec.min} max={spec.max} step={spec.step} optional={optional ?? spec.optional} placeholder={placeholder} disabled={disabled} onChange={onChange} />
+    <span className="inline-flex items-center gap-1">
+      {steppers && <Button variant="secondary" size="icon-sm" aria-label={`Decrease ${spec.label.toLowerCase()}`} disabled={disabled || value === undefined || (lower !== undefined && value <= lower)} onClick={() => change(-1)}><Minus size={12} /></Button>}
+      <NumberField value={value} unit={shown} integer={spec.integer} min={lower} max={spec.max} step={step} optional={optional ?? spec.optional} placeholder={placeholder} disabled={disabled} onChange={onChange} />
+      {steppers && <Button variant="secondary" size="icon-sm" aria-label={`Increase ${spec.label.toLowerCase()}`} disabled={disabled || value === undefined || (spec.max !== undefined && value >= spec.max)} onClick={() => change(1)}><Plus size={12} /></Button>}
+    </span>
   </Field>;
 }
 
@@ -200,19 +208,21 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
   const setAnchors = (rows: typeof anchorRows) => set({ anchorAdjustments: rows.filter(row => row.adjusted).map(row => ({ index: row.index, offset: [round(row.offset[0]), round(row.offset[1])] as Point })) });
   const setCount = (next: number | undefined) => {
     const count = Math.max(1, Math.min(64, Math.round(next ?? 1)));
-    let anchorAdjustments = (placement.anchorAdjustments ?? []).filter(row => row.index < count);
-    if (placement.formation.kind === "authored" && count > placement.count) {
-      const generated = authoredOffsets({ ...placement, count, formation: { ...placement.formation, kind: "grid" } });
-      anchorAdjustments = [...anchorAdjustments, ...generated.filter(row => row.index >= placement.count)];
-    }
+    if (count === placement.count) return;
+    const anchorAdjustments = placement.formation.kind === "authored" ? scatteredOffsets({ ...placement, count }) : (placement.anchorAdjustments ?? []).filter(row => row.index < count);
     set({ count, anchorAdjustments });
+  };
+  const setRadius = (next: number | undefined) => {
+    const radius = next ?? placement.radius;
+    if (radius === placement.radius) return;
+    set({ radius });
   };
   const setFormation = (kind: string | undefined) => {
     const next = (kind ?? placement.formation.kind) as WorldPlacement["formation"]["kind"];
     if (next === placement.formation.kind) return;
     set({ formation: { ...placement.formation, kind: next }, anchorAdjustments: next === "authored" ? authoredOffsets(placement) : [] });
   };
-  const resetAnchors = () => set({ anchorAdjustments: placement.formation.kind === "authored" ? authoredOffsets({ ...placement, formation: { ...placement.formation, kind: "grid" } }) : [] });
+  const resetAnchors = () => set({ anchorAdjustments: placement.formation.kind === "authored" ? scatteredOffsets({ ...placement, anchorAdjustments: [] }, crypto.getRandomValues(new Uint32Array(1))[0]) : [] });
   const addMember = (creatureId: string | undefined) => {
     if (!creatureId || !encounter) return;
     setEncounter({ members: [...encounter.members, { creatureId, weight: 1 }] });
@@ -245,8 +255,8 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
     </Section>
     <Section title="Population">
       <ChoiceRow spec={at(EncounterDefinitionSchema, "activity")} value={encounter?.activity} disabled={disabled || !encounter} onChange={activity => activity && setEncounter({ activity: activity as EncounterDefinition["activity"] })} />
-      <NumberRow spec={at(WorldPlacementSchema, "count")} value={placement.count} disabled={disabled} onChange={setCount} />
-      <NumberRow spec={at(WorldPlacementSchema, "radius")} value={placement.radius} disabled={disabled} onChange={radius => set({ radius: radius ?? placement.radius })} />
+      <NumberRow spec={at(WorldPlacementSchema, "count")} value={placement.count} disabled={disabled} steppers onChange={setCount} />
+      <NumberRow spec={at(WorldPlacementSchema, "radius")} value={placement.radius} disabled={disabled} steppers onChange={setRadius} />
       <ChoiceRow spec={at(WorldPlacementSchema, "rank")} value={placement.rank} disabled={disabled} allowEmpty="None" onChange={rank => set({ rank: rank as WorldPlacement["rank"] })} />
       <NumberRow spec={at(WorldPlacementSchema, "level")} value={placement.level} disabled={disabled} placeholder="auto" onChange={level => set({ level })} />
     </Section>
@@ -258,7 +268,7 @@ function PlacementSheet({ draft, selection, feature, editable, ctx, encounterUse
       </>}
       <ListField compact label="Anchors" items={anchorRows} min={anchorRows.length} readOnly={disabled} emptyText="No anchors." keyOf={row => row.index}
         onChange={setAnchors}
-        addControl={editable ? <Button variant="ghost" size="sm" className="-ml-1.5" onClick={resetAnchors}>Reset to formation</Button> : undefined}
+        addControl={editable ? <Button variant="ghost" size="sm" className="-ml-1.5" onClick={resetAnchors}>{placement.formation.kind === "authored" ? "Scatter again" : "Reset to formation"}</Button> : undefined}
         renderItem={(row, api) => <span className="flex min-w-0 items-center gap-1" data-adjusted={row.adjusted || undefined}>
           <span className={cn("w-[18px] shrink-0 text-right font-mono text-[11px]", row.adjusted ? "text-primary" : "text-faint")} title={row.adjusted ? "Moved by hand" : undefined}>{row.index + 1}</span>
           <NumberField width="full" className={ANCHOR_CELL} value={row.offset[0]} unit="m" disabled={disabled} ariaLabel={`Anchor ${row.index + 1} x`} onChange={x => api.update({ ...row, offset: [x ?? 0, row.offset[1]], adjusted: true })} />
@@ -293,8 +303,8 @@ function ResourceSheet({ draft, selection, feature, editable, ctx, update, navig
     <Head feature={feature} title={resource ? rowName(resource) : node.resourceId} facts={[region?.name ?? node.regionId, text(resource?.archetype) && titleCase(text(resource?.archetype)), `${node.count} nodes`]} />
     <Section title="Resource">
       <RefField kind="resource" label={at(ResourcePlacementSchema, "resourceId").label} hint={at(ResourcePlacementSchema, "resourceId").hint} value={node.resourceId} readOnly={disabled} onChange={resourceId => resourceId && set({ resourceId })} />
-      <NumberRow spec={at(ResourcePlacementSchema, "count")} value={node.count} disabled={disabled} onChange={count => set({ count: Math.max(1, Math.round(count ?? 1)) })} />
-      <NumberRow spec={at(ResourcePlacementSchema, "radius")} value={node.radius} disabled={disabled} unit="m" onChange={radius => set({ radius: radius ?? node.radius })} />
+      <NumberRow spec={at(ResourcePlacementSchema, "count")} value={node.count} disabled={disabled} steppers onChange={count => set({ count: Math.max(1, Math.round(count ?? 1)) })} />
+      <NumberRow spec={at(ResourcePlacementSchema, "radius")} value={node.radius} disabled={disabled} steppers unit="m" onChange={radius => set({ radius: radius ?? node.radius })} />
       {node.ringRadius !== undefined && <NumberRow spec={at(ResourcePlacementSchema, "ringRadius")} value={node.ringRadius} disabled={disabled} unit="m" onChange={ringRadius => set({ ringRadius })} />}
     </Section>
     <Section title="Placement">
@@ -317,19 +327,38 @@ function RegionSheet({ draft, selection, feature, editable, update, navigate, on
   const spawns = draft.placements.filter(row => row.regionId === region.id).length;
   const nodes = draft.resourcePlacements.filter(row => row.regionId === region.id).length;
   const npcs = region.settlements.reduce((count, settlement) => count + settlement.npcs.length, 0);
+  const terrain = draft.worldTerrain.find(row => row.regionIds.includes(region.id));
+  const mountainIndex = terrain?.mountains.findIndex(row => row.regionId === region.id) ?? -1;
+  const mountain = terrain?.mountains[mountainIndex];
+  const full = regionBounds(region, draft);
+  const setTerrain = (path: (string | number)[], value: unknown) => update(current => ({ ...current, worldTerrain: current.worldTerrain.map(row => row.id === terrain?.id ? setPath(row, path, value) : row) }));
   return <Sheet compact className={RAIL_SHEET}>
     <Head feature={feature} title={region.name} facts={[`Tier ${region.tier}`, `${region.locations.length} locations`, `${spawns} spawns`, `${nodes} nodes`, `${npcs} NPCs`]}
-      aside={<Button variant="secondary" size="sm" onClick={() => onFit(regionBounds(region))}><Crosshair size={12} /> Fit</Button>} />
+      aside={<Button variant="secondary" size="sm" onClick={() => onFit(regionBounds(region, draft))}><Crosshair size={12} /> Fit</Button>} />
     <Section title="Region">
       <TextRow spec={at(WorldRegionSchema, "name")} value={region.name} disabled={disabled} onChange={name => set(["name"], name)} />
       <NumberRow spec={at(WorldRegionSchema, "tier")} value={region.tier} disabled={disabled} min={1} onChange={tier => set(["tier"], tier ?? region.tier)} />
-      <PointFields label={`${at(WorldRegionSchema, "bounds").label} min`} value={region.bounds.min} disabled={disabled} onChange={point => set(["bounds", "min"], point)} />
-      <PointFields label={`${at(WorldRegionSchema, "bounds").label} max`} value={region.bounds.max} disabled={disabled} onChange={point => set(["bounds", "max"], point)} />
+      <Row label="Full extent min"><Static mono>{full.minX}, {full.minZ} m</Static></Row>
+      <Row label="Full extent max"><Static mono>{full.maxX}, {full.maxZ} m</Static></Row>
+      <PointFields label="Core bounds min" value={region.bounds.min} disabled={disabled} onChange={point => set(["bounds", "min"], point)} />
+      <PointFields label="Core bounds max" value={region.bounds.max} disabled={disabled} onChange={point => set(["bounds", "max"], point)} />
       <PointFields label={at(WorldRegionSchema, "spawnPoint").label} value={region.spawnPoint} disabled={disabled} onChange={point => set(["spawnPoint"], point)} />
       {/* `respawnPointId` is declared ref('location') but every region stores a settlement id, so a location picker would flag all eight. Read-only until the schema and the data agree. */}
       <Row label={at(WorldRegionSchema, "respawnPointId").label}><Static mono>{region.respawnPointId}</Static></Row>
       {region.settlements.length > 0 && <Row label={at(WorldRegionSchema, "settlements").label}><Static>{region.settlements.map(settlement => settlement.name).join(", ")}</Static></Row>}
     </Section>
+    {terrain && <Section title="Coast · shared island settings">
+      <p className="text-[11px] text-muted-foreground">Solid outlines include the maximum coast reach. Dashed blue boxes show coast bands; some ground inside them is water. Width edits apply to every coastal region on this island.</p>
+      <NumberRow spec={at(WorldTerrainSchema, "coast", "shoreline", 0)} value={terrain.coast.shoreline[0]} disabled={disabled} steppers onChange={value => setTerrain(["coast", "shoreline", 0], value ?? 0)} />
+      <NumberRow spec={at(WorldTerrainSchema, "coast", "shoreline", 1)} value={terrain.coast.shoreline[1]} disabled={disabled} steppers onChange={value => setTerrain(["coast", "shoreline", 1], value ?? 1)} />
+      <NumberRow spec={at(WorldTerrainSchema, "coast", "collar")} value={terrain.coast.collar} disabled={disabled} onChange={value => setTerrain(["coast", "collar"], value ?? 1)} />
+      <p className="text-[11px] text-muted-foreground">The outlines preview the draft immediately. Saved terrain changes take effect after the world is rebuilt and restarted; the map image shows the last generated terrain.</p>
+    </Section>}
+    {mountain && <Section title="Mountains · east boundary">
+      <p className="text-[11px] text-muted-foreground">Dashed amber box shows the mountain profile width.</p>
+      <NumberRow spec={at(WorldTerrainSchema, "mountains", 0, "startX")} value={mountain.startX} disabled={disabled} onChange={value => setTerrain(["mountains", mountainIndex, "startX"], value ?? 0)} />
+      <NumberRow spec={at(WorldTerrainSchema, "mountains", 0, "width")} value={mountain.width} disabled={disabled} steppers onChange={value => setTerrain(["mountains", mountainIndex, "width"], value ?? 1)} />
+    </Section>}
     <Section title="Lore"><TextRow spec={at(WorldRegionSchema, "lore")} value={region.lore} disabled={disabled} onChange={lore => set(["lore"], lore)} /></Section>
     <ReferencedBy collection="worldRegions" id={region.id} navigate={navigate} cap={6} />
   </Sheet>;

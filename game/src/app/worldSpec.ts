@@ -1,3 +1,4 @@
+import { WORLD_TERRAIN } from "../content/worldData.js";
 import { CROWNWARD_RIVER_CHANNELS, CROWNWARD_RIVER_BRIDGES } from '../content/crownwardRiver.js';
 /**
  * Derives the terrain spec from canonical content.
@@ -246,15 +247,6 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
   fields: [
     {
       id: 'crownward', seed: seedFromText('corealm:biome:crownward'),
-      boundary: { kind: 'mountain', edge: 'east', startX: 660, width: 200,
-        seed: seedFromText('corealm:crownward-east-mountains'),
-        massifs: [
-          // Real foothills frame the distant range and occlude it naturally on approach.
-          { x: 808, z: -85, radiusX: 110, radiusZ: 225, height: 72, variant: 1, rotation: -0.10 },
-          { x: 810, z: 260, radiusX: 112, radiusZ: 185, height: 95, variant: 0, rotation: 0.18 },
-          { x: 728, z: 65, radiusX: 74, radiusZ: 235, height: 48, variant: 2, rotation: -0.12 },
-          { x: 815, z: 493, radiusX: 82, radiusZ: 145, height: 62, variant: 2, rotation: 0.24 },
-        ] },
       climateTarget: [-.35, -.6], climateTolerance: [.52, .55], bias: 1,
       // Crownward's parkland reaches the eastern mountain range and southern shore,
       // then yields to the northern wastes.
@@ -418,7 +410,9 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
 };
 
 export function buildWorldTerrainSpec(): WorldTerrainSpec {
-  const surfaceRegions = REGIONS.filter(region => !isFairyRegion(region.id));
+  const terrain = WORLD_TERRAIN.find(row => row.id === "corealm");
+  if (!terrain) throw new Error("Missing corealm worldTerrain content");
+  const surfaceRegions = REGIONS.filter(region => terrain.regionIds.includes(region.id));
   const regions: RegionTerrainSpec[] = surfaceRegions.map((region) => {
     const spec: RegionTerrainSpec = {
       regionId: region.id,
@@ -462,18 +456,8 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
     portalLandforms: REGIONS.flatMap((region) => region.dungeon
       ? [{ centre: region.dungeon.entrance, rotationY: region.dungeon.entranceRotationY ?? 0 }]
       : []),
-    biomes: COREALM_BIOMES,
-    // The bounds above describe semantic regions. Dry coastal land is also playable.
-    coast: {
-      seed: seedFromText("corealm:coast"),
-      collar: 210,
-      shoreline: [18, 190] as const,
-      seaLevel: -5.25,
-      floorDepth: 3,
-      // Match the terrain lattice so coastal navigation and physics share a continuous seam.
-      gridStep: 2,
-      oceanSize: 2400,
-    },
+    biomes: { ...COREALM_BIOMES, fields: COREALM_BIOMES.fields.map(field => ({ ...field, boundary: terrain.mountains.find(mountain => mountain.regionId === field.id) ?? { kind: 'shore' as const } })) },
+    coast: terrain.coast,
   };
 }
 

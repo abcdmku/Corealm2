@@ -5,7 +5,7 @@ import { spellIconSvg, type SpellIconSubject } from "../../../game/src/ui/spellI
 import { WORLD_MAP_MINIMAP_RENDITION } from "../../../game/src/generated/worldMapFingerprint.js";
 import { can } from "../api/backend.js";
 import { gameUrl } from "../model/gameUrl.js";
-import { IMAGE_BOX, boxFraction, onDrawnMap } from "../model/worldMap.js";
+import { IMAGE_BOX, cropPosition, onDrawnMap } from "../model/worldMap.js";
 import type { ThumbSpec } from "../model/summaries.js";
 import { useAssetThumbnail } from "./assetThumbnails.js";
 import { cn } from "../lib/utils.js";
@@ -43,9 +43,9 @@ function MapCrop({ x, z, span, children }: { x: number; z: number; span: number;
   if (!onDrawnMap(x, z)) return <span className={GLYPH} title="Beyond the drawn map">{children ?? <MapPinOff />}</span>;
   // Scale the minimap so `span` metres fill the thumb, then offset so (x, z) sits at the centre.
   const scale = IMAGE_BOX.spanX / span;
-  const { u, v } = boxFraction(IMAGE_BOX, x, z);
-  return <span className="grid size-full place-items-center bg-art bg-no-repeat" style={{ backgroundImage: `url(${gameUrl(WORLD_MAP_MINIMAP_RENDITION.path)})`, backgroundSize: `${scale * 100}%`, backgroundPosition: `${u * 100}% ${v * 100}%` }}>
-    {children && <span className="grid size-[45%] place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_0_2px_#0006] [&_svg]:size-[65%]">{children}</span>}
+  const { u, v } = cropPosition({ x0: x - span / 2, z0: z - span / 2, spanX: span, spanZ: span });
+  return <span className="grid size-full -scale-x-100 place-items-center bg-art bg-no-repeat" style={{ backgroundImage: `url(${gameUrl(WORLD_MAP_MINIMAP_RENDITION.path)})`, backgroundSize: `${scale * 100}%`, backgroundPosition: `${u * 100}% ${v * 100}%` }}>
+    {children && <span className="grid size-[45%] -scale-x-100 place-items-center rounded-full bg-primary text-primary-foreground shadow-[0_0_0_2px_#0006] [&_svg]:size-[65%]">{children}</span>}
   </span>;
 }
 

@@ -20,7 +20,7 @@ type Settlement = {
   respawnPointId: string;
   buildings: { id: string; prefab: string; model?: { assetId: string } }[];
   stations: { id: string; kind: string }[];
-  npcs: { id: string; assetId: string; dialogueRootId: string; questIds: string[] }[];
+  npcs: { id: string; position: [number, number]; assetId: string; dialogueRootId: string; questIds: string[] }[];
   shops: Stall[];
 };
 type Region = {
@@ -91,6 +91,39 @@ describe("authored market stalls", () => {
     }
   });
 
+  it("places an attendant beside or in front of every stall without occupying its counter", () => {
+    const existingAttendants: Record<string, string> = {
+      coldbrace_smith: "npc_smith_harrow",
+      rootfall_smith: "npc_smith_corra",
+      lastlight_potion: "npc_lastlight_apothecary",
+      lastlight_smith: "npc_lastlight_smith",
+      lastlight_cosmic: "npc_lastlight_seer",
+      starhaven_potion: "npc_starhaven_apothecary",
+      starhaven_smith: "npc_starhaven_smith",
+    };
+    for (const stall of stalls) {
+      const attendantId = existingAttendants[stall.id] ?? `npc_${stall.id}_vendor`;
+      const attendant = stall.settlement.npcs.find((npc) => npc.id === attendantId);
+      expect(attendant, stall.id).toBeDefined();
+      const dx = attendant!.position[0] - stall.position[0];
+      const dz = attendant!.position[1] - stall.position[1];
+      const side = dx * Math.cos(stall.rotationY) - dz * Math.sin(stall.rotationY);
+      const front = dx * Math.sin(stall.rotationY) + dz * Math.cos(stall.rotationY);
+      expect(Math.hypot(dx, dz), stall.id).toBeGreaterThanOrEqual(1.7);
+      expect(Math.hypot(dx, dz), stall.id).toBeLessThanOrEqual(3.1);
+      expect(front, stall.id).toBeGreaterThanOrEqual(-0.5);
+      expect(Math.abs(side) >= 1.7 || front >= 1.6, stall.id).toBe(true);
+      expect(npcById.get(attendantId)?.dialogueRootId, stall.id).toBe(attendant!.dialogueRootId);
+    }
+  });
+
+  it("fills Oakwood's west lane with two imported houses", () => {
+    const oakwood = settlements.find((town) => town.id === "rootfall")!;
+    expect(oakwood.buildings.filter((building) =>
+      ["rootfall_house_2", "rootfall_house_3"].includes(building.id))
+      .map((building) => building.model?.assetId)).toEqual(["town_t50_home", "town_t50_home"]);
+  });
+
   it("keeps fish and meat in the starter and tier 40 towns, with better fish at tier 40", () => {
     for (const kind of ["fish", "meat"]) {
       expect(stalls.filter((stall) => stall.shopKind === kind).map((stall) => stall.settlement.tier).sort()).toEqual([1, 40]);
@@ -143,7 +176,7 @@ describe("authored market stalls", () => {
       expect(town.stations.map((station) => station.id).sort(), town.id).toEqual(
         ["anvil", "crafting", "fletching", "range"].map((kind) => `${town.id}_${kind}`).sort(),
       );
-      expect(town.npcs.length, town.id).toBe(5);
+      expect(town.npcs.length, town.id).toBe(town.id === "starhaven" ? 6 : 5);
       expect(town.npcs.every((npc) => npc.id.startsWith(`npc_${town.id}_`) && npc.assetId.startsWith("creature_")
         && npc.questIds.length === 0 && dialogueIds.has(npc.dialogueRootId)
         && npcById.get(npc.id)?.settlementId === town.id
