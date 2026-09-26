@@ -484,6 +484,7 @@
 @media (max-width: 620px) {
   #panel-settings { width: calc(100vw - 32px) !important; }
   .settings__row { grid-template-columns: 1fr; }
+  .settings__row:has(> .switch) { grid-template-columns: 1fr auto; }
   .seg { display: flex; }
   .seg__btn { flex: 1 1 0; }
   .volume { width: 100%; grid-template-columns: minmax(0, 1fr) 34px; }

@@ -87,8 +87,13 @@ export interface KeyBinding {
   id: string;
   /** Chords, in any readable spelling: ["i"], ["shift+k"], ["f3"]. */
   keys: readonly string[];
-  /** Shown by a future controls panel. Keep it human. */
+  /** Shown by the controls panel. Keep it human. */
   label: string;
+  /**
+   * What the controls panel draws instead of `keys`, for a binding whose chords are a run
+   * ("shift+1–8") or carry layout aliases that would read as separate keys.
+   */
+  display?: readonly string[];
   /** Grouping for that panel: "Panels", "Combat", "Camera". */
   group?: string;
   /** Lower runs first when several bindings share a chord. Default 100. */

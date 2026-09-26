@@ -231,7 +231,10 @@ export class ControlsPanel implements ManagedPanel {
         existing.label = `${existing.label}, then ${lowerFirst(binding.label)}`;
         continue;
       }
-      rows.set(key, { chords: chords.map(chordCaps), label: binding.label });
+      const caps = binding.display
+        ? binding.display.map((spec) => spec.split("+").filter(Boolean).map(capLabel))
+        : chords.map(chordCaps);
+      rows.set(key, { chords: caps, label: binding.label });
     }
 
     const ordered = [...groups.keys()].sort((a, b) => rank(a) - rank(b));

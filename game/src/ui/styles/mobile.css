@@ -295,12 +295,18 @@
   .bank-columns { flex-direction: column; gap: var(--space-2); }
   .bank-column--inventory { flex-basis: auto; }
   .bank-grid { max-height: 30vh; }
-  .shop-list { max-height: 36vh; }
-  .production-list { max-height: 36vh; }
+  /* Two lists side by side leave each row ~170 px, which truncates every name to one letter.
+   * Stacked, each row gets the card's width and the card's body does the scrolling. */
+  .shop-columns { flex-direction: column; align-items: stretch; gap: var(--space-3); }
+  .shop-column { flex: 0 0 auto; }
+  .shop-list { max-height: none; overflow: visible; }
+  .production-list { max-height: none; overflow: visible; }
   .controls__columns { grid-template-columns: 1fr; }
   .controls__dynamic { padding-left: 0; border-left: none; }
   #panel-map .map__figure { height: clamp(200px, 46vh, 360px); }
   .settings__row { grid-template-columns: 1fr; min-height: 0; }
+  /* A switch is narrow enough to stay beside its label; only sliders and segments need a line. */
+  .settings__row:has(> .switch) { grid-template-columns: 1fr auto; }
   .seg { display: flex; }
   .seg__btn { flex: 1 1 0; }
   .volume { width: 100%; grid-template-columns: minmax(0, 1fr) 34px; }
@@ -378,12 +384,19 @@
     left: calc(8px + var(--safe-left));
   }
 
+  /* Left of the minimap and the stick, which share the strip beside the dock, so the card can
+   * take the full height without covering either. */
   .panel--side,
   .panel--side.is-moved {
     top: calc(6px + var(--safe-top)) !important;
     bottom: auto !important;
-    right: calc(var(--mobile-dock-w) + 6px + var(--safe-right)) !important;
+    right: calc(var(--mobile-dock-w) + 96px + var(--safe-right)) !important;
     max-height: calc(100vh - 12px - var(--safe-top) - var(--safe-bottom)) !important;
+  }
+
+  #ui-root.stick-left .panel--side,
+  #ui-root.stick-left .panel--side.is-moved {
+    right: calc(var(--mobile-dock-w) + 80px + var(--safe-right)) !important;
   }
 
   .panel--float:not(.panel--side),
@@ -404,11 +417,22 @@
     left: calc(96px + var(--safe-left)) !important;
     right: calc(var(--mobile-dock-w) + 6px + var(--safe-right)) !important;
     bottom: calc(6px + var(--safe-bottom)) !important;
-    max-height: min(56vh, 220px) !important;
+    max-height: min(74vh, 300px) !important;
   }
 
-  /* Height is the scarce thing: lists and the map figure give it back first. */
-  .bank-grid, .shop-list, .production-list { max-height: 40vh; }
+  /* The bank and the shop are two-list windows; a landscape phone has the width for both side by
+   * side, and stacking them pushed the second list below the fold. */
+  #panel-shop,
+  #panel-shop.is-moved,
+  #panel-bank,
+  #panel-bank.is-moved { max-width: 640px !important; }
+  .shop-columns, .bank-columns { flex-direction: row; align-items: flex-start; }
+  .shop-column { flex: 1 1 0; }
+  .bank-column--inventory { flex: 0 0 176px; }
+  .shop-list { max-height: calc(100vh - 150px); overflow: auto; }
+  .bank-grid { max-height: calc(100vh - 170px); }
+
+  /* Height is the scarce thing: the map figure gives it back first. */
   #panel-map .map__figure { height: clamp(160px, 50vh, 240px); }
   .title__actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
   .title__action { flex: 1 1 40%; width: auto; }

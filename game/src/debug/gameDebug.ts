@@ -129,6 +129,8 @@ export interface DebugDeps {
   openBank?(bankId?: EntityId): boolean;
   /** Opens the real shop panel for browser acceptance without depending on unfinished trade wiring. */
   openShop?(shopId?: EntityId): boolean;
+  /** Opens the real recipe window for a production station, as its context-menu entry does. */
+  openProduction?(stationId: EntityId): boolean;
   /** World-space box the renderer draws for one entity, or null when it draws nothing. */
   drawnBounds(
     entityId: EntityId,
@@ -501,6 +503,10 @@ export function installGameDebug(deps: DebugDeps): void {
 
     openShop(shopId?: EntityId): boolean {
       return deps.openShop?.(shopId) ?? false;
+    },
+
+    openProduction(stationId: EntityId): boolean {
+      return deps.openProduction?.(stationId) ?? false;
     },
 
     getEntity(entityId: EntityId): unknown {

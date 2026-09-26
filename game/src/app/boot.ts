@@ -3180,6 +3180,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       ui.openShop(shopId);
       return true;
     },
+    openProduction: (stationId: string) => {
+      ui.openProduction(stationId);
+      return true;
+    },
     focusCamera: (shotId: string) => {
       const shot = findShot(shotId);
       if (!shot) return false;

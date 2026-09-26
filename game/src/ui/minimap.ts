@@ -147,7 +147,10 @@ export class Minimap {
     const menuButton = document.createElement("button");
     menuButton.type = "button";
     menuButton.className = "minimap__btn minimap__btn--menu";
-    menuButton.textContent = "×";
+    // Three bars, not a cross: this opens the game menu, and a cross read as "close the map".
+    menuButton.innerHTML =
+      '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" '
+      + 'stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg>';
     menuButton.setAttribute("aria-label", "Open menu");
     actions.tooltip?.attach(menuButton, () => ({
       kind: "text",

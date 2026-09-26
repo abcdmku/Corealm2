@@ -116,6 +116,8 @@ const BAR_KEYS: readonly (readonly string[])[] = [
   [],
 ];
 const BAR_KEY_LABELS: readonly string[] = ["", "⇧", "Alt", ""];
+/** The controls panel's spelling of each bar's keys: one run, not sixteen chords. */
+const BAR_KEY_RUNS: readonly string[] = ["1–8", "shift+1–8", "alt+1–8", ""];
 
 interface DragPayload { id: SpellId; bar?: number; slot?: number }
 
@@ -235,7 +237,8 @@ export function createSpellActionBar(deps: ActionBarDeps): SpellActionBar {
     unregisters.push(deps.registry.register({
       id: `actionbar.${index + 1}`,
       keys,
-      label: `Action bar ${index + 1}, slots 1 to 8`,
+      display: [BAR_KEY_RUNS[index]!],
+      label: `Action bar ${index + 1}`,
       group: "Action bar",
       // Above the panels' 100 so a slot wins over a panel toggle sharing a digit, below the
       // conversation panel's 50 so an open dialogue keeps the number row for its replies.
