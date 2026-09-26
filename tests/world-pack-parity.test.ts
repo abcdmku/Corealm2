@@ -74,7 +74,8 @@ describe("server world pack parity", () => {
 
   it("holds the solids, structure boxes and trees the bake produces today", () => {
     const world = pack.worlds.get(SEED)!;
-    expect(world.solids).toEqual(geometry.solids);
+    // The pack's JSON payload normalizes signed zero; it describes the same rotation.
+    expect(world.solids).toEqual(JSON.parse(JSON.stringify(geometry.solids)));
     expect(world.structureBounds).toEqual(geometry.structureBounds);
     expect(world.trees.length).toBeGreaterThan(5000);
     expect(world.trees).toEqual(geometry.trees);
@@ -121,7 +122,7 @@ describe("server world pack parity", () => {
     for (const anchor of habitat.anchors as [number, number][]) anchor[0] += 20;
     const plan = packed.planSpawns!(table, new Set([GROUP]), packed.entities);
     expect(plan).toEqual(reference.planSpawns!(table, new Set([GROUP]), reference.entities));
-    expect(plan.spawns).toHaveLength(7);
+    expect(plan.spawns).toHaveLength(group.count);
     const before = new Map(packed.entities.filter(entity => entity.meta?.groupId === GROUP).map(entity => [entity.id, entity.position[0]]));
     // Spacing may shift a body by a few metres, never back to where the group stood.
     for (const spawn of plan.spawns) expect(spawn.position[0] - before.get(spawn.id)!).toBeGreaterThan(8);

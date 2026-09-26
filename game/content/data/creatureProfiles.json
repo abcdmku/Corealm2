@@ -12,7 +12,7 @@
     "magicArmourPerLevel": 1,
     "hitPerLevel": 0.2,
     "attackSpeedMs": 2600,
-    "goldPerLevel": 3
+    "goldPerLevel": 0
   },
   {
     "id": "skirmisher",
@@ -87,6 +87,6 @@
     "magicArmourPerLevel": 3,
     "hitPerLevel": 0.6,
     "attackSpeedMs": 2800,
-    "goldPerLevel": 3
+    "goldPerLevel": 6
   }
 ]

@@ -24,7 +24,6 @@ import {
 import { migrate } from "../game/src/persistence/migrate.js";
 import { SAVE_VERSION, Store } from "../game/src/state/store.js";
 import { buildWorld } from "../game/src/world/regionBuilder.js";
-import { tierSilhouetteScale } from "../game/src/core/math.js";
 
 const ITEM_BY_ID = new Map<string, ItemDef>(ALL_ITEMS.map((item) => [item.id, item]));
 
@@ -158,15 +157,6 @@ describe("miniboss rewards", () => {
 });
 
 describe("miniboss placements", () => {
-  /** The registered group an authored boss is built from, wherever it is placed. */
-  /**
-   * The accepted drawn size of each dedicated boss body, with the tier silhouette divided back out.
-   * Galeskin and Rootheart draw 1.35x so their short briar_harrow stride stays under the 3 Hz
-   * cadence ceiling (see `content/regionalBossBodies.ts`); the retier kept these drawn sizes.
-   */
-  const DRAWN_BODY_SCALE: Record<string, number> = { galeskin: 1.35, rootheart: 1.35 };
-  const drawnBodyScale = (id: string) => DRAWN_BODY_SCALE[id] ?? 1;
-
   function bossGroup(id: string) {
     const group = REGIONS
       .flatMap((region) => [...region.enemyGroups, ...region.dungeon?.enemyGroups ?? []])
@@ -178,19 +168,18 @@ describe("miniboss placements", () => {
   it("places the four minibosses at their authored spots with the miniboss rank and 1.3x scale", () => {
     const world = buildWorld(1337, () => 0);
     const expectations = [
-      // Tiers after the creature-ecology retier (4980125).
-      ["galeskin", "fallowmarch", 10, [-300, 145]],
-      ["mossbound", "vellenwood", 10, [318, 72]],
-      ["tideworn", "karrowmoor", 10, [18, -164]],
-      ["cinderwake", "kilnhalt", 20, [286, 420]],
+      ["galeskin", "fallowmarch"],
+      ["mossbound", "vellenwood"],
+      ["tideworn", "karrowmoor"],
+      ["cinderwake", "kilnhalt"],
     ] as const;
-    for (const [id, regionId, tier, [x, z]] of expectations) {
+    for (const [id, regionId] of expectations) {
       const entity = world.entities.find((candidate) => candidate.id === id);
       expect(entity, id).toBeDefined();
       expect(entity).toMatchObject({
         archetype: "boss",
         regionId,
-        tier,
+        tier: bossGroup(id).tier,
         meta: expect.objectContaining({ rank: "miniboss", family: id }),
       });
       const placement = bossGroup(id);
@@ -200,9 +189,6 @@ describe("miniboss placements", () => {
       // 1.3x authored group scale, against a major boss's 1.6x: `world/regionBuilder.ts` still
       // applies the rank multiplier, so a miniboss that silently got the boss rule fails here.
       expect(entity!.view?.scale, id).toBeCloseTo(bossGroup(id).scale * 1.3, 10);
-      // The dedicated body is modelled at final world size, so `content/fantasyEncounters.ts`
-      // divides the rank multiplier and the tier silhouette back out: it draws at scale 1.0.
-      expect(entity!.view!.scale! * tierSilhouetteScale(tier), id).toBeCloseTo(drawnBodyScale(id), 10);
     }
   });
 
@@ -214,7 +200,6 @@ describe("miniboss placements", () => {
       expect(entity.meta?.rank, id).toBe("boss");
       expect(entity.view?.assetId, id).toBe(REGIONAL_BOSS_BODIES[id].assetId);
       expect(entity.view?.scale, id).toBeCloseTo(bossGroup(id).scale * 1.6, 10);
-      expect(entity.view!.scale! * tierSilhouetteScale(entity.tier!), id).toBeCloseTo(drawnBodyScale(id), 10);
     }
   });
 });

@@ -127,7 +127,8 @@ describe("authoritative multiplayer aggro ownership", () => {
       if (reason === "leave") world.leave("attacker");
       if (reason === "death") attacker.store.get().player.health = 0;
       if (reason === "realm") attacker.store.get().player.regionId = "gravelmaw";
-      if (reason === "distance") attacker.store.get().player.position = [-100, 0, -100];
+      // The lab nav pad ends at +/-48 m; this valid floor remains far beyond the frog's interest range.
+      if (reason === "distance") attacker.store.get().player.position = [-40, 0, -40];
       until(world, () => bystander.combat.isEngaged("multiplayer:frog"));
       expect(attacker.combat.isEngaged("multiplayer:frog")).toBe(false);
       expect(attacker.combat.isAttackCommitted("multiplayer:frog")).toBe(false);

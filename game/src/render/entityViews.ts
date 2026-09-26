@@ -2315,7 +2315,8 @@ export class EntityViews {
       record.position.lerpVectors(record.previous, record.target, pose ? 1 : blend);
       if (this.scene.meshHeightAt) {
         record.position.y = interpolatedGroundHeight(record.previous.toArray(), record.target.toArray(),
-          record.position.toArray(), (x, z) => this.scene.meshHeightAt!(x, z));
+          record.position.toArray(), (x, z) => this.scene.meshHeightAt!(x, z),
+          view?.assetId ? -this.assets.baseY(view.assetId) * record.scale : 0);
       }
       record.rotationY = shortestArc(record.previousRotationY, record.targetRotationY, pose ? 1 : blend);
 
@@ -5496,7 +5497,8 @@ export class EntityViews {
     if (!heightAt || !/^(animal_|creature_)/.test(assetId)
       || /wasp|wraith|banshee/.test(assetId)) return undefined;
     // Raised floors and underground rooms own their own support plane.
-    if (Math.abs(record.position.y - heightAt.call(this.scene, record.position.x, record.position.z)) > 0.15) return undefined;
+    const footY = record.position.y + this.assets.baseY(assetId) * record.scale;
+    if (Math.abs(footY - heightAt.call(this.scene, record.position.x, record.position.z)) > 0.15) return undefined;
     return { placement, origin: record.position, heightAt: (x, z) => heightAt.call(this.scene, x, z) };
   }
 

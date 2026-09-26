@@ -13,7 +13,7 @@ import { SpatialIndex } from "../world/spatial.js";
 import { HeadlessPlayer } from "./headlessPlayer.js";
 import { PLACE_SNAP_METRES } from "./playerEdits.js";
 import { PLAYER_RADIUS } from "../app/config.js";
-import { distanceXZ } from "../core/math.js";
+import { distanceXZ, tierSilhouetteScale } from "../core/math.js";
 import { SessionFailure } from "./protocol.js";
 import { PublicActions } from "./publicActions.js";
 import { WorldExchange } from "./exchange.js";
@@ -21,12 +21,17 @@ import { WorldSocial } from "./social.js";
 import { spawnGroupOf, spawnSignature, type SpawnPlan } from "./spawnPlan.js";
 import type { CompiledWorld } from "../content/worldData.js";
 import type { HabitatDef } from "../content/worldHabitats.js";
+import { LEASH_METRES } from "../world/habitatMovement.js";
 
 export interface HeadlessWorldPorts {
   nav: Navigation;
   entities: SemanticEntity[];
   spawn: Vec3;
   movement: MovementPorts;
+  /** Authored floor of a model in asset-local metres, from the shipped manifest. */
+  assetBaseY?(assetId: string): number;
+  /** Vertical search ranges of imported walk surfaces over one XZ point. */
+  walkSurfaceRangesAt?(x: number, z: number): readonly (readonly [number, number])[];
   campfirePlacement: import("../systems/campfire.js").CampfirePlacementProbes;
   enemies?: typeof ENEMIES;
   habitats?: readonly HabitatDef[];
@@ -113,25 +118,16 @@ export class HeadlessWorld {
     const catalog = runtimeTables(descriptor.fixture === "lab");
     content.register({ ...catalog, enemies: [...new Map([...catalog.enemies, ...(ports.enemies ?? [])].map(enemy => [enemy.id, enemy])).values()] });
     this.entities = new EntityStore({ skillLevels: () => Object.fromEntries(SKILL_IDS.map((id) => [id, 99])) as Record<SkillId, number> });
-    // A save holds what play made or moves, and the content build everything else. The creatures are the save's:
-    // `applySpawns` below brings them in line with the build the way a live publish does.
+    // A save holds what play made or moves, and the content build everything else. A restart
+    // reconciles saved creatures with current content before they can reach a client.
     this.entities.load(saved ? [...structuredClone(ports.entities.filter(entity => entity.archetype !== "enemy" && entity.archetype !== "boss")),
       ...saved.entities.filter(savedWithWorld)] : structuredClone(ports.entities));
-    // A creature's model and scale are stamped from the catalog when the world is built, and a save keeps
-    // what it was built with. `ports` was built from the catalog this server runs on now, so a model
-    // an admin changed reaches the saved creature here, and the client through its replicated view.
-    if (saved) {
-      const built = new Map(ports.entities.map(entity => [entity.id, entity]));
-      for (const entity of this.entities.all()) {
-        const fresh = entity.archetype === "enemy" || entity.archetype === "boss" ? built.get(entity.id)?.view : undefined;
-        if (fresh && entity.view) Object.assign(entity.view, { assetId: fresh.assetId, scale: fresh.scale, materialTier: fresh.materialTier, labelHeight: fresh.labelHeight });
-      }
-    }
     for (const habitat of ports.habitats ?? []) this.habitats.set(habitat.groupId, habitat);
     // Every row storage holds, before initialization can remove resident entities. The first snapshot deletes the
     // rows a save no longer keeps, including the structures an older build stored.
     for (const entity of saved?.entities ?? []) this.persistedEntities.set(entity.id, JSON.stringify(entity));
     this.shared = saved?.world ?? { nodes: {}, enemies: {}, lootPiles: {} };
+    if (saved) this.reconcileRestartSpawns(ports.entities);
     this.clock.skipMs((saved?.tick ?? 0) * 100);
     this.social = new WorldSocial(this, saved?.parties);
     this.sentinel = this.makePlayer("world", undefined);
@@ -143,7 +139,12 @@ export class HeadlessWorld {
     this.ai = new EnemyAiSystem({
       get store() { return world.selected.store; }, get events() { return world.selected.events; }, get combat() { return world.selected.combat; },
       entities: this.entities, nav: ports.nav,
-      groundHeightAt: (x, z) => ports.movement.heightAt?.(world.selected.store.get().player.regionId, x, z) ?? 0,
+      groundHeightAt: (x, z, entity) => ports.movement.heightAt?.(entity?.regionId ?? world.selected.store.get().player.regionId, x, z) ?? 0,
+      footOffset: entity => {
+        const view = entity.view;
+        return view ? -(ports.assetBaseY?.(view.assetId) ?? 0) * (view.scale ?? 1) * tierSilhouetteScale(entity.tier) : 0;
+      },
+      preserveNavigationHeight: ports.movement.preserveNavigationHeight,
       habitatForEntity: entity => world.heldHabitats.has(entity.id) ? world.heldHabitats.get(entity.id)! : world.habitats.get(String(entity.meta?.groupId)) ?? null,
       beforeRespawn: (entity, runtime) => world.respawning(entity, runtime),
       selectPlayerForEnemy(entity) {
@@ -173,10 +174,48 @@ export class HeadlessWorld {
       if(saved?.random?.players[id])restored.random.restore(saved.random.players[id]);
     }
     this.entities.registerLocations(ports.knownLocations??[]);
-    // A save keeps the creatures it was written with. Spawns that content moved, added or removed since then
-    // reach it the way a live publish does: through the next respawn. `ports` is the fresh build.
-    if (saved) this.applySpawns({ groupIds: null, spawns: ports.entities.filter(entity => entity.archetype === "enemy" || entity.archetype === "boss"), habitats: [] });
     ports.initialize?.(this);
+    this.ai.settleAll();
+  }
+  /** Restart adopts current authored creatures immediately; live publishes use `applySpawns` instead. */
+  private reconcileRestartSpawns(authored: readonly SemanticEntity[]): void {
+    const current = new Map(authored.filter(entity => entity.archetype === "enemy" || entity.archetype === "boss")
+      .map(entity => [entity.id, entity]));
+    for (const saved of this.entities.all()) {
+      if (saved.archetype !== "enemy" && saved.archetype !== "boss") continue;
+      const fresh = current.get(saved.id);
+      if (!fresh) {
+        this.entities.remove(saved.id);
+        delete this.shared.enemies[saved.id];
+        continue;
+      }
+      current.delete(saved.id);
+      const runtime = this.shared.enemies[saved.id];
+      const dead = runtime?.state === "dead" || saved.state === "dead";
+      const oldMax = Math.max(1, saved.combat?.maxHealth ?? 1);
+      const oldHealth = runtime?.health ?? saved.combat?.health ?? oldMax;
+      const changed = spawnSignature(saved) !== spawnSignature(fresh)
+        || Math.hypot(saved.position[0] - fresh.position[0], saved.position[2] - fresh.position[2]) > LEASH_METRES
+        || !this.ports.nav.nearestWalkable(saved.position, 0.5);
+      const nextPosition = changed ? fresh.position : saved.position;
+      const oldRotation = saved.view?.rotationY;
+      Object.assign(saved, structuredClone(fresh), {
+        position: [...nextPosition] as Vec3,
+        state: dead ? "dead" : fresh.state,
+      });
+      if (saved.view && typeof oldRotation === "number") saved.view.rotationY = oldRotation;
+      if (saved.combat) {
+        const max = saved.combat.maxHealth;
+        saved.combat.health = dead ? 0 : Math.max(1, Math.min(max, Math.round(oldHealth / oldMax * max)));
+      }
+      this.entities.setPosition(saved.id, saved.position);
+      if (runtime) {
+        runtime.spawnPos = [...fresh.position];
+        runtime.health = saved.combat?.health ?? 0;
+        if (!dead) { runtime.state = "idle"; runtime.respawnAtMs = null; }
+      }
+    }
+    for (const fresh of current.values()) this.entities.add(structuredClone(fresh));
   }
   private makePlayer(id: string, saved?: WorldStorageRecord["players"][string]): HeadlessPlayer {
     const initial = createInitialState(this.descriptor.seed);
@@ -344,19 +383,41 @@ export class HeadlessWorld {
   private settleOnWalkableGround(player: HeadlessPlayer): void {
     const state = player.store.get().player, nav = this.ports.nav, solids = this.ports.movement.solids;
     const clear = (point: Vec3) => !solids || distanceXZ(solids.resolve(point, point, PLAYER_RADIUS), point) <= 0.005;
-    const onMesh = nav.closestPoint(state.position);
-    if (onMesh && distanceXZ(onMesh, state.position) <= 0.05 && clear(state.position)) return;
+    const candidates = (x: number, z: number): Vec3[] => {
+      const terrainY = this.ports.movement.heightAt?.(state.regionId, x, z);
+      const ranges = this.ports.walkSurfaceRangesAt?.(x, z) ?? [];
+      const probes = [Number.isFinite(terrainY) ? terrainY! : state.position[1],
+        ...ranges.flatMap(([minY, maxY]) => [minY, maxY])];
+      const found: Vec3[] = [];
+      for (const probeY of probes) {
+        const navPoint = nav.closestPoint([x, probeY, z]);
+        if (!navPoint || distanceXZ(navPoint, [x, probeY, z]) > 0.3) continue;
+        const raised = ranges.some(([minY, maxY]) => navPoint[1] >= minY - 0.35 && navPoint[1] <= maxY + 0.35);
+        const landedFloor = this.ports.movement.heightAt?.(state.regionId, navPoint[0], navPoint[2]);
+        const point: Vec3 = [navPoint[0], raised ? navPoint[1]
+          : Number.isFinite(landedFloor) ? landedFloor! : navPoint[1], navPoint[2]];
+        if (!found.some(existing => Math.abs(existing[1] - point[1]) < 0.05)) found.push(point);
+      }
+      return found;
+    };
+    const atCurrent = candidates(state.position[0], state.position[2]);
+    if (atCurrent.some(point => distanceXZ(point, state.position) <= 0.05
+      && Math.abs(point[1] - state.position[1]) <= 0.05) && clear(state.position)) return;
     const [x, y, z] = state.position;
     for (let radius = 0; radius <= PLACE_SNAP_METRES; radius += 0.5) {
       for (let step = 0, steps = radius === 0 ? 1 : 16; step < steps; step++) {
         const angle = (step / steps) * Math.PI * 2;
-        const candidate = nav.closestPoint([x + Math.sin(angle) * radius, y, z + Math.cos(angle) * radius]);
-        if (candidate && distanceXZ(candidate, state.position) <= PLACE_SNAP_METRES && clear(candidate)) {
-          state.position = [...candidate] as Vec3; return;
+        const px = x + Math.sin(angle) * radius, pz = z + Math.cos(angle) * radius;
+        const possible = radius === 0 ? atCurrent : candidates(px, pz);
+        possible.sort((a, b) => Math.abs(a[1] - y) - Math.abs(b[1] - y));
+        for (const grounded of possible) {
+          if (distanceXZ(grounded, state.position) > PLACE_SNAP_METRES || !clear(grounded)) continue;
+          state.position = grounded; player.store.markDirty(); return;
         }
       }
     }
     state.position = [...this.ports.spawn] as Vec3;
+    player.store.markDirty();
   }
   /**
    * An admin edit lands on the character this world holds, in place, between ticks. The systems read
@@ -424,6 +485,10 @@ export class HeadlessWorld {
     let minX = Infinity, maxX = -Infinity, minZ = Infinity, maxZ = -Infinity;
     for (const id of this.active) {
       const player = this.players.get(id)!; player.move();
+      const movingState = player.store.get();
+      if (movingState.player.movement.mode === "idle" && movingState.activity?.kind !== "traversing") {
+        this.settleOnWalkableGround(player);
+      }
       const at = player.store.get().player.position; this.spatial.move(id, at);
       if (at[0] < minX) minX = at[0]; if (at[0] > maxX) maxX = at[0];
       if (at[2] < minZ) minZ = at[2]; if (at[2] > maxZ) maxZ = at[2];

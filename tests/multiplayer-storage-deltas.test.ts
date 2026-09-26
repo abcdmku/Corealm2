@@ -101,7 +101,9 @@ it("rebuilds every structure from the running content, and keeps what play made 
     bob.store.get().player.health = 0; world.tick();
     // The frog took a beating and wandered off.
     const frog = world.entities.get("multiplayer:frog")!;
-    frog.combat!.health = 1; world.entities.setPosition(frog.id, [15, 0, 3]);
+    frog.combat!.health = 1;
+    world.shared.enemies[frog.id]!.health = 1;
+    world.entities.setPosition(frog.id, [15, 0, 3]);
     await commit(world);
 
     const pile = Object.keys(world.shared.lootPiles).find(id => id.startsWith("drop:alice:"))!;

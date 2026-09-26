@@ -93,8 +93,8 @@ const HERO_BONUSES: EquipmentBonuses = {
   meleeAccuracy: 500, meleePower: 500, magicAccuracy: 0, magicPower: 0, defence: 500, health: 0, vitality: 0,
 };
 
-/** The production systems end to end: a real kill, a real pile, the real inventory. */
-function killRedWorm(seed: number) {
+/** The production systems end to end: a humanoid kill, a real pile, the real inventory. */
+function killBandit(seed: number) {
   const store = new Store(seed, 0);
   const state = store.get();
   state.skills.melee.level = 99;
@@ -108,10 +108,10 @@ function killRedWorm(seed: number) {
   const entities = new EntityStore({ skillLevels });
   const position = state.player.position;
   const target: SemanticEntity = {
-    id: "red_worm_t1_1", archetype: "enemy", name: "Red Worm", tier: 1, regionId: "fallowmarch",
+    id: "reaver_t1_1", archetype: "enemy", name: "Road Bandit", tier: 1, regionId: "fallowmarch",
     position: [position[0], position[1], position[2] + 1.2], state: "alive", interactions: ["inspect", "attack"],
     combat: { health: 1, maxHealth: 1, level: 1, aggroRadius: 0 },
-    meta: { enemyId: "red_worm_t1", behaviour: "passive", spawnX: 0, spawnZ: 2 },
+    meta: { enemyId: "reaver_t1", behaviour: "passive", spawnX: 0, spawnZ: 2 },
   };
   entities.add(target);
   const inventory = new InventorySystem({ store, events, now: () => 0 });
@@ -134,8 +134,8 @@ function killRedWorm(seed: number) {
 
 describe("gold from a kill", () => {
   it("lands in the loot pile, not the purse, and is credited when the pile is taken", () => {
-    const range = ENEMIES.find(row => row.id === "red_worm_t1")!.gold!;
-    const { state, death, pileId, pile } = killRedWorm(7);
+    const range = ENEMIES.find(row => row.id === "reaver_t1")!.gold!;
+    const { state, death, pileId, pile } = killBandit(7);
     expect(state.currency).toBe(0);
     const gold = pile.items.find(stack => stack.itemId === "gold")!;
     expect(gold.quantity).toBeGreaterThanOrEqual(Math.max(1, range[0]));
@@ -149,7 +149,7 @@ describe("gold from a kill", () => {
   });
 
   it("is never refused by a full inventory, while slotted loot waits in the pile", () => {
-    const { state, events, death, pileId, pile } = killRedWorm(7);
+    const { state, events, death, pileId, pile } = killBandit(7);
     pile.items.push({ itemId: "grithe_ore", quantity: 1 });
     state.inventory.slots = state.inventory.slots.map((_, slotIndex) => ({ slotIndex, itemId: "palewood_log", quantity: 1 }));
     const dropped = pile.items.find(stack => stack.itemId === "gold")!.quantity;

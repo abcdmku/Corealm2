@@ -568,11 +568,6 @@
     ]
   },
   {
-    "id": "shared_empty",
-    "name": "Shared empty",
-    "rolls": []
-  },
-  {
     "id": "shared_earth_essence_earth_essence",
     "name": "Shared earth essence earth essence",
     "rolls": [
@@ -2176,14 +2171,6 @@
             "chance": 0.1
           },
           {
-            "itemId": "grithe_ore",
-            "quantity": [
-              1,
-              2
-            ],
-            "chance": 0.1
-          },
-          {
             "itemId": "pale_quartz",
             "quantity": [
               1,
@@ -2193,18 +2180,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2227,18 +2202,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2293,18 +2256,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2351,18 +2302,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2409,18 +2348,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2525,18 +2452,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2583,18 +2498,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2641,18 +2544,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2691,18 +2582,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2741,18 +2620,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2796,37 +2663,9 @@
               1
             ],
             "chance": 0.22
-          },
-          {
-            "itemId": "grithe_ore",
-            "quantity": [
-              1,
-              2
-            ],
-            "chance": 0.15
-          },
-          {
-            "itemId": "grithe_dagger",
-            "quantity": [
-              1,
-              1
-            ],
-            "chance": 0.02
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },
@@ -2849,18 +2688,6 @@
           }
         ],
         "tables": []
-      },
-      {
-        "id": "starter_gear",
-        "name": "Starter gear",
-        "count": 1,
-        "drops": [],
-        "tables": [
-          {
-            "tableId": "starter_gear",
-            "rollId": "gear"
-          }
-        ]
       }
     ]
   },

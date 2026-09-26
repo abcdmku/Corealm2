@@ -37,7 +37,7 @@ export function crownwardDragonGroup(speciesId: CrownwardDragonSpeciesId, id: st
   const species = CROWNWARD_DRAGON_SPECIES.find(entry => entry.id === speciesId);
   if (!form || !species) throw new Error(`Unknown Crownward dragon ${speciesId}`);
   const boss = form.rank === 'boss';
-  return { id, family: species.stats.family, name: species.stats.name, tier: 40,
+  return { id, family: species.stats.family, name: species.stats.name, tier: species.stats.tier,
     assetId: species.assetId, scale: species.scale / (boss ? 1.6 : 1.3),
     centre, count: 1, radius: 0, ...(boss ? { boss: true } : { miniBoss: true }) };
 }

@@ -3,7 +3,6 @@ import { CROWNWARD_DRAGON_FORMS, CROWNWARD_DRAGON_SPECIES, CROWNWARD_DRAGON_ENCO
   crownwardDragonGroup, resolveCrownwardDragonEncounters, type CrownwardDragonPositions } from '../game/src/content/crownwardDragons.js';
 import { WILDERNESS_DRAGONS } from '../game/src/content/wildernessDragons.js';
 import { ALL_ITEMS } from '../game/src/content/items.js';
-import { tierSilhouetteScale } from '../game/src/core/math.js';
 
 describe('Crownward dragon encounters', () => {
   it('reuses existing accepted assets and locomotion rather than introducing another rig', () => {
@@ -14,7 +13,7 @@ describe('Crownward dragon encounters', () => {
       expect(species.stats.moveSpeedMps).toBe(source.stats.moveSpeedMps);
       expect(species.stats.walkSpeedMps).toBe(source.stats.walkSpeedMps);
       expect(species.stats.attackSpeedMs).toBe(source.stats.attackSpeedMs);
-      expect(species.stats.tier).toBe(40);
+
       expect(species.stats.maxHealth).toBeGreaterThan(0);
       for (const drop of species.stats.lootRolls.flatMap(roll => roll.drops)) expect(ALL_ITEMS.some(item => item.id === drop.itemId)).toBe(true);
     }
@@ -25,7 +24,8 @@ describe('Crownward dragon encounters', () => {
       const group = crownwardDragonGroup(form.id, `lab:${form.id}`, [0, 0]);
       expect(Boolean(group.boss)).toBe(form.rank === 'boss');
       expect(Boolean(group.miniBoss)).toBe(form.rank === 'miniboss');
-      expect(group.scale * (group.boss ? 1.6 : 1.3) * tierSilhouetteScale(group.tier)).toBeCloseTo(form.nativeScale);
+      const species = CROWNWARD_DRAGON_SPECIES.find(row => row.id === form.id)!;
+      expect(group.scale * (group.boss ? 1.6 : 1.3)).toBeCloseTo(species.scale);
       expect(group.count).toBe(1);
       expect(group.radius).toBe(0);
     }

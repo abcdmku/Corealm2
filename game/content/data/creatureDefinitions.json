@@ -11,7 +11,11 @@
       "aggroRadius": 5,
       "behaviour": "passive",
       "moveSpeedMps": 0.79,
-      "walkSpeedMps": 0.17
+      "walkSpeedMps": 0.17,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -54,7 +58,11 @@
       "aggroRadius": 3,
       "behaviour": "passive",
       "moveSpeedMps": 1.02,
-      "walkSpeedMps": 0.22
+      "walkSpeedMps": 0.22,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -113,7 +121,11 @@
       "aggroRadius": 5,
       "behaviour": "territorial",
       "moveSpeedMps": 2.06,
-      "walkSpeedMps": 0.52
+      "walkSpeedMps": 0.52,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -170,9 +182,13 @@
     "adjustments": {
       "attackSpeedMs": 3600,
       "aggroRadius": 5,
-      "behaviour": "territorial",
+      "behaviour": "passive",
       "moveSpeedMps": 2.64,
-      "walkSpeedMps": 0.51
+      "walkSpeedMps": 0.51,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -212,14 +228,6 @@
                 1
               ],
               "chance": 0.2
-            },
-            {
-              "itemId": "march_stone",
-              "quantity": [
-                1,
-                3
-              ],
-              "chance": 0.15
             }
           ],
           "tables": []
@@ -239,7 +247,11 @@
       "aggroRadius": 2,
       "behaviour": "passive",
       "moveSpeedMps": 0.81,
-      "walkSpeedMps": 0.41
+      "walkSpeedMps": 0.41,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -298,7 +310,11 @@
       "aggroRadius": 7,
       "behaviour": "territorial",
       "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.5
+      "walkSpeedMps": 0.5,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -492,7 +508,11 @@
       "aggroRadius": 9,
       "behaviour": "territorial",
       "moveSpeedMps": 1.85,
-      "walkSpeedMps": 0.62
+      "walkSpeedMps": 0.62,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -567,7 +587,11 @@
       "aggroRadius": 7,
       "behaviour": "aggressive",
       "moveSpeedMps": 0.93,
-      "walkSpeedMps": 0.29
+      "walkSpeedMps": 0.29,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -607,14 +631,6 @@
                 1
               ],
               "chance": 0.2
-            },
-            {
-              "itemId": "corven_ore",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.15
             }
           ],
           "tables": []
@@ -634,7 +650,11 @@
       "aggroRadius": 10,
       "behaviour": "aggressive",
       "moveSpeedMps": 2.79,
-      "walkSpeedMps": 0.68
+      "walkSpeedMps": 0.68,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -674,14 +694,6 @@
                 2
               ],
               "chance": 0.25
-            },
-            {
-              "itemId": "corven_ore",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.15
             }
           ],
           "tables": []
@@ -897,7 +909,11 @@
       "aggroRadius": 10,
       "behaviour": "aggressive",
       "moveSpeedMps": 3.06,
-      "walkSpeedMps": 0.74
+      "walkSpeedMps": 0.74,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -939,14 +955,6 @@
               "chance": 0.28
             },
             {
-              "itemId": "kaldite_ore",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.18
-            },
-            {
               "itemId": "cairn_garnet",
               "quantity": [
                 1,
@@ -972,7 +980,11 @@
       "aggroRadius": 8,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.5,
-      "walkSpeedMps": 0.67
+      "walkSpeedMps": 0.67,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -1020,14 +1032,6 @@
                 3
               ],
               "chance": 0.25
-            },
-            {
-              "itemId": "kaldite_ore",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.15
             }
           ],
           "tables": []
@@ -1047,7 +1051,11 @@
       "aggroRadius": 11,
       "behaviour": "territorial",
       "moveSpeedMps": 2.26,
-      "walkSpeedMps": 0.6
+      "walkSpeedMps": 0.6,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -1122,7 +1130,11 @@
       "aggroRadius": 6,
       "behaviour": "territorial",
       "moveSpeedMps": 2.64,
-      "walkSpeedMps": 0.51
+      "walkSpeedMps": 0.51,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -1160,14 +1172,6 @@
               "quantity": [
                 1,
                 1
-              ],
-              "chance": 0.25
-            },
-            {
-              "itemId": "march_stone",
-              "quantity": [
-                2,
-                5
               ],
               "chance": 0.25
             }
@@ -1277,7 +1281,11 @@
       "aggroRadius": 10,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.5,
-      "walkSpeedMps": 0.6
+      "walkSpeedMps": 0.6,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -1312,22 +1320,6 @@
             }
           ],
           "tables": []
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [
-            {
-              "itemId": "kaldite_ore",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.15
-            }
-          ],
-          "tables": []
         }
       ]
     }
@@ -1344,7 +1336,11 @@
       "aggroRadius": 8,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.5
+      "walkSpeedMps": 0.5,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -1403,7 +1399,11 @@
       "aggroRadius": 6,
       "behaviour": "territorial",
       "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.5
+      "walkSpeedMps": 0.5,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2121,7 +2121,11 @@
       "aggroRadius": 4,
       "behaviour": "passive",
       "moveSpeedMps": 1.8,
-      "walkSpeedMps": 0.5
+      "walkSpeedMps": 0.5,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2146,18 +2150,6 @@
             {
               "tableId": "shared_t0_fox",
               "rollId": "items_2"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_fox",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -2185,7 +2177,11 @@
       "aggroRadius": 8,
       "behaviour": "aggressive",
       "moveSpeedMps": 2.2,
-      "walkSpeedMps": 0.65
+      "walkSpeedMps": 0.65,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2247,13 +2243,14 @@
     "family": "rootdelve_badger",
     "availability": "world",
     "level": 29,
-    "profileId": "guardian",
+    "profileId": "brute",
     "adjustments": {
-      "attackSpeedMs": 3000,
-      "aggroRadius": 7,
+      "attackSpeedMs": 3200,
+      "aggroRadius": 6,
       "behaviour": "territorial",
       "moveSpeedMps": 1.8,
-      "walkSpeedMps": 0.55
+      "walkSpeedMps": 0.55,
+      "attackRangeM": 2.4
     },
     "loot": {
       "rolls": [
@@ -2310,10 +2307,10 @@
     "presentation": {
       "id": "rootdelve_badger",
       "assetId": "creature_rootdelve_badger",
-      "scale": 1,
+      "scale": 0.82,
       "regionId": "vellenwood",
       "activity": "patrol",
-      "description": "A heavy red-maned minotaur with broad horns, plated shoulders and four powerful limbs. It guards the stump belt with a close horn charge.",
+      "description": "A red-maned horned brute that defends secluded woodland hollows. Broad shoulders and a deliberate horn charge warn travellers to give it room.",
       "kind": "basic"
     }
   },
@@ -2329,7 +2326,11 @@
       "aggroRadius": 5,
       "behaviour": "territorial",
       "moveSpeedMps": 1,
-      "walkSpeedMps": 0.32
+      "walkSpeedMps": 0.32,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2389,7 +2390,11 @@
       "aggroRadius": 5,
       "behaviour": "passive",
       "moveSpeedMps": 2.15,
-      "walkSpeedMps": 0.65
+      "walkSpeedMps": 0.65,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2457,7 +2462,11 @@
       "aggroRadius": 6,
       "behaviour": "territorial",
       "moveSpeedMps": 1.7,
-      "walkSpeedMps": 0.5
+      "walkSpeedMps": 0.5,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2525,7 +2534,11 @@
       "aggroRadius": 6,
       "behaviour": "territorial",
       "moveSpeedMps": 1.95,
-      "walkSpeedMps": 0.55
+      "walkSpeedMps": 0.55,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2593,7 +2606,11 @@
       "aggroRadius": 4,
       "behaviour": "passive",
       "moveSpeedMps": 1.1,
-      "walkSpeedMps": 0.4
+      "walkSpeedMps": 0.4,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2661,7 +2678,11 @@
       "aggroRadius": 6,
       "behaviour": "territorial",
       "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.35
+      "walkSpeedMps": 0.35,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2729,7 +2750,11 @@
       "aggroRadius": 5,
       "behaviour": "territorial",
       "moveSpeedMps": 0.9,
-      "walkSpeedMps": 0.32
+      "walkSpeedMps": 0.32,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2781,7 +2806,11 @@
       "aggroRadius": 4,
       "behaviour": "territorial",
       "moveSpeedMps": 0.45,
-      "walkSpeedMps": 0.18
+      "walkSpeedMps": 0.18,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2833,7 +2862,11 @@
       "aggroRadius": 9,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.65,
-      "walkSpeedMps": 0.48
+      "walkSpeedMps": 0.48,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2901,7 +2934,11 @@
       "aggroRadius": 4,
       "behaviour": "territorial",
       "moveSpeedMps": 0.5,
-      "walkSpeedMps": 0.36
+      "walkSpeedMps": 0.36,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -2926,18 +2963,6 @@
             {
               "tableId": "shared_t0_goose",
               "rollId": "items_2"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_goose",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -2965,7 +2990,11 @@
       "aggroRadius": 4,
       "behaviour": "territorial",
       "moveSpeedMps": 1,
-      "walkSpeedMps": 0.28
+      "walkSpeedMps": 0.28,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3017,7 +3046,11 @@
       "aggroRadius": 8,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.8,
-      "walkSpeedMps": 0.55
+      "walkSpeedMps": 0.55,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3077,7 +3110,11 @@
       "aggroRadius": 3,
       "behaviour": "passive",
       "moveSpeedMps": 1,
-      "walkSpeedMps": 0.3
+      "walkSpeedMps": 0.3,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3102,18 +3139,6 @@
             {
               "tableId": "shared_t0_turkey",
               "rollId": "items_2"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_turkey",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -3141,7 +3166,11 @@
       "aggroRadius": 3,
       "behaviour": "passive",
       "moveSpeedMps": 0.08,
-      "walkSpeedMps": 0.025
+      "walkSpeedMps": 0.025,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3157,14 +3186,6 @@
                 2
               ],
               "chance": 0.8
-            },
-            {
-              "itemId": "march_stone",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.2
             }
           ],
           "tables": []
@@ -3193,7 +3214,11 @@
       "aggroRadius": 5,
       "behaviour": "territorial",
       "moveSpeedMps": 0.9,
-      "walkSpeedMps": 0.32
+      "walkSpeedMps": 0.32,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3209,14 +3234,6 @@
                 1
               ],
               "chance": 0.6
-            },
-            {
-              "itemId": "kaldite_ore",
-              "quantity": [
-                1,
-                1
-              ],
-              "chance": 0.15
             }
           ],
           "tables": []
@@ -3245,7 +3262,11 @@
       "aggroRadius": 7,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.4
+      "walkSpeedMps": 0.4,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3297,7 +3318,11 @@
       "aggroRadius": 6,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.4,
-      "walkSpeedMps": 0.42
+      "walkSpeedMps": 0.42,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3613,7 +3638,11 @@
       "aggroRadius": 3,
       "behaviour": "territorial",
       "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
+      "walkSpeedMps": 0.4,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3653,7 +3682,11 @@
       "aggroRadius": 5,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
+      "walkSpeedMps": 0.4,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3693,7 +3726,11 @@
       "aggroRadius": 5,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
+      "walkSpeedMps": 0.4,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3733,7 +3770,11 @@
       "aggroRadius": 5,
       "behaviour": "aggressive",
       "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
+      "walkSpeedMps": 0.4,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3773,7 +3814,11 @@
       "aggroRadius": 3,
       "behaviour": "territorial",
       "moveSpeedMps": 0.6,
-      "walkSpeedMps": 0.19999999999999998
+      "walkSpeedMps": 0.19999999999999998,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3786,18 +3831,6 @@
             {
               "tableId": "shared_t0_creek_crab",
               "rollId": "items"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_creek_crab",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -3825,7 +3858,11 @@
       "aggroRadius": 5,
       "behaviour": "aggressive",
       "moveSpeedMps": 0.95,
-      "walkSpeedMps": 0.31666666666666665
+      "walkSpeedMps": 0.31666666666666665,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3869,7 +3906,11 @@
       "aggroRadius": 3,
       "behaviour": "passive",
       "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
+      "walkSpeedMps": 0.4,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3882,18 +3923,6 @@
             {
               "tableId": "shared_t0_granary_rat",
               "rollId": "items"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_granary_rat",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -3930,7 +3959,11 @@
       "aggroRadius": 2,
       "behaviour": "passive",
       "moveSpeedMps": 0.45,
-      "walkSpeedMps": 0.15
+      "walkSpeedMps": 0.15,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -3943,18 +3976,6 @@
             {
               "tableId": "shared_t0_red_worm",
               "rollId": "items"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_red_worm",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -3973,7 +3994,11 @@
       "aggroRadius": 4,
       "behaviour": "passive",
       "moveSpeedMps": 1.8,
-      "walkSpeedMps": 0.5
+      "walkSpeedMps": 0.5,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -4386,7 +4411,7 @@
     "presentation": {
       "id": "hollow_bough",
       "assetId": "creature_hollow_bough",
-      "scale": 1,
+      "scale": 0.88,
       "regionId": "wilderness",
       "activity": "patrol",
       "description": "An aged walking tree with long branch arms, gnarled root feet and lichen-covered bark.",
@@ -4482,7 +4507,7 @@
     "presentation": {
       "id": "briar_harrow",
       "assetId": "creature_briar_harrow",
-      "scale": 0.85,
+      "scale": 0.72,
       "regionId": "vellenwood",
       "activity": "patrol",
       "description": "In woodland clearings, Bramble Tillers loosen packed soil with their hoe-shaped forearm shoots and clear growth crowding young trees. Green cambium and pale lichen mark their living bark. They push back when anyone tramples the roots they tend.",
@@ -4524,7 +4549,7 @@
     "presentation": {
       "id": "fen_crawler",
       "assetId": "creature_fen_crawler",
-      "scale": 1,
+      "scale": 0.78,
       "regionId": "vellenwood",
       "activity": "prowl",
       "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
@@ -4566,7 +4591,7 @@
     "presentation": {
       "id": "reed_strider",
       "assetId": "creature_reed_strider",
-      "scale": 1,
+      "scale": 0.78,
       "regionId": "vellenwood",
       "activity": "forage",
       "description": "A six-legged wetland mimic with a raised reed-thin body, folded walking limbs, tapered abdomen and a long split feeding mask.",
@@ -4608,7 +4633,7 @@
     "presentation": {
       "id": "thorn_maw",
       "assetId": "creature_thorn_maw",
-      "scale": 0.85,
+      "scale": 0.82,
       "regionId": "vellenwood",
       "activity": "prowl",
       "description": "A purple flower maw on a teal thorn bulb, carried by four hooked root legs. Toothed petals open around its central bite.",
@@ -4650,7 +4675,7 @@
     "presentation": {
       "id": "heath_jack",
       "assetId": "creature_heath_jack",
-      "scale": 1,
+      "scale": 0.72,
       "regionId": "fallowmarch",
       "activity": "forage",
       "description": "A small russet heath hare with tall ears, cream cheek fur and a charcoal saddle. It bounds through low cover and kicks when cornered.",
@@ -4692,7 +4717,7 @@
     "presentation": {
       "id": "kiln_marrow",
       "assetId": "creature_kiln_marrow",
-      "scale": 0.88,
+      "scale": 0.8,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A hunched stone giant with long, heavy arms. Banked heat shows through narrow cracks in its cooled ash hide.",
@@ -4743,7 +4768,7 @@
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
-      "scale": 1,
+      "scale": 0.82,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
@@ -4785,7 +4810,7 @@
     "presentation": {
       "id": "cinder_penitent",
       "assetId": "creature_cinder_penitent",
-      "scale": 1,
+      "scale": 0.9,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
@@ -4827,7 +4852,7 @@
     "presentation": {
       "id": "grave_lantern",
       "assetId": "creature_grave_lantern",
-      "scale": 1.08,
+      "scale": 0.92,
       "regionId": "wilderness",
       "activity": "patrol",
       "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
@@ -4869,7 +4894,7 @@
     "presentation": {
       "id": "veil_reaper",
       "assetId": "creature_veil_reaper",
-      "scale": 1.05,
+      "scale": 0.95,
       "regionId": "wilderness",
       "activity": "patrol",
       "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
@@ -4911,7 +4936,7 @@
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
-      "scale": 0.9,
+      "scale": 0.76,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A low, weathered slab creature with a recessed head and heavy hammer forearms. It transfers its weight before striking.",
@@ -4953,7 +4978,7 @@
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
-      "scale": 0.8,
+      "scale": 0.7,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
@@ -4995,7 +5020,7 @@
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
-      "scale": 0.84,
+      "scale": 0.74,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
@@ -5037,7 +5062,7 @@
     "presentation": {
       "id": "blind_cave_weaver",
       "assetId": "creature_blind_cave_weaver",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
@@ -5079,7 +5104,7 @@
     "presentation": {
       "id": "scree_watcher",
       "assetId": "creature_scree_watcher",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "An eroded stone effigy with tapered stilt legs, a closed split hood and flat forearms. It turns its torso to listen across the scree.",
@@ -9104,7 +9129,7 @@
     "name": "Bramblehorn",
     "family": "guardian_01",
     "availability": "world",
-    "level": 10,
+    "level": 22,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -9148,7 +9173,7 @@
     "availability": "world",
     "name": "Bramblehorn",
     "family": "guardian_01",
-    "level": 10,
+    "level": 22,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_01_vellenwood",
@@ -9192,7 +9217,7 @@
     "availability": "world",
     "name": "Bramblehorn",
     "family": "guardian_01",
-    "level": 10,
+    "level": 22,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_01_karrowmoor",
@@ -9236,7 +9261,7 @@
     "availability": "world",
     "name": "Bramblehorn",
     "family": "guardian_01",
-    "level": 10,
+    "level": 22,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_01_gravelmaw",
@@ -9279,7 +9304,7 @@
     "name": "Gloamwarden",
     "family": "guardian_02",
     "availability": "world",
-    "level": 10,
+    "level": 18,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -9323,7 +9348,7 @@
     "availability": "world",
     "name": "Gloamwarden",
     "family": "guardian_02",
-    "level": 10,
+    "level": 18,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_02_vellenwood",
@@ -9367,7 +9392,7 @@
     "availability": "world",
     "name": "Gloamwarden",
     "family": "guardian_02",
-    "level": 10,
+    "level": 18,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_02_karrowmoor",
@@ -9411,7 +9436,7 @@
     "availability": "world",
     "name": "Gloamwarden",
     "family": "guardian_02",
-    "level": 10,
+    "level": 18,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_02_gravelmaw",
@@ -9454,7 +9479,7 @@
     "name": "Thorn Sovereign",
     "family": "guardian_03",
     "availability": "world",
-    "level": 10,
+    "level": 27,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -9498,7 +9523,7 @@
     "availability": "world",
     "name": "Thorn Sovereign",
     "family": "guardian_03",
-    "level": 10,
+    "level": 27,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_03_vellenwood",
@@ -9542,7 +9567,7 @@
     "availability": "world",
     "name": "Thorn Sovereign",
     "family": "guardian_03",
-    "level": 10,
+    "level": 27,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_03_karrowmoor",
@@ -9586,7 +9611,7 @@
     "availability": "world",
     "name": "Thorn Sovereign",
     "family": "guardian_03",
-    "level": 10,
+    "level": 27,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_03_gravelmaw",
@@ -9629,7 +9654,7 @@
     "name": "Hollow Crown",
     "family": "guardian_04",
     "availability": "world",
-    "level": 10,
+    "level": 25,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -9673,7 +9698,7 @@
     "availability": "world",
     "name": "Hollow Crown",
     "family": "guardian_04",
-    "level": 10,
+    "level": 25,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_04_vellenwood",
@@ -9717,7 +9742,7 @@
     "availability": "world",
     "name": "Hollow Crown",
     "family": "guardian_04",
-    "level": 10,
+    "level": 25,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_04_karrowmoor",
@@ -9761,7 +9786,7 @@
     "availability": "world",
     "name": "Hollow Crown",
     "family": "guardian_04",
-    "level": 10,
+    "level": 25,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_04_gravelmaw",
@@ -9804,7 +9829,7 @@
     "name": "Stonevein",
     "family": "guardian_05",
     "availability": "world",
-    "level": 10,
+    "level": 20,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -9848,7 +9873,7 @@
     "availability": "world",
     "name": "Stonevein",
     "family": "guardian_05",
-    "level": 10,
+    "level": 20,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_05_vellenwood",
@@ -9892,7 +9917,7 @@
     "availability": "world",
     "name": "Stonevein",
     "family": "guardian_05",
-    "level": 10,
+    "level": 20,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_05_karrowmoor",
@@ -9936,7 +9961,7 @@
     "availability": "world",
     "name": "Stonevein",
     "family": "guardian_05",
-    "level": 10,
+    "level": 20,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_05_gravelmaw",
@@ -9979,7 +10004,7 @@
     "name": "Nightbloom",
     "family": "guardian_06",
     "availability": "world",
-    "level": 10,
+    "level": 23,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -10023,7 +10048,7 @@
     "availability": "world",
     "name": "Nightbloom",
     "family": "guardian_06",
-    "level": 10,
+    "level": 23,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_06_vellenwood",
@@ -10067,7 +10092,7 @@
     "availability": "world",
     "name": "Nightbloom",
     "family": "guardian_06",
-    "level": 10,
+    "level": 23,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_06_karrowmoor",
@@ -10111,7 +10136,7 @@
     "availability": "world",
     "name": "Nightbloom",
     "family": "guardian_06",
-    "level": 10,
+    "level": 23,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_06_gravelmaw",
@@ -10154,7 +10179,7 @@
     "name": "Dreadroot",
     "family": "guardian_07",
     "availability": "world",
-    "level": 10,
+    "level": 26,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -10198,7 +10223,7 @@
     "availability": "world",
     "name": "Dreadroot",
     "family": "guardian_07",
-    "level": 10,
+    "level": 26,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_07_vellenwood",
@@ -10242,7 +10267,7 @@
     "availability": "world",
     "name": "Dreadroot",
     "family": "guardian_07",
-    "level": 10,
+    "level": 26,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_07_karrowmoor",
@@ -10286,7 +10311,7 @@
     "availability": "world",
     "name": "Dreadroot",
     "family": "guardian_07",
-    "level": 10,
+    "level": 26,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_07_gravelmaw",
@@ -10329,7 +10354,7 @@
     "name": "Veilkeeper",
     "family": "guardian_08",
     "availability": "world",
-    "level": 10,
+    "level": 24,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -10373,7 +10398,7 @@
     "availability": "world",
     "name": "Veilkeeper",
     "family": "guardian_08",
-    "level": 10,
+    "level": 24,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_08_vellenwood",
@@ -10417,7 +10442,7 @@
     "availability": "world",
     "name": "Veilkeeper",
     "family": "guardian_08",
-    "level": 10,
+    "level": 24,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_08_karrowmoor",
@@ -10461,7 +10486,7 @@
     "availability": "world",
     "name": "Veilkeeper",
     "family": "guardian_08",
-    "level": 10,
+    "level": 24,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_08_gravelmaw",
@@ -10504,7 +10529,7 @@
     "name": "Elder Thorne",
     "family": "guardian_09",
     "availability": "world",
-    "level": 10,
+    "level": 29,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2600,
@@ -10548,7 +10573,7 @@
     "availability": "world",
     "name": "Elder Thorne",
     "family": "guardian_09",
-    "level": 10,
+    "level": 29,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_09_vellenwood",
@@ -10592,7 +10617,7 @@
     "availability": "world",
     "name": "Elder Thorne",
     "family": "guardian_09",
-    "level": 10,
+    "level": 29,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_09_karrowmoor",
@@ -10636,7 +10661,7 @@
     "availability": "world",
     "name": "Elder Thorne",
     "family": "guardian_09",
-    "level": 10,
+    "level": 29,
     "profileId": "boss",
     "presentation": {
       "id": "guardian_09_gravelmaw",
@@ -10677,7 +10702,7 @@
   {
     "id": "guardian_01_t20",
     "availability": "world",
-    "level": 20,
+    "level": 32,
     "loot": {
       "rolls": [
         {
@@ -10709,7 +10734,7 @@
   {
     "id": "guardian_02_t20",
     "availability": "world",
-    "level": 20,
+    "level": 28,
     "loot": {
       "rolls": [
         {
@@ -10741,7 +10766,7 @@
   {
     "id": "guardian_03_t20",
     "availability": "world",
-    "level": 20,
+    "level": 37,
     "loot": {
       "rolls": [
         {
@@ -10773,7 +10798,7 @@
   {
     "id": "guardian_04_t20",
     "availability": "world",
-    "level": 20,
+    "level": 35,
     "loot": {
       "rolls": [
         {
@@ -10805,7 +10830,7 @@
   {
     "id": "guardian_05_t20",
     "availability": "world",
-    "level": 20,
+    "level": 30,
     "loot": {
       "rolls": [
         {
@@ -10837,7 +10862,7 @@
   {
     "id": "guardian_06_t20",
     "availability": "world",
-    "level": 20,
+    "level": 33,
     "loot": {
       "rolls": [
         {
@@ -10869,7 +10894,7 @@
   {
     "id": "guardian_07_t20",
     "availability": "world",
-    "level": 20,
+    "level": 36,
     "loot": {
       "rolls": [
         {
@@ -10901,7 +10926,7 @@
   {
     "id": "guardian_08_t20",
     "availability": "world",
-    "level": 20,
+    "level": 34,
     "loot": {
       "rolls": [
         {
@@ -10933,7 +10958,7 @@
   {
     "id": "guardian_09_t20",
     "availability": "world",
-    "level": 20,
+    "level": 39,
     "loot": {
       "rolls": [
         {
@@ -12416,7 +12441,11 @@
       "moveSpeedMps": 1.6,
       "walkSpeedMps": 0.4,
       "attackStyle": "melee",
-      "attackRangeM": 1.8
+      "attackRangeM": 1.8,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -12437,7 +12466,7 @@
     "presentation": {
       "id": "webweaver_spider",
       "assetId": "creature_webweaver_spider",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "vellenwood",
       "activity": "patrol",
       "description": "A small six-legged briar weaver with amber and ivory shell markings, jointed searching legs and a quick snapping mouth.",
@@ -12486,7 +12515,11 @@
       "moveSpeedMps": 1.6,
       "walkSpeedMps": 0.4,
       "attackStyle": "melee",
-      "attackRangeM": 1.8
+      "attackRangeM": 1.8,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -12516,7 +12549,7 @@
     "presentation": {
       "id": "marsh_wasp",
       "assetId": "creature_marsh_wasp",
-      "scale": 1,
+      "scale": 0.72,
       "regionId": "vellenwood",
       "activity": "patrol",
       "description": "A larger leaf-armored wasp with indigo petal wings, peat-dark chitin and a heavy hooked stinger. It patrols reedbank nest margins.",
@@ -12586,7 +12619,7 @@
     "presentation": {
       "id": "goblin_scout",
       "assetId": "creature_goblin_scout",
-      "scale": 1,
+      "scale": 0.86,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "Goblin Scout inhabits hedge camps. Uses dagger thrust with 2 seconds between attacks.",
@@ -12656,7 +12689,7 @@
     "presentation": {
       "id": "goblin_archer",
       "assetId": "creature_goblin_archer",
-      "scale": 1,
+      "scale": 0.88,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "Goblin Archer inhabits hedge camp lookouts. Uses bow shot with 2 seconds between attacks.",
@@ -12738,7 +12771,7 @@
     "presentation": {
       "id": "goblin_shaman",
       "assetId": "creature_goblin_shaman",
-      "scale": 1,
+      "scale": 0.9,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "Goblin Shaman inhabits abandoned farm circles. Uses staff curse with 2.8 seconds between attacks.",
@@ -13018,7 +13051,7 @@
     "presentation": {
       "id": "zombie",
       "assetId": "creature_zombie",
-      "scale": 1,
+      "scale": 0.85,
       "regionId": "fallowmarch",
       "activity": "patrol",
       "description": "Zombie inhabits abandoned graveyards. Uses grasp with 3.4 seconds between attacks.",
@@ -13450,7 +13483,7 @@
     "presentation": {
       "id": "stone_golem",
       "assetId": "creature_stone_golem",
-      "scale": 1,
+      "scale": 0.88,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A broad stone guardian with layered sediment, quartz seams and lichen patches. Its heavy arms drive a close crushing strike.",
@@ -13817,7 +13850,7 @@
     "presentation": {
       "id": "mossback_sentinel",
       "assetId": "creature_mossback_sentinel",
-      "scale": 1,
+      "scale": 0.86,
       "regionId": "vellenwood",
       "activity": "patrol",
       "description": "A walking grove sentinel with layered bark, moss seams and broad root feet. It protects old woodland with a heavy branch-arm strike.",
@@ -13923,38 +13956,6 @@
     }
   },
   {
-    "id": "briar_harrow_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "briar_harrow_t10",
-    "adjustments": {
-      "gold": [
-        0,
-        0
-      ]
-    },
-    "loot": {
-      "rolls": []
-    },
-    "retired": true
-  },
-  {
-    "id": "briar_harrow_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "briar_harrow_t10",
-    "adjustments": {
-      "gold": [
-        0,
-        0
-      ]
-    },
-    "loot": {
-      "rolls": []
-    },
-    "retired": true
-  },
-  {
     "id": "briar_harrow_t20",
     "name": "Bramble Tiller",
     "availability": "world",
@@ -13990,26 +13991,24 @@
     }
   },
   {
-    "id": "fen_crawler_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "fen_crawler_t10",
-    "adjustments": {
-      "gold": [
-        0,
-        0
-      ]
-    },
-    "loot": {
-      "rolls": []
-    },
-    "retired": true
-  },
-  {
     "id": "fen_crawler_t5",
     "availability": "world",
-    "level": 5,
-    "baseId": "fen_crawler_t10"
+    "level": 6,
+    "baseId": "fen_crawler_t10",
+    "name": "Fen Skitterling",
+    "presentation": {
+      "id": "fen_crawler_young",
+      "assetId": "creature_fen_crawler",
+      "scale": 0.5,
+      "regionId": "vellenwood",
+      "activity": "prowl",
+      "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
+      "kind": "basic"
+    },
+    "adjustments": {
+      "behaviour": "territorial",
+      "aggroRadius": 4
+    }
   },
   {
     "id": "fen_crawler_t20",
@@ -14018,16 +14017,24 @@
     "baseId": "fen_crawler_t10"
   },
   {
-    "id": "reed_strider_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "reed_strider_t10"
-  },
-  {
     "id": "reed_strider_t5",
     "availability": "world",
     "level": 5,
-    "baseId": "reed_strider_t10"
+    "baseId": "reed_strider_t10",
+    "name": "Young Reed Strider",
+    "presentation": {
+      "id": "reed_strider_young",
+      "assetId": "creature_reed_strider",
+      "scale": 0.55,
+      "regionId": "vellenwood",
+      "activity": "forage",
+      "description": "A six-legged wetland mimic with a raised reed-thin body, folded walking limbs, tapered abdomen and a long split feeding mask.",
+      "kind": "basic"
+    },
+    "adjustments": {
+      "behaviour": "territorial",
+      "aggroRadius": 4
+    }
   },
   {
     "id": "reed_strider_t20",
@@ -14036,44 +14043,30 @@
     "baseId": "reed_strider_t10"
   },
   {
-    "id": "thorn_maw_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "thorn_maw_t10"
-  },
-  {
-    "id": "thorn_maw_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "thorn_maw_t10",
-    "adjustments": {
-      "gold": [
-        0,
-        0
-      ]
-    },
-    "loot": {
-      "rolls": []
-    },
-    "retired": true
-  },
-  {
     "id": "thorn_maw_t20",
     "availability": "world",
     "level": 20,
     "baseId": "thorn_maw_t10"
   },
   {
-    "id": "heath_jack_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "heath_jack_t10"
-  },
-  {
     "id": "heath_jack_t5",
     "availability": "world",
     "level": 5,
-    "baseId": "heath_jack_t10"
+    "baseId": "heath_jack_t10",
+    "name": "Heath Sprout",
+    "presentation": {
+      "id": "heath_jack_young",
+      "assetId": "creature_heath_jack",
+      "scale": 0.48,
+      "regionId": "fallowmarch",
+      "activity": "forage",
+      "description": "A small russet heath hare with tall ears, cream cheek fur and a charcoal saddle. It bounds through low cover and kicks when cornered.",
+      "kind": "basic"
+    },
+    "adjustments": {
+      "behaviour": "territorial",
+      "aggroRadius": 4
+    }
   },
   {
     "id": "heath_jack_t20",
@@ -14082,34 +14075,10 @@
     "baseId": "heath_jack_t10"
   },
   {
-    "id": "cairn_treader_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "cairn_treader_t10"
-  },
-  {
-    "id": "cairn_treader_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "cairn_treader_t10"
-  },
-  {
     "id": "cairn_treader_t20",
     "availability": "world",
     "level": 20,
     "baseId": "cairn_treader_t10"
-  },
-  {
-    "id": "flint_mandible_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "flint_mandible_t10"
-  },
-  {
-    "id": "flint_mandible_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "flint_mandible_t10"
   },
   {
     "id": "flint_mandible_t20",
@@ -14118,34 +14087,10 @@
     "baseId": "flint_mandible_t10"
   },
   {
-    "id": "vault_custodian_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "vault_custodian_t10"
-  },
-  {
-    "id": "vault_custodian_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "vault_custodian_t10"
-  },
-  {
     "id": "vault_custodian_t20",
     "availability": "world",
     "level": 20,
     "baseId": "vault_custodian_t10"
-  },
-  {
-    "id": "blind_cave_weaver_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "blind_cave_weaver_t10"
-  },
-  {
-    "id": "blind_cave_weaver_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "blind_cave_weaver_t10"
   },
   {
     "id": "blind_cave_weaver_t20",
@@ -14154,139 +14099,16 @@
     "baseId": "blind_cave_weaver_t10"
   },
   {
-    "id": "scree_watcher_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "scree_watcher_t10"
-  },
-  {
-    "id": "scree_watcher_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "scree_watcher_t10"
-  },
-  {
     "id": "scree_watcher_t20",
     "availability": "world",
     "level": 20,
     "baseId": "scree_watcher_t10"
   },
   {
-    "id": "kiln_marrow_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "kiln_marrow_t20"
-  },
-  {
-    "id": "kiln_marrow_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "kiln_marrow_t20"
-  },
-  {
-    "id": "kiln_marrow_t10",
-    "availability": "world",
-    "level": 10,
-    "baseId": "kiln_marrow_t20"
-  },
-  {
-    "id": "slag_crawler_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "slag_crawler_t10"
-  },
-  {
-    "id": "slag_crawler_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "slag_crawler_t10"
-  },
-  {
     "id": "slag_crawler_t20",
     "availability": "world",
     "level": 20,
     "baseId": "slag_crawler_t10"
-  },
-  {
-    "id": "cinder_penitent_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "cinder_penitent_t20"
-  },
-  {
-    "id": "cinder_penitent_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "cinder_penitent_t20"
-  },
-  {
-    "id": "cinder_penitent_t10",
-    "availability": "world",
-    "level": 10,
-    "baseId": "cinder_penitent_t20"
-  },
-  {
-    "id": "grave_lantern_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "grave_lantern_t20"
-  },
-  {
-    "id": "grave_lantern_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "grave_lantern_t20"
-  },
-  {
-    "id": "grave_lantern_t10",
-    "availability": "world",
-    "level": 10,
-    "baseId": "grave_lantern_t20"
-  },
-  {
-    "id": "veil_reaper_t1",
-    "availability": "world",
-    "level": 1,
-    "baseId": "veil_reaper_t20",
-    "presentation": {
-      "id": "veil_reaper_t1",
-      "assetId": "creature_veil_reaper",
-      "scale": 0.45,
-      "regionId": "wilderness",
-      "activity": "patrol",
-      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
-      "kind": "basic"
-    }
-  },
-  {
-    "id": "veil_reaper_t5",
-    "availability": "world",
-    "level": 5,
-    "baseId": "veil_reaper_t20",
-    "presentation": {
-      "id": "veil_reaper_t5",
-      "assetId": "creature_veil_reaper",
-      "scale": 0.6,
-      "regionId": "wilderness",
-      "activity": "patrol",
-      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
-      "kind": "basic"
-    }
-  },
-  {
-    "id": "veil_reaper_t10",
-    "availability": "world",
-    "level": 10,
-    "baseId": "veil_reaper_t20",
-    "presentation": {
-      "id": "veil_reaper_t10",
-      "assetId": "creature_veil_reaper",
-      "scale": 0.78,
-      "regionId": "wilderness",
-      "activity": "patrol",
-      "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",
-      "kind": "basic"
-    }
   },
   {
     "id": "amethyst_dragon_t50",
@@ -16354,7 +16176,11 @@
       "moveSpeedMps": 1.6,
       "walkSpeedMps": 0.4,
       "attackStyle": "melee",
-      "attackRangeM": 1.8
+      "attackRangeM": 1.8,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -16564,7 +16390,11 @@
       "moveSpeedMps": 1.6,
       "walkSpeedMps": 0.4,
       "attackStyle": "melee",
-      "attackRangeM": 1.8
+      "attackRangeM": 1.8,
+      "gold": [
+        0,
+        0
+      ]
     },
     "loot": {
       "rolls": [
@@ -17017,18 +16847,6 @@
               "rollId": "items"
             }
           ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_frog",
-              "rollId": "starter_gear"
-            }
-          ]
         }
       ]
     }
@@ -17069,18 +16887,6 @@
             {
               "tableId": "shared_t0_hen",
               "rollId": "items_2"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_hen",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -17125,18 +16931,6 @@
               "rollId": "items_2"
             }
           ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_hen",
-              "rollId": "starter_gear"
-            }
-          ]
         }
       ]
     }
@@ -17177,18 +16971,6 @@
             {
               "tableId": "shared_t0_goat",
               "rollId": "items_2"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_goat",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -17233,18 +17015,6 @@
               "rollId": "items_2"
             }
           ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_cattle",
-              "rollId": "starter_gear"
-            }
-          ]
         }
       ]
     }
@@ -17285,18 +17055,6 @@
             {
               "tableId": "shared_t0_coney",
               "rollId": "items_2"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_coney",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -17649,18 +17407,6 @@
               "rollId": "items_2"
             }
           ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_gloam_fox",
-              "rollId": "starter_gear"
-            }
-          ]
         }
       ]
     }
@@ -17692,18 +17438,6 @@
             {
               "tableId": "shared_t0_fox",
               "rollId": "items_2"
-            }
-          ]
-        },
-        {
-          "id": "starter_gear",
-          "name": "Starter gear",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_t0_fox",
-              "rollId": "starter_gear"
             }
           ]
         }
@@ -17742,21 +17476,15 @@
   },
   {
     "id": "bramble_hogs",
-    "baseId": "hog_t5",
+    "baseId": "fen_crawler_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Fen Crawler",
-      "family": "fen_crawler",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "name": "Fen Crawler",
     "family": "fen_crawler",
-    "level": 6,
+    "level": 14,
     "presentation": {
       "id": "fen_crawler",
       "assetId": "creature_fen_crawler",
-      "scale": 1,
+      "scale": 0.78,
       "regionId": "vellenwood",
       "activity": "prowl",
       "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
@@ -17779,40 +17507,15 @@
   },
   {
     "id": "blackwater_frogs",
-    "baseId": "frog_t1",
+    "baseId": "reed_strider_t10",
     "availability": "world",
     "name": "Reed Strider",
-    "level": 5,
-    "adjustments": {
-      "attackSpeedMs": 1200,
-      "aggroRadius": 4,
-      "behaviour": "passive",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4,
-      "name": "Reed Strider",
-      "family": "reed_strider"
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items",
-          "name": "Items",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_marsh_gland_raw_venison",
-              "rollId": "items"
-            }
-          ]
-        }
-      ]
-    },
+    "level": 11,
     "family": "reed_strider",
     "presentation": {
       "id": "reed_strider",
       "assetId": "creature_reed_strider",
-      "scale": 1,
+      "scale": 0.78,
       "regionId": "vellenwood",
       "activity": "forage",
       "description": "A six-legged wetland mimic with a raised reed-thin body, folded walking limbs, tapered abdomen and a long split feeding mask.",
@@ -17886,19 +17589,15 @@
   },
   {
     "id": "pack_vellenwood_mossbound_west_bramble",
-    "baseId": "webweaver_spider_t5",
+    "baseId": "fen_crawler_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Fen Crawler",
-      "family": "fen_crawler"
-    },
     "name": "Fen Crawler",
     "family": "fen_crawler",
-    "level": 7,
+    "level": 14,
     "presentation": {
       "id": "fen_crawler",
       "assetId": "creature_fen_crawler",
-      "scale": 1,
+      "scale": 0.78,
       "regionId": "vellenwood",
       "activity": "prowl",
       "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
@@ -17922,20 +17621,15 @@
   },
   {
     "id": "bracken_tapir_residents",
-    "baseId": "bracken_tapir_t5",
+    "baseId": "fen_crawler_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Fen Crawler",
-      "family": "fen_crawler",
-      "moveSpeedMps": 1.6
-    },
     "name": "Fen Crawler",
     "family": "fen_crawler",
-    "level": 5,
+    "level": 14,
     "presentation": {
       "id": "fen_crawler",
       "assetId": "creature_fen_crawler",
-      "scale": 1,
+      "scale": 0.78,
       "regionId": "vellenwood",
       "activity": "prowl",
       "description": "A six-legged fen scavenger with mottled swamp chitin and curved feeding blades beneath its low front shield.",
@@ -17944,21 +17638,15 @@
   },
   {
     "id": "blackwater_heron_residents",
-    "baseId": "blackwater_heron_t5",
+    "baseId": "reed_strider_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Reed Strider",
-      "family": "reed_strider",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "name": "Reed Strider",
     "family": "reed_strider",
-    "level": 6,
+    "level": 11,
     "presentation": {
       "id": "reed_strider",
       "assetId": "creature_reed_strider",
-      "scale": 1,
+      "scale": 0.78,
       "regionId": "vellenwood",
       "activity": "forage",
       "description": "A six-legged wetland mimic with a raised reed-thin body, folded walking limbs, tapered abdomen and a long split feeding mask.",
@@ -17977,21 +17665,15 @@
   },
   {
     "id": "highcairn_bears",
-    "baseId": "bear_t10",
+    "baseId": "cairn_treader_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Cairn Treader",
-      "family": "cairn_treader",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Cairn Treader",
     "family": "cairn_treader",
     "level": 15,
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
-      "scale": 0.9,
+      "scale": 0.76,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A low, weathered slab creature with a recessed head and heavy hammer forearms. It transfers its weight before striking.",
@@ -18000,21 +17682,15 @@
   },
   {
     "id": "scree_boars",
-    "baseId": "boar_t10",
+    "baseId": "vault_custodian_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Vault Custodian",
-      "family": "vault_custodian",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 13,
+    "level": 16,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
-      "scale": 0.84,
+      "scale": 0.74,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
@@ -18023,21 +17699,15 @@
   },
   {
     "id": "ridge_ibex",
-    "baseId": "ibex_t10",
+    "baseId": "scree_watcher_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Scree Watcher",
-      "family": "scree_watcher",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Scree Watcher",
     "family": "scree_watcher",
     "level": 12,
     "presentation": {
       "id": "scree_watcher",
       "assetId": "creature_scree_watcher",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "An eroded stone effigy with tapered stilt legs, a closed split hood and flat forearms. It turns its torso to listen across the scree.",
@@ -18046,21 +17716,15 @@
   },
   {
     "id": "terrace_aurochs",
-    "baseId": "aurochs_t10",
+    "baseId": "vault_custodian_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Vault Custodian",
-      "family": "vault_custodian",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 13,
+    "level": 16,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
-      "scale": 0.84,
+      "scale": 0.74,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
@@ -18069,52 +17733,15 @@
   },
   {
     "id": "tarn_coyotes",
-    "baseId": "coyote_t5",
+    "baseId": "cairn_treader_t10",
     "availability": "world",
     "name": "Cairn Treader",
-    "level": 10,
-    "adjustments": {
-      "attackSpeedMs": 1800,
-      "aggroRadius": 12,
-      "behaviour": "aggressive",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4,
-      "name": "Cairn Treader",
-      "family": "cairn_treader"
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_cairn_pelt_coyote_fang",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_cairn_pelt_coyote_fang",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
+    "level": 13,
     "family": "cairn_treader",
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
-      "scale": 0.9,
+      "scale": 0.76,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A low, weathered slab creature with a recessed head and heavy hammer forearms. It transfers its weight before striking.",
@@ -18123,21 +17750,15 @@
   },
   {
     "id": "pack_karrowmoor_tarn_track_east_mandibles",
-    "baseId": "rimeback_tortoise_t10",
+    "baseId": "flint_mandible_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Flint Mandible",
-      "family": "flint_mandible",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Flint Mandible",
     "family": "flint_mandible",
-    "level": 10,
+    "level": 14,
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
-      "scale": 0.8,
+      "scale": 0.7,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
@@ -18146,21 +17767,15 @@
   },
   {
     "id": "pack_karrowmoor_moor_road_far_west_watch",
-    "baseId": "slateback_tortoise_t10",
+    "baseId": "vault_custodian_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Vault Custodian",
-      "family": "vault_custodian",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 10,
+    "level": 16,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
-      "scale": 0.84,
+      "scale": 0.74,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
@@ -18169,21 +17784,15 @@
   },
   {
     "id": "quillback_porcupine_residents",
-    "baseId": "quillback_porcupine_t10",
+    "baseId": "scree_watcher_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Scree Watcher",
-      "family": "scree_watcher",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Scree Watcher",
     "family": "scree_watcher",
     "level": 12,
     "presentation": {
       "id": "scree_watcher",
       "assetId": "creature_scree_watcher",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "An eroded stone effigy with tapered stilt legs, a closed split hood and flat forearms. It turns its torso to listen across the scree.",
@@ -18192,21 +17801,15 @@
   },
   {
     "id": "cairn_bighorn_residents",
-    "baseId": "cairn_bighorn_t10",
+    "baseId": "cairn_treader_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Cairn Treader",
-      "family": "cairn_treader",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Cairn Treader",
     "family": "cairn_treader",
-    "level": 12,
+    "level": 13,
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
-      "scale": 0.9,
+      "scale": 0.76,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A low, weathered slab creature with a recessed head and heavy hammer forearms. It transfers its weight before striking.",
@@ -18215,20 +17818,15 @@
   },
   {
     "id": "reedjaw_crocodile_residents",
-    "baseId": "reedjaw_crocodile_t10",
+    "baseId": "flint_mandible_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Flint Mandible",
-      "family": "flint_mandible",
-      "walkSpeedMps": 0.4
-    },
     "name": "Flint Mandible",
     "family": "flint_mandible",
     "level": 16,
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
-      "scale": 0.8,
+      "scale": 0.7,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
@@ -18237,21 +17835,15 @@
   },
   {
     "id": "slateback_tortoise_residents",
-    "baseId": "slateback_tortoise_t10",
+    "baseId": "vault_custodian_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Vault Custodian",
-      "family": "vault_custodian",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 10,
+    "level": 16,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
-      "scale": 0.84,
+      "scale": 0.74,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
@@ -18260,21 +17852,15 @@
   },
   {
     "id": "scree_bustard_residents",
-    "baseId": "scree_bustard_t10",
+    "baseId": "scree_watcher_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Scree Watcher",
-      "family": "scree_watcher",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Scree Watcher",
     "family": "scree_watcher",
     "level": 12,
     "presentation": {
       "id": "scree_watcher",
       "assetId": "creature_scree_watcher",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "An eroded stone effigy with tapered stilt legs, a closed split hood and flat forearms. It turns its torso to listen across the scree.",
@@ -18283,21 +17869,15 @@
   },
   {
     "id": "antler_beetle_residents",
-    "baseId": "antler_beetle_t10",
+    "baseId": "flint_mandible_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Flint Mandible",
-      "family": "flint_mandible",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Flint Mandible",
     "family": "flint_mandible",
-    "level": 12,
+    "level": 14,
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
-      "scale": 0.8,
+      "scale": 0.7,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
@@ -18306,21 +17886,15 @@
   },
   {
     "id": "quarry_nightmare_residents",
-    "baseId": "quarry_nightmare_t10",
+    "baseId": "cairn_treader_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Cairn Treader",
-      "family": "cairn_treader",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Cairn Treader",
     "family": "cairn_treader",
     "level": 19,
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
-      "scale": 0.9,
+      "scale": 0.76,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A low, weathered slab creature with a recessed head and heavy hammer forearms. It transfers its weight before striking.",
@@ -18329,21 +17903,15 @@
   },
   {
     "id": "gravelmaw_ch1_rats",
-    "baseId": "rat_t10",
+    "baseId": "blind_cave_weaver_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Blind Cave Weaver",
-      "family": "blind_cave_weaver",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "name": "Blind Cave Weaver",
     "family": "blind_cave_weaver",
-    "level": 11,
+    "level": 14,
     "presentation": {
       "id": "blind_cave_weaver",
       "assetId": "creature_blind_cave_weaver",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
@@ -18352,21 +17920,15 @@
   },
   {
     "id": "gravelmaw_ch2_scorpions",
-    "baseId": "scorpion_t10",
+    "baseId": "blind_cave_weaver_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Blind Cave Weaver",
-      "family": "blind_cave_weaver",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "name": "Blind Cave Weaver",
     "family": "blind_cave_weaver",
     "level": 15,
     "presentation": {
       "id": "blind_cave_weaver",
       "assetId": "creature_blind_cave_weaver",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
@@ -18375,20 +17937,15 @@
   },
   {
     "id": "gravelmaw_ch2_crabs",
-    "baseId": "crab_t10",
+    "baseId": "flint_mandible_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Flint Mandible",
-      "family": "flint_mandible",
-      "walkSpeedMps": 0.4
-    },
     "name": "Flint Mandible",
     "family": "flint_mandible",
-    "level": 12,
+    "level": 14,
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
-      "scale": 0.8,
+      "scale": 0.7,
       "regionId": "karrowmoor",
       "activity": "patrol",
       "description": "A six-legged burrower with charcoal flint plates, bronze mineral seams and blunt crushing mandibles.",
@@ -18397,21 +17954,15 @@
   },
   {
     "id": "gravelmaw_ch3_bears",
-    "baseId": "bear_t10",
+    "baseId": "vault_custodian_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Vault Custodian",
-      "family": "vault_custodian",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 15,
+    "level": 16,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
-      "scale": 0.84,
+      "scale": 0.74,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A carved limestone sentinel with weathered stone limbs and a dark blue oath sash. It guards the sealed vault.",
@@ -18420,19 +17971,15 @@
   },
   {
     "id": "gravelmaw_amethyst_spiders",
-    "baseId": "amethyst_spider_t5",
+    "baseId": "blind_cave_weaver_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Blind Cave Weaver",
-      "family": "blind_cave_weaver"
-    },
     "name": "Blind Cave Weaver",
     "family": "blind_cave_weaver",
-    "level": 9,
+    "level": 14,
     "presentation": {
       "id": "blind_cave_weaver",
       "assetId": "creature_blind_cave_weaver",
-      "scale": 1,
+      "scale": 0.8,
       "regionId": "gravelmaw",
       "activity": "patrol",
       "description": "A pale six-legged cave weaver with a ribbed ivory shell and long searching forelegs. It feels for movement before lunging.",
@@ -18441,49 +17988,15 @@
   },
   {
     "id": "ashback_bears",
-    "baseId": "bear_t10",
+    "baseId": "kiln_marrow_t20",
     "availability": "world",
     "name": "Kiln Marrow",
-    "level": 20,
-    "loot": {
-      "rolls": [
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_charhide_raw_ember_haunch",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_charhide_raw_ember_haunch",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "adjustments": {
-      "name": "Kiln Marrow",
-      "family": "kiln_marrow",
-      "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.4
-    },
+    "level": 26,
     "family": "kiln_marrow",
     "presentation": {
       "id": "kiln_marrow",
       "assetId": "creature_kiln_marrow",
-      "scale": 0.88,
+      "scale": 0.8,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A hunched stone giant with long, heavy arms. Banked heat shows through narrow cracks in its cooled ash hide.",
@@ -18492,49 +18005,15 @@
   },
   {
     "id": "cinder_boars",
-    "baseId": "boar_t10",
+    "baseId": "slag_crawler_t10",
     "availability": "world",
     "name": "Slag Crawler",
     "level": 20,
-    "loot": {
-      "rolls": [
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_charhide_raw_ember_haunch_2",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_charhide_raw_ember_haunch_2",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "adjustments": {
-      "name": "Slag Crawler",
-      "family": "slag_crawler",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "family": "slag_crawler",
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
-      "scale": 1,
+      "scale": 0.82,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
@@ -18543,49 +18022,15 @@
   },
   {
     "id": "emberhorn_ibex",
-    "baseId": "ibex_t10",
+    "baseId": "cinder_penitent_t20",
     "availability": "world",
     "name": "Ashbound Votary",
-    "level": 20,
-    "loot": {
-      "rolls": [
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_charhide_emberhorn",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_charhide_emberhorn",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "adjustments": {
-      "name": "Ashbound Votary",
-      "family": "cinder_penitent",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
+    "level": 23,
     "family": "cinder_penitent",
     "presentation": {
       "id": "cinder_penitent",
       "assetId": "creature_cinder_penitent",
-      "scale": 1,
+      "scale": 0.9,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
@@ -18594,40 +18039,15 @@
   },
   {
     "id": "cinder_adders",
-    "baseId": "viper_t1",
+    "baseId": "grave_lantern_t20",
     "availability": "world",
     "name": "Ashen Ghoul",
-    "level": 20,
-    "adjustments": {
-      "attackSpeedMs": 3000,
-      "aggroRadius": 8,
-      "behaviour": "territorial",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4,
-      "name": "Ashen Ghoul",
-      "family": "grave_lantern"
-    },
-    "loot": {
-      "rolls": [
-        {
-          "id": "items",
-          "name": "Items",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_kiln_fang_venom_gland",
-              "rollId": "items"
-            }
-          ]
-        }
-      ]
-    },
+    "level": 24,
     "family": "grave_lantern",
     "presentation": {
       "id": "grave_lantern",
       "assetId": "creature_grave_lantern",
-      "scale": 1.08,
+      "scale": 0.92,
       "regionId": "wilderness",
       "activity": "patrol",
       "description": "A crouched corpse with cold pale skin and torn dark clothing. Its long arms hang beside a lean, hunched torso as it searches the graves.",
@@ -18636,21 +18056,15 @@
   },
   {
     "id": "pack_kilnhalt_clinker_southern_approach_west",
-    "baseId": "cindercrest_salamander_t20",
+    "baseId": "kiln_marrow_t20",
     "availability": "world",
-    "adjustments": {
-      "name": "Kiln Marrow",
-      "family": "kiln_marrow",
-      "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.4
-    },
     "name": "Kiln Marrow",
     "family": "kiln_marrow",
-    "level": 23,
+    "level": 26,
     "presentation": {
       "id": "kiln_marrow",
       "assetId": "creature_kiln_marrow",
-      "scale": 0.88,
+      "scale": 0.8,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A hunched stone giant with long, heavy arms. Banked heat shows through narrow cracks in its cooled ash hide.",
@@ -18659,21 +18073,15 @@
   },
   {
     "id": "pack_kilnhalt_cinderpine_northwest_outer",
-    "baseId": "kiln_salamander_t20",
+    "baseId": "slag_crawler_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Slag Crawler",
-      "family": "slag_crawler",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "name": "Slag Crawler",
     "family": "slag_crawler",
     "level": 22,
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
-      "scale": 1,
+      "scale": 0.82,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
@@ -18687,21 +18095,15 @@
   },
   {
     "id": "ashscale_monitor_residents",
-    "baseId": "ashscale_monitor_t20",
+    "baseId": "cinder_penitent_t20",
     "availability": "world",
-    "adjustments": {
-      "name": "Ashbound Votary",
-      "family": "cinder_penitent",
-      "moveSpeedMps": 1.3,
-      "walkSpeedMps": 0.4
-    },
     "name": "Ashbound Votary",
     "family": "cinder_penitent",
     "level": 25,
     "presentation": {
       "id": "cinder_penitent",
       "assetId": "creature_cinder_penitent",
-      "scale": 1,
+      "scale": 0.9,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A votary in a pale ash cowl and scorched maroon robes. A dark face slit sits above its long reaching hands.",
@@ -18710,20 +18112,15 @@
   },
   {
     "id": "slag_centipede_residents",
-    "baseId": "slag_centipede_t20",
+    "baseId": "slag_crawler_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Slag Crawler",
-      "family": "slag_crawler",
-      "moveSpeedMps": 1.6
-    },
     "name": "Slag Crawler",
     "family": "slag_crawler",
     "level": 25,
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
-      "scale": 1,
+      "scale": 0.82,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
@@ -18732,21 +18129,15 @@
   },
   {
     "id": "cinder_ravager_residents",
-    "baseId": "cinder_ravager_t20",
+    "baseId": "kiln_marrow_t20",
     "availability": "world",
-    "adjustments": {
-      "name": "Kiln Marrow",
-      "family": "kiln_marrow",
-      "moveSpeedMps": 1.2,
-      "walkSpeedMps": 0.4
-    },
     "name": "Kiln Marrow",
     "family": "kiln_marrow",
     "level": 29,
     "presentation": {
       "id": "kiln_marrow",
       "assetId": "creature_kiln_marrow",
-      "scale": 0.88,
+      "scale": 0.8,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A hunched stone giant with long, heavy arms. Banked heat shows through narrow cracks in its cooled ash hide.",
@@ -18755,21 +18146,15 @@
   },
   {
     "id": "basalt_drake_residents",
-    "baseId": "basalt_drake_t20",
+    "baseId": "slag_crawler_t10",
     "availability": "world",
-    "adjustments": {
-      "name": "Slag Crawler",
-      "family": "slag_crawler",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "name": "Slag Crawler",
     "family": "slag_crawler",
     "level": 30,
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
-      "scale": 1,
+      "scale": 0.82,
       "regionId": "kilnhalt",
       "activity": "patrol",
       "description": "A low mineral crawler with jointed stone legs, cooled slag plates and copper-red seams.",
@@ -18778,21 +18163,15 @@
   },
   {
     "id": "gorge_mantis_residents",
-    "baseId": "gorge_mantis_t20",
+    "baseId": "veil_reaper_t20",
     "availability": "world",
-    "adjustments": {
-      "name": "Veil Reaper",
-      "family": "veil_reaper",
-      "moveSpeedMps": 1.6,
-      "walkSpeedMps": 0.4
-    },
     "name": "Veil Reaper",
     "family": "veil_reaper",
     "level": 27,
     "presentation": {
       "id": "veil_reaper",
       "assetId": "creature_veil_reaper",
-      "scale": 1.05,
+      "scale": 0.95,
       "regionId": "wilderness",
       "activity": "patrol",
       "description": "A hooded apparition in worn ceremonial cloth. Long sleeves follow its hooked hands through a sweeping strike.",

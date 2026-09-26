@@ -12,6 +12,7 @@ import {
 import { tierSilhouetteScale } from "../core/math.js";
 import { enemyCombatLevel } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
+import { WORLD_CONTENT } from '../content/worldData.js';
 import { creatureById, creaturesAvailableIn } from '../content/creatureData.js';
 import { CREATURE_SPECIES } from "../content/creatureSpecies.js";
 import { RPG_BESTIARY, RPG_BESTIARY_REVIEW_BY_ID } from "../content/rpgBestiary.js";
@@ -61,7 +62,7 @@ const FAIRY_CROWN_BOSSES = new Set(FAIRY_CROWN_BOSS_IDS);
 const UNIVERSAL_BOSSES = new Set(UNIVERSAL_MINIBOSS_SPECIES.map(species => species.id));
 
 function creatureOptionLabel(group: EnemyGroupDef): string {
-  const stats = enemyBlockFor(group.id, group.family, group.tier);
+  const stats = WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier);
   return stats ? `${group.name} (Level ${enemyCombatLevel(stats)})` : group.name;
 }
 
@@ -333,7 +334,7 @@ function createCreatureEntity(
   const stats = group.id.startsWith("candidate:")
     ? REVIEW_CREATURES.get(group.id.slice("candidate:".length))?.stats
     : group.id.startsWith('species:') ? creatureById(group.id.slice('species:'.length)).stats
-    : enemyBlockFor(group.id, group.family, group.tier);
+    : WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier);
   if (!stats) {
     throw new Error(
       `Enemy group "${group.id}" (family "${group.family}", tier ${group.tier}) has no stat block in content/enemies.ts`,

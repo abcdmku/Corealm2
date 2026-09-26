@@ -286,7 +286,7 @@ describe("publishing to worlds that each have their own content registry", () =>
     await expect.poll(async () => [(await served.stored("north"))!.catalogRevision, (await served.stored("south"))!.catalogRevision], { timeout: 5000, interval: 50 }).toEqual([revision, revision]);
 
     // The next kill in each world rolls the published table, with no restart.
-    expect(await Promise.all([kill("north", 0), kill("south", 0)])).toEqual([["gold", MARKER], ["gold", MARKER]]);
+    expect(await Promise.all([kill("north", 0), kill("south", 0)])).toEqual([[MARKER], [MARKER]]);
 
     // A held marker blocks its removal, and the holder is found in the thread that has them.
     const given = await edit(served, BOB, [{ op: "inventory.add", itemId: MARKER, quantity: 1 }]);

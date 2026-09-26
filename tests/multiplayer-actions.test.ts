@@ -14,6 +14,82 @@ const descriptor: WorldDescriptor = { providerId: "reference", worldId: "actions
 let ports: HeadlessWorldPorts;
 beforeAll(async () => { ports = await createMultiplayerLabWorld(); });
 
+it("restarts saved creatures from current authored stats and spawns while retaining injury and death timers", () => {
+  const original = new HeadlessWorld(descriptor, ports);
+  original.join("observer");
+  original.tick();
+  const frog = original.entities.get("multiplayer:frog")!;
+  const oldMax = frog.combat!.maxHealth;
+  frog.combat!.health = oldMax / 2;
+  original.shared.enemies[frog.id]!.health = oldMax / 2;
+  const saved = structuredClone(original.snapshot({}, false));
+  const currentFrog = structuredClone(ports.entities.find(entity => entity.id === frog.id)!);
+  currentFrog.position = [20, 0, 0];
+  currentFrog.combat!.maxHealth = oldMax * 2;
+  currentFrog.combat!.health = oldMax * 2;
+  currentFrog.combat!.level += 10;
+  currentFrog.view!.scale = 1.4;
+  const revised = { ...ports, entities: [currentFrog] };
+  const restarted = new HeadlessWorld(descriptor, revised, saved);
+  const resident = restarted.entities.get(frog.id)!;
+  expect(restarted.entities.get("multiplayer:caster")).toBeUndefined();
+  expect(resident.position).toEqual(currentFrog.position);
+  expect(resident.combat).toMatchObject({ maxHealth: oldMax * 2, health: oldMax, level: currentFrog.combat!.level });
+  expect(resident.view!.scale).toBe(1.4);
+  expect(restarted.shared.enemies[frog.id]!.spawnPos).toEqual(currentFrog.position);
+
+  const deadSave = structuredClone(saved);
+  const dead = deadSave.entities.find(entity => entity.id === frog.id)!;
+  dead.state = "dead";
+  dead.combat!.health = 0;
+  deadSave.world.enemies[frog.id]!.state = "dead";
+  deadSave.world.enemies[frog.id]!.health = 0;
+  deadSave.world.enemies[frog.id]!.respawnAtMs = 12_345;
+  const restartedDead = new HeadlessWorld(descriptor, revised, deadSave);
+  expect(restartedDead.entities.get(frog.id)!.combat!.maxHealth).toBe(oldMax * 2);
+  expect(restartedDead.entities.get(frog.id)!.state).toBe("dead");
+  expect(restartedDead.shared.enemies[frog.id]!.respawnAtMs).toBe(12_345);
+  expect(restartedDead.shared.enemies[frog.id]!.spawnPos).toEqual(currentFrog.position);
+});
+
+it.each([8, -6])("settles an idle player %s metres from the walk surface", (height) => {
+  const world = new HeadlessWorld(descriptor, ports);
+  const player = world.join("grounded");
+  const state = player.store.get();
+  state.player.position = [0, height, 0];
+  world.tick();
+  expect(state.player.position[1]).toBeCloseTo(0, 4);
+  expect(state.player.position[0]).toBeCloseTo(0, 4);
+  expect(state.player.position[2]).toBeCloseTo(0, 4);
+});
+
+it.each([2.1, 8, -6])("settles a player from height %s onto the only raised walk surface", (height) => {
+  const nav = Object.create(ports.nav) as HeadlessWorldPorts["nav"];
+  nav.closestPoint = ([x, , z]) => [x, 2, z];
+  const world = new HeadlessWorld(descriptor, { ...ports, nav,
+    walkSurfaceRangesAt: () => [[1.5, 2.5]],
+    movement: { ...ports.movement, heightAt: () => 0,
+      preserveNavigationHeight: ([, y]) => y >= 1.5 && y <= 2.5 } });
+  const player = world.join("platform");
+  const state = player.store.get();
+  state.player.position = [0, height, 0];
+  world.tick();
+  expect(state.player.position).toEqual([0, 2, 0]);
+});
+
+it("keeps a player walking underneath a bridge on the lower surface", () => {
+  const nav = Object.create(ports.nav) as HeadlessWorldPorts["nav"];
+  nav.closestPoint = ([x, y, z]) => [x, y > 1 ? 2 : 0, z];
+  const world = new HeadlessWorld(descriptor, { ...ports, nav,
+    walkSurfaceRangesAt: () => [[1.5, 2.5]],
+    movement: { ...ports.movement, heightAt: () => 0,
+      preserveNavigationHeight: ([, y]) => y >= 1.5 && y <= 2.5 } });
+  const player = world.join("under-bridge");
+  player.store.get().player.position = [0, 0, 0];
+  world.tick();
+  expect(player.store.get().player.position).toEqual([0, 0, 0]);
+});
+
 it("retains ordered recent public actions across the bounded log's wrap",()=>{
   const world=new HeadlessWorld(descriptor,ports),state=world.join("alice").store.get(),log=new PublicActions();
   for(let i=0;i<4200;i++)log.publish(state,{type:"gesture",pose:"bank",atMs:i});
@@ -76,7 +152,8 @@ it("hands off an aggro enemy without retaining its previous target's attack or e
   for(let i=0;i<80&&!a.combat.isAttackCommitted(caster.id);i++)world.tick();
   expect(a.combat.isAttackCommitted(caster.id)).toBe(true);
   const oldPosition=[...a.store.get().player.position],sequence=world.actions.currentSequence();
-  a.store.get().player.position=[-100,0,-100];world.tick();
+  // Stay on the lab's 96 m walkable pad while leaving the caster's 60 m interest range.
+  a.store.get().player.position=[-40,0,-40];world.tick();
   expect(a.combat.isEngaged(caster.id)).toBe(false);expect(a.combat.isAttackCommitted(caster.id)).toBe(false);
   expect(b.combat.isEngaged(caster.id)).toBe(true);
   expect(world.actions.since(sequence).find(action=>action.type==="attackCancelled"&&action.playerId==="alice")?.position).toEqual(oldPosition);

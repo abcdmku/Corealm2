@@ -310,7 +310,11 @@ export interface EnemyAiDeps {
    * authority; see `ground`. Optional for the same reason `nav` is: the system must run in tests
    * that stand up no scene.
    */
-  groundHeightAt?: (x: number, z: number) => number;
+  groundHeightAt?: (x: number, z: number, entity?: SemanticEntity) => number;
+  /** Model origin relative to its planted feet, derived from the asset manifest and drawn scale. */
+  footOffset?: (entity: SemanticEntity) => number;
+  /** Imported floors and bridges use the navmesh's support height. */
+  preserveNavigationHeight?: (point: Vec3) => boolean;
   /** Explicit encounter habitats use the same movement rules as the authored world. */
   habitatForEntity?: (entity: SemanticEntity) => HabitatDef | null;
   /**
@@ -374,6 +378,18 @@ export class EnemyAiSystem implements TickSystem {
     this.scannedRealm = undefined;
   }
 
+  /** Correct stored and newly authored idle actors before the first visible snapshot. */
+  settleAll(): void {
+    for (const entity of this.deps.entities.all()) {
+      if (entity.archetype !== "enemy" && entity.archetype !== "boss") continue;
+      const settled = this.ground(entity.position, entity);
+      if (Math.abs(settled[1] - entity.position[1]) > 0.02) {
+        entity.position = settled;
+        this.deps.entities.setPosition?.(entity.id, settled);
+      }
+    }
+  }
+
   private pursuitHabitat(entity: SemanticEntity): HabitatDef | null {
     const groupId = entity.meta?.groupId;
     if (typeof groupId !== "string" || !groupId.startsWith("pack_")) return null;
@@ -402,6 +418,14 @@ export class EnemyAiSystem implements TickSystem {
 
     for (const entity of this.enemies) {
       const nearbyPlayer = this.deps.selectPlayerForEnemy?.(entity);
+      // A lab spawn or a saved actor can arrive after the world's initial settlement.
+      if (nearbyPlayer !== false && entity.state !== "dead") {
+        const planted = this.ground(entity.position, entity);
+        if (Math.abs(planted[1] - entity.position[1]) > 0.02) {
+          entity.position = planted;
+          this.deps.entities.setPosition?.(entity.id, planted);
+        }
+      }
       const state = this.deps.store.get();
       const playerAlive = state.player.health > 0;
       const playerPos = state.player.position;
@@ -1051,29 +1075,39 @@ export class EnemyAiSystem implements TickSystem {
   /** Uses raw steering only when no nav port exists. A nav miss is a blocker, not permission. */
   private snapStep(wanted: Vec3, entity: SemanticEntity): Vec3 | null {
     wanted = this.ground(wanted, entity);
-    const snapped = this.deps.nav ? this.deps.nav.nearestWalkable(wanted, 2) : wanted;
-    return snapped ? this.ground(snapped, entity) : null;
+    const feet: Vec3 = [wanted[0], wanted[1] - (this.deps.footOffset?.(entity) ?? 0), wanted[2]];
+    const snapped = this.deps.nav ? this.deps.nav.nearestWalkable(feet, 2) : feet;
+    return snapped ? this.ground(snapped, entity, true) : null;
   }
 
   /** A nearby polygon across a fence or shore is not the requested habitat footing. */
   private snapHabitatStep(wanted: Vec3, habitat: HabitatDef, entity: SemanticEntity): Vec3 | null {
     wanted = this.ground(wanted, entity);
     if (!insideHabitat(habitat, wanted)) return null;
+    const feet: Vec3 = [wanted[0], wanted[1] - (this.deps.footOffset?.(entity) ?? 0), wanted[2]];
     const snapped = this.deps.nav
-      ? this.deps.nav.nearestWalkable(wanted, HABITAT_NAV_TOLERANCE) : wanted;
+      ? this.deps.nav.nearestWalkable(feet, HABITAT_NAV_TOLERANCE) : feet;
     if (!snapped || distanceXZ(wanted, snapped) > HABITAT_NAV_TOLERANCE
       || !insideHabitat(habitat, snapped)) return null;
-    return this.ground(snapped, entity);
+    return this.ground(snapped, entity, true);
   }
 
-  /** Surface actors use terrain Y; dungeon actors retain their separate navigation floor. */
-  private ground(point: Vec3, entity: SemanticEntity): Vec3 {
-    if (realmOf(entity.regionId) !== null) return point;
+  /** Keep the measured model floor on the walk surface, including after a navmesh snap. */
+  private ground(point: Vec3, entity: SemanticEntity, navigationPoint = false): Vec3 {
+    const offset = this.deps.footOffset?.(entity) ?? 0;
+    const feet: Vec3 = [point[0], point[1] - (navigationPoint ? 0 : offset), point[2]];
+    if (this.deps.preserveNavigationHeight?.(feet)) {
+      const nav = navigationPoint ? point : this.deps.nav?.nearestWalkable(feet, 0.3);
+      if (nav) return [point[0], nav[1] + offset, point[2]];
+    }
+    if (navigationPoint && realmOf(entity.regionId) !== null) {
+      return [point[0], point[1] + offset, point[2]];
+    }
     const heightAt = this.deps.groundHeightAt;
     if (!heightAt) return point;
-    const groundY = heightAt(point[0], point[2]);
+    const groundY = heightAt(point[0], point[2], entity);
     if (!Number.isFinite(groundY)) return point;
-    return [point[0], groundY, point[2]];
+    return [point[0], groundY + offset, point[2]];
   }
 
   /** A useful snap moves at least `STEP_EPSILON_METRES` and does not take the enemy further away. */

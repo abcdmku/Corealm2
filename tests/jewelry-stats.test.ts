@@ -30,9 +30,16 @@ describe('single-stat jewelry and paired boss rewards',()=>{
    expect(Object.entries(items[i]!.equip!.bonuses).filter(([,v])=>v>0).map(([key])=>key).sort()).toEqual([...MINIBOSS_JEWELRY_PROFILES[JEWELRY_TIERS.indexOf(tier)]!].sort());
   }
  });
- it('uses exactly 30% total probability with mutually exclusive ring and earring',()=>{
+ it('uses one authored mutually exclusive ring-and-earring roll',()=>{
   const drops=universalMinibossSpecies('01','karrowmoor').stats.lootRolls.filter(roll=>roll.id!=='gold');
-  for(const [sample,suffix] of [[0,'ring'],[.149999,'ring'],[.15,'earring'],[.299999,'earring'],[.30,null],[.999,null]] as const){
+  const jewelry=drops.flatMap(roll=>roll.drops);
+  const ringChance=jewelry.find(drop=>drop.itemId==='guardian_ring_t10')!.chance;
+  const earringChance=jewelry.find(drop=>drop.itemId==='guardian_earring_t10')!.chance;
+  expect(ringChance).toBeGreaterThan(0);
+  expect(earringChance).toBeGreaterThan(0);
+  expect(ringChance+earringChance).toBeLessThanOrEqual(1);
+  const edge=1e-8;
+  for(const [sample,suffix] of [[0,'ring'],[ringChance-edge,'ring'],[ringChance,'earring'],[ringChance+earringChance-edge,'earring'],[ringChance+earringChance,null],[.999999,null]] as const){
    const rng={next:()=>sample,chance:()=>false,int:()=>1};
    const result=rollItemDrops(drops,rng);
    expect(result).toHaveLength(suffix?1:0);

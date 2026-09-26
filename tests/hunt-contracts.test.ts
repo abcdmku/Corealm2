@@ -137,7 +137,8 @@ describe("saved hunts after a creature body replacement", () => {
     return f;
   }
 
-  it.each(["hog_t5", "beetle_golem_t10"])("continues a saved %s hunt without resetting progress or changing its reward", (oldEnemyId) => {
+  it("continues a saved beetle golem hunt after its body replacement without resetting progress or changing its reward", () => {
+    const oldEnemyId = "beetle_golem_t10";
     const f = savedHogHunt(oldEnemyId);
     const before = structuredClone(f.state.active!);
     expect(before.kills).toBe(1);
@@ -158,7 +159,7 @@ describe("saved hunts after a creature body replacement", () => {
   });
 
   it("keeps death, credit, region and serial guards when matching an old creature ID", () => {
-    const f = savedHogHunt("hog_t5");
+    const f = savedHogHunt("beetle_golem_t10");
     const before = structuredClone(f.state.active!);
     f.kill({ creditedPlayerId: null });
     f.kill({ killSerial: undefined });

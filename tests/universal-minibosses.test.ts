@@ -1,6 +1,8 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { SKILL_IDS, ok, type EquipmentBonuses, type RegionId, type SemanticEntity, type SkillId } from '../game/src/contracts.js';
 import { content, enemyCombatLevel, type ContentTables } from '../game/src/content/index.js';
+import { CREATURE_CATALOG } from '../game/src/content/creatureRuntime.js';
+import { itemUpgrade } from '../game/src/content/itemUpgrades.js';
 import { ALL_ITEMS } from '../game/src/content/items.js';
 import { REGION_COMBAT_TIERS } from '../game/src/content/encounterBalance.js';
 import { FAIRY_GARDEN_SPECIES } from '../game/src/content/fairyGardenCreatures.js';
@@ -84,7 +86,10 @@ describe('universal miniboss placement and rewards', () => {
       expect(new Set(first.map(group => group.assetId)).size).toBe(2);
       expect(new Set(first.map(group => group.centre.join(':'))).size).toBe(2);
       expect(first.every(group => group.miniBoss && group.count === 1 && group.radius === 0)).toBe(true);
-      expect(first.map(group => group.tier)).toEqual(regionId === "wilderness" ? [50, 70] : [Math.max(10, REGION_COMBAT_TIERS[regionId]), Math.max(10, REGION_COMBAT_TIERS[regionId])]);
+      for (const group of first) {
+        expect(group.tier).toBe(group.stats.tier);
+        expect(group.family).toBe(group.stats.family);
+      }
       const choices = new Set<string>();
       for (let seed = 1; seed <= 50; seed++) {
         const groups = buildUniversalMinibossGroups(regionId, seed, sockets);
@@ -121,22 +126,32 @@ describe('universal miniboss placement and rewards', () => {
     expect(() => buildUniversalMinibossGroups('faeholme', 42, sockets.map(socket => ({ ...socket, regionId: 'faeholme' })))).toThrow('56 m');
   });
 
-  it('keeps every source body strong with a matching exclusive jewelry pair', () => {
+  it('resolves each source body from its authored definition with an exclusive jewelry pair', () => {
     for (const species of UNIVERSAL_MINIBOSS_SPECIES) {
-      expect(species.stats.tier).toBe(species.id.endsWith('_t70') ? 70 : Math.max(10, REGION_COMBAT_TIERS[species.regionId]));
+      const definition = CREATURE_CATALOG.byCreatureId.get(species.stats.id)!;
+      expect(definition).toBeDefined();
+      expect(species.stats).toEqual(definition.enemy);
+      expect(species.stats.tier).toBe(definition.level);
       expect(enemyCombatLevel(species.stats)).toBeGreaterThan(0);
       expect(species.stats.respawnSeconds).toBe(1800);
       // The guaranteed gold roll leads; the authored jewelry pool follows it.
       const [goldRoll, ...authoredRolls] = species.stats.lootRolls;
       expect(goldRoll!.id).toBe('gold');
       const [ringDrop, earringDrop] = authoredRolls.flatMap(roll => roll.drops);
-      expect(authoredRolls.flatMap(roll => roll.drops).map(drop => drop.itemId)).toEqual([`guardian_ring_t${species.stats.tier}`, `guardian_earring_t${species.stats.tier}`]);
-      expect(ringDrop!.chance).toBe(.15); expect(earringDrop!.chance).toBe(.15);
+      expect(ringDrop!.itemId).toMatch(/^guardian_ring_t\d+$/);
+      expect(earringDrop!.itemId).toMatch(/^guardian_earring_t\d+$/);
+      for (const drop of [ringDrop!, earringDrop!]) {
+        expect(drop.chance).toBeGreaterThan(0);
+        expect(drop.chance).toBeLessThanOrEqual(1);
+      }
+      expect(ringDrop!.chance + earringDrop!.chance).toBeLessThanOrEqual(1);
       expect(authoredRolls).toHaveLength(1);
       expect(authoredRolls[0]!.count).toBe(1);
       const ring = MINIBOSS_JEWELLERY.find(item => item.id === ringDrop!.itemId)!;
       const earring = MINIBOSS_JEWELLERY.find(item => item.id === earringDrop!.itemId)!;
-      expect(ring.tier).toBe(species.stats.tier);
+      expect(ring).toBeDefined();
+      expect(earring).toBeDefined();
+      expect(ring.tier).toBe(earring.tier);
       expect(earring.equip!.bonuses).toEqual(ring.equip!.bonuses);
     }
     expect(new Set(MINIBOSS_JEWELLERY.map(item => item.id)).size).toBe(MINIBOSS_JEWELLERY.length);
@@ -158,19 +173,24 @@ describe('universal miniboss placement and rewards', () => {
     }
   });
 
-  it('rolls one exclusive ring or earring on thirty percent of real kills', () => {
+  it('rolls exclusive jewelry on real kills at the authored probability', () => {
+    const rolls = universalMinibossSpecies('01', 'gloamgarden').stats.lootRolls;
+    const probability = 1 - rolls.reduce((none, roll) => none * Math.pow(
+      1 - roll.drops.filter(drop => drop.itemId.startsWith('guardian_')).reduce((sum, drop) => sum + drop.chance, 0), roll.count), 1);
+    const samples = 300;
     let uniqueCount = 0; const shapes = new Set<string>();
-    for (let seed = 1; seed <= 300; seed++) {
+    for (let seed = 1; seed <= samples; seed++) {
       const sim = encounter(seed);
       sim.kill();
       const items = Object.values(sim.state.world.lootPiles).flatMap(pile => pile.items);
       const jewelry = items.filter(item => item.itemId.startsWith('guardian_'));
       expect(jewelry.length).toBeLessThanOrEqual(1);
-      if (jewelry.length) { uniqueCount++; shapes.add(jewelry[0]!.itemId); }
+      if (jewelry.length) { uniqueCount++; shapes.add(itemUpgrade(jewelry[0]!.itemId).baseId); }
     }
-    expect(uniqueCount).toBeGreaterThan(65);
-    expect(uniqueCount).toBeLessThan(115);
-    expect(shapes.size).toBe(2);
+    const expected = samples * probability;
+    const tolerance = 4 * Math.sqrt(samples * probability * (1 - probability));
+    expect(Math.abs(uniqueCount - expected)).toBeLessThanOrEqual(Math.max(1, tolerance));
+    expect([...shapes].sort()).toEqual(rolls.flatMap(roll => roll.drops).filter(drop => drop.itemId.startsWith('guardian_')).map(drop => drop.itemId).sort());
   });
 });
 

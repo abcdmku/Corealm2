@@ -159,6 +159,9 @@ export function assembleAuthoredWorld(seed: number, terrains: AssemblyTerrains, 
   const playable = (region: RegionId, position: Vec3) => spec && region === spec.regionId ? chamberFloorAt(spec, position) !== null :
     terrainAt(position[0], position[2]).sampleWorld(position[0], position[2]).playable && terrainAt(position[0], position[2]).regionAt(position[0], position[2]) === region;
   return { nav, habitats, entities: built.entities, knownLocations: built.knownLocations, doorBarriers, spawn: nav.closestPoint(point) ?? point,
+    assetBaseY: measurements.baseY,
+    walkSurfaceRangesAt: (x, z) => structureBounds.filter(box => x >= box.min[0] && x <= box.max[0]
+      && z >= box.min[2] && z <= box.max[2]).map(box => [box.min[1], box.max[1]] as const),
     planSpawns: (world, groupIds, residents) => planSpawns(spawnContext, world, groupIds, residents),
     initialize(world) {
       forest = new ForestResources({ entities: world.entities, getNodeState: id => world.shared.nodes[id], onActivate: tree => { if (world.shared.nodes[tree.id]?.state !== "depleted") forestObstacles.upsert(tree); }, onDeactivate: tree => { forestObstacles.remove(tree.id); } });

@@ -1,3 +1,4 @@
+import { WORLD_CONTENT } from '../game/src/content/worldData.js';
 import { describe, expect, it } from 'vitest';
 import MANIFEST from '../game/public/assets/manifest.json';
 import { REGIONS, WORLD_BOUNDS } from '../game/src/content/regions.js';
@@ -21,7 +22,7 @@ describe('northern wilderness and fantasy encounters', () => {
         farmGroups++;
         expect(inStarterWildlifeArea(region.id, group.centre, group.radius), group.id).toBe(true);
       }
-      expect(enemyBlockFor(group.id, group.family, group.tier)?.family, group.id).toBe(group.family);
+      expect((WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier))?.family, group.id).toBe(group.family);
       expect(MANIFEST.assets.some(asset => asset.id === group.assetId), group.id).toBe(true);
     }
     expect(farmGroups).toBeGreaterThan(0);

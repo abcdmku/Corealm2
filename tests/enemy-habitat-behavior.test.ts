@@ -33,7 +33,8 @@ function enemy(habitat: HabitatDef, id: string, position = point(habitat.anchors
 }
 
 function fixture(entities: SemanticEntity[], nav?: EnemyNavPort, groundHeightAt?: (x: number, z: number) => number,
-  habitatForEntity?: (entity: SemanticEntity) => HabitatDef | null) {
+  habitatForEntity?: (entity: SemanticEntity) => HabitatDef | null,
+  grounding?: Pick<ConstructorParameters<typeof EnemyAiSystem>[0], "footOffset" | "preserveNavigationHeight">) {
   const store = new Store(7, 0);
   const state = store.get();
   state.player.position = [...entities[0]!.position];
@@ -56,7 +57,7 @@ function fixture(entities: SemanticEntity[], nav?: EnemyNavPort, groundHeightAt?
     }),
   });
   for (const entity of entities) combat.setEnemyOverride(entity.id, { behaviour: "passive", aggroRadius: 0 });
-  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav, groundHeightAt, habitatForEntity });
+  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav, groundHeightAt, habitatForEntity, ...grounding });
   let now = 0;
   return {
     store, state, ai, combat,
@@ -500,6 +501,25 @@ describe("hostile pack pursuit boundary", () => {
 
 
 describe("enemy terrain contact", () => {
+  it("plants an offset model on its measured floor when idle and throughout a patrol", () => {
+    const habitat: HabitatDef = { id: "offset_patrol", groupId: "offset_patrol", regionId: "fallowmarch",
+      centre: [-200, 0], radius: 15, activity: "patrol", anchors: [[-200, 0], [-195, 0], [-195, 5]], dressing: [] };
+    const actor = enemy(habitat, "offset_patrol:1", [-200, 9, 0]);
+    const height = (x: number) => -(x + 200) * 0.4;
+    const offset = -1.25;
+    const sim = fixture([actor], { nearestWalkable: ([x, y, z]) =>
+      Math.abs(y - height(x)) < 0.01 ? [x, height(x), z] : null }, height, () => habitat,
+    { footOffset: () => offset });
+    sim.ai.settleAll();
+    expect(actor.position[1] - offset).toBeCloseTo(height(actor.position[0]), 6);
+    let moved = false;
+    sim.advance(30_000, () => {
+      expect(actor.position[1] - offset).toBeCloseTo(height(actor.position[0]), 5);
+      moved ||= distance(actor.position, [-200, 0, 0]) > 1;
+    });
+    expect(moved).toBe(true);
+  });
+
   it("queries downhill destinations at ground height and removes large navigation offsets", () => {
     const habitat: HabitatDef = { id: "march_road_reavers", groupId: "march_road_reavers", regionId: "fallowmarch",
       centre: [-200, 0], radius: 15, activity: "patrol", anchors: [[-200, 0], [-195, 0], [-195, 5]], dressing: [] };

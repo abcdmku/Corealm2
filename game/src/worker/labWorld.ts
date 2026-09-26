@@ -53,6 +53,9 @@ export async function createLabWorld(spec: LabFixtureSpec, data: LabWorldData): 
   const entities: SemanticEntity[] = structuredClone(data.entities);
   const ports: HeadlessWorldPorts = {
     nav, entities, habitats: data.habitats, knownLocations: data.knownLocations, doorBarriers: data.doorBarriers,
+    assetBaseY: id => data.assets[id]?.groundY ?? data.assets[id]?.base?.y ?? 0,
+    walkSurfaceRangesAt: (x, z) => ground.surfaceBounds.filter(box => x >= box.min[0] && x <= box.max[0]
+      && z >= box.min[2] && z <= box.max[2]).map(box => [box.min[1], box.max[1]] as const),
     spawn: [...data.spawn.position] as Vec3,
     // A lab's creatures are placed by its fixtures, not by placements, so a publish has no group to rebuild here.
     planSpawns: () => ({ groupIds: new Set<string>(), spawns: [], habitats: [] }),

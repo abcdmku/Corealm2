@@ -1,5 +1,6 @@
 import type { RegionId } from '../contracts.js';
 import type { EnemyGroupDef, Spot } from '../content/regions.js';
+import type { EnemyDef } from '../content/index.js';
 import { Rng } from '../core/rng.js';
 import { FAIRY_MINIBOSS_POOLS } from '../content/fairyMinibossForms.js';
 import {
@@ -25,7 +26,7 @@ function regionSeed(seed: number, regionId: RegionId): number {
 /** Call once at boot/reset using terrain-validated sockets. Live ticks never reroll a resident. */
 export function buildUniversalMinibossGroups(
   regionId: RegionId, seed: number, sockets: readonly UniversalMinibossSocket[],
-): EnemyGroupDef[] {
+): (EnemyGroupDef & { stats: EnemyDef })[] {
   const candidates = [...new Map(sockets.filter(socket => socket.regionId === regionId)
     .map(socket => [`${socket.position[0]}:${socket.position[1]}`, socket])).values()]
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -50,7 +51,7 @@ export function buildUniversalMinibossGroups(
       id: `universal_miniboss_${regionId}_${index + 1}`, family: species.stats.family,
       name: species.stats.name, tier: species.stats.tier, assetId: species.assetId,
       scale: species.scale / 1.3, centre: [...pair[index]!.position] as Spot,
-      count: 1, radius: 0, miniBoss: true,
+      count: 1, radius: 0, miniBoss: true, stats: species.stats,
     };
   });
 }

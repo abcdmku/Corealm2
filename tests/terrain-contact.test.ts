@@ -86,5 +86,8 @@ describe('drawn terrain contact', () => {
     const h = (x:number) => Math.abs(x);
     expect(interpolatedGroundHeight([-1,1,0],[1,1,0],[0,1,0],h)).toBe(0);
     expect(interpolatedGroundHeight([-1,5,0],[1,5,0],[0,5,0],h)).toBe(5);
+    // An imported model's origin need not be at its feet.
+    expect(interpolatedGroundHeight([-1,1.6,0],[1,1.6,0],[0,1.6,0],h,.6)).toBe(.6);
+    expect(interpolatedGroundHeight([-1,5.6,0],[1,5.6,0],[0,5.6,0],h,.6)).toBe(5.6);
   });
 });

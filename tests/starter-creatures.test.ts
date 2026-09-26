@@ -4,6 +4,7 @@ import { STARTER_CREATURES } from "../game/src/content/starterCreatures.js";
 import { STARTER_GROUPS } from "../game/src/content/starterHabitats.js";
 import { REGIONS } from "../game/src/content/regions.js";
 import { habitatForGroup } from "../game/src/content/worldHabitats.js";
+import { CREATURE_CATALOG } from "../game/src/content/creatureRuntime.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 
 describe("starter creature integration", () => {
@@ -13,8 +14,10 @@ describe("starter creature integration", () => {
       expect(asset).toBeDefined();
       expect(asset.pack).not.toBe("ultimate-platformer-pack");
       expect(asset.animations).toEqual(expect.arrayContaining(["Idle", "Walk", "Attack", "Hit", "Death"]));
-      expect(species.stats.tier).toBe(1);
-      expect(species.stats.maxHit).toBeLessThanOrEqual(2);
+      const definition = CREATURE_CATALOG.byCreatureId.get(species.stats.id)!;
+      expect(definition).toBeDefined();
+      expect(species.stats.tier).toBe(definition.level);
+      expect(species.stats).toEqual(definition.enemy);
       for (const drop of species.stats.lootRolls.flatMap(roll => roll.drops)) expect(ALL_ITEMS.some(item => item.id === drop.itemId)).toBe(true);
     }
   });

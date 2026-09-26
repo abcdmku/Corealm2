@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { CREATURE_EXPANSION } from "../game/src/content/creatureExpansion.js";
-import { CREATURE_ENEMY_GROUPS } from "../game/src/content/creatureHabitats.js";
 import { ENEMY_BLOCKS } from "../game/src/content/enemies.js";
 import { enemyCombatLevel } from "../game/src/content/index.js";
 import { REGIONS, SOURCE_REGIONS } from "../game/src/content/regions.js";
@@ -20,7 +19,6 @@ const sources = new Map(REGIONAL_PACK_SOURCES.map((source) => [source.id, source
 const variants = new Map(REGIONAL_PACK_VARIANTS.map((variant) => [variant.id, variant]));
 const groups = new Map([
   ...SOURCE_REGIONS.flatMap((region) => [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]),
-  ...CREATURE_ENEMY_GROUPS,
 ].map((group) => [group.id, group]));
 
 function modelRadii(assetId: string, scale: number): { body: number; visual: number } {
@@ -66,7 +64,6 @@ describe("authored regional pack staging", () => {
       expect(source.nativeVisualRadius, source.id).toBeCloseTo(radii.visual, 10);
     }
     for (const species of CREATURE_EXPANSION) {
-      expect(CREATURE_ENEMY_GROUPS.some((group) => group.id === `${species.id}_residents`)).toBe(true);
       expect(REGIONS.some((region) => region.enemyGroups.some((group) => group.id === `${species.id}_residents`))).toBe(true);
     }
   });

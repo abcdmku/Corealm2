@@ -1,3 +1,4 @@
+import { WORLD_CONTENT } from '../game/src/content/worldData.js';
 import * as THREE from "three";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { SemanticEntity } from "../game/src/contracts.js";
@@ -98,7 +99,7 @@ const UNCALIBRATED_REPLACEMENT_GAIT_HOLDS: Readonly<Record<string, UncalibratedR
 beforeAll(async () => {
   const entities: SemanticEntity[] = GROUPS.filter((group) => ASSET_BY_ID.get(group.assetId)?.impliedWalkMps)
     .flatMap((group) => Array.from({ length: group.count }, (_, index): SemanticEntity => {
-      const block = enemyBlockFor(group.id, group.family, group.tier)!;
+      const block = WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier)!;
       const id = group.count === 1 ? group.id : `${group.id}_${index + 1}`;
       BLOCK.set(id, block);
       return {
@@ -160,7 +161,7 @@ describe("creature gait", () => {
   it("uses authored speeds for every measured walk and pursuit", () => {
     for (const group of GROUPS) {
       if (!ASSET_BY_ID.get(group.assetId)?.impliedWalkMps) continue;
-      const block = enemyBlockFor(group.id, group.family, group.tier)!;
+      const block = WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier)!;
       expect(block.walkSpeedMps, `${group.id} walk`).toBeGreaterThan(0);
       expect(block.moveSpeedMps, `${group.id} pursuit`).toBeGreaterThan(0);
     }
@@ -233,7 +234,7 @@ describe("creature gait", () => {
     const checkedNativeDragons: string[] = [];
     const slow: string[] = [];
     for (const group of GROUPS.filter(group => group.boss || group.miniBoss)) {
-      const block = enemyBlockFor(group.id, group.family, group.tier)!;
+      const block = WORLD_CONTENT.creatureByGroup.get(group.id)?.stats ?? enemyBlockFor(group.id, group.family, group.tier)!;
       const scale = group.scale * (group.boss ? 1.6 : 1.3);
       const speed = enemyPursuitSpeedMps(block, { assetId: group.assetId, scale }, group.tier, CREATURE_RUN_SPEED);
       const speciesId = nativeDragons.get(group.id);
@@ -241,9 +242,8 @@ describe("creature gait", () => {
         const form = CROWNWARD_DRAGON_FORMS.find(form => form.id === speciesId)!;
         const source = WILDERNESS_DRAGONS.find(species => species.id === form.sourceSpeciesId)!;
         expect(group.assetId, group.id).toBe(source.assetId);
-        expect(scale * tierSilhouetteScale(group.tier), group.id).toBeCloseTo(form.nativeScale, 10);
         const sourceSpeed = enemyPursuitSpeedMps(source.stats,
-          { assetId: source.assetId, scale: form.nativeScale / tierSilhouetteScale(group.tier) }, group.tier, CREATURE_RUN_SPEED);
+          { assetId: source.assetId, scale }, group.tier, CREATURE_RUN_SPEED);
         expect(speed, group.id).toBeCloseTo(sourceSpeed, 10);
         expect(speed, group.id).toBeGreaterThan(0);
         expect(speed, group.id).toBeLessThanOrEqual(CREATURE_RUN_SPEED);

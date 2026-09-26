@@ -4,8 +4,18 @@ import { enemyBlockFor } from "../game/src/content/enemies.js";
 import { REGIONS } from "../game/src/content/regions.js";
 import { createFeatureLabEntity, FEATURE_LAB_CATALOG, stagedCreaturePreset } from "../game/src/featureLab/catalog.js";
 import { npcOutfitParts } from "../game/src/render/characterAppearances.js";
+import { WORLD_CONTENT } from '../game/src/content/worldData.js';
 
 describe("explicit source creature reviews", () => {
+  it('uses the resolved encounter stats for placed creatures in the lab', () => {
+    for (const [groupId, creature] of WORLD_CONTENT.creatureByGroup) {
+      const preset = FEATURE_LAB_CATALOG.targets.creature.find(row => row.id === groupId);
+      if (!preset) continue;
+      const actor = createFeatureLabEntity(preset, { entityId: 'encounter-review', groundPosition: [0, 0, 0], baseY: 0 });
+      expect(actor.combat?.maxHealth, groupId).toBe(creature.stats.maxHealth);
+      expect(actor.meta?.enemyDefId, groupId).toBe(creature.stats.id);
+    }
+  });
   it("previews a staged Slayer Master model without changing the authored NPC", () => {
     const preset = FEATURE_LAB_CATALOG.targets.npc.find(row => row.id === "npc_slayer_aevra")!;
     expect(preset).toBeDefined();

@@ -404,7 +404,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
       : deriveUniversalMinibossSockets(region, options);
     for (const group of buildUniversalMinibossGroups(region.id, seed, sockets)) {
       buildEnemyGroup(region.id, group, new Rng(seed ^ variantSeed(group.id)),
-        (spot, assetId, scale) => placeOnGround(ctx, region.id, spot, assetId, scale), entities, ctx.assetSize);
+        (spot, assetId, scale) => placeOnGround(ctx, region.id, spot, assetId, scale), entities, ctx.assetSize, { habitat: null, stats: group.stats });
     }
     const dungeon = region.dungeon;
     if (!dungeon) continue;
@@ -424,7 +424,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     }
     for (const group of buildUniversalMinibossGroups(dungeon.id, seed, caveSockets)) {
       buildEnemyGroup(dungeon.id, group, new Rng(seed ^ variantSeed(group.id)),
-        (spot, assetId, scale) => [spot[0], floor(...spot) - ctx.baseY(assetId) * scale, spot[1]], entities, ctx.assetSize);
+        (spot, assetId, scale) => [spot[0], floor(...spot) - ctx.baseY(assetId) * scale, spot[1]], entities, ctx.assetSize, { habitat: null, stats: group.stats });
     }
   }
 

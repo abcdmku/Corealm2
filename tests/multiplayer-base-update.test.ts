@@ -189,7 +189,7 @@ describe("updating a server with no edits of its own from a newer base", () => {
         baseVersion: "0.2.0", baseRevision: bundled.catalog.revision, decisions: { mine: 0, theirs: 0 } } }]);
     expect(running.logs.some(event => event.event === "content.base-update" && event.baseVersion === "0.2.0")).toBe(true);
     // No restart: the next kill already rolls the base's table.
-    expect(await kill()).toEqual([MARKER, "gold"]);
+    expect(await kill()).toEqual([MARKER]);
     // Nothing left to take.
     const again = await running.call("/admin/content/base/preview", { method: "POST", token: running.session, body: {} });
     expect([again.status, again.body.error.code]).toEqual([409, "no_update"]);

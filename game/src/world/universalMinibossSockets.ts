@@ -70,8 +70,15 @@ export function validUniversalMinibossFootprint(
 }
 
 function clearOfAuthoredContent(region: RegionDef, point: Spot): boolean {
-  if (region.settlements.some((town) => distance(point, town.centre) < 45)) return false;
-  if (region.locations.some(location => location.kind === 'settlement' && distance(point, location.position) < 45)) return false;
+  if (region.settlements.some(town => {
+    const reach = (position: Spot, margin = 0) => distance(position, town.centre) + margin;
+    const edge = Math.max(24,
+      ...town.buildings.map(building => reach(building.position, Math.hypot(...building.footprint) / 2)),
+      ...[town.bank, ...town.stations, ...town.shops, ...town.npcs].map(service => reach(service.position)),
+      ...(town.walls ?? []).flatMap(wall => [reach(wall.from), reach(wall.to)]));
+    return distance(point, town.centre) < edge + 45;
+  })) return false;
+  if (region.locations.some(location => location.kind === 'settlement' && distance(point, location.position) < 70)) return false;
   if (distance(point, region.spawnPoint) < 32) return false;
   if (region.clusters.some(cluster => distance(point, cluster.centre) < cluster.radius + 14)) return false;
   return !region.enemyGroups.some(group => !group.id.startsWith('universal_miniboss_')
