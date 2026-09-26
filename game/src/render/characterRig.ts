@@ -1253,12 +1253,13 @@ export class CharacterRig {
 
     const covered = this.forceHeadCap ?? HEAD_CAP_REQUIRES.every((region) => byRegion.has(region));
     // Tailored armor is worn over the native body, so it never licenses the head cap. Tripo armor
-    // replaces its regions like legacy parts, but its gauntlets stop at the forearm: the upper arm
-    // comes from a Tripo body piece. Under a legacy chest the capped arm drew nothing between the
-    // sleeve and the gauntlet, which read as armor floating over an empty body.
+    // is also a surface shell: plate and gauntlets do not supply a continuous upper arm between
+    // them. Mask the anatomy enclosed by each piece while retaining the exposed arm underneath.
     const hands = byRegion.get("hands"), body = byRegion.get("body");
     const armComplete = !hands || !this.isFittedItem(hands) || (body !== undefined && this.isFittedItem(body));
-    const fittedCoverage = ids.some(id => this.isTailoredItem(id)) || !armComplete;
+    const fittedPair = body !== undefined && hands !== undefined
+      && this.isFittedItem(body) && this.isFittedItem(hands);
+    const fittedCoverage = ids.some(id => this.isTailoredItem(id)) || !armComplete || fittedPair;
     const wantCap = !fittedCoverage && covered && headCapHeightFor(this.bodyAssetId) !== null;
     // The tint is in the signature: two tiers of the same asset differ only by colour, so without
     // it swapping Corven plate for Kaldite plate would look like a no-op and never rebuild.

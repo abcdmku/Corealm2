@@ -98,7 +98,7 @@ describe("production tree cutouts", () => {
     }
   });
 
-  it("smooths colour cutouts through material clones while keeping depth-writing wind shadows", () => {
+  it("keeps opaque colour cutouts through material clones with depth-writing wind shadows", () => {
     const map = new THREE.Texture();
     const source = new THREE.MeshStandardMaterial({ name: "Leaves_Corealm_broadleaf_cutout", map, alphaTest: 0.45, side: THREE.DoubleSide });
     const root = new THREE.Group();
@@ -109,7 +109,7 @@ describe("production tree cutouts", () => {
     const treated = mesh.material as THREE.MeshStandardMaterial;
     expect(treated).not.toBe(source);
     expect(source.alphaToCoverage).toBe(false);
-    expect(treated.alphaToCoverage).toBe(true);
+    expect(treated.alphaToCoverage).toBe(false);
     expect(treated.map).toBe(map);
     expect(map.minFilter).toBe(THREE.LinearMipmapLinearFilter);
     expect(map.magFilter).toBe(THREE.LinearFilter);
@@ -121,7 +121,7 @@ describe("production tree cutouts", () => {
     expect(map.version).toBe(version);
     const library = new MaterialLibrary();
     const wind = library.wind(library.organic(treated, "foliage"), 0.035) as MeshStandardNodeMaterial;
-    expect(wind.alphaToCoverage).toBe(true);
+    expect(wind.alphaToCoverage).toBe(false);
     expect(wind.map).toBe(map);
     expect(wind.alphaTest).toBe(0.45);
     expect(wind.transparent).toBe(false);

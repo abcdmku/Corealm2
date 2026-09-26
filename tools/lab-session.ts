@@ -51,7 +51,8 @@ async function main(): Promise<void> {
   let route = argValue(args, "--route") ?? "/index.html?mode=combat&presentation=1";
   const driver = new GameDriver(server, {
     headless: !args.includes("--headed"),
-    viewport: { width: 1440, height: 900 },
+    mobile: args.includes("--mobile"),
+    viewport: args.includes("--mobile") ? { width: 393, height: 852 } : { width: 1440, height: 900 },
     browserArgs: args.includes("--software") ? ["--enable-unsafe-swiftshader", "--mute-audio"]
       : process.platform === "win32" ? ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"]
         : ["--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
@@ -192,7 +193,8 @@ async function main(): Promise<void> {
         else if (command.wheel !== undefined) {
           const delta = command.wheel;
           if (!Array.isArray(delta) || delta.length !== 2 || !delta.every((value) => typeof value === "number" && Number.isFinite(value) && Math.abs(value) <= 2_000)) throw new Error("wheel needs bounded [deltaX, deltaY]");
-          await driver.moveMouse(720, 450);
+          const viewport = driver.page!.viewportSize()!;
+          await driver.moveMouse(viewport.width / 2, viewport.height / 2);
           await driver.page!.mouse.wheel(delta[0], delta[1]);
         }
         else {
@@ -207,7 +209,7 @@ async function main(): Promise<void> {
         return observe();
       }
       case "viewport": {
-        const width = number(command.width, 1440, 640, 3840);
+        const width = number(command.width, 1440, 320, 3840);
         const height = number(command.height, 900, 480, 2160);
         if (!Number.isInteger(width) || !Number.isInteger(height)) throw new Error("Viewport dimensions must be whole pixels");
         await driver.page!.setViewportSize({ width, height });
@@ -293,6 +295,9 @@ async function main(): Promise<void> {
 
   try {
     await driver.launch();
+    if (args.includes("--webgl")) {
+      await driver.page!.addInitScript(() => Object.defineProperty(navigator, "gpu", { value: undefined }));
+    }
     const catalog = argValue(args, "--catalog");
     if (catalog) await installAssetCandidates(driver.page!, catalog);
     try {

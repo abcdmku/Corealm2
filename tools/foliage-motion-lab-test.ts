@@ -45,7 +45,8 @@ try {
       const baseline = frames[0]!;
       assert(baseline.draws.length > 0, "No tree colour submissions");
       const materials = baseline.draws.flatMap((draw: any) => draw.materials).filter((material: any) => material.name.includes("_cutout"));
-      assert(materials.length > 0 && materials.every((material: any) => material.leafAssociatedColour && material.coverageSamples >= 2),
+      assert(materials.length > 0 && materials.every((material: any) => material.leafAssociatedColour
+        && !material.alphaToCoverage && !material.transparent),
         "The production leaf colour and coverage path was not submitted");
       const images: Buffer[] = [];
       const shadowPixels: number[][] = [];

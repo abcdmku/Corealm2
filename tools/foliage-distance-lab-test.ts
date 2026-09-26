@@ -130,8 +130,7 @@ async function main(): Promise<void> {
       const leaves = colour.flatMap(draw => draw.materials.filter(material => material.name.includes("_cutout")));
       assert(leaves.length > 0, "The tree has no submitted leaf cutout material");
       for (const leaf of leaves) {
-        assert(leaf.alphaToCoverage && leaf.coverageSamples >= 2, "Leaf edges are not using actual multisample coverage");
-        assert(!leaf.transparent, "Leaves must keep opaque depth writing and instance batching");
+        assert(!leaf.alphaToCoverage && !leaf.transparent, "Leaf cutouts must stay opaque without stippled multisample coverage");
         assert.equal(leaf.mapMinFilter, LinearMipmapLinearFilter);
         assert.equal(leaf.mapAnisotropy, 8);
         assert(leaf.leafAssociatedColour, "Leaf colour must be filtered with coverage before shading");

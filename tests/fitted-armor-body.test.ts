@@ -80,7 +80,7 @@ const wear = (rig: any, parts: Record<string, string>) => {
 };
 
 describe("body under fitted armor", () => {
-  it("keeps the arm between a legacy sleeve and a Tripo gauntlet, and caps only a complete Tripo arm", async () => {
+  it("keeps exposed arms beneath both a mixed outfit and a complete Tripo armor set", async () => {
     const { rig, mesh } = await builtRig();
     try {
       await wear(rig, { body: "outfit_male_peasant_chest", legs: "outfit_male_peasant_legs",
@@ -91,10 +91,10 @@ describe("body under fitted armor", () => {
         feet: "outfit_male_peasant_boots", hands: "corealm_item_dewglass_gauntlets" });
       expect([...drawn(mesh.geometry)]).toEqual(["clavicle_l", "upperarm_l", "lowerarm_l", "upperarm_r", "lowerarm_r", "neck_01", "Head"]);
 
-      // A Tripo plate supplies the upper arm the gauntlet lacks, so the pair replaces the body.
+      // Plate and gauntlets are outer shells. Neither is an anatomical replacement for the arm.
       await wear(rig, { body: "corealm_item_dewglass_plate", legs: "outfit_male_peasant_legs",
         feet: "outfit_male_peasant_boots", hands: "corealm_item_dewglass_gauntlets" });
-      expect([...drawn(mesh.geometry)]).toEqual(["Head"]);
+      expect([...drawn(mesh.geometry)]).toEqual(["clavicle_l", "upperarm_l", "lowerarm_l", "upperarm_r", "lowerarm_r", "neck_01", "Head"]);
     } finally { rig.dispose(); }
   });
 

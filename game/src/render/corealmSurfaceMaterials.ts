@@ -136,15 +136,15 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
       cache.set(source, derived);
       return derived;
     }
-    // Keep the embedded species texture and UVs. Alpha-to-coverage uses the existing MSAA
-    // samples to soften leaf edges without sorting transparent cards or adding geometry.
+    // Keep the embedded species texture and UVs. An opaque alpha cutout preserves a
+    // coherent canopy in fog; per-sample alpha-to-coverage made distant leaves stipple.
     if (name?.endsWith("_cutout") && isStandard(source)) {
       const existing = cache.get(source);
       if (existing) return existing;
       const derived = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
       if (derived.map) derived.map = prepareLeafTexture(derived.map);
       const associatedColour = derived.map?.userData.leafAssociatedColour === true;
-      derived.alphaToCoverage = true;
+      derived.alphaToCoverage = false;
       derived.userData[SURFACE_MARKER] = "leaf-cutout";
       if (associatedColour && derived.map) {
         const leafSample = texture(derived.map);
@@ -156,8 +156,8 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
           leafSample.a,
         );
       }
-      // Three's alpha-to-coverage range normally begins at the cutoff. Centre it on
-      // that cutoff instead, retaining fine needles when their footprint shrinks.
+      // Centre the hard cutoff on each pixel's alpha variation so fine sprays survive
+      // minification. The final FXAA pass handles resolved silhouette edges.
       const edgeWidth = fwidth(diffuseColor.a).max(0.0001);
       derived.alphaTestNode = sourceMaterialNode<"float">(derived, "alphaTest").sub(edgeWidth.mul(0.5));
       if (derived.map) {
