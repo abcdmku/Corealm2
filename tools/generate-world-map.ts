@@ -84,7 +84,7 @@ interface TiledLevelSpec {
 
 /** Largest first, like DETAIL_RENDITIONS. Only the native capture scale is tiled today. */
 const TILED_LEVELS: readonly TiledLevelSpec[] = [
-  { id: "tiled-6600", width: 6600, height: 0, quality: 72 },
+  { id: "tiled-6600", width: 6600, height: 0, quality: 68 },
 ];
 
 interface RenditionSpec {
@@ -105,7 +105,7 @@ const MINIMAP_RENDITION: RenditionSpec = {
   role: "minimap",
   file: "world-map-minimap.webp",
   // The reviewed continuous Crownward coast and added ruins need quality 91 to retain the
-  // existing 150 KB boot budget at 800 x 800; native zoom tiles keep their original quality.
+  // existing 150 KB boot budget at 800 x 800.
   width: 800,
   height: 0,
   quality: 91,
@@ -123,7 +123,7 @@ const DETAIL_RENDITIONS: readonly RenditionSpec[] = [
     height: 0,
     // Reviewed against the mountain capture: retain the flat fallback's byte budget.
     // Native zoom tiles retain full resolution and the source PNG stays lossless.
-    quality: 50,
+    quality: 46,
     maxBytes: DETAIL_MAX_BYTES,
   },
   {

@@ -69,9 +69,11 @@ async function main(): Promise<void> {
       : response) + "\n");
   }
 
-  async function call(surface: "lab" | "debug" | "environment" | "creatures" | "forest" | "progression", method: string, values: unknown[] = []): Promise<unknown> {
+  async function call(surface: "lab" | "debug" | "environment" | "creatures" | "forest" | "progression" | "regionalTier", method: string, values: unknown[] = []): Promise<unknown> {
     const result = await driver.page!.evaluate(async ({ surface, method, values }) => {
-      const api = (surface === "progression"
+      const api = (surface === "regionalTier"
+        ? (window as Window & { __regionalTierFixture?: Record<string, unknown> }).__regionalTierFixture
+        : surface === "progression"
         ? (window as Window & { __questRecoveryLab?: Record<string, unknown> }).__questRecoveryLab
         : surface === "forest"
         ? (window as Window & { __forestLab?: Record<string, unknown> }).__forestLab
@@ -80,7 +82,9 @@ async function main(): Promise<void> {
         : surface === "environment"
         ? (window as Window & { __environmentLab?: EnvironmentWorkbench }).__environmentLab
         : surface === "lab" ? window.__featureLab : window.__gameDebug) as unknown as Record<string, unknown> | undefined;
-      if (!api || !Object.hasOwn(api, method) || typeof api[method] !== "function") throw new Error(`Missing ${surface} method: ${method}`);
+      // Worker-hosted fixtures expose methods through a proxy, not own properties.
+      const available = surface === "regionalTier" ? ["prepare", "getState"].includes(method) : api && Object.hasOwn(api, method);
+      if (!api || !available || typeof api[method] !== "function") throw new Error(`Missing ${surface} method: ${method}`);
       const result = await (api[method] as (...args: unknown[]) => unknown).apply(api, values);
       return JSON.parse(JSON.stringify(result ?? null));
     }, { surface, method, values });
@@ -144,7 +148,7 @@ async function main(): Promise<void> {
       case "candidates":
         return { assets: await installAssetCandidates(driver.page!, resolveInside(repoRoot, string(command.catalog, "catalog"))) };
       case "call": {
-        if (command.surface !== "lab" && command.surface !== "debug" && command.surface !== "environment" && command.surface !== "creatures" && command.surface !== "forest" && command.surface !== "progression") throw new Error("surface must be lab, debug, environment, creatures, forest or progression");
+        if (command.surface !== "lab" && command.surface !== "debug" && command.surface !== "environment" && command.surface !== "creatures" && command.surface !== "forest" && command.surface !== "progression" && command.surface !== "regionalTier") throw new Error("surface must be lab, debug, environment, creatures, forest, progression or regionalTier");
         if (command.args !== undefined && !Array.isArray(command.args)) throw new Error("args must be an array");
         const method = string(command.method, "method");
         if (method === "setMode") throw new Error("Use open with a mode route so document readiness is awaited");

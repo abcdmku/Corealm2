@@ -1,5 +1,5 @@
 import type { PartPlacement } from "../buildings.js";
-import { inset, mapAssets, variantPart, withDetails } from "./parts.js";
+import { inset, variantPart, withDetails } from "./parts.js";
 import type { StructureVariantContext, StructureVariantRecipe } from "./types.js";
 
 const FRONT_FACE = 2;
@@ -133,10 +133,11 @@ function narrowShutteredWindows(
   preferredSides?: readonly number[],
 ): { readonly elevation: PartPlacement[]; readonly shutters: PartPlacement[] } {
   const targets = windowInserts(base, count, preferredSides);
-  const tags = new Set(targets.map((part) => part.tag));
-  const elevation = mapAssets(base, (part) => tags.has(part.tag) ? "window_thin" : undefined);
+  // The native wide insert seals the kit's full arched aperture. Replacing it with the much
+  // smaller arrow-loop mesh opened daylight around the jamb and crown; the shutter overlay
+  // supplies the narrower facade rhythm while retaining the actual glazed opening behind it.
   return {
-    elevation,
+    elevation: [...base],
     shutters: targets.map((window, index) => wallAttachment(
       window,
       `${tagPrefix}_shutters_${index}`,

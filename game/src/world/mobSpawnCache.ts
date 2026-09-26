@@ -16,9 +16,10 @@ export async function spreadMobSpawnsCached(cache: GenerationCachePort, entities
   habitats: readonly HabitatDef[], ports: MobSpawnSpacingPorts, options: { trustBaked?: boolean } = {}): Promise<HabitatDef[]> {
   const mobs = entities.filter(entity => entity.archetype === 'enemy' || entity.archetype === 'boss');
   const ordinary = mobs.filter(entity => entity.archetype === 'enemy');
-  const signature = JSON.stringify({ placementVersion: 2, habitats, mobs: mobs.map(entity => ({
+  const signature = JSON.stringify({ placementVersion: 3, habitats, mobs: mobs.map(entity => ({
     id: entity.id, archetype: entity.archetype, region: entity.regionId, position: entity.position,
     radius: entity.combat?.bodyRadius ?? .5, group: entity.meta?.groupId ?? entity.id,
+    level: entity.combat?.level, behaviour: entity.meta?.behaviour, aggroRadius: entity.combat?.aggroRadius,
     underground: ports.underground(entity.regionId),
   })) });
   const finitePoint = (value: unknown, length: number): boolean => Array.isArray(value)

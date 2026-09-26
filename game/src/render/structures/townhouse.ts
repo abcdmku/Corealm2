@@ -51,7 +51,7 @@ function frontX(context: StructureVariantContext, side: -1 | 1, wide: boolean): 
   return inset(side * (context.width / 2 - 1), context.width / 2, margin);
 }
 
-type FrontWindowAsset = "window_shutters" | "window_thin";
+type FrontWindowAsset = "window_shutters" | "window_wide";
 
 interface FrontWindowRequest {
   readonly tag: string;
@@ -143,7 +143,9 @@ function frontWindow(
   const insertTag = `g${suffix}`;
   const frameTag = `f${suffix}`;
   const wallAsset = request.storey === 0 ? "wall_brick_window" : "wall_plaster_window";
-  const insertAsset = request.assetId === "window_shutters" ? "window_wide" : "window_thin";
+  // Both treatments need the full frame: the arrow-loop insert is narrower and shorter than
+  // the kit's arched aperture, leaving daylight around its jamb and crown.
+  const insertAsset = "window_wide";
   const insert = wallAttachment(wall, insertTag, insertAsset, 0.035, 0, wall.scale);
   const existingInsert = base.some((part) => part.tag === insertTag);
   const elevation = base
@@ -307,8 +309,8 @@ export const TOWNHOUSE_VARIANTS: readonly StructureVariantRecipe[] = [
       const elevation = frontWindows(context, facadeBase(base, "straight"), [
         { tag: "shuttered_upper_l", assetId: "window_shutters", side: -1, storey: 1, scale: 0.92 },
         { tag: "shuttered_upper_r", assetId: "window_shutters", side: 1, storey: 1, scale: 0.92 },
-        { tag: "shuttered_lower_l", assetId: "window_thin", side: -1, storey: 0, scale: 0.96 },
-        { tag: "shuttered_lower_r", assetId: "window_thin", side: 1, storey: 0, scale: 0.96 },
+        { tag: "shuttered_lower_l", assetId: "window_wide", side: -1, storey: 0, scale: 0.96 },
+        { tag: "shuttered_lower_r", assetId: "window_wide", side: 1, storey: 0, scale: 0.96 },
       ]);
       return withDetails(elevation, lamp(context, "shuttered_lamp", -1.15));
     },
@@ -322,8 +324,8 @@ export const TOWNHOUSE_VARIANTS: readonly StructureVariantRecipe[] = [
     fits: fitsTownhouse,
     build: (context, base) => {
       const elevation = frontWindows(context, facadeBase(base, "corner"), [
-        { tag: "twin_window_l", assetId: "window_thin", side: -1, storey: 1, scale: 0.95 },
-        { tag: "twin_window_r", assetId: "window_thin", side: 1, storey: 1, scale: 0.95 },
+        { tag: "twin_window_l", assetId: "window_wide", side: -1, storey: 1, scale: 0.95 },
+        { tag: "twin_window_r", assetId: "window_wide", side: 1, storey: 1, scale: 0.95 },
       ]);
       return withDetails(
         elevation,
@@ -367,8 +369,8 @@ export const TOWNHOUSE_VARIANTS: readonly StructureVariantRecipe[] = [
     fits: fitsTownhouse,
     build: (context, base) => {
       const elevation = frontWindows(context, facadeBase(base, "corner"), [
-        { tag: "lantern_upper_l", assetId: "window_thin", side: -1, storey: 1, scale: 1 },
-        { tag: "lantern_upper_r", assetId: "window_thin", side: 1, storey: 1, scale: 1 },
+        { tag: "lantern_upper_l", assetId: "window_wide", side: -1, storey: 1, scale: 1 },
+        { tag: "lantern_upper_r", assetId: "window_wide", side: 1, storey: 1, scale: 1 },
         { tag: "lantern_lower_shutter", assetId: "window_shutters", side: -1, storey: 0, scale: 0.88 },
       ]);
       return withDetails(
@@ -413,8 +415,8 @@ export const TOWNHOUSE_VARIANTS: readonly StructureVariantRecipe[] = [
       const elevation = frontWindows(context, facadeBase(base, "corner"), [
         { tag: "gallery_shutter_l", assetId: "window_shutters", side: -1, storey: 1, scale: 0.92 },
         { tag: "gallery_shutter_r", assetId: "window_shutters", side: 1, storey: 1, scale: 0.92 },
-        { tag: "gallery_window_l", assetId: "window_thin", side: -1, storey: 0, scale: 0.92 },
-        { tag: "gallery_window_r", assetId: "window_thin", side: 1, storey: 0, scale: 0.92 },
+        { tag: "gallery_window_l", assetId: "window_wide", side: -1, storey: 0, scale: 0.92 },
+        { tag: "gallery_window_r", assetId: "window_wide", side: 1, storey: 0, scale: 0.92 },
       ]);
       return withDetails(elevation, ...cornerRails(context));
     },
@@ -428,8 +430,8 @@ export const TOWNHOUSE_VARIANTS: readonly StructureVariantRecipe[] = [
     fits: fitsTownhouse,
     build: (context, base) => {
       const elevation = frontWindows(context, facadeBase(base, "straight"), [
-        { tag: "bannered_window_l", assetId: "window_thin", side: -1, storey: 1, scale: 0.96 },
-        { tag: "bannered_window_r", assetId: "window_thin", side: 1, storey: 1, scale: 0.96 },
+        { tag: "bannered_window_l", assetId: "window_wide", side: -1, storey: 1, scale: 0.96 },
+        { tag: "bannered_window_r", assetId: "window_wide", side: 1, storey: 1, scale: 0.96 },
       ]);
       return withDetails(
         elevation,

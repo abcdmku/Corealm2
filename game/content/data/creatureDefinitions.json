@@ -16,8 +16,8 @@
     "loot": {
       "rolls": [
         {
-          "id": "items",
-          "name": "Items",
+          "id": "forage",
+          "name": "Forage",
           "count": 1,
           "drops": [
             {
@@ -26,7 +26,7 @@
                 1,
                 1
               ],
-              "chance": 0.4
+              "chance": 0.55
             },
             {
               "itemId": "marsh_gland",
@@ -34,23 +34,7 @@
                 1,
                 2
               ],
-              "chance": 0.3
-            },
-            {
-              "itemId": "march_stone",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.2
-            },
-            {
-              "itemId": "pale_quartz",
-              "quantity": [
-                1,
-                1
-              ],
-              "chance": 0.06
+              "chance": 0.35
             }
           ],
           "tables": []
@@ -122,20 +106,20 @@
     "name": "Goat",
     "family": "goat",
     "availability": "world",
-    "level": 1,
+    "level": 2,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
-      "aggroRadius": 8,
-      "behaviour": "aggressive",
+      "aggroRadius": 5,
+      "behaviour": "territorial",
       "moveSpeedMps": 2.06,
       "walkSpeedMps": 0.52
     },
     "loot": {
       "rolls": [
         {
-          "id": "items_1",
-          "name": "Items 1",
+          "id": "materials",
+          "name": "Materials",
           "count": 1,
           "drops": [
             {
@@ -158,8 +142,8 @@
           "tables": []
         },
         {
-          "id": "items_2",
-          "name": "Items 2",
+          "id": "horn",
+          "name": "Horn",
           "count": 1,
           "drops": [
             {
@@ -168,23 +152,7 @@
                 1,
                 1
               ],
-              "chance": 0.22
-            },
-            {
-              "itemId": "grithe_ore",
-              "quantity": [
-                1,
-                2
-              ],
-              "chance": 0.15
-            },
-            {
-              "itemId": "grithe_dagger",
-              "quantity": [
-                1,
-                1
-              ],
-              "chance": 0.02
+              "chance": 0.35
             }
           ],
           "tables": []
@@ -323,7 +291,7 @@
     "name": "Viper",
     "family": "viper",
     "availability": "world",
-    "level": 1,
+    "level": 3,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -382,7 +350,7 @@
     "name": "Road Bandit",
     "family": "reaver",
     "availability": "world",
-    "level": 1,
+    "level": 4,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -441,7 +409,7 @@
     "name": "Storm Scarab",
     "family": "tempest_roc",
     "availability": "world",
-    "level": 10,
+    "level": 13,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -592,7 +560,7 @@
     "name": "Pig",
     "family": "hog",
     "availability": "world",
-    "level": 5,
+    "level": 6,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -659,7 +627,7 @@
     "name": "Forest Wolf",
     "family": "coyote",
     "availability": "world",
-    "level": 5,
+    "level": 8,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -778,7 +746,7 @@
     "id": "viper_t5",
     "name": "Forest Viper",
     "availability": "world",
-    "level": 5,
+    "level": 7,
     "adjustments": {
       "attackSpeedMs": 3000,
       "aggroRadius": 8,
@@ -808,7 +776,7 @@
     "id": "reaver_t5",
     "name": "Forest Bandit",
     "availability": "world",
-    "level": 5,
+    "level": 8,
     "adjustments": {
       "attackSpeedMs": 2400,
       "aggroRadius": 14,
@@ -839,7 +807,7 @@
     "name": "Rootbound Colossus",
     "family": "rootheart",
     "availability": "world",
-    "level": 10,
+    "level": 17,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -922,7 +890,7 @@
     "name": "Brown Bear",
     "family": "bear",
     "availability": "world",
-    "level": 10,
+    "level": 15,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -997,7 +965,7 @@
     "name": "Wild Boar",
     "family": "boar",
     "availability": "world",
-    "level": 10,
+    "level": 13,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -1072,7 +1040,7 @@
     "name": "Ibex",
     "family": "ibex",
     "availability": "world",
-    "level": 10,
+    "level": 12,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -1147,7 +1115,7 @@
     "name": "Aurochs",
     "family": "aurochs",
     "availability": "world",
-    "level": 10,
+    "level": 13,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -1229,7 +1197,7 @@
     "id": "reaver_t10",
     "name": "Highland Bandit",
     "availability": "world",
-    "level": 10,
+    "level": 14,
     "adjustments": {
       "attackSpeedMs": 2400,
       "aggroRadius": 14,
@@ -1259,7 +1227,7 @@
     "id": "coyote_t10",
     "name": "Dire Wolf",
     "availability": "world",
-    "level": 10,
+    "level": 15,
     "adjustments": {
       "attackSpeedMs": 1800,
       "aggroRadius": 12,
@@ -1302,7 +1270,7 @@
     "name": "Giant Rat",
     "family": "rat",
     "availability": "world",
-    "level": 10,
+    "level": 11,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 1800,
@@ -1369,7 +1337,7 @@
     "name": "Giant Scorpion",
     "family": "scorpion",
     "availability": "world",
-    "level": 10,
+    "level": 15,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -1428,7 +1396,7 @@
     "name": "Giant Crab",
     "family": "crab",
     "availability": "world",
-    "level": 10,
+    "level": 12,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -1494,7 +1462,7 @@
     "id": "bear_t20",
     "name": "Dire Bear",
     "availability": "world",
-    "level": 20,
+    "level": 24,
     "loot": {
       "rolls": [
         {
@@ -1529,7 +1497,7 @@
     "id": "boar_t20",
     "name": "Dire Boar",
     "availability": "world",
-    "level": 20,
+    "level": 23,
     "loot": {
       "rolls": [
         {
@@ -1564,7 +1532,7 @@
     "id": "ibex_t20",
     "name": "Large Ibex",
     "availability": "world",
-    "level": 20,
+    "level": 22,
     "loot": {
       "rolls": [
         {
@@ -1599,7 +1567,7 @@
     "id": "viper_t20",
     "name": "Giant Viper",
     "availability": "world",
-    "level": 20,
+    "level": 24,
     "adjustments": {
       "attackSpeedMs": 3000,
       "aggroRadius": 8,
@@ -1629,7 +1597,7 @@
     "id": "reaver_t20",
     "name": "Quarry Bandit",
     "availability": "world",
-    "level": 20,
+    "level": 25,
     "adjustments": {
       "attackSpeedMs": 2400,
       "aggroRadius": 14,
@@ -1660,16 +1628,16 @@
     "name": "Galeskin",
     "family": "galeskin",
     "availability": "world",
-    "level": 10,
+    "level": 13,
     "profileId": "boss",
     "adjustments": {
-      "maxHealth": 52,
-      "attackLevel": 8,
-      "defenceLevel": 6,
+      "maxHealth": 78,
+      "attackLevel": 14,
+      "defenceLevel": 10,
       "accuracy": 8,
       "armour": 14,
       "magicArmour": 14,
-      "maxHit": 5,
+      "maxHit": 7,
       "attackSpeedMs": 3000,
       "aggroRadius": 16,
       "behaviour": "territorial",
@@ -1738,16 +1706,16 @@
     "name": "Forest Ogre",
     "family": "mossbound",
     "availability": "world",
-    "level": 10,
+    "level": 17,
     "profileId": "boss",
     "adjustments": {
-      "maxHealth": 67,
-      "attackLevel": 11,
-      "defenceLevel": 8,
+      "maxHealth": 120,
+      "attackLevel": 19,
+      "defenceLevel": 14,
       "accuracy": 9,
       "armour": 26,
       "magicArmour": 23,
-      "maxHit": 6,
+      "maxHit": 9,
       "attackSpeedMs": 3000,
       "aggroRadius": 16,
       "behaviour": "territorial",
@@ -1824,16 +1792,16 @@
     "name": "Cave Ogre",
     "family": "tideworn",
     "availability": "world",
-    "level": 10,
+    "level": 21,
     "profileId": "boss",
     "adjustments": {
-      "maxHealth": 189,
-      "attackLevel": 27,
-      "defenceLevel": 19,
+      "maxHealth": 215,
+      "attackLevel": 30,
+      "defenceLevel": 22,
       "accuracy": 16,
       "armour": 50,
       "magicArmour": 40,
-      "maxHit": 11,
+      "maxHit": 12,
       "attackSpeedMs": 3000,
       "aggroRadius": 18,
       "behaviour": "territorial",
@@ -1910,16 +1878,16 @@
     "name": "Fire Ogre",
     "family": "cinderwake",
     "availability": "world",
-    "level": 20,
+    "level": 29,
     "profileId": "boss",
     "adjustments": {
-      "maxHealth": 394,
-      "attackLevel": 49,
-      "defenceLevel": 37,
+      "maxHealth": 435,
+      "attackLevel": 54,
+      "defenceLevel": 40,
       "accuracy": 22,
       "armour": 78,
       "magicArmour": 45,
-      "maxHit": 20,
+      "maxHit": 23,
       "attackSpeedMs": 3000,
       "aggroRadius": 22,
       "behaviour": "territorial",
@@ -2020,16 +1988,16 @@
     "name": "Quarry Warden",
     "family": "quarrykeeper",
     "availability": "world",
-    "level": 10,
+    "level": 22,
     "profileId": "boss",
     "adjustments": {
-      "maxHealth": 258,
-      "attackLevel": 31,
-      "defenceLevel": 26,
+      "maxHealth": 285,
+      "attackLevel": 35,
+      "defenceLevel": 29,
       "accuracy": 15,
       "armour": 62,
       "magicArmour": 18,
-      "maxHit": 14,
+      "maxHit": 16,
       "attackSpeedMs": 3000,
       "aggroRadius": 24,
       "behaviour": "territorial",
@@ -2194,7 +2162,7 @@
     "name": "Lynx",
     "family": "duskoak_lynx",
     "availability": "world",
-    "level": 5,
+    "level": 9,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -2262,7 +2230,7 @@
     "name": "Redmane Minotaur",
     "family": "rootdelve_badger",
     "availability": "world",
-    "level": 25,
+    "level": 29,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -2338,7 +2306,7 @@
     "name": "Porcupine",
     "family": "quillback_porcupine",
     "availability": "world",
-    "level": 10,
+    "level": 12,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -2466,7 +2434,7 @@
     "name": "Bighorn Sheep",
     "family": "cairn_bighorn",
     "availability": "world",
-    "level": 10,
+    "level": 12,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -2534,7 +2502,7 @@
     "name": "Moose",
     "family": "marsh_moose",
     "availability": "world",
-    "level": 10,
+    "level": 14,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -2670,7 +2638,7 @@
     "name": "Crocodile",
     "family": "reedjaw_crocodile",
     "availability": "world",
-    "level": 10,
+    "level": 16,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -2738,7 +2706,7 @@
     "name": "Salamander",
     "family": "kiln_salamander",
     "availability": "world",
-    "level": 20,
+    "level": 22,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -2842,7 +2810,7 @@
     "name": "Monitor Lizard",
     "family": "ashscale_monitor",
     "availability": "world",
-    "level": 20,
+    "level": 25,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -2974,7 +2942,7 @@
     "name": "Heron",
     "family": "blackwater_heron",
     "availability": "world",
-    "level": 5,
+    "level": 6,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -3026,7 +2994,7 @@
     "name": "Bustard",
     "family": "scree_bustard",
     "availability": "world",
-    "level": 10,
+    "level": 12,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 1800,
@@ -3202,7 +3170,7 @@
     "name": "Stag Beetle",
     "family": "antler_beetle",
     "availability": "world",
-    "level": 10,
+    "level": 12,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -3254,7 +3222,7 @@
     "name": "Giant Centipede",
     "family": "slag_centipede",
     "availability": "world",
-    "level": 20,
+    "level": 25,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 1800,
@@ -3306,7 +3274,7 @@
     "name": "Rootweaver",
     "family": "hollowroot_spider",
     "availability": "world",
-    "level": 5,
+    "level": 7,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 1200,
@@ -3358,7 +3326,7 @@
     "name": "Armored Demon",
     "family": "cinder_ravager",
     "availability": "world",
-    "level": 20,
+    "level": 29,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -3426,7 +3394,7 @@
     "name": "Armored Dragon",
     "family": "basalt_drake",
     "availability": "world",
-    "level": 20,
+    "level": 30,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -3494,7 +3462,7 @@
     "name": "Giant Mantis",
     "family": "gorge_mantis",
     "availability": "world",
-    "level": 20,
+    "level": 27,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 1800,
@@ -3562,7 +3530,7 @@
     "name": "Pale Dragon",
     "family": "quarry_nightmare",
     "availability": "world",
-    "level": 10,
+    "level": 19,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -3622,7 +3590,7 @@
     "name": "Grassscale Viper",
     "family": "grass_viper",
     "availability": "world",
-    "level": 1,
+    "level": 3,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -3662,7 +3630,7 @@
     "name": "Field Wasp",
     "family": "field_wasp",
     "availability": "world",
-    "level": 1,
+    "level": 2,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -3702,7 +3670,7 @@
     "name": "Heath Wasp",
     "family": "heath_wasp",
     "availability": "world",
-    "level": 1,
+    "level": 2,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -3742,7 +3710,7 @@
     "name": "Slatewing Wasp",
     "family": "reed_wasp",
     "availability": "world",
-    "level": 1,
+    "level": 2,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -3782,7 +3750,7 @@
     "name": "Creek Crab",
     "family": "creek_crab",
     "availability": "world",
-    "level": 1,
+    "level": 2,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -3834,7 +3802,7 @@
     "name": "Briar Weaver",
     "family": "briar_spider",
     "availability": "world",
-    "level": 1,
+    "level": 3,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -4050,7 +4018,7 @@
     "name": "Moonweaver",
     "family": "moonweave_spider",
     "availability": "world",
-    "level": 5,
+    "level": 8,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -4188,7 +4156,7 @@
     "name": "Cindercrest Salamander",
     "family": "cindercrest_salamander",
     "availability": "world",
-    "level": 20,
+    "level": 23,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -4256,7 +4224,7 @@
     "name": "Amethyst Weaver",
     "family": "amethyst_spider",
     "availability": "world",
-    "level": 5,
+    "level": 9,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -4326,7 +4294,7 @@
     "name": "Chalk Warden",
     "family": "chalk_warden",
     "availability": "world",
-    "level": 10,
+    "level": 13,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -4372,7 +4340,7 @@
     "name": "Hollow Bough",
     "family": "hollow_bough",
     "availability": "world",
-    "level": 10,
+    "level": 16,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -4414,7 +4382,7 @@
     "name": "Pallid Shade",
     "family": "pallid_shade",
     "availability": "world",
-    "level": 10,
+    "level": 15,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -4456,7 +4424,7 @@
     "name": "Bramble Tiller",
     "family": "briar_harrow",
     "availability": "world",
-    "level": 10,
+    "level": 14,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -4510,7 +4478,7 @@
     "name": "Fen Crawler",
     "family": "fen_crawler",
     "availability": "world",
-    "level": 10,
+    "level": 14,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -4552,7 +4520,7 @@
     "name": "Reed Strider",
     "family": "reed_strider",
     "availability": "world",
-    "level": 10,
+    "level": 11,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -4594,7 +4562,7 @@
     "name": "Thorn Maw",
     "family": "thorn_maw",
     "availability": "world",
-    "level": 10,
+    "level": 17,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -4636,7 +4604,7 @@
     "name": "Heath Jack",
     "family": "heath_jack",
     "availability": "world",
-    "level": 10,
+    "level": 11,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -4678,7 +4646,7 @@
     "name": "Kiln Marrow",
     "family": "kiln_marrow",
     "availability": "world",
-    "level": 20,
+    "level": 26,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -4720,7 +4688,7 @@
     "name": "Slag Crawler",
     "family": "slag_crawler",
     "availability": "world",
-    "level": 10,
+    "level": 20,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -4762,7 +4730,7 @@
     "name": "Ashbound Votary",
     "family": "cinder_penitent",
     "availability": "world",
-    "level": 20,
+    "level": 23,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -4804,7 +4772,7 @@
     "name": "Ashen Ghoul",
     "family": "grave_lantern",
     "availability": "world",
-    "level": 20,
+    "level": 24,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -4846,7 +4814,7 @@
     "name": "Veil Reaper",
     "family": "veil_reaper",
     "availability": "world",
-    "level": 20,
+    "level": 27,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -4888,7 +4856,7 @@
     "name": "Cairn Treader",
     "family": "cairn_treader",
     "availability": "world",
-    "level": 10,
+    "level": 13,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -4930,7 +4898,7 @@
     "name": "Flint Mandible",
     "family": "flint_mandible",
     "availability": "world",
-    "level": 10,
+    "level": 14,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -4972,7 +4940,7 @@
     "name": "Vault Custodian",
     "family": "vault_custodian",
     "availability": "world",
-    "level": 10,
+    "level": 16,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -5014,7 +4982,7 @@
     "name": "Blind Cave Weaver",
     "family": "blind_cave_weaver",
     "availability": "world",
-    "level": 10,
+    "level": 14,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -5056,7 +5024,7 @@
     "name": "Scree Watcher",
     "family": "scree_watcher",
     "availability": "world",
-    "level": 10,
+    "level": 12,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -5476,7 +5444,7 @@
     "name": "Cinderback Crag",
     "family": "cinderback_crag",
     "availability": "world",
-    "level": 50,
+    "level": 56,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2500,
@@ -5488,7 +5456,48 @@
       "attackRangeM": 1.9
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "ore",
+          "name": "Ore",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "cindervein_ore",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 1
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "heart",
+          "name": "Heart",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "molten_heart",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.08
+            },
+            {
+              "itemId": "fire_essence",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.32
+            }
+          ],
+          "tables": []
+        }
+      ]
     },
     "presentation": {
       "id": "cinderback_crag",
@@ -5517,7 +5526,48 @@
       "attackRangeM": 2.6
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "hide",
+          "name": "Hide",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "charhide",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 1
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "forage",
+          "name": "Forage",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "raw_ember_haunch",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.65
+            },
+            {
+              "itemId": "fire_essence",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.2
+            }
+          ],
+          "tables": []
+        }
+      ]
     },
     "presentation": {
       "id": "furnace_grazer",
@@ -5534,7 +5584,7 @@
     "name": "Basalt Maw",
     "family": "basalt_maw",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2500,
@@ -5546,7 +5596,56 @@
       "attackRangeM": 1.9
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "ore",
+          "name": "Ore",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "cindervein_ore",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 1
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "molten_heart",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.16
+            },
+            {
+              "itemId": "fire_opal",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.06
+            },
+            {
+              "itemId": "fire_essence",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.3
+            }
+          ],
+          "tables": []
+        }
+      ]
     },
     "presentation": {
       "id": "basalt_maw",
@@ -5563,7 +5662,7 @@
     "name": "Rift Carapace",
     "family": "rift_carapace",
     "availability": "world",
-    "level": 70,
+    "level": 74,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2500,
@@ -5575,7 +5674,48 @@
       "attackRangeM": 1.9
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "ore",
+          "name": "Ore",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "nightglass_ore",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 1
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "astral_core",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.1
+            },
+            {
+              "itemId": "void_thread",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.22
+            }
+          ],
+          "tables": []
+        }
+      ]
     },
     "presentation": {
       "id": "rift_carapace",
@@ -5592,7 +5732,7 @@
     "name": "Voidstone Colossus",
     "family": "voidstone_colossus",
     "availability": "world",
-    "level": 70,
+    "level": 82,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -5604,7 +5744,44 @@
       "attackRangeM": 2.6
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "guaranteed_astral_core",
+          "name": "Guaranteed Astral Core",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_astral_core_cosmic_rune",
+              "rollId": "guaranteed_astral_core"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_astral_core_cosmic_rune",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_astral_core_cosmic_rune",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
     },
     "presentation": {
       "id": "voidstone_colossus",
@@ -5621,7 +5798,7 @@
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
     "availability": "world",
-    "level": 70,
+    "level": 77,
     "profileId": "caster",
     "adjustments": {
       "attackSpeedMs": 2900,
@@ -5633,7 +5810,44 @@
       "attackRangeM": 8
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "guaranteed_void_thread",
+          "name": "Guaranteed Void Thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune",
+              "rollId": "guaranteed_void_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
     },
     "presentation": {
       "id": "gloam_wraith",
@@ -5650,7 +5864,7 @@
     "name": "Ashseal Warden",
     "family": "ashseal_warden",
     "availability": "world",
-    "level": 50,
+    "level": 61,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -5662,7 +5876,56 @@
       "attackRangeM": 2.6
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "relic",
+          "name": "Relic",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "ashseal_iron",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 1
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "treasure",
+          "name": "Treasure",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "ashseal_guard",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.07
+            },
+            {
+              "itemId": "cindersteel_bar",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.18
+            },
+            {
+              "itemId": "cosmic_rune",
+              "quantity": [
+                2,
+                4
+              ],
+              "chance": 0.35
+            }
+          ],
+          "tables": []
+        }
+      ]
     },
     "presentation": {
       "id": "ashseal_warden",
@@ -5679,7 +5942,7 @@
     "name": "Furnace Regent",
     "family": "furnace_regent",
     "availability": "world",
-    "level": 50,
+    "level": 65,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -5691,7 +5954,60 @@
       "attackRangeM": 2.6
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "guaranteed_molten_heart",
+          "name": "Guaranteed Molten Heart",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_molten_heart_cosmic_rune",
+              "rollId": "guaranteed_molten_heart"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_molten_heart_cosmic_rune",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_molten_heart_cosmic_rune",
+              "rollId": "items_2"
+            }
+          ]
+        },
+        {
+          "id": "relic",
+          "name": "Relic",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "furnace_crown",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.06
+            }
+          ],
+          "tables": []
+        }
+      ]
     },
     "presentation": {
       "id": "furnace_regent",
@@ -5708,7 +6024,7 @@
     "name": "Gloamfang Reaver",
     "family": "gloamfang_reaver",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2200,
@@ -5762,7 +6078,7 @@
     "name": "Chainbound Archon",
     "family": "chainbound_archon",
     "availability": "world",
-    "level": 70,
+    "level": 83,
     "profileId": "caster",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -5774,7 +6090,44 @@
       "attackRangeM": 8
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "guaranteed_void_thread",
+          "name": "Guaranteed Void Thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_2",
+              "rollId": "guaranteed_void_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_2",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_2",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
     },
     "presentation": {
       "id": "chainbound_archon",
@@ -5791,7 +6144,7 @@
     "name": "Nightforge Marshal",
     "family": "nightforge_marshal",
     "availability": "world",
-    "level": 70,
+    "level": 86,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -5803,7 +6156,60 @@
       "attackRangeM": 2.6
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "guaranteed_void_thread",
+          "name": "Guaranteed Void Thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_3",
+              "rollId": "guaranteed_void_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_3",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_3",
+              "rollId": "items_2"
+            }
+          ]
+        },
+        {
+          "id": "armour",
+          "name": "Armour",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "nightmarshal_plate",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.06
+            }
+          ],
+          "tables": []
+        }
+      ]
     },
     "presentation": {
       "id": "nightforge_marshal",
@@ -5820,7 +6226,7 @@
     "name": "The Hollow Star",
     "family": "hollow_star",
     "availability": "world",
-    "level": 70,
+    "level": 90,
     "profileId": "caster",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -5832,7 +6238,44 @@
       "attackRangeM": 8
     },
     "loot": {
-      "rolls": []
+      "rolls": [
+        {
+          "id": "guaranteed_void_thread",
+          "name": "Guaranteed Void Thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_4",
+              "rollId": "guaranteed_void_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_4",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_void_thread_cosmic_rune_4",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
     },
     "presentation": {
       "id": "hollow_star",
@@ -5849,7 +6292,7 @@
     "name": "Pearl Knight",
     "family": "pearl_knight",
     "availability": "world",
-    "level": 40,
+    "level": 45,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -5903,7 +6346,7 @@
     "name": "Ivory Castellan",
     "family": "ivory_castellan",
     "availability": "world",
-    "level": 40,
+    "level": 51,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -6066,7 +6509,7 @@
     "name": "Silverthorn Harrow",
     "family": "silverthorn_harrow",
     "availability": "world",
-    "level": 40,
+    "level": 47,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -6174,7 +6617,7 @@
     "name": "Moonpetal Stalker",
     "family": "moonpetal_stalker",
     "availability": "world",
-    "level": 30,
+    "level": 34,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -6228,7 +6671,7 @@
     "name": "Dewglass Weaver",
     "family": "dewglass_weaver",
     "availability": "world",
-    "level": 30,
+    "level": 33,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -6282,7 +6725,7 @@
     "name": "Bloomheart Matriarch",
     "family": "bloomheart_matriarch",
     "availability": "world",
-    "level": 30,
+    "level": 41,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -6430,7 +6873,7 @@
     "name": "Orchid Reaper",
     "family": "orchid_reaper",
     "availability": "world",
-    "level": 60,
+    "level": 66,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -6484,7 +6927,7 @@
     "name": "Starroot Guardian",
     "family": "starroot_guardian",
     "availability": "world",
-    "level": 60,
+    "level": 68,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -6538,7 +6981,7 @@
     "name": "Amethyst Sovereign",
     "family": "amethyst_sovereign",
     "availability": "world",
-    "level": 60,
+    "level": 76,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 3800,
@@ -6632,7 +7075,7 @@
     "name": "Red Dragon Whelp",
     "family": "crownward_red_hatchling",
     "availability": "world",
-    "level": 40,
+    "level": 48,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -6710,7 +7153,7 @@
     "name": "Black Dragon Whelp",
     "family": "crownward_black_hatchling",
     "availability": "world",
-    "level": 40,
+    "level": 48,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -6788,7 +7231,7 @@
     "name": "Red Dragon of Crownward",
     "family": "crownward_red_dragon",
     "availability": "world",
-    "level": 40,
+    "level": 54,
     "profileId": "boss",
     "adjustments": {
       "attackSpeedMs": 3600,
@@ -6882,7 +7325,7 @@
     "name": "Petal Pouncer",
     "family": "petal_pouncer",
     "availability": "world",
-    "level": 30,
+    "level": 33,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -6986,7 +7429,7 @@
     "name": "Bloom Hopper",
     "family": "bloom_hopper",
     "availability": "world",
-    "level": 30,
+    "level": 31,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7038,7 +7481,7 @@
     "name": "Thicket Spirit",
     "family": "thicket_spirit",
     "availability": "world",
-    "level": 30,
+    "level": 32,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7090,7 +7533,7 @@
     "name": "Bramble Prowler",
     "family": "bramble_prowler",
     "availability": "world",
-    "level": 30,
+    "level": 36,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7142,7 +7585,7 @@
     "name": "Elder Grovebeast",
     "family": "elder_grovebeast",
     "availability": "world",
-    "level": 30,
+    "level": 39,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7192,7 +7635,7 @@
   {
     "id": "petal_pouncer_t60",
     "availability": "world",
-    "level": 60,
+    "level": 63,
     "loot": {
       "rolls": [
         {
@@ -7278,7 +7721,7 @@
   {
     "id": "bloom_hopper_t60",
     "availability": "world",
-    "level": 60,
+    "level": 61,
     "loot": {
       "rolls": [
         {
@@ -7321,7 +7764,7 @@
   {
     "id": "thicket_spirit_t60",
     "availability": "world",
-    "level": 60,
+    "level": 62,
     "loot": {
       "rolls": [
         {
@@ -7364,7 +7807,7 @@
   {
     "id": "bramble_prowler_t60",
     "availability": "world",
-    "level": 60,
+    "level": 66,
     "loot": {
       "rolls": [
         {
@@ -7407,7 +7850,7 @@
   {
     "id": "elder_grovebeast_t60",
     "availability": "world",
-    "level": 60,
+    "level": 69,
     "loot": {
       "rolls": [
         {
@@ -7556,7 +7999,7 @@
     "name": "Glasspond Frog",
     "family": "garden_frog",
     "availability": "world",
-    "level": 30,
+    "level": 31,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7608,7 +8051,7 @@
     "name": "Lantern Imp",
     "family": "garden_imp",
     "availability": "world",
-    "level": 30,
+    "level": 34,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7712,7 +8155,7 @@
     "name": "Dewglass Reliquary",
     "family": "garden_reliquary",
     "availability": "world",
-    "level": 30,
+    "level": 36,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7764,7 +8207,7 @@
     "name": "Silverleaf Hart",
     "family": "garden_hart",
     "availability": "world",
-    "level": 30,
+    "level": 32,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7816,7 +8259,7 @@
     "name": "Thistledown Veilspirit",
     "family": "garden_veilspirit",
     "availability": "world",
-    "level": 30,
+    "level": 35,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7868,7 +8311,7 @@
     "name": "Briar Sapling",
     "family": "garden_sapling",
     "availability": "world",
-    "level": 30,
+    "level": 32,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7920,7 +8363,7 @@
     "name": "Petal Drake",
     "family": "garden_drake",
     "availability": "world",
-    "level": 30,
+    "level": 38,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -7972,7 +8415,7 @@
     "name": "Dewstone Wardling",
     "family": "garden_wardling",
     "availability": "world",
-    "level": 30,
+    "level": 35,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -8024,7 +8467,7 @@
     "name": "Silverleaf Petalguard",
     "family": "garden_petalguard",
     "availability": "world",
-    "level": 30,
+    "level": 37,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -8163,7 +8606,7 @@
     "id": "garden_frog_t60",
     "name": "Orchid Pondling",
     "availability": "world",
-    "level": 60,
+    "level": 61,
     "loot": {
       "rolls": [
         {
@@ -8207,7 +8650,7 @@
     "id": "garden_imp_t60",
     "name": "Twilight Imp",
     "availability": "world",
-    "level": 60,
+    "level": 64,
     "loot": {
       "rolls": [
         {
@@ -8295,7 +8738,7 @@
     "id": "garden_reliquary_t60",
     "name": "Starporcelain Reliquary",
     "availability": "world",
-    "level": 60,
+    "level": 66,
     "loot": {
       "rolls": [
         {
@@ -8339,7 +8782,7 @@
     "id": "garden_hart_t60",
     "name": "Starhorn Hart",
     "availability": "world",
-    "level": 60,
+    "level": 62,
     "loot": {
       "rolls": [
         {
@@ -8383,7 +8826,7 @@
     "id": "garden_veilspirit_t60",
     "name": "Orchid Veilspirit",
     "availability": "world",
-    "level": 60,
+    "level": 65,
     "loot": {
       "rolls": [
         {
@@ -8427,7 +8870,7 @@
     "id": "garden_sapling_t60",
     "name": "Starroot Tender",
     "availability": "world",
-    "level": 60,
+    "level": 62,
     "loot": {
       "rolls": [
         {
@@ -8471,7 +8914,7 @@
     "id": "garden_drake_t60",
     "name": "Orchid Drake",
     "availability": "world",
-    "level": 60,
+    "level": 68,
     "loot": {
       "rolls": [
         {
@@ -8515,7 +8958,7 @@
     "id": "garden_wardling_t60",
     "name": "Amethyst Wardling",
     "availability": "world",
-    "level": 60,
+    "level": 65,
     "loot": {
       "rolls": [
         {
@@ -8559,7 +9002,7 @@
     "id": "garden_petalguard_t60",
     "name": "Moonstone Petalguard",
     "availability": "world",
-    "level": 60,
+    "level": 67,
     "loot": {
       "rolls": [
         {
@@ -11907,7 +12350,7 @@
     "name": "Briar Weaver",
     "family": "webweaver_spider",
     "availability": "world",
-    "level": 5,
+    "level": 7,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -11977,7 +12420,7 @@
     "name": "Marsh Wasp",
     "family": "marsh_wasp",
     "availability": "world",
-    "level": 5,
+    "level": 6,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -12056,7 +12499,7 @@
     "name": "Goblin Scout",
     "family": "goblin_scout",
     "availability": "world",
-    "level": 1,
+    "level": 3,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -12126,7 +12569,7 @@
     "name": "Goblin Archer",
     "family": "goblin_archer",
     "availability": "world",
-    "level": 1,
+    "level": 4,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -12196,7 +12639,7 @@
     "name": "Goblin Shaman",
     "family": "goblin_shaman",
     "availability": "world",
-    "level": 5,
+    "level": 8,
     "profileId": "caster",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -12270,7 +12713,7 @@
     "name": "Skeleton Soldier",
     "family": "skeleton_soldier",
     "availability": "world",
-    "level": 5,
+    "level": 8,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2400,
@@ -12340,7 +12783,7 @@
     "name": "Skeleton Archer",
     "family": "skeleton_archer",
     "availability": "world",
-    "level": 5,
+    "level": 9,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -12410,7 +12853,7 @@
     "name": "Skeleton Mage",
     "family": "skeleton_mage",
     "availability": "world",
-    "level": 20,
+    "level": 24,
     "profileId": "caster",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -12480,7 +12923,7 @@
     "name": "Zombie",
     "family": "zombie",
     "availability": "world",
-    "level": 1,
+    "level": 4,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -12550,7 +12993,7 @@
     "name": "Plague Zombie",
     "family": "plague_zombie",
     "availability": "world",
-    "level": 20,
+    "level": 25,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -12620,7 +13063,7 @@
     "name": "Grave Ghoul",
     "family": "grave_ghoul",
     "availability": "world",
-    "level": 10,
+    "level": 16,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -12690,7 +13133,7 @@
     "name": "Wraith",
     "family": "wraith",
     "availability": "world",
-    "level": 10,
+    "level": 18,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -12764,7 +13207,7 @@
     "name": "Banshee",
     "family": "banshee",
     "availability": "world",
-    "level": 20,
+    "level": 27,
     "profileId": "caster",
     "adjustments": {
       "attackSpeedMs": 2800,
@@ -12834,7 +13277,7 @@
     "name": "Revenant",
     "family": "revenant",
     "availability": "world",
-    "level": 20,
+    "level": 27,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -12904,7 +13347,7 @@
     "name": "Stone Golem",
     "family": "stone_golem",
     "availability": "world",
-    "level": 10,
+    "level": 17,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -12974,7 +13417,7 @@
     "name": "Iron Golem",
     "family": "iron_golem",
     "availability": "world",
-    "level": 20,
+    "level": 28,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -13044,7 +13487,7 @@
     "name": "Kilncrust Golem",
     "family": "fire_golem",
     "availability": "world",
-    "level": 20,
+    "level": 29,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -13131,7 +13574,7 @@
     "name": "Shale Elemental",
     "family": "shale_elemental",
     "availability": "world",
-    "level": 10,
+    "level": 17,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -13201,7 +13644,7 @@
     "name": "Lava Golem",
     "family": "lava_golem",
     "availability": "world",
-    "level": 10,
+    "level": 24,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -13271,7 +13714,7 @@
     "name": "Mossback Sentinel",
     "family": "mossback_sentinel",
     "availability": "world",
-    "level": 10,
+    "level": 18,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -13341,7 +13784,7 @@
     "name": "Beetle Golem",
     "family": "beetle_golem",
     "availability": "world",
-    "level": 10,
+    "level": 16,
     "profileId": "guardian",
     "adjustments": {
       "attackSpeedMs": 3000,
@@ -13959,7 +14402,7 @@
   {
     "id": "banshee_t50",
     "availability": "world",
-    "level": 50,
+    "level": 61,
     "loot": {
       "rolls": [
         {
@@ -14005,7 +14448,7 @@
   {
     "id": "banshee_t70",
     "availability": "world",
-    "level": 70,
+    "level": 81,
     "loot": {
       "rolls": [
         {
@@ -14051,7 +14494,7 @@
   {
     "id": "basalt_maw_t70",
     "availability": "world",
-    "level": 70,
+    "level": 78,
     "loot": {
       "rolls": [
         {
@@ -14143,7 +14586,7 @@
   {
     "id": "cinder_penitent_t50",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -14198,7 +14641,7 @@
   {
     "id": "cinder_penitent_t70",
     "availability": "world",
-    "level": 70,
+    "level": 75,
     "loot": {
       "rolls": [
         {
@@ -14253,7 +14696,7 @@
   {
     "id": "cinderback_crag_t70",
     "availability": "world",
-    "level": 70,
+    "level": 76,
     "loot": {
       "rolls": [
         {
@@ -14345,7 +14788,7 @@
   {
     "id": "gloam_wraith_t50",
     "availability": "world",
-    "level": 50,
+    "level": 59,
     "loot": {
       "rolls": [
         {
@@ -14391,7 +14834,7 @@
   {
     "id": "grave_ghoul_t50",
     "availability": "world",
-    "level": 50,
+    "level": 56,
     "loot": {
       "rolls": [
         {
@@ -14437,7 +14880,7 @@
   {
     "id": "grave_ghoul_t70",
     "availability": "world",
-    "level": 70,
+    "level": 76,
     "loot": {
       "rolls": [
         {
@@ -14483,7 +14926,7 @@
   {
     "id": "grave_lantern_t50",
     "availability": "world",
-    "level": 50,
+    "level": 54,
     "loot": {
       "rolls": [
         {
@@ -14529,7 +14972,7 @@
   {
     "id": "grave_lantern_t70",
     "availability": "world",
-    "level": 70,
+    "level": 74,
     "loot": {
       "rolls": [
         {
@@ -14575,7 +15018,7 @@
   {
     "id": "hollow_bough_t50",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -14621,7 +15064,7 @@
   {
     "id": "hollow_bough_t70",
     "availability": "world",
-    "level": 70,
+    "level": 78,
     "loot": {
       "rolls": [
         {
@@ -14667,7 +15110,7 @@
   {
     "id": "kiln_marrow_t50",
     "availability": "world",
-    "level": 50,
+    "level": 60,
     "loot": {
       "rolls": [
         {
@@ -14713,7 +15156,7 @@
   {
     "id": "kiln_marrow_t70",
     "availability": "world",
-    "level": 70,
+    "level": 80,
     "loot": {
       "rolls": [
         {
@@ -14759,7 +15202,7 @@
   {
     "id": "pallid_shade_t50",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -14805,7 +15248,7 @@
   {
     "id": "pallid_shade_t70",
     "availability": "world",
-    "level": 70,
+    "level": 75,
     "loot": {
       "rolls": [
         {
@@ -14943,7 +15386,7 @@
   {
     "id": "revenant_t50",
     "availability": "world",
-    "level": 50,
+    "level": 62,
     "loot": {
       "rolls": [
         {
@@ -14989,7 +15432,7 @@
   {
     "id": "revenant_t70",
     "availability": "world",
-    "level": 70,
+    "level": 82,
     "loot": {
       "rolls": [
         {
@@ -15035,7 +15478,7 @@
   {
     "id": "rift_carapace_t50",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -15081,7 +15524,7 @@
   {
     "id": "skeleton_archer_t50",
     "availability": "world",
-    "level": 50,
+    "level": 53,
     "loot": {
       "rolls": [
         {
@@ -15164,7 +15607,7 @@
   {
     "id": "skeleton_archer_t70",
     "availability": "world",
-    "level": 70,
+    "level": 73,
     "loot": {
       "rolls": [
         {
@@ -15247,7 +15690,7 @@
   {
     "id": "skeleton_mage_t50",
     "availability": "world",
-    "level": 50,
+    "level": 57,
     "loot": {
       "rolls": [
         {
@@ -15330,7 +15773,7 @@
   {
     "id": "skeleton_mage_t70",
     "availability": "world",
-    "level": 70,
+    "level": 77,
     "loot": {
       "rolls": [
         {
@@ -15413,7 +15856,7 @@
   {
     "id": "skeleton_soldier_t50",
     "availability": "world",
-    "level": 50,
+    "level": 51,
     "loot": {
       "rolls": [
         {
@@ -15496,7 +15939,7 @@
   {
     "id": "skeleton_soldier_t70",
     "availability": "world",
-    "level": 70,
+    "level": 71,
     "loot": {
       "rolls": [
         {
@@ -15579,7 +16022,7 @@
   {
     "id": "veil_reaper_t50",
     "availability": "world",
-    "level": 50,
+    "level": 60,
     "loot": {
       "rolls": [
         {
@@ -15634,7 +16077,7 @@
   {
     "id": "veil_reaper_t70",
     "availability": "world",
-    "level": 70,
+    "level": 80,
     "loot": {
       "rolls": [
         {
@@ -15689,7 +16132,7 @@
   {
     "id": "voidstone_colossus_t50",
     "availability": "world",
-    "level": 50,
+    "level": 62,
     "loot": {
       "rolls": [
         {
@@ -15735,7 +16178,7 @@
   {
     "id": "wraith_t50",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -15781,7 +16224,7 @@
   {
     "id": "wraith_t70",
     "availability": "world",
-    "level": 70,
+    "level": 78,
     "loot": {
       "rolls": [
         {
@@ -15829,7 +16272,7 @@
     "name": "Giant Rat",
     "family": "giant_rat",
     "availability": "lab",
-    "level": 3,
+    "level": 4,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -15899,7 +16342,7 @@
     "name": "Wild Goblin",
     "family": "wild_goblin",
     "availability": "lab",
-    "level": 5,
+    "level": 7,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -15969,7 +16412,7 @@
     "name": "Troll Mauler",
     "family": "troll_mauler",
     "availability": "lab",
-    "level": 12,
+    "level": 20,
     "profileId": "brute",
     "adjustments": {
       "attackSpeedMs": 3400,
@@ -16039,7 +16482,7 @@
     "name": "Cave Roach",
     "family": "cave_roach",
     "availability": "lab",
-    "level": 5,
+    "level": 6,
     "profileId": "skirmisher",
     "adjustments": {
       "attackSpeedMs": 2000,
@@ -17236,7 +17679,7 @@
     },
     "name": "Fen Crawler",
     "family": "fen_crawler",
-    "level": 5,
+    "level": 6,
     "presentation": {
       "id": "fen_crawler",
       "assetId": "creature_fen_crawler",
@@ -17378,7 +17821,7 @@
     },
     "name": "Fen Crawler",
     "family": "fen_crawler",
-    "level": 5,
+    "level": 7,
     "presentation": {
       "id": "fen_crawler",
       "assetId": "creature_fen_crawler",
@@ -17438,7 +17881,7 @@
     },
     "name": "Reed Strider",
     "family": "reed_strider",
-    "level": 5,
+    "level": 6,
     "presentation": {
       "id": "reed_strider",
       "assetId": "creature_reed_strider",
@@ -17471,7 +17914,7 @@
     },
     "name": "Cairn Treader",
     "family": "cairn_treader",
-    "level": 10,
+    "level": 15,
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
@@ -17494,7 +17937,7 @@
     },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 10,
+    "level": 13,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
@@ -17517,7 +17960,7 @@
     },
     "name": "Scree Watcher",
     "family": "scree_watcher",
-    "level": 10,
+    "level": 12,
     "presentation": {
       "id": "scree_watcher",
       "assetId": "creature_scree_watcher",
@@ -17540,7 +17983,7 @@
     },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 10,
+    "level": 13,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
@@ -17663,7 +18106,7 @@
     },
     "name": "Scree Watcher",
     "family": "scree_watcher",
-    "level": 10,
+    "level": 12,
     "presentation": {
       "id": "scree_watcher",
       "assetId": "creature_scree_watcher",
@@ -17686,7 +18129,7 @@
     },
     "name": "Cairn Treader",
     "family": "cairn_treader",
-    "level": 10,
+    "level": 12,
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
@@ -17708,7 +18151,7 @@
     },
     "name": "Flint Mandible",
     "family": "flint_mandible",
-    "level": 10,
+    "level": 16,
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
@@ -17754,7 +18197,7 @@
     },
     "name": "Scree Watcher",
     "family": "scree_watcher",
-    "level": 10,
+    "level": 12,
     "presentation": {
       "id": "scree_watcher",
       "assetId": "creature_scree_watcher",
@@ -17777,7 +18220,7 @@
     },
     "name": "Flint Mandible",
     "family": "flint_mandible",
-    "level": 10,
+    "level": 12,
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
@@ -17800,7 +18243,7 @@
     },
     "name": "Cairn Treader",
     "family": "cairn_treader",
-    "level": 10,
+    "level": 19,
     "presentation": {
       "id": "cairn_treader",
       "assetId": "creature_cairn_treader",
@@ -17823,7 +18266,7 @@
     },
     "name": "Blind Cave Weaver",
     "family": "blind_cave_weaver",
-    "level": 10,
+    "level": 11,
     "presentation": {
       "id": "blind_cave_weaver",
       "assetId": "creature_blind_cave_weaver",
@@ -17846,7 +18289,7 @@
     },
     "name": "Blind Cave Weaver",
     "family": "blind_cave_weaver",
-    "level": 10,
+    "level": 15,
     "presentation": {
       "id": "blind_cave_weaver",
       "assetId": "creature_blind_cave_weaver",
@@ -17868,7 +18311,7 @@
     },
     "name": "Flint Mandible",
     "family": "flint_mandible",
-    "level": 10,
+    "level": 12,
     "presentation": {
       "id": "flint_mandible",
       "assetId": "creature_flint_mandible",
@@ -17891,7 +18334,7 @@
     },
     "name": "Vault Custodian",
     "family": "vault_custodian",
-    "level": 10,
+    "level": 15,
     "presentation": {
       "id": "vault_custodian",
       "assetId": "creature_vault_custodian",
@@ -17912,7 +18355,7 @@
     },
     "name": "Blind Cave Weaver",
     "family": "blind_cave_weaver",
-    "level": 5,
+    "level": 9,
     "presentation": {
       "id": "blind_cave_weaver",
       "assetId": "creature_blind_cave_weaver",
@@ -18130,7 +18573,7 @@
     },
     "name": "Kiln Marrow",
     "family": "kiln_marrow",
-    "level": 20,
+    "level": 23,
     "presentation": {
       "id": "kiln_marrow",
       "assetId": "creature_kiln_marrow",
@@ -18153,7 +18596,7 @@
     },
     "name": "Slag Crawler",
     "family": "slag_crawler",
-    "level": 20,
+    "level": 22,
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
@@ -18181,7 +18624,7 @@
     },
     "name": "Ashbound Votary",
     "family": "cinder_penitent",
-    "level": 20,
+    "level": 25,
     "presentation": {
       "id": "cinder_penitent",
       "assetId": "creature_cinder_penitent",
@@ -18203,7 +18646,7 @@
     },
     "name": "Slag Crawler",
     "family": "slag_crawler",
-    "level": 20,
+    "level": 25,
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
@@ -18226,7 +18669,7 @@
     },
     "name": "Kiln Marrow",
     "family": "kiln_marrow",
-    "level": 20,
+    "level": 29,
     "presentation": {
       "id": "kiln_marrow",
       "assetId": "creature_kiln_marrow",
@@ -18249,7 +18692,7 @@
     },
     "name": "Slag Crawler",
     "family": "slag_crawler",
-    "level": 20,
+    "level": 30,
     "presentation": {
       "id": "slag_crawler",
       "assetId": "creature_slag_crawler",
@@ -18272,7 +18715,7 @@
     },
     "name": "Veil Reaper",
     "family": "veil_reaper",
-    "level": 20,
+    "level": 27,
     "presentation": {
       "id": "veil_reaper",
       "assetId": "creature_veil_reaper",
@@ -18287,7 +18730,7 @@
     "id": "wilderness_broken_watch",
     "baseId": "skeleton_soldier_t5",
     "availability": "world",
-    "level": 50,
+    "level": 51,
     "loot": {
       "rolls": [
         {
@@ -18329,8 +18772,8 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 136,
-      "attackLevel": 51,
+      "maxHealth": 139,
+      "attackLevel": 52,
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
@@ -18377,223 +18820,7 @@
     "id": "wilderness_west_graves",
     "baseId": "pallid_shade_t10",
     "availability": "world",
-    "level": 50,
-    "loot": {
-      "rolls": [
-        {
-          "id": "guaranteed_grave_thread",
-          "name": "Guaranteed grave thread",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "guaranteed_grave_thread"
-            }
-          ]
-        },
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "adjustments": {
-      "maxHealth": 129,
-      "attackLevel": 47,
-      "defenceLevel": 39,
-      "maxHit": 15
-    },
-    "name": "Pallid Shade",
-    "family": "pallid_shade"
-  },
-  {
-    "id": "wilderness_dead_boughs",
-    "baseId": "hollow_bough_t10",
-    "availability": "world",
-    "level": 50,
-    "loot": {
-      "rolls": [
-        {
-          "id": "guaranteed_grave_thread",
-          "name": "Guaranteed grave thread",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "guaranteed_grave_thread"
-            }
-          ]
-        },
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "adjustments": {
-      "maxHealth": 215,
-      "attackLevel": 50,
-      "defenceLevel": 31,
-      "maxHit": 20
-    },
-    "name": "Hollow Bough",
-    "family": "hollow_bough"
-  },
-  {
-    "id": "wilderness_lost_procession",
-    "baseId": "wraith_t10",
-    "availability": "world",
-    "level": 50,
-    "loot": {
-      "rolls": [
-        {
-          "id": "guaranteed_grave_thread",
-          "name": "Guaranteed grave thread",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "guaranteed_grave_thread"
-            }
-          ]
-        },
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "adjustments": {
-      "maxHealth": 104,
-      "attackLevel": 53,
-      "defenceLevel": 44,
-      "maxHit": 16
-    },
-    "name": "Wraith",
-    "family": "wraith"
-  },
-  {
-    "id": "wilderness_sunken_bones",
-    "baseId": "grave_ghoul_t10",
-    "availability": "world",
-    "level": 50,
-    "loot": {
-      "rolls": [
-        {
-          "id": "guaranteed_grave_thread",
-          "name": "Guaranteed grave thread",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "guaranteed_grave_thread"
-            }
-          ]
-        },
-        {
-          "id": "items_1",
-          "name": "Items 1",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_1"
-            }
-          ]
-        },
-        {
-          "id": "items_2",
-          "name": "Items 2",
-          "count": 1,
-          "drops": [],
-          "tables": [
-            {
-              "tableId": "shared_grave_thread_cosmic_rune",
-              "rollId": "items_2"
-            }
-          ]
-        }
-      ]
-    },
-    "adjustments": {
-      "maxHealth": 122,
-      "attackLevel": 49,
-      "defenceLevel": 41,
-      "maxHit": 16
-    },
-    "name": "Grave Ghoul",
-    "family": "grave_ghoul"
-  },
-  {
-    "id": "black_keep_gate_guard",
-    "baseId": "skeleton_soldier_t5",
-    "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -18636,8 +18863,224 @@
     },
     "adjustments": {
       "maxHealth": 142,
-      "attackLevel": 54,
-      "defenceLevel": 39,
+      "attackLevel": 52,
+      "defenceLevel": 43,
+      "maxHit": 16
+    },
+    "name": "Pallid Shade",
+    "family": "pallid_shade"
+  },
+  {
+    "id": "wilderness_dead_boughs",
+    "baseId": "hollow_bough_t10",
+    "availability": "world",
+    "level": 58,
+    "loot": {
+      "rolls": [
+        {
+          "id": "guaranteed_grave_thread",
+          "name": "Guaranteed grave thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "guaranteed_grave_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
+    },
+    "adjustments": {
+      "maxHealth": 249,
+      "attackLevel": 58,
+      "defenceLevel": 36,
+      "maxHit": 23
+    },
+    "name": "Hollow Bough",
+    "family": "hollow_bough"
+  },
+  {
+    "id": "wilderness_lost_procession",
+    "baseId": "wraith_t10",
+    "availability": "world",
+    "level": 58,
+    "loot": {
+      "rolls": [
+        {
+          "id": "guaranteed_grave_thread",
+          "name": "Guaranteed grave thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "guaranteed_grave_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
+    },
+    "adjustments": {
+      "maxHealth": 121,
+      "attackLevel": 61,
+      "defenceLevel": 51,
+      "maxHit": 19
+    },
+    "name": "Wraith",
+    "family": "wraith"
+  },
+  {
+    "id": "wilderness_sunken_bones",
+    "baseId": "grave_ghoul_t10",
+    "availability": "world",
+    "level": 56,
+    "loot": {
+      "rolls": [
+        {
+          "id": "guaranteed_grave_thread",
+          "name": "Guaranteed grave thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "guaranteed_grave_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
+    },
+    "adjustments": {
+      "maxHealth": 137,
+      "attackLevel": 55,
+      "defenceLevel": 46,
+      "maxHit": 18
+    },
+    "name": "Grave Ghoul",
+    "family": "grave_ghoul"
+  },
+  {
+    "id": "black_keep_gate_guard",
+    "baseId": "skeleton_soldier_t5",
+    "availability": "world",
+    "level": 51,
+    "loot": {
+      "rolls": [
+        {
+          "id": "guaranteed_grave_thread",
+          "name": "Guaranteed grave thread",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "guaranteed_grave_thread"
+            }
+          ]
+        },
+        {
+          "id": "items_1",
+          "name": "Items 1",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_1"
+            }
+          ]
+        },
+        {
+          "id": "items_2",
+          "name": "Items 2",
+          "count": 1,
+          "drops": [],
+          "tables": [
+            {
+              "tableId": "shared_grave_thread_cosmic_rune",
+              "rollId": "items_2"
+            }
+          ]
+        }
+      ]
+    },
+    "adjustments": {
+      "maxHealth": 145,
+      "attackLevel": 55,
+      "defenceLevel": 40,
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
@@ -18684,7 +19127,7 @@
     "id": "black_keep_gate_archers",
     "baseId": "skeleton_archer_t5",
     "availability": "world",
-    "level": 50,
+    "level": 53,
     "loot": {
       "rolls": [
         {
@@ -18726,10 +19169,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 140,
-      "attackLevel": 52,
-      "defenceLevel": 37,
-      "maxHit": 12
+      "maxHealth": 148,
+      "attackLevel": 55,
+      "defenceLevel": 39,
+      "maxHit": 13
     },
     "name": "Skeleton Archer",
     "family": "skeleton_archer",
@@ -18775,7 +19218,7 @@
     "id": "black_keep_court_guard",
     "baseId": "revenant_t20",
     "availability": "world",
-    "level": 50,
+    "level": 62,
     "loot": {
       "rolls": [
         {
@@ -18817,9 +19260,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 131,
-      "attackLevel": 45,
-      "defenceLevel": 50
+      "maxHealth": 162,
+      "attackLevel": 56,
+      "defenceLevel": 62
     },
     "name": "Revenant",
     "family": "revenant"
@@ -18828,7 +19271,7 @@
     "id": "black_keep_north_graves",
     "baseId": "skeleton_mage_t20",
     "availability": "world",
-    "level": 50,
+    "level": 57,
     "loot": {
       "rolls": [
         {
@@ -18870,10 +19313,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 96,
-      "attackLevel": 52,
-      "defenceLevel": 48,
-      "maxHit": 18
+      "maxHealth": 109,
+      "attackLevel": 59,
+      "defenceLevel": 55,
+      "maxHit": 21
     },
     "name": "Skeleton Mage",
     "family": "skeleton_mage",
@@ -18919,7 +19362,7 @@
     "id": "wilderness_east_shades",
     "baseId": "pallid_shade_t10",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -18961,10 +19404,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 123,
-      "attackLevel": 45,
-      "defenceLevel": 38,
-      "maxHit": 15
+      "maxHealth": 135,
+      "attackLevel": 50,
+      "defenceLevel": 42,
+      "maxHit": 16
     },
     "name": "Pallid Shade",
     "family": "pallid_shade"
@@ -18973,7 +19416,7 @@
     "id": "wilderness_petrified_grove",
     "baseId": "hollow_bough_t10",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -19015,10 +19458,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 210,
-      "attackLevel": 49,
-      "defenceLevel": 31,
-      "maxHit": 19
+      "maxHealth": 244,
+      "attackLevel": 57,
+      "defenceLevel": 36,
+      "maxHit": 22
     },
     "name": "Hollow Bough",
     "family": "hollow_bough"
@@ -19027,7 +19470,7 @@
     "id": "wilderness_bone_patrol",
     "baseId": "skeleton_soldier_t5",
     "availability": "world",
-    "level": 50,
+    "level": 51,
     "loot": {
       "rolls": [
         {
@@ -19069,9 +19512,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 138,
-      "attackLevel": 52,
-      "defenceLevel": 37,
+      "maxHealth": 141,
+      "attackLevel": 53,
+      "defenceLevel": 38,
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
@@ -19118,7 +19561,7 @@
     "id": "wilderness_lament",
     "baseId": "banshee_t20",
     "availability": "world",
-    "level": 50,
+    "level": 61,
     "loot": {
       "rolls": [
         {
@@ -19160,10 +19603,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 97,
-      "attackLevel": 50,
-      "defenceLevel": 45,
-      "maxHit": 17
+      "maxHealth": 118,
+      "attackLevel": 61,
+      "defenceLevel": 55,
+      "maxHit": 21
     },
     "name": "Banshee",
     "family": "banshee"
@@ -19172,7 +19615,7 @@
     "id": "broken_watch_tower_haunt",
     "baseId": "skeleton_soldier_t5",
     "availability": "world",
-    "level": 50,
+    "level": 51,
     "loot": {
       "rolls": [
         {
@@ -19214,9 +19657,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 138,
-      "attackLevel": 52,
-      "defenceLevel": 37,
+      "maxHealth": 141,
+      "attackLevel": 53,
+      "defenceLevel": 38,
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
@@ -19263,7 +19706,7 @@
     "id": "nameless_abbey_haunt",
     "baseId": "wraith_t10",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -19305,10 +19748,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 98,
-      "attackLevel": 51,
-      "defenceLevel": 43,
-      "maxHit": 16
+      "maxHealth": 114,
+      "attackLevel": 59,
+      "defenceLevel": 50,
+      "maxHit": 19
     },
     "name": "Wraith",
     "family": "wraith"
@@ -19317,7 +19760,7 @@
     "id": "dead_smithy_haunt",
     "baseId": "skeleton_soldier_t5",
     "availability": "world",
-    "level": 50,
+    "level": 51,
     "loot": {
       "rolls": [
         {
@@ -19359,9 +19802,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 142,
-      "attackLevel": 54,
-      "defenceLevel": 39,
+      "maxHealth": 145,
+      "attackLevel": 55,
+      "defenceLevel": 40,
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
@@ -19408,7 +19851,7 @@
     "id": "fallen_aqueduct_haunt",
     "baseId": "wraith_t10",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -19450,10 +19893,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 104,
-      "attackLevel": 53,
-      "defenceLevel": 44,
-      "maxHit": 16
+      "maxHealth": 121,
+      "attackLevel": 61,
+      "defenceLevel": 51,
+      "maxHit": 19
     },
     "name": "Wraith",
     "family": "wraith"
@@ -19462,7 +19905,7 @@
     "id": "outer_watch_haunt",
     "baseId": "skeleton_soldier_t5",
     "availability": "world",
-    "level": 50,
+    "level": 51,
     "loot": {
       "rolls": [
         {
@@ -19504,9 +19947,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 142,
-      "attackLevel": 54,
-      "defenceLevel": 39,
+      "maxHealth": 145,
+      "attackLevel": 55,
+      "defenceLevel": 40,
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
@@ -19553,7 +19996,7 @@
     "id": "forgotten_forge_haunt",
     "baseId": "wraith_t10",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -19595,10 +20038,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 104,
-      "attackLevel": 53,
-      "defenceLevel": 44,
-      "maxHit": 16
+      "maxHealth": 121,
+      "attackLevel": 61,
+      "defenceLevel": 51,
+      "maxHit": 19
     },
     "name": "Wraith",
     "family": "wraith"
@@ -19607,7 +20050,7 @@
     "id": "eastern_cloister_haunt",
     "baseId": "skeleton_soldier_t5",
     "availability": "world",
-    "level": 50,
+    "level": 51,
     "loot": {
       "rolls": [
         {
@@ -19649,9 +20092,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 152,
-      "attackLevel": 57,
-      "defenceLevel": 41,
+      "maxHealth": 155,
+      "attackLevel": 58,
+      "defenceLevel": 42,
       "maxHit": 12
     },
     "name": "Skeleton Soldier",
@@ -19698,7 +20141,7 @@
     "id": "eastern_aqueduct_haunt",
     "baseId": "wraith_t10",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -19740,10 +20183,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 96,
-      "attackLevel": 49,
-      "defenceLevel": 41,
-      "maxHit": 16
+      "maxHealth": 111,
+      "attackLevel": 57,
+      "defenceLevel": 48,
+      "maxHit": 19
     },
     "name": "Wraith",
     "family": "wraith"
@@ -19753,14 +20196,14 @@
     "baseId": "cinderback_crag_t50",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 160,
-      "attackLevel": 48,
-      "defenceLevel": 35,
-      "maxHit": 22
+      "maxHealth": 179,
+      "attackLevel": 54,
+      "defenceLevel": 39,
+      "maxHit": 25
     },
     "name": "Cinderback Crag",
     "family": "cinderback_crag",
-    "level": 50
+    "level": 56
   },
   {
     "id": "wilderness_east_furnace_herd",
@@ -19781,14 +20224,14 @@
     "baseId": "basalt_maw_t50",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 189,
-      "attackLevel": 57,
-      "defenceLevel": 40,
-      "maxHit": 22
+      "maxHealth": 219,
+      "attackLevel": 66,
+      "defenceLevel": 46,
+      "maxHit": 26
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 50,
+    "level": 58,
     "presentation": {
       "id": "basalt_maw",
       "assetId": "creature_furnace_grazer",
@@ -19804,82 +20247,82 @@
     "baseId": "rift_carapace_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 229,
-      "attackLevel": 66,
-      "defenceLevel": 47
+      "maxHealth": 242,
+      "attackLevel": 70,
+      "defenceLevel": 50
     },
     "name": "Rift Carapace",
     "family": "rift_carapace",
-    "level": 70
+    "level": 74
   },
   {
     "id": "wilderness_far_east_colossi",
     "baseId": "voidstone_colossus_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 357,
-      "attackLevel": 53,
-      "defenceLevel": 56
+      "maxHealth": 418,
+      "attackLevel": 62,
+      "defenceLevel": 66
     },
     "name": "Voidstone Colossus",
     "family": "voidstone_colossus",
-    "level": 70
+    "level": 82
   },
   {
     "id": "wilderness_east_gloam_patrol",
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 234,
-      "attackLevel": 65,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 257,
+      "attackLevel": 72,
+      "defenceLevel": 53,
+      "maxHit": 33
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70
+    "level": 77
   },
   {
     "id": "wilderness_northeast_carapaces",
     "baseId": "rift_carapace_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 237,
-      "attackLevel": 68,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 251,
+      "attackLevel": 72,
+      "defenceLevel": 51,
+      "maxHit": 32
     },
     "name": "Rift Carapace",
     "family": "rift_carapace",
-    "level": 70
+    "level": 74
   },
   {
     "id": "ashwind_cloister_sentries",
     "baseId": "cinderback_crag_t50",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 160,
-      "attackLevel": 48,
-      "defenceLevel": 35,
-      "maxHit": 22
+      "maxHealth": 179,
+      "attackLevel": 54,
+      "defenceLevel": 39,
+      "maxHit": 25
     },
     "name": "Cinderback Crag",
     "family": "cinderback_crag",
-    "level": 50
+    "level": 56
   },
   {
     "id": "far_cinder_smithy_sentries",
     "baseId": "basalt_maw_t50",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 187,
-      "attackLevel": 56,
-      "defenceLevel": 39,
-      "maxHit": 22
+      "maxHealth": 217,
+      "attackLevel": 65,
+      "defenceLevel": 45,
+      "maxHit": 26
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 50,
+    "level": 58,
     "presentation": {
       "id": "basalt_maw",
       "assetId": "creature_furnace_grazer",
@@ -19895,28 +20338,28 @@
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 234,
-      "attackLevel": 65,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 257,
+      "attackLevel": 72,
+      "defenceLevel": 53,
+      "maxHit": 33
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70
+    "level": 77
   },
   {
     "id": "starless_abbey_sentries",
     "baseId": "rift_carapace_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 237,
-      "attackLevel": 68,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 251,
+      "attackLevel": 72,
+      "defenceLevel": 51,
+      "maxHit": 32
     },
     "name": "Rift Carapace",
     "family": "rift_carapace",
-    "level": 70
+    "level": 74
   },
   {
     "id": "wilderness_red_hatchling_nest",
@@ -19956,14 +20399,14 @@
     "baseId": "cinderback_crag_t50",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 165,
-      "attackLevel": 49,
-      "defenceLevel": 35,
-      "maxHit": 22
+      "maxHealth": 185,
+      "attackLevel": 55,
+      "defenceLevel": 39,
+      "maxHit": 25
     },
     "name": "Cinderback Crag",
     "family": "cinderback_crag",
-    "level": 50
+    "level": 56
   },
   {
     "id": "wilderness_furnace_grazers",
@@ -19975,14 +20418,14 @@
     "baseId": "basalt_maw_t50",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 189,
-      "attackLevel": 57,
-      "defenceLevel": 40,
-      "maxHit": 22
+      "maxHealth": 219,
+      "attackLevel": 66,
+      "defenceLevel": 46,
+      "maxHit": 26
     },
     "name": "Basalt Maw",
     "family": "basalt_maw",
-    "level": 50,
+    "level": 58,
     "presentation": {
       "id": "basalt_maw",
       "assetId": "creature_furnace_grazer",
@@ -19998,40 +20441,40 @@
     "baseId": "rift_carapace_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 229,
-      "attackLevel": 66,
-      "defenceLevel": 47
+      "maxHealth": 242,
+      "attackLevel": 70,
+      "defenceLevel": 50
     },
     "name": "Rift Carapace",
     "family": "rift_carapace",
-    "level": 70
+    "level": 74
   },
   {
     "id": "wilderness_foundry_north_carapaces",
     "baseId": "rift_carapace_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 235,
-      "attackLevel": 67,
-      "defenceLevel": 47,
-      "maxHit": 30
+      "maxHealth": 248,
+      "attackLevel": 71,
+      "defenceLevel": 50,
+      "maxHit": 32
     },
     "name": "Rift Carapace",
     "family": "rift_carapace",
-    "level": 70
+    "level": 74
   },
   {
     "id": "wilderness_rift_mouth_conclave",
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 230,
-      "attackLevel": 64,
-      "defenceLevel": 48
+      "maxHealth": 253,
+      "attackLevel": 70,
+      "defenceLevel": 53
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70
+    "level": 77
   },
   {
     "id": "wilderness_midnight_carapaces",
@@ -20043,14 +20486,14 @@
     "baseId": "voidstone_colossus_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 369,
-      "attackLevel": 53,
-      "defenceLevel": 56,
-      "maxHit": 33
+      "maxHealth": 432,
+      "attackLevel": 62,
+      "defenceLevel": 66,
+      "maxHit": 39
     },
     "name": "Voidstone Colossus",
     "family": "voidstone_colossus",
-    "level": 70
+    "level": 82
   },
   {
     "id": "wilderness_northwest_black_dragons",
@@ -20112,55 +20555,55 @@
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 234,
-      "attackLevel": 65,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 257,
+      "attackLevel": 72,
+      "defenceLevel": 53,
+      "maxHit": 33
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70
+    "level": 77
   },
   {
     "id": "wilderness_sanctum_east_carapaces",
     "baseId": "rift_carapace_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 237,
-      "attackLevel": 68,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 251,
+      "attackLevel": 72,
+      "defenceLevel": 51,
+      "maxHit": 32
     },
     "name": "Rift Carapace",
     "family": "rift_carapace",
-    "level": 70
+    "level": 74
   },
   {
     "id": "wilderness_sanctum_west_colossi",
     "baseId": "voidstone_colossus_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 371,
-      "attackLevel": 54,
-      "defenceLevel": 57,
-      "maxHit": 33
+      "maxHealth": 435,
+      "attackLevel": 63,
+      "defenceLevel": 67,
+      "maxHit": 39
     },
     "name": "Voidstone Colossus",
     "family": "voidstone_colossus",
-    "level": 70
+    "level": 82
   },
   {
     "id": "cinder_chain_foundry_west_conclave",
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 230,
-      "attackLevel": 64,
-      "defenceLevel": 48
+      "maxHealth": 253,
+      "attackLevel": 70,
+      "defenceLevel": 53
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70,
+    "level": 77,
     "loot": {
       "rolls": [
         {
@@ -20207,13 +20650,13 @@
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 230,
-      "attackLevel": 64,
-      "defenceLevel": 48
+      "maxHealth": 253,
+      "attackLevel": 70,
+      "defenceLevel": 53
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70,
+    "level": 77,
     "loot": {
       "rolls": [
         {
@@ -20260,14 +20703,14 @@
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 234,
-      "attackLevel": 65,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 257,
+      "attackLevel": 72,
+      "defenceLevel": 53,
+      "maxHit": 33
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70,
+    "level": 77,
     "loot": {
       "rolls": [
         {
@@ -20314,14 +20757,14 @@
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 234,
-      "attackLevel": 65,
-      "defenceLevel": 48,
-      "maxHit": 30
+      "maxHealth": 257,
+      "attackLevel": 72,
+      "defenceLevel": 53,
+      "maxHit": 33
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70,
+    "level": 77,
     "loot": {
       "rolls": [
         {
@@ -20368,14 +20811,14 @@
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 236,
-      "attackLevel": 66,
-      "defenceLevel": 49,
-      "maxHit": 30
+      "maxHealth": 260,
+      "attackLevel": 73,
+      "defenceLevel": 54,
+      "maxHit": 33
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70,
+    "level": 77,
     "loot": {
       "rolls": [
         {
@@ -20422,14 +20865,14 @@
     "baseId": "gloam_wraith_t70",
     "availability": "world",
     "adjustments": {
-      "maxHealth": 236,
-      "attackLevel": 66,
-      "defenceLevel": 49,
-      "maxHit": 30
+      "maxHealth": 260,
+      "attackLevel": 73,
+      "defenceLevel": 54,
+      "maxHit": 33
     },
     "name": "Gloam Wraith",
     "family": "gloam_wraith",
-    "level": 70,
+    "level": 77,
     "loot": {
       "rolls": [
         {
@@ -21286,7 +21729,7 @@
     "id": "population_broken_watch_lanterns",
     "baseId": "grave_lantern_t20",
     "availability": "world",
-    "level": 50,
+    "level": 54,
     "loot": {
       "rolls": [
         {
@@ -21328,9 +21771,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 168,
-      "attackLevel": 43,
-      "defenceLevel": 36
+      "maxHealth": 181,
+      "attackLevel": 46,
+      "defenceLevel": 39
     },
     "name": "Ashen Ghoul",
     "family": "grave_lantern"
@@ -21339,7 +21782,7 @@
     "id": "population_last_light_west_penitents",
     "baseId": "cinder_penitent_t20",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -21381,9 +21824,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 110,
-      "attackLevel": 44,
-      "defenceLevel": 48
+      "maxHealth": 121,
+      "attackLevel": 48,
+      "defenceLevel": 53
     },
     "name": "Ashbound Votary",
     "family": "cinder_penitent",
@@ -21401,7 +21844,7 @@
     "id": "population_last_light_east_shades",
     "baseId": "pallid_shade_t10",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -21443,9 +21886,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 122,
-      "defenceLevel": 37,
-      "maxHit": 15
+      "maxHealth": 134,
+      "defenceLevel": 41,
+      "maxHit": 16
     },
     "name": "Pallid Shade",
     "family": "pallid_shade"
@@ -21454,7 +21897,7 @@
     "id": "population_east_march_reapers",
     "baseId": "veil_reaper_t20",
     "availability": "world",
-    "level": 50,
+    "level": 60,
     "loot": {
       "rolls": [
         {
@@ -21496,9 +21939,9 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 110,
-      "attackLevel": 44,
-      "defenceLevel": 40
+      "maxHealth": 132,
+      "attackLevel": 53,
+      "defenceLevel": 48
     },
     "name": "Veil Reaper",
     "family": "veil_reaper"
@@ -21507,7 +21950,7 @@
     "id": "population_deadwood_west_boughs",
     "baseId": "hollow_bough_t10",
     "availability": "world",
-    "level": 50,
+    "level": 58,
     "loot": {
       "rolls": [
         {
@@ -21549,10 +21992,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 207,
-      "attackLevel": 48,
-      "defenceLevel": 30,
-      "maxHit": 19
+      "maxHealth": 240,
+      "attackLevel": 56,
+      "defenceLevel": 35,
+      "maxHit": 22
     },
     "name": "Hollow Bough",
     "family": "hollow_bough"
@@ -21561,7 +22004,7 @@
     "id": "population_abbey_east_lanterns",
     "baseId": "grave_lantern_t20",
     "availability": "world",
-    "level": 50,
+    "level": 54,
     "loot": {
       "rolls": [
         {
@@ -21603,10 +22046,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 177,
-      "attackLevel": 46,
-      "defenceLevel": 38,
-      "maxHit": 15
+      "maxHealth": 191,
+      "attackLevel": 50,
+      "defenceLevel": 41,
+      "maxHit": 16
     },
     "name": "Ashen Ghoul",
     "family": "grave_lantern"
@@ -21615,7 +22058,7 @@
     "id": "population_black_keep_east_reapers",
     "baseId": "veil_reaper_t20",
     "availability": "world",
-    "level": 50,
+    "level": 60,
     "loot": {
       "rolls": [
         {
@@ -21657,10 +22100,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 125,
-      "attackLevel": 46,
-      "defenceLevel": 42,
-      "maxHit": 17
+      "maxHealth": 150,
+      "attackLevel": 55,
+      "defenceLevel": 50,
+      "maxHit": 20
     },
     "name": "Veil Reaper",
     "family": "veil_reaper"
@@ -21669,7 +22112,7 @@
     "id": "population_petrified_grove_south_shades",
     "baseId": "pallid_shade_t10",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -21711,10 +22154,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 129,
-      "attackLevel": 47,
-      "defenceLevel": 39,
-      "maxHit": 15
+      "maxHealth": 142,
+      "attackLevel": 52,
+      "defenceLevel": 43,
+      "maxHit": 16
     },
     "name": "Pallid Shade",
     "family": "pallid_shade"
@@ -21723,7 +22166,7 @@
     "id": "population_aqueduct_west_lanterns",
     "baseId": "grave_lantern_t20",
     "availability": "world",
-    "level": 50,
+    "level": 54,
     "loot": {
       "rolls": [
         {
@@ -21765,10 +22208,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 182,
-      "attackLevel": 49,
-      "defenceLevel": 41,
-      "maxHit": 16
+      "maxHealth": 197,
+      "attackLevel": 53,
+      "defenceLevel": 44,
+      "maxHit": 17
     },
     "name": "Ashen Ghoul",
     "family": "grave_lantern"
@@ -21777,7 +22220,7 @@
     "id": "population_silent_stones_reapers",
     "baseId": "veil_reaper_t20",
     "availability": "world",
-    "level": 50,
+    "level": 60,
     "loot": {
       "rolls": [
         {
@@ -21819,10 +22262,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 127,
-      "attackLevel": 48,
-      "defenceLevel": 44,
-      "maxHit": 17
+      "maxHealth": 152,
+      "attackLevel": 58,
+      "defenceLevel": 53,
+      "maxHit": 20
     },
     "name": "Veil Reaper",
     "family": "veil_reaper"
@@ -21831,7 +22274,7 @@
     "id": "population_black_keep_north_penitents",
     "baseId": "cinder_penitent_t20",
     "availability": "world",
-    "level": 50,
+    "level": 55,
     "loot": {
       "rolls": [
         {
@@ -21873,10 +22316,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 120,
-      "attackLevel": 50,
-      "defenceLevel": 54,
-      "maxHit": 17
+      "maxHealth": 132,
+      "attackLevel": 55,
+      "defenceLevel": 59,
+      "maxHit": 19
     },
     "name": "Ashbound Votary",
     "family": "cinder_penitent",
@@ -21894,7 +22337,7 @@
     "id": "population_lava_east_marrow",
     "baseId": "kiln_marrow_t20",
     "availability": "world",
-    "level": 50,
+    "level": 60,
     "loot": {
       "rolls": [
         {
@@ -21936,10 +22379,10 @@
       ]
     },
     "adjustments": {
-      "maxHealth": 227,
-      "attackLevel": 50,
-      "defenceLevel": 31,
-      "maxHit": 20
+      "maxHealth": 272,
+      "attackLevel": 60,
+      "defenceLevel": 37,
+      "maxHit": 24
     },
     "name": "Kiln Marrow",
     "family": "kiln_marrow"

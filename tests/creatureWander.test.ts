@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { Rng } from "../game/src/core/rng.js";
 import {
-  LEASH_METRES,
   WANDER_MIN_METRES,
   WANDER_PAUSE_MAX_MS,
   WANDER_PAUSE_MIN_MS,
@@ -9,6 +8,7 @@ import {
   hashId,
   wanderDestination,
 } from "../game/src/systems/enemyAI.js";
+import { LEASH_METRES } from "../game/src/world/habitatMovement.js";
 import type { Vec3 } from "../game/src/contracts.js";
 
 /**

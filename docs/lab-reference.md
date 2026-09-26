@@ -224,7 +224,7 @@ The available operations are:
 | --- | --- |
 | `open` / `reopen` / `resetFixture` | Reload the current route, or a supplied `route`, and await readiness. This resets scene state while retaining browser and asset caches. |
 | `spawn` | Prepare and spawn a production `npc` or `creature` by `presetId`, with optional `distance`. |
-| `call` | Await a method on the `lab`, `environment`, `creatures`, `forest`, or `debug` surface. Supply `method` and an optional `args` array. |
+| `call` | Await a method on the `lab`, `environment`, `creatures`, `forest`, `progression`, `regionalTier`, or `debug` surface. Supply `method` and an optional `args` array. On a `regionalTier=30/40/60` route, call `regionalTier.prepare` to place the five production stations. |
 | `frameEnvironment` | Fit a ready environment fixture with drawn bounds. `detail: true` uses the close inspection camera. Requires `environment=1` and a ready game. |
 | `frameCreatures` | Fit a ready creature gallery with drawn bounds. Requires `creatures=1` and a ready game. |
 | `camera` | Apply a named `shot` or explicit `pose` containing x, y, z, yaw, pitch and distance. |

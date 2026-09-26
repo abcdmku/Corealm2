@@ -67,6 +67,19 @@ function crate(context: StructureVariantContext, tag: string, sign: -1 | 1, asse
   );
 }
 
+/** Seat a compact tool rack against the solid rear wall, clear of the working centre and mouth. */
+function toolRack(context: StructureVariantContext, sign: -1 | 1): PartPlacement {
+  return variantPart(
+    "rear_tool_rack",
+    "weapon_rack",
+    inset(sign * context.width * 0.3, context.width / 2, 0.95),
+    0,
+    rearZ(context, 0.42),
+    0,
+    0.8,
+  );
+}
+
 /**
  * One raking prop against a side wall of the open mouth.
  *
@@ -118,13 +131,13 @@ function rounded(value: number): number {
 }
 
 /**
- * Turn selected side modules into real apertures and fit a curated insert. Non-shutter replacements
+ * Turn selected side modules into real apertures and fit a full-size insert. Plain replacements
  * remove the old glass and timber overlay; shutter replacements keep or add the glass backing.
  */
 function sideInserts(
   context: StructureVariantContext,
   base: readonly PartPlacement[],
-  inserts: readonly { side: 1 | 3; assetId: "window_shutters" | "window_thin"; tag: string }[],
+  inserts: readonly { side: 1 | 3; assetId: "window_shutters" | "window_wide"; tag: string }[],
 ): { shell: PartPlacement[]; details: PartPlacement[] } {
   const targets = inserts
     .map((insert) => ({ insert, wall: rearSideWall(base, insert.side) }))
@@ -140,7 +153,7 @@ function sideInserts(
     const suffix = tag.slice(1);
     // A shutter is an overlay. Keep its existing real window insert as the backing; if the bay was
     // solid, the detail path below adds one explicitly. Non-shutter replacements still remove
-    // their old insert before adding the requested narrow window, so they never double up.
+    // their old insert before adding the requested window, so they never double up.
     if (!shutterBackingTags.has(`g${suffix}`)) companionTags.add(`g${suffix}`);
     companionTags.add(`f${suffix}`);
   }
@@ -199,13 +212,13 @@ export const FORGE_VARIANTS: readonly StructureVariantRecipe[] = [
     fits: fitsWorkshop,
     build: (context, base) => {
       const opened = sideInserts(context, curatedBase(base), [
-        { side: 1, assetId: "window_thin", tag: "side_light_right" },
+        { side: 1, assetId: "window_wide", tag: "side_light_right" },
       ]);
       return withDetails(
         opened.shell,
         ...opened.details,
         chimney(context, "stack_left", -1),
-        crate(context, "tool_crate_right", 1),
+        toolRack(context, 1),
         lamp(context, -1),
       );
     },
@@ -219,13 +232,13 @@ export const FORGE_VARIANTS: readonly StructureVariantRecipe[] = [
     fits: fitsWorkshop,
     build: (context, base) => {
       const opened = sideInserts(context, curatedBase(base), [
-        { side: 3, assetId: "window_thin", tag: "side_light_left" },
+        { side: 3, assetId: "window_wide", tag: "side_light_left" },
       ]);
       return withDetails(
         opened.shell,
         ...opened.details,
         chimney(context, "stack_right", 1),
-        crate(context, "tool_crate_left", -1),
+        toolRack(context, -1),
         lamp(context, 1),
       );
     },
@@ -239,8 +252,8 @@ export const FORGE_VARIANTS: readonly StructureVariantRecipe[] = [
     fits: fitsWorkshop,
     build: (context, base) => {
       const opened = sideInserts(context, curatedBase(base), [
-        { side: 1, assetId: "window_thin", tag: "side_light_right" },
-        { side: 3, assetId: "window_thin", tag: "side_light_left" },
+        { side: 1, assetId: "window_wide", tag: "side_light_right" },
+        { side: 3, assetId: "window_wide", tag: "side_light_left" },
       ]);
       return withDetails(
         opened.shell,
@@ -301,8 +314,8 @@ export const FORGE_VARIANTS: readonly StructureVariantRecipe[] = [
     fits: fitsWorkshop,
     build: (context, base) => {
       const opened = sideInserts(context, curatedBase(base), [
-        { side: 1, assetId: "window_thin", tag: "slit_right" },
-        { side: 3, assetId: "window_thin", tag: "slit_left" },
+        { side: 1, assetId: "window_wide", tag: "window_right" },
+        { side: 3, assetId: "window_wide", tag: "window_left" },
       ]);
       return withDetails(
         opened.shell,

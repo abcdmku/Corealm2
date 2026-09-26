@@ -1211,6 +1211,13 @@
       "id": "haunted-wilderness-towns",
       "name": "Haunted Wilderness Towns",
       "source": "Buildings: Tripo P1 Fast from approved image-generated references. Stalls: cleaned supplied market GLB. Town and stall variants use image-generated texture maps."
+    },
+    {
+      "id": "corealm-original-workshops",
+      "name": "Corealm workshop stations",
+      "author": "Corealm",
+      "license": "LicenseRef-Corealm-Original",
+      "source": "tools/town-stations/build.ts"
     }
   ],
   "assets": [
@@ -70427,6 +70434,187 @@
         "Inn infill weathered boards",
         "Inn infill basalt"
       ]
+    },
+    {
+      "id": "corealm_station_furnace",
+      "file": "models/workshops/furnace.glb",
+      "pack": "corealm-original-workshops",
+      "category": "prop",
+      "is": "furnace",
+      "tags": [
+        "workshop",
+        "station",
+        "furnace"
+      ],
+      "bytes": 297060,
+      "size": {
+        "x": 1.5758637949661591,
+        "y": 2.1825000007003545,
+        "z": 1.2999999523162842
+      },
+      "base": {
+        "x": -0.75,
+        "y": -8.940696655246327e-10,
+        "z": -0.6499999761581421
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata@workshop-2",
+        "Corealm weathered strata@workshop-1",
+        "Workshop recessed mortar",
+        "Corealm weathered strata@workshop-0",
+        "Corealm weathered strata@workshop-3",
+        "Workshop soot and charcoal",
+        "Workshop glowing embers",
+        "Workshop forged iron",
+        "Workshop polished iron edges"
+      ],
+      "sha256": "5ca940e1882af7b3afab343af966376b2eadf512d1eb321c76c781a7526f9a40"
+    },
+    {
+      "id": "corealm_station_anvil",
+      "file": "models/workshops/anvil.glb",
+      "pack": "corealm-original-workshops",
+      "category": "prop",
+      "is": "anvil",
+      "tags": [
+        "workshop",
+        "station",
+        "anvil"
+      ],
+      "bytes": 73160,
+      "size": {
+        "x": 1.082163992933138,
+        "y": 0.9960000060554594,
+        "z": 0.772060751914978
+      },
+      "base": {
+        "x": -0.6750000023841858,
+        "y": -5.960464455334602e-9,
+        "z": -0.386030375957489
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm@workshop",
+        "Workshop cut timber",
+        "Workshop recessed mortar",
+        "Workshop forged iron",
+        "Workshop polished iron edges",
+        "Workshop soot and charcoal"
+      ],
+      "sha256": "7a3e96d03750009ff91602b83660c50f24bbf29d5f9980a3ebc3e1f76dde2e42"
+    },
+    {
+      "id": "corealm_station_range",
+      "file": "models/workshops/range.glb",
+      "pack": "corealm-original-workshops",
+      "category": "prop",
+      "is": "range",
+      "tags": [
+        "workshop",
+        "station",
+        "range"
+      ],
+      "bytes": 286728,
+      "size": {
+        "x": 1.5800000429153442,
+        "y": 1.799000000488013,
+        "z": 1.1250000068545343
+      },
+      "base": {
+        "x": -0.7900000214576721,
+        "y": -2.98023217215615e-10,
+        "z": -0.5600000071525574
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata@workshop-2",
+        "Workshop recessed mortar",
+        "Corealm weathered strata@workshop-0",
+        "Corealm weathered strata@workshop-1",
+        "Corealm weathered strata@workshop-3",
+        "Workshop soot and charcoal",
+        "Workshop glowing embers",
+        "Workshop forged iron",
+        "Workshop polished iron edges",
+        "Workshop aged copper"
+      ],
+      "sha256": "38fc0bd50616c292fedd8d56c4f5e0e15f6437a476dbc61dffaf93abe62f8e82"
+    },
+    {
+      "id": "corealm_station_crafting_table",
+      "file": "models/workshops/crafting_table.glb",
+      "pack": "corealm-original-workshops",
+      "category": "prop",
+      "is": "crafting_table",
+      "tags": [
+        "workshop",
+        "station",
+        "crafting_table"
+      ],
+      "bytes": 1117480,
+      "size": {
+        "x": 1.7200000286102295,
+        "y": 1.0349999989569187,
+        "z": 1.0744999894499778
+      },
+      "base": {
+        "x": -0.8600000143051147,
+        "y": 1.1920929243736111e-9,
+        "z": -0.49149999022483826
+      },
+      "animations": [],
+      "materials": [
+        "Workshop oak@aged frame",
+        "Workshop oak@heartwood",
+        "Workshop oak@end grain",
+        "Workshop oak@planed plank",
+        "Workshop forged iron",
+        "Workshop honed steel",
+        "Workshop worn leather",
+        "Workshop linen cord",
+        "Workshop amber wax"
+      ],
+      "sha256": "c3db64dc7b8854cde698ae537bea5dbca8de1e9b6ce28da44970dbafd34430fe"
+    },
+    {
+      "id": "corealm_station_fletching_bench",
+      "file": "models/workshops/fletching_bench.glb",
+      "pack": "corealm-original-workshops",
+      "category": "prop",
+      "is": "fletching_bench",
+      "tags": [
+        "workshop",
+        "station",
+        "fletching_bench"
+      ],
+      "bytes": 1271780,
+      "size": {
+        "x": 1.7400000095367432,
+        "y": 1.487500011920929,
+        "z": 0.8930000066757202
+      },
+      "base": {
+        "x": -0.8700000047683716,
+        "y": -1.3113021835042815e-8,
+        "z": -0.4465000033378601
+      },
+      "animations": [],
+      "materials": [
+        "Workshop oak@aged frame",
+        "Workshop oak@heartwood",
+        "Workshop oak@end grain",
+        "Workshop oak@planed plank",
+        "Workshop forged iron",
+        "Workshop honed steel",
+        "Workshop linen cord",
+        "Workshop ash shafts",
+        "Workshop pale feathers",
+        "Workshop grey feather quills",
+        "Workshop worn leather",
+        "Workshop amber wax"
+      ],
+      "sha256": "c7667064276561670af0304fe2cab3a7b544525de60d727ac7bdcedbbc4738bf"
     },
     {
       "id": "corealm_mountain_1",

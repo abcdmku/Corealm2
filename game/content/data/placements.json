@@ -379,8 +379,8 @@
     "encounterId": "redsill_cattle_graze",
     "regionId": "fallowmarch",
     "centre": [
-      -115,
-      -40
+      -87.81,
+      -27.32
     ],
     "count": 7,
     "radius": 7,
@@ -444,8 +444,8 @@
       {
         "id": "feed_trough",
         "assetId": "corealm_feed_trough",
-        "x": -118.6,
-        "z": -35.1,
+        "x": -91.41,
+        "z": -22.42,
         "yaw": 0.2,
         "scale": 1.15
       }
@@ -713,8 +713,8 @@
     "encounterId": "march_road_reavers_patrol",
     "regionId": "fallowmarch",
     "centre": [
-      -245,
-      -21
+      -251,
+      -10.61
     ],
     "count": 15,
     "radius": 16,
@@ -834,16 +834,16 @@
       {
         "id": "camp_seat",
         "assetId": "nature_wood_log",
-        "x": -254,
-        "z": -16,
+        "x": -260,
+        "z": -5.61,
         "yaw": 1.2,
         "scale": 1
       },
       {
         "id": "stolen_supplies",
         "assetId": "crate_wood",
-        "x": -255,
-        "z": -19,
+        "x": -261,
+        "z": -8.61,
         "yaw": 0.2,
         "scale": 0.9
       }
@@ -2871,7 +2871,7 @@
     "encounterId": "duskoak_stags_patrol",
     "regionId": "vellenwood",
     "centre": [
-      12,
+      134,
       182
     ],
     "count": 9,
@@ -2950,7 +2950,7 @@
       {
         "id": "browse_edge",
         "assetId": "corealm_shrub_2",
-        "x": 3,
+        "x": 125,
         "z": 189,
         "yaw": -0.3,
         "scale": 0.85
@@ -2963,7 +2963,7 @@
     "encounterId": "bramble_hogs_patrol",
     "regionId": "vellenwood",
     "centre": [
-      141,
+      165,
       132
     ],
     "count": 11,
@@ -3056,7 +3056,7 @@
       {
         "id": "rotting_log",
         "assetId": "nature_wood_log_moss",
-        "x": 134,
+        "x": 158,
         "z": 133,
         "yaw": 0.9,
         "scale": 1.05
@@ -3064,7 +3064,7 @@
       {
         "id": "bramble_cover",
         "assetId": "corealm_shrub_2",
-        "x": 148,
+        "x": 172,
         "z": 140,
         "yaw": -0.5,
         "scale": 1.05
@@ -3077,8 +3077,8 @@
     "encounterId": "deepwood_coyotes_patrol",
     "regionId": "vellenwood",
     "centre": [
-      54,
-      181
+      157.6,
+      171.94
     ],
     "count": 8,
     "radius": 22,
@@ -3149,8 +3149,8 @@
       {
         "id": "den_shoulder",
         "assetId": "corealm_rock_strata_1",
-        "x": 61,
-        "z": 192,
+        "x": 164.6,
+        "z": 182.94,
         "yaw": 0.5,
         "scale": 0.65,
         "sink": 0.15
@@ -3158,8 +3158,8 @@
       {
         "id": "den_screen",
         "assetId": "corealm_shrub_2",
-        "x": 58,
-        "z": 192,
+        "x": 161.6,
+        "z": 182.94,
         "yaw": 0.3,
         "scale": 1.1
       }
@@ -3699,7 +3699,7 @@
       72
     ],
     "count": 1,
-    "radius": 1.4436099999999998,
+    "radius": 2.5,
     "formation": {
       "kind": "authored",
       "spacing": 3.3672199999999997,
@@ -4010,8 +4010,8 @@
     "encounterId": "rootdelve_badger_residents_patrol",
     "regionId": "vellenwood",
     "centre": [
-      64,
-      77
+      60.34,
+      35.16
     ],
     "count": 3,
     "radius": 7.6595355871001125,
@@ -4047,16 +4047,16 @@
       {
         "id": "stump_edge",
         "assetId": "corealm_stump_oak",
-        "x": 58,
-        "z": 83,
+        "x": 54.34,
+        "z": 41.16,
         "yaw": 0.75,
         "scale": 0.85
       },
       {
         "id": "stump_fern",
         "assetId": "corealm_fern_2",
-        "x": 56.7,
-        "z": 81,
+        "x": 53.04,
+        "z": 39.16,
         "yaw": -0.4,
         "scale": 0.75
       }
@@ -4374,8 +4374,8 @@
     "encounterId": "hollowroot_spider_residents_patrol",
     "regionId": "vellenwood",
     "centre": [
-      14,
-      83
+      -12.21,
+      64.65
     ],
     "count": 7,
     "radius": 7,
@@ -4439,8 +4439,8 @@
       {
         "id": "root_edge",
         "assetId": "corealm_stump_oak",
-        "x": 6,
-        "z": 77,
+        "x": -20.21,
+        "z": 58.65,
         "yaw": -0.6,
         "scale": 0.85
       }
@@ -4452,8 +4452,8 @@
     "encounterId": "thorn_maw_t10_patrol",
     "regionId": "vellenwood",
     "centre": [
-      28,
-      52
+      12.68,
+      39.14
     ],
     "count": 15,
     "radius": 9.25,
@@ -4854,8 +4854,8 @@
     "encounterId": "heath_jack_t5_patrol",
     "regionId": "vellenwood",
     "centre": [
-      34,
-      76
+      9.96,
+      51.96
     ],
     "count": 12,
     "radius": 9,
@@ -4958,8 +4958,8 @@
     "encounterId": "fen_crawler_t5_patrol",
     "regionId": "vellenwood",
     "centre": [
-      82,
-      64
+      91.32,
+      29.23
     ],
     "count": 14,
     "radius": 9,
@@ -5284,8 +5284,8 @@
     "encounterId": "reed_strider_t5_patrol",
     "regionId": "vellenwood",
     "centre": [
-      -8,
-      94
+      -10.44,
+      66.11
     ],
     "count": 7,
     "radius": 9,
@@ -5672,8 +5672,8 @@
     "encounterId": "highcairn_bears_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      92,
-      -116
+      73.87,
+      -124.45
     ],
     "count": 7,
     "radius": 12,
@@ -5737,8 +5737,8 @@
       {
         "id": "sheltered_face",
         "assetId": "corealm_rock_strata_1",
-        "x": 86,
-        "z": -126,
+        "x": 67.87,
+        "z": -134.45,
         "yaw": 0.6,
         "scale": 0.95,
         "sink": 0.18
@@ -5746,8 +5746,8 @@
       {
         "id": "den_scrub",
         "assetId": "corealm_shrub_1",
-        "x": 82,
-        "z": -123,
+        "x": 63.87,
+        "z": -131.45,
         "yaw": 0.2,
         "scale": 1.05
       }
@@ -6002,8 +6002,8 @@
     "encounterId": "terrace_aurochs_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      77,
-      -50
+      62.26,
+      -39.68
     ],
     "count": 15,
     "radius": 14,
@@ -6123,8 +6123,8 @@
       {
         "id": "weather_shelter",
         "assetId": "corealm_rock_strata_2",
-        "x": 69,
-        "z": -58,
+        "x": 54.26,
+        "z": -47.68,
         "yaw": 0.2,
         "scale": 0.95,
         "sink": 0.15
@@ -6137,7 +6137,7 @@
     "encounterId": "tarn_coyotes_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      230,
+      238,
       -84
     ],
     "count": 11,
@@ -6230,7 +6230,7 @@
       {
         "id": "scrub_cover",
         "assetId": "corealm_shrub_1",
-        "x": 236,
+        "x": 244,
         "z": -76,
         "yaw": -0.3,
         "scale": 0.95
@@ -6238,7 +6238,7 @@
       {
         "id": "shelf_foot",
         "assetId": "corealm_rock_strata_2",
-        "x": 239,
+        "x": 247,
         "z": -87,
         "yaw": 0.5,
         "scale": 0.65,
@@ -6252,8 +6252,8 @@
     "encounterId": "karrow_reavers_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      147,
-      -127
+      141.1,
+      -160.48
     ],
     "count": 11,
     "radius": 14.53289566581815,
@@ -6345,16 +6345,16 @@
       {
         "id": "watch_supplies",
         "assetId": "crate_wood",
-        "x": 137,
-        "z": -120,
+        "x": 131.1,
+        "z": -153.48,
         "yaw": 0.2,
         "scale": 0.95
       },
       {
         "id": "watch_seat",
         "assetId": "nature_wood_log",
-        "x": 136,
-        "z": -123,
+        "x": 130.1,
+        "z": -156.48,
         "yaw": 1.3,
         "scale": 0.95
       }
@@ -7718,8 +7718,8 @@
     "encounterId": "cairn_treader_t10_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      76,
-      -86
+      66.15,
+      -84.26
     ],
     "count": 9,
     "radius": 9,
@@ -7801,7 +7801,7 @@
     "encounterId": "scree_watcher_t10_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      202,
+      220,
       -50
     ],
     "count": 14,
@@ -8175,7 +8175,7 @@
     "encounterId": "cairn_treader_t10_patrol",
     "regionId": "karrowmoor",
     "centre": [
-      208,
+      214,
       -26
     ],
     "count": 7,
@@ -8683,7 +8683,7 @@
       -96
     ],
     "count": 1,
-    "radius": 1.572,
+    "radius": 3,
     "formation": {
       "kind": "authored",
       "spacing": 3.624,
@@ -8863,7 +8863,7 @@
     "encounterId": "cinder_boars_patrol",
     "regionId": "kilnhalt",
     "centre": [
-      85,
+      89,
       383
     ],
     "count": 11,
@@ -8956,7 +8956,7 @@
       {
         "id": "fire_killed_stool",
         "assetId": "corealm_stump_pine",
-        "x": 95,
+        "x": 99,
         "z": 390,
         "yaw": -0.2,
         "scale": 1.1
@@ -8964,7 +8964,7 @@
       {
         "id": "fresh_browse",
         "assetId": "corealm_shrub_1",
-        "x": 76,
+        "x": 80,
         "z": 387,
         "yaw": 0.3,
         "scale": 0.95
@@ -9167,8 +9167,8 @@
     "encounterId": "kilnroad_reavers_patrol",
     "regionId": "kilnhalt",
     "centre": [
-      -42,
-      258
+      -53.31,
+      246.69
     ],
     "count": 9,
     "radius": 14,
@@ -9246,16 +9246,16 @@
       {
         "id": "camp_supplies",
         "assetId": "crate_wood",
-        "x": -53,
-        "z": 262,
+        "x": -64.31,
+        "z": 250.69,
         "yaw": -0.1,
         "scale": 0.9
       },
       {
         "id": "camp_seat",
         "assetId": "nature_wood_log",
-        "x": -54,
-        "z": 258,
+        "x": -65.31,
+        "z": 246.69,
         "yaw": 0.7,
         "scale": 1
       }
@@ -11797,8 +11797,8 @@
     "encounterId": "wilderness_sunken_bones_patrol",
     "regionId": "wilderness",
     "centre": [
-      -90,
-      527
+      -121.95,
+      538.63
     ],
     "count": 13,
     "radius": 16,
@@ -11909,8 +11909,8 @@
     "encounterId": "black_keep_gate_guard_patrol",
     "regionId": "wilderness",
     "centre": [
-      27,
-      566
+      68.01,
+      607.01
     ],
     "count": 7,
     "radius": 6,
@@ -11979,8 +11979,8 @@
     "encounterId": "black_keep_gate_archers_patrol",
     "regionId": "wilderness",
     "centre": [
-      54,
-      565
+      93.88,
+      583.6
     ],
     "count": 7,
     "radius": 6,
@@ -12049,8 +12049,8 @@
     "encounterId": "black_keep_court_guard_patrol",
     "regionId": "wilderness",
     "centre": [
-      31,
-      596
+      42.83,
+      621.38
     ],
     "count": 7,
     "radius": 6,
@@ -14578,8 +14578,8 @@
     "encounterId": "wilderness_foundry_west_carapaces_patrol",
     "regionId": "wilderness",
     "centre": [
-      -292,
-      732
+      -293.53,
+      733.29
     ],
     "count": 7,
     "radius": 28,
@@ -14647,8 +14647,8 @@
     "encounterId": "wilderness_foundry_north_carapaces_patrol",
     "regionId": "wilderness",
     "centre": [
-      -304,
-      804
+      -317.79,
+      806.43
     ],
     "count": 7,
     "radius": 28,
@@ -14992,8 +14992,8 @@
     "encounterId": "wilderness_northwest_red_dragons_patrol",
     "regionId": "wilderness",
     "centre": [
-      -271,
-      907
+      -294.91,
+      904.91
     ],
     "count": 7,
     "radius": 34,
@@ -15337,8 +15337,8 @@
     "encounterId": "wilderness_sanctum_west_colossi_patrol",
     "regionId": "wilderness",
     "centre": [
-      -89,
-      860
+      -69.08,
+      861.74
     ],
     "count": 7,
     "radius": 28,
@@ -15406,8 +15406,8 @@
     "encounterId": "cinder_chain_foundry_west_conclave_patrol",
     "regionId": "wilderness",
     "centre": [
-      -225.88493817366185,
-      736.9153953166227
+      -248.51,
+      714.29
     ],
     "count": 7,
     "radius": 8,
@@ -15475,8 +15475,8 @@
     "encounterId": "cinder_chain_foundry_east_conclave_patrol",
     "regionId": "wilderness",
     "centre": [
-      -194.11506182633815,
-      733.0846046833773
+      -200.71,
+      695.66
     ],
     "count": 7,
     "radius": 8,
@@ -16042,8 +16042,8 @@
     "encounterId": "population_last_light_west_penitents_patrol",
     "regionId": "wilderness",
     "centre": [
-      -92,
-      484
+      -107.94,
+      485.39
     ],
     "count": 15,
     "radius": 9,
@@ -16168,7 +16168,7 @@
     "encounterId": "population_last_light_east_shades_patrol",
     "regionId": "wilderness",
     "centre": [
-      88,
+      112,
       502
     ],
     "count": 9,
@@ -16448,8 +16448,8 @@
     "encounterId": "population_abbey_east_lanterns_patrol",
     "regionId": "wilderness",
     "centre": [
-      -86,
-      580
+      -92.88,
+      589.83
     ],
     "count": 10,
     "radius": 9,
@@ -16539,8 +16539,8 @@
     "encounterId": "population_black_keep_east_reapers_patrol",
     "regionId": "wilderness",
     "centre": [
-      88,
-      586
+      91.94,
+      586.69
     ],
     "count": 14,
     "radius": 9,
@@ -17252,7 +17252,7 @@
       45
     ],
     "count": 1,
-    "radius": 2.0867120000000003,
+    "radius": 3.5,
     "formation": {
       "kind": "authored",
       "spacing": 4.653424000000001,
@@ -17281,7 +17281,7 @@
       300
     ],
     "count": 1,
-    "radius": 2.0867120000000003,
+    "radius": 3.5,
     "formation": {
       "kind": "authored",
       "spacing": 4.653424000000001,
@@ -17310,7 +17310,7 @@
       400
     ],
     "count": 1,
-    "radius": 3.5252319999999995,
+    "radius": 5.5,
     "formation": {
       "kind": "authored",
       "spacing": 7.530463999999999,
@@ -18371,7 +18371,7 @@
       320.6
     ],
     "count": 1,
-    "radius": 1.1583639999999997,
+    "radius": 2.5,
     "formation": {
       "kind": "authored",
       "spacing": 2.7967279999999994,
