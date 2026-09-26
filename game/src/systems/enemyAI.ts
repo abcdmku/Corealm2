@@ -31,7 +31,7 @@ import type { BossPhase } from "../content/enemies.js";
 import { ORDRUN_PHASES } from "../content/enemies.js";
 import { enemyPursuitSpeedMps } from "../content/index.js";
 import { habitatForGroup, habitatContains, type HabitatDef } from "../content/worldHabitats.js";
-import { habitatIdleTargets, hashId } from "../world/habitatMovement.js";
+import { habitatIdleTargets, hashId, LEASH_METRES } from "../world/habitatMovement.js";
 export { hashId } from "../world/habitatMovement.js";
 import type { CombatEntityPort, CombatSystem } from "./combat.js";
 import {
@@ -39,9 +39,6 @@ import {
 } from "./combat.js";
 
 // ------------------------------------------------------------------ tunables
-
-/** PRD 2.4: enemies leash at 28 m from their spawn point. */
-export const LEASH_METRES = 28;
 
 /** Legacy speed retained only for the unauthored walking-speed fallback. */
 export const ENEMY_SPEED_MPS = 3.1;

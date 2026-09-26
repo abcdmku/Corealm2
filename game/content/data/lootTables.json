@@ -1009,7 +1009,7 @@
             "itemId": "drake_scale",
             "quantity": [
               1,
-              3
+              1
             ],
             "chance": 1
           }
@@ -1024,8 +1024,8 @@
           {
             "itemId": "fire_essence",
             "quantity": [
-              4,
-              8
+              1,
+              2
             ],
             "chance": 1
           }
@@ -1157,7 +1157,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           },
           {
             "itemId": "guardian_earring_t10",
@@ -1165,7 +1165,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           }
         ],
         "tables": []
@@ -1187,7 +1187,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           },
           {
             "itemId": "guardian_earring_t20",
@@ -1195,7 +1195,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           }
         ],
         "tables": []
@@ -1217,7 +1217,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           },
           {
             "itemId": "guardian_earring_t50",
@@ -1225,7 +1225,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           }
         ],
         "tables": []
@@ -1247,7 +1247,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           },
           {
             "itemId": "guardian_earring_t70",
@@ -1255,7 +1255,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           }
         ],
         "tables": []
@@ -1277,7 +1277,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           },
           {
             "itemId": "guardian_earring_t40",
@@ -1285,7 +1285,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           }
         ],
         "tables": []
@@ -1307,7 +1307,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           },
           {
             "itemId": "guardian_earring_t30",
@@ -1315,7 +1315,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           }
         ],
         "tables": []
@@ -1337,7 +1337,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           },
           {
             "itemId": "guardian_earring_t60",
@@ -1345,7 +1345,7 @@
               1,
               1
             ],
-            "chance": 0.15
+            "chance": 0.03
           }
         ],
         "tables": []
@@ -1453,7 +1453,7 @@
             "itemId": "dragonhide",
             "quantity": [
               1,
-              3
+              1
             ],
             "chance": 1
           }
@@ -1523,7 +1523,7 @@
             "itemId": "starhide",
             "quantity": [
               1,
-              3
+              1
             ],
             "chance": 1
           }
@@ -1601,7 +1601,7 @@
             "itemId": "grave_thread",
             "quantity": [
               1,
-              3
+              1
             ],
             "chance": 1
           }
@@ -1671,7 +1671,7 @@
             "itemId": "void_thread",
             "quantity": [
               1,
-              3
+              1
             ],
             "chance": 1
           }
@@ -1749,7 +1749,7 @@
             "itemId": "astral_core",
             "quantity": [
               1,
-              3
+              1
             ],
             "chance": 1
           }
@@ -1835,7 +1835,7 @@
             "itemId": "molten_heart",
             "quantity": [
               1,
-              3
+              1
             ],
             "chance": 1
           }
@@ -1979,7 +1979,7 @@
               1,
               1
             ],
-            "chance": 0.12
+            "chance": 0.04
           }
         ],
         "tables": []
@@ -2065,7 +2065,7 @@
               1,
               1
             ],
-            "chance": 0.12
+            "chance": 0.04
           }
         ],
         "tables": []
@@ -2151,7 +2151,7 @@
               1,
               1
             ],
-            "chance": 0.12
+            "chance": 0.04
           }
         ],
         "tables": []
@@ -2879,7 +2879,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_cuirass",
@@ -2887,7 +2887,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_greaves",
@@ -2895,7 +2895,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_gloves",
@@ -2903,7 +2903,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_boots",
@@ -2911,7 +2911,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_hide_hood",
@@ -2919,7 +2919,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_hide_robe",
@@ -2927,7 +2927,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_hide_leggings",
@@ -2935,7 +2935,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_hide_wraps",
@@ -2943,7 +2943,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "worn_hide_boots",
@@ -2951,7 +2951,7 @@
               1,
               1
             ],
-            "chance": 0.05
+            "chance": 0.01
           },
           {
             "itemId": "crafted_ring_t10",
@@ -2959,7 +2959,7 @@
               1,
               1
             ],
-            "chance": 0.02
+            "chance": 0.002
           },
           {
             "itemId": "crafted_earring_t10",
@@ -2967,7 +2967,7 @@
               1,
               1
             ],
-            "chance": 0.02
+            "chance": 0.002
           }
         ],
         "tables": []

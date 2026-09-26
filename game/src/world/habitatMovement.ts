@@ -1,6 +1,9 @@
 import type { Vec3 } from "../contracts.js";
 import type { HabitatDef } from "../content/worldHabitats.js";
 
+/** Pursuit and spawn safety share the same maximum distance from home. */
+export const LEASH_METRES = 28;
+
 /** Stable per-entity seed, so one creature's wander is its own and survives a reload. */
 export function hashId(entityId: string): number {
   let hash = 2166136261;
@@ -35,10 +38,14 @@ export function habitatIdleTargets(
   if (habitat.roamRadius !== undefined && nearest[0]) {
     const anchorIndex = nearest[0].index;
     return { ranging: false, nearestAnchorIndex: anchorIndex,
-      candidates: Array.from({ length: 4 }, (_, index) => {
-        const direction = angle + index * Math.PI / 2;
-        return { anchorIndex, position: [spawn[0] + Math.cos(direction) * habitat.roamRadius!,
-          spawn[1], spawn[2] + Math.sin(direction) * habitat.roamRadius!] as Vec3 };
+      candidates: Array.from({ length: 7 }, (_, index) => {
+        const sample = hashId(`${entityId}:idle:${index}:distance`) / 0xffffffff;
+        const turn = hashId(`${entityId}:idle:${index}:direction`) / 0xffffffff;
+        const direction = angle + (index + turn * .55) * Math.PI * 2 / 7;
+        // Short feeding steps alternate with longer walks, without a repeated square circuit.
+        const distance = habitat.roamRadius! * (.4 + .6 * Math.sqrt(sample));
+        return { anchorIndex, position: [spawn[0] + Math.cos(direction) * distance,
+          spawn[1], spawn[2] + Math.sin(direction) * distance] as Vec3 };
       }) };
   }
   const offset = Math.min(0.45, habitat.radius * 0.05) * (0.5 + ((seed >>> 8) % 100) / 200);

@@ -1,11 +1,12 @@
 import type { SemanticEntity } from '../contracts.js';
 import { hashId } from './habitatMovement.js';
 import { tierSilhouetteScale } from '../core/math.js';
+import { REGIONS } from '../content/regions.js';
 
 /** Live resident budgets use measured production bodies, including coastal and regional packs.
  * Keep the first saved actor IDs and never increase an already sparse group. */
 export function refineCreaturePopulation(entities: readonly SemanticEntity[],
-  includes: (entity: SemanticEntity) => boolean = entity => entity.regionId === 'karrowmoor',
+  includes: (entity: SemanticEntity) => boolean = entity => !REGIONS.some(region => region.dungeon?.id === entity.regionId),
   assetSize?: (assetId: string) => { y: number } | null): SemanticEntity[] {
   const groups = new Map<string, SemanticEntity[]>();
   for (const entity of entities) {
@@ -22,9 +23,16 @@ export function refineCreaturePopulation(entities: readonly SemanticEntity[],
       // A 3.6 m tall figure occupies as much of the view as a 2.4 m wide body.
       return Math.max(entity.combat?.bodyRadius ?? .5, height / 3);
     }));
-    const [minimum, variation]: [number, number] = radius >= 1.2 ? [2, 2] : radius >= .9 ? [4, 2]
-      : radius >= .6 ? [6, 2] : [8, 3];
-    const limit = minimum + hashId(key) % variation;
+    const aggressive = members.some(entity => entity.meta?.behaviour === 'aggressive');
+    const passive = members.every(entity => entity.meta?.behaviour === 'passive');
+    // Predators hold small territories; prey can gather in larger flocks. Body size also
+    // includes visual height so a narrow giant cannot inherit a rabbit-sized population.
+    const [minimum, variation]: [number, number] = aggressive
+      ? radius >= 1.2 ? [1, 2] : radius >= .6 ? [2, 2] : [3, 3]
+      : passive
+        ? radius >= 1.2 ? [2, 3] : radius >= .6 ? [5, 3] : [8, 3]
+        : radius >= 1.2 ? [2, 2] : radius >= .6 ? [3, 3] : [5, 3];
+    const limit = minimum + hashId(`${key}:residents`) % variation;
     for (const entity of members.slice(limit)) removed.add(entity.id);
   }
   return entities.filter(entity => !removed.has(entity.id));

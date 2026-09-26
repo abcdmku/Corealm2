@@ -16,7 +16,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";
 import type { FeatureLabCatalog, FeatureLabState } from "../game/src/contracts.js";
 import { REGIONAL_BOSS_BODIES } from "../game/src/content/regionalBossBodies.js";
-import { LEASH_METRES } from "../game/src/systems/enemyAI.js";
+import { LEASH_METRES } from "../game/src/world/habitatMovement.js";
 import { ENEMY_RESPAWN_MS } from "../game/src/systems/combat.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";

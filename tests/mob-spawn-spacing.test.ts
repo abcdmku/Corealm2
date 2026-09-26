@@ -86,8 +86,11 @@ describe('all-source mob spacing', () => {
       expect(entity.position[0]).toBeGreaterThanOrEqual(0);
       const idle = habitatIdleTargets(entity.id, entity.position, habitats[0]!);
       expect(idle.ranging).toBe(false);
-      expect(idle.candidates).toHaveLength(4);
-      expect(Math.hypot(idle.candidates[0]!.position[0] - entity.position[0], idle.candidates[0]!.position[2] - entity.position[2])).toBeCloseTo(1.5);
+      expect(idle.candidates.length).toBeGreaterThan(4);
+      const distances = idle.candidates.map(({ position }) => Math.hypot(
+        position[0] - entity.position[0], position[2] - entity.position[2]));
+      expect(Math.max(...distances)).toBeLessThanOrEqual(habitats[0]!.roamRadius!);
+      expect(Math.max(...distances) - Math.min(...distances)).toBeGreaterThan(.1);
       expect(entity.meta!.spawnX).toBe(entity.position[0]);
     }
   });

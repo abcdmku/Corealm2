@@ -11,6 +11,8 @@ import type { BootProfile } from "./bootProfile.js";
 
 import { refineCreaturePopulation } from "../world/creaturePopulation.js";
 import type { MobSpawnSpacingPorts } from "../world/mobSpawnSpacing.js";
+import { REGIONS } from "../content/regions.js";
+import { LEASH_METRES } from "../world/habitatMovement.js";
 
 interface SpawnPlacementOptions {
   /** `scene` is the drawn terrain on the client and a baked terrain sampler on the server. */
@@ -25,10 +27,28 @@ export function mobSpawnPlacementPorts(worldHabitats: readonly HabitatDef[],
   {solids, scene, nav, dungeonSpec, doorThresholds, profile, terrainAt = () => scene}: SpawnPlacementOptions): MobSpawnSpacingPorts {
     const placementSolids = new Solids(solids);
     const habitatSources = new Map(worldHabitats.map(habitat => [habitat.groupId, habitat]));
+    // Cover the whole town, including gates and services, rather than just its map marker.
+    const towns = REGIONS.flatMap(region => region.settlements.map(town => {
+      const reach = (point: readonly number[], margin = 0): number =>
+        Math.hypot(point[0]! - town.centre[0], point[1]! - town.centre[1]) + margin;
+      const radius = Math.max(24,
+        ...town.buildings.map(building => reach(building.position, Math.hypot(...building.footprint) / 2)),
+        ...[town.bank, ...town.stations, ...town.shops, ...town.npcs].map(service => reach(service.position)),
+        ...(town.walls ?? []).flatMap(wall => [reach(wall.from), reach(wall.to)]));
+      return { centre: town.centre, radius: radius + 5 };
+    }));
     return {
       underground: regionId => regionId === dungeonSpec?.regionId,
       place: (entity, x, z, radius) => {
         const underground = entity.regionId === dungeonSpec?.regionId;
+        if (!underground && profile.kind === 'game' && entity.meta?.behaviour !== 'passive') {
+          // Even a pursued creature reaching its full leash stays outside the inhabited edge.
+          // The extra aggro margin keeps an idle predator from spotting someone at the gate.
+          const threat = entity.meta?.behaviour === 'aggressive'
+            ? 8 + Math.min(10, (entity.combat?.level ?? 1) * .12) : 0;
+          const safety = LEASH_METRES + Math.max(6, entity.combat?.aggroRadius ?? 0) + radius + threat;
+          if (towns.some(town => Math.hypot(x - town.centre[0], z - town.centre[1]) < town.radius + safety)) return null;
+        }
         if (underground) {
           for (const threshold of doorThresholds) {
             const side = (px: number, pz: number) => (px - threshold.origin[0]) * Math.sin(threshold.rotationY)
