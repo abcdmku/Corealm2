@@ -11,7 +11,7 @@ import { resolveFairyDressing } from './fairyDressing.js';
 import { cachedWorldValue } from '../world/cachedWorldValue.js';
 import releaseNavigation from 'virtual:corealm-release-navigation';
 import { loadArtifactBytes } from '../systems/navigation.js';
-import { buildFairyTerrainSpec } from './worldSpec.js';
+import { buildFairyTerrainSpec, CROWNWARD_DISTANT_RANGE } from './worldSpec.js';
 import { FAIRY_PORTAL_LAB_TERRAIN, assembleFairyPortalFixture, createFairyPortalWorkbench } from '../featureLab/fairyPortal.js';
 import { immediatePlayerItems, PlayerEntitySelector, type PlayerAssetArea } from '../render/playerAssetPlan.js';
 import { WorldSiteStreaming } from '../world/worldSiteStreaming.js';
@@ -39,7 +39,6 @@ import { assertCreatureCatalog } from '../content/creatureCatalog.js';
 import { wildernessMagicAt } from '../content/wildernessDepth.js';
 import { DEEP_WILDERNESS_STRUCTURES } from '../render/compositions/deepWildernessStructures.js';
 import type { DeepWildernessStructureId } from "../render/compositionIds.js";
-import { coastalBodyOnSafeGround } from '../content/coastalEncounterFormation.js';
 import { lavaObstacles } from "../world/lavaObstacles.js";
 import { WILDERNESS_ROAD_BRAZIERS } from "../content/wildernessLandmarks.js";
 import type { ForestTreeDescriptor } from "../world/forestResources.js";
@@ -102,7 +101,6 @@ import { TraversalPresentation } from "../render/traversalPresentation.js";
 import { huntContractsView } from "../ui/huntContracts.js";
 import { HuntContractsSystem } from "../systems/huntContracts.js";
 import { deriveHuntTargets } from "../content/huntContracts.js";
-import { coastalSpawnSites } from "./coastalSpawns.js";
 import { QuestSystem } from "../systems/quests.js";
 import { PortalTransition } from "../ui/portalTransition.js";
 import { INTERACT_RANGE } from "./config.js";
@@ -459,6 +457,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const camera = new OrbitCamera(renderer.camera);
   camera.fixedFollow = true;
   const scene = new WorldScene(renderer.scene);
+  let mountainBackdropTexture: THREE.Texture | undefined;
+  const setMountainBackdrop = async (enabled: boolean): Promise<void> => {
+    if (enabled && !mountainBackdropTexture) {
+      mountainBackdropTexture = await new THREE.TextureLoader().loadAsync(publicUrl(CROWNWARD_DISTANT_RANGE.asset));
+      mountainBackdropTexture.colorSpace = THREE.SRGBColorSpace;
+    }
+    renderer.biomeAtmosphere.sky.setMountainBackdrop(enabled ? mountainBackdropTexture! : null, CROWNWARD_DISTANT_RANGE);
+  };
   let fairyRealm: RealmTerrain | null = null;
   const fairyLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("fairy") === "1";
   const terrainAt = (x: number, z: number): WorldScene => fairyRealm?.contains(x, z) ? fairyRealm.scene : scene;
@@ -471,6 +477,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   scene.materials.setFoliageOcclusionEnabled(false);
   if (profile.kind === "game" || fairyLab) {
     renderer.biomeAtmosphere.sky.enabled = true;
+    if (profile.kind === "game") await setMountainBackdrop(true);
     renderer.biomeWeightsSource = () => {
       const player = store.get().player;
       if (player.regionId === "gravelmaw") return { gravelmaw: 1 };
@@ -670,9 +677,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     assetSize: (assetId: string): { x: number; y: number; z: number } | null => assets.assetSize(assetId),
     assetCenterXZ: (assetId: string): { x: number; z: number } | null => assets.assetCenterXZ(assetId),
     roadDistance,
-    get coastalSpawns() { return profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : []; },
-    coastalAccepts: (spot: readonly [number, number], radius: number) =>
-      coastalBodyOnSafeGround((x, z) => terrainAt(x, z).sampleWorld(x, z), spot, radius),
     minibossCanStand: (regionId: RegionId, x: number, z: number) => {
       const sample = terrainAt(x, z).sampleWorld(x, z);
       return sample.playable && sample.semanticRegion === regionId && sample.waterBodyId === null
@@ -697,7 +701,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
   }, rpgPackCatalogue) : null;
   const worldHabitats: HabitatDef[] = [...WORLD_HABITATS];
-  const worldPackHabitats = new Map<string, HabitatDef>();
   type BuiltWorld = ReturnType<typeof profile.buildSemanticWorld>;
   const built = await bootTelemetry.measureAsync("boot.world.semantic", () => cachedWorldValue(generationCache,
     'assembly/semantic', () => profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts),
@@ -721,8 +724,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     } else mobSpacingFixture.push(...createMobSpacingFixture(ports, population === 'stone'));
     built.entities.push(...structuredClone(mobSpacingFixture));
   }
-  worldHabitats.push(...(built.coastalHabitats ?? []));
-  for (const habitat of built.coastalHabitats ?? []) worldPackHabitats.set(habitat.groupId, habitat);
   // The authored game page has no habitat content: its catalog is the client projection. Habitats still decide two things it
   // draws, the dressing around them and the trees scatter leaves out of creature corridors, and the shipped scatter tiles are
   // accepted only if the page reproduces the bake's exclusions exactly. So it takes both from the baked placement record, which
@@ -811,21 +812,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }))];
     for (const setting of settings) {
       if (!setting.dressing.length) continue;
-      const packHabitat = worldPackHabitats.get(setting.locationId);
-      if (packHabitat) {
-        // Same builder as the compact pack lab: measured physical boxes for collision, and
-        // navigation-only boxes grown by the pack's largest resident so full bodies clear corners.
-        const { buildRegionalPackDressing } = await import("../world/regionalPackDressing.js");
-        const largestBody = Math.max(0, ...built.entities
-          .filter((entity) => entity.meta?.groupId === packHabitat.groupId)
-          .map((entity) => entity.combat?.bodyRadius ?? 0));
-        const result = await buildRegionalPackDressing(terrainAt(setting.centre[0], setting.centre[1]), assets, packHabitat, largestBody, false);
-        siteStreaming.register(setting, result);
-        sitePlacements.push(...result.placements);
-        built.solids.push(...result.solids);
-        for (const solid of result.navigationSolids) encounterNavSolids.set(solid.id, solid);
-        continue;
-      }
       const settingScene = terrainAt(setting.centre[0], setting.centre[1]);
       const result = resolveWorldSiteDressing(settingScene, assets, setting);
       siteStreaming.register(setting, result);
@@ -1103,10 +1089,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const residents = refineCreaturePopulation(actors, undefined, worldPorts.assetSize);
       actors.splice(0, actors.length, ...residents);
     }
-    const ports = mobSpawnPlacementPorts(worldHabitats, { solids: built.solids, scene, nav, dungeonSpec, doorThresholds, profile, terrainAt });
+    const ports = mobSpawnPlacementPorts({ solids: built.solids, scene, nav, dungeonSpec, doorThresholds, profile, terrainAt });
     const apply = (habitats: HabitatDef[]): void => {
       worldHabitats.splice(0, worldHabitats.length, ...habitats.filter(habitat => habitat.regionId !== dungeonSpec?.regionId));
-      for (const habitat of habitats) worldPackHabitats.set(habitat.groupId, habitat);
     };
     if (cached && generationCache) return spreadMobSpawnsCached(generationCache, actors, worldHabitats, ports, { trustBaked: thinGame }).then(apply);
     apply(spreadMobSpawns(actors, worldHabitats, ports));
@@ -2457,6 +2442,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         import("../featureLab/environment.js"), import("../ui/environmentLabPanel.js"),
       ]);
       environmentLab = await createEnvironmentWorkbench({ assets, scene, entityStore, entityViews,
+        setMountainBackdrop: async enabled => {
+          await setMountainBackdrop(enabled);
+          renderer.biomeAtmosphere.sky.enabled = enabled;
+          renderer.biomeAtmosphere.sky.mesh.visible = enabled;
+          renderer.biomeWeightsSource = enabled ? () => ({ crownward: 1 }) : undefined;
+        },
         replaceCollision: (solids) => replaceLabCollision([...(activeStructure?.solids ?? []), ...solids], activeStructureNavigation),
         worldChanged: (change) => labWorldChanged(change, true),
       });
@@ -2893,7 +2884,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         creatureEffects.update(seconds, viewCamera, emitters);
       }
     },
-    dispose: () => { wildernessEffects?.dispose(); creatureEffects?.dispose(); riverSurface?.dispose(); },
+    dispose: () => { wildernessEffects?.dispose(); creatureEffects?.dispose(); riverSurface?.dispose(); mountainBackdropTexture?.dispose(); },
   });
   loop.setSpellVfx(spellVfx);
   if (profile.kind === "feature-lab" && profile.labMode === "combat" && new URLSearchParams(location.search).get("spells") === "1") {

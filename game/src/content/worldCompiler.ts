@@ -95,8 +95,8 @@ export function compileWorld(input: WorldCompilerInput) {
         if (!anchor.every(Number.isFinite)) issue(`${path}.anchors[${index}]`, 'Anchor must be finite');
         if (Math.hypot(anchor[0] - placement.centre[0], anchor[1] - placement.centre[1]) + bodyRadius > placement.radius + .01)
           issue(`${path}.anchors[${index}]`, 'Creature body exceeds placement radius');
-        if (!placement.boundary && (anchor[0] < bounds.min[0] || anchor[0] > bounds.max[0]
-          || anchor[1] < bounds.min[1] || anchor[1] > bounds.max[1])) issue(`${path}.anchors[${index}]`, 'Anchor falls outside region');
+        if (anchor[0] < bounds.min[0] || anchor[0] > bounds.max[0]
+          || anchor[1] < bounds.min[1] || anchor[1] > bounds.max[1]) issue(`${path}.anchors[${index}]`, 'Anchor falls outside region');
       }
       const groupId = encounter.members.length === 1 ? placement.id : `${placement.id}_${memberIndex + 1}`;
       const group: EnemyGroupDef = { id: groupId, family: source.stats.family, name: source.stats.name,
@@ -112,8 +112,7 @@ export function compileWorld(input: WorldCompilerInput) {
         groupId, regionId: placement.regionId as HabitatDef['regionId'], centre: placement.centre,
         radius: placement.radius, anchors: selected, activity: encounter.activity,
         dressing: memberIndex === 0 ? placement.dressing : [],
-        ...(placement.roamRadius === undefined ? {} : { roamRadius: placement.roamRadius }),
-        ...(placement.boundary ? { boundary: placement.boundary } : {}) });
+        ...(placement.roamRadius === undefined ? {} : { roamRadius: placement.roamRadius }) });
     });
   }
   return { groupsByRegion, habitats, creatureByGroup, diagnostics };

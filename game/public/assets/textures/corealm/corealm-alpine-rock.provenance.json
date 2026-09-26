@@ -1,0 +1,7 @@
+{
+  "generator": "Built-in image_gen",
+  "mode": "generate",
+  "purpose": "Irregular fractured alpine granite albedo without directional groove repetition",
+  "prompt": "Generate a production game texture, one square seamless tileable diffuse albedo of weathered alpine granite. Full frame orthographic flat rock surface, no environment or silhouette. Broad irregular angular pale cool-gray rock slabs crossed by unequal diagonal fractures and sparse branching fissures; varied slab sizes, broken overlapping plates, patches of warm ivory quartz and subtle muted blue-gray mineral inclusions, small restrained ochre weathering and fine crystalline grain. Stylized detailed fantasy game material with clean readable large forms and layered surface detail. Crucially no evenly spaced vertical grooves, no parallel comb streaks, no repeated stripes, no horizontal brick rows, no masonry, no regular cells, no dramatic black crevices, no strong directional light, no baked shadows, no ambient occlusion, no grass, snow, moss, sky, text or border. Diffuse neutral even illumination; variation in material coloration rather than lighting. Natural nonperiodic rock structure across the tile, edges blend seamlessly. Broad medium-gray stone masses should remain readable from distance, restrained fine detail for close views. A raw PBR base-color texture, not a photograph of a mountain.",
+  "source": "exec-c782284a-4701-428b-ade7-70eefcf65c36.png"
+}

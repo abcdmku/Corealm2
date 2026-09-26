@@ -1,3 +1,5 @@
+import { sampleMountainMassif } from './mountainShapes.js';
+
 /** A shared, low-frequency warp for biome borders and other broad world features. */
 export interface DomainWarpSpec {
   seed: number;
@@ -57,7 +59,15 @@ export interface OrganicBiomeFieldSpec<T extends string = string> {
   eastwardClimate?: { startX: number; endX: number; strength: number };
   anchors: readonly OrganicBiomeAnchor[];
   corridors?: readonly OrganicBiomeCorridor[];
+  /** How this biome meets the outer world. A mountain may own one side only. */
+  boundary?: OrganicBiomeBoundarySpec;
 }
+
+export type OrganicBiomeBoundarySpec =
+  | { kind: 'shore' }
+  | { kind: 'mountain'; edge: 'east'; startX: number; width: number; seed: number;
+      massifs: readonly { x: number; z: number; radiusX: number; radiusZ: number;
+        height: number; variant: number; rotation: number }[] };
 
 /**
  * A complete visual partition. Authored intents hold important places while broad climate fields
@@ -109,6 +119,17 @@ export interface OrganicCoastSample {
   /** Smooth 0..1 descent from the shelf edge to the organic zero contour. */
   descent: number;
   land: boolean;
+}
+
+export interface OrganicBiomeBoundarySample {
+  /** Height added to the same analytic biome relief used by the interior terrain. */
+  rise: number;
+  /** How strongly mountain ground replaces the shore descent at this point. */
+  mountain: number;
+  /** The ordinary coast descent, faded where the biome grows into mountains. */
+  descent: number;
+  land: boolean;
+  coast: OrganicCoastSample;
 }
 
 /** Stable FNV-1a seed for authored ids and labels. */
@@ -535,7 +556,7 @@ function fractalCoastReach(
 }
 
 /**
- * Sample the same render-only coast field used by the scene and the SVG preview.
+ * Sample the shore contour used by biome boundary profiles and the SVG preview.
  *
  * The gameplay rectangle stays dry. Outside it, one periodic multi-scale reach field cuts broad
  * headlands, coves, and smaller notches into a single implicit shoreline.
@@ -581,6 +602,48 @@ export function sampleOrganicCoast(
     descent,
     land: playable || remaining > 0,
   };
+}
+
+/** Resolve each biome's outer edge before terrain height, scatter, and water are sampled. */
+export function sampleOrganicBiomeBoundary<T extends string>(
+  x: number,
+  z: number,
+  bounds: OrganicBounds,
+  coastSpec: OrganicCoastShapeSpec,
+  biomes: OrganicBiomeSpec<T>,
+  weights: readonly Pick<OrganicBiomeWeight<T>, 'id' | 'weight'>[] = sampleOrganicBiomeWeights(x, z, biomes),
+): OrganicBiomeBoundarySample {
+  const coast = sampleOrganicCoast(x, z, bounds, coastSpec);
+  let mountain = 0;
+  let rise = 0;
+  for (const field of biomes.fields) {
+    const boundary = field.boundary;
+    if (boundary?.kind !== 'mountain' || boundary.edge !== 'east' || x <= boundary.startX) continue;
+    const weight = weights.find((entry) => entry.id === field.id)?.weight ?? 0;
+    if (weight <= 0) continue;
+    // Biome-owned land continues through the saddles. Individual ridge graphs shape the range.
+    const southBend = 12 * smoothNoise2D(x / 45, 3.7, boundary.seed);
+    const corner = smoothstep01((z - bounds.minZ + 40 + southBend) / 60)
+      * smoothstep01((bounds.maxZ + 80 - z) / 80);
+    const influence = weight * corner;
+    const outerEdge = bounds.maxX + coastSpec.shoreline[1] - 4
+      + 8 * smoothNoise2D(z / 55, 9.1, boundary.seed);
+    const mountainGround = smoothstep01((x - boundary.startX) / Math.max(1, boundary.width * 0.5))
+      * smoothstep01((outerEdge - x) / 28);
+    let relief = 0;
+    for (const massif of boundary.massifs) {
+      const dx = x - massif.x, dz = z - massif.z;
+      const cosine = Math.cos(massif.rotation), sine = Math.sin(massif.rotation);
+      const localX = (dx * cosine + dz * sine) / massif.radiusX;
+      const localZ = (-dx * sine + dz * cosine) / massif.radiusZ;
+      relief = Math.max(relief, sampleMountainMassif(localX, localZ, massif.variant) * massif.height);
+    }
+    mountain = Math.min(1, mountain + influence * mountainGround);
+    rise += (relief + 7 * mountainGround) * influence * smoothstep01((x - boundary.startX) / (boundary.width * 0.6))
+      * smoothstep01((outerEdge - x) / 28);
+  }
+  const descent = coast.descent * (1 - mountain);
+  return { rise, mountain, descent, land: coast.land || mountain >= 0.5, coast };
 }
 
 /** Radius multiplier for an angle in radians. The result is always greater than zero and at most 1. */

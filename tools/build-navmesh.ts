@@ -31,6 +31,7 @@ const SOURCE_GROUPS = {
     "game/src/app/fairyDressing.ts",
     "game/src/render/scene.ts",
     "game/src/world/organicFields.ts",
+    "game/src/world/mountainShapes.ts",
     "game/src/world/siteTerrain.ts",
     "game/src/content/worldSites.ts",
     "game/src/content/wildernessLava.ts",

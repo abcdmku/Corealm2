@@ -7,14 +7,15 @@
     "license": "Original project artwork; no third-party assets"
   },
   "generator": "npx tsx tools/build-corealm-geology.ts",
-  "coordinates": "Metres, Y-up, centred XZ, minimum Y=0. Ore worked faces point +Z; back geology toward -Z.",
+  "generatorSha256": "cd60bea7684e64d79e6c28c51795c7b9604f62ff5609a4ea9ab8198e66ab4126",
+  "coordinates": "Metres, Y-up. Native formations are centred XZ with minimum Y=0; fitted variants retain their declared legacy base and pivot. Ore worked faces point +Z; back geology toward -Z.",
   "oreMount": {
     "matingPlaneZ": 0.12,
     "perimeterZ": 0.055,
     "substrateBackZ": -0.325,
     "instruction": "Place a real continuous host face at local Z=+0.12 times asset scale. It must swallow the identical active/spent perimeter while leaving interior mineral relief exposed. An overlapping host bounding box is not attachment proof."
   },
-  "construction": "Continuous terraced outcrops use distinct shoulders, split saddles and elongated tilted beds. Broad quarry cliffs retain unequal bedding shelves and oblique breakout joints. Scree consists of separate worn fracture flakes. Ore uses narrow irregular branching fissures with lower metallic cores, recut spent scars and identical active/spent perimeters. All exposed surfaces carry metre-density UVs, restrained vertex colour variation and angle-limited smooth normals; hard fracture boundaries remain sharp.",
+  "construction": "Alpine massifs share an authored summit and branching ridge graph with the terrain sampler. Three independent 128-cell ridge fields form a jagged high crest, a broad divided massif and a lower eroded shoulder, with unequal diagonal fractures and concave accumulation bowls. The welded 32.8k-triangle render mesh carries generated fractured granite at 42 m horizontal repeat, the shared runtime material shades green foothills and snow on slanted upper slopes. Continuous terraced outcrops use distinct shoulders, split saddles and elongated tilted beds. Broad quarry cliffs retain unequal bedding shelves and oblique breakout joints. Sunder is one closed cliff body cut by intersecting tilted fracture planes and approach recesses. Scree Slide is a descending solid wedge with an uneven widening fan of tumbled angular debris. Their actual rock volumes are fitted to legacy placement bounds without flat boundary sheets. Scree patches consist of separate worn fracture flakes. Ore uses narrow irregular branching fissures with lower metallic cores, recut spent scars and identical active/spent perimeters. All exposed surfaces carry metre-density UVs and restrained vertex colour variation; hard fracture boundaries remain sharp.",
   "assets": [
     {
       "id": "corealm_rock_strata_1",
@@ -641,6 +642,102 @@
       "triangles": 9547,
       "blocks": 1,
       "mineralFaces": 467
+    },
+    {
+      "id": "corealm_mountain_1",
+      "file": "models/corealm/geology/corealm_mountain_1.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "geology",
+        "mountain",
+        "environment"
+      ],
+      "bytes": 1934892,
+      "size": {
+        "x": 480,
+        "y": 170,
+        "z": 440
+      },
+      "base": {
+        "x": -240,
+        "y": 0,
+        "z": -220
+      },
+      "animations": [],
+      "materials": [
+        "Corealm alpine granite"
+      ],
+      "sha256": "7729ee9f0f4dba9ca95cdbad182f6a334b0820292d7aefe23ff9b77219116974",
+      "triangles": 32768,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_mountain_2",
+      "file": "models/corealm/geology/corealm_mountain_2.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "geology",
+        "mountain",
+        "environment"
+      ],
+      "bytes": 1966660,
+      "size": {
+        "x": 480,
+        "y": 170,
+        "z": 440
+      },
+      "base": {
+        "x": -240,
+        "y": 0,
+        "z": -220
+      },
+      "animations": [],
+      "materials": [
+        "Corealm alpine granite"
+      ],
+      "sha256": "bb2927be2ef5d54d62458a54208dd69106e68c5906878ffc5e0feffb653e84e5",
+      "triangles": 32768,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_mountain_3",
+      "file": "models/corealm/geology/corealm_mountain_3.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "geology",
+        "mountain",
+        "environment"
+      ],
+      "bytes": 1869332,
+      "size": {
+        "x": 480,
+        "y": 130.65613090991974,
+        "z": 440
+      },
+      "base": {
+        "x": -240,
+        "y": 0,
+        "z": -220
+      },
+      "animations": [],
+      "materials": [
+        "Corealm alpine granite"
+      ],
+      "sha256": "1cb545528f30700445f6a1bdd5dd7620fc4213df2d15dc7baf66813ec5ae9c38",
+      "triangles": 32768,
+      "blocks": 1,
+      "mineralFaces": 0
     }
   ]
 }

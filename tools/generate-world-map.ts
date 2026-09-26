@@ -53,7 +53,7 @@ const DETAIL_MAX_BYTES = 1_755_000;
  * Serving tiles for the deepest zoom level.
  *
  * The flat renditions are the instant-draw fallback, and the canvas keeps one on screen while
- * tiles stream in. The top tiled level follows the native capture. This keeps quality 75 detail
+ * tiles stream in. The top tiled level follows the native capture. This keeps quality 72 detail
  * local to the current viewport instead of making every pan download one monolithic image.
  *
  * `chooseServingTileEdge` derives the closest exact square divisor from each level. Crownward's
@@ -84,7 +84,7 @@ interface TiledLevelSpec {
 
 /** Largest first, like DETAIL_RENDITIONS. Only the native capture scale is tiled today. */
 const TILED_LEVELS: readonly TiledLevelSpec[] = [
-  { id: "tiled-6600", width: 6600, height: 0, quality: 75 },
+  { id: "tiled-6600", width: 6600, height: 0, quality: 72 },
 ];
 
 interface RenditionSpec {
@@ -121,7 +121,9 @@ const DETAIL_RENDITIONS: readonly RenditionSpec[] = [
     file: "world-map-detail-6600.webp",
     width: 6600,
     height: 0,
-    quality: 60,
+    // Reviewed against the mountain capture: retain the flat fallback's byte budget.
+    // Native zoom tiles retain full resolution and the source PNG stays lossless.
+    quality: 50,
     maxBytes: DETAIL_MAX_BYTES,
   },
   {
@@ -145,6 +147,7 @@ const DETAIL_RENDITIONS: readonly RenditionSpec[] = [
 ];
 
 const GPU_ARGS = [
+  "--enable-unsafe-webgpu",
   "--use-angle=d3d11",
   "--enable-gpu",
   "--ignore-gpu-blocklist",
@@ -646,7 +649,9 @@ export async function generateWorldMap(): Promise<MapMetadata> {
   let browser: Browser | undefined;
   const errors: string[] = [];
   try {
-    browser = await chromium.launch({ headless: true, args: GPU_ARGS });
+    // Full Chromium's new headless mode supports the game's WebGPU renderer.
+    // The separate headless shell can fall back to WebGL on Windows.
+    browser = await chromium.launch({ channel: "chromium", headless: true, args: GPU_ARGS });
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 });
     page.on("pageerror", (error) => errors.push(String(error).slice(0, 1000)));
     page.on("console", (message) => {

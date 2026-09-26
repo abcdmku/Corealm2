@@ -26,5 +26,5 @@ export function castleGroundLayout(id: string | undefined): {
   }
   if (id !== 'crownward_castle' && id !== 'crownward_fortress') return undefined;
   const [width, depth] = CROWNWARD_CASTLES[id].footprint;
-  return { pad: [width + 6, depth + 6], paving: [width - 4, depth - 4], exclusion: [width + 4, depth + 4] };
+  return { pad: [width + 4, depth + 4], paving: [width - 4, depth - 4], exclusion: [width + 4, depth + 4] };
 }

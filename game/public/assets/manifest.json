@@ -70427,6 +70427,102 @@
         "Inn infill weathered boards",
         "Inn infill basalt"
       ]
+    },
+    {
+      "id": "corealm_mountain_1",
+      "file": "models/corealm/geology/corealm_mountain_1.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "geology",
+        "mountain",
+        "environment"
+      ],
+      "bytes": 1934892,
+      "size": {
+        "x": 480,
+        "y": 170,
+        "z": 440
+      },
+      "base": {
+        "x": -240,
+        "y": 0,
+        "z": -220
+      },
+      "animations": [],
+      "materials": [
+        "Corealm alpine granite"
+      ],
+      "sha256": "7729ee9f0f4dba9ca95cdbad182f6a334b0820292d7aefe23ff9b77219116974",
+      "triangles": 32768,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_mountain_2",
+      "file": "models/corealm/geology/corealm_mountain_2.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "geology",
+        "mountain",
+        "environment"
+      ],
+      "bytes": 1966660,
+      "size": {
+        "x": 480,
+        "y": 170,
+        "z": 440
+      },
+      "base": {
+        "x": -240,
+        "y": 0,
+        "z": -220
+      },
+      "animations": [],
+      "materials": [
+        "Corealm alpine granite"
+      ],
+      "sha256": "bb2927be2ef5d54d62458a54208dd69106e68c5906878ffc5e0feffb653e84e5",
+      "triangles": 32768,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_mountain_3",
+      "file": "models/corealm/geology/corealm_mountain_3.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "geology",
+        "mountain",
+        "environment"
+      ],
+      "bytes": 1869332,
+      "size": {
+        "x": 480,
+        "y": 130.65613090991974,
+        "z": 440
+      },
+      "base": {
+        "x": -240,
+        "y": 0,
+        "z": -220
+      },
+      "animations": [],
+      "materials": [
+        "Corealm alpine granite"
+      ],
+      "sha256": "1cb545528f30700445f6a1bdd5dd7620fc4213df2d15dc7baf66813ec5ae9c38",
+      "triangles": 32768,
+      "blocks": 1,
+      "mineralFaces": 0
     }
   ]
 }

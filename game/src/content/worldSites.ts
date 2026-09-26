@@ -3,8 +3,10 @@ import { WILDERNESS_RESOURCE_SITES } from './wildernessResources.js';
 import { CROWNWARD_RESOURCE_INTENTS, FAIRY_RESOURCE_INTENTS } from './regionalResourceIntents.js';
 import { crownwardFisheries } from './crownwardFishing.js';
 import { CROWNWARD_RIVER_CHANNELS } from './crownwardRiver.js';
+import { RESOURCE_PLACEMENTS } from './worldData.js';
 
-const CROWNWARD_FISHERIES = crownwardFisheries(CROWNWARD_RIVER_CHANNELS);
+const CROWNWARD_FISHERIES = crownwardFisheries(CROWNWARD_RIVER_CHANNELS, [1, 2, 3].map(index =>
+  RESOURCE_PLACEMENTS.find(cluster => cluster.id === `pearlwater_salmon_${index}_spots`)!.centre));
 
 export interface WorldSiteResourceSlot {
   readonly clusterId: string;

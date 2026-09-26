@@ -55,9 +55,11 @@ import { yieldToMainThread } from "../core/yield.js";
 import { resolveWaterBasinBaseHeight, waterBasinOuterBankHeight, type WaterBasinSpec } from "../world/waterBodies.js";
 import {
   organicDistance,
+  sampleOrganicBiomeBoundary,
   sampleOrganicBiomeWeights,
   sampleOrganicCoast,
   type OrganicBiomeSpec,
+  type OrganicBiomeBoundarySample,
   type OrganicCoastShapeSpec,
   type OrganicShapeSpec,
 } from "../world/organicFields.js";
@@ -101,6 +103,8 @@ export interface RegionTerrainSpec {
 
 /** A flattened pad. Settlements need buildable ground; noise does not provide it. */
 export interface FlatSpot {
+  /** Irregular rocky shoulder outside an exact building foundation. */
+  rockyShoulder?: boolean;
   /** A small building footing cut into authored relief after the surrounding banks are added. */
   landformFooting?: boolean;
   x: number;
@@ -111,6 +115,8 @@ export interface FlatSpot {
   blend: number;
   /** Explicit height. Defaults to the natural height at the centre. */
   height?: number;
+  /** Authored excavation allowance for a foundation; ordinary pads use the shallow default. */
+  maxCut?: number;
   /**
    * Rectangular pad, as half-extents along the pad's local x and z. When present the core is that
    * rectangle rather than a circle, and `radius` is only used to size the falloff sweep.
@@ -531,8 +537,11 @@ export class WorldScene {
 
   /** Await complete authored draw data in the same preparation circle as nearby actors. */
   async prepareTerrainArea(x: number, z: number, radius: number): Promise<void> {
-    await Promise.all(this.terrainDraws.filter(tile => Math.hypot(
-      Math.max(tile.minX - x, 0, x - tile.maxX), Math.max(tile.minZ - z, 0, z - tile.maxZ)) <= radius).map(tile => {
+    await Promise.all(this.terrainDraws.filter(tile => {
+      const distance = Math.hypot(Math.max(tile.minX - x, 0, x - tile.maxX),
+        Math.max(tile.minZ - z, 0, z - tile.maxZ));
+      return distance <= radius;
+    }).map(tile => {
       if (tile.ready) return;
       return tile.pending ??= (async () => {
         const data = await this.terrainDelivery!.get(tile.key, (v): v is GeometryData => validGeometry(v as GeometryData)
@@ -947,24 +956,22 @@ export class WorldScene {
     const indices: number[] = [];
     const steps: Array<() => void> = [];
 
-    // Height first. The material pass below needs the complete drawn coast for its slope,
-    // curvature, and horizon samples; using the playable lattice there would clamp all three to
-    // the old rectangular edge.
+    // The biome boundary belongs to the analytic terrain field on both sides of the seam.
+    // The graded core lattice remains authoritative at its exact shared edge.
     for (let row = 0; row <= rows; row += 1) {
       steps.push(() => {
         const z = minZ + row * stepZ;
         for (let col = 0; col <= cols; col += 1) {
           const x = minX + col * stepX;
           const vertex = row * vertexCols + col;
-          const strictInterior = x > bounds.minX && x < bounds.maxX
-            && z > bounds.minZ && z < bounds.maxZ;
-          if (strictInterior) {
+          const inside = x >= bounds.minX && x <= bounds.maxX
+            && z >= bounds.minZ && z <= bounds.maxZ;
+          if (inside) {
             heights[vertex] = this.sampleLattice(x, z);
             descents[vertex] = 0;
           } else {
-            const profile = this.coastProfileAt(x, z, spec);
-            heights[vertex] = profile.landHeight;
-            descents[vertex] = profile.descent;
+            heights[vertex] = this.heightAtXZ(x, z);
+            descents[vertex] = this.biomeBoundaryAt(x, z)?.descent ?? 0;
           }
           positions[vertex * 3] = x;
           positions[vertex * 3 + 1] = heights[vertex]!;
@@ -1053,7 +1060,7 @@ export class WorldScene {
           const x = positions[vertex * 3]!;
           const z = positions[vertex * 3 + 2]!;
           const coastSample = sampleOrganicCoast(x, z, bounds, spec);
-          const seamWidth = Math.min(COAST_EDGE_PIN_METRES, coastSample.shelfWidth);
+          const seamWidth = Math.min(COAST_NORMAL_BLEND_METRES, coastSample.shelfWidth);
           if (coastSample.outsideDistance > seamWidth) continue;
           const terrainNormal = this.normalAt(coastSample.boundaryX, coastSample.boundaryZ);
           const skirtWeight = smoothstep01(
@@ -1218,7 +1225,7 @@ export class WorldScene {
       if (flat.height === undefined) continue;
       this.carvedPads.add(flat);
       const natural = this.naturalHeight(flat.x, flat.z);
-      flat.height = Math.max(flat.height, natural - MAX_PAD_CARVE);
+      flat.height = Math.max(flat.height, natural - (flat.maxCut ?? MAX_PAD_CARVE));
     }
     for (let index = 0; index < this.flats.length; index += 1) {
       const flat = this.flats[index];
@@ -1723,62 +1730,16 @@ export class WorldScene {
     }));
   }
 
-  private coastProfileAt(x: number, z: number, spec: CoastSpec): {
-    boundaryX: number;
-    boundaryZ: number;
-    boundaryHeight: number;
-    outsideDistance: number;
-    shorelineWidth: number;
-    shelfWidth: number;
-    descent: number;
-    land: boolean;
-    landHeight: number;
-  } {
-    const bounds = this.world?.bounds ?? { minX: x, maxX: x, minZ: z, maxZ: z };
-    const coast = sampleOrganicCoast(x, z, bounds, spec);
-    const boundaryHeight = this.meshHeightAt(coast.boundaryX, coast.boundaryZ);
-    const edgeStep = Math.max(0.25, this.lattice?.step ?? spec.gridStep);
-    let gradientX = 0;
-    let gradientZ = 0;
-    if (x < bounds.minX) {
-      const innerX = Math.min(bounds.maxX, coast.boundaryX + edgeStep);
-      gradientX = (this.meshHeightAt(innerX, coast.boundaryZ) - boundaryHeight)
-        / Math.max(0.000_001, innerX - coast.boundaryX);
-    } else if (x > bounds.maxX) {
-      const innerX = Math.max(bounds.minX, coast.boundaryX - edgeStep);
-      gradientX = (boundaryHeight - this.meshHeightAt(innerX, coast.boundaryZ))
-        / Math.max(0.000_001, coast.boundaryX - innerX);
-    }
-    if (z < bounds.minZ) {
-      const innerZ = Math.min(bounds.maxZ, coast.boundaryZ + edgeStep);
-      gradientZ = (this.meshHeightAt(coast.boundaryX, innerZ) - boundaryHeight)
-        / Math.max(0.000_001, innerZ - coast.boundaryZ);
-    } else if (z > bounds.maxZ) {
-      const innerZ = Math.max(bounds.minZ, coast.boundaryZ - edgeStep);
-      gradientZ = (boundaryHeight - this.meshHeightAt(coast.boundaryX, innerZ))
-        / Math.max(0.000_001, coast.boundaryZ - innerZ);
-    }
-    const edgePlaneHeight = boundaryHeight
-      + gradientX * (x - coast.boundaryX)
-      + gradientZ * (z - coast.boundaryZ);
-    const naturalHeight = coast.land ? this.heightAtXZ(x, z) : edgePlaneHeight;
-    // The playable lattice supplies both the seam value and its inward one-sided gradient. Four
-    // coast quads later, the unchanged analytic field owns the headland; smoothstep leaves the
-    // derivative of each source intact at its end of the blend.
-    const edgeBlend = smoothstep01(coast.outsideDistance / COAST_EDGE_PIN_METRES);
-    const plateauHeight = edgePlaneHeight + (naturalHeight - edgePlaneHeight) * edgeBlend;
-    const floorY = spec.seaLevel - Math.max(0, spec.floorDepth);
-    return {
-      boundaryX: coast.boundaryX,
-      boundaryZ: coast.boundaryZ,
-      boundaryHeight,
-      outsideDistance: coast.outsideDistance,
-      shorelineWidth: coast.shorelineWidth,
-      shelfWidth: coast.shelfWidth,
-      descent: coast.descent,
-      land: coast.land,
-      landHeight: plateauHeight + (floorY - plateauHeight) * coast.descent,
-    };
+  private biomeBoundaryAt(x: number, z: number, weights?: readonly { id: RegionId; weight: number }[]): OrganicBiomeBoundarySample | null {
+    const world = this.world;
+    if (!world?.coast) return null;
+    const { bounds, coast, biomes } = world;
+    const interior = x >= bounds.minX && x <= bounds.maxX && z >= bounds.minZ && z <= bounds.maxZ;
+    if (interior && (!biomes || !biomes.fields.some(field => field.boundary?.kind === 'mountain'
+      && field.boundary.edge === 'east' && x > field.boundary.startX))) return null;
+    if (biomes) return sampleOrganicBiomeBoundary(x, z, bounds, coast, biomes, weights);
+    const sample = sampleOrganicCoast(x, z, bounds, coast);
+    return { rise: 0, mountain: 0, descent: sample.descent, land: sample.land, coast: sample };
   }
 
   private naturalHeight(x: number, z: number): number {
@@ -1790,9 +1751,9 @@ export class WorldScene {
         const weight = weights.find((sample) => sample.id === field.spec.regionId)?.weight ?? 0;
         height += field.height(x, z) * weight;
       }
-      return height;
+      return this.applyBiomeBoundaryHeight(x, z, height, weights);
     }
-    if (this.fields.length === 1) return this.fields[0]!.height(x, z);
+    if (this.fields.length === 1) return this.applyBiomeBoundaryHeight(x, z, this.fields[0]!.height(x, z));
 
     const blend = this.world?.blendMetres ?? 45;
     let total = 0;
@@ -1814,8 +1775,18 @@ export class WorldScene {
 
     // Outside every region rect and outside every blend band. Fall back to the nearest region so
     // the surface stays defined rather than collapsing to y = 0 and tearing a cliff at the edge.
-    if (weightSum <= 0) return nearest.height(x, z);
-    return total / weightSum;
+    if (weightSum <= 0) return this.applyBiomeBoundaryHeight(x, z, nearest.height(x, z));
+    return this.applyBiomeBoundaryHeight(x, z, total / weightSum);
+  }
+
+  private applyBiomeBoundaryHeight(x: number, z: number, height: number,
+    weights?: readonly { id: RegionId; weight: number }[]): number {
+    const boundary = this.biomeBoundaryAt(x, z, weights);
+    if (!boundary) return height;
+    const raised = height + boundary.rise;
+    const coast = this.world!.coast!;
+    const floor = coast.seaLevel - Math.max(0, coast.floorDepth);
+    return raised + (floor - raised) * boundary.descent;
   }
 
   /**
@@ -1867,9 +1838,22 @@ export class WorldScene {
       const flat = this.flats[index];
       if (!flat) continue;
       if (outsidePadBounds(flat, x, z, flat.blend)) continue;
-      const distance = padDistance(flat, x, z);
+      let distance = padDistance(flat, x, z);
+      let shoulderRelief = 0;
+      if (flat.rockyShoulder && distance > 0) {
+        const dx = x - flat.x, dz = z - flat.z;
+        const angle = Math.atan2(dz, dx);
+        // The foundation stays exact. Lobes and gullies interrupt the outer slope,
+        // with no displacement at either end of the shoulder.
+        const reach = .79 + .13 * Math.sin(angle * 3 + flat.x * .07)
+          + .08 * Math.sin(angle * 5 - flat.z * .09);
+        distance /= reach;
+        const t = Math.min(1, distance / flat.blend);
+        shoulderRelief = Math.sin(Math.PI * t) ** 2
+          * (1.4 * Math.sin(dx * .19 + dz * .11) + .7 * Math.sin(dz * .31 - dx * .08));
+      }
       if (distance > flat.blend) continue;
-      const target = flat.height ?? this.naturalHeight(flat.x, flat.z);
+      const target = (flat.height ?? this.naturalHeight(flat.x, flat.z)) + shoulderRelief;
 
       // ONE expression across the core boundary, which is the whole point. Weighting the core by a
       // separate constant makes the weight jump by orders of magnitude at `distance == 0`, and a
@@ -1967,14 +1951,12 @@ export class WorldScene {
     if (x < scatterBounds.minX || x > scatterBounds.maxX
       || z < scatterBounds.minZ || z > scatterBounds.maxZ) return null;
 
-    const profile = this.coastProfileAt(x, z, spec);
-    if (!profile.land) return null;
+    const profile = this.biomeBoundaryAt(x, z);
+    if (!profile) return null;
     const height = this.sampleCoastGrid(x, z);
     if (height === null || height <= spec.seaLevel + COAST_SCATTER_WATER_CLEARANCE) return null;
 
-    const shoreWidth = Math.max(0.000_001, profile.shorelineWidth - profile.shelfWidth);
-    const shoreProgress = smoothstep01((profile.outsideDistance - profile.shelfWidth) / shoreWidth);
-    const density = 1 - shoreProgress;
+    const density = 1 - profile.descent;
     if (density <= 0.000_001) return null;
 
     const sampleX = Math.max(0.25, grid.stepX);
@@ -2030,13 +2012,13 @@ export class WorldScene {
     ).id;
 
     const coastSpec = this.world?.coast;
-    const profile = coastSpec ? this.coastProfileAt(x, z, coastSpec) : null;
+    const profile = coastSpec ? sampleOrganicCoast(x, z, bounds, coastSpec) : null;
     const playable = core || Boolean(coastSpec && outsideDistance <= coastSpec.collar
       && this.meshHeightAt(x, z) >= coastSpec.seaLevel);
     const height = playable
       ? this.meshHeightAt(x, z)
       : profile
-        ? Math.max(this.sampleCoastGrid(x, z) ?? profile.landHeight, coastSpec!.seaLevel)
+        ? Math.max(this.sampleCoastGrid(x, z) ?? this.heightAtXZ(x, z), coastSpec!.seaLevel)
         : this.meshHeightAt(boundaryX, boundaryZ);
     const waterBody = this.builtWaterBodies.find((body) => body.closed
       && (!body.id.startsWith('river:') || height < body.level + .01)
@@ -2522,7 +2504,7 @@ export class WorldScene {
       out.roadPerpendicular = 0.5;
       out.roadPresence = 0;
       out.roadWear = 0;
-      out.macro = 0.5;
+      out.alpine = 0;
       return;
     }
 
@@ -2694,7 +2676,8 @@ export class WorldScene {
     out.roadPerpendicular = roadPerpendicular;
     out.roadPresence = roadPresence;
     out.roadWear = roadWear;
-    out.macro = clamp(macro * 0.5 + 0.5, 0, 1);
+    const mountain = this.biomeBoundaryAt(x, z, biomeWeights);
+    out.alpine = mountain ? smoothstep01((mountain.rise - 5) / 30) * natural : 0;
 
     out.colour.setRGB(
       (lowR * out.grass + highR * out.dry + rockR * out.rock + gravelR * out.gravel
@@ -2718,6 +2701,11 @@ export class WorldScene {
       out.colour.b *= 1 - livingPocket * .18 * barren;
     }
 
+    // Alpine albedo owns its colour. Three multiplies vertex colour after colorNode, so
+    // leaving the meadow palette here would tint generated granite and snow green.
+    out.colour.r += (1 - out.colour.r) * out.alpine;
+    out.colour.g += (1 - out.colour.g) * out.alpine;
+    out.colour.b += (1 - out.colour.b) * out.alpine;
     if (shadeColour) {
       const ao = this.horizonAo(x, z, height, heightAt);
       out.colour.multiplyScalar(ao);
@@ -3759,7 +3747,7 @@ const AO_RANGES: readonly number[] = [12, 25, 50];
 const AO_FLOOR = 0.62;
 
 /** Coast quads used to join the canonical mesh before the unchanged organic relief takes over. */
-const COAST_EDGE_PIN_METRES = 8;
+const COAST_NORMAL_BLEND_METRES = 8;
 
 /** Tolerance for authored coast dimensions that must share exact terrain-grid nodes. */
 const COAST_GRID_EPSILON = 1e-6;
@@ -3934,8 +3922,8 @@ interface SurfaceSample {
   roadPresence: number;
   /** How worn the track is here, 0 at the shoulder to 1 on the centreline. Drives rut depth. */
   roadWear: number;
-  /** The macro-variation field, remapped onto 0..1 with 0.5 as its mean. */
-  macro: number;
+  /** Biome-owned alpine rock exposure. The fourth ground byte was previously unused. */
+  alpine: number;
 }
 
 function emptySurface(): SurfaceSample {
@@ -3943,7 +3931,7 @@ function emptySurface(): SurfaceSample {
     colour: new THREE.Color(),
     grass: 1, dry: 0, rock: 0, gravel: 0,
     dirt: 0, mud: 0, cobble: 0, wet: 0, pavedKind: 0,
-    roadPerpendicular: 0.5, roadPresence: 0, roadWear: 0, macro: 0.5,
+    roadPerpendicular: 0.5, roadPresence: 0, roadWear: 0, alpine: 0,
   };
 }
 
@@ -3971,7 +3959,7 @@ function writeSplat(
   extra[index * 4] = toByte(surface.roadPerpendicular);
   extra[index * 4 + 1] = toByte(surface.roadPresence);
   extra[index * 4 + 2] = toByte(surface.roadWear);
-  extra[index * 4 + 3] = toByte(surface.macro);
+  extra[index * 4 + 3] = toByte(surface.alpine);
   paved[index] = toByte(surface.pavedKind) / 255;
 }
 

@@ -17,7 +17,6 @@ const pack = (): ServerWorldPack => ({
   assets: { crate_wood: { size: { x: 1, y: 2, z: 3 }, base: { x: -.5, y: -.25, z: -1.5 } } },
   worlds: new Map([1337, 7].map(seed => [seed, {
     terrain: { main: terrain(0, true), fairy: terrain(100 + seed, false) },
-    coastalSpawns: [{ id: `coastal_${seed}`, regionId: "fallowmarch", biomeId: "fallowmarch", spot: [1, 2] }],
     solids: [{ kind: "box", id: "rock", position: [1, 0, 1], size: [1, 1, 1], rotationY: 0 }],
     structureBounds: [{ min: [0, 0, 0], max: [1, 1, 1] }],
     trees: [{ id: `forest:${seed}:a`, resourceId: "tree_palewood", regionId: "fallowmarch", position: [1.1, 0.123456789012345, 2.2], assetId: "tree_a", scale: 1.25, rotationY: .5, trunkRadius: .3 },

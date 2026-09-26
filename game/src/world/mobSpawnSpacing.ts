@@ -9,7 +9,7 @@ export interface MobSpawnSpacingPorts {
   place(entity: SemanticEntity, x: number, z: number, radius: number): Vec3 | null;
 }
 
-/** Final placement applies to every source, including authored, coastal and regional packs.
+/** Final placement applies to every source, including authored and regional packs.
  * All actors in a realm share occupancy; neighbouring groups cannot fill each other's gaps.
  * IDs, counts, stats and loot are retained. No cramped-layout fallback is permitted.
  */

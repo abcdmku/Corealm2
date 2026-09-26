@@ -8,7 +8,7 @@ export function inStarterWildlifeArea(regionId:RegionId, centre:Spot, radius=0):
   return regionId==='fallowmarch' && centre.every((v,i)=>v-radius>=STARTER_WILDLIFE_BOUNDS.min[i]! && v+radius<=STARTER_WILDLIFE_BOUNDS.max[i]!);
 }
 
-/** The coastal generator must never carry a cow or a rat from its starter pen to a remote shore. */
+/** Species restricted to starter wildlife habitats. */
 export function isStarterAnimalAsset(assetId:string):boolean {
   return assetId.startsWith('animal_') || /^creature_(redbrush_fox|marchwild_horse|reedbank_goose|marchfield_turkey|field_wasp|heath_wasp|reed_wasp)$/.test(assetId);
 }

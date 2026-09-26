@@ -7,11 +7,24 @@ import { createRiverSurface } from '../game/src/render/riverSurface.js';
 import type { MaterialLibrary } from '../game/src/render/materials.js';
 import { sampleLavaChannel } from '../game/src/content/wildernessLava.js';
 import { CROWNWARD_RIVER_CHANNELS } from '../game/src/content/crownwardRiver.js';
+import { WORLD_SITES } from '../game/src/content/worldSites.js';
+import { RESOURCE_PLACEMENTS } from '../game/src/content/worldData.js';
 
 const river: RiverChannel = { id: 'test-river', points: [[0, 0], [20, 0], [40, 0]], bedHeights: [3, 1, -1],
   halfWidth: 5, depth: 2, bankWidth: 8, seed: 47, openEnds: [true, true], naturalBanks: true };
 
 describe('continuous freshwater channels', () => {
+  it('ends Pearlwater below the eastern mountains without moving authored fisheries', () => {
+    const channel = CROWNWARD_RIVER_CHANNELS.find(row => row.id === 'pearlwater')!;
+    expect(carveRiverTerrain(150, 860, 175, [channel])).toBe(150);
+    expect(carveRiverTerrain(30, 716, 180, [channel])).toBeLessThan(0);
+    expect(carveRiverTerrain(50, 770, 180, [channel])).toBe(50);
+    for (let index = 1; index <= 3; index++) {
+      const id = `pearlwater_salmon_${index}`;
+      expect(WORLD_SITES.find(site => site.id === id)!.centre)
+        .toEqual(RESOURCE_PLACEMENTS.find(cluster => cluster.id === `${id}_spots`)!.centre);
+    }
+  });
   it('loads approaching channels once and retains the exact full-scene geometry', () => {
     const source=new MeshStandardNodeMaterial(), materials={createWaterVariant:()=>source.clone()} as unknown as MaterialLibrary;
     const channels=[river,{...river,id:'far',points:river.points.map(([x,z])=>[x+400,z] as [number,number])}];

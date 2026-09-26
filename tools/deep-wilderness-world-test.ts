@@ -1,4 +1,4 @@
-/** Root-only final-world acceptance. Run one band per invocation after the final navigation bake. */
+﻿/** Root-only final-world acceptance. Run one band per invocation after the final navigation bake. */
 import "./lib/repoContent.js";
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -9,14 +9,10 @@ import { installTestDeadline } from './lib/deadline.js';
 import { CAMERA } from '../game/src/app/config.js';
 import type { SemanticEntity, GameEvent, DocHit } from '../game/src/contracts.js';
 import { REGIONS } from '../game/src/content/regions.js';
-import { ENEMIES, enemyBlockFor } from '../game/src/content/enemies.js';
+import { ENEMIES } from '../game/src/content/enemies.js';
 import { enemyCombatLevel } from '../game/src/content/index.js';
 import { REGIONAL_BOSS_BODIES, REGIONAL_BOSS_SPECIES } from '../game/src/content/regionalBossBodies.js';
 import { REGIONAL_BOSS_LEVELS } from '../game/src/content/encounterBalance.js';
-import { isStarterAnimalAsset } from '../game/src/content/fantasyEncounters.js';
-import { encounterPopulationCount } from '../game/src/content/encounterPopulation.js';
-import { Rng } from '../game/src/core/rng.js';
-import { variantSeed } from '../game/src/render/buildings.js';
 import type { GameState } from '../game/src/state/store.js';
 import { activatedRegionalPackIds } from '../game/src/content/regionalPackActivation.js';
 import { WILDERNESS_DEPTH, WILDERNESS_EXPANSION_SITES, wildernessMagicAt, wildernessTierAt } from '../game/src/content/wildernessDepth.js';
@@ -33,17 +29,17 @@ type Point = { x: number; y: number; z: number };
 type XZ = readonly [number, number];
 type CameraState = { position: Point; target: Point; freeMove: boolean; distance: number; requestedDistance: number; pitch: number; effectivePitch: number };
 type Bounds = { min: Point; max: Point; meshes: number; fade: number };
-const bands = ['shallow', 'deep', 'structures', 'resources', 'mobile', 'coast', 'regions'] as const;
+const bands = ['shallow', 'deep', 'structures', 'resources', 'mobile', 'regions'] as const;
 type Band = typeof bands[number];
 const args = process.argv.slice(2);
 const option = (name: string) => args.find(arg => arg.startsWith(`${name}=`))?.slice(name.length + 1)
   ?? (args.includes(name) ? args[args.indexOf(name) + 1] : undefined);
 if (args.includes('--help')) {
-  console.log('npx tsx tools/deep-wilderness-world-test.ts --band shallow|deep|structures|resources|mobile|coast|regions [--headed]');
+  console.log('npx tsx tools/deep-wilderness-world-test.ts --band shallow|deep|structures|resources|mobile|regions [--headed]');
   process.exit(0);
 }
 const band = option('--band') as Band;
-assert(bands.includes(band), 'Supply exactly one --band shallow|deep|structures|resources|mobile|coast|regions');
+assert(bands.includes(band), 'Supply exactly one --band shallow|deep|structures|resources|mobile|regions');
 const started = Date.now();
 const budgetMs = 120_000, operationMs = 112_000;
 const clearDeadline = installTestDeadline(`Deep Wilderness world ${band}`, budgetMs);
@@ -54,7 +50,7 @@ let stage = 'startup';
 const evidence: unknown[] = [];
 const report = { band, passed: false, budgetMs, operationMs, viewport, route: '/index.html',
   visualReview: 'pending root inspection',
-  setup: 'Grounded inspectPose uses the player-follow camera, normal pitch and 6–11 m zoom. The player starts with Melee/Magic 99, normal Nightglass defensive gear and full derived health so short visits are possible. Resource setup grants Mining 99 and a pickaxe. Coast resets call the existing reset({seed, keepSave:false}) and observe the fresh player before further input. The cave visit loads the existing production cave and teleports onto its observed nav floor with the follow camera. No simulation speed change, capture mode, detached focus, asset replacement or enemy health edit.',
+  setup: 'Grounded inspectPose uses the player-follow camera, normal pitch and 6â€“11 m zoom. The player starts with Melee/Magic 99, normal Nightglass defensive gear and full derived health so short visits are possible. Resource setup grants Mining 99 and a pickaxe. The cave visit loads the existing production cave and teleports onto its observed nav floor with the follow camera. No simulation speed change, capture mode, detached focus, asset replacement or enemy health edit.',
   lootScope: 'Drops are checked against Node canonical ENEMIES, mapped to live entity meta.enemyDefId, HP and combat level. This does not reread the browser registry drop table or prove a world kill. The accepted production loot lab owns death, pickup and rune spending.',
   evidence, failure: undefined as string | undefined, elapsedMs: 0 };
 const remaining = (limit = 5000) => {
@@ -129,7 +125,7 @@ try {
     assert.equal(state.actor.dead, false, 'The player died during the scene');
     assert.equal(c.freeMove, false, 'Detached camera is prohibited');
     assert(c.requestedDistance >= 6 && c.requestedDistance <= 11, 'Requested camera zoom is outside gameplay limits');
-    assert(c.distance >= 6 && c.distance <= 11.01, 'Choose an ordinary standing view with 6–11 m effective camera distance');
+    assert(c.distance >= 6 && c.distance <= 11.01, 'Choose an ordinary standing view with 6â€“11 m effective camera distance');
     assert(c.pitch >= CAMERA.minPitch && c.pitch <= CAMERA.maxPitch);
     assert(c.effectivePitch >= CAMERA.minPitch - .001 && c.effectivePitch <= CAMERA.maxPitch + .001);
     assert(Math.hypot(c.target.x - state.player.x, c.target.z - state.player.z) < .15, 'Camera focus left the player');
@@ -230,7 +226,7 @@ try {
   for (const [id, rows] of groups) {
     const boss = rows.some(row => row.meta?.rank === 'boss' || row.meta?.rank === 'miniboss');
     assert(boss ? rows.length === 1 : rows.length >= 7 && rows.length <= 15,
-      `${id}: ${rows.length} simultaneous residents violates ${boss ? 'singleton boss' : 'ordinary 7–15 pack'} rule`);
+      `${id}: ${rows.length} simultaneous residents violates ${boss ? 'singleton boss' : 'ordinary 7â€“15 pack'} rule`);
     assert(rows.every(row => row.state === 'alive'), `${id}: a fresh world began with a missing/dead resident`);
   }
   const authoredGroups = REGIONS.flatMap(region => [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]);
@@ -238,7 +234,6 @@ try {
   const activePacks = activatedRegionalPackIds();
   for (const id of activePacks) assert(groups.has(id), `${id}: active RPG pack absent from world`);
   assert(actors.some(actor => actor.regionId === 'gravelmaw'), 'Cave population was not constructed');
-  assert([...groups.keys()].some(id => id.startsWith('coastal_')), 'Coastal population was not constructed');
   const wilderness = REGIONS.find(region => region.id === 'wilderness')!;
   assert.deepEqual([wilderness.bounds.min[1], wilderness.bounds.max[1]], [460, 940], 'Wilderness semantic extent is not z460..940');
   const newIds = new Set(DEEP_WILDERNESS_PACKS.map(pack => pack.id));
@@ -248,7 +243,7 @@ try {
     for (const actor of groups.get(group.id) ?? []) assert.equal(actor.tier, wildernessTierAt(group.centre[1]), `${actor.id}: wrong shallow/deep tier`);
   }
   assert(actors.filter(actor => actor.regionId === 'wilderness' && !actor.meta?.rank)
-    .every(actor => actor.tier === 50 || actor.tier === 70), 'An ordinary Wilderness or coastal actor retained an obsolete tier');
+    .every(actor => actor.tier === 50 || actor.tier === 70), 'An ordinary Wilderness actor retained an obsolete tier');
   assert.equal(DEEP_WILDERNESS_PACKS.length, 24);
   assert.equal(DEEP_WILDERNESS_PACKS.reduce((sum, pack) => sum + pack.count, 0), 225);
   const canonicalDrops: unknown[] = [];
@@ -333,215 +328,6 @@ try {
     await capture(`${label}-blocked`, { channelId: channel.id, crossingBefore, initialClearance, samples });
   }
 
-  if (band === 'coast') {
-    // Read reset results in the same browser turn, before a new AI tick can move a resident.
-    const coastalSnapshot = async (resetSeed?: number) => await page.evaluate(async resetSeed => {
-      const d = window.__gameDebug as any;
-      const previousErrors = d.getErrors();
-      if (resetSeed !== undefined) await d.reset({ seed: resetSeed, keepSave: false });
-      const state = d.getState(), save = JSON.parse(await d.getSaveBlob()) as GameState;
-      const rows = await Promise.all((await d.getEntities()).filter((row: any) => row.id.startsWith('coastal_') && row.archetype === 'enemy')
-        .map(async (row: any) => await d.getEntity(row.id))) as SemanticEntity[];
-      return { seed: state.seed as number, rows, player: save.player, combat: save.combat, activity: save.activity,
-        runtimes: Object.fromEntries(Object.entries(save.world.enemies).filter(([id]) => id.startsWith('coastal_'))),
-        previousErrors, errors: d.getErrors(), state, origin: performance.timeOrigin };
-    }, resetSeed);
-    type CoastalSnapshot = Awaited<ReturnType<typeof coastalSnapshot>>;
-    const signature = (snapshot: CoastalSnapshot) => snapshot.rows.map(row => ({ id: row.id,
-      groupId: row.meta?.groupId, spawn: [row.meta?.spawnX, snapshot.runtimes[row.id]?.spawnPos[1] ?? row.position[1], row.meta?.spawnZ], tier: row.tier,
-      family: row.meta?.family, enemyDefId: row.meta?.enemyDefId, assetId: row.view?.assetId,
-      scale: row.view?.scale, maxHealth: row.combat?.maxHealth, level: row.combat?.level }))
-      .sort((a, b) => a.id.localeCompare(b.id));
-    async function validateCoast(snapshot: CoastalSnapshot, fresh: boolean) {
-      assert.equal(snapshot.origin, documentOrigin);
-      assert(snapshot.rows.length >= 7, 'The rebuilt world has no complete coastal pack');
-      assert.deepEqual(snapshot.previousErrors, [], 'A reset would erase errors from the preceding coast visit');
-      assert.deepEqual(snapshot.errors, []);
-      const byGroup = new Map<string, SemanticEntity[]>();
-      for (const row of snapshot.rows) {
-        assert.equal(typeof row.meta?.groupId, 'string', `${row.id}: coastal group metadata missing`);
-        const id = row.meta!.groupId as string;
-        byGroup.set(id, [...(byGroup.get(id) ?? []), row]);
-      }
-      // These are generated cell IDs observed on actual entities. Use the production RNG and
-      // current terrain sample to check each source selection; do not import browser modules.
-      const sites = [...byGroup.keys()].map(id => {
-        const cell = /^coastal_(-?\d+)_(-?\d+)$/.exec(id);
-        assert(cell, `${id}: cannot resolve an observed coastal generation cell`);
-        const x = Number(cell[1]), z = Number(cell[2]);
-        const rng = new Rng(snapshot.seed ^ Math.imul(x, 73856093) ^ Math.imul(z, 19349663));
-        return { id, x: x + rng.float(6, 30), z: z + rng.float(6, 30) };
-      });
-      const samples = await page.evaluate(sites => sites.map(site => ({ ...site,
-        sample: (window.__gameDebug as any).sampleWorld(site.x, site.z) })), sites);
-      for (const site of samples) {
-        const rows = byGroup.get(site.id)!;
-        assert(rows.length >= 7 && rows.length <= 15, `${site.id}: reset left a partial or oversized coastal pack`);
-        assert(site.sample.playable && site.sample.coast && !site.sample.waterBodyId, `${site.id}: regenerated source is not dry coast`);
-        const region = REGIONS.find(row => row.id === (site.sample.semanticRegion === 'wilderness' ? 'wilderness' : site.sample.visualBiome));
-        const tier = site.sample.semanticRegion === 'wilderness' ? wildernessTierAt(site.z) : region?.tier ?? 1;
-        const sources = region?.enemyGroups.filter(group => !group.boss && !group.miniBoss
-          && !isStarterAnimalAsset(group.assetId) && (site.sample.semanticRegion !== 'wilderness' || group.tier === tier)) ?? [];
-        const source = new Rng(snapshot.seed ^ variantSeed(site.id)).pick(sources);
-        assert(source, `${site.id}: current seed has no eligible production species`);
-        assert.equal(rows.length, source.count >= 7 && source.count <= 15 ? source.count
-          : encounterPopulationCount({ id: site.id, count: 1 }), `${site.id}: resident count differs from the regenerated source`);
-        const native = enemyBlockFor(site.id, source.family, tier);
-        assert(native, `${site.id}: missing native family/T${tier} block`);
-        for (const row of rows) {
-          assert.equal(row.meta?.family, source.family, `${row.id}: species was retained from an earlier seed`);
-          assert.equal(row.view?.assetId, source.assetId, `${row.id}: body differs from the regenerated source`);
-          assert.equal(row.meta?.enemyDefId, native.id, `${row.id}: coastal actor uses an encounter alias instead of its native block`);
-          assert.equal(row.tier, tier); assert.equal(row.regionId, site.sample.semanticRegion);
-          assert.equal(row.combat?.maxHealth, native.maxHealth); assert.equal(row.combat?.level, enemyCombatLevel(native));
-          assert(Number.isFinite(row.meta?.spawnX) && Number.isFinite(row.meta?.spawnZ));
-          assert(Math.hypot(Number(row.meta?.spawnX) - site.x, Number(row.meta?.spawnZ) - site.z) <= 32.01,
-            `${row.id}: spawn no longer belongs to the current generated site`);
-          if (fresh) {
-            assert.equal(row.state, 'alive'); assert.equal(row.combat?.health, native.maxHealth);
-            assert(Math.hypot(row.position[0] - Number(row.meta?.spawnX), row.position[2] - Number(row.meta?.spawnZ)) < .025,
-              `${row.id}: reset retained its previous pursuit position`);
-            const runtime = snapshot.runtimes[row.id];
-            // Reset clears the saved enemy map. The next natural AI scan creates new rows;
-            // absence in this same-turn read is valid and must not be mistaken for stale AI.
-            if (runtime) {
-              assert.equal(runtime.health, native.maxHealth); assert.equal(runtime.state, 'idle');
-              assert.equal(runtime.respawnAtMs, null);
-              assert(Math.hypot(runtime.spawnPos[0] - row.position[0], runtime.spawnPos[2] - row.position[2]) < .025,
-                `${row.id}: runtime retained the previous seed's spawn`);
-            }
-          }
-        }
-      }
-      const currentIds = new Set(snapshot.rows.map(row => row.id));
-      assert(Object.keys(snapshot.runtimes).every(id => currentIds.has(id)), 'Stale coastal runtime IDs survived the rebuild');
-      if (fresh) {
-        assert.equal(snapshot.player.health, 23); assert.equal(snapshot.player.maxHealth, 23);
-        assert.equal(snapshot.player.movement.mode, 'idle'); assert.equal(snapshot.player.movement.path, null);
-        assert.equal(snapshot.player.movement.destination, null); assert.equal(snapshot.activity, null);
-        assert.equal(snapshot.combat.targetId, null); assert.deepEqual(snapshot.combat.engagedBy, []);
-        assert.equal(snapshot.combat.nextAttackAtMs, 0); assert.equal(snapshot.combat.inCombatUntilMs, 0);
-        assert.equal(snapshot.combat.activeSpellId, null);
-      }
-      await record({ coastalSeed: snapshot.seed, fresh, snapshot, generatedSites: samples,
-        limit: 'Spawn metadata and same-seed replay check visible regeneration. Private habitat/AI maps, static reservations and the full hidden tree corridor map are not inspected.' });
-      return byGroup;
-    }
-    async function visitCoast(snapshot: CoastalSnapshot, name: string) {
-      stage = name;
-      const byGroup = new Map<string, SemanticEntity[]>();
-      for (const row of snapshot.rows) {
-        const id = row.meta!.groupId as string;
-        byGroup.set(id, [...(byGroup.get(id) ?? []), row]);
-      }
-      // Bound candidate search before streaming a view. Prefer a low-tier aggressive source so
-      // the first visit can also create real pursuit state for the reset regression.
-      const candidates = [...byGroup].filter(([, rows]) => rows[0]!.meta?.behaviour === 'aggressive')
-        .sort((a, b) => a[1][0]!.tier - b[1][0]!.tier).slice(0, 32);
-      const approach = await page.evaluate(async candidates => {
-        const d = window.__gameDebug as any;
-        const all = await Promise.all((await d.getEntities()).filter((row: any) => row.archetype === 'enemy' || row.archetype === 'boss')
-          .map(async (row: any) => await d.getEntity(row.id))) as SemanticEntity[];
-        for (const [groupId, initial] of candidates) {
-          const rows = await Promise.all(initial.map(async row => await d.getEntity(row.id))) as SemanticEntity[];
-          const centre = rows.reduce((sum, row) => [sum[0]! + row.position[0] / rows.length, sum[1]! + row.position[2] / rows.length], [0, 0]);
-          const radius = Math.max(...rows.map(row => Math.hypot(row.position[0] - centre[0]!, row.position[2] - centre[1]!)
-            + Math.max(row.combat?.aggroRadius ?? 0, row.combat?.bodyRadius ?? 0))) + 3;
-          for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 4) {
-            const direction = [Math.sin(angle), Math.cos(angle)];
-            const point = { x: centre[0]! + direction[0]! * radius, z: centre[1]! + direction[1]! * radius };
-            const end = { x: point.x + direction[0]! * 3, z: point.z + direction[1]! * 3 };
-            if ([point, end].some(p => { const s = d.sampleWorld(p.x, p.z); return !s.playable || s.waterBodyId || s.slope === null || s.slope > .6; })) continue;
-            if (all.some(row => Math.hypot(row.position[0] - point.x, row.position[2] - point.z)
-              < Math.max(row.combat?.aggroRadius ?? 0, row.combat?.bodyRadius ?? 0) + 1.5)) continue;
-            const from = { ...point, y: d.groundHeight(point.x, point.z) }, to = { ...end, y: d.groundHeight(end.x, end.z) };
-            const path = d.getNavPath([from.x, from.y, from.z], [to.x, to.y, to.z]) as Point[] | null;
-            if (!path || path.length < 2 || Math.hypot(path[0]!.x - from.x, path[0]!.z - from.z) > .6
-              || Math.hypot(path.at(-1)!.x - to.x, path.at(-1)!.z - to.z) > .6) continue;
-            const nearest = [...rows].sort((a, b) => Math.hypot(a.position[0] - point.x, a.position[2] - point.z)
-              - Math.hypot(b.position[0] - point.x, b.position[2] - point.z))[0]!;
-            return { groupId, ids: rows.map(row => row.id), from, to, path, direction, targetId: nearest.id };
-          }
-        }
-        return null;
-      }, candidates);
-      assert(approach, 'No bounded coastal approach has a complete dry walking path and safe ordinary follow view');
-      completePath(approach.path, approach.from, approach.to, `${name} coastal walk`);
-      await frame([approach.from.x, approach.from.z], yawToward(-approach.direction[0]!, -approach.direction[1]!), .34, approach.ids);
-      const before = await page.evaluate(async ids => await Promise.all(ids.map(async id => await (window.__gameDebug as any).getEntity(id))) as SemanticEntity[], approach.ids);
-      assert(before.every(row => row.state === 'alive'), 'Coastal patrol observation began during pursuit');
-      const movement = await walk('s', 650, `${name} grounded coast walk`, .8);
-      await waitForDebug(page, async before => {
-        for (const row of before) {
-          const current = await (window.__gameDebug as any).getEntity(row.id);
-          if (current?.state === 'alive' && Math.hypot(current.position[0] - row.position[0], current.position[2] - row.position[2]) > .18) return true;
-        }
-        return false;
-      }, before, { timeout: remaining(6500), polling: 120 });
-      const after = await page.evaluate(async ids => await Promise.all(ids.map(async id => await (window.__gameDebug as any).getEntity(id))) as SemanticEntity[], approach.ids);
-      assert(after.every(row => row.state === 'alive'), 'A pursuit was mistaken for coastal patrol movement');
-      const save = JSON.parse(await debug<string>('getSaveBlob')) as GameState;
-      const runtimes = Object.fromEntries(after.map(row => [row.id, save.world.enemies[row.id]]));
-      for (const row of after) {
-        const runtime = runtimes[row.id]; assert(runtime, `${row.id}: natural AI scan did not register a current coastal resident`);
-        assert.equal(runtime.state, 'idle'); assert.equal(runtime.health, row.combat!.maxHealth);
-        assert(Math.hypot(runtime.spawnPos[0] - Number(row.meta?.spawnX), runtime.spawnPos[2] - Number(row.meta?.spawnZ)) < .025,
-          `${row.id}: active patrol runtime uses an old spawn`);
-      }
-      const postScan = await coastalSnapshot();
-      assert(postScan.rows.every(row => row.state === 'alive' && row.combat?.health === row.combat?.maxHealth),
-        'A coastal health or pursuit artifact appeared after the natural AI scan');
-      assert(Object.values(postScan.runtimes).every(runtime => runtime.state === 'idle'),
-        'A coastal runtime resumed old pursuit state after reset');
-      assert(!postScan.combat.targetId?.startsWith('coastal_') && !postScan.combat.engagedBy.some(id => id.startsWith('coastal_')),
-        'The player retained a coastal combat target or pursuer');
-      await capture(name, { seed: snapshot.seed, approach, before, after, movement, runtimes,
-        proof: 'Actual idle residents changed world position while the player stayed outside aggro range; no animation or time override.' });
-      return approach;
-    }
-    stage = 'initial coast';
-    const initial = await coastalSnapshot();
-    await validateCoast(initial, false);
-    const approach = await visitCoast(initial, 'coast-initial');
-    stage = 'coast pre-reset pursuit';
-    // Use real W to enter the nearest actor's aggro radius, then a verified canvas attack.
-    // The first health change can be a wound or death. Both must disappear on reset.
-    const target = await debug<SemanticEntity>('getEntity', [approach.targetId]);
-    const direction = approach.direction;
-    const gap = Math.max((target.combat?.aggroRadius ?? 0) + .6, (target.combat?.bodyRadius ?? 0) + 2.5);
-    const near: XZ = [target.position[0] + direction[0]! * gap, target.position[2] + direction[1]! * gap];
-    const towards: XZ = [near[0] - direction[0]! * 2.4, near[1] - direction[1]! * 2.4];
-    await navPath(near, towards, 'coast pursuit approach');
-    await frame(near, yawToward(-direction[0]!, -direction[1]!), .34, [target.id]);
-    const pursuitBefore = await debug<SemanticEntity>('getEntity', [target.id]);
-    await walk('w', 500, 'coast enter aggro range', .5);
-    await waitForDebug(page, async id => (await (window.__gameDebug as any).getEntity(id))?.state === 'aggro', target.id,
-      { timeout: remaining(3500), polling: 80 });
-    const pursuit = await debug<SemanticEntity>('getEntity', [target.id]);
-    const click = await pointerEntity(target.id);
-    await waitForDebug(page, async ({ id, health }) => (await (window.__gameDebug as any).getEntity(id))?.combat?.health < health,
-      { id: target.id, health: pursuit.combat!.health }, { timeout: remaining(6500), polling: 100 });
-    const dirty = await coastalSnapshot();
-    assert(dirty.runtimes[target.id]?.state !== 'idle', 'The pre-reset action did not leave a changed enemy runtime');
-    await record({ preResetPursuit: { pursuitBefore, pursuit, click, dirty } });
-    const firstSeed = (initial.seed + 1) >>> 0, secondSeed = (initial.seed + 2) >>> 0;
-    stage = 'first coastal reset';
-    const first = await coastalSnapshot(firstSeed); assert.equal(first.seed, firstSeed);
-    await validateCoast(first, true);
-    assert.notDeepEqual(signature(first), signature(initial), 'Changing the seed reused the old coastal population');
-    await visitCoast(first, 'coast-seed-plus-one');
-    stage = 'second coastal reset';
-    const second = await coastalSnapshot(secondSeed); assert.equal(second.seed, secondSeed);
-    await validateCoast(second, true);
-    assert.notDeepEqual(signature(second), signature(first), 'A second seed retained the previous coastal population');
-    await visitCoast(second, 'coast-seed-plus-two');
-    stage = 'coastal deterministic replay';
-    const replay = await coastalSnapshot(firstSeed);
-    await validateCoast(replay, true);
-    assert.deepEqual(signature(replay), signature(first), 'Replaying the same seed changed coastal spawn positions, bodies, native stat IDs or resident counts');
-    await record({ coastalReplay: { seed: firstSeed, equalsFirstReset: true, descriptors: signature(replay) } });
-  }
-
   if (band === 'regions') {
     const bosses = Object.entries(REGIONAL_BOSS_LEVELS);
     assert.equal(bosses.length, 7);
@@ -573,7 +359,7 @@ try {
       const block = ENEMIES.find(row => row.id === actor.meta?.enemyDefId);
       assert(species && body && block, `${id}: original regional boss definition is absent`);
       assert.equal(actor.regionId, species.regionId); assert.equal(actor.tier, balance.tier);
-      assert.equal(actor.combat?.level, expectedLevel, `${id}: expected level ${expectedLevel} (${balance.multiplier}× regional tier)`);
+      assert.equal(actor.combat?.level, expectedLevel, `${id}: expected level ${expectedLevel} (${balance.multiplier}Ã— regional tier)`);
       assert.equal(actor.combat?.level, enemyCombatLevel(block)); assert.equal(actor.combat?.maxHealth, block.maxHealth);
       assert.equal(actor.view?.assetId, body.assetId, `${id}: replacement body was not wired into normal world boot`);
       assert(actor.meta?.rank === 'boss' || actor.meta?.rank === 'miniboss', `${id}: boss rank metadata missing`);

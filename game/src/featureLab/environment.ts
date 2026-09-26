@@ -63,6 +63,8 @@ export interface EnvironmentWorkbench {
 }
 
 export interface EnvironmentGalleryOptions {
+  /** Review the production distant range behind the selected foreground asset. */
+  mountainBackdrop?: boolean;
   /** Inspect one source at its authored placement size and bearing. Defaults remain native/zero. */
   scale?: number;
   rotationY?: number;
@@ -86,6 +88,7 @@ export interface EnvironmentFoliageOptions {
 }
 
 interface EnvironmentDeps {
+  setMountainBackdrop?(enabled: boolean): Promise<void>;
   assets: AssetRegistry;
   scene: WorldScene;
   entityStore: EntityStore;
@@ -99,7 +102,7 @@ interface EnvironmentDeps {
 }
 
 /** Original models and authored settings, using the same semantic views and scatter as the game. */
-export async function createEnvironmentWorkbench({ assets, scene, entityStore, entityViews, replaceCollision, worldChanged }: EnvironmentDeps): Promise<EnvironmentWorkbench> {
+export async function createEnvironmentWorkbench({ assets, scene, entityStore, entityViews, replaceCollision, worldChanged, setMountainBackdrop }: EnvironmentDeps): Promise<EnvironmentWorkbench> {
   const cuts = new Map<string, unknown>();
   const cutCache: GenerationCachePort = {
     async get<T>(key: string, valid: (value: unknown) => value is T) {
@@ -262,6 +265,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
     },
     showGallery(assetId, options = {}) {
       return enqueue(async () => {
+        if (options.mountainBackdrop !== undefined) await setMountainBackdrop?.(options.mountainBackdrop);
         if (assetId && !catalog.assets.some((entry) => entry.id === assetId)) throw new Error(`Unknown environment asset: ${assetId}`);
         const scale = options.scale ?? 1;
         const rotationY = options.rotationY ?? 0;

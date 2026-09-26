@@ -26,6 +26,12 @@ import { resourceDef } from "../content/resources.js";
 import { WORLD_SITES } from "../content/worldSites.js";
 import type { FlatSpot, RegionTerrainSpec, WorldTerrainSpec, Rect } from "../render/scene.js";
 import { seedFromText, type OrganicBiomeSpec } from "../world/organicFields.js";
+
+/** Beyond the playable eastern foothills; sampled in world space by the sky renderer. */
+export const CROWNWARD_DISTANT_RANGE = {
+  asset: 'assets/textures/corealm/corealm-distant-range.png',
+  x: 1800, minZ: -1450, width: 3000, baseY: -220, height: 850,
+} as const;
 import { WATER_BASIN_DEPTH, waterBasinForCluster } from "../world/waterBodies.js";
 import { WILDERNESS_LAVA_CHANNELS } from "../content/wildernessLava.js";
 import { WILDERNESS_RUINS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
@@ -83,7 +89,9 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
     const [width, depth] = castleGroundLayout(castle.composition)!.pad;
     const halfExtents = [width / 2, depth / 2] as const;
     flats.push({x:castle.position[0],z:castle.position[1],radius:Math.hypot(...halfExtents),
-      halfExtents,rotationY:castle.rotationY,blend:20});
+      halfExtents,rotationY:castle.rotationY,blend:region.id === 'crownward' ? 34 : 20,
+      rockyShoulder:region.id === 'crownward',
+      ...(castle.id === 'crownward_white_castle' ? {height:10,maxCut:16} : {})});
   }
   for (const landmark of region.landmarks) {
     const ruin = WILDERNESS_RUINS[landmark.composition as WildernessRuinId]
@@ -146,6 +154,10 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
   // basin applied after every ordinary pad, so a generic location pad must not pull its floor back
   // toward the dry terrain.
   for (const location of region.locations) {
+    if (location.id === 'crownward_castle_approach') {
+      flats.push({x:location.position[0],z:location.position[1],radius:7,blend:20,height:10,maxCut:16});
+      continue;
+    }
     if (region.id === "crownward" && CROWNWARD_RIVER_BRIDGES.some(bridge => Math.hypot(location.position[0]-bridge.centre[0],location.position[1]-bridge.centre[1]) < 23)) continue;
     if (castles.some(castle => {
       const [width, depth] = castleGroundLayout(castle.composition)!.pad;
@@ -229,9 +241,18 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
   fields: [
     {
       id: 'crownward', seed: seedFromText('corealm:biome:crownward'),
+      boundary: { kind: 'mountain', edge: 'east', startX: 660, width: 200,
+        seed: seedFromText('corealm:crownward-east-mountains'),
+        massifs: [
+          // Real foothills frame the distant range and occlude it naturally on approach.
+          { x: 808, z: -85, radiusX: 110, radiusZ: 225, height: 72, variant: 1, rotation: -0.10 },
+          { x: 810, z: 260, radiusX: 112, radiusZ: 185, height: 95, variant: 0, rotation: 0.18 },
+          { x: 728, z: 65, radiusX: 74, radiusZ: 235, height: 48, variant: 2, rotation: -0.12 },
+          { x: 815, z: 493, radiusX: 82, radiusZ: 145, height: 62, variant: 2, rotation: 0.24 },
+        ] },
       climateTarget: [-.35, -.6], climateTolerance: [.52, .55], bias: 1,
-      // Crownward is a continuous coastal region. Warped geographical gradients carry its
-      // parkland beyond the landmarks and to the shore, then yield to the northern wastes.
+      // Crownward's parkland reaches the eastern mountain range and southern shore,
+      // then yields to the northern wastes.
       eastwardClimate: { startX: 180, endX: 500, strength: 6 },
       northwardClimate: { startZ: 100, endZ: 900, strength: -3 },
       anchors: [
@@ -251,6 +272,7 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
     },
     {
       id:'wilderness',seed:seedFromText('corealm:biome:wilderness'),
+      boundary: { kind: 'shore' },
       climateTarget:[-.25,.1],climateTolerance:[.85,.85],
       // A long, low-gradient climate trend leaves room for dusk and mixed vegetation.
       // The old 11-point logit crossed almost the entire day/night range in twenty metres.
@@ -269,6 +291,7 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
     {
       id: "fallowmarch",
       seed: seedFromText("corealm:biome:fallowmarch"),
+      boundary: { kind: 'shore' },
       climateTarget: [-0.12, -0.4],
       climateTolerance: [0.68, 0.62],
       bias: 0.07,
@@ -297,6 +320,7 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
     {
       id: "vellenwood",
       seed: seedFromText("corealm:biome:vellenwood"),
+      boundary: { kind: 'shore' },
       climateTarget: [0.36, -0.2],
       climateTolerance: [0.64, 0.64],
       bias: 0.03,
@@ -328,6 +352,7 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
     {
       id: "karrowmoor",
       seed: seedFromText("corealm:biome:karrowmoor"),
+      boundary: { kind: 'shore' },
       climateTarget: [-0.5, 0.08],
       climateTolerance: [0.58, 0.7],
       bias: 0.1,
@@ -357,6 +382,7 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
       // than tracking z = 200.
       id: "kilnhalt",
       seed: seedFromText("corealm:biome:kilnhalt"),
+      boundary: { kind: 'shore' },
       climateTarget: [0.08, 0.52],
       climateTolerance: [0.66, 0.6],
       bias: 0.08,

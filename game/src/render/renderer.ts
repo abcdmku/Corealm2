@@ -436,11 +436,13 @@ export class Renderer {
     this.scene.fog = fog;
     // Fog and the sky meet in display space. The HDR world is tone mapped later, so
     // compensate the fog colour once in the node graph instead of changing its public palette.
-    this.scene.fogNode = fogNode(
-      inverseACES(uniform(fog.color).rgb, uniform(1).onRenderUpdate(() => this.renderer.toneMappingExposure)),
-      rangeFogFactor(uniform(fog.near).onRenderUpdate(() => fog.near),
+    const worldFogFactor = rangeFogFactor(uniform(fog.near).onRenderUpdate(() => fog.near),
         uniform(fog.far).onRenderUpdate(() => fog.far))
-        .mul(uniform(1).onRenderUpdate(() => this.scene.fog ? 1 : 0)),
+        .mul(uniform(1).onRenderUpdate(() => this.scene.fog ? 1 : 0));
+    this.scene.fogNode = fogNode(
+      this.biomeAtmosphere.sky.mountainFogColour(
+        inverseACES(uniform(fog.color).rgb, uniform(1).onRenderUpdate(() => this.renderer.toneMappingExposure)), worldFogFactor),
+      worldFogFactor,
     );
 
     // The lower, warmer key carries the direction. Keeping most of the old sky fill preserves
@@ -586,7 +588,7 @@ export class Renderer {
     this.sun.castShadow = enabled;
   }
 
-  /** Keeps the far clip behind the fog so reduced draw distance never exposes a hard world edge. */
+  /** Geometry follows the preset; distant mountains render in the sky pass. */
   setDrawDistance(distance: DrawDistancePreset): void {
     const preset = distancePreset(distance);
     this.biomeAtmosphere.sky.setFogRange(preset.fogNear, preset.fogFar);
@@ -799,6 +801,7 @@ export class Renderer {
       const previous = this.renderer.getRenderTarget();
       const toneMapping = this.renderer.toneMapping;
       try {
+        this.biomeAtmosphere.sky.renderFogBackdrop(this.renderer, this.camera);
         this.renderer.setRenderTarget(this.frameTarget);
         this.drawWorld();
         this.elementalRefraction.render(this.renderer, this.scene, this.camera);

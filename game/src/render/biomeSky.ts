@@ -1,6 +1,7 @@
 import * as THREE from "three/webgpu";
 import {
-  Fn, If, float, mat3, mix, positionGeometry, smoothstep, uniform, varying, vec2, vec3, vec4,
+  Fn, If, float, mat3, mix, positionGeometry, screenUV,
+  smoothstep, step, texture, uniform, varying, vec2, vec3, vec4,
 } from "three/tsl";
 import type { BiomeWeights } from "./biomeAtmosphere.js";
 import type { RegionId } from "../contracts.js";
@@ -15,7 +16,8 @@ export const BIOME_SKIES = {
   kilnhalt: { zenith: 0x623e50, horizon: 0xd6a27b, cloud: 0x998078, cloudCover: .76, fogNear: .45, fogFar: .55 },
   gravelmaw: { zenith: 0x201b38, horizon: 0x626078, cloud: 0x657182, cloudCover: .94, fogNear: .3, fogFar: .4 },
   wilderness: { zenith: 0x080f20, horizon: 0x303b50, cloud: 0x3c4659, cloudCover: .58, fogNear: .72, fogFar: .78 },
-  crownward: { zenith: 0x477eaf, horizon: 0xe0e4d1, cloud: 0xf5f1df, cloudCover: .34, fogNear: 1, fogFar: 1 },
+  // The distant range is sky scenery; ordinary fog still hides the geometry residency edge.
+  crownward: { zenith: 0x477eaf, horizon: 0xc5d9e7, cloud: 0xf5f1df, cloudCover: .34, fogNear: 1, fogFar: 1 },
   gloamgarden: { zenith: 0x102b3f, horizon: 0x4c7b88, cloud: 0x58aaa7, cloudCover: .72, fogNear: .72, fogFar: .85 },
   faeholme: { zenith: 0x25143f, horizon: 0x76668f, cloud: 0x967abf, cloudCover: .83, fogNear: .68, fogFar: .8 },
 } as const;
@@ -98,7 +100,15 @@ export const inverseACES = Fn(([colour, exposure]: [THREE.Node<"vec3">, THREE.No
   { name: "colour", type: "vec3" }, { name: "exposure", type: "float" },
 ] });
 
-/** Camera-oriented sky with no finite dome, texture downloads or per-frame PMREM regeneration. */
+export interface MountainBackdropBounds {
+  readonly x: number;
+  readonly minZ: number;
+  readonly width: number;
+  readonly baseY: number;
+  readonly height: number;
+}
+
+/** Procedural sky with an optional finite, world-anchored mountain backdrop. */
 export class BiomeSky {
   enabled = false;
   private readonly current = blendBiomeSky({});
@@ -110,8 +120,51 @@ export class BiomeSky {
     cloud: uniform(this.current.cloud), cloudCover: uniform(0), time: uniform(0),
     night: uniform(0), underground: uniform(0), fairyDepth: uniform(0), exposure: uniform(1),
     inverseProjection: uniform(new THREE.Matrix4()), cameraWorld: uniform(new THREE.Matrix4()),
+    cameraPosition: uniform(new THREE.Vector3()), backdropEnabled: uniform(0),
+    backdropBounds: uniform(new THREE.Vector4(0, 0, 1, 0)), backdropHeight: uniform(1),
   };
+  private backdropBounds: MountainBackdropBounds | null = null;
+  private readonly backdropFallback = new THREE.DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1, THREE.RGBAFormat);
+  private readonly backdropImage = texture(this.backdropFallback);
   private readonly material = this.createMaterial();
+
+  /** Atmospheric panorama colour and coverage shared by sky and fog prepass. */
+  private sampleMountainBackdrop(
+    direction: THREE.Node<"vec3">,
+    origin: THREE.Node<"vec3"> = this.uniforms.cameraPosition,
+  ): THREE.Node<"vec4"> {
+    return Fn(() => {
+      const { horizon, night, underground } = this.uniforms;
+      const rayDirection = direction.toVar();
+      const cameraOrigin = origin.toVar();
+      const elevation = rayDirection.y.max(0).toVar();
+      const result = vec4(0).toVar();
+      If(this.uniforms.backdropEnabled.greaterThan(.5), () => {
+        const bounds = this.uniforms.backdropBounds;
+        const distance = bounds.x.sub(cameraOrigin.x).div(rayDirection.x.max(.0001)).toVar();
+        const hit = cameraOrigin.add(rayDirection.mul(distance)).toVar();
+        const u = hit.z.sub(bounds.y).div(bounds.z).toVar();
+        const v = hit.y.sub(bounds.w).div(this.uniforms.backdropHeight).toVar();
+        // Ordinary THREE texture UVs put v=0 at the image bottom. Keep the
+        // caller's flipY/colorSpace settings; no second image flip is introduced.
+        const panoramaUv = vec2(u, v).clamp(0, 1).toVar();
+        const mountain = this.backdropImage.sample(panoramaUv).toVar();
+        const inside = step(0, u).mul(step(u, 1)).mul(step(0, v)).mul(step(v, 1)).toVar();
+        const front = smoothstep(.0001, .005, rayDirection.x).mul(smoothstep(0, 1, distance)).toVar();
+        const surface = float(1).sub(step(.001, underground)).toVar();
+        const bottomFade = smoothstep(0, .16, v).toVar();
+        const edgeFade = smoothstep(0, .015, u).mul(float(1).sub(smoothstep(.985, 1, u))).toVar();
+        const opacity = mountain.a.mul(inside).mul(front).mul(surface).mul(bottomFade).mul(edgeFade).toVar();
+        const nightMountain = mountain.rgb.mul(vec3(.19, .27, .42)).add(horizon.mul(.12)).toVar();
+        const mountainColour = mix(mountain.rgb, nightMountain, night).toVar();
+        const haze = float(.24).add(smoothstep(450, 1900, distance).mul(.30))
+          .add(float(1).sub(smoothstep(.08, .50, v)).mul(.20))
+          .max(float(1).sub(smoothstep(.005, .085, elevation)).mul(.94)).toVar();
+        result.assign(vec4(mix(mountainColour, horizon, haze), opacity));
+      });
+      return result;
+    })();
+  }
 
   private createMaterial(): THREE.NodeMaterial {
     const material = Object.assign(new THREE.NodeMaterial(), { depthWrite: false, depthTest: false, toneMapped: false, fog: false });
@@ -165,6 +218,8 @@ export class BiomeSky {
       const star = starSeed.step(.997).mul(float(1).sub(smoothstep(.02, .11, starCell.fract().sub(.5).length())));
       colour.addAssign(night.mul(float(1).sub(underground)).mul(float(1).sub(cover)).mul(smoothstep(.03, .2, elevation))
         .mul(vec3(.45, .53, .65).mul(moonDisc.mul(moonMark).add(moonHalo)).add(vec3(.4, .49, .65).mul(star))));
+      const mountains = this.sampleMountainBackdrop(direction).toVar();
+      colour.assign(mix(colour, mountains.rgb, mountains.a));
       return vec4(inverseACES(colour, this.uniforms.exposure), 1);
     })();
     return material;
@@ -172,15 +227,60 @@ export class BiomeSky {
   private readonly geometry = new THREE.BufferGeometry().setAttribute("position",
     new THREE.Float32BufferAttribute([-1,-1,0,3,-1,0,-1,3,0],3));
   readonly mesh = new THREE.Mesh(this.geometry, this.material);
+  private readonly fogTarget = new THREE.RenderTarget(1, 1, { type: THREE.HalfFloatType, depthBuffer: false });
+  private readonly fogScene = new THREE.Scene();
+  private readonly fogMaterial = Object.assign(new THREE.NodeMaterial(), { depthWrite: false, depthTest: false, toneMapped: false, fog: false });
+  private readonly fogImage = texture(this.fogTarget.texture);
+  private readonly fogSize = new THREE.Vector2();
+  private readonly fogActive = uniform(0);
+
+  /** One small panorama pass keeps the world material shaders inexpensive. */
+  renderFogBackdrop(renderer: THREE.WebGPURenderer, camera: THREE.Camera): void {
+    this.fogActive.value = this.enabled && this.uniforms.backdropEnabled.value ? 1 : 0;
+    if (!this.enabled || !this.uniforms.backdropEnabled.value) return;
+    renderer.getDrawingBufferSize(this.fogSize);
+    this.fogTarget.setSize(Math.max(1, Math.ceil(this.fogSize.x / 2)), Math.max(1, Math.ceil(this.fogSize.y / 2)));
+    const previous = renderer.getRenderTarget();
+    try { renderer.setRenderTarget(this.fogTarget); renderer.render(this.fogScene, camera); }
+    finally { renderer.setRenderTarget(previous); }
+  }
+
+  mountainFogColour(base: THREE.Node<'vec3'>, factor: THREE.Node<'float'>): THREE.Node<'vec3'> {
+    return Fn(() => {
+      const panorama = this.fogImage.sample(screenUV).toVar();
+      return mix(base, panorama.rgb, panorama.a.mul(smoothstep(.78, .995, factor))
+        .mul(this.fogActive).mul(float(1).sub(step(.001, this.uniforms.underground))));
+    })();
+  }
 
   constructor() {
+    this.backdropFallback.colorSpace = THREE.SRGBColorSpace;
+    this.backdropFallback.needsUpdate = true;
     this.mesh.name = "biome-sky"; this.mesh.frustumCulled = false; this.mesh.renderOrder = -10000;
     this.mesh.visible = false;
     this.mesh.onBeforeRender = (_renderer, _scene, camera) => {
       this.uniforms.exposure.value = _renderer.toneMappingExposure;
       this.uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
       this.uniforms.cameraWorld.value.copy(camera.matrixWorld);
+      this.uniforms.cameraPosition.value.setFromMatrixPosition(camera.matrixWorld);
     };
+    this.fogMaterial.vertexNode = this.material.vertexNode;
+    this.fogMaterial.fragmentNode = this.material.fragmentNode;
+    const fogMesh = new THREE.Mesh(this.geometry, this.fogMaterial);
+    fogMesh.frustumCulled = false;
+    fogMesh.onBeforeRender = this.mesh.onBeforeRender;
+    this.fogScene.add(fogMesh);
+  }
+  /** The caller owns the image and may replace or dispose it after detaching it. */
+  setMountainBackdrop(image: THREE.Texture | null, bounds: MountainBackdropBounds): void {
+    if (![bounds.x, bounds.minZ, bounds.width, bounds.baseY, bounds.height].every(Number.isFinite) || bounds.width <= 0 || bounds.height <= 0) {
+      throw new RangeError("Mountain backdrop bounds must be finite with positive width and height");
+    }
+    this.backdropBounds = image ? { ...bounds } : null;
+    this.backdropImage.value = image ?? this.backdropFallback;
+    this.uniforms.backdropEnabled.value = image ? 1 : 0;
+    this.uniforms.backdropBounds.value.set(bounds.x, bounds.minZ, bounds.width, bounds.baseY);
+    this.uniforms.backdropHeight.value = bounds.height;
   }
   setFogRange(near: number, far: number): void { this.near = near; this.far = far; }
   update(scene: THREE.Scene, weights: BiomeWeights, deltaSeconds: number, wildernessMagic = 0): void {
@@ -209,6 +309,13 @@ export class BiomeSky {
   get fairyDepthAmount(): number { return this.enabled ? this.current.fairyDepth : 0; }
   snapshot() { return { enabled: this.enabled, zenith: this.current.zenith.getHex(), horizon: this.current.horizon.getHex(),
     night: this.nightAmount, magic: this.magicAmount, underground: this.undergroundAmount, fairyDepth: this.fairyDepthAmount,
-    cloudCover: this.current.cloudCover, fogNear: this.near * this.current.fogNear, fogFar: this.far * this.current.fogFar }; }
-  dispose(): void { this.mesh.removeFromParent(); this.geometry.dispose(); this.material.dispose(); }
+    cloudCover: this.current.cloudCover, fogNear: this.near * this.current.fogNear, fogFar: this.far * this.current.fogFar,
+    mountainBackdrop: { enabled: this.uniforms.backdropEnabled.value === 1,
+      bounds: this.backdropBounds ? { ...this.backdropBounds } : null,
+      cameraPosition: this.uniforms.cameraPosition.value.toArray() } }; }
+  dispose(): void {
+    this.mesh.removeFromParent(); this.geometry.dispose(); this.material.dispose();
+    this.backdropFallback.dispose();
+    this.fogTarget.dispose(); this.fogMaterial.dispose();
+  }
 }

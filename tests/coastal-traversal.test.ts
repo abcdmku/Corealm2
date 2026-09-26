@@ -5,16 +5,16 @@ import { Navigation } from "../game/src/systems/navigation.js";
 import { NAV_CONFIG, PLAYER_SLOPES } from "../game/src/app/config.js";
 import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
 import { prepareWorldSurface } from "../game/src/app/worldSurface.js";
-import { coastalSpawnSites } from "../game/src/app/coastalSpawns.js";
 
 beforeAll(async () => Navigation.initLibrary());
 
 describe("traversable ground", () => {
-  it("keeps authored tracks below the climb limit and coastal creatures on dry biome terrain", () => {
+  it("keeps authored tracks below the climb limit and closes authored lakes", () => {
     const scene = new WorldScene(new THREE.Scene());
     const spec = buildWorldTerrainSpec();
     scene.buildWorld(spec, (prepared) => prepareWorldSurface(prepared));
     let steepest = 0;
+    let steepestAt: number[] = [];
     for (const line of scene.getRoadPolylines()) {
       for (let i = 1; i < line.length; i++) {
         const a = line[i - 1]!;
@@ -25,27 +25,19 @@ describe("traversable ground", () => {
           const end = Math.min(distance + 0.5, length) / length;
           const height = (t: number) => scene.meshHeightAt(a[0] + (b[0] - a[0]) * t, a[2] + (b[2] - a[2]) * t);
           const grade = Math.abs(height(end) - height(start)) / ((end - start) * length);
-          steepest = Math.max(steepest, grade);
+          if (grade > steepest) {
+            steepest = grade;
+            steepestAt = [a[0] + (b[0] - a[0]) * start, a[2] + (b[2] - a[2]) * start];
+          }
         }
       }
     }
-    expect(steepest).toBeLessThan(Math.tan(PLAYER_SLOPES.maxAscentAngle * Math.PI / 180));
+    expect(steepest, `road grade at ${steepestAt.join(',')}`).toBeLessThan(Math.tan(PLAYER_SLOPES.maxAscentAngle * Math.PI / 180));
     expect(scene.getWaterBodies().filter(body => spec.basins!.some(basin => basin.id === body.id)))
       .toHaveLength(spec.basins!.length);
     expect(scene.getWaterBodies().every((body) => body.closed)).toBe(true);
-    const sites = coastalSpawnSites(scene, 1337);
-    expect(sites.length).toBeGreaterThan(100);
-    expect(sites).toEqual(coastalSpawnSites(scene, 1337));
-    for (const site of sites) {
-      const sample = scene.sampleWorld(...site.spot);
-      expect(sample.playable).toBe(true);
-      expect(sample.coast!.outsideDistance).toBeGreaterThan(0);
-      expect(sample.visualBiome).toBe(site.biomeId);
-    }
     scene.clear();
-    // Builds the whole authored world twice over: terrain lattice, road grading, water and 100+
-    // coastal spawn samples. 2.9 s alone, 5.8 s in a full parallel suite run, which times out at
-    // the 5 s default and made this look order-dependent. The assertions are unchanged.
+    // The authored terrain, roads and water are built together; allow the full-world build time.
   }, 30000);
   it.each([40, 50, 58])("bakes a complete route up and down a %i degree slope", (angle) => {
     const geometry = new THREE.PlaneGeometry(20, 12, 20, 12);

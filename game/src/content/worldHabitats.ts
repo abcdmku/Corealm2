@@ -11,8 +11,6 @@ export interface HabitatDef {
   readonly regionId: RegionId;
   readonly centre: readonly [number, number];
   readonly radius: number;
-  /** Generated coast has already passed the playable receiving-floor sampler outside the core map. */
-  readonly boundary?: 'playable-coast';
   /** World-space spawn and activity points. The first group.count points preserve actor order. */
   readonly anchors: readonly (readonly [number, number])[];
   readonly activity: "graze" | "forage" | "prowl" | "patrol";
@@ -33,7 +31,6 @@ export function habitatContains(habitat: HabitatDef, position: Vec3): boolean {
   const [x, , z] = position;
   if (!Number.isFinite(x) || !Number.isFinite(z)
     || Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) > habitat.radius) return false;
-  if (habitat.boundary === 'playable-coast') return true;
   // Underground residents use their bounded pack circle and the dungeon navmesh.
   if (REGIONS.some(region => region.dungeon?.id === habitat.regionId)) return true;
   const bounds = REGIONS.find(region => region.id === habitat.regionId)?.bounds;

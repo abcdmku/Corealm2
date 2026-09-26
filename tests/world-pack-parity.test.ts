@@ -1,6 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import path from "node:path";
-import { coastalSpawnSites } from "../game/src/app/coastalSpawns.js";
 import type { SemanticEntity, Vec3 } from "../game/src/contracts.js";
 import { RESOLVED_TABLES } from "../game/src/content/resolvedCatalog.js";
 import type { CompiledWorld } from "../game/src/content/worldData.js";
@@ -30,7 +29,7 @@ beforeAll(async () => {
   timings.packed = performance.now() - startedAt;
   startedAt = performance.now();
   source = await openAuthoredSource(SEED, path.join(gameRoot, "public/assets"));
-  const semantic = buildAuthoredSemantic(SEED, source.terrains, source.measurements, coastalSpawnSites(source.scene, SEED));
+  const semantic = buildAuthoredSemantic(SEED, source.terrains, source.measurements);
   geometry = await buildAuthoredGeometry(SEED, source, semantic);
   // The assembly appends to the semantic solids and moves creatures, so take what the pack should hold first.
   geometry = { ...geometry, solids: structuredClone(geometry.solids), trees: structuredClone(geometry.trees) };
@@ -79,7 +78,6 @@ describe("server world pack parity", () => {
     expect(world.structureBounds).toEqual(geometry.structureBounds);
     expect(world.trees.length).toBeGreaterThan(5000);
     expect(world.trees).toEqual(geometry.trees);
-    expect(world.coastalSpawns).toEqual(coastalSpawnSites(source.scene, SEED));
   });
 
   it("moves bodies over the same ground and around the same solids", () => {

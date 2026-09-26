@@ -5,7 +5,6 @@ import { fishingSiteAnchors } from "../app/fishingAccess.js";
 import { registerHabitatClearances } from "../app/habitatClearances.js";
 import { miningAccessPositions } from "../app/miningAccess.js";
 import { mobSpawnPlacementPorts, prepareMobSpawns } from "../app/mobSpawns.js";
-import { coastalBodyOnSafeGround } from "../content/coastalEncounterFormation.js";
 import { REGIONS } from "../content/regions.js";
 import { WORLD_HABITATS, type HabitatDef } from "../content/worldHabitats.js";
 import { WORLD_SITES } from "../content/worldSites.js";
@@ -17,7 +16,7 @@ import { chamberFloorAt, dungeonFloorHeight } from "../world/dungeonLayout.js";
 import { ForestObstacles } from "../world/forestObstacles.js";
 import { ForestResources, type ForestTreeDescriptor } from "../world/forestResources.js";
 import { lavaObstacles } from "../world/lavaObstacles.js";
-import type { BuiltWorld, WorldPorts } from "../world/regionBuilder.js";
+import type { BuiltWorld } from "../world/regionBuilder.js";
 import type { GroundSample, PlacementTerrain } from "../world/terrainSampler.js";
 import { TreeClearances } from "../world/treeClearance.js";
 import type { HeadlessWorldPorts } from "./headlessWorld.js";
@@ -70,7 +69,6 @@ export function assetMeasurements(entry: (assetId: string) => AssetMeasure | und
   };
 }
 
-export type CoastalSpawnSites = NonNullable<WorldPorts["coastalSpawns"]>;
 
 export interface Bounds3 { min: Vec3; max: Vec3 }
 
@@ -88,7 +86,7 @@ export interface AuthoredGeometry {
 
 export interface AuthoredSemantic {
   built: BuiltWorld;
-  /** The catalog's habitats, then the coastal ones this seed produced. */
+  /** The catalog's authored habitats. */
   habitats: HabitatDef[];
 }
 
@@ -97,8 +95,8 @@ export function terrainAtOf(terrains: AssemblyTerrains): (x: number, z: number) 
   return (x, z) => x >= extent.minX && x <= extent.maxX && z >= extent.minZ && z <= extent.maxZ ? terrains.fairy : terrains.main;
 }
 
-/** Entities, their solids, the route graph and the coastal habitats, from the installed catalog and the seed. */
-export function buildAuthoredSemantic(seed: number, terrains: AssemblyTerrains, measurements: AssetMeasurements, coastalSpawns: CoastalSpawnSites): AuthoredSemantic {
+/** Entities, their solids, the route graph and the authored habitats, from the installed catalog and the seed. */
+export function buildAuthoredSemantic(seed: number, terrains: AssemblyTerrains, measurements: AssetMeasurements): AuthoredSemantic {
   const terrainAt = terrainAtOf(terrains);
   const heightAt = (region: RegionId, x: number, z: number) => terrainAt(x, z).heightAt(region, x, z);
   const meshHeightAt = (x: number, z: number) => terrainAt(x, z).meshHeightAt(x, z);
@@ -115,12 +113,11 @@ export function buildAuthoredSemantic(seed: number, terrains: AssemblyTerrains, 
   const fishing = fishingSiteAnchors(WORLD_SITES, terrains.main.getWaterBodies(), meshHeightAt);
   const built = GAME_BOOT_PROFILE.buildSemanticWorld(seed, heightAt, { ...measurements, heightAt, roadDistance, dungeonGates: true,
     accessPositions: new Map([...fishing.banks, ...miningAccessPositions(WORLD_SITES, meshHeightAt, measurements)]),
-    coastalSpawns, fishingSchools: fishing.schools,
-    minibossCanStand: (region, x, z) => { const sample = terrainAt(x, z).sampleWorld(x, z); return sample.playable && sample.semanticRegion === region && sample.waterBodyId === null && sample.slope !== null && sample.slope <= .5; },
-    coastalAccepts: (spot, radius) => coastalBodyOnSafeGround((x, z) => terrainAt(x, z).sampleWorld(x, z), spot, radius) });
+    fishingSchools: fishing.schools,
+    minibossCanStand: (region, x, z) => { const sample = terrainAt(x, z).sampleWorld(x, z); return sample.playable && sample.semanticRegion === region && sample.waterBodyId === null && sample.slope !== null && sample.slope <= .5; } });
   const lava = GAME_BOOT_PROFILE.terrain().lavaChannels;
   if (lava?.length) built.solids.push(...lavaObstacles(lava, meshHeightAt));
-  return { built, habitats: [...WORLD_HABITATS, ...(built.coastalHabitats ?? [])] };
+  return { built, habitats: [...WORLD_HABITATS] };
 }
 
 /** Adds the prepared geometry to the semantic world, places the creatures, and returns what a `HeadlessWorld` runs on. */
@@ -154,7 +151,7 @@ export function assembleAuthoredWorld(seed: number, terrains: AssemblyTerrains, 
   };
   const spawnContext: SpawnContext = { seed, baseY: measurements.baseY, assetSize: measurements.assetSize, refinePopulation: true,
     floorAt: (region, x, z) => spec && region === spec.regionId ? dungeonFloorHeight(spec, x, z) : heightAt(region, x, z),
-    spacing: sources => { const ports = mobSpawnPlacementPorts(sources, placement); return { ...ports, place: (entity, x, z, radius) => treeAt(x, z, radius) ? null : ports.place(entity, x, z, radius) }; } };
+    spacing: () => { const ports = mobSpawnPlacementPorts(placement); return { ...ports, place: (entity, x, z, radius) => treeAt(x, z, radius) ? null : ports.place(entity, x, z, radius) }; } };
   const forestObstacles = new ForestObstacles(); let forest: ForestResources;
   const solids = new Solids(built.solids);
   const structureBounds = geometry.structureBounds;

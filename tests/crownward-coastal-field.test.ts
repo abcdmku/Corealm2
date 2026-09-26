@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildWorldTerrainSpec } from '../game/src/app/worldSpec.js';
 import {
+  sampleOrganicBiomeBoundary,
   sampleOrganicBiomeWeights,
   sampleOrganicCoast,
 } from '../game/src/world/organicFields.js';
@@ -25,16 +26,36 @@ function expectBiome(id: string, x: number, z: number): void {
 }
 
 describe('Crownward and Wilderness visual fields', () => {
-  it('keeps Crownward unbroken from its broad interior to the dry eastern coast', () => {
+  it('carries Crownward through distinct peaks and saddles to a finite far slope', () => {
     for (let z = -180; z <= 400; z += 20) {
-      const dryCoast: number[] = [];
-      for (let x = 400; x <= bounds.maxX + coast.collar; x += 5) {
-        if (!sampleOrganicCoast(x, z, bounds, coast).land) continue;
-        dryCoast.push(x);
+      for (let x = 400; x <= 860; x += 5) {
         expectBiome('crownward', x, z);
+        if (x <= bounds.maxX) continue;
+        const boundary = sampleOrganicBiomeBoundary(x, z, bounds, coast, biomes);
+        expect(boundary.land, `${x},${z} should be mountain ground`).toBe(true);
+        if (x >= 760) expect(boundary.mountain, `${x},${z} should not descend into the sea`).toBeGreaterThan(0.5);
       }
-      expect(dryCoast.at(-1), `no eastern Crownward coast at z=${z}`).toBeGreaterThan(bounds.maxX);
+      const profile = Array.from({ length: 47 }, (_, i) =>
+        sampleOrganicBiomeBoundary(660 + i * 5, z, bounds, coast, biomes).rise);
+      const summit = Math.max(...profile);
+      expect(summit, `raised foothills continue through the broad passes at z=${z}`).toBeGreaterThan(18);
+      expect(summit - profile.at(-1)!, `a descending far slope at z=${z}`).toBeGreaterThan(15);
+      const edge = sampleOrganicBiomeBoundary(bounds.maxX + coast.collar, z, bounds, coast, biomes);
+      expect(edge.mountain).toBe(0);
+      expect(edge.descent).toBe(1);
     }
+    const skyline = (z: number) => Math.max(...Array.from({length: 47}, (_, i) =>
+      sampleOrganicBiomeBoundary(660 + i * 5, z, bounds, coast, biomes).rise));
+    const southernGroup = Math.max(...[-160, -140, -40, -20, 0].map(skyline));
+    const northernGroup = Math.max(...[200, 220, 240, 260].map(skyline));
+    const pass = skyline(120);
+    expect(southernGroup).toBeGreaterThan(60);
+    expect(southernGroup).toBeLessThan(90);
+    expect(northernGroup).toBeGreaterThan(80);
+    expect(northernGroup).toBeLessThan(110);
+    expect(pass).toBeLessThan(40);
+    expect(southernGroup - pass).toBeGreaterThan(30);
+    expect(northernGroup - pass).toBeGreaterThan(45);
   });
 
   it('carries Crownward from its southern interior onto the dry southern coast', () => {
@@ -44,6 +65,10 @@ describe('Crownward and Wilderness visual fields', () => {
         if (!sampleOrganicCoast(x, z, bounds, coast).land) continue;
         dryCoast.push(z);
         expectBiome('crownward', x, z);
+        if (z < bounds.minZ) {
+          const boundary = sampleOrganicBiomeBoundary(x, z, bounds, coast, biomes);
+          expect(boundary.mountain, `southern shore at ${x},${z}`).toBeLessThan(0.15);
+        }
       }
       expect(dryCoast.at(-1), `no southern Crownward coast at x=${x}`).toBeLessThan(bounds.minZ);
     }

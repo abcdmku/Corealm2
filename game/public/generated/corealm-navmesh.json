@@ -3,15 +3,15 @@
     "dungeon": 3,
     "other": 206,
     "road": 0,
-    "solid-carve": 5568,
+    "solid-carve": 5567,
     "terrain": 175,
     "water": 0
   },
-  "fingerprint": "0fd1b791a57d7a81b2fd649b38924a9be10c189a652aab271d1b49f781d2efab",
+  "fingerprint": "c79504662e9e502af307923c1d6170b580435b0a3036de47ce6007332616058f",
   "format": "corealm-navmesh",
   "formatVersion": 1,
-  "navDataSha256": "4f37cbbf71da34ab55331f612e3a5b8d1504c934390c05e3abcdbca6b6c259d1",
-  "polyCount": 15076,
+  "navDataSha256": "47d2ea7bdee9cea6af3e3d718a7f866bef3fc7553949c8d89f0fd35f3f440d5a",
+  "polyCount": 15885,
   "recastVersion": "0.43.1",
   "settings": {
     "ch": 0.2,
@@ -24,19 +24,19 @@
     "walkableRadius": 1,
     "walkableSlopeAngle": 60
   },
-  "sourceMeshes": 5952,
-  "sourceTriangles": 1764962,
+  "sourceMeshes": 5951,
+  "sourceTriangles": 1792643,
   "tileCount": 1,
   "path": "generated/corealm-navmesh.bin",
-  "bytes": 3301074,
+  "bytes": 3526294,
   "worldSeed": "1337",
   "authoredInputs": {
-    "terrainGeometry": "b2c063c5b16cb5410c647cd8b1117deff665bdeb925909b6b18df621175cda59",
-    "roads": "acfc48d0e9c5a7313228282eac6de737587d35b3bfedc79aa038285545bd4611",
-    "water": "39f27f0316a06bff15d7288d6ce34c8d380e49f0d9789272dcd808654eac45e8",
-    "solidCarves": "f59556f9b4b0a6e8e36afd4f7b13ac217811f974324e33bf540f7cb8e24d17c2",
+    "terrainGeometry": "5c48d0e5e0497259d7a98bc1f95cdbe991202af341d0e96ef016dbd15f9ab428",
+    "roads": "467782ba7c7447ecc6242e1ed0407b511be7942944dd0c069153036e748ddd30",
+    "water": "554a27e02bb9a041697db40d2f18295bbd4562600a8348c239f5136e6fe52ae2",
+    "solidCarves": "14f89348135b134c9c18c8063b46777a335da87731c6e8f1ece4e4f14eef2a8b",
     "dungeonGeometry": "bf4548812c51c96fea553226b5a80fe20d4d5507430c9e17340cc97adc156144",
-    "seedDependentInputs": "595173b828bfff01f30c14a0c81cfbe11b9d51c150d9663294997859360ab0e8",
-    "navigationSettings": "f97bac7c9fa4f9e75b6afae7573639f212c633a4c03b983332088a0c7cfcd139"
+    "seedDependentInputs": "671364c080c9c17e642c95276ce09c489a1974236df81f01ce26ec4bf641abd6",
+    "navigationSettings": "1c82fdaad3868650fa4fbe6d8db50ab05659164df32f2af3c0007db957d9359c"
   }
 }

@@ -641,6 +641,7 @@ export class MaterialLibrary {
   private groundUniforms: GroundUniforms | null = null;
   /** Shared authored maps are borrowed; their loader owns their lifetime. */
   private readonly groundStoneUniforms = {
+    uAlpineRock: { value: null as THREE.Texture | null },
     uGroundStoneAlbedo: { value: null as THREE.Texture | null },
     uGroundStoneNormal: { value: null as THREE.Texture | null },
     uGroundStoneRoughness: { value: null as THREE.Texture | null },
@@ -763,7 +764,9 @@ export class MaterialLibrary {
   }
 
   /** Boot awaits the shared surface loader, then supplies these maps before terrain creation. */
+
   setGroundStoneSurface(textures: CorealmSurfaceTextures): void {
+    this.groundStoneUniforms.uAlpineRock.value = textures.alpineRock ?? null;
     const stone = textures.stone;
     if (!Number.isFinite(stone.tileMetres) || stone.tileMetres <= 0
       || stone.meanLinearRgb.some(value => !Number.isFinite(value) || value <= 0)) {
@@ -1360,6 +1363,7 @@ export class MaterialLibrary {
     this.groundUniforms?.uCobble.value.dispose();
     this.groundUniforms = null;
     this.groundStoneUniforms.uGroundStoneAlbedo.value = null;
+    this.groundStoneUniforms.uAlpineRock.value = null;
     this.groundStoneUniforms.uGroundStoneNormal.value = null;
     this.groundStoneUniforms.uGroundStoneRoughness.value = null;
     this.groundStoneUniforms.uGroundStoneReady.value = 0;

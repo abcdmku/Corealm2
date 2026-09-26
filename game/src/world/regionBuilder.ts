@@ -35,10 +35,6 @@ import { worldSiteResourceSlot, worldSitePoint } from "../content/worldSites.js"
 import { fairyNpcPresentation } from '../content/fairyNpcs.js';
 import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
 import { RngStreams, Rng } from "../core/rng.js";
-import { isStarterAnimalAsset } from "../content/fantasyEncounters.js";
-import { createCoastalEncounterFormation, coastalEncounterTier, type CoastalEncounterFormation } from '../content/coastalEncounterFormation.js';
-import { encounterBodyRadius } from '../content/encounterPlacement.js';
-import { DEEP_WILDERNESS_PACKS } from '../content/deepWildernessEncounters.js';
 import { content, enemyCombatLevel } from "../content/index.js";
 import type { EnemyDef, GatheringResourceArchetype, ResourceDef } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
@@ -249,8 +245,6 @@ export interface BuildingBox {
 }
 
 export interface BuiltWorld {
-  /** Generated coastal formations share exact spawn and patrol sockets. */
-  coastalHabitats?: readonly HabitatDef[];
   entities: SemanticEntity[];
   routeNodes: RouteNodeOut[];
   routeEdges: RouteEdgeOut[];
@@ -319,10 +313,6 @@ export interface WorldPorts {
   fishingSchools?: ReadonlyMap<string, Vec3>;
   /** Root enables authored gate assets and partitions after their production lab acceptance. */
   dungeonGates?: boolean;
-  /** Dry coastal sites supplied by the production terrain sampler. */
-  coastalSpawns?: readonly { id: string; regionId: RegionId; biomeId: RegionId; spot: Spot }[];
-  /** Required for coastal packs: whole-body dry terrain and slope acceptance. */
-  coastalAccepts?: (spot: Spot, bodyRadius: number) => boolean;
   /** Dry playable point on this map. Interior realms have no ocean coast sample. */
   minibossCanStand?: (regionId: RegionId, x: number, z: number) => boolean;
 }
@@ -402,42 +392,12 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     const dungeon = region.dungeon;
     if (dungeon) buildDungeonEntities(region, dungeon, rng, ctx);
   }
-  const coastalFormations: CoastalEncounterFormation[] = [];
-  const authoredActors = entities.filter(entity => entity.combat && (entity.archetype === 'enemy' || entity.archetype === 'boss'));
-  for (const site of ports?.coastalSpawns ?? []) {
-    if (!ports?.coastalAccepts) continue;
-    const region = REGIONS.find((entry) => entry.id === (site.regionId === 'wilderness' ? 'wilderness' : site.biomeId));
-    const tier = coastalEncounterTier(site.regionId, site.spot[1], region?.tier ?? 1);
-    const groups = region?.enemyGroups.filter((group) => !group.boss && !group.miniBoss
-      && !isStarterAnimalAsset(group.assetId) && (site.regionId !== 'wilderness' || group.tier === tier)
-      && enemyBlockFor(site.id, group.family, tier) !== undefined) ?? [];
-    const coastalRng = new Rng(seed ^ variantSeed(site.id));
-    const source = coastalRng.pick(groups);
-    if (!source) continue;
-    const bodyRadius = Math.max(encounterBodyRadius(source),
-      ...DEEP_WILDERNESS_PACKS.filter(pack => `creature_${pack.speciesId}` === source.assetId).map(pack => pack.bodyRadius));
-    const neighbours = authoredActors.filter(entity => Math.hypot(entity.position[0] - site.spot[0],
-      entity.position[2] - site.spot[1]) < 34 + (entity.combat!.bodyRadius ?? 1));
-    const formation = createCoastalEncounterFormation(site, source, { bodyRadius,
-      accepts: (spot, radius) => ports.coastalAccepts!(spot, radius) && neighbours.every(entity =>
-        Math.hypot(entity.position[0] - spot[0], entity.position[2] - spot[1]) >= radius + (entity.combat!.bodyRadius ?? 1) + 2),
-      reserved: coastalFormations, regionTier: tier });
-    if (!formation) continue;
-    const stats = enemyBlockFor(site.id, source.family, tier);
-    if (!stats) throw new Error(`Missing coastal stats for ${source.family} T${tier}`);
-    coastalFormations.push(formation);
-    buildEnemyGroup(site.regionId, formation.group,
-      coastalRng, (spot, assetId, scale) => placeOnGround(ctx, site.regionId, spot, assetId, scale),
-      entities, ctx.assetSize, { habitat: formation.habitat,
-        members: formation.actorIds.map(id => ({ id, stats, scaleMultiplier: 1 })) });
-  }
-
   // Two seeded residents per semantic region. Resolve only after ordinary actors and solids
   // exist, so random choices cannot land in a house, resource site or another encounter.
   for (const region of REGIONS) {
     const options = { seed, heightAt: (x: number, z: number) => heightAt(region.id, x, z),
       entities, solids, canStand: (x: number, z: number) => ports?.minibossCanStand?.(region.id, x, z)
-        ?? (isFairyRegion(region.id) ? true : ports?.coastalAccepts?.([x, z], 2) ?? true) };
+        ?? true };
     const sockets = isFairyRegion(region.id)
       ? FAIRY_MINIBOSS_SOCKETS.filter(socket => socket.regionId === region.id
         && validUniversalMinibossFootprint(region.id, socket.position, options))
@@ -574,8 +534,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     if (entityId) location.entityId = entityId;
   }
 
-  return { entities, routeNodes, routeEdges: edges, knownLocations, buildings, solids,
-    coastalHabitats: coastalFormations.map(formation => formation.habitat) };
+  return { entities, routeNodes, routeEdges: edges, knownLocations, buildings, solids };
 }
 
 /**

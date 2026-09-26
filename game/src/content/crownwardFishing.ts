@@ -3,7 +3,7 @@ import { ITEM_DATA } from "./itemData.js";
 import type { ItemDef } from '../contracts.js';
 import type { ResourceDef, RecipeDef } from './index.js';
 import { RECIPE_DATA } from "./recipeData.js";
-import type { ResourceClusterDef } from './regions.js';
+import type { ResourceClusterDef, Spot } from './regions.js';
 import type { WorldSite } from './worldSites.js';
 import { riverSections, type RiverChannel } from '../world/riverChannels.js';
 
@@ -33,7 +33,7 @@ export const CROWNWARD_FISH_ITEMS: readonly ItemDef[] = ITEM_DATA.filter(item =>
 export const CROWNWARD_FISH_RECIPES: readonly RecipeDef[] = RECIPE_DATA.filter(recipe => recipe.kind === "cook" && recipe.tier >= 30);
 
 /** Same authored fishery construction in the compact river fixture and final channels. */
-export function crownwardFisheries(channels: readonly RiverChannel[]): { sites: WorldSite[]; clusters: ResourceClusterDef[] } {
+export function crownwardFisheries(channels: readonly RiverChannel[], salmonCentres?: readonly Spot[]): { sites: WorldSite[]; clusters: ResourceClusterDef[] } {
   const lake = channels.find(channel => channel.lake)!;
   const river = channels.find(channel => !channel.lake)!;
   const stations = riverSections(river);
@@ -41,8 +41,11 @@ export function crownwardFisheries(channels: readonly RiverChannel[]): { sites: 
     { id: 'crownmere_trout', fish: CROWNWARD_FISH[0], centre: lake.lake!.centre, rotation: Math.PI, body: `lake:${lake.id}`, spread: 22 },
     { id: 'crownmere_tuna', fish: CROWNWARD_FISH[1], centre: lake.lake!.centre, rotation: 0, body: `lake:${lake.id}`, spread: 22 },
     ...[.23, .32, .43].map((progress, index) => {
-      const row = stations.find(row => row.progress >= progress)!;
-      return { id: `pearlwater_salmon_${index + 1}`, fish: CROWNWARD_FISH[2], centre: [row.x, row.z] as const,
+      const centre = salmonCentres?.[index];
+      const row = centre ? stations.reduce((best, row) => Math.hypot(row.x - centre[0], row.z - centre[1])
+        < Math.hypot(best.x - centre[0], best.z - centre[1]) ? row : best)
+        : stations.find(row => row.progress >= progress)!;
+      return { id: `pearlwater_salmon_${index + 1}`, fish: CROWNWARD_FISH[2], centre: centre ?? [row.x, row.z] as const,
         rotation: Math.atan2(-row.tz, row.tx), body: `river:${river.id}:`, spread: 4 };
     }),
   ];

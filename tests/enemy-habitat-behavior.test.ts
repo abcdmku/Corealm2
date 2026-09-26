@@ -4,10 +4,8 @@ import type { EquipmentBonuses, SemanticEntity, SkillId, Vec3 } from "../game/sr
 import { SKILL_IDS, ok } from "../game/src/contracts.js";
 import { EventBus } from "../game/src/core/events.js";
 import { Rng, RngStreams } from "../game/src/core/rng.js";
-import { createCoastalEncounterFormation } from "../game/src/content/coastalEncounterFormation.js";
 import { ENEMIES } from "../game/src/content/enemies.js";
 import { content } from "../game/src/content/index.js";
-import { WORLD_BOUNDS } from "../game/src/content/regions.js";
 import * as habitats from "../game/src/content/worldHabitats.js";
 import type { HabitatDef } from "../game/src/content/worldHabitats.js";
 import { Store } from "../game/src/state/store.js";
@@ -340,61 +338,19 @@ describe("authored enemy habitat behavior", () => {
 });
 
 
-describe("generated coastal habitat behavior", () => {
-  it("patrols a generated formation outside the original world bounds through the injected habitat", () => {
-    const site = { id: "coastal_patrol_fixture", regionId: "fallowmarch", biomeId: "fallowmarch",
-      spot: [WORLD_BOUNDS.min[0] - 30, -50] } as const;
-    const formation = createCoastalEncounterFormation(site, {
-      id: "coastal_source", family: "goat", name: "Coastal goat", tier: 1, count: 7,
-      centre: [-250, 30], radius: 10, assetId: "animal_goat", scale: 1,
-    }, { bodyRadius: 1, accepts: () => true })!;
-    expect(formation).not.toBeNull();
-    const habitat = formation.habitat;
-    expect(habitat.boundary).toBe("playable-coast");
-    expect(habitat.anchors.every(([x]) => x < WORLD_BOUNDS.min[0])).toBe(true);
-    // The same points remain invalid for an authored habitat without the explicit coast policy.
-    const { boundary: _boundary, ...authored } = habitat;
-    expect(habitat.anchors.every(anchor => !habitats.habitatContains(authored, point(anchor)))).toBe(true);
-    const actor = enemy(habitat, formation.actorIds[0]!);
-    const spawn: Vec3 = [...actor.position];
-    const targets: number[] = [];
-    const sim = fixture([actor], {
-      nearestWalkable(wanted, tolerance) {
-        expect(tolerance).toBe(0.1);
-        expect(habitats.habitatContains(habitat, wanted)).toBe(true);
-        if (distance(wanted, actor.position) > 0.3) {
-          targets.push(habitat.anchors.findIndex(anchor => distance(wanted, point(anchor)) <= 0.45));
-        }
-        return [...wanted];
-      },
-    }, undefined, candidate => candidate.meta?.groupId === habitat.groupId ? habitat : null);
-    const reached = new Set<number>();
-    let travel = 0;
-    sim.advance(120_000, () => {
-      expect(habitats.habitatContains(habitat, actor.position)).toBe(true);
-      travel = Math.max(travel, distance(actor.position, spawn));
-      habitat.anchors.forEach((anchor, index) => {
-        if (distance(actor.position, point(anchor)) < 0.8) reached.add(index);
-      });
-    });
-    expect(travel).toBeGreaterThan(2);
-    expect(targets.slice(0, 8)).toEqual([1, 2, 3, 4, 5, 6, 0, 1]);
-    expect(reached.size).toBe(habitat.anchors.length);
-    expect(sim.ai.modeOf(actor.id)).toBe("idle");
-  });
-
+describe("authored habitat behavior", () => {
   it.each([
     { name: "outside-circle", anchor: [-389, -50] },
     { name: "NaN", anchor: [NaN, -50] },
     { name: "infinite", anchor: [-380, Infinity] },
-  ] as const)("rejects a coastal $name anchor before navigation", ({ anchor }) => {
+  ] as const)("rejects an authored habitat's $name anchor before navigation", ({ anchor }) => {
     const habitat: HabitatDef = {
-      id: "invalid_coastal_fixture", groupId: "invalid_coastal_fixture", regionId: "fallowmarch",
-      centre: [-380, -50], radius: 8, boundary: "playable-coast", activity: "patrol",
-      anchors: [[-380, -50], anchor], dressing: [],
+      id: "invalid_authored_fixture", groupId: "invalid_authored_fixture", regionId: "fallowmarch",
+      centre: [-220, -50], radius: 8, activity: "patrol",
+      anchors: [[-220, -50], anchor], dressing: [],
     };
     expect(habitats.habitatContains(habitat, point(anchor))).toBe(false);
-    const actor = enemy(habitat, "coastal_invalid_anchor");
+    const actor = enemy(habitat, "authored_invalid_anchor");
     const spawn: Vec3 = [...actor.position];
     const requests: Vec3[] = [];
     const sim = fixture([actor], {
@@ -410,13 +366,13 @@ describe("generated coastal habitat behavior", () => {
     expect(requests.every(wanted => distance(wanted, spawn) <= 0.45)).toBe(true);
   });
 
-  it.each(["missing", "across-wall", "NaN"] as const)("rejects a coastal %s navigation result", result => {
+  it.each(["missing", "across-wall", "NaN"] as const)("rejects an authored habitat's %s navigation result", result => {
     const habitat: HabitatDef = {
-      id: "coastal_nav_fixture", groupId: "coastal_nav_fixture", regionId: "fallowmarch",
-      centre: [-380, -50], radius: 8, boundary: "playable-coast", activity: "patrol",
-      anchors: [[-380, -50], [-376, -50]], dressing: [],
+      id: "authored_nav_fixture", groupId: "authored_nav_fixture", regionId: "fallowmarch",
+      centre: [-220, -50], radius: 8, activity: "patrol",
+      anchors: [[-220, -50], [-216, -50]], dressing: [],
     };
-    const actor = enemy(habitat, "coastal_blocked_nav");
+    const actor = enemy(habitat, "authored_blocked_nav");
     const spawn: Vec3 = [...actor.position];
     const requests: Vec3[] = [];
     const sim = fixture([actor], {
@@ -433,14 +389,14 @@ describe("generated coastal habitat behavior", () => {
 
 
 describe("enemy world replacement", () => {
-  it("immediately scans a reused coastal ID at clock zero with fresh species stats and AI state", () => {
+  it("immediately scans a reused authored ID at clock zero with fresh species stats and AI state", () => {
     const previousEnemies = content.allEnemies();
     content.register({ enemies: ENEMIES });
     try {
       const habitat: HabitatDef = {
-        id: "coastal_reset_habitat", groupId: "coastal_reset_fixture", regionId: "fallowmarch",
-        centre: [-380, -50], radius: 12, boundary: "playable-coast", activity: "patrol",
-        anchors: [[-380, -50], [-372, -50]], dressing: [],
+        id: "authored_reset_habitat", groupId: "authored_reset_fixture", regionId: "fallowmarch",
+        centre: [-220, -50], radius: 12, activity: "patrol",
+        anchors: [[-220, -50], [-212, -50]], dressing: [],
       };
       const canonicalActor = (defId: string, id: string, position: Vec3) => {
         const def = content.enemy(defId)!;

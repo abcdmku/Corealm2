@@ -22,7 +22,6 @@ export const WorldPlacementSchema = refine(obj({
   // Keyed by `index`, so the array is a sparse map rather than an ordered list.
   anchorAdjustments: opt(arr(obj({ index: int({ min: 0 }, { label: 'Anchor' }), offset: point.describe({ unit: 'm', label: 'Offset' }) }), {}, { label: 'Anchor adjustments' })),
   roamRadius: opt(num({ min: 0 }), { label: 'Roam radius', unit: 'm' }), dressing: DressingArraySchema.describe({ label: 'Dressing', role: 'Dressing in' }),
-  boundary: opt(enumOf(['playable-coast'] as const), { label: 'Boundary' }),
   // Habitat names are authored free text with no table behind them; no ref kind fits.
   habitatId: opt(str({ nonEmpty: true }), { label: 'Habitat' }),
   firstActorUsesPlacementId: opt(bool(), { label: 'First actor uses placement id' }),

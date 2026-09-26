@@ -4,7 +4,7 @@ import type { ForestTreeDescriptor } from "../world/forestResources.js";
 import { TerrainSampler, type HeightGrid, type TerrainSamplerData } from "../world/terrainSampler.js";
 import type { HeadlessWorldPorts } from "./headlessWorld.js";
 import { sha256Hex } from "./worldPackHash.js";
-import { assembleAuthoredWorld, assetMeasurements, buildAuthoredSemantic, type AssemblyTerrains, type AssetMeasure, type Bounds3, type CoastalSpawnSites } from "./worldAssembly.js";
+import { assembleAuthoredWorld, assetMeasurements, buildAuthoredSemantic, type AssemblyTerrains, type AssetMeasure, type Bounds3 } from "./worldAssembly.js";
 
 /**
  * The server world pack: the authored world's geometry as plain data, in one file.
@@ -29,7 +29,7 @@ import { assembleAuthoredWorld, assetMeasurements, buildAuthoredSemantic, type A
 export const SERVER_WORLD_PACK_FILE = "server-world.pack";
 /** Where the bake writes the pack in a checkout, relative to the repo root. A packaged server embeds the same file. */
 export const SERVER_WORLD_PACK_REPO_PATH = `game/public/generated/${SERVER_WORLD_PACK_FILE}`;
-export const SERVER_WORLD_PACK_VERSION = 1;
+export const SERVER_WORLD_PACK_VERSION = 2;
 const MAGIC = "CRLMWPCK";
 const HEADER_OFFSET = 48;
 const FORMAT = "corealm-server-world";
@@ -48,12 +48,10 @@ export interface PackedNavigation {
 
 /**
  * One seed's world. The seed bends the roads, and roads are graded into the ground, so even the terrain
- * heights follow it. It also moves ore, creatures and coastal sites, and with them solids, navmesh and trees.
+ * heights follow it. It also moves ore and creatures, and with them solids, navmesh and trees.
  */
 export interface PackedSeedWorld {
   terrain: { main: TerrainSamplerData; fairy: TerrainSamplerData };
-  /** Dry coastal sites the seed picked. They need the analytic biome field, which the server does not carry. */
-  coastalSpawns: CoastalSpawnSites;
   /** Site dressing, mine cut faces and fairy dressing. Semantic and lava solids are rebuilt at boot. */
   solids: SolidVolume[];
   structureBounds: Bounds3[];
@@ -78,7 +76,7 @@ type GridMeta = Omit<HeightGrid, "heights">;
 interface TerrainMeta extends Omit<TerrainSamplerData, "lattice" | "coastGrid"> { lattice: GridMeta; coastGrid: GridMeta | null }
 interface WorldJson { assets: Record<string, AssetMeasure> }
 interface TreeTable { ids: string[]; resourceIds: string[]; regionIds: string[]; assetIds: string[]; resource: number[]; region: number[]; asset: number[] }
-interface SeedJson { terrain: { main: TerrainMeta; fairy: TerrainMeta }; coastalSpawns: CoastalSpawnSites; solids: SolidVolume[]; structureBounds: Bounds3[]; trees: TreeTable; nav: Omit<PackedNavigation, "navData"> }
+interface SeedJson { terrain: { main: TerrainMeta; fairy: TerrainMeta }; solids: SolidVolume[]; structureBounds: Bounds3[]; trees: TreeTable; nav: Omit<PackedNavigation, "navData"> }
 const TREE_COLUMNS = 6;
 
 const gridMeta = ({ heights: _heights, ...meta }: HeightGrid): GridMeta => meta;
@@ -113,7 +111,7 @@ export function encodeServerWorldPack(pack: ServerWorldPack): Uint8Array {
       parts.push({ name: `seed/${seed}/terrain/${map}/lattice`, type: "f32", data: bytesOf(data.lattice.heights) });
       if (data.coastGrid) parts.push({ name: `seed/${seed}/terrain/${map}/coast`, type: "f32", data: bytesOf(data.coastGrid.heights) });
     }
-    json(`seed/${seed}/world`, { terrain: { main: terrainMeta(world.terrain.main), fairy: terrainMeta(world.terrain.fairy) }, coastalSpawns: world.coastalSpawns, solids: world.solids, structureBounds: world.structureBounds, trees: trees.table, nav } satisfies SeedJson);
+    json(`seed/${seed}/world`, { terrain: { main: terrainMeta(world.terrain.main), fairy: terrainMeta(world.terrain.fairy) }, solids: world.solids, structureBounds: world.structureBounds, trees: trees.table, nav } satisfies SeedJson);
     parts.push({ name: `seed/${seed}/trees`, type: "f64", data: bytesOf(trees.numbers) }, { name: `seed/${seed}/navmesh`, type: "u8", data: navData });
   }
   const align = (value: number) => Math.ceil(value / 8) * 8;
@@ -221,7 +219,7 @@ export function loadServerWorldPack(bytes: Uint8Array): ServerWorldPack {
   const worlds = new Map<number, PackedSeedWorld>();
   for (const seed of header.seeds) {
     const data = json(`seed/${seed}/world`);
-    if (!isRecord(data) || !Array.isArray(data.coastalSpawns) || !Array.isArray(data.solids) || !Array.isArray(data.structureBounds) || !isRecord(data.trees) || !isRecord(data.nav)) return fail(`seed ${seed} is malformed`);
+    if (!isRecord(data) || !Array.isArray(data.solids) || !Array.isArray(data.structureBounds) || !isRecord(data.trees) || !isRecord(data.nav)) return fail(`seed ${seed} is malformed`);
     for (const solid of data.solids as unknown[]) if (!isRecord(solid) || typeof solid.id !== "string" || !["box", "cylinder"].includes(solid.kind as string) || !Array.isArray(solid.position) || !solid.position.every(finite)) fail(`seed ${seed} holds a malformed solid`);
     const table = data.trees as unknown as TreeTable, numbers = floats(`seed/${seed}/trees`, "f64", Float64Array);
     const columns = [table.ids, table.resource, table.region, table.asset], lookups = [table.resourceIds, table.regionIds, table.assetIds];
@@ -237,7 +235,7 @@ export function loadServerWorldPack(bytes: Uint8Array): ServerWorldPack {
     if (!["solo", "tiled"].includes(nav.strategy as string) || ![nav.sourceMeshes, nav.sourceTriangles, nav.polyCount].every(finite)) fail(`seed ${seed} navigation is malformed`);
     const navData = section(`seed/${seed}/navmesh`, "u8");
     if (navData.byteLength === 0) fail(`seed ${seed} has an empty navmesh`);
-    worlds.set(seed, { terrain: { main: terrain(seed, data.terrain, "main"), fairy: terrain(seed, data.terrain, "fairy") }, coastalSpawns: data.coastalSpawns as CoastalSpawnSites, solids: data.solids as SolidVolume[], structureBounds: data.structureBounds as Bounds3[], trees,
+    worlds.set(seed, { terrain: { main: terrain(seed, data.terrain, "main"), fairy: terrain(seed, data.terrain, "fairy") }, solids: data.solids as SolidVolume[], structureBounds: data.structureBounds as Bounds3[], trees,
       nav: { ...(nav as unknown as Omit<PackedNavigation, "navData">), navData } });
   }
   return { formatVersion: header.version, revision: header.revision, seeds: header.seeds,
@@ -259,7 +257,7 @@ export async function createPackedWorld(pack: ServerWorldPack, seed: number): Pr
   const fairy = new TerrainSampler(world.terrain.fairy);
   const terrains: AssemblyTerrains = { main: new TerrainSampler(world.terrain.main), fairy, fairyExtent: fairy.getExtent() };
   const measurements = assetMeasurements(id => Object.hasOwn(pack.assets, id) ? pack.assets[id] : undefined);
-  const semantic = buildAuthoredSemantic(seed, terrains, measurements, world.coastalSpawns);
+  const semantic = buildAuthoredSemantic(seed, terrains, measurements);
   const nav = new Navigation();
   nav.importNavData(world.nav.navData, world.nav);
   // Each world gets its own copies of what the simulation may hold on to. The pack stays as loaded, so several worlds can boot from it.

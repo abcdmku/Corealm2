@@ -61,22 +61,25 @@ lattice before meshes are built. `meshHeightAt()` then supplies terrain placemen
 the graded core or coastal grid. Never add a separate render-only height sampler or write biome
 weights into content or saved state.
 
-The coast is playable terrain. `sampleOrganicCoast()` keeps the canonical rectangle dry, then walks one
-continuous periodic turn around a rounded rectangle reference. A five-band quintic value-noise fBm
-(3, 7, 15, 31, and 63 cells) creates the broad reach. Separate 63, 127, and 255 cell bands add only
-8 m, 3 m, and 1.5 m of detail after shaping, so smaller inlets stay visible without becoming long
-spikes. The result is one connected fractal contour rather than a collection of ellipse lobes. Short
-join bridges soften the descent where a side meets a corner without changing the shoreline contour.
-Dry headlands inherit the actual organic biome relief and material sampling, so the continuation
-does not become a flat shore. The shoreline range is 18-190 m and the rendered collar is 210 m,
-leaving a 20 m guaranteed margin beyond the furthest reach. Map padding rounds beyond that to 250 m,
-while authored markers retain their coordinates. Dry coastal triangles feed navigation and terrain
-picking, and the physics heightfield and placement sampler use the same coastal grid. Submerged
-triangles are excluded from navigation. Do not add an ocean region.
+Biome fields own their outer terrain through `boundary`. Ordinary fields meet the sea;
+Crownward rises into an eastern mountain range starting beyond its authored eastern sites.
+The boundary sampler blends these profiles with the same normalized biome weights used for
+relief and materials. It applies the result before authored flats, basins and road grading.
+Crownward retains its southern shore and blends into the northern Wilderness. Pearlwater ends
+in a closed foothill pool beyond its eastern bridge; the old ocean outlet no longer carves the
+mountain range. Fisheries keep their authored resource-placement centres when the river changes length.
 
-`coastalSpawnSites()` distributes deterministic creature sites across dry coastal land. Species come
-from the visual biome's ordinary enemy groups; semantic ownership remains the nearest region.
-Reject wet footprints and steep sites before passing them to the production enemy builder.
+The shore contour uses deterministic periodic noise around the world bounds. Its range is
+18-190 m, within a 210 m terrain collar. The collar grid is a mesh and storage partition only:
+it samples the same analytic biome terrain as the core, with shared graded vertices at the seam.
+Dry triangles feed navigation; terrain height, water and slope determine where actors can stand.
+Do not add a second terrain height policy or an ocean gameplay region.
+
+Population comes from the authored region catalog and the ordinary placement rules. There is
+no supplemental coastal encounter generator or coast-specific habitat containment exception.
+
+This boundary change uses the full-world exception to lab-first acceptance: isolating the coast
+would remove its relationship to biome weights, authored water, region ownership and navigation.
 
 ## Organic fields and lakes
 
@@ -250,7 +253,7 @@ section), then the sections. Number sections are read in place as typed arrays.
 | `world` | JSON | Size, base and ground offset of every asset in `assets/manifest.json` |
 | `seed/<n>/terrain/<map>/lattice` | f32 | The 2 m height lattice of the main and fairy maps |
 | `seed/<n>/terrain/main/coast` | f32 | The coastal height grid outside the playable core |
-| `seed/<n>/world` | JSON | Terrain bounds, region rects, water bodies, road lines, coastal spawn sites, dressing and cut-face solids, structure boxes, tree names, navmesh facts |
+| `seed/<n>/world` | JSON | Terrain bounds, region rects, water bodies, road lines, dressing and cut-face solids, structure boxes, tree names, navmesh facts |
 | `seed/<n>/trees` | f64 | Position, scale, rotation and trunk radius of every scattered tree |
 | `seed/<n>/navmesh` | u8 | The exported Detour navmesh |
 
@@ -286,7 +289,7 @@ trees either.
 ### Seeds
 
 The seed changes geometry. It bends every road, and roads are graded into the height lattice, so the
-ground differs between seeds. It also moves ore nodes, creatures and coastal sites, and the solids,
+ground differs between seeds. It also moves ore nodes and creatures, and the solids,
 navmesh and trees follow them. Between seeds 1337 and 42 the height lattices differ, 20 ore nodes
 move, and the navmesh has 14,661 and 14,775 polygons. A pack is therefore valid only for the seeds
 it was baked for. The shipped pack holds seed 1337, which is also the only seed the client's world
@@ -373,8 +376,8 @@ Focused development probes are available on `window.__gameDebug`:
 
 Open the Vite game in Chromium and inspect the view, not only source or the SVG.
 
-- Look toward every reachable edge. The padded ocean should meet the render collar without a wall,
-  exposed void, or ocean over playable ground. Check the padded map as well as the game view.
+- Look toward every reachable edge. The ocean should meet shore biomes without an exposed void or water over dry ground.
+  Crownward's eastern boundary should rise into mountains, with continuous terrain at the core seam. Check the padded map as well as the game view.
 - Cross each semantic seam. Visual winners should form organic transitions, while `getState().regionId`
   changes at the authored rectangle boundary.
 - Follow several paths. Their curves should be broad and deterministic, width drift restrained, and
@@ -407,6 +410,49 @@ world dimensions do not divide by the requested chunk size. Keep their quad diag
 aligned with the triangle interpolation used by `meshHeightAt()`, including the coast.
 Bilinear interpolation agrees at vertices but floats above or sinks below folded quads.
 `tests/terrain-contact.test.ts` compares real mesh ray hits with placement heights.
+
+Mountain terrain belongs to the biome field and forms an irregular arrangement of reusable,
+authored ridge-graph massifs. `game/src/world/mountainShapes.ts` supplies one shape sampler to
+both the GLB lab assets and the authoritative terrain lattice. Its 128-cell field forms
+connected descending ridges, irregular shoulders, snow bowls and a broad foothill apron.
+The jagged crest, broad split massif and eroded shoulder have separate authored ridge graphs.
+Arrange them as unequal peak groups with depth offsets and a broad pass, rather than repeating
+one mountain at even intervals along the boundary.
+Keep distinct peaks and saddles readable in normal-camera views, without stretching narrow
+footprints into steep cones. The shared alpine shader blends rock, grass and snow continuously;
+reusable assets carry native elevation and slope in their second UV channel so these bands
+survive instance batching and gallery scaling.
+Real foothills use the same fog and residency distance as other geometry. Do not extend biome
+fog beyond the residency distance: buildings would disappear before haze could hide them.
+The distant alpine skyline uses `corealm-distant-range.png`, a generated transparent panorama
+anchored beyond the playable eastern boundary by `CROWNWARD_DISTANT_RANGE`. The sky shader
+intersects camera rays with that finite world plane, preserving parallax and foreground occlusion.
+It blends the foot of the range into horizon haze, tints it at night, and suppresses it underground.
+The panorama is rendered once into a small colour target. World materials sample that target
+in their final fog band, so fully fogged terrain does not leave an opaque horizontal cut across
+the range. Nearby geometry retains its ordinary depth occlusion. This requires no depth-buffer
+copy or extra geometry pass. The blend is disabled without the backdrop, underground, and during
+fog-free map capture.
+The distant summits remain scenery; the real 48–95 m foothills naturally cover them on approach.
+Do not crossfade an unrelated painted summit into a differently shaped walkable mesh.
+Castle foundations retain a level rectangular core, with irregular rocky shoulders outside it.
+The shoulder shares the authoritative terrain lattice and road grading; it is not a decorative
+mesh hiding different collision. Castle hill composition uses the authored-world exception above.
+White Castle and its gate approach use a 10 m foundation with an explicit excavation allowance,
+so the adjacent low village does not force a tall, abrupt embankment beneath the walls.
+Use the generated `corealm-alpine-rock.png` texture and its provenance sidecar for alpine rock.
+Blend unequal texture scales and orientations over broad patches to break visible repeats; apply
+snow at high elevations on upward-facing surfaces, with exposed cliffs reading as rock.
+
+Accept reusable massif meshes and their material in the feature lab first, using staged
+candidates and `__environmentLab.showGallery`. Final-world placement is an authored-world
+exception to lab-first acceptance; prove its silhouette and terrain continuity with normal
+gameplay camera views. Do not replace the range with a smooth ramp or extend a plateau into
+unrelated climate pockets.
+The existing gallery's `mountainBackdrop: true` option exercises the production sky behind a
+foreground asset. Combine `environment=1&atmosphere=1` to check daylight, night and underground
+suppression. The foothill composition uses the full-world exception because its relationship to
+the castle, valley and distant range cannot be judged in the flat yard.
 
 Highland terraces retain their authored core and taper into rocky foothills beyond that
 extent. Regions with no authored terrace axis use rolling relief. Do not extend the final

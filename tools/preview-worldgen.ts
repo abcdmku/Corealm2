@@ -5,7 +5,7 @@ import { pathToFileURL } from "node:url";
 import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
 import {
   sampleOrganicBiomeWeights,
-  sampleOrganicCoast,
+  sampleOrganicBiomeBoundary,
   sampleOrganicContour,
 } from "../game/src/world/organicFields.js";
 import type { RegionId } from "../game/src/contracts.js";
@@ -170,12 +170,12 @@ export async function writeWorldgenPreview(outputPath = DEFAULT_OUTPUT): Promise
       const sampleZ = z + depth / 2;
       const playable = sampleX >= spec.bounds.minX && sampleX <= spec.bounds.maxX
         && sampleZ >= spec.bounds.minZ && sampleZ <= spec.bounds.maxZ;
-      const coast = sampleOrganicCoast(sampleX, sampleZ, spec.bounds, coastSpec);
+      const weights = sampleOrganicBiomeWeights(sampleX, sampleZ, biomes);
+      const coast = sampleOrganicBiomeBoundary(sampleX, sampleZ, spec.bounds, coastSpec, biomes, weights);
       if (!playable && !coast.land) continue;
       // The scene evaluates the biome field at the actual rendered position. Keep outside coast
       // colours continuous with that behavior instead of snapping every collar sample to the
       // nearest playable boundary point.
-      const weights = sampleOrganicBiomeWeights(sampleX, sampleZ, biomes);
       winners[row * columns + column] = weights.reduce(
         (best, sample) => sample.weight > best.weight ? sample : best,
         weights[0]!,

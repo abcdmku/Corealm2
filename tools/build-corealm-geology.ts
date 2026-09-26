@@ -16,9 +16,11 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { Document, NodeIO } from "@gltf-transform/core";
 import { weld } from "@gltf-transform/functions";
+import sharp from "sharp";
 import { Color, MeshBasicMaterial, ShapeUtils, Vector2, Vector3 } from "three";
 import { MarchingCubes } from "three/addons/objects/MarchingCubes.js";
 import type { AssetEntry } from "../game/src/render/assets.js";
+import { sampleMountainMassif } from "../game/src/world/mountainShapes.js";
 
 type V = Vector3;
 type Colour = [number, number, number];
@@ -33,8 +35,9 @@ type Spec = {
   id: string;
   seed: number;
   size: [number, number, number];
-  kind: "outcrop" | "cliff" | "scree" | "ore";
+  kind: "outcrop" | "cliff" | "scree" | "ore" | "mountain";
   variant?: number;
+  mountainVariant?: number;
   mineral?: keyof typeof MINERALS;
   spent?: boolean;
   placement?: { replacesAssetId: string; translation: [number, number, number] };
@@ -833,6 +836,9 @@ class Geology {
 }
 
 const specs: Spec[] = [
+  { id: "corealm_mountain_1", kind: "mountain", seed: 1101, mountainVariant: 0, size: [480, 170, 440] },
+  { id: "corealm_mountain_2", kind: "mountain", seed: 1102, mountainVariant: 1, size: [480, 170, 440] },
+  { id: "corealm_mountain_3", kind: "mountain", seed: 1103, mountainVariant: 2, size: [480, 170, 440] },
   { id: "corealm_rock_strata_1", kind: "outcrop", seed: 1201, variant: 1, size: [5.4, 3.7, 3.4] },
   { id: "corealm_rock_strata_2", kind: "outcrop", seed: 2894, variant: 2, size: [4.5, 2.65, 4.0] },
   { id: "corealm_rock_strata_3", kind: "outcrop", seed: 3572, variant: 3, size: [6.1, 2.4, 2.8] },
@@ -862,6 +868,100 @@ const specs: Spec[] = [
 const io = new NodeIO();
 
 export const GEOLOGY_ASSET_IDS: readonly string[] = specs.map(spec => spec.id);
+
+/** The landscape and reusable meshes share the same carved escarpment field. */
+async function buildMountainAsset(spec: Spec): Promise<{ glb: Uint8Array; entry: GeologyAssetEntry }> {
+  const document = new Document();
+  const buffer = document.createBuffer();
+  const scene = document.createScene(spec.id);
+  document.getRoot().setDefaultScene(scene);
+  const mesh = document.createMesh(spec.id);
+  const alpineImage = await readFile(path.join(ROOT, "game/public/assets/textures/corealm/corealm-alpine-rock.png"));
+  const texture = document.createTexture("Corealm alpine fluted granite")
+    .setImage(await sharp(alpineImage)
+      .jpeg({ quality: 86, chromaSubsampling: "4:4:4" }).toBuffer())
+    .setMimeType("image/jpeg");
+  const rock = document.createMaterial("Corealm alpine granite")
+    .setBaseColorTexture(texture).setBaseColorFactor([1, 1, 1, 1])
+    .setRoughnessFactor(0.95).setMetallicFactor(0);
+  type Vertex = readonly [number, number, number];
+  type Part = { positions: number[]; normals: number[]; colours: number[]; uvs: number[]; terrain: number[]; triangles: number };
+  const parts: Part[] = [0].map(() => ({ positions: [], normals: [], colours: [], uvs: [], terrain: [], triangles: 0 }));
+  const n = 128;
+  const [sx, sy, sz] = spec.size;
+  const variant = spec.mountainVariant!;
+  const at = (i: number, j: number): Vertex => {
+    const x = i * 2 / n - 1, z = j * 2 / n - 1;
+    return [x * sx / 2, sampleMountainMassif(x, z, variant) * sy, z * sz / 2];
+  };
+  const point = Array.from({ length: n + 1 }, (_, j) =>
+    Array.from({ length: n + 1 }, (_, i) => at(i, j)));
+  const actualHeight = Math.max(...point.flat().map(p => p[1]));
+  const normalAt = (p: Vertex): Vector3 => {
+    const x = p[0] * 2 / sx, z = p[2] * 2 / sz, e = 2 / n;
+    const dx = (sampleMountainMassif(x + e, z, variant) - sampleMountainMassif(x - e, z, variant)) * sy / (e * sx);
+    const dz = (sampleMountainMassif(x, z + e, variant) - sampleMountainMassif(x, z - e, variant)) * sy / (e * sz);
+    return new Vector3(-dx, 1, -dz).normalize();
+  };
+  const emit = (a: Vertex, b: Vertex, c: Vertex): void => {
+    const va = new Vector3(...a), vb = new Vector3(...b), vc = new Vector3(...c);
+    const normal = new Vector3().crossVectors(vb.clone().sub(va), vc.clone().sub(va)).normalize();
+    const part = parts[0]!;
+    for (const p of [a, b, c]) {
+      const vertexNormal = normalAt(p);
+      part.positions.push(...p);
+      part.normals.push(vertexNormal.x, vertexNormal.y, vertexNormal.z);
+      part.terrain.push(p[1], vertexNormal.y);
+      // Crevice colour follows nearby relief. It supports the sculpted channels
+      // at distance without baking a particular sunlight direction into them.
+      const x = p[0] * 2 / sx, z = p[2] * 2 / sz, e = 0.025;
+      const average = (sampleMountainMassif(x + e, z, variant) + sampleMountainMassif(x - e, z, variant)
+        + sampleMountainMassif(x, z + e, variant) + sampleMountainMassif(x, z - e, variant)) / 4;
+      const cavity = Math.max(0, average - p[1] / sy);
+      const shade = Math.max(0.62, 0.99 - cavity * 8);
+      part.colours.push(shade, shade, shade);
+      // Vertical faces retain vertically running mineral streaks. Wide repeats
+      // avoid a recognisable tiled stone wall on the mountain silhouette.
+      if (Math.abs(normal.y) > Math.abs(normal.x) && Math.abs(normal.y) > Math.abs(normal.z)) {
+        part.uvs.push(p[0] / 42, p[2] / 42);
+      } else if (Math.abs(normal.x) > Math.abs(normal.z)) {
+        part.uvs.push(p[2] / 42, p[1] / 36);
+      } else {
+        part.uvs.push(p[0] / 42, p[1] / 36);
+      }
+    }
+    part.triangles++;
+  };
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+    const a = point[j]![i]!, b = point[j]![i + 1]!,
+      c = point[j + 1]![i]!, d = point[j + 1]![i + 1]!;
+    emit(a, c, b);
+    emit(b, c, d);
+  }
+  const attribute = (name: string, type: "VEC2" | "VEC3", values: number[]) =>
+    document.createAccessor(name).setType(type).setArray(new Float32Array(values)).setBuffer(buffer);
+  for (let index = 0; index < parts.length; index++) {
+    const part = parts[index]!;
+    if (!part.triangles) continue;
+    mesh.addPrimitive(document.createPrimitive().setMaterial(rock)
+      .setAttribute("POSITION", attribute("position", "VEC3", part.positions))
+      .setAttribute("NORMAL", attribute("normal", "VEC3", part.normals))
+      .setAttribute("COLOR_0", attribute("colour", "VEC3", part.colours))
+      .setAttribute("TEXCOORD_0", attribute("uv", "VEC2", part.uvs))
+      .setAttribute("TEXCOORD_1", attribute("terrain", "VEC2", part.terrain)));
+  }
+  scene.addChild(document.createNode(spec.id).setMesh(mesh));
+  await document.transform(weld());
+  const glb = await io.writeBinary(document);
+  return { glb, entry: {
+    id: spec.id, file: `${DIRECTORY}/${spec.id}.glb`, pack: PACK.id, category: "rock", is: "rock",
+    tags: ["rock", "geology", "mountain", "environment"], bytes: glb.byteLength,
+    size: { x: sx, y: actualHeight, z: sz }, base: { x: -sx / 2, y: 0, z: -sz / 2 },
+    animations: [], materials: ["Corealm alpine granite"],
+    sha256: createHash("sha256").update(glb).digest("hex"),
+    triangles: parts.reduce((sum, part) => sum + part.triangles, 0), blocks: 1, mineralFaces: 0,
+  } };
+}
 
 async function serializeGeology(spec: Spec, rock: Geology): Promise<Uint8Array> {
   const document = new Document();
@@ -912,6 +1012,7 @@ async function serializeGeology(spec: Spec, rock: Geology): Promise<Uint8Array> 
 export async function buildGeologyAsset(assetId: string): Promise<{ glb: Uint8Array; entry: GeologyAssetEntry }> {
   const spec = specs.find(entry => entry.id === assetId);
   if (!spec) throw new Error(`Unknown Corealm geology asset: ${assetId}`);
+  if (spec.kind === "mountain") return buildMountainAsset(spec);
   const rock = new Geology(spec);
   rock.build();
   rock.normalize();
@@ -1027,7 +1128,7 @@ export async function buildCorealmGeology(options: GeologyBuildOptions = {}): Pr
       substrateBackZ: -0.325,
       instruction: "Place a real continuous host face at local Z=+0.12 times asset scale. It must swallow the identical active/spent perimeter while leaving interior mineral relief exposed. An overlapping host bounding box is not attachment proof.",
     },
-    construction: "Continuous terraced outcrops use distinct shoulders, split saddles and elongated tilted beds. Broad quarry cliffs retain unequal bedding shelves and oblique breakout joints. Sunder is one closed cliff body cut by intersecting tilted fracture planes and approach recesses. Scree Slide is a descending solid wedge with an uneven widening fan of tumbled angular debris. Their actual rock volumes are fitted to legacy placement bounds without flat boundary sheets. Scree patches consist of separate worn fracture flakes. Ore uses narrow irregular branching fissures with lower metallic cores, recut spent scars and identical active/spent perimeters. All exposed surfaces carry metre-density UVs, restrained vertex colour variation and angle-limited smooth normals; hard fracture boundaries remain sharp.",
+    construction: "Alpine massifs share an authored summit and branching ridge graph with the terrain sampler. Three independent 128-cell ridge fields form a jagged high crest, a broad divided massif and a lower eroded shoulder, with unequal diagonal fractures and concave accumulation bowls. The welded 32.8k-triangle render mesh carries generated fractured granite at 42 m horizontal repeat, the shared runtime material shades green foothills and snow on slanted upper slopes. Continuous terraced outcrops use distinct shoulders, split saddles and elongated tilted beds. Broad quarry cliffs retain unequal bedding shelves and oblique breakout joints. Sunder is one closed cliff body cut by intersecting tilted fracture planes and approach recesses. Scree Slide is a descending solid wedge with an uneven widening fan of tumbled angular debris. Their actual rock volumes are fitted to legacy placement bounds without flat boundary sheets. Scree patches consist of separate worn fracture flakes. Ore uses narrow irregular branching fissures with lower metallic cores, recut spent scars and identical active/spent perimeters. All exposed surfaces carry metre-density UVs and restrained vertex colour variation; hard fracture boundaries remain sharp.",
     assets: entries,
   }, null, 2)}\n`);
   return { entries, paths };

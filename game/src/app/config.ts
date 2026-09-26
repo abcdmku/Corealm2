@@ -105,8 +105,7 @@ export const CAMERA: CameraConfig = {
   defaultPitch: 0.52,
   fov: 55,
   near: 0.1,
-  // Fog ends at 260 m, so anything between there and the old 600 m far plane was drawn fully
-  // fogged out: invisible geometry, fully paid for. 280 leaves a small margin past the fog.
+  // Real geometry ends behind the far preset's fog; distant summits render in the sky pass.
   far: 280,
   followLerp: 0.14,
 };

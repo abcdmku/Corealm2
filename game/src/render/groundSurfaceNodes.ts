@@ -1,7 +1,7 @@
 import { DataTexture, RGBAFormat, SRGBColorSpace, type Texture, type Vector3, type Vector4 } from 'three';
 import { type MeshStandardNodeMaterial } from 'three/webgpu';
 import {
-  Fn, If, abs, attribute, cameraViewMatrix, clamp, cross, dFdx, dFdy, dot, exp,
+  Fn, If, abs, attribute, cameraViewMatrix, clamp, cos, cross, dFdx, dFdy, dot, exp,
   float, floor, fract, fwidth, max, min, mix, normalWorldGeometry, normalize,
   positionView, positionWorld, pow, reference, sign, sin, smoothstep, struct,
   texture, varying, vec2, vec3, vec4,
@@ -12,8 +12,24 @@ import { DETAIL_VALUE_OFFSET } from './proceduralTextures.js';
 
 type Binding<T> = { value: T };
 
+/** Unequal, large weathering patches hide the period of the two rock projections. */
+export function alpineRockBlend(point: Node<'vec3'>): Node<'float'> {
+  return smoothstep(-0.8, 0.8, sin(point.x.mul(0.027).add(point.z.mul(0.019)))
+    .add(cos(point.z.mul(0.033).sub(point.y.mul(0.021))))).mul(0.6).add(0.2);
+}
+
+/** Continuous elevation/slope bands shared by the massif assets and biome terrain. */
+export function alpineSurfaceColor(rock: Node<'vec3'>, point: Node<'vec3'>, up: Node<'float'>): Node<'vec3'> {
+  const snowLine = point.y.add(sin(point.x.mul(0.035)).mul(cos(point.z.mul(0.028))).mul(10));
+  const snow = smoothstep(65, 115, snowLine).mul(smoothstep(0.26, 0.58, up));
+  const meadow = float(1).sub(smoothstep(20, 58, point.y)).mul(smoothstep(0.42, 0.72, up));
+  const grass = vec3(0.11, 0.29, 0.055).mul(rock.r.mul(0.7).add(0.65));
+  return mix(mix(rock.mul(vec3(0.72, 0.80, 0.87)), grass, meadow), vec3(0.98, 1, 1), snow);
+}
+
 /** Stable bindings are shared with MaterialLibrary so surfaces loaded later update in place. */
 export interface GroundSurfaceInputs {
+  uAlpineRock: Binding<Texture | null>;
   uDetail: Binding<Texture>;
   uMacro: Binding<Texture>;
   uNormalGS: Binding<Texture>;
@@ -121,6 +137,16 @@ export function applyGroundSurfaceNodes(material: MeshStandardNodeMaterial, inpu
   const cobbleCoverage: Node<'float'> = groundCobbleCoverage(splatB.z, pavingKind);
   const cliffCoverage: Node<'float'> = groundCliffCoverage(splatB.z, geometricWorldNormal);
   const projectionWeights: Node<'vec3'> = groundCliffProjectionWeights(geometricWorldNormal);
+  // The biome sampler writes the alpine exposure into the formerly unused fourth ground byte.
+  const alpine: Node<'float'> = ground.w;
+  const rockPoint = positionWorld.div(vec3(42, 36, 42));
+  const firstRock = triplanar(inputs.uAlpineRock, rockPoint, projectionWeights, true).rgb;
+  const secondRock = triplanar(inputs.uAlpineRock,
+    vec3(rockPoint.z, rockPoint.y, rockPoint.x.negate()).mul(0.617).add(vec3(0.37, 0.19, 0.73)),
+    projectionWeights.zyx, true).rgb;
+  const alpineRock: Node<'vec3'> = mix(firstRock, secondRock, alpineRockBlend(positionWorld));
+  // Broad height variation lets snow follow shelves and gullies instead of drawing a level cap.
+  const alpineColor = alpineSurfaceColor(alpineRock, positionWorld, geometricWorldNormal.y);
 
   // One shared fragment calculation feeds color, roughness and normals. The returned struct
   // keeps all relief terms in the same scope and avoids sampling the terrain three times.
@@ -265,7 +291,7 @@ export function applyGroundSurfaceNodes(material: MeshStandardNodeMaterial, inpu
   const cliffBump: Node<'vec3'> = surface.get('cliffBump') as Node<'vec3'>;
   const cliffAmount: Node<'float'> = surface.get('cliffCoverage') as Node<'float'>;
   composeSurface(material, {
-    color: previous => previous.mul(surfaceColor),
+    color: previous => mix(previous.mul(surfaceColor), alpineColor, alpine),
     roughness: previous => mix(mix(previous, surface.get('cobbleRoughness') as Node<'float'>, cobbleAmount),
       surface.get('cliffRoughness') as Node<'float'>, cliffAmount),
     normal: previous => Fn(() => {
@@ -281,7 +307,9 @@ export function applyGroundSurfaceNodes(material: MeshStandardNodeMaterial, inpu
       result.assign(normalize(result.add(viewDirection(vec3(groundBump.x, 0, groundBump.y).mul(0.3)))));
       result.assign(normalize(result.add(viewDirection(vec3(cobbleBump.x, 0, cobbleBump.y).mul(0.72).mul(cobbleAmount)))));
       result.assign(normalize(result.add(viewDirection(cliffBump).mul(0.72).mul(cliffAmount))));
-      return result;
+      // Broad fractured faces carry the shape; suppress the old all-over terrain grain here.
+      const face: Node<'vec3'> = normalize(cross(dFdx(positionView), dFdy(positionView)));
+      return normalize(mix(result, face, alpine.mul(0.35)));
     })(),
   });
   material.userData.groundSurface = {

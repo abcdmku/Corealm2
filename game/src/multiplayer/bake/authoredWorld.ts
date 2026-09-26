@@ -1,6 +1,5 @@
 import { Box3, Scene } from "three";
 import { GAME_BOOT_PROFILE } from "../../app/bootProfile.js";
-import { coastalSpawnSites } from "../../app/coastalSpawns.js";
 import { buildDungeonSpec } from "../../app/dungeonSpec.js";
 import { resolveFairyDressing } from "../../app/fairyDressing.js";
 import { registerExclusions } from "../../app/worldExclusions.js";
@@ -16,10 +15,9 @@ import { buildWorldSiteDressing, type ResolvedWorldSiteDressing } from "../../re
 import { Navigation } from "../../systems/navigation.js";
 import { solidObstacleMeshes } from "../../systems/navigationObstacles.js";
 import type { ForestTreeDescriptor } from "../../world/forestResources.js";
-import { buildRegionalPackDressing } from "../../world/regionalPackDressing.js";
 import { DEFAULT_SCATTER, scatterTilesForBounds, scatterWorldTile } from "../../world/scatter.js";
 import { dryNavigationMeshes } from "../../world/waterNavigation.js";
-import { assetMeasurements, buildAuthoredSemantic, type AssemblyTerrains, type AssetMeasurements, type AuthoredGeometry, type AuthoredSemantic, type CoastalSpawnSites } from "../worldAssembly.js";
+import { assetMeasurements, buildAuthoredSemantic, type AssemblyTerrains, type AssetMeasurements, type AuthoredGeometry, type AuthoredSemantic } from "../worldAssembly.js";
 import { SERVER_WORLD_PACK_VERSION, type ServerWorldPack, type PackedSeedWorld } from "../worldPack.js";
 import { NodeGeometryAssets } from "./nodeGeometryAssets.js";
 
@@ -54,20 +52,14 @@ export async function openAuthoredSource(seed: number, assetsDirectory = "game/p
 export async function buildAuthoredGeometry(seed: number, source: AuthoredSource, semantic: AuthoredSemantic): Promise<AuthoredGeometry> {
   const { assets, scene, fairyScene } = source, { built } = semantic;
   const terrainAt = (x: number, z: number) => { const e = source.terrains.fairyExtent; return x >= e.minX && x <= e.maxX && z >= e.minZ && z <= e.maxZ ? fairyScene : scene; };
-  const packHabitats = new Map([...(built.coastalHabitats ?? [])].map(h => [h.groupId, h]));
-  const encounterNavSolids = new Map<string, SolidVolume>();
   const settings: WorldSite[] = [...WORLD_SITES, ...semantic.habitats.map((habitat): WorldSite => ({ id: habitat.id, locationId: habitat.groupId, regionId: habitat.regionId,
     centre: [0, 0], rotationY: 0, kind: "habitat", workRadius: 0, extent: [0, 0], terrain: { floorRadius: 0, backRise: 0, backDistance: 0, bermWidth: 0, approachAngle: 0 }, resourceSlots: [], dressing: habitat.dressing }))];
   const solids: SolidVolume[] = [];
   const sitePlacements: ResolvedWorldSiteDressing[] = [];
   for (const setting of settings) {
     if (!setting.dressing.length) continue;
-    const habitat = packHabitats.get(setting.locationId);
     const settingScene = terrainAt(setting.centre[0], setting.centre[1]);
-    const dressing = habitat ? await buildRegionalPackDressing(settingScene, assets, habitat,
-      Math.max(0, ...built.entities.filter(e => e.meta?.groupId === habitat.groupId).map(e => e.combat?.bodyRadius ?? 0)))
-      : await buildWorldSiteDressing(settingScene, assets, setting);
-    if ("navigationSolids" in dressing) for (const solid of dressing.navigationSolids as SolidVolume[]) encounterNavSolids.set(solid.id, solid);
+    const dressing = await buildWorldSiteDressing(settingScene, assets, setting);
     solids.push(...dressing.solids); sitePlacements.push(...dressing.placements);
     if (setting.cutFace) { const cut = await buildMineCutFace(settingScene, assets, setting, built.entities); solids.push(...cut.solids); }
   }
@@ -76,7 +68,7 @@ export async function buildAuthoredGeometry(seed: number, source: AuthoredSource
   const allSolids = [...built.solids, ...solids];
   const spec = buildDungeonSpec(scene); const dungeon = spec ? buildDungeon(spec, scene.materials) : null;
   const structures = await buildStructureNavigationSources(assets, built.entities);
-  const meshes = [...dryNavigationMeshes(scene.getWalkableMeshes(), scene.getWaterBodies()).meshes, ...fairyScene.getWalkableMeshes(), ...(dungeon?.walkable ?? []), ...dungeonNavigationBlockers(dungeon?.blockers ?? []), ...structures.meshes, ...solidObstacleMeshes(allSolids.map(solid => encounterNavSolids.get(solid.id) ?? solid))];
+  const meshes = [...dryNavigationMeshes(scene.getWalkableMeshes(), scene.getWaterBodies()).meshes, ...fairyScene.getWalkableMeshes(), ...(dungeon?.walkable ?? []), ...dungeonNavigationBlockers(dungeon?.blockers ?? []), ...structures.meshes, ...solidObstacleMeshes(allSolids)];
   const nav = new Navigation(); if (!nav.build(meshes)) throw new Error("Authored reference world navigation failed");
   // The scatter reads the global exclusion zones. Habitat clearances are left out on purpose: they follow the
   // live catalog, reject a finished trunk without touching any other placement, and so are applied at boot.
@@ -95,11 +87,10 @@ export async function bakeServerWorldPack(seeds: readonly number[], revision: st
   let assets: ServerWorldPack["assets"] = {};
   for (const seed of seeds) {
     const source = await openAuthoredSource(seed, assetsDirectory);
-    const coastalSpawns: CoastalSpawnSites = coastalSpawnSites(source.scene, seed);
-    const semantic = buildAuthoredSemantic(seed, source.terrains, source.measurements, coastalSpawns);
+    const semantic = buildAuthoredSemantic(seed, source.terrains, source.measurements);
     const geometry = await buildAuthoredGeometry(seed, source, semantic);
     assets = Object.fromEntries(source.assets.getManifest().assets.map(entry => [entry.id, { size: entry.size, ...(entry.base ? { base: entry.base } : {}), ...(entry.groundY !== undefined ? { groundY: entry.groundY } : {}) }]));
-    worlds.set(seed, { terrain: { main: source.scene.terrainSamplerData(), fairy: source.fairyScene.terrainSamplerData() }, coastalSpawns, solids: [...geometry.solids], structureBounds: [...geometry.structureBounds], trees: [...geometry.trees], nav: geometry.nav.exportNavData() });
+    worlds.set(seed, { terrain: { main: source.scene.terrainSamplerData(), fairy: source.fairyScene.terrainSamplerData() }, solids: [...geometry.solids], structureBounds: [...geometry.structureBounds], trees: [...geometry.trees], nav: geometry.nav.exportNavData() });
   }
   return { formatVersion: SERVER_WORLD_PACK_VERSION, revision, seeds: [...seeds], assets, worlds };
 }

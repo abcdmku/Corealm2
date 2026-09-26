@@ -4,6 +4,7 @@ import { diffuseColor, float, fwidth, mix, normalMap, texture, uv, vec2, vec3, v
 import { cloneNodeMaterial, composeSurface, sourceMaterialNode, sourceMaterialReference } from "./nodeMaterials.js";
 import { assetBaseUrl } from "../app/config.js";
 import { prepareLeafTexture } from "./leafTexture.js";
+import { alpineRockBlend, alpineSurfaceColor } from './groundSurfaceNodes.js';
 
 interface CorealmSurfaceMapSet {
   albedo: THREE.Texture;
@@ -17,9 +18,10 @@ export interface CorealmSurfaceTextures {
   bark: CorealmSurfaceMapSet;
   stone: CorealmSurfaceMapSet;
   leaf: CorealmSurfaceMapSet;
+  alpineRock?: THREE.Texture;
 }
 
-type SurfaceFamily = keyof CorealmSurfaceTextures;
+type SurfaceFamily = 'bark' | 'stone' | 'leaf';
 interface SurfaceManifest {
   version: number;
   surfaces: Record<SurfaceFamily, {
@@ -48,6 +50,7 @@ export function loadCorealmSurfaceTextures(baseUrl = `${assetBaseUrl()}textures/
       }),
       ...families.flatMap(family => ["", "-normal", "-roughness"].map(suffix =>
         loader.loadAsync(`${directory}corealm-${family}${suffix}.png`))),
+      loader.loadAsync(`${directory}corealm-alpine-rock.png`),
     ]);
     const failure = results.find(result => result.status === "rejected");
     if (failure) {
@@ -79,6 +82,12 @@ export function loadCorealmSurfaceTextures(baseUrl = `${assetBaseUrl()}textures/
       roughness!.name = `Corealm ${family} roughness`;
       surfaces[family] = { albedo: albedo!, normal: normal!, roughness: roughness!, ...profile };
     }
+    const alpineRock = values[10] as THREE.Texture;
+    alpineRock.colorSpace = THREE.SRGBColorSpace;
+    alpineRock.wrapS = alpineRock.wrapT = THREE.RepeatWrapping;
+    alpineRock.anisotropy = 8;
+    alpineRock.needsUpdate = true;
+    surfaces.alpineRock = alpineRock;
     return surfaces;
   })().catch(error => {
     textureLoads.delete(directory);
@@ -120,6 +129,22 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
   const apply = (source: THREE.Material): THREE.Material => {
     if (source.userData[SURFACE_MARKER]) return source;
     const name = source.name.split("@", 1)[0];
+    if (name?.startsWith('Corealm alpine ') && isStandard(source)) {
+      const existing = cache.get(source);
+      if (existing) return existing;
+      const derived = cloneNodeMaterial(source) as MeshStandardNodeMaterial;
+      // Native elevation/slope survive instance batching and gallery scaling in TEXCOORD_1.
+      const elevation = uv(1);
+      const point = vec3(uv().x.mul(42), elevation.x, uv().y.mul(42));
+      const secondary = derived.map ? texture(derived.map,
+        vec2(uv().y, uv().x.negate()).mul(0.617).add(vec2(0.37, 0.73))).rgb : vec3(0.5);
+      composeSurface(derived, { color: previous => alpineSurfaceColor(
+        mix(previous, secondary, alpineRockBlend(point)), point, elevation.y) });
+      if (derived.map) derived.map.anisotropy = 8;
+      derived.userData[SURFACE_MARKER] = 'alpine';
+      cache.set(source, derived);
+      return derived;
+    }
     // Botanical GLBs carry their own bark scan in metre-based UVs. Do not replace it
     // with the legacy mean-normalized surface, which would wash out their albedo.
     if (name === "Bark_Corealm" && source.userData.corealmBarkRelief

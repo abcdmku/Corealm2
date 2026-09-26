@@ -21,10 +21,8 @@ interface SpawnPlacementOptions {
 }
 
 /** Shared body placement rules; browser boot may cache the resulting placements. */
-export function mobSpawnPlacementPorts(worldHabitats: readonly HabitatDef[],
-  {solids, scene, nav, dungeonSpec, doorThresholds, profile, terrainAt = () => scene}: SpawnPlacementOptions): MobSpawnSpacingPorts {
+export function mobSpawnPlacementPorts({solids, scene, nav, dungeonSpec, doorThresholds, profile, terrainAt = () => scene}: SpawnPlacementOptions): MobSpawnSpacingPorts {
     const placementSolids = new Solids(solids);
-    const habitatSources = new Map(worldHabitats.map(habitat => [habitat.groupId, habitat]));
     return {
       underground: regionId => regionId === dungeonSpec?.regionId,
       place: (entity, x, z, radius) => {
@@ -48,8 +46,7 @@ export function mobSpawnPlacementPorts(worldHabitats: readonly HabitatDef[],
           if (underground) return chamberFloorAt(dungeonSpec!, [px, entity.position[1], pz]);
           if (profile.kind === 'feature-lab') return Math.abs(px) < 120 && Math.abs(pz) < 120 ? scene.meshHeightAt(px, pz) : null;
           const sample = terrainAt(px, pz).placementSurfaceAt(px, pz);
-          const coast = habitatSources.get(String(entity.meta?.groupId))?.boundary === 'playable-coast';
-          return sample && (coast || sample.semanticRegion === entity.regionId) && !sample.waterBodyId
+          return sample && sample.semanticRegion === entity.regionId && !sample.waterBodyId
             && sample.slope < .65 ? sample.height : null;
         };
         const y = floor(x, z);
@@ -76,5 +73,5 @@ export function prepareMobSpawns(actors: SemanticEntity[], worldHabitats: readon
     const residents = refineCreaturePopulation(actors, undefined, options.assetSize);
     actors.splice(0, actors.length, ...residents);
   }
-  return spreadMobSpawns(actors, worldHabitats, mobSpawnPlacementPorts(worldHabitats, options));
+  return spreadMobSpawns(actors, worldHabitats, mobSpawnPlacementPorts(options));
 }

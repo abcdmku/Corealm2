@@ -2,7 +2,7 @@ import type { SemanticEntity } from '../contracts.js';
 import { hashId } from './habitatMovement.js';
 import { tierSilhouetteScale } from '../core/math.js';
 
-/** Live resident budgets use measured production bodies, including coastal and regional packs.
+/** Live resident budgets use measured production bodies, including regional packs.
  * Keep the first saved actor IDs and never increase an already sparse group. */
 export function refineCreaturePopulation(entities: readonly SemanticEntity[],
   includes: (entity: SemanticEntity) => boolean = entity => entity.regionId === 'karrowmoor',
