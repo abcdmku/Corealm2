@@ -7,6 +7,8 @@ import { lastPlayChoice, playTargetText, rememberPlayChoice, type PlayTarget } f
 
 const HOSTS_KEY="corealm.hosts.v1";
 const MAX_HOSTS=20;
+/** More worlds than this and the picker offers a filter above the list. */
+const FILTER_AFTER=6;
 
 /** Whether this page can sign a player in, and whether one is signed in now. */
 export interface AccountAccess { configured:boolean; signedIn:boolean }
@@ -138,19 +140,26 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   panel.setAttribute("aria-label","Multiplayer worlds");panel.dataset.phase="offline";
   const header=document.createElement("div");header.className="worlds__header";
   const title=document.createElement("h2");title.textContent="Play";
-  const refresh=document.createElement("button");refresh.type="button";refresh.className="btn";refresh.textContent="Refresh worlds";
+  // Icon-sized, so the header stays one line: the menu opens it with back and close on either side.
+  const refresh=document.createElement("button");refresh.type="button";refresh.className="btn worlds__icon";refresh.textContent="↻";
+  refresh.setAttribute("aria-label","Refresh worlds");refresh.title="Refresh worlds";
   header.append(title,refresh);
-  const intro=document.createElement("p");intro.className="worlds__intro";
-  intro.textContent="Play on your own, or join a world. Online characters are separate from your single-player save.";
+  // Only once the list is long enough to hunt through: it matches a world's name or its server.
+  const filter=document.createElement("input");filter.type="search";filter.className="worlds__filter";filter.hidden=true;
+  filter.setAttribute("aria-label","Find a world");filter.placeholder="Find a world or server";filter.autocomplete="off";
   const list=document.createElement("div");list.className="worlds__list";list.setAttribute("aria-label","Available worlds");
   const hostForm=document.createElement("form");hostForm.className="worlds__host";
   const hostInput=document.createElement("input");hostInput.type="text";hostInput.className="worlds__host-input";
   hostInput.setAttribute("aria-label","Host address");hostInput.placeholder="host:port or https://host/worlds";
   hostInput.autocomplete="off";hostInput.maxLength=2048;
-  const hostAdd=document.createElement("button");hostAdd.type="submit";hostAdd.className="btn";hostAdd.textContent="Add host";
+  const hostAdd=document.createElement("button");hostAdd.type="submit";hostAdd.className="btn";hostAdd.textContent="Add";
   hostForm.append(hostInput,hostAdd);
   const hostList=document.createElement("ul");hostList.className="worlds__hosts";hostList.hidden=true;
   hostList.setAttribute("aria-label","Added hosts");
+  // Adding a host is rare, so it folds away under the list instead of taking a row on every visit.
+  const more=document.createElement("details");more.className="worlds__more";
+  const moreSummary=document.createElement("summary");
+  more.append(moreSummary,hostForm,hostList);
   // Silent until it has something to say: an idle line here only repeated the row badge and the button.
   const status=document.createElement("p");status.role="status";status.tabIndex=-1;status.className="worlds__status";
   const actions=document.createElement("div");actions.className="worlds__actions";
@@ -163,7 +172,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   const signIn=document.createElement("button");signIn.type="button";signIn.className="btn worlds__sign-in";
   signIn.textContent="Sign in";
   signIn.addEventListener("click",()=>{retrySignIn=false;identity?.login();});
-  const password=document.createElement("button");password.type="button";password.className="worlds__account-link";password.textContent="Change password";
+  const password=document.createElement("button");password.type="button";password.className="worlds__account-link";password.textContent="Password";
   password.addEventListener("click",()=>{identity?.changePassword();});
   const rename=document.createElement("button");rename.type="button";rename.className="worlds__account-link";rename.textContent="Rename";
   const signOut=document.createElement("button");signOut.type="button";signOut.className="worlds__account-link";signOut.textContent="Sign out";
@@ -173,7 +182,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
   const renameSave=document.createElement("button");renameSave.type="submit";renameSave.className="btn";renameSave.textContent="Save name";
   renameForm.append(renameInput,renameSave);
   account.append(accountNote,accountActions,renameForm);
-  actions.append(commit);panel.append(header,intro,account,list,hostForm,hostList,status,actions);
+  actions.append(commit);panel.append(header,account,filter,list,more,status,actions);
   const registry=new ProviderRegistry(),registered=new Set<string>();
   for(const provider of providers){registry.register(provider);registered.add(provider.id);}
   // Local play is the first choice, not the absence of one: the panel opens over the loading screen
@@ -240,12 +249,18 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     // The base game this build carries, the same way a server's row says which base its content comes from.
     const localVersion=baseVersionLabel(localWorld?.baseVersion);
     if(localVersion)localName.append(" ",versionTag(localVersion));
-    const localNote=document.createElement("small");localNote.textContent=localWorld?"Your single-player character, on this device.":"Local play is unavailable: this page could not read its world files.";
-    localDetail.append(localName,localNote);
+    localDetail.append(localName);
+    if(!localWorld){const localNote=document.createElement("small");localNote.textContent="This page could not read its world files.";localDetail.append(localNote);}
+    // Says that the local character is its own save, which the old intro paragraph spent two lines on.
     const localBadge=document.createElement("span");localBadge.className="worlds__badge";
-    localBadge.textContent=!localWorld?"Unavailable":playingLocal()?"Playing now":"Not connected";
+    localBadge.textContent=!localWorld?"Unavailable":playingLocal()?"Playing now":"Offline save";
+    if(!localWorld)localBadge.dataset.unavailable="true";
     local.append(localChoice,localDetail,localBadge);list.append(local);
-    for(const entry of worldListLayout(worlds)){
+    filter.hidden=worlds.length<=FILTER_AFTER;
+    const query=filter.hidden?"":filter.value.trim().toLowerCase();
+    // The chosen world stays listed whatever the query, so the button never names a row out of sight.
+    const shown=query?worlds.filter(world=>worldKey(world)===selected||`${world.name} ${world.endpoint}`.toLowerCase().includes(query)):worlds;
+    for(const entry of worldListLayout(shown)){
       if(entry.kind==="server"){
         const heading=document.createElement("div");heading.className="worlds__server";
         const host=document.createElement("span");host.textContent=entry.host;
@@ -257,15 +272,19 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
       const detail=document.createElement("span");detail.className="worlds__detail";
       const name=document.createElement("strong");name.textContent=world.name;
       if(entry.version)name.append(" ",versionTag(entry.version));
-      const population=document.createElement("small");population.textContent=`${world.population.toLocaleString()} / ${world.capacity.toLocaleString()} players`;
-      detail.append(name,population);
+      detail.append(name);
+      // A world that can be joined shows only its head count; one that cannot says why instead.
+      const reason=unavailable(world);
       const badge=document.createElement("span");badge.className="worlds__badge";
-      const reason=unavailable(world);badge.textContent=reason??"Available";if(reason)badge.dataset.unavailable="true";
+      badge.textContent=reason??`${world.population.toLocaleString()}/${world.capacity.toLocaleString()}`;
+      badge.title=`${world.population.toLocaleString()} of ${world.capacity.toLocaleString()} players`;
+      if(reason)badge.dataset.unavailable="true";
       radio.setAttribute("aria-label",world.name);
       radio.addEventListener("change",()=>{selected=radio.value;updateButtons();});
       label.append(radio,detail,badge);list.append(label);
     }
-    if(!worlds.length){const empty=document.createElement("p");empty.className="worlds__empty";empty.textContent="No worlds found. Add a host below, or play on your own.";list.append(empty);}
+    if(!worlds.length||!shown.length){const empty=document.createElement("p");empty.className="worlds__empty";
+      empty.textContent=worlds.length?"No world matches that.":"No worlds found. Add a server below, or play on your own.";list.append(empty);}
     renderAccount();updateButtons();
     focusChoice();
   };
@@ -324,6 +343,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
       remove.addEventListener("click",()=>{hosts=hosts.filter(entry=>entry!==host);storeHosts(hosts);renderHosts();void reload();});
       row.append(label,remove);return row;}));
     hostList.hidden=!hosts.length;
+    moreSummary.textContent=hosts.length?`Your servers (${hosts.length})`:"Add a server";
   };
   const controller=new SessionController(registry,{...ports,phase(next,message,failure){
     phase=next;panel.dataset.phase=next;
@@ -423,6 +443,7 @@ export async function createWorldSelector(configuration: WorldConfiguration|unde
     void joinSelected();
   };
   refresh.addEventListener("click",()=>{directory=null;void reload();});
+  filter.addEventListener("input",()=>{renderList();});
   commit.addEventListener("click",runPrimary);
   hostForm.addEventListener("submit",event=>{
     event.preventDefault();

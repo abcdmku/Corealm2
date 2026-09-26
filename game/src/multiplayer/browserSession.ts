@@ -134,7 +134,7 @@ export async function startWorldSelection(options:{fixture?:boolean;play?:PlayTa
   if(developmentGuests){
     const guest=document.createElement("label");guest.className="worlds__identity";
     guest.append("Guest character",name);
-    selector.panel.insertBefore(guest,selector.panel.querySelector(".worlds__host"));
+    selector.panel.insertBefore(guest,selector.panel.querySelector(".worlds__more"));
   }
   // Local play was asked for by name, is the only thing this page can start, or is picked while the scene loads: boot its world beside the scene.
   if(local){

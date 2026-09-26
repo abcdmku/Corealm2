@@ -301,11 +301,20 @@ export class TitleScreen {
   showWorlds():void {this.open();if(this.worlds)this.setView("worlds");}
 
   private renderWorlds():void {
-    const back=this.button("Back to menu","btn title__back",()=>this.setView("menu"));
+    if(!this.worlds)return;
+    // Back and close join the panel's own header row, so the picker spends one line on navigation.
+    // The panel outlives each render, so the previous pair is taken out first.
+    const header=this.worlds.querySelector(".worlds__header");
+    header?.querySelectorAll("[data-title-nav]").forEach(node=>node.remove());
+    const icon=(glyph:string,label:string,onClick:()=>void)=>{
+      const button=this.button(glyph,"btn worlds__icon",onClick);
+      button.dataset.titleNav="true";button.setAttribute("aria-label",label);button.title=label;return button;
+    };
+    const back=icon("←","Back to menu",()=>this.setView("menu"));
     back.dataset.autofocus="true";
-    this.card.append(back);
-    if(this.worlds)this.card.append(this.worlds);
-    this.card.append(this.button("Return to game","btn title__action",()=>this.options.onClose()));
+    header?.prepend(back);
+    header?.append(icon("✕","Return to game",()=>this.options.onClose()));
+    this.card.append(this.worlds);
   }
 
   /**
