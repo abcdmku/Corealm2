@@ -166,6 +166,11 @@ export function command(value: unknown): GameCommand {
     case "dialogue": valid = a[0] === "choose"
       ? a.length === 2 && typeof a[1] === "string" && /^[A-Za-z0-9_:.#-]{1,128}$/.test(a[1])
       : a.length === 1 && ["state", "end"].includes(a[0]); break;
+    case "upgrade": valid = a.length === 1 && record(a[0]) && only(a[0], ["fountId", "itemId", "mode", "boosters", "enchantment"])
+      && id(a[0].fountId) && typeof a[0].mode === "string" && ["rank", "magic", "buy-booster"].includes(a[0].mode)
+      && (a[0].itemId === undefined || id(a[0].itemId))
+      && (a[0].boosters === undefined || integer(a[0].boosters) && a[0].boosters >= 0 && a[0].boosters <= 9)
+      && (a[0].enchantment === undefined || typeof a[0].enchantment === "string" && ["strength", "health", "recoil", "poison", "flame", "frost"].includes(a[0].enchantment)); break;
     case "bank": case "shop": {
       const ops = method === "bank" ? ["list", "deposit", "withdraw", "depositAll"] : ["list", "buy", "sell"];
       valid = (a.length === 1 || a.length === 2) && ops.includes(a[0]) && (a[1] == null || record(a[1])

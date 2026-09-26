@@ -348,3 +348,40 @@ describe("enemy ranged attack lifecycle", () => {
     expect(combat.hits().filter(hit => hit.attacker === "enemy" && hit.damage > 0)).toEqual([]);
   });
 });
+
+
+describe('equipment magic', () => {
+  it('reports flame damage in the same hit that removes enemy health', () => {
+    const { combat, state, targets, advanceTo, start } = setup();
+    state.equipment.mainHand = { itemId: 'grithe_sword__r4__flame', quantity: 1 };
+    const attack = start('player');
+    advanceTo(Math.ceil(attack.contactAtMs / 100) * 100);
+    const hit = combat.hits().find(hit => hit.attacker === 'player')!;
+    expect(hit.damage).toBeGreaterThan(8);
+    expect(10_000 - targets.get('target_a')!.combat!.health).toBe(hit.damage);
+  });
+  it('adds flame damage only to successful damage and ticks poison without reapplying it', () => {
+    const { combat, state, targets, advanceTo } = setup();
+    state.equipment.mainHand = { itemId: 'grithe_sword__r4__flame', quantity: 1 };
+    combat.damageEnemy('target_a', 10, 0, 'melee');
+    expect(targets.get('target_a')!.combat!.health).toBe(9982);
+    combat.damageEnemy('target_a', 0, 0, 'melee');
+    expect(targets.get('target_a')!.combat!.health).toBe(9982);
+    state.equipment.mainHand = { itemId: 'grithe_sword__r4__poison', quantity: 1 };
+    combat.damageEnemy('target_a', 10, 0, 'melee');
+    advanceTo(5000);
+    expect(targets.get('target_a')!.combat!.health).toBe(9956);
+    advanceTo(7000);
+    expect(targets.get('target_a')!.combat!.health).toBe(9956);
+  });
+  it('applies a timed frost slow and reflects bounded damage without recursion', () => {
+    const { combat, state, targets } = setup();
+    state.equipment.mainHand = { itemId: 'grithe_sword__r4__frost', quantity: 1 };
+    combat.damageEnemy('target_a', 10, 100, 'melee');
+    expect(targets.get('target_a')!.meta?.upgradeSlowUntil).toBe(4100);
+    state.equipment.body = { itemId: 'grithe_cuirass__r4__recoil', quantity: 1 };
+    combat.damagePlayer(100, 'target_a', 200);
+    expect(state.player.health).toBe(9900);
+    expect(targets.get('target_a')!.combat!.health).toBe(9987);
+  });
+});

@@ -183,6 +183,7 @@ const ObstacleDefSchema = obj({
 });
 
 const LandmarkDefSchema = obj({
+  upgradeFount: opt(bool()),
   id: str(),
   name: str({}, { display: true }),
   position: SpotSchema,

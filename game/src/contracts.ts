@@ -104,7 +104,7 @@ export interface SessionError { code: SessionErrorCode; message: string }
 export const GAME_COMMAND_METHODS = [
   "moveTo", "stop", "interact", "takeLoot", "useItem", "equipItem", "unequipItem",
   "produce", "produceAt", "buildCampfire", "attack", "cast", "castNow", "castArea", "setPreferredSpell",
-  "dialogue", "bank", "shop", "hunt",
+  "dialogue", "bank", "shop", "hunt", "upgrade",
 ] as const;
 export type GameCommandMethod = typeof GAME_COMMAND_METHODS[number];
 export type GameCommand = {
@@ -494,7 +494,7 @@ export type Archetype =
 export type InteractionId =
   | "inspect" | "mine" | "chop" | "fish"
   | "attack" | "cast" | "talk" | "open" | "enter" | "climb" | "vault"
-  | "loot" | "take" | "awaken" | "produce" | "recharge" | "bank" | "trade" | "equip" | "unequip";
+  | "upgrade" | "loot" | "take" | "awaken" | "produce" | "recharge" | "bank" | "trade" | "equip" | "unequip";
 
 /** The unions above as values, so a tool schema can enumerate them instead of accepting any string. */
 export const ARCHETYPES: readonly Archetype[] = [
@@ -506,7 +506,7 @@ export const ARCHETYPES: readonly Archetype[] = [
 export const INTERACTION_IDS: readonly InteractionId[] = [
   "inspect", "mine", "chop", "fish",
   "attack", "cast", "talk", "open", "enter", "climb", "vault",
-  "loot", "take", "awaken", "produce", "recharge", "bank", "trade", "equip", "unequip",
+  "upgrade", "loot", "take", "awaken", "produce", "recharge", "bank", "trade", "equip", "unequip",
 ];
 
 /** A production station category. Recipes may accept more than one category. */
@@ -545,6 +545,9 @@ export interface StructureVariantDescriptor<TPrefab extends string = string> {
 }
 
 // ---------------------------------------------------------- items, equipment
+
+export interface UpgradeRequest { fountId: EntityId; itemId?: ItemId; mode: "rank" | "magic" | "buy-booster"; boosters?: number; enchantment?: "strength" | "health" | "recoil" | "poison" | "flame" | "frost" }
+export interface UpgradeResult { success: boolean; chance: number; itemId: ItemId | null; message: string }
 
 export interface ItemStack { itemId: ItemId; quantity: number }
 export interface LootStack extends ItemStack { partyId?: string; stackId?: string }
@@ -1793,6 +1796,7 @@ export interface GameApi {
 
   // npc, bank, shop
   dialogue(op: "state" | "choose" | "end", optionId?: string): Result<DialogueView | null>;
+  upgrade(request: UpgradeRequest): Result<UpgradeResult>;
   bank(
     op: "list" | "deposit" | "withdraw" | "depositAll",
     args?: { itemId?: ItemId; quantity?: number; filter?: string },

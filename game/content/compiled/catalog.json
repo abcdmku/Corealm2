@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "e7da0785ce0b2c07ecae53ea4d6efa73d4c6737dc6ad1f63ed1fac3a0c5f7b78",
-  "formulaRevision": "87378b98d1635b684c32466b0818366bc115958d9a9ce0fc186c51eef0982326",
+  "revision": "67e478018a4f43feb15f88da2b1719a74d92bcd6c8ecf9ecc4d2683ccf25b600",
+  "formulaRevision": "e0da2f6b2baef4d5ecc94400552b72f9dba436b6618d8f6c7c20a1d009c6a0cb",
   "tables": {
     "items": [
       {
@@ -3940,6 +3940,96 @@
           "strength": 20,
           "durationMs": 300000
         }
+      },
+      {
+        "id": "upgrade_scroll_low",
+        "name": "Basic Upgrade Scroll",
+        "tier": 1,
+        "description": "Ranks low-class weapons and armor up to +7.",
+        "stackable": true,
+        "value": 1000,
+        "category": "component"
+      },
+      {
+        "id": "upgrade_scroll_mid",
+        "name": "Medium Upgrade Scroll",
+        "tier": 30,
+        "description": "Ranks medium-class gear and low-class gear above +7.",
+        "stackable": true,
+        "value": 10000,
+        "category": "component"
+      },
+      {
+        "id": "upgrade_scroll_high",
+        "name": "High Upgrade Scroll",
+        "tier": 50,
+        "description": "Ranks high-class gear and medium-class gear above +7.",
+        "stackable": true,
+        "value": 100000,
+        "category": "component"
+      },
+      {
+        "id": "fount_blessing",
+        "name": "Fount Blessing",
+        "tier": 70,
+        "description": "Consumed at the Upgrade Fount. Each multiplies rank success chance by 1.2. Stack up to nine. Does not prevent destruction.",
+        "stackable": true,
+        "value": 100000000,
+        "category": "component"
+      },
+      {
+        "id": "enchant_strength",
+        "name": "Strength Essence",
+        "tier": 50,
+        "description": "Applies strength magic to compatible equipment at the Upgrade Fount.",
+        "stackable": true,
+        "value": 25000,
+        "category": "component"
+      },
+      {
+        "id": "enchant_health",
+        "name": "Health Essence",
+        "tier": 50,
+        "description": "Applies health magic to compatible equipment at the Upgrade Fount.",
+        "stackable": true,
+        "value": 25000,
+        "category": "component"
+      },
+      {
+        "id": "enchant_recoil",
+        "name": "Recoil Essence",
+        "tier": 50,
+        "description": "Applies recoil magic to compatible equipment at the Upgrade Fount.",
+        "stackable": true,
+        "value": 25000,
+        "category": "component"
+      },
+      {
+        "id": "enchant_poison",
+        "name": "Poison Essence",
+        "tier": 50,
+        "description": "Applies poison magic to compatible equipment at the Upgrade Fount.",
+        "stackable": true,
+        "value": 25000,
+        "category": "component"
+      },
+      {
+        "id": "enchant_flame",
+        "name": "Flame Essence",
+        "tier": 50,
+        "description": "Applies flame magic to compatible equipment at the Upgrade Fount.",
+        "stackable": true,
+        "value": 25000,
+        "category": "component"
+      },
+      {
+        "id": "enchant_frost",
+        "name": "Frost Essence",
+        "tier": 50,
+        "description": "Applies frost magic to compatible equipment at the Upgrade Fount.",
+        "stackable": true,
+        "value": 25000,
+        "category": "component"
       },
       {
         "id": "grithe_dagger",
@@ -49656,6 +49746,20 @@
           }
         ],
         "landmarks": [
+          {
+            "upgradeFount": true,
+            "id": "coldbrace_upgrade_fount",
+            "name": "Upgrade Fount",
+            "position": [
+              -160,
+              -80
+            ],
+            "assetId": "upgrade_fount",
+            "scale": 5,
+            "blurb": "Offer equipment, scrolls and blessings to raise its rank. Failed upgrades destroy the offering.",
+            "solid": true,
+            "originOnGround": true
+          },
           {
             "id": "fallowmarch_air_altar_ruins",
             "name": "Air Altar Ruins",
@@ -282012,6 +282116,20 @@
           ],
           "landmarks": [
             {
+              "upgradeFount": true,
+              "id": "coldbrace_upgrade_fount",
+              "name": "Upgrade Fount",
+              "position": [
+                -160,
+                -80
+              ],
+              "assetId": "upgrade_fount",
+              "scale": 5,
+              "blurb": "Offer equipment, scrolls and blessings to raise its rank. Failed upgrades destroy the offering.",
+              "solid": true,
+              "originOnGround": true
+            },
+            {
               "id": "fallowmarch_air_altar_ruins",
               "name": "Air Altar Ruins",
               "position": [
@@ -356315,6 +356433,46 @@
     "items:defence_potion_t4": {
       "collection": "items",
       "id": "defence_potion_t4"
+    },
+    "items:upgrade_scroll_low": {
+      "collection": "items",
+      "id": "upgrade_scroll_low"
+    },
+    "items:upgrade_scroll_mid": {
+      "collection": "items",
+      "id": "upgrade_scroll_mid"
+    },
+    "items:upgrade_scroll_high": {
+      "collection": "items",
+      "id": "upgrade_scroll_high"
+    },
+    "items:fount_blessing": {
+      "collection": "items",
+      "id": "fount_blessing"
+    },
+    "items:enchant_strength": {
+      "collection": "items",
+      "id": "enchant_strength"
+    },
+    "items:enchant_health": {
+      "collection": "items",
+      "id": "enchant_health"
+    },
+    "items:enchant_recoil": {
+      "collection": "items",
+      "id": "enchant_recoil"
+    },
+    "items:enchant_poison": {
+      "collection": "items",
+      "id": "enchant_poison"
+    },
+    "items:enchant_flame": {
+      "collection": "items",
+      "id": "enchant_flame"
+    },
+    "items:enchant_frost": {
+      "collection": "items",
+      "id": "enchant_frost"
     },
     "resources:fish_crown_trout": {
       "collection": "resources",

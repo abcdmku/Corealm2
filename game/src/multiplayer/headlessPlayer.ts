@@ -1,3 +1,4 @@
+import { UpgradingSystem } from "../systems/upgrading.js";
 import { CorealmGameApi } from "../api/gameApi.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import { LOOT_PILE_VIEW, RECOVERY_CACHE_VIEW } from "../persistence/worldContainers.js";
@@ -204,6 +205,7 @@ export class HeadlessPlayer implements CommandExecutor {
     const discovery = new DiscoverySystem({ store, events, locations: () => ports.knownLocations ?? [] });
     discovery.sweep(now());
     this.api.register("inventory", inventory); this.api.register("equipment", equipment);
+    this.api.register("upgrading", new UpgradingSystem({ store, inventory, events, now, dispatcher, entity: localEntity, random: () => rng.get("misc").next() }));
     this.api.register("bank", bank); this.api.register("shop", shop); this.api.register("combat", this.combat.hook());
     this.api.register("activity", activity.hook()); this.api.register("production", production.hook());
     this.api.register("campfire", campfire.hook());

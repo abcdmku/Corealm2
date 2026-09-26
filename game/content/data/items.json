@@ -3935,5 +3935,95 @@
       "strength": 20,
       "durationMs": 300000
     }
+  },
+  {
+    "id": "upgrade_scroll_low",
+    "name": "Basic Upgrade Scroll",
+    "tier": 1,
+    "value": 1000,
+    "description": "Ranks low-class weapons and armor up to +7.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "upgrade_scroll_mid",
+    "name": "Medium Upgrade Scroll",
+    "tier": 30,
+    "value": 10000,
+    "description": "Ranks medium-class gear and low-class gear above +7.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "upgrade_scroll_high",
+    "name": "High Upgrade Scroll",
+    "tier": 50,
+    "value": 100000,
+    "description": "Ranks high-class gear and medium-class gear above +7.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "fount_blessing",
+    "name": "Fount Blessing",
+    "tier": 70,
+    "value": 100000000,
+    "description": "Consumed at the Upgrade Fount. Each multiplies rank success chance by 1.2. Stack up to nine. Does not prevent destruction.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "enchant_strength",
+    "name": "Strength Essence",
+    "tier": 50,
+    "value": 25000,
+    "description": "Applies strength magic to compatible equipment at the Upgrade Fount.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "enchant_health",
+    "name": "Health Essence",
+    "tier": 50,
+    "value": 25000,
+    "description": "Applies health magic to compatible equipment at the Upgrade Fount.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "enchant_recoil",
+    "name": "Recoil Essence",
+    "tier": 50,
+    "value": 25000,
+    "description": "Applies recoil magic to compatible equipment at the Upgrade Fount.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "enchant_poison",
+    "name": "Poison Essence",
+    "tier": 50,
+    "value": 25000,
+    "description": "Applies poison magic to compatible equipment at the Upgrade Fount.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "enchant_flame",
+    "name": "Flame Essence",
+    "tier": 50,
+    "value": 25000,
+    "description": "Applies flame magic to compatible equipment at the Upgrade Fount.",
+    "stackable": true,
+    "category": "component"
+  },
+  {
+    "id": "enchant_frost",
+    "name": "Frost Essence",
+    "tier": 50,
+    "value": 25000,
+    "description": "Applies frost magic to compatible equipment at the Upgrade Fount.",
+    "stackable": true,
+    "category": "component"
   }
 ]

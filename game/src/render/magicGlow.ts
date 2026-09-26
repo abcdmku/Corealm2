@@ -52,6 +52,12 @@ function samePreparedMesh(object: THREE.Mesh, prepared: MagicGlowPreparation | u
   });
 }
 
+function emitsMagicGlow(object: THREE.Object3D): boolean {
+  if (object.userData['magicGlow']) return true;
+  const material = (object as THREE.Mesh).material;
+  return !!material && (Array.isArray(material) ? material : [material]).some(m => m.userData['upgradeGlow']);
+}
+
 export function writesGlowOcclusion(material: THREE.Material | THREE.Material[]): boolean {
   return (Array.isArray(material) ? material : [material]).some(mat => mat.visible && (mat.depthWrite || mat.stencilWrite));
 }
@@ -169,7 +175,7 @@ export class MagicGlow {
   async compileOcclusion(renderer: THREE.WebGPURenderer, scene: THREE.Scene, camera: THREE.Camera, root: THREE.Object3D = scene,
     batchSize = 1, outputTarget?: THREE.RenderTarget, prepared?: MagicGlowPreparation): Promise<void> {
     const selected = this.select(scene), objects: THREE.Object3D[] = [];
-    if (root !== scene) root.traverse(object => { if (object.userData.magicGlow) selected.add(object); });
+    if (root !== scene) root.traverse(object => { if (emitsMagicGlow(object)) selected.add(object); });
     if (this.nativeDepthReuse(renderer)) {
       const output = outputTarget ?? this.frameTarget ?? renderer.getRenderTarget();
       if (!output) throw new Error('Native magic glow requires the main depth/stencil target');
@@ -231,7 +237,7 @@ export class MagicGlow {
     for (const root of roots) {
       let owner: THREE.Object3D = root;
       while (owner.parent) owner = owner.parent;
-      if (owner === scene) root.traverseVisible(object => { if (object.userData['magicGlow']) selected.add(object); });
+      if (owner === scene) root.traverseVisible(object => { if (emitsMagicGlow(object)) selected.add(object); });
     }
     return selected;
   }

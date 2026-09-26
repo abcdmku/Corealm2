@@ -104,6 +104,7 @@ export const INTERACTION_PRIORITY: readonly InteractionId[] = [
 ] as const;
 
 export const INTERACTION_LABELS: Record<InteractionId, string> = {
+  upgrade: "Upgrade",
   inspect: "Examine",
   mine: "Mine",
   chop: "Chop",

@@ -1218,6 +1218,13 @@
       "author": "Corealm",
       "license": "LicenseRef-Corealm-Original",
       "source": "tools/town-stations/build.ts"
+    },
+    {
+      "id": "user-upgrade-fount",
+      "name": "Upgrade Fount",
+      "author": "User supplied",
+      "source": "stone+circular+platform+3d+model.glb",
+      "license": "User supplied"
     }
   ],
   "assets": [
@@ -70711,6 +70718,33 @@
       "triangles": 32768,
       "blocks": 1,
       "mineralFaces": 0
+      },
+      {
+      "id": "upgrade_fount",
+      "file": "models/prop/upgrade_fount.glb",
+      "pack": "user-upgrade-fount",
+      "category": "prop",
+      "tags": [
+        "upgrade",
+        "fount"
+      ],
+      "bytes": 5045768,
+      "size": {
+        "x": 0.9980469942092896,
+        "y": 0.3527200758471736,
+        "z": 1.007578819990158
+      },
+      "base": {
+        "x": -0.4990234971046448,
+        "y": 0.00004497766349231824,
+        "z": -0.586237370967865
+      },
+      "animations": [],
+      "materials": [
+        "stone"
+      ],
+      "is": "fount",
+      "source": "User supplied stone+circular+platform+3d+model.glb. Levelled X by -0.40285955477110347 radians, removed 852 underside triangles below levelled y=0.15, grounded."
     }
   ]
 }

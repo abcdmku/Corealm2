@@ -1,3 +1,5 @@
+import { itemUpgrade } from "../content/itemUpgrades.js";
+import { registerMagicGlow } from './magicGlow.js';
 /**
  * The player's character: one skeleton, many rebound parts, one mixer, one pose machine.
  *
@@ -294,6 +296,8 @@ const COVERAGE_PARTS: readonly (readonly [part: string, region: string])[] = [
  * character wears its build-time outfit, which is what it does today.
  */
 export interface GearAppearanceLike {
+  upgradeRank?: number;
+  upgradeEnchantment?: import('../content/itemUpgrades.js').Enchantment;
   itemId?: ItemId;
   assetId: string;
   slot: EquipSlot;
@@ -442,6 +446,7 @@ export interface PoseInput {
 
 export class CharacterRig {
   readonly root = new THREE.Group();
+  private readonly unregisterUpgradeGlow = registerMagicGlow(this.root);
 
   private mixer: THREE.AnimationMixer | null = null;
   private actions = new Map<string, THREE.AnimationAction>();
@@ -1013,6 +1018,8 @@ export class CharacterRig {
 
   /** A manifest-backed authored item replaces the legacy multipart/tint treatment. */
   private authoredItemParts(itemId: ItemId, fallback: readonly GearAppearanceLike[]): readonly GearAppearanceLike[] {
+    const upgrade = itemUpgrade(itemId);
+    itemId = upgrade.baseId;
     // Only explicitly accepted native-body armor replaces the fitted legacy garments.
     const entry = this.assets.entry(`corealm_item_${itemId}`);
     // Only local review asset overlays supply this marker. Normal manifests and builds
@@ -1038,7 +1045,7 @@ export class CharacterRig {
     const first = fallback[0];
     if (!first || entry?.itemModel?.itemId !== itemId) return fallback;
     const model = entry.itemModel;
-    const appearance: GearAppearanceLike = { assetId: entry.id, slot: first.slot, attach: model.wearable ? "skin" : "bone" };
+    const appearance: GearAppearanceLike = { upgradeRank: upgrade.rank, upgradeEnchantment: upgrade.enchantment, assetId: entry.id, slot: first.slot, attach: model.wearable ? "skin" : "bone" };
     const orb = fallback.find(part => part.orb)?.orb;
     if (orb && model.focus) appearance.orb = { ...orb, position: model.focus };
     return [appearance];
@@ -1656,6 +1663,7 @@ export class CharacterRig {
   }
 
   dispose(): void {
+    this.unregisterUpgradeGlow();
     this.disposed = true;
     this.cancelLayerPreparation?.();
     this.cancelLayerPreparation = null;
@@ -1763,6 +1771,8 @@ function appearanceKey(appearance: GearAppearanceLike | undefined): string {
     appearance.tint ?? "-",
     appearance.scale ?? 1,
     appearance.accent ?? "-",
+    appearance.upgradeRank ?? 1,
+    appearance.upgradeEnchantment ?? '-',
     orbKey,
   ].join("/");
 }

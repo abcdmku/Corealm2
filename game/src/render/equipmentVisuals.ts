@@ -1,3 +1,6 @@
+import { itemUpgrade, type Enchantment } from "../content/itemUpgrades.js";
+import { addWeaponUpgradeAura } from './weaponUpgradeAura.js';
+import { isolateMagicEmission } from './magicGlow.js';
 import { CRAFTED_JEWELRY, isRetiredJewelry } from '../content/jewelry.js';
 /**
  * Item-to-model mappings, hand sockets, and per-item material treatment for worn gear.
@@ -11,7 +14,7 @@ import { CRAFTED_JEWELRY, isRetiredJewelry } from '../content/jewelry.js';
  */
 import * as THREE from "three";
 import { MeshPhysicalNodeMaterial, type MeshStandardNodeMaterial } from "three/webgpu";
-import { color, mix, smoothstep, vec3, vec4, vertexColor } from "three/tsl";
+import { color, mix, smoothstep, vec3, vec4, vertexColor, time, sin } from "three/tsl";
 import { cloneNodeMaterial, composeSurface, surfaceNodes, type SurfaceNodeMaterial } from "./nodeMaterials.js";
 import type { EquipSlot, ItemId } from "../contracts.js";
 import { tierSilhouetteScale } from "./materials.js";
@@ -36,6 +39,8 @@ export type CharacterBody = "male" | "female";
 
 export interface GearAppearance {
   itemId?: ItemId;
+  upgradeRank?: number;
+  upgradeEnchantment?: Enchantment;
   assetId: string;
   slot: EquipSlot;
   /**
@@ -661,6 +666,8 @@ export function gearAppearance(itemId: ItemId, body: CharacterBody = "male"): Ge
 
 /** Every part an item contributes, in attach order. Empty for a covered id with no mesh. */
 export function gearAppearanceParts(itemId: ItemId, body: CharacterBody = "male"): readonly GearAppearance[] {
+  const upgrade = itemUpgrade(itemId);
+  if (upgrade.baseId !== itemId) return gearAppearanceParts(upgrade.baseId, body).map(part => ({ ...part, upgradeRank: upgrade.rank, upgradeEnchantment: upgrade.enchantment }));
   const regionalFabric = REGIONAL_VISUAL_FAMILIES.find(family => itemId.startsWith(`${family.fabric}_`));
   if (regionalFabric) {
     const base = fabArmorAppearance(`charhide_${itemId.slice(regionalFabric.fabric.length + 1)}`, body);
@@ -722,7 +729,7 @@ export function gearAppearancePartsWithCharge(
   body: CharacterBody = "male",
 ): readonly GearAppearance[] {
   const parts = gearAppearanceParts(itemId, body);
-  const palette = charge.itemId === itemId ? ORB_PALETTES[itemId] : undefined;
+  const palette = charge.itemId === itemId ? ORB_PALETTES[itemUpgrade(itemId).baseId] : undefined;
   if (!palette) return parts;
   return parts.map((part) => {
     const socket = ORB_SOCKETS[part.assetId];
@@ -993,6 +1000,42 @@ export function weaponAttachment(appearance: GearAppearance): WeaponSocket | nul
  * two draws.
  */
 export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppearance): void {
+  const weapon = appearance.slot === 'mainHand';
+  const glowRank = weapon ? 7 : 8;
+  const sourceMaterials = new Set<THREE.Material>();
+  if (!weapon && (appearance.upgradeRank ?? 1) >= glowRank) object.traverse(node => {
+    const mesh = node as THREE.Mesh;
+    if (mesh.isMesh) for (const m of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) sourceMaterials.add(m);
+  });
+  applyBaseGearAppearance(object, appearance);
+  const rank = appearance.upgradeRank ?? 1;
+  if (rank < glowRank) return;
+  if (weapon) {
+    // Rank colors belong to the surrounding aura, never the authored weapon materials.
+    addWeaponUpgradeAura(object, rank, appearance.upgradeEnchantment, appearance.itemId ?? appearance.assetId);
+    return;
+  }
+  const intensity = rank === 8 ? .18 : rank === 9 ? .65 : 1.5;
+  object.traverse(child => {
+    const mesh = child as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const glow = (source: THREE.Material) => {
+      const material = (sourceMaterials.has(source) ? cloneNodeMaterial(source) : source) as MeshStandardNodeMaterial;
+      material.name += `|rank:${rank}`;
+      const surface = surfaceNodes(material);
+      const pulse = sin(time.mul(2.5)).mul(.25).add(.75);
+      const tint = rank === 10 ? 0xffe9a8 : 0x9cdfff;
+      const radiance = surface.color.mul(color(tint)).mul(pulse).mul(intensity);
+      composeSurface(material, { emissive: previous => previous.add(radiance) });
+      material.userData['upgradeGlow'] = true;
+      isolateMagicEmission(material);
+      return material;
+    };
+    mesh.material = Array.isArray(mesh.material) ? mesh.material.map(glow) : glow(mesh.material);
+  });
+}
+
+function applyBaseGearAppearance(object: THREE.Object3D, appearance: GearAppearance): void {
   if (applyRegionalEquipmentTextures(object, appearance)) {
     if (appearance.orb) object.add(magicOrbMesh(appearance.orb));
     return;

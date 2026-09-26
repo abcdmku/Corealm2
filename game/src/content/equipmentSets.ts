@@ -1,3 +1,4 @@
+import { itemUpgrade } from "./itemUpgrades.js";
 import type { EquipmentBonuses, EquipSlot, ItemStack } from "../contracts.js";
 import { SET_DATA } from "./setData.js";
 export const ARMOUR_SET_SLOTS = ["head", "body", "legs", "hands", "feet"] as const;
@@ -37,7 +38,7 @@ export function inferEquipmentSets(slots: EquipmentSetSlots): EquipmentSetProgre
     for (const set of EQUIPMENT_SETS) {
         const pieces = ARMOUR_SET_SLOTS.filter((slot) => {
             const stack = slots[slot];
-            return stack != null && stack.quantity > 0 && stack.itemId === set.members[slot];
+            return stack != null && stack.quantity > 0 && itemUpgrade(stack.itemId).baseId === set.members[slot];
         }).length;
         if (pieces === 0)
             continue;

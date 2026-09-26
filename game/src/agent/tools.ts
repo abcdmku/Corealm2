@@ -144,6 +144,8 @@ function createWorldTools({ api, session }: ToolDeps): ToolDef[] {
         : await sendGameCommand(api, "dialogue", op));
     }),
 
+    defineTool(TOOL_SPECS.corealm_upgrade, async (args) => unwrap(await sendGameCommand(api, "upgrade", args as unknown as import("../contracts.js").UpgradeRequest))),
+
     defineTool(TOOL_SPECS.corealm_bank, async (args, context) => {
       const op = args.op as "list" | "deposit" | "withdraw" | "depositAll";
       if (op !== "list" && !context.bypassSession) {

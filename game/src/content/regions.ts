@@ -449,6 +449,7 @@ export interface EnemyGroupDef {
  */
 
 export interface LandmarkDef {
+  upgradeFount?: boolean;
   id: string;
   name: string;
   position: Spot;

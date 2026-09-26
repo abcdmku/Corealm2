@@ -5,6 +5,31 @@ import { ElementalRefraction, isElementalRefractionObject, registerElementalRefr
 import { prepareShaderMeshes } from "../game/src/render/shaderPreparation.js";
 import { Renderer } from "../game/src/render/renderer.js";
 import { lowerToWgsl } from "./helpers/wgsl.js";
+import { addWeaponUpgradeAura, weaponAuraPalette } from '../game/src/render/weaponUpgradeAura.js';
+
+it.each([7, 8, 10])('lowers rank %i flowing upgrade veils and filaments to GPU shaders', rank => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();
+  const weapon = new THREE.Group();
+  weapon.add(new THREE.Mesh(new THREE.BoxGeometry(.12, 1.5, .08), new THREE.MeshStandardNodeMaterial()));
+  scene.add(weapon);
+  addWeaponUpgradeAura(weapon, rank, 'flame', 'grithe_sword');
+  const sheets = weapon.children.filter(child => child.name.startsWith('upgrade-'));
+  expect(sheets.length).toBeGreaterThan(0);
+  for (const sheet of sheets) {
+    const shader = lowerToWgsl(sheet, scene, camera);
+    expect(shader.vertex).toContain('@vertex');
+    expect(shader.fragment).toContain('@fragment');
+  }
+});
+
+it('keeps weapon colors stable across model and item identities, with distinct ranks and weapons', () => {
+  const copper = weaponAuraPalette(7, undefined, 'grithe_sword');
+  expect(weaponAuraPalette(7, undefined, 'corealm_item_grithe_sword')).toEqual(copper);
+  expect(weaponAuraPalette(7, undefined, 'grithe_sword__r7')).toEqual(copper);
+  expect(weaponAuraPalette(8, undefined, 'grithe_sword')).not.toEqual(copper);
+  expect(weaponAuraPalette(7, undefined, 'nightglass_sword')).not.toEqual(copper);
+  expect(weaponAuraPalette(7, undefined, 'grithe_dagger')).not.toEqual(copper);
+});
 
 function harness(native = false) {
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera();

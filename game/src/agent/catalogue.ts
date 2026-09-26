@@ -294,6 +294,13 @@ export const TOOL_SPECS = {
       optionId: STR("Required when op is choose"),
     }, ["op"]),
   },
+  corealm_upgrade: {
+    name: "corealm_upgrade", title: "Use Upgrade Fount", access: "act", mutates: true,
+    description: "Upgrade carried equipment at a nearby fount. Failed rank upgrades destroy the item, or all three jewelry pieces. Scrolls and zero through nine multiplicative boosters are consumed on either outcome. Magic replaces the current enhancement. A booster purchase costs 100,000,000 gold.",
+    inputSchema: obj({ fountId: STR("Nearby fount entity"), itemId: STR("Exact carried item variant"),
+      mode: ENUM(["rank", "magic", "buy-booster"], "Operation"), boosters: INT("Consumed boosters, 0 through 9", { minimum: 0, maximum: 9 }),
+      enchantment: ENUM(["strength", "health", "recoil", "poison", "flame", "frost"], "Magic to apply") }, ["fountId", "mode"]),
+  },
   corealm_bank: {
     name: "corealm_bank",
     title: "Bank",
@@ -643,7 +650,7 @@ export const TOOL_ORDER: readonly ToolName[] = [
   // Primitives.
   "corealm_move_to", "corealm_stop", "corealm_interact", "corealm_take_loot", "corealm_use_item",
   "corealm_equip", "corealm_produce", "corealm_build_campfire", "corealm_attack",
-  "corealm_dialogue", "corealm_bank", "corealm_shop",
+  "corealm_dialogue", "corealm_bank", "corealm_shop", "corealm_upgrade",
   // Events.
   "corealm_events",
 ];

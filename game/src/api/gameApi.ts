@@ -85,6 +85,7 @@ function countIn(slots: readonly (InventorySlot | null)[], itemId: ItemId): numb
  * registered returns UNAVAILABLE rather than throwing, so the contract holds from round 0.
  */
 export interface SystemHooks {
+  upgrading?: { perform(request: import("../contracts.js").UpgradeRequest): Result<import("../contracts.js").UpgradeResult> };
   hunts?: Pick<import("../systems/huntContracts.js").HuntContractsSystem, "refreshOffers" | "accept" | "claim" | "abandon">;
   entities?: {
     get(id: EntityId): SemanticEntity | undefined;
@@ -876,6 +877,11 @@ export class CorealmGameApi implements GameApiContract {
     const hook = this.hooks.dialogue;
     if (!hook) return err("UNAVAILABLE", "Dialogue system is not available yet");
     return hook.op(op, optionId);
+  }
+
+  upgrade(request: import("../contracts.js").UpgradeRequest): Result<import("../contracts.js").UpgradeResult> {
+    if (this.commandsBlocked) return err("UNAVAILABLE", "Use asynchronous command submission");
+    return this.hooks.upgrading?.perform(request) ?? err("UNAVAILABLE", "Upgrade fount unavailable");
   }
 
   bank(

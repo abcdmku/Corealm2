@@ -3,15 +3,15 @@
     "dungeon": 3,
     "other": 206,
     "road": 0,
-    "solid-carve": 5576,
+    "solid-carve": 5577,
     "terrain": 175,
     "water": 0
   },
-  "fingerprint": "453630470d2987195f6d3286682d5ffa0c920e4d3886bbca4a720e68f2fafcbb",
+  "fingerprint": "46831b39620cba31bc1c7915bc1b34a06c16da765bc4024e085ad924435181fd",
   "format": "corealm-navmesh",
   "formatVersion": 1,
-  "navDataSha256": "8eef0f9da0159f224958e4b72496c92a296f5b296879ad92504e1395916304a3",
-  "polyCount": 15879,
+  "navDataSha256": "aa47cf6409ff6364e9b7ccb63dd8ab7b6a48d7a3247e85496429d81f733fbc6b",
+  "polyCount": 15886,
   "recastVersion": "0.43.1",
   "settings": {
     "ch": 0.2,
@@ -24,19 +24,19 @@
     "walkableRadius": 1,
     "walkableSlopeAngle": 60
   },
-  "sourceMeshes": 5960,
-  "sourceTriangles": 1792715,
+  "sourceMeshes": 5961,
+  "sourceTriangles": 1792723,
   "tileCount": 1,
   "path": "generated/corealm-navmesh.bin",
-  "bytes": 3529134,
+  "bytes": 3530090,
   "worldSeed": "1337",
   "authoredInputs": {
-    "terrainGeometry": "af638152c73cae478666d6b51d7c7dd3a93f1fb1b2da6efaff96a8a56c38f8d2",
-    "roads": "467782ba7c7447ecc6242e1ed0407b511be7942944dd0c069153036e748ddd30",
+    "terrainGeometry": "170ac2b10b2c29ea94af5022eff121fc7cc841deb35e52712fdf632806395dc3",
+    "roads": "192ca37302a630fe59359f845d100dd75802ed0e549647044ef877e22246fb46",
     "water": "554a27e02bb9a041697db40d2f18295bbd4562600a8348c239f5136e6fe52ae2",
-    "solidCarves": "14f89348135b134c9c18c8063b46777a335da87731c6e8f1ece4e4f14eef2a8b",
-    "dungeonGeometry": "bf4548812c51c96fea553226b5a80fe20d4d5507430c9e17340cc97adc156144",
-    "seedDependentInputs": "671364c080c9c17e642c95276ce09c489a1974236df81f01ce26ec4bf641abd6",
+    "solidCarves": "470f86b5cdab5ef8d3fcbc859810c86fbb79b8907f8cd9ac858176ecad931bd7",
+    "dungeonGeometry": "ffc226791f9f918d481104db7a20398c74fe34894ff909ac617c884e40a24135",
+    "seedDependentInputs": "07e8fa6f01bdce980f60f098c5162640cc1f409fe5ca9ad99c9f3f248dfc07f3",
     "navigationSettings": "1c82fdaad3868650fa4fbe6d8db50ab05659164df32f2af3c0007db957d9359c"
   }
 }

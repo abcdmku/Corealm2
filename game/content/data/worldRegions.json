@@ -347,6 +347,17 @@
     ],
     "landmarks": [
       {
+        "id": "coldbrace_upgrade_fount",
+        "name": "Upgrade Fount",
+        "position": [-160, -80],
+        "assetId": "upgrade_fount",
+        "scale": 5,
+        "solid": true,
+        "originOnGround": true,
+        "upgradeFount": true,
+        "blurb": "Offer equipment, scrolls and blessings to raise its rank. Failed upgrades destroy the offering."
+      },
+      {
         "id": "fallowmarch_air_altar_ruins",
         "name": "Air Altar Ruins",
         "position": [

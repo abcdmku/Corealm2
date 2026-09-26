@@ -2792,7 +2792,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   events.subscribe((event) => {
     if (event.type !== "activity.started" || !event.entityId) return;
     const entity = entityStore.get(event.entityId);
-    if (entity?.archetype === "bank") ui.openBank(entity.id);
+    if (entity?.meta?.upgradeFount) ui.openUpgrade(entity.id);
+    else if (entity?.archetype === "bank") ui.openBank(entity.id);
     else if (entity?.archetype === "shop") ui.openShop(entity.id);
   });
 

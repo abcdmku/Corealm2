@@ -113,6 +113,7 @@ import { AnimationLod } from "./animationLod.js";
 import {canSimplifyCrowd} from "./crowdGeometry.js";
 import {isProceduralGearAsset} from "./proceduralGear.js";
 import {remoteEquipmentParts,RemoteEquipmentSources,type PublicEquipment} from "./remoteEquipment.js";
+import { registerMagicGlow } from './magicGlow.js';
 import { POSE_CLIPS } from "./characterRig.js";
 import type { RemotePlayerPose } from "../contracts.js";
 import {weaponAttachment,type GearAppearance} from "./equipmentVisuals.js";
@@ -1702,6 +1703,7 @@ export class EntityViews {
   private readonly batchOwners = new WeakMap<THREE.BatchedMesh, Batch>();
   private readonly missing = new Set<string>();
   private readonly group = new THREE.Group();
+  private readonly unregisterUpgradeGlow = registerMagicGlow(this.group);
   private readonly highlightGroup = new THREE.Group();
   private readonly pickCapsuleBase = new THREE.Vector3();
   private readonly pickCapsuleTop = new THREE.Vector3();
@@ -6248,6 +6250,7 @@ export class EntityViews {
   }
 
   dispose(): void {
+    this.unregisterUpgradeGlow();
     this.remoteActivities.clear();
     this.replacementGroupKeys.clear();
     for (const [mesh, original] of this.containedWaterOriginals) mesh.material = original;

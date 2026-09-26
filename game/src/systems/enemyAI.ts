@@ -390,7 +390,9 @@ export class EnemyAiSystem implements TickSystem {
 
   // -------------------------------------------------------------------- tick
 
+  private upgradeAtMs = 0;
   tick(deltaMs: number, atMs: number): void {
+    this.upgradeAtMs = atMs;
     const state = this.deps.store.get();
     this.simulated.length = 0;
 
@@ -997,7 +999,7 @@ export class EnemyAiSystem implements TickSystem {
       return false;
     }
 
-    const step = Math.min(gap - stopWithin, (speed * deltaMs) / 1000);
+    const step = Math.min(gap - stopWithin, (speed * (Number(entity.meta?.upgradeSlowUntil ?? 0) > this.upgradeAtMs ? .75 : 1) * deltaMs) / 1000);
     if (step <= 0) return false;
 
     const nx = from[0] + (dx / gap) * step;

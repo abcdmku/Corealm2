@@ -1,3 +1,4 @@
+import { itemUpgrade } from "../content/itemUpgrades.js";
 import { assetBaseUrl } from "../app/config.js";
 /** Raster inventory icons and item shape names used by equipment previews. */
 import type { EquipSlot, ItemCategory, ItemDef } from "../contracts.js";
@@ -67,8 +68,9 @@ const itemIconBase = (): string => `${assetBaseUrl()}icons/items/48/`;
 export function itemIconUrl(def: ItemDef | undefined): string | undefined {
   if (!def) return undefined;
   // These ten crafted sets exchanged their complete appearances in R13.
-  const match = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(def.id);
-  const artworkId = match ? `${match[1] === 'dragonhide' ? 'starhide' : 'dragonhide'}_${match[2]}` : def.id;
+  const baseId = itemUpgrade(def.id).baseId;
+  const match = /^(dragonhide|starhide)_(hood|robe|leggings|boots|wraps)$/.exec(baseId);
+  const artworkId = match ? `${match[1] === 'dragonhide' ? 'starhide' : 'dragonhide'}_${match[2]}` : baseId;
   return `${itemIconBase()}${encodeURIComponent(artworkId)}.png`;
 }
 

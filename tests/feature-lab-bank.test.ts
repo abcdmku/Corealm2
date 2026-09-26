@@ -15,7 +15,7 @@ describe("feature-lab bank fixture", () => {
       assetCenterXZ: () => ({ x: 0, z: 0 }),
     });
 
-    expect(built.entities).toEqual([
+    expect(built.entities).toEqual(expect.arrayContaining([
       expect.objectContaining({
         id: FEATURE_LAB_BANK_ID,
         archetype: "bank",
@@ -24,13 +24,14 @@ describe("feature-lab bank fixture", () => {
         position: [2, 9.1, 1],
         view: expect.objectContaining({ assetId: "chest_wood" }),
       }),
-    ]);
-    expect(built.solids).toEqual([
+    ]));
+    expect(built.solids).toEqual(expect.arrayContaining([
       expect.objectContaining({
         kind: "box",
         id: FEATURE_LAB_BANK_ID,
         position: [2, 9.1, 1],
       }),
-    ]);
+    ]));
+    expect(built.entities.find(entity => entity.meta?.upgradeFount)?.interactions).toContain("upgrade");
   });
 });

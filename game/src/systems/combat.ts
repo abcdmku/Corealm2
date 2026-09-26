@@ -1,3 +1,5 @@
+import { itemUpgrade, equipmentDropRank, isUpgradeable, upgradedItemId, UPGRADE_SCROLLS, UPGRADE_BOOSTER, ENCHANTMENTS } from "../content/itemUpgrades.js";
+import { enemyCombatLevel } from "../content/index.js";
 import { criticalDamage, rollItemDrops } from './equipmentCombat.js';
 /**
  * Combat resolution — PRD 2.4, exactly.
@@ -735,6 +737,7 @@ export class CombatSystem implements TickSystem {
       || (this.playerCombatRealm !== undefined && combatRealmOf(state.player.regionId) !== this.playerCombatRealm))) {
       this.disengagePlayer("different-realm", atMs);
     }
+    this.tickUpgradeMagic(state, atMs);
     this.landSpellHits(state, atMs);
 
     // Player intent and due attacks are checked every simulation step. Weapon cadence
@@ -1009,7 +1012,7 @@ export class CombatSystem implements TickSystem {
         attacker: "player",
         sourceId: pending.sourceId,
         targetId: entity.id,
-        damage: pending.damage,
+        damage: this.upgradeHitDamage(state, pending.damage),
         hit: pending.hit,
         maxHit: pending.maxHit,
         kind: "magic",
@@ -1247,7 +1250,7 @@ export class CombatSystem implements TickSystem {
         }
         this.record({
           atMs: contactAtMs, attacker: "player", sourceId, targetId: enemyId,
-          damage, hit: inRange && attack.hit, maxHit: attack.maxHit, kind: "melee", killed,
+          damage: this.upgradeHitDamage(state, damage), hit: inRange && attack.hit, maxHit: attack.maxHit, kind: "melee", killed,
           spellId: null,
         });
         // A nearby swing provokes even if its roll misses. A target that escaped reach is safe.
@@ -1290,6 +1293,8 @@ export class CombatSystem implements TickSystem {
 
     if (damage > 0) {
       state.player.health = Math.max(0, state.player.health - damage);
+      const recoilPieces = Object.values(state.equipment).filter(piece => piece && itemUpgrade(piece.itemId).enchantment === 'recoil').length;
+      if (recoilPieces) this.damageEnemy(sourceId, Math.floor(damage * Math.min(.15, recoilPieces * .03)), atMs);
       this.deps.store.markDirty();
     }
     this.record({
@@ -1318,6 +1323,11 @@ export class CombatSystem implements TickSystem {
   }
 
   /** Returns true when this blow killed the target. */
+  private upgradeHitDamage(state: GameState, damage: number): number {
+    const magic = state.equipment.mainHand ? itemUpgrade(state.equipment.mainHand.itemId) : undefined;
+    return damage > 0 && magic?.enchantment === 'flame' ? damage + magic.rank * 2 : damage;
+  }
+
   private applyEnemyDamage(
     state: GameState,
     entity: SemanticEntity,
@@ -1325,8 +1335,15 @@ export class CombatSystem implements TickSystem {
     damage: number,
     skill: SkillId | null,
     atMs: number,
+    applyMagic = true,
   ): boolean {
     if (damage <= 0) return false;
+    if (applyMagic && skill && state.equipment.mainHand) {
+      const magic = itemUpgrade(state.equipment.mainHand.itemId);
+      damage = this.upgradeHitDamage(state, damage);
+      if (magic.enchantment === 'poison') this.upgradePoisons.set(entity.id, { damage: magic.rank, next: atMs + 1000, expires: atMs + 4000, skill });
+      if (magic.enchantment === 'frost') entity.meta = { ...entity.meta, upgradeSlowUntil: atMs + 4000 };
+    }
     runtime.health = Math.max(0, runtime.health - damage);
     if (entity.combat) entity.combat.health = runtime.health;
     this.deps.store.markDirty();
@@ -1387,11 +1404,42 @@ export class CombatSystem implements TickSystem {
   }
 
   /** Drop rolls run on the seeded `loot` stream so a kill never shifts the next hit roll. */
+  private readonly upgradePoisons = new Map<string, { damage: number; next: number; expires: number; skill: SkillId | null }>();
+  private tickUpgradeMagic(state: GameState, atMs: number): void {
+    for (const [id, poison] of this.upgradePoisons) {
+      const entity = this.deps.entities.get(id), runtime = state.world.enemies[id];
+      if (!entity || !runtime || runtime.state === 'dead' || runtime.state === 'returning') { this.upgradePoisons.delete(id); continue; }
+      while (poison.next <= atMs && poison.next <= poison.expires && runtime.health > 0) {
+        this.applyEnemyDamage(state, entity, runtime, poison.damage, poison.skill, poison.next, false);
+        poison.next += 1000;
+      }
+      if (atMs >= poison.expires) this.upgradePoisons.delete(id);
+    }
+  }
   private rollDrops(state: GameState, entity: SemanticEntity, def: EnemyDef, atMs: number): void {
     let items: import("../contracts.js").LootStack[] = [];
     items.push(...rollItemDrops(def.lootRolls, this.lootRng, (itemId, rolledQuantity) => !!this.deps.assignLoot || !(
       content.item(itemId)?.orb && (rolledQuantity > 0 || state.magic.consumedOrbs[itemId] || ownsPhysicalItem(state, itemId, items))
     )));
+    const level = enemyCombatLevel(def);
+    const regionTier = REGIONS.find(region => region.id === entity.regionId)?.tier ?? entity.tier;
+    items = items.flatMap(stack => {
+      const item = content.item(stack.itemId);
+      if (!item || !isUpgradeable(item)) return [stack];
+      return Array.from({ length: stack.quantity }, () => ({ ...stack, quantity: 1,
+        itemId: upgradedItemId(stack.itemId, equipmentDropRank(level, regionTier, item.tier, this.lootRng.next())) }));
+    });
+    const boss = entity.meta?.rank === 'boss', elite = boss || entity.meta?.rank === 'miniboss';
+    const band = level < 30 ? 0 : level < 50 ? 1 : 2;
+    const scrollWeights = [[.35, .02, .002], [.15, .30, .02], [.05, .15, .30]][band]!;
+    let scrollRoll = this.lootRng.next();
+    for (let i = 0; i < 3; i++) {
+      scrollRoll -= scrollWeights[i]! * (elite ? 1 : .01);
+      if (scrollRoll < 0) { items.push({ itemId: UPGRADE_SCROLLS[i]!, quantity: 1 }); break; }
+    }
+    if (level >= 50 && this.lootRng.next() < (boss ? .10 : elite ? .05 : .001))
+      items.push({ itemId: `enchant_${ENCHANTMENTS[this.lootRng.int(0, ENCHANTMENTS.length - 1)]}`, quantity: 1 });
+    if (boss && this.lootRng.next() < .0001) items.push({ itemId: UPGRADE_BOOSTER, quantity: 1 });
     if (this.deps.assignLoot) items = this.deps.assignLoot(entity, items);
 
     if (items.length === 0) return;

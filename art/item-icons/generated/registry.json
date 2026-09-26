@@ -3820,6 +3820,96 @@
       "generator": "built-in image_gen",
       "sourceLookup": "Built-in GPT Image 2.5 generated transparent sprite sheet from the recorded 4x3 prompt; see `market-potions/source-sheet.png`. Cropped isolated row 3, column 4 cell to preserve original alpha; no model or render source.",
       "review": "Reviewed the generated 256px master and 48px inventory derivative on 2026-09-24. All twelve silhouettes remain clear at 48px; red, blue and amber liquids distinguish the families, and bottle ornamentation separates tiers. Accepted for publication."
+    },
+    "upgrade_scroll_low": {
+      "status": "accepted",
+      "source": "upgrades/upgrade_scroll_low.png",
+      "sha256": "b578c4cdeab52f838b61bd4979dafe418ac0b0bf3c2d9e12a2dd739d6118ca63",
+      "prompt": "Create one fantasy RPG inventory icon, a Basic Upgrade Scroll: weathered ivory parchment partly unrolled, copper end caps, layered blue ink sigils, a plain wax seal. Painterly realistic game item, intricate surface wear, rich restrained colors, clear readable silhouette at 48px, centered isolated single object, transparent background, no text or letters, no border, no shadow outside object. This is original Corealm game inventory artwork.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "upgrade_scroll_mid": {
+      "status": "accepted",
+      "source": "upgrades/upgrade_scroll_mid.png",
+      "sha256": "f0429fcb709c15d1a847fa331d0a21f1618eaeb1260b33d2f91be21fce7d91e7",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Medium Upgrade Scroll: partly unrolled blue-grey vellum parchment, silver end caps with intricate filigree, violet ink sigils, amethyst wax seal. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "upgrade_scroll_high": {
+      "status": "accepted",
+      "source": "upgrades/upgrade_scroll_high.png",
+      "sha256": "d385d4235a3a58040ff76dfa67e219afca4388d739c8c22cadcfff5d18d283c2",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, High Upgrade Scroll: partly unrolled indigo vellum parchment, elaborate gold end caps, glowing gold ink sigils and fine celestial inscriptions without readable letters, red gemstone seal. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "fount_blessing": {
+      "status": "accepted",
+      "source": "upgrades/fount_blessing.png",
+      "sha256": "f3d98127ffda9447821cee9717b2be605f3de62f8eb5342fc21c65f4c06403ad",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Fount Blessing: ornate palm-sized gold talisman surrounding a luminous faceted rose-pink crystal, small sculpted silver wings, tiny ancient runes without letters, rare boss treasure. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "enchant_strength": {
+      "status": "accepted",
+      "source": "upgrades/enchant_strength.png",
+      "sha256": "49d7e540aa81543abf38d9d1e63feb5e338a3d5f8172952a4194688a7f29ec99",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Strength Essence: rugged ruby crystal clutched in a dark hammered iron setting, copper bands, internal crimson magical light, tiny dust sparks. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "enchant_health": {
+      "status": "accepted",
+      "source": "upgrades/enchant_health.png",
+      "sha256": "ba6fa94388537a62650d8e137c8de329c3c4468a70cb4043257759cc407a9dda",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Health Essence: faceted green emerald droplet in an ornate silver leaf setting, glowing mint core, rich organic texture. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "enchant_recoil": {
+      "status": "accepted",
+      "source": "upgrades/enchant_recoil.png",
+      "sha256": "11428868d235e1f96bc8b1a62560501c0200013024b2cd2f6c599f50facbf120",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Recoil Essence: violet crystal in a circular dark steel thorn cage, sharp curved silver spikes, layered amethyst light. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "enchant_poison": {
+      "status": "accepted",
+      "source": "upgrades/enchant_poison.png",
+      "sha256": "8993b985064e02a85b26d02e6224f019da402f84c8157e82fcdda0ee919becfd",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Poison Essence: stoppered small smoky glass vial with bubbling luminous lime poison, bone stopper, braided dark leather, tiny etched skull seal. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "enchant_flame": {
+      "status": "accepted",
+      "source": "upgrades/enchant_flame.png",
+      "sha256": "12fd51107c0a8717b00b595ede73b63baa57e380e1e4a07e3a8eca41e1a24c01",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Flame Essence: orange and ruby crystal ember with a curling golden flame trapped inside an obsidian cage, intricate molten fissures. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "enchant_frost": {
+      "status": "accepted",
+      "source": "upgrades/enchant_frost.png",
+      "sha256": "e6d8cb8bb5955871bc6f30c1dff347a31dcd427c89b9e6217f7eeb6b565f5498",
+      "prompt": "Create one original Corealm fantasy RPG inventory icon, Frost Essence: icy cyan crystal cluster in a delicate dark silver setting, frosted edges, bright white frozen core and snowflake facets. Painterly realistic game item, intricate surface detail and layered colors, clear readable silhouette at 48px, centered isolated single object on genuinely transparent background, no text or letters, no border, no shadow outside the object.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
+      "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
     }
   }
 }

@@ -1,3 +1,4 @@
+import { resolveUpgradedItem } from "./itemUpgrades.js";
 /**
  * The canonical content registry.
  *
@@ -274,7 +275,7 @@ class ContentRegistry {
     this.shopsById = new Map(this.tables.shops.map((row) => [row.id, row]));
   }
 
-  item(id: ItemId): ItemDef | undefined { return this.itemsById.get(id); }
+  item(id: ItemId): ItemDef | undefined { return this.itemsById.get(id) ?? resolveUpgradedItem(id, base => this.itemsById.get(base)); }
   resource(id: string): ResourceDef | undefined { return this.resourcesById.get(id); }
   recipe(id: RecipeId): RecipeDef | undefined { return this.recipesById.get(id); }
   spell(id: SpellId): SpellDef | undefined { return this.spellsById.get(id); }

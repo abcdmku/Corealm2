@@ -1,3 +1,4 @@
+import { isUpgradeable, itemUpgrade, ENCHANT_BONUS } from "../content/itemUpgrades.js";
 /** Item facts shared by the live tooltip and the generated Codex. */
 import type { EquipmentBonuses, ItemDef, ItemId, SkillId, SpellElement } from "../contracts.js";
 import { content } from "../content/index.js";
@@ -78,6 +79,12 @@ export function itemTooltipContent(itemId: ItemId, options: ItemTooltipOptions =
   }
 
   const details: string[] = [];
+  if (isUpgradeable(def)) {
+    const upgrade = itemUpgrade(def.id);
+    details.push(`Upgrade rank +${upgrade.rank} / +10`);
+    if (upgrade.enchantment === 'strength') details.push(`Magic bonus: +${ENCHANT_BONUS[upgrade.rank]} Melee Power, included above.`);
+    if (upgrade.enchantment === 'health') details.push(`Magic bonus: +${ENCHANT_BONUS[upgrade.rank]! * 5} Health, included above.`);
+  }
   if (def.equip?.attackSpeedMs !== undefined) {
     details.push(def.magicWeapon
       ? `Cast cadence ${(def.equip.attackSpeedMs / 1000).toFixed(1)} s`

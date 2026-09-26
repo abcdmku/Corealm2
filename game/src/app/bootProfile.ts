@@ -1,3 +1,4 @@
+import { createUpgradeFount } from "../world/upgradeFount.js";
 import type { FeatureLabMode, RegionId, Vec3 } from "../contracts.js";
 import { getRegion } from "../content/regions.js";
 import { FAIRY_COMBAT_PLATEAUS } from '../world/fairyLandforms.js';
@@ -141,13 +142,17 @@ const buildFeatureLabSemanticWorld: BootProfile["buildSemanticWorld"] = (_seed, 
       assetCenterXZ: ports?.assetCenterXZ ?? (() => null),
     },
   );
+  const fount = createUpgradeFount("feature-lab:upgrade-fount", [-4, heightAt("fallowmarch", -4, 2), 2], "fallowmarch");
+  const fountSolid = assetSolidFromMeasurements(fount.id, fount.position, "upgrade_fount", 5, 0, true, {
+    assetSize: ports?.assetSize ?? (() => null), assetCenterXZ: ports?.assetCenterXZ ?? (() => null),
+  });
   return {
-    entities: [bank],
+    entities: [bank, fount],
     routeNodes: [],
     routeEdges: [],
     knownLocations: [],
     buildings: [],
-    solids: solid ? [solid] : [],
+    solids: [...(solid ? [solid] : []), ...(fountSolid ? [fountSolid] : [])],
   };
 };
 

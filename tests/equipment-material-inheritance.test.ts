@@ -11,6 +11,20 @@ function graphContains(root: Node | null, expected: Node): boolean {
 }
 
 describe("equipment source node inheritance", () => {
+  it.each([7, 8, 10])('keeps authored weapon materials unchanged under the rank %i aura', upgradeRank => {
+    const material = new MeshStandardNodeMaterial({ color: 0x183049, metalness: .8, roughness: .3 });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(.1, 1.5, .05), material);
+    const colorNode = material.colorNode, emissiveNode = material.emissiveNode;
+    applyGearAppearance(mesh, { assetId: 'corealm_item_nightglass_sword', slot: 'mainHand', attach: 'bone', upgradeRank });
+    expect(mesh.material).toBe(material);
+    expect(material.color.getHex()).toBe(0x183049);
+    expect(material.colorNode).toBe(colorNode);
+    expect(material.emissiveNode).toBe(emissiveNode);
+    expect(material.userData.upgradeGlow).toBeUndefined();
+    expect(mesh.children.some(child => child.name === 'upgrade-filament')).toBe(true);
+    mesh.geometry.dispose(); material.dispose();
+  });
+
   it("keeps an authored wooden haft independent from its metal tool tier", () => {
     const material = new MeshStandardNodeMaterial({ color: 0x765438, roughness: 0.74 });
     material.userData.equipmentRole = "wood";

@@ -1,3 +1,4 @@
+import { UpgradePanel } from "./upgradePanel.js";
 /**
  * Shared panel plumbing, the item-display helpers every panel needs, and the single UI entry point.
  *
@@ -358,6 +359,7 @@ export interface Ui {
   update(): void;
   dispose(): void;
   /** Opens the bank window. The world layer calls this when a bank interaction succeeds. */
+  openUpgrade(entityId: EntityId): void;
   openBank(entityId?: EntityId): void;
   /** Opens the shop window for a shop entity. */
   openShop(shopId?: EntityId): void;
@@ -576,7 +578,8 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     id: "shop", title: "Shop", registry,
     load: () => loadShopPanel(context), onError: loadError("Shop"),
   });
-  const panels: ManagedPanel[] = [
+  const upgrade = new UpgradePanel(context);
+  const panels: ManagedPanel[] = [upgrade,
     inventory, skills, skillGuide, equipment, production, quests, map, controls, dialogue, settingsPanel,
     bank, shop, spellbook,
     ...(featureLab ? [featureLab] : []),
@@ -781,6 +784,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       mounted = false;
     },
 
+    openUpgrade(entityId: EntityId): void { upgrade.openFor(entityId); },
     openBank(entityId?: EntityId): void {
       bank?.withPanel((panel) => panel.openFor(entityId));
     },

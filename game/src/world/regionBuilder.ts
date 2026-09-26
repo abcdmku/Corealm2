@@ -1447,7 +1447,8 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       regionId,
       position,
       state: essenceAltar ? "dormant" : "present",
-      interactions: ["inspect"],
+      interactions: landmark.upgradeFount ? ["upgrade", "inspect"] : ["inspect"],
+      ...(landmark.upgradeFount ? { interactionPosition: [position[0], position[1], position[2] - 2.5] as Vec3 } : {}),
       view: landmark.compositionOnly ? undefined : {
         assetId: landmark.assetId,
         scale: trueScale(landmark.scale, tier),
@@ -1460,6 +1461,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       },
       meta: {
         blurb: landmark.blurb,
+        ...(landmark.upgradeFount ? { upgradeFount: true } : {}),
         ...(essenceAltar
           ? {
               essenceAltarRuins: true,

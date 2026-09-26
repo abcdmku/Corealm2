@@ -56,9 +56,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     const groupVariation = hashId(`${groupId}:spacing`) / 0xffffffff;
     const activityRadius = { forage: 1.8, graze: 2.6, prowl: 3.8, patrol: 4.5 }[source?.activity ?? 'patrol'];
     const roamRadius = source?.roamRadius ?? (ports.underground(ordinary[0]!.regionId)
-      ? .75 + groupVariation * .4 : source?.boundary === 'playable-coast'
-        // Shoreline packs have narrow dry receiving ground, unlike inland patrol clearings.
-        ? 1.25 + groupVariation * .5 : source && isFairyRegion(source.regionId)
+      ? .75 + groupVariation * .4 : source && isFairyRegion(source.regionId)
         ? 1.5 : activityRadius * (.85 + groupVariation * .3));
     // Wilderness formations reserve room for their accepted body families. The
     // final floor search must not collapse them back to the generic minimum.
