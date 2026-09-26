@@ -302,7 +302,6 @@ const RUNE_COLOURS: Readonly<Record<string, readonly [number, number]>> = {
   death_rune: [0x8a6fb5, 0xe3d3ff],
   blood_rune: [0xa8734d, 0xffd9b0],
   wrath_rune: [0xc94a3c, 0xffc39a],
-  cosmic_rune: [0x6f9a5c, 0xd4f0b8],
 };
 for (const [itemId, [body, glow]] of Object.entries(RUNE_COLOURS)) {
   put(itemId, [primitive("scute", body, glow)], { frameScale: 1.1 });

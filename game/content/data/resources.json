@@ -858,5 +858,80 @@
       ],
       "materialTier": 60
     }
+  },
+  {
+    "id": "essence_arc",
+    "name": "Arc Essence Cache",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 20,
+    "reqLevel": 20,
+    "itemId": "arc_essence",
+    "yieldRange": [
+      35,
+      60
+    ],
+    "respawnSeconds": 30,
+    "presentation": {
+      "availableAssetIds": [
+        "rocks_free_essence_node"
+      ],
+      "targetWorldSize": 1.58,
+      "variantScale": [
+        0.96,
+        1.04
+      ],
+      "materialTier": 20
+    }
+  },
+  {
+    "id": "essence_cosmic",
+    "name": "Cosmic Essence Cache",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 30,
+    "reqLevel": 30,
+    "itemId": "cosmic_essence",
+    "yieldRange": [
+      25,
+      45
+    ],
+    "respawnSeconds": 35,
+    "presentation": {
+      "availableAssetIds": [
+        "rocks_free_essence_node"
+      ],
+      "targetWorldSize": 1.58,
+      "variantScale": [
+        0.96,
+        1.04
+      ],
+      "materialTier": 30
+    }
+  },
+  {
+    "id": "essence_temporal",
+    "name": "Temporal Essence Cache",
+    "archetype": "ore",
+    "skill": "mining",
+    "tier": 60,
+    "reqLevel": 60,
+    "itemId": "temporal_essence",
+    "yieldRange": [
+      18,
+      32
+    ],
+    "respawnSeconds": 40,
+    "presentation": {
+      "availableAssetIds": [
+        "rocks_free_essence_node"
+      ],
+      "targetWorldSize": 1.58,
+      "variantScale": [
+        0.96,
+        1.04
+      ],
+      "materialTier": 60
+    }
   }
 ]

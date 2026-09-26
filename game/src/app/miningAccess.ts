@@ -52,7 +52,7 @@ export function miningAccessPositions(
       const hero = slot.index === 1 && cluster.heroAssetId !== undefined;
       const variants = definition.presentation.availableAssetIds;
       const assetId = hero ? cluster.heroAssetId! : variants[variantSeed(id) % variants.length];
-      if (!assetId?.startsWith("corealm_ore_")) {
+      if (!assetId?.startsWith("corealm_ore_") && assetId !== 'rocks_free_essence_node') {
         throw new Error(`Mine ${site.id}/${id} has no native mineral rock with an authored +Z approach`);
       }
       const size = measurements.assetSize(assetId);

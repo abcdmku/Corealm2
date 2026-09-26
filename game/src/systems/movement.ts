@@ -1,3 +1,4 @@
+import { utilityPlayerSpeed } from "./utilityMagic.js";
 /**
  * Player movement. Three modes, all ending in the same place: a position on the navmesh.
  *
@@ -616,7 +617,7 @@ export class Movement {
         this.clearNavigation(state, atMs, "interrupted-by-input", this.canPreservePathMotion(state));
       }
       this.ports.shortcuts?.cancel(atMs, "cancelled");
-      this.applyDirect(state, deltaSeconds, deltaMs);
+      this.applyDirect(state, deltaSeconds, deltaMs, atMs);
       movement.mode = "direct";
       this.publishSpeed(movement);
       return;
@@ -640,7 +641,7 @@ export class Movement {
       // Coast. Releasing a key used to stop the player inside a single tick — 0.000 m over the
       // following 500 ms, 241 rendered frames. At 25 m/s^2 a full-speed stop takes 0.17 s, so
       // "direct" survives one or two more ticks and the character glides to a halt.
-      this.applyDirect(state, deltaSeconds, deltaMs);
+      this.applyDirect(state, deltaSeconds, deltaMs, atMs);
       if (this.speedMps < IDLE_SPEED) {
         this.halt();
         movement.mode = "idle";
@@ -660,7 +661,7 @@ export class Movement {
     this.publishSpeed(movement);
   }
 
-  private applyDirect(state: GameState, deltaSeconds: number, deltaMs: number): void {
+  private applyDirect(state: GameState, deltaSeconds: number, deltaMs: number, atMs: number): void {
     const { forward, strafe, cameraYaw } = this.direct;
     const raw = Math.hypot(forward, strafe);
     // Clamped, not normalised away: a gamepad stick half over gives half speed, and W+D gives the
@@ -677,7 +678,7 @@ export class Movement {
       dirZ = (-strafe * sin - forward * cos) / raw;
     }
 
-    this.integrateVelocity(dirX * MOVEMENT.runSpeed * magnitude, dirZ * MOVEMENT.runSpeed * magnitude, deltaSeconds);
+    this.integrateVelocity(dirX * MOVEMENT.runSpeed * utilityPlayerSpeed(state, atMs) * magnitude, dirZ * MOVEMENT.runSpeed * utilityPlayerSpeed(state, atMs) * magnitude, deltaSeconds);
     this.applyVelocity(state, deltaSeconds);
 
     if (raw > 0) {
@@ -1134,7 +1135,7 @@ export class Movement {
     // Paths ramp up too. Without it, clicking a destination launches the player from 0 to 4.2 m/s
     // inside one tick, which is the same 42 cm teleport direct movement used to have.
     const speed = Math.hypot(this.velocityX, this.velocityZ);
-    const stepSpeed = Math.min(MOVEMENT.runSpeed, speed + MOVEMENT.accelMps2 * deltaSeconds);
+    const stepSpeed = Math.min(MOVEMENT.runSpeed * utilityPlayerSpeed(state, atMs), speed + MOVEMENT.accelMps2 * deltaSeconds);
     const step = stepSpeed * deltaSeconds;
 
     const start = player.position;

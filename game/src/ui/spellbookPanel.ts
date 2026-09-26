@@ -10,12 +10,13 @@ import { PanelFrame } from "./panelFrame.js";
  *
  * Hovering a spell shows rune icons and its cost per cast.
  */
-import type { SpellElement, SpellId, SpellRow, SpellRung, SpellbookView } from "../contracts.js";
+import type { SpellElement, SpellId, SpellRow, SpellRung, SpellbookView, TownTeleportId, UtilityMagicView, UtilitySpellId } from "../contracts.js";
 import { SPELL_ELEMENTS, SPELL_RUNGS } from "../contracts.js";
 import { ELEMENT_COLOURS } from "../render/elementColours.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { formatQuantity, installRovingGrid, report } from "./panels.js";
+import { formatQuantity, installRovingGrid, itemDef, report } from "./panels.js";
 import { spellIconMarkup } from "./spellIcons.js";
+import { townTeleportIconMarkup, utilitySpellIconMarkup } from "./utilitySpellIcons.js";
 import { SPELL_DRAG_MIME } from "./spellActionBar.js";
 import { spellElementRequirementLabel } from "./displayLabels.js";
 
@@ -57,13 +58,19 @@ interface SpellCell {
   lock: HTMLElement;
 }
 
+interface UtilityCell extends SpellCell { badge: HTMLElement }
+
 export class SpellbookPanel implements ManagedPanel {
   readonly frame: PanelFrame;
 
   private readonly cells = new Map<SpellId, SpellCell>();
   private readonly rows = new Map<SpellId, SpellRow>();
+  private readonly utilityCells = new Map<UtilitySpellId, UtilityCell>();
+  private readonly teleportCells = new Map<TownTeleportId, UtilityCell>();
   private autofocus: HTMLElement | null = null;
   private signature = "";
+  private readonly utilitySection = document.createElement("section");
+  private readonly teleportSection = document.createElement("section");
 
   constructor(private readonly ctx: UiContext) {
     this.frame = new PanelFrame({
@@ -131,11 +138,21 @@ export class SpellbookPanel implements ManagedPanel {
 
     installRovingGrid(grid, SPELL_ELEMENTS.length);
     body.appendChild(grid);
+    for (const [section, label] of [
+      [this.utilitySection, "Cosmic utility"],
+      [this.teleportSection, "Teleports"],
+    ] as const) {
+      section.className = "spellbook__section";
+      section.setAttribute("aria-label", label);
+      body.appendChild(section);
+    }
     this.frame.body.appendChild(body);
   }
 
   refresh(force = false): void {
     const view = this.ctx.api.getSpellbook();
+    const utility = this.ctx.api.utilityMagic();
+    const simMs = this.ctx.api.getTime().simMs;
     const signature = [
       view.magicLevel,
       view.preferredSpellId ?? "-",
@@ -152,6 +169,11 @@ export class SpellbookPanel implements ManagedPanel {
         row.castable ? 1 : 0,
         row.blockedBy ?? "ready",
       ].join(":")),
+      ...utility.spells.map((row) => `${row.id}:${row.castable}:${row.blockedBy}:${row.costs.map((cost) => cost.available).join(",")}`),
+      ...utility.effects.map((effect) => `${effect.spellId}:${effect.group}:${Math.ceil((effect.expiresAtMs - simMs) / 1000)}`),
+      ...utility.fields.map((field) => `${field.id}:${field.spellId}:${Math.ceil((field.expiresAtMs - simMs) / 1000)}`),
+      ...utility.teleports.map((row) => `${row.id}:${row.unlocked}:${row.castable}:${row.blockedBy}`),
+      utility.teleportCast?.townId ?? "-",
     ].join("|");
     if (!force && signature === this.signature) return;
     this.signature = signature;
@@ -164,10 +186,153 @@ export class SpellbookPanel implements ManagedPanel {
     const focusId = view.preferredSpellId ?? view.activeSpellId;
     this.setAutofocus(focusId === null ? null : this.cells.get(focusId)?.root ?? null);
     this.frame.setSubtitle(`Magic ${view.magicLevel}`);
+    this.paintUtility(utility, simMs, view.magicLevel);
   }
 
   dispose(): void {
     this.frame.dispose();
+  }
+
+  private paintUtility(view: UtilityMagicView, simMs: number, magicLevel: number): void {
+    const utilityGrid = this.ensureTileGrid(this.utilitySection, "Cosmic utility");
+    for (const spell of view.spells) {
+      const active = view.effects.filter((effect) => effect.spellId === spell.id && effect.expiresAtMs > simMs);
+      const fields = view.fields.filter((field) => field.spellId === spell.id && field.expiresAtMs > simMs);
+      let cell = this.utilityCells.get(spell.id);
+      if (!cell) {
+        cell = this.makeUtilityCell(utilitySpellIconMarkup(spell.id), `cast:${spell.id}`, () => void this.castUtility(spell.id, spell.target));
+        cell.root.dataset["slotIndex"] = String(this.utilityCells.size);
+        cell.root.tabIndex = this.utilityCells.size === 0 ? 0 : -1;
+        this.utilityCells.set(spell.id, cell);
+        utilityGrid.appendChild(cell.root);
+        this.ctx.tooltip.attach(cell.root, () => {
+          const current = this.ctx.api.utilityMagic().spells.find((entry) => entry.id === spell.id);
+          if (!current) return null;
+          const now = this.ctx.api.getTime().simMs;
+          const magic = this.ctx.api.utilityMagic();
+          const remaining = [...magic.effects, ...magic.fields].filter((entry) => entry.spellId === spell.id && entry.expiresAtMs > now)
+            .map((entry) => Math.ceil((entry.expiresAtMs - now) / 1000));
+          return { kind: "text", title: current.name, lines: [
+            current.description,
+            `Magic ${current.reqLevel} · ${current.durationMs / 1000}s · ${current.target === "area" ? `${current.radius}m area centered on you` : current.target === "enemy" ? "Engaged enemy" : "Self"}`,
+            ...(remaining.length ? [`Active · ${Math.max(...remaining)}s remaining`] : []),
+            current.blockedBy ?? "Ready to cast.",
+          ], runeCosts: current.costs.map((cost) => ({ itemId: cost.itemId, name: itemDef(cost.itemId)?.name ?? cost.itemId,
+            quantity: cost.quantity, carried: cost.available })) };
+        });
+      }
+      this.paintUtilityCell(cell, spell.reqLevel, magicLevel, !spell.castable, spell.blockedBy, spell.name,
+        Math.max(0, ...active.map((effect) => effect.expiresAtMs - simMs), ...fields.map((field) => field.expiresAtMs - simMs)));
+    }
+
+    const teleportGrid = this.ensureTileGrid(this.teleportSection, "Teleports");
+    for (const town of view.teleports) {
+      let cell = this.teleportCells.get(town.id);
+      if (!cell) {
+        cell = this.makeUtilityCell(townTeleportIconMarkup(town.id), `town:${town.id}`, () => {
+          const current = this.ctx.api.utilityMagic().teleports.find((entry) => entry.id === town.id);
+          if (current) void this.useTeleport(town.id, current.unlocked);
+        });
+        cell.root.dataset["slotIndex"] = String(this.teleportCells.size);
+        cell.root.tabIndex = this.teleportCells.size === 0 ? 0 : -1;
+        this.teleportCells.set(town.id, cell);
+        teleportGrid.appendChild(cell.root);
+        this.ctx.tooltip.attach(cell.root, () => {
+          const current = this.ctx.api.utilityMagic().teleports.find((entry) => entry.id === town.id);
+          if (!current) return null;
+          const loose = this.ctx.api.getInventory().slots.reduce((count, slot) => count + (slot?.itemId === "temporal_essence" ? slot.quantity : 0), 0);
+          const stored = this.ctx.api.essenceTomes().reduce((count, tome) => count + (tome.essences.find((essence) => essence.itemId === "temporal_essence")?.charges ?? 0), 0);
+          return { kind: "text", title: current.name, lines: [
+            `Magic ${current.reqLevel} · ${current.unlocked ? "Visited: click to teleport" : "Unvisited: activate at the nearby town pad"}`,
+            current.blockedBy ?? "Ready to teleport.",
+          ], runeCosts: [{ itemId: "temporal_essence", name: "Temporal Essence", quantity: current.cost, carried: loose + stored }] };
+        });
+      }
+      this.paintUtilityCell(cell, town.reqLevel, magicLevel, !town.unlocked || !town.castable, town.blockedBy, town.name, 0);
+      cell.root.classList.toggle("is-locked", !town.unlocked || town.reqLevel > magicLevel);
+      cell.root.dataset["visited"] = town.unlocked ? "true" : "false";
+    }
+    if (view.teleportCast) {
+      const town = view.teleports.find((entry) => entry.id === view.teleportCast?.townId);
+      this.teleportSection.dataset["channeling"] = `Channeling to ${town?.name ?? "town"}…`;
+    } else {
+      delete this.teleportSection.dataset["channeling"];
+    }
+
+  }
+
+  private sectionHeading(text: string): HTMLElement {
+    const heading = document.createElement("h3");
+    heading.className = "spellbook__section-heading";
+    heading.textContent = text;
+    return heading;
+  }
+
+  private ensureTileGrid(section: HTMLElement, title: string): HTMLElement {
+    const existing = section.querySelector<HTMLElement>(".spellbook__utility-grid");
+    if (existing) return existing;
+    const grid = document.createElement("div");
+    grid.className = "spellbook__utility-grid";
+    grid.setAttribute("role", "group");
+    grid.setAttribute("aria-label", title);
+    installRovingGrid(grid, 4);
+    section.append(this.sectionHeading(title), grid);
+    return grid;
+  }
+
+  private makeUtilityCell(markup: string, action: string, onClick: () => void): UtilityCell {
+    const root = document.createElement("button");
+    root.type = "button";
+    root.className = "spellbook__cell spellbook__utility-cell";
+    root.dataset["spellbookAction"] = action;
+    root.addEventListener("click", onClick);
+    const glyph = document.createElement("span");
+    glyph.className = "spellbook__cell-glyph";
+    glyph.setAttribute("aria-hidden", "true");
+    glyph.innerHTML = markup;
+    const req = document.createElement("span");
+    req.className = "spellbook__cell-req u-numeric";
+    const lock = document.createElement("span");
+    lock.className = "spellbook__cell-lock";
+    lock.setAttribute("aria-hidden", "true");
+    lock.innerHTML = LOCK_GLYPH;
+    const badge = document.createElement("span");
+    badge.className = "spellbook__utility-badge";
+    badge.setAttribute("aria-hidden", "true");
+    root.append(glyph, req, lock, badge);
+    return { root, req, lock, badge };
+  }
+
+  private paintUtilityCell(cell: UtilityCell, level: number, magicLevel: number, blocked: boolean, reason: string | null, name: string, activeMs: number): void {
+    cell.root.classList.toggle("is-blocked", blocked);
+    cell.root.classList.toggle("is-locked", level > magicLevel);
+    cell.root.classList.toggle("is-active", activeMs > 0);
+    cell.req.textContent = String(level);
+    cell.lock.hidden = !blocked;
+    cell.badge.textContent = activeMs > 0 ? `${Math.ceil(activeMs / 1000)}s` : "";
+    cell.badge.hidden = activeMs <= 0;
+    cell.root.setAttribute("aria-label", `${name}, Magic ${level}. ${reason ?? "Ready."}${activeMs > 0 ? ` Active for ${Math.ceil(activeMs / 1000)} more seconds.` : ""}`);
+  }
+
+  private async castUtility(id: UtilitySpellId, target: "self" | "enemy" | "area"): Promise<void> {
+    const player = this.ctx.api.getPlayer();
+    if (target === "enemy" && !player.targetId) {
+      this.ctx.notify("Engage an enemy before casting this spell.", "error");
+      return;
+    }
+    const result = target === "enemy"
+      ? await sendGameCommand(this.ctx.api, "castUtility", id, player.targetId!)
+      : target === "area"
+        ? await sendGameCommand(this.ctx.api, "castUtility", id, player.position)
+        : await sendGameCommand(this.ctx.api, "castUtility", id);
+    if (report(result)) this.ctx.refresh();
+  }
+
+  private async useTeleport(id: TownTeleportId, unlocked: boolean): Promise<void> {
+    const result = unlocked
+      ? await sendGameCommand(this.ctx.api, "teleportTown", id)
+      : await sendGameCommand(this.ctx.api, "activateTeleport", id);
+    if (report(result)) this.ctx.refresh();
   }
 
   // ------------------------------------------------------------------ grid

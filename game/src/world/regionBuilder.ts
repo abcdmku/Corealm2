@@ -1462,6 +1462,8 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       meta: {
         blurb: landmark.blurb,
         ...(landmark.upgradeFount ? { upgradeFount: true } : {}),
+        ...(landmark.composition === 'town_teleport_platform'
+          ? { townTeleportId: landmark.id.slice('town_teleport_'.length) } : {}),
         ...(essenceAltar
           ? {
               essenceAltarRuins: true,

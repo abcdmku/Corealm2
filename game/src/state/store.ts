@@ -81,6 +81,11 @@ export interface GameState {
     consumedOrbs: Record<ItemId, boolean>;
     /** Permanently awakened regional essence altars, keyed by semantic altar entity id. */
     awakenedAltars: Record<EntityId, boolean>;
+    unlockedTeleports: Partial<Record<import("../contracts.js").TownTeleportId, boolean>>;
+    utilityEffects: import("../contracts.js").ActiveUtilityEffect[];
+    utilityFields: import("../contracts.js").UtilityAreaField[];
+    teleportCast: import("../contracts.js").TownTeleportCast | null;
+    tomeCharges: Record<ItemId, Record<ItemId, number>>;
   };
   bank: { slots: ItemStack[]; filter: string };
   currency: number;
@@ -121,6 +126,7 @@ export interface GameState {
   world: {
     nodes: Record<EntityId, ResourceNodeState>;
     enemies: Record<EntityId, {
+      utilityEffects?: import("../contracts.js").ActiveUtilityEffect[];
       health: number;
       state: "idle" | "aggro" | "dead" | "returning";
       spawnPos: Vec3;
@@ -187,7 +193,14 @@ export function composeSessionState(
   player: PlayerSessionState, world: SharedWorldState, settings: GameState["settings"],
 ): GameState {
   const { ownedWorld, ...state } = player;
-  return { ...state, world: { ...world, ...ownedWorld }, settings };
+  return { ...state, magic: {
+    ...state.magic,
+    unlockedTeleports: state.magic.unlockedTeleports ?? {},
+    tomeCharges: state.magic.tomeCharges ?? {},
+    utilityEffects: state.magic.utilityEffects ?? [],
+    utilityFields: state.magic.utilityFields ?? [],
+    teleportCast: state.magic.teleportCast ?? null,
+  }, world: { ...world, ...ownedWorld }, settings };
 }
 export const DEFAULT_REGION: RegionId = "fallowmarch";
 
@@ -227,7 +240,7 @@ export function createInitialState(seed = 1337, nowMs = 0): GameState {
     skills,
     inventory: { slots: startingSlots },
     equipment,
-    magic: { weaponCharges: {}, consumedOrbs: {}, awakenedAltars: {} },
+    magic: { weaponCharges: {}, consumedOrbs: {}, awakenedAltars: {}, unlockedTeleports: {}, utilityEffects: [], utilityFields: [], teleportCast: null, tomeCharges: {} },
     bank: { slots: [], filter: "" },
     currency: 0,
     activity: null,

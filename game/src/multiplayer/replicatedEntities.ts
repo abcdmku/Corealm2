@@ -3,7 +3,8 @@ import type { EntityStore } from "../world/entities.js";
 
 /** Fixed authored scenery is shared by content version and seed, not gameplay interest radius. */
 export function isStaticScenery(entity: SemanticEntity): boolean {
-  return entity.archetype === "landmark" && entity.interactions.every(verb => verb === "inspect");
+  return entity.archetype === "landmark" && !entity.meta?.townTeleportId
+    && entity.interactions.every(verb => verb === "inspect");
 }
 
 /** Keep immutable map scenery while authoritative snapshots replace actors and interactables. */

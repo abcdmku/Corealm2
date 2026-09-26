@@ -109,7 +109,10 @@ describe("starter casting", () => {
     expect(state.equipment.mainHand).toEqual({ itemId: "basic_wooden_wand", quantity: 1 });
     expect(state.inventory.slots.find((slot) => slot?.itemId === "air_essence"))
       .toMatchObject({ itemId: "air_essence", quantity: 50 });
-    expect(state.magic).toEqual({ weaponCharges: {}, consumedOrbs: {}, awakenedAltars: {} });
+    expect(state.magic).toEqual({
+      weaponCharges: {}, consumedOrbs: {}, awakenedAltars: {}, unlockedTeleports: {},
+      utilityEffects: [], utilityFields: [], teleportCast: null, tomeCharges: {},
+    });
     expect(spellBlockReason(state, spell("voltrend"))).toBeNull();
   });
 

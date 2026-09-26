@@ -53,7 +53,7 @@ export const SpellRecordSchema = SpellSchema.extend({
 export const SpellRuneSchema = obj({
   itemId: id({ label: "Item", ref: "item", role: "Rune record for" }),
   name: str({ nonEmpty: true }, { label: "Name", display: true }),
-  tier: int({ min: 0, max: 5 }, { label: "Rank", help: "Zero for Cosmic Rune; one to five for tier runes." }),
+  tier: int({ min: 0, max: 5 }, { label: "Rank", help: "Zero for special Essence; one to five for tier runes." }),
   description: str({ nonEmpty: true }, { label: "Description", multiline: true }),
 });
 

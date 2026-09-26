@@ -53,8 +53,10 @@ export function multiplayerLabEntities(seed = 1337): SemanticEntity[] {
   const frog = REGIONS[0]!.enemyGroups.find((group) => group.family === "frog")!;
   buildEnemyGroup("fallowmarch", { ...frog, id: "multiplayer:frog", count: 1, legacyCount: 1, centre: [12, 0], radius: 0 },
     new Rng(seed), (spot) => [spot[0], 0, spot[1]], built.entities, () => null);
-  const caster=ENEMIES.find(enemy=>enemy.attackStyle==="magic")!;
-  buildEnemyGroup("fallowmarch",{...frog,id:"multiplayer:caster",family:caster.family,tier:caster.tier,count:1,legacyCount:1,centre:[26,-12],radius:0},
+  const caster=ENEMIES.find(enemy=>enemy.id==="goblin_shaman_t5")!;
+  const casterTier = Number(caster.id.match(/_t(\d+)$/)?.[1]);
+  if (!Number.isFinite(casterTier)) throw new Error(`Multiplayer lab caster ${caster.id} has no canonical tier suffix`);
+  buildEnemyGroup("fallowmarch",{...frog,id:"multiplayer:caster",family:caster.family,tier:casterTier,count:1,legacyCount:1,centre:[26,-12],radius:0},
     new Rng(seed),spot=>[spot[0],0,spot[1]],built.entities,()=>null);
   built.entities.push({id:"multiplayer:passage",name:"Lab covered passage",archetype:"obstacle",tier:1,regionId:"fallowmarch",
     position:[0,0,22],state:"available",interactions:["inspect","enter"],obstacle:{reqLevel:1,exitPosition:[12,0,22],durationMs:2000,savesMeters:12},

@@ -24,6 +24,7 @@ import {
 import { WATER_FILL_DEPTH, waterBasinForCluster } from "../world/waterBodies.js";
 import { fishingAccessPositions } from "./fishingAccess.js";
 import { worldSiteHaulRamp } from "../world/siteTerrain.js";
+import { seedFromText } from "../world/organicFields.js";
 
 export const DEFAULT_WORLD_SEED = 1337;
 
@@ -220,10 +221,15 @@ export function collectPavingStamps(scene?: WorldScene): PavingStamp[] {
     for (const altar of region.stations.filter((station) => station.kind === "essence_altar")) {
       // The ruin court is the ground itself, not a second plane laid over it. `stone` resolves
       // through the region palette, so each site uses its local limestone, forest stone, or slate
-      // and the unkerbed edge wears naturally back into the surrounding biome.
+      // and a seeded organic edge wears back into the surrounding biome.
       stamps.push({
         centre: altar.position,
         halfExtents: [ESSENCE_ALTAR_COURT_RADIUS, ESSENCE_ALTAR_COURT_RADIUS],
+        organic: {
+          radius: ESSENCE_ALTAR_COURT_RADIUS,
+          shape: { seed: seedFromText(altar.id), irregularity: 0.14, lobes: 5, rotation: altar.rotationY ?? 0 },
+          feather: 3,
+        },
         rotationY: altar.rotationY,
         surface: "stone",
         kerb: false,

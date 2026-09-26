@@ -486,15 +486,6 @@
     "category": "resource"
   },
   {
-    "id": "cosmic_rune",
-    "name": "Cosmic Rune",
-    "tier": 30,
-    "description": "A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Every area invocation spends one beside its rank rune.",
-    "stackable": true,
-    "value": 40,
-    "category": "resource"
-  },
-  {
     "id": "hen_feather",
     "name": "Hen Feather",
     "tier": 1,
@@ -4025,5 +4016,59 @@
     "description": "Applies frost magic to compatible equipment at the Upgrade Fount.",
     "stackable": true,
     "category": "component"
+  },
+  {
+    "id": "arc_essence",
+    "name": "Arc Essence",
+    "tier": 20,
+    "description": "Bright, branching force drawn from the charged seams of the old world.",
+    "stackable": true,
+    "value": 100,
+    "category": "resource"
+  },
+  {
+    "id": "cosmic_essence",
+    "name": "Cosmic Essence",
+    "tier": 30,
+    "description": "Star-flecked essence mined from the luminous seams of Gloamgarden.",
+    "stackable": true,
+    "value": 150,
+    "category": "resource"
+  },
+  {
+    "id": "temporal_essence",
+    "name": "Temporal Essence",
+    "tier": 60,
+    "description": "A still, violet essence gathered from the deep fairy seams of Faeholme.",
+    "stackable": true,
+    "value": 300,
+    "category": "resource"
+  },
+  {
+    "id": "apprentice_essence_tome",
+    "name": "Apprentice Tome",
+    "tier": 20,
+    "description": "Bring this tome to an awakened Essence Altar. A full recharge costs 100 Essence of one type and grants 100 spell charges for that type.",
+    "stackable": false,
+    "value": 1000,
+    "category": "resource"
+  },
+  {
+    "id": "adept_essence_tome",
+    "name": "Adept Tome",
+    "tier": 50,
+    "description": "Bring this tome to an awakened Essence Altar. A full recharge costs 500 Essence of one type and grants 500 spell charges for that type.",
+    "stackable": false,
+    "value": 5000,
+    "category": "resource"
+  },
+  {
+    "id": "master_essence_tome",
+    "name": "Master Tome",
+    "tier": 70,
+    "description": "Bring this tome to an awakened Essence Altar. A full recharge costs 1,000 Essence of one type and grants 1,000 spell charges for that type.",
+    "stackable": false,
+    "value": 10000,
+    "category": "resource"
   }
 ]

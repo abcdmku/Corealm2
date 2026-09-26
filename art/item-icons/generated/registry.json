@@ -955,15 +955,6 @@
       "sourceLookup": "Source model audit inspected loose rune and orb candidates. Available essence nodes and altars are world structures, not carriable rune stones or singleton boss cores. No suitable loose rune/orb GLB exists. Authored item descriptions from game/src/content/items.ts and equipment.ts and existing runeIcons.ts motifs informed generated art.",
       "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
     },
-    "cosmic_rune": {
-      "status": "accepted",
-      "source": "cosmic_rune.png",
-      "sha256": "d7560877ae1a08f103d0d0a6085006857f6691ef35423d91b601677eecc7936e",
-      "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon for Cosmic Rune. Authored description: A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Every area invocation spends one beside its rank rune. Subject: A thick golden-yellow mineral rune stone bearing deeply carved circular wheel with six large star-shaped marks around its rim, dark recesses and restrained warm gold light. Render as a polished realistic 3D fantasy collectible with convincing tactile material, soft studio key light from upper left, restrained highlights, clean silhouette. Near-front three-quarter view reveals thickness and dimensionality. Single centered object occupies 80 percent of square 1024px canvas with safe margins, extremely clear at 48px. Genuine transparent alpha background with no environment, no floor, no cast shadow outside object, no labels, no text, no border, no tile, no watermark. Do not make a flat vector, generic gem, or diagram.",
-      "generator": "built-in image_gen",
-      "sourceLookup": "Source model audit inspected loose rune and orb candidates. Available essence nodes and altars are world structures, not carriable rune stones or singleton boss cores. No suitable loose rune/orb GLB exists. Authored item descriptions from game/src/content/items.ts and equipment.ts and existing runeIcons.ts motifs informed generated art.",
-      "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
-    },
     "air_orb": {
       "status": "accepted",
       "source": "air_orb.png",
@@ -3910,6 +3901,60 @@
       "generator": "built-in image_gen",
       "sourceLookup": "Original art prompted for the Upgrade Fount feature.",
       "review": "Root inspected original generated art and staged 256px/48px contact sheets on 2026-09-26. Clear silhouettes, distinct materials and colors, intact margins and transparency."
+    },
+    "arc_essence": {
+      "status": "accepted",
+      "source": "rune-travel/arc_essence.png",
+      "sha256": "384157d6a3341ae07d2dee20aec6425788d9dae4a2f00d3a40ef63386958076d",
+      "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon for Arc Essence, a raw electric-blue mineral from mining. A single jagged unworked mineral cluster in near-front three-quarter view, filling 80 percent of square canvas with safe margins. Dark slate and cobalt stone matrix split by vivid cyan-blue crystalline veins, a few sharp translucent blue crystal points, subtle electric energy sealed within natural fractures. Complex layered geology, chipped facets, granular edges, restrained luminous contrast that reads at 48 pixels. Polished realistic fantasy collectible style with tactile material and soft studio key light from upper left. Genuine transparent alpha background. No carved rune, glyph, jewelry setting, floor, scene, labels, letters, border, tile, floating particles or watermark. Not flat vector or generic smooth gem.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-directed raw mined Arc Essence design; prompted GPT image generation. Original built-in source: C:/Users/Borg/.codex/generated_images/01a0de4f-35e6-7d13-81dc-962418883f1b/exec-b1f697b1-be0a-4858-8ee6-55bdb75b76cb.png.",
+      "review": "Accepted after source, staged 256px master and 48px inventory contact sheet inspection. Natural electric-blue crystal and dark rock remain distinct and readable at 48px. Root production lab acceptance follows publication."
+    },
+    "cosmic_essence": {
+      "status": "accepted",
+      "source": "rune-travel/cosmic_essence.png",
+      "sha256": "db1a7293570555fbf27438506b842394b73f517f7c41ca52dd3dcd0f8ba62923",
+      "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon for Cosmic Essence, a tier-30 raw star mineral from mining. A single jagged unworked mineral cluster in near-front three-quarter view, filling 80 percent of square canvas with safe margins. Rich violet crystalline stone and midnight purple matrix, angular amethyst-like facets with scattered natural warm-gold star flecks and thin gold seams, restrained inner starlight. Complex layered geology, rough broken edges, deep crevices and tactile sparkle; bold violet versus gold silhouette readable at 48 pixels. Polished realistic fantasy collectible style and soft studio key light from upper left. Genuine transparent alpha background. No carved rune, glyph, jewelry setting, floor, scene, labels, letters, border, tile, floating particles or watermark. Not flat vector or generic smooth gem.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-directed tier-30 raw mined Cosmic Essence design; prompted GPT image generation. Original built-in source: C:/Users/Borg/.codex/generated_images/01a0de4f-35e6-7d13-81dc-962418883f1b/exec-c7d460f3-d727-42e3-bcc0-9fc3cd9a12b0.png.",
+      "review": "Accepted after source, staged 256px master and 48px inventory contact sheet inspection. Violet crystals and gold flecks remain distinct and readable at 48px. Root production lab acceptance follows publication."
+    },
+    "temporal_essence": {
+      "status": "accepted",
+      "source": "rune-travel/temporal_essence.png",
+      "sha256": "2c7f56779a58881f7a8c54d0673193289185e98986c7381e4b9da16a3208cd6a",
+      "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon for Temporal Essence, a tier-60 raw time mineral from mining. A single jagged unworked mineral cluster in near-front three-quarter view, filling 80 percent of square canvas with safe margins. Deep teal and sea-green crystalline stone layered around a dark mineral core, intricate thin antique-gold natural veins tracing concentric curves through fractured facets, a few tiny glowing gold inclusions. Complex ancient geology, sharp translucent teal crystal planes, rough weathered edges, restrained inner radiance; distinct teal and gold contrast readable at 48 pixels. Polished realistic fantasy collectible style and soft studio key light from upper left. Genuine transparent alpha background. No carved rune, glyph, jewelry setting, floor, scene, labels, letters, border, tile, floating particles or watermark. Not flat vector or generic smooth gem.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-directed tier-60 raw mined Temporal Essence design; prompted GPT image generation. Original built-in source: C:/Users/Borg/.codex/generated_images/01a0de4f-35e6-7d13-81dc-962418883f1b/exec-74d103f4-954c-4e4e-a1a2-735c014ce229.png.",
+      "review": "Accepted after source, staged 256px master and 48px inventory contact sheet inspection. Teal crystal and curved gold veins remain distinct and readable at 48px. Root production lab acceptance follows publication."
+    },
+    "apprentice_essence_tome": {
+      "status": "accepted",
+      "source": "rune-travel/apprentice_essence_tome.png",
+      "sha256": "2c32434386dc7d09cfd77824529197696d99cdcbaadeaa0fa0ed3edfa674b2b0",
+      "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon for Apprentice Essence Tome, a rare low-tier boss drop. One small well-used closed spellbook seen in near-front three-quarter view, thick enough to show worn cream parchment edges. Weathered brown leather cover with stitched spine, modest brass corner tabs, a single embossed blue mineral shard emblem on the cover, a thin blue thread bookmark. Restrained practical apprentice craftsmanship: scuffs, creases, rubbed gilt and individual leather grain, clear book silhouette at 48 pixels. Polished realistic fantasy collectible style, centered at about 80 percent of a square canvas, soft studio light from upper left. Genuine transparent alpha background. No words, letters, text, floating magic, pedestal, floor, scene, border, tile or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-directed low-tier rare boss essence tome design; prompted GPT image generation. Original built-in source: C:/Users/Borg/.codex/generated_images/01a0de4f-35e6-7d13-81dc-962418883f1b/exec-848f0b84-a91e-4c1c-bc50-20f5f478dd61.png.",
+      "review": "Accepted after source, staged 256px master and 48px inventory contact sheet inspection. Worn brown leather, modest brass trim and blue shard distinguish this apprentice tome at 48px. Root production lab acceptance follows publication."
+    },
+    "adept_essence_tome": {
+      "status": "accepted",
+      "source": "rune-travel/adept_essence_tome.png",
+      "sha256": "3fcf541d3129ee39af93d945a332f5846f267ff1a69725c8fb4af6d10d8d327e",
+      "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon for Adept Essence Tome, a rare mid-tier boss drop. One substantial closed spellbook seen in near-front three-quarter view, pages and spine visible. Deep indigo dyed leather with violet undertones, decorated brass filigree corners and a raised circular clasp surrounding a bright violet crystal inset, restrained tiny blue and gold inlay lines that suggest stored essence. Tactile stitched binding, faceted crystal, leafed page edges, layered wear; richer and more formal than an apprentice book, clear book silhouette at 48 pixels. Polished realistic fantasy collectible style, centered at about 80 percent of a square canvas, soft studio light from upper left. Genuine transparent alpha background. No words, letters, text, floating magic, pedestal, floor, scene, border, tile or watermark.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User-directed mid-tier rare boss essence tome design; prompted GPT image generation. Original built-in source: C:/Users/Borg/.codex/generated_images/01a0de4f-35e6-7d13-81dc-962418883f1b/exec-2eaff4fd-5451-4a34-89e0-6274b6ca055b.png.",
+      "review": "Accepted after source, staged 256px master and 48px inventory contact sheet inspection. Indigo leather, richer gilding and violet gem distinguish this adept tome at 48px. Root production lab acceptance follows publication."
+    },
+    "master_essence_tome": {
+      "status": "accepted",
+      "source": "rune-travel/master_essence_tome.png",
+      "sha256": "8619c0912ddcb7d1d8d2ef4eb5847bd4218a95584178be47abfc8c7da2f3ee1e",
+      "prompt": "Use case: precise-object-edit. Edit target: image 3, the ornate black-teal Master Tome. Images 1 and 2 are perspective references only: Apprentice and Adept tomes. Repaint ONLY the Master Tome to match the exact camera angle, tilt, orientation and three-quarter book perspective of the purple Adept Tome in image 2, with the same angle as image 1: top cover dominant, top edge slopes up toward right, spine on left leaning diagonally from upper-left to lower-right, thick page block clearly visible along bottom edge. It must look like the third member of that same icon set, NOT an upright front-facing book. Preserve the Master's black-teal leather, intricate antique gold concentric rings and corner filigree, violet accent gems, faceted turquoise central jewel and its luminous cyan glow. Preserve glowing cyan page edges and magical light spilling through the page block. Closed single book, no other objects, no text, no backdrop, no ground shadow; genuine transparent alpha background, centered square canvas with margin, intricate polished fantasy RPG inventory artwork readable at 48 pixels. Output only the edited Master Tome.",
+      "generator": "built-in image_gen",
+      "sourceLookup": "User requested matching Apprentice/Adept perspective while preserving Master glow. Built-in image_gen edit with all three existing tome icons. Original: C:\\Users\\Borg\\.codex\\generated_images\\01a0de48-218f-7711-8cb3-df5bec1c52a2\\exec-a572d99e-e395-4476-83b7-ce35e34c3031.png",
+      "review": "Root reviewed source and staged 256px/48px icons. Matches Apprentice/Adept diagonal three-quarter perspective with left spine and lower page block; ornate teal/gold details and cyan jewel/page glow remain legible at 48px."
     }
   }
 }

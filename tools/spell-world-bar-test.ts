@@ -23,7 +23,7 @@ try{
     await lab.equipPlayer("offHand",null);await lab.equipPlayer("mainHand","basic_wooden_staff");
     await lab.equipPlayer("body","marchhide_robe");lab.setFreeCameraEnabled(false);
     const debug=window.__gameDebug as unknown as Debug;
-    for(const [id,n] of [["fire_essence",40],["air_essence",40],["water_essence",40],["mind_rune",5],["chaos_rune",5],["death_rune",5],["blood_rune",5],["wrath_rune",5],["cosmic_rune",10]] as const)await debug.giveItem(id,n,"inventory");
+    for(const [id,n] of [["fire_essence",40],["air_essence",40],["water_essence",40],["mind_rune",5],["chaos_rune",5],["death_rune",5],["blood_rune",5],["wrath_rune",5],["arc_essence",10]] as const)await debug.giveItem(id,n,"inventory");
   });
   const api=()=>page.evaluate(()=>window.__featureLab!.getState());
   // The world bar mounts with the four entry spells and answers the spellbook's rows.
@@ -99,8 +99,8 @@ try{
   await page.waitForFunction(()=>!document.body.classList.contains("is-aiming"));
   await page.waitForTimeout(2600);
   await page.screenshot({path:path.join(out,"deluge-world.png")});
-  const runes={wrath:await carried("wrath_rune"),cosmic:await carried("cosmic_rune")};
-  assert.deepEqual(runes,{wrath:4,cosmic:9},"Deluge, a finale, spends its Wrath Rune and a Cosmic Rune");
+  const runes={wrath:await carried("wrath_rune"),arc:await carried("arc_essence")};
+  assert.deepEqual(runes,{wrath:4,arc:9},"Deluge, a finale, spends its Wrath Rune and Arc Essence");
   await page.waitForFunction(()=>window.__featureLab!.getState().liveSpellParticles>0,undefined,{timeout:8000}).catch(()=>{});
   await page.waitForFunction(()=>document.querySelector(".abar.is-busy")===null,undefined,{timeout:12000});
   assert.deepEqual([...driver.consoleErrors,...driver.pageErrors],[]);

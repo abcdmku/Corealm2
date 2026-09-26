@@ -24,7 +24,7 @@ export function wildernessMagicAt(x: number, z: number): number {
   return t * t * (3 - 2 * t);
 }
 
-/** Five invocation runes from the merged magic system; Cosmic Runes supplement their drops. */
+/** Five tier runes come from keepers; Cosmic Essence supplements the magical loot drops. */
 export const WILDERNESS_RUNE_KEEPERS: readonly { id: string; name: string; tier: number; rune: ItemId }[] =
   LOOT_BALANCE.wildernessParameters.keeperRewards.map(reward => {
     const creature = CREATURE_CATALOG.byCreatureId.get(reward.keeperId);

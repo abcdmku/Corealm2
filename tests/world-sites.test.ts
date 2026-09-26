@@ -61,6 +61,26 @@ function footprintGap(a: Footprint, b: Footprint): number {
 }
 
 describe("authored resource sites", () => {
+  it.each([
+    ['kilnhalt', 'arc', 20], ['gloamgarden', 'cosmic', 30], ['faeholme', 'temporal', 60],
+  ] as const)("gives %s a reachable worked %s essence seam at Mining %s", (regionId, element, level) => {
+    const region = REGIONS.find(region => region.id === regionId)!;
+    const id = `${regionId}_${element}_essence_mine`;
+    const cluster = region.clusters.find(cluster => cluster.id === `${id}_resources`)!;
+    const site = authoredSiteForCluster(cluster.id)!;
+    expect(cluster).toMatchObject({ resourceId: `essence_${element}`, count: 5, locationId: id });
+    expect(cluster.essenceElement).toBeUndefined();
+    expect(resourceDef(cluster.resourceId)).toMatchObject({ reqLevel: level, itemId: `${element}_essence` });
+    expect(site).toMatchObject({ kind: 'mine', locationId: id, centre: cluster.centre });
+    expect(site.resourceSlots).toHaveLength(5);
+    expect(site.cutFace?.stations).toHaveLength(5);
+    expect(site.terrain.floorRadius).toBeGreaterThan(10);
+    const approach = `${id}_approach`;
+    expect(region.locations.find(location => location.id === approach)?.routeNode).toBe(true);
+    expect(region.roads).toContainEqual({ from: approach, to: id });
+    expect(region.roads.some(road => road.to === approach && road.from !== id)).toBe(true);
+  });
+
   it("covers every ordinary cluster once without changing persistent resource IDs or counts", () => {
     expect(new Set(WORLD_SITES.map((site) => site.id)).size).toBe(WORLD_SITES.length);
     const actualIds: string[] = [];

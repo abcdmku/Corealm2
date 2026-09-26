@@ -1,3 +1,4 @@
+import type { UtilityMagicVfx } from "../render/utilityMagicVfx.js";
 import { spellImpactPoint } from "../systems/spellAim.js";
 /**
  * The frame loop. It draws and it simulates nothing: the world is a session's, on a server or in the
@@ -158,6 +159,8 @@ export class GameLoop {
   private pendingPlayerSwing: CombatAttackStart | null = null;
   private playerSwingSounded = false;
   private spellVfx: SpellVfx | null = null;
+  private utilityMagicVfx: UtilityMagicVfx | null = null;
+  setUtilityMagicVfx(vfx: UtilityMagicVfx): void { this.utilityMagicVfx = vfx; }
   private spellRangeFrame: ((nowMs: number) => void) | null = null;
   setSpellRangeFrame(update: (nowMs: number) => void): void { this.spellRangeFrame = update; }
   private healthBars: HealthBars | null = null;
@@ -404,6 +407,7 @@ export class GameLoop {
     this.networkStarts.length = 0; this.networkHits.length = 0;
     this.networkCommitted.clear(); this.enemyProjectiles?.clear(); this.remoteTraversal = null;
     this.spellVfx?.clear();
+    this.utilityMagicVfx?.clear();
     this.remotePose=null;
     this.resetPresentation();
   }
@@ -465,6 +469,7 @@ export class GameLoop {
     this.vfx?.update(nowMs);
     // After `vfx`, so a spell burst draws over the floating numbers rather than under them.
     this.spellVfx?.update(nowMs);
+    this.utilityMagicVfx?.update(state.magic.utilityFields, state.magic.teleportCast, state.player.regionId, position, this.deps.clock.elapsedMs);
     this.ui?.update();
     this.syncPlayerEquipment();
     this.syncPlayerRig(position, facingRad, realDeltaMs, nowMs, traversal);

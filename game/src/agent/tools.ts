@@ -1,4 +1,5 @@
 import { sendGameCommand } from "../api/commands.js";
+import type { UtilitySpellId, TownTeleportId } from '../contracts.js';
 /**
  * The canonical agent tool surface.
  *
@@ -117,13 +118,32 @@ function createWorldTools({ api, session }: ToolDeps): ToolDef[] {
       return { targetId: cast.value.targetId, castMs: cast.value.castMs, attackSpeedMs: cast.value.castMs };
     }),
 
-    defineTool(TOOL_SPECS.corealm_spellbook, async (args) => {
+    defineTool(TOOL_SPECS.corealm_spellbook, async (args, context) => {
+      if (args.op !== 'read' && args.op !== 'select') {
+        const refused = context.bypassSession ? null : session.guard('corealm_spellbook', 'act');
+        if (refused) return refused;
+        if (args.op === 'castUtility') {
+          if (typeof args.spellId !== 'string') return failure('INVALID_ARGUMENT', 'spellId is required');
+          const target = typeof args.entityId === 'string' ? args.entityId : args.position as Vec3 | undefined;
+          return unwrap(target === undefined
+            ? await sendGameCommand(api, 'castUtility', args.spellId as UtilitySpellId)
+            : await sendGameCommand(api, 'castUtility', args.spellId as UtilitySpellId, target));
+        }
+        if (args.op === 'activateTeleport' || args.op === 'teleport') {
+          if (typeof args.townId !== 'string') return failure('INVALID_ARGUMENT', 'townId is required');
+          return unwrap(await sendGameCommand(api, args.op === 'teleport' ? 'teleportTown' : 'activateTeleport', args.townId as TownTeleportId));
+        }
+        if (args.op === 'imbue') {
+          if (typeof args.tomeId !== 'string' || typeof args.essenceId !== 'string') return failure('INVALID_ARGUMENT', 'tomeId and essenceId are required');
+          return unwrap(await sendGameCommand(api, 'imbueTome', args.tomeId, args.essenceId));
+        }
+      }
       if (args.op === "select") {
         if (!("spellId" in args)) return failure("INVALID_ARGUMENT", "spellId is required when op is select");
         const raw = args.spellId;
         return unwrap(await sendGameCommand(api, "setPreferredSpell", typeof raw === "string" ? (raw as SpellId) : null));
       }
-      return api.getSpellbook();
+      return {...api.getSpellbook(), utility: api.utilityMagic(), tomes: api.essenceTomes()};
     }),
 
     // -------------------------------------------------------- npc, trade

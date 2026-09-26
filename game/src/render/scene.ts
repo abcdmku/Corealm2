@@ -105,6 +105,8 @@ export interface RegionTerrainSpec {
 export interface FlatSpot {
   /** Irregular rocky shoulder outside an exact building foundation. */
   rockyShoulder?: boolean;
+  /** Keep a small authored interaction court level when roads cross its approach. */
+  protectFromRoads?: boolean;
   /** A small building footing cut into authored relief after the surrounding banks are added. */
   landformFooting?: boolean;
   x: number;
@@ -350,6 +352,8 @@ export type PavingSurface = "stone" | "brick" | "plank";
 export interface PavingStamp {
   centre: readonly [number, number];
   halfExtents: readonly [number, number];
+  /** Organic courts use this radial contour instead of a rectangle. */
+  organic?: { radius: number; shape: OrganicShapeSpec; feather: number };
   rotationY?: number;
   /** Defaults to laid stone. */
   surface?: PavingSurface;
@@ -1361,7 +1365,7 @@ export class WorldScene {
   private buildHaulRoads(): void {
     if (this.world?.fairyLandforms) return;
     this.protectedPads = this.flats.filter(
-      (flat) => this.carvedPads.has(flat) || padReach(flat) >= HAUL_PROTECTED_PAD_REACH,
+      (flat) => flat.protectFromRoads === true || this.carvedPads.has(flat) || padReach(flat) >= HAUL_PROTECTED_PAD_REACH,
     );
     const pads = this.flats.filter((flat) => !this.carvedPads.has(flat));
     if (pads.length < 2) return;
@@ -2595,6 +2599,7 @@ export class WorldScene {
     let pavedKind = 0;
     let pavedEdge = Number.POSITIVE_INFINITY;
     let edgeKerbed = false;
+    let edgeFeather = PAVING_FEATHER;
     const pavingWobble = noise
       ? (noise(x / 7.3, z / 7.3) * 0.7 + noise((x - 233) / 2.6, (z + 91) / 2.6) * 0.3)
         * PAVING_EDGE_WOBBLE
@@ -2603,12 +2608,15 @@ export class WorldScene {
       // A kerbed rect does NOT wobble. The kerb is real geometry standing on the authored line, so
       // an edge that wanders 0.9 m across it puts grass inside the square and cobble outside it.
       const kerbed = pad.kerb === true;
-      const feather = kerbed ? PAVING_KERB_FEATHER : PAVING_FEATHER;
-      const distance = rectDistance(x, z, pad.centre, pad.halfExtents, pad.rotationY ?? 0)
-        + (kerbed ? 0 : pavingWobble);
+      const feather = kerbed ? PAVING_KERB_FEATHER : pad.organic?.feather ?? PAVING_FEATHER;
+      const distance = pad.organic
+        ? organicDistance(x - pad.centre[0], z - pad.centre[1], pad.organic.shape) - pad.organic.radius
+        : rectDistance(x, z, pad.centre, pad.halfExtents, pad.rotationY ?? 0)
+          + (kerbed ? 0 : pavingWobble);
       if (distance < pavedEdge) {
         pavedEdge = distance;
         edgeKerbed = kerbed;
+        edgeFeather = feather;
       }
       const weight = 1 - smoothstep01((distance + feather * 0.4) / feather);
       if (weight > cobble) {
@@ -2619,9 +2627,9 @@ export class WorldScene {
     // Grit and broken stone where the paving gives out, which is the same shoulder a worn road
     // gets and the reason a town square stops looking like a rug thrown on a lawn. A kerb IS that
     // shoulder, in stone, so a kerbed rect does not get a second one in gravel.
-    if (!edgeKerbed && pavedEdge < PAVING_FEATHER + PAVING_VERGE_METRES) {
+    if (!edgeKerbed && pavedEdge < edgeFeather + PAVING_VERGE_METRES) {
       const shoulder = (1 - cobble)
-        * (1 - smoothstep01((pavedEdge - PAVING_FEATHER * 0.6) / PAVING_VERGE_METRES));
+        * (1 - smoothstep01((pavedEdge - edgeFeather * 0.6) / PAVING_VERGE_METRES));
       verge = Math.max(verge, clamp(shoulder, 0, 1));
     }
 

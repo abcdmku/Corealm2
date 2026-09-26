@@ -1,4 +1,5 @@
 import { buildCrownwardBridge } from './compositions/crownwardBridge.js';
+import { buildTownTeleportPlatformComposition } from './compositions/townTeleportPlatform.js';
 /**
  * Prefab assembly: a prefab name plus a footprint, out comes an ordered list of part placements.
  *
@@ -2444,6 +2445,7 @@ export function buildComposition(
   const rng = new Rng(seed);
   const kit = BUILDING_KITS[kitId];
   switch (id) {
+    case "town_teleport_platform": return buildTownTeleportPlatformComposition(seed, kit);
     case "essence_altar_ruins": return essenceAltarRuins();
     case "black_knight_castle": return buildBlackKnightCastle();
     case "white_knight_castle": return buildWhiteKnightCastle();

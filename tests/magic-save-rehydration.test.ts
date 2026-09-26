@@ -25,6 +25,18 @@ const TEMPEST_ROC: SemanticEntity = {
 };
 
 describe("save migration and runtime container rehydration", () => {
+  it('keeps paid tome charges and visited platforms while clearing session effects', () => {
+    const state = createInitialState();
+    state.magic.unlockedTeleports.millfield = true;
+    state.magic.tomeCharges.apprentice_essence_tome = {cosmic_essence: 99};
+    state.magic.utilityEffects = [{spellId: 'lesser_ward', group: 'ward', magnitude: .1, expiresAtMs: 60000}];
+    state.magic.teleportCast = {townId: 'millfield', startedAtMs: 0, endsAtMs: 3000, origin: [0,0,0], healthAtStart: 23};
+    const loaded = loadSerializedSave(JSON.stringify(state));
+    expect(loaded.state?.magic.unlockedTeleports).toEqual({millfield: true});
+    expect(loaded.state?.magic.tomeCharges).toEqual({apprentice_essence_tome: {cosmic_essence: 99}});
+    expect(loaded.state?.magic.utilityEffects).toEqual([]);
+    expect(loaded.state?.magic.teleportCast).toBeNull();
+  });
   it("routes imported JSON through migration and derived-state repair", () => {
     const legacy = createInitialState(711, 25);
     legacy.meta.saveVersion = 2;

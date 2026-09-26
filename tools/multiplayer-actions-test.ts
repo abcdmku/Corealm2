@@ -70,7 +70,7 @@ try {
   runtime.actions.publish=(state,action)=>{publish(state,action);published.set(runtime.actions.currentSequence(),Date.now());};
   state.player.position=[10.5,0,0];bob.store.get().player.position=[8,0,-4];
   for(const skill of SKILL_IDS)setSkillLevel(state,skill,99);
-  for(const itemId of ["water_essence","earth_essence","fire_essence","mind_rune","chaos_rune","cosmic_rune","silt_minnow","seared_minnow","palewood_log","grithe_ore"]) {
+  for(const itemId of ["water_essence","earth_essence","fire_essence","mind_rune","chaos_rune","arc_essence","silt_minnow","seared_minnow","palewood_log","grithe_ore"]) {
     const slot=state.inventory.slots.indexOf(null);state.inventory.slots[slot]={itemId,quantity:100,slotIndex:slot};
   }
   const frog=runtime.entities.get("multiplayer:frog")!;
@@ -264,13 +264,13 @@ try {
     await a.waitForFunction(()=>document.querySelector('.abar.is-busy')!==null);
     checks.authoritativeCastLock=true;await capture(b,{path:`${out}/targeted.png`,timeout:5000});
     await a.waitForFunction(()=>document.querySelector('.abar.is-busy')===null,null,{timeout:8000});
-    const chaos=amount("chaos_rune"),cosmic=amount("cosmic_rune");
+    const chaos=amount("chaos_rune"),arc=amount("arc_essence");
     await a.locator('.abar[data-bar="0"] .abar__slot[data-slot="5"]').click();
     await a.waitForFunction(()=>document.body.classList.contains("is-aiming"));
     const box=(await a.locator("#viewport").boundingBox())!;
     await a.mouse.click(box.x+box.width*.5,box.y+box.height*.62);
     await b.waitForFunction(()=>(window.__gameDebug as unknown as {getBasicSpellState():{spellId:string;particles:number}[]}).getBasicSpellState().some(s=>s.spellId==="furnace-whip"&&s.particles>0),null,{timeout:5000});
-    assert.equal(amount("chaos_rune"),chaos-1);assert.equal(amount("cosmic_rune"),cosmic-1);
+    assert.equal(amount("chaos_rune"),chaos-1);assert.equal(amount("arc_essence"),arc-1);
     checks.areaInvocation=true;await capture(b,{path:`${out}/area.png`,timeout:5000});
     for(const skill of SKILL_IDS)setSkillLevel(bob.store.get(),skill,99);
     const inv=bob.store.get().inventory.slots;

@@ -250,7 +250,7 @@
         "quantity": 200
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 200
       },
       {
@@ -418,7 +418,7 @@
         "quantity": 120
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 200
       }
     ]
@@ -546,7 +546,7 @@
         "quantity": 50
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 200
       },
       {
@@ -766,7 +766,7 @@
         "quantity": 150
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 150
       }
     ]
@@ -898,7 +898,7 @@
         "quantity": 100
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 100
       }
     ]
@@ -986,7 +986,7 @@
         "quantity": 2
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 150
       },
       {
@@ -1170,7 +1170,7 @@
         "quantity": 150
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 150
       }
     ]
@@ -1318,7 +1318,7 @@
         "quantity": 150
       },
       {
-        "itemId": "cosmic_rune",
+        "itemId": "cosmic_essence",
         "quantity": 150
       }
     ]

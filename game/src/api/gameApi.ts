@@ -23,6 +23,10 @@ import type {
   OverlaySpec,
 } from "../contracts.js";
 import { EQUIP_SLOTS, SKILL_IDS, err, ok } from "../contracts.js";
+import type { UtilitySpellId, UtilityMagicView, TownTeleportId, EssenceTomeView } from '../contracts.js';
+import { buildUtilityMagicView, type UtilityMagicSystem } from '../systems/utilityMagic.js';
+import { availableEssenceFuel, essenceTomeViews, type EssenceTomeSystem } from '../systems/essenceTomes.js';
+import { townTeleportPads } from '../content/townTeleports.js';
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { Navigation, RouteLeg } from "../systems/navigation.js";
@@ -125,6 +129,8 @@ export interface SystemHooks {
     /** The advanced invocation still resolving, if any. Drives the action bar's slot lock. */
     castLock(): SpellCastLock | null;
   };
+  utility?: UtilityMagicSystem;
+  tomes?: EssenceTomeSystem;
   dialogue?: { op(op: "state" | "choose" | "end", optionId?: string): Result<DialogueView | null> };
   bank?: {
     op(op: "list" | "deposit" | "withdraw" | "depositAll", args?: { itemId?: ItemId; quantity?: number; filter?: string }): Result<BankView>;
@@ -748,6 +754,29 @@ export class CorealmGameApi implements GameApiContract {
     const hook = this.hooks.combat;
     if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
     return hook.cast(spellId, entityId);
+  }
+
+  castUtility(spellId: UtilitySpellId, target?: EntityId | Vec3): Result<{spellId: UtilitySpellId}> {
+    if (this.commandsBlocked) return err('UNAVAILABLE', 'Await the session command API for online actions');
+    return this.hooks.utility?.cast(spellId, target) ?? err('UNAVAILABLE', 'Utility magic is unavailable');
+  }
+  activateTeleport(townId: TownTeleportId): Result<{townId: TownTeleportId}> {
+    if (this.commandsBlocked) return err('UNAVAILABLE', 'Await the session command API for online actions');
+    return this.hooks.utility?.activateTeleport(townId) ?? err('UNAVAILABLE', 'Teleportation is unavailable');
+  }
+  teleportTown(townId: TownTeleportId): Result<{townId: TownTeleportId; endsAtMs: number}> {
+    if (this.commandsBlocked) return err('UNAVAILABLE', 'Await the session command API for online actions');
+    return this.hooks.utility?.teleport(townId) ?? err('UNAVAILABLE', 'Teleportation is unavailable');
+  }
+  utilityMagic(): UtilityMagicView {
+    const state = this.store.get();
+    return buildUtilityMagicView(state, townTeleportPads(this.hooks.entities?.all() ?? []),
+      id => availableEssenceFuel(state, id), this.clock.elapsedMs);
+  }
+  essenceTomes(): EssenceTomeView[] { return essenceTomeViews(this.store.get()); }
+  imbueTome(tomeId: ItemId, essenceId: ItemId): Result<{charges: number; essenceSpent: number}> {
+    if (this.commandsBlocked) return err('UNAVAILABLE', 'Await the session command API for online actions');
+    return this.hooks.tomes?.imbue(tomeId, essenceId) ?? err('UNAVAILABLE', 'Essence tomes are unavailable');
   }
 
   castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }> {

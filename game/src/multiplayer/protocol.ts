@@ -19,7 +19,8 @@ export function worldKey(key: WorldKey): string { return JSON.stringify([key.pro
 export function record(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
-const id = (value: unknown): value is string => typeof value === "string" && /^[A-Za-z0-9_:.-]{1,128}$/.test(value);
+// Composition parts use owner#part IDs and are ordinary interactable entities.
+const id = (value: unknown): value is string => typeof value === "string" && /^[A-Za-z0-9_:#.-]{1,128}$/.test(value);
 const text = (value: unknown): value is string => typeof value === "string" && value.length <= 256;
 const integer = (value: unknown): value is number => Number.isSafeInteger(value);
 const quantity = (value: unknown): boolean => integer(value) && (value === -1 || value > 0 && value <= 1_000_000);
@@ -156,6 +157,11 @@ export function command(value: unknown): GameCommand {
     case "setPreferredSpell": valid = a.length === 1 && (a[0] === null || id(a[0])); break;
     case "interact": case "cast": valid = a.length === 2 && a.every(id); break;
     case "castNow": valid = oneId(); break;
+    case "activateTeleport": case "teleportTown": valid = oneId(); break;
+    case "imbueTome": valid = a.length === 2 && a.every(id); break;
+    case "castUtility": valid = (a.length === 1 || a.length === 2) && id(a[0])
+      && (a[1] === undefined || id(a[1]) || Array.isArray(a[1]) && a[1].length === 3
+        && a[1].every(v => typeof v === "number" && Number.isFinite(v) && Math.abs(v) <= 1_000_000)); break;
     case "castArea": valid = a.length === 2 && id(a[0]) && Array.isArray(a[1]) && a[1].length === 3
       && a[1].every(v => typeof v === "number" && Number.isFinite(v) && Math.abs(v) <= 1_000_000); break;
     case "takeLoot": valid = a.length >= 1 && a.length <= 3 && id(a[0]) && (a[1] == null || integer(a[1]) && a[1] >= 0 && a[1] < 400)

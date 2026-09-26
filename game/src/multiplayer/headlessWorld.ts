@@ -183,6 +183,7 @@ export class HeadlessWorld {
     initial.player.id = id; initial.player.position = this.ports.spawn;
     const state = composeSessionState(saved ?? playerSessionState(initial), this.shared, initial.settings);
     const player = new HeadlessPlayer({ ...this.ports, state, clock: this.clock, entities: this.entities,
+      allies: () => [...this.active].map(id => this.players.get(id)!.store.get()),
       ownsEnemy: (enemyId) => this.targets.get(enemyId) === id,
       shareKill: (enemy, skill, xp, atMs) => this.social.shareKill(id, enemy, skill, xp, atMs),
       assignLoot: (_enemy, items) => this.social.tagLoot(id, items),
@@ -428,6 +429,11 @@ export class HeadlessWorld {
       if (at[2] < minZ) minZ = at[2]; if (at[2] > maxZ) maxZ = at[2];
     }
     this.selection = { minX, maxX, minZ, maxZ, tick: this.clock.tick };
+    for (const id of this.active) {
+      const player = this.players.get(id)!;
+      player.utility.tick(100, this.clock.elapsedMs);
+      this.spatial.move(id, player.store.get().player.position);
+    }
     this.ai.tick(100, this.clock.elapsedMs);
     for (const id of this.active) {
       const player = this.players.get(id)!;

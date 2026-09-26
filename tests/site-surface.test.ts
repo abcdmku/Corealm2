@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { WorldSite } from "../game/src/content/worldSites.js";
+import { seedFromText } from "../game/src/world/organicFields.js";
 import {
   WorldScene, type GrassSpritePlacement, type GroundStamps, type WorldTerrainSpec,
 } from "../game/src/render/scene.js";
@@ -117,6 +118,32 @@ describe("mine ground surfaces", () => {
         expect(weights.every((weight) => Number.isFinite(weight) && weight >= 0 && weight <= 1), `${x},${z}`).toBe(true);
         expect(weights.reduce((sum, weight) => sum + weight, 0), `${x},${z}`).toBeCloseTo(1, 12);
       }
+    }
+  });
+});
+
+describe("organic court paving", () => {
+  it("covers the altar and mining ring while feathering an irregular edge without square corners", () => {
+    const scene = buildScene([], { paving: [{
+      centre: [0, 0], halfExtents: [16, 16], surface: "stone", kerb: false,
+      organic: { radius: 16, feather: 3,
+        shape: { seed: seedFromText("fallowmarch_air_altar"), irregularity: 0.14, lobes: 5, rotation: 0 } },
+    }] });
+    expect(scene.groundSurfaceAt(0, 0).cobble).toBe(1);
+    const edgeWeights: number[] = [];
+    for (let step = 0; step < 32; step++) {
+      const angle = step * Math.PI / 16;
+      const sample = (radius: number) => scene.groundSurfaceAt(Math.cos(angle) * radius, Math.sin(angle) * radius).cobble;
+      expect(sample(12.72), `outermost mining node at angle ${angle}`).toBeGreaterThan(0.95);
+      const edge = sample(15);
+      edgeWeights.push(edge);
+      expect(edge).toBeGreaterThan(0);
+      expect(edge).toBeLessThan(1);
+      expect(sample(18)).toBe(0);
+    }
+    expect(Math.max(...edgeWeights) - Math.min(...edgeWeights)).toBeGreaterThan(0.15);
+    for (const x of [-15, 15]) for (const z of [-15, 15]) {
+      expect(scene.groundSurfaceAt(x, z).cobble, `old square corner ${x},${z}`).toBe(0);
     }
   });
 });

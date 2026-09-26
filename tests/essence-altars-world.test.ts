@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
+import { buildWorldTerrainSpec, buildFairyTerrainSpec } from "../game/src/app/worldSpec.js";
+import { townTeleportPads } from "../game/src/content/townTeleports.js";
 import { collectPavingStamps } from "../game/src/app/worldSurface.js";
 import {
   ESSENCE_ALTAR_COURT_BLEND,
@@ -8,9 +9,24 @@ import {
   REGIONS,
 } from "../game/src/content/regions.js";
 import { buildWorld } from "../game/src/world/regionBuilder.js";
+import { seedFromText } from "../game/src/world/organicFields.js";
+
+it('authors nine town landings with protected flat ground and increasing travel requirements', () => {
+  const pads = townTeleportPads();
+  expect(pads).toHaveLength(9);
+  expect(pads.map(pad => pad.reqLevel)).toEqual([5, 10, 15, 20, 30, 40, 50, 60, 70]);
+  const flats = [...buildWorldTerrainSpec().flats!, ...buildFairyTerrainSpec().flats!];
+  for (const pad of pads) {
+    expect(flats.some(flat => flat.x === pad.position[0] && flat.z === pad.position[2]
+      && flat.radius >= 4 && flat.protectFromRoads)).toBe(true);
+    const region = REGIONS.find(region => region.id === pad.regionId)!;
+    expect(region.roads.some(road => road.to === pad.entityId)).toBe(true);
+    expect(region.landmarks.find(landmark => landmark.id === pad.entityId)?.solid).toBe(false);
+  }
+});
 
 describe("regional Essence Altar mini-quests", () => {
-  it("flattens and region-stone paves the complete imported ruin courts", () => {
+  it("flattens and organically region-stone paves the complete imported ruin courts", () => {
     const terrain = buildWorldTerrainSpec();
     const paving = collectPavingStamps();
 
@@ -20,10 +36,16 @@ describe("regional Essence Altar mini-quests", () => {
         z: altar.position[1],
         radius: ESSENCE_ALTAR_COURT_RADIUS,
         blend: ESSENCE_ALTAR_COURT_BLEND,
+        protectFromRoads: true,
       });
       expect(paving).toContainEqual({
         centre: altar.position,
         halfExtents: [ESSENCE_ALTAR_COURT_RADIUS, ESSENCE_ALTAR_COURT_RADIUS],
+        organic: {
+          radius: ESSENCE_ALTAR_COURT_RADIUS,
+          shape: { seed: seedFromText(altar.id), irregularity: 0.14, lobes: 5, rotation: altar.rotationY },
+          feather: 3,
+        },
         rotationY: altar.rotationY,
         surface: "stone",
         kerb: false,

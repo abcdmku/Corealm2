@@ -83,6 +83,9 @@ export function validateSaveState(value: unknown): string | null {
   const magic = value.magic;
   if (!record(magic) || !values(magic.weaponCharges, count)
     || !values(magic.consumedOrbs, bool) || !values(magic.awakenedAltars, bool)) return invalid("magic");
+  if (magic.unlockedTeleports !== undefined && !values(magic.unlockedTeleports, bool)) return invalid('teleport unlocks');
+  if (magic.tomeCharges !== undefined && !values(magic.tomeCharges, charges => values(charges,
+    value => count(value) && (value as number) <= 10000))) return invalid('tome charges');
   const combat = value.combat;
   if (!record(combat) || !nullable(id)(combat.preferredSpellId)) return invalid("combat");
 

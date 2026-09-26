@@ -1697,6 +1697,22 @@
             }
           ],
           "tables": []
+        },
+        {
+          "id": "rare_essence_tome",
+          "name": "Rare Essence Tome",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "apprentice_essence_tome",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.02
+            }
+          ],
+          "tables": []
         }
       ]
     }
@@ -4705,7 +4721,16 @@
           "id": "items",
           "name": "Items",
           "count": 1,
-          "drops": [],
+          "drops": [
+            {
+              "itemId": "arc_essence",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 0.15
+            }
+          ],
           "tables": [
             {
               "tableId": "shared_fire_essence",
@@ -5752,7 +5777,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "guaranteed_astral_core"
             }
           ]
@@ -5764,7 +5789,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -5776,7 +5801,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -5818,7 +5843,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -5830,7 +5855,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -5842,7 +5867,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -5915,7 +5940,7 @@
               "chance": 0.18
             },
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 2,
                 4
@@ -5962,7 +5987,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "guaranteed_molten_heart"
             }
           ]
@@ -5974,7 +5999,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -5986,7 +6011,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -6098,7 +6123,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -6110,7 +6135,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "items_1"
             }
           ]
@@ -6122,7 +6147,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "items_2"
             }
           ]
@@ -6164,7 +6189,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -6176,7 +6201,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "items_1"
             }
           ]
@@ -6188,7 +6213,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "items_2"
             }
           ]
@@ -6246,7 +6271,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -6258,7 +6283,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "items_1"
             }
           ]
@@ -6270,7 +6295,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "items_2"
             }
           ]
@@ -6787,17 +6812,33 @@
           "tables": []
         },
         {
-          "id": "guaranteed_cosmic_rune",
-          "name": "Guaranteed cosmic rune",
+          "id": "guaranteed_cosmic_essence",
+          "name": "Guaranteed cosmic essence",
           "count": 1,
           "drops": [
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 3,
                 5
               ],
               "chance": 1
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "rare_essence_tome",
+          "name": "Rare Essence Tome",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "adept_essence_tome",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.02
             }
           ],
           "tables": []
@@ -7043,17 +7084,33 @@
           "tables": []
         },
         {
-          "id": "guaranteed_cosmic_rune",
-          "name": "Guaranteed cosmic rune",
+          "id": "guaranteed_cosmic_essence",
+          "name": "Guaranteed cosmic essence",
           "count": 1,
           "drops": [
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 3,
                 5
               ],
               "chance": 1
+            }
+          ],
+          "tables": []
+        },
+        {
+          "id": "rare_essence_tome",
+          "name": "Rare Essence Tome",
+          "count": 1,
+          "drops": [
+            {
+              "itemId": "master_essence_tome",
+              "quantity": [
+                1,
+                1
+              ],
+              "chance": 0.02
             }
           ],
           "tables": []
@@ -12664,6 +12721,14 @@
                 1
               ],
               "chance": 0.45
+            },
+            {
+              "itemId": "cosmic_essence",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 0.15
             }
           ],
           "tables": []
@@ -13158,6 +13223,14 @@
                 1
               ],
               "chance": 0.45
+            },
+            {
+              "itemId": "temporal_essence",
+              "quantity": [
+                1,
+                2
+              ],
+              "chance": 0.1
             }
           ],
           "tables": []
@@ -14228,7 +14301,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "guaranteed_dragonhide"
             }
           ]
@@ -14240,7 +14313,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14252,7 +14325,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14274,7 +14347,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "guaranteed_starhide"
             }
           ]
@@ -14286,7 +14359,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14298,7 +14371,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14320,7 +14393,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "guaranteed_starhide"
             }
           ]
@@ -14332,7 +14405,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14344,7 +14417,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14366,7 +14439,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "guaranteed_starhide"
             }
           ]
@@ -14378,7 +14451,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14390,7 +14463,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_starhide_cosmic_rune",
+              "tableId": "shared_starhide_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14412,7 +14485,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -14424,7 +14497,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14436,7 +14509,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14458,7 +14531,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -14470,7 +14543,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14482,7 +14555,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14504,7 +14577,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "guaranteed_astral_core"
             }
           ]
@@ -14516,7 +14589,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14528,7 +14601,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14550,7 +14623,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "guaranteed_dragonhide"
             }
           ]
@@ -14562,7 +14635,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14574,7 +14647,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14596,7 +14669,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -14608,7 +14681,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14620,7 +14693,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14651,7 +14724,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -14663,7 +14736,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14675,7 +14748,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14706,7 +14779,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "guaranteed_astral_core"
             }
           ]
@@ -14718,7 +14791,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14730,7 +14803,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14752,7 +14825,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "guaranteed_astral_core"
             }
           ]
@@ -14764,7 +14837,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14776,7 +14849,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14798,7 +14871,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -14810,7 +14883,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14822,7 +14895,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14844,7 +14917,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -14856,7 +14929,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14868,7 +14941,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14890,7 +14963,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -14902,7 +14975,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14914,7 +14987,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14936,7 +15009,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -14948,7 +15021,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -14960,7 +15033,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -14982,7 +15055,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -14994,7 +15067,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15006,7 +15079,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15028,7 +15101,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -15040,7 +15113,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15052,7 +15125,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15074,7 +15147,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -15086,7 +15159,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15098,7 +15171,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15120,7 +15193,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "guaranteed_molten_heart"
             }
           ]
@@ -15132,7 +15205,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15144,7 +15217,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15166,7 +15239,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "guaranteed_astral_core"
             }
           ]
@@ -15178,7 +15251,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15190,7 +15263,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_astral_core_cosmic_rune",
+              "tableId": "shared_astral_core_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15212,7 +15285,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -15224,7 +15297,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15236,7 +15309,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15258,7 +15331,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -15270,7 +15343,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15282,7 +15355,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15304,7 +15377,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "guaranteed_dragonhide"
             }
           ]
@@ -15316,7 +15389,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15328,7 +15401,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15350,7 +15423,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "guaranteed_dragonhide"
             }
           ]
@@ -15362,7 +15435,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15374,7 +15447,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_dragonhide_cosmic_rune",
+              "tableId": "shared_dragonhide_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15396,7 +15469,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -15408,7 +15481,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15420,7 +15493,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15442,7 +15515,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -15454,7 +15527,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15466,7 +15539,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15488,7 +15561,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "guaranteed_molten_heart"
             }
           ]
@@ -15500,7 +15573,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15512,7 +15585,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15534,7 +15607,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -15546,7 +15619,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15558,7 +15631,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15617,7 +15690,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -15629,7 +15702,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15641,7 +15714,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15700,7 +15773,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -15712,7 +15785,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15724,7 +15797,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15783,7 +15856,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -15795,7 +15868,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15807,7 +15880,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15866,7 +15939,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -15878,7 +15951,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15890,7 +15963,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -15949,7 +16022,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -15961,7 +16034,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -15973,7 +16046,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -16032,7 +16105,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -16044,7 +16117,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -16056,7 +16129,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -16087,7 +16160,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -16099,7 +16172,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -16111,7 +16184,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -16142,7 +16215,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "guaranteed_molten_heart"
             }
           ]
@@ -16154,7 +16227,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -16166,7 +16239,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -16188,7 +16261,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -16200,7 +16273,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -16212,7 +16285,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -16234,7 +16307,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -16246,7 +16319,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -16258,7 +16331,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune",
+              "tableId": "shared_void_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -18740,7 +18813,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -18752,7 +18825,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -18764,7 +18837,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -18830,7 +18903,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -18842,7 +18915,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -18854,7 +18927,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -18884,7 +18957,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -18896,7 +18969,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -18908,7 +18981,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -18938,7 +19011,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -18950,7 +19023,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -18962,7 +19035,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -18992,7 +19065,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19004,7 +19077,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19016,7 +19089,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19046,7 +19119,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19058,7 +19131,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19070,7 +19143,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19137,7 +19210,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19149,7 +19222,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19161,7 +19234,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19228,7 +19301,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19240,7 +19313,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19252,7 +19325,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19281,7 +19354,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19293,7 +19366,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19305,7 +19378,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19372,7 +19445,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19384,7 +19457,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19396,7 +19469,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19426,7 +19499,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19438,7 +19511,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19450,7 +19523,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19480,7 +19553,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19492,7 +19565,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19504,7 +19577,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19571,7 +19644,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19583,7 +19656,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19595,7 +19668,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19625,7 +19698,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19637,7 +19710,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19649,7 +19722,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19716,7 +19789,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19728,7 +19801,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19740,7 +19813,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19770,7 +19843,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19782,7 +19855,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19794,7 +19867,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19861,7 +19934,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19873,7 +19946,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19885,7 +19958,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -19915,7 +19988,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -19927,7 +20000,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -19939,7 +20012,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -20006,7 +20079,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -20018,7 +20091,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -20030,7 +20103,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -20060,7 +20133,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -20072,7 +20145,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -20084,7 +20157,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -20151,7 +20224,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -20163,7 +20236,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -20175,7 +20248,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -20613,7 +20686,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -20625,7 +20698,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "items_1"
             }
           ]
@@ -20637,7 +20710,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "items_2"
             }
           ]
@@ -20666,7 +20739,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -20678,7 +20751,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "items_1"
             }
           ]
@@ -20690,7 +20763,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_2",
+              "tableId": "shared_void_thread_cosmic_essence_2",
               "rollId": "items_2"
             }
           ]
@@ -20720,7 +20793,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -20732,7 +20805,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "items_1"
             }
           ]
@@ -20744,7 +20817,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "items_2"
             }
           ]
@@ -20774,7 +20847,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -20786,7 +20859,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "items_1"
             }
           ]
@@ -20798,7 +20871,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_3",
+              "tableId": "shared_void_thread_cosmic_essence_3",
               "rollId": "items_2"
             }
           ]
@@ -20828,7 +20901,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -20840,7 +20913,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "items_1"
             }
           ]
@@ -20852,7 +20925,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "items_2"
             }
           ]
@@ -20882,7 +20955,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "guaranteed_void_thread"
             }
           ]
@@ -20894,7 +20967,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "items_1"
             }
           ]
@@ -20906,7 +20979,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_void_thread_cosmic_rune_4",
+              "tableId": "shared_void_thread_cosmic_essence_4",
               "rollId": "items_2"
             }
           ]
@@ -20970,12 +21043,12 @@
           "tables": []
         },
         {
-          "id": "guaranteed_cosmic_rune",
-          "name": "Guaranteed cosmic rune",
+          "id": "guaranteed_cosmic_essence",
+          "name": "Guaranteed cosmic essence",
           "count": 1,
           "drops": [
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 4,
                 8
@@ -21060,12 +21133,12 @@
           "tables": []
         },
         {
-          "id": "guaranteed_cosmic_rune",
-          "name": "Guaranteed cosmic rune",
+          "id": "guaranteed_cosmic_essence",
+          "name": "Guaranteed cosmic essence",
           "count": 1,
           "drops": [
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 24,
                 40
@@ -21238,12 +21311,12 @@
           "tables": []
         },
         {
-          "id": "guaranteed_cosmic_rune",
-          "name": "Guaranteed cosmic rune",
+          "id": "guaranteed_cosmic_essence",
+          "name": "Guaranteed cosmic essence",
           "count": 1,
           "drops": [
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 24,
                 40
@@ -21416,12 +21489,12 @@
           "tables": []
         },
         {
-          "id": "guaranteed_cosmic_rune",
-          "name": "Guaranteed cosmic rune",
+          "id": "guaranteed_cosmic_essence",
+          "name": "Guaranteed cosmic essence",
           "count": 1,
           "drops": [
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 24,
                 40
@@ -21603,12 +21676,12 @@
           "tables": []
         },
         {
-          "id": "guaranteed_cosmic_rune",
-          "name": "Guaranteed cosmic rune",
+          "id": "guaranteed_cosmic_essence",
+          "name": "Guaranteed cosmic essence",
           "count": 1,
           "drops": [
             {
-              "itemId": "cosmic_rune",
+              "itemId": "cosmic_essence",
               "quantity": [
                 24,
                 40
@@ -21739,7 +21812,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -21751,7 +21824,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -21763,7 +21836,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -21792,7 +21865,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -21804,7 +21877,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -21816,7 +21889,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -21854,7 +21927,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -21866,7 +21939,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -21878,7 +21951,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -21907,7 +21980,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -21919,7 +21992,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -21931,7 +22004,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -21960,7 +22033,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -21972,7 +22045,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -21984,7 +22057,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -22014,7 +22087,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -22026,7 +22099,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -22038,7 +22111,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -22068,7 +22141,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -22080,7 +22153,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -22092,7 +22165,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -22122,7 +22195,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -22134,7 +22207,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -22146,7 +22219,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -22176,7 +22249,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -22188,7 +22261,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -22200,7 +22273,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -22230,7 +22303,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -22242,7 +22315,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -22254,7 +22327,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -22284,7 +22357,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "guaranteed_grave_thread"
             }
           ]
@@ -22296,7 +22369,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -22308,7 +22381,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_grave_thread_cosmic_rune",
+              "tableId": "shared_grave_thread_cosmic_essence",
               "rollId": "items_2"
             }
           ]
@@ -22347,7 +22420,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "guaranteed_molten_heart"
             }
           ]
@@ -22359,7 +22432,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_1"
             }
           ]
@@ -22371,7 +22444,7 @@
           "drops": [],
           "tables": [
             {
-              "tableId": "shared_molten_heart_cosmic_rune",
+              "tableId": "shared_molten_heart_cosmic_essence",
               "rollId": "items_2"
             }
           ]

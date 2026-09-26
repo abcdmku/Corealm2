@@ -8,6 +8,7 @@
 import { ARCHETYPES, EQUIP_SLOTS, GAME_EVENT_TYPES, INTERACTION_IDS } from "../contracts.js";
 import type { AgentMode } from "../contracts.js";
 import { ALL_SPELLS } from "../content/spells.js";
+import { UTILITY_SPELLS } from '../content/utilityMagic.js';
 import { BOOL, ENUM, INT, NUM, STR, VEC3, obj, type ToolSpec } from "./toolkit.js";
 
 export const MANUAL_TOPICS = [
@@ -250,7 +251,7 @@ export const TOOL_SPECS = {
         "Optional. With a wand or staff, forces this spell; omit it to use the standing choice or "
         + "the strongest compatible spell automatically. With a non-magic weapon, supplying it "
         + "returns a loadout error. Advanced invocations (rank 1 to 5) fire once on the next cast "
-        + "beat and also spend their tier rune, plus a Cosmic Rune when they strike an area. Spells "
+        + "beat and also spend their tier rune, plus Arc Essence when they strike an area. Spells "
         + "and the Magic level each needs: "
         + ALL_SPELLS.map((spell) => `${spell.id} (${spell.element}, Magic ${spell.reqLevel})`).join(", ")
         + ". The player-facing Air Essence supplies wind spells.",
@@ -275,8 +276,13 @@ export const TOOL_SPECS = {
       + "to restore automatic selection. `select` is a loadout preference, not a world action, "
       + "so it is allowed in every mode.",
     inputSchema: obj({
-      op: ENUM(["read", "select"], "read the spellbook, or select the standing spell"),
-      spellId: ENUM([...ALL_SPELLS.map((spell) => spell.id), null], "Required when op is select. Null clears the choice back to automatic."),
+        op: ENUM(["read", "select", "castUtility", "activateTeleport", "teleport", "imbue"], "Read spells, cast utility magic, activate a nearby platform, teleport to an unlocked town, or imbue a carried tome at a nearby awakened Essence Altar."),
+        spellId: ENUM([...ALL_SPELLS.map((spell) => spell.id), ...UTILITY_SPELLS.map(spell => spell.id), null], "Spell id for selection or utility casting."),
+        entityId: STR('Enemy target for a utility spell'),
+        position: VEC3,
+        townId: STR('Town platform id for activation or teleport'),
+        tomeId: STR('Carried essence tome item id'),
+        essenceId: STR('Essence type to imbue'),
     }, ["op"]),
   },
   corealm_dialogue: {

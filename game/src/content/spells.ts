@@ -64,17 +64,18 @@ export const MELEE_RANGE_M = 1.6;
 // ------------------------------------------------------------------ spell runes
 
 /**
- * The six spell runes. Essence is the primary fuel of every spell; these are the secondaries.
+ * Eight invocation fuel items: five rank runes and three elemental essences used by utility or
+ * area effects. Matching Essence remains the primary fuel of attack spells.
  *
  * One tier rune per advanced rank, so a caster stocks the rune of the invocations they actually
- * use rather than a single universal token, and one Cosmic Rune that every area invocation adds on
- * top. Rank-1 invocations strike one target and need no Cosmic Rune; ranks 2 to 5 all sweep an
- * area. The basic sixteen never touch a rune, which keeps the starter loop unchanged.
+ * use rather than one universal token. Damaging area invocations add Arc Essence; Cosmic Essence
+ * and Temporal Essence are reserved for enchantments/effect spells and teleportation. Rank 1 is
+ * single-target; ranks 2 to 5 strike an area. The basic sixteen never use secondary fuel.
  */
 export interface SpellRuneDef {
   itemId: ItemId;
   name: string;
-  /** 1 to 5 for the tier runes; 0 for the Cosmic Rune. */
+  /** 1 to 5 for the tier runes; 0 for special Essences. */
   tier: number;
   description: string;
 }
@@ -83,7 +84,7 @@ export const SPELL_RUNES: readonly SpellRuneDef[] = parseCollection(SpellRuneSch
   name: "spellRunes", idKey: "itemId",
 });
 
-export const COSMIC_RUNE_ID: ItemId = "cosmic_rune";
+export const ARC_ESSENCE_ID: ItemId = "arc_essence";
 
 export function tierRune(rank: number): SpellRuneDef {
   const rune = SPELL_RUNES.find((row) => row.tier === rank);
@@ -103,7 +104,7 @@ export function spellRune(itemId: ItemId): SpellRuneDef | undefined {
  * Numbers for the twenty manual invocations, keyed by rank and element.
  *
  * Elements open in the ladder's own order inside each rank (wind, earth, water, fire). Every rank
- * costs its tier rune; ranks 2 to 5 strike an area and cost a Cosmic Rune as well. Damage per cast
+ * costs its tier rune; ranks 2 to 5 strike an area and cost Arc Essence as well. Damage per cast
  * climbs a step above the basic rung a caster holds at the same level, because the cast also burns
  * a rune and, for the finales, locks the caster for six or seven seconds.
  */

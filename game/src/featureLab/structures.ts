@@ -197,6 +197,13 @@ export function assembleFeatureLabStructure(
       entity.meta = {...entity.meta, buildingId:host.building.id, compositionHost:true};
     }
   }
+  if (sanitized.kind === "composition" && sanitized.id === "town_teleport_platform") {
+    for (const entity of entities) {
+      entity.name = 'Millfield Teleport Platform';
+      entity.interactions = ['inspect'];
+      entity.meta = {...entity.meta, scenery: false, townTeleportId: 'millfield'};
+    }
+  }
   if (sanitized.kind === "composition" && sanitized.id === "essence_altar_ruins") {
     for (const entity of entities) {
       if (entity.view?.assetId === "altar_ruins_site") {

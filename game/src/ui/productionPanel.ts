@@ -2,7 +2,7 @@ import { sendGameCommand } from "../api/commands.js";
 import { PanelFrame } from "./panelFrame.js";
 import { QuantitySelector } from "./quantitySelector.js";
 import type {
-  EntityId, GameApi, ItemId, ItemStack, SemanticEntity, SkillId, StationKind,
+  EntityId, EssenceTomeView, GameApi, ItemId, ItemStack, SemanticEntity, SkillId, StationKind,
 } from "../contracts.js";
 import { burnChance, content, type RecipeDef } from "../content/index.js";
 import { notify } from "./contextMenu.js";
@@ -105,6 +105,7 @@ export class ProductionPanel implements ManagedPanel {
       return;
     }
     const recipes = this.recipesFor(station.kind, station.skill, station.recipeIds);
+    const tomes = station.kind === "essence_altar" ? this.ctx.api.essenceTomes() : [];
     const inventory = this.ctx.api.getInventory();
     const skills = this.ctx.api.getSkills();
     const activity = this.ctx.api.getActivity();
@@ -117,6 +118,7 @@ export class ProductionPanel implements ManagedPanel {
       entity.id, entity.state, station.kind, station.skill,
       ...inventory.slots.map(stackSignature),
       ...recipes.map((recipe) => `${recipe.id}:${skills[recipe.skill]?.level ?? 1}`),
+      ...tomes.flatMap((tome) => tome.essences.map((essence) => `${tome.itemId}:${essence.itemId}:${essence.charges}:${essence.carried}:${essence.canImbue}`)),
       activity ? `${activity.kind}:${activity.recipeId ?? "-"}:${activity.completed}:${activity.remaining}` : "idle",
       remainingToken, nearbyFire?.id ?? "-", nearbyToken,
     ].join("|");
@@ -127,16 +129,72 @@ export class ProductionPanel implements ManagedPanel {
     this.stationLine.textContent = `${stationLabel(station.kind)} · ${skillName(station.skill)}`;
     this.paintFireLine(entity, selectedRemainingMs, nearbyFire, nearbyRemainingMs);
 
-    if (recipes.length === 0) {
-      this.list.replaceChildren(emptyState("This station has no compatible recipes."));
-      return;
-    }
-
     const fragment = document.createDocumentFragment();
+    if (station.kind === "essence_altar") fragment.appendChild(this.tomeRechargeSection(tomes));
+    if (recipes.length === 0 && station.kind !== "essence_altar") {
+      fragment.appendChild(emptyState("This station has no compatible recipes."));
+    }
     for (const recipe of recipes) {
       fragment.appendChild(this.recipeRow(recipe, inventory.slots, skills[recipe.skill]?.level ?? 1, activity));
     }
     this.list.replaceChildren(fragment);
+  }
+
+  private tomeRechargeSection(tomes: readonly EssenceTomeView[]): HTMLElement {
+    const section = document.createElement("section");
+    section.setAttribute("aria-label", "Essence tome imbuing");
+    const heading = document.createElement("h3");
+    heading.className = "production-row__name";
+    heading.textContent = "Imbue essence tomes";
+    const instruction = document.createElement("p");
+    instruction.className = "production-row__details u-dim";
+    instruction.textContent = "Carry a tome and enough essence to an awakened altar. Each full recharge fills one essence type.";
+    section.append(heading, instruction);
+    if (tomes.length === 0) {
+      section.appendChild(emptyState("Carry an essence tome to imbue it here."));
+      return section;
+    }
+    for (const tome of tomes) {
+      for (const essence of tome.essences) section.appendChild(this.tomeRechargeRow(tome, essence));
+    }
+    return section;
+  }
+
+  private tomeRechargeRow(tome: EssenceTomeView, essence: EssenceTomeView["essences"][number]): HTMLElement {
+    const root = document.createElement("article");
+    root.className = "production-row";
+    root.setAttribute("role", "listitem");
+    const glyph = document.createElement("span");
+    glyph.className = "slot__glyph production-row__glyph";
+    glyph.appendChild(createItemIcon(itemDef(essence.itemId)));
+    const text = document.createElement("div");
+    text.className = "production-row__text";
+    const name = document.createElement("div");
+    name.className = "production-row__name";
+    name.textContent = `${tome.name} · ${essence.name}`;
+    const cost = document.createElement("div");
+    cost.className = "production-row__ingredients";
+    cost.textContent = `${formatQuantity(tome.essencePerRecharge)} ${essence.name} for a full recharge`;
+    const status = document.createElement("div");
+    status.className = "production-row__details u-dim";
+    status.textContent = `${formatQuantity(essence.charges)}/${formatQuantity(tome.chargeCapacity)} charges · ${formatQuantity(essence.carried)} essence carried`;
+    text.append(name, cost, status);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn--primary production-row__action";
+    button.textContent = "Imbue";
+    button.disabled = !essence.canImbue;
+    button.title = essence.charges > 0 ? "Use all charges of this essence type before recharging" : essence.canImbue
+      ? `Spend ${tome.essencePerRecharge} ${essence.name}` : `Need ${tome.essencePerRecharge} ${essence.name}`;
+    button.addEventListener("click", async () => {
+      const result = await sendGameCommand(this.ctx.api, "imbueTome", tome.itemId, essence.itemId);
+      if (report(result)) {
+        this.refresh(true);
+        this.ctx.refresh();
+      }
+    });
+    root.append(glyph, text, button);
+    return root;
   }
 
   dispose(): void {

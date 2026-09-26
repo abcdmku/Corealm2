@@ -1225,6 +1225,13 @@
       "author": "User supplied",
       "source": "stone+circular+platform+3d+model.glb",
       "license": "User supplied"
+    },
+    {
+      "id": "corealm-travel",
+      "name": "Corealm town mosaics",
+      "author": "Corealm",
+      "source": "art/travel",
+      "license": "project-owned"
     }
   ],
   "assets": [
@@ -70745,6 +70752,96 @@
       ],
       "is": "fount",
       "source": "User supplied stone+circular+platform+3d+model.glb. Levelled X by -0.40285955477110347 radians, removed 852 underside triangles below levelled y=0.15, grounded."
+    },
+    {
+      "id": "town_teleport_platform_plaster",
+      "file": "models/travel/town_teleport_platform_plaster.glb",
+      "pack": "corealm-travel",
+      "category": "prop",
+      "is": "teleport-platform",
+      "tags": [
+        "travel",
+        "stone",
+        "mosaic",
+        "walkable"
+      ],
+      "bytes": 3822500,
+      "size": {
+        "x": 5.056,
+        "y": 0.145,
+        "z": 5.056
+      },
+      "base": {
+        "x": -2.528,
+        "y": 0,
+        "z": -2.528
+      },
+      "animations": [],
+      "materials": [
+        "travel_mosaic_plaster",
+        "travel_rim_dark_stone"
+      ],
+      "sha256": "274dca4d77975da8c1464fa83c0ea50cfa29f3d5589770d674dcb4da0dbeb9db"
+    },
+    {
+      "id": "town_teleport_platform_timber",
+      "file": "models/travel/town_teleport_platform_timber.glb",
+      "pack": "corealm-travel",
+      "category": "prop",
+      "is": "teleport-platform",
+      "tags": [
+        "travel",
+        "stone",
+        "mosaic",
+        "walkable"
+      ],
+      "bytes": 4087824,
+      "size": {
+        "x": 5.056,
+        "y": 0.145,
+        "z": 5.056
+      },
+      "base": {
+        "x": -2.528,
+        "y": 0,
+        "z": -2.528
+      },
+      "animations": [],
+      "materials": [
+        "travel_mosaic_timber",
+        "travel_rim_dark_stone"
+      ],
+      "sha256": "f754044b29cf315261285b4eb4e7f70c2b0a9ee0e820759f623b42e97538edce"
+    },
+    {
+      "id": "town_teleport_platform_stone",
+      "file": "models/travel/town_teleport_platform_stone.glb",
+      "pack": "corealm-travel",
+      "category": "prop",
+      "is": "teleport-platform",
+      "tags": [
+        "travel",
+        "stone",
+        "mosaic",
+        "walkable"
+      ],
+      "bytes": 4156764,
+      "size": {
+        "x": 5.056,
+        "y": 0.145,
+        "z": 5.056
+      },
+      "base": {
+        "x": -2.528,
+        "y": 0,
+        "z": -2.528
+      },
+      "animations": [],
+      "materials": [
+        "travel_mosaic_stone",
+        "travel_rim_dark_stone"
+      ],
+      "sha256": "7fbdabec45355852a4b67ea55947219792b191953fec638c552cc7227d0bf741"
     }
   ]
 }

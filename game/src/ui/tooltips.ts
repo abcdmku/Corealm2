@@ -7,7 +7,7 @@ import { selectEquipmentSlot } from '../content/jewelry.js';
  * live skill levels, equipped-item comparison, weapon charge, and DOM positioning.
  */
 import type {
-  EquipSlot, EquipmentBonuses, EquippedMagicWeaponView, GameApi, ItemId, SkillId, SpellRow,
+  EquipSlot, EquipmentBonuses, EquippedMagicWeaponView, EssenceTomeView, GameApi, ItemId, SkillId, SpellRow,
 } from "../contracts.js";
 import { content } from "../content/index.js";
 import { attachHoverTriggers, onPressElsewhere } from "./hoverIntent.js";
@@ -128,10 +128,12 @@ export class Tooltip {
     const weapon = content.item(spec.itemId)?.magicWeapon?.charge
       ? this.api.getSpellbook().equippedWeapon
       : null;
+    const tome = this.api.essenceTomes().find((row) => row.itemId === spec.itemId);
     return [
       "i", spec.itemId, spec.quantity ?? 1, spec.compareEquipped ? "cmp" : "-",
       worn ?? "-", levels,
       weapon ? `${weapon.itemId}/${weapon.charges}/${weapon.capacity}` : "weapon=-",
+      tome ? `${tome.chargeCapacity}/${tome.essences.map((essence) => essence.charges).join(",")}` : "tome=-",
       (spec.footer ?? []).join("|"),
     ].join(":");
   }
@@ -209,6 +211,8 @@ export class Tooltip {
     meta.className = "tooltip__tier";
     meta.textContent = model.meta ?? "";
     nodes.push(meta);
+    const tome = this.api.essenceTomes().find((row) => row.itemId === spec.itemId);
+    if (tome) nodes.push(this.renderTome(tome));
     if (model.description) {
       const body = document.createElement("div");
       body.className = "tooltip__body";
@@ -241,6 +245,29 @@ export class Tooltip {
       nodes.push(line);
     }
     return nodes;
+  }
+
+  private renderTome(tome: EssenceTomeView): HTMLElement {
+    const section = document.createElement("section");
+    section.className = "tooltip__tome";
+    section.setAttribute("aria-label", "Stored essence charges");
+    const heading = document.createElement("div");
+    heading.className = "tooltip__tome-heading";
+    heading.textContent = "Essence charges";
+    section.appendChild(heading);
+    for (const essence of tome.essences) {
+      const row = document.createElement("div");
+      row.className = `tooltip__tome-row${essence.charges === 0 ? " is-empty" : ""}`;
+      row.dataset["essence"] = essence.itemId;
+      const name = document.createElement("span");
+      name.textContent = essence.name.replace(/ Essence$/, "");
+      const quantity = document.createElement("span");
+      quantity.className = "tooltip__tome-quantity";
+      quantity.textContent = `${essence.charges.toLocaleString("en-US")} / ${tome.chargeCapacity.toLocaleString("en-US")}`;
+      row.append(createItemIcon(content.item(essence.itemId)), name, quantity);
+      section.appendChild(row);
+    }
+    return section;
   }
 
   private renderBonuses(stats: ReturnType<typeof itemTooltipContent>["stats"]): HTMLElement {

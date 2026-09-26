@@ -105,6 +105,8 @@ export const GAME_COMMAND_METHODS = [
   "moveTo", "stop", "interact", "takeLoot", "useItem", "equipItem", "unequipItem",
   "produce", "produceAt", "buildCampfire", "attack", "cast", "castNow", "castArea", "setPreferredSpell",
   "dialogue", "bank", "shop", "hunt", "upgrade",
+  "castUtility", "activateTeleport", "teleportTown",
+  "imbueTome",
 ] as const;
 export type GameCommandMethod = typeof GAME_COMMAND_METHODS[number];
 export type GameCommand = {
@@ -480,7 +482,7 @@ export type SpellId =
   // surge — Magic 62 to 70
   | "squallsurge" | "tidesurge" | "scarpsurge" | "kilnsurge"
   // advanced invocations, rank 1 to 5 per element. Cast on demand from the action bar; each spends
-  // its element's Essence plus a tier rune, and every area invocation a Cosmic Rune as well.
+  // its element's Essence plus a tier rune, and every area invocation Arc Essence as well.
   | "air-needle" | "razor-crescent" | "vacuum-coil" | "thunder-lance" | "skybreaker"
   | "waterjet" | "tidal-fan" | "geyser-chain" | "undertow" | "deluge"
   | "flint-shot" | "faultline" | "basalt-jaw" | "siege-boulder" | "mountainfall"
@@ -669,6 +671,7 @@ export interface SemanticEntity {
   interactions: InteractionId[];
   resource?: { remaining: number; maxYields: number; respawnSeconds: number; itemId: ItemId };
   combat?: {
+    utilityEffects?: ActiveUtilityEffect[];
     health: number;
     maxHealth: number;
     level: number;
@@ -1302,7 +1305,7 @@ export interface SpellRow {
   fuelCost: number;
   /** 0 for the sixteen basic auto-cast spells, 1 to 5 for the advanced invocations. */
   rank: number;
-  /** True when the invocation strikes an area and therefore also spends a Cosmic Rune. */
+  /** True when the invocation strikes an area and therefore also spends Arc Essence. */
   aoe: boolean;
   /** Secondary runes spent per cast, with how many the player carries right now. Empty for basics. */
   runes: SpellRuneRequirement[];
@@ -1324,10 +1327,50 @@ export interface SpellRuneRequirement {
 export interface SpellRuneView {
   itemId: ItemId;
   name: string;
-  /** 1 to 5 for the tier runes; 0 for the Cosmic Rune that every area invocation adds. */
+  /** 1 to 5 for the tier runes; 0 for utility essences. */
   tier: number;
   carried: number;
   description: string;
+}
+
+export type UtilitySpellId = "lesser_ward" | "weaken" | "binding_thread" | "enchant_weapon"
+  | "warding_circle" | "enfeebling_mist" | "binding_field" | "greater_enchantment"
+  | "mending_circle" | "haste" | "stillness" | "sanctuary";
+export type UtilityEffectGroup = "ward" | "weaken" | "root" | "accuracy" | "haste" | "slow";
+export interface ActiveUtilityEffect {
+  spellId: UtilitySpellId;
+  group: UtilityEffectGroup;
+  magnitude: number;
+  expiresAtMs: number;
+  sourceFieldId?: string;
+}
+export interface UtilityAreaField {
+  id: string; spellId: UtilitySpellId; ownerId: EntityId; position: Vec3; regionId: RegionId;
+  radius: number; startedAtMs: number; expiresAtMs: number; lastTickAtMs: number;
+}
+export type TownTeleportId = "millfield" | "oakwood" | "hillcrest" | "ashford" | "lantern_rest"
+  | "crownward" | "lastlight" | "prism_hollow" | "starhaven";
+export interface TownTeleportPad {
+  id: TownTeleportId; name: string; entityId: EntityId; position: Vec3; regionId: RegionId;
+  reqLevel: number; cost: number;
+}
+export interface TownTeleportCast {
+  townId: TownTeleportId; startedAtMs: number; endsAtMs: number; origin: Vec3; healthAtStart: number;
+}
+export interface UtilitySpellRow {
+  id: UtilitySpellId; name: string; description: string; reqLevel: number;
+  durationMs: number; radius: number; target: "self" | "enemy" | "area";
+  costs: {itemId: ItemId; quantity: number; available: number}[];
+  castable: boolean; blockedBy: string | null;
+}
+export interface UtilityMagicView {
+  spells: UtilitySpellRow[];
+  teleports: (TownTeleportPad & {unlocked: boolean; castable: boolean; blockedBy: string | null})[];
+  effects: ActiveUtilityEffect[]; fields: UtilityAreaField[]; teleportCast: TownTeleportCast | null;
+}
+export interface EssenceTomeView {
+  itemId: ItemId; name: string; essencePerRecharge: number; chargeCapacity: number;
+  essences: {itemId: ItemId; name: string; charges: number; carried: number; canImbue: boolean}[];
 }
 
 /** A manual invocation in progress: the action bar locks its slots until `endsMs`. */
@@ -1784,6 +1827,12 @@ export interface GameApi {
    */
   castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }>;
   getSpellbook(): SpellbookView;
+  castUtility(spellId: UtilitySpellId, target?: EntityId | Vec3): Result<{spellId: UtilitySpellId}>;
+  activateTeleport(townId: TownTeleportId): Result<{townId: TownTeleportId}>;
+  teleportTown(townId: TownTeleportId): Result<{townId: TownTeleportId; endsAtMs: number}>;
+  utilityMagic(): UtilityMagicView;
+  essenceTomes(): EssenceTomeView[];
+  imbueTome(tomeId: ItemId, essenceId: ItemId): Result<{charges: number; essenceSpent: number}>;
   /**
    * Sets the standing spell choice, or clears it back to automatic with null.
    *

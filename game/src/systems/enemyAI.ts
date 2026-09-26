@@ -1,3 +1,4 @@
+import { utilityMagnitude } from "./utilityMagic.js";
 /**
  * Enemy behaviour: aggro, pursuit, leash, respawn, and Ordrun's two phases.
  *
@@ -534,7 +535,9 @@ export class EnemyAiSystem implements TickSystem {
     active.forEach((_, i) => index(i));
     const committed = active.map(entity => {
       this.deps.selectPlayerForEnemy?.(entity);
-      return this.deps.combat.isAttackCommitted(entity.id);
+      const state = this.deps.store.get();
+      return this.deps.combat.isAttackCommitted(entity.id) || (entity.archetype !== "boss"
+        && utilityMagnitude(state.world.enemies[entity.id]?.utilityEffects ?? entity.combat?.utilityEffects, "root", state.meta.playSeconds * 1000) > 0);
     });
 
     for (let i = 0; i < active.length; i += 1) {
@@ -727,6 +730,8 @@ export class EnemyAiSystem implements TickSystem {
       runtime.respawnAtMs = null;
       delete runtime.respawnAtWallMs;
       delete runtime.bossPhase;
+      runtime.utilityEffects = [];
+      if (entity.combat) entity.combat.utilityEffects = runtime.utilityEffects;
       // Both halves, or the renderer keeps fading a creature that is alive again.
       delete runtime.diedAtMs;
       if (entity.view) delete entity.view.diedAtMs;
@@ -969,6 +974,13 @@ export class EnemyAiSystem implements TickSystem {
     stopWithin: number,
     habitat: HabitatDef | null = null,
   ): boolean {
+    const effects = this.deps.store.get().world.enemies[entity.id]?.utilityEffects ?? entity.combat?.utilityEffects;
+    const atMs = this.deps.store.get().meta.playSeconds * 1000;
+    if (utilityMagnitude(effects, "root", atMs) > 0 && entity.archetype !== "boss") {
+      if (entity.view) entity.view.gaitSpeedMps = 0;
+      return false;
+    }
+    speed *= 1 - utilityMagnitude(effects, "slow", atMs);
     const from = entity.position;
     const dx = target[0] - from[0];
     const dz = target[2] - from[2];

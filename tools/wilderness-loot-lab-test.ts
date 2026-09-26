@@ -264,7 +264,7 @@ async function main(): Promise<void> {
     assert.equal(afterWound.combat!.health, 1);
     assert.deepEqual({ ...afterWound.combat, health: beforeWound.combat!.health }, beforeWound.combat, 'Wounded fixture changed combat stats');
     assert.equal(count((await save()).inventory.slots, 'chaos_rune'), 0);
-    assert.equal(count((await save()).inventory.slots, 'cosmic_rune'), 0);
+    assert.equal(count((await save()).inventory.slots, 'cosmic_essence'), 0);
     report.keeperSetup = wounded;
     stage = 'real keeper kill';
     const killCursor = (await driver.callDebug('getEvents', [0]) as { nextSeq: number }).nextSeq;
@@ -290,17 +290,18 @@ async function main(): Promise<void> {
     const reveal = page.locator(`.loot-reveal[data-source-id="${loot.id}"]`);
     await reveal.waitFor({ state: 'visible', timeout: remaining(5000) });
     await reveal.locator('.slot[data-item="chaos_rune"]').click();
-    await reveal.locator('.slot[data-item="cosmic_rune"]').click();
+    await reveal.locator('.slot[data-item="cosmic_essence"]').click();
     const earned = await save();
-    const chaos = count(earned.inventory.slots, 'chaos_rune'), cosmic = count(earned.inventory.slots, 'cosmic_rune');
+    const chaos = count(earned.inventory.slots, 'chaos_rune'), cosmic = count(earned.inventory.slots, 'cosmic_essence');
     assert(chaos >= 24 && chaos <= 40); assert(cosmic >= 24 && cosmic <= 40);
-    report.keeperLoot = { keeperId, loot, events, chaos, cosmic };
+    report.keeperLoot = { keeperId, loot, events, chaos, cosmicEssence: cosmic };
     await capture('03-earned-runes');
     await page.keyboard.press('Escape');
 
     stage = 'cast from earned runes';
     await page.evaluate(() => window.__featureLab!.equipPlayer('mainHand', 'magic_staff'));
     assert((await driver.callDebug('giveItem', ['fire_essence', 3, 'inventory']) as Result<number>).ok);
+    assert((await driver.callDebug('giveItem', ['arc_essence', 1, 'inventory']) as Result<number>).ok);
     await page.locator('.dock__btn[data-panel="spellbook"]').click();
     await page.getByRole('button', { name: 'All spells', exact: true }).click();
     const spell = page.locator('#panel-spellbook .spellbook__cell[data-spell="furnace-whip"]');
@@ -322,14 +323,14 @@ async function main(): Promise<void> {
       spellCount, { timeout: remaining(4500), polling: 40 }));
     const paidState = await timedCastStep('paid-state', save);
     assert.equal(count(beforeCast.inventory.slots, 'chaos_rune') - count(paidState.inventory.slots, 'chaos_rune'), 1);
-    assert.equal(count(beforeCast.inventory.slots, 'cosmic_rune') - count(paidState.inventory.slots, 'cosmic_rune'), 1);
+    assert.equal(count(beforeCast.inventory.slots, 'arc_essence') - count(paidState.inventory.slots, 'arc_essence'), 1);
     assert.equal(count(beforeCast.inventory.slots, 'fire_essence') - count(paidState.inventory.slots, 'fire_essence'), 1);
     report.castLaunch = { events: await timedCastStep('launch-events', () => driver.callDebug('getEvents', [castCursor])),
       errors: await timedCastStep('launch-errors', () => driver.callDebug('getErrors')),
       art: await timedCastStep('launch-art', () => driver.callDebug('getElementalArtState')),
       visual: await timedCastStep('launch-visual', () => driver.callDebug('getBasicSpellState')),
       spent: { chaos: count(beforeCast.inventory.slots, 'chaos_rune') - count(paidState.inventory.slots, 'chaos_rune'),
-        cosmic: count(beforeCast.inventory.slots, 'cosmic_rune') - count(paidState.inventory.slots, 'cosmic_rune'),
+        arc: count(beforeCast.inventory.slots, 'arc_essence') - count(paidState.inventory.slots, 'arc_essence'),
         essence: count(beforeCast.inventory.slots, 'fire_essence') - count(paidState.inventory.slots, 'fire_essence') } };
     stage = 'draw advanced invocation';
     await timedCastStep('visible-art-wait', () => page.waitForFunction(() => {
@@ -342,10 +343,10 @@ async function main(): Promise<void> {
     await capture('04-earned-rune-cast');
     const afterCast = await save();
     assert.equal(count(beforeCast.inventory.slots, 'chaos_rune') - count(afterCast.inventory.slots, 'chaos_rune'), 1);
-    assert.equal(count(beforeCast.inventory.slots, 'cosmic_rune') - count(afterCast.inventory.slots, 'cosmic_rune'), 1);
+    assert.equal(count(beforeCast.inventory.slots, 'arc_essence') - count(afterCast.inventory.slots, 'arc_essence'), 1);
     assert.equal(count(beforeCast.inventory.slots, 'fire_essence') - count(afterCast.inventory.slots, 'fire_essence'), 1);
-    report.cast = { spellId: 'furnace-whip', before: { chaos, cosmic, essence: 3 },
-      after: { chaos: count(afterCast.inventory.slots, 'chaos_rune'), cosmic: count(afterCast.inventory.slots, 'cosmic_rune'), essence: count(afterCast.inventory.slots, 'fire_essence') },
+    report.cast = { spellId: 'furnace-whip', before: { chaos, cosmicEssence: cosmic, arc: 1, essence: 3 },
+      after: { chaos: count(afterCast.inventory.slots, 'chaos_rune'), arc: count(afterCast.inventory.slots, 'arc_essence'), essence: count(afterCast.inventory.slots, 'fire_essence') },
       art, profile: spellProfile };
     assert.equal((await driver.callDebug('getState') as { clock: { timeScale: number } }).clock.timeScale, 1);
     assert.equal(await page.evaluate(() => performance.timeOrigin), origin);

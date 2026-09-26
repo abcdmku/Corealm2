@@ -30,3 +30,12 @@
 .tooltip__rune-cost .item-icon__raster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .tooltip__rune-carried { margin-left: auto; color: var(--ink-dim); font-size: var(--size-xs); }
 .tooltip__rune-cost.is-short, .tooltip__rune-cost.is-short .tooltip__rune-carried { color: #ff9684; }
+
+.tooltip:has(.tooltip__tome) { box-sizing: border-box; width: 280px; max-width: calc(100vw - 20px); }
+.tooltip__tome { margin: 8px 0; padding: 7px 0; border-block: 1px solid rgba(212, 175, 88, 0.18); }
+.tooltip__tome-heading { margin-bottom: 5px; color: var(--ink-dim); font-size: var(--size-xs); }
+.tooltip__tome-row { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 8px; min-height: 30px; }
+.tooltip__tome-row .item-icon { position: relative; display: block; width: 26px; height: 26px; }
+.tooltip__tome-row .item-icon__raster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.tooltip__tome-quantity { color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tooltip__tome-row.is-empty, .tooltip__tome-row.is-empty .tooltip__tome-quantity { color: var(--ink-dim); }

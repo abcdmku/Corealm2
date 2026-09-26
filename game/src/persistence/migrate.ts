@@ -183,6 +183,9 @@ function migrateMagicItems(state: GameState): void {
     weaponCharges: weaponCharges as GameState["magic"]["weaponCharges"],
     consumedOrbs: consumedOrbs as GameState["magic"]["consumedOrbs"],
     awakenedAltars: awakenedAltars as GameState["magic"]["awakenedAltars"],
+    unlockedTeleports: transitional.unlockedTeleports ?? {},
+    tomeCharges: transitional.tomeCharges ?? {},
+    utilityEffects: [], utilityFields: [], teleportCast: null,
   };
 }
 

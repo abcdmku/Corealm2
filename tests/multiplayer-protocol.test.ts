@@ -10,6 +10,12 @@ const world: WorldDescriptor = {
 };
 afterEach(() => vi.unstubAllGlobals());
 
+it("accepts composition resource IDs for mining commands", () => {
+  const mine = { method: "interact", args: ["feature-lab:structure#essence_1", "mine"] };
+  expect(command(mine)).toEqual(mine);
+  expect(() => command({ ...mine, args: ["feature-lab:structure#essence_1\n", "mine"] })).toThrow();
+});
+
 describe("world discovery trust boundary", () => {
   it("makes no discovery request when unconfigured", async () => {
     const fetch = vi.fn(); vi.stubGlobal("fetch", fetch);

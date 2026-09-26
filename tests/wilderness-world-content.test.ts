@@ -149,7 +149,7 @@ describe('final Wilderness content integration', () => {
     const level = enemyCombatLevel(block);
     expect(level).toBeGreaterThan(0);
     for (const row of [block]) {
-      for (const rune of [keeper.rune, 'cosmic_rune']) {
+      for (const rune of [keeper.rune, 'cosmic_essence']) {
         expect(row.lootRolls.flatMap(roll => roll.drops), `${keeper.id}/${rune}`).toContainEqual(
           { itemId: rune, quantity: [expect.any(Number), expect.any(Number)], chance: 1 });
       }

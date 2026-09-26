@@ -155,6 +155,11 @@ function recompute(state: GameState): GameState {
   state.magic.weaponCharges = state.magic.weaponCharges ?? {};
   state.magic.consumedOrbs = state.magic.consumedOrbs ?? {};
   state.magic.awakenedAltars = state.magic.awakenedAltars ?? {};
+  state.magic.unlockedTeleports ??= {};
+  state.magic.tomeCharges ??= {};
+  state.magic.utilityEffects = [];
+  state.magic.utilityFields = [];
+  state.magic.teleportCast = null;
   state.settings = { ...fresh.settings, ...(state.settings ?? {}) };
 
   // Activity deadlines are measured on the per-session simulation clock. Reloading starts that

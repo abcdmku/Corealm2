@@ -1,5 +1,6 @@
 import { itemUpgrade, equipmentDropRank, isUpgradeable, upgradedItemId, UPGRADE_SCROLLS, UPGRADE_BOOSTER, ENCHANTMENTS } from "../content/itemUpgrades.js";
 import { enemyCombatLevel } from "../content/index.js";
+import { utilityMagnitude, cancelTownTeleport } from "./utilityMagic.js";
 import { criticalDamage, rollItemDrops } from './equipmentCombat.js';
 /**
  * Combat resolution — PRD 2.4, exactly.
@@ -578,7 +579,7 @@ export class CombatSystem implements TickSystem {
   private magicChance(state: GameState, gear: EquipmentBonuses, entity: SemanticEntity): number {
     const def = this.defFor(entity);
     return hitChance(
-      attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR),
+      attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR) * (1 + utilityMagnitude(state.magic.utilityEffects, "accuracy", state.meta.playSeconds * 1000)),
       defenceRoll(def.defenceLevel, def.magicArmour),
     );
   }
@@ -868,7 +869,7 @@ export class CombatSystem implements TickSystem {
       if (queued) this.queuedSpellId = null;
       castFuel = paid.value;
       chance = hitChance(
-        attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR),
+        attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR) * (1 + utilityMagnitude(state.magic.utilityEffects, "accuracy", state.meta.playSeconds * 1000)),
         defenceRoll(def.defenceLevel, def.magicArmour),
       );
       maxHit = magicMaxHit(state.skills.magic.level, gear.magicPower, spell);
@@ -877,7 +878,7 @@ export class CombatSystem implements TickSystem {
       this.awardXp(state, "magic", spell.baseXp, atMs);
     } else {
       chance = hitChance(
-        attackRoll(state.skills.melee.level, gear.meleeAccuracy, MELEE_STYLE_FACTOR),
+        attackRoll(state.skills.melee.level, gear.meleeAccuracy, MELEE_STYLE_FACTOR) * (1 + utilityMagnitude(state.magic.utilityEffects, "accuracy", state.meta.playSeconds * 1000)),
         defenceRoll(def.defenceLevel, def.armour),
       );
       maxHit = meleeMaxHit(state.skills.melee.level, gear.meleePower);
@@ -1289,12 +1290,16 @@ export class CombatSystem implements TickSystem {
   ): void {
     const state = this.deps.store.get();
     this.markInCombat(state, atMs);
-    const damage = Math.max(0, Math.floor(amount));
+    const enemyEffects = state.world.enemies[sourceId]?.utilityEffects ?? this.deps.entities.get(sourceId)?.combat?.utilityEffects;
+    const damage = Math.max(0, Math.floor(amount * (1 - utilityMagnitude(enemyEffects, "weaken", atMs))
+      * (1 - utilityMagnitude(state.magic.utilityEffects, "ward", atMs))));
 
     if (damage > 0) {
+      cancelTownTeleport(state);
       state.player.health = Math.max(0, state.player.health - damage);
       const recoilPieces = Object.values(state.equipment).filter(piece => piece && itemUpgrade(piece.itemId).enchantment === 'recoil').length;
       if (recoilPieces) this.damageEnemy(sourceId, Math.floor(damage * Math.min(.15, recoilPieces * .03)), atMs);
+      if (state.player.health === 0) { state.magic.utilityEffects = []; state.magic.utilityFields = []; }
       this.deps.store.markDirty();
     }
     this.record({
@@ -1363,6 +1368,8 @@ export class CombatSystem implements TickSystem {
     const maxHealth = entity.combat?.maxHealth ?? def.maxHealth;
 
     runtime.health = 0;
+    runtime.utilityEffects = [];
+    if (entity.combat) entity.combat.utilityEffects = runtime.utilityEffects;
     runtime.state = "dead";
     runtime.respawnAtMs = atMs + (def.respawnSeconds !== undefined
       ? def.respawnSeconds * 1000
@@ -1646,11 +1653,11 @@ export class CombatSystem implements TickSystem {
 
     const chance = spell
       ? hitChance(
-        attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR),
+        attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR) * (1 + utilityMagnitude(state.magic.utilityEffects, "accuracy", state.meta.playSeconds * 1000)),
         defenceRoll(def.defenceLevel, def.magicArmour),
       )
       : hitChance(
-        attackRoll(state.skills.melee.level, gear.meleeAccuracy, MELEE_STYLE_FACTOR),
+        attackRoll(state.skills.melee.level, gear.meleeAccuracy, MELEE_STYLE_FACTOR) * (1 + utilityMagnitude(state.magic.utilityEffects, "accuracy", state.meta.playSeconds * 1000)),
         defenceRoll(def.defenceLevel, def.armour),
       );
     const maxHit = spell

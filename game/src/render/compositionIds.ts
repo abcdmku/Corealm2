@@ -28,6 +28,7 @@ export type CompositionId =
   | "black_knight_castle"
   | "white_knight_castle"
   | "essence_altar_ruins"
+  | "town_teleport_platform"
   | "vault_door"
   | "milestone"
   | "highcairn_crane"
@@ -52,7 +53,7 @@ export const COMPOSITION_IDS: readonly CompositionId[] = [
   ...DEEP_WILDERNESS_STRUCTURE_IDS,
   "black_knight_castle",
   "white_knight_castle",
-  "essence_altar_ruins", "vault_door", "milestone", "highcairn_crane", "gravelmaw_mouth", "gravelmaw_exit",
+  "essence_altar_ruins", "town_teleport_platform", "vault_door", "milestone", "highcairn_crane", "gravelmaw_mouth", "gravelmaw_exit",
   "great_cairn", "standing_stones", "region_gate", "path_waypoint",
   "root_tunnel_entrance", "canopy_walk_entrance",
   "bank_counter", "forge_yard", "wood_pile", "garden", "farm_yard",

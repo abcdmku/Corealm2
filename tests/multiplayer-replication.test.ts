@@ -1,9 +1,19 @@
 import { expect, it, vi } from "vitest";
 import { EventBus } from "../game/src/core/events.js";
 import { WORLD_PROTOCOL_VERSION } from "../game/src/contracts.js";
+import type { SemanticEntity } from "../game/src/contracts.js";
+import { isStaticScenery } from "../game/src/multiplayer/replicatedEntities.js";
 import { HeadlessWorld } from "../game/src/multiplayer/headlessWorld.js";
 import { createMultiplayerLabWorld } from "../game/src/multiplayer/labWorld.js";
 import { ReplicatedState, Replicator, ReplicationFrame } from "../game/src/multiplayer/replication.js";
+
+it("keeps activatable town platforms in the authoritative simulation", () => {
+  const platform: SemanticEntity = {id: 'town_teleport_millfield', name: 'Millfield Platform',
+    archetype: 'landmark', tier: 1, regionId: 'fallowmarch', position: [0, 0, 0],
+    state: 'present', interactions: ['inspect'], meta: {townTeleportId: 'millfield'}};
+  expect(isStaticScenery(platform)).toBe(false);
+  expect(isStaticScenery({...platform, meta: {}})).toBe(true);
+});
 
 it("publishes replicated outcomes to presentation and agents without executing local reward listeners", () => {
   const events = new EventBus(); const reward = vi.fn(); const presentation = vi.fn();

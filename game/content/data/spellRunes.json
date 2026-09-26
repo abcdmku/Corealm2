@@ -30,9 +30,21 @@
     "description": "A black rune split through with slow red light. Spent by the four finales and by nothing smaller."
   },
   {
-    "itemId": "cosmic_rune",
-    "name": "Cosmic Rune",
+    "itemId": "arc_essence",
+    "name": "Arc Essence",
     "tier": 0,
-    "description": "A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Spent alongside the tier rune by every area invocation."
+    "description": "Branching Essence spent by damaging area invocations."
+  },
+  {
+    "itemId": "cosmic_essence",
+    "name": "Cosmic Essence",
+    "tier": 0,
+    "description": "Star-flecked Essence reserved for enchantments and magical effect spells."
+  },
+  {
+    "itemId": "temporal_essence",
+    "name": "Temporal Essence",
+    "tier": 0,
+    "description": "Still violet Essence that fuels teleportation spells."
   }
 ]

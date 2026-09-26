@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, rename, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { constants, gunzipSync, gzipSync } from 'node:zlib';
 import { chromium, type Browser } from 'playwright';
 import { gameRoot } from './lib/paths.js';
 import { startGameServer } from './lib/server.js';
@@ -23,7 +24,12 @@ export async function bakeWorldData(options: { lab?: boolean; out?: string } = {
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     await page.exposeFunction('__corealmWriteWorldData', async (key: string, base64: string) => {
       if (records[key]) throw new Error(`Duplicate world record ${key}`);
-      const bytes = Buffer.from(base64, 'base64');
+      // The browser uses its fixed gzip defaults. Offline, choose the smaller lossless
+      // encoding for mixed numeric terrain buffers and structured placement records.
+      const raw = gunzipSync(Buffer.from(base64, 'base64'));
+      const standard = gzipSync(raw, { level: 9 });
+      const filtered = gzipSync(raw, { level: 9, strategy: constants.Z_FILTERED });
+      const bytes = filtered.length < standard.length ? filtered : standard;
       const sha256 = createHash('sha256').update(bytes).digest('hex');
       // An opaque suffix prevents static hosts from decoding gzip before the integrity check.
       const file = `${sha256}.world`;

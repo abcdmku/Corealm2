@@ -9,6 +9,7 @@ import { content } from "../content/index.js";
 import type { EventBus } from "../core/events.js";
 import type { GameState, Store } from "../state/store.js";
 import type { InteractionDispatcher } from "../world/interactions.js";
+import { ESSENCE_IDS, availableEssenceFuel, spendEssenceFuel } from "./essenceTomes.js";
 
 export const RELEASED_MAGIC_ELEMENTS: readonly SpellElement[] =
   ["wind", "earth", "water", "fire"] as const;
@@ -106,7 +107,7 @@ export function spellBlockReason(state: GameState, spell: SpellDef): string | nu
 
   const essenceItemId = ESSENCE_BY_ELEMENT[spell.cost.element];
   if (!essenceItemId) return `${ELEMENT_LABELS[spell.cost.element]} magic is not released yet.`;
-  if (carriedInState(state, essenceItemId) >= spell.cost.charges) return runeBlockReason(state, spell);
+  if (availableEssenceFuel(state, essenceItemId) >= spell.cost.charges) return runeBlockReason(state, spell);
 
   const label = ELEMENT_LABELS[spell.cost.element];
   return `Carry ${spell.cost.charges} ${label} Essence to cast ${spell.name}.`;
@@ -121,7 +122,9 @@ export function spellBlockReason(state: GameState, spell: SpellDef): string | nu
  */
 function runeBlockReason(state: GameState, spell: SpellDef): string | null {
   for (const rune of spell.cost.runes ?? []) {
-    if (carriedInState(state, rune.itemId) >= rune.quantity) continue;
+    const available = ESSENCE_IDS.includes(rune.itemId)
+      ? availableEssenceFuel(state, rune.itemId) : carriedInState(state, rune.itemId);
+    if (available >= rune.quantity) continue;
     const name = content.item(rune.itemId)?.name ?? rune.itemId;
     return `Carry ${rune.quantity} ${name} to cast ${spell.name}.`;
   }
@@ -137,7 +140,8 @@ export function spellRunesCarried(
     itemId: rune.itemId,
     name: content.item(rune.itemId)?.name ?? rune.itemId,
     quantity: rune.quantity,
-    carried: carriedInState(state, rune.itemId),
+    carried: ESSENCE_IDS.includes(rune.itemId)
+      ? availableEssenceFuel(state, rune.itemId) : carriedInState(state, rune.itemId),
   }));
 }
 
@@ -151,6 +155,7 @@ export interface SpellRuneSpend { itemId: ItemId; quantity: number; remaining: n
 
 export type SpellFuelSpend =
   | { source: "weapon"; weaponItemId: ItemId; remainingCharges: number; runes?: SpellRuneSpend[] }
+  | { source: "tome"; tomeItemId: ItemId; essenceItemId: ItemId; remainingCharges: number; runes?: SpellRuneSpend[] }
   | { source: "essence"; essenceItemId: ItemId; remainingEssence: number; runes?: SpellRuneSpend[] };
 
 /** Charged matching weapons pay first. Plain, empty, or other-element weapons spend Essence. */
@@ -164,26 +169,35 @@ export function spendSpellFuel(
   const loadout = magicLoadout(state);
   if (!loadout) return err("REQUIREMENTS_NOT_MET", "Equip a wand or staff first.");
 
-  if (
+  const useWeapon = Boolean(
     loadout.charge?.released
     && loadout.charge.element === spell.cost.element
     && loadout.charges >= spell.cost.charges
-  ) {
-    const remainingCharges = loadout.charges - spell.cost.charges;
-    state.magic.weaponCharges[loadout.weaponItemId] = remainingCharges;
-    const runes = spendRunes(spell, inventory);
-    if (!runes.ok) return runes;
-    return ok({ source: "weapon", weaponItemId: loadout.weaponItemId, remainingCharges, ...runes.value });
-  }
+  );
 
   const essenceItemId = ESSENCE_BY_ELEMENT[spell.cost.element];
   if (!essenceItemId) {
     return err("UNAVAILABLE", `${ELEMENT_LABELS[spell.cost.element]} magic is not released yet.`);
   }
-  const removed = inventory.removeItem(essenceItemId, spell.cost.charges);
-  if (!removed.ok) return removed;
-  const runes = spendRunes(spell, inventory);
+  const runeCosts = spell.cost.runes ?? [];
+  const essenceCosts = [
+    ...(!useWeapon ? [{ itemId: essenceItemId, quantity: spell.cost.charges }] : []),
+    ...runeCosts.filter((cost) => ESSENCE_IDS.includes(cost.itemId)),
+  ];
+  const essenceSpent = spendEssenceFuel(state, inventory, essenceCosts);
+  if (!essenceSpent.ok) return essenceSpent;
+  const runes = spendRunes(state, spell, inventory);
   if (!runes.ok) return runes;
+  if (useWeapon) {
+    const remainingCharges = loadout.charges - spell.cost.charges;
+    state.magic.weaponCharges[loadout.weaponItemId] = remainingCharges;
+    return ok({ source: "weapon", weaponItemId: loadout.weaponItemId, remainingCharges, ...runes.value });
+  }
+  const tomeSpent = essenceSpent.value.tomeChargesSpent.find((row) => row.essenceId === essenceItemId);
+  if (tomeSpent) return ok({
+    source: "tome", tomeItemId: tomeSpent.tomeId, essenceItemId,
+    remainingCharges: tomeSpent.remaining, ...runes.value,
+  });
   return ok({
     source: "essence",
     essenceItemId,
@@ -197,14 +211,18 @@ export function spendSpellFuel(
  * failure here is a genuine inventory fault rather than a shortfall. Returns an empty object for
  * the basics so their spend result is byte-for-byte what it always was.
  */
-function spendRunes(spell: SpellDef, inventory: SpellFuelInventory): Result<{ runes?: SpellRuneSpend[] }> {
+function spendRunes(state: GameState, spell: SpellDef, inventory: SpellFuelInventory): Result<{ runes?: SpellRuneSpend[] }> {
   const costs = spell.cost.runes ?? [];
   if (costs.length === 0) return ok({});
   const runes: SpellRuneSpend[] = [];
   for (const cost of costs) {
-    const removed = inventory.removeItem(cost.itemId, cost.quantity);
-    if (!removed.ok) return removed;
-    runes.push({ itemId: cost.itemId, quantity: cost.quantity, remaining: inventory.countItem(cost.itemId) });
+    if (!ESSENCE_IDS.includes(cost.itemId)) {
+      const removed = inventory.removeItem(cost.itemId, cost.quantity);
+      if (!removed.ok) return removed;
+    }
+    runes.push({ itemId: cost.itemId, quantity: cost.quantity,
+      remaining: ESSENCE_IDS.includes(cost.itemId)
+        ? availableEssenceFuel(state, cost.itemId) : inventory.countItem(cost.itemId) });
   }
   return ok({ runes });
 }

@@ -197,7 +197,7 @@ const SCRATCH_COLOUR = new THREE.Color();
 /** States that render with the spent treatment. Everything else renders live. */
 const SPENT_STATES = new Set(["depleted", "dead", "empty", "harvested", "closed", "spent"]);
 
-type EssenceElement = "wind" | "earth" | "water" | "fire";
+type EssenceElement = "wind" | "earth" | "water" | "fire" | "arc" | "cosmic" | "temporal";
 
 const ESSENCE_CACHE_ASSETS: ReadonlySet<string> = new Set([
   "rocks_free_essence_cache",
@@ -211,10 +211,13 @@ const essenceVeinsMaskUrl = (): string => `${assetBaseUrl()}textures/essence_vei
 
 /** Emissive colour and energy are element identity; the rock's authored albedo stays underneath. */
 const ESSENCE_GLOW: Readonly<Record<EssenceElement, { colour: number; intensity: number }>> = {
-  wind: { colour: 0xbff8ff, intensity: 2.15 },
-  earth: { colour: 0xb5d34b, intensity: 1.9 },
-  water: { colour: 0x168cff, intensity: 2.25 },
-  fire: { colour: 0xff521c, intensity: 2.3 },
+  wind: { colour: 0xbff8ff, intensity: 1.35 },
+  earth: { colour: 0xb5d34b, intensity: 1.25 },
+  water: { colour: 0x168cff, intensity: 1.4 },
+  fire: { colour: 0xff521c, intensity: 1.45 },
+  arc: { colour: 0x459dff, intensity: 1.3 },
+  cosmic: { colour: 0xb982ff, intensity: 1.3 },
+  temporal: { colour: 0x63ded3, intensity: 1.25 },
 };
 
 /** Muted stone dyes keep the full ruin coloured without turning it into one saturated light. */
@@ -223,6 +226,7 @@ const ESSENCE_STRUCTURE_COLOUR: Readonly<Record<EssenceElement, number>> = {
   earth: 0x98ae72,
   water: 0x83a8cc,
   fire: 0xc9896f,
+  arc: 0x83a8cc, cosmic: 0xb399cc, temporal: 0x83bdb7,
 };
 
 /** The weathered stone beneath each element, keyed by the region that owns that element. */
@@ -231,11 +235,17 @@ const ESSENCE_REGION_STONE: Readonly<Record<EssenceElement, number>> = {
   earth: 0xb8c7a0,
   water: 0xc2d0e2,
   fire: 0xc5aaa0,
+  arc: 0xc2d0e2, cosmic: 0xcfc2df, temporal: 0xb6cfcb,
 };
 
 /** Explicit cache metadata or a regional altar complex supplies the element-colour identity. */
 function essenceElementFor(entity: SemanticEntity): EssenceElement | null {
   const assetId = entity.view?.assetId;
+  if (entity.archetype === 'ore' && assetId && ESSENCE_CACHE_ASSETS.has(assetId)) {
+    if (entity.resource?.itemId === 'arc_essence') return 'arc';
+    if (entity.resource?.itemId === 'cosmic_essence') return 'cosmic';
+    if (entity.resource?.itemId === 'temporal_essence') return 'temporal';
+  }
   const essenceCache = entity.archetype === "ore"
     && entity.meta?.essenceCache === true
     && !!assetId
@@ -3344,6 +3354,9 @@ export class EntityViews {
           ? NATIVE_TREE_FOLIAGE_WIND : 0,
       });
     });
+    if (assetId === "rocks_free_essence_node" && parts.length > 0) {
+      return this.essenceOutcropParts(parts);
+    }
     if (assetId === ESSENCE_ALTAR_ASSET && essenceElement && !spent) {
       parts.push(...this.essenceAltarDetailParts(essenceElement));
     }
@@ -3351,6 +3364,64 @@ export class EntityViews {
       parts.push(this.fairyArchitecture.lanternPart());
     }
     return parts;
+  }
+
+  /**
+   * The source essence rock is a rounded, nearly two-metre boulder when placed at mining scale.
+   * Reuse its textured faces as uneven rock tips emerging through the soil instead. Exposed tips
+   * keep the live/spent vein treatment, while buried chips retain the stone texture without glow.
+   * Their roots keep the authored entity floor and mining position intact.
+   */
+  private essenceOutcropParts(parts: readonly SourcePart[]): SourcePart[] {
+    const bounds = this.partsBounds(parts);
+    if (bounds.isEmpty()) return [...parts];
+    const centre = new THREE.Vector3();
+    bounds.getCenter(centre);
+    const atRoot = new THREE.Matrix4().makeTranslation(-centre.x, -bounds.min.y, -centre.z);
+    const floor = bounds.min.y;
+    // Local units are roughly 0.42 m in the world. Sink beyond the source floor because the
+    // authored placement leaves a small gap below the original mesh on flat terrain.
+    const tips = [
+      { x: -0.12, z: -0.18, sink: 0.62, scale: [0.36, 0.56, 0.39], tilt: [-0.10, 0.16, -0.17], stone: false },
+      { x: 1.52, z: 0.38, sink: 0.62, scale: [0.23, 0.38, 0.27], tilt: [0.16, -0.34, 0.31], stone: false },
+      { x: -1.57, z: 0.62, sink: 0.58, scale: [0.23, 0.33, 0.24], tilt: [-0.22, 0.38, -0.28], stone: false },
+      { x: 0.28, z: -1.18, sink: 0.59, scale: [0.36, 0.18, 0.30], tilt: [0.10, -0.48, 0.07], stone: true },
+      { x: -1.20, z: -0.91, sink: 0.52, scale: [0.19, 0.17, 0.22], tilt: [-0.12, 0.55, -0.18], stone: true },
+      { x: 0.91, z: 1.16, sink: 0.55, scale: [0.22, 0.16, 0.20], tilt: [0.17, -0.19, 0.12], stone: true },
+    ] as const;
+    const out: SourcePart[] = [];
+    for (const tip of tips) {
+      const pose = new THREE.Matrix4().compose(
+        new THREE.Vector3(tip.x, floor - tip.sink, tip.z),
+        new THREE.Quaternion().setFromEuler(new THREE.Euler(...tip.tilt)),
+        new THREE.Vector3(...tip.scale),
+      ).multiply(atRoot);
+      for (const part of parts) {
+        out.push({
+          ...part,
+          material: tip.stone ? this.essenceOutcropStone(part.material) : part.material,
+          matrix: pose.clone().multiply(part.matrix),
+        });
+      }
+    }
+    return out;
+  }
+
+  /** Keep the source stone and normal maps on buried fragments without repeating the glowing vein. */
+  private essenceOutcropStone(source: THREE.Material): THREE.Material {
+    const standard = source as MeshStandardNodeMaterial;
+    if (!standard.isMeshStandardNodeMaterial) return source;
+    const key = `outcrop-stone:${source.uuid}`;
+    const cached = this.essenceMaterials.get(key);
+    if (cached) return cached;
+    const stone = cloneNodeMaterial(standard) as MeshStandardNodeMaterial;
+    stone.name = `${source.name}@broken-root`;
+    stone.emissive.set(0x000000);
+    stone.emissiveMap = null;
+    stone.emissiveIntensity = 0;
+    stone.needsUpdate = true;
+    this.essenceMaterials.set(key, stone);
+    return stone;
   }
 
   /** One clean line below the slab and one concentric emblem on each long face. */
@@ -3741,7 +3812,9 @@ export class EntityViews {
       const surface = this.materials.variant(base, {
         tier,
         state: "normal",
-        strength: look.strength,
+        // The DEXSOFT Essence rock already has granular albedo and normal detail. The generic
+        // ore tint suppresses those value changes before the vein mask is applied.
+        strength: ESSENCE_CACHE_ASSETS.has(assetId) ? 0 : look.strength,
         swatch: look.swatch,
       });
       return this.essenceMaterial(
@@ -3798,6 +3871,17 @@ export class EntityViews {
     material.emissiveMap = treatment === "structure"
       ? standard.map
       : treatment === "altar" ? this.essenceAltarLinesMask : this.essenceVeinsMask;
+    if (treatment === "veins") {
+      // Keep the source texture and normals; a small value expansion makes its grain and dark
+      // fissures legible beside the luminous seams without painting the stone a new colour.
+      composeSurface(material, {
+        color: previous => {
+          const luminance = previous.dot(vec3(0.2126, 0.7152, 0.0722));
+          const gain = luminance.sub(0.5).mul(0.22).add(1);
+          return previous.mul(gain).clamp(0, 1);
+        },
+      });
+    }
     if (treatment === "structure") {
       // The trim-sheet albedo supplies weathering while this multiplier supplies the region's base
       // rock. Element colour is a second layer, quiet when dormant and stronger after activation.

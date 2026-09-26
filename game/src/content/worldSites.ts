@@ -127,10 +127,39 @@ export const FAIRY_RESOURCE_SITES: readonly WorldSite[] = [...CROWNWARD_RESOURCE
   } satisfies WorldSite;
 });
 
+/** Raw essence seams use the same worked bank and dry mining aisle as ordinary ore. */
+const ADVANCED_ESSENCE_SITES: readonly WorldSite[] = ([
+  { id: 'kilnhalt_arc_essence_mine', regionId: 'kilnhalt', centre: [-125, 300], rotationY: Math.PI / 2 },
+  { id: 'gloamgarden_cosmic_essence_mine', regionId: 'gloamgarden', centre: [2200, 5], rotationY: 0 },
+  { id: 'faeholme_temporal_essence_mine', regionId: 'faeholme', centre: [2160, 385], rotationY: -Math.PI / 2 },
+] as const).map(intent => {
+  const clusterId = `${intent.id}_resources`;
+  return {
+    ...intent,
+    locationId: intent.id, kind: 'mine', workRadius: 8, extent: [18, 20],
+    terrain: { floorRadius: 10.5, backRise: 4.8, backDistance: 7.2, bermWidth: 8, approachAngle: 0 },
+    resourceSlots: Array.from({ length: 5 }, (_, i) => ({
+      clusterId, index: i + 1, x: (i - 2) * 3.65, z: -4.5 + Math.abs(i - 2) * .46,
+      yaw: -(i - 2) * .095, scale: [.94, 1.06, .98, 1.08, .95][i]!,
+    })),
+    cutFace: { backDepth: 8, buryDepth: .65, frontSetback: .4,
+      stations: Array.from({ length: 5 }, (_, i) => ({ clusterId, index: i + 1, crestHeight: [3.2, 3.7, 3.5, 3.9, 3.4][i]! })),
+    },
+    dressing: [
+      { id: 'west-shoulder', assetId: 'corealm_rock_strata_3', x: -12.8, z: -6.3, yaw: .62, scale: [1.05, 1.1, 1.1], sink: .48 },
+      { id: 'east-shoulder', assetId: 'corealm_rock_strata_1', x: 12.7, z: -6, yaw: -.74, scale: [1.05, 1.05, 1.17], sink: .52 },
+      { id: 'tailings', assetId: 'corealm_scree_2', x: -12.4, z: 2.5, yaw: .43, scale: [1.05, .85, 1.08], sink: .12 },
+      { id: 'sorting-bench', assetId: 'workbench', x: 10.5, z: 1.5, yaw: -.28, scale: 1 },
+      { id: 'ore-crate', assetId: 'crate_wood', x: 12.5, z: 2.3, yaw: .22, scale: .9 },
+    ],
+  } satisfies WorldSite;
+});
+
 export const WORLD_SITES: readonly WorldSite[] = [
   ...CROWNWARD_FISHERIES.sites,
   ...WILDERNESS_RESOURCE_SITES,
   ...FAIRY_RESOURCE_SITES,
+  ...ADVANCED_ESSENCE_SITES,
   {
     id: "bracken_workings", locationId: "bracken_pit", regionId: "fallowmarch",
     centre: [-160, 80], rotationY: 2.608, kind: "mine", workRadius: 6.5, extent: [22, 26],

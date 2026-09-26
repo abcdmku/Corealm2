@@ -1,0 +1,36 @@
+{
+  "generator": "npx tsx tools/build-assets.ts --town-teleport-platforms",
+  "method": "built-in image_gen",
+  "assets": [
+    {
+      "id": "town_teleport_platform_plaster",
+      "model": "models/travel/town_teleport_platform_plaster.glb",
+      "modelSha256": "274DCA4D77975DA8C1464FA83C0EA50CFA29F3D5589770D674DCB4DA0DBEB9DB",
+      "texture": "textures/travel/town_teleport_plaster.png",
+      "textureSha256": "0A89D261E4B3D5DC6BD1BF766024E5269604DE56A2CB45EA5D40980AF0534826",
+      "originalGeneratedPath": "C:/Users/Borg/.codex/generated_images/01a0de48-ec1d-7c23-b174-7c1f30177b09/exec-3c9f0cb3-e849-430d-b389-a6cd9bd58b3e.png",
+      "originalGeneratedSha256": "0A89D261E4B3D5DC6BD1BF766024E5269604DE56A2CB45EA5D40980AF0534826",
+      "prompt": "Use case: stylized-concept\nAsset type: top-face albedo texture for a low 5-metre circular teleport landing platform in a stylized fantasy 3D game\nPrimary request: perfectly orthographic top-down view of a circular ancient stone mosaic filling a square image, with three nested dark charcoal slate rings and vivid but restrained turquoise tesserae channels, radial wedge stones, a compass-like central medallion, and an outer ring of alternating pointed stone teeth. Every stone has layered blue-grey, warm grey and brown weathering, chipped bevels, cracks, lichen in joints and individual mineral grain. Distinct sharp material boundaries so UV mapping onto a flat disk is readable at gameplay distance.\nComposition/framing: exactly centered circle, full ring visible, no perspective, no shadows beyond the circle, no surrounding scene; background outside circle dark neutral stone; rotationally coherent radial pattern.\nLighting/mood: flat diffuse material capture, no baked directional lighting.\nConstraints: no words, letters, symbols resembling text, characters, props, glow effects, screenshot framing, raised 3D view, watermark. This is an albedo map, not a rendered scene."
+    },
+    {
+      "id": "town_teleport_platform_timber",
+      "model": "models/travel/town_teleport_platform_timber.glb",
+      "modelSha256": "F754044B29CF315261285B4EB4E7F70C2B0A9EE0E820759F623B42E97538EDCE",
+      "texture": "textures/travel/town_teleport_timber.png",
+      "textureSha256": "961BBA5664BC950A327222A215C05B5CC814F12640029064555AEAE577AF94D0",
+      "originalGeneratedPath": "C:/Users/Borg/.codex/generated_images/01a0de48-ec1d-7c23-b174-7c1f30177b09/exec-c5d4cff8-3ca7-4772-b7f8-4459745343db.png",
+      "originalGeneratedSha256": "961BBA5664BC950A327222A215C05B5CC814F12640029064555AEAE577AF94D0",
+      "prompt": "Use case: stylized-concept\nAsset type: top-face albedo texture for a low circular teleport landing in a forest timber town, used on a 5-metre diameter flat 3D mesh\nPrimary request: perfectly orthographic top-down ancient circular stone mosaic with concentric dark slate and turquoise inlay rings, but a distinctive four-lobed interlaced knot at the centre and a rim of alternating long pointed wedge stones. The center pattern and ring divisions must be materially different from a compass-star mosaic. Stone is layered charcoal, mossy brown-grey and pale worn mineral; turquoise channels are mineral tesserae, cracked and uneven. Detailed individual stone grain, fissures, chips, lichen and weathering; clear radial pattern at gameplay distance.\nComposition/framing: centered full circle filling square, no perspective or cast shadows, no surroundings beyond dark neutral stone corners. Flat diffuse texture capture.\nConstraints: no text, glyphs resembling letters, characters, props, bright glow, watermark."
+    },
+    {
+      "id": "town_teleport_platform_stone",
+      "model": "models/travel/town_teleport_platform_stone.glb",
+      "modelSha256": "7FBDABEC45355852A4B67EA55947219792B191953FEC638C552CC7227D0BF741",
+      "texture": "textures/travel/town_teleport_stone.png",
+      "textureSha256": "2A51344651C1F6D7D16136EC48266C99EA0BD9B1CB520A618EA39BBA46207675",
+      "originalGeneratedPath": "C:/Users/Borg/.codex/generated_images/01a0de48-ec1d-7c23-b174-7c1f30177b09/exec-4607cb7b-90eb-4f28-af6f-d89700b3ae2b.png",
+      "originalGeneratedSha256": "2A51344651C1F6D7D16136EC48266C99EA0BD9B1CB520A618EA39BBA46207675",
+      "prompt": "Use case: stylized-concept\nAsset type: top-face albedo texture for a low circular teleport landing in a quarry stone town, mapped to a 5-metre diameter 3D disk\nPrimary request: exactly orthographic top-down ancient stone mosaic. Concentric turquoise and very dark slate rings surround a distinctive square-in-circle stepped diamond medallion, with four broad directional stone wedges and a perimeter crown of tightly spaced pointed rim stones. This pattern must differ structurally from a compass star or four-lobed knot. Individual blocks have layered slate blue-grey, pale quarry limestone, charcoal and rusty mineral flecks, with chipped edges, hand-cut joints, cracks, lichen and fine grain. Turquoise tesserae have variation and stone texture, not flat color. Strong clear pattern at gameplay distance.\nComposition/framing: centered full circular mosaic nearly filling square, no camera perspective, no cast shadows, neutral dark stone in corners; flat diffuse albedo texture capture.\nConstraints: no letters, writing, characters, extra props, magical glow, watermark."
+    }
+  ]
+}

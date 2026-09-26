@@ -29,6 +29,9 @@ import { CampfireSystem, campfireFuelLookup, type CampfirePlacementProbes } from
 import { GATHERING_PRODUCTION_TIERS } from "../content/gatheringProductionTiers.js";
 import { AgilitySystem } from "../systems/agility.js";
 import { TravelSystem } from "../systems/travel.js";
+import { UtilityMagicSystem, cancelTownTeleport } from '../systems/utilityMagic.js';
+import { EssenceTomeSystem } from '../systems/essenceTomes.js';
+import { townTeleportPads } from '../content/townTeleports.js';
 import { DiscoverySystem, type DiscoverableLocation } from "../systems/discovery.js";
 import { HuntContractsSystem } from "../systems/huntContracts.js";
 import { deriveHuntTargets } from "../content/huntContracts.js";
@@ -57,6 +60,7 @@ export interface HeadlessPlayerPorts {
   doorBarriers?: readonly DungeonDoorBarrier[];
   /** Seed the player's random streams with the world seed alone, as the single-player lab page always did. */
   sharedRandomSeed?: boolean;
+  allies?: () => GameState[];
 }
 
 /** What a host runs a player's commands through: the synchronous game API, one command at a time, on the host's tick. */
@@ -77,6 +81,7 @@ export class HeadlessPlayer implements CommandExecutor {
   /** For the lab worker, which equips into a named slot and re-reads altars after a structure changes. */
   readonly equipment: EquipmentSystem;
   readonly essence: EssenceSystem;
+  readonly utility: UtilityMagicSystem;
   readonly quests: QuestSystem;
   readonly gathering: GatheringSystem;
   readonly activity: ActivitySystem;
@@ -96,6 +101,9 @@ export class HeadlessPlayer implements CommandExecutor {
     // A lab is one player and a deterministic script, written against the streams the world seed gives. Everywhere else each player gets their own.
     const playerSeed=ports.sharedRandomSeed?state.meta.seed:[...state.player.id].reduce((hash,char)=>Math.imul(hash^char.charCodeAt(0),16777619)>>>0,state.meta.seed);
     const rng = this.random = new RngStreams(playerSeed);
+    state.magic.utilityEffects = [];
+    state.magic.utilityFields = [];
+    state.magic.teleportCast = null;
     const now = () => clock.elapsedMs;
     const skillLevels = () => Object.fromEntries(SKILL_IDS.map((id) => [id, store.get().skills[id].level])) as Record<SkillId, number>;
     const localEntity = (id: string) => this.questEntities.get(id) ?? entities.get(id);
@@ -115,6 +123,16 @@ export class HeadlessPlayer implements CommandExecutor {
       equip: (id) => equipment.equip(id), beginEating: (id, duration, at) => eating.beginEating(id, duration, at) });
     equipment = this.equipment = new EquipmentSystem({ store, events, inventory, now });
     const activity = this.activity = new ActivitySystem(store, events);
+    const tomes = new EssenceTomeSystem({store, inventory, altars: () => entities.all()});
+    this.utility = new UtilityMagicSystem({store, fuel: tomes, entities, now,
+      allies: () => ports.allies?.() ?? [store.get()],
+      pads: () => townTeleportPads(entities.all()).map(pad => ({...pad,
+        position: [pad.position[0], ports.movement.heightAt?.(pad.regionId, pad.position[0], pad.position[2]) ?? pad.position[1], pad.position[2]]})),
+      stop: () => { this.movement.stop(store.get(), now(), 'teleport'); activity.stop('moved', now()); this.combat?.hook().disengage?.('teleport', now()); },
+      snap: point => nav.nearestWalkable(point),
+    });
+    this.api.register('utility', this.utility);
+    this.api.register('tomes', tomes);
     eating = new EatingSystem({ store, activity, inventory });
     const campfire = new CampfireSystem({ store, events, activity, inventory, entities, now,
       entityId: `campfire:${state.player.id}`, placement: ports.campfirePlacement, fuelFor: campfireFuelLookup(GATHERING_PRODUCTION_TIERS) });
@@ -220,6 +238,7 @@ export class HeadlessPlayer implements CommandExecutor {
     return this.withNavigation(()=>this.executeIntent(input));
   }
   private executeIntent(input: GameCommand): Result<unknown> {
+    if (input.method === 'moveTo' || input.method === 'steer' && (input.args[0] !== 0 || input.args[1] !== 0)) cancelTownTeleport(this.store.get());
     if (input.method === "chat" || input.method === "party" || input.method === "who" || input.method === "trade" || input.method === "dropItem") return err("UNAVAILABLE", "Social commands require a world.");
     const target = ["interact","takeLoot","attack","produceAt"].includes(input.method) ? input.args[0]
       : input.method === "cast" ? input.args[1] : undefined;
@@ -261,6 +280,9 @@ export class HeadlessPlayer implements CommandExecutor {
     this.gathering.tick(100,this.ports.clock.elapsedMs);this.sharedLootTick(this.ports.clock.elapsedMs);
   }
   suspend(): void {
+    cancelTownTeleport(this.store.get());
+    this.store.get().magic.utilityEffects = [];
+    this.store.get().magic.utilityFields = [];
     this.api.stop(); this.movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: 0 });
   }
 }

@@ -3,7 +3,7 @@ import type { ItemModelAuthor } from '../contracts';
 
 type P = readonly [number, number];
 const S = .085;
-const ids = ['air_essence','earth_essence','water_essence','fire_essence','mind_rune','chaos_rune','death_rune','blood_rune','wrath_rune','cosmic_rune'] as const;
+const ids = ['air_essence','earth_essence','water_essence','fire_essence','mind_rune','chaos_rune','death_rune','blood_rune','wrath_rune'] as const;
 type Id = typeof ids[number];
 const descriptions: Record<Id,string> = {
   air_essence: 'A stackable charge drawn from the distant Farmland cache.',
@@ -15,7 +15,6 @@ const descriptions: Record<Id,string> = {
   death_rune: "A bone-white rune cut with a hollow skull. It holds a spell's shape while it gathers and closes. Rank-three invocations spend one per cast.",
   blood_rune: 'A dark red rune with a drop sunk into its face. It feeds invocations heavy enough to batter the ground. Rank-four invocations spend one per cast.',
   wrath_rune: 'A black rune split through with slow red light. The four finales spend one per cast, and nothing smaller touches it.',
-  cosmic_rune: 'A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Every area invocation spends one beside its rank rune.',
 };
 
 function polygon(points: readonly P[]): THREE.Shape {
@@ -30,9 +29,6 @@ function curved(start: P, curves: readonly (readonly [number,number,number,numbe
 }
 function ellipse(x:number,y:number,rx:number,ry:number):THREE.Shape {
   const p = new THREE.Shape();p.absellipse(x*S,y*S,rx*S,ry*S,0,Math.PI*2,false,0);return p;
-}
-function ring(x:number,y:number,rx:number,ry:number,width:number):THREE.Shape {
-  const p=ellipse(x,y,rx,ry);p.holes.push(ellipse(x,y,rx-width,ry-width));return p;
 }
 function star(x:number,y:number,r:number,points=4):THREE.Shape {
   return polygon(Array.from({length:points*2},(_,i):P=>{
@@ -50,7 +46,6 @@ const outlines:Record<Id, readonly P[]> = {
   death_rune:[[-.59,-.99],[-.89,-.73],[-.92,-.4],[-.81,.13],[-.68,.55],[-.34,.96],[-.15,1.1],[.36,1.04],[.6,.85],[.84,.4],[.77,.03],[.91,-.26],[.67,-.83],[.18,-1.08]],
   blood_rune:[[-.8,-.73],[-.9,-.31],[-.84,.16],[-.59,.46],[-.43,1.12],[-.19,1.06],[.21,.89],[.67,.65],[.89,.19],[.76,-.26],[.83,-.76],[.48,-1.05],[.06,-.94]],
   wrath_rune:[[-.27,-1.14],[-.57,-.85],[-.66,-.45],[-.87,-.13],[-.8,.37],[-.53,.73],[-.1,1.18],[.2,1.02],[.5,.89],[.78,.48],[.82,.13],[.67,-.19],[.81,-.45],[.52,-.85],[.03,-1.03]],
-  cosmic_rune:[[-.55,-.93],[-.88,-.61],[-1,-.19],[-.84,.29],[-.61,.74],[-.31,1.02],[.08,1.08],[.52,.88],[.69,.54],[.91,.36],[.99,-.07],[.8,-.45],[.63,-.81],[.26,-1.05],[-.15,-1.01]],
 };
 
 /** Authored vector carvings, independent of the reference image pixels. */
@@ -89,7 +84,6 @@ function symbols(id:Id):THREE.Shape[] {
       return [skull,curved([-.36,.26],[[-.2,.2,-.18,.07,-.07,.01],[-.15,-.2,-.42,-.19,-.43,-.07],[-.42,.05,-.4,.12,-.36,.26]]),curved([.36,.26],[[.2,.2,.18,.07,.07,.01],[.15,-.2,.42,-.19,.43,-.07],[.42,.05,.4,.12,.36,.26]]),polygon([[0,.01],[-.09,-.29],[0,-.24],[.075,-.29]]),...[-.18,-.06,.06,.18].map(x=>polygon([[x-.02,-.35],[x+.02,-.35],[x+.025,-.56],[x-.025,-.56]]))];
     }
     case 'wrath_rune': return [polygon([[-.63,.38],[-.43,-.31],[-.07,-.23],[-.17,-.58],[.03,-.27],[.4,-.32],[.65,.4],[.29,.15],[.43,.16],[.3,-.12],[.08,-.15],[.03,.39],[.16,.2],[.03,.73],[-.16,.22],[-.02,.36],[-.06,-.14],[-.34,-.1],[-.43,.18],[-.29,.13]])];
-    case 'cosmic_rune': return [ring(0,0,.76,.83,.11),ring(0,0,.32,.35,.035),star(0,0,.31,6),...Array.from({length:6},(_,i)=>{const a=Math.PI/2+i*Math.PI/3;return star(Math.cos(a)*.65,Math.sin(a)*.71,.19,4);})];
   }
 }
 function drop():THREE.Shape {
@@ -126,7 +120,7 @@ function solid(g:THREE.Group,name:string,shape:THREE.Shape,depth:number,z:number
 }
 
 const palettes:Record<Id,readonly [number,number,number]>={
-  air_essence:[0xaab9be,0x8aeaff,.7],earth_essence:[0x4b5030,0x98e967,.5],water_essence:[0x465971,0x55bdf2,.6],fire_essence:[0x39302b,0xff6308,1.1],mind_rune:[0xd5cbb5,0x54bafa,.6],chaos_rune:[0xc4540c,0x301709,.13],death_rune:[0xc7bda8,0x36312a,0],blood_rune:[0x551719,0x99060b,.18],wrath_rune:[0x211f22,0xff1607,.8],cosmic_rune:[0xd9a323,0x3b2b15,.04],
+  air_essence:[0xaab9be,0x8aeaff,.7],earth_essence:[0x4b5030,0x98e967,.5],water_essence:[0x465971,0x55bdf2,.6],fire_essence:[0x39302b,0xff6308,1.1],mind_rune:[0xd5cbb5,0x54bafa,.6],chaos_rune:[0xc4540c,0x301709,.13],death_rune:[0xc7bda8,0x36312a,0],blood_rune:[0x551719,0x99060b,.18],wrath_rune:[0x211f22,0xff1607,.8],
 };
 
 export const author:ItemModelAuthor={ids,build(itemId:string):THREE.Group{
@@ -142,8 +136,7 @@ export const author:ItemModelAuthor={ids,build(itemId:string):THREE.Group{
   solid(g,'Irregular thick stone core and rear',outline,.025,-.021,edge,.0035);
   const face=polygon(outlines[id]);
   const authoredGlyphs=symbols(id);
-  // A single pocket avoids intersecting hole contours around the star wheel and skull.
-  const glyphs=id==='cosmic_rune'?[ellipse(0,0,.8,.88)]:id==='death_rune'?[new THREE.Shape(authoredGlyphs[0]!.getPoints(48))]:authoredGlyphs;
+  const glyphs=id==='death_rune'?[new THREE.Shape(authoredGlyphs[0]!.getPoints(48))]:authoredGlyphs;
   for(const glyph of glyphs){
     const path=new THREE.Path(glyph.getPoints(48));face.holes.push(path);
   }
@@ -153,11 +146,6 @@ export const author:ItemModelAuthor={ids,build(itemId:string):THREE.Group{
     // Islands in a rune cutout retain their full stone height.
     glyph.holes.forEach((h,j)=>{const island=new THREE.Shape(h.getPoints(48));solid(g,`Raised stone inside symbol ${i+1}.${j+1}`,island,.012,.004,stone,.0006);});
   });
-  if(id==='cosmic_rune'){
-    const gold=stoneMaterial('Golden cosmic crystal relief',0xf4c837,101,.16);
-    solid(g,'Unbroken golden wheel',ring(0,0,.59,.65,.23),.007,.008,stone,.0008);
-    authoredGlyphs.slice(2).forEach((s,i)=>solid(g,`Faceted stellar relief ${i+1}`,s,.004,.012,gold,.0012));
-  }
   if(id==='death_rune'){
     const skull=new THREE.Shape(authoredGlyphs[0]!.getPoints(48).map(p=>p.multiplyScalar(.88)));
     for(const socket of authoredGlyphs.slice(1))skull.holes.push(new THREE.Path(socket.getPoints(48)));

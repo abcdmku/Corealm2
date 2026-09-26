@@ -611,5 +611,41 @@
     "radius": 18,
     "locationId": "twilight_copse",
     "regionId": "faeholme"
+  },
+  {
+    "id": "kilnhalt_arc_essence_mine_resources",
+    "resourceId": "essence_arc",
+    "count": 5,
+    "centre": [
+      -125,
+      300
+    ],
+    "radius": 9,
+    "locationId": "kilnhalt_arc_essence_mine",
+    "regionId": "kilnhalt"
+  },
+  {
+    "id": "gloamgarden_cosmic_essence_mine_resources",
+    "resourceId": "essence_cosmic",
+    "count": 5,
+    "centre": [
+      2200,
+      5
+    ],
+    "radius": 9,
+    "locationId": "gloamgarden_cosmic_essence_mine",
+    "regionId": "gloamgarden"
+  },
+  {
+    "id": "faeholme_temporal_essence_mine_resources",
+    "resourceId": "essence_temporal",
+    "count": 5,
+    "centre": [
+      2160,
+      385
+    ],
+    "radius": 9,
+    "locationId": "faeholme_temporal_essence_mine",
+    "regionId": "faeholme"
   }
 ]

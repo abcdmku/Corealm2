@@ -210,6 +210,17 @@
         "kind": "gate",
         "routeNode": true,
         "blurb": "The top of the Farm Road, and the way into Woodlands."
+      },
+      {
+        "id": "town_teleport_millfield",
+        "name": "Millfield Teleport Platform",
+        "position": [
+          -156,
+          -80
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -280,6 +291,10 @@
       {
         "from": "open_march_camp",
         "to": "bracken_pit"
+      },
+      {
+        "from": "town_center",
+        "to": "town_teleport_millfield"
       }
     ],
     "stations": [
@@ -433,6 +448,22 @@
         "rotationY": 0,
         "composition": "farm_yard",
         "blurb": "A weathered farmhouse with two fenced yards, a crowded hen pen, and cattle nearby."
+      },
+      {
+        "id": "town_teleport_millfield",
+        "name": "Millfield Teleport Platform",
+        "position": [
+          -156,
+          -80
+        ],
+        "assetId": "town_teleport_platform_plaster",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Millfield teleportation."
       }
     ],
     "gates": [
@@ -1701,6 +1732,17 @@
         "kind": "junction",
         "routeNode": true,
         "blurb": "The canopy's last shade line. North of here the trees stand scorched and far apart."
+      },
+      {
+        "id": "town_teleport_oakwood",
+        "name": "Oakwood Teleport Platform",
+        "position": [
+          56,
+          123
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -1763,6 +1805,10 @@
       {
         "from": "vellenwood_earth_cache",
         "to": "vellenwood_ember_edge"
+      },
+      {
+        "from": "rootfall_hamlet",
+        "to": "town_teleport_oakwood"
       }
     ],
     "stations": [
@@ -1903,6 +1949,22 @@
         "scale": 1.35,
         "composition": "standing_stones",
         "blurb": "Standing stones at the clearing edge. The stags will not cross them."
+      },
+      {
+        "id": "town_teleport_oakwood",
+        "name": "Oakwood Teleport Platform",
+        "position": [
+          56,
+          123
+        ],
+        "assetId": "town_teleport_platform_timber",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Oakwood teleportation."
       }
     ],
     "gates": [
@@ -2952,6 +3014,17 @@
         "kind": "landmark",
         "routeNode": true,
         "blurb": "A blue-lit cache at the moor's far edge, where water essence beads on dry slate."
+      },
+      {
+        "id": "town_teleport_hillcrest",
+        "name": "Hillcrest Teleport Platform",
+        "position": [
+          152,
+          -60
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -3014,6 +3087,10 @@
       {
         "from": "far_tarn",
         "to": "karrowmoor_water_cache"
+      },
+      {
+        "from": "highcairn_outpost",
+        "to": "town_teleport_hillcrest"
       }
     ],
     "stations": [
@@ -3165,6 +3242,22 @@
         "scale": 1.8,
         "composition": "great_cairn",
         "blurb": "Head height and forty paces round. It was already old when the quarry opened."
+      },
+      {
+        "id": "town_teleport_hillcrest",
+        "name": "Hillcrest Teleport Platform",
+        "position": [
+          152,
+          -60
+        ],
+        "assetId": "town_teleport_platform_stone",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Hillcrest teleportation."
       }
     ],
     "gates": [
@@ -4402,6 +4495,39 @@
         ],
         "kind": "junction",
         "routeNode": true
+      },
+      {
+        "id": "kilnhalt_arc_essence_mine",
+        "name": "Arc Essence Mine",
+        "position": [
+          -125,
+          300
+        ],
+        "kind": "seam",
+        "routeNode": true,
+        "blurb": "Arc-bearing stone exposed in a dry cut west of Emberfast."
+      },
+      {
+        "id": "kilnhalt_arc_essence_mine_approach",
+        "name": "Arc Essence Mine Approach",
+        "position": [
+          -105,
+          300
+        ],
+        "kind": "junction",
+        "routeNode": true,
+        "blurb": "A clear hauling track leads to the working floor."
+      },
+      {
+        "id": "town_teleport_ashford",
+        "name": "Ashford Teleport Platform",
+        "position": [
+          3,
+          333
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -4472,6 +4598,18 @@
       {
         "from": "kilnhalt_north_bend",
         "to": "kilnhalt_north_track"
+      },
+      {
+        "from": "emberfast_west_postern",
+        "to": "kilnhalt_arc_essence_mine_approach"
+      },
+      {
+        "from": "kilnhalt_arc_essence_mine_approach",
+        "to": "kilnhalt_arc_essence_mine"
+      },
+      {
+        "from": "emberfast_town",
+        "to": "town_teleport_ashford"
       }
     ],
     "stations": [
@@ -4534,6 +4672,22 @@
         "scale": 1.6,
         "rotationY": 1.1,
         "blurb": "One of the ring stones. The scorch marks on it are layered, oldest at the bottom."
+      },
+      {
+        "id": "town_teleport_ashford",
+        "name": "Ashford Teleport Platform",
+        "position": [
+          3,
+          333
+        ],
+        "assetId": "town_teleport_platform_stone",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Ashford teleportation."
       }
     ],
     "gates": [],
@@ -6125,6 +6279,28 @@
         ],
         "kind": "junction",
         "routeNode": true
+      },
+      {
+        "id": "town_teleport_lastlight",
+        "name": "Lastlight Teleport Platform",
+        "position": [
+          6,
+          513
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
+      },
+      {
+        "id": "town_teleport_starhaven",
+        "name": "Starhaven Teleport Platform",
+        "position": [
+          -178,
+          803
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -6359,6 +6535,14 @@
       {
         "from": "starhaven_gate_approach",
         "to": "starhaven_south_gate"
+      },
+      {
+        "from": "lastlight_square",
+        "to": "town_teleport_lastlight"
+      },
+      {
+        "from": "starhaven_square",
+        "to": "town_teleport_starhaven"
       }
     ],
     "stations": [],
@@ -6610,6 +6794,38 @@
         "scale": 1.35,
         "composition": "standing_stones",
         "blurb": "Weathered stones ring a patch of bare slate."
+      },
+      {
+        "id": "town_teleport_lastlight",
+        "name": "Lastlight Teleport Platform",
+        "position": [
+          6,
+          513
+        ],
+        "assetId": "town_teleport_platform_stone",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Lastlight teleportation."
+      },
+      {
+        "id": "town_teleport_starhaven",
+        "name": "Starhaven Teleport Platform",
+        "position": [
+          -178,
+          803
+        ],
+        "assetId": "town_teleport_platform_stone",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Starhaven teleportation."
       }
     ],
     "adjacency": [
@@ -10760,6 +10976,17 @@
         "kind": "grove",
         "routeNode": true,
         "blurb": "Mature maples stand in broad rows, with clear lanes for the timber carts."
+      },
+      {
+        "id": "town_teleport_crownward",
+        "name": "Crownward Teleport Platform",
+        "position": [
+          479,
+          -31
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -10866,6 +11093,10 @@
       {
         "from": "whitebough_copse",
         "to": "crownward_north_track"
+      },
+      {
+        "from": "crownward_town_square",
+        "to": "town_teleport_crownward"
       }
     ],
     "stations": [],
@@ -10949,6 +11180,22 @@
         "composition": "path_waypoint",
         "scale": 0.85,
         "blurb": "The old road joins the castles, mines and portal garden."
+      },
+      {
+        "id": "town_teleport_crownward",
+        "name": "Crownward Teleport Platform",
+        "position": [
+          479,
+          -31
+        ],
+        "assetId": "town_teleport_platform_stone",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Crownward teleportation."
       }
     ],
     "gates": [
@@ -11541,6 +11788,39 @@
         "kind": "landmark",
         "routeNode": true,
         "blurb": "The ledge landing opens onto the shelf. Return by its walking ramp or a planned climb route."
+      },
+      {
+        "id": "gloamgarden_cosmic_essence_mine",
+        "name": "Cosmic Essence Mine",
+        "position": [
+          2200,
+          5
+        ],
+        "kind": "seam",
+        "routeNode": true,
+        "blurb": "Cosmic essence veins emerge along a worked garden bank."
+      },
+      {
+        "id": "gloamgarden_cosmic_essence_mine_approach",
+        "name": "Cosmic Essence Mine Approach",
+        "position": [
+          2200,
+          25
+        ],
+        "kind": "junction",
+        "routeNode": true,
+        "blurb": "A clear hauling track leads to the working floor."
+      },
+      {
+        "id": "town_teleport_lantern_rest",
+        "name": "Lantern Rest Teleport Platform",
+        "position": [
+          2080,
+          -107
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -11683,6 +11963,18 @@
       {
         "from": "gloamgarden_moonpath",
         "to": "gloamgarden_north_path"
+      },
+      {
+        "from": "dewsong_copse",
+        "to": "gloamgarden_cosmic_essence_mine_approach"
+      },
+      {
+        "from": "gloamgarden_cosmic_essence_mine_approach",
+        "to": "gloamgarden_cosmic_essence_mine"
+      },
+      {
+        "from": "lantern_rest_square",
+        "to": "town_teleport_lantern_rest"
       }
     ],
     "stations": [],
@@ -11755,6 +12047,22 @@
         "composition": "path_waypoint",
         "scale": 0.8,
         "blurb": "A pale marker at the crossing between the two fairy regions."
+      },
+      {
+        "id": "town_teleport_lantern_rest",
+        "name": "Lantern Rest Teleport Platform",
+        "position": [
+          2080,
+          -107
+        ],
+        "assetId": "town_teleport_platform_timber",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Lantern Rest teleportation."
       }
     ],
     "gates": [
@@ -12621,6 +12929,39 @@
         "kind": "landmark",
         "routeNode": true,
         "blurb": "The ledge landing opens onto the shelf. Return by its walking ramp or a planned climb route."
+      },
+      {
+        "id": "faeholme_temporal_essence_mine",
+        "name": "Temporal Essence Mine",
+        "position": [
+          2160,
+          385
+        ],
+        "kind": "seam",
+        "routeNode": true,
+        "blurb": "Temporal essence gleams in a sheltered cut beside the twilight path."
+      },
+      {
+        "id": "faeholme_temporal_essence_mine_approach",
+        "name": "Temporal Essence Mine Approach",
+        "position": [
+          2140,
+          385
+        ],
+        "kind": "junction",
+        "routeNode": true,
+        "blurb": "A clear hauling track leads to the working floor."
+      },
+      {
+        "id": "town_teleport_prism_hollow",
+        "name": "Prism Hollow Teleport Platform",
+        "position": [
+          2299,
+          141
+        ],
+        "kind": "landmark",
+        "routeNode": true,
+        "blurb": "An activatable landing for town teleportation."
       }
     ],
     "roads": [
@@ -12707,6 +13048,18 @@
       {
         "from": "sovereign_lode",
         "to": "faeholme_sovereign_court"
+      },
+      {
+        "from": "faeholme_twilight_path",
+        "to": "faeholme_temporal_essence_mine_approach"
+      },
+      {
+        "from": "faeholme_temporal_essence_mine_approach",
+        "to": "faeholme_temporal_essence_mine"
+      },
+      {
+        "from": "prism_hollow_square",
+        "to": "town_teleport_prism_hollow"
       }
     ],
     "stations": [],
@@ -12801,6 +13154,22 @@
         "composition": "path_waypoint",
         "scale": 1,
         "blurb": "Paths branch toward the deep mines, yew gardens and sovereign court."
+      },
+      {
+        "id": "town_teleport_prism_hollow",
+        "name": "Prism Hollow Teleport Platform",
+        "position": [
+          2299,
+          141
+        ],
+        "assetId": "town_teleport_platform_timber",
+        "scale": 1,
+        "rotationY": 0,
+        "composition": "town_teleport_platform",
+        "compositionOnly": true,
+        "originOnGround": true,
+        "solid": false,
+        "blurb": "Visit and activate this mosaic in your spellbook to unlock Prism Hollow teleportation."
       }
     ],
     "adjacency": [

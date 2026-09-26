@@ -5,10 +5,11 @@ import sharp from "sharp";
 import type { SpellId } from "../game/src/contracts.js";
 import { SPELL_ELEMENTS } from "../game/src/contracts.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
+import { RESOURCES } from "../game/src/content/resources.js";
 import { SHOPS } from "../game/src/content/shops.js";
 import { content, type ContentTables } from "../game/src/content/index.js";
 import {
-  ADVANCED_SPELLS, ALL_SPELLS, COSMIC_RUNE_ID, SPELLS, SPELL_RUNES, isAdvancedSpell, tierRune,
+  ADVANCED_SPELLS, ALL_SPELLS, ARC_ESSENCE_ID, SPELLS, SPELL_RUNES, isAdvancedSpell, tierRune,
 } from "../game/src/content/spells.js";
 import { ELEMENTAL_SPELLS } from "../game/src/content/elementalSpells.js";
 import { areaFootprintRadius, planElementalAttack } from "../game/src/systems/elementalAttacks.js";
@@ -24,8 +25,8 @@ import { SPELL_RANGE } from "../game/src/app/config.js";
  * The twenty invocations and their six runes, frozen as tests.
  *
  * The rule the owner set: the basics stay rune-free, every invocation spends its rank's rune, and
- * every area invocation spends a Cosmic Rune on top. Rank one is the only single-target rank, so it
- * is also the only rank without the Cosmic Rune, and that has to stay true of the pulse plans too.
+ * every area invocation spends Arc Essence on top. Rank one is the only single-target rank, so it
+ * is also the only rank without Arc Essence, and that has to stay true of the pulse plans too.
  */
 
 const originalContent: ContentTables = {
@@ -86,26 +87,29 @@ describe("the invocation ladder", () => {
 });
 
 describe("spell runes", () => {
-  it("are six carried items: one per rank plus the Cosmic Rune, all sold somewhere", () => {
-    expect(SPELL_RUNES).toHaveLength(6);
+  it("are eight carried fuel items: five rank runes and three mined Essences", () => {
+    expect(SPELL_RUNES).toHaveLength(8);
     expect(SPELL_RUNES.filter((rune) => rune.tier > 0).map((rune) => rune.tier).sort()).toEqual([1, 2, 3, 4, 5]);
-    expect(SPELL_RUNES.filter((rune) => rune.tier === 0).map((rune) => rune.itemId)).toEqual([COSMIC_RUNE_ID]);
+    expect(SPELL_RUNES.filter((rune) => rune.tier === 0).map((rune) => rune.itemId)).toEqual([
+      "arc_essence", "cosmic_essence", "temporal_essence",
+    ]);
     const stocked = new Set(SHOPS.flatMap((shop) => shop.stock.map((row) => row.itemId)));
     for (const rune of SPELL_RUNES) {
       const item = ALL_ITEMS.find((entry) => entry.id === rune.itemId);
       expect(item, rune.itemId).toBeDefined();
       expect(item!.stackable).toBe(true);
       expect(item!.name).toBe(rune.name);
-      expect(stocked.has(rune.itemId), `${rune.itemId} is sold`).toBe(true);
+      if (rune.tier > 0) expect(stocked.has(rune.itemId), `${rune.itemId} is sold`).toBe(true);
+      else expect(RESOURCES.some((resource) => resource.itemId === rune.itemId), `${rune.itemId} is mined`).toBe(true);
     }
   });
 
-  it("are spent by rank, with the Cosmic Rune on every area invocation and never on a basic", () => {
+  it("are spent by rank, with Arc Essence on every area invocation and never on a basic", () => {
     for (const spell of SPELLS) expect(spell.cost.runes ?? []).toHaveLength(0);
     for (const spell of ADVANCED_SPELLS) {
       const runes = spell.cost.runes ?? [];
       expect(runes.map((rune) => rune.itemId)).toContain(tierRune(spell.rank!).itemId);
-      expect(runes.some((rune) => rune.itemId === COSMIC_RUNE_ID), spell.id).toBe(spell.aoe === true);
+      expect(runes.some((rune) => rune.itemId === ARC_ESSENCE_ID), spell.id).toBe(spell.aoe === true);
       expect(runes).toHaveLength(spell.aoe ? 2 : 1);
       for (const rune of runes) expect(rune.quantity).toBe(1);
     }
@@ -133,12 +137,12 @@ describe("paying for an invocation", () => {
     const sunfall = content.spell("starfall")!;
     expect(spellBlockReason(store.get(), sunfall)).toContain("Wrath Rune");
     inventory.addItem("wrath_rune", 2);
-    expect(spellBlockReason(store.get(), sunfall)).toContain("Cosmic Rune");
-    inventory.addItem("cosmic_rune", 3);
+    expect(spellBlockReason(store.get(), sunfall)).toContain("Arc Essence");
+    inventory.addItem("arc_essence", 3);
     expect(spellBlockReason(store.get(), sunfall)).toBeNull();
     expect(spellRunesCarried(store.get(), sunfall)).toEqual([
       { itemId: "wrath_rune", name: "Wrath Rune", quantity: 1, carried: 2 },
-      { itemId: "cosmic_rune", name: "Cosmic Rune", quantity: 1, carried: 3 },
+      { itemId: "arc_essence", name: "Arc Essence", quantity: 1, carried: 3 },
     ]);
 
     const paid = spendSpellFuel(store.get(), sunfall, inventory);
@@ -147,7 +151,7 @@ describe("paying for an invocation", () => {
     expect(paid.value.source).toBe("essence");
     expect(paid.value.runes).toEqual([
       { itemId: "wrath_rune", quantity: 1, remaining: 1 },
-      { itemId: "cosmic_rune", quantity: 1, remaining: 2 },
+      { itemId: "arc_essence", quantity: 1, remaining: 2 },
     ]);
     expect(inventory.countItem("fire_essence")).toBe(4);
 

@@ -25,6 +25,7 @@
  *   npx tsx tools/build-assets.ts --probe <zip-key> <substring>   inspect sources
  *   npx tsx tools/build-assets.ts --stage-materials --only wall_brick_straight,sword --out test-results/material-restoration/representatives
  *   npx tsx tools/build-assets.ts --stage-materials --shared-textures --only-pack medieval-village-megakit --out test-results/material-restoration/shared-village
+ *   npx tsx tools/build-assets.ts --town-teleport-platforms   rebuild the three authored travel mosaics
  */
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -2459,4 +2460,106 @@ async function main(): Promise<void> {
   }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) await main();
+/** Rebuild the low travel landings from their retained image-generated albedo maps. */
+export async function buildTownTeleportPlatforms(): Promise<void> {
+  const travelModels = path.join(MODELS_DIR, "travel");
+  const travelTextures = path.join(OUT_DIR, "textures", "travel");
+  await mkdir(travelModels, { recursive: true });
+
+  const sources = [
+    {
+      kit: "plaster", original: "C:/Users/Borg/.codex/generated_images/01a0de48-ec1d-7c23-b174-7c1f30177b09/exec-3c9f0cb3-e849-430d-b389-a6cd9bd58b3e.png",
+      hash: "0A89D261E4B3D5DC6BD1BF766024E5269604DE56A2CB45EA5D40980AF0534826",
+      prompt: `Use case: stylized-concept
+Asset type: top-face albedo texture for a low 5-metre circular teleport landing platform in a stylized fantasy 3D game
+Primary request: perfectly orthographic top-down view of a circular ancient stone mosaic filling a square image, with three nested dark charcoal slate rings and vivid but restrained turquoise tesserae channels, radial wedge stones, a compass-like central medallion, and an outer ring of alternating pointed stone teeth. Every stone has layered blue-grey, warm grey and brown weathering, chipped bevels, cracks, lichen in joints and individual mineral grain. Distinct sharp material boundaries so UV mapping onto a flat disk is readable at gameplay distance.
+Composition/framing: exactly centered circle, full ring visible, no perspective, no shadows beyond the circle, no surrounding scene; background outside circle dark neutral stone; rotationally coherent radial pattern.
+Lighting/mood: flat diffuse material capture, no baked directional lighting.
+Constraints: no words, letters, symbols resembling text, characters, props, glow effects, screenshot framing, raised 3D view, watermark. This is an albedo map, not a rendered scene.`,
+    },
+    {
+      kit: "timber", original: "C:/Users/Borg/.codex/generated_images/01a0de48-ec1d-7c23-b174-7c1f30177b09/exec-c5d4cff8-3ca7-4772-b7f8-4459745343db.png",
+      hash: "961BBA5664BC950A327222A215C05B5CC814F12640029064555AEAE577AF94D0",
+      prompt: `Use case: stylized-concept
+Asset type: top-face albedo texture for a low circular teleport landing in a forest timber town, used on a 5-metre diameter flat 3D mesh
+Primary request: perfectly orthographic top-down ancient circular stone mosaic with concentric dark slate and turquoise inlay rings, but a distinctive four-lobed interlaced knot at the centre and a rim of alternating long pointed wedge stones. The center pattern and ring divisions must be materially different from a compass-star mosaic. Stone is layered charcoal, mossy brown-grey and pale worn mineral; turquoise channels are mineral tesserae, cracked and uneven. Detailed individual stone grain, fissures, chips, lichen and weathering; clear radial pattern at gameplay distance.
+Composition/framing: centered full circle filling square, no perspective or cast shadows, no surroundings beyond dark neutral stone corners. Flat diffuse texture capture.
+Constraints: no text, glyphs resembling letters, characters, props, bright glow, watermark.`,
+    },
+    {
+      kit: "stone", original: "C:/Users/Borg/.codex/generated_images/01a0de48-ec1d-7c23-b174-7c1f30177b09/exec-4607cb7b-90eb-4f28-af6f-d89700b3ae2b.png",
+      hash: "2A51344651C1F6D7D16136EC48266C99EA0BD9B1CB520A618EA39BBA46207675",
+      prompt: `Use case: stylized-concept
+Asset type: top-face albedo texture for a low circular teleport landing in a quarry stone town, mapped to a 5-metre diameter 3D disk
+Primary request: exactly orthographic top-down ancient stone mosaic. Concentric turquoise and very dark slate rings surround a distinctive square-in-circle stepped diamond medallion, with four broad directional stone wedges and a perimeter crown of tightly spaced pointed rim stones. This pattern must differ structurally from a compass star or four-lobed knot. Individual blocks have layered slate blue-grey, pale quarry limestone, charcoal and rusty mineral flecks, with chipped edges, hand-cut joints, cracks, lichen and fine grain. Turquoise tesserae have variation and stone texture, not flat color. Strong clear pattern at gameplay distance.
+Composition/framing: centered full circular mosaic nearly filling square, no camera perspective, no cast shadows, neutral dark stone in corners; flat diffuse albedo texture capture.
+Constraints: no letters, writing, characters, extra props, magical glow, watermark.`,
+    },
+  ] as const;
+
+  const provenance = { generator: "npx tsx tools/build-assets.ts --town-teleport-platforms", method: "built-in image_gen", assets: [] as unknown[] };
+  for (const source of sources) {
+    const id = `town_teleport_platform_${source.kit}`;
+    const mapFile = path.join(travelTextures, `town_teleport_${source.kit}.png`);
+    const image = await readFile(mapFile);
+    if (sha256(image) !== source.hash) throw new Error(`Travel mosaic source changed: ${mapFile}`);
+
+    const doc = new Document(), buffer = doc.createBuffer(), scene = doc.createScene(id);
+    doc.getRoot().setDefaultScene(scene);
+    const mesh = doc.createMesh("low_walkable_stone_mosaic");
+    const top = doc.createMaterial(`travel_mosaic_${source.kit}`)
+      .setBaseColorTexture(doc.createTexture(`authored_stone_tesserae_${source.kit}`).setImage(image).setMimeType("image/png"))
+      .setMetallicFactor(0).setRoughnessFactor(0.84);
+    const side = doc.createMaterial("travel_rim_dark_stone").setBaseColorFactor([0.21, 0.22, 0.21, 1])
+      .setMetallicFactor(0).setRoughnessFactor(0.94);
+    const cap: { p: number[]; n: number[]; uv: number[] } = { p: [], n: [], uv: [] };
+    const edge: { p: number[]; n: number[]; uv: number[] } = { p: [], n: [], uv: [] };
+    const push = (row: typeof cap, points: number[][], normals: number[][]): void => {
+      for (let i = 0; i < 3; i += 1) {
+        const point = points[i]!, normal = normals[i]!;
+        row.p.push(...point); row.n.push(...normal);
+        row.uv.push(0.5 + point[0]! / 5, 0.5 + point[2]! / 5);
+      }
+    };
+    const up = [0, 1, 0], segments = 96, radius = 2.48, height = 0.12;
+    for (let index = 0; index < segments; index += 1) {
+      const a = index * 2 * Math.PI / segments, b = (index + 1) * 2 * Math.PI / segments;
+      const p = [radius * Math.cos(a), height, radius * Math.sin(a)];
+      const q = [radius * Math.cos(b), height, radius * Math.sin(b)];
+      push(cap, [[0, height, 0], q, p], [up, up, up]);
+      const p0 = [p[0]!, 0, p[2]!], q0 = [q[0]!, 0, q[2]!];
+      const pn = [Math.cos(a), 0, Math.sin(a)], qn = [Math.cos(b), 0, Math.sin(b)];
+      push(edge, [p, q, q0], [pn, qn, qn]);
+      push(edge, [p, q0, p0], [pn, qn, pn]);
+    }
+    // Shallow crown stones echo the painted points without obstructing traversal.
+    for (let index = 0; index < 32; index += 1) {
+      const a = (index + 0.15) * 2 * Math.PI / 32, b = (index + 0.85) * 2 * Math.PI / 32;
+      const m = (a + b) / 2, inner = 2.29, tip = 2.54;
+      const p = [inner * Math.cos(a), 0.134, inner * Math.sin(a)];
+      const q = [tip * Math.cos(m), 0.145, tip * Math.sin(m)];
+      const s = [inner * Math.cos(b), 0.134, inner * Math.sin(b)];
+      push(cap, [p, s, q], [up, up, up]);
+    }
+    for (const [row, material, label] of [[cap, top, "textured_top"], [edge, side, "stone_edge"]] as const) {
+      const primitive = doc.createPrimitive().setMaterial(material);
+      primitive.setAttribute("POSITION", doc.createAccessor(`${label}_position`).setType("VEC3").setArray(new Float32Array(row.p)).setBuffer(buffer));
+      primitive.setAttribute("NORMAL", doc.createAccessor(`${label}_normal`).setType("VEC3").setArray(new Float32Array(row.n)).setBuffer(buffer));
+      primitive.setAttribute("TEXCOORD_0", doc.createAccessor(`${label}_uv`).setType("VEC2").setArray(new Float32Array(row.uv)).setBuffer(buffer));
+      mesh.addPrimitive(primitive);
+    }
+    scene.addChild(doc.createNode(id).setMesh(mesh));
+    const model = await new NodeIO().writeBinary(doc);
+    const modelFile = path.join(travelModels, `${id}.glb`);
+    await writeFile(modelFile, model);
+    provenance.assets.push({ id, model: path.relative(OUT_DIR, modelFile).replaceAll("\\", "/"), modelSha256: sha256(model),
+      texture: path.relative(OUT_DIR, mapFile).replaceAll("\\", "/"), textureSha256: source.hash,
+      originalGeneratedPath: source.original, originalGeneratedSha256: source.hash, prompt: source.prompt });
+  }
+  await writeFile(path.join(travelModels, "provenance.json"), `${JSON.stringify(provenance, null, 2)}\n`);
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  if (process.argv.includes("--town-teleport-platforms")) await buildTownTeleportPlatforms();
+  else await main();
+}

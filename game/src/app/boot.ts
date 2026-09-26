@@ -1,3 +1,4 @@
+import { UtilityMagicVfx } from "../render/utilityMagicVfx.js";
 import { assetBaseUrl, generatedUrl, publicUrl, setPublicBaseUrl } from "./config.js";
 import { playTargetOf, takePendingLaunch } from "../multiplayer/playIntent.js";
 import { registerDisplayFont } from "../ui/displayFont.js";
@@ -2888,6 +2889,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     dispose: () => { wildernessEffects?.dispose(); creatureEffects?.dispose(); riverSurface?.dispose(); mountainBackdropTexture?.dispose(); },
   });
   loop.setSpellVfx(spellVfx);
+  loop.setUtilityMagicVfx(new UtilityMagicVfx(scene.overlayGroup, groundIndicatorHeight));
   if (profile.kind === "feature-lab" && profile.labMode === "combat" && new URLSearchParams(location.search).get("spells") === "1") {
     const { createSpellRange } = await import("../featureLab/spellRange.js");
     const rangeSpawn: Vec3 = [20, scene.meshHeightAt(20, 28), 28];

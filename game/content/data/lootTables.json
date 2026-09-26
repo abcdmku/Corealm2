@@ -898,7 +898,7 @@
             "chance": 0.18
           },
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               1,
               1
@@ -952,7 +952,7 @@
             "chance": 0.18
           },
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               1,
               1
@@ -1076,7 +1076,7 @@
             "chance": 0.18
           },
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               1,
               1
@@ -1130,7 +1130,7 @@
             "chance": 0.18
           },
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               1,
               1
@@ -1441,8 +1441,8 @@
     ]
   },
   {
-    "id": "shared_dragonhide_cosmic_rune",
-    "name": "Shared dragonhide cosmic rune",
+    "id": "shared_dragonhide_cosmic_essence",
+    "name": "Shared dragonhide cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_dragonhide",
@@ -1466,7 +1466,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -1511,8 +1511,8 @@
     ]
   },
   {
-    "id": "shared_starhide_cosmic_rune",
-    "name": "Shared starhide cosmic rune",
+    "id": "shared_starhide_cosmic_essence",
+    "name": "Shared starhide cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_starhide",
@@ -1536,7 +1536,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -1589,8 +1589,8 @@
     ]
   },
   {
-    "id": "shared_grave_thread_cosmic_rune",
-    "name": "Shared grave thread cosmic rune",
+    "id": "shared_grave_thread_cosmic_essence",
+    "name": "Shared grave thread cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_grave_thread",
@@ -1614,7 +1614,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -1659,8 +1659,8 @@
     ]
   },
   {
-    "id": "shared_void_thread_cosmic_rune",
-    "name": "Shared void thread cosmic rune",
+    "id": "shared_void_thread_cosmic_essence",
+    "name": "Shared void thread cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_void_thread",
@@ -1684,7 +1684,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -1737,8 +1737,8 @@
     ]
   },
   {
-    "id": "shared_astral_core_cosmic_rune",
-    "name": "Shared astral core cosmic rune",
+    "id": "shared_astral_core_cosmic_essence",
+    "name": "Shared astral core cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_astral_core",
@@ -1762,7 +1762,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -1823,8 +1823,8 @@
     ]
   },
   {
-    "id": "shared_molten_heart_cosmic_rune",
-    "name": "Shared molten heart cosmic rune",
+    "id": "shared_molten_heart_cosmic_essence",
+    "name": "Shared molten heart cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_molten_heart",
@@ -1848,7 +1848,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -1901,8 +1901,8 @@
     ]
   },
   {
-    "id": "shared_void_thread_cosmic_rune_2",
-    "name": "Shared void thread cosmic rune",
+    "id": "shared_void_thread_cosmic_essence_2",
+    "name": "Shared void thread cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_void_thread",
@@ -1926,7 +1926,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -1987,8 +1987,8 @@
     ]
   },
   {
-    "id": "shared_void_thread_cosmic_rune_3",
-    "name": "Shared void thread cosmic rune",
+    "id": "shared_void_thread_cosmic_essence_3",
+    "name": "Shared void thread cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_void_thread",
@@ -2012,7 +2012,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4
@@ -2073,8 +2073,8 @@
     ]
   },
   {
-    "id": "shared_void_thread_cosmic_rune_4",
-    "name": "Shared void thread cosmic rune",
+    "id": "shared_void_thread_cosmic_essence_4",
+    "name": "Shared void thread cosmic essence",
     "rolls": [
       {
         "id": "guaranteed_void_thread",
@@ -2098,7 +2098,7 @@
         "count": 1,
         "drops": [
           {
-            "itemId": "cosmic_rune",
+            "itemId": "cosmic_essence",
             "quantity": [
               2,
               4

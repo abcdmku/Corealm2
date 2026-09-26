@@ -94,6 +94,10 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
       ...(castle.id === 'crownward_white_castle' ? {height:10,maxCut:16} : {})});
   }
   for (const landmark of region.landmarks) {
+    if (landmark.composition === 'town_teleport_platform') {
+      flats.push({x: landmark.position[0], z: landmark.position[1], radius: 4, blend: 3,
+        protectFromRoads: true, ...(isFairyRegion(region.id) ? {landformFooting: true} : {})});
+    }
     const ruin = WILDERNESS_RUINS[landmark.composition as WildernessRuinId]
       ?? DEEP_WILDERNESS_STRUCTURES[landmark.composition as DeepWildernessStructureId];
     if (!ruin) continue;
@@ -146,6 +150,7 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
       z: altar.position[1],
       radius: ESSENCE_ALTAR_COURT_RADIUS,
       blend: ESSENCE_ALTAR_COURT_BLEND,
+      protectFromRoads: true,
     });
   }
 

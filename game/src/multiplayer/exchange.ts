@@ -3,6 +3,7 @@ import { content } from "../content/index.js";
 import { distanceXZ } from "../core/math.js";
 import { sameCombatRealm } from "../systems/combat.js";
 import { MAX_STACK } from "../systems/inventory.js";
+import { TOME_SPECS } from '../systems/essenceTomes.js';
 import type { HeadlessWorld } from "./headlessWorld.js";
 
 /** Offers never escrow items. Validate both complete inventories before committing either. */
@@ -28,12 +29,13 @@ export class WorldExchange {
   private transferable(itemId: string): boolean {
     const def = content.item(itemId);
     // These carry character-owned progression, not transferable item-instance state.
-    return !!def && def.category !== "quest" && !def.orb && !def.magicWeapon?.charge;
+    return !!def && def.category !== "quest" && !def.orb && !def.magicWeapon?.charge
+      && !TOME_SPECS.some(tome => tome.itemId === itemId);
   }
   drop(id: string, itemId: string, quantity: number): Result<unknown> {
     const player = this.world.players.get(id)!;
     if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > 1_000_000) return err("INVALID_ARGUMENT", "Enter a whole quantity from 1 to 1,000,000.");
-    if (!this.transferable(itemId)) return err("UNAVAILABLE", "Quest items, orbs and charged weapons cannot be dropped or traded.");
+    if (!this.transferable(itemId)) return err("UNAVAILABLE", "Quest items, orbs, essence tomes and charged weapons cannot be dropped or traded.");
     if (player.store.get().player.health <= 0) return err("UNAVAILABLE", "You cannot drop items while dead.");
     const removed = player.inventory.removeItem(itemId, quantity);
     if (!removed.ok) return removed;
@@ -65,7 +67,7 @@ export class WorldExchange {
     const member = trade.participants.find(member => member.id === id)!;
     if (action.kind === "offer") {
       if (!Number.isSafeInteger(action.quantity) || action.quantity < 0 || action.quantity > 1_000_000) return err("INVALID_ARGUMENT", "Enter a whole quantity from 0 to 1,000,000.");
-      if (!this.transferable(action.itemId)) return err("UNAVAILABLE", "Quest items, orbs and charged weapons cannot be dropped or traded.");
+      if (!this.transferable(action.itemId)) return err("UNAVAILABLE", "Quest items, orbs, essence tomes and charged weapons cannot be dropped or traded.");
       if (this.world.players.get(id)!.inventory.countOf(action.itemId) < action.quantity) return err("NOT_ENOUGH_ITEMS", "You no longer have that quantity.");
       if (action.quantity && member.items.length >= 29 && !member.items.some(item => item.itemId === action.itemId)) return err("UNAVAILABLE", "A trade can contain at most 29 different items.");
       member.items = member.items.filter(item => item.itemId !== action.itemId);

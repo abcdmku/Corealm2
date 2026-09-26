@@ -9,7 +9,9 @@ const RUNES: Readonly<Record<string, { colour: string; glyph: string }>> = {
   death_rune: { colour: "#ddd9f4", glyph: '<path d="m12 6 5 6-5 6-5-6zM12 10v4"/>' },
   blood_rune: { colour: "#ff8999", glyph: '<path d="M12 6c-2 3-5 6-5 9a5 5 0 0 0 10 0c0-3-3-6-5-9zM10 15l2 2"/>' },
   wrath_rune: { colour: "#ffae72", glyph: '<path d="m7 8 2 7h6l2-7-5 4zM9 18h6M12 5v3"/>' },
-  cosmic_rune: { colour: "#c6a4ff", glyph: '<circle cx="12" cy="12" r="5"/><path d="M12 4v4M12 16v4M4 12h4M16 12h4"/>' },
+  arc_essence: { colour: "#ffc96e", glyph: '<path d="M5 7h8c5 0 5 7 0 7H9c-4 0-4 5 0 5h10M12 4v3M12 17v3"/>' },
+  cosmic_essence: { colour: "#c6a4ff", glyph: '<circle cx="12" cy="12" r="5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>' },
+  temporal_essence: { colour: "#91e5d5", glyph: '<circle cx="12" cy="12" r="7"/><path d="M12 7v5l3 2M7 3 4 6M17 3l3 3"/>' },
 };
 
 export function runeIconSvg(itemId: string, size = 24): string | undefined {
