@@ -400,6 +400,9 @@ export class Renderer {
     this.renderer = new WebGPURenderer({
       canvas, antialias: true, stencil: true, powerPreference: "high-performance",
       alpha: false, trackTimestamp: this.gpuTimingEnabled,
+      // Ground, area lights, shadows and environment need 17 sampled textures.
+      // WebGPU otherwise grants only the default 16, even on capable adapters.
+      requiredLimits: { maxSampledTexturesPerShaderStage: 17 },
     });
     this.screenAntialiasing.timingEnabled = this.gpuTimingEnabled;
     this.renderer.info.autoReset = false;
