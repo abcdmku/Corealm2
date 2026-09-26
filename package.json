@@ -1,6 +1,6 @@
 {
   "name": "3d-game-harness",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "A small agent workflow and browser test harness for building Three.js games.",
