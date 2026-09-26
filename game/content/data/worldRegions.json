@@ -4010,8 +4010,8 @@
             "id": "npc_highcairn_smith_vendor",
             "name": "Nera",
             "position": [
-              150.2,
-              -65.6
+              148,
+              -63.4
             ],
             "facingRad": 0,
             "assetId": "base_female",
@@ -5263,8 +5263,8 @@
             "id": "npc_emberfast_smith_vendor",
             "name": "Kerr",
             "position": [
-              8.2,
-              325.4
+              6,
+              327.6
             ],
             "facingRad": 0,
             "assetId": "base_male",

@@ -1,7 +1,7 @@
 {
   "format": "corealm-world",
   "version": 1,
-  "revision": "250555e592a762f4ccfcb75b7ef8d91ee1dd841b3faa829a7164b8f01db56c6a",
+  "revision": "f023d6bb7df7107be8b6430546abb21559e92802140bb65ec09742e72266bc6b",
   "scope": "game/1337/world",
   "tiles": [
     "-6:-5",
@@ -353,9 +353,9 @@
       "bytes": 9703063
     },
     "assembly/semantic": {
-      "file": "eb04867e7cfae3d8b45a81cdb08f5644d5c01a8a83f9744bfd7af1ca6bffff0e.world",
-      "sha256": "eb04867e7cfae3d8b45a81cdb08f5644d5c01a8a83f9744bfd7af1ca6bffff0e",
-      "bytes": 304308
+      "file": "0906113fc9cf048e85d4a05585e0f20e52746b44d6dbd6fb425e2cb76af830b5.world",
+      "sha256": "0906113fc9cf048e85d4a05585e0f20e52746b44d6dbd6fb425e2cb76af830b5",
+      "bytes": 304303
     },
     "site-cut/cindervein_workings": {
       "file": "dfd2c293451581b3f04b2bb9706d8ae77895cae907a3ab27ea00396ecb6e1c3e.world",
@@ -453,9 +453,9 @@
       "bytes": 516437
     },
     "spawns/world": {
-      "file": "1b2c2f9a3da9d8d2eca36898ddea0d92fe95dba453c04279a874951026f6c484.world",
-      "sha256": "1b2c2f9a3da9d8d2eca36898ddea0d92fe95dba453c04279a874951026f6c484",
-      "bytes": 163960
+      "file": "803f64449ced8f75fb6bae27a28ac4584a1566ca5f51f42eefb9992972233ead.world",
+      "sha256": "803f64449ced8f75fb6bae27a28ac4584a1566ca5f51f42eefb9992972233ead",
+      "bytes": 163948
     },
     "scatter/-6:-5": {
       "file": "be22d7ff76fa23b67846bc895467ca1779d3f4feaab535def84957f1a51705bd.world",

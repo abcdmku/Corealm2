@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "1859b7e00cb609f7c7d4f5d3acb8567bf6bf4045fa542b8ebde86d2b355fa777",
+  "revision": "2f5672e1d51b61165d8311a817b028f3fa271ac695914a5af0a1951dcfaee1b0",
   "formulaRevision": "efc6ffa38e009508feef45719f0aea9a7527cc58bf1153f86840481363050662",
   "tables": {
     "items": [
@@ -51310,8 +51310,8 @@
                 "id": "npc_highcairn_smith_vendor",
                 "name": "Nera",
                 "position": [
-                  150.2,
-                  -65.6
+                  148,
+                  -63.4
                 ],
                 "facingRad": 0,
                 "assetId": "base_female",
@@ -52826,8 +52826,8 @@
                 "id": "npc_emberfast_smith_vendor",
                 "name": "Kerr",
                 "position": [
-                  8.2,
-                  325.4
+                  6,
+                  327.6
                 ],
                 "facingRad": 0,
                 "assetId": "base_male",
@@ -257162,8 +257162,8 @@
                   "id": "npc_highcairn_smith_vendor",
                   "name": "Nera",
                   "position": [
-                    150.2,
-                    -65.6
+                    148,
+                    -63.4
                   ],
                   "facingRad": 0,
                   "assetId": "base_female",
@@ -258678,8 +258678,8 @@
                   "id": "npc_emberfast_smith_vendor",
                   "name": "Kerr",
                   "position": [
-                    8.2,
-                    325.4
+                    6,
+                    327.6
                   ],
                   "facingRad": 0,
                   "assetId": "base_male",
