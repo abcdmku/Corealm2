@@ -32,6 +32,7 @@ jobs:
             .github
             deploy
             devdocs
+            docs
             game
             identity
             tests
