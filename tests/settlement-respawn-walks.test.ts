@@ -137,6 +137,16 @@ it("walks from the Oakwood green to every service and talks to every keeper", ()
   expect(walkServicesAndTalk("rootfall", services, keepers, [34, 124])).toEqual([]);
 }, 120_000);
 
+it("reaches the workshops and new hearth shelters from the remaining town respawns", () => {
+  const failed = [
+    ...walkServicesAndTalk("coldbrace", ["coldbrace_furnace", "coldbrace_anvil", "coldbrace_range", "coldbrace_crafting", "coldbrace_fletching"], []),
+    ...walkServicesAndTalk("highcairn", ["highcairn_furnace", "highcairn_anvil", "highcairn_range"], []),
+    ...walkServicesAndTalk("emberfast", ["emberfast_furnace", "emberfast_anvil", "emberfast_range", "emberfast_crafting", "emberfast_fletching"], []),
+    ...walkServicesAndTalk("lantern_rest", ["lantern_rest_furnace", "lantern_rest_anvil", "lantern_rest_range", "lantern_rest_crafting"], []),
+  ];
+  expect(failed).toEqual([]);
+}, 120_000);
+
 it("reaches Lastlight and Starhaven services and residents through their south gates", () => {
   const failed = [
     ...walkServicesAndTalk("lastlight_square", [

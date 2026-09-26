@@ -4,7 +4,8 @@ import { inset, variantPart, withDetails } from "./parts.js";
 import type { StructureVariantContext, StructureVariantRecipe } from "./types.js";
 
 const CANOPY_DEPTH = 2;
-const BRACE_SCALE = 0.92;
+const BRACE_SCALE = 0.48;
+const BRACE_Y = 3.123 - 2.9200263023376465 * BRACE_SCALE;
 const BANNER_SCALE = 0.75;
 const BANNER_Y = 2.38;
 const BANNER_ASSET = "banner_1" as const;
@@ -167,16 +168,16 @@ export const ARCADE_VARIANTS: readonly StructureVariantRecipe[] = [
     detailBudget: 4,
     build: (context, base) => {
       const posts = frontPosts(base);
-      const edge = halfSpan(base, context);
       const frontZ = -context.depth / 2 + CANOPY_DEPTH;
       const braces = posts.slice(1, -1)
-        .filter((_post, index) => index % 2 === 0)
+        // The middle joints carry the canopy without filling the whole colonnade with braces.
+        .filter((post) => Math.abs(post.dx) <= 2.5)
         .map((post, index) => variantPart(
           `brace_${index}`,
           "support_beam",
-          inset(post.dx, edge, 0.1),
-          -1.211 * BRACE_SCALE,
-          frontZ - 0.1,
+          post.dx,
+          BRACE_Y,
+          frontZ - 0.18,
           Math.PI,
           BRACE_SCALE,
         ));

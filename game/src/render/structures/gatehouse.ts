@@ -354,7 +354,7 @@ export const GATEHOUSE_VARIANTS: readonly StructureVariantRecipe[] = [
     build: (context, base) => compose(
       base,
       hoarding("hoarding_front_left", LEFT, FRONT, context.depth),
-      hoarding("hoarding_front_right", RIGHT, BACK, context.depth),
+      hoarding("hoarding_front_right", RIGHT, FRONT, context.depth),
     ),
   },
   {

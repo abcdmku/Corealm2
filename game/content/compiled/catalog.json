@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": "8662a74b92833d6c062222e667a6d30cd2a550f504824621c7378a08eb7f3d4c",
+  "revision": "230dac0c2c20a9fd271a93a083f235c669d60303cbdda184570c925733030c12",
   "formulaRevision": "f9951fbeceea76ef62904f110d726c2cf406dab085fea3ffe175694a832888f7",
   "tables": {
     "items": [
@@ -48399,8 +48399,8 @@
                   -87
                 ],
                 "rotationY": -1.5707963267948966,
-                "assetId": "cauldron",
-                "scale": 1.6,
+                "assetId": "corealm_station_furnace",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "coldbrace_forge_shed"
               },
@@ -48414,8 +48414,8 @@
                   -84.6
                 ],
                 "rotationY": -1.5707963267948966,
-                "assetId": "anvil",
-                "scale": 1.4,
+                "assetId": "corealm_station_anvil",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "coldbrace_forge_shed"
               },
@@ -48429,8 +48429,8 @@
                   -72.3
                 ],
                 "rotationY": 3.141592653589793,
-                "assetId": "cooking_pot",
-                "scale": 2.2,
+                "assetId": "corealm_station_range",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "coldbrace_cookhouse"
               },
@@ -48444,7 +48444,8 @@
                   -93.4
                 ],
                 "rotationY": 1.5707963267948966,
-                "assetId": "workbench",
+                "assetId": "corealm_station_crafting_table",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "coldbrace_workshed"
               },
@@ -48458,8 +48459,8 @@
                   -90.6
                 ],
                 "rotationY": 1.5707963267948966,
-                "assetId": "weapon_rack",
-                "scale": 1.3,
+                "assetId": "corealm_station_fletching_bench",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "coldbrace_workshed"
               }
@@ -49787,6 +49788,20 @@
                   6,
                   3
                 ]
+              },
+              {
+                "id": "rootfall_workshed",
+                "name": "Oakwood Artisan Arcade",
+                "prefab": "arcade",
+                "position": [
+                  59.2,
+                  109
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  10,
+                  3
+                ]
               }
             ],
             "stations": [
@@ -49800,8 +49815,8 @@
                   105.1
                 ],
                 "rotationY": 0,
-                "assetId": "cooking_pot",
-                "scale": 2.2,
+                "assetId": "corealm_station_range",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "rootfall_smokehouse"
               },
@@ -49815,8 +49830,8 @@
                   122.4
                 ],
                 "rotationY": -1.5707963267948966,
-                "assetId": "anvil",
-                "scale": 1.4,
+                "assetId": "corealm_station_anvil",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "rootfall_forge"
               },
@@ -49826,12 +49841,14 @@
                 "kind": "crafting_table",
                 "skill": "crafting",
                 "position": [
-                  54.8,
-                  108.75
+                  56,
+                  108.7
                 ],
                 "rotationY": 0,
-                "assetId": "workbench",
-                "recipeIds": []
+                "assetId": "corealm_station_crafting_table",
+                "scale": 1,
+                "recipeIds": [],
+                "attachedTo": "rootfall_workshed"
               },
               {
                 "id": "rootfall_fletching",
@@ -49839,13 +49856,14 @@
                 "kind": "fletching_bench",
                 "skill": "fletching",
                 "position": [
-                  63.6,
-                  108.85
+                  62.4,
+                  108.7
                 ],
                 "rotationY": 0,
-                "assetId": "weapon_rack",
-                "scale": 1.3,
-                "recipeIds": []
+                "assetId": "corealm_station_fletching_bench",
+                "scale": 1,
+                "recipeIds": [],
+                "attachedTo": "rootfall_workshed"
               }
             ],
             "bank": {
@@ -49878,7 +49896,7 @@
                 "shopKind": "cosmic",
                 "position": [
                   58.4,
-                  108.3
+                  113.6
                 ],
                 "rotationY": 0,
                 "assetId": "market_stall_cosmic"
@@ -50330,46 +50348,6 @@
                 "position": [
                   52.9,
                   104.2
-                ],
-                "rotationY": 0,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_bench_crate",
-                "assetId": "crate_village",
-                "position": [
-                  54.3,
-                  107.55
-                ],
-                "rotationY": 0,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_bench_barrel",
-                "assetId": "barrel",
-                "position": [
-                  55.4,
-                  107.75
-                ],
-                "rotationY": 0,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_rack_crate",
-                "assetId": "crate_village",
-                "position": [
-                  63.05,
-                  107.55
-                ],
-                "rotationY": 0.2,
-                "solid": true
-              },
-              {
-                "id": "rootfall_prop_rack_barrel",
-                "assetId": "barrel",
-                "position": [
-                  64.1,
-                  107.75
                 ],
                 "rotationY": 0,
                 "solid": true
@@ -51019,6 +50997,20 @@
                   8,
                   4
                 ]
+              },
+              {
+                "id": "highcairn_cookhouse",
+                "name": "Hillcrest Hearth Shelter",
+                "prefab": "porch",
+                "position": [
+                  143,
+                  -61.7
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  4,
+                  3
+                ]
               }
             ],
             "stations": [
@@ -51032,8 +51024,8 @@
                   -70.6
                 ],
                 "rotationY": 0,
-                "assetId": "cauldron",
-                "scale": 2,
+                "assetId": "corealm_station_furnace",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "highcairn_forge"
               },
@@ -51047,8 +51039,8 @@
                   -69.2
                 ],
                 "rotationY": 0,
-                "assetId": "anvil",
-                "scale": 1.4,
+                "assetId": "corealm_station_anvil",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "highcairn_forge"
               },
@@ -51062,9 +51054,10 @@
                   -62
                 ],
                 "rotationY": 0,
-                "assetId": "cooking_pot",
-                "scale": 2.2,
-                "recipeIds": []
+                "assetId": "corealm_station_range",
+                "scale": 1,
+                "recipeIds": [],
+                "attachedTo": "highcairn_cookhouse"
               }
             ],
             "bank": {
@@ -52476,6 +52469,20 @@
                   8,
                   4
                 ]
+              },
+              {
+                "id": "emberfast_cookhouse",
+                "name": "Ashford Cook Shelter",
+                "prefab": "porch",
+                "position": [
+                  -8,
+                  333.3
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  4,
+                  3
+                ]
               }
             ],
             "stations": [
@@ -52489,8 +52496,8 @@
                   320.4
                 ],
                 "rotationY": 0,
-                "assetId": "cauldron",
-                "scale": 2,
+                "assetId": "corealm_station_furnace",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "emberfast_forge"
               },
@@ -52504,8 +52511,8 @@
                   321.8
                 ],
                 "rotationY": 0,
-                "assetId": "anvil",
-                "scale": 1.4,
+                "assetId": "corealm_station_anvil",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "emberfast_forge"
               },
@@ -52519,9 +52526,10 @@
                   333
                 ],
                 "rotationY": 0,
-                "assetId": "cooking_pot",
-                "scale": 2.2,
-                "recipeIds": []
+                "assetId": "corealm_station_range",
+                "scale": 1,
+                "recipeIds": [],
+                "attachedTo": "emberfast_cookhouse"
               },
               {
                 "id": "emberfast_crafting",
@@ -52533,7 +52541,8 @@
                   327.2
                 ],
                 "rotationY": 0,
-                "assetId": "workbench",
+                "assetId": "corealm_station_crafting_table",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "emberfast_works"
               },
@@ -52547,8 +52556,8 @@
                   327.2
                 ],
                 "rotationY": 0,
-                "assetId": "weapon_rack",
-                "scale": 1.3,
+                "assetId": "corealm_station_fletching_bench",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "emberfast_works"
               }
@@ -55831,8 +55840,8 @@
                   542
                 ],
                 "rotationY": -1.5707963267948966,
-                "assetId": "anvil",
-                "scale": 1.4,
+                "assetId": "corealm_station_anvil",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "lastlight_forge"
               },
@@ -55846,7 +55855,7 @@
                   524
                 ],
                 "rotationY": 1.5707963267948966,
-                "assetId": "workbench",
+                "assetId": "corealm_station_crafting_table",
                 "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "lastlight_workshop"
@@ -55861,8 +55870,8 @@
                   520
                 ],
                 "rotationY": 1.5707963267948966,
-                "assetId": "weapon_rack",
-                "scale": 1.3,
+                "assetId": "corealm_station_fletching_bench",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "lastlight_workshop"
               },
@@ -55876,8 +55885,8 @@
                   522
                 ],
                 "rotationY": -1.5707963267948966,
-                "assetId": "cooking_pot",
-                "scale": 2.2,
+                "assetId": "corealm_station_range",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "lastlight_inn"
               }
@@ -57720,8 +57729,8 @@
                   832
                 ],
                 "rotationY": -1.5707963267948966,
-                "assetId": "anvil",
-                "scale": 1.4,
+                "assetId": "corealm_station_anvil",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "starhaven_forge"
               },
@@ -57735,7 +57744,7 @@
                   814
                 ],
                 "rotationY": 1.5707963267948966,
-                "assetId": "workbench",
+                "assetId": "corealm_station_crafting_table",
                 "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "starhaven_workshop"
@@ -57750,8 +57759,8 @@
                   810
                 ],
                 "rotationY": 1.5707963267948966,
-                "assetId": "weapon_rack",
-                "scale": 1.3,
+                "assetId": "corealm_station_fletching_bench",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "starhaven_workshop"
               },
@@ -57765,8 +57774,8 @@
                   812
                 ],
                 "rotationY": -1.5707963267948966,
-                "assetId": "cooking_pot",
-                "scale": 2.2,
+                "assetId": "corealm_station_range",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "starhaven_inn"
               }
@@ -59596,6 +59605,34 @@
                   6,
                   4
                 ]
+              },
+              {
+                "id": "lantern_rest_cookhouse",
+                "name": "Lantern Hearth Shelter",
+                "prefab": "porch",
+                "position": [
+                  2086,
+                  -90.7
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  4,
+                  3
+                ]
+              },
+              {
+                "id": "lantern_rest_workshed",
+                "name": "Willow Artisan Shelter",
+                "prefab": "porch",
+                "position": [
+                  2075,
+                  -100.7
+                ],
+                "rotationY": 0,
+                "footprint": [
+                  4,
+                  3
+                ]
               }
             ],
             "stations": [
@@ -59609,8 +59646,8 @@
                   -122.6
                 ],
                 "rotationY": 0,
-                "assetId": "cauldron",
-                "scale": 2,
+                "assetId": "corealm_station_furnace",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "lantern_rest_forge"
               },
@@ -59624,8 +59661,8 @@
                   -121.2
                 ],
                 "rotationY": 0,
-                "assetId": "anvil",
-                "scale": 1.4,
+                "assetId": "corealm_station_anvil",
+                "scale": 1,
                 "recipeIds": [],
                 "attachedTo": "lantern_rest_forge"
               },
@@ -59638,10 +59675,11 @@
                   2086,
                   -91
                 ],
-                "rotationY": 3.141592653589793,
-                "assetId": "cooking_pot",
-                "scale": 2.2,
-                "recipeIds": []
+                "rotationY": 0,
+                "assetId": "corealm_station_range",
+                "scale": 1,
+                "recipeIds": [],
+                "attachedTo": "lantern_rest_cookhouse"
               },
               {
                 "id": "lantern_rest_crafting",
@@ -59652,9 +59690,11 @@
                   2075,
                   -101
                 ],
-                "rotationY": 3.141592653589793,
-                "assetId": "workbench",
-                "recipeIds": []
+                "rotationY": 0,
+                "assetId": "corealm_station_crafting_table",
+                "scale": 1,
+                "recipeIds": [],
+                "attachedTo": "lantern_rest_workshed"
               }
             ],
             "bank": {
@@ -274304,8 +274344,8 @@
                     -87
                   ],
                   "rotationY": -1.5707963267948966,
-                  "assetId": "cauldron",
-                  "scale": 1.6,
+                  "assetId": "corealm_station_furnace",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "coldbrace_forge_shed"
                 },
@@ -274319,8 +274359,8 @@
                     -84.6
                   ],
                   "rotationY": -1.5707963267948966,
-                  "assetId": "anvil",
-                  "scale": 1.4,
+                  "assetId": "corealm_station_anvil",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "coldbrace_forge_shed"
                 },
@@ -274334,8 +274374,8 @@
                     -72.3
                   ],
                   "rotationY": 3.141592653589793,
-                  "assetId": "cooking_pot",
-                  "scale": 2.2,
+                  "assetId": "corealm_station_range",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "coldbrace_cookhouse"
                 },
@@ -274349,7 +274389,8 @@
                     -93.4
                   ],
                   "rotationY": 1.5707963267948966,
-                  "assetId": "workbench",
+                  "assetId": "corealm_station_crafting_table",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "coldbrace_workshed"
                 },
@@ -274363,8 +274404,8 @@
                     -90.6
                   ],
                   "rotationY": 1.5707963267948966,
-                  "assetId": "weapon_rack",
-                  "scale": 1.3,
+                  "assetId": "corealm_station_fletching_bench",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "coldbrace_workshed"
                 }
@@ -275692,6 +275733,20 @@
                     6,
                     3
                   ]
+                },
+                {
+                  "id": "rootfall_workshed",
+                  "name": "Oakwood Artisan Arcade",
+                  "prefab": "arcade",
+                  "position": [
+                    59.2,
+                    109
+                  ],
+                  "rotationY": 0,
+                  "footprint": [
+                    10,
+                    3
+                  ]
                 }
               ],
               "stations": [
@@ -275705,8 +275760,8 @@
                     105.1
                   ],
                   "rotationY": 0,
-                  "assetId": "cooking_pot",
-                  "scale": 2.2,
+                  "assetId": "corealm_station_range",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "rootfall_smokehouse"
                 },
@@ -275720,8 +275775,8 @@
                     122.4
                   ],
                   "rotationY": -1.5707963267948966,
-                  "assetId": "anvil",
-                  "scale": 1.4,
+                  "assetId": "corealm_station_anvil",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "rootfall_forge"
                 },
@@ -275731,12 +275786,14 @@
                   "kind": "crafting_table",
                   "skill": "crafting",
                   "position": [
-                    54.8,
-                    108.75
+                    56,
+                    108.7
                   ],
                   "rotationY": 0,
-                  "assetId": "workbench",
-                  "recipeIds": []
+                  "assetId": "corealm_station_crafting_table",
+                  "scale": 1,
+                  "recipeIds": [],
+                  "attachedTo": "rootfall_workshed"
                 },
                 {
                   "id": "rootfall_fletching",
@@ -275744,13 +275801,14 @@
                   "kind": "fletching_bench",
                   "skill": "fletching",
                   "position": [
-                    63.6,
-                    108.85
+                    62.4,
+                    108.7
                   ],
                   "rotationY": 0,
-                  "assetId": "weapon_rack",
-                  "scale": 1.3,
-                  "recipeIds": []
+                  "assetId": "corealm_station_fletching_bench",
+                  "scale": 1,
+                  "recipeIds": [],
+                  "attachedTo": "rootfall_workshed"
                 }
               ],
               "bank": {
@@ -275783,7 +275841,7 @@
                   "shopKind": "cosmic",
                   "position": [
                     58.4,
-                    108.3
+                    113.6
                   ],
                   "rotationY": 0,
                   "assetId": "market_stall_cosmic"
@@ -276235,46 +276293,6 @@
                   "position": [
                     52.9,
                     104.2
-                  ],
-                  "rotationY": 0,
-                  "solid": true
-                },
-                {
-                  "id": "rootfall_prop_bench_crate",
-                  "assetId": "crate_village",
-                  "position": [
-                    54.3,
-                    107.55
-                  ],
-                  "rotationY": 0,
-                  "solid": true
-                },
-                {
-                  "id": "rootfall_prop_bench_barrel",
-                  "assetId": "barrel",
-                  "position": [
-                    55.4,
-                    107.75
-                  ],
-                  "rotationY": 0,
-                  "solid": true
-                },
-                {
-                  "id": "rootfall_prop_rack_crate",
-                  "assetId": "crate_village",
-                  "position": [
-                    63.05,
-                    107.55
-                  ],
-                  "rotationY": 0.2,
-                  "solid": true
-                },
-                {
-                  "id": "rootfall_prop_rack_barrel",
-                  "assetId": "barrel",
-                  "position": [
-                    64.1,
-                    107.75
                   ],
                   "rotationY": 0,
                   "solid": true
@@ -276924,6 +276942,20 @@
                     8,
                     4
                   ]
+                },
+                {
+                  "id": "highcairn_cookhouse",
+                  "name": "Hillcrest Hearth Shelter",
+                  "prefab": "porch",
+                  "position": [
+                    143,
+                    -61.7
+                  ],
+                  "rotationY": 0,
+                  "footprint": [
+                    4,
+                    3
+                  ]
                 }
               ],
               "stations": [
@@ -276937,8 +276969,8 @@
                     -70.6
                   ],
                   "rotationY": 0,
-                  "assetId": "cauldron",
-                  "scale": 2,
+                  "assetId": "corealm_station_furnace",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "highcairn_forge"
                 },
@@ -276952,8 +276984,8 @@
                     -69.2
                   ],
                   "rotationY": 0,
-                  "assetId": "anvil",
-                  "scale": 1.4,
+                  "assetId": "corealm_station_anvil",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "highcairn_forge"
                 },
@@ -276967,9 +276999,10 @@
                     -62
                   ],
                   "rotationY": 0,
-                  "assetId": "cooking_pot",
-                  "scale": 2.2,
-                  "recipeIds": []
+                  "assetId": "corealm_station_range",
+                  "scale": 1,
+                  "recipeIds": [],
+                  "attachedTo": "highcairn_cookhouse"
                 }
               ],
               "bank": {
@@ -278381,6 +278414,20 @@
                     8,
                     4
                   ]
+                },
+                {
+                  "id": "emberfast_cookhouse",
+                  "name": "Ashford Cook Shelter",
+                  "prefab": "porch",
+                  "position": [
+                    -8,
+                    333.3
+                  ],
+                  "rotationY": 0,
+                  "footprint": [
+                    4,
+                    3
+                  ]
                 }
               ],
               "stations": [
@@ -278394,8 +278441,8 @@
                     320.4
                   ],
                   "rotationY": 0,
-                  "assetId": "cauldron",
-                  "scale": 2,
+                  "assetId": "corealm_station_furnace",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "emberfast_forge"
                 },
@@ -278409,8 +278456,8 @@
                     321.8
                   ],
                   "rotationY": 0,
-                  "assetId": "anvil",
-                  "scale": 1.4,
+                  "assetId": "corealm_station_anvil",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "emberfast_forge"
                 },
@@ -278424,9 +278471,10 @@
                     333
                   ],
                   "rotationY": 0,
-                  "assetId": "cooking_pot",
-                  "scale": 2.2,
-                  "recipeIds": []
+                  "assetId": "corealm_station_range",
+                  "scale": 1,
+                  "recipeIds": [],
+                  "attachedTo": "emberfast_cookhouse"
                 },
                 {
                   "id": "emberfast_crafting",
@@ -278438,7 +278486,8 @@
                     327.2
                   ],
                   "rotationY": 0,
-                  "assetId": "workbench",
+                  "assetId": "corealm_station_crafting_table",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "emberfast_works"
                 },
@@ -278452,8 +278501,8 @@
                     327.2
                   ],
                   "rotationY": 0,
-                  "assetId": "weapon_rack",
-                  "scale": 1.3,
+                  "assetId": "corealm_station_fletching_bench",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "emberfast_works"
                 }
@@ -281736,8 +281785,8 @@
                     542
                   ],
                   "rotationY": -1.5707963267948966,
-                  "assetId": "anvil",
-                  "scale": 1.4,
+                  "assetId": "corealm_station_anvil",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "lastlight_forge"
                 },
@@ -281751,7 +281800,7 @@
                     524
                   ],
                   "rotationY": 1.5707963267948966,
-                  "assetId": "workbench",
+                  "assetId": "corealm_station_crafting_table",
                   "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "lastlight_workshop"
@@ -281766,8 +281815,8 @@
                     520
                   ],
                   "rotationY": 1.5707963267948966,
-                  "assetId": "weapon_rack",
-                  "scale": 1.3,
+                  "assetId": "corealm_station_fletching_bench",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "lastlight_workshop"
                 },
@@ -281781,8 +281830,8 @@
                     522
                   ],
                   "rotationY": -1.5707963267948966,
-                  "assetId": "cooking_pot",
-                  "scale": 2.2,
+                  "assetId": "corealm_station_range",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "lastlight_inn"
                 }
@@ -283625,8 +283674,8 @@
                     832
                   ],
                   "rotationY": -1.5707963267948966,
-                  "assetId": "anvil",
-                  "scale": 1.4,
+                  "assetId": "corealm_station_anvil",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "starhaven_forge"
                 },
@@ -283640,7 +283689,7 @@
                     814
                   ],
                   "rotationY": 1.5707963267948966,
-                  "assetId": "workbench",
+                  "assetId": "corealm_station_crafting_table",
                   "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "starhaven_workshop"
@@ -283655,8 +283704,8 @@
                     810
                   ],
                   "rotationY": 1.5707963267948966,
-                  "assetId": "weapon_rack",
-                  "scale": 1.3,
+                  "assetId": "corealm_station_fletching_bench",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "starhaven_workshop"
                 },
@@ -283670,8 +283719,8 @@
                     812
                   ],
                   "rotationY": -1.5707963267948966,
-                  "assetId": "cooking_pot",
-                  "scale": 2.2,
+                  "assetId": "corealm_station_range",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "starhaven_inn"
                 }
@@ -285501,6 +285550,34 @@
                     6,
                     4
                   ]
+                },
+                {
+                  "id": "lantern_rest_cookhouse",
+                  "name": "Lantern Hearth Shelter",
+                  "prefab": "porch",
+                  "position": [
+                    2086,
+                    -90.7
+                  ],
+                  "rotationY": 0,
+                  "footprint": [
+                    4,
+                    3
+                  ]
+                },
+                {
+                  "id": "lantern_rest_workshed",
+                  "name": "Willow Artisan Shelter",
+                  "prefab": "porch",
+                  "position": [
+                    2075,
+                    -100.7
+                  ],
+                  "rotationY": 0,
+                  "footprint": [
+                    4,
+                    3
+                  ]
                 }
               ],
               "stations": [
@@ -285514,8 +285591,8 @@
                     -122.6
                   ],
                   "rotationY": 0,
-                  "assetId": "cauldron",
-                  "scale": 2,
+                  "assetId": "corealm_station_furnace",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "lantern_rest_forge"
                 },
@@ -285529,8 +285606,8 @@
                     -121.2
                   ],
                   "rotationY": 0,
-                  "assetId": "anvil",
-                  "scale": 1.4,
+                  "assetId": "corealm_station_anvil",
+                  "scale": 1,
                   "recipeIds": [],
                   "attachedTo": "lantern_rest_forge"
                 },
@@ -285543,10 +285620,11 @@
                     2086,
                     -91
                   ],
-                  "rotationY": 3.141592653589793,
-                  "assetId": "cooking_pot",
-                  "scale": 2.2,
-                  "recipeIds": []
+                  "rotationY": 0,
+                  "assetId": "corealm_station_range",
+                  "scale": 1,
+                  "recipeIds": [],
+                  "attachedTo": "lantern_rest_cookhouse"
                 },
                 {
                   "id": "lantern_rest_crafting",
@@ -285557,9 +285635,11 @@
                     2075,
                     -101
                   ],
-                  "rotationY": 3.141592653589793,
-                  "assetId": "workbench",
-                  "recipeIds": []
+                  "rotationY": 0,
+                  "assetId": "corealm_station_crafting_table",
+                  "scale": 1,
+                  "recipeIds": [],
+                  "attachedTo": "lantern_rest_workshed"
                 }
               ],
               "bank": {

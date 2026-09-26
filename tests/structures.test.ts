@@ -75,6 +75,35 @@ function collisionProblems(owner: string, boxes: readonly {
 }
 
 describe("isolated structure constructors", () => {
+  it("ships grounded workshop models with measured collision bounds and attached town work areas", async () => {
+    const kinds = ["furnace", "anvil", "range", "crafting_table", "fletching_bench"];
+    const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS);
+    const fullManifest = JSON.parse(readFileSync(new URL("../game/public/assets/manifest.json", import.meta.url), "utf8"));
+    for (const kind of kinds) {
+      const entry = fullManifest.assets.find((row: { id: string }) => row.id === `corealm_station_${kind}`);
+      expect(entry, kind).toBeDefined();
+      const bytes = readFileSync(new URL(`../game/public/assets/${entry.file}`, import.meta.url));
+      expect(bytes.length, kind).toBe(entry.bytes);
+      const document = await io.readBinary(new Uint8Array(bytes));
+      const bounds = getBounds(document.getRoot().listScenes()[0]!);
+      expect(bounds.min[1], `${kind} must stand on its authored base`).toBeCloseTo(0, 5);
+      for (const [axis, key] of ["x", "y", "z"].entries()) {
+        expect(bounds.min[axis], `${kind} ${key} base`).toBeCloseTo(entry.base[key!], 5);
+        expect(bounds.max[axis]! - bounds.min[axis]!, `${kind} ${key} extent`).toBeCloseTo(entry.size[key!], 5);
+      }
+      expect(Math.max(entry.size.x, entry.size.z), `${kind} must fit a workshop bay`).toBeLessThan(2);
+      expect(document.getRoot().listMeshes().length, `${kind} batch budget`).toBeLessThanOrEqual(12);
+    }
+    const towns = REGIONS.flatMap(region => region.settlements);
+    const stations = towns.flatMap(town => town.stations.filter(station => kinds.includes(station.kind)));
+    expect(stations.length).toBeGreaterThanOrEqual(29);
+    for (const town of towns) for (const station of town.stations.filter(station => kinds.includes(station.kind))) {
+      expect(station.assetId, station.id).toBe(`corealm_station_${station.kind}`);
+      expect(station.scale, `${station.id} must not retain placeholder prop scaling`).toBe(1);
+      expect(town.buildings.some(building => building.id === station.attachedTo), `${station.id} needs an authored work area`).toBe(true);
+    }
+  });
+
   it("previews one complete gate model with the production two-pier opening", () => {
     const model: BuildingModel = {
       assetId: "market_stall_potion", scale: 1.15,
