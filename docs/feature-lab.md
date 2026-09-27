@@ -1,6 +1,8 @@
 # Development and acceptance loop
 
 Use the smallest existing check that can reject the change. This file owns testing policy.
+Isolated assets are tested in the devdocs Art workspace; the feature lab tests gameplay,
+integration and interactions between assets. See [asset testing](#asset-testing-in-devdocs).
 [Lab reference](./lab-reference.md) describes existing fixtures and specialized diagnostics;
 search it for the feature you need instead of reading it as a checklist.
 
@@ -9,6 +11,8 @@ search it for the feature you need instead of reading it as a checklist.
 | Task | Command |
 | --- | --- |
 | Keep the production game and lab available | `npm run dev` |
+| Review and test one asset (creature, variant, outfit, worn tier) | `npm run devdocs`, then `#/art/creatures`, `#/art/outfits` |
+| Screenshot an asset in one state | `npx tsx tools/devdocs-shot.ts art/creatures/<assetId> --click "[data-state=death]"` |
 | Keep one browser alive while editing | `npm run lab:session -- --url http://127.0.0.1:4173 --compact` |
 | Run a focused regression | `npm test -- tests/<name>.test.ts` |
 | Watch that regression while editing | `npm run test:watch -- tests/<name>.test.ts` |
@@ -156,6 +160,34 @@ See [session operations](./lab-reference.md#persistent-browser-session) for capt
 spawning and motion sampling. Acceptance screenshots must use normal gameplay camera
 controls, player focus and interactive zoom limits. Detached inspection views are diagnostic.
 
+## Asset testing in devdocs
+
+A creature body, a creature variant, an outfit, a worn tier or one worn piece is tested in the
+devdocs Art workspace, not in a lab fixture. Its stage draws through production code: creatures
+through the game's `EntityViews` (rank, level, scale, tint, dye and every motion state), outfits
+through `CharacterRig` on either body in every pose, with the pose's gathering tool. The spec is
+[devdocs art review](./devdocs-art-review.md).
+
+1. Open `#/art/creatures/<assetId or creatureId>` or `#/art/outfits/<setId>` on the one devdocs
+   server (`npm run devdocs`, port 4190). Keys: 1–9 state or pose, `[` `]` variant or tier,
+   J/K next record, M/F body, A/P/R verdict.
+2. Play every state the change touches. A missing clip shows struck through; a state the game
+   synthesises is marked `*`. Check both bodies for worn gear.
+3. Capture evidence with `tools/devdocs-shot.ts` (`--click "[data-state=<name>]"` selects a state,
+   `--width 1440 --height 900`) and inspect the screenshot. For semantic checks read the viewer's
+   `data-viewer-*` attributes and its `<script data-viewer-state>` JSON (states, current state,
+   tint, scale, size, parts, attachments), or dispatch `viewer:set-state` on it.
+4. Record the verdict (approved, needs polish, replace) and a note on the record or the aspect.
+   Verdicts live in `game/content/meta` and feed `#/art/queue`; they never change shipped content.
+5. Then use the feature lab only for what devdocs cannot show: movement through the world,
+   combat, aggro, collisions, spawning, lighting in a region, and interactions between assets.
+
+Do not add a lab fixture, gallery or script to review an isolated asset. If the Art workspace
+cannot show something an asset needs (a new state, attachment or material response), extend the
+devdocs viewer (`devdocs/src/viewer/`) through production code instead.
+Headless Chromium has no WebGPU, so devdocs screenshots run on the WebGL2 fallback; confirm
+material-sensitive work on a hardware browser.
+
 ## Keep the harness small
 
 - Reuse an existing fixture, production catalog selector, session operation or test parameter.
@@ -175,13 +207,15 @@ controls, player focus and interactive zoom limits. Detached inspection views ar
 
 ## Acceptance scope
 
-Lab-first remains required for isolatable gameplay and presentation. Use the same production
-renderer, assets, controls and systems. Extend an existing fixture only if it cannot expose
+Isolated assets are accepted in devdocs (above). Lab-first remains required for isolatable
+gameplay, controls, effects and interactions. Use the same production renderer, assets,
+controls and systems. Extend an existing fixture only if it cannot expose
 what needs testing. A lab-only implementation cannot establish production behavior.
 
 Terrain, biome, coast, water placement, world-scale scatter and long-distance navigation
 use [world authoring](./world-authoring.md), with a brief reason why isolation would lose the
-behavior. Their reusable assets and local interactions still need focused lab evidence.
+behavior. Their reusable assets still need devdocs evidence and their local interactions
+focused lab evidence.
 Tooling-only changes use tool tests; they do not require a new game fixture.
 
 Choose a relevant browser gate, not every script mentioning the feature:
