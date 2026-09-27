@@ -131,3 +131,13 @@ default, `DEVDOCS_IMAGEGEN_COMMAND` to override) as a background job and saves t
 
 Proven end to end on the stag: a real generated skin (167 s, UV layout intact), a level-22 variant
 wearing it, and a crowd of six rolled from a range.
+
+### Round 3: skin files and hand uploads (September 27, 2026)
+
+Any skin tile, including the model's own maps, opens its raw maps in a drawer: path, pixel size,
+file size, hash, provenance, Fit/100%/200% zoom, compare with the model map, a UV layout overlay
+(`viewer/albedo.ts` `uvLayout`) and downloads of the map and the UV layout. "Upload skin" takes a
+PNG, JPEG or WebP per material (warns on a size mismatch, fills empty materials from the model's
+map) and saves an `upload` skin; "Replace this map…" saves one material into an existing skin with
+`merge`, and a generated or recolored skin records it in `uploaded`. Wear applies to the definition
+selected in the Variants strip, base or variant.
