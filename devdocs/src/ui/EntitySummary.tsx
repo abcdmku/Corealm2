@@ -1,5 +1,5 @@
 import { lootRollPreview } from '../model/loot.js';
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState, type ReactNode } from "react";
 import { lazyComponent } from "../workspaces/lazyView.js";
 import { ArrowRight, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
 import type { AppProps, ContentRow } from "../model/contracts.js";
@@ -10,7 +10,10 @@ import { viewerSource } from "../model/viewerSource.js";
 import { RefChip, RefRow } from "./RefChip.js";
 import { Thumb } from "./Thumb.js";
 import { labelFor } from "./library.js";
-import { Button, Badge } from "../components/ui/index.js";
+import { Button, Badge, Kbd, Segmented } from "../components/ui/index.js";
+import { ART_VERDICT_LABEL, useArtDigest, type ArtReviewCollection } from "../model/artReview.js";
+import { VerdictDot } from "./FocusLayout.js";
+import { useAssetThumbnail } from "./assetThumbnails.js";
 import { chipVariants } from "../components/ui/chip.js";
 import { EMPTY } from "./layout.js";
 import { cn } from "../lib/utils.js";
@@ -274,4 +277,97 @@ function IncomingBlock({ incoming, ctx, open, skipCollections }: { incoming: Inc
       <div className="flex flex-wrap gap-1">{references.slice(0, 40).map(reference => <RefChip key={`${reference.recordId}:${reference.path}`} collection={reference.collection} id={reference.recordId} record={reference.record} ctx={ctx} onOpen={open} detail={reference.role} />)}{references.length > 40 && <span className={EMPTY}>{references.length - 40} more</span>}</div>
     </div>)}
   </div>;
+}
+
+/* ---------- Record page parts shared by the creature, item, set and model pages ---------- */
+
+export interface RecordTab { key: string; label: string; /** A count beside the label; zero reads as empty. */ count?: number }
+
+const rememberedTabs = new Map<string, string>();
+const TAB_STORE = "corealm-codex-tab:";
+
+/**
+ * The secondary section a record page shows, remembered per page kind rather than per record, so
+ * walking records with J/K or Alt+Up/Down keeps the author in the tab they were working in. A
+ * remembered tab this record does not have falls back to the first one without being forgotten.
+ */
+export function useRecordTab(scope: string, tabs: readonly RecordTab[]): [string, (key: string) => void] {
+  const [chosen, setChosen] = useState<string | undefined>(() => {
+    if (rememberedTabs.has(scope)) return rememberedTabs.get(scope);
+    try { return localStorage.getItem(TAB_STORE + scope) ?? undefined; } catch { return undefined; }
+  });
+  const choose = (key: string) => {
+    rememberedTabs.set(scope, key);
+    try { localStorage.setItem(TAB_STORE + scope, key); } catch { /* optional */ }
+    setChosen(key);
+  };
+  const active = chosen !== undefined && tabs.some(tab => tab.key === chosen) ? chosen : tabs[0]?.key ?? "";
+  return [active, choose];
+}
+
+const isTextTarget = (target: EventTarget | null): boolean => target instanceof HTMLElement && (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName) || target.isContentEditable);
+
+/**
+ * A record's secondary sections as one segmented bar; the page draws only the chosen one under it.
+ * [ and ] step through the tabs while focus is not in a text control.
+ */
+export function RecordTabs({ tabs, value, onChange, label = "Sections" }: { tabs: readonly RecordTab[]; value: string; onChange: (key: string) => void; label?: string }) {
+  useEffect(() => {
+    const keys = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || isTextTarget(event.target)) return;
+      if (event.key !== "[" && event.key !== "]") return;
+      const at = tabs.findIndex(tab => tab.key === value);
+      const next = tabs[(at + (event.key === "]" ? 1 : -1) + tabs.length) % tabs.length];
+      if (next) { event.preventDefault(); onChange(next.key); }
+    };
+    document.addEventListener("keydown", keys);
+    return () => document.removeEventListener("keydown", keys);
+  }, [tabs, value, onChange]);
+  return <span className="record-tabs inline-flex min-w-0 items-center gap-1.5">
+    <Segmented aria-label={label}>
+      {tabs.map(tab => <Button key={tab.key} variant="segment" size="sm" aria-pressed={tab.key === value} data-tab={tab.key} className="gap-1 px-2.5 text-xs"
+        onClick={() => onChange(tab.key)}>
+        {tab.label}{tab.count !== undefined && <small className={cn("font-mono text-[11px] font-normal", tab.count ? "text-muted-foreground" : "text-faint")}>{tab.count}</small>}
+      </Button>)}
+    </Segmented>
+    {tabs.length > 1 && <span className="inline-flex items-center gap-0.5" title="Previous or next section"><Kbd>[</Kbd><Kbd>]</Kbd></span>}
+  </span>;
+}
+
+/**
+ * The way from a record page into the art review, with the verdict the target already has.
+ * `collection` is where that verdict lives: a body on `assets`, an outfit on `equipmentSets`.
+ */
+export function ReviewArtLink({ route, id, openId = id, collection, navigate, detail }: { route: "art/creatures" | "art/outfits"; /** The reviewed record: its verdict is shown. */ id: string; /** The route id to open, when it differs (a creature id opens its body with that variant picked). */ openId?: string; collection: ArtReviewCollection; navigate: AppProps["navigate"]; detail?: ReactNode }) {
+  const digest = useArtDigest(collection);
+  const verdict = digest.data.get(id)?.verdict;
+  return <div className="review-art flex min-w-0 items-center gap-2 text-xs">
+    <Button variant="secondary" size="sm" title={`Open ${id} in the art review`} onClick={() => navigate(route, openId)}>Review art <ArrowRight size={12} /></Button>
+    <span className="inline-flex min-w-0 items-center gap-1.5 truncate text-muted-foreground">
+      {verdict ? <><VerdictDot verdict={verdict} />{ART_VERDICT_LABEL[verdict]}</> : <span className="text-faint">Not reviewed</span>}
+      {detail && <span className="truncate text-faint">· {detail}</span>}
+    </span>
+  </div>;
+}
+
+/**
+ * A model's picture where no item icon stands for it: the rendered thumbnail when there is one,
+ * otherwise a plain tile that names what the model is in words. Never a stand-in glyph.
+ */
+export function ModelPreview({ assetId, text, className }: { assetId: string; text: string; className?: string }) {
+  const url = useAssetThumbnail(assetId);
+  return <span className={cn("model-preview relative grid shrink-0 place-items-center overflow-hidden rounded-md border border-border-subtle bg-art [&_img]:block [&_img]:size-full [&_img]:object-contain", className)} data-rendered={url ? "true" : undefined}>
+    {url ? <img src={url} alt="" loading="lazy" decoding="async" /> : <span className="px-1 text-center text-[11px] leading-tight text-faint">{text}</span>}
+  </span>;
+}
+
+/** One secondary section of a record page: its tab, and the section drawn with the tab bar as its title. */
+export interface TabbedSection { tab: RecordTab; render: (title: ReactNode) => ReactNode }
+
+/** The tab bar and the chosen section, remembered per `scope` (see `useRecordTab`). */
+export function TabbedSections({ scope, sections, label }: { scope: string; sections: readonly TabbedSection[]; label?: string }) {
+  const tabs = sections.map(section => section.tab);
+  const [tab, setTab] = useRecordTab(scope, tabs);
+  const bar = <RecordTabs tabs={tabs} value={tab} onChange={setTab} label={label} />;
+  return <>{sections.find(section => section.tab.key === tab)?.render(bar)}</>;
 }

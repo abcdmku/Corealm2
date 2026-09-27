@@ -156,6 +156,7 @@ function applyOperation(records: MetaFile, collection: string, entityId: string,
     if (operation.note !== undefined) { if (operation.note.trim()) target.note = operation.note; else delete target.note; }
     if (operation.key !== undefined && !target.verdict && !target.note) delete art.checks![operation.key];
     art.at = at; art.by = actor;
+    if (!art.verdict && !art.note && !Object.keys(art.checks ?? {}).length) delete record.art;
     record.history.push({ at, by: actor, action: "art.review", detail: `${operation.key ?? "record"}${operation.verdict ? ` ${operation.verdict}` : ""}` });
   } else {
     if (collection !== "equipmentSets") throw new ActionError(400, "Piece notes are available only for equipment sets");

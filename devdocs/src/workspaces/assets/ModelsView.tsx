@@ -1,24 +1,24 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { lazyComponent } from "../lazyView.js";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Box, ExternalLink, LayoutGrid, List, Maximize2, Minimize2, SlidersHorizontal } from "lucide-react";
+import { ExternalLink, LayoutGrid, List } from "lucide-react";
 import assetReviewStatus from "../../../../docs/asset-review.md?raw";
 import { collectionQuery } from "../../api/client.js";
 import type { ContentRow } from "../../model/contracts.js";
 import { contentRows } from "../../model/rows.js";
-import { summarize, titleCase } from "../../model/summaries.js";
+import { titleCase } from "../../model/summaries.js";
 import { viewerSource } from "../../model/viewerSource.js";
+import { creatureBodies } from "../../model/creatureArt.js";
+import { ModelPreview, ModelStage, ReviewArtLink, TabbedSections } from "../../ui/EntitySummary.js";
 import { Facts, Field, RefField, ReferencedBy, Section, Sheet, Static } from "../../ui/field/index.js";
 import { EmptyState, ErrorState, LoadingRows } from "../../ui/States.js";
 import { Thumb } from "../../ui/Thumb.js";
 import type { ViewProps } from "../types.js";
 import { asRecord, num, RecordShell, strings, text } from "../story/shared.js";
+import { useCreatureData } from "../creatures/shared.js";
 import { Badge, Button, NativeSelect, Segmented, SearchInput } from "../../components/ui/index.js";
 import { cn } from "../../lib/utils.js";
-import { COUNT, EMPTY, PAGE as PAGE_FRAME, TOOLBAR } from "../../ui/layout.js";
+import { COUNT, EMPTY, PAGE as PAGE_FRAME, RAIL_BLOCK, TOOLBAR } from "../../ui/layout.js";
 import { TileGrid, tileArtClasses, tileClasses, tileSubtitleClasses, tileTitleClasses } from "../../ui/RecordTile.js";
-
-const AssetViewer = lazyComponent(() => import("../../viewer/AssetViewer.js").then(module => ({ default: module.AssetViewer })), null);
 
 interface Asset extends ContentRow { id: string; file?: string; pack?: string; category?: string; is?: string; tags?: string[]; bytes?: number; size?: { x: number; y: number; z: number }; animations?: string[]; materials?: string[]; procedural?: boolean; itemId?: string }
 
@@ -125,7 +125,7 @@ function TripoProgress() {
     </summary>
     <div className="grid grid-cols-1 gap-3 pt-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {groups.map(group => {
-        const rows = <ul className="space-y-1.5">
+        const rows = <ul className="space-y-1.5 [overflow-wrap:anywhere]">
           {group.rows.map(row => <li key={`${row.status}:${row.assets}`} className="min-w-0 text-xs">
             <div className="flex flex-wrap items-center gap-1.5">
               <Badge variant={group.tone} className="h-4 px-1 text-[10px]">{row.status}</Badge>
@@ -187,9 +187,8 @@ function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
   const list = view === "list";
   const open = (id: string) => navigate("assets", id);
   const tiles = shown.map(row => {
-    const summary = summarize("assets", row);
     return <div role="button" tabIndex={0} className={tileClasses({ row: list })} key={row.id} data-id={row.id} onClick={() => open(row.id)} onKeyDown={event => { if (event.key === "Enter") open(row.id); }}>
-      <span className={tileArtClasses(list)}><Thumb spec={summary.thumb} size={list ? "m" : "xl"} alt="" /></span>
+      <span className={tileArtClasses(list)}><AssetArt asset={row} list={list} /></span>
       <span className={cn("flex min-w-0", list ? "flex-1 flex-row items-center gap-2" : "flex-col gap-0.5")}>
         <span className={cn(tileTitleClasses(list), list && "min-w-50")} title={row.id}>{titleCase(row.id)}</span>
         <Facts className={cn(tileSubtitleClasses(list), "flex-nowrap", list && "flex-none")} items={[titleCase(categoryOf(row)), text(row.pack)]} />
@@ -222,6 +221,16 @@ function ModelGallery({ navigate }: { navigate: ViewProps["navigate"] }) {
   </div>;
 }
 
+/**
+ * A gallery tile's picture: an item's generated icon, else the model's rendered thumbnail (the same
+ * renders the bestiary shows), else a plain tile that says so in words.
+ */
+function AssetArt({ asset, list }: { asset: Asset; list: boolean }) {
+  if (asset.itemId) return <Thumb spec={{ kind: "item", id: String(asset.itemId) }} size={list ? "m" : "xl"} alt="" />;
+  const words = list ? "" : categoryOf(asset) === "animation" ? "Clips only" : "No render yet";
+  return <ModelPreview assetId={asset.id} text={words} className="size-full rounded-none border-0 bg-transparent" />;
+}
+
 function categoryOf(row: Asset): string { return text(row.category) ?? (row.procedural ? "weapon" : "prop"); }
 
 function count(values: readonly string[]): [string, number][] {
@@ -232,38 +241,16 @@ function count(values: readonly string[]): [string, number][] {
 
 /* ---------- Record ---------- */
 
-/*
-  The viewer brings its own heading, playback and outfit controls, and sizes its viewport inline.
-  The stage fills its frame with the viewport and hides the controls until the sliders button asks
-  for them; then the viewport takes a fixed height and the controls stack under it.
-*/
-const STAGE = cn(
-  "relative mb-4 overflow-hidden rounded-md border border-border bg-art",
-  "[&_.asset-viewer]:m-0 [&_.asset-viewer]:flex [&_.asset-viewer]:h-full [&_.asset-viewer]:flex-col [&_.asset-viewer]:border-0 [&_.asset-viewer]:bg-transparent [&_.asset-viewer]:p-0",
-  "[&_.viewer-viewport]:rounded-none! [&_.viewer-viewport]:bg-art!",
-);
-/** Controls hidden: the viewport's wrapper and the viewport grow to fill the stage's aspect box. */
-const STAGE_FILL = cn(
-  "[&_.viewer-heading]:hidden! [&_.viewer-outfit-controls]:hidden! [&_.viewer-playback]:hidden! [&_.viewer-readout]:hidden! [&_.asset-viewer>details]:hidden! [&_.asset-viewer>:not(:has(.viewer-viewport))]:hidden!",
-  "[&_.asset-viewer>:has(.viewer-viewport)]:flex [&_.asset-viewer>:has(.viewer-viewport)]:min-h-0 [&_.asset-viewer>:has(.viewer-viewport)]:flex-1 [&_.asset-viewer>:has(.viewer-viewport)]:flex-col",
-  "[&_.viewer-viewport]:h-auto! [&_.viewer-viewport]:min-h-0 [&_.viewer-viewport]:flex-1",
-);
-const STAGE_CONTROLS = cn(
-  "[&_.viewer-viewport]:h-60! [&_.asset-viewer]:pb-1.5 text-xs",
-  // Every row but the viewport's own wrapper: the viewer's inline margins give way to one inset.
-  "[&_.asset-viewer>:not(:has(.viewer-viewport))]:m-0! [&_.asset-viewer>:not(:has(.viewer-viewport))]:px-2 [&_.asset-viewer>:not(:has(.viewer-viewport))]:py-1",
-  // The heading row runs under the stage's two buttons.
-  "[&_.viewer-heading]:min-h-9 [&_.viewer-heading]:pr-18! [&_.viewer-heading_h3]:text-[13px] [&_.viewer-heading_h3]:font-semibold",
-);
 const NAMES = "grid list-none grid-cols-[repeat(auto-fill,minmax(12.5rem,1fr))] gap-x-4 gap-y-0.5 font-mono text-xs";
 const NAME = "min-h-[22px] min-w-0 truncate leading-[22px] text-muted-foreground";
 
 /** Assets are read-only here: the page reads the collection, it does not open a draft. */
 function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
   const query = useQuery(collectionQuery("assets"));
+  const creatures = useCreatureData();
   const asset = useMemo(() => (query.data ? contentRows(query.data) : []).find(row => String(row.id) === id) as Asset | undefined, [query.data, id]);
-  const [large, setLarge] = useState(false);
-  const [controls, setControls] = useState(false);
+  // Creatures that wear this model: a character body is reviewed in the art workspace.
+  const wearers = useMemo(() => creatureBodies(creatures.creatures).find(body => body.assetId === id)?.looks ?? [], [creatures.creatures, id]);
   if (query.isPending) return <div className={PAGE_FRAME}><LoadingRows /></div>;
   if (query.isError) return <ErrorState message={query.error.message} retry={() => void query.refetch()} />;
   if (!asset) return <EmptyState title="Model not found">This id is not in the asset catalog. <Button variant="link" size="inline" onClick={() => navigate("assets")}>Back to the gallery</Button></EmptyState>;
@@ -273,17 +260,21 @@ function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
   const animations = strings(asset.animations);
   const materials = strings(asset.materials);
   const tags = strings(asset.tags);
-  return <RecordShell
-    thumb={asset.itemId ? { kind: "item", id: asset.itemId } : { kind: "asset", assetId: id, icon: Box }}
-    title={titleCase(id)} id={id}
-    facts={[titleCase(categoryOf(asset)), text(asset.pack), animations.length > 0 && `${animations.length} animation${animations.length === 1 ? "" : "s"}`]}>
-    {source && <div className={cn(STAGE, controls ? STAGE_CONTROLS : cn(STAGE_FILL, large ? "aspect-[4/3]" : "aspect-video"))}>
-      <div className="absolute top-1.5 right-1.5 z-10 flex gap-0.5">
-        <Button variant="ghost" size="icon-sm" aria-pressed={controls} aria-label={controls ? "Hide viewer controls" : "Show viewer controls"} title="Animation, pose and material controls" onClick={() => setControls(value => !value)}><SlidersHorizontal size={13} /></Button>
-        <Button variant="ghost" size="icon-sm" aria-label={large ? "Smaller preview" : "Larger preview"} onClick={() => setLarge(value => !value)}>{large ? <Minimize2 size={13} /> : <Maximize2 size={13} />}</Button>
+  const rail = source || wearers.length ? <>
+    {source && <ModelStage source={source} label={titleCase(id)} />}
+    {wearers.length > 0 && <ReviewArtLink route="art/creatures" id={id} collection="assets" navigate={navigate} detail={`worn by ${wearers.length} ${wearers.length === 1 ? "creature" : "creatures"}`} />}
+    {wearers.length > 0 && <section className={RAIL_BLOCK}>
+      <h3>Worn by</h3>
+      <div className="flex flex-wrap gap-1">
+        {wearers.slice(0, 24).map(look => <Button key={look.creatureId} variant="chip" size="xs" title={look.creatureId} onClick={() => navigate("creatures/bestiary", look.creatureId)}>{look.name}<small className="font-mono text-faint">{wearers.filter(other => other.name === look.name).length > 1 ? look.creatureId : look.level}</small></Button>)}
+        {wearers.length > 24 && <span className={EMPTY}>{wearers.length - 24} more</span>}
       </div>
-      <Suspense fallback={<p className={cn(EMPTY, "p-3")}>Loading model…</p>}><AssetViewer source={source} label={titleCase(id)} /></Suspense>
-    </div>}
+    </section>}
+  </> : undefined;
+  return <RecordShell
+    thumb={asset.itemId ? { kind: "item", id: asset.itemId } : undefined}
+    title={titleCase(id)} id={id} rail={rail}
+    facts={[titleCase(categoryOf(asset)), text(asset.pack), animations.length > 0 && `${animations.length} animation${animations.length === 1 ? "" : "s"}`]}>
     <Sheet>
       <Section title="File">
         <Field label="File"><Static mono>{text(asset.file) ?? "—"}</Static></Field>
@@ -291,13 +282,14 @@ function ModelPage({ id, navigate }: { id: string; navigate: ViewProps["navigate
         <Field label="Category"><Static>{titleCase(categoryOf(asset))}{text(asset.is) && text(asset.is) !== asset.category && <span className="text-faint"> · {String(asset.is)}</span>}</Static></Field>
         <Field label="Bytes"><Static mono>{num(asset.bytes) !== undefined ? `${Math.round(num(asset.bytes)! / 1024).toLocaleString()} KB` : "—"}</Static></Field>
         <Field label="Size" unit="m"><Static mono>{num(size.x) !== undefined ? `${fmtM(size.x)} × ${fmtM(size.y)} × ${fmtM(size.z)} m` : "—"}</Static></Field>
-        <Field label="Animations"><Static mono>{animations.length}</Static></Field>
         {asset.itemId && <RefField kind="item" label="Item" value={String(asset.itemId)} onChange={() => undefined} readOnly />}
       </Section>
-      <Section title="Tags"><Static>{tags.length ? tags.join(", ") : <span className="text-faint">No tags</span>}</Static></Section>
-      <Section title="Animations">{animations.length ? <ul className={NAMES}>{animations.map(name => <li key={name} className={NAME} title={name}>{name}</li>)}</ul> : <span className={EMPTY}>No animation clips.</span>}</Section>
-      <Section title="Materials">{materials.length ? <ul className={NAMES}>{materials.map(name => <li key={name} className={NAME} title={name}>{name}</li>)}</ul> : <span className={EMPTY}>No named materials.</span>}</Section>
-      <ReferencedBy collection="assets" id={id} navigate={navigate} title="Used by" />
+      <TabbedSections scope="model" label="Model sections" sections={[
+        { tab: { key: "animations", label: "Animations", count: animations.length }, render: bar => <Section title={bar}>{animations.length ? <ul className={NAMES}>{animations.map(name => <li key={name} className={NAME} title={name}>{name}</li>)}</ul> : <span className={EMPTY}>No animation clips.</span>}</Section> },
+        { tab: { key: "materials", label: "Materials", count: materials.length }, render: bar => <Section title={bar}>{materials.length ? <ul className={NAMES}>{materials.map(name => <li key={name} className={NAME} title={name}>{name}</li>)}</ul> : <span className={EMPTY}>No named materials.</span>}</Section> },
+        { tab: { key: "tags", label: "Tags", count: tags.length }, render: bar => <Section title={bar}><Static>{tags.length ? tags.join(", ") : <span className="text-faint">No tags</span>}</Static></Section> },
+        { tab: { key: "references", label: "Used by" }, render: bar => <Section title={bar}><ReferencedBy collection="assets" id={id} navigate={navigate} title="Used by" /></Section> },
+      ]} />
     </Sheet>
   </RecordShell>;
 }

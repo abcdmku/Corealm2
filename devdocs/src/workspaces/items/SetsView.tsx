@@ -7,8 +7,8 @@ import { BONUS_KEYS, type BonusKey } from "../../model/derive.js";
 import { useRecordDraft } from "../../model/draft.js";
 import type { Link, RecordRef, Resolved } from "../../model/origin.js";
 import { useReferenceIndex } from "../../model/refs.js";
-import { EntitySummary } from "../../ui/EntitySummary.js";
-import { ChoiceField, DerivedNumber, Facts, Field, NumberField, RefField, ReferencedBy, Row, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
+import { EntitySummary, ReviewArtLink, TabbedSections } from "../../ui/EntitySummary.js";
+import { ChoiceField, DerivedNumber, Facts, Field, FieldRows, NumberField, RefField, ReferencedBy, Row, Section, Sheet, TextField, usePeek } from "../../ui/field/index.js";
 import { StatMatrix } from "../../ui/StatMatrix.js";
 import { Plus, X } from "lucide-react";
 import { LoadingRows, ErrorState } from "../../ui/States.js";
@@ -101,7 +101,7 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
     <div className="min-w-0">
       <header className={RECORD_HEAD}>
         <Thumb spec={{ kind: "items", ids }} size="l" alt="" />
-        <div className={RECORD_TITLE}><h1>{set.name}</h1><Facts items={[`Tier ${set.tier ?? 0}`, set.style, set.acquisition, `${ids.length} of 5 pieces`]} /><code>{id}</code></div>
+        <div className={RECORD_TITLE}><h1>{set.name}</h1><Facts items={[`Tier ${set.tier ?? 0}`, set.style, set.acquisition, `${ids.length} of 5 pieces`, <code key="id">{id}</code>]} /></div>
       </header>
       <Sheet>
         <Section title="Set">
@@ -111,9 +111,12 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
           <Field label={tier.label}><NumberField value={set.tier} integer min={tier.min} step={tier.step} readOnly={readOnly} onChange={next => draft.setPath(["tier"], next ?? 0)} /></Field>
         </Section>
         <Section title={setSpec("members").label} aside={<span>{setSpec("members").hint}</span>}>
-          {SET_SLOTS.map(slot => <RefField key={slot} kind="item" collection="compiled-items" label={setSpec("members", slot).label} optional value={set.members?.[slot]} exclude={data.notInSlot(slot)} readOnly={readOnly} onChange={next => draft.setPath(["members", slot], next)} />)}
+          <FieldRows columns={3}>
+            {SET_SLOTS.map(slot => <RefField key={slot} kind="item" collection="compiled-items" label={setSpec("members", slot).label} optional value={set.members?.[slot]} exclude={data.notInSlot(slot)} readOnly={readOnly} onChange={next => draft.setPath(["members", slot], next)} />)}
+          </FieldRows>
         </Section>
-        <Section title={THRESHOLDS.label} aside={targets
+        <TabbedSections scope="equipmentSet" label="Set sections" sections={[
+          { tab: { key: "thresholds", label: THRESHOLDS.label, count: thresholds.length }, render: bar => <Section title={bar} aside={targets
           ? (!readOnly && <Button variant="link" size="inline" onClick={() => draft.setPath(["thresholds"], targets.map(target => ({ pieces: target.pieces, bonuses: { ...emptyBonuses(), ...target.bonuses } })))}>Use target</Button>)
           : <span>No balance target for tier {set.tier}</span>}>
           {thresholds.length
@@ -129,17 +132,21 @@ function SetPage({ id, data, navigate }: { id: string; data: ItemsData; navigate
                 ...BONUS_KEYS.map(key => ({ key, label: BONUS[key].label, hint: BONUS[key].hint, cells: thresholds.map((row, at) => {
                   const goal = targetFor(row.pieces)?.bonuses[key];
                   const target = targets ? goal ?? 0 : undefined;
-                  return <DerivedNumber key={at} labelHidden label={`${BONUS[key].label}, ${row.pieces} pieces`} integer={false} readOnly={readOnly} resolved={resolveBonus(at, key, row.bonuses[key] ?? 0, target)} onOpenRef={openRef}
+                  return <DerivedNumber key={at} compact labelHidden label={`${BONUS[key].label}, ${row.pieces} pieces`} integer={false} readOnly={readOnly} resolved={resolveBonus(at, key, row.bonuses[key] ?? 0, target)} onOpenRef={openRef}
                     onChange={next => draft.setPath(["thresholds", at, "bonuses", key], next ?? target ?? 0)} />;
                 }) })),
               ]} />
             : <p className={EMPTY}>No thresholds</p>}
           {!readOnly && thresholds.length < 4 && <Row label=""><Button variant="ghost" size="sm" className="-ml-1.5" onClick={() => draft.setPath(["thresholds"], [...thresholds, { pieces: Math.min(5, (thresholds.at(-1)?.pieces ?? 1) + 1), bonuses: emptyBonuses() }])}><Plus />Add threshold</Button></Row>}
           <p className={cn(HINT, "mt-1.5")}>{THRESHOLDS.hint}</p>
-        </Section>
-        <ReferencedBy collection="equipmentSets" id={id} navigate={navigate} />
+        </Section> },
+          { tab: { key: "references", label: "Referenced by" }, render: bar => <Section title={bar}><ReferencedBy collection="equipmentSets" id={id} navigate={navigate} /></Section> },
+        ]} />
       </Sheet>
     </div>
-    <aside className={RECORD_RAIL}><EntitySummary collection="equipmentSets" record={set} recordId={id} index={index} navigate={navigate} editing bare /></aside>
+    <aside className={RECORD_RAIL}>
+      <EntitySummary collection="equipmentSets" record={set} recordId={id} index={index} navigate={navigate} editing bare />
+      <ReviewArtLink route="art/outfits" id={id} collection="equipmentSets" navigate={navigate} />
+    </aside>
   </div></div>;
 }

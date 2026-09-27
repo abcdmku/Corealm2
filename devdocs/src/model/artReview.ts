@@ -78,6 +78,8 @@ export function useArtReview(collection: ArtReviewCollection, id: string | undef
   const art = query.data?.data.art;
   return {
     art,
+    /** The whole metadata record (status, notes, per-body approvals), for read-only context. */
+    record: query.data?.data,
     /** The verdict on the record, or on one aspect when `key` is given. */
     verdict: (key?: string): ArtVerdict | undefined => key ? art?.checks?.[key]?.verdict : art?.verdict,
     note: (key?: string): string | undefined => key ? art?.checks?.[key]?.note : art?.note,

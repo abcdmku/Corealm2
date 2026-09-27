@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowRight, GitBranch, MapPin } from "lucide-react";
 import { toast } from "sonner";
@@ -11,7 +11,8 @@ import { getPath, runTransaction, useRecordDraft, type Path, type RecordDraft } 
 import { fieldIssues } from "../../model/fields.js";
 import { fmtValue, type RecordRef, type Resolved } from "../../model/origin.js";
 import { rowName } from "../../model/rows.js";
-import { EntitySummary } from "../../ui/EntitySummary.js";
+import { EntitySummary, RecordTabs, ReviewArtLink, useRecordTab, type RecordTab } from "../../ui/EntitySummary.js";
+import { creatureLook, type CreatureDefinitionRow } from "../../model/creatureArt.js";
 import { ListRow } from "../../ui/ListRow.js";
 import { RefRow } from "../../ui/RefChip.js";
 import {ChoiceField, DerivedChoice, DerivedNumber, Facts, Field, FieldRows, NumberField, RefField, ReferencedBy, Section, Sheet, TextField, fieldFromSchema, usePeek, variantSchema, Static } from "../../ui/field/index.js";
@@ -51,6 +52,7 @@ const withoutEmpty = (record: Creature, key: "adjustments" | "loot" | "presentat
   return record;
 };
 const same = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+type SecondaryKey = "spawns" | "loot" | "presentation" | "variants" | "references";
 
 export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps["navigate"] }) {
   const data = useCreatureData();
@@ -66,10 +68,22 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   const profile = liveProfile && liveProfile.id === profileId ? liveProfile : profileId ? data.profileById.get(profileId) : undefined;
   const derived = useMemo(() => working ? deriveCreature(working, base, profile) : undefined, [working, base, profile]);
   const variants = data.variantsOf(id);
+  const donor = variants.find(variant => variant.row.presentation);
   const borrowedAsset = variants.find(variant => variant.assetId)?.assetId;
   const thumb = useMemo(() => working ? thumbFor({ ...resolveCreature(working, data.byId, data.profileById), assetId: working.presentation?.assetId ?? base?.presentation?.assetId ?? borrowedAsset }, data.ctx) : undefined, [working, data, base, borrowedAsset]);
   const spawns = data.spawnsFor(id);
   const baseExclude = useMemo(() => new Set([id, ...data.resolved.filter(entry => entry.variant).map(entry => entry.id)]), [data, id]);
+  const tabs: RecordTab[] = [
+    { key: "loot", label: identitySpec("loot").label },
+    { key: "presentation", label: identitySpec("presentation").label },
+    { key: "spawns", label: "Spawns", count: spawns.length },
+    { key: "variants", label: "Variants", count: variants.length },
+    { key: "references", label: "Referenced by" },
+  ];
+  const [tab, setTab] = useRecordTab("creature", tabs);
+  // The body the art review opens: this definition's own look, its base's, or a variant's when a base has none.
+  const ownAsset = working ? creatureLook(working as CreatureDefinitionRow, data.byId as ReadonlyMap<string, CreatureDefinitionRow>).assetId : undefined;
+  const assetId = ownAsset ?? borrowedAsset;
 
   if (draft.loading || (data.loading && !working)) return <div className={PAGE}><LoadingRows /></div>;
   if (!working || !derived || !thumb) return <div className={PAGE}><EmptyState title="Creature not found">"{id}" is not in the bestiary. <Button variant="link" size="inline" onClick={() => navigate("creatures")}>Back to the bestiary</Button></EmptyState></div>;
@@ -126,15 +140,36 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
   const beaten = new Set(RAIL_FIELDS.filter(key => derived.combat[key]?.resolved.chain[0]?.origin.kind !== "curve"));
   const ownValues = Object.fromEntries(RAIL_FIELDS.map(key => [key, derived.combat[key]?.value]));
 
+  const tabBar = <RecordTabs tabs={tabs} value={tab} onChange={setTab} label="Creature sections" />;
+  const secondary: Record<SecondaryKey, ReactNode> = {
+    spawns: <Section title={tabBar} aside={spawns.length ? <span>click a pin to edit it on the map</span> : undefined}>
+      {spawns.length
+        ? <div className="grid grid-cols-[minmax(0,17rem)_minmax(0,1fr)] items-start gap-3 @max-[40rem]:grid-cols-1">
+          <PointsMap points={spawns.filter(spawn => spawn.placement.centre).map(spawn => ({ id: spawn.placement.id, x: spawn.placement.centre![0], z: spawn.placement.centre![1], radius: spawn.placement.radius, label: `${data.regionName(spawn.placement.regionId)} ×${spawn.placement.count ?? 1}` }))}
+            onOpen={point => navigate("placements", point.id)} onOpenAt={() => navigate("placements", spawns[0]!.placement.id)} />
+          <div className="flex min-w-0 flex-col gap-0.5">{spawns.map(spawn => <SpawnRow key={spawn.placement.id} spawn={spawn} data={data} onOpen={() => navigate("placements", spawn.placement.id)} />)}</div>
+        </div>
+        : <p className={EMPTY}>Not placed in any encounter.</p>}
+    </Section>,
+    loot: <LootSection title={tabBar} data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef}
+      gold={derived.combat.gold!.resolved as Resolved<[number, number] | undefined>} onGold={value => setAdjustment("gold", value)} />,
+    presentation: <PresentationSection title={tabBar} data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />,
+    variants: <Section title={tabBar} aside={editable && !working.baseId ? <Button variant="secondary" size="sm" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</Button> : undefined}>
+      {variants.length
+        ? <div className="flex flex-col gap-0.5">{variants.map(variant => <RefRow key={variant.id} collection="creatureDefinitions" id={variant.id} record={variant.row} ctx={data.ctx} onOpen={(_collection, target) => navigate("creatureDefinitions", target)} subtitle={variant.id} meta={<Facts items={[`Level ${variant.level}`, variant.regionId ? data.regionName(variant.regionId) : undefined]} />} />)}</div>
+        : <p className={EMPTY}>{working.baseId ? "A variant cannot have variants of its own." : "No variants inherit from this creature."}</p>}
+    </Section>,
+    references: <Section title={tabBar}><ReferencedBy collection="creatureDefinitions" id={id} navigate={navigate} /></Section>,
+  };
+
   return <div className={PAGE}>
     <div className={RECORD}>
       <div className="min-w-0">
         <header className={RECORD_HEAD}>
-          <Thumb spec={thumb} size="xl" alt="" />
+          <Thumb spec={thumb} size="l" alt="" />
           <div className={RECORD_TITLE}>
             <h1 className={name.chain[0]?.origin.kind === "own" ? undefined : "text-muted-foreground"} title={name.chain[0]?.origin.kind === "own" ? undefined : `Name inherited from ${baseName}`}>{row.name ?? id}</h1>
-            <Facts items={facts} />
-            <code>{id}</code>
+            <Facts items={[...facts, <code key="id">{id}</code>]} />
           </div>
         </header>
         <Sheet>
@@ -176,31 +211,13 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
             </FieldRows>
           </Section>
 
-          <Section title="Spawns" aside={spawns.length ? <span>{spawns.length} {spawns.length === 1 ? "place" : "places"} · click a pin to edit it on the map</span> : undefined}>
-            {spawns.length
-              ? <>
-                <PointsMap points={spawns.filter(spawn => spawn.placement.centre).map(spawn => ({ id: spawn.placement.id, x: spawn.placement.centre![0], z: spawn.placement.centre![1], radius: spawn.placement.radius, label: `${data.regionName(spawn.placement.regionId)} ×${spawn.placement.count ?? 1}` }))}
-                  onOpen={point => navigate("placements", point.id)} onOpenAt={() => navigate("placements", spawns[0]!.placement.id)} />
-                <div className="flex flex-col gap-0.5">{spawns.map(spawn => <SpawnRow key={spawn.placement.id} spawn={spawn} data={data} onOpen={() => navigate("placements", spawn.placement.id)} />)}</div>
-              </>
-              : <p className={EMPTY}>Not placed in any encounter.</p>}
-          </Section>
-
-          <LootSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef}
-            gold={derived.combat.gold!.resolved as Resolved<[number, number] | undefined>} onGold={value => setAdjustment("gold", value)} />
-          <PresentationSection data={data} working={working} base={base} editable={editable} draft={draft} dirtyAt={dirtyAt} openRef={openRef} />
-
-          <Section title="Variants" aside={editable && !working.baseId ? <Button variant="secondary" size="sm" onClick={() => void newVariant()}><GitBranch size={12} /> New variant</Button> : undefined}>
-            {variants.length
-              ? <div className="flex flex-col gap-0.5">{variants.map(variant => <RefRow key={variant.id} collection="creatureDefinitions" id={variant.id} record={variant.row} ctx={data.ctx} onOpen={(_collection, target) => navigate("creatureDefinitions", target)} subtitle={variant.id} meta={<Facts items={[`Level ${variant.level}`, variant.regionId ? data.regionName(variant.regionId) : undefined]} />} />)}</div>
-              : <p className={EMPTY}>{working.baseId ? "A variant cannot have variants of its own." : "No variants inherit from this creature."}</p>}
-          </Section>
-
-          <ReferencedBy collection="creatureDefinitions" id={id} navigate={navigate} />
+          {secondary[tab as SecondaryKey]}
         </Sheet>
       </div>
       <aside className={RECORD_RAIL}>
-        <EntitySummary collection="creatureDefinitions" record={row.presentation ? row : { ...row, presentation: variants.find(variant => variant.row.presentation)?.row.presentation }} recordId={id} index={data.index} navigate={navigate} editing bare />
+        {/* The stage plays a definition by id: the one that owns the look (this one, its base, or the variant a base borrows from). */}
+        <EntitySummary collection="creatureDefinitions" record={working.presentation ? row : base?.presentation ? { ...row, id: base.id } : donor ? { ...row, id: donor.id, presentation: donor.row.presentation } : row} recordId={id} index={data.index} navigate={navigate} editing bare />
+        {assetId && <ReviewArtLink route="art/creatures" id={assetId} openId={ownAsset ? id : assetId} collection="assets" navigate={navigate} />}
         {profile && <div className={RAIL_BLOCK}>
           <h3>Role curve</h3>
           <CurveTable profile={profile} levels={CURVE_LEVELS} fields={RAIL_FIELDS} highlight={derived.level} beaten={beaten} ownValues={ownValues} compact />
@@ -214,14 +231,14 @@ export function CreaturePage({ id, navigate }: { id: string; navigate: ViewProps
 
 /* ---------- Loot ---------- */
 
-interface BlockProps { data: CreatureData; working: Creature; base?: Creature; editable: boolean; draft: RecordDraft<Creature>; dirtyAt: (path: Path) => boolean; openRef: (ref: RecordRef) => void }
+interface BlockProps { title: ReactNode; data: CreatureData; working: Creature; base?: Creature; editable: boolean; draft: RecordDraft<Creature>; dirtyAt: (path: Path) => boolean; openRef: (ref: RecordRef) => void }
 
-function LootSection({ data, working, base, editable, draft, dirtyAt, openRef, gold, onGold }: BlockProps & { gold: Resolved<[number, number] | undefined>; onGold: (value: [number, number] | undefined) => void }) {
+function LootSection({ title, data, working, base, editable, draft, dirtyAt, openRef, gold, onGold }: BlockProps & { gold: Resolved<[number, number] | undefined>; onGold: (value: [number, number] | undefined) => void }) {
   const loot = identityChain(working, base, "loot");
   const inherited = loot.chain[0]?.origin.kind === "inherited";
   const drop = goldRoll(gold.value)?.drops[0];
   const [low, high] = gold.value ?? [0, 0];
-  return <Section title={identitySpec("loot").label} aside={base && (inherited
+  return <Section title={title} aside={base && (inherited
     ? <span>Inherited from {rowName(base)}</span>
     : editable && working.loot && base.loot ? <Button variant="link" size="inline" title={`Drop this creature's own loot and use ${rowName(base)}'s`} onClick={() => draft.setPath(["loot"], undefined)}>Reset to {rowName(base)}</Button> : undefined)}>
     <LootRollRows rolls={loot.value?.rolls ?? []} tables={data.lootTables} readOnly={!editable} tableUsers={tableId => data.usersOfTable(tableId).length}
@@ -249,7 +266,7 @@ function LootSection({ data, working, base, editable, draft, dirtyAt, openRef, g
 
 type PresentationKey = keyof Presentation & string;
 
-function PresentationSection({ data, working, base, editable, draft, dirtyAt, openRef }: BlockProps) {
+function PresentationSection({ title, data, working, base, editable, draft, dirtyAt, openRef }: BlockProps) {
   const block = identityChain(working, base, "presentation");
   const presentation = block.value;
   const regionSpec = speciesSpec("regionId");
@@ -276,7 +293,7 @@ function PresentationSection({ data, working, base, editable, draft, dirtyAt, op
   const scale = speciesSpec("scale");
   const activity = speciesSpec("activity");
   const description = speciesSpec("description");
-  return <Section title={identitySpec("presentation").label} aside={presentation && presentation.id !== working.id ? <span className="font-mono">as {presentation.id}</span> : undefined}>
+  return <Section title={title} aside={presentation && presentation.id !== working.id ? <span className="font-mono">as {presentation.id}</span> : undefined}>
     <RefField kind={speciesSpec("assetId").ref} label={speciesSpec("assetId").label} value={presentation?.assetId || undefined} {...shared("assetId")} resolved={mapResolved(block, value => value?.assetId || undefined)} readOnly={!editable} onChange={value => set("assetId", value ?? "")} />
     <Field label={scale.label} hint={scale.hint} {...shared("scale")}>
       <NumberField value={presentation?.scale} min={scale.min} step={0.05} readOnly={!editable} onChange={value => set("scale", value)} />

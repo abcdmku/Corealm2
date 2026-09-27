@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ViewerCore, emptyViewerSnapshot } from './ViewerCore.js';
 import { POSE_CLIPS, type CharacterPose } from '../../../game/src/render/characterRig.js';
-import { defaultItemPose, poseClip } from './clips.js';
+import { defaultItemPose } from './clips.js';
 import type { ViewerSnapshot, ViewerSource } from './types.js';
 import { Button, Checkbox, ChoiceGroup, NativeSelect } from '../components/ui/index.js';
 import { cn } from '../lib/utils.js';
@@ -28,6 +28,7 @@ export function AssetViewer(props: AssetViewerProps) {
 }
 
 function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true, state }: AssetViewerProps) {
+  const section = useRef<HTMLElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
   const core = useRef<ViewerCore | null>(null);
   const callback = useRef(onSnapshot);
@@ -45,6 +46,16 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
       offHandId: hidden.includes(source.offHandId ?? '') ? undefined : source.offHandId }
     : source;
   const resolvedKey = JSON.stringify(resolved);
+  // A source change is not ready until its own model loads: drop the previous model's snapshot in the
+  // same render, before the load effect runs, so nothing reads its states or parts as current.
+  const [snapshotKey, setSnapshotKey] = useState(resolvedKey);
+  if (snapshotKey !== resolvedKey) {
+    setSnapshotKey(resolvedKey);
+    const { playing, speed, wireframe, bounds } = snapshot;
+    const cleared = { ...emptyViewerSnapshot(), playing, speed, wireframe, bounds };
+    latestSnapshot.current = cleared;
+    setSnapshot(cleared);
+  }
 
   useEffect(() => {
     if (!viewport.current) return;
@@ -67,36 +78,47 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
     if (!viewer) return;
     let active = true;
     setError(null);
+    callback.current?.(latestSnapshot.current);
     void viewer.load(JSON.parse(resolvedKey) as ViewerSource).then(() => {
-      if (active && source.mode === 'outfit') {
-        const clip = poseClip(latestSnapshot.current.clips.map(entry => entry.name), selectedPose.current);
-        if (clip) viewer.selectClip(clip);
-      }
+      if (active && source.mode === 'outfit') viewer.setState(selectedPose.current);
     }).catch(cause => {
       if (active) setError(cause instanceof Error ? cause.message : String(cause));
     });
     return () => { active = false; };
   }, [resolvedKey, retry]);
 
+  // Automation hook: `element.dispatchEvent(new CustomEvent('viewer:set-state', { detail: 'attack' }))`
+  // puts the model in a state the same way the controlled `state` prop does.
+  useEffect(() => {
+    const element = section.current;
+    if (!element) return;
+    const listener = (event: Event) => { const name = (event as CustomEvent<unknown>).detail; if (typeof name === 'string') core.current?.setState(name); };
+    element.addEventListener('viewer:set-state', listener);
+    return () => element.removeEventListener('viewer:set-state', listener);
+  }, []);
+
   useEffect(() => {
     if (state && snapshot.ready && snapshot.state !== state) core.current?.setState(state);
   }, [state, snapshot.ready, snapshot.state]);
 
   const groups = [...new Set(snapshot.clips.map(clip => clip.group))];
+  // An actor plays through the game's own motion system: pick a state, not a raw clip, and no scrubbing.
+  const actor = source.mode === 'actor';
   const shownItems = source.mode === 'outfit' ? [...source.itemIds, source.mainHandId, source.offHandId].filter((id): id is string => Boolean(id)) : [];
   const choosePose = (value: CharacterPose) => {
     selectedPose.current = value;
     setPose(value);
-    const clip = poseClip(snapshot.clips.map(entry => entry.name), value);
-    if (clip) core.current?.selectClip(clip);
+    // setState, not selectClip: a gathering pose also takes its tool in hand.
+    core.current?.setState(value);
   };
   const formatSize = (size: NonNullable<ViewerSnapshot['size']>) => `${size.x.toFixed(3)} × ${size.y.toFixed(3)} × ${size.z.toFixed(3)} m`;
 
   // In a stage the viewport fills the frame and the controls only show when asked for.
   const chrome = cn(stage && !controls && 'hidden', stage && 'px-2 py-1');
-  return <section className={cn('asset-viewer flex min-w-0 flex-col text-[11px] text-muted-foreground', stage ? 'h-full' : 'gap-2')} aria-label={label} data-viewer-ready={snapshot.ready && !error}
+  return <section ref={section} className={cn('asset-viewer flex min-w-0 flex-col text-[11px] text-muted-foreground', stage ? 'h-full' : 'gap-2')} aria-label={label} data-viewer-ready={snapshot.ready && !error}
     data-viewer-body={snapshot.body ?? ''} data-viewer-clip={snapshot.clip ?? ''} data-viewer-time={snapshot.time.toFixed(4)}
-    data-viewer-parts={snapshot.parts.length} data-viewer-playing={snapshot.playing}>
+    data-viewer-parts={snapshot.parts.length} data-viewer-playing={snapshot.playing}
+    data-viewer-current-state={snapshot.state ?? ''} data-viewer-tint={snapshot.appearance?.tint ?? ''} data-viewer-scale={snapshot.appearance?.scale.toFixed(4) ?? ''}>
     <div className={cn('viewer-heading flex flex-wrap items-center justify-between gap-3', chrome, stage && 'pr-[4.5rem]')}>
       <h3 className="text-xs font-semibold text-foreground">{label}</h3>
       <a className="text-link underline-offset-2 hover:underline" href={labUrl} target="_blank" rel="noreferrer">Open in game lab</a>
@@ -123,18 +145,22 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
     </div>
     <div className={cn('viewer-playback flex flex-wrap items-center gap-x-3 gap-y-1.5', chrome)}>
       <Button size="sm" disabled={!snapshot.clip || Boolean(error)} onClick={() => core.current?.setPlaying(!snapshot.playing)}>{snapshot.playing ? 'Pause' : 'Play'}</Button>
-      <label className={cn(LABEL, 'min-w-0 flex-[1_1_200px]')}>Animation <NativeSelect className={SELECT} wrapperClassName="min-w-0 flex-1" aria-label="Animation" value={snapshot.clip ?? ''} disabled={!snapshot.clips.length || Boolean(error)}
+      {actor ? <label className={cn(LABEL, 'min-w-0 flex-[1_1_200px]')}>State <NativeSelect className={SELECT} wrapperClassName="min-w-0 flex-1" aria-label="State" value={snapshot.state ?? ''} disabled={!snapshot.ready || Boolean(error)}
+        onChange={event => core.current?.setState(event.target.value)}>
+        {snapshot.states.map(entry => <option key={entry.name} value={entry.name} disabled={!entry.available}>{entry.name}{entry.clip ? ` · ${entry.clip}` : ''}{entry.synthetic ? ' (synthesised)' : ''}</option>)}
+      </NativeSelect></label>
+      : <label className={cn(LABEL, 'min-w-0 flex-[1_1_200px]')}>Animation <NativeSelect className={SELECT} wrapperClassName="min-w-0 flex-1" aria-label="Animation" value={snapshot.clip ?? ''} disabled={!snapshot.clips.length || Boolean(error)}
         onChange={event => core.current?.selectClip(event.target.value)}>
         {!snapshot.clips.length && <option value="">No animation clips</option>}
         {groups.map(group => <optgroup key={group} label={group}>{snapshot.clips.filter(clip => clip.group === group).map(clip =>
           <option key={clip.name} value={clip.name}>{clip.name} · {clip.duration.toFixed(2)}s</option>)}</optgroup>)}
-      </NativeSelect></label>
+      </NativeSelect></label>}
       <span className={LABEL}>Speed <ChoiceGroup aria-label="Playback speed" value={String(snapshot.speed)} onValueChange={next => { if (next) core.current?.setSpeed(Number(next)); }}
         items={[.25, .5, 1, 1.5, 2].map(speed => ({ value: String(speed), label: `${speed}×` }))} /></span>
     </div>
     <div className={cn('flex items-center gap-3', chrome)}>
       <input aria-label="Animation time" type="range" min={0} max={snapshot.duration || 1} step={.001} value={snapshot.time}
-        disabled={!snapshot.clip || Boolean(error)} className="h-4 min-w-0 flex-1 cursor-pointer accent-primary disabled:cursor-default disabled:opacity-50" onChange={event => { core.current?.setPlaying(false); core.current?.scrub(Number(event.target.value)); }} />
+        disabled={!snapshot.clip || actor || Boolean(error)} className="h-4 min-w-0 flex-1 cursor-pointer accent-primary disabled:cursor-default disabled:opacity-50" onChange={event => { core.current?.setPlaying(false); core.current?.scrub(Number(event.target.value)); }} />
       <output className="font-mono text-[11px] text-muted-foreground tabular-nums">{snapshot.time.toFixed(2)} / {snapshot.duration.toFixed(2)} s</output>
     </div>
     <div className={cn('flex flex-wrap items-center gap-x-4 gap-y-1.5', chrome)}>

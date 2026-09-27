@@ -8,7 +8,7 @@ import { BONUS_KEYS, deriveEquipmentMember, deriveProductionEntry, equipmentSour
 import { getPath, setPath, useRecordDraft } from "../../model/draft.js";
 import type { Path, RecordRef } from "../../model/origin.js";
 import { useReferenceIndex } from "../../model/refs.js";
-import { EntitySummary } from "../../ui/EntitySummary.js";
+import { EntitySummary, ReviewArtLink, TabbedSections, useRecordTab, RecordTabs, type TabbedSection } from "../../ui/EntitySummary.js";
 import { ChoiceField, DerivedNumber, Facts, Field, Fields, MapField, NumberField, RefField, ReferencedBy, Row, Section, Sheet, Static, TextField, ToggleField, usePeek } from "../../ui/field/index.js";
 import { Thumb } from "../../ui/Thumb.js";
 import { InlineStats, ItemStack } from "../../ui/ItemStack.js";
@@ -118,8 +118,7 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
       <Thumb spec={{ kind: "item", id }} size="l" alt="" />
       <div className={RECORD_TITLE}>
         <h1>{row.name}</h1>
-        <Facts items={facts} />
-        <code>{id}</code>
+        <Facts items={[...facts, <code key="id">{id}</code>]} />
       </div>
       {variant === "drawer" && <span className="flex shrink-0 items-center gap-1"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
     </header>
@@ -138,32 +137,44 @@ function ExpandedItem({ id, navigate, data, variant = "page", onOpenFamily, live
         {family.attackSpeedMs !== undefined && <Row label="Attack speed"><Static>{seconds(family.attackSpeedMs)}<span className="text-faint">&nbsp;· {family.attackSpeedMs} ms, from the family</span></Static></Row>}
         {family.magicWeapon && <Row label="Weapon"><Static>{titleCase(family.magicWeapon.kind)} · {family.magicWeapon.hands === 2 ? "two-handed" : "one-handed"}</Static></Row>}
       </Section>
-      <MadeBy itemId={id} data={data} navigate={navigate} />
-      <ReferencedBy collection="items" id={id} navigate={navigate} />
+      <TabbedSections scope="item" label="Item sections" sections={laterSections(id, data, navigate)} />
     </Sheet>
   </div>;
 
   return <>
     {variant === "page"
-      ? <div className={PAGE}><div className={RECORD}>{main}<Rail collection="items" record={liveRecord ?? compiled ?? { id }} recordId={id} navigate={navigate} /></div></div>
+      ? <div className={PAGE}><div className={RECORD}>{main}<Rail collection="items" record={liveRecord ?? compiled ?? { id }} recordId={id} navigate={navigate} data={data} /></div></div>
       : main}
     {familyDrawer && <FamilyDrawer familyId={familyDrawer} data={data} onClose={() => setFamilyDrawer(undefined)} onLive={setLocalFamily} onOpenItem={itemId => navigate("items/catalog", itemId)} />}
   </>;
 }
 
-function Rail({ collection, record, recordId, navigate }: { collection: string; record: ContentRow; recordId: string; navigate: AppProps["navigate"] }) {
+function Rail({ collection, record, recordId, navigate, data }: { collection: string; record: ContentRow; recordId: string; navigate: AppProps["navigate"]; data: ItemsData }) {
   const { index } = useReferenceIndex();
-  return <aside className={RECORD_RAIL}><EntitySummary collection={collection} record={record} recordId={recordId} index={index} navigate={navigate} editing bare /></aside>;
+  // A worn piece is reviewed as part of the outfit it belongs to.
+  const set = data.sets.find(candidate => Object.values(candidate.members ?? {}).includes(recordId));
+  return <aside className={RECORD_RAIL}>
+    <EntitySummary collection={collection} record={record} recordId={recordId} index={index} navigate={navigate} editing bare />
+    {set && <ReviewArtLink route="art/outfits" id={set.id} collection="equipmentSets" navigate={navigate} detail={`${set.name} set`} />}
+  </aside>;
+}
+
+/** The sections after an item's own fields, one at a time: what makes it and what points at it. */
+function laterSections(id: string, data: ItemsData, navigate: AppProps["navigate"]): TabbedSection[] {
+  return [
+    ...(data.madeBy(id) ? [{ tab: { key: "made", label: "Made by" }, render: (title: ReactNode) => <MadeBy title={title} itemId={id} data={data} navigate={navigate} /> }] : []),
+    { tab: { key: "references", label: "Referenced by" }, render: title => <Section title={title}><ReferencedBy collection="items" id={id} navigate={navigate} /></Section> },
+  ];
 }
 
 /** The production entry that outputs this item, with its inputs, station and rates. */
-export function MadeBy({ itemId, data, navigate }: { itemId: string; data: ItemsData; navigate: AppProps["navigate"] }) {
+export function MadeBy({ itemId, data, navigate, title = "Made by" }: { itemId: string; data: ItemsData; navigate: AppProps["navigate"]; title?: ReactNode }) {
   const made = data.madeBy(itemId);
   if (!made) return null;
   const template = data.templateById(made.entry.templateId);
   const rates = template ? deriveProductionEntry(made.tier, made.entry, template) : undefined;
   const name = (itemId: string) => data.item(itemId)?.name ?? itemId;
-  return <Section title="Made by" aside={<Button variant="link" size="xs" onClick={() => navigate("compiled-recipes", made.entry.id)}>{made.entry.name} <ArrowRight /></Button>}>
+  return <Section title={title} aside={<Button variant="link" size="xs" onClick={() => navigate("compiled-recipes", made.entry.id)}>{made.entry.name} <ArrowRight /></Button>}>
     <Row label="Recipe">
       <div className="flex min-h-7 flex-wrap items-center gap-1.5">
         {made.entry.inputs.map((input, i) => <ItemStack key={i} id={input.itemId} name={name(input.itemId)} quantity={input.quantity} onOpen={() => navigate("items/catalog", input.itemId)} />)}
@@ -194,13 +205,13 @@ const HANDS = [{ value: "1", label: "One-handed" }, { value: "2", label: "Two-ha
 const BLOCK_ORDER: readonly BlockKey[] = ["equip", "tool", "food", "magicWeapon", "orb"];
 
 /**
- * An optional block the item has, as a section with a way to remove it. Blocks the item does not
- * have are not drawn as empty sections; they are offered together on one "Add" line at the end of
- * the sheet (`AddBlocks`), so a sword is a sword-length page.
+ * An optional block the item has, as a tabbed section with a way to remove it. Blocks the item does
+ * not have are not drawn as empty sections; they are offered together on one "Add" line at the end
+ * of Identity (`AddBlocks`), so a sword is a sword-length page.
  */
-function BlockSection({ spec, readOnly, onRemove, children }: { spec: PathSpec; readOnly: boolean; onRemove: () => void; children: ReactNode }) {
+function BlockSection({ title, spec, readOnly, onRemove, children }: { title: ReactNode; spec: PathSpec; readOnly: boolean; onRemove: () => void; children: ReactNode }) {
   const aside = readOnly ? undefined : <Button variant="link" size="inline" title={`Remove the ${spec.label.toLowerCase()} from this item`} onClick={onRemove}>Remove</Button>;
-  return <Section title={spec.label} aside={aside}>
+  return <Section title={title} aside={aside}>
     {spec.hint && <p className="mb-1.5 text-[11px] leading-snug text-faint [overflow-wrap:anywhere]">{spec.hint}</p>}
     {children}
   </Section>;
@@ -217,6 +228,8 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
   const draft = useRecordDraft<ItemRecord>("items", id);
   const readOnly = !can("write") || !draft.editable;
   const record = draft.draft;
+  const tabs = [...BLOCK_ORDER.filter(key => record?.[key]).map(key => ({ key, label: item(key).label })), ...(data.madeBy(id) ? [{ key: "made", label: "Made by" }] : []), { key: "references", label: "Referenced by" }];
+  const [tab, setTab] = useRecordTab("item", tabs);
   if (!record) return <p className={EMPTY}>Loading…</p>;
   const set = draft.setPath;
   const equip = record.equip;
@@ -235,15 +248,15 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
     <ToggleField value={getPath(record, path) === true} readOnly={readOnly} onChange={next => set(path, next)} />
   </Field>;
   const ref = (path: Path, spec = item(...path)) => <RefField kind="item" collection="compiled-items" label={spec.label} hint={spec.hint} value={(getPath(record, path) as string | undefined) || undefined} readOnly={readOnly} onChange={next => set(path, next ?? "")} />;
-    const presence = (key: BlockKey) => (present: boolean) => set([key], present ? BLOCKS.find(candidate => candidate.key === key)!.make() : undefined);
+  const presence = (key: BlockKey) => (present: boolean) => set([key], present ? BLOCKS.find(candidate => candidate.key === key)!.make() : undefined);
+  const bar = <RecordTabs tabs={tabs} value={tab} onChange={setTab} label="Item sections" />;
 
   const main = <div className="min-w-0">
     <header className={RECORD_HEAD}>
       <Thumb spec={{ kind: "item", id }} size="l" alt="" />
       <div className={RECORD_TITLE}>
         <h1>{record.name}</h1>
-        <Facts items={facts} />
-        <code>{id}</code>
+        <Facts items={[...facts, <code key="id">{id}</code>]} />
       </div>
       {variant === "drawer" && <span className="flex shrink-0 items-center gap-1"><Button variant="secondary" size="sm" onClick={() => navigate("items/catalog", id)}>Open page <ArrowRight size={12} /></Button></span>}
     </header>
@@ -255,8 +268,9 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
         {num(["tier"])}
         {num(["value"])}
         {toggle(["stackable"])}
+        <AddBlocks absent={BLOCK_ORDER.filter(key => !record[key])} readOnly={readOnly} onAdd={key => { presence(key)(true); setTab(key); }} />
       </Section>
-      {equip && <BlockSection spec={item("equip")} readOnly={readOnly} onRemove={() => presence("equip")(false)}>
+      {tab === "equip" && equip && <BlockSection title={bar} spec={item("equip")} readOnly={readOnly} onRemove={() => presence("equip")(false)}>
         {choice(["equip", "slot"])}
         <BonusMatrix cell={key => <Field compact labelHidden label={BONUS[key].label}><NumberField value={equip?.bonuses?.[key]} readOnly={readOnly} ariaLabel={BONUS[key].label} onChange={next => set(["equip", "bonuses", key], next ?? 0)} /></Field>} />
         {num(["equip", "attackSpeedMs"])}
@@ -264,14 +278,14 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
           onChange={next => set(["equip", "requires"], next)}
           renderValue={(skill, level, update) => <NumberField value={level} integer min={1} ariaLabel={`${titleCase(skill)} level`} readOnly={readOnly} onChange={next => update(next ?? 1)} />} />
       </BlockSection>}
-      {record.tool && <BlockSection spec={item("tool")} readOnly={readOnly} onRemove={() => presence("tool")(false)}>
+      {tab === "tool" && record.tool && <BlockSection title={bar} spec={item("tool")} readOnly={readOnly} onRemove={() => presence("tool")(false)}>
         {choice(["tool", "skill"])}
         {num(["tool", "gatherBonus"])}
       </BlockSection>}
-      {record.food && <BlockSection spec={item("food")} readOnly={readOnly} onRemove={() => presence("food")(false)}>
+      {tab === "food" && record.food && <BlockSection title={bar} spec={item("food")} readOnly={readOnly} onRemove={() => presence("food")(false)}>
         {num(["food", "healAmount"])}
       </BlockSection>}
-      {record.magicWeapon && <BlockSection spec={item("magicWeapon")} readOnly={readOnly} onRemove={() => presence("magicWeapon")(false)}>
+      {tab === "magicWeapon" && record.magicWeapon && <BlockSection title={bar} spec={item("magicWeapon")} readOnly={readOnly} onRemove={() => presence("magicWeapon")(false)}>
         {choice(["magicWeapon", "kind"])}
         <Field label={item("magicWeapon", "hands").label}><ChoiceField value={String(record.magicWeapon?.hands ?? 1)} options={HANDS} readOnly={readOnly} onChange={next => set(["magicWeapon", "hands"], Number(next))} /></Field>
         <Field label={item("magicWeapon", "charge").label}>
@@ -291,18 +305,16 @@ function AuthoredItem({ id, navigate, data, variant = "page" }: ItemPageProps) {
           {toggle(["magicWeapon", "charge", "released"])}
         </>}
       </BlockSection>}
-      {record.orb && <BlockSection spec={item("orb")} readOnly={readOnly} onRemove={() => presence("orb")(false)}>
+      {tab === "orb" && record.orb && <BlockSection title={bar} spec={item("orb")} readOnly={readOnly} onRemove={() => presence("orb")(false)}>
         {choice(["orb", "element"])}
         {toggle(["orb", "released"])}
       </BlockSection>}
-      <Section title="More"><AddBlocks absent={BLOCK_ORDER.filter(key => !record[key])} readOnly={readOnly} onAdd={key => presence(key)(true)} /></Section>
-      <MadeBy itemId={id} data={data} navigate={navigate} />
-      <ReferencedBy collection="items" id={id} navigate={navigate} />
+      {laterSections(id, data, navigate).find(section => section.tab.key === tab)?.render(bar)}
     </Sheet>
   </div>;
 
   if (variant === "drawer") return main;
-  return <div className={PAGE}><div className={RECORD}>{main}<Rail collection="items" record={record} recordId={id} navigate={navigate} /></div></div>;
+  return <div className={PAGE}><div className={RECORD}>{main}<Rail collection="items" record={record} recordId={id} navigate={navigate} data={data} /></div></div>;
 }
 
 export type { BonusKey };

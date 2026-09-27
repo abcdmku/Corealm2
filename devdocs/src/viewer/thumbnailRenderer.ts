@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { PMREMGenerator, WebGPURenderer } from 'three/webgpu';
 import { loadAssetModel } from './creature.js';
+import { isActorModel, loadActorModel } from './actor.js';
+import { actorSpec } from './actorEntity.js';
+import { CREATURE_THUMBNAIL_KEY as CREATURE_KEY, creatureThumbnailKey } from './thumbnailKeys.js';
 import { viewerRegistry } from './registry.js';
 import type { ViewerModel } from './types.js';
 import type { ThumbnailProvider } from '../ui/assetThumbnails.js';
@@ -69,6 +72,8 @@ class ThumbnailStage {
 
   /** Renders one frame of the model at its idle clip's first pose and returns a PNG data URL. */
   render(model: ViewerModel): string | undefined {
+    // An actor is already standing in its idle; its own EntityViews owns the bones.
+    const actor = isActorModel(model);
     const mixer = new THREE.AnimationMixer(model.animationRoot);
     try {
       this.stage.position.set(0, 0, 0);
@@ -76,12 +81,12 @@ class ThumbnailStage {
       model.root.traverse(object => { const mesh = object as THREE.Mesh; if (mesh.isMesh) { mesh.frustumCulled = false; mesh.castShadow = true; mesh.receiveShadow = true; } });
       const clipName = model.initialClip ?? model.clips[0]?.name;
       const clip = clipName ? model.clips.find(candidate => candidate.name === clipName) : undefined;
-      if (clip) mixer.clipAction(clip).reset().play();
+      if (clip && !actor) mixer.clipAction(clip).reset().play();
       mixer.update(0);
       // The shared stage still holds the previous model's offset in its world matrix; refresh it
       // before measuring, as ViewerCore does, or the camera frames empty space.
       this.stage.updateMatrixWorld(true);
-      const bounds = new THREE.Box3().setFromObject(model.root, true);
+      const bounds = actor ? model.bounds() : new THREE.Box3().setFromObject(model.root, true);
       if (bounds.isEmpty()) return undefined;
       const center = bounds.getCenter(new THREE.Vector3());
       const size = bounds.getSize(new THREE.Vector3());
@@ -181,6 +186,7 @@ async function storeRendered(url: string, dataUrl: string): Promise<boolean> {
  */
 export function createThumbnailProvider({ repoCache }: { repoCache: boolean }): ThumbnailProvider {
   return async assetId => {
+    if (assetId.startsWith(CREATURE_KEY)) return creatureThumbnail(assetId.slice(CREATURE_KEY.length), repoCache);
     if (!ASSET_ID.test(assetId)) return undefined;
     // An item's picture is its generated icon, never a render of the model (docs/item-icons.md).
     const itemId = ((await viewerRegistry()).entry(assetId) as { itemId?: string } | undefined)?.itemId
@@ -192,6 +198,43 @@ export function createThumbnailProvider({ repoCache }: { repoCache: boolean }): 
     if (url && dataUrl) void storeRendered(url, dataUrl);
     return dataUrl;
   };
+}
+
+function hash(text: string): string {
+  let value = 0x811c9dc5;
+  for (let index = 0; index < text.length; index++) value = Math.imul(value ^ text.charCodeAt(index), 0x01000193);
+  return (value >>> 0).toString(16).padStart(8, '0');
+}
+
+/** The cached file name changes with anything that changes the drawn look: model file, scale, tier, rank or dye seed. */
+async function creatureCacheUrl(creatureId: string): Promise<string | undefined> {
+  if (!ASSET_ID.test(creatureId)) return undefined;
+  const { entity } = actorSpec(creatureId);
+  const entry = (await viewerRegistry()).entry(entity.view!.assetId) as { sha256?: string; bytes?: number } | undefined;
+  const look = JSON.stringify([entity.id, entity.archetype, entity.tier, entity.view, entry?.sha256 ?? entry?.bytes ?? null]);
+  return `${THUMBNAILS_PATH}/actor--${creatureId}-${hash(look)}.png`;
+}
+
+/** Renders a creature definition as the game draws it, to a PNG data URL. */
+export async function renderCreatureThumbnail(creatureId: string): Promise<string | undefined> {
+  const key = creatureThumbnailKey(creatureId);
+  if (negative.has(key)) return undefined;
+  return withSlot(async () => {
+    const model = await loadActorModel({ mode: 'actor', creatureId });
+    try {
+      const dataUrl = (await sharedStage()).render(model);
+      if (!dataUrl) negative.add(key);
+      return dataUrl;
+    } finally { model.dispose(); }
+  }).catch(() => { negative.add(key); return undefined; });
+}
+
+async function creatureThumbnail(creatureId: string, repoCache: boolean): Promise<string | undefined> {
+  const url = repoCache ? await creatureCacheUrl(creatureId).catch(() => undefined) : undefined;
+  if (url && await readCached(url)) return url;
+  const dataUrl = await renderCreatureThumbnail(creatureId);
+  if (url && dataUrl) void storeRendered(url, dataUrl);
+  return dataUrl;
 }
 
 /** Forces a fresh render and returns the server URL with a cache-busting query once it is stored. */

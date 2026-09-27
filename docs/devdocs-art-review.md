@@ -52,3 +52,22 @@ themselves. Container queries drop the list below 72rem and stack the inspector 
 - Screenshots with `tools/devdocs-shot.ts --base http://127.0.0.1:4195 --width 1440 --height 900`
   (and 2560x1440). Every focus page must report no x-overflow and must not scroll.
 - `tools/devdocs-surface-audit.ts --base http://127.0.0.1:4195` before calling the round done.
+
+## Built (September 27, 2026)
+
+- **Art > Creatures** (`#/art/creatures[/<assetId|creatureId>]`): a contact sheet of every body (177), then a
+  focus page per body: the actor stage, states 1–8 (idle, walk, run, attack, hit, hit left/right, death;
+  synthesised ones marked `*`), a variant filmstrip (`[`/`]`) with tinted per-definition thumbnails, and
+  verdicts on the body, each state and each variant.
+- **Art > Outfits** (`#/art/outfits[/<setId>]`): the tier ladder (melee, magic, boss) with piece icons and
+  verdict dots, then a focus page per set: all 17 poses (gathering poses hold their tool), male/female,
+  per-piece show/hide, the neighbouring tiers, and verdicts on the set, each pose, body and piece.
+- **Art > Queue** (`#/art/queue`): bodies, variants and sets by verdict and open checks, beside the
+  September prose audit from `docs/creature-asset-audit.md`.
+- The actor stage (`viewer/actor.ts`, `actorEntity.ts`) draws a definition through the game's
+  `EntityViews` exactly as a placed creature: world rank, level, scale, tint and dye.
+- Creature, item, set and model record pages keep their primary fields visible and put the rest behind
+  one remembered tab bar (`[`/`]`), so the common record fits one 1440x900 screen. Each links to its art.
+
+Known gaps: creatures with several loot rolls still scroll on the Loot tab; boss rank comes from world
+placement, so lab-only boss rows render at enemy size; the camera fits the idle pose only.

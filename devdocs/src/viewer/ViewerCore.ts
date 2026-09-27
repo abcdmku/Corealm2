@@ -3,7 +3,8 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PMREMGenerator, WebGPURenderer } from 'three/webgpu';
 import { loadOutfit } from './armorSet.js';
-import { loadActorModel, loadAssetModel } from './creature.js';
+import { loadAssetModel } from './creature.js';
+import { isActorModel, loadActorModel } from './actor.js';
 import { POSE_CLIPS } from '../../../game/src/render/characterRig.js';
 import { CREATURE_STATES, type ViewerStateInfo } from './types.js';
 import type { ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from './types.js';
@@ -119,7 +120,8 @@ export class ViewerCore {
     this.model = model;
     this.stage.position.set(0, 0, 0);
     this.stage.add(model.root);
-    this.mixer = new THREE.AnimationMixer(model.animationRoot);
+    // An actor plays itself through the game's EntityViews; a second mixer on its bones would fight it.
+    this.mixer = isActorModel(model) ? undefined : new THREE.AnimationMixer(model.animationRoot);
     const materialRows: ViewerMaterial[] = [];
     const clonesBySource = new Map<THREE.Material, THREE.Material>();
     let meshCount = 0;
@@ -152,16 +154,16 @@ export class ViewerCore {
       clips: model.clips.map(clip => ({ name: clip.name, duration: clip.duration, group: model.clipGroups.get(clip.name) ?? 'Other clips' })) };
     this.snapshot.appearance = model.appearance ?? null;
     this.snapshot.states = model.states ?? defaultStates(source, model);
-    this.selectClip(model.initialClip ?? model.clips[0]?.name ?? '');
+    if (!isActorModel(model)) this.selectClip(model.initialClip ?? model.clips[0]?.name ?? '');
     const initial = model.initialState ?? this.snapshot.states.find(state => state.available && state.clip === this.snapshot.clip)?.name ?? null;
     if (initial) this.setState(initial); else this.snapshot.state = null;
-    this.mixer.update(0);
+    this.mixer?.update(0);
     // The pooled stage can retain the previous model's matrixWorld after its position is reset.
     // Refresh the parent before measuring this child; updateMatrixWorld on the child alone does not
     // update stale ancestors, so Box3 would otherwise fit to the previous model's translation.
     this.stage.updateMatrixWorld(true);
     model.root.updateMatrixWorld(true);
-    const bounds = new THREE.Box3().setFromObject(model.root, true);
+    const bounds = this.measure(model);
     if (bounds.isEmpty()) {
       this.clearModel(); this.snapshot.ready = false; this.emit();
       throw new Error('The asset contains no measurable geometry');
@@ -170,7 +172,7 @@ export class ViewerCore {
     const size = bounds.getSize(new THREE.Vector3());
     this.stage.position.set(-center.x, -bounds.min.y, -center.z);
     this.stage.updateMatrixWorld(true);
-    this.box.box.setFromObject(this.stage, true);
+    this.box.box.copy(this.measure(model));
     this.fitTarget.set(0, size.y / 2, 0);
     // Fit the full bounding-box sphere, with a little room for skeletal poses beyond this sampled pose.
     this.fitRadius = Math.max(size.length() * .55, .05);
@@ -181,6 +183,12 @@ export class ViewerCore {
     this.setWireframe(this.snapshot.wireframe);
     this.setBounds(this.snapshot.bounds);
     this.emit();
+  }
+
+  /** World-space bounds of what the model draws right now. */
+  private measure(model: ViewerModel): THREE.Box3 {
+    if (isActorModel(model)) { this.stage.updateMatrixWorld(true); return model.bounds(); }
+    return new THREE.Box3().setFromObject(model.root, true);
   }
 
   resetCamera(): void {
@@ -197,6 +205,12 @@ export class ViewerCore {
   }
 
   selectClip(name: string): void {
+    // An actor's clips belong to its states; picking one puts the actor in the state that plays it.
+    if (this.model && isActorModel(this.model)) {
+      const state = this.snapshot.states.find(candidate => candidate.available && candidate.clip === name);
+      if (state) this.setState(state.name);
+      return;
+    }
     const clip = this.model?.clips.find(candidate => candidate.name === name);
     this.mixer?.stopAllAction();
     this.action = clip && this.mixer ? this.mixer.clipAction(clip).reset().setLoop(THREE.LoopRepeat, Infinity).play() : undefined;
@@ -227,7 +241,12 @@ export class ViewerCore {
   }
   setBounds(enabled: boolean): void { this.snapshot.bounds = enabled; this.box.visible = enabled; this.emit(); }
   private emit(): void {
-    this.snapshot.time = this.action?.time ?? 0;
+    if (this.model && isActorModel(this.model)) {
+      const playback = this.model.playback();
+      this.snapshot.clip = playback.clip;
+      this.snapshot.time = playback.time;
+      this.snapshot.duration = playback.duration;
+    } else this.snapshot.time = this.action?.time ?? 0;
     const boneSample: number[] = [];
     this.model?.animationRoot.traverse(object => {
       if ((object as THREE.Bone).isBone && boneSample.length < 512) boneSample.push(...object.quaternion.toArray());
@@ -257,6 +276,9 @@ export class ViewerCore {
     container.append(this.renderer.domElement);
     this.resize.observe(container);
     this.resizeCanvas();
+    // The new owner must never read the previous page's model as ready.
+    this.snapshot = emptyViewerSnapshot();
+    this.emit();
   }
 
   private tick = (now: number): void => {
@@ -266,7 +288,7 @@ export class ViewerCore {
     this.lastFrame = now;
     if (this.snapshot.playing) { this.mixer?.update(delta * this.snapshot.speed); this.model?.update?.(delta * this.snapshot.speed); }
     this.controls.update();
-    if (this.box.visible && this.model) this.box.box.setFromObject(this.stage, true);
+    if (this.box.visible && this.model) this.box.box.copy(this.measure(this.model));
     if (this.ready) this.renderer.render(this.scene, this.camera);
     if (now - this.lastReport > 120) { this.lastReport = now; this.emit(); }
     this.frame = requestAnimationFrame(this.tick);
