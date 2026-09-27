@@ -3,12 +3,30 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PMREMGenerator, WebGPURenderer } from 'three/webgpu';
 import { loadOutfit } from './armorSet.js';
-import { loadAssetModel } from './creature.js';
+import { loadActorModel, loadAssetModel } from './creature.js';
+import { POSE_CLIPS } from '../../../game/src/render/characterRig.js';
+import { CREATURE_STATES, type ViewerStateInfo } from './types.js';
 import type { ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from './types.js';
 
 export function emptyViewerSnapshot(): ViewerSnapshot {
-  return { ready: false, clip: null, time: 0, duration: 0, playing: true, speed: 1, clips: [], materials: [], size: null,
+  return { states: [], state: null, appearance: null, ready: false, clip: null, time: 0, duration: 0, playing: true, speed: 1, clips: [], materials: [], size: null,
     manifestSize: null, body: null, parts: [], attachments: [], missingBones: [], meshCount: 0, boneSample: [], wireframe: false, bounds: false };
+}
+
+/** States for a model that does not list its own: player poses for outfits, clip groups for creatures. */
+function defaultStates(source: ViewerSource, model: ViewerModel): ViewerStateInfo[] {
+  const names = model.clips.map(clip => clip.name);
+  if (source.mode === 'outfit') return Object.entries(POSE_CLIPS).map(([pose, clips]) => {
+    const clip = clips.find(candidate => names.includes(candidate)) ?? null;
+    return { name: pose, clip, available: clip !== null };
+  });
+  return CREATURE_STATES.map(state => {
+    const group = state === 'hitLeft' || state === 'hitRight' ? 'hit' : state;
+    const side = state === 'hitLeft' ? /left/i : state === 'hitRight' ? /right/i : undefined;
+    const inGroup = names.filter(name => model.clipGroups.get(name) === group);
+    const clip = (side ? inGroup.find(name => side.test(name)) : inGroup.find(name => !/left|right/i.test(name)) ?? inGroup[0]) ?? null;
+    return { name: state, clip, available: clip !== null };
+  });
 }
 
 /** The documentation viewer's sole renderer. All displayed graphs come from production assets and
@@ -96,7 +114,7 @@ export class ViewerCore {
     this.clearModel();
     this.snapshot = { ...emptyViewerSnapshot(), playing: this.snapshot.playing, speed: this.snapshot.speed, wireframe: this.snapshot.wireframe, bounds: this.snapshot.bounds };
     this.emit();
-    const model = source.mode === 'outfit' ? await loadOutfit(source) : await loadAssetModel(source);
+    const model = source.mode === 'outfit' ? await loadOutfit(source) : source.mode === 'actor' ? await loadActorModel(source) : await loadAssetModel(source);
     if (this.disposed || epoch !== this.epoch) { model.dispose(); return; }
     this.model = model;
     this.stage.position.set(0, 0, 0);
@@ -132,7 +150,11 @@ export class ViewerCore {
     this.snapshot = { ...this.snapshot, ready: true, body: model.body ?? null, parts: model.parts, attachments: model.attachments,
       missingBones: model.missingBones, manifestSize: model.manifestSize ?? null, materials: materialRows, meshCount,
       clips: model.clips.map(clip => ({ name: clip.name, duration: clip.duration, group: model.clipGroups.get(clip.name) ?? 'Other clips' })) };
+    this.snapshot.appearance = model.appearance ?? null;
+    this.snapshot.states = model.states ?? defaultStates(source, model);
     this.selectClip(model.initialClip ?? model.clips[0]?.name ?? '');
+    const initial = model.initialState ?? this.snapshot.states.find(state => state.available && state.clip === this.snapshot.clip)?.name ?? null;
+    if (initial) this.setState(initial); else this.snapshot.state = null;
     this.mixer.update(0);
     // The pooled stage can retain the previous model's matrixWorld after its position is reset.
     // Refresh the parent before measuring this child; updateMatrixWorld on the child alone does not
@@ -182,6 +204,14 @@ export class ViewerCore {
     this.snapshot.duration = clip?.duration ?? 0;
     this.snapshot.time = 0;
     this.mixer?.update(0);
+    this.emit();
+  }
+  /** Put the model in one of `snapshot.states`. Unknown or unavailable states are ignored. */
+  setState(name: string): void {
+    const state = this.snapshot.states.find(candidate => candidate.name === name);
+    if (!state?.available || !this.model) return;
+    this.snapshot.state = name;
+    if (!this.model.setState?.(name) && state.clip) this.selectClip(state.clip);
     this.emit();
   }
   setPlaying(playing: boolean): void { this.snapshot.playing = playing; this.emit(); }
@@ -234,7 +264,7 @@ export class ViewerCore {
     if (this.parked) { this.lastFrame = 0; this.frame = requestAnimationFrame(this.tick); return; }
     const delta = this.lastFrame ? Math.min((now - this.lastFrame) / 1000, .1) : 0;
     this.lastFrame = now;
-    if (this.snapshot.playing) this.mixer?.update(delta * this.snapshot.speed);
+    if (this.snapshot.playing) { this.mixer?.update(delta * this.snapshot.speed); this.model?.update?.(delta * this.snapshot.speed); }
     this.controls.update();
     if (this.box.visible && this.model) this.box.box.setFromObject(this.stage, true);
     if (this.ready) this.renderer.render(this.scene, this.camera);

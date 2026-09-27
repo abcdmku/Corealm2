@@ -1,4 +1,4 @@
-import { Boxes, Gauge, Home, Map as MapIcon, PawPrint, ScrollText, SlidersHorizontal, Sparkles, Store, Swords, Users, UsersRound, type LucideIcon } from "lucide-react";
+import { Boxes, Gauge, Home, Palette, Map as MapIcon, PawPrint, ScrollText, SlidersHorizontal, Sparkles, Store, Swords, Users, UsersRound, type LucideIcon } from "lucide-react";
 import { can, type DevdocsCapabilities } from "../api/backend.js";
 
 /*
@@ -50,6 +50,13 @@ const ALL_WORKSPACES: readonly Workspace[] = [
   { key: "creatures", label: "Creatures", icon: PawPrint, views: [
     { key: "bestiary", label: "Bestiary", collection: "creatureDefinitions", aliases: ["compiled-enemies", "compiled-species", "creatures", "enemies"] },
     { key: "loot", label: "Loot tables", collection: "lootTables" },
+  ] },
+  // Art review: every creature body and variant, every outfit and worn tier, and every state they
+  // play, on one screen each. The lab stays for integration; isolated asset work happens here.
+  { key: "art", label: "Art", icon: Palette, fullBleed: true, views: [
+    { key: "creatures", label: "Creatures" },
+    { key: "outfits", label: "Outfits" },
+    { key: "queue", label: "Queue" },
   ] },
   { key: "world", label: "World", icon: MapIcon, fullBleed: true, views: [
     { key: "map", label: "Map", aliases: ["worldRegions", "worldTerrain", "placements", "encounters", "resourcePlacements"] },

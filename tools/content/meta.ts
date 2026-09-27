@@ -24,6 +24,10 @@ export type RequestState = (typeof REQUEST_STATES)[number];
 
 export const CANDIDATE_KINDS = ["glb", "icon"] as const;
 
+/** An art reviewer's verdict on a model, a state it plays, a body it is worn on, or a variant. */
+export const ART_VERDICTS = ["approved", "polish", "replace"] as const;
+export type ArtVerdict = (typeof ART_VERDICTS)[number];
+
 const Timestamp = str({ pattern: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/ }, { label: "At", help: "ISO-8601 timestamp.", readOnly: true });
 const Author = str({ nonEmpty: true }, { label: "By", readOnly: true });
 
@@ -97,6 +101,17 @@ export const MetaRecordSchema = obj({
   history: arr(HistorySchema),
   /** Where the status came from when seeded (`manifest.acceptance`, `icon-registry`, ...). */
   sourceRefs: arr(str()),
+  /**
+   * Art review: a verdict for the whole record plus per-aspect checks keyed `<kind>:<name>`, such as
+   * `state:death`, `pose:mine`, `body:female`, `slot:head` or `variant:<creatureId>`.
+   */
+  art: opt(obj({
+    verdict: opt(enumOf(ART_VERDICTS)),
+    note: opt(str({}, { multiline: true })),
+    at: opt(Timestamp),
+    by: opt(Author),
+    checks: opt(rec(obj({ verdict: opt(enumOf(ART_VERDICTS)), note: opt(str({}, { multiline: true })) }))),
+  })),
   /** Icon-specific provenance for items. */
   icon: opt(obj({
     status: opt(enumOf(META_STATUSES)),

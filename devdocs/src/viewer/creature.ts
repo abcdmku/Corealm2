@@ -4,8 +4,26 @@ import type * as THREE from 'three';
 import { viewerRegistry } from './registry.js';
 import { creatureClipGroups, initialCreatureClip } from './clips.js';
 import type { ViewerModel, ViewerSource } from './types.js';
+import { RESOLVED_CATALOG } from '../../../game/src/content/resolvedCatalog.js';
+import { creatureLook, type CreatureDefinitionRow } from '../model/creatureArt.js';
 
-export async function loadAssetModel(source: Exclude<ViewerSource, { mode: 'outfit' }>): Promise<ViewerModel> {
+/**
+ * A creature definition's model at its presentation scale.
+ * Contract stub: the actor stage replaces this with the production EntityViews path (tint, motion states).
+ */
+export async function loadActorModel(source: Extract<ViewerSource, { mode: 'actor' }>): Promise<ViewerModel> {
+  const definitions = RESOLVED_CATALOG.tables.creatureDefinitions as readonly CreatureDefinitionRow[];
+  const byId = new Map(definitions.map(row => [row.id, row]));
+  const definition = byId.get(source.creatureId);
+  if (!definition) throw new Error(`Unknown creature ${source.creatureId}`);
+  const look = creatureLook(definition, byId);
+  if (!look.assetId) throw new Error(`${source.creatureId} has no model`);
+  const model = await loadAssetModel({ mode: 'creature', assetId: look.assetId });
+  model.root.scale.multiplyScalar(look.scale);
+  return { ...model, appearance: { creatureId: source.creatureId, assetId: look.assetId, scale: look.scale, tint: null } };
+}
+
+export async function loadAssetModel(source: Exclude<ViewerSource, { mode: 'outfit' | 'actor' }>): Promise<ViewerModel> {
   if (source.mode === 'glb') {
     const gltf = await new GLTFLoader().loadAsync(source.url);
     const names = gltf.animations.map(clip => clip.name);

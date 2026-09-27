@@ -16,6 +16,8 @@ export interface AssetViewerProps {
   stage?: boolean;
   /** In a stage, show the animation, pose and material controls under the viewport. */
   controls?: boolean;
+  /** Controlled state (a creature state or player pose from `snapshot.states`); changing it never reloads the model. */
+  state?: string;
 }
 
 /** The renderer a closed viewer left behind, waiting for the next one to open. */
@@ -25,7 +27,7 @@ export function AssetViewer(props: AssetViewerProps) {
   return <ViewerPanel key={JSON.stringify(props.source)} {...props} />;
 }
 
-function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true }: AssetViewerProps) {
+function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true, state }: AssetViewerProps) {
   const viewport = useRef<HTMLDivElement>(null);
   const core = useRef<ViewerCore | null>(null);
   const callback = useRef(onSnapshot);
@@ -75,6 +77,10 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
     });
     return () => { active = false; };
   }, [resolvedKey, retry]);
+
+  useEffect(() => {
+    if (state && snapshot.ready && snapshot.state !== state) core.current?.setState(state);
+  }, [state, snapshot.ready, snapshot.state]);
 
   const groups = [...new Set(snapshot.clips.map(clip => clip.group))];
   const shownItems = source.mode === 'outfit' ? [...source.itemIds, source.mainHandId, source.offHandId].filter((id): id is string => Boolean(id)) : [];

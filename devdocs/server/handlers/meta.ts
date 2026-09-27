@@ -4,7 +4,7 @@ import { discriminated, enumOf, obj, opt, parseValue, refine, str, unknown as un
 import { CONTENT_COLLECTIONS, parseContentCollection, type ContentCollection } from "../../../game/src/content/compiler/collections.js";
 import { contentRevision, formatContentJson } from "../../../tools/content/format.js";
 import { withFileLock } from "../../../tools/content/locks.js";
-import { emptyMetaRecord, MetaFileSchema, REQUEST_KINDS, type MetaFile, type MetaRecord, type MetaSnapshot } from "../../../tools/content/meta.js";
+import { ART_VERDICTS, emptyMetaRecord, MetaFileSchema, REQUEST_KINDS, type ArtVerdict, type MetaFile, type MetaRecord, type MetaSnapshot } from "../../../tools/content/meta.js";
 import { openRequest } from "../../../tools/content/requests.js";
 import { atomicReplaceFile } from "../../../tools/lib/atomic-replace-file.js";
 import { repoRoot } from "../../../tools/lib/paths.js";
@@ -19,7 +19,7 @@ export interface MetaHandlerOptions {
 }
 export type MetaHandlerRequest = DevdocsRequest & { body?: unknown };
 export interface MetaResponse { collection: string; entityId: string; revision: string; data: MetaRecord }
-export interface MetaDigestEntry { status: MetaRecord["status"]; openRequests: number; notes: number; candidates: number }
+export interface MetaDigestEntry { status: MetaRecord["status"]; openRequests: number; notes: number; candidates: number; art?: ArtVerdict; artChecks?: Record<string, ArtVerdict> }
 export interface MetaDigestResponse { collection: string; revision: string; records: Record<string, MetaDigestEntry> }
 export type MetaHandler = (request: MetaHandlerRequest) => Promise<DevdocsJsonResponse | undefined>;
 
@@ -32,6 +32,9 @@ const operationSchema = discriminated("kind", {
   "request.close": obj({ kind: enumOf(["request.close"] as const), requestId: nonblank }),
   piece: refine(obj({ kind: enumOf(["piece"] as const), slot: enumOf(["head", "body", "legs", "hands", "feet"] as const), note: opt(str()), status: opt(authoringStatus) }),
     value => value.note !== undefined || value.status !== undefined, "piece requires note or status"),
+  // `verdict: "clear"` removes a verdict; an absent verdict leaves it. `key` absent targets the record.
+  art: refine(obj({ kind: enumOf(["art"] as const), key: opt(str({ pattern: /^[a-z]+:[A-Za-z0-9_.-]+$/ })), verdict: opt(enumOf([...ART_VERDICTS, "clear"] as const)), note: opt(str()) }),
+    value => value.note !== undefined || value.verdict !== undefined, "art requires verdict or note"),
 });
 const patchSchema = obj({ revision: str({ pattern: /^[a-f0-9]{64}$/ }), operation: operationSchema });
 export type MetaPatch = Infer<typeof patchSchema>;
@@ -145,6 +148,15 @@ function applyOperation(records: MetaFile, collection: string, entityId: string,
       request.closedAt = at;
       record.history.push({ at, by: actor, action: "request.close", detail: operation.requestId });
     }
+  } else if (operation.kind === "art") {
+    const art = record.art ??= {};
+    const target = operation.key === undefined ? art : ((art.checks ??= {})[operation.key] ??= {});
+    if (operation.verdict === "clear") delete target.verdict;
+    else if (operation.verdict !== undefined) target.verdict = operation.verdict;
+    if (operation.note !== undefined) { if (operation.note.trim()) target.note = operation.note; else delete target.note; }
+    if (operation.key !== undefined && !target.verdict && !target.note) delete art.checks![operation.key];
+    art.at = at; art.by = actor;
+    record.history.push({ at, by: actor, action: "art.review", detail: `${operation.key ?? "record"}${operation.verdict ? ` ${operation.verdict}` : ""}` });
   } else {
     if (collection !== "equipmentSets") throw new ActionError(400, "Piece notes are available only for equipment sets");
     const members = authored.members as Record<string, unknown>;
@@ -197,6 +209,8 @@ export function createMetaHandler(options: MetaHandlerOptions = {}): MetaHandler
           openRequests: record.notes.filter(note => note.request && note.request.state !== "closed").length,
           notes: record.notes.length,
           candidates: (record.candidates ?? []).filter(candidate => candidate.status === "candidate" || candidate.status === "draft").length,
+          ...(record.art?.verdict ? { art: record.art.verdict } : {}),
+          ...(record.art?.checks ? { artChecks: Object.fromEntries(Object.entries(record.art.checks).flatMap(([key, check]) => check.verdict ? [[key, check.verdict]] : [])) } : {}),
         }]));
         return json(200, { collection: spec.name, revision: current.revision, records } satisfies MetaDigestResponse);
       }

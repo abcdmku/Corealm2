@@ -14,7 +14,7 @@ export function viewerSource(collection: string, record: ContentRow): ViewerSour
   }
   if (typeof record.assetId === "string" && ["creatures", "enemies", "species", "npcs", "resourcePlacements"].includes(base)) return { mode: "creature", assetId: record.assetId };
   const presentation = record.presentation as { assetId?: unknown; availableAssetIds?: unknown } | undefined;
-  if (base === "creatureDefinitions" && typeof presentation?.assetId === "string") return { mode: "creature", assetId: presentation.assetId };
+  if (base === "creatureDefinitions" && (typeof presentation?.assetId === "string" || typeof record.baseId === "string")) return { mode: "actor", creatureId: String(record.id) };
   if (base === "resources" && Array.isArray(presentation?.availableAssetIds) && typeof presentation.availableAssetIds[0] === "string") return { mode: "asset", assetId: presentation.availableAssetIds[0] };
   if (base === "assets" && record.procedural !== true) return { mode: "asset", assetId: String(record.id) };
   return undefined;
@@ -22,6 +22,8 @@ export function viewerSource(collection: string, record: ContentRow): ViewerSour
 
 /** The manifest id a record's model comes from, for candidate review. */
 export function primaryAssetId(collection: string, record: ContentRow): string | undefined {
+  const presentation = record.presentation as { assetId?: unknown } | undefined;
+  if (collection.replace(/^compiled-/, "") === "creatureDefinitions") return typeof presentation?.assetId === "string" ? presentation.assetId : undefined;
   const source = viewerSource(collection, record);
-  return source && source.mode !== "outfit" && source.mode !== "glb" ? source.assetId : undefined;
+  return source && (source.mode === "asset" || source.mode === "creature") ? source.assetId : undefined;
 }
