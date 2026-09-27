@@ -24,6 +24,9 @@ import { createValidateHandler, isValidatePath } from "./handlers/validate.js";
 import { createGitHandler, isGitPath } from "./handlers/git.js";
 import { createBulkHandler, isBulkPath } from './handlers/bulk.js';
 import { createThumbnailsHandler, isThumbnailsPath, THUMBNAIL_MAX_REQUEST_BYTES, type ThumbnailsHandlerOptions } from './handlers/thumbnails.js';
+import { createSkinsHandler, isSkinsPath, SKIN_MAX_REQUEST_BYTES } from './handlers/skins.js';
+import { createImagegenHandler, isImagegenPath } from './handlers/imagegen.js';
+import { isCatalogPath, readCompiledCatalog } from './handlers/catalog.js';
 
 
 export type DevdocsPluginOptions = CollectionsHandlerOptions & CollectionWriteHandlerOptions & ThumbnailsHandlerOptions;
@@ -49,6 +52,8 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
   const handleMeta = createMetaHandler(options);
   const handleAssets = createAssetsHandler(options);
   const handleThumbnails = createThumbnailsHandler(options);
+  const handleSkins = createSkinsHandler({ referencePools: readRepoReferencePools, ...options });
+  const handleImagegen = createImagegenHandler({ referencePools: readRepoReferencePools, ...options });
 
   server.middlewares.use((request, response, next) => {
     const thumbnails = isThumbnailsPath(request.url);
@@ -62,8 +67,11 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
     const git = isGitPath(request.url);
     const bulk = isBulkPath(request.url);
     const assets = isAssetsPath(request.url);
+    const skins = isSkinsPath(request.url);
+    const imagegen = isImagegenPath(request.url);
+    const catalog = isCatalogPath(request.url);
 
-    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets && !thumbnails) {
+    if (!collections && !requests && !meta && !icon && !transaction && !formulas && !validate && !git && !bulk && !assets && !thumbnails && !skins && !imagegen && !catalog) {
       next();
       return;
     }
@@ -72,7 +80,10 @@ function installDevdocsMiddleware(server: ViteDevServer, options: DevdocsPluginO
       // Check origin before reading a mutation body, including malformed or oversized bodies.
       if (!isLoopbackDevdocsRequest(request)) return { status: 403, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ error: "Dev docs API accepts loopback requests only" }) };
       if (icon) return readIconMaster(requestFromIncoming(request));
+      if (catalog) return readCompiledCatalog(requestFromIncoming(request), options.contentRoot);
       if (thumbnails) return handleThumbnails({ ...requestFromIncoming(request), body: request.method === 'PUT' ? await readJsonBody(request, THUMBNAIL_MAX_REQUEST_BYTES) : undefined });
+      if (skins || imagegen) return (skins ? handleSkins : handleImagegen)({ ...requestFromIncoming(request), // Only a save or a new job carries a body; a retry (`POST /__devdocs/imagegen/<id>`) has none.
+        body: request.method === 'POST' && (skins || request.url?.split(/[?#]/, 1)[0] === '/__devdocs/imagegen') ? await readJsonBody(request, SKIN_MAX_REQUEST_BYTES) : undefined });
       if (assets) return handleAssets({ ...requestFromIncoming(request), body: ['POST', 'PUT'].includes(request.method ?? '') ? await readJsonBody(request, ASSET_UPLOAD_MAX_REQUEST_BYTES) : undefined });
 
       if (git) return handleGit(requestFromIncoming(request));

@@ -7,6 +7,7 @@
  *   POST /__devdocs/imagegen            ImagegenRequest      -> { job: ImagegenJob }
  *   GET  /__devdocs/imagegen            -> { jobs: ImagegenJob[] }        newest first
  *   GET  /__devdocs/imagegen/<jobId>    -> { job: ImagegenJob }
+ *   POST /__devdocs/imagegen/<jobId>    -> { job: ImagegenJob }   retry a failed job; painted maps are reused
  *     A job asks the configured image model (Codex CLI by default; `DEVDOCS_IMAGEGEN_COMMAND`
  *     overrides) to repaint each reference albedo map from the prompt while keeping its UV layout.
  *     A finished job saves its result as an `imagegen` skin and names it in `skinId`.

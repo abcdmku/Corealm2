@@ -1,3 +1,6 @@
+import { CREATURE_CATALOG } from '../content/creatureRuntime.js';
+import { rollCreatureLook } from '../content/creatureVariation.js';
+import type { CreatureSpeciesDef } from '../content/creatureSpecies.js';
 import { CRAFTED_JEWELRY, isRetiredJewelry, jewelrySlots } from '../content/jewelry.js';
 import {
   EQUIP_SLOTS,
@@ -343,9 +346,16 @@ function createCreatureEntity(
   // Same rank rule as `buildEnemyGroup`: minibosses share the boss archetype at 1.3x scale.
   const bossRank = group.boss ? "boss" as const : group.miniBoss ? "miniboss" as const : null;
   const archetype = bossRank === null ? "enemy" as const : "boss" as const;
-  const viewScale = bossRank === "boss" ? group.scale * 1.6
-    : bossRank === "miniboss" ? group.scale * 1.3
-    : group.scale;
+  // Same individual roll as `buildEnemyGroup`: size, skin and colour from the definition's range.
+  const presentation = CREATURE_CATALOG.byCreatureId.get(stats.id)?.presentation as Partial<CreatureSpeciesDef> | undefined;
+  const look = rollCreatureLook({
+    scale: group.scale,
+    ...(presentation?.skinId ? { skinId: presentation.skinId } : {}),
+    ...(presentation?.variation ? { variation: presentation.variation } : {}),
+  }, placement.entityId);
+  const viewScale = bossRank === "boss" ? look.scale * 1.6
+    : bossRank === "miniboss" ? look.scale * 1.3
+    : look.scale;
   const drawnScale = viewScale * tierSilhouetteScale(group.tier);
   const position = placeOnFlatGround(placement.groundPosition, baseY, drawnScale);
   // Widest ground axis, halved, at the size the creature is actually drawn. Same derivation as
@@ -376,6 +386,8 @@ function createCreatureEntity(
     view: {
       assetId: group.assetId,
       scale: viewScale,
+      ...(look.skinId ? { skinId: look.skinId } : {}),
+      ...(look.colour ? { colour: look.colour } : {}),
       rotationY: round2(placement.rotationY ?? 0),
       materialTier: group.tier,
       labelHeight: bossRank !== null ? 3.4 : 2.2,

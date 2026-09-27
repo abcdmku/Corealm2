@@ -15,8 +15,10 @@ export function createWorldCreatureResolver(
     const stats = level === undefined ? creature.enemy : resolveCreatureAtLevel(creature, profiles, level);
     const nativeRadius = ENCOUNTER_ASSET_RADII[creature.assetId];
     if (nativeRadius === undefined) throw new Error(`Creature ${id} has no measured footprint for ${creature.assetId}`);
+    const look = creature.presentation;
     return { id, assetId: creature.assetId, scale: creature.scale, stats,
-      bodyRadius: nativeRadius * creature.scale * tierSilhouetteScale(stats.tier) };
+      bodyRadius: nativeRadius * creature.scale * tierSilhouetteScale(stats.tier),
+      ...(look?.skinId ? { skinId: look.skinId } : {}), ...(look?.variation ? { variation: look.variation } : {}) };
   };
 }
 export function worldRegionBounds(regions: readonly WorldRegionGeometry[]): WorldRegionBounds[] {

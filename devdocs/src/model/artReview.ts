@@ -4,7 +4,7 @@
  * A verdict sits on a whole record (`key` absent) or on one aspect of it, keyed `<kind>:<name>`:
  * `state:death`, `pose:mine`, `body:female`, `slot:head`, `variant:<creatureId>`. Bodies are
  * reviewed on the `assets` collection by manifest id; variants on `creatureDefinitions`; outfits on
- * `equipmentSets`; single worn items on `items`.
+ * `equipmentSets`; single worn items on `items`; skins on `creatureSkins`.
  */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -18,7 +18,7 @@ export const ART_VERDICT_LABEL: Readonly<Record<ArtVerdict, string>> = { approve
 /** Badge tone per verdict, for `toneVariant`. */
 export const ART_VERDICT_TONE: Readonly<Record<ArtVerdict, "ok" | "warn" | "danger">> = { approved: "ok", polish: "warn", replace: "danger" };
 
-export type ArtReviewCollection = "assets" | "creatureDefinitions" | "equipmentSets" | "items";
+export type ArtReviewCollection = "assets" | "creatureDefinitions" | "creatureSkins" | "equipmentSets" | "items";
 export type ArtRecord = NonNullable<MetaRecord["art"]>;
 export interface ArtSummary { verdict?: ArtVerdict; checks: Readonly<Record<string, ArtVerdict>> }
 

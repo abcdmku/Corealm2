@@ -5,6 +5,7 @@ import { defaultItemPose } from './clips.js';
 import type { ViewerSnapshot, ViewerSource } from './types.js';
 import { Button, Checkbox, ChoiceGroup, NativeSelect } from '../components/ui/index.js';
 import { cn } from '../lib/utils.js';
+import { onGameCatalog } from '../model/liveCatalog.js';
 
 export type { ViewerSource, ViewerSnapshot } from './types.js';
 export interface AssetViewerProps {
@@ -27,8 +28,12 @@ export function AssetViewer(props: AssetViewerProps) {
   return <ViewerPanel key={JSON.stringify(props.source)} {...props} />;
 }
 
-function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true, state }: AssetViewerProps) {
+function ViewerPanel({ source: given, label = '3D model', onSnapshot, labUrl = 'http://127.0.0.1:4173/?mode=combat', stage = false, controls = true, state }: AssetViewerProps) {
   const section = useRef<HTMLElement>(null);
+  // Dev-only automation hook: `element.dispatchEvent(new CustomEvent('viewer:set-source', { detail: source }))`
+  // shows another source (an actor draft, say) in this viewer until the page passes a new one.
+  const [override, setOverride] = useState<ViewerSource | null>(null);
+  const source = override ?? given;
   const viewport = useRef<HTMLDivElement>(null);
   const core = useRef<ViewerCore | null>(null);
   const callback = useRef(onSnapshot);
@@ -87,6 +92,9 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
     return () => { active = false; };
   }, [resolvedKey, retry]);
 
+  // A record saved moments ago may not have been in the catalog yet; try again once a newer one lands.
+  useEffect(() => error ? onGameCatalog(() => setRetry(count => count + 1)) : undefined, [error]);
+
   // Automation hook: `element.dispatchEvent(new CustomEvent('viewer:set-state', { detail: 'attack' }))`
   // puts the model in a state the same way the controlled `state` prop does.
   useEffect(() => {
@@ -95,6 +103,14 @@ function ViewerPanel({ source, label = '3D model', onSnapshot, labUrl = 'http://
     const listener = (event: Event) => { const name = (event as CustomEvent<unknown>).detail; if (typeof name === 'string') core.current?.setState(name); };
     element.addEventListener('viewer:set-state', listener);
     return () => element.removeEventListener('viewer:set-state', listener);
+  }, []);
+
+  useEffect(() => {
+    const element = section.current;
+    if (!element || !import.meta.env.DEV) return;
+    const listener = (event: Event) => { const next = (event as CustomEvent<unknown>).detail; if (next && typeof next === 'object' && 'mode' in next) setOverride(next as ViewerSource); };
+    element.addEventListener('viewer:set-source', listener);
+    return () => element.removeEventListener('viewer:set-source', listener);
   }, []);
 
   useEffect(() => {

@@ -27,7 +27,7 @@ const REF_KINDS = [
   "npc", "shop", "quest", "dialogue", "spell", "rune", "set",
   "asset", "audio", "region", "skill", "station", "element",
   "entity", "location", "settlement", "enemyFamily", "campfireFuel",
-  "material", "equipmentFamily", "recipeTemplate", "creatureProfile", "encounter", "composition",
+  "material", "equipmentFamily", "recipeTemplate", "creatureProfile", "encounter", "composition", "creatureSkin",
 ] as const satisfies readonly RefKind[];
 
 interface FoundRef { path: string; kind: string; role: string | undefined; inArray: boolean }

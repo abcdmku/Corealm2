@@ -41,3 +41,6 @@ art/starhide/*.zip
 
 # Workshop candidates are staged for lab review; published GLBs and authoring sources are versioned.
 art/town-stations/candidates/
+
+# Devdocs image-generation job scratch (references, outputs, logs)
+art/skins/jobs/

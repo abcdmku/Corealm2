@@ -91,6 +91,8 @@ export const CATALOG_TABLE_APPLIES: Readonly<Record<string, "live" | "restart">>
   campfireFuels: "restart", equipmentSets: "restart",
   "balance/recipes": "restart", "balance/sets": "restart", "balance/formation": "restart", "balance/campfires": "restart",
   audio: "restart",
+  // Skins are texture files as well as rows: a new one must reach the asset host and the page's build.
+  creatureSkins: "restart",
 };
 
 /** The active server catalog, parsed, ready for `installCatalog`. */

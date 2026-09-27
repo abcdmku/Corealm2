@@ -24,7 +24,7 @@ export const CreatureVariationSchema = obj({
   saturation: opt(positiveRange("Saturation range", "Multiplier on colour saturation, min to max.")),
   value: opt(positiveRange("Brightness range", "Multiplier on brightness, min to max.")),
   /** Other skins individuals may wear. The definition's own look keeps `baseWeight`. */
-  skins: opt(arr(obj({ skinId: ref("creatureSkin", { label: "Skin", role: "Worn by" }), weight: num({ exclusiveMin: 0 }, { label: "Weight" }) })), { label: "Skins", group: "variation" }),
+  skins: opt(arr(obj({ skinId: ref("creatureSkin", { label: "Skin", role: "Worn by" }), weight: num({ exclusiveMin: 0 }, { label: "Weight" }) })), { label: "Skins", role: "Mixed into", weight: "weight", group: "variation" }),
   baseWeight: opt(num({ min: 0 }, { label: "Own look weight", help: "Weight of the definition's own look among its skins. Default 1.", group: "variation" })),
 });
 

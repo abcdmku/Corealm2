@@ -21,6 +21,8 @@ export const CreatureSkinSchema = obj({
     hue: num({ min: -180, max: 180 }, { unit: "deg", label: "Hue" }),
     saturation: num({ min: 0 }, { label: "Saturation" }),
     value: num({ min: 0 }, { label: "Value" }),
+    /** Only hues within `width` degrees of `hue` moved, so eyes and horns keep their colour. */
+    near: opt(obj({ hue: num({ min: 0, max: 360 }, { unit: "deg", label: "Near hue" }), width: num({ exclusiveMin: 0, max: 180 }, { unit: "deg", label: "Width" }) })),
   }), { label: "Recolor" }),
   prompt: opt(str({}, { multiline: true, label: "Prompt" })),
   generator: opt(str({}, { label: "Generator" })),

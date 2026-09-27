@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "2f5672e1d51b61165d8311a817b028f3fa271ac695914a5af0a1951dcfaee1b0",
-  "formulaRevision": "efc6ffa38e009508feef45719f0aea9a7527cc58bf1153f86840481363050662",
+  "revision": "6f5a398a8c4bb70a2865ae033ceb72c0fb3b96458b6d1dc259745ddda18c2d8e",
+  "formulaRevision": "a9bf3c4e791a9c4b4437083caf3a24881418649052ffd9a1cc1c6e416e4d35c0",
   "tables": {
     "items": [
       {
@@ -47750,6 +47750,7 @@
         ]
       }
     ],
+    "creatureSkins": [],
     "worldRegions": [
       {
         "id": "fallowmarch",

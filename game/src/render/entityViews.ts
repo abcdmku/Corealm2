@@ -118,6 +118,9 @@ import { POSE_CLIPS } from "./characterRig.js";
 import type { RemotePlayerPose } from "../contracts.js";
 import {weaponAttachment,type GearAppearance} from "./equipmentVisuals.js";
 import { createEntityBatchMesh } from "./entityBatchMesh.js";
+import { CREATURE_LOOK_OBJECT_KEY, CreatureLooks, NEUTRAL_CREATURE_LOOK, creatureLookChannelOf, encodeCreatureLook, type CreatureLookChannel } from "./creatureSkins.js";
+import { creatureSkinById } from "../content/creatureSkins.js";
+import type { CreatureSkin } from "../content/schema/creatureSkins.js";
 import {
   advanceCreaturePlayback, createCreaturePlayback, creatureBlend, missingCreatureHit,
   transitionCreaturePlayback, type CreaturePlayback,
@@ -686,7 +689,9 @@ type TintRole =
   | "hair"
   | "creature"
   | "creatureAccent"
-  | "architecture";
+  | "architecture"
+  /** A colour-shifting creature material: the batch colour carries the individual's encoded shift. */
+  | "look";
 
 const CLOTH_MATERIAL = /^MI_Peasant/i;
 const CLOTH_ALT_MATERIAL = /^MI_Ranger/i;
@@ -1242,7 +1247,7 @@ interface PartDraw {
    * instance: a freed slot keeps its `BatchedMesh` instance and is handed to the next entity that
    * needs one, which would otherwise inherit the previous occupant's dye.
    */
-  tints: number[];
+  tints: (number | string)[];
 }
 
 interface InstanceGroup {
@@ -1283,7 +1288,20 @@ interface InstanceGroup {
   /** Interpolated skeletal instances used whenever an actor does not own a live rig. */
   animationLod: AnimationLod | null;
   animationLodUsedAt: number;
+  /** The creature look every part of this group draws; see `GroupLook`. */
+  look: GroupLook;
 }
+
+/**
+ * A group's share of a creature's look. Both halves are material identity, so they are in the group
+ * key: a skin swaps albedo maps (one clone per material and skin), and `colour` switches the parts
+ * to colour-shifting materials whose per-individual shift is written per instance or per object.
+ */
+interface GroupLook {
+  skin: CreatureSkin | null;
+  colour: boolean;
+}
+const PLAIN_LOOK: GroupLook = { skin: null, colour: false };
 
 /** A live skeletal animation on one non-instanced entity. */
 interface RigState {
@@ -1375,6 +1393,12 @@ interface ViewRecord {
    * colour the moment it walks into rig range.
    */
   tints: EntityTints | null;
+  /**
+   * This individual's colour shift from `view.colour`, encoded (see `encodeCreatureLook`), or null.
+   * Written into the batch or instance colour, or read by a live rig's per-object uniform. It
+   * replaces the random creature dye: a record with a shift has no `tints`.
+   */
+  look: THREE.Color | null;
   /** Neutral instance multiplier shared by every part under the same parent building id. */
   architectureValue: number;
   /** Per-entity build multiplier on `scale`, as (x, y, z). `NO_BUILD` for everything else. */
@@ -1632,6 +1656,8 @@ export interface EntityViewOptions {
   animationRadius?: number;
   /** Ring radius floor, so a small node is still clickable-looking at 12 m. */
   minHighlightRadius?: number;
+  /** Creature skin rows by id, for `view.skinId`. Defaults to the running catalog's `creatureSkins`. */
+  creatureSkin?: (id: string) => CreatureSkin | undefined;
 }
 
 export class EntityViews {
@@ -1770,6 +1796,8 @@ export class EntityViews {
   private readonly essenceAltarLinesMask = loadEssenceAltarLinesMask();
   /** Per-entity dye clones for the non-instanced path, keyed (source material, tint hex). */
   private readonly tintedMaterials = new Map<string, THREE.Material>();
+  /** Creature skins and colour-shifting materials, shared per (material, skin) and (material, channel). */
+  private readonly looks: CreatureLooks;
   private readonly bakedGeometries: THREE.BufferGeometry[] = [];
   /** Rigged records with a mixer. Kept as its own set so `update` never walks 600 ore nodes. */
   private readonly animated = new Set<ViewRecord>();
@@ -1855,6 +1883,7 @@ export class EntityViews {
     this.animationRadiusSq = animationRadius ** 2;
     this.uniqueReleaseRadiusSq = (animationRadius * UNIQUE_RELEASE_FACTOR) ** 2;
     this.minHighlightRadius = options.minHighlightRadius ?? 0.9;
+    this.looks = new CreatureLooks({ baseUrl: () => this.assets.baseUrl, skin: options.creatureSkin ?? creatureSkinById });
     this.group.name = "entity-views";
     this.highlightGroup.name = "entity-highlights";
     this.scene.entityGroup.add(this.group);
@@ -1874,7 +1903,7 @@ export class EntityViews {
    */
   async prepare(entities: readonly SemanticEntity[], options: AssetLoadOptions = { priority: "visible-spawn", primary: true }): Promise<{ loaded: number; missing: string[] }> {
     const ids = this.assetIdsFor(entities);
-    await this.hydrateAssets(ids, true, options);
+    await Promise.all([this.hydrateAssets(ids, true, options), this.loadSkins(entities)]);
     return {
       loaded: ids.filter((id) => this.sources.has(id) || this.assets.isLoaded(id)).length,
       missing: ids.filter((id) => this.missing.has(id) || this.failedSources.has(id)),
@@ -2419,6 +2448,10 @@ export class EntityViews {
         primary: assetId === view.assetId,
       });
     }
+    // A skin draws once every map it swaps in has decoded, so an individual never flashes the
+    // model's own maps (or an empty texture) first. Unknown skins resolve to none and draw now.
+    const skin = this.looks.resolve(view.assetId, view.skinId);
+    if (skin && !this.looks.ready(skin)) assetsReady = false;
     if (this.missing.has(view.assetId) || !assetsReady) {
       // A remote player keeps moving in their complete previous outfit while the next one loads.
       // Releasing here made equipment and crowd-detail changes erase the player between arrivals.
@@ -2453,7 +2486,8 @@ export class EntityViews {
     const essenceElement = essenceElementFor(entity);
     // Element is material identity, not instance colour. Keeping it in the group key prevents an
     // air cache and a water cache that share one rock asset from ever sharing the wrong parts.
-    const groupKey = `${character?.key ?? view.assetId}|${view.depletedAssetId ?? "-"}|${this.groupTier(entity.archetype, tier, view.assetId, character)}|${regionId ?? "-"}|${entity.archetype}|essence:${essenceElement ?? "-"}|${clip}|${campfire ? "fire" : "-"}|${batchCell(entity.archetype, entity.position)}`;
+    const look: GroupLook = skin || view.colour ? { skin, colour: view.colour !== undefined } : PLAIN_LOOK;
+    const groupKey = `${character?.key ?? view.assetId}|${view.depletedAssetId ?? "-"}|${this.groupTier(entity.archetype, tier, view.assetId, character)}|${regionId ?? "-"}|${entity.archetype}|essence:${essenceElement ?? "-"}|${clip}|${campfire ? "fire" : "-"}|${batchCell(entity.archetype, entity.position)}|look:${skin?.id ?? "-"}:${look.colour ? 1 : 0}`;
     // Dormant altar complexes retain a quiet elemental hue but use the non-emissive material set.
     // Awakening changes the same semantic entities to the fully lit material identity.
     const spent = SPENT_STATES.has(entity.state)
@@ -2473,7 +2507,7 @@ export class EntityViews {
     // stops walking stops changing position, so a signature built from position alone would never
     // notice the stop and the walk pose would stick forever.
     const moving = this.updateMoving(entity, position);
-    const signature = `${groupKey}|${spent ? 1 : 0}|${moving ? 1 : 0}|${round(position[0])},${round(position[1])},${round(position[2])}|${round(rotationY)}|${round(scale)}|${scaleAxes.map(round).join(",")}|${round(waterOffset)}|${tiltKey(normal, tilt)}`;
+    const signature = `${groupKey}|${spent ? 1 : 0}|${moving ? 1 : 0}|${round(position[0])},${round(position[1])},${round(position[2])}|${round(rotationY)}|${round(scale)}|${scaleAxes.map(round).join(",")}|${round(waterOffset)}|${tiltKey(normal, tilt)}|${view.colour ? `${view.colour.hue},${view.colour.saturation},${view.colour.value}` : "-"}`;
 
     let existing = this.records.get(entity.id);
     let previousAppearance: ViewRecord | null = null;
@@ -2497,7 +2531,7 @@ export class EntityViews {
     if (existing && existing.groupKey !== groupKey) {
       if (entity.id.startsWith("remote:")) {
         this.replacementGroupKeys.set(entity.id, groupKey);
-        const replacement = this.prepareReplacementGroup(entity, groupKey, tier, clip, character, regionId, essenceElement);
+        const replacement = this.prepareReplacementGroup(entity, groupKey, tier, clip, character, regionId, essenceElement, look);
         if (!replacement || !replacement.live.every(draw => this.isViewReady(draw.batch.mesh))) return;
         previousAppearance = existing;
       }
@@ -2506,9 +2540,10 @@ export class EntityViews {
     }
 
     const record = this.records.get(entity.id)
-      ?? this.acquire(entity, groupKey, tier, clip, character, regionId, essenceElement);
+      ?? this.acquire(entity, groupKey, tier, clip, character, regionId, essenceElement, look);
     if (!record) return;
     this.replacementGroupKeys.delete(entity.id);
+    record.look = view.colour ? encodeCreatureLook(view.colour, record.look ?? new THREE.Color()) : null;
 
     record.signature = signature;
     record.target.set(position[0], position[1], position[2]);
@@ -2585,6 +2620,7 @@ export class EntityViews {
     character: CharacterSpec | null,
     regionId: RegionId | null,
     essenceElement: EssenceElement | null,
+    look: GroupLook,
   ): InstanceGroup | null {
     const existing = this.groups.get(groupKey);
     if (existing) return existing;
@@ -2594,7 +2630,7 @@ export class EntityViews {
       const view = entity.view!;
       this.ensureGroup(groupKey, view.assetId, view.depletedAssetId ?? null, entity.archetype, tier,
         batchCell(entity.archetype, entity.position), clip, character, regionId,
-        entity.station?.kind === "campfire", essenceElement);
+        entity.station?.kind === "campfire", essenceElement, look);
     };
     const scheduled = this.schedulePreparation?.(prepare);
     if (scheduled) {
@@ -2615,6 +2651,7 @@ export class EntityViews {
     character: CharacterSpec | null,
     regionId: RegionId | null,
     essenceElement: EssenceElement | null,
+    look: GroupLook,
   ): ViewRecord | null {
     const view = entity.view!;
     const group = this.ensureGroup(
@@ -2622,6 +2659,7 @@ export class EntityViews {
       batchCell(entity.archetype, entity.position), clip, character, regionId,
       entity.station?.kind === "campfire",
       essenceElement,
+      look,
     );
     if (!group) return null;
 
@@ -2672,7 +2710,9 @@ export class EntityViews {
       actionPriority: false,
       scale: 1,
       scaleAxes: NO_BUILD,
-      tints: tintsFor(entity.id, entity.archetype, character),
+      // An authored colour shift is this individual's variation; the random dye would fight it.
+      tints: view.colour ? null : tintsFor(entity.id, entity.archetype, character),
+      look: null,
       architectureValue: regionId ? architectureValueFor(regionId) : 1,
       build: buildFor(entity.id, entity.archetype),
       schoolCount: 2 + (hashString(`${entity.id}:school-count`) % 3),
@@ -3039,6 +3079,7 @@ export class EntityViews {
     regionId: RegionId | null = null,
     campfire = false,
     essenceElement: EssenceElement | null = null,
+    look: GroupLook = PLAIN_LOOK,
   ): InstanceGroup | null {
     const existing = this.groups.get(key);
     if (existing) return existing;
@@ -3090,7 +3131,9 @@ export class EntityViews {
       needsPose: rigged && !ready,
       animationLod: null,
       animationLodUsedAt: 0,
+      look,
     };
+    group.liveParts = this.lookParts(group, liveParts);
     group.live = this.buildDraws(group.liveParts, group.cell, group.archetype);
     this.groups.set(key, group);
     return group;
@@ -3106,7 +3149,7 @@ export class EntityViews {
    */
   private ensureSpent(group: InstanceGroup): void {
     if (group.spent.length > 0) return;
-    if (!group.spentParts) group.spentParts = this.buildSpentParts(group);
+    if (!group.spentParts) group.spentParts = this.lookParts(group, this.buildSpentParts(group));
     // A group with no spent geometry at all keeps its LIVE instance drawn under the spent
     // material rather than being hidden. `writeSlot` switches the live instance off only when it
     // has something to put in its place; a node that vanishes on depletion is worse than one that
@@ -3127,9 +3170,9 @@ export class EntityViews {
   private ensureMoving(group: InstanceGroup): void {
     if (group.moving.length > 0 || !group.posed) return;
     if (!group.movingParts) {
-      group.movingParts = this.bakedParts(
+      group.movingParts = this.lookParts(group, this.bakedParts(
         group.assetId, group.character, group.archetype, group.tier, group.regionId, false, "walk",
-      );
+      ));
     }
     // The live and walk bakes no longer have to line up part-for-part: a `PartDraw` carries its own
     // `SourcePart`, so `writeSlot` reads each variant's own geometry and transform instead of
@@ -3165,7 +3208,8 @@ export class EntityViews {
     try {
       lod = new AnimationLod(
         this.group, root, animationRoot, [...clips.values()],
-        (material) => this.variantFor(material, group.assetId, group.archetype, group.tier, group.regionId, false),
+        (material) => this.lookMaterial(group,
+          this.variantFor(material, group.assetId, group.archetype, group.tier, group.regionId, false), "instance"),
         true,
         // Detail changes reduce geometry, but must not remove the actor's shadow.
         true,
@@ -5148,7 +5192,8 @@ export class EntityViews {
     batch.usedIndices += indices;
     batch.geometryIds.set(geometry, id);
     if (!batch.colorsPrepared && (tintRoleFor(batch.mesh.material.name) !== "none"
-      || architectureMaterialRole(batch.mesh.material.name))) {
+      || architectureMaterialRole(batch.mesh.material.name)
+      || creatureLookChannelOf(batch.mesh.material) === "batch")) {
       // setColorAt changes Three's shader layout on its first use. Establish the tint-capable
       // layout while preparing geometry, before any first-draw warmup or real player instance.
       const temporary = batch.mesh.addInstance(id);
@@ -5191,9 +5236,10 @@ export class EntityViews {
         geometryId: this.addBatchGeometry(batch, part.geometry, part.windStrength),
         part,
         instances: [],
-        role: tintable
-          ? tintRoleFor(part.material.name)
-          : architecture && architectureMaterialRole(part.material.name) ? "architecture" : "none",
+        role: creatureLookChannelOf(part.material) === "batch" ? "look"
+          : tintable
+            ? tintRoleFor(part.material.name)
+            : architecture && architectureMaterialRole(part.material.name) ? "architecture" : "none",
         tints: [],
       });
     }
@@ -5276,6 +5322,8 @@ export class EntityViews {
         } } : {}),
         opacity: 1 - record.fade,
       }, (source) => {
+        // Every part of a colour-shifting group reads its shift from the instance colour.
+        if (group.look.colour) return record.look;
         if (!record.tints) return null;
         const hex = tintFor(record.tints, tintRoleFor(source.name));
         return hex === NO_TINT ? null : SCRATCH_COLOUR.setHex(hex);
@@ -5325,7 +5373,7 @@ export class EntityViews {
         if (draw.part.geometry.boundingBox) pickBounds.union(this.pickPartBounds.copy(draw.part.geometry.boundingBox).applyMatrix4(transform));
       }
       draw.batch.mesh.boundingSphere = null;
-      this.paintInstance(draw, slot, instance, record.tints, record.architectureValue);
+      this.paintInstance(draw, slot, instance, record.tints, record.architectureValue, record.look);
     }
     // An instance that is not part of the current pose is switched off, not parked at a zero-scale
     // matrix. `BatchedMesh` leaves an invisible instance out of the multi-draw entirely, so the
@@ -5411,8 +5459,18 @@ export class EntityViews {
     instance: number,
     tints: EntityTints | null,
     architectureValue: number,
+    look: THREE.Color | null,
   ): void {
     if (draw.role === "none") return;
+    if (draw.role === "look") {
+      // Always written on a slot's first draw: a reused batch instance keeps its last occupant's colour.
+      const shift = look ?? NEUTRAL_CREATURE_LOOK;
+      const token = `${shift.r},${shift.g},${shift.b}`;
+      if (draw.tints[slot] === token) return;
+      draw.batch.mesh.setColorAt(instance, shift);
+      draw.tints[slot] = token;
+      return;
+    }
     const token = draw.role === "architecture"
       ? architectureValue
       : tints ? tintFor(tints, draw.role) : NO_TINT;
@@ -5648,6 +5706,7 @@ export class EntityViews {
       // dye says which individual it is, and both are multiplies against the same texture.
       this.applyEntityTint(record);
       this.applyOrganicMaterials(record.unique);
+      this.applyUniqueLook(record);
       return;
     }
     record.unique.traverse((child) => {
@@ -5673,6 +5732,47 @@ export class EntityViews {
     // the same body, which is the read this whole pass exists to remove.
     this.applyEntityTint(record);
     this.applyOrganicMaterials(record.unique);
+    this.applyUniqueLook(record);
+  }
+
+  /**
+   * The creature look on a non-instanced object, over everything `applyUniqueState` painted: the
+   * skin's maps, and the colour-shifting material whose shift is this object's own uniform. Both
+   * materials are shared with every other individual of the group; only `userData` is per mesh.
+   */
+  private applyUniqueLook(record: ViewRecord): void {
+    const group = this.groups.get(record.groupKey);
+    if (!record.unique || !group || (!group.look.skin && !group.look.colour)) return;
+    record.unique.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      mesh.userData[CREATURE_LOOK_OBJECT_KEY] = record.look;
+      mesh.material = Array.isArray(mesh.material)
+        ? mesh.material.map(material => this.lookMaterial(group, material, "object"))
+        : this.lookMaterial(group, mesh.material, "object");
+    });
+  }
+
+  /** The skin and colour-shift half of a group's look on one material. Shared, never per entity. */
+  private lookMaterial(group: InstanceGroup, material: THREE.Material, channel: CreatureLookChannel): THREE.Material {
+    const skinned = this.looks.skin(material, group.look.skin);
+    return group.look.colour ? this.looks.look(skinned, channel) : skinned;
+  }
+
+  /** A group's parts under its look, for the batched pose variants. */
+  private lookParts(group: InstanceGroup, parts: SourcePart[]): SourcePart[] {
+    if (!group.look.skin && !group.look.colour) return parts;
+    return parts.map(part => ({ ...part, material: this.lookMaterial(group, part.material, "batch") }));
+  }
+
+  /** Decodes the maps of every skin these entities wear, so their first sync draws them skinned. */
+  private async loadSkins(entities: readonly SemanticEntity[]): Promise<void> {
+    const skins = new Set<CreatureSkin>();
+    for (const entity of entities) {
+      const skin = entity.view ? this.looks.resolve(entity.view.assetId, entity.view.skinId) : null;
+      if (skin) skins.add(skin);
+    }
+    await Promise.all([...skins].map(skin => this.looks.whenLoaded(skin)));
   }
 
   /** Promoted rigs and baked distant poses keep the same surface treatment. */
@@ -6373,6 +6473,7 @@ export class EntityViews {
     this.uniqueViewCount = 0;
     for (const material of this.tintedMaterials.values()) material.dispose();
     this.tintedMaterials.clear();
+    this.looks.dispose();
     this.fairyArchitecture.dispose();
     this.fairyArchitectureAssets.clear();
     this.fairyLampPositions.length = 0;

@@ -39,6 +39,9 @@ import { content, enemyCombatLevel } from "../content/index.js";
 import type { EnemyDef, GatheringResourceArchetype, ResourceDef } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
 import { WORLD_CONTENT } from '../content/worldData.js';
+import { CREATURE_CATALOG } from '../content/creatureRuntime.js';
+import { rollCreatureLook } from '../content/creatureVariation.js';
+import type { CreatureSpeciesDef } from '../content/creatureSpecies.js';
 import { QUESTS } from "../content/quests.js";
 import { resourceDef } from "../content/resources.js";
 import {
@@ -2177,9 +2180,7 @@ export function buildEnemyGroup(
   // A boss should not be the same size as the things guarding it. 1.6x on top of the authored
   // scale is the difference between "another enemy" and "the thing in the room"; a regional
   // miniboss draws at 1.3x, above the crowd and clearly below the three Orb bosses.
-  const baseViewScale = bossRank === "boss" ? group.scale * 1.6
-    : bossRank === "miniboss" ? group.scale * 1.3
-    : group.scale;
+  const rankScale = bossRank === "boss" ? 1.6 : bossRank === "miniboss" ? 1.3 : 1;
   // Widest of the two ground axes, halved: a stag is longer than it is wide and it is the long
   // axis that decides whether two of them are standing in each other. Null when the asset is not in
   // the manifest, which leaves `enemyAI` on its own fallback rather than inventing a size here.
@@ -2189,7 +2190,16 @@ export function buildEnemyGroup(
   for (let index = 0; index < group.count; index += 1) {
     const member = options?.members?.[index];
     const stats = member?.stats ?? enemyBlock;
-    const viewScale = baseViewScale * (member?.scaleMultiplier ?? 1);
+    const id = member?.id ?? ((group.legacyCount ?? group.count) === 1 && index === 0 ? group.id : `${group.id}_${index + 1}`);
+    // Each individual rolls its size, skin and colour once, from its id, out of its definition's
+    // variation range. Without a range the roll is the plain scale and the definition's own skin.
+    const presentation = CREATURE_CATALOG.byCreatureId.get(stats.id)?.presentation as Partial<CreatureSpeciesDef> | undefined;
+    const look = rollCreatureLook({
+      scale: group.scale,
+      ...(presentation?.skinId ? { skinId: presentation.skinId } : {}),
+      ...(presentation?.variation ? { variation: presentation.variation } : {}),
+    }, id);
+    const viewScale = look.scale * rankScale * (member?.scaleMultiplier ?? 1);
     const scale = drawnScale(archetype, viewScale, group.tier);
     const bodyRadius = assetBox ? (Math.max(assetBox.x, assetBox.z) / 2) * scale : null;
     // Preserve the legacy stream so authoring a habitat does not move later actors.
@@ -2199,7 +2209,7 @@ export function buildEnemyGroup(
     const spot = habitat?.anchors[index] ?? generatedSpot;
     const position = place(spot, group.assetId, scale);
     out.push({
-      id: member?.id ?? ((group.legacyCount ?? group.count) === 1 && index === 0 ? group.id : `${group.id}_${index + 1}`),
+      id,
       archetype,
       name: member ? stats.name : group.name,
       tier: group.tier,
@@ -2243,6 +2253,8 @@ export function buildEnemyGroup(
         rotationY: round2(rng.float(0, Math.PI * 2)),
         materialTier: group.tier,
         labelHeight: bossRank !== null ? 3.4 : 2.2,
+        ...(look.skinId ? { skinId: look.skinId } : {}),
+        ...(look.colour ? { colour: look.colour } : {}),
       },
       meta: {
         family: group.family,

@@ -7,6 +7,8 @@ import { actorSpec } from './actorEntity.js';
 import { CREATURE_THUMBNAIL_KEY as CREATURE_KEY, creatureThumbnailKey } from './thumbnailKeys.js';
 import { viewerRegistry } from './registry.js';
 import type { ViewerModel } from './types.js';
+import { RESOLVED_TABLES } from '../../../game/src/content/resolvedCatalog.js';
+import type { CreatureSkin } from '../../../game/src/content/schema/creatureSkins.js';
 import type { ThumbnailProvider } from '../ui/assetThumbnails.js';
 import { itemIconSource } from '../ui/Thumb.js';
 
@@ -206,12 +208,17 @@ function hash(text: string): string {
   return (value >>> 0).toString(16).padStart(8, '0');
 }
 
-/** The cached file name changes with anything that changes the drawn look: model file, scale, tier, rank or dye seed. */
+/**
+ * The cached file name changes with anything that changes the drawn look: model file, scale, tier,
+ * rank, dye seed, the rolled skin and colour (in `view`), the variation range, and the skin's maps.
+ */
 async function creatureCacheUrl(creatureId: string): Promise<string | undefined> {
   if (!ASSET_ID.test(creatureId)) return undefined;
-  const { entity } = actorSpec(creatureId);
+  const { entity, variation } = actorSpec(creatureId);
   const entry = (await viewerRegistry()).entry(entity.view!.assetId) as { sha256?: string; bytes?: number } | undefined;
-  const look = JSON.stringify([entity.id, entity.archetype, entity.tier, entity.view, entry?.sha256 ?? entry?.bytes ?? null]);
+  const skinId = entity.view!.skinId;
+  const skin = skinId ? (RESOLVED_TABLES.creatureSkins as CreatureSkin[] | undefined)?.find(row => row.id === skinId) : undefined;
+  const look = JSON.stringify([entity.id, entity.archetype, entity.tier, entity.view, variation, skin?.sha256 ?? skin?.maps ?? null, entry?.sha256 ?? entry?.bytes ?? null]);
   return `${THUMBNAILS_PATH}/actor--${creatureId}-${hash(look)}.png`;
 }
 

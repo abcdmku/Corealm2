@@ -394,6 +394,8 @@ export class AssetRegistry {
       meshoptWorkersStarted = true;
     }
   }
+  /** The assets directory this registry loads from, trailing slash included. */
+  get baseUrl(): string { return this.urls.assetBaseUrl ?? assetBaseUrl(); }
   private manifest: AssetManifest | null = null;
   private byId = new Map<string, AssetEntry>();
   private readonly textureCache = new AssetTextureCache();

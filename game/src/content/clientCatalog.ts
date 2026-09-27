@@ -24,6 +24,8 @@ export const CLIENT_TABLES = [
   'items', 'recipes', 'resources', 'progression', 'materials', 'campfireFuels', 'equipmentSets',
   'shops', 'npcs', 'spells', 'spellRunes', 'elementalSpells', 'worldTerrain',
   'balance/recipes', 'balance/sets', 'balance/campfires', 'audio',
+  // Skin rows name the texture files a creature's look draws with; the renderer resolves `view.skinId` here.
+  'creatureSkins',
 ] as const;
 /** What the quest log shows: the name, the region, who starts it, what it asks for, and each stage's prose. */
 const QUEST_FIELDS = ['id', 'name', 'regionId', 'giverNpcId', 'requirements', 'prerequisiteQuestIds'] as const;

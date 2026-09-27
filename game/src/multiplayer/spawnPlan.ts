@@ -71,6 +71,6 @@ export function spawnSignature(entity: SemanticEntity): string {
   const { combat, view, meta } = entity;
   return JSON.stringify([entity.archetype, entity.name, entity.tier, entity.regionId,
     combat && [combat.maxHealth, combat.level, combat.aggroRadius, combat.moveSpeedMps ?? null, combat.walkSpeedMps ?? null, combat.bodyRadius ?? null],
-    view && [view.assetId, view.scale ?? null, view.materialTier ?? null, view.labelHeight ?? null],
+    view && [view.assetId, view.scale ?? null, view.materialTier ?? null, view.labelHeight ?? null, view.skinId ?? null, view.colour ?? null],
     meta && [meta.family, meta.enemyDefId, meta.groupId, meta.habitatId, meta.behaviour, meta.spawnX, meta.spawnZ, meta.rank].map(value => value ?? null)]);
 }

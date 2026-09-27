@@ -1,3 +1,4 @@
+import type { CreatureVariation } from './creatureVariation.js';
 import type { EnemyDef } from './index.js';
 import type { EnemyGroupDef, Spot } from './regions.js';
 import type { HabitatDef } from './worldHabitats.js';
@@ -5,7 +6,11 @@ import type { EncounterDefinition, WorldPlacement } from './schema/encounters.js
 import type { SchemaIssue } from './schema/core.js';
 import { regionForPoint } from './regionOwnership.js';
 
-export interface WorldCreature { id: string; assetId: string; scale: number; stats: EnemyDef; bodyRadius: number }
+/**
+ * `skinId` and `variation` ride along so a look edit changes the group's spawn signature and a live
+ * publish respawns the members; the world layer rolls each individual from them.
+ */
+export interface WorldCreature { id: string; assetId: string; scale: number; stats: EnemyDef; bodyRadius: number; skinId?: string; variation?: CreatureVariation }
 export interface WorldRegionBounds { id: string; bounds: { min: Spot; max: Spot }; underground?: boolean }
 export interface WorldCompilerInput {
   encounters: readonly EncounterDefinition[];

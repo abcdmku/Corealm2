@@ -25,7 +25,7 @@ export interface ActorDraft {
   presentation?: { scale?: number; skinId?: string | null; variation?: CreatureVariation | null };
   /**
    * Show this many individuals side by side, each rolled with `rollCreatureLook` from the
-   * variation range, as the world layer would. Absent or 1: the definition's own look, unrolled.
+   * variation range, as the world layer would. Absent or 1: one individual, rolled the same way.
    */
   crowd?: number;
   /** Changes the crowd's entity ids, to see another sample of the same range. */

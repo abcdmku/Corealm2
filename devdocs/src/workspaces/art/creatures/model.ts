@@ -63,3 +63,55 @@ export function filterBodies(entries: readonly BodyEntry[], filters: BodyFilters
 
 /** A definition's label: its name, or its id when the name is shared. */
 export const lookLabel = (look: CreatureLook, repeats: ReadonlySet<string>): string => repeats.has(look.name) ? `${look.name} · ${look.creatureId}` : look.name;
+
+/* ---------- Authoring looks ---------- */
+
+type Creature = CreatureData["creatures"][number];
+export type Presentation = NonNullable<Creature["presentation"]>;
+export type Variation = NonNullable<Presentation["variation"]>;
+
+/** A definition's effective presentation: its own, else its base's. */
+export const presentationOf = (definition: Creature | undefined, base: Creature | undefined): Presentation | undefined => definition?.presentation ?? base?.presentation;
+
+/**
+ * Change presentation keys on a definition (`undefined` deletes one). A variant that inherits its
+ * base's presentation takes a copy under its own id first; a copy that ends up equal to the base's
+ * is dropped again, so the variant goes back to inheriting.
+ */
+export function withPresentation(current: Creature, base: Creature | undefined, patch: Readonly<Record<string, unknown>>): Creature {
+  const seed = current.presentation ?? base?.presentation;
+  if (!seed) return current;
+  const next = { ...structuredClone(seed), ...(current.presentation ? {} : { id: current.id }) } as Record<string, unknown>;
+  for (const [key, value] of Object.entries(patch)) { if (value === undefined) delete next[key]; else next[key] = value; }
+  if (current.baseId && base?.presentation && JSON.stringify({ ...next, id: base.presentation.id }) === JSON.stringify(base.presentation)) {
+    const { presentation: _dropped, ...inherits } = current;
+    return inherits as Creature;
+  }
+  return { ...current, presentation: next as unknown as Presentation };
+}
+
+const ID_PATTERN = /^[A-Za-z][A-Za-z0-9_-]*$/;
+export const isCreatureId = (id: string): boolean => ID_PATTERN.test(id);
+
+/** `<name>_l<level>`, made unique against `known` with a numeric suffix. */
+export function variantIdFor(name: string, level: number | undefined, known: ReadonlySet<string>): string {
+  let slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "variant";
+  if (!/^[a-z]/.test(slug)) slug = `c_${slug}`;
+  const stem = level ? `${slug}_l${level}` : slug;
+  let id = stem;
+  for (let count = 2; known.has(id); count++) id = `${stem}_${count}`;
+  return id;
+}
+
+/** The opening prompt for a generated skin, from what the definition says about itself. The author edits it. */
+export function skinPrompt({ name, family, region, description }: { name: string; family?: string; region?: string; description?: string }): string {
+  const who = [name, family && family.replace(/[_-]+/g, " ") !== name.toLowerCase() ? `(${family.replace(/[_-]+/g, " ")})` : ""].filter(Boolean).join(" ");
+  return [
+    `Repaint this albedo texture map for ${who}${region ? `, a creature of ${region}` : ""}.`,
+    description ? `About it: ${description.trim()}` : "",
+    "Keep the UV layout, seams and every painted feature where they are. Layered colours and surface detail (fur, scales, skin, markings), no flat fills, no lighting baked in.",
+  ].filter(Boolean).join("\n");
+}
+
+/** A range as it reads in the UI: "0.8 to 1.25". */
+export const formatRange = (range: readonly [number, number] | undefined, digits = 2): string => range ? `${Number(range[0].toFixed(digits))} to ${Number(range[1].toFixed(digits))}` : "none";

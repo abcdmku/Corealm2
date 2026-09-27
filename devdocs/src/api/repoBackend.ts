@@ -1,4 +1,5 @@
 import type { ApiError, CollectionResponse, CollectionSummary, ContentTransactionRequest } from "../../shared/contracts.js";
+import { refreshGameCatalog } from "../model/liveCatalog.js";
 import { BackendUnavailable, type BackendTransaction, type DevdocsBackend, type TransactionRefusal, type TransactionSuccess } from "./backend.js";
 
 /**
@@ -34,7 +35,10 @@ export function createRepoBackend(): DevdocsBackend {
       const text = await response.text();
       let body: unknown;
       try { body = text ? JSON.parse(text) as unknown : undefined; } catch { body = undefined; }
-      if (response.ok) return { ok: true, body: (body ?? {}) as TransactionSuccess };
+      if (response.ok) {
+        if (request.operation === "save") await refreshGameCatalog();
+        return { ok: true, body: (body ?? {}) as TransactionSuccess };
+      }
       return { ok: false, status: response.status, body: (body ?? { error: `Save failed (${response.status}). Your draft is still here.` }) as TransactionRefusal };
     },
     admin: () => Promise.reject(new BackendUnavailable("Server administration")),
