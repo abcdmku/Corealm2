@@ -71,3 +71,43 @@ themselves. Container queries drop the list below 72rem and stack the inspector 
 
 Known gaps: creatures with several loot rolls still scroll on the Loot tab; boss rank comes from world
 placement, so lab-only boss rows render at enemy size; the camera fits the idle pose only.
+
+## Round 2: variants, variation ranges and skins (September 27, 2026)
+
+Two kinds of variant:
+
+1. **Look variants** are creature definitions with a `baseId`: a different level, region, scale or
+   look (`presentation.skinId`). They are separate encounters and separate records.
+2. **Individual variation** is a range on one definition (`presentation.variation`): size, hue,
+   saturation and brightness spreads and a weighted pool of skins. Every individual rolls once from
+   its entity id with `game/src/content/creatureVariation.ts` `rollCreatureLook`. The world layer
+   writes the roll into `entity.view` (`scale`, `skinId`, `colour`) and the renderer draws it.
+   Devdocs previews a crowd with the same function.
+
+A **skin** (`creatureSkins` collection, `game/content/data/creatureSkins.json`) is a set of albedo
+maps for one model, keyed by material name, stored under `game/public/assets/skins/`. Kinds:
+`imagegen` (image-generated texture maps: the finished-reskin standard), `recolor` (a hue,
+saturation and value shift of another map that keeps its detail; fine for variation pools),
+`source` (alternative maps from the model's pack).
+
+In the browser: recolor bakes a map in a canvas and saves it; "Generate" sends the current maps and
+a prompt to the devdocs server, which runs the image model (Codex CLI `codex exec -i <ref>` by
+default, `DEVDOCS_IMAGEGEN_COMMAND` to override) as a background job and saves the result as an
+`imagegen` skin for review.
+
+### Contracts (root-owned)
+
+- Game: `schema/creatureSkins.ts`, `SpeciesFields.skinId` / `variation` (`schema/creatures.ts`),
+  ref kind `creatureSkin`, `content/creatureVariation.ts`, `contracts.ts` `view.skinId` / `view.colour`.
+- Devdocs: `viewer/types.ts` `ActorDraft` (`draft` on the actor source), `viewer/albedo.ts`
+  `albedoMaps`, `shared/skinContracts.ts` (skins and imagegen routes).
+
+### Ownership
+
+| Owner | Files |
+| --- | --- |
+| Root | the contracts above, this doc |
+| Game runtime | world-layer creature entity construction, `game/src/render/entityViews.ts`, new `game/src/render/creatureSkins.ts`, related `tests/` |
+| Actor stage | `devdocs/src/viewer/**` except `types.ts` |
+| Skins server | `devdocs/server/handlers/skins.ts`, `devdocs/server/handlers/imagegen.ts`, `devdocs/server/plugin.ts`, `tests/devdocs-skins-*.test.ts` |
+| Creatures view | `devdocs/src/workspaces/art/creatures/**` |

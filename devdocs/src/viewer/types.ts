@@ -1,5 +1,6 @@
 import type * as THREE from 'three';
 import type { CharacterPose } from '../../../game/src/render/characterRig.js';
+import type { CreatureVariation } from '../../../game/src/content/creatureVariation.js';
 
 /** What a creature can be shown doing. The game's motion vocabulary plus directional hits. */
 export const CREATURE_STATES = ['idle', 'walk', 'run', 'attack', 'hit', 'hitLeft', 'hitRight', 'death'] as const;
@@ -8,13 +9,31 @@ export type CreatureState = (typeof CREATURE_STATES)[number];
 export type ViewerSource =
   | { mode: 'asset' | 'creature'; assetId: string }
   /** A creature definition as the game draws it: its presentation asset, scale, tint and motion states. */
-  | { mode: 'actor'; creatureId: string }
+  | { mode: 'actor'; creatureId: string; draft?: ActorDraft }
   | { mode: 'glb'; url: string; manifestSize?: ViewerSize }
   | { mode: 'outfit'; body?: 'male' | 'female'; itemIds: readonly string[]; mainHandId?: string; offHandId?: string; pose?: CharacterPose };
 export interface ViewerSize { x: number; y: number; z: number }
 export interface ViewerClip { name: string; duration: number; group: string }
 export interface ViewerMaterial { name: string; type: string; textures: string[] }
 export interface ViewerAttachment { slot: string; asset: string; bone: string; position: number[]; rotation: number[]; scale: number[] }
+/**
+ * Unsaved look edits previewed on an actor before anything is written. The stage always draws
+ * through production code; a draft only substitutes the inputs the game would read.
+ */
+export interface ActorDraft {
+  /** Presentation fields layered over the definition's own (scale, skinId, variation). */
+  presentation?: { scale?: number; skinId?: string | null; variation?: CreatureVariation | null };
+  /**
+   * Show this many individuals side by side, each rolled with `rollCreatureLook` from the
+   * variation range, as the world layer would. Absent or 1: the definition's own look, unrolled.
+   */
+  crowd?: number;
+  /** Changes the crowd's entity ids, to see another sample of the same range. */
+  seed?: number;
+  /** Albedo maps not yet saved as a skin, keyed by material name: object or data URLs. */
+  maps?: Record<string, string>;
+}
+
 /** One state the loaded model can be put in: a creature state, a player pose, or an asset's clip group. */
 export interface ViewerStateInfo {
   name: string;

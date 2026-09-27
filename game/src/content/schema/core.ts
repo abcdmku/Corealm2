@@ -33,7 +33,7 @@ export type RefKind =
   | "asset" | "audio" | "region" | "skill" | "station" | "element"
   | "entity" | "location" | "settlement" | "enemyFamily" | "campfireFuel"
   | "material" | "equipmentFamily" | "recipeTemplate" | "creatureProfile" | "encounter"
-  | "composition";
+  | "composition" | "creatureSkin";
 
 export interface FieldMeta {
   /** Short form label. Defaults to the field name. */
@@ -124,6 +124,7 @@ export const REF_KIND_SOURCES: Record<RefKind, RefKindSource> = {
   equipmentFamily: { collection: "equipmentFamilies" },
   recipeTemplate: { collection: "recipeTemplates" },
   creatureProfile: { collection: "creatureProfiles" },
+  creatureSkin: { collection: "creatureSkins" },
   encounter: { collection: "encounters" },
   /** The ten player skills. `SKILL_IDS` is the frozen runtime list. */
   skill: { enum: SKILL_IDS },

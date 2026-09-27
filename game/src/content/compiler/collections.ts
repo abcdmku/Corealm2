@@ -14,6 +14,7 @@ import { EquipmentSetRecordSchema } from "../schema/equipmentSets.js";
 
 import { CampfireFuelRecordSchema } from "../schema/campfireFuels.js";
 import { CreatureDefinitionSchema, CreatureProfileSchema } from '../schema/creatureDefinitions.js';
+import { CreatureSkinSchema } from '../schema/creatureSkins.js';
 import { EncounterDefinitionSchema, WorldPlacementSchema, ResourcePlacementSchema } from '../schema/encounters.js';
 import { LootTableSchema } from '../schema/loot.js';
 
@@ -35,7 +36,7 @@ export const CONTENT_COLLECTIONS: readonly ContentCollection[] = [
   collection("campfireFuels", CampfireFuelRecordSchema, "logItemId"),
   collection("equipmentSets", EquipmentSetRecordSchema),
   
-  collection('creatureDefinitions', CreatureDefinitionSchema), collection('creatureProfiles', CreatureProfileSchema), collection('lootTables', LootTableSchema),
+  collection('creatureDefinitions', CreatureDefinitionSchema), collection('creatureProfiles', CreatureProfileSchema), collection('lootTables', LootTableSchema), collection('creatureSkins', CreatureSkinSchema),
   collection('worldRegions', WorldRegionSchema), collection('worldTerrain', WorldTerrainSchema), collection('encounters', EncounterDefinitionSchema), collection('placements', WorldPlacementSchema), collection('resourcePlacements', ResourcePlacementSchema),
   collection("shops", shopSchema), collection("npcs", npcRecordSchema),
   collection("quests", questSchema), collection("dialogue", dialogueRecordSchema),

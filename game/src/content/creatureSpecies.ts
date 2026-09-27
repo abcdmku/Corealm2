@@ -1,3 +1,4 @@
+import type { CreatureVariation } from "./creatureVariation.js";
 import type { RegionId } from '../contracts.js';
 import type { EnemyDef } from './index.js';
 import { creaturesAvailableIn } from './creatureData.js';
@@ -11,6 +12,9 @@ export interface CreatureSpeciesDef {
   readonly stats: EnemyDef;
   readonly activity: "graze" | "forage" | "prowl" | "patrol";
   readonly description: string;
+  /** A `creatureSkins` id this definition wears instead of the model's own albedo maps. */
+  readonly skinId?: string;
+  readonly variation?: CreatureVariation;
 }
 
 export const CREATURE_SPECIES: readonly CreatureSpeciesDef[] = creaturesAvailableIn('world');

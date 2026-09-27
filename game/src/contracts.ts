@@ -722,6 +722,17 @@ export interface SemanticEntity {
     scaleAxes?: Vec3;
     rotationY?: number;
     /**
+     * A creature's look: the `creatureSkins` id whose albedo maps replace the model's own.
+     * Rolled by the world layer (`content/creatureVariation.ts`); absent means the model's maps.
+     */
+    skinId?: string;
+    /**
+     * A creature's individual colour shift, rolled by the world layer from its definition's
+     * variation range: hue in degrees, saturation and value as multipliers. Applied to the albedo
+     * so texture detail survives. Absent means unshifted.
+     */
+    colour?: { hue: number; saturation: number; value: number };
+    /**
      * Ground speed this mover is currently being stepped at, in metres per second, written by
      * whichever system owns its movement each time it takes a step.
      *
