@@ -122,15 +122,17 @@ async function readSkins(contentRoot: string): Promise<{ records: CreatureSkin[]
   return { records: JSON.parse(text) as CreatureSkin[], revision: contentRevision(text) };
 }
 
-const KINDS = new Set<SaveSkinRequest["kind"]>(["recolor", "imagegen", "source"]);
+const KINDS = new Set<SaveSkinRequest["kind"]>(["recolor", "imagegen", "source", "upload"]);
 
 function parseRequest(body: unknown): SaveSkinRequest {
   if (!body || typeof body !== "object" || Array.isArray(body)) throw new SkinError(400, "Expected a SaveSkinRequest object");
   const request = body as Partial<SaveSkinRequest>;
   if (typeof request.name !== "string" || !request.name.trim()) throw new SkinError(400, "name is required");
-  if (!request.kind || !KINDS.has(request.kind)) throw new SkinError(400, "kind must be recolor, imagegen or source");
+  if (!request.kind || !KINDS.has(request.kind)) throw new SkinError(400, "kind must be recolor, imagegen, source or upload");
   if (request.skinId !== undefined && !isSafeId(request.skinId)) throw new SkinError(400, "skinId must match [a-z0-9_.-]");
   if (!request.maps || typeof request.maps !== "object" || Array.isArray(request.maps)) throw new SkinError(400, "maps must map material names to PNGs");
+  if (request.merge !== undefined && typeof request.merge !== "boolean") throw new SkinError(400, "merge must be a boolean");
+  if (request.merge && !request.skinId) throw new SkinError(400, "merge needs the skinId of an existing skin");
   for (const key of ["prompt", "generator"] as const) if (request[key] !== undefined && typeof request[key] !== "string") throw new SkinError(400, `${key} must be a string`);
   return request as SaveSkinRequest;
 }
@@ -156,10 +158,12 @@ async function saveSkinNow(body: unknown, options: SkinsHandlerOptions): Promise
 
   const current = await readSkins(contentRoot);
   let skinId = request.skinId;
-  if (skinId) {
-    const existing = current.records.find(row => row.id === skinId);
-    if (existing && existing.assetId !== request.assetId) throw new SkinError(409, `Skin ${skinId} belongs to ${existing.assetId}`);
-  } else {
+  const existing = skinId ? current.records.find(row => row.id === skinId) : undefined;
+  if (existing && existing.assetId !== request.assetId) throw new SkinError(409, `Skin ${skinId} belongs to ${existing.assetId}`);
+  if (request.merge && !existing) throw new SkinError(404, `No skin ${skinId} to merge into`);
+  // A merge replaces only the maps sent; everything else about the skin stays as it was.
+  const kept = request.merge && existing ? existing : undefined;
+  if (!skinId) {
     const base = slugId(request.name);
     skinId = base;
     for (let n = 2; current.records.some(row => row.id === skinId); n++) skinId = `${base}-${n}`;
@@ -168,7 +172,7 @@ async function saveSkinNow(body: unknown, options: SkinsHandlerOptions): Promise
   const skinsRoot = path.join(publicRoot, "assets", "skins");
   const directory = contained(skinsRoot, request.assetId, skinId);
   const files = materialFileNames(materials);
-  const maps: Record<string, string> = {}, sha256: Record<string, string> = {};
+  const maps: Record<string, string> = { ...kept?.maps }, sha256: Record<string, string> = { ...kept?.sha256 };
   const previous = new Map<string, Buffer | undefined>();
   await mkdir(directory, { recursive: true });
   const restore = async () => {
@@ -189,7 +193,10 @@ async function saveSkinNow(body: unknown, options: SkinsHandlerOptions): Promise
       maps[material] = `skins/${request.assetId}/${skinId}/${name}`;
       sha256[material] = createHash("sha256").update(bytes).digest("hex");
     }
-    const record: CreatureSkin = {
+    const uploaded = [...new Set([...kept?.uploaded ?? [], ...(kept && request.kind === "upload" && kept.kind !== "upload" ? materials : [])])].sort();
+    const record: CreatureSkin = kept ? {
+      ...kept, name: request.name.trim() || kept.name, maps, sha256, ...(uploaded.length ? { uploaded } : {}),
+    } : {
       id: skinId, assetId: request.assetId, name: request.name.trim(), kind: request.kind, maps,
       ...(request.recolor ? { recolor: request.recolor } : {}),
       ...(request.prompt ? { prompt: request.prompt } : {}),

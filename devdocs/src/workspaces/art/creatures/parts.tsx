@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { Kbd } from "../../../components/ui/index.js";
+import { useRef, useState, type DragEvent, type ReactNode } from "react";
+import { Button, Kbd } from "../../../components/ui/index.js";
 import { cn } from "../../../lib/utils.js";
 
 /* Small layout pieces the body page's inspector panels share. */
@@ -43,3 +43,26 @@ export function Legend({ keys, label }: { keys: readonly string[]; label: string
 
 export const formatScale = (scale: number): string => Number(scale.toFixed(2)).toString();
 export const errorText = (error: unknown): string => error instanceof Error ? error.message : String(error);
+
+/** A kit button that opens the file picker for one image; the native input stays hidden. */
+export function FilePick({ label, title, disabled, onFile, name }: { label: ReactNode; title?: string; disabled?: boolean; onFile: (file: File) => void; /** The input's accessible name. */ name: string }) {
+  const input = useRef<HTMLInputElement>(null);
+  return <>
+    <input type="file" ref={input} className="hidden" accept="image/png,image/jpeg,image/webp" aria-label={name}
+      onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; if (file) onFile(file); }} />
+    <Button variant="secondary" size="xs" title={title} disabled={disabled} onClick={() => input.current?.click()}>{label}</Button>
+  </>;
+}
+
+/** Drop handlers for image files, and whether one is being dragged over the target. */
+export function useFileDrop(onFile: (file: File) => void, disabled = false): { over: boolean; handlers: { onDragOver: (event: DragEvent) => void; onDragLeave: () => void; onDrop: (event: DragEvent) => void } } {
+  const [over, setOver] = useState(false);
+  return {
+    over: over && !disabled,
+    handlers: {
+      onDragOver: event => { if (disabled || ![...event.dataTransfer.types].includes("Files")) return; event.preventDefault(); event.dataTransfer.dropEffect = "copy"; setOver(true); },
+      onDragLeave: () => setOver(false),
+      onDrop: event => { setOver(false); if (disabled) return; const file = event.dataTransfer.files[0]; if (!file) return; event.preventDefault(); onFile(file); },
+    },
+  };
+}

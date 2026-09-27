@@ -68,6 +68,28 @@ describe("devdocs skins handler", () => {
     expect((await skins(contentRoot)).map(row => row.id)).toEqual(["rusty-salmon", "rusty-salmon-2"]);
   }, 60_000);
 
+  it("merges an uploaded map into an existing skin and records which map was uploaded", async () => {
+    const { contentRoot, publicRoot, options } = await fixture();
+    const handler = createSkinsHandler(options);
+    const generated = body<SaveSkinResponse>(await handler(post("/__devdocs/skins", { assetId: ASSET, name: "Tide Salmon", kind: "imagegen",
+      prompt: "teal", generator: "fake", maps: { [MATERIAL]: (await png(8, 4)).toString("base64") } }))).skin;
+    const upload = await png(8, 4, { r: 10, g: 20, b: 30 });
+    const response = await handler(post("/__devdocs/skins", { assetId: ASSET, skinId: generated.id, name: "Tide Salmon", kind: "upload", merge: true,
+      maps: { [MATERIAL]: upload.toString("base64") } }));
+    expect(response?.status, response?.body).toBe(200);
+    const merged = body<SaveSkinResponse>(response).skin;
+    expect(merged).toMatchObject({ id: generated.id, kind: "imagegen", prompt: "teal", generator: "fake", createdAt: generated.createdAt, uploaded: [MATERIAL] });
+    expect(merged.sha256![MATERIAL]).not.toBe(generated.sha256![MATERIAL]);
+    const written = await readFile(path.join(publicRoot, "assets", merged.maps[MATERIAL]!));
+    expect(await sharp(written).raw().toBuffer()).toEqual(await sharp(upload).raw().toBuffer());
+    expect((await skins(contentRoot)).map(skin => skin.id)).toEqual([generated.id]);
+
+    const missing = await handler(post("/__devdocs/skins", { assetId: ASSET, skinId: "nope", name: "x", kind: "upload", merge: true, maps: { [MATERIAL]: upload.toString("base64") } }));
+    expect(missing?.status).toBe(404);
+    const noId = await handler(post("/__devdocs/skins", { assetId: ASSET, name: "x", kind: "upload", merge: true, maps: { [MATERIAL]: upload.toString("base64") } }));
+    expect(noId?.status).toBe(400);
+  }, 60_000);
+
   it("names map files from free-text material names", async () => {
     const { publicRoot, options } = await fixture();
     const saved = body<SaveSkinResponse>(await createSkinsHandler(options)(post("/__devdocs/skins", {

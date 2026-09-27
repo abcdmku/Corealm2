@@ -170,7 +170,7 @@ export function BodyFocus({ entry, list, data, lookNameRepeats, bodyDigest, stat
         <CrowdControls crowd={crowd} setCrowd={setCrowd} reroll={() => setSeed(value => value + 1)} />
         <div className="pointer-events-none absolute bottom-2 left-3 flex flex-col text-[11px] text-muted-foreground [text-shadow:0_1px_2px_#000]">
           <span className="text-xs font-semibold text-foreground">{lookLabel(variant, lookNameRepeats)}</span>
-          <span>{humanize(activeState)} · Level {working?.level ?? base?.level ?? variant.level} · ×{formatScale(shownScale)}{draft.dirty ? " · unsaved" : ""}{previewMaps ? " · recolor preview" : ""}</span>
+          <span>{humanize(activeState)} · Level {working?.level ?? base?.level ?? variant.level} · ×{formatScale(shownScale)}{draft.dirty ? " · unsaved" : ""}{previewMaps ? " · unsaved maps" : ""}</span>
         </div>
       </>}
       strip={<>
@@ -197,7 +197,7 @@ export function BodyFocus({ entry, list, data, lookNameRepeats, bodyDigest, stat
         {panel === "variant" && <VariantPanel draft={draft} data={data} skins={skins.skins} review={variantReview} navigate={navigate} onNewSkin={newSkin}
           onDeleted={() => selectVariant(variant.baseId ?? looks[0]!.creatureId)} />}
         {panel === "variation" && <VariationPanel draft={draft} data={data} skins={skins.skins} crowd={crowd} onCrowd={setCrowd} />}
-        {panel === "skins" && <SkinsPanel key={entry.assetId} assetId={entry.assetId} bodyName={entry.name} leadId={entry.leadId} skins={skins.skins} skinsLoading={skins.loading} skinsError={skins.error}
+        {panel === "skins" && <SkinsPanel key={entry.assetId} assetId={entry.assetId} bodyName={entry.name} leadId={entry.leadId} target={`${variant.name} · ${variant.creatureId} (${variant.baseId ? "variant" : "base"})`} skins={skins.skins} skinsLoading={skins.loading} skinsError={skins.error}
           worn={presentation?.skinId} pool={pool} readOnly={!draft.editable} onWear={wear} onPool={addToPool} onPreviewMaps={setPreviewMaps} prompt={prompt}
           jobs={jobs.jobs} allJobs={jobs.allJobs} jobsUnavailable={jobs.unavailable} jobsError={jobs.error} refreshJobs={jobs.refresh} mode={skinsMode} setMode={setSkinsMode} />}
         <div className="mt-auto flex flex-col gap-1 border-t border-border-subtle px-3 py-2 text-[11px] text-faint">

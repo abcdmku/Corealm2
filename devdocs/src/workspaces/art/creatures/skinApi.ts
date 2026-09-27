@@ -124,3 +124,25 @@ export async function bakeRecolor(maps: readonly DecodedMap[], params: RecolorPa
     return { material, png: await canvas.convertToBlob({ type: "image/png" }) };
   }));
 }
+
+/** An uploaded image (PNG, JPEG or WebP) decoded with the model loader's options and re-encoded as PNG. */
+export async function imageFileToPng(file: Blob): Promise<{ png: Blob; width: number; height: number }> {
+  const bitmap = await createImageBitmap(file, { colorSpaceConversion: "none", premultiplyAlpha: "none" }).catch(() => { throw new Error("Could not read that file as an image."); });
+  const { width, height } = bitmap;
+  try {
+    if (file.type === "image/png") return { png: file, width, height };
+    const canvas = new OffscreenCanvas(width, height);
+    canvas.getContext("2d")!.drawImage(bitmap, 0, 0);
+    return { png: await canvas.convertToBlob({ type: "image/png" }), width, height };
+  } finally { bitmap.close(); }
+}
+
+/**
+ * A saved skin map's file as served, bypassing the HTTP cache: a merge rewrites the same path, so a
+ * cached copy would show the replaced map.
+ */
+export async function fetchSkinMap(path: string): Promise<Blob> {
+  const response = await fetch(skinMapUrl(path), { cache: "no-store" });
+  if (!response.ok) throw new Error(`${path}: ${response.status}`);
+  return response.blob();
+}

@@ -4,6 +4,9 @@
  *   POST /__devdocs/skins               SaveSkinRequest      -> SaveSkinResponse
  *     Writes each map to `game/public/assets/skins/<assetId>/<skinId>/<material>.png` and upserts
  *     the `creatureSkins` record in one step. A new id is derived from the name when `skinId` is absent.
+ *     With `merge` and an existing `skinId`, only the maps sent are replaced; the skin's other maps,
+ *     kind, prompt and createdAt stay. A hand upload (`kind` "upload") into a generated, recolored
+ *     or source skin lists the replaced material in `uploaded`; an upload skin is all hand-made already.
  *   POST /__devdocs/imagegen            ImagegenRequest      -> { job: ImagegenJob }
  *   GET  /__devdocs/imagegen            -> { jobs: ImagegenJob[] }        newest first
  *   GET  /__devdocs/imagegen/<jobId>    -> { job: ImagegenJob }
@@ -23,7 +26,9 @@ export interface SaveSkinRequest {
   assetId: string;
   skinId?: string;
   name: string;
-  kind: "recolor" | "imagegen" | "source";
+  kind: "recolor" | "imagegen" | "source" | "upload";
+  /** Replace only the maps sent in an existing skin (`skinId` required). */
+  merge?: boolean;
   /** Material name -> PNG. */
   maps: Record<string, PngBase64>;
   recolor?: CreatureSkin["recolor"];

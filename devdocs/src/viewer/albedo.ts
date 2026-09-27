@@ -86,3 +86,68 @@ async function encode(image: CanvasImageSource, width: number, height: number): 
   canvas.getContext('2d')!.drawImage(image, 0, 0);
   return canvas.convertToBlob({ type: 'image/png' });
 }
+
+/** Where a model's own maps live: embedded in its GLB. Paths are repo-relative. */
+export interface ModelFile { file: string; bytes?: number; sha256?: string; pack?: string }
+
+export async function modelFile(assetId: string): Promise<ModelFile | undefined> {
+  const entry = (await viewerRegistry()).entry(assetId);
+  if (!entry) return undefined;
+  // The manifest records each file's hash; the entry type does not name it.
+  const { sha256 } = entry as { sha256?: string };
+  return { file: `game/public/assets/${entry.file.replace(/^\/+/, '')}`, bytes: entry.bytes, sha256, pack: entry.pack };
+}
+
+/**
+ * The UV wireframe of every mesh that draws with `material`, as a transparent PNG of `size`, for an
+ * artist painting that material's map by hand. Coordinates follow the map's own orientation (a glTF
+ * map is unflipped: v runs down from the image's top), so the lines sit on the pixels they sample.
+ */
+export async function uvLayout(assetId: string, material: string, size: { width: number; height: number }, color = 'rgba(96, 240, 210, 0.9)'): Promise<Blob> {
+  const source = await (await viewerRegistry()).load(assetId);
+  const { width, height } = size;
+  const canvas = new OffscreenCanvas(width, height);
+  const context = canvas.getContext('2d')!;
+  context.strokeStyle = color;
+  context.lineWidth = Math.max(1, Math.round(Math.max(width, height) / 1024));
+  context.lineJoin = 'round';
+  source.traverse(node => {
+    const mesh = node as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    const geometry = mesh.geometry;
+    const index = geometry.index;
+    const count = index ? index.count : geometry.getAttribute('position').count;
+    // Array materials draw by geometry group; a single material draws the whole range.
+    const ranges = Array.isArray(mesh.material)
+      ? geometry.groups.map(group => ({ start: group.start, end: Math.min(count, group.start + group.count), material: materials[group.materialIndex ?? 0] }))
+      : [{ start: 0, end: count, material: mesh.material }];
+    for (const range of ranges) {
+      if (!range.material || range.material.name.split('@', 1)[0] !== material) continue;
+      const map = (range.material as THREE.MeshStandardMaterial).map;
+      const uv = geometry.getAttribute(map && map.channel ? `uv${map.channel}` : 'uv') ?? geometry.getAttribute('uv');
+      if (!uv) continue;
+      const flip = map?.flipY ?? false;
+      const at = (vertex: number): [number, number] => {
+        const v = uv.getY(vertex);
+        return [uv.getX(vertex) * width, (flip ? 1 - v : v) * height];
+      };
+      const seen = new Set<number>();
+      context.beginPath();
+      for (let corner = range.start; corner + 2 < range.end; corner += 3) {
+        const a = index ? index.getX(corner) : corner, b = index ? index.getX(corner + 1) : corner + 1, c = index ? index.getX(corner + 2) : corner + 2;
+        for (const [from, to] of [[a, b], [b, c], [c, a]] as const) {
+          // Shared edges are drawn once: an edge key from its two vertex indices.
+          const key = from < to ? from * 0x200000 + to : to * 0x200000 + from;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          const [x1, y1] = at(from), [x2, y2] = at(to);
+          context.moveTo(x1, y1);
+          context.lineTo(x2, y2);
+        }
+      }
+      context.stroke();
+    }
+  });
+  return canvas.convertToBlob({ type: 'image/png' });
+}

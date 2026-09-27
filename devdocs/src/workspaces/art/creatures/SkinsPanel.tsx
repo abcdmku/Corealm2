@@ -8,25 +8,30 @@ import { canReviewArt, useArtDigest, useArtReview } from "../../../model/artRevi
 import { VerdictBar, VerdictDot } from "../../../ui/FocusLayout.js";
 import { CreatureArt } from "./CreatureArt.js";
 import { Note, Row, Rows, Section, errorText } from "./parts.js";
+import { SkinFilesDrawer } from "./SkinFilesDrawer.js";
+import { UploadView } from "./UploadView.js";
 import { IDENTITY_RECOLOR, isIdentityRecolor, type RecolorParams } from "./recolor.js";
 import {
   SkinApiUnavailable, bakeRecolor, decodeMaps, isActiveJob, loadAlbedo, mapsToBase64, retryImagegen, saveSkin, skinMapUrl, startImagegen,
   type CreatureSkin, type DecodedMap, type ImagegenJob,
 } from "./skinApi.js";
 
-export type SkinsMode = "list" | "recolor" | "generate";
+export type SkinsMode = "list" | "upload" | "recolor" | "generate";
 
 const KIND: Readonly<Record<CreatureSkin["kind"], { label: string; tone: "ok" | "warn" | "default" }>> = {
   imagegen: { label: "Generated", tone: "ok" },
   recolor: { label: "Recolor", tone: "warn" },
+  upload: { label: "Uploaded", tone: "default" },
   source: { label: "Source", tone: "default" },
 };
 
 export interface SkinsPanelProps {
   assetId: string;
   bodyName: string;
-  /** The definition whose look the panel edits. */
+  /** The body's lead definition, for the model's own thumbnail. */
   leadId: string;
+  /** The selected definition that Wear and + Pool change, e.g. "Stag · deer_t5 (variant)". */
+  target: string;
   skins: readonly CreatureSkin[];
   skinsLoading: boolean;
   skinsError?: string;
@@ -52,14 +57,24 @@ export interface SkinsPanelProps {
 export function SkinsPanel(props: SkinsPanelProps) {
   const { mode, setMode, skins, jobs } = props;
   const active = jobs.filter(isActiveJob).length;
+  // The raw file view: a skin id, "" for the model's own maps, or closed.
+  const [files, setFiles] = useState<string>();
+  const filesSkin = files ? skins.find(skin => skin.id === files) : undefined;
   return <>
     <div className="flex items-center gap-2 border-b border-border-subtle px-3 py-1.5">
       <Segmented aria-label="Skins view" className="w-full">
-        {([["list", `Skins ${skins.length}`], ["recolor", "Recolor"], ["generate", active ? `Generate · ${active}` : "Generate"]] as const).map(([value, label]) =>
+        {([["list", `Skins ${skins.length}`], ["upload", "Upload"], ["recolor", "Recolor"], ["generate", active ? `Generate · ${active}` : "Generate"]] as const).map(([value, label]) =>
           <Button key={value} variant="segment" size="xs" className="flex-1" aria-pressed={mode === value} onClick={() => setMode(value)}>{label}</Button>)}
       </Segmented>
     </div>
-    {mode === "list" && <SkinList {...props} />}
+    <p className="truncate border-b border-border-subtle px-3 py-1 text-[11px] text-faint" data-wear-target="" title={`Wear and + Pool change ${props.target}`}>
+      Wear applies to: <span className="font-semibold text-foreground">{props.target}</span>
+    </p>
+    {mode === "list" && <SkinList {...props} onOpenFiles={setFiles} />}
+    {mode === "upload" && <UploadView assetId={props.assetId} bodyName={props.bodyName} skins={skins} readOnly={props.readOnly} target={props.target} worn={props.worn} pool={props.pool}
+      onWear={props.onWear} onPool={props.onPool} onPreviewMaps={props.onPreviewMaps} onOpenFiles={skinId => { setMode("list"); setFiles(skinId); }} />}
+    {files !== undefined && (files === "" || filesSkin) && <SkinFilesDrawer key={files} assetId={props.assetId} modelName={props.bodyName} skin={filesSkin} readOnly={props.readOnly}
+      onClose={() => setFiles(undefined)} onPreviewMaps={props.onPreviewMaps} />}
     {mode === "recolor" && <RecolorView {...props} />}
     {mode === "generate" && <GenerateView {...props} />}
   </>;
@@ -67,25 +82,28 @@ export function SkinsPanel(props: SkinsPanelProps) {
 
 /* ---------- List ---------- */
 
-function SkinList({ skins, skinsLoading, skinsError, worn, pool, readOnly, onWear, onPool, leadId, jobs, setMode }: SkinsPanelProps) {
+function SkinList({ skins, skinsLoading, skinsError, worn, pool, readOnly, onWear, onPool, leadId, jobs, setMode, onOpenFiles }: SkinsPanelProps & { onOpenFiles: (skinId: string) => void }) {
   const active = jobs.filter(isActiveJob);
-  return <Section title="This model's skins" aside={<span className="text-[11px] text-faint">{skins.length ? `${skins.length}` : ""}</span>}>
+  return <Section title="This model's skins" aside={<Button variant="secondary" size="xs" disabled={readOnly} title="Upload hand-made maps as a new skin" onClick={() => setMode("upload")}>Upload skin</Button>}>
     {skinsError && <Note tone="error">{skinsError}</Note>}
     {active.length > 0 && <Note tone="warn">{active.length} generating: <Button variant="link" size="inline" onClick={() => setMode("generate")}>see jobs</Button></Note>}
     <div className="grid grid-cols-2 gap-1.5">
       <SkinTile title="Model's own maps" subtitle="From the pack" art={<CreatureArt creatureId={leadId} className="size-full" />}
-        worn={!worn} readOnly={readOnly} onWear={() => onWear(undefined)} />
+        worn={!worn} readOnly={readOnly} onWear={() => onWear(undefined)} onOpen={() => onOpenFiles("")} />
       {skins.map(skin => {
-        const map = Object.values(skin.maps)[0];
+        const [material, map] = Object.entries(skin.maps)[0] ?? [];
+        // A merge rewrites the same path; the file's hash keeps the browser from showing the old one.
+        const hash = material ? skin.sha256?.[material]?.slice(0, 12) : undefined;
         const kind = KIND[skin.kind];
         return <SkinTile key={skin.id} title={skin.name} subtitle={skin.id} skinId={skin.id}
-          art={map ? <img src={skinMapUrl(map)} alt="" loading="lazy" className="size-full object-cover" /> : null}
+          art={map ? <img src={`${skinMapUrl(map)}${hash ? `?v=${hash}` : ""}`} alt="" loading="lazy" className="size-full object-cover" /> : null}
           badge={<Badge variant={kind.tone} className="h-4 px-1 text-[10px]">{kind.label}</Badge>}
           worn={worn === skin.id} pooled={pool.includes(skin.id)} readOnly={readOnly}
-          onWear={() => onWear(skin.id)} onPool={() => onPool(skin.id)} />;
+          onWear={() => onWear(skin.id)} onPool={() => onPool(skin.id)} onOpen={() => onOpenFiles(skin.id)} />;
       })}
     </div>
-    {!skinsLoading && !skins.length && <Note>No skins for this model yet. Generate a regional look, or bake a recolor to mix into a variation pool.</Note>}
+    {!skinsLoading && !skins.length && <Note>No skins for this model yet. Generate a regional look, upload hand-painted maps, or bake a recolor to mix into a variation pool.</Note>}
+    <Note>Click a tile to see its raw map files.</Note>
     {worn && <WornSkinVerdict skinId={worn} readOnly={readOnly} />}
   </Section>;
 }
@@ -104,19 +122,21 @@ function WornSkinVerdict({ skinId, readOnly }: { skinId: string; readOnly: boole
   </div>;
 }
 
-function SkinTile({ title, subtitle, skinId, art, badge, worn, pooled, readOnly, onWear, onPool }: {
-  title: string; subtitle: string; skinId?: string; art: React.ReactNode; badge?: React.ReactNode; worn: boolean; pooled?: boolean; readOnly: boolean; onWear: () => void; onPool?: () => void;
+function SkinTile({ title, subtitle, skinId, art, badge, worn, pooled, readOnly, onWear, onPool, onOpen }: {
+  title: string; subtitle: string; skinId?: string; art: React.ReactNode; badge?: React.ReactNode; worn: boolean; pooled?: boolean; readOnly: boolean; onWear: () => void; onPool?: () => void; onOpen: () => void;
 }) {
   return <div className={cn("flex min-w-0 flex-col gap-1 rounded-md border border-border-subtle bg-card p-1", worn && "border-transparent bg-selected")} data-skin-id={skinId ?? ""}>
-    <span className="relative grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-sm bg-art">
-      {art}
-      {badge && <span className="absolute top-1 left-1">{badge}</span>}
-      {skinId && <SkinVerdictDot skinId={skinId} />}
-    </span>
-    <span className="flex min-w-0 flex-col px-0.5">
-      <span className="truncate text-xs leading-tight font-semibold text-foreground" title={title}>{title}</span>
-      <code className="truncate font-mono text-[10px] text-faint" title={subtitle}>{subtitle}</code>
-    </span>
+    <button type="button" className="flex min-w-0 cursor-pointer flex-col gap-1 rounded-sm text-left outline-none focus-visible:ring-2 focus-visible:ring-ring/40" title={`${title}: see its map files`} aria-label={`${title} files`} onClick={onOpen}>
+      <span className="relative grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-sm bg-art">
+        {art}
+        {badge && <span className="absolute top-1 left-1">{badge}</span>}
+        {skinId && <SkinVerdictDot skinId={skinId} />}
+      </span>
+      <span className="flex min-w-0 flex-col px-0.5">
+        <span className="truncate text-xs leading-tight font-semibold text-foreground">{title}</span>
+        <code className="truncate font-mono text-[10px] text-faint">{subtitle}</code>
+      </span>
+    </button>
     <span className="flex items-center gap-1">
       <Button variant="secondary" size="xs" className="flex-1" aria-pressed={worn} disabled={readOnly || worn} onClick={onWear}>{worn ? "Worn" : "Wear"}</Button>
       {onPool && <Button variant="secondary" size="xs" className="flex-1" disabled={readOnly || pooled} onClick={onPool}>{pooled ? "In pool" : "+ Pool"}</Button>}
