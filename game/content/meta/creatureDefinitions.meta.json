@@ -4643,6 +4643,46 @@
       }
     }
   },
+  "bramble_prowler_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_27. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 26cfaa6e91519d940edd550d2d757302b0848a19ac06c4d27d8a157776250941.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
+  "bramble_prowler_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_27. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 26cfaa6e91519d940edd550d2d757302b0848a19ac06c4d27d8a157776250941.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
   "briar_harrow_t10": {
     "status": "draft",
     "notes": [],
@@ -7931,6 +7971,46 @@
       }
     }
   },
+  "elder_grovebeast_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_30. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 b3a6ce2687a6a69ec8b9402b13414e57b47d9b291e17b1a7ddbcc53cd4d1e82c.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
+  "elder_grovebeast_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_30. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 b3a6ce2687a6a69ec8b9402b13414e57b47d9b291e17b1a7ddbcc53cd4d1e82c.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
   "emberhorn_ibex": {
     "status": "draft",
     "notes": [],
@@ -10807,6 +10887,46 @@
       }
     }
   },
+  "garden_spriggle_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_garden_spriggle_gloamgarden. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 b4d9ffd14c1d100e7b4af231120920fa437dee1aa392aaafb8cbb8b524514544.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
+  "garden_spriggle_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_garden_spriggle_faeholme. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 825bc7d277d41f2e0a0d29dae01b3934e6112df7ddc44d5057d3f4652e4ec40b.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
   "garden_veilspirit_t30": {
     "status": "draft",
     "notes": [],
@@ -10969,6 +11089,46 @@
           "note": "Shared-model motion acceptance: fairy_garden_veilspirit_faeholme, SHA256 02c265b21111e143bbb8d62c190f9c756a05aba4c783d4c8f4295a23a4be1b2c."
         }
       }
+    }
+  },
+  "garden_wardling_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_garden_wardling_gloamgarden. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 1bc3b5c1f324a13863cb4388e68cd92718f0b1944acf4fddaf63da3bdaf0e66c.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
+  "garden_wardling_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_garden_wardling_faeholme. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 2dcb7aec7bdefb55c9bc71dc77a0e8075bed9f1eea3493c910d35c5c9b4d6d7d.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
     }
   },
   "gloam_fox_t1": {
@@ -24089,6 +24249,46 @@
       }
     }
   },
+  "moss_nibbler_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_14. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 cfdf19cdf4ea9bb7d8d3dc149ba6484d8df085f080cceaca63af4a93d46ad6ed.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
+  "moss_nibbler_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_14. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 cfdf19cdf4ea9bb7d8d3dc149ba6484d8df085f080cceaca63af4a93d46ad6ed.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
   "mossback_sentinel_t10": {
     "status": "draft",
     "notes": [],
@@ -26553,6 +26753,46 @@
           "note": "Reviewed candidate 3b1fa776a737dc48453bc0931adf85d63de70544a2567495e5cf0ecb4108cfc1."
         }
       }
+    }
+  },
+  "petal_pouncer_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_11. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 c0494400fe1577cf8be644850e6c9250b9d4f88264f3f60936fb8cdd1ae79c27.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
+    }
+  },
+  "petal_pouncer_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T21:35:39.247Z",
+        "by": "owner",
+        "action": "art.review",
+        "detail": "record approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited from shared model fairy_monster_11. Native Pixelius studio takes kept unchanged. Owner confirmed Moss Nibbler and Dewdrop Spriggle as reference quality (2026-09-28); the same trial pack keeps its authored motion. SHA256 c0494400fe1577cf8be644850e6c9250b9d4f88264f3f60936fb8cdd1ae79c27.",
+      "at": "2026-09-28T21:35:39.247Z",
+      "by": "owner"
     }
   },
   "plague_zombie_t20": {
