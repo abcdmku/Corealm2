@@ -52,3 +52,15 @@ content and stay editable.
 | Client catalog | `game/src/content/clientCatalog.ts`, `clientCatalogOverlay.ts`, the client join/refresh path that calls it, `catalogHost.ts` `CATALOG_TABLE_APPLIES`, tests `tests/client-catalog-*.test.ts` |
 | Metadata | new `game/src/multiplayer/adminMeta.ts`, `adminStorage.ts` (table), a shared pure meta-operation module, devdocs callers (`dev/NotesPanel.tsx`, `dev/SetPiecePanel.tsx`, `dev/BulkActionsPanel.tsx`, `model/artReview.ts`, `pages/EntityDetail.tsx`, `pages/CollectionPage.tsx` meta reads), tests `tests/admin-meta-*.test.ts` |
 | Devdocs server mode | `devdocs/src/api/serverBackend.ts`, `repoBackend.ts`, `model/liveCatalog.ts`, `ui/ShellSaveBar.tsx`, `viewer/registry.ts`, `workspaces/art/**` gating, `devdocs/server/plugin.ts` + new `devdocs/server/handlers/files.ts` (repo `putFiles`) |
+
+## Wave 2 ownership
+
+Contracts added: `CONTENT_MANIFEST_OVERLAY` (`assets/manifest.overlay.json`, extra manifest entries a
+server adds) and image job kinds (`skin` | `icon`, `itemId`, `outputs`) in `devdocs/shared/skinContracts.ts`.
+
+| Owner | Files |
+| --- | --- |
+| Image jobs | new `game/src/multiplayer/adminImagegen.ts`, a shared runner module moved out of `devdocs/server/handlers/imagegen.ts` (+ that handler, `skins.ts`, their tests), `serverBackend.ts`/`repoBackend.ts` imagegen parts, `workspaces/art/creatures/{SkinsPanel,skinApi}.tsx?` job UI |
+| Models | manifest overlay merge in `render/assets.ts` (client) and the server's asset registry / footprints / publish pools, `dev/AssetCandidates.tsx` + a browser-side model measurement module, `workspaces/assets/**` upload UI |
+| Item icons | new icon art module (256 master → 48 derivative, portable), icon job kind on top of the image jobs runner (coordinate), item icon panel in `workspaces/items/**`, icon provenance in item meta (`icon` block) |
+| Server-side follow, bulk, checks | `multiplayer/contentSwap.ts` (server refreshers for npcs, quests, spells, sets, fuels), `catalogHost.ts` applies, bulk actions client-side via `patchMeta` + `transact` (retire `/__devdocs/bulk`), thumbnail cache via `putFiles`, publish check for `audio/` paths |
