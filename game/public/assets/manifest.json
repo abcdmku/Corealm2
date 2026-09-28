@@ -8675,16 +8675,16 @@
         "passive",
         "image-generated-texture"
       ],
-      "bytes": 1003468,
+      "bytes": 993448,
       "size": {
-        "x": 0.245,
-        "y": 0.613,
-        "z": 0.556
+        "x": 0.2448911883024295,
+        "y": 0.6129706252348259,
+        "z": 0.5563735946996988
       },
       "base": {
-        "x": -0.123,
-        "y": -0.001,
-        "z": -0.268
+        "x": -0.12296163662592895,
+        "y": -0.0014502175090887245,
+        "z": -0.2678247209284964
       },
       "animations": [
         "Idle",
@@ -8692,9 +8692,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 1.0333333015441895,
       "materials": [
@@ -8703,9 +8701,9 @@
       "impliedWalkMps": 0.48204361375890803,
       "impliedRunMps": 1.0368160285737749,
       "runClipSeconds": 0.5666666626930237,
-      "sha256": "6f56f5cd48e2382cd83964fc18220ef8cb7e516909c127a03f8f9fc113bfab4b",
+      "sha256": "119b3f50797a4f8df8d2236556a19ce334830f87327b658660a810fa3755022e",
       "groundY": -0.001,
-      "attackSeconds": 0.7,
+      "attackSeconds": 0.699999988079071,
       "contactNormalized": 0.43,
       "sourceProvenance": {
         "upstreamPack": "animal-pack-deluxe",
@@ -8728,12 +8726,147 @@
       },
       "metadata": {
         "finish": "image-generated layered cream feathers, buff tips and intact red comb",
-        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_chicken-idle.png and walk-02.png in continuation journal."
+        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_chicken-idle.png and walk-02.png in continuation journal.",
+        "geometry": {
+          "vertices": 1292,
+          "triangles": 1840
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.43,
+          "seconds": 0.30099999487400053
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.48204361375890803,
+          "impliedRunMps": 1.0368160285737749
+        }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "triangles": 1840,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "6f56f5cd48e2382cd83964fc18220ef8cb7e516909c127a03f8f9fc113bfab4b",
+        "sourceGitBlob": "1a851d53481497fb06b6207aff880810b93e6818",
+        "donors": [],
+        "sourceMetadata": {
+          "finish": "image-generated layered cream feathers, buff tips and intact red comb",
+          "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_chicken-idle.png and walk-02.png in continuation journal."
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 6,
+              "samples": 99,
+              "maximumVertexMotion": 0.07152686283844771,
+              "maximumSpanRatio": 0.9968109936584161,
+              "minimumSpanRatio": 0.9616008947037666,
+              "loopSeam": 0,
+              "edgeStretchP99": 1.1891610167472109,
+              "maximumEdgeStretch": 1.937518753404756,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.0333333015441895,
+              "samples": 70,
+              "maximumVertexMotion": 0.23153306698948978,
+              "maximumSpanRatio": 0.9745590725797222,
+              "minimumSpanRatio": 0.9432212724220156,
+              "loopSeam": 8.408960567362276e-17,
+              "edgeStretchP99": 1.264419710828574,
+              "maximumEdgeStretch": 2.634100879215436,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.5666666626930237,
+              "samples": 42,
+              "maximumVertexMotion": 0.4123858707802155,
+              "maximumSpanRatio": 0.9824931210285905,
+              "minimumSpanRatio": 0.9534774421480836,
+              "loopSeam": 0,
+              "edgeStretchP99": 1.3088721141358723,
+              "maximumEdgeStretch": 2.88988509593876,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 1.5,
+              "samples": 97,
+              "maximumVertexMotion": 0.8559807414552716,
+              "maximumSpanRatio": 1.0159386004999915,
+              "minimumSpanRatio": 0.9017737768091483,
+              "loopSeam": null,
+              "edgeStretchP99": 1.3134689958677712,
+              "maximumEdgeStretch": 2.205950801731783,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.699999988079071,
+              "samples": 50,
+              "maximumVertexMotion": 0.13003496570550105,
+              "maximumSpanRatio": 1.0036226216839186,
+              "minimumSpanRatio": 0.9683830579800627,
+              "loopSeam": null,
+              "edgeStretchP99": 1.1457053631303362,
+              "maximumEdgeStretch": 1.6533042490589704,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.05159794288086677,
+              "maximumSpanRatio": 0.9965093512130797,
+              "minimumSpanRatio": 0.9803809531004279,
+              "loopSeam": null,
+              "edgeStretchP99": 1.1142335765117157,
+              "maximumEdgeStretch": 1.6533042497949224,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "119b3f50797a4f8df8d2236556a19ce334830f87327b658660a810fa3755022e",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/animal_chicken/evidence.json"
+        }
       }
     },
     {
@@ -8752,16 +8885,16 @@
         "animal",
         "variant"
       ],
-      "bytes": 428904,
+      "bytes": 418888,
       "size": {
-        "x": 0.245,
-        "y": 0.613,
-        "z": 0.556
+        "x": 0.2448911883024295,
+        "y": 0.6129706252348259,
+        "z": 0.5563735946996988
       },
       "base": {
-        "x": -0.123,
-        "y": -0.001,
-        "z": -0.268
+        "x": -0.12296163662592895,
+        "y": -0.0014502175090887245,
+        "z": -0.2678247209284964
       },
       "animations": [
         "Idle",
@@ -8769,9 +8902,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 1.0333333015441895,
       "materials": [
@@ -8780,8 +8911,143 @@
       "impliedWalkMps": 0.48204361375890803,
       "impliedRunMps": 1.0368160285737749,
       "runClipSeconds": 0.5666666626930237,
-      "sha256": "cc14a547d0f0b708bfd2f7a985c3c8dbf808cf922a98c40c9a464787782a92b3",
-      "groundY": -0.001
+      "sha256": "2b4dd731c68326032de2888265fc2210615acbc073228a11d37a8de50f759084",
+      "groundY": -0.001,
+      "triangles": 1840,
+      "attackSeconds": 0.699999988079071,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "cc14a547d0f0b708bfd2f7a985c3c8dbf808cf922a98c40c9a464787782a92b3",
+        "sourceGitBlob": "6b87337e6787828dbeb2fef2898885abc6eeb236",
+        "donors": [],
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 6,
+              "samples": 99,
+              "maximumVertexMotion": 0.07152686283844771,
+              "maximumSpanRatio": 0.9968109936584161,
+              "minimumSpanRatio": 0.9616008947037666,
+              "loopSeam": 0,
+              "edgeStretchP99": 1.1891610167472109,
+              "maximumEdgeStretch": 1.937518753404756,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.0333333015441895,
+              "samples": 70,
+              "maximumVertexMotion": 0.23153306698948978,
+              "maximumSpanRatio": 0.9745590725797222,
+              "minimumSpanRatio": 0.9432212724220156,
+              "loopSeam": 8.408960567362276e-17,
+              "edgeStretchP99": 1.264419710828574,
+              "maximumEdgeStretch": 2.634100879215436,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.5666666626930237,
+              "samples": 42,
+              "maximumVertexMotion": 0.4123858707802155,
+              "maximumSpanRatio": 0.9824931210285905,
+              "minimumSpanRatio": 0.9534774421480836,
+              "loopSeam": 0,
+              "edgeStretchP99": 1.3088721141358723,
+              "maximumEdgeStretch": 2.88988509593876,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 1.5,
+              "samples": 97,
+              "maximumVertexMotion": 0.8559807414552716,
+              "maximumSpanRatio": 1.0159386004999915,
+              "minimumSpanRatio": 0.9017737768091483,
+              "loopSeam": null,
+              "edgeStretchP99": 1.3134689958677712,
+              "maximumEdgeStretch": 2.205950801731783,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Attack",
+              "seconds": 0.699999988079071,
+              "samples": 50,
+              "maximumVertexMotion": 0.13003496570550105,
+              "maximumSpanRatio": 1.0036226216839186,
+              "minimumSpanRatio": 0.9683830579800627,
+              "loopSeam": null,
+              "edgeStretchP99": 1.1457053631303362,
+              "maximumEdgeStretch": 1.6533042490589704,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.05159794288086677,
+              "maximumSpanRatio": 0.9965093512130797,
+              "minimumSpanRatio": 0.9803809531004279,
+              "loopSeam": null,
+              "edgeStretchP99": 1.1142335765117157,
+              "maximumEdgeStretch": 1.6533042497949224,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "2b4dd731c68326032de2888265fc2210615acbc073228a11d37a8de50f759084",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/animal_chicken_speckled/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 1292,
+          "triangles": 1840
+        },
+        "animationAcceptance": "devdocs-approved",
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.48204361375890803,
+          "impliedRunMps": 1.0368160285737749
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      }
     },
     {
       "id": "animal_cattle",
@@ -8891,16 +9157,16 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 2240368,
+      "bytes": 2197812,
       "size": {
-        "x": 0.434,
-        "y": 1.289,
-        "z": 1.514
+        "x": 0.43447201192164675,
+        "y": 1.2892370853962307,
+        "z": 1.5139662099982398
       },
       "base": {
-        "x": -0.217,
-        "y": -0.002,
-        "z": -0.601
+        "x": -0.21713161100383438,
+        "y": -0.0019062072127254606,
+        "z": -0.6009620927717014
       },
       "animations": [
         "Idle",
@@ -8908,9 +9174,7 @@
         "Run",
         "Attack",
         "Death",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 1.100000023841858,
       "materials": [
@@ -8919,8 +9183,143 @@
       "impliedWalkMps": 0.9910944906604278,
       "impliedRunMps": 3.204238655155496,
       "runClipSeconds": 0.46666666865348816,
-      "sha256": "e44126a6e6670c3b2b5fbe89db687b4fb5d1e929fb4ff830c916d8e0adb07f12",
-      "groundY": -0.002
+      "sha256": "7766bb81ff36d57f4b6514c1217f2f8a8eee16177d9b81b58d5b10a575531f73",
+      "groundY": -0.002,
+      "triangles": 3712,
+      "attackSeconds": 1.4666666984558105,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "e44126a6e6670c3b2b5fbe89db687b4fb5d1e929fb4ff830c916d8e0adb07f12",
+        "sourceGitBlob": "ae182f71080cd6a227f99fdfda12295a686d7c5d",
+        "donors": [],
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Attack",
+            "Death",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 5.333333492279053,
+              "samples": 121,
+              "maximumVertexMotion": 0.3880430495399454,
+              "maximumSpanRatio": 1.005049219914286,
+              "minimumSpanRatio": 0.969080498035831,
+              "loopSeam": 0.000019374749247462895,
+              "edgeStretchP99": 1.3615632415089656,
+              "maximumEdgeStretch": 3.786558445444019,
+              "stretchedEdgeFraction": 0.0011929107021131562
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.100000023841858,
+              "samples": 121,
+              "maximumVertexMotion": 0.654629080684636,
+              "maximumSpanRatio": 1.0037559089340176,
+              "minimumSpanRatio": 0.9631321524651474,
+              "loopSeam": 6.80222732953971e-8,
+              "edgeStretchP99": 1.6478657124911813,
+              "maximumEdgeStretch": 6.344782269189464,
+              "stretchedEdgeFraction": 0.001874573960463531
+            },
+            {
+              "name": "Run",
+              "seconds": 0.46666666865348816,
+              "samples": 121,
+              "maximumVertexMotion": 0.4328648419598823,
+              "maximumSpanRatio": 0.9838668700955008,
+              "minimumSpanRatio": 0.9624013677710421,
+              "loopSeam": 6.608173553825674e-8,
+              "edgeStretchP99": 1.5901346665252494,
+              "maximumEdgeStretch": 5.9748107505079675,
+              "stretchedEdgeFraction": 0.0015337423312883436
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.4666666984558105,
+              "samples": 91,
+              "maximumVertexMotion": 1.0562542016202159,
+              "maximumSpanRatio": 1.0299667556939756,
+              "minimumSpanRatio": 0.9018072164790415,
+              "loopSeam": null,
+              "edgeStretchP99": 1.7219471631734315,
+              "maximumEdgeStretch": 4.253268754799981,
+              "stretchedEdgeFraction": 0.0010224948875255625
+            },
+            {
+              "name": "Death",
+              "seconds": 0.8333333134651184,
+              "samples": 58,
+              "maximumVertexMotion": 1.468472113227137,
+              "maximumSpanRatio": 1.0422806854851476,
+              "minimumSpanRatio": 0.9603309007284384,
+              "loopSeam": null,
+              "edgeStretchP99": 1.9105504335054855,
+              "maximumEdgeStretch": 6.101017957504064,
+              "stretchedEdgeFraction": 0.003067484662576687
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.13569440791111026,
+              "maximumSpanRatio": 1.0008240431372075,
+              "minimumSpanRatio": 0.988785370474702,
+              "loopSeam": null,
+              "edgeStretchP99": 1.0865871844774004,
+              "maximumEdgeStretch": 1.3908959639457115,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "7766bb81ff36d57f4b6514c1217f2f8a8eee16177d9b81b58d5b10a575531f73",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/animal_goat/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 2228,
+          "triangles": 3712
+        },
+        "animationAcceptance": "devdocs-approved",
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.9910944906604278,
+          "impliedRunMps": 3.204238655155496
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      }
     },
     {
       "id": "animal_rabbit",
@@ -9125,16 +9524,16 @@
         "animal",
         "territorial"
       ],
-      "bytes": 2145128,
+      "bytes": 2112228,
       "size": {
-        "x": 0.438,
-        "y": 1.874,
-        "z": 1.709
+        "x": 0.4380818809805801,
+        "y": 1.8743780930872604,
+        "z": 1.7093251502555757
       },
       "base": {
-        "x": -0.219,
-        "y": -0.007,
-        "z": -0.643
+        "x": -0.21904230743279698,
+        "y": -0.00702947718736768,
+        "z": -0.6427481819332871
       },
       "animations": [
         "Idle",
@@ -9142,9 +9541,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 0.9666666388511658,
       "materials": [
@@ -9153,8 +9550,145 @@
       "impliedWalkMps": 1.1216721226201816,
       "impliedRunMps": 3.4474474408533786,
       "runClipSeconds": 0.6333333253860474,
-      "sha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
-      "groundY": -0.007
+      "sha256": "c99605e02c08caa1b670ea6daeebdfd801b651bf87596f75691ed2570d63bdd7",
+      "groundY": -0.007,
+      "triangles": 3728,
+      "attackSeconds": 1.0800000429153442,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+        "sourceGitBlob": "2bd3097872dbe768cf3a676e57ba34cfa0f427a5",
+        "donors": [],
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 5.333333492279053,
+              "samples": 119,
+              "maximumVertexMotion": 0.4447030190909395,
+              "maximumSpanRatio": 1.0094793527087724,
+              "minimumSpanRatio": 0.9759766690600683,
+              "loopSeam": 0.000014603002978830995,
+              "edgeStretchP99": 1.140122971739891,
+              "maximumEdgeStretch": 1.6673559035704775,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 0.9666666388511658,
+              "samples": 121,
+              "maximumVertexMotion": 0.6731872480232519,
+              "maximumSpanRatio": 0.9958347013779947,
+              "minimumSpanRatio": 0.9649777619024501,
+              "loopSeam": 1.9554828489037457e-8,
+              "edgeStretchP99": 1.3182871686456874,
+              "maximumEdgeStretch": 2.954361725806114,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6333333253860474,
+              "samples": 121,
+              "maximumVertexMotion": 0.7470830169015011,
+              "maximumSpanRatio": 0.9899501686968802,
+              "minimumSpanRatio": 0.9381353269908098,
+              "loopSeam": 2.2930593567113484e-8,
+              "edgeStretchP99": 1.4097812897845432,
+              "maximumEdgeStretch": 2.4918485893112536,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 0.8333333134651184,
+              "samples": 58,
+              "maximumVertexMotion": 2.151489286925588,
+              "maximumSpanRatio": 1.0291890486589934,
+              "minimumSpanRatio": 0.8404060188490947,
+              "loopSeam": null,
+              "edgeStretchP99": 1.4969694179610777,
+              "maximumEdgeStretch": 3.096338834398725,
+              "stretchedEdgeFraction": 0.00016869095816464237
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.0800000429153442,
+              "samples": 74,
+              "maximumVertexMotion": 0.3605890507752249,
+              "maximumSpanRatio": 1.0115803612351653,
+              "minimumSpanRatio": 0.9785751515169925,
+              "loopSeam": null,
+              "edgeStretchP99": 1.113234576553664,
+              "maximumEdgeStretch": 1.4079685564048476,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.21161836100577752,
+              "maximumSpanRatio": 1.0040497690653791,
+              "minimumSpanRatio": 0.9762428978799664,
+              "loopSeam": null,
+              "edgeStretchP99": 1.055245724067262,
+              "maximumEdgeStretch": 1.3147225857271607,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "c99605e02c08caa1b670ea6daeebdfd801b651bf87596f75691ed2570d63bdd7",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/animal_deer/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 2277,
+          "triangles": 3728
+        },
+        "animationAcceptance": "devdocs-approved",
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.1216721226201816,
+          "impliedRunMps": 3.4474474408533786
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      }
     },
     {
       "id": "animal_coyote",
@@ -9262,16 +9796,16 @@
         "territorial",
         "image-generated-texture"
       ],
-      "bytes": 1294660,
+      "bytes": 1266904,
       "size": {
-        "x": 0.074,
-        "y": 0.07,
-        "z": 1.508
+        "x": 0.38826130381492613,
+        "y": 0.07126000827348555,
+        "z": 1.3530685074721922
       },
       "base": {
-        "x": -0.037,
-        "y": -0.01,
-        "z": -0.732
+        "x": -0.19129228102427331,
+        "y": -0.009888209778515669,
+        "z": -0.6735680629954869
       },
       "animations": [
         "Idle",
@@ -9279,18 +9813,16 @@
         "Run",
         "Attack",
         "Death",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 1.5333333015441895,
       "materials": [
         "grassscale_olive_diamond_scales"
       ],
       "runClipSeconds": 1.066666603088379,
-      "sha256": "fd1c7524bbcba7f89822d7e03c5ec5fef4ac45b2a4f51197c7e625b3c5c2be3f",
+      "sha256": "512e3ce183fb69bcdb09a7eb8c0a8acd7102dd624806eba958eb3b82c398fe78",
       "groundY": -0.01,
-      "attackSeconds": 1.666667,
+      "attackSeconds": 1.6666666269302368,
       "contactNormalized": 0.525,
       "sourceProvenance": {
         "upstreamPack": "animal-pack-deluxe",
@@ -9313,12 +9845,147 @@
       },
       "metadata": {
         "finish": "image-generated olive scales and ochre-edged dorsal diamonds",
-        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_viper-idle.png and walk-02.png in continuation journal."
+        "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_viper-idle.png and walk-02.png in continuation journal.",
+        "geometry": {
+          "vertices": 1706,
+          "triangles": 3010
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.525,
+          "seconds": 0.8749999791383744
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": null,
+          "impliedRunMps": null
+        }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "triangles": 3010,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "fd1c7524bbcba7f89822d7e03c5ec5fef4ac45b2a4f51197c7e625b3c5c2be3f",
+        "sourceGitBlob": "1786b0429d636a2c805eabdcd364a4a5829b6cfb",
+        "donors": [],
+        "sourceMetadata": {
+          "finish": "image-generated olive scales and ochre-edged dorsal diamonds",
+          "review": "Root and Luna normal-camera lab review passed; native geometry, rig and clips preserved. Evidence polish-ready-animal_viper-idle.png and walk-02.png in continuation journal."
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Attack",
+            "Death",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 8,
+              "samples": 117,
+              "maximumVertexMotion": 0.11017900459926665,
+              "maximumSpanRatio": 0.9622599873887606,
+              "minimumSpanRatio": 0.9240501350976812,
+              "loopSeam": 5.5076239622842944e-17,
+              "edgeStretchP99": 1.3214929306401173,
+              "maximumEdgeStretch": 1.628018176338798,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.5333333015441895,
+              "samples": 98,
+              "maximumVertexMotion": 0.36497675200914603,
+              "maximumSpanRatio": 0.9544271665102235,
+              "minimumSpanRatio": 0.9305250730401577,
+              "loopSeam": 0,
+              "edgeStretchP99": 1.2452909700710222,
+              "maximumEdgeStretch": 1.6280183037287619,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 1.066666603088379,
+              "samples": 65,
+              "maximumVertexMotion": 0.3697320292695744,
+              "maximumSpanRatio": 0.9540362227059036,
+              "minimumSpanRatio": 0.9265175630331953,
+              "loopSeam": 0.01615624824250632,
+              "edgeStretchP99": 1.198173659984212,
+              "maximumEdgeStretch": 1.6280183068417131,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.6666666269302368,
+              "samples": 107,
+              "maximumVertexMotion": 0.23675559426433526,
+              "maximumSpanRatio": 1.0310431564631353,
+              "minimumSpanRatio": 0.9056758331405707,
+              "loopSeam": null,
+              "edgeStretchP99": 2.0355441663622402,
+              "maximumEdgeStretch": 2.3451322773801024,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 2,
+              "samples": 120,
+              "maximumVertexMotion": 0.5026280543372913,
+              "maximumSpanRatio": 0.9940962794789806,
+              "minimumSpanRatio": 0.7772820023250794,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2237384991483962,
+              "maximumEdgeStretch": 1.6280183134008588,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.06708201288632105,
+              "maximumSpanRatio": 0.9328028660141985,
+              "minimumSpanRatio": 0.9288745145585968,
+              "loopSeam": null,
+              "edgeStretchP99": 1.1916688493705836,
+              "maximumEdgeStretch": 1.6280181248122751,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "512e3ce183fb69bcdb09a7eb8c0a8acd7102dd624806eba958eb3b82c398fe78",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/animal_viper/evidence.json"
+        }
       }
     },
     {
@@ -22926,28 +23593,28 @@
         "warm-bank",
         "spit"
       ],
-      "bytes": 4346104,
-      "sha256": "3cc51715a033d92f32f71e6cfd83635b4105d1091ad8dfc6631571bcc054a737",
+      "bytes": 4314356,
+      "sha256": "1af970dd8d41bc1a7fb5447289b34b6836ad4b65fe2b8826c6104c3332a5619e",
       "size": {
-        "x": 0.32350622529277795,
-        "y": 0.1586890940591499,
-        "z": 1.1433032684092854
+        "x": 0.31052161699580383,
+        "y": 0.15881619464682312,
+        "z": 1.1208901305579437
       },
       "base": {
-        "x": -0.16175951231424449,
-        "y": 0.0015090008768542838,
-        "z": -0.7973472310014796
+        "x": -0.14825510449495619,
+        "y": 0.0013865453916569713,
+        "z": -0.777125936719878
       },
       "bounds": {
         "min": [
-          -0.16175951231424449,
-          0.0015090008768542838,
-          -0.7973472310014796
+          -0.14825510449495619,
+          0.0013865453916569713,
+          -0.777125936719878
         ],
         "max": [
-          0.1617467129785335,
-          0.1601980949360042,
-          0.3459560374078058
+          0.16226651250084764,
+          0.1602027400384801,
+          0.34376419383806567
         ]
       },
       "groundY": 0.0015090008768542838,
@@ -22958,9 +23625,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "materials": [
         "animal_kiln_salamander_mat",
@@ -23276,12 +23941,299 @@
             "finalSha256": "54ab19e5f3fd6bbca0a9bc36c288781526d4a0da2d59ecbac4b5017004abe0a1"
           }
         ],
-        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
+        "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal.",
+        "geometry": {
+          "vertices": 6480,
+          "triangles": 2160
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.43,
+          "seconds": 0.464400018453598
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.23556248109866293,
+          "impliedRunMps": 0.37263130259072363
+        }
       },
       "acceptance": {
-        "assetAudit": false,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "3cc51715a033d92f32f71e6cfd83635b4105d1091ad8dfc6631571bcc054a737",
+        "sourceGitBlob": "02a3b2d44d40286aa49d3088b5def4205299c56f",
+        "donors": [],
+        "sourceMetadata": {
+          "is": "salamander",
+          "tags": [
+            "salamander",
+            "amphibian",
+            "animal",
+            "warm-bank",
+            "spit"
+          ],
+          "provenance": {
+            "id": "animal-pack-deluxe",
+            "name": "Animal pack deluxe",
+            "author": "janpec",
+            "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+            "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+            "sourceRig": "FireSalamander_Rig.fbx",
+            "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+          },
+          "attackSeconds": 1.08,
+          "contactNormalized": 0.43,
+          "impliedWalkMps": 0.23556248109866293,
+          "impliedRunMps": 0.37263130259072363,
+          "walkClipSeconds": 1.2999999523162842,
+          "runClipSeconds": 0.8333333134651184,
+          "notes": "Unused licensed salamander body. Added lower-jaw articulation; throat-rise and forward spit gesture use a held source support pose. Distinct source walk/run. Image-generated layered material detail blended with existing diffuse maps; native UVs, topology, rig and clips retained.",
+          "sourceClips": [
+            {
+              "name": "Idle",
+              "ok": true,
+              "duration": 5.333333492279053,
+              "sealed": false,
+              "seam": 0,
+              "tracks": 123,
+              "missing": [],
+              "targetCount": 41
+            },
+            {
+              "name": "Walk",
+              "ok": true,
+              "duration": 1.2999999523162842,
+              "sealed": false,
+              "seam": 0,
+              "tracks": 123,
+              "missing": [],
+              "targetCount": 41
+            },
+            {
+              "name": "Run",
+              "ok": true,
+              "duration": 0.8333333134651184,
+              "sealed": false,
+              "seam": 0,
+              "tracks": 123,
+              "missing": [],
+              "targetCount": 41
+            },
+            {
+              "name": "Death",
+              "ok": true,
+              "duration": 2.6666667461395264,
+              "sealed": false,
+              "seam": 0,
+              "tracks": 123,
+              "missing": [],
+              "targetCount": 41
+            }
+          ],
+          "articulation": [
+            {
+              "role": "lower jaw and throat",
+              "joint": "Salamander_LowerJaw",
+              "vertices": 6294,
+              "lowerVertices": 246,
+              "interiorVertices": 186,
+              "seamVertices": 31,
+              "articulation": "source lip split into independent upper and lower surfaces, with skinned interior roof and floor"
+            }
+          ],
+          "gaitFootBones": [
+            "FireSalamander_l_FrontLeg_BallSHJnt",
+            "FireSalamander_r_FrontLeg_BallSHJnt",
+            "FireSalamander_l_HindLeg_BallSHJnt",
+            "FireSalamander_r_HindLeg_BallSHJnt"
+          ],
+          "gaitStance": {
+            "Walk": {
+              "mps": 0.23556248109866293,
+              "samples": 301,
+              "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+            },
+            "Run": {
+              "mps": 0.37263130259072363,
+              "samples": 295,
+              "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+            }
+          },
+          "sourceConverterImpliedMps": {
+            "Walk": 0.1917043420680855,
+            "Run": 0.3049442491192645
+          },
+          "boneNames": [
+            "FireSalamander_MAINSHJnt",
+            "FireSalamander_ROOTSHJnt",
+            "FireSalamander_Spine_01SHJnt",
+            "FireSalamander_Spine_02SHJnt",
+            "FireSalamander_Spine_03SHJnt",
+            "FireSalamander_Spine_04SHJnt",
+            "FireSalamander_Spine_TopSHJnt",
+            "FireSalamander_l_Clavicle_01_01SHJnt",
+            "FireSalamander_l_FrontLeg_HipSHJnt",
+            "FireSalamander_l_FrontLeg_KneeSHJnt",
+            "FireSalamander_l_FrontLeg_AnkleSHJnt",
+            "FireSalamander_l_FrontLeg_BallSHJnt",
+            "FireSalamander_l_FrontLeg_ToeSHJnt",
+            "FireSalamander_r_Clavicle_01_01SHJnt",
+            "FireSalamander_r_FrontLeg_HipSHJnt",
+            "FireSalamander_r_FrontLeg_KneeSHJnt",
+            "FireSalamander_r_FrontLeg_AnkleSHJnt",
+            "FireSalamander_r_FrontLeg_BallSHJnt",
+            "FireSalamander_r_FrontLeg_ToeSHJnt",
+            "FireSalamander_Neck_01SHJnt",
+            "FireSalamander_Neck_02SHJnt",
+            "FireSalamander_Neck_TopSHJnt",
+            "FireSalamander_Head_TopSHJnt",
+            "Salamander_LowerJaw",
+            "FireSalamander_l_HindLeg_HipSHJnt",
+            "FireSalamander_l_HindLeg_KneeSHJnt",
+            "FireSalamander_l_HindLeg_AnkleSHJnt",
+            "FireSalamander_l_HindLeg_BallSHJnt",
+            "FireSalamander_l_HindLeg_ToeSHJnt",
+            "FireSalamander_r_HindLeg_HipSHJnt",
+            "FireSalamander_r_HindLeg_KneeSHJnt",
+            "FireSalamander_r_HindLeg_AnkleSHJnt",
+            "FireSalamander_r_HindLeg_BallSHJnt",
+            "FireSalamander_r_HindLeg_ToeSHJnt",
+            "FireSalamander_Tail_01_01SHJnt",
+            "FireSalamander_Tail_01_02SHJnt",
+            "FireSalamander_Tail_01_03SHJnt",
+            "FireSalamander_Tail_01_04SHJnt",
+            "FireSalamander_Tail_01_05SHJnt",
+            "FireSalamander_Tail_01_06SHJnt",
+            "FireSalamander_Tail_01_07SHJnt",
+            "FireSalamander_Tail_01_08SHJnt"
+          ],
+          "authoringModule": "tools/creature-expansion/imported-animals.mjs",
+          "sourceGlbSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+          "sourceBuilderSha256": "7bfcf04405a72d4ea5a66a32e0871f9c4d34f187091090475705040b9c32a413",
+          "polishBuilderSha256": "57408e7c4bcc73cc682b9a450573f164f8af7d6211ef6b59242066df7c498869",
+          "textureInputs": [
+            {
+              "file": "kiln-salamander-imagegen.png",
+              "sha256": "a15d90a9207b3a19402b287276de435fc86e225cf9e60037ab91ddf49dd86093",
+              "finalSha256": "54ab19e5f3fd6bbca0a9bc36c288781526d4a0da2d59ecbac4b5017004abe0a1"
+            }
+          ],
+          "review": "Root normal-camera visual review passed. Layered generated maps and source/rig evidence reviewed by Luna; native motions checked in continuation lab journal."
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 5.333333492279053,
+              "samples": 102,
+              "maximumVertexMotion": 0.14206510853928017,
+              "maximumSpanRatio": 0.9925315468313343,
+              "minimumSpanRatio": 0.9595753705189214,
+              "loopSeam": 0.000022422040280611457,
+              "edgeStretchP99": 1.2831546080376255,
+              "maximumEdgeStretch": 1.976919862360173,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 1.2999999523162842,
+              "samples": 86,
+              "maximumVertexMotion": 0.25325474873409926,
+              "maximumSpanRatio": 1.0034913011178084,
+              "minimumSpanRatio": 0.9886599912374872,
+              "loopSeam": 0,
+              "edgeStretchP99": 1.2350095394793044,
+              "maximumEdgeStretch": 2.5057565611859776,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.8333333134651184,
+              "samples": 58,
+              "maximumVertexMotion": 0.2532637478434525,
+              "maximumSpanRatio": 0.9983633168783426,
+              "minimumSpanRatio": 0.9667929525414218,
+              "loopSeam": 8.168003856739956e-8,
+              "edgeStretchP99": 1.2340915545032842,
+              "maximumEdgeStretch": 2.4898578688841826,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 2.6666667461395264,
+              "samples": 108,
+              "maximumVertexMotion": 0.5787153358912109,
+              "maximumSpanRatio": 0.9900919271161711,
+              "minimumSpanRatio": 0.6817208783751759,
+              "loopSeam": null,
+              "edgeStretchP99": 1.4116986756993588,
+              "maximumEdgeStretch": 3.0378338304746832,
+              "stretchedEdgeFraction": 0.00031075201988812925
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.0800000429153442,
+              "samples": 74,
+              "maximumVertexMotion": 0.11543541477500839,
+              "maximumSpanRatio": 0.9812277459395242,
+              "minimumSpanRatio": 0.9566000911667951,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2323309363107817,
+              "maximumEdgeStretch": 1.9552951334622402,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.6299999952316284,
+              "samples": 42,
+              "maximumVertexMotion": 0.0579985484137599,
+              "maximumSpanRatio": 0.9812751475589687,
+              "minimumSpanRatio": 0.9779957355986024,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2022178615104473,
+              "maximumEdgeStretch": 1.9552951334622397,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "1af970dd8d41bc1a7fb5447289b34b6836ad4b65fe2b8826c6104c3332a5619e",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_kiln_salamander/evidence.json"
+        }
       }
     },
     {
@@ -24110,28 +25062,28 @@
         "reeds",
         "territorial"
       ],
-      "bytes": 4495884,
-      "sha256": "f34b10d1006a704746a08c57c24e5f0c08c95da9d92531470776a3d2297094e0",
+      "bytes": 4472188,
+      "sha256": "12c408d5a962f9844cc49185b304a9139fc5f8a3095713479163a868aa338d4f",
       "size": {
-        "x": 0.26841146482232225,
-        "y": 0.8038840165034915,
-        "z": 0.6219901956950346
+        "x": 0.2684487146997362,
+        "y": 0.7977763528335308,
+        "z": 0.6318696399855965
       },
       "base": {
-        "x": -0.13420704844635536,
-        "y": -0.0027825099842260785,
-        "z": -0.31401140282634876
+        "x": -0.13406649137557264,
+        "y": -0.0030744497642429254,
+        "z": -0.31400675130473255
       },
       "bounds": {
         "min": [
-          -0.13420704844635536,
-          -0.0027825099842260785,
-          -0.31401140282634876
+          -0.13406649137557264,
+          -0.0030744497642429254,
+          -0.31400675130473255
         ],
         "max": [
-          0.13420441637596686,
-          0.8011015065192654,
-          0.3079787928686858
+          0.13438222332416358,
+          0.7947019030692879,
+          0.31786288868086393
         ]
       },
       "groundY": -0.0027825099842260785,
@@ -24142,9 +25094,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "materials": [
         "animal_reedbank_goose_mat",
@@ -24401,12 +25351,293 @@
           "Bone019(mirrored)",
           "Bone020(mirrored)"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs"
+        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
+        "geometry": {
+          "vertices": 9290,
+          "triangles": 12762
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.46,
+          "seconds": 0.5243999934196473
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.22709537060230645,
+          "impliedRunMps": 0.4332962182896537
+        }
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "f34b10d1006a704746a08c57c24e5f0c08c95da9d92531470776a3d2297094e0",
+        "sourceGitBlob": "e14d3f586934784ebfdf8229808252aa742feac3",
+        "donors": [],
+        "sourceMetadata": {
+          "is": "goose",
+          "tags": [
+            "goose",
+            "bird",
+            "animal",
+            "reeds",
+            "territorial"
+          ],
+          "provenance": {
+            "id": "animal-pack-deluxe",
+            "name": "Animal pack deluxe",
+            "author": "janpec",
+            "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+            "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+            "sourceRig": "swan_goose_rig_exp.FBX",
+            "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+          },
+          "attackSeconds": 1.14,
+          "contactNormalized": 0.46,
+          "impliedWalkMps": 0.22709537060230645,
+          "impliedRunMps": 0.4332962182896537,
+          "walkClipSeconds": 0.966666579246521,
+          "runClipSeconds": 0.5333333611488342,
+          "notes": "Unused licensed goose body. Authored warning, neck-driven forward bill strike and paired wing flare. No feeding clip is used as Attack; both feet retain their source support pose.",
+          "sourceClips": [
+            {
+              "name": "Idle",
+              "ok": true,
+              "duration": 9.966666221618652,
+              "sealed": false,
+              "seam": 0,
+              "tracks": 78,
+              "missing": [],
+              "targetCount": 30
+            },
+            {
+              "name": "Walk",
+              "ok": true,
+              "duration": 0.966666579246521,
+              "sealed": false,
+              "seam": 0.3667465950860811,
+              "tracks": 78,
+              "missing": [],
+              "targetCount": 30
+            },
+            {
+              "name": "Run",
+              "ok": true,
+              "duration": 0.5333333611488342,
+              "sealed": true,
+              "seam": 1.8485603830496442,
+              "tracks": 78,
+              "missing": [],
+              "targetCount": 30
+            },
+            {
+              "name": "Death",
+              "ok": true,
+              "duration": 0.9666652679443359,
+              "sealed": false,
+              "seam": 0,
+              "tracks": 67,
+              "missing": [],
+              "targetCount": 27
+            }
+          ],
+          "articulation": [
+            {
+              "role": "left feathered wing",
+              "joints": [
+                "Goose_WingLeft",
+                "Goose_WristLeft"
+              ],
+              "vertices": 2926,
+              "authoredGeometry": true,
+              "feathers": 11,
+              "sourceSurfaceFit": "Outer source torso triangles in YZ; original interpolated feather-atlas UVs",
+              "maxSourceUnitClearance": 0.0969342572561187,
+              "sourceUnitVaneThickness": 0.016
+            },
+            {
+              "role": "right feathered wing",
+              "joints": [
+                "Goose_WingRight",
+                "Goose_WristRight"
+              ],
+              "vertices": 2926,
+              "authoredGeometry": true,
+              "feathers": 11,
+              "sourceSurfaceFit": "Outer source torso triangles in YZ; original interpolated feather-atlas UVs",
+              "maxSourceUnitClearance": 0.0969342572561187,
+              "sourceUnitVaneThickness": 0.016
+            }
+          ],
+          "gaitFootBones": [
+            "Bone020",
+            "Bone020(mirrored)"
+          ],
+          "gaitStance": {
+            "Walk": {
+              "mps": 0.22709537060230645,
+              "samples": 127,
+              "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+            },
+            "Run": {
+              "mps": 0.4332962182896537,
+              "samples": 130,
+              "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+            }
+          },
+          "sourceConverterImpliedMps": {
+            "Walk": 0.10984399498874854,
+            "Run": 0.22112880002772572
+          },
+          "boneNames": [
+            "Bone001",
+            "Bone016",
+            "Bone017",
+            "Bone018",
+            "Bone019",
+            "Bone020",
+            "Bone002",
+            "Bone003",
+            "Bone004",
+            "Bone005",
+            "Bone006",
+            "Bone007",
+            "Bone008",
+            "Bone009",
+            "Bone010",
+            "Bone011",
+            "Bone012",
+            "Bone013",
+            "Bone014",
+            "Bone021",
+            "Bone022",
+            "Bone023",
+            "Bone024",
+            "Goose_WingLeft",
+            "Goose_WristLeft",
+            "Goose_WingRight",
+            "Goose_WristRight",
+            "Bone016(mirrored)",
+            "Bone017(mirrored)",
+            "Bone018(mirrored)",
+            "Bone019(mirrored)",
+            "Bone020(mirrored)"
+          ],
+          "authoringModule": "tools/creature-expansion/imported-animals.mjs"
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 9.966666221618652,
+              "samples": 105,
+              "maximumVertexMotion": 0.12586666920667228,
+              "maximumSpanRatio": 1.061781388510153,
+              "minimumSpanRatio": 0.9931083687067753,
+              "loopSeam": 0.002329708538858677,
+              "edgeStretchP99": 1.0324437779537585,
+              "maximumEdgeStretch": 2.0673525096092504,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 0.966666579246521,
+              "samples": 66,
+              "maximumVertexMotion": 0.12296120727704442,
+              "maximumSpanRatio": 1.0040355747748508,
+              "minimumSpanRatio": 0.9910130892835325,
+              "loopSeam": 0.004423858201352918,
+              "edgeStretchP99": 1.105409489064714,
+              "maximumEdgeStretch": 2.3608731437722206,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.5333333611488342,
+              "samples": 38,
+              "maximumVertexMotion": 0.12806671893606197,
+              "maximumSpanRatio": 1.061371448765245,
+              "minimumSpanRatio": 1.0476867463289488,
+              "loopSeam": 4.619168313000185e-8,
+              "edgeStretchP99": 1.0910637468080204,
+              "maximumEdgeStretch": 2.151554519051903,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 0.9666652679443359,
+              "samples": 65,
+              "maximumVertexMotion": 0.9179948736699588,
+              "maximumSpanRatio": 1.0547917616188502,
+              "minimumSpanRatio": 0.9681586705034948,
+              "loopSeam": null,
+              "edgeStretchP99": 1.127239700799392,
+              "maximumEdgeStretch": 2.196584562987881,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.1399999856948853,
+              "samples": 77,
+              "maximumVertexMotion": 0.3509137214034316,
+              "maximumSpanRatio": 1.1958197312513863,
+              "minimumSpanRatio": 0.9830859846060989,
+              "loopSeam": null,
+              "edgeStretchP99": 1.0829131575248314,
+              "maximumEdgeStretch": 2.0673525018180645,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.6499999761581421,
+              "samples": 43,
+              "maximumVertexMotion": 0.1557926528211668,
+              "maximumSpanRatio": 1.008475871284945,
+              "minimumSpanRatio": 0.9712225765901596,
+              "loopSeam": null,
+              "edgeStretchP99": 1.051193448292938,
+              "maximumEdgeStretch": 2.06735248385561,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "12c408d5a962f9844cc49185b304a9139fc5f8a3095713479163a868aa338d4f",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_reedbank_goose/evidence.json"
+        }
       }
     },
     {
@@ -24422,28 +25653,28 @@
         "quarry",
         "moss"
       ],
-      "bytes": 6528544,
-      "sha256": "cfb1fc736f99631e07b6ca0b02a05391ee28fb0a34339d0c868ebe6d5ccfa298",
+      "bytes": 6517944,
+      "sha256": "2d82ce87f754a6fb9c5fae039ca2affd8e9df405e1cfabb66fa5bbb6f6433fbb",
       "size": {
-        "x": 0.25575055446016826,
-        "y": 0.2927195624388275,
-        "z": 0.6428402618001128
+        "x": 0.2557505601827787,
+        "y": 0.29271956560905893,
+        "z": 0.6431810183173041
       },
       "base": {
-        "x": -0.16148498888052504,
-        "y": -0.0015801050292373233,
-        "z": -0.3155688257504629
+        "x": -0.16148499273230987,
+        "y": -0.0015801199354012428,
+        "z": -0.31556884092257464
       },
       "bounds": {
         "min": [
-          -0.16148498888052504,
-          -0.0015801050292373233,
-          -0.3155688257504629
+          -0.16148499273230987,
+          -0.0015801199354012428,
+          -0.31556884092257464
         ],
         "max": [
-          0.09426556557964323,
-          0.2911394574095902,
-          0.3272714360496498
+          0.09426556745046884,
+          0.2911394456736577,
+          0.3276121773947295
         ]
       },
       "groundY": -0.0015801050292373233,
@@ -24454,9 +25685,7 @@
         "Death",
         "Attack",
         "Run",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "materials": [
         "animal_quarry_snail_mat"
@@ -24714,12 +25943,263 @@
           "Snail_EyeRight",
           "Snail_RigidShell"
         ],
-        "authoringModule": "tools/creature-expansion/imported-animals.mjs"
+        "authoringModule": "tools/creature-expansion/imported-animals.mjs",
+        "geometry": {
+          "vertices": 53664,
+          "triangles": 17888
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.48,
+          "seconds": 0.72
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.013362252642835044,
+          "impliedRunMps": 0.05367366587848634
+        }
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "cfb1fc736f99631e07b6ca0b02a05391ee28fb0a34339d0c868ebe6d5ccfa298",
+        "sourceGitBlob": "9e0c81ad6adddcfe136bd2a2b7cbbfff4a705e2e",
+        "donors": [],
+        "sourceMetadata": {
+          "is": "snail",
+          "tags": [
+            "snail",
+            "mollusc",
+            "animal",
+            "quarry",
+            "moss"
+          ],
+          "provenance": {
+            "id": "animal-pack-deluxe",
+            "name": "Animal pack deluxe",
+            "author": "janpec",
+            "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+            "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+            "sourceRig": "snail_rig_exp.FBX",
+            "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+          },
+          "attackSeconds": 1.5,
+          "contactNormalized": 0.48,
+          "impliedWalkMps": 0.013362252642835044,
+          "impliedRunMps": 0.05367366587848634,
+          "walkClipSeconds": 4.399999618530273,
+          "runClipSeconds": 2.6,
+          "notes": "Unused licensed snail body, refined with a continuous curved spiral shell, modeled whorl gutters and a muscular foot margin. Source UVs/material remain. Rigid shell influence is separated from soft foot. Added eye-stalk articulation, retract/emerge rasp attack, directional recoil, and a distinct authored traveling foot-wave faster crawl.",
+          "sourceClips": [
+            {
+              "name": "Idle",
+              "ok": true,
+              "duration": 9.066665649414062,
+              "sealed": true,
+              "seam": 4.2957193221380985,
+              "tracks": 27,
+              "missing": [],
+              "targetCount": 13
+            },
+            {
+              "name": "Walk",
+              "ok": true,
+              "duration": 4.399999618530273,
+              "sealed": true,
+              "seam": 2.4350351134639263,
+              "tracks": 27,
+              "missing": [],
+              "targetCount": 13
+            },
+            {
+              "name": "Death",
+              "ok": true,
+              "duration": 2.633333206176758,
+              "sealed": false,
+              "seam": 0,
+              "tracks": 27,
+              "missing": [],
+              "targetCount": 13
+            }
+          ],
+          "articulation": [
+            {
+              "role": "rigid shell",
+              "joint": "Snail_RigidShell",
+              "vertices": 579,
+              "sourceComponent": "vertices 0..578"
+            },
+            {
+              "role": "left eye stalk",
+              "joint": "Snail_EyeLeft",
+              "vertices": 73
+            },
+            {
+              "role": "right eye stalk",
+              "joint": "Snail_EyeRight",
+              "vertices": 73
+            },
+            {
+              "role": "shell and soft-foot sculpture",
+              "shellFaces": 12352,
+              "softFootFaces": 5536,
+              "sculpture": "Continuous curved source shell with three modeled coiled-whorl ridges and incised grooves; rounded muscular foot margin and shallow contraction folds.",
+              "sourceUVsPreserved": true
+            }
+          ],
+          "gaitFootBones": [
+            "Bone003",
+            "Bone004",
+            "Bone005",
+            "Bone006"
+          ],
+          "gaitStance": {
+            "Walk": {
+              "mps": 0.013362252642835044,
+              "samples": 128,
+              "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+            },
+            "Run": {
+              "mps": 0.05367366587848634,
+              "samples": 232,
+              "method": "120 samples; backward sole velocity below each sole trajectory lower 20%; median"
+            }
+          },
+          "sourceConverterImpliedMps": {
+            "Walk": 0.011233042807925114,
+            "Run": 0
+          },
+          "gaitContactNote": "Continuous soft sole. These are foot-chain probes, not articulated planted leg feet.",
+          "boneNames": [
+            "Bone001",
+            "Bone002",
+            "Bone003",
+            "Bone004",
+            "Bone005",
+            "Bone006",
+            "Bone007",
+            "Bone008",
+            "Bone009",
+            "Snail_EyeLeft",
+            "Snail_EyeRight",
+            "Snail_RigidShell"
+          ],
+          "authoringModule": "tools/creature-expansion/imported-animals.mjs"
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Death",
+            "Attack",
+            "Run",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 9.066665649414062,
+              "samples": 71,
+              "maximumVertexMotion": 0.14229938094335268,
+              "maximumSpanRatio": 1.0193198746022714,
+              "minimumSpanRatio": 0.9968959119258353,
+              "loopSeam": 3.343618046693993e-8,
+              "edgeStretchP99": 1.1426564178310565,
+              "maximumEdgeStretch": 1.5598561506918263,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 4.399999618530273,
+              "samples": 80,
+              "maximumVertexMotion": 0.09581323783821327,
+              "maximumSpanRatio": 1.0078625497046572,
+              "minimumSpanRatio": 0.9431180465001281,
+              "loopSeam": 3.0504329592595204e-8,
+              "edgeStretchP99": 1.1351300124131463,
+              "maximumEdgeStretch": 1.5779626059393899,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 2.633333206176758,
+              "samples": 87,
+              "maximumVertexMotion": 0.4767603179923351,
+              "maximumSpanRatio": 1.0651338214555293,
+              "minimumSpanRatio": 0.9239007171949982,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2769378570987286,
+              "maximumEdgeStretch": 1.9545294951653953,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.5,
+              "samples": 95,
+              "maximumVertexMotion": 0.047317974294355074,
+              "maximumSpanRatio": 1.0416173560439579,
+              "minimumSpanRatio": 0.970880756214622,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2075139244997133,
+              "maximumEdgeStretch": 1.4744439896705086,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 2.5999999046325684,
+              "samples": 84,
+              "maximumVertexMotion": 0.03838264122843301,
+              "maximumSpanRatio": 1.0579391642310738,
+              "minimumSpanRatio": 0.9914576286543672,
+              "loopSeam": 3.343618046693993e-8,
+              "edgeStretchP99": 1.1868528010776354,
+              "maximumEdgeStretch": 1.3167875692079718,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.8999999761581421,
+              "samples": 62,
+              "maximumVertexMotion": 0.052541435111986494,
+              "maximumSpanRatio": 1.0003882270474573,
+              "minimumSpanRatio": 0.9544711596386433,
+              "loopSeam": null,
+              "edgeStretchP99": 1.0497192658361316,
+              "maximumEdgeStretch": 1.2265110511258444,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "2d82ce87f754a6fb9c5fae039ca2affd8e9df405e1cfabb66fa5bbb6f6433fbb",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_quarry_snail/evidence.json"
+        }
       }
     },
     {
@@ -24735,28 +26215,28 @@
         "ground",
         "horn"
       ],
-      "bytes": 7352152,
-      "sha256": "6ed5b410198d54e0bcea528b8770d0e548bfbd1287a16df51505a119a72110f8",
+      "bytes": 7329144,
+      "sha256": "c78f3f6a6872c796827587f4a1392e32384738cf908f37c2515f149764b6e77d",
       "size": {
-        "x": 1.7450177392857733,
-        "y": 2.1080696907148737,
-        "z": 4.735762694542039
+        "x": 1.7451528239835368,
+        "y": 2.119572066143209,
+        "z": 4.685450715666844
       },
       "base": {
-        "x": -0.8725002182170689,
-        "y": -0.00007763962636403102,
-        "z": -1.9394795807200897
+        "x": -0.8725763616220525,
+        "y": 1.5245377563222713e-8,
+        "z": -1.8857334880109233
       },
       "bounds": {
         "min": [
-          -0.8725002182170689,
-          -0.00007763962636403102,
-          -1.9394795807200897
+          -0.8725763616220525,
+          1.5245377563222713e-8,
+          -1.8857334880109233
         ],
         "max": [
-          0.8725175210687045,
-          2.1079920510885097,
-          2.796283113821949
+          0.8725764623614842,
+          2.1195720813885863,
+          2.799717227655921
         ]
       },
       "groundY": -0.00007763962636403102,
@@ -24767,9 +26247,7 @@
         "Run",
         "Attack",
         "Hit",
-        "Death",
-        "HitLeft",
-        "HitRight"
+        "Death"
       ],
       "materials": [
         "armored_dragon_layered_basalt_plates"
@@ -25090,20 +26568,321 @@
           "R_Feet",
           "R_Toes"
         ],
-        "authoringModule": "tools/creature-expansion/monsters.mjs"
+        "authoringModule": "tools/creature-expansion/monsters.mjs",
+        "geometry": {
+          "vertices": 9690,
+          "triangles": 3230
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.65,
+          "seconds": 1.0400000154972078
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.0281658174696817,
+          "impliedRunMps": 3.674626094038439
+        }
       },
       "acceptance": {
         "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false,
-        "assetAudit": true
+        "motionAccepted": true
       },
       "acceptanceEvidence": {
         "review": "Root and fresh Luna normal-camera visual/native-motion review; source maps/rigs/clips preserved.",
         "screenshots": "test-results/creature-audit/continuation-session/polish-wide-* and polish-final-{basalt_drake,furnace_grazer}-*"
+      },
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "6ed5b410198d54e0bcea528b8770d0e548bfbd1287a16df51505a119a72110f8",
+        "sourceGitBlob": "63e32fc0ddf5ab6c43f672c1182731a5d67b0dcc",
+        "donors": [],
+        "sourceMetadata": {
+          "id": "basalt_drake",
+          "is": "An armored low dragon with a boar-like snout, broad forepaws and a ridge of dorsal spikes.",
+          "tags": [
+            "creature",
+            "monster",
+            "quadruped",
+            "ground",
+            "horn"
+          ],
+          "provenance": {
+            "author": "Dungeon Mason",
+            "pack": "Dragon the Soul Eater and Dragon Boar",
+            "license": "Standard Unity Asset Store EULA",
+            "source": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+            "texture": "DragonBoarPBR/Blue",
+            "modifications": "Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz."
+          },
+          "attackSeconds": 1.600000023841858,
+          "contactNormalized": 0.65,
+          "impliedWalkMps": 1.0281658174696817,
+          "impliedRunMps": 3.674626094038439,
+          "gaitFootBones": [
+            "L_Hand",
+            "R_Hand",
+            "L_Toes",
+            "R_Toes"
+          ],
+          "gaitStanceAudit": {
+            "walk": {
+              "mps": 1.0281658174696817,
+              "contacts": [
+                {
+                  "bone": "L_Hand",
+                  "samples": 120,
+                  "stanceMps": 1.2826991327503112,
+                  "heightWindowM": 0.02640957342000007
+                },
+                {
+                  "bone": "R_Hand",
+                  "samples": 120,
+                  "stanceMps": 1.2894531079658123,
+                  "heightWindowM": 0.028839954480652796
+                },
+                {
+                  "bone": "L_Toes",
+                  "samples": 101,
+                  "stanceMps": 1.0237982214571861,
+                  "heightWindowM": 0.009652186233660072
+                },
+                {
+                  "bone": "R_Toes",
+                  "samples": 120,
+                  "stanceMps": 0.851325850362632,
+                  "heightWindowM": 0.019871939715884548
+                }
+              ],
+              "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
+            },
+            "run": {
+              "mps": 3.674626094038439,
+              "contacts": [
+                {
+                  "bone": "L_Hand",
+                  "samples": 52,
+                  "stanceMps": 3.7189603433531273,
+                  "heightWindowM": 0.04
+                },
+                {
+                  "bone": "R_Hand",
+                  "samples": 21,
+                  "stanceMps": 3.9652471445678557,
+                  "heightWindowM": 0.04
+                },
+                {
+                  "bone": "L_Toes",
+                  "samples": 64,
+                  "stanceMps": 2.1195920131488992,
+                  "heightWindowM": 0.04
+                },
+                {
+                  "bone": "R_Toes",
+                  "samples": 45,
+                  "stanceMps": 4.445314994914674,
+                  "heightWindowM": 0.04
+                }
+              ],
+              "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
+            }
+          },
+          "groundCorrections": [
+            {
+              "name": "Idle",
+              "maxLiftM": 0.0011330568101827966
+            },
+            {
+              "name": "Walk",
+              "maxLiftM": 0.010895032819473037
+            },
+            {
+              "name": "Run",
+              "maxLiftM": 0.08415511661709943
+            },
+            {
+              "name": "Attack",
+              "maxLiftM": 0.0841617148396347
+            },
+            {
+              "name": "Hit",
+              "maxLiftM": 0.06020439116752186
+            },
+            {
+              "name": "Death",
+              "maxLiftM": 0.25712617074130467
+            },
+            {
+              "name": "HitLeft",
+              "maxLiftM": 0.06289271484064028
+            },
+            {
+              "name": "HitRight",
+              "maxLiftM": 0.07313529703156678
+            }
+          ],
+          "walkClipSeconds": 1,
+          "runClipSeconds": 0.800000011920929,
+          "notes": [
+            "All six full single-motion FBX takes match their Unity frame windows.",
+            "HornAttack lowers the head and drives its tusks forward. The source supplies a grounded four-leg walk and run.",
+            "Contact at 1.04 seconds matches the rising head thrust after its low windup; jaw-front reach peaks at 1.07 seconds."
+          ],
+          "boneNames": [
+            "Root",
+            "Spine1",
+            "Chest",
+            "Head",
+            "UpperMouth1",
+            "UpperMouth2",
+            "L_UpperEye",
+            "L_LowerEye",
+            "R_UpperEye",
+            "R_LowerEye",
+            "Jaw1",
+            "Jaw2",
+            "Jaw3",
+            "L_Horn1",
+            "L_Horn2",
+            "Tongue1",
+            "Tongue2",
+            "Tongue3",
+            "R_Horn1",
+            "R_Horn2",
+            "L_UpperArm",
+            "L_LowerArm",
+            "L_Hand",
+            "L_Fingers",
+            "R_UpperArm",
+            "R_RowerArm",
+            "R_Hand",
+            "R_Fingers",
+            "joint5",
+            "joint6",
+            "joint7",
+            "joint8",
+            "L_UpperLeg",
+            "L_LowerLeg",
+            "L_Feet",
+            "L_Toes",
+            "R_UpperReg",
+            "R_RowerReg",
+            "R_Feet",
+            "R_Toes"
+          ],
+          "authoringModule": "tools/creature-expansion/monsters.mjs"
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Attack",
+            "Hit",
+            "Death"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 1.3333333730697632,
+              "samples": 80,
+              "maximumVertexMotion": 1.2950108743803053,
+              "maximumSpanRatio": 1.011094665103422,
+              "minimumSpanRatio": 0.9773902140230897,
+              "loopSeam": 4.834040936216062e-8,
+              "edgeStretchP99": 1.114789305500873,
+              "maximumEdgeStretch": 3.3612416568975734,
+              "stretchedEdgeFraction": 0.00020652622883106156
+            },
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "samples": 86,
+              "maximumVertexMotion": 0.6292375857418755,
+              "maximumSpanRatio": 1.0001239867478093,
+              "minimumSpanRatio": 0.9697610452764737,
+              "loopSeam": 4.744881049698248e-8,
+              "edgeStretchP99": 1.3840456891013828,
+              "maximumEdgeStretch": 3.3611757792248866,
+              "stretchedEdgeFraction": 0.00020652622883106156
+            },
+            {
+              "name": "Run",
+              "seconds": 0.800000011920929,
+              "samples": 82,
+              "maximumVertexMotion": 1.761035422153607,
+              "maximumSpanRatio": 1.0087540077989872,
+              "minimumSpanRatio": 0.8729330518531803,
+              "loopSeam": 2.9224671025845655e-8,
+              "edgeStretchP99": 1.4520361545714082,
+              "maximumEdgeStretch": 3.361399335930883,
+              "stretchedEdgeFraction": 0.00020652622883106156
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.600000023841858,
+              "samples": 98,
+              "maximumVertexMotion": 1.7612710295296523,
+              "maximumSpanRatio": 1.0338141044883573,
+              "minimumSpanRatio": 0.8191935125885553,
+              "loopSeam": null,
+              "edgeStretchP99": 1.8586830067623559,
+              "maximumEdgeStretch": 4.201578872646414,
+              "stretchedEdgeFraction": 0.0020652622883106154
+            },
+            {
+              "name": "Hit",
+              "seconds": 1.3333333730697632,
+              "samples": 91,
+              "maximumVertexMotion": 2.5639955105377075,
+              "maximumSpanRatio": 1.0388480761134795,
+              "minimumSpanRatio": 0.9033742283876255,
+              "loopSeam": null,
+              "edgeStretchP99": 2.024966025019243,
+              "maximumEdgeStretch": 3.9661642616276356,
+              "stretchedEdgeFraction": 0.0018587360594795538
+            },
+            {
+              "name": "Death",
+              "seconds": 1.3333333730697632,
+              "samples": 90,
+              "maximumVertexMotion": 2.771270697462202,
+              "maximumSpanRatio": 0.9928731617780032,
+              "minimumSpanRatio": 0.864270987555383,
+              "loopSeam": null,
+              "edgeStretchP99": 1.8292120868705644,
+              "maximumEdgeStretch": 4.899095020544596,
+              "stretchedEdgeFraction": 0.0006195786864931846
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "c78f3f6a6872c796827587f4a1392e32384738cf908f37c2515f149764b6e77d",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_basalt_drake/evidence.json"
+        }
       }
     },
     {
@@ -54225,15 +56004,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.5043859712414905,
+          "seconds": 0.38333333333333336
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "985c3848985ad424a355d083a7ca08d1286aaab35b99cf993604311fbd2f93f1",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/creature_baby_red_dragon/evidence.json"
+        }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-dragons/lab-shallow-materials/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       }
     },
     {
@@ -54468,15 +56264,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.439560455683421,
+          "seconds": 0.4
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "7b2530f8c88037337efa786459f00dcbe09df17508a3a93d2ecc8ff0158514db",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/creature_baby_black_dragon/evidence.json"
+        }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-dragons/lab-shallow-full/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       }
     },
     {
@@ -54716,15 +56529,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.5063291001713369,
+          "seconds": 0.39999999999999997
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "3a7b6874d181ed727a3032924d4e64cf3da61b2e8da5a642fa5ef0d65dac432b",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/creature_baby_lava_dragon/evidence.json"
+        }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-dragons/lab-shallow-materials/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       }
     },
     {
@@ -54959,15 +56789,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.5059523787983016,
+          "seconds": 0.5666666666666667
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "8c4a2a1c830fdc0723d7620298344459e6ccd9897ce5488ecfc921d5e48876d1",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/creature_red_wilderness_dragon/evidence.json"
+        }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": true,
-        "labReport": "test-results/wilderness-dragons/lab-deep-red_wilderness_dragon-materials/report.json",
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       }
     },
     {
@@ -55202,14 +57049,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.4336734873237641,
+          "seconds": 0.5666666666666667
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "81d86b625b996d88fa3a6eab80af0b136d78a47f515ac48013c64ef185e4564d",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/creature_black_wilderness_dragon/evidence.json"
+        }
       },
       "acceptance": {
         "exported": true,
-        "labAccepted": true,
-        "worldIntegrated": true,
-        "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
-        "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       }
     },
     {
@@ -55459,16 +57324,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.5092592390231153,
+          "seconds": 0.55
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "e131244cf86e519ca92c24d29ec02f06ac7664f17a7b7edd022d2d4c430f4095",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/creature_purple_wilderness_dragon/evidence.json"
+        }
       },
       "acceptance": {
-        "sourceIdentityVerified": true,
+        "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false,
-        "assetAudit": true
+        "motionAccepted": true
       },
       "bounds": {
         "min": [
@@ -61514,16 +63395,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.4336734873237641,
+          "seconds": 0.5666666666666667
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "dbce29cb6ce81e06079ee016db3ab915c5f68cae136e1ecc41b236e833d809d2",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/creature_amethyst_dragon/evidence.json"
+        }
       },
       "acceptance": {
-        "sourceIdentityVerified": true,
+        "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false,
-        "assetAudit": true
+        "motionAccepted": true
       },
       "bounds": {
         "min": [
@@ -69881,16 +71778,16 @@
         "regional_variant",
         "crown_hart"
       ],
-      "bytes": 2940728,
+      "bytes": 2924168,
       "size": {
-        "x": 0.5018596458435058,
-        "y": 1.9262599363357897,
-        "z": 1.7093251620017225
+        "x": 0.5018596148574699,
+        "y": 1.9262599592201493,
+        "z": 1.7093251502555757
       },
       "base": {
-        "x": -0.250929565429688,
-        "y": -0.007029476345942853,
-        "z": -0.6427481763820454
+        "x": -0.2509295535359695,
+        "y": -0.00702947718736768,
+        "z": -0.6427481819332871
       },
       "animations": [
         "Idle",
@@ -69898,9 +71795,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 0.9666666388511658,
       "materials": [
@@ -69909,7 +71804,7 @@
       "impliedWalkMps": 1.1216721226201816,
       "impliedRunMps": 3.4474474408533786,
       "runClipSeconds": 0.6333333253860474,
-      "sha256": "31d27c44633634d91e369588c64ad4badad8e670e1f629e3fb9ec2c194afc89b",
+      "sha256": "7aaf456792cdbe5bf25d3b7fcdfc6aeb00fc0eb9262a8557bac1dfc59435ff9b",
       "groundY": -0.007029476345942853,
       "metadata": {
         "fairyCrownVariant": {
@@ -69937,16 +71832,22 @@
             ]
           },
           "scope": "Existing source geometry, normals, UVs, skin, skeleton, animation and texture pixels preserved. Material factors only; scale belongs to species data."
+        },
+        "geometry": {
+          "vertices": 2277,
+          "triangles": 3728
+        },
+        "animationAcceptance": "devdocs-approved",
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.1216721226201816,
+          "impliedRunMps": 3.4474474408533786
         }
       },
       "acceptance": {
         "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false,
-        "assetAudit": true
+        "motionAccepted": true
       },
       "attackSeconds": 1.0800000429153442,
       "attackContactNormalized": 0.43,
@@ -69971,6 +71872,153 @@
       "acceptanceEvidence": {
         "review": "Root normal-player-camera screenshots and sampled native clips; fresh Luna critics; preserved sources and CPU rig checks.",
         "screenshots": "test-results/creature-audit/continuation-session/polish-material-*, polish-ready-reaver-*, polish-final-skeleton_*, final-preview-bandit_*, final-preview-creature_ashbound_votary_elite-*"
+      },
+      "triangles": 3728,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "31d27c44633634d91e369588c64ad4badad8e670e1f629e3fb9ec2c194afc89b",
+        "sourceGitBlob": "5cbf334c86564b2d8be17b940457979a7acc4406",
+        "donors": [],
+        "sourceMetadata": {
+          "fairyCrownVariant": {
+            "sourceAssetId": "animal_deer",
+            "sourceSha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+            "generator": "tools/fairy-crown-creatures/build.mjs",
+            "geometrySkinMotionUnchanged": true,
+            "regionId": "crownward",
+            "materialRecipe": {
+              "look": "hart",
+              "body": [
+                0.9,
+                1,
+                0.83
+              ],
+              "accent": [
+                0.78,
+                0.9,
+                1
+              ],
+              "glow": [
+                0.006,
+                0.014,
+                0.012
+              ]
+            },
+            "scope": "Existing source geometry, normals, UVs, skin, skeleton, animation and texture pixels preserved. Material factors only; scale belongs to species data."
+          }
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 5.333333492279053,
+              "samples": 119,
+              "maximumVertexMotion": 0.4447030190909395,
+              "maximumSpanRatio": 1.015870632446806,
+              "minimumSpanRatio": 0.974029149376597,
+              "loopSeam": 0.000014327686832965605,
+              "edgeStretchP99": 1.140122971739891,
+              "maximumEdgeStretch": 1.6673559035704775,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 0.9666666388511658,
+              "samples": 121,
+              "maximumVertexMotion": 0.6731872480232519,
+              "maximumSpanRatio": 0.9950844893416709,
+              "minimumSpanRatio": 0.9653264263949003,
+              "loopSeam": 1.9186153633566632e-8,
+              "edgeStretchP99": 1.3182871686456874,
+              "maximumEdgeStretch": 2.954361725806114,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6333333253860474,
+              "samples": 121,
+              "maximumVertexMotion": 0.7470830169015011,
+              "maximumSpanRatio": 0.9889906864479525,
+              "minimumSpanRatio": 0.9387102939550331,
+              "loopSeam": 2.249827408786287e-8,
+              "edgeStretchP99": 1.4097812897845432,
+              "maximumEdgeStretch": 2.4918485893112536,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 0.8333333134651184,
+              "samples": 58,
+              "maximumVertexMotion": 2.2388104840147283,
+              "maximumSpanRatio": 1.0354760013030417,
+              "minimumSpanRatio": 0.8418742394809293,
+              "loopSeam": null,
+              "edgeStretchP99": 1.4969694179610777,
+              "maximumEdgeStretch": 3.096338834398725,
+              "stretchedEdgeFraction": 0.00016795431642593214
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.0800000429153442,
+              "samples": 74,
+              "maximumVertexMotion": 0.37037837049986316,
+              "maximumSpanRatio": 1.0109087191627075,
+              "minimumSpanRatio": 0.9776830953594636,
+              "loopSeam": null,
+              "edgeStretchP99": 1.113234576553664,
+              "maximumEdgeStretch": 1.4079685564048476,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.2291183955380527,
+              "maximumSpanRatio": 1.0040025476550796,
+              "minimumSpanRatio": 0.9765966992430102,
+              "loopSeam": null,
+              "edgeStretchP99": 1.055245724067262,
+              "maximumEdgeStretch": 1.3147225857271607,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "7aaf456792cdbe5bf25d3b7fcdfc6aeb00fc0eb9262a8557bac1dfc59435ff9b",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/creature_crown_hart/evidence.json"
+        }
       }
     },
     {
@@ -81787,16 +83835,16 @@
         "image-generated-texture",
         "gloamgarden"
       ],
-      "bytes": 2642304,
+      "bytes": 2625744,
       "size": {
-        "x": 0.438,
-        "y": 1.874,
-        "z": 1.709
+        "x": 0.4380818809805801,
+        "y": 1.8743780930872604,
+        "z": 1.7093251502555757
       },
       "base": {
-        "x": -0.219,
-        "y": -0.007,
-        "z": -0.643
+        "x": -0.21904230743279698,
+        "y": -0.00702947718736768,
+        "z": -0.6427481819332871
       },
       "animations": [
         "Idle",
@@ -81804,9 +83852,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 0.9666666388511658,
       "materials": [
@@ -81815,7 +83861,7 @@
       "impliedWalkMps": 1.1216721226201816,
       "impliedRunMps": 3.4474474408533786,
       "runClipSeconds": 0.6333333253860474,
-      "sha256": "5efb7a9503ab2f56fb05a119fb9f10c6ed05d39d877d6c00c8683c6e89c3676a",
+      "sha256": "de4e88cfbc728e28cf8a821d4c1e6bd5cfcdaead81e96f8e67e01456ea093fc0",
       "groundY": -0.007,
       "sourceProvenance": {
         "sourceAssetId": "animal_deer",
@@ -81843,9 +83889,141 @@
         }
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": true,
-        "worldIntegrated": true
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "triangles": 3728,
+      "attackSeconds": 1.0800000429153442,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "5efb7a9503ab2f56fb05a119fb9f10c6ed05d39d877d6c00c8683c6e89c3676a",
+        "sourceGitBlob": "8344c33b0502b53147a72b04d0ad9ac854dac363",
+        "donors": [],
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 5.333333492279053,
+              "samples": 119,
+              "maximumVertexMotion": 0.4447030190909395,
+              "maximumSpanRatio": 1.0094793527087724,
+              "minimumSpanRatio": 0.9759766690600683,
+              "loopSeam": 0.000014603002978830995,
+              "edgeStretchP99": 1.140122971739891,
+              "maximumEdgeStretch": 1.6673559035704775,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 0.9666666388511658,
+              "samples": 121,
+              "maximumVertexMotion": 0.6731872480232519,
+              "maximumSpanRatio": 0.9958347013779947,
+              "minimumSpanRatio": 0.9649777619024501,
+              "loopSeam": 1.9554828489037457e-8,
+              "edgeStretchP99": 1.3182871686456874,
+              "maximumEdgeStretch": 2.954361725806114,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6333333253860474,
+              "samples": 121,
+              "maximumVertexMotion": 0.7470830169015011,
+              "maximumSpanRatio": 0.9899501686968802,
+              "minimumSpanRatio": 0.9381353269908098,
+              "loopSeam": 2.2930593567113484e-8,
+              "edgeStretchP99": 1.4097812897845432,
+              "maximumEdgeStretch": 2.4918485893112536,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 0.8333333134651184,
+              "samples": 58,
+              "maximumVertexMotion": 2.151489286925588,
+              "maximumSpanRatio": 1.0291890486589934,
+              "minimumSpanRatio": 0.8404060188490947,
+              "loopSeam": null,
+              "edgeStretchP99": 1.4969694179610777,
+              "maximumEdgeStretch": 3.096338834398725,
+              "stretchedEdgeFraction": 0.00016869095816464237
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.0800000429153442,
+              "samples": 74,
+              "maximumVertexMotion": 0.3605890507752249,
+              "maximumSpanRatio": 1.0115803612351653,
+              "minimumSpanRatio": 0.9785751515169925,
+              "loopSeam": null,
+              "edgeStretchP99": 1.113234576553664,
+              "maximumEdgeStretch": 1.4079685564048476,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.21161836100577752,
+              "maximumSpanRatio": 1.0040497690653791,
+              "minimumSpanRatio": 0.9762428978799664,
+              "loopSeam": null,
+              "edgeStretchP99": 1.055245724067262,
+              "maximumEdgeStretch": 1.3147225857271607,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "de4e88cfbc728e28cf8a821d4c1e6bd5cfcdaead81e96f8e67e01456ea093fc0",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/fairy_garden_hart_gloamgarden/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 2277,
+          "triangles": 3728
+        },
+        "animationAcceptance": "devdocs-approved",
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.1216721226201816,
+          "impliedRunMps": 3.4474474408533786
+        }
       }
     },
     {
@@ -82447,12 +84625,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.5043859712414905,
+          "seconds": 0.38333333333333336
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "b7ed96d9f7b2dae9e20e0303da4c10eb83e7ff42d07ecabf78d55be32853bde1",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/fairy_garden_drake_gloamgarden/evidence.json"
+        }
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": true,
-        "worldIntegrated": true
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       },
       "sourceProvenance": {
         "sourceAssetId": "creature_baby_red_dragon",
@@ -83158,28 +85356,28 @@
         "skinned",
         "candidate"
       ],
-      "bytes": 4119432,
-      "sha256": "09ea866cd9680db1182e5ba98f5816259633437caebeab6c2c851e371b8001d6",
+      "bytes": 4453552,
+      "sha256": "5af414e38551f1cae9243ab3ba1df00f8013a6b8cecc2cee9b176160c64658e9",
       "size": {
-        "x": 0.5754387475353786,
-        "y": 0.6586190154873619,
-        "z": 1.4463905890502537
+        "x": 0.5754387690534877,
+        "y": 0.6586190237253633,
+        "z": 1.447157293807413
       },
       "base": {
-        "x": -0.3633412249811813,
-        "y": 0,
-        "z": -0.7100298579385416
+        "x": -0.3633412391045436,
+        "y": 0.0015000000310032484,
+        "z": -0.7100298939646945
       },
       "bounds": {
         "min": [
-          -0.3633412249811813,
-          0,
-          -0.7100298579385416
+          -0.3633412391045436,
+          0.0015000000310032484,
+          -0.7100298939646945
         ],
         "max": [
-          0.21209752255419728,
-          0.6586190154873619,
-          0.7363607311117122
+          0.21209752994894412,
+          0.6601190237563666,
+          0.7371273998427186
         ]
       },
       "groundY": 0,
@@ -83190,9 +85388,7 @@
         "Death",
         "Attack",
         "Run",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "materials": [
         "animal_quarry_snail_mat_fairy_garden_snail_faeholme"
@@ -83257,20 +85453,155 @@
         "level": 80,
         "anatomy": "Spiral shell, long traveling foot, paired eyestalks; no floating accessories",
         "desiredInGameHeightMeters": 0.6586190154873619,
-        "deathPose": "original native collapse reaches final pose by .65 s and holds to 1.5 s",
-        "capIdentity": "Five-point luminous fungal star spread over the spiral shell"
+        "capIdentity": "Five-point luminous fungal star spread over the spiral shell",
+        "geometry": {
+          "vertices": 9321,
+          "triangles": 17888
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.48,
+          "seconds": 0.72
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0.030065068446378847,
+          "impliedRunMps": 0.12076574822659426
+        }
       },
       "acceptance": {
-        "assetAudit": true,
+        "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "motionAccepted": true
       },
       "acceptanceEvidence": {
         "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
         "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      },
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "09ea866cd9680db1182e5ba98f5816259633437caebeab6c2c851e371b8001d6",
+        "sourceGitBlob": "b0508a2606cc22cdde5254eda531350f5181e6a7",
+        "donors": [],
+        "sourceMetadata": {
+          "family": "fairy_snail",
+          "region": "faeholme",
+          "level": 80,
+          "anatomy": "Spiral shell, long traveling foot, paired eyestalks; no floating accessories",
+          "desiredInGameHeightMeters": 0.6586190154873619,
+          "deathPose": "original native collapse reaches final pose by .65 s and holds to 1.5 s",
+          "capIdentity": "Five-point luminous fungal star spread over the spiral shell"
+        },
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Death",
+            "Attack",
+            "Run",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 9.066665649414062,
+              "samples": 72,
+              "maximumVertexMotion": 0.3304468609754483,
+              "maximumSpanRatio": 1.0193198780604713,
+              "minimumSpanRatio": 0.9968959151789197,
+              "loopSeam": 3.343618052978163e-8,
+              "edgeStretchP99": 1.1498857718038167,
+              "maximumEdgeStretch": 1.5598561597112914,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 4.399999618530273,
+              "samples": 82,
+              "maximumVertexMotion": 0.22034884032190885,
+              "maximumSpanRatio": 1.0078625530273804,
+              "minimumSpanRatio": 0.9431180495484127,
+              "loopSeam": 3.05043300142756e-8,
+              "edgeStretchP99": 1.1345058689097722,
+              "maximumEdgeStretch": 1.5779627663196794,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 1.5,
+              "samples": 90,
+              "maximumVertexMotion": 1.0720381234397673,
+              "maximumSpanRatio": 1.0651339193871314,
+              "minimumSpanRatio": 0.9239007208025909,
+              "loopSeam": null,
+              "edgeStretchP99": 1.277432534310645,
+              "maximumEdgeStretch": 1.954529558106137,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.5,
+              "samples": 64,
+              "maximumVertexMotion": 0.1098646582654871,
+              "maximumSpanRatio": 1.0416173593813136,
+              "minimumSpanRatio": 0.9709274266781146,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2079788654295223,
+              "maximumEdgeStretch": 1.4744439939782803,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 2.5999999046325684,
+              "samples": 86,
+              "maximumVertexMotion": 0.08636094298080312,
+              "maximumSpanRatio": 1.0579391675557541,
+              "minimumSpanRatio": 0.9914576319799653,
+              "loopSeam": 3.343618052978163e-8,
+              "edgeStretchP99": 1.188737969758677,
+              "maximumEdgeStretch": 1.31678757145087,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.8999999761581421,
+              "samples": 62,
+              "maximumVertexMotion": 0.11821822922284614,
+              "maximumSpanRatio": 1.0003882303552958,
+              "minimumSpanRatio": 0.9544711629327924,
+              "loopSeam": null,
+              "edgeStretchP99": 1.0524692996270797,
+              "maximumEdgeStretch": 1.2265110534768107,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "5af414e38551f1cae9243ab3ba1df00f8013a6b8cecc2cee9b176160c64658e9",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/fairy_garden_snail_faeholme/evidence.json"
+        }
       }
     },
     {
@@ -83292,16 +85623,16 @@
         "image-generated-texture",
         "faeholme"
       ],
-      "bytes": 2827392,
+      "bytes": 2810828,
       "size": {
-        "x": 0.5505114746093749,
-        "y": 2.2464553557728686,
-        "z": 1.982817187921998
+        "x": 0.5505114406194562,
+        "y": 2.246455380979637,
+        "z": 1.9828171742964682
       },
       "base": {
-        "x": -0.27525544967651416,
-        "y": -0.008154192561293802,
-        "z": -0.7455878846031727
+        "x": -0.2752554371647791,
+        "y": -0.008154193537346612,
+        "z": -0.7455878910426132
       },
       "animations": [
         "Idle",
@@ -83309,9 +85640,7 @@
         "Run",
         "Death",
         "Attack",
-        "Hit",
-        "HitLeft",
-        "HitRight"
+        "Hit"
       ],
       "walkClipSeconds": 0.9666666388511658,
       "materials": [
@@ -83320,7 +85649,7 @@
       "impliedWalkMps": 1.1216721226201816,
       "impliedRunMps": 3.4474474408533786,
       "runClipSeconds": 0.6333333253860474,
-      "sha256": "d2a5b7c57ec92138881d873ddc624d8765ef375c32c90752e19cc4a9a12d28b4",
+      "sha256": "9fda762c68db1e5222a56cd75c44d442c4398fd52d6ff44229337b8bad8b6fde",
       "groundY": -0.008154192561293802,
       "sourceProvenance": {
         "productionFile": "game/public/assets/models/fairy-garden/fairy_garden_hart_faeholme.glb",
@@ -83342,18 +85671,145 @@
       },
       "acceptance": {
         "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false,
-        "assetAudit": true
+        "motionAccepted": true
       },
       "attackSeconds": 1.0800000429153442,
       "attackContactNormalized": 0.43,
       "acceptanceEvidence": {
         "review": "Root normal-player-camera motion/texture/corpse review and fresh Luna critics; preserved-source and CPU rig checks.",
         "screenshots": "test-results/creature-audit/continuation-session: new-clear-*, new-fixed-*, new-combat-*, polish-final-*, polish-revised-*, polish-latest-starcap-corpse-*"
+      },
+      "triangles": 3728,
+      "motionRepair": {
+        "family": "studio",
+        "sourceSha256": "d2a5b7c57ec92138881d873ddc624d8765ef375c32c90752e19cc4a9a12d28b4",
+        "sourceGitBlob": "68b3d1f659f6a9d0d13e6a7900c4840fed844462",
+        "donors": [],
+        "changes": [
+          "Removed retired directional hit clips; retained the original Hit and all other native curves."
+        ],
+        "provenance": {
+          "preservedNativeClips": [
+            "Idle",
+            "Walk",
+            "Run",
+            "Death",
+            "Attack",
+            "Hit"
+          ],
+          "geometryAndSkinWeightsUnchanged": true,
+          "normalizationOnly": true,
+          "requiresDevdocsReview": true
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [
+            "deer_horns: nearly rigid single-joint skin; inspect articulation in devdocs"
+          ],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 5.333333492279053,
+              "samples": 119,
+              "maximumVertexMotion": 0.5158555021454898,
+              "maximumSpanRatio": 1.0157485790129137,
+              "minimumSpanRatio": 0.9757619236828771,
+              "loopSeam": 0.000014313864328796872,
+              "edgeStretchP99": 1.140122971739874,
+              "maximumEdgeStretch": 1.6673559035704837,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 0.9666666388511658,
+              "samples": 121,
+              "maximumVertexMotion": 0.7808972077069719,
+              "maximumSpanRatio": 0.9949136670106291,
+              "minimumSpanRatio": 0.9651990081573432,
+              "loopSeam": 1.9167643913357277e-8,
+              "edgeStretchP99": 1.3182871686456878,
+              "maximumEdgeStretch": 2.9543617258061166,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6333333253860474,
+              "samples": 121,
+              "maximumVertexMotion": 0.866616299605741,
+              "maximumSpanRatio": 0.9887459521603189,
+              "minimumSpanRatio": 0.9384721723248776,
+              "loopSeam": 2.2476569096215308e-8,
+              "edgeStretchP99": 1.4097812897845443,
+              "maximumEdgeStretch": 2.4918485893112567,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 0.8333333134651184,
+              "samples": 58,
+              "maximumVertexMotion": 2.6085074201190266,
+              "maximumSpanRatio": 1.035223217048756,
+              "minimumSpanRatio": 0.8404607363513814,
+              "loopSeam": null,
+              "edgeStretchP99": 1.4969694179610704,
+              "maximumEdgeStretch": 3.096338834398734,
+              "stretchedEdgeFraction": 0.0001680672268907563
+            },
+            {
+              "name": "Attack",
+              "seconds": 1.0800000429153442,
+              "samples": 74,
+              "maximumVertexMotion": 0.43191029680511633,
+              "maximumSpanRatio": 1.0108377597089095,
+              "minimumSpanRatio": 0.9773859310378981,
+              "loopSeam": null,
+              "edgeStretchP99": 1.1132345765536753,
+              "maximumEdgeStretch": 1.4079685564048494,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.5,
+              "samples": 38,
+              "maximumVertexMotion": 0.2676130043710118,
+              "maximumSpanRatio": 1.0039270071259954,
+              "minimumSpanRatio": 0.976407107952351,
+              "loopSeam": null,
+              "edgeStretchP99": 1.055245724067261,
+              "maximumEdgeStretch": 1.31472258572718,
+              "stretchedEdgeFraction": 0
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:52:35.869Z",
+          "by": "codex",
+          "sha256": "9fda762c68db1e5222a56cd75c44d442c4398fd52d6ff44229337b8bad8b6fde",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/studio-v1/fairy_garden_hart_faeholme/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 2277,
+          "triangles": 3728
+        },
+        "animationAcceptance": "devdocs-approved",
+        "gaitMeasurement": {
+          "impliedWalkMps": 1.1216721226201816,
+          "impliedRunMps": 3.4474474408533786
+        }
       }
     },
     {
@@ -84364,12 +86820,32 @@
           "Horizontal root motion removed; signed foot stance speed measured after all anatomy edits.",
           "Red lineage ground Run uses the planted native Walk at faster cadence instead of the source airborne bound.",
           "Breath is an authored animation clip, not an unimplemented damage mechanic."
-        ]
+        ],
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.5043859712414905,
+          "seconds": 0.38333333333333336
+        },
+        "motionReview": {
+          "at": "2026-09-28T19:52:34.419Z",
+          "by": "codex",
+          "sha256": "a23258fc488714aee0d4877974c42932956fa7b2db0e6ad4ce7f39ff4ab7ad05",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/baseline/fairy_garden_drake_faeholme/evidence.json"
+        }
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": true,
-        "worldIntegrated": true
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
       },
       "sourceProvenance": {
         "sourceAssetId": "creature_baby_red_dragon",

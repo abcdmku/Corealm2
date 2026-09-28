@@ -17,7 +17,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.575
   },
   "animal_chicken": {
-    "seconds": 0.7,
+    "seconds": 0.699999988079071,
     "contactNormalized": 0.43
   },
   "animal_chicken_speckled": {
@@ -73,7 +73,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.45
   },
   "animal_viper": {
-    "seconds": 1.666667,
+    "seconds": 1.6666666269302368,
     "contactNormalized": 0.525
   },
   "bandit_forest_ranger": {
@@ -309,7 +309,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.52
   },
   "creature_kiln_salamander": {
-    "seconds": 1.08,
+    "seconds": 1.0800000429153442,
     "contactNormalized": 0.43
   },
   "creature_lantern_sprite": {
@@ -393,7 +393,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.26666666666666666
   },
   "creature_reedbank_goose": {
-    "seconds": 1.14,
+    "seconds": 1.1399999856948853,
     "contactNormalized": 0.46
   },
   "creature_reedjaw_crocodile": {
@@ -766,6 +766,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_plague_zombie": 4.0891,
   "creature_purple_wilderness_dragon": 3.6817,
   "creature_quarry_nightmare": 3.6853,
+  "creature_quarry_snail": 0.4187,
   "creature_quillback_porcupine": 2.6591,
   "creature_red_wilderness_dragon": 3.5593,
   "creature_redbrush_fox": 4.5583,
@@ -802,6 +803,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "fairy_garden_petalguard_gloamgarden": 4.8306,
   "fairy_garden_sapling_faeholme": 39.4999,
   "fairy_garden_sapling_gloamgarden": 15.8653,
+  "fairy_garden_snail_faeholme": 0.942,
   "fairy_garden_sporekin_faeholme": 17.0307,
   "fairy_garden_sporekin_gloamgarden": 7.6312,
   "fairy_garden_veilspirit_faeholme": 8.1284,
