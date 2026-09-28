@@ -70,7 +70,14 @@ function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
     && edge(`arm_stretch_dupli_003${side}`,`shoulder_dupli_003${side}`)
     && edge(`forearm_stretch_dupli_003${side}`,`arm_stretch_dupli_003${side}`)
     && edge(`hand_dupli_003${side}`,`forearm_stretch_dupli_003${side}`);
-  if(edge('spine_01x','rootx') && edge('spine_02x','spine_01x') && edge('spine_03x','spine_02x')
+  if(bones.length===6 && Array.from({length:5},(_,index)=>
+    edge(`Worm_Rig${index+1}`,index===0?'Worm_Rig_Main':`Worm_Rig${index}`)).every(Boolean)) {
+    // This measured worm chain recoils through its anterior belly while the rear stays
+    // anchored. Unlike planted feet, the front belly intentionally slides sideways;
+    // Main/1/2 retain the posterior ground contacts and the base locomotion clock.
+    roots=[named('Worm_Rig3')!];
+  }
+  else if(edge('spine_01x','rootx') && edge('spine_02x','spine_01x') && edge('spine_03x','spine_02x')
     && edge('neckx','spine_03x') && edge('headx','neckx')
     && ['l','r','_dupli_002l','_dupli_002r'].every(crawlerLimb)
     && ['l','r'].every(crawlerUpper)

@@ -183,8 +183,7 @@ describe('support-safe additive creature recoil',()=>{
     const unknown=new THREE.Group();bone('Head',unknown);
     expect(createMaskedHitOverlay(unknown,new THREE.AnimationClip('Hit',1,[]),new THREE.AnimationClip('Idle',1,[])).clip).toBeNull();
   });
-  it('deliberately excludes the accepted red worm because every joint moves weighted belly contacts',async()=>{
-    // The exemption is earned by this contact audit on the shipped rig, not by the asset ID.
+  it('keeps the worm rear anchored while its front belly recoils without losing floor contact',async()=>{
     const {root,hit,idle,walk}=await actualPublicRig('creature_red_worm');
     const names=['Worm_Rig_Main',...Array.from({length:5},(_,i)=>`Worm_Rig${i+1}`)];
     const bones:THREE.Bone[]=[],meshes:THREE.SkinnedMesh[]=[];
@@ -193,44 +192,41 @@ describe('support-safe additive creature recoil',()=>{
       if((node as THREE.SkinnedMesh).isSkinnedMesh)meshes.push(node as THREE.SkinnedMesh);
     });
     expect(bones.map(bone=>bone.name)).toEqual(names);
-    expect(meshes).toHaveLength(1);
     const mesh=meshes[0]!;
-    expect(mesh.skeleton.bones.map(bone=>bone.name)).toEqual(names);
-    bones.forEach((bone,index)=>expect(bone.children.map(child=>child.name)).toEqual(index<5?[names[index+1]]:[]));
     const overlay=createMaskedHitOverlay(root,hit,idle);
-    expect(overlay.status).toBe('no-safe-mask');expect(overlay.clip).toBeNull();
-    expect(overlay.boneNames).toEqual([]);expect(overlay.excludedBoneNames).toEqual(names);
-    expect(walk).toBeDefined();
-    const mixer=new THREE.AnimationMixer(root);mixer.clipAction(walk!).play();
+    expect(overlay.status).toBe('native-masked');
+    expect(overlay.boneNames).toEqual(names.slice(3));
+    expect(overlay.protectedBoneNames).toEqual(names.slice(0,3));
     const update=()=>{root.updateMatrixWorld(true);mesh.skeleton.update();};
     const vertices=()=>Array.from({length:mesh.geometry.attributes.position!.count},(_,index)=>
       mesh.getVertexPosition(index,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld));
     const indices=mesh.geometry.attributes.skinIndex!,weights=mesh.geometry.attributes.skinWeight!;
-    for(const phase of [0,.25,.5,.75]) {
-      mixer.setTime(walk!.duration*phase);update();
-      const beforeVertices=vertices(),beforeMatrices=bones.map(bone=>bone.matrixWorld.elements.slice());
-      const floor=Math.min(...beforeVertices.map(vertex=>vertex.y));
-      for(const [index,joint] of bones.entries()) {
-        const contacts=beforeVertices.flatMap((vertex,vertexIndex)=>
-          vertex.y-floor<.0011 && [0,1,2,3].some(slot=>indices.getComponent(vertexIndex,slot)===index && weights.getComponent(vertexIndex,slot)>.1)
-            ? [vertexIndex] : []);
-        expect(contacts.length,`${joint.name} must weight the belly within 1.1 mm of the source floor`).toBeGreaterThan(0);
-        const sample=(clip:THREE.AnimationClip,time:number)=>{
-          const track=clip.tracks.find(track=>track.name===`${joint.name}.quaternion`)!;
-          const interpolant=(track as THREE.KeyframeTrack & {createInterpolant():THREE.Interpolant}).createInterpolant();
-          return new THREE.Quaternion().fromArray(interpolant.evaluate(time)).normalize();
-        };
-        const original=joint.quaternion.clone();
-        joint.quaternion.multiply(sample(idle,0).invert().multiply(sample(hit,hit.duration*.5))).normalize();update();
-        const displaced=vertices();
-        expect(Math.max(...contacts.map(vertexIndex=>displaced[vertexIndex]!.distanceTo(beforeVertices[vertexIndex]!))),
-          `${joint.name}'s authored Hit must move its actual belly contacts`).toBeGreaterThan(1e-5);
-        joint.quaternion.copy(original);update();
+    const posterior=Array.from({length:indices.count},(_,index)=>index).filter(index=>
+      [0,1,2,3].every(slot=>weights.getComponent(index,slot)===0 || indices.getComponent(index,slot)<3));
+    for(const base of [idle,walk!]) {
+      const mixer=new THREE.AnimationMixer(root),action=mixer.clipAction(base).play();
+      for(const phase of [0,.25,.5,.75]) for(const hitPhase of [.18,.4,.7]) {
+        action.time=base.duration*phase;mixer.update(0);update();
+        const before=vertices(),quaternions=bones.map(bone=>bone.quaternion.clone());
+        const matrices=bones.slice(0,3).map(bone=>bone.matrixWorld.elements.slice());
+        const floor=Math.min(...before.map(vertex=>vertex.y));
+        const contacts=posterior.filter(index=>before[index]!.y-floor<.0011);
+        expect(contacts.length).toBeGreaterThan(10);
+        applyMaskedHitOverlay(root,overlay,hit.duration*hitPhase);update();
+        const after=vertices();
+        expect(bones.slice(0,3).map(bone=>bone.matrixWorld.elements)).toEqual(matrices);
+        expect(posterior.map(index=>after[index]!.toArray())).toEqual(posterior.map(index=>before[index]!.toArray()));
+        expect(Math.min(...after.map(vertex=>vertex.y))).toBeGreaterThanOrEqual(floor-.0002);
+        const displacement=Math.max(...after.map((vertex,index)=>vertex.distanceTo(before[index]!)));
+        expect(displacement).toBeGreaterThan(.001);
+        expect(displacement).toBeLessThan(.03);
+        bones.forEach((bone,index)=>bone.quaternion.copy(quaternions[index]!));update();
       }
-      applyMaskedHitOverlay(root,overlay,hit.duration*.4);update();
-      expect(bones.map(bone=>bone.matrixWorld.elements)).toEqual(beforeMatrices);
-      expect(vertices().map(vertex=>vertex.toArray())).toEqual(beforeVertices.map(vertex=>vertex.toArray()));
+      mixer.stopAllAction();
     }
+    // Recognition is specific to the measured hierarchy, not a numbered-bone name match.
+    bones[5]!.name='UnknownFront';
+    expect(createMaskedHitOverlay(root,hit,idle).status).toBe('no-safe-mask');
   });
   const publicCharacters = JSON.parse(readFileSync('game/public/assets/manifest.json','utf8')).assets
     .filter((asset:any)=>asset.category==='character' && asset.animations?.includes('Hit'));
@@ -259,7 +255,7 @@ describe('support-safe additive creature recoil',()=>{
     inventoryRows.push(...rows);
     expect(rows.filter(row=>row.status==='diagnostic-error')).toEqual([]);
     expect(rows.filter(row=>row.status==='no-safe-mask').map(row=>row.id))
-      .toEqual(entries.filter((entry:any)=>entry.id==='creature_red_worm').map((entry:any)=>entry.id));
+      .toEqual([]);
     expect(rows.filter(row=>!row.protectedWorldMatricesUnchanged)).toEqual([]);
   },30000);
   it('covers every public character exactly once across the recoil inventory batches',()=>{
@@ -267,7 +263,7 @@ describe('support-safe additive creature recoil',()=>{
     expect(rows.map(row=>row.id).sort()).toEqual(publicCharacters.map((entry:any)=>entry.id).sort());
     const report={unsupported:rows.filter(row=>row.status==='no-safe-mask'),errors:rows.filter(row=>row.status==='diagnostic-error')};
     expect(rows.length).toBeGreaterThan(4);
-    expect(report.errors).toEqual([]);expect(report.unsupported.map(row=>row.id)).toEqual(['creature_red_worm']);
+    expect(report.errors).toEqual([]);expect(report.unsupported).toEqual([]);
     expect(rows.filter(row=>!row.protectedWorldMatricesUnchanged)).toEqual([]);
   });
 });
