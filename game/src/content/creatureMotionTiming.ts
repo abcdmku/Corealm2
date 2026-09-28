@@ -164,6 +164,10 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "seconds": 1.600000023841858,
     "contactNormalized": 0.65
   },
+  "creature_boss_mossbound": {
+    "seconds": 2.848541498184204,
+    "contactNormalized": 0.5
+  },
   "creature_boss_ordrun": {
     "seconds": 2,
     "contactNormalized": 0.5833333333333334
@@ -213,7 +217,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25833333333333336
   },
   "creature_cinder_ravager": {
-    "seconds": 2.333333,
+    "seconds": 2.3333332538604736,
     "contactNormalized": 0.235
   },
   "creature_cinderback_crag": {
@@ -221,8 +225,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.40625
   },
   "creature_cindercrest_salamander": {
-    "seconds": 0.8799999952316284,
-    "contactNormalized": 0.41
+    "seconds": 1.0800000429153442,
+    "contactNormalized": 0.5416666666666666
   },
   "creature_crown_hart": {
     "seconds": 1.08,
@@ -445,7 +449,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5020833333333333
   },
   "creature_scree_bustard": {
-    "seconds": 0.82,
+    "seconds": 0.8199999928474426,
     "contactNormalized": 0.46
   },
   "creature_scree_watcher": {
@@ -777,6 +781,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_cinder_penitent": 13.685,
   "creature_cinder_ravager": 6,
   "creature_cinderback_crag": 2.0188,
+  "creature_cindercrest_salamander": 0.5968,
   "creature_crown_hart": 6.5502,
   "creature_dewglass_weaver": 0.923,
   "creature_duskoak_lynx": 5.0455,
@@ -918,6 +923,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_cinder_penitent": 2.905924,
   "creature_cinder_ravager": 2.879988,
   "creature_cinderback_crag": 0.876931,
+  "creature_cindercrest_salamander": 0.461289,
   "creature_crown_hart": 2.602279,
   "creature_dewglass_weaver": 0.418855,
   "creature_duskoak_lynx": 1.563636,
