@@ -2338,38 +2338,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a. Evidence: test-results/creature-audit/candidate-review/humanoids-colon-v1/creature_mossback_sentinel/evidence.json.",
-      "at": "2026-09-28T18:40:56.872Z",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c. Evidence: test-results/creature-audit/candidate-review/colon-temporal-v2/creature_mossback_sentinel/evidence.json.",
+      "at": "2026-09-28T19:41:22.720Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a."
+          "note": "Reviewed candidate b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a."
+          "note": "Reviewed candidate b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a."
+          "note": "Reviewed candidate b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a."
+          "note": "Reviewed candidate b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a."
+          "note": "Reviewed candidate b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a."
+          "note": "Reviewed candidate b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c."
         }
       }
     }
@@ -3373,38 +3415,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333. Evidence: test-results/creature-audit/candidate-review/humanoids-colon-v1/creature_silverthorn_harrow/evidence.json.",
-      "at": "2026-09-28T18:40:56.872Z",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880. Evidence: test-results/creature-audit/candidate-review/colon-temporal-v2/creature_silverthorn_harrow/evidence.json.",
+      "at": "2026-09-28T19:41:22.720Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333."
+          "note": "Reviewed candidate 5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333."
+          "note": "Reviewed candidate 5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333."
+          "note": "Reviewed candidate 5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333."
+          "note": "Reviewed candidate 5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333."
+          "note": "Reviewed candidate 5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333."
+          "note": "Reviewed candidate 5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880."
         }
       }
     }
@@ -4195,38 +4279,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099. Evidence: test-results/creature-audit/candidate-review/humanoids-colon-v1/fairy_garden_sapling_faeholme/evidence.json.",
-      "at": "2026-09-28T18:40:56.872Z",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091. Evidence: test-results/creature-audit/candidate-review/colon-temporal-v2/fairy_garden_sapling_faeholme/evidence.json.",
+      "at": "2026-09-28T19:41:22.720Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate 25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099."
+          "note": "Reviewed candidate 4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate 25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099."
+          "note": "Reviewed candidate 4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate 25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099."
+          "note": "Reviewed candidate 4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate 25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099."
+          "note": "Reviewed candidate 4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate 25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099."
+          "note": "Reviewed candidate 4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate 25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099."
+          "note": "Reviewed candidate 4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091."
         }
       }
     }
@@ -4359,38 +4485,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42. Evidence: test-results/creature-audit/candidate-review/humanoids-colon-v1/fairy_guardian_03_gloamgarden/evidence.json.",
-      "at": "2026-09-28T18:40:56.872Z",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc. Evidence: test-results/creature-audit/candidate-review/colon-temporal-v2/fairy_guardian_03_gloamgarden/evidence.json.",
+      "at": "2026-09-28T19:41:22.720Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42."
+          "note": "Reviewed candidate 1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42."
+          "note": "Reviewed candidate 1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42."
+          "note": "Reviewed candidate 1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42."
+          "note": "Reviewed candidate 1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42."
+          "note": "Reviewed candidate 1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42."
+          "note": "Reviewed candidate 1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc."
         }
       }
     }
@@ -4565,38 +4733,80 @@
         "by": "codex",
         "action": "art.review",
         "detail": "state:death approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:41:22.720Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab. Evidence: test-results/creature-audit/candidate-review/humanoids-colon-v1/fantasy_monster_03/evidence.json.",
-      "at": "2026-09-28T18:40:56.872Z",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4. Evidence: test-results/creature-audit/candidate-review/colon-temporal-v2/fantasy_monster_03/evidence.json.",
+      "at": "2026-09-28T19:41:22.720Z",
       "by": "codex",
       "checks": {
         "state:idle": {
           "verdict": "approved",
-          "note": "Reviewed candidate be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab."
+          "note": "Reviewed candidate 5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4."
         },
         "state:walk": {
           "verdict": "approved",
-          "note": "Reviewed candidate be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab."
+          "note": "Reviewed candidate 5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4."
         },
         "state:run": {
           "verdict": "approved",
-          "note": "Reviewed candidate be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab."
+          "note": "Reviewed candidate 5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4."
         },
         "state:attack": {
           "verdict": "approved",
-          "note": "Reviewed candidate be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab."
+          "note": "Reviewed candidate 5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4."
         },
         "state:hit": {
           "verdict": "approved",
-          "note": "Reviewed candidate be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab."
+          "note": "Reviewed candidate 5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4."
         },
         "state:death": {
           "verdict": "approved",
-          "note": "Reviewed candidate be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab."
+          "note": "Reviewed candidate 5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4."
         }
       }
     }

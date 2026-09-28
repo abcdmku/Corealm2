@@ -25988,8 +25988,8 @@
         "tree",
         "tripo"
       ],
-      "bytes": 7542116,
-      "sha256": "00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a",
+      "bytes": 7544200,
+      "sha256": "b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c",
       "triangles": 4478,
       "size": {
         "x": 1.3230011848888155,
@@ -26071,9 +26071,21 @@
             "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
           }
         ],
+        "sourceMetadata": {
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.25833333333333336,
+            "seconds": 0.22388889094193778
+          },
+          "gaitMeasurement": {
+            "impliedWalkMps": 0.7853547382341641,
+            "impliedRunMps": 4.411681018303939
+          }
+        },
         "changes": [
           "Replaced invalid bounding-box T rig with down-arm anatomical pivots and inverse binds.",
           "Removed cross-limb skin influences and fitted weights to adjacent anatomical segments.",
+          "Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.",
           "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
         ],
         "provenance": {
@@ -26433,6 +26445,15 @@
               "LeftShoulder": 6
             }
           },
+          "crownDeath": {
+            "sourceTake": "Death01",
+            "sourceNode": "Head",
+            "sourceSeconds": [
+              1,
+              1.4
+            ],
+            "method": "Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown."
+          },
           "retarget": {
             "mappedJoints": 52,
             "poseNodes": 70,
@@ -26527,7 +26548,7 @@
                 "samples": 34,
                 "loop": false,
                 "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.2495117453846799,
+                "maximumGroundCorrection": 0.2500117453846799,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -26684,22 +26705,22 @@
             {
               "name": "Death",
               "seconds": 1.5,
-              "samples": 74,
-              "maximumVertexMotion": 2.696735426867145,
-              "maximumSpanRatio": 1.046740684766843,
-              "minimumSpanRatio": 0.9188852134882463,
+              "samples": 93,
+              "maximumVertexMotion": 2.667420754110738,
+              "maximumSpanRatio": 1.05362445963943,
+              "minimumSpanRatio": 0.9188852135067084,
               "loopSeam": null,
-              "edgeStretchP99": 1.4237127487711838,
-              "maximumEdgeStretch": 2.5804963831503804,
+              "edgeStretchP99": 1.414348615148623,
+              "maximumEdgeStretch": 2.5804963392969893,
               "stretchedEdgeFraction": 0
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:40:56.872Z",
+          "at": "2026-09-28T19:41:22.720Z",
           "by": "codex",
-          "sha256": "00fd32c1bd54bfa1306ed6b89d81dd936972e56a5a96d5427557a35e2d23db5a",
+          "sha256": "b44701134018ba319874ce2970e7925a2c65621565968a65a82b710db1f3089c",
           "states": [
             "idle",
             "walk",
@@ -26708,11 +26729,15 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-colon-v1/creature_mossback_sentinel/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/colon-temporal-v2/creature_mossback_sentinel/evidence.json"
         }
       },
       "metadata": {
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 2828,
+          "triangles": 4478
+        },
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
@@ -62649,8 +62674,8 @@
         "candidate",
         "silverthorn"
       ],
-      "bytes": 6821484,
-      "sha256": "61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333",
+      "bytes": 6823612,
+      "sha256": "5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880",
       "size": {
         "x": 1.5791422577865577,
         "y": 2.6721511788247176,
@@ -62703,6 +62728,10 @@
         "texture": "distinct image-generated layered bark with retained PBR maps",
         "anatomyReview": "original carved face, bud and branch silhouette with silver bark; pending root lab acceptance",
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 2828,
+          "triangles": 4478
+        },
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
@@ -62733,9 +62762,26 @@
             "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
           }
         ],
+        "sourceMetadata": {
+          "family": "silverthorn_harrow",
+          "height": 2.5649999597662907,
+          "rig": "repaired Tripo humanoid 54-joint source skeleton",
+          "texture": "distinct image-generated layered bark with retained PBR maps",
+          "anatomyReview": "original carved face, bud and branch silhouette with silver bark; pending root lab acceptance",
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.25833333333333336,
+            "seconds": 0.22388889094193778
+          },
+          "gaitMeasurement": {
+            "impliedWalkMps": 0.9374041903089169,
+            "impliedRunMps": 5.2658092853212795
+          }
+        },
         "changes": [
           "Replaced invalid bounding-box T rig with down-arm anatomical pivots and inverse binds.",
           "Removed cross-limb skin influences and fitted weights to adjacent anatomical segments.",
+          "Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.",
           "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
         ],
         "provenance": {
@@ -63095,6 +63141,15 @@
               "LeftShoulder": 6
             }
           },
+          "crownDeath": {
+            "sourceTake": "Death01",
+            "sourceNode": "Head",
+            "sourceSeconds": [
+              1,
+              1.4
+            ],
+            "method": "Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown."
+          },
           "retarget": {
             "mappedJoints": 52,
             "poseNodes": 70,
@@ -63189,7 +63244,7 @@
                 "samples": 34,
                 "loop": false,
                 "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.29781874723500573,
+                "maximumGroundCorrection": 0.29831874723500573,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -63346,22 +63401,22 @@
             {
               "name": "Death",
               "seconds": 1.5,
-              "samples": 74,
-              "maximumVertexMotion": 3.2188397935771156,
-              "maximumSpanRatio": 1.0467406461850164,
-              "minimumSpanRatio": 0.9188851796190457,
+              "samples": 93,
+              "maximumVertexMotion": 3.1839263039567296,
+              "maximumSpanRatio": 1.0536244208038437,
+              "minimumSpanRatio": 0.9188851796374745,
               "loopSeam": null,
-              "edgeStretchP99": 1.4237126962945474,
-              "maximumEdgeStretch": 2.580496288035828,
+              "edgeStretchP99": 1.4143485630171442,
+              "maximumEdgeStretch": 2.580496244219785,
               "stretchedEdgeFraction": 0
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:40:56.872Z",
+          "at": "2026-09-28T19:41:22.720Z",
           "by": "codex",
-          "sha256": "61c8e3efd6603c220a08de87f023d27e2cf54f761de5e00aa7864494a9071333",
+          "sha256": "5512f092a4f9a8b05f9c58fed882139f17fbbb380c2d73241a569c9c0fcfb880",
           "states": [
             "idle",
             "walk",
@@ -63370,7 +63425,7 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-colon-v1/creature_silverthorn_harrow/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/colon-temporal-v2/creature_silverthorn_harrow/evidence.json"
         }
       }
     },
@@ -67618,8 +67673,8 @@
         "plant",
         "tripo"
       ],
-      "bytes": 7594232,
-      "sha256": "be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab",
+      "bytes": 7596328,
+      "sha256": "5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4",
       "triangles": 4478,
       "size": {
         "x": 1.3537686235979391,
@@ -67723,9 +67778,21 @@
             "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
           }
         ],
+        "sourceMetadata": {
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.25833333333333336,
+            "seconds": 0.22388889094193778
+          },
+          "gaitMeasurement": {
+            "impliedWalkMps": 0.8036187836859091,
+            "impliedRunMps": 4.514278148892487
+          }
+        },
         "changes": [
           "Replaced invalid bounding-box T rig with down-arm anatomical pivots and inverse binds.",
           "Removed cross-limb skin influences and fitted weights to adjacent anatomical segments.",
+          "Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.",
           "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
         ],
         "provenance": {
@@ -68085,6 +68152,15 @@
               "LeftShoulder": 6
             }
           },
+          "crownDeath": {
+            "sourceTake": "Death01",
+            "sourceNode": "Head",
+            "sourceSeconds": [
+              1,
+              1.4
+            ],
+            "method": "Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown."
+          },
           "retarget": {
             "mappedJoints": 52,
             "poseNodes": 70,
@@ -68179,7 +68255,7 @@
                 "samples": 34,
                 "loop": false,
                 "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.25531434411455667,
+                "maximumGroundCorrection": 0.25581434411455667,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -68336,22 +68412,22 @@
             {
               "name": "Death",
               "seconds": 1.5,
-              "samples": 74,
-              "maximumVertexMotion": 2.759450141152776,
-              "maximumSpanRatio": 1.0467406610241183,
-              "minimumSpanRatio": 0.9188851926456066,
+              "samples": 93,
+              "maximumVertexMotion": 2.7294629436353612,
+              "maximumSpanRatio": 1.0536244357405595,
+              "minimumSpanRatio": 0.9188851926640642,
               "loopSeam": null,
-              "edgeStretchP99": 1.423712716477779,
-              "maximumEdgeStretch": 2.580496324618202,
+              "edgeStretchP99": 1.4143485830676397,
+              "maximumEdgeStretch": 2.5804962807700402,
               "stretchedEdgeFraction": 0
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:40:56.872Z",
+          "at": "2026-09-28T19:41:22.720Z",
           "by": "codex",
-          "sha256": "be20aee42110cec39db725812754481000eb28b5b2d875983c80357167dfbaab",
+          "sha256": "5860dec0900a196e59e91d5dfb288e5a1e57f4cbfc4016b043fb4a2ddd580ea4",
           "states": [
             "idle",
             "walk",
@@ -68360,11 +68436,15 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-colon-v1/fantasy_monster_03/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/colon-temporal-v2/fantasy_monster_03/evidence.json"
         }
       },
       "metadata": {
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 2828,
+          "triangles": 4478
+        },
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
@@ -75017,8 +75097,8 @@
         "tree",
         "tripo"
       ],
-      "bytes": 7430768,
-      "sha256": "25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099",
+      "bytes": 7433652,
+      "sha256": "4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091",
       "triangles": 4478,
       "size": {
         "x": 4.230526857049361,
@@ -75101,9 +75181,21 @@
             "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
           }
         ],
+        "sourceMetadata": {
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.25833333333333336,
+            "seconds": 0.22388889094193778
+          },
+          "gaitMeasurement": {
+            "impliedWalkMps": 2.5113086445873183,
+            "impliedRunMps": 14.107118909525544
+          }
+        },
         "changes": [
           "Replaced invalid bounding-box T rig with down-arm anatomical pivots and inverse binds.",
           "Removed cross-limb skin influences and fitted weights to adjacent anatomical segments.",
+          "Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.",
           "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
         ],
         "provenance": {
@@ -75463,6 +75555,15 @@
               "LeftShoulder": 6
             }
           },
+          "crownDeath": {
+            "sourceTake": "Death01",
+            "sourceNode": "Head",
+            "sourceSeconds": [
+              1,
+              1.4
+            ],
+            "method": "Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown."
+          },
           "retarget": {
             "mappedJoints": 52,
             "poseNodes": 70,
@@ -75557,7 +75658,7 @@
                 "samples": 34,
                 "loop": false,
                 "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.7978573253579896,
+                "maximumGroundCorrection": 0.7983573253579895,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -75714,22 +75815,22 @@
             {
               "name": "Death",
               "seconds": 1.5,
-              "samples": 74,
-              "maximumVertexMotion": 8.623281482931597,
-              "maximumSpanRatio": 1.046740638336626,
-              "minimumSpanRatio": 0.9188851727293071,
+              "samples": 93,
+              "maximumVertexMotion": 8.530413101349696,
+              "maximumSpanRatio": 1.0536244129037406,
+              "minimumSpanRatio": 0.9188851727476286,
               "loopSeam": null,
-              "edgeStretchP99": 1.4237126856196372,
-              "maximumEdgeStretch": 2.5804962686874453,
+              "edgeStretchP99": 1.4143485524124573,
+              "maximumEdgeStretch": 2.580496224992308,
               "stretchedEdgeFraction": 0
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:40:56.872Z",
+          "at": "2026-09-28T19:41:22.720Z",
           "by": "codex",
-          "sha256": "25a0354da2d983cf45c8d7fd54a870353c36d6eea9d6325669219422b0c6e099",
+          "sha256": "4c7852f512c7bd1e2484ff8b48837d9000cd827fb1817a1b058883dba2ba1091",
           "states": [
             "idle",
             "walk",
@@ -75738,11 +75839,15 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-colon-v1/fairy_garden_sapling_faeholme/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/colon-temporal-v2/fairy_garden_sapling_faeholme/evidence.json"
         }
       },
       "metadata": {
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 2828,
+          "triangles": 4478
+        },
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
@@ -76193,8 +76298,8 @@
         "plant",
         "tripo"
       ],
-      "bytes": 7885408,
-      "sha256": "a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42",
+      "bytes": 7887680,
+      "sha256": "1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc",
       "triangles": 4478,
       "size": {
         "x": 2.0306528620415487,
@@ -76293,9 +76398,21 @@
             "sourceSha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
           }
         ],
+        "sourceMetadata": {
+          "animationAcceptance": "devdocs-approved",
+          "attackContact": {
+            "normalized": 0.25833333333333336,
+            "seconds": 0.22388889094193778
+          },
+          "gaitMeasurement": {
+            "impliedWalkMps": 1.2054281319839786,
+            "impliedRunMps": 6.771416978727928
+          }
+        },
         "changes": [
           "Replaced invalid bounding-box T rig with down-arm anatomical pivots and inverse binds.",
           "Removed cross-limb skin influences and fitted weights to adjacent anatomical segments.",
+          "Adapted studio head impact to the rigid crown while preserving the body fall and endpoint poses.",
           "Baked studio Idle, Walk, Run, Attack, Hit and Death with complete poses and world-scaled root motion."
         ],
         "provenance": {
@@ -76655,6 +76772,15 @@
               "LeftShoulder": 6
             }
           },
+          "crownDeath": {
+            "sourceTake": "Death01",
+            "sourceNode": "Head",
+            "sourceSeconds": [
+              1,
+              1.4
+            ],
+            "method": "Retained donor head endpoint poses with a continuous settle across the human impact overshoot for the tall rigid crown."
+          },
           "retarget": {
             "mappedJoints": 52,
             "poseNodes": 70,
@@ -76749,7 +76875,7 @@
                 "samples": 34,
                 "loop": false,
                 "heldSeconds": 0.45,
-                "maximumGroundCorrection": 0.38297151617183456,
+                "maximumGroundCorrection": 0.38347151617183456,
                 "removedHorizontalTravel": [
                   0,
                   0,
@@ -76906,22 +77032,22 @@
             {
               "name": "Death",
               "seconds": 1.5,
-              "samples": 74,
-              "maximumVertexMotion": 4.1391750653946575,
-              "maximumSpanRatio": 1.0467406232116314,
-              "minimumSpanRatio": 0.9188851594517741,
+              "samples": 93,
+              "maximumVertexMotion": 4.094392283916297,
+              "maximumSpanRatio": 1.0536243976793416,
+              "minimumSpanRatio": 0.9188851594701647,
               "loopSeam": null,
-              "edgeStretchP99": 1.4237126650475462,
-              "maximumEdgeStretch": 2.580496231400284,
+              "edgeStretchP99": 1.4143485319756697,
+              "maximumEdgeStretch": 2.580496187627133,
               "stretchedEdgeFraction": 0
             }
           ],
           "requiresVisualReview": true
         },
         "review": {
-          "at": "2026-09-28T18:40:56.872Z",
+          "at": "2026-09-28T19:41:22.720Z",
           "by": "codex",
-          "sha256": "a2a43805a9bc2406c9d8c34e96c8384a78d3b9835b0ea72b8a4299aff1bd4b42",
+          "sha256": "1947448895379223442d0d335f38764c0e55e00c8f145593e25c504eaec2a6dc",
           "states": [
             "idle",
             "walk",
@@ -76930,11 +77056,15 @@
             "hit",
             "death"
           ],
-          "evidence": "test-results/creature-audit/candidate-review/humanoids-colon-v1/fairy_guardian_03_gloamgarden/evidence.json"
+          "evidence": "test-results/creature-audit/candidate-review/colon-temporal-v2/fairy_guardian_03_gloamgarden/evidence.json"
         }
       },
       "metadata": {
         "animationAcceptance": "devdocs-approved",
+        "geometry": {
+          "vertices": 2828,
+          "triangles": 4478
+        },
         "attackContact": {
           "normalized": 0.25833333333333336,
           "seconds": 0.22388889094193778
