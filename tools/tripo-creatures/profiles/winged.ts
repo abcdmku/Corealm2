@@ -1,8 +1,8 @@
 import { type Document, type Node, type Primitive } from '@gltf-transform/core';
-import { Matrix4, Quaternion, Vector3 } from 'three';
+import { Matrix3, Matrix4, Quaternion, Vector3 } from 'three';
 import type { CreatureRepairProfile } from '../repairProfile.js';
 import { retargetCreatureMotion } from '../retarget.js';
-import { addChannel, applyClip, duration, restorePose, storedPose } from '../../creature-motion/pose.js';
+import { addChannel, applyClip, duration, restorePose, sample, storedPose } from '../../creature-motion/pose.js';
 import { deformedBounds } from '../../creature-motion/validate-deformation.js';
 
 const smooth = (lo: number, hi: number, x: number) => {
@@ -106,44 +106,33 @@ function rebind(doc: Document) {
   }
 }
 
-function repairInsectWeights(doc: Document, wasp: boolean) {
-  const node = find(doc, wasp ? 'BriarWaspMesh' : 'AmberveinLeafwingMesh');
+function repairWaspWeights(doc: Document) {
+  const node = find(doc, 'BriarWaspMesh');
   const primitive = node.getMesh()!.listPrimitives()[0]!, islands = components(primitive);
   const isolated = new Map<number, string>();
-  if (!wasp) {
-    for (const island of islands.filter(vertices => vertices.length > 50 && vertices.length < 200)) {
-      const points = island.map(i => primitive.getAttribute('POSITION')!.getElement(i, []));
-      const x = points.reduce((sum, p) => sum + p[0]!, 0) / points.length;
-      const y = points.reduce((sum, p) => sum + p[1]!, 0) / points.length;
-      const joint = `Wing${y > .55 ? 'Upper' : 'Lower'}Root_${x < 0 ? 'L' : 'R'}`;
-      for (const i of island) isolated.set(i, joint);
-    }
-    if (isolated.size !== 496) throw new Error(`Leafwing membrane topology changed: ${isolated.size}`);
-  } else {
-    // Four separate leg shells must never blend with nearby wings or the opposite leg.
-    for (const island of islands.slice(1)) {
-      const points = island.map(i => primitive.getAttribute('POSITION')!.getElement(i, []));
-      const x = points.reduce((sum, p) => sum + p[0]!, 0) / points.length;
-      const z = points.reduce((sum, p) => sum + p[2]!, 0) / points.length;
-      for (const i of island) isolated.set(i, `Leg${x < -.125 ? 'Front' : 'Mid'}Coxa_${z < 0 ? 'L' : 'R'}`);
-    }
+  // Four separate leg shells must never blend with nearby wings or the opposite leg.
+  for (const island of islands.slice(1)) {
+    const points = island.map(i => primitive.getAttribute('POSITION')!.getElement(i, []));
+    const x = points.reduce((sum, p) => sum + p[0]!, 0) / points.length;
+    const z = points.reduce((sum, p) => sum + p[2]!, 0) / points.length;
+    for (const i of island) isolated.set(i, `Leg${x < -.125 ? 'Front' : 'Mid'}Coxa_${z < 0 ? 'L' : 'R'}`);
   }
   const vertices = setWeights(doc, node, ([x, y, z], vertex) => {
     const isolatedJoint = isolated.get(vertex);
     if (isolatedJoint) return [[isolatedJoint, 1]];
-    if (wasp) {
-      const side = z! < 0 ? 'L' : 'R';
-      const wing = smooth(.10, .20, Math.abs(z!)) * smooth(.48, .65, y!);
-      const head = (1 - smooth(-.27, -.15, x!)) * smooth(.32, .46, y!);
-      const abdomen = smooth(-.01, .13, x!) * (1 - smooth(.48, .65, y!));
-      // One root owns each connected chitin membrane. The old mid/tip blend bent plates.
-      return [[`WingUpperRoot_${side}`, wing], ['Head', (1 - wing) * head],
-        ['AbdomenBase', (1 - wing) * (1 - head) * abdomen], ['Thorax', (1 - wing) * (1 - head) * (1 - abdomen)]];
-    }
-    const head = smooth(.60, .72, y!), abdomen = 1 - smooth(.30, .48, y!);
-    return [['Head', head], ['AbdomenBase', (1 - head) * abdomen], ['Thorax', (1 - head) * (1 - abdomen)]];
+    const side = z! < 0 ? 'L' : 'R';
+    const wing = smooth(.10, .20, Math.abs(z!)) * smooth(.48, .65, y!);
+    const head = (1 - smooth(-.27, -.15, x!)) * smooth(.32, .46, y!);
+    const abdomen = smooth(-.01, .13, x!) * (1 - smooth(.48, .65, y!));
+    const middle = 1 - smooth(.16, .31, y!), distal = 1 - smooth(.035, .14, y!);
+    // One root owns each connected chitin membrane. The old mid/tip blend bent plates.
+    return [[`WingUpperRoot_${side}`, wing], ['Head', (1 - wing) * head],
+      ['AbdomenBase', (1 - wing) * (1 - head) * abdomen * (1 - middle)],
+      ['AbdomenMid', (1 - wing) * (1 - head) * abdomen * middle * (1 - distal)],
+      ['AbdomenTip', (1 - wing) * (1 - head) * abdomen * middle * distal],
+      ['Thorax', (1 - wing) * (1 - head) * (1 - abdomen)]];
   });
-  return { vertices, membraneVertices: wasp ? undefined : isolated.size, detachedLegVertices: wasp ? isolated.size : undefined };
+  return { vertices, detachedLegVertices: isolated.size };
 }
 
 function repairOrchidWeights(doc: Document) {
@@ -179,6 +168,13 @@ function repairOrchidWeights(doc: Document) {
 
 function preparePrismatic(doc: Document) {
   const node = find(doc, 'PrismaticSpriteNativeBody'), skin = node.getSkin()!;
+  // The old candidate generator appended six untextured rods, unrelated to the
+  // supplied textured fae. They read as a rigid white beam and prop up its corpse.
+  const rods = find(doc, 'Six crystal abdomen segments'), rodMesh = rods.getMesh()!;
+  rods.dispose(); rodMesh.dispose();
+  for (const name of ['WingLF', 'WingRF', 'AbdomenTip', 'AbdomenMid', 'AbdomenBase']) {
+    const unused = find(doc, name); skin.removeJoint(unused); unused.dispose();
+  }
   const thorax = find(doc, 'Thorax');
   // The old export parented the pelvis below the thorax, so pelvis motion could only
   // move the legs. Restore an anatomical pelvis-led hierarchy without changing rest.
@@ -204,12 +200,10 @@ function preparePrismatic(doc: Document) {
     const ax = Math.abs(x!), side = x! < 0 ? 'L' : 'R';
     if (detached.has(vertex)) return [[`Wing${side}H`, 1]];
     if (y! > 1.5 && ax < .34) return [['Head', 1]];
-    const wing = smooth(.08, .19, ax) * (1 - smooth(-.19, -.06, z!)) * smooth(.98, 1.13, y!);
-    if (wing > .999) return [[`Wing${side}F`, 1]];
     // Long finger filaments hang below the arm axis and must follow the wrist too.
     const arm = smooth(.18, .30, ax) * (1 - smooth(1.46, 1.58, y!));
     const elbow = smooth(.51, .63, ax), hand = smooth(.84, .94, ax);
-    if (arm > .995) return [[`ArmShoulder${side}`, (1 - wing) * (1 - elbow)], [`ArmElbow${side}`, (1 - wing) * elbow * (1 - hand)], [`ArmHand${side}`, (1 - wing) * elbow * hand], [`Wing${side}F`, wing]];
+    if (arm > .995) return [[`ArmShoulder${side}`, 1 - elbow], [`ArmElbow${side}`, elbow * (1 - hand)], [`ArmHand${side}`, elbow * hand]];
     const head = smooth(1.39, 1.54, y!);
     if (head > .999) return [['Head', 1]];
     if (y! < .94) {
@@ -217,9 +211,9 @@ function preparePrismatic(doc: Document) {
       const shin = 1 - smooth(.32, .46, y!), foot = 1 - smooth(.12, .22, y!);
       return [['Pelvis', 1 - leg], [`NativeThigh${side}`, leg * (1 - shin)], [`NativeShin${side}`, leg * shin * (1 - foot)], [`NativeFoot${side}`, leg * shin * foot]];
     }
-    return [['Head', head], [`ArmShoulder${side}`, (1 - head) * (1 - wing) * arm], [`Wing${side}F`, (1 - head) * wing], ['Thorax', (1 - head) * (1 - wing) * (1 - arm)]];
+    return [['Head', head], [`ArmShoulder${side}`, (1 - head) * arm], ['Thorax', (1 - head) * (1 - arm)]];
   }, 12);
-  return { vertices, newArmJoints: 6, detachedMembraneVertices: detached.size };
+  return { vertices, newArmJoints: 6, detachedMembraneVertices: detached.size, removedProceduralRodVertices: 96, actualMembraneIslands: 2 };
 }
 
 function liftFlight(doc: Document, amount: number) {
@@ -234,16 +228,245 @@ function liftFlight(doc: Document, amount: number) {
   }
 }
 
-function attackContact(doc: Document, names: string[]) {
+function restoreStudioBind(doc: Document) {
+  const worlds = new Map<Node, Matrix4>();
+  for (const mesh of doc.getRoot().listNodes().filter(node => node.getSkin())) {
+    const skin = mesh.getSkin()!, inverse = skin.getInverseBindMatrices()!;
+    skin.listJoints().forEach((joint, i) => worlds.set(joint, new Matrix4().fromArray(mesh.getWorldMatrix())
+      .multiply(new Matrix4().fromArray(inverse.getElement(i, [])).invert())));
+  }
+  const depth = (node: Node): number => node.getParentNode() ? 1 + depth(node.getParentNode()!) : 0;
+  for (const [joint, matrix] of [...worlds].sort((a, b) => depth(a[0]) - depth(b[0]))) {
+    const parent = joint.getParentNode();
+    const parentWorld = parent ? worlds.get(parent) ?? new Matrix4().fromArray(parent.getWorldMatrix()) : new Matrix4();
+    joint.setMatrix(parentWorld.clone().invert().multiply(matrix).toArray());
+  }
+  return worlds.size;
+}
+
+function prepareLeafwing(doc: Document) {
+  const node = find(doc, 'AmberveinLeafwingMesh'), skin = node.getSkin()!;
+  const positions = new Map(doc.getRoot().listNodes().map(node => [node.getName(), world(node)]));
+  const refit: Record<string, [number, number, number]> = {
+    Thorax: [0, .50, .14], Neck: [0, .61, .20], Head: [0, .68, .20],
+    AbdomenBase: [0, .34, .07], AbdomenMid: [0, .22, -.13], AbdomenTip: [0, .07, -.30],
+  };
+  for (const [side, sign] of [['L', -1], ['R', 1]] as const) {
+    refit[`LegFrontCoxa_${side}`] = [sign * .10, .43, .16];
+    refit[`LegFrontDistal_${side}`] = [sign * .12, .34, .25];
+    refit[`WingUpperRoot_${side}`] = [sign * .08, .52, .12];
+    refit[`WingLowerRoot_${side}`] = [sign * .08, .49, .12];
+  }
+  // Store every desired world point before moving ancestors. Unchanged helper
+  // endpoints retain their original geometry locations for anatomical alignment.
+  for (const [name, p] of Object.entries(refit)) positions.set(name, new Vector3(...p));
+  const depth = (n: Node): number => n.getParentNode() ? 1 + depth(n.getParentNode()!) : 0;
+  for (const joint of [...skin.listJoints()].sort((a, b) => depth(a) - depth(b))) {
+    const parent = joint.getParentNode(), p = positions.get(joint.getName())!.clone();
+    if (parent) p.applyMatrix4(new Matrix4().fromArray(parent.getWorldMatrix()).invert());
+    joint.setTranslation(p.toArray());
+  }
+  for (const [side, sign] of [['L', -1], ['R', 1]] as const) {
+    const parent = find(doc, `LegFrontDistal_${side}`);
+    const hand = doc.createNode(`LeafClaw_${side}`).setTranslation(new Vector3(sign * .11, .25, .32)
+      .applyMatrix4(new Matrix4().fromArray(parent.getWorldMatrix()).invert()).toArray());
+    parent.addChild(hand); skin.addJoint(hand);
+  }
+  rebind(doc);
+  const primitive = node.getMesh()!.listPrimitives()[0]!, isolated = new Map<number, string>();
+  for (const island of components(primitive).filter(vertices => vertices.length > 50 && vertices.length < 200)) {
+    const points = island.map(i => primitive.getAttribute('POSITION')!.getElement(i, []));
+    const x = points.reduce((sum, p) => sum + p[0]!, 0) / points.length;
+    const y = points.reduce((sum, p) => sum + p[1]!, 0) / points.length;
+    for (const i of island) isolated.set(i, `Wing${y > .55 ? 'Upper' : 'Lower'}Root_${x < 0 ? 'L' : 'R'}`);
+  }
+  if (isolated.size !== 496) throw new Error('Leafwing membrane topology changed');
+  const vertices = setWeights(doc, node, ([x, y, z], vertex) => {
+    if (isolated.has(vertex)) return [[isolated.get(vertex)!, 1]];
+    const side = x! < 0 ? 'L' : 'R';
+    const arm = smooth(.045, .085, Math.abs(x!)) * smooth(.14, .23, z!) * (1 - smooth(.39, .46, y!));
+    const forearm = 1 - smooth(.29, .37, y!), hand = 1 - smooth(.23, .28, y!);
+    if (arm > .995) return [[`LegFrontCoxa_${side}`, 1 - forearm], [`LegFrontDistal_${side}`, forearm * (1 - hand)], [`LeafClaw_${side}`, forearm * hand]];
+    const head = smooth(.51, .64, y!);
+    const tail = (1 - smooth(.29, .43, y!)) * (1 - smooth(.05, .17, z!));
+    const distal = 1 - smooth(-.22, -.06, z!), tip = 1 - smooth(-.31, -.22, z!);
+    return [['Head', head], [`LegFrontCoxa_${side}`, (1 - head) * arm],
+      ['Thorax', (1 - head) * (1 - arm) * (1 - tail)], ['AbdomenBase', (1 - head) * (1 - arm) * tail * (1 - distal)],
+      ['AbdomenMid', (1 - head) * (1 - arm) * tail * distal * (1 - tip)], ['AbdomenTip', (1 - head) * (1 - arm) * tail * distal * tip]];
+  }, 12);
+  return { vertices, membraneVertices: isolated.size, refittedWorldPivots: refit, addedClawJoints: 2 };
+}
+
+/** Keep the studio action's body motion; settle the target's broad wings on the ground. */
+function finishFairyFlight(doc: Document, prismatic: boolean) {
+  const original = storedPose(doc), ground = find(doc, 'corealm_retarget_ground');
+  const wings: { upper: Node; lower?: Node }[] = ['L', 'R'].map(side => prismatic ? { upper: find(doc, `Wing${side}H`) }
+    : { upper: find(doc, `WingUpperRoot_${side}`), lower: find(doc, `WingLowerRoot_${side}`) });
+  const members = (wing: { upper: Node; lower?: Node }) => wing.lower ? [wing.upper, wing.lower] : [wing.upper];
+  const qWorld = (node: Node) => {
+    const q = new Quaternion(); new Matrix4().fromArray(node.getWorldMatrix()).decompose(new Vector3(), q, new Vector3()); return q.normalize();
+  };
+  const normals = new Map<Node, Vector3>();
+  for (const wing of wings) for (const joint of members(wing)) {
+    const points: Vector3[] = [];
+    for (const mesh of doc.getRoot().listNodes().filter(node => node.getSkin())) {
+      const slot = mesh.getSkin()!.listJoints().indexOf(joint); if (slot < 0) continue;
+      const transform = new Matrix4().fromArray(mesh.getWorldMatrix());
+      for (const primitive of mesh.getMesh()!.listPrimitives()) {
+        const positions = primitive.getAttribute('POSITION')!, joints = primitive.getAttribute('JOINTS_0')!, weights = primitive.getAttribute('WEIGHTS_0')!;
+        for (let vertex = 0; vertex < positions.getCount(); vertex++) {
+          const indices = joints.getElement(vertex, []), masses = weights.getElement(vertex, []);
+          if (indices.reduce((sum, index, k) => sum + (index === slot ? masses[k]! : 0), 0) > .6) points.push(new Vector3().fromArray(positions.getElement(vertex, [])).applyMatrix4(transform));
+        }
+      }
+    }
+    if (points.length < 15) throw new Error(`Insufficient ${joint.getName()} membrane geometry`);
+    const center = points.reduce((sum, point) => sum.add(point), new Vector3()).multiplyScalar(1 / points.length);
+    const covariance = new Matrix3().set(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    for (const point of points) {
+      const p = point.clone().sub(center).toArray();
+      for (let row = 0; row < 3; row++) for (let col = 0; col < 3; col++) covariance.elements[col * 3 + row]! += p[row]! * p[col]! / points.length;
+    }
+    const epsilon = (covariance.elements[0]! + covariance.elements[4]! + covariance.elements[8]!) * 1e-8;
+    for (const axis of [0, 4, 8]) covariance.elements[axis]! += epsilon;
+    const inverse = covariance.invert(), normal = new Vector3(.37, .61, .7).normalize();
+    for (let iteration = 0; iteration < 32; iteration++) normal.applyMatrix3(inverse).normalize();
+    normals.set(joint, normal.applyQuaternion(qWorld(joint).invert()));
+  }
+  const bounds = deformedBounds(doc), lift = (bounds.max[1]! - bounds.min[1]!) * .13;
+  const supportSpeed = (bounds.max[1]! - bounds.min[1]!) * 1.25;
+  const flap = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Run')!;
+  const flapSamplers = new Map(wings.map(wing => [wing.upper, flap.listChannels().find(channel => channel.getTargetNode() === wing.upper && channel.getTargetPath() === 'rotation')!.getSampler()!]));
+  const supportReports: { clip: string; maximumSpeed: number }[] = [];
+  const supports: { clip: ReturnType<Document['createAnimation']>; times: number[]; values: number[]; active: number; death: boolean }[] = [];
+  for (const clip of doc.getRoot().listAnimations()) {
+    const seconds = duration(clip), death = clip.getName() === 'Death', active = death ? seconds - .65 : seconds;
+    const loop = ['Idle', 'Walk', 'Run'].includes(clip.getName());
+    const cycles = Math.max(1, Math.round(seconds / (clip.getName() === 'Idle' ? 1 : clip.getName() === 'Walk' ? .85 : duration(flap))));
+    const finalNormals = new Map<Node, Vector3>();
+    if (death) {
+      restorePose(original); applyClip(clip, active);
+      for (const wing of wings) {
+        wing.lower?.setRotation(wing.upper.getRotation());
+        for (const joint of members(wing)) finalNormals.set(joint, new Vector3(0, normals.get(joint)!.clone().applyQuaternion(qWorld(joint)).y < 0 ? -1 : 1, 0));
+      }
+    }
+    const steps = Math.ceil(active * 60), times = Array.from({ length: steps + 1 }, (_, i) => active * i / steps);
+    if (death) times.push(seconds);
+    const tracks = new Map<Node, number[]>([...wings.flatMap(members), ground].map(node => [node, []]));
+    for (const t of times) {
+      restorePose(original); applyClip(clip, t);
+      for (const wing of wings) {
+        // Native Idle's wings end mid-stroke even though its body loops. Repeat
+        // the closed native Run wing cycle an integer number of times, avoiding
+        // a false last-frame "seam fix" with a visible 119-degree discontinuity.
+        if (loop) wing.upper.setRotation(sample(flapSamplers.get(wing.upper)!, (t / seconds * cycles % 1) * duration(flap)) as [number, number, number, number]);
+        wing.lower?.setRotation(wing.upper.getRotation());
+        if (death) for (const joint of members(wing)) {
+          const q = qWorld(joint), normal = normals.get(joint)!.clone().applyQuaternion(q);
+          const settled = new Quaternion().setFromUnitVectors(normal, finalNormals.get(joint)!).multiply(q);
+          q.slerp(settled, smooth(active * .45, active * .82, t));
+          const parent = joint.getParentNode(); joint.setRotation((parent ? qWorld(parent).invert().multiply(q) : q).toArray());
+        }
+        for (const joint of members(wing)) tracks.get(joint)!.push(...joint.getRotation());
+      }
+      ground.setTranslation([0, 0, 0]);
+      const minimum = deformedBounds(doc).min[1]!;
+      // The living body floats above its lowest appendage. Death loses that lift
+      // during the donor's initial recoil and ends with physical geometry at floor.
+      const hover = death ? 0 : lift;
+      tracks.get(ground)!.push(0, .006 - minimum + hover, 0);
+    }
+    supports.push({ clip, times, values: tracks.get(ground)!, active, death });
+    for (const [node, values] of tracks) {
+      const path = node === ground ? 'translation' : 'rotation';
+      for (const channel of [...clip.listChannels()]) if (channel.getTargetNode() === node && channel.getTargetPath() === path) channel.dispose();
+      if (loop) values.splice(values.length - (path === 'rotation' ? 4 : 3), path === 'rotation' ? 4 : 3, ...values.slice(0, path === 'rotation' ? 4 : 3));
+      addChannel(doc, clip, node, path, times, values);
+    }
+  }
+  // Flying bodies retain their studio vertical movement. A common constant
+  // offset clears every living wing stroke; per-frame floor tracking would
+  // cancel hover and make wing strokes jerk the whole creature up and down.
+  const livingOffset = Math.max(...supports.filter(support => !support.death).flatMap(support => support.times.map((_, i) => support.values[i * 3 + 1]!)));
+  for (const { clip, times, values, active, death } of supports) {
+    if (death) {
+      // Native studio arms can swing through 80 degrees in one source frame.
+      // The smallest speed-limited upper envelope anticipates contact without
+      // allowing that hand swing to teleport the entire target upward.
+      const finalContact = values[values.length - 2]!;
+      const required = times.map((t, i) => Math.max(values[i * 3 + 1]!, livingOffset + (finalContact - livingOffset) * smooth(active * .15, active * .75, t)));
+      for (let i = 0; i < times.length; i++) values[i * 3 + 1] = Math.max(...required.map((height, j) => height - supportSpeed * Math.abs(times[j]! - times[i]!)));
+    } else for (let i = 0; i < times.length; i++) values[i * 3 + 1] = livingOffset;
+    const output = clip.listChannels().find(channel => channel.getTargetNode() === ground && channel.getTargetPath() === 'translation')!.getSampler()!.getOutput()!;
+    for (let i = 0; i < times.length; i++) output.setElement(i, values.slice(i * 3, i * 3 + 3));
+    supportReports.push({ clip: clip.getName(), maximumSpeed: Math.max(...times.slice(1).map((t, i) => Math.abs(values[(i + 1) * 3 + 1]! - values[i * 3 + 1]!) / (t - times[i]!))) });
+  }
+  restorePose(original);
+  return { wingPlaneNormals: [...normals].map(([node, normal]) => ({ node: node.getName(), localNormal: normal.toArray() })),
+    livingOffset, deathSupportSpeedLimit: supportSpeed, supportReports, loopWingSource: 'Integer repeats of the closed native Run wing take' };
+}
+
+async function fairyFlyer(doc: Document, readAsset: (id: string) => Promise<Document>, prismatic: boolean) {
+  const weights = prismatic ? preparePrismatic(doc) : prepareLeafwing(doc), donor = await readAsset('fantasy_monster_08');
+  const restoredDonorJoints = restoreStudioBind(donor);
+  const mapping: Record<string, string> = prismatic ? { Pelvis: 'rootx', Thorax: 'spine_03x', Head: 'headx' }
+    : { LeafwingRoot: 'rootx', Thorax: 'spine_03x', Neck: 'neckx', Head: 'headx' };
+  const directions: Record<string, string> = prismatic ? { Pelvis: 'Thorax', Thorax: 'Head' } : { Thorax: 'Neck', Neck: 'Head' };
+  const sourceDirections: Record<string, string> = { rootx: 'spine_01x', spine_03x: 'neckx', neckx: 'headx' };
+  for (const [side, donorSide] of [['L', 'r'], ['R', 'l']]) {
+    const names = prismatic ? [`ArmShoulder${side}`, `ArmElbow${side}`, `ArmHand${side}`]
+      : [`LegFrontCoxa_${side}`, `LegFrontDistal_${side}`, `LeafClaw_${side}`];
+    names.forEach((name, i) => mapping[name!] = `${['arm_stretch', 'forearm_stretch', 'hand'][i]}${donorSide}`);
+    directions[names[0]!] = names[1]!; directions[names[1]!] = names[2]!;
+    sourceDirections[`arm_stretch${donorSide}`] = `forearm_stretch${donorSide}`;
+    sourceDirections[`forearm_stretch${donorSide}`] = `hand${donorSide}`;
+    const wing = find(doc, prismatic ? `Wing${side}H` : `WingUpperRoot_${side}`);
+    mapping[wing.getName()] = `arm_stretch_dupli_001${donorSide}`;
+    if (prismatic) {
+      const guide = doc.createNode(`WingGuide${side}`).setTranslation([side === 'L' ? -.55 : .55, .40, -.25]); wing.addChild(guide);
+      directions[wing.getName()] = guide.getName();
+      for (const [target, source, child] of [['NativeThigh', 'thigh_stretch', 'NativeShin'], ['NativeShin', 'leg_stretch', 'NativeFoot'], ['NativeFoot', 'foot', '']]) {
+        mapping[`${target}${side}`] = `${source}${donorSide}`;
+        if (child) directions[`${target}${side}`] = `${child}${side}`;
+      }
+      sourceDirections[`thigh_stretch${donorSide}`] = `leg_stretch${donorSide}`;
+      sourceDirections[`leg_stretch${donorSide}`] = `foot${donorSide}`;
+    } else directions[wing.getName()] = `WingUpperMid_${side}`;
+    sourceDirections[`arm_stretch_dupli_001${donorSide}`] = `forearm_stretch_dupli_001${donorSide}`;
+  }
+  const targetHeight = deformedBounds(doc).max[1]! - deformedBounds(doc).min[1]!;
+  const sourceHeight = world(find(donor, 'headx')).y - world(find(donor, 'rootx')).y;
+  const targetTorso = world(find(doc, 'Head')).distanceTo(world(find(doc, prismatic ? 'Pelvis' : 'Thorax')));
+  const motion = retargetCreatureMotion(doc, donor, { mapping, directionChildren: directions, sourceDirectionChildren: sourceDirections,
+    sourceToTargetRotation: [0, 0, 0, 1], root: { target: prismatic ? 'Pelvis' : 'LeafwingRoot', source: 'rootx', translationScale: targetTorso / sourceHeight, horizontal: 'in-place' },
+    clips: { Idle: { source: 'Idle', loop: true }, Walk: { source: 'Walk', loop: true }, Run: { source: 'Run', loop: true },
+      Attack: { source: 'Attack' }, Hit: { source: 'Hit' }, Death: { source: 'Death', holdLastSeconds: .65 } },
+    replaceAnimations: true, samplesPerSecond: 60, grounding: { floor: .006, maxCorrection: targetHeight * 2 } });
+  const flight = finishFairyFlight(doc, prismatic);
+  // Native08 winds its right arm back through .5, strikes at .6, then recovers.
+  // A long target hand can reach farther during recovery; that is not a second hit.
+  const contact = attackContact(doc, prismatic ? ['ArmHandL'] : ['LeafClaw_L'], [.5, .7]);
+  return { changes: ['Refitted body and claw pivots to the actual winged anatomy; preserved original geometry and textures.',
+    'Transferred six native Pixelius mantis flying takes, including forward-pitched Run, claw swipe, recoil and full falling roll.',
+    'Separated broad wing membranes from arm and head ownership; wings settle beside the held corpse.'],
+    provenance: { weights, donor: 'fantasy_monster_08', restoredDonorJoints, motion, contact, flight },
+    motion: { walkClipSeconds: 1, runClipSeconds: duration(doc.getRoot().listAnimations().find(c => c.getName() === 'Run')!),
+      attackSeconds: duration(doc.getRoot().listAnimations().find(c => c.getName() === 'Attack')!), contactNormalized: contact.normalized,
+      groundY: 0, impliedWalkMps: 0, impliedRunMps: 0 } };
+}
+
+function attackContact(doc: Document, names: string[], window: [number, number] = [0, 1]) {
   const pose = storedPose(doc), clip = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Attack')!;
   const seconds = duration(clip); let best = -Infinity, phase = 0;
   for (let i = 0; i <= 120; i++) {
-    restorePose(pose); applyClip(clip, seconds * i / 120);
+    const sampledPhase = window[0] + (window[1] - window[0]) * i / 120;
+    restorePose(pose); applyClip(clip, seconds * sampledPhase);
     const reach = Math.max(...names.map(name => world(find(doc, name)).z));
-    if (reach > best + 1e-7) { best = reach; phase = i / 120; }
+    if (reach > best + 1e-7) { best = reach; phase = sampledPhase; }
   }
   restorePose(pose);
-  return { normalized: phase, seconds: phase * seconds, nodes: names, method: 'Maximum forward world-Z of the anatomical strike joint across 121 production clip samples' };
+  return { normalized: phase, seconds: phase * seconds, nodes: names, window, method: 'Maximum forward world-Z of the anatomical strike joint across 121 production clip samples in the donor strike window' };
 }
 
 /** Measure the actual weighted soles, after retargeting and grounding, in model metres. */
@@ -311,9 +534,9 @@ function orchidGaits(doc: Document) {
   return { method: 'Median backward velocity of the same weighted foot vertices across 240 phase intervals. Select the actual lowest surface per frame (including rotating claws), within 0.5% model height of the floor and 0.4% height of the foot minimum; reject vertical speed above 20% height/second and bilateral median disagreement above 35%.', reports };
 }
 
-async function insect(doc: Document, readAsset: (id: string) => Promise<Document>, wasp: boolean) {
-  const weights = repairInsectWeights(doc, wasp), donor = await readAsset('enemy_bee');
-  const root = wasp ? 'WaspRoot' : 'LeafwingRoot';
+async function wasp(doc: Document, readAsset: (id: string) => Promise<Document>) {
+  const weights = repairWaspWeights(doc), donor = await readAsset('enemy_bee');
+  const root = 'WaspRoot';
   const mapping: Record<string, string> = { [root]: 'Head' };
   for (const [side, donorSide] of [['L', 'R'], ['R', 'L']]) for (const tier of ['Upper', 'Lower']) mapping[`Wing${tier}Root_${side}`] = `Wing2.${donorSide}`;
   const motion = retargetCreatureMotion(doc, donor, {
@@ -322,30 +545,49 @@ async function insect(doc: Document, readAsset: (id: string) => Promise<Document
       Attack: { source: 'Bite_Front' }, Hit: { source: 'HitRecieve' }, Death: { source: 'Death', holdLastSeconds: .6 } },
     replaceAnimations: true, samplesPerSecond: 60, grounding: { floor: .006, maxCorrection: 1.5 },
   });
+  // The bee's bite has separate mouth articulation. A body-only transfer loses
+  // the strike entirely on this jawless target. Adapt that authored articulation
+  // to the wasp's neck and abdominal hinge while retaining its timing and recoil.
+  const targetPose = storedPose(doc), sourcePose = storedPose(donor);
+  const bite = donor.getRoot().listAnimations().find(c => c.getName() === 'Bite_Front')!;
+  const attack = doc.getRoot().listAnimations().find(c => c.getName() === 'Attack')!;
+  const mouth = find(donor, 'Mouth'), restMouth = new Quaternion().fromArray(mouth.getRotation());
+  const seconds = duration(attack), steps = Math.ceil(seconds * 60), times = Array.from({ length: steps + 1 }, (_, i) => seconds * i / steps);
+  for (const [name, amplitude] of [['Neck', 1.8], ['AbdomenBase', 4], ['AbdomenMid', 3], ['AbdomenTip', 2.5]] as const) {
+    const node = find(doc, name), restLocal = new Quaternion().fromArray(node.getRotation()), restWorld = new Quaternion();
+    new Matrix4().fromArray(node.getWorldMatrix()).decompose(new Vector3(), restWorld, new Vector3());
+    const values: number[] = [];
+    for (const t of times) {
+      restorePose(sourcePose); applyClip(bite, t);
+      const delta = new Quaternion().fromArray(mouth.getRotation()).multiply(restMouth.clone().invert());
+      const angle = 2 * Math.acos(Math.max(-1, Math.min(1, delta.w))), axis = new Vector3(delta.x, delta.y, delta.z);
+      const amplified = axis.lengthSq() > 1e-10 ? new Quaternion().setFromAxisAngle(axis.normalize(), angle * amplitude) : new Quaternion();
+      values.push(...restLocal.clone().multiply(restWorld.clone().invert().multiply(amplified).multiply(restWorld)).toArray());
+    }
+    for (const channel of [...attack.listChannels()]) if (channel.getTargetNode() === node && channel.getTargetPath() === 'rotation') channel.dispose();
+    addChannel(doc, attack, node, 'rotation', times, values);
+  }
+  restorePose(sourcePose); restorePose(targetPose);
   const height = deformedBounds(doc).max[1]! - deformedBounds(doc).min[1]!;
   liftFlight(doc, height * .10);
-  const contact = attackContact(doc, ['Head']);
+  const contact = attackContact(doc, ['AbdomenTip']);
   return { changes: ['Replaced arbitrary wing oscillations with Quaternius bee flight, strike, hit and death sequences.',
     'Removed wing/leg cross-influences and kept each separate membrane on its anatomical hinge.', 'Baked complete poses for every clip, exact loop seams and a held grounded corpse.'],
-    provenance: { weights, donor: 'enemy_bee', donorAnatomy: 'Compatible flying body and wing hinges; native target head and appendages follow the body.', motion, contact },
+    provenance: { weights, donor: 'enemy_bee', donorAnatomy: 'Compatible flying body and wing hinges. Native mouth strike articulation drives the jawless wasp neck and three segmented abdominal hinges (neck1.8×,base4×,mid3×,tip2.5×), bringing its stinger forward.', motion, contact },
     motion: { walkClipSeconds: .9, runClipSeconds: .65, attackSeconds: 1.125, contactNormalized: contact.normalized, groundY: 0, impliedWalkMps: 0, impliedRunMps: 0 } };
 }
 
-async function biped(doc: Document, readAsset: (id: string) => Promise<Document>, prismatic: boolean) {
-  const weights = prismatic ? preparePrismatic(doc) : { vertices: repairOrchidWeights(doc) };
+async function orchid(doc: Document, readAsset: (id: string) => Promise<Document>) {
+  const weights = { vertices: repairOrchidWeights(doc) };
   const donor = await readAsset('animation_library_1');
-  const mapping: Record<string, string> = prismatic
-    ? { Pelvis: 'pelvis', Thorax: 'spine_03', Head: 'Head' }
-    : { Pelvis: 'pelvis', Spine: 'spine_01', Chest: 'spine_03', Neck: 'neck_01', Head: 'Head' };
-  const directionChildren: Record<string, string> = prismatic ? { Pelvis: 'Thorax', Thorax: 'Head' } : { Pelvis: 'Spine', Spine: 'Chest', Chest: 'Neck', Neck: 'Head' };
+  const mapping: Record<string, string> = { Pelvis: 'pelvis', Spine: 'spine_01', Chest: 'spine_03', Neck: 'neck_01', Head: 'Head' };
+  const directionChildren: Record<string, string> = { Pelvis: 'Spine', Spine: 'Chest', Chest: 'Neck', Neck: 'Head' };
   const sourceDirectionChildren: Record<string, string> = { pelvis: 'spine_01', spine_01: 'spine_02', spine_03: 'neck_01', neck_01: 'Head' };
   // These authored rigs call negative-X "L". The studio library calls positive-X
   // "l"; semantic left/right must follow the geometry rather than the spelling.
   for (const [side, sourceSide] of [['L', 'r'], ['R', 'l']]) {
-    const names = prismatic ? [`ArmShoulder${side}`, `ArmElbow${side}`, `ArmHand${side}`, `NativeThigh${side}`, `NativeShin${side}`, `NativeFoot${side}`]
-      : [`Shoulder_${side}`, `Elbow_${side}`, `ScytheRoot_${side}`, `Hip_${side}`, `Knee_${side}`, `Ankle_${side}`];
+    const names = [`Shoulder_${side}`, `Elbow_${side}`, `ScytheRoot_${side}`, `Hip_${side}`, `Knee_${side}`, `Ankle_${side}`];
     mapping[names[0]!] = `upperarm_${sourceSide}`; mapping[names[1]!] = `lowerarm_${sourceSide}`;
-    if (prismatic) mapping[names[2]!] = `hand_${sourceSide}`;
     mapping[names[3]!] = `thigh_${sourceSide}`; mapping[names[4]!] = `calf_${sourceSide}`; mapping[names[5]!] = `foot_${sourceSide}`;
     directionChildren[names[0]!] = names[1]!; directionChildren[names[1]!] = names[2]!;
     directionChildren[names[3]!] = names[4]!; directionChildren[names[4]!] = names[5]!;
@@ -354,51 +596,24 @@ async function biped(doc: Document, readAsset: (id: string) => Promise<Document>
     sourceDirectionChildren[`thigh_${sourceSide}`] = `calf_${sourceSide}`;
     sourceDirectionChildren[`calf_${sourceSide}`] = `foot_${sourceSide}`;
   }
-  const targetLeg = prismatic ? ['NativeThighL', 'NativeShinL', 'NativeFootL'] : ['Hip_L', 'Knee_L', 'Ankle_L'];
+  const targetLeg = ['Hip_L', 'Knee_L', 'Ankle_L'];
   const length = (d: Document, names: string[]) => world(find(d, names[0]!)).distanceTo(world(find(d, names[1]!))) + world(find(d, names[1]!)).distanceTo(world(find(d, names[2]!)));
   const scale = length(doc, targetLeg) / length(donor, ['thigh_l', 'calf_l', 'foot_l']);
   const motion = retargetCreatureMotion(doc, donor, {
     mapping, directionChildren, sourceDirectionChildren, sourceToTargetRotation: [0, 0, 0, 1],
     root: { target: 'Pelvis', source: 'pelvis', translationScale: scale, horizontal: 'in-place' },
-    clips: { Idle: { source: prismatic ? 'Spell_Simple_Idle_Loop' : 'Idle_Loop', loop: true },
-      Walk: { source: prismatic ? 'Spell_Simple_Idle_Loop' : 'Walk_Loop', loop: true, ...(prismatic ? { duration: 1.1 } : {}) },
-      Run: { source: prismatic ? 'Spell_Simple_Idle_Loop' : 'Jog_Fwd_Loop', loop: true, ...(prismatic ? { duration: .75 } : {}) },
-      Attack: { source: prismatic ? 'Punch_Jab' : 'Sword_Attack' }, Hit: { source: 'Hit_Chest' }, Death: { source: 'Death01', holdLastSeconds: .6 } },
+    clips: { Idle: { source: 'Idle_Loop', loop: true }, Walk: { source: 'Walk_Loop', loop: true }, Run: { source: 'Jog_Fwd_Loop', loop: true },
+      Attack: { source: 'Sword_Attack' }, Hit: { source: 'Hit_Chest' }, Death: { source: 'Death01', holdLastSeconds: .6 } },
     replaceAnimations: true, samplesPerSecond: 30, grounding: { floor: .006, maxCorrection: 2 },
   });
-  if (prismatic) {
-    // The wing chains are additional anatomy, so overlay native bee hinge deltas on the
-    // studio body takes. A wing component is never confused with an arm or the crown.
-    const bee = await readAsset('enemy_bee'), sourcePose = storedPose(bee), targetPose = storedPose(doc);
-    const flight = bee.getRoot().listAnimations().find(clip => clip.getName() === 'Flying')!;
-    const binds = new Map(['L', 'R'].map(side => [side, new Quaternion().fromArray(find(bee, `Wing2.${side === 'L' ? 'R' : 'L'}`).getRotation())]));
-    for (const clip of doc.getRoot().listAnimations()) {
-      const seconds = duration(clip), steps = Math.ceil(seconds * 60), times = Array.from({ length: steps + 1 }, (_, i) => seconds * i / steps);
-      for (const side of ['L', 'R']) for (const tier of ['F', 'H']) {
-        const node = find(doc, `Wing${side}${tier}`), values: number[] = [];
-        const old = clip.listChannels().find(channel => channel.getTargetNode() === node && channel.getTargetPath() === 'rotation');
-        if (old) old.dispose();
-        for (let i = 0; i <= steps; i++) {
-          const t = times[i]!, loop = ['Idle', 'Walk', 'Run'].includes(clip.getName());
-          const loops = Math.max(1, Math.round(seconds / .3)), sourceTime = loop ? (i / steps * loops % 1) * duration(flight) : t % duration(flight);
-          restorePose(sourcePose); applyClip(flight, sourceTime);
-          const rotation = new Quaternion().fromArray(find(bee, `Wing2.${side === 'L' ? 'R' : 'L'}`).getRotation()).multiply(binds.get(side)!.clone().invert());
-          if (clip.getName() === 'Death') rotation.slerp(new Quaternion(), smooth(0, seconds * .65, t));
-          values.push(...rotation.toArray());
-        }
-        addChannel(doc, clip, node, 'rotation', times, values);
-      }
-    }
-    restorePose(sourcePose); restorePose(targetPose); liftFlight(doc, .18);
-  }
-  const contact = attackContact(doc, prismatic ? ['ArmHandL', 'ArmHandR'] : ['ScytheTip_L', 'ScytheTip_R']);
-  const gait = prismatic ? undefined : orchidGaits(doc);
-  return { changes: [prismatic ? 'Added shoulder, elbow and hand joints for the native T-pose arms; wing membranes now have separate influences.' : 'Replaced coordinate-crossed weights with anatomical arm, shin, foot and rigid blade/crown influences.',
+  const contact = attackContact(doc, ['ScytheTip_L', 'ScytheTip_R']);
+  const gait = orchidGaits(doc);
+  return { changes: ['Replaced coordinate-crossed weights with anatomical arm, shin, foot and rigid blade/crown influences.',
     'Retargeted studio biped poses through world-space anatomical alignment and complete reset tracks.', 'Preserved every original texture and mesh triangle.'],
-    provenance: { weights, donor: 'animation_library_1', motion, contact, ...(gait ? { gait } : {}) },
+    provenance: { weights, donor: 'animation_library_1', motion, contact, gait },
     motion: { walkClipSeconds: duration(doc.getRoot().listAnimations().find(c => c.getName() === 'Walk')!), runClipSeconds: duration(doc.getRoot().listAnimations().find(c => c.getName() === 'Run')!),
       attackSeconds: duration(doc.getRoot().listAnimations().find(c => c.getName() === 'Attack')!), contactNormalized: contact.normalized, groundY: 0,
-      ...(prismatic ? { impliedWalkMps: 0, impliedRunMps: 0 } : { impliedWalkMps: gait!.reports[0]!.impliedMps, impliedRunMps: gait!.reports[1]!.impliedMps }) } };
+      impliedWalkMps: gait.reports[0]!.impliedMps, impliedRunMps: gait.reports[1]!.impliedMps } };
 }
 
 export const profile: CreatureRepairProfile = {
@@ -407,8 +622,9 @@ export const profile: CreatureRepairProfile = {
     'fairy_garden_imp_gloamgarden', 'fairy_garden_imp_faeholme', 'creature_orchid_reaper',
     'fairy_garden_petalguard_gloamgarden', 'fairy_garden_petalguard_faeholme', 'creature_prismatic_sprite'],
   async repair(doc, { assetId, readAsset }) {
-    if (/orchid_reaper|petalguard/.test(assetId)) return biped(doc, readAsset, false);
-    if (assetId === 'creature_prismatic_sprite') return biped(doc, readAsset, true);
-    return insect(doc, readAsset, assetId.endsWith('_wasp'));
+    if (/orchid_reaper|petalguard/.test(assetId)) return orchid(doc, readAsset);
+    if (assetId === 'creature_prismatic_sprite') return fairyFlyer(doc, readAsset, true);
+    if (!assetId.endsWith('_wasp')) return fairyFlyer(doc, readAsset, false);
+    return wasp(doc, readAsset);
   },
 };

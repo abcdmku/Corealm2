@@ -1494,6 +1494,170 @@
       }
     }
   },
+  "garden_imp_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6. Evidence: test-results/creature-audit/candidate-review/winged-flight-v3/fairy_garden_imp_gloamgarden/evidence.json.",
+      "at": "2026-09-28T19:15:49.855Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6."
+        }
+      }
+    }
+  },
+  "garden_imp_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea. Evidence: test-results/creature-audit/candidate-review/winged-flight-v3/fairy_garden_imp_faeholme/evidence.json.",
+      "at": "2026-09-28T19:15:49.855Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea."
+        }
+      }
+    }
+  },
   "garden_petalguard_t30": {
     "status": "draft",
     "notes": [],
@@ -3159,6 +3323,88 @@
       }
     }
   },
+  "lantern_sprite_t30": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c. Evidence: test-results/creature-audit/candidate-review/winged-flight-v3/creature_lantern_sprite/evidence.json.",
+      "at": "2026-09-28T19:15:49.855Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c."
+        }
+      }
+    }
+  },
   "lava_golem_t10": {
     "status": "draft",
     "notes": [],
@@ -4404,6 +4650,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate 6bb613d1ef420f6cf529d8e3eba7aaf3e76be7047a24333cfa7bb8ad954e5f4f."
+        }
+      }
+    }
+  },
+  "prismatic_sprite_t60": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:15:49.855Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317. Evidence: test-results/creature-audit/candidate-review/winged-flight-v3/creature_prismatic_sprite/evidence.json.",
+      "at": "2026-09-28T19:15:49.855Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Reviewed candidate 9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317."
         }
       }
     }

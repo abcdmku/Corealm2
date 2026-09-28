@@ -60924,28 +60924,28 @@
         "flying",
         "leaf-wing"
       ],
-      "bytes": 6249340,
-      "sha256": "af0db1d6e1b74ad64aef3e9fc4a8d19706ceb786232af22998cd29d2c7e7ffb2",
+      "bytes": 7381372,
+      "sha256": "36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c",
       "size": {
-        "x": 0.98779296875,
-        "y": 0.9604492783546448,
-        "z": 0.70751953125
+        "x": 1.0428531582304115,
+        "y": 1.0318682875241683,
+        "z": 0.5618509791567474
       },
       "base": {
-        "x": -0.493896484375,
-        "y": 0,
-        "z": -0.353759765625
+        "x": -0.4507431805250762,
+        "y": 0.24687475606688497,
+        "z": -0.3340786726789558
       },
       "bounds": {
         "min": [
-          -0.493896484375,
-          0,
-          -0.353759765625
+          -0.4507431805250762,
+          0.24687475606688497,
+          -0.3340786726789558
         ],
         "max": [
-          0.493896484375,
-          0.9604492783546448,
-          0.353759765625
+          0.5921099777053351,
+          1.2787430435910532,
+          0.22777230647779165
         ]
       },
       "groundY": 0,
@@ -61008,15 +61008,15 @@
         "correctionGeneratorSha256": "4fbc3b846401b650eee0e8d6551d0c6b200ee77240055b9508e19c80fbb45dbe"
       },
       "acceptance": {
-        "assetAudit": true,
-        "labAccepted": true,
-        "worldIntegrated": false,
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
         "motionAccepted": true
       },
       "walkClipSeconds": 1,
-      "runClipSeconds": 0.7200000286102295,
-      "attackSeconds": 0.8999999761581421,
-      "contactNormalized": 0.4,
+      "runClipSeconds": 0.6666666865348816,
+      "attackSeconds": 1,
+      "contactNormalized": 0.6016666666666667,
       "metadata": {
         "family": "lantern_sprite",
         "rig": "33-joint fantasy insect with four articulated leaf wings and six legs",
@@ -61027,23 +61027,399 @@
           "desiredInGameHeightMeters": 0.5570605814456939,
           "habitat": "Gloamgarden"
         },
+        "animationAcceptance": "devdocs-approved",
         "attackContact": {
-          "seconds": 0.35999999046325687,
-          "normalized": 0.4
+          "normalized": 0.6016666666666667,
+          "seconds": 0.6016666666666667
         },
         "gaitMeasurement": {
-          "status": "uncalibrated",
-          "description": "airborne glide and dart; no terrestrial footfall",
-          "impliedWalkMps": null,
-          "impliedRunMps": null
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
+        }
+      },
+      "impliedWalkMps": 0,
+      "impliedRunMps": 0,
+      "motionRepair": {
+        "family": "winged",
+        "sourceSha256": "af0db1d6e1b74ad64aef3e9fc4a8d19706ceb786232af22998cd29d2c7e7ffb2",
+        "sourceGitBlob": "600a44ae6ed6f8d7ce9afaf0cd19ff94da2ac114",
+        "donors": [
+          {
+            "id": "fantasy_monster_08",
+            "sourceGitBlob": "033eca603eb01cc7045dde5ef8ab25aa80832759",
+            "sourceSha256": "b750e5e2626c2942f539c31a3753360192ef80e1be6953d4ff94e97ce59b70fa"
+          }
+        ],
+        "changes": [
+          "Refitted body and claw pivots to the actual winged anatomy; preserved original geometry and textures.",
+          "Transferred six native Pixelius mantis flying takes, including forward-pitched Run, claw swipe, recoil and full falling roll.",
+          "Separated broad wing membranes from arm and head ownership; wings settle beside the held corpse."
+        ],
+        "provenance": {
+          "weights": {
+            "vertices": 2682,
+            "membraneVertices": 496,
+            "refittedWorldPivots": {
+              "Thorax": [
+                0,
+                0.5,
+                0.14
+              ],
+              "Neck": [
+                0,
+                0.61,
+                0.2
+              ],
+              "Head": [
+                0,
+                0.68,
+                0.2
+              ],
+              "AbdomenBase": [
+                0,
+                0.34,
+                0.07
+              ],
+              "AbdomenMid": [
+                0,
+                0.22,
+                -0.13
+              ],
+              "AbdomenTip": [
+                0,
+                0.07,
+                -0.3
+              ],
+              "LegFrontCoxa_L": [
+                -0.1,
+                0.43,
+                0.16
+              ],
+              "LegFrontDistal_L": [
+                -0.12,
+                0.34,
+                0.25
+              ],
+              "WingUpperRoot_L": [
+                -0.08,
+                0.52,
+                0.12
+              ],
+              "WingLowerRoot_L": [
+                -0.08,
+                0.49,
+                0.12
+              ],
+              "LegFrontCoxa_R": [
+                0.1,
+                0.43,
+                0.16
+              ],
+              "LegFrontDistal_R": [
+                0.12,
+                0.34,
+                0.25
+              ],
+              "WingUpperRoot_R": [
+                0.08,
+                0.52,
+                0.12
+              ],
+              "WingLowerRoot_R": [
+                0.08,
+                0.49,
+                0.12
+              ]
+            },
+            "addedClawJoints": 2
+          },
+          "donor": "fantasy_monster_08",
+          "restoredDonorJoints": 81,
+          "motion": {
+            "mappedJoints": 12,
+            "poseNodes": 38,
+            "sourceToTargetRotation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "translationScale": 0.3486550143783158,
+            "clips": [
+              {
+                "name": "Idle",
+                "sourceTake": "Idle",
+                "sourceSeconds": 2.9666669368743896,
+                "seconds": 2.9666669368743896,
+                "samples": 180,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.08294146373515608,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Walk",
+                "sourceTake": "Walk",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.1677521950812807,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Run",
+                "sourceTake": "Run",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.21299859295710064,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Attack",
+                "sourceTake": "Attack",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.14150246032418148,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Hit",
+                "sourceTake": "Hit",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.17072543777141122,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Death",
+                "sourceTake": "Death",
+                "sourceSeconds": 1,
+                "seconds": 1.65,
+                "samples": 62,
+                "loop": false,
+                "heldSeconds": 0.65,
+                "maximumGroundCorrection": 0.9738220648951894,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "requiresVisualReview": true,
+            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
+          },
+          "contact": {
+            "normalized": 0.6016666666666667,
+            "seconds": 0.6016666666666667,
+            "nodes": [
+              "LeafClaw_L"
+            ],
+            "window": [
+              0.5,
+              0.7
+            ],
+            "method": "Maximum forward world-Z of the anatomical strike joint across 121 production clip samples in the donor strike window"
+          },
+          "flight": {
+            "wingPlaneNormals": [
+              {
+                "node": "WingUpperRoot_L",
+                "localNormal": [
+                  -0.4717097051449502,
+                  -0.11006283575947291,
+                  0.8748577748735205
+                ]
+              },
+              {
+                "node": "WingLowerRoot_L",
+                "localNormal": [
+                  -0.29994777811990925,
+                  0.08569389806163645,
+                  0.9500988823464279
+                ]
+              },
+              {
+                "node": "WingUpperRoot_R",
+                "localNormal": [
+                  0.47164908129855965,
+                  -0.11008483375101966,
+                  0.8748876919286469
+                ]
+              },
+              {
+                "node": "WingLowerRoot_R",
+                "localNormal": [
+                  0.33808383515351215,
+                  0.13925241962637921,
+                  0.9307567265596804
+                ]
+              }
+            ],
+            "livingOffset": 0.16180397716771078,
+            "deathSupportSpeedLimit": 1.2005616221576705,
+            "supportReports": [
+              {
+                "clip": "Idle",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Walk",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Run",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Attack",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Hit",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Death",
+                "maximumSpeed": 1.2005616221576767
+              }
+            ],
+            "loopWingSource": "Integer repeats of the closed native Run wing take"
+          }
         },
-        "floorClearance": {
-          "minimumMeters": 0.006,
-          "sampleCountPerClip": 65
+        "motion": {
+          "walkClipSeconds": 1,
+          "runClipSeconds": 0.6666666865348816,
+          "attackSeconds": 1,
+          "contactNormalized": 0.6016666666666667,
+          "groundY": 0,
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
         },
-        "deathPose": {
-          "finalHeightRatioMaximum": 0.6,
-          "posture": "forward-fallen and crumpled wingfold"
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 2.9666669368743896,
+              "samples": 108,
+              "maximumVertexMotion": 1.05903606883125,
+              "maximumSpanRatio": 1.0912583332198245,
+              "minimumSpanRatio": 0.9494141096024707,
+              "loopSeam": 9.447797653608422e-9,
+              "edgeStretchP99": 1.2120710155082939,
+              "maximumEdgeStretch": 3.80852365947052,
+              "stretchedEdgeFraction": 0.0004837929366231253
+            },
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "samples": 98,
+              "maximumVertexMotion": 1.0731654249425244,
+              "maximumSpanRatio": 1.0913631666247332,
+              "minimumSpanRatio": 0.9338282220941271,
+              "loopSeam": 6.947461410096939e-9,
+              "edgeStretchP99": 1.24989213477517,
+              "maximumEdgeStretch": 4.19511446455506,
+              "stretchedEdgeFraction": 0.0006450572488308337
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 1.1152568116645762,
+              "maximumSpanRatio": 1.1258807629748813,
+              "minimumSpanRatio": 0.9478983253334629,
+              "loopSeam": 8.064669159524764e-9,
+              "edgeStretchP99": 1.2558716332174784,
+              "maximumEdgeStretch": 3.596142306082718,
+              "stretchedEdgeFraction": 0.0004837929366231253
+            },
+            {
+              "name": "Attack",
+              "seconds": 1,
+              "samples": 99,
+              "maximumVertexMotion": 1.1971002680456713,
+              "maximumSpanRatio": 1.125341979029049,
+              "minimumSpanRatio": 0.8093353869943184,
+              "loopSeam": null,
+              "edgeStretchP99": 1.5177698719267378,
+              "maximumEdgeStretch": 5.388339169480889,
+              "stretchedEdgeFraction": 0.001128850185453959
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 0.9431451719395811,
+              "maximumSpanRatio": 1.0696207836769007,
+              "minimumSpanRatio": 0.7889570946255855,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2761353235909096,
+              "maximumEdgeStretch": 4.155664500318921,
+              "stretchedEdgeFraction": 0.0006450572488308337
+            },
+            {
+              "name": "Death",
+              "seconds": 1.649999976158142,
+              "samples": 106,
+              "maximumVertexMotion": 1.7495829131077876,
+              "maximumSpanRatio": 1.1077677179133365,
+              "minimumSpanRatio": 0.8371911376229754,
+              "loopSeam": null,
+              "edgeStretchP99": 1.8052887370927067,
+              "maximumEdgeStretch": 5.068151635833588,
+              "stretchedEdgeFraction": 0.0024189646831156266
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:15:49.855Z",
+          "by": "codex",
+          "sha256": "36ca54a02186fc733fb7101c88614008bf93cfb54fb9aedfe0d6b34c9383244c",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/winged-flight-v3/creature_lantern_sprite/evidence.json"
         }
       }
     },
@@ -61762,20 +62138,20 @@
         "sprite",
         "user-supplied"
       ],
-      "bytes": 7394368,
-      "sha256": "1c50079120ad0d0079daf76473d2cde7584c4ecd10511d4a44d25da10c554729",
+      "bytes": 8170064,
+      "sha256": "9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317",
       "size": {
-        "x": 1.996094,
-        "y": 1.996094,
-        "z": 1.535975
+        "x": 1.026334507209046,
+        "y": 1.764023476377372,
+        "z": 1.8290158588469247
       },
       "base": {
-        "x": -0.998047,
-        "y": 0,
-        "z": -1.319766
+        "x": -0.5093486160915346,
+        "y": 0.31548935002332107,
+        "z": -1.4741756796933183
       },
       "groundY": 0,
-      "triangles": 3984,
+      "triangles": 4866,
       "animations": [
         "Idle",
         "Walk",
@@ -61788,10 +62164,10 @@
         "tripo_mat_e886e77f-dbbf-440b-957f-8c83d52485a7",
         "Opaline segmented crystal"
       ],
-      "walkClipSeconds": 1.1,
-      "runClipSeconds": 0.7,
-      "attackSeconds": 1.12,
-      "contactNormalized": 0.5178571428571428,
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.6666666865348816,
+      "attackSeconds": 1,
+      "contactNormalized": 0.6083333333333333,
       "sourceProvenance": {
         "file": "assets/art/tripo/imports/creatures/audit-user-prismatic/sources/fantasy+insect+3d+model.glb",
         "sha256": "10d092f72e9bac46e2bdd88b157dd4b1d1b1b6eb0d1a0cb9e8c4c9b81f39c174",
@@ -61827,32 +62203,338 @@
       },
       "metadata": {
         "contactSeconds": 0.58,
-        "contactBasis": "Thorax and head dive reach forward maximum at 0.58 s"
+        "contactBasis": "Thorax and head dive reach forward maximum at 0.58 s",
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.6083333333333333,
+          "seconds": 0.6083333333333333
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
+        }
       },
       "acceptance": {
-        "assetAudit": true,
+        "exported": true,
+        "devdocsAccepted": true,
         "rigAccepted": true,
-        "motionAccepted": true,
-        "texturesAccepted": true,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "motionAccepted": true
       },
       "bounds": {
         "min": [
-          -0.998047,
-          0,
-          -1.319766
+          -0.5093486160915346,
+          0.31548935002332107,
+          -1.4741756796933183
         ],
         "max": [
-          0.998047,
-          1.996094,
-          0.216209
+          0.5169858911175114,
+          2.079512826400693,
+          0.3548401791536063
         ]
       },
       "locomotionPolicy": "definition-speed; in-place hovering",
       "acceptanceEvidence": {
         "review": "Root normal-camera motion/combat/corpse review with fresh Luna critics; source preserved.",
         "screenshots": "test-results/creature-audit/continuation-session/new-fixed-*, new-final-*, new-combat-*, new-preview-*"
+      },
+      "impliedWalkMps": 0,
+      "impliedRunMps": 0,
+      "motionRepair": {
+        "family": "winged",
+        "sourceSha256": "1c50079120ad0d0079daf76473d2cde7584c4ecd10511d4a44d25da10c554729",
+        "sourceGitBlob": "baac1136276903bb133c1dae9f6d134321e13ae6",
+        "donors": [
+          {
+            "id": "fantasy_monster_08",
+            "sourceGitBlob": "033eca603eb01cc7045dde5ef8ab25aa80832759",
+            "sourceSha256": "b750e5e2626c2942f539c31a3753360192ef80e1be6953d4ff94e97ce59b70fa"
+          }
+        ],
+        "changes": [
+          "Refitted body and claw pivots to the actual winged anatomy; preserved original geometry and textures.",
+          "Transferred six native Pixelius mantis flying takes, including forward-pitched Run, claw swipe, recoil and full falling roll.",
+          "Separated broad wing membranes from arm and head ownership; wings settle beside the held corpse."
+        ],
+        "provenance": {
+          "weights": {
+            "vertices": 6537,
+            "newArmJoints": 6,
+            "detachedMembraneVertices": 135,
+            "removedProceduralRodVertices": 96,
+            "actualMembraneIslands": 2
+          },
+          "donor": "fantasy_monster_08",
+          "restoredDonorJoints": 81,
+          "motion": {
+            "mappedJoints": 17,
+            "poseNodes": 22,
+            "sourceToTargetRotation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "translationScale": 1.091772165704478,
+            "clips": [
+              {
+                "name": "Idle",
+                "sourceTake": "Idle",
+                "sourceSeconds": 2.9666669368743896,
+                "seconds": 2.9666669368743896,
+                "samples": 180,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.36122139101445583,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Walk",
+                "sourceTake": "Walk",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.44658643370677503,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Run",
+                "sourceTake": "Run",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.3602377492511467,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Attack",
+                "sourceTake": "Attack",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.548778976093446,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Hit",
+                "sourceTake": "Hit",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.5007774118570996,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Death",
+                "sourceTake": "Death",
+                "sourceSeconds": 1,
+                "seconds": 1.65,
+                "samples": 62,
+                "loop": false,
+                "heldSeconds": 0.65,
+                "maximumGroundCorrection": 0.9897841657040428,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "requiresVisualReview": true,
+            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
+          },
+          "contact": {
+            "normalized": 0.6083333333333333,
+            "seconds": 0.6083333333333333,
+            "nodes": [
+              "ArmHandL"
+            ],
+            "window": [
+              0.5,
+              0.7
+            ],
+            "method": "Maximum forward world-Z of the anatomical strike joint across 121 production clip samples in the donor strike window"
+          },
+          "flight": {
+            "wingPlaneNormals": [
+              {
+                "node": "WingLH",
+                "localNormal": [
+                  -0.8041544038622664,
+                  -0.03957988623299261,
+                  0.593101279171362
+                ]
+              },
+              {
+                "node": "WingRH",
+                "localNormal": [
+                  0.8042190814586376,
+                  -0.03959026364276644,
+                  0.5930128835383944
+                ]
+              }
+            ],
+            "livingOffset": -0.04728464874075128,
+            "deathSupportSpeedLimit": 2.495117745548487,
+            "supportReports": [
+              {
+                "clip": "Idle",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Walk",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Run",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Attack",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Hit",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Death",
+                "maximumSpeed": 2.49511774554849
+              }
+            ],
+            "loopWingSource": "Integer repeats of the closed native Run wing take"
+          }
+        },
+        "motion": {
+          "walkClipSeconds": 1,
+          "runClipSeconds": 0.6666666865348816,
+          "attackSeconds": 1,
+          "contactNormalized": 0.6083333333333333,
+          "groundY": 0,
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 2.9666669368743896,
+              "samples": 120,
+              "maximumVertexMotion": 2.1721663430215705,
+              "maximumSpanRatio": 1.1517209375302229,
+              "minimumSpanRatio": 0.8337494572539065,
+              "loopSeam": 2.853896106806371e-8,
+              "edgeStretchP99": 1.732369553183834,
+              "maximumEdgeStretch": 2.850731504581495,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "samples": 104,
+              "maximumVertexMotion": 2.071879324107322,
+              "maximumSpanRatio": 1.150305776149939,
+              "minimumSpanRatio": 0.8809841251271561,
+              "loopSeam": 2.114675683280262e-8,
+              "edgeStretchP99": 1.8020454869481781,
+              "maximumEdgeStretch": 2.9883481552888056,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 2.19801156321319,
+              "maximumSpanRatio": 1.1530946666818498,
+              "minimumSpanRatio": 0.8897970378556097,
+              "loopSeam": 1.6314148576121603e-8,
+              "edgeStretchP99": 1.6910874182465077,
+              "maximumEdgeStretch": 2.7857225830719026,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Attack",
+              "seconds": 1,
+              "samples": 102,
+              "maximumVertexMotion": 2.8846462585590875,
+              "maximumSpanRatio": 1.2170781235316224,
+              "minimumSpanRatio": 0.8548374997679181,
+              "loopSeam": null,
+              "edgeStretchP99": 1.7432660656469348,
+              "maximumEdgeStretch": 3.931544321662915,
+              "stretchedEdgeFraction": 0.0002909514111143439
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 1.9758572394683973,
+              "maximumSpanRatio": 0.9562592264995137,
+              "minimumSpanRatio": 0.8360507070705547,
+              "loopSeam": null,
+              "edgeStretchP99": 1.7584760496466532,
+              "maximumEdgeStretch": 2.9684518505895756,
+              "stretchedEdgeFraction": 0
+            },
+            {
+              "name": "Death",
+              "seconds": 1.649999976158142,
+              "samples": 109,
+              "maximumVertexMotion": 3.4851540406616834,
+              "maximumSpanRatio": 1.1871990686310778,
+              "minimumSpanRatio": 0.9057950457959896,
+              "loopSeam": null,
+              "edgeStretchP99": 1.6612927713059074,
+              "maximumEdgeStretch": 3.554759187595497,
+              "stretchedEdgeFraction": 0.0002909514111143439
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:15:49.855Z",
+          "by": "codex",
+          "sha256": "9a7dbaf62fff9aa8abb17ce7d2f352eaf48e24e56825d18b919029b625628317",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/winged-flight-v3/creature_prismatic_sprite/evidence.json"
+        }
       }
     },
     {
@@ -69695,28 +70377,28 @@
         "imagegen-variant",
         "candidate"
       ],
-      "bytes": 11465052,
-      "sha256": "09c620c98d6e9f565fc26ddf060cb7977f7b75dcf17bc93dd55e578b75c2c2bd",
+      "bytes": 12604224,
+      "sha256": "09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6",
       "size": {
-        "x": 0.98779296875,
-        "y": 0.9604492783546448,
-        "z": 0.70751953125
+        "x": 1.0428531582304115,
+        "y": 1.0318682875241683,
+        "z": 0.5618509791567474
       },
       "base": {
-        "x": -0.493896484375,
-        "y": 0,
-        "z": -0.353759765625
+        "x": -0.4507431805250762,
+        "y": 0.24687475606688497,
+        "z": -0.3340786726789558
       },
       "bounds": {
         "min": [
-          -0.493896484375,
-          0,
-          -0.353759765625
+          -0.4507431805250762,
+          0.24687475606688497,
+          -0.3340786726789558
         ],
         "max": [
-          0.493896484375,
-          0.9604492783546448,
-          0.353759765625
+          0.5921099777053351,
+          1.2787430435910532,
+          0.22777230647779165
         ]
       },
       "groundY": 0,
@@ -69734,9 +70416,9 @@
         "Material_tripo_node_1303a990-d810-4a13-ab58-362ba9055702"
       ],
       "walkClipSeconds": 1,
-      "runClipSeconds": 0.72,
-      "attackSeconds": 0.9,
-      "contactNormalized": 0.5,
+      "runClipSeconds": 0.6666666865348816,
+      "attackSeconds": 1,
+      "contactNormalized": 0.6016666666666667,
       "sourceProvenance": {
         "sourceFile": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
         "sourceSha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
@@ -69746,12 +70428,410 @@
         "rigMethod": "Existing 33-joint leafwing skeleton and full skin weights; staged Death end pose lays body and wings against ground."
       },
       "acceptance": {
-        "assetAudit": true,
-        "rigAccepted": false,
-        "motionAccepted": true,
-        "texturesAccepted": false,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "impliedWalkMps": 0,
+      "impliedRunMps": 0,
+      "motionRepair": {
+        "family": "winged",
+        "sourceSha256": "09c620c98d6e9f565fc26ddf060cb7977f7b75dcf17bc93dd55e578b75c2c2bd",
+        "sourceGitBlob": "be8d1becf032ba1f8506b6506bdaa227c050e290",
+        "donors": [
+          {
+            "id": "fantasy_monster_08",
+            "sourceGitBlob": "033eca603eb01cc7045dde5ef8ab25aa80832759",
+            "sourceSha256": "b750e5e2626c2942f539c31a3753360192ef80e1be6953d4ff94e97ce59b70fa"
+          }
+        ],
+        "changes": [
+          "Refitted body and claw pivots to the actual winged anatomy; preserved original geometry and textures.",
+          "Transferred six native Pixelius mantis flying takes, including forward-pitched Run, claw swipe, recoil and full falling roll.",
+          "Separated broad wing membranes from arm and head ownership; wings settle beside the held corpse."
+        ],
+        "provenance": {
+          "weights": {
+            "vertices": 2682,
+            "membraneVertices": 496,
+            "refittedWorldPivots": {
+              "Thorax": [
+                0,
+                0.5,
+                0.14
+              ],
+              "Neck": [
+                0,
+                0.61,
+                0.2
+              ],
+              "Head": [
+                0,
+                0.68,
+                0.2
+              ],
+              "AbdomenBase": [
+                0,
+                0.34,
+                0.07
+              ],
+              "AbdomenMid": [
+                0,
+                0.22,
+                -0.13
+              ],
+              "AbdomenTip": [
+                0,
+                0.07,
+                -0.3
+              ],
+              "LegFrontCoxa_L": [
+                -0.1,
+                0.43,
+                0.16
+              ],
+              "LegFrontDistal_L": [
+                -0.12,
+                0.34,
+                0.25
+              ],
+              "WingUpperRoot_L": [
+                -0.08,
+                0.52,
+                0.12
+              ],
+              "WingLowerRoot_L": [
+                -0.08,
+                0.49,
+                0.12
+              ],
+              "LegFrontCoxa_R": [
+                0.1,
+                0.43,
+                0.16
+              ],
+              "LegFrontDistal_R": [
+                0.12,
+                0.34,
+                0.25
+              ],
+              "WingUpperRoot_R": [
+                0.08,
+                0.52,
+                0.12
+              ],
+              "WingLowerRoot_R": [
+                0.08,
+                0.49,
+                0.12
+              ]
+            },
+            "addedClawJoints": 2
+          },
+          "donor": "fantasy_monster_08",
+          "restoredDonorJoints": 81,
+          "motion": {
+            "mappedJoints": 12,
+            "poseNodes": 38,
+            "sourceToTargetRotation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "translationScale": 0.3486550143783158,
+            "clips": [
+              {
+                "name": "Idle",
+                "sourceTake": "Idle",
+                "sourceSeconds": 2.9666669368743896,
+                "seconds": 2.9666669368743896,
+                "samples": 180,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.08294146373515608,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Walk",
+                "sourceTake": "Walk",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.1677521950812807,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Run",
+                "sourceTake": "Run",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.21299859295710064,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Attack",
+                "sourceTake": "Attack",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.14150246032418148,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Hit",
+                "sourceTake": "Hit",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.17072543777141122,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Death",
+                "sourceTake": "Death",
+                "sourceSeconds": 1,
+                "seconds": 1.65,
+                "samples": 62,
+                "loop": false,
+                "heldSeconds": 0.65,
+                "maximumGroundCorrection": 0.9738220648951894,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "requiresVisualReview": true,
+            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
+          },
+          "contact": {
+            "normalized": 0.6016666666666667,
+            "seconds": 0.6016666666666667,
+            "nodes": [
+              "LeafClaw_L"
+            ],
+            "window": [
+              0.5,
+              0.7
+            ],
+            "method": "Maximum forward world-Z of the anatomical strike joint across 121 production clip samples in the donor strike window"
+          },
+          "flight": {
+            "wingPlaneNormals": [
+              {
+                "node": "WingUpperRoot_L",
+                "localNormal": [
+                  -0.4717097051449502,
+                  -0.11006283575947291,
+                  0.8748577748735205
+                ]
+              },
+              {
+                "node": "WingLowerRoot_L",
+                "localNormal": [
+                  -0.29994777811990925,
+                  0.08569389806163645,
+                  0.9500988823464279
+                ]
+              },
+              {
+                "node": "WingUpperRoot_R",
+                "localNormal": [
+                  0.47164908129855965,
+                  -0.11008483375101966,
+                  0.8748876919286469
+                ]
+              },
+              {
+                "node": "WingLowerRoot_R",
+                "localNormal": [
+                  0.33808383515351215,
+                  0.13925241962637921,
+                  0.9307567265596804
+                ]
+              }
+            ],
+            "livingOffset": 0.16180397716771078,
+            "deathSupportSpeedLimit": 1.2005616221576705,
+            "supportReports": [
+              {
+                "clip": "Idle",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Walk",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Run",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Attack",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Hit",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Death",
+                "maximumSpeed": 1.2005616221576767
+              }
+            ],
+            "loopWingSource": "Integer repeats of the closed native Run wing take"
+          }
+        },
+        "motion": {
+          "walkClipSeconds": 1,
+          "runClipSeconds": 0.6666666865348816,
+          "attackSeconds": 1,
+          "contactNormalized": 0.6016666666666667,
+          "groundY": 0,
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 2.9666669368743896,
+              "samples": 108,
+              "maximumVertexMotion": 1.05903606883125,
+              "maximumSpanRatio": 1.0912583332198245,
+              "minimumSpanRatio": 0.9494141096024707,
+              "loopSeam": 9.447797653608422e-9,
+              "edgeStretchP99": 1.2120710155082939,
+              "maximumEdgeStretch": 3.80852365947052,
+              "stretchedEdgeFraction": 0.0004837929366231253
+            },
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "samples": 98,
+              "maximumVertexMotion": 1.0731654249425244,
+              "maximumSpanRatio": 1.0913631666247332,
+              "minimumSpanRatio": 0.9338282220941271,
+              "loopSeam": 6.947461410096939e-9,
+              "edgeStretchP99": 1.24989213477517,
+              "maximumEdgeStretch": 4.19511446455506,
+              "stretchedEdgeFraction": 0.0006450572488308337
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 1.1152568116645762,
+              "maximumSpanRatio": 1.1258807629748813,
+              "minimumSpanRatio": 0.9478983253334629,
+              "loopSeam": 8.064669159524764e-9,
+              "edgeStretchP99": 1.2558716332174784,
+              "maximumEdgeStretch": 3.596142306082718,
+              "stretchedEdgeFraction": 0.0004837929366231253
+            },
+            {
+              "name": "Attack",
+              "seconds": 1,
+              "samples": 99,
+              "maximumVertexMotion": 1.1971002680456713,
+              "maximumSpanRatio": 1.125341979029049,
+              "minimumSpanRatio": 0.8093353869943184,
+              "loopSeam": null,
+              "edgeStretchP99": 1.5177698719267378,
+              "maximumEdgeStretch": 5.388339169480889,
+              "stretchedEdgeFraction": 0.001128850185453959
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 0.9431451719395811,
+              "maximumSpanRatio": 1.0696207836769007,
+              "minimumSpanRatio": 0.7889570946255855,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2761353235909096,
+              "maximumEdgeStretch": 4.155664500318921,
+              "stretchedEdgeFraction": 0.0006450572488308337
+            },
+            {
+              "name": "Death",
+              "seconds": 1.649999976158142,
+              "samples": 106,
+              "maximumVertexMotion": 1.7495829131077876,
+              "maximumSpanRatio": 1.1077677179133365,
+              "minimumSpanRatio": 0.8371911376229754,
+              "loopSeam": null,
+              "edgeStretchP99": 1.8052887370927067,
+              "maximumEdgeStretch": 5.068151635833588,
+              "stretchedEdgeFraction": 0.0024189646831156266
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:15:49.855Z",
+          "by": "codex",
+          "sha256": "09907187c9e80f7a05fb4bda9ea76027ad777245f07a32be35a6f38d986f75f6",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/winged-flight-v3/fairy_garden_imp_gloamgarden/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 2682,
+          "triangles": 3754
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.6016666666666667,
+          "seconds": 0.6016666666666667
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
+        }
       }
     },
     {
@@ -70772,28 +71852,28 @@
         "imagegen-variant",
         "candidate"
       ],
-      "bytes": 11612192,
-      "sha256": "80fffe56d949444e3c1c44c1d1b309577a4f9d9571c9bc3b273cfab9b3bcaa21",
+      "bytes": 12751364,
+      "sha256": "5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea",
       "size": {
-        "x": 0.98779296875,
-        "y": 0.9604492783546448,
-        "z": 0.70751953125
+        "x": 1.0428531582304115,
+        "y": 1.0318682875241683,
+        "z": 0.5618509791567474
       },
       "base": {
-        "x": -0.493896484375,
-        "y": 0,
-        "z": -0.353759765625
+        "x": -0.4507431805250762,
+        "y": 0.24687475606688497,
+        "z": -0.3340786726789558
       },
       "bounds": {
         "min": [
-          -0.493896484375,
-          0,
-          -0.353759765625
+          -0.4507431805250762,
+          0.24687475606688497,
+          -0.3340786726789558
         ],
         "max": [
-          0.493896484375,
-          0.9604492783546448,
-          0.353759765625
+          0.5921099777053351,
+          1.2787430435910532,
+          0.22777230647779165
         ]
       },
       "groundY": 0,
@@ -70811,9 +71891,9 @@
         "Material_tripo_node_1303a990-d810-4a13-ab58-362ba9055702"
       ],
       "walkClipSeconds": 1,
-      "runClipSeconds": 0.72,
-      "attackSeconds": 0.9,
-      "contactNormalized": 0.5,
+      "runClipSeconds": 0.6666666865348816,
+      "attackSeconds": 1,
+      "contactNormalized": 0.6016666666666667,
       "sourceProvenance": {
         "sourceFile": "assets/art/tripo/imports/creatures/starred-leafwing/ambervein-leafwing-native-rig.glb",
         "sourceSha256": "8abc77857fd8583025e09eba672ca8223100e8e9e8374b3f687cbe5336fd1ec6",
@@ -70823,12 +71903,410 @@
         "rigMethod": "Existing 33-joint leafwing skeleton and full skin weights; staged Death end pose lays body and wings against ground."
       },
       "acceptance": {
-        "assetAudit": true,
-        "rigAccepted": false,
-        "motionAccepted": true,
-        "texturesAccepted": false,
-        "labAccepted": true,
-        "worldIntegrated": false
+        "exported": true,
+        "devdocsAccepted": true,
+        "rigAccepted": true,
+        "motionAccepted": true
+      },
+      "impliedWalkMps": 0,
+      "impliedRunMps": 0,
+      "motionRepair": {
+        "family": "winged",
+        "sourceSha256": "80fffe56d949444e3c1c44c1d1b309577a4f9d9571c9bc3b273cfab9b3bcaa21",
+        "sourceGitBlob": "d91e4230c0209db1d79ece96d0148b4afdad7602",
+        "donors": [
+          {
+            "id": "fantasy_monster_08",
+            "sourceGitBlob": "033eca603eb01cc7045dde5ef8ab25aa80832759",
+            "sourceSha256": "b750e5e2626c2942f539c31a3753360192ef80e1be6953d4ff94e97ce59b70fa"
+          }
+        ],
+        "changes": [
+          "Refitted body and claw pivots to the actual winged anatomy; preserved original geometry and textures.",
+          "Transferred six native Pixelius mantis flying takes, including forward-pitched Run, claw swipe, recoil and full falling roll.",
+          "Separated broad wing membranes from arm and head ownership; wings settle beside the held corpse."
+        ],
+        "provenance": {
+          "weights": {
+            "vertices": 2682,
+            "membraneVertices": 496,
+            "refittedWorldPivots": {
+              "Thorax": [
+                0,
+                0.5,
+                0.14
+              ],
+              "Neck": [
+                0,
+                0.61,
+                0.2
+              ],
+              "Head": [
+                0,
+                0.68,
+                0.2
+              ],
+              "AbdomenBase": [
+                0,
+                0.34,
+                0.07
+              ],
+              "AbdomenMid": [
+                0,
+                0.22,
+                -0.13
+              ],
+              "AbdomenTip": [
+                0,
+                0.07,
+                -0.3
+              ],
+              "LegFrontCoxa_L": [
+                -0.1,
+                0.43,
+                0.16
+              ],
+              "LegFrontDistal_L": [
+                -0.12,
+                0.34,
+                0.25
+              ],
+              "WingUpperRoot_L": [
+                -0.08,
+                0.52,
+                0.12
+              ],
+              "WingLowerRoot_L": [
+                -0.08,
+                0.49,
+                0.12
+              ],
+              "LegFrontCoxa_R": [
+                0.1,
+                0.43,
+                0.16
+              ],
+              "LegFrontDistal_R": [
+                0.12,
+                0.34,
+                0.25
+              ],
+              "WingUpperRoot_R": [
+                0.08,
+                0.52,
+                0.12
+              ],
+              "WingLowerRoot_R": [
+                0.08,
+                0.49,
+                0.12
+              ]
+            },
+            "addedClawJoints": 2
+          },
+          "donor": "fantasy_monster_08",
+          "restoredDonorJoints": 81,
+          "motion": {
+            "mappedJoints": 12,
+            "poseNodes": 38,
+            "sourceToTargetRotation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "translationScale": 0.3486550143783158,
+            "clips": [
+              {
+                "name": "Idle",
+                "sourceTake": "Idle",
+                "sourceSeconds": 2.9666669368743896,
+                "seconds": 2.9666669368743896,
+                "samples": 180,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.08294146373515608,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Walk",
+                "sourceTake": "Walk",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.1677521950812807,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Run",
+                "sourceTake": "Run",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": true,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.21299859295710064,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Attack",
+                "sourceTake": "Attack",
+                "sourceSeconds": 1,
+                "seconds": 1,
+                "samples": 61,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.14150246032418148,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Hit",
+                "sourceTake": "Hit",
+                "sourceSeconds": 0.6666666865348816,
+                "seconds": 0.6666666865348816,
+                "samples": 42,
+                "loop": false,
+                "heldSeconds": 0,
+                "maximumGroundCorrection": 0.17072543777141122,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "Death",
+                "sourceTake": "Death",
+                "sourceSeconds": 1,
+                "seconds": 1.65,
+                "samples": 62,
+                "loop": false,
+                "heldSeconds": 0.65,
+                "maximumGroundCorrection": 0.9738220648951894,
+                "removedHorizontalTravel": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ],
+            "requiresVisualReview": true,
+            "method": "Verified facing basis, polar donor rotations and exact animated anatomical directions, scaled root travel, complete target-pose clips"
+          },
+          "contact": {
+            "normalized": 0.6016666666666667,
+            "seconds": 0.6016666666666667,
+            "nodes": [
+              "LeafClaw_L"
+            ],
+            "window": [
+              0.5,
+              0.7
+            ],
+            "method": "Maximum forward world-Z of the anatomical strike joint across 121 production clip samples in the donor strike window"
+          },
+          "flight": {
+            "wingPlaneNormals": [
+              {
+                "node": "WingUpperRoot_L",
+                "localNormal": [
+                  -0.4717097051449502,
+                  -0.11006283575947291,
+                  0.8748577748735205
+                ]
+              },
+              {
+                "node": "WingLowerRoot_L",
+                "localNormal": [
+                  -0.29994777811990925,
+                  0.08569389806163645,
+                  0.9500988823464279
+                ]
+              },
+              {
+                "node": "WingUpperRoot_R",
+                "localNormal": [
+                  0.47164908129855965,
+                  -0.11008483375101966,
+                  0.8748876919286469
+                ]
+              },
+              {
+                "node": "WingLowerRoot_R",
+                "localNormal": [
+                  0.33808383515351215,
+                  0.13925241962637921,
+                  0.9307567265596804
+                ]
+              }
+            ],
+            "livingOffset": 0.16180397716771078,
+            "deathSupportSpeedLimit": 1.2005616221576705,
+            "supportReports": [
+              {
+                "clip": "Idle",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Walk",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Run",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Attack",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Hit",
+                "maximumSpeed": 0
+              },
+              {
+                "clip": "Death",
+                "maximumSpeed": 1.2005616221576767
+              }
+            ],
+            "loopWingSource": "Integer repeats of the closed native Run wing take"
+          }
+        },
+        "motion": {
+          "walkClipSeconds": 1,
+          "runClipSeconds": 0.6666666865348816,
+          "attackSeconds": 1,
+          "contactNormalized": 0.6016666666666667,
+          "groundY": 0,
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
+        },
+        "validation": {
+          "passed": true,
+          "problems": [],
+          "warnings": [],
+          "states": [
+            {
+              "name": "Idle",
+              "seconds": 2.9666669368743896,
+              "samples": 108,
+              "maximumVertexMotion": 1.05903606883125,
+              "maximumSpanRatio": 1.0912583332198245,
+              "minimumSpanRatio": 0.9494141096024707,
+              "loopSeam": 9.447797653608422e-9,
+              "edgeStretchP99": 1.2120710155082939,
+              "maximumEdgeStretch": 3.80852365947052,
+              "stretchedEdgeFraction": 0.0004837929366231253
+            },
+            {
+              "name": "Walk",
+              "seconds": 1,
+              "samples": 98,
+              "maximumVertexMotion": 1.0731654249425244,
+              "maximumSpanRatio": 1.0913631666247332,
+              "minimumSpanRatio": 0.9338282220941271,
+              "loopSeam": 6.947461410096939e-9,
+              "edgeStretchP99": 1.24989213477517,
+              "maximumEdgeStretch": 4.19511446455506,
+              "stretchedEdgeFraction": 0.0006450572488308337
+            },
+            {
+              "name": "Run",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 1.1152568116645762,
+              "maximumSpanRatio": 1.1258807629748813,
+              "minimumSpanRatio": 0.9478983253334629,
+              "loopSeam": 8.064669159524764e-9,
+              "edgeStretchP99": 1.2558716332174784,
+              "maximumEdgeStretch": 3.596142306082718,
+              "stretchedEdgeFraction": 0.0004837929366231253
+            },
+            {
+              "name": "Attack",
+              "seconds": 1,
+              "samples": 99,
+              "maximumVertexMotion": 1.1971002680456713,
+              "maximumSpanRatio": 1.125341979029049,
+              "minimumSpanRatio": 0.8093353869943184,
+              "loopSeam": null,
+              "edgeStretchP99": 1.5177698719267378,
+              "maximumEdgeStretch": 5.388339169480889,
+              "stretchedEdgeFraction": 0.001128850185453959
+            },
+            {
+              "name": "Hit",
+              "seconds": 0.6666666865348816,
+              "samples": 89,
+              "maximumVertexMotion": 0.9431451719395811,
+              "maximumSpanRatio": 1.0696207836769007,
+              "minimumSpanRatio": 0.7889570946255855,
+              "loopSeam": null,
+              "edgeStretchP99": 1.2761353235909096,
+              "maximumEdgeStretch": 4.155664500318921,
+              "stretchedEdgeFraction": 0.0006450572488308337
+            },
+            {
+              "name": "Death",
+              "seconds": 1.649999976158142,
+              "samples": 106,
+              "maximumVertexMotion": 1.7495829131077876,
+              "maximumSpanRatio": 1.1077677179133365,
+              "minimumSpanRatio": 0.8371911376229754,
+              "loopSeam": null,
+              "edgeStretchP99": 1.8052887370927067,
+              "maximumEdgeStretch": 5.068151635833588,
+              "stretchedEdgeFraction": 0.0024189646831156266
+            }
+          ],
+          "requiresVisualReview": true
+        },
+        "review": {
+          "at": "2026-09-28T19:15:49.855Z",
+          "by": "codex",
+          "sha256": "5e93887441cb9a4350708c554afc2b140434b00002c0fc9832ee9696ac740aea",
+          "states": [
+            "idle",
+            "walk",
+            "run",
+            "attack",
+            "hit",
+            "death"
+          ],
+          "evidence": "test-results/creature-audit/candidate-review/winged-flight-v3/fairy_garden_imp_faeholme/evidence.json"
+        }
+      },
+      "metadata": {
+        "geometry": {
+          "vertices": 2682,
+          "triangles": 3754
+        },
+        "animationAcceptance": "devdocs-approved",
+        "attackContact": {
+          "normalized": 0.6016666666666667,
+          "seconds": 0.6016666666666667
+        },
+        "gaitMeasurement": {
+          "impliedWalkMps": 0,
+          "impliedRunMps": 0
+        }
       }
     },
     {

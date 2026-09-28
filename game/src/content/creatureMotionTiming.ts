@@ -309,8 +309,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.43
   },
   "creature_lantern_sprite": {
-    "seconds": 0.8999999761581421,
-    "contactNormalized": 0.4
+    "seconds": 1,
+    "contactNormalized": 0.6016666666666667
   },
   "creature_lava_golem": {
     "seconds": 0.8666666746139526,
@@ -357,8 +357,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.2604166666666667
   },
   "creature_prismatic_sprite": {
-    "seconds": 1.12,
-    "contactNormalized": 0.5178571428571428
+    "seconds": 1,
+    "contactNormalized": 0.6083333333333333
   },
   "creature_purple_wilderness_dragon": {
     "seconds": 1.0800000429153442,
@@ -497,12 +497,12 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.43
   },
   "fairy_garden_imp_faeholme": {
-    "seconds": 0.9,
-    "contactNormalized": 0.5
+    "seconds": 1,
+    "contactNormalized": 0.6016666666666667
   },
   "fairy_garden_imp_gloamgarden": {
-    "seconds": 0.9,
-    "contactNormalized": 0.5
+    "seconds": 1,
+    "contactNormalized": 0.6016666666666667
   },
   "fairy_garden_petalguard_faeholme": {
     "seconds": 1.5333333015441895,
