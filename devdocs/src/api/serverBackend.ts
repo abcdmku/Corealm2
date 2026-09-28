@@ -201,7 +201,8 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
   /** The content moved on the server: read it again, adopting its catalog, before answering. */
   const reread = (): Promise<void> => refreshGameCatalog();
 
-  const meta = (path: string): string => `/admin/meta/${path.split("/").map(encodeURIComponent).join("/")}`;
+  // Callers pass paths already encoded (`meta/items/%24all`); decode each segment first so none is encoded twice.
+  const meta = (path: string): string => `/admin/meta/${path.split("/").map(segment => encodeURIComponent(decodeURIComponent(segment))).join("/")}`;
   const needs = (capability: keyof Offered, what: string): void => { if (!offered[capability]) throw new BackendUnavailable(what); };
 
   function derived(current: Snapshot, name: string): CollectionResponse | undefined {
