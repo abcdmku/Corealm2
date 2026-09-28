@@ -6,6 +6,7 @@ import { loadOutfit } from './armorSet.js';
 import { loadAssetModel } from './creature.js';
 import { isActorModel, loadActorModel } from './actor.js';
 import { POSE_CLIPS } from '../../../game/src/render/characterRig.js';
+import { cloneNodeMaterial } from '../../../game/src/render/nodeMaterials.js';
 import { CREATURE_STATES, type ViewerStateInfo } from './types.js';
 import type { ViewerModel, ViewerSnapshot, ViewerSource, ViewerMaterial } from './types.js';
 
@@ -136,7 +137,7 @@ export class ViewerCore {
       const clones = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map(material => {
         let clone = clonesBySource.get(material);
         if (!clone) {
-          clone = material.clone();
+          clone = cloneNodeMaterial(material);
           // Production material subclasses preserve their own animation uniforms through copy().
           // Only instance hooks need manual copying; binding a subclass hook to the cached source
           // would leave the rendered clone updating a different set of shimmer uniforms.
