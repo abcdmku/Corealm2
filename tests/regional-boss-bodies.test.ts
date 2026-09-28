@@ -10,6 +10,7 @@ import { enemyCombatLevel } from '../game/src/content/index.js';
 import { auditBossHitMask } from '../tools/regional-bosses/hit-inspect.js';
 
 const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
+const requiredStates = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 beforeAll(async () => {
   await MeshoptDecoder.ready;
@@ -17,16 +18,12 @@ beforeAll(async () => {
 });
 
 describe('authored regional boss bodies', () => {
-  it.each(['tempest_roc', 'tideworn'])('keeps %s claws clear through every shipped additive Hit and every base cycle', async id => {
+  it.each(['tempest_roc', 'tideworn'])('keeps %s claws clear through the additive Hit and every base cycle', async id => {
     const entry = manifest.assets.find((asset: any) => asset.id === `creature_boss_${id}`);
-    // Directional reactions are optional; the game falls back to Hit when an asset has none.
-    const reactions = ['Hit', 'HitLeft', 'HitRight'].filter(name => entry.animations.includes(name));
-    expect(reactions).toContain('Hit');
-    for (const reaction of reactions) {
-      const rows = await auditBossHitMask(id, `game/public/assets/${entry.file}`, reaction);
-      expect(rows.map(row => row.name)).toEqual(['Idle', 'Walk', 'Run', 'Attack']);
-      for (const row of rows) expect(row.minimum.y, `${row.name} / ${reaction} worst pose`).toBeGreaterThan(-.04);
-    }
+    expect(entry.animations).toContain('Hit');
+    const rows = await auditBossHitMask(id, `game/public/assets/${entry.file}`, 'Hit');
+    expect(rows.map(row => row.name)).toEqual(['Idle', 'Walk', 'Run', 'Attack']);
+    for (const row of rows) expect(row.minimum.y, `${row.name} / Hit worst pose`).toBeGreaterThan(-.04);
   });
   it('keeps seven independent hero assets and the existing regional strength policy', () => {
     expect(Object.keys(REGIONAL_BOSS_BODIES).sort()).toEqual(['cinderwake', 'galeskin', 'mossbound', 'ordrun', 'rootheart', 'tempest_roc', 'tideworn']);
@@ -47,7 +44,8 @@ describe('authored regional boss bodies', () => {
       const bytes = await readFile(`game/public/assets/${entry.file}`);
       expect(createHash('sha256').update(bytes).digest('hex'), s.id).toBe(entry.sha256);
       const root = (await io.readBinary(bytes)).getRoot();
-      expect(root.listAnimations().map(a => a.getName())).toEqual(expect.arrayContaining(['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death']));
+      expect.soft([...entry.animations].sort(), `${s.id} manifest states`).toEqual([...requiredStates].sort());
+      expect.soft(root.listAnimations().map(a => a.getName()).sort(), `${s.id} GLB states`).toEqual([...requiredStates].sort());
       for (const a of root.listAnimations()) for (const sampler of a.listSamplers()) {
         expect(sampler.getInput()!.getArray()!.every(Number.isFinite), `${s.id} ${a.getName()} times`).toBe(true);
         expect(sampler.getOutput()!.getArray()!.every(Number.isFinite), `${s.id} ${a.getName()} transform`).toBe(true);

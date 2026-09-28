@@ -22,7 +22,7 @@ const floorClips: Record<string, readonly string[]> = {
 // These native clips need only the runner's removal of retired directional hits.
 const canonicalHitIds = [
   'creature_basalt_maw', 'creature_cinder_ravager', 'creature_furnace_grazer',
-  'creature_gorge_mantis', 'creature_troll_mauler', 'creature_wild_goblin',
+  'creature_troll_mauler', 'creature_wild_goblin',
 ];
 export const studioHumanoidIds = [...new Set([...duplicateTimeIds, ...Object.keys(floorClips), ...canonicalHitIds])];
 

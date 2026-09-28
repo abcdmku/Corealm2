@@ -1,4 +1,4 @@
-import type { Accessor, Document, Node } from '@gltf-transform/core';
+import type { Document, Node } from '@gltf-transform/core';
 import { AnimationClip, Group, InterpolateDiscrete, InterpolateLinear, Matrix4, Quaternion,
   QuaternionKeyframeTrack, Vector3, VectorKeyframeTrack } from 'three';
 import { loadContactHelpers } from '../../calibrate-legacy-gait.js';
@@ -11,8 +11,8 @@ import { limitGroundCorrectionSpeed, sampleGroundSupport } from '../retarget.js'
 
 // Inactive hog retains its five authored states. Ambient fish, including the world fishing resource,
 // retain their genuine swim cycles and are reviewed in that role rather than as
-// six-state combatants. Rat and the two lava rigs need new motion; selected
-// native deaths need support correction and frogs need a longer Idle closure.
+// six-state combatants. Rat lacks a Run and the two lava rigs need new motion; every other
+// studio animal keeps its native takes, which the owner confirmed as reference quality.
 export const studioAnimalIds = [
   'animal_cattle', 'animal_chicken', 'animal_chicken_speckled', 'animal_coyote',
   'animal_deer', 'animal_frog', 'animal_goat', 'animal_hog', 'animal_rabbit', 'animal_rat', 'animal_viper',
@@ -36,132 +36,6 @@ const rotation = (node: Node) => {
   return value.normalize();
 };
 const depth = (node: Node): number => node.getParentNode() ? depth(node.getParentNode()!) + 1 : 0;
-const nativeDeathSupportIds = ['animal_rat', 'animal_frog', 'animal_frog_green',
-  'fairy_garden_frog_faeholme', 'fairy_garden_frog_gloamgarden', 'creature_red_worm', 'creature_marchwild_horse'];
-
-/** The same world-space skin equation as deformedBounds, retaining individual support points. */
-function skinnedSupportPoints(doc: Document): Vector3[] {
-  const points: Vector3[] = [], source = new Vector3(), transformed = new Vector3();
-  for (const node of doc.getRoot().listNodes()) {
-    const skin = node.getSkin(), matrices = skin?.listJoints().map((joint, index) => world(joint)
-      .multiply(new Matrix4().fromArray(skin.getInverseBindMatrices()!.getElement(index, []))));
-    for (const primitive of node.getMesh()?.listPrimitives() ?? []) {
-      const positions = primitive.getAttribute('POSITION')!, joints = primitive.getAttribute('JOINTS_0'), weights = primitive.getAttribute('WEIGHTS_0');
-      for (let index = 0; index < positions.getCount(); index++) {
-        source.fromArray(positions.getElement(index, []));
-        const point = new Vector3();
-        if (matrices && joints && weights) {
-          const joint = joints.getElement(index, []), influence = weights.getElement(index, []);
-          for (let slot = 0; slot < influence.length; slot++) if (influence[slot]) {
-            point.addScaledVector(transformed.copy(source).applyMatrix4(matrices[joint[slot]!]!), influence[slot]!);
-          }
-        } else point.copy(source).applyMatrix4(world(node));
-        points.push(point);
-      }
-    }
-  }
-  return points;
-}
-
-/** Preserve the native articulated take and settle its complete body against the floor. */
-function repairNativeDeathSupport(doc: Document, assetId: string) {
-  const original = storedPose(doc), clips = doc.getRoot().listAnimations();
-  const death = clips.find(clip => clip.getName() === 'Death')!, idle = clips.find(clip => clip.getName() === 'Idle')!;
-  if (!death || !idle) throw new Error(`Native support requires Idle and Death: ${assetId}`);
-  const scene = doc.getRoot().getDefaultScene() ?? doc.getRoot().listScenes()[0]!;
-  if (doc.getRoot().listNodes().some(node => node.getName() === 'studio_native_death_support')) throw new Error('Native support expects the pinned unrepaired source');
-  const support = doc.createNode('studio_native_death_support');
-  for (const child of [...scene.listChildren()]) { scene.removeChild(child); support.addChild(child); }
-  scene.addChild(support);
-  restorePose(original); applyClip(idle, 0);
-  const idleBounds = deformedBounds(doc), height = idleBounds.max[1]! - idleBounds.min[1]!;
-  const seconds = duration(death), floor = .0005;
-  const count = Math.ceil(seconds * 120);
-  const sourceTimes = [...new Set([0, seconds, ...Array.from({ length: count + 1 }, (_, index) => index * seconds / count),
-    ...death.listSamplers().flatMap(sampler => Array.from(sampler.getInput()!.getArray()!))].map(Math.fround))].sort((a, b) => a - b);
-  // Native channels can differ by a single Float32 ULP. Those nearby knots do
-  // not need separate support keys, whose adaptive subdivisions would collide.
-  const times = sourceTimes.filter((time, index) => !index || time === seconds
-    || (time - sourceTimes[index - 1]! > .00001 && seconds - time > .00001));
-  const pitchBody = assetId === 'creature_red_worm' || assetId === 'fairy_garden_frog_faeholme';
-  const pitchValues: number[] = [];
-  let front: number[] = [], rear: number[] = [], maximumPitchRadians = 0;
-  const sourcePose = (time: number) => {
-    support.setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]);
-    restorePose(original); applyClip(death, time);
-  };
-  try {
-    if (pitchBody) {
-      sourcePose(seconds);
-      const points = skinnedSupportPoints(doc), low = Math.min(...points.map(point => point.z)), high = Math.max(...points.map(point => point.z));
-      front = points.flatMap((point, index) => point.z > low + (high - low) * .8 ? [index] : []);
-      rear = points.flatMap((point, index) => point.z < low + (high - low) * .2 ? [index] : []);
-      if (!front.length || !rear.length) throw new Error(`Missing two-ended native body support: ${assetId}`);
-      for (const time of times) {
-        sourcePose(time);
-        const phase = time / seconds, points = skinnedSupportPoints(doc);
-        const difference = (angle: number) => {
-          const c = Math.cos(angle), s = Math.sin(angle);
-          const minimum = (indices: number[]) => Math.min(...indices.map(index => points[index]!.y * c - points[index]!.z * s));
-          return minimum(front) - minimum(rear);
-        };
-        let left = -.65, right = .65;
-        if (difference(left) * difference(right) > 0) throw new Error(`Native body support pitch cannot bracket ${assetId}/${time}`);
-        for (let iteration = 0; iteration < 32; iteration++) {
-          const middle = (left + right) / 2;
-          if (difference(middle) > 0) left = middle; else right = middle;
-        }
-        const start = assetId === 'creature_red_worm' ? 0 : .55, end = assetId === 'creature_red_worm' ? .3 : .9;
-        const phaseBlend = Math.max(0, Math.min(1, (phase - start) / (end - start)));
-        const angle = (left + right) / 2 * phaseBlend * phaseBlend * (3 - 2 * phaseBlend);
-        maximumPitchRadians = Math.max(maximumPitchRadians, Math.abs(angle));
-        pitchValues.push(...new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), angle).toArray());
-      }
-      addChannel(doc, death, support, 'rotation', times, pitchValues);
-    }
-    const requiredAt = (time: number) => {
-      sourcePose(time);
-      // sourcePose now includes only the newly baked rigid pitch, with zero translation.
-      support.setTranslation([0, 0, 0]);
-      return floor - deformedBounds(doc).min[1]!;
-    };
-    const refined = sampleGroundSupport(times, requiredAt);
-    const sampleTimes = [...new Set(refined.times.map(Math.fround))];
-    const sampled = { times: sampleTimes, required: sampleTimes.map(time => requiredAt(time)
-      + (time > 0 && time < seconds ? .0005 : 0)) };
-    // A frog rolls through its short native fall much faster than the rat or
-    // horse. A walking-speed ceiling would suspend it while awaiting contact.
-    const maximumSupportSpeedMps = height * (assetId.includes('frog') ? 8 : 4);
-    const values = limitGroundCorrectionSpeed(sampled.times, sampled.required, maximumSupportSpeedMps);
-    if (Math.abs(values.at(-1)! - sampled.required.at(-1)!) > .00051) {
-      throw new Error(`Native support leaves held corpse above floor: ${assetId}/${values.at(-1)! - sampled.required.at(-1)!}`);
-    }
-    addChannel(doc, death, support, 'translation', sampled.times, values.flatMap(value => [0, value, 0]));
-    for (const clip of clips) if (clip !== death) {
-      addChannel(doc, clip, support, 'translation', [0, duration(clip)], [0, 0, 0, 0, 0, 0]);
-      if (pitchBody) addChannel(doc, clip, support, 'rotation', [0, duration(clip)], [0, 0, 0, 1, 0, 0, 0, 1]);
-    }
-    let minimumFloor = Infinity, maximumFloor = -Infinity, maximumStepM = 0;
-    let priorCenter: Vector3 | undefined;
-    for (let index = 0; index <= 1920; index++) {
-      restorePose(original); support.setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]); applyClip(death, seconds * index / 1920);
-      const bounds = deformedBounds(doc);
-      minimumFloor = Math.min(minimumFloor, bounds.min[1]!); maximumFloor = Math.max(maximumFloor, bounds.min[1]!);
-      const center = new Vector3().fromArray(bounds.min).add(new Vector3().fromArray(bounds.max)).multiplyScalar(.5);
-      if (priorCenter) maximumStepM = Math.max(maximumStepM, center.distanceTo(priorCenter));
-      priorCenter = center;
-    }
-    if (minimumFloor < -.00025) throw new Error(`Native Death support penetrates floor: ${assetId}/${minimumFloor}`);
-    restorePose(original); support.setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]); applyClip(death, seconds);
-    const endPoints = pitchBody ? skinnedSupportPoints(doc) : [];
-    return { method: 'Native joint curves preserved; exact interpolated rigid support parent only', seconds, floor, height,
-      supportSamples: sampled.times.length, maximumSupportSpeedMps, maximumAddedSupport: Math.max(...values.map((value, index) => value - sampled.required[index]!)),
-      minimumFloor, maximumFloor, terminalFloor: deformedBounds(doc).min[1]!, maximumSampleCenterStepM: maximumStepM,
-      maximumPitchRadians, ...(pitchBody ? { terminalFrontMinimum: Math.min(...front.map(index => endPoints[index]!.y)),
-        terminalRearMinimum: Math.min(...rear.map(index => endPoints[index]!.y)) } : {}) };
-  } finally { restorePose(original); support.setTranslation([0, 0, 0]).setRotation([0, 0, 0, 1]); }
-}
-
 /** A Blender action can be the serialized default. Skin inverse binds supply the actual rest. */
 function bindPose(doc: Document): void {
   const matrices = new Map<Node, Matrix4>();
@@ -231,41 +105,6 @@ export function contactRig(doc: Document) {
   return { root, clips };
 }
 
-/** The old importer appended a copied first pose with only one frame to close it. */
-function repairFrogIdleClosure(doc: Document): Record<string, number> {
-  const clip = doc.getRoot().listAnimations().find(clip => clip.getName() === 'Idle')!;
-  const channel = clip.listChannels().find(channel => channel.getTargetNode()!.getName() === 'Bone003'
-    && channel.getTargetPath() === 'rotation');
-  if (!channel) throw new Error('Frog Idle closure requires the original Bone003 channel');
-  const sampler = channel.getSampler()!, times = sampler.getInput()!.getArray()!, values = sampler.getOutput()!.getArray()!;
-  const count = times.length, a = new Quaternion(), b = new Quaternion();
-  const angle = (left: number, right: number) => a.fromArray(values, left * 4).normalize()
-    .angleTo(b.fromArray(values, right * 4).normalize());
-  if (count < 4 || sampler.getInterpolation() !== 'LINEAR' || angle(0, count - 1) > 1e-5) {
-    throw new Error('Frog Idle source no longer has the confirmed copied-pose closure');
-  }
-  const priorMaximumRate = Math.max(...Array.from({ length: count - 2 }, (_, index) =>
-    angle(index, index + 1) / (times[index + 1]! - times[index]!)));
-  const delta = angle(count - 2, count - 1), oldEnd = duration(clip), previous = times[count - 2]!;
-  if (!(priorMaximumRate > 0) || times[count - 1] !== oldEnd) throw new Error('Invalid frog Idle closure cadence');
-  const closingSeconds = Math.ceil(delta / priorMaximumRate * 30) / 30;
-  const newEnd = Math.fround(previous + closingSeconds);
-  if (!(newEnd > oldEnd)) throw new Error('Pinned frog Idle closure no longer needs repair');
-  const replacements = new Map<Accessor, Accessor>();
-  for (const takeSampler of clip.listSamplers()) {
-    const input = takeSampler.getInput()!, inputTimes = input.getArray()!;
-    if (inputTimes[inputTimes.length - 1] !== oldEnd) throw new Error('Frog Idle closure channels have different endpoints');
-    if (!replacements.has(input)) {
-      const updated = Float32Array.from(inputTimes); updated[updated.length - 1] = newEnd;
-      replacements.set(input, input.clone().setArray(updated));
-    }
-    takeSampler.setInput(replacements.get(input)!);
-  }
-  return { oldSeconds: oldEnd, seconds: newEnd, unchangedThroughSeconds: previous,
-    closingRotationRadians: delta, priorMaximumRadiansPerSecond: priorMaximumRate,
-    closingRadiansPerSecond: delta / (newEnd - previous) };
-}
-
 async function completeRatRun(doc: Document, context: CreatureRepairContext): Promise<CreatureRepairResult> {
   if (doc.getRoot().listAnimations().some(clip => clip.getName() === 'Run')) {
     throw new Error('Rat repair expects the pinned five-state source; refusing to overwrite an existing Run');
@@ -315,20 +154,6 @@ export async function repairStudioAnimal(doc: Document, context: CreatureRepairC
         .map(clip => clip.getName()).filter(name => !['HitLeft', 'HitRight'].includes(name)),
       geometryAndSkinWeightsUnchanged: true, normalizationOnly: true, requiresDevdocsReview: true },
     };
-    if (['animal_frog', 'animal_frog_green', 'fairy_garden_frog_faeholme', 'fairy_garden_frog_gloamgarden'].includes(context.assetId)) {
-      const closure = repairFrogIdleClosure(doc);
-      result.changes.push('Gave the original frog Idle closing pose its measured native cadence instead of a one-frame snap; retained every pose value.');
-      result.provenance = { ...result.provenance, normalizationOnly: false,
-        preservedNativeClips: doc.getRoot().listAnimations().map(clip => clip.getName())
-          .filter(name => !['Idle', 'HitLeft', 'HitRight'].includes(name)),
-        idlePoseValuesUnchanged: true, idleClosure: closure };
-    }
-    if (nativeDeathSupportIds.includes(context.assetId)) {
-      const support = repairNativeDeathSupport(doc, context.assetId);
-      result.changes.push('Settled native Death against the floor through an interpolated rigid support parent; original joint articulation and other poses retained.');
-      result.provenance = { ...result.provenance, normalizationOnly: false, nativeDeathSupport: support,
-        originalJointCurvesPreserved: true };
-    }
     if (doc.getRoot().listAnimations().some(clip => ['HitLeft', 'HitRight'].includes(clip.getName()))) {
       removeClip(doc, 'HitLeft'); removeClip(doc, 'HitRight');
       result.changes.push('Removed retired directional hit clips; retained the original Hit and all other native curves.');

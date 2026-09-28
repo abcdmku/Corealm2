@@ -135,8 +135,7 @@ export async function repairStudioSkeleton(doc: Document, context: CreatureRepai
   const tracks = new Map<Node, Track>(baseline.map(pose => [pose.node, { t: [], r: [], s: [] }]));
   let report: Record<string, unknown>;
   try {
-    for (let frame = 0; frame <= frames; frame++) {
-      const phase = frame / frames;
+    const bodyPose = (phase: number) => {
       restorePose(baseline); restorePose(sourceBaseline); applyClip(native, sourceSeconds * phase);
       // The native standing reference retains each role's ready pose at entry.
       // During the fall, release that offset into the donor's actual limb directions
@@ -153,10 +152,23 @@ export async function repairStudioSkeleton(doc: Document, context: CreatureRepai
         setRotation(pair.node, desired);
       }
       setPosition(targetRoot, targetRootStart.clone().add(position(donorRoot).sub(sourceRootStart).multiplyScalar(translationScale)));
+    };
+    // Land the weapon along one heading: the unsettled corpse's final weapon direction.
+    // Re-flattening every frame flips that heading by 180 degrees whenever the fall
+    // swings the weapon through vertical, which whips it across the body.
+    bodyPose(1);
+    const landing = weaponAxis.clone().applyQuaternion(rotation(hand)).setY(0);
+    if (landing.lengthSq() < .09) throw new Error('Skeleton weapon has no stable landing direction');
+    landing.normalize();
+    let maximumSettleTurnRadians = 0;
+    for (let frame = 0; frame <= frames; frame++) {
+      const phase = frame / frames;
+      bodyPose(phase);
       const settle = Math.max(0, Math.min(1, (phase - .38) / .4));
-      const axis = weaponAxis.clone().applyQuaternion(rotation(hand)), flat = axis.clone().setY(0).normalize();
-      if (flat.lengthSq() < .5) throw new Error('Skeleton weapon has no stable landing direction');
-      setRotation(hand, new Quaternion().slerp(new Quaternion().setFromUnitVectors(axis, flat), settle * settle * (3 - 2 * settle)).multiply(rotation(hand)));
+      const axis = weaponAxis.clone().applyQuaternion(rotation(hand)).normalize();
+      if (settle > 0) maximumSettleTurnRadians = Math.max(maximumSettleTurnRadians, axis.angleTo(landing));
+      if (settle > 0 && axis.angleTo(landing) > Math.PI * .9) throw new Error('Skeleton weapon landing turn is ambiguous');
+      setRotation(hand, new Quaternion().slerp(new Quaternion().setFromUnitVectors(axis, landing), settle * settle * (3 - 2 * settle)).multiply(rotation(hand)));
       ground.setTranslation([0, 0, 0]);
       for (const pose of baseline) {
         const track = tracks.get(pose.node)!;
@@ -212,7 +224,7 @@ export async function repairStudioSkeleton(doc: Document, context: CreatureRepai
     report = { sourceAssetId: donorId, sourceTake: 'Death01', sourceSeconds, seconds: end, heldSeconds,
       mappedJoints: pairs.length, translationScale, parentScale, supportSamples: support.times.length, groundingMaxSpeedMps: maxSpeedMps,
       retimingFactor: seconds / sourceSeconds, minimumFloor, maximumAirGap, corpseBounds: deformedBounds(doc),
-      limbDirectionReleasePhase: .3, equipmentLanding: { hand: hand.getName(), weaponAxis: weaponAxis.toArray(), settledAtPhase: .78 } };
+      limbDirectionReleasePhase: .3, equipmentLanding: { hand: hand.getName(), weaponAxis: weaponAxis.toArray(), landing: landing.toArray(), maximumSettleTurnRadians, settledAtPhase: .78 } };
   } finally { restorePose(original); restorePose(sourceOriginal); }
   for (const row of preserved) if (clipDigest(row.clip) !== row.sha256) throw new Error(`Skeleton repair mutated preserved ${row.name}`);
   return { changes: ['Replaced the root-only Skeleton Death with the native UAL1 articulated collapse and a grounded held corpse.',

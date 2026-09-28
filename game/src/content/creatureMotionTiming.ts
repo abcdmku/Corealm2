@@ -345,7 +345,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.46
   },
   "creature_marchwild_horse": {
-    "seconds": 0.966666639,
+    "seconds": 0.9666666388511658,
     "contactNormalized": 0.46
   },
   "creature_marsh_moose": {
@@ -464,13 +464,25 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "seconds": 0.8666666746139526,
     "contactNormalized": 0.25833333333333336
   },
-  "creature_skeleton_archer_elite": {
-    "seconds": 1.55,
+  "creature_skeleton_archer": {
+    "seconds": 1.5499999523162842,
     "contactNormalized": 0.5
   },
-  "creature_skeleton_mage_elite": {
-    "seconds": 1.55,
+  "creature_skeleton_archer_elite": {
+    "seconds": 1.5499999523162842,
+    "contactNormalized": 0.5
+  },
+  "creature_skeleton_mage": {
+    "seconds": 1.5499999523162842,
     "contactNormalized": 0.56
+  },
+  "creature_skeleton_mage_elite": {
+    "seconds": 1.5499999523162842,
+    "contactNormalized": 0.56
+  },
+  "creature_skeleton_soldier": {
+    "seconds": 1.5,
+    "contactNormalized": 0.4
   },
   "creature_skeleton_soldier_elite": {
     "seconds": 1.5,
@@ -788,6 +800,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_fen_crawler": 1.3151,
   "creature_flint_mandible": 3.5935,
   "creature_furnace_grazer": 6.3498,
+  "creature_furnace_regent": 22.5068,
   "creature_gloam_fox": 7.9344,
   "creature_gloamfang_reaver": 8.472,
   "creature_goblin_archer": 11.2765,
@@ -800,6 +813,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_hollowroot_spider": 3.7017,
   "creature_iron_golem": 22.5261,
   "creature_ivory_castellan": 31.7487,
+  "creature_kiln_marrow": 14.616,
   "creature_kiln_salamander": 0.9316,
   "creature_lava_golem": 4.1128,
   "creature_marsh_moose": 7.0213,
@@ -930,6 +944,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_fen_crawler": 0.235678,
   "creature_flint_mandible": 0.643966,
   "creature_furnace_grazer": 1.776671,
+  "creature_furnace_regent": 8.339844,
   "creature_gloam_fox": 2.944905,
   "creature_gloamfang_reaver": 1.661541,
   "creature_goblin_archer": 2.13088,
@@ -942,6 +957,7 @@ export const CREATURE_WALK_CEILING_MPS: Record<string, number> = {
   "creature_hollowroot_spider": 0.385941,
   "creature_iron_golem": 4.213512,
   "creature_ivory_castellan": 5.938607,
+  "creature_kiln_marrow": 5.375024,
   "creature_kiln_salamander": 0.734955,
   "creature_lava_golem": 2.712195,
   "creature_marsh_moose": 2.925,

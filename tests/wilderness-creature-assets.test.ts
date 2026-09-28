@@ -9,7 +9,6 @@ import { WILDERNESS_RUNE_KEEPERS } from '../game/src/content/wildernessDepth.js'
 import { enemyCombatLevel } from '../game/src/content/index.js';
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-// HitLeft/HitRight are optional; the game falls back to Hit.
 const requiredClips = ['Idle', 'Walk', 'Run', 'Attack', 'Hit', 'Death'];
 beforeAll(async () => {
   await MeshoptDecoder.ready;
@@ -45,7 +44,8 @@ describe('Wilderness creature production assets', () => {
         const meshes = root.listNodes().reduce((count, node) => count + (node.getMesh()?.listPrimitives().length ?? 0), 0);
         expect(meshes, `${species.id} fits the ordinary live-animation draw pool`).toBeLessThanOrEqual(19);
       }
-      expect(root.listAnimations().map(clip => clip.getName()), species.id).toEqual(expect.arrayContaining(requiredClips));
+      const clipNames = root.listAnimations().map(clip => clip.getName());
+      expect.soft([...clipNames].sort(), `${species.id} canonical six states`).toEqual([...requiredClips].sort());
       for (const clip of root.listAnimations()) {
         expect(clip.listChannels().length, `${species.id}:${clip.getName()}`).toBeGreaterThan(0);
         expect(clip.listChannels().some(channel => {
