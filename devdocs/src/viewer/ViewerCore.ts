@@ -58,6 +58,8 @@ export class ViewerCore {
   private fitTarget = new THREE.Vector3();
 
   private parked = false;
+  /** A loaded model whose pipelines are still compiling asynchronously; frames wait for it. */
+  private compiling = false;
 
   constructor(private container: HTMLElement, private report: (state: ViewerSnapshot) => void) {
     this.renderer = new WebGPURenderer({ antialias: true, alpha: false });
@@ -120,6 +122,9 @@ export class ViewerCore {
     this.model = model;
     this.stage.position.set(0, 0, 0);
     this.stage.add(model.root);
+    // Held until the model's pipelines are compiled off the main thread (below): a first draw would
+    // compile every one of them synchronously and freeze the page on a slower GPU.
+    this.compiling = true;
     // An actor plays itself through the game's EntityViews; a second mixer on its bones would fight it.
     this.mixer = isActorModel(model) ? undefined : new THREE.AnimationMixer(model.animationRoot);
     const materialRows: ViewerMaterial[] = [];
@@ -182,6 +187,9 @@ export class ViewerCore {
     this.resetCamera();
     this.setWireframe(this.snapshot.wireframe);
     this.setBounds(this.snapshot.bounds);
+    try { await this.renderer.compileAsync(this.scene, this.camera); }
+    catch { /* The first draw compiles what is left. */ }
+    finally { if (epoch === this.epoch) this.compiling = false; }
     this.emit();
   }
 
@@ -289,7 +297,7 @@ export class ViewerCore {
     if (this.snapshot.playing) { this.mixer?.update(delta * this.snapshot.speed); this.model?.update?.(delta * this.snapshot.speed); }
     this.controls.update();
     if (this.box.visible && this.model) this.box.box.copy(this.measure(this.model));
-    if (this.ready) this.renderer.render(this.scene, this.camera);
+    if (this.ready && !this.compiling) this.renderer.render(this.scene, this.camera);
     if (now - this.lastReport > 120) { this.lastReport = now; this.emit(); }
     this.frame = requestAnimationFrame(this.tick);
   };

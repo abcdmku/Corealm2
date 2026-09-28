@@ -18,6 +18,7 @@ vi.mock("three/webgpu", async original => ({
     onDeviceLost?: () => void; outputColorSpace = ""; toneMapping = 0; toneMappingExposure = 1;
     async init() {} setPixelRatio() {} setSize() {} setClearColor() {} dispose() {}
     render() { renders++; }
+    async compileAsync() {}
   },
   PMREMGenerator: class { fromScene() { return { texture: {}, dispose() {} }; } dispose() {} },
 }));

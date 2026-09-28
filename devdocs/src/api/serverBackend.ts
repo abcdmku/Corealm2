@@ -13,6 +13,7 @@ import { publishNote, setPublishNote } from "./publishNote.js";
 import { adminFailure, AdminFailure, type AdminSession, type ServerDescriptor } from "./session.js";
 import { serverModels } from "../model/serverFiles.js";
 import { parseBake } from "./worldBake.js";
+import { resetPublicBaseUrl, setPublicBaseUrl } from "../../../game/src/app/config.js";
 
 /**
  * A running game server, through its admin API.
@@ -120,11 +121,21 @@ export function createServerBackend(ports: ServerBackendPorts): DevdocsBackend {
     } catch { return undefined; }
   }
 
+  /**
+   * The game's own URL helpers (textures, icons, audio loaded by game code) must use the same host
+   * this editor settled on; left alone they resolve against `/admin/`, where no game file exists.
+   */
+  function adoptGameAssetBase(): void {
+    resetPublicBaseUrl();
+    setPublicBaseUrl(assetBaseUrl ?? undefined);
+  }
+
   /** The asset manifest, preferring the same-origin development mount over the published host. */
   async function manifest(): Promise<unknown[]> {
     const development = await developmentManifest();
-    if (development) return development;
+    if (development) { adoptGameAssetBase(); return development; }
     assetBaseUrl = descriptor.assetBaseUrl;
+    adoptGameAssetBase();
     const url = descriptor.assetBaseUrl ? `${descriptor.assetBaseUrl.replace(/\/*$/, "/")}assets/manifest.json` : "assets/manifest.json";
     try {
       const response = await call(url, { credentials: "omit" });

@@ -86,7 +86,7 @@ class ThumbnailStage {
   }
 
   /** Renders one frame of the model at its idle clip's first pose and returns a PNG data URL. */
-  render(model: ViewerModel): string | undefined {
+  async render(model: ViewerModel): Promise<string | undefined> {
     // An actor is already standing in its idle; its own EntityViews owns the bones.
     const actor = isActorModel(model);
     const mixer = new THREE.AnimationMixer(model.animationRoot);
@@ -116,6 +116,9 @@ class ThumbnailStage {
       this.camera.position.copy(target).add(VIEW_DIRECTION.clone().multiplyScalar(distance));
       this.camera.lookAt(target);
       this.camera.updateProjectionMatrix();
+      // Pipelines compile off the main thread first; a plain first draw compiles them synchronously,
+      // and a page of creature tiles would hold the page for as long as that takes on a slow GPU.
+      await this.renderer.compileAsync(this.scene, this.camera).catch(() => undefined);
       this.renderer.render(this.scene, this.camera);
       // Read the canvas in the same task as the draw, before the frame is presented.
       if (this.lost || this.renderer.info.render.triangles === 0) return undefined;
@@ -167,7 +170,7 @@ export async function renderAssetThumbnail(assetId: string): Promise<string | un
   return withSlot(async () => {
     const model = await loadAssetModel({ mode: 'asset', assetId });
     try {
-      const dataUrl = (await sharedStage()).render(model);
+      const dataUrl = await (await sharedStage()).render(model);
       if (!dataUrl) negative.add(assetId);
       return dataUrl;
     } finally { model.dispose(); }
@@ -284,7 +287,7 @@ export async function renderCreatureThumbnail(creatureId: string): Promise<strin
   return withSlot(async () => {
     const model = await loadActorModel({ mode: 'actor', creatureId });
     try {
-      const dataUrl = (await sharedStage()).render(model);
+      const dataUrl = await (await sharedStage()).render(model);
       if (!dataUrl) negative.add(key);
       return dataUrl;
     } finally { model.dispose(); }
