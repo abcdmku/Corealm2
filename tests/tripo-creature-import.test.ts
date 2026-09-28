@@ -155,6 +155,26 @@ describe("semantic creature motion transfer", () => {
     applyClip(output, 1.5); expect(poseValues(target.doc)).toEqual(corpse);
   });
 
+  it("refines support between keys when a fast limb sweeps below both endpoint poses", () => {
+    const source = motionRig("s"), target = motionRig("t"), clip = source.doc.createAnimation("fall");
+    const angles = [0, -80, -100, -100].flatMap(degrees => new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), degrees * Math.PI / 180).toArray());
+    addChannel(source.doc, clip, source.arm, "rotation", [0, .5, 16 / 30, 1], angles);
+    const positions = target.doc.createAccessor().setType("VEC3").setBuffer(target.doc.getRoot().listBuffers()[0]!)
+      .setArray(new Float32Array([0, 0, 0, .1, 0, 0, 0, .1, 0]));
+    target.accessory.setMesh(target.doc.createMesh().addPrimitive(target.doc.createPrimitive().setAttribute("POSITION", positions)));
+    retargetCreatureMotion(target.doc, source.doc, motionProfile({ grounding: { floor: 0 },
+      clips: { Death: { source: "fall", groundingMaxSpeedMps: 100 } } }));
+    const output = target.doc.getRoot().listAnimations()[0]!;
+    const ground = output.listChannels().find(channel => channel.getTargetNode()!.getName() === "corealm_retarget_ground" && channel.getTargetPath() === "translation")!;
+    const arm = output.listChannels().find(channel => channel.getTargetNode() === target.arm && channel.getTargetPath() === "rotation")!;
+    expect(ground.getSampler()!.getInput()!.getCount()).toBeGreaterThan(arm.getSampler()!.getInput()!.getCount());
+    expect(arm.getSampler()!.getInput()!.getCount()).toBe(31);
+    for (let i = 0; i <= 400; i++) {
+      applyClip(output, .5 + i / 12000);
+      expect(deformedBounds(target.doc).min[1]).toBeGreaterThanOrEqual(-.0005);
+    }
+  });
+
   it("rejects ambiguous anatomy and restores both poses on a failed sampling pass", () => {
     const source = motionRig("s"), target = motionRig("t"), clip = source.doc.createAnimation("rest");
     const sampler = source.doc.createAnimationSampler().setInterpolation("CUBICSPLINE")

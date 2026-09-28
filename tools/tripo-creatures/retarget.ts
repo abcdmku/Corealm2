@@ -178,7 +178,7 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
   // Every scene node receives a complete pose, including unmapped accessories and old clip
   // targets. Entering Idle after Death must not retain the previous clip's root/limb values.
   const active = reachableNodes(doc), outputPose = storedPose(doc).filter(({ node }) => active.has(node));
-  const baked: { name: string; times: number[]; tracks: Map<Node, { t: number[]; r: number[]; s: number[] }>; report: {
+  const baked: { name: string; times: number[]; tracks: Map<Node, { t: number[]; r: number[]; s: number[]; translationTimes?: number[] }>; report: {
     name: string; sourceTake: string; sourceSeconds: number; seconds: number; samples: number; loop: boolean;
     heldSeconds: number; maximumGroundCorrection: number; removedHorizontalTravel: number[];
   } }[] = [];
@@ -187,7 +187,7 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
     for (const { name, spec, clip, sourceSeconds, seconds, hold } of takes) {
       const steps = Math.max(1, Math.ceil(seconds * fps));
       const times = Array.from({ length: steps + 1 }, (_, frame) => frame * seconds / steps);
-      const tracks = new Map(outputPose.map(({ node }) => [node, { t: [] as number[], r: [] as number[], s: [] as number[] }]));
+      const tracks = new Map(outputPose.map(({ node }) => [node, { t: [] as number[], r: [] as number[], s: [] as number[], translationTimes: undefined as number[] | undefined }]));
       restorePose(sourcePose); applyClip(clip, 0); const startRoot = position(sourceRoot);
       restorePose(sourcePose); applyClip(clip, sourceSeconds); const endRoot = position(sourceRoot);
       const removeTravel = spec.loop && profile.root.horizontal === "in-place";
@@ -233,13 +233,48 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
         values.s.splice(values.s.length - 3, 3, ...values.s.slice(0, 3));
       }
       if (ground && spec.groundingMaxSpeedMps !== undefined) {
-        const values = tracks.get(ground)!.t;
-        const limited = limitGroundCorrectionSpeed(times, times.map((_, index) => values[index * 3 + 1]!), spec.groundingMaxSpeedMps);
-        limited.forEach((value, index) => { values[index * 3 + 1] = value; });
+        // A fast hand or crown can dip below both baked key poses. Sample the exact
+        // interpolated target tracks, preserving their authored keys, before limiting support.
+        const cached = new Map<number, number>(), refined: number[] = [];
+        const qa = new Quaternion(), qb = new Quaternion();
+        const requiredAt = (frame: number): number => {
+          const found = cached.get(frame); if (found !== undefined) return found;
+          const left = Math.floor(frame), right = Math.min(left + 1, steps), alpha = frame - left;
+          for (const { node } of outputPose) {
+            if (node === ground) { node.setTranslation([0, 0, 0]); continue; }
+            const values = tracks.get(node)!;
+            const vector = (data: number[]): [number, number, number] => [0, 1, 2].map(axis =>
+              data[left * 3 + axis]! * (1 - alpha) + data[right * 3 + axis]! * alpha) as [number, number, number];
+            node.setTranslation(vector(values.t)); node.setScale(vector(values.s));
+            node.setRotation(qa.fromArray(values.r, left * 4).slerp(qb.fromArray(values.r, right * 4), alpha).toArray());
+          }
+          const required = profile.grounding!.floor - deformedBounds(doc).min[1]!;
+          cached.set(frame, required); return required;
+        };
+        const refine = (left: number, right: number, depth: number): void => {
+          const middle = (left + right) / 2, midpoint = requiredAt(middle);
+          // Half-millimetre support precision, with at least eight observations per
+          // original key interval. Extra keys belong only to the floor wrapper.
+          if (depth < 10 && midpoint > (requiredAt(left) + requiredAt(right)) / 2 + .00025) {
+            refine(left, middle, depth + 1); refine(middle, right, depth + 1);
+          } else refined.push(left);
+        };
+        for (let frame = 0; frame < steps * 4; frame++) refine(frame / 4, (frame + 1) / 4, 0);
+        refined.push(steps);
+        const supportTimes = refined.map(frame => frame * seconds / steps);
+        const required = refined.map(frame => requiredAt(frame) + (frame > 0 && frame < steps ? .0005 : 0));
+        const limited = limitGroundCorrectionSpeed(supportTimes, required, spec.groundingMaxSpeedMps);
+        maximumGroundCorrection = Math.max(...limited.map(Math.abs));
+        if (maximumGroundCorrection > (profile.grounding!.maxCorrection ?? Infinity)) throw new Error(`${name} exceeds allowed ground correction: ${maximumGroundCorrection}`);
+        const support = tracks.get(ground)!;
+        support.t = limited.flatMap(value => [0, value, 0]); support.translationTimes = supportTimes;
       }
       if (hold) {
         times.push(seconds + hold);
-        for (const values of tracks.values()) { values.t.push(...values.t.slice(-3)); values.r.push(...values.r.slice(-4)); values.s.push(...values.s.slice(-3)); }
+        for (const values of tracks.values()) {
+          values.t.push(...values.t.slice(-3)); values.r.push(...values.r.slice(-4)); values.s.push(...values.s.slice(-3));
+          values.translationTimes?.push(seconds + hold);
+        }
       }
       baked.push({ name, times, tracks, report: { name, sourceTake: spec.source, sourceSeconds, seconds: seconds + hold, samples: times.length,
         loop: Boolean(spec.loop), heldSeconds: hold, maximumGroundCorrection, removedHorizontalTravel: [removed.x, 0, removed.z] } });
@@ -249,7 +284,7 @@ export function retargetCreatureMotion(doc: Document, donor: Document, profile: 
     for (const { name, times, tracks } of baked) {
       const clip = doc.createAnimation(name);
       for (const [node, values] of tracks) {
-        addChannel(doc, clip, node, "translation", times, values.t);
+        addChannel(doc, clip, node, "translation", values.translationTimes ?? times, values.t);
         addChannel(doc, clip, node, "rotation", times, values.r);
         addChannel(doc, clip, node, "scale", times, values.s);
       }
