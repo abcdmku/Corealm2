@@ -139,7 +139,7 @@ describe('devdocs actor stage', () => {
     const assets = fixtureAssets(['Idle', 'Walk', 'Run', 'Hit']);
     const originalEntry = assets.entry.bind(assets);
     assets.entry = id => ({ ...originalEntry(id)!, impliedWalkMps: .2, walkClipSeconds: 1, impliedRunMps: .6, runClipSeconds: 1 });
-    const entity = { ...ENTITY, combat: { health: 10, maxHealth: 10, moveSpeedMps: 4.8 }, view: { assetId: 'fixture', scale: .5 } };
+    const entity = { ...ENTITY, combat: { health: 10, maxHealth: 10, level: 1, aggroRadius: 6, moveSpeedMps: 4.8 }, view: { assetId: 'fixture', scale: .5 } };
     const stage = new ActorStage(assets, entity);
     await stage.build();
     const actor = await actorModel(stage, 'briar_spider_t1');
