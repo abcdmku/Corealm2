@@ -397,8 +397,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.46
   },
   "creature_reedjaw_crocodile": {
-    "seconds": 0.833333,
-    "contactNormalized": 0.458333
+    "seconds": 0.8333333134651184,
+    "contactNormalized": 0.4583333333333333
   },
   "creature_revenant": {
     "seconds": 0.8666666746139526,

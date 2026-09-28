@@ -4765,6 +4765,88 @@
       }
     }
   },
+  "deepwood_coyotes": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model animal_coyote; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 b5e61c0ee3af5d87e7fd71368671a46bdf6f6d18ec12fe091675ebc4938914aa. Evidence: test-results/creature-audit/candidate-review/studio-v1/animal_coyote/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_coyote, SHA256 b5e61c0ee3af5d87e7fd71368671a46bdf6f6d18ec12fe091675ebc4938914aa."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_coyote, SHA256 b5e61c0ee3af5d87e7fd71368671a46bdf6f6d18ec12fe091675ebc4938914aa."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_coyote, SHA256 b5e61c0ee3af5d87e7fd71368671a46bdf6f6d18ec12fe091675ebc4938914aa."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_coyote, SHA256 b5e61c0ee3af5d87e7fd71368671a46bdf6f6d18ec12fe091675ebc4938914aa."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_coyote, SHA256 b5e61c0ee3af5d87e7fd71368671a46bdf6f6d18ec12fe091675ebc4938914aa."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_coyote, SHA256 b5e61c0ee3af5d87e7fd71368671a46bdf6f6d18ec12fe091675ebc4938914aa."
+        }
+      }
+    }
+  },
   "deer_t5": {
     "status": "draft",
     "notes": [],
@@ -10037,6 +10119,252 @@
       }
     }
   },
+  "heath_jack_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_heath_jack; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_heath_jack/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        }
+      }
+    }
+  },
+  "heath_jack_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_heath_jack; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_heath_jack/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        }
+      }
+    }
+  },
+  "heath_jack_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_heath_jack; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_heath_jack/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_heath_jack, SHA256 c97ee9d49394d1a301e4b06a1f0a38bc7c159a6b98dceae8184bac52824d7971."
+        }
+      }
+    }
+  },
   "heath_wasp_t1": {
     "status": "draft",
     "notes": [],
@@ -11225,6 +11553,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate e06cf3380b12b6d8aa12f4b21700ae9bccf88a8b637a963ba498b15e43f91172."
+        }
+      }
+    }
+  },
+  "marchfield_coneys": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model animal_rabbit; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742. Evidence: test-results/creature-audit/candidate-review/studio-v1/animal_rabbit/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
         }
       }
     }
@@ -14916,13 +15326,82 @@
         "by": "user",
         "action": "art.review",
         "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
       }
     ],
     "sourceRefs": [],
     "art": {
       "verdict": "approved",
-      "at": "2026-09-27T16:29:57.797Z",
-      "by": "user"
+      "note": "Inherited motion acceptance from shared model animal_cattle; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 294ca1be4ad5783f0e0852f217dbfe060fcc04cf2a994a57dccaebc89804900b. Evidence: test-results/creature-audit/candidate-review/studio-v1/animal_cattle/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_cattle, SHA256 294ca1be4ad5783f0e0852f217dbfe060fcc04cf2a994a57dccaebc89804900b."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_cattle, SHA256 294ca1be4ad5783f0e0852f217dbfe060fcc04cf2a994a57dccaebc89804900b."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_cattle, SHA256 294ca1be4ad5783f0e0852f217dbfe060fcc04cf2a994a57dccaebc89804900b."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_cattle, SHA256 294ca1be4ad5783f0e0852f217dbfe060fcc04cf2a994a57dccaebc89804900b."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_cattle, SHA256 294ca1be4ad5783f0e0852f217dbfe060fcc04cf2a994a57dccaebc89804900b."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_cattle, SHA256 294ca1be4ad5783f0e0852f217dbfe060fcc04cf2a994a57dccaebc89804900b."
+        }
+      }
     }
   },
   "redsill_frogs": {
@@ -15438,6 +15917,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Shared-model motion acceptance: creature_flint_mandible, SHA256 6173fae8208f65f2d79bcb3f3de4ae7ec78ece90ec3b640802a06b827effb7f9."
+        }
+      }
+    }
+  },
+  "reedjaw_crocodile_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_reedjaw_crocodile; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 2cd17210b83791f1190cc3c10d3df117e74265de5e9f06d992611a4532d0cef6. Evidence: test-results/creature-audit/candidate-review/studio-v1/creature_reedjaw_crocodile/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reedjaw_crocodile, SHA256 2cd17210b83791f1190cc3c10d3df117e74265de5e9f06d992611a4532d0cef6."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reedjaw_crocodile, SHA256 2cd17210b83791f1190cc3c10d3df117e74265de5e9f06d992611a4532d0cef6."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reedjaw_crocodile, SHA256 2cd17210b83791f1190cc3c10d3df117e74265de5e9f06d992611a4532d0cef6."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reedjaw_crocodile, SHA256 2cd17210b83791f1190cc3c10d3df117e74265de5e9f06d992611a4532d0cef6."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reedjaw_crocodile, SHA256 2cd17210b83791f1190cc3c10d3df117e74265de5e9f06d992611a4532d0cef6."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_reedjaw_crocodile, SHA256 2cd17210b83791f1190cc3c10d3df117e74265de5e9f06d992611a4532d0cef6."
         }
       }
     }
@@ -16182,6 +16743,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Shared-model motion acceptance: creature_rootdelve_badger, SHA256 4eee2b4b773f3efcd212a9b367bbb4e6c531cea956b16623897435732009f8d4."
+        }
+      }
+    }
+  },
+  "rootfall_coneys": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:52:47.419Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model animal_rabbit; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742. Evidence: test-results/creature-audit/candidate-review/studio-v1/animal_rabbit/evidence.json.",
+      "at": "2026-09-28T19:52:47.419Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: animal_rabbit, SHA256 971305c421221bb79537cd4cacf9eb524f23004fa5853ca18e8ef46c56156742."
         }
       }
     }
