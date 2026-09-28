@@ -48,7 +48,7 @@ export async function buildGiantRat(id='giant_rat',{repair=true}={}){
       const Type=field==='quaternion'?T.QuaternionKeyframeTrack:T.VectorKeyframeTrack;tracks.push(new Type(`${nodes[channel.target.node].name}.${field}`,source.accessor(s.input).array.slice(),source.accessor(s.output).array.slice(),s.interpolation==='STEP'?T.InterpolateDiscrete:T.InterpolateLinear));
     }return new T.AnimationClip(animation.name,-1,tracks);
   });
-  const mapping={Idle:'Idle.001',Walk:'Walk',Run:'Run',Attack:'Attack.000',Hit:'Hit',HitLeft:'Hit',HitRight:'Hit',Death:'Die'};
+  const mapping={Idle:'Idle.001',Walk:'Walk',Run:'Run',Attack:'Attack.000',Hit:'Hit',Death:'Die'};
   const clips=Object.entries(mapping).map(([name,sourceName])=>{const original=nativeClips.find(c=>c.name===sourceName);if(!original)throw new Error(`Missing native rat clip ${sourceName}`);const clip=original.clone();clip.name=name;return clip;});
   object.scale.setScalar(upstream.normalizedPreviewScale);
   const mixer=new T.AnimationMixer(object);mixer.clipAction(clips[0]).play();mixer.setTime(0);object.updateMatrixWorld(true);

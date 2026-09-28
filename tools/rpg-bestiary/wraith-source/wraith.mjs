@@ -103,7 +103,7 @@ export function buildWraith(id='wraith'){
       vertices+=p.count;triangles+=filtered.length/3;
     }
   }
-  const sourceClips={Idle:revenant?'Idle_Loop':'Spell_Simple_Idle_Loop',Walk:'Walk_Loop',Run:'Jog_Fwd_Loop',Attack:banshee?'Spell_Simple_Shoot':'Sword_Attack',Hit:'Hit_Chest',HitLeft:'Hit_Chest',HitRight:'Hit_Chest',Death:'Death01'};
+  const sourceClips={Idle:revenant?'Idle_Loop':'Spell_Simple_Idle_Loop',Walk:'Walk_Loop',Run:'Jog_Fwd_Loop',Attack:banshee?'Spell_Simple_Shoot':'Sword_Attack',Hit:'Hit_Chest',Death:'Death01'};
   const clips=Object.entries(sourceClips).map(([name,sourceName])=>{
     const animation=library.json.animations.find(a=>a.name===sourceName);if(!animation)throw new Error(`Missing ${sourceName}`);
     const tracks=[];
@@ -122,11 +122,6 @@ export function buildWraith(id='wraith'){
       }
     }
     const clip=new THREE.AnimationClip(name,-1,tracks);
-    if(name==='HitLeft'||name==='HitRight'){
-      const t=tracks.find(t=>t.name==='spine_03.quaternion');if(t)for(let i=0;i<t.times.length;i++){
-        const q=new THREE.Quaternion().fromArray(t.values,i*4);q.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),(name==='HitLeft'?1:-1)*.20*Math.sin(t.times[i]/clip.duration*Math.PI))).toArray(t.values,i*4);
-      }
-    }
     return clip;
   });
   object.animations=clips;

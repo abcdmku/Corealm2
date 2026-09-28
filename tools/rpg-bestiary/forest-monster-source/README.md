@@ -15,10 +15,9 @@ The source is the current [OpenGameArt Forest Monster archive](https://opengamea
 | Run | Native Walk at 1.45 times its original tempo |
 | Attack | Native Attack, frames 0–30; author marks strike at 10–15 |
 | Hit | Native Melee_Hold compressed to 0.6 seconds, with a small spine recoil |
-| HitLeft / HitRight | Same derivative with a directional spine turn |
 | Death | Native Dying, frames 0–35 |
 
-Run and the hit clips are explicit derivatives, not claims of native authored takes. Whole-mesh ground alignment includes the tree and all body geometry. All eight clips were sampled at 33 verification points; lowest resulting floor was -0.0014 meters.
+Run and Hit are explicit derivatives, not claims of native authored takes. Whole-mesh ground alignment includes the tree and all body geometry. The original eight-clip export was sampled at 33 verification points; lowest resulting floor was -0.0014 meters.
 
 The glTF production path supports four bone weights per vertex. Blender retained the strongest four and normalized them where the source had more. Comparing CPU bounds with Blender's original evaluated source poses gave maximum deviations of approximately 0.0000011 meters for Idle, 0.0065 meters for Walk, 0.0025 meters for Attack and 0.0384 meters for the last Death frame. The original model and tree remain intact.
 

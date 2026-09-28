@@ -195,7 +195,7 @@ export function buildSourceGoblin(id='goblin_scout'){
     const mat=object.getObjectByName('lizardman_genuine_animal_skull').material;
     const tail=new THREE.SkinnedMesh(g,mat);tail.name='lizard_blended_tail';object.add(tail);tail.bind(skeleton);tail.castShadow=true;tail.frustumCulled=false;
   }
-  const names={Idle:shaman?'Spell_Simple_Idle_Loop':'Idle_Loop',Walk:'Walk_Loop',Run:'Jog_Fwd_Loop',Attack:shaman?'Spell_Simple_Shoot':archer?'Idle_Loop':thrust?'Punch_Jab':'Sword_Attack',Hit:'Hit_Chest',HitLeft:'Hit_Chest',HitRight:'Hit_Chest',Death:'Death01'};
+  const names={Idle:shaman?'Spell_Simple_Idle_Loop':'Idle_Loop',Walk:'Walk_Loop',Run:'Jog_Fwd_Loop',Attack:shaman?'Spell_Simple_Shoot':archer?'Idle_Loop':thrust?'Punch_Jab':'Sword_Attack',Hit:'Hit_Chest',Death:'Death01'};
   const clips=Object.entries(names).map(([name,sourceName])=>{
     const animation=library.json.animations.find(a=>a.name===sourceName),tracks=[];
     for(const channel of animation.channels){
@@ -224,12 +224,6 @@ export function buildSourceGoblin(id='goblin_scout'){
     if(lizard)for(let i=0;i<tailBones.length;i++){
       const times=[],values=[];for(let j=0;j<=24;j++){const t=j/24;times.push(t*clip.duration);new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),Math.sin(t*Math.PI*2-i*.5)*.045).toArray(values,j*4);}
       tracks.push(new THREE.QuaternionKeyframeTrack(`${tailBones[i].name}.quaternion`,times,values));
-    }
-    if(name==='HitLeft'||name==='HitRight'){
-      const track=tracks.find(t=>t.name==='spine_03.quaternion');if(track)for(let i=0;i<track.times.length;i++){
-        const q=new THREE.Quaternion().fromArray(track.values,i*4),yaw=(name==='HitLeft'?1:-1)*.22*Math.sin(track.times[i]/clip.duration*Math.PI);
-        q.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),yaw)).toArray(track.values,i*4);
-      }
     }
     return clip;
   });

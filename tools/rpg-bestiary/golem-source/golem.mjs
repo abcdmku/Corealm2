@@ -70,7 +70,7 @@ export function buildGolem(id='stone_golem'){
    geometry.computeVertexNormals();geometry.computeBoundingBox();const mesh=new THREE.SkinnedMesh(geometry,material);mesh.name=`${id}_${sn.name}`;mesh.frustumCulled=false;mesh.castShadow=true;mesh.receiveShadow=true;object.add(mesh);mesh.bind(skeleton);
   }
  }
- const names={Idle:'Idle_Loop',Walk:'Walk_Loop',Run:'Jog_Fwd_Loop',Attack:'Punch_Jab',Hit:'Hit_Chest',HitLeft:'Hit_Chest',HitRight:'Hit_Chest',Death:'Death01'};
+ const names={Idle:'Idle_Loop',Walk:'Walk_Loop',Run:'Jog_Fwd_Loop',Attack:'Punch_Jab',Hit:'Hit_Chest',Death:'Death01'};
  const clips=Object.entries(names).map(([name,sourceName])=>{
   const animation=library.json.animations.find(a=>a.name===sourceName);if(!animation)throw new Error(`Missing ${sourceName}; available ${library.json.animations.map(a=>a.name)}`);const tracks=[];
   for(const channel of animation.channels){const sourceNode=library.json.nodes[channel.target.node],target=object.getObjectByName(sourceNode.name);if(!target)continue;const sampler=animation.samplers[channel.sampler],times=library.accessor(sampler.input).array.slice(),values=library.accessor(sampler.output).array.slice();if(sampler.interpolation==='CUBICSPLINE')throw new Error('Unsupported cubic source');const mode=sampler.interpolation==='STEP'?THREE.InterpolateDiscrete:THREE.InterpolateLinear;
@@ -79,7 +79,7 @@ export function buildGolem(id='stone_golem'){
    if(channel.target.path==='rotation'){const correction=target.quaternion.clone().multiply(new THREE.Quaternion().fromArray(sourceNode.rotation||[0,0,0,1]).invert());for(let i=0;i<values.length;i+=4)new THREE.Quaternion().fromArray(values,i).premultiply(correction).toArray(values,i);tracks.push(new THREE.QuaternionKeyframeTrack(`${target.name}.quaternion`,times,values,mode));}
    else if(channel.target.path==='translation'){const rest=sourceNode.translation||[0,0,0];for(let i=0;i<values.length;i+=3)for(let k=0;k<3;k++)values[i+k]=target.position.getComponent(k)+(target.name==='root'?0:(values[i+k]-rest[k])*1.3);tracks.push(new THREE.VectorKeyframeTrack(`${target.name}.position`,times,values,mode));}
   }
-  const clip=new THREE.AnimationClip(name,-1,tracks);if(name==='HitLeft'||name==='HitRight'){const track=tracks.find(t=>t.name==='spine_03.quaternion');if(track)for(let i=0;i<track.times.length;i++)new THREE.Quaternion().fromArray(track.values,i*4).multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),(name==='HitLeft'?1:-1)*.18*Math.sin(Math.PI*track.times[i]/clip.duration))).toArray(track.values,i*4);}return clip;
+  const clip=new THREE.AnimationClip(name,-1,tracks);return clip;
  });
  object.animations=clips;object.updateMatrixWorld(true);
  const mixer=new THREE.AnimationMixer(object),motionRoot=object.getObjectByName('root'),floorCorrection={};

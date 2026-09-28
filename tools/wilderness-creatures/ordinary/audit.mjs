@@ -8,7 +8,7 @@ import * as T from 'three';
 import {readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 const out='test-results/wilderness-creatures/ordinary',catalog=JSON.parse(await readFile(`${out}/catalog.json`,'utf8')),io=new NodeIO().registerExtensions(ALL_EXTENSIONS),report=[];
-const expected=['Idle','Walk','Run','Attack','Hit','HitLeft','HitRight','Death'];
+const expected=['Idle','Walk','Run','Attack','Hit','Death'];
 const median=a=>a.length?[...a].sort((a,b)=>a-b)[Math.floor(a.length/2)]:null;
 const solePatterns={cinderback_crag:[/^FrontFootL$/,/^FrontFoot2R$/,/^MidFrontFootL$/,/^MidFrontFootR$/,/^MidBackFootL$/,/^MidBackFootR$/,/^BackFootL$/,/^BackFootR$/],rift_carapace:[/^FrontFootL$/,/^FrontFoot2R$/,/^MidFrontFootL$/,/^MidFrontFootR$/,/^MidBackFootL$/,/^MidBackFootR$/,/^BackFootL$/,/^BackFootR$/],furnace_grazer:[/earth_.*_(foot|toe|heel).*_L/,/earth_.*_(foot|toe|heel).*_R/],basalt_maw:[/beetle_25_/,/beetle_29_/],voidstone_colossus:[/^foot_l$/,/^foot_r$/]};
 for(const asset of catalog.assets){

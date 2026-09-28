@@ -10,9 +10,9 @@ The source has 1,695 control vertices, 3,004 triangles and 54 bones. Every verte
 
 All ten original NLA clips and their action/timeline ranges are retained in `derived/source.json`. Native NLA strip timing matters: Walk plays source frames 10–50 in one second; Flee plays those same frames in 0.5833 seconds. The adapter preserves those authored timings. Source poses are sampled at 48 Hz, with the native 24 fps action timing recorded separately.
 
-The returned runtime clips are Idle, Walk, Run, Attack, AttackSecondary, Hit, HitLeft, HitRight and Death. Run uses the native Flee strip. AttackSecondary preserves the second native attack. No source Hit exists: the three hit clips use the first 0.4167 seconds of native Idle with an authored SpineHigh pitch recoil and directional yaw. This derivation is explicit in metadata.
+The returned runtime clips are Idle, Walk, Run, Attack, AttackSecondary, Hit and Death. Run uses the native Flee strip. AttackSecondary preserves the second native attack. No source Hit exists: Hit uses the first 0.4167 seconds of native Idle with an authored SpineHigh pitch recoil. This derivation is explicit in metadata.
 
-All nine clips pass whole-geometry CPU floor checks. Minimum sampled clearance is 1.75 mm. The native first attack has an aerial phase; it is retained. Height is normalized to 1.15 m without changing proportions. Attack contact remains provisional pending production gameplay review.
+The original nine-clip export passed whole-geometry CPU floor checks. Minimum sampled clearance is 1.75 mm. The native first attack has an aerial phase; it is retained. Height is normalized to 1.15 m without changing proportions. Attack contact remains provisional pending production gameplay review.
 
 Three original 1024-square maps are retained byte-for-byte with hashes: Roach.png, RoachNormal.png and Roach-Spec.png. A direct SDNA decode of the original Blender 2.69 material confirms color mapping, normal strength 0.125 and specular intensity map strength 0.0212766. The source hardness is 50. Normal strength is baked into a derived tangent map, and color/normal image rows are adapted for glTF. The source maps themselves remain unchanged.
 

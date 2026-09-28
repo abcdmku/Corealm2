@@ -73,9 +73,7 @@ function sourceAnimation(source,name,outputName,object,variant){
     }else if(channel.target.path==='scale')tracks.push(new THREE.VectorKeyframeTrack(target.name+'.scale',times,values,mode));
   }
   const clip=new THREE.AnimationClip(outputName,-1,tracks);
-  if(outputName==='HitLeft'||outputName==='HitRight'){
-    const track=tracks.find(t=>t.name==='spine_03.quaternion');for(let i=0;i<track.times.length;i++)new THREE.Quaternion().fromArray(track.values,i*4).multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),(outputName==='HitLeft'?1:-1)*.19*Math.sin(Math.PI*track.times[i]/clip.duration))).toArray(track.values,i*4);
-  }return clip;
+  return clip;
 }
 function floorCorrect(object,ground,clips){
   const mixer=new THREE.AnimationMixer(object),result={};
@@ -150,7 +148,7 @@ export function buildSourceZombie(id='zombie'){
   if(ghoul)addClaws(object);
   addRecessedMouth(object,id);
   const contact=new THREE.Group();contact.name='ZombieScratchContact';contact.position.set(0,.11,.015);object.getObjectByName('hand_r').add(contact);
-  const specs=[['Idle',ual2,'Zombie_Idle_Loop'],['Walk',ual2,'Zombie_Walk_Fwd_Loop'],['Run',ual1,'Jog_Fwd_Loop'],['Attack',ual2,'Zombie_Scratch'],['Hit',ual1,'Hit_Chest'],['HitLeft',ual1,'Hit_Chest'],['HitRight',ual1,'Hit_Chest'],['Death',ual1,'Death01']];
+  const specs=[['Idle',ual2,'Zombie_Idle_Loop'],['Walk',ual2,'Zombie_Walk_Fwd_Loop'],['Run',ual1,'Jog_Fwd_Loop'],['Attack',ual2,'Zombie_Scratch'],['Hit',ual1,'Hit_Chest'],['Death',ual1,'Death01']];
   const clips=specs.map(([name,library,take])=>sourceAnimation(library,take,name,object,id));
   // Slow pursuit uses the authored zombie gait for both movement requests.
   // The separate ghoul gait is unchanged until its locomotion policy is accepted.
@@ -164,7 +162,7 @@ export function buildSourceZombie(id='zombie'){
     attackContactPhase:phase,attackContactNode:'ZombieScratchContact',attackContactStatus:'Measured maximum forward right-hand extension in source Zombie_Scratch between phases .10 and .85; gameplay contact pending production review.',
     textureBindings,floorCorrection,textureOrientation:'Original glTF UV and image rows, no flipY',corpseTextureRevision:'UV-authored-pallor-socket-cheek-decay-v2',
     ...(!ghoul?{gaitClipAliases:{Run:'Walk'},gaitMeasuredSpeedMps:{Walk:plague?1.02228:1.02122,Run:plague?1.02228:1.02122},gaitPolicy:'Zombie and plague slow pursuit uses source Zombie_Walk_Fwd_Loop for both Walk and Run requests; intended gameplay pursuit 1.2–1.6 m/s.'}:{}),
-    animationProvenance:Object.fromEntries(specs.map(([name,library,take])=>[name,!ghoul&&name==='Run'?'UAL2_Standard:Zombie_Walk_Fwd_Loop; explicit Run alias of Walk for slow pursuit':library.id+':'+take+(name==='HitLeft'||name==='HitRight'?'; Corealm directional recoil added':'')+(ghoul?'; gaunt proportions and crouched spine retarget':'')])),
+    animationProvenance:Object.fromEntries(specs.map(([name,library,take])=>[name,!ghoul&&name==='Run'?'UAL2_Standard:Zombie_Walk_Fwd_Loop; explicit Run alias of Walk for slow pursuit':library.id+':'+take+(ghoul?'; gaunt proportions and crouched spine retarget':'')])),
     provenance:{author:'Quaternius; Corealm corpse proportion, damage and clothing edits',license:'CC0-1.0',sourceAssets:['base_male',...chosen.map(s=>path.basename(s.id)),'animation_library_1','UAL2_Standard'],modifications:'Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws.'},
     acceptance:'Source candidate; requires production browser motion and visual review. No source review is treated as gameplay acceptance.'}};
 }

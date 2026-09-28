@@ -75,22 +75,23 @@ export function buildSourceDemon() {
     }
   }
   const property={translation:'position',rotation:'quaternion',scale:'scale'};
-  const clips=(json.animations||[]).map(def=>new THREE.AnimationClip(def.name,-1,def.channels.map(channel=>{
+  const clipNames=['Idle','Walk','Run','Attack','Hit','Death'];
+  const clips=(json.animations||[]).filter(def=>clipNames.includes(def.name)).map(def=>new THREE.AnimationClip(def.name,-1,def.channels.map(channel=>{
     const sampler=def.samplers[channel.sampler],target=channel.target;
     if(!property[target.path])throw new Error(`Unsupported animation property ${target.path}`);
     if(sampler.interpolation&&sampler.interpolation!=='LINEAR'&&sampler.interpolation!=='STEP')throw new Error(`Unsupported source interpolation ${sampler.interpolation}`);
     const Track=target.path==='rotation'?THREE.QuaternionKeyframeTrack:THREE.VectorKeyframeTrack;
     return new Track(`${nodes[target.node].name}.${property[target.path]}`,accessor(sampler.input).array,accessor(sampler.output).array,sampler.interpolation==='STEP'?THREE.InterpolateDiscrete:THREE.InterpolateLinear);
   })));
-  for(const name of ['Idle','Walk','Run','Attack','Hit','HitLeft','HitRight','Death'])if(!clips.some(c=>c.name===name))throw new Error(`Monster04 source lacks ${name}`);
+  for(const name of clipNames)if(!clips.some(c=>c.name===name))throw new Error(`Monster04 source lacks ${name}`);
   object.animations=clips;object.updateMatrixWorld(true);
   const box=new THREE.Box3().setFromObject(object,true),size=box.getSize(new THREE.Vector3());
   return {object,clips,meta:{
     ...inherited,id:'horned_demon',family:'demon',height:size.y,width:size.x,depth:size.z,dimensions:size.toArray(),
     bounds:{min:box.min.toArray(),max:box.max.toArray()},rig:'PixeliusVita Monster04 original 62-joint weighted rig',
     contactPhase:.235,attackContact:.235,attackContactPhase:.235,contactNormalized:.235,
-    source:'Existing creature_cinder_ravager Monster04 source mesh, UVs, skin, atlas and adapted eight clips',
-    license:'Standard Unity Asset Store EULA',provenance:{...inherited.provenance,derivedFromAsset:'creature_cinder_ravager',sourceAssetSha256:sha256,candidateModifications:'Asset identity and material names only; source mesh, bind matrices, UVs, weighted anatomy, textures and all eight adapted clips retained'},
+    source:'Existing creature_cinder_ravager Monster04 source mesh, UVs, skin, atlas and adapted six clips',
+    license:'Standard Unity Asset Store EULA',provenance:{...inherited.provenance,derivedFromAsset:'creature_cinder_ravager',sourceAssetSha256:sha256,candidateModifications:'Asset identity and material names only; source mesh, bind matrices, UVs, weighted anatomy, textures and six canonical adapted clips retained'},
     textureBindings,textureOrientation:'Original glTF image bytes and TEXCOORD_0 preserved; flipY=false',
     distinctSilhouette:false,acceptance:'source-body candidate; production lab visual and motion acceptance required',revision:'horned-demon-source-review-1',
   }};

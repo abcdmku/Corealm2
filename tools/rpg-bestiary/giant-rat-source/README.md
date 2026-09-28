@@ -15,11 +15,9 @@ The wrapper uses the upstream normalized preview scale `0.240830591906` and fixe
 | Run | Run |
 | Attack | Attack.000 |
 | Hit | Hit |
-| HitLeft | Hit |
-| HitRight | Hit |
 | Death | Die |
 
-Side hit aliases are the same original reaction, with no invented directional animation. All 13 released native clip names are recorded in metadata; the copied source GLB retains all clips. The rejected upstream Idle.000 is not reintroduced.
+All 13 released native clip names are recorded in metadata; the copied source GLB retains all clips. The rejected upstream Idle.000 is not reintroduced.
 
 `meta.upstream` preserves the complete upstream report, provenance, source hash, preview scale and acceptance flag. The upstream final-byte random audit is separate from this adapter's checks.
 
