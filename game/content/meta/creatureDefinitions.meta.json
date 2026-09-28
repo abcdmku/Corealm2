@@ -81,6 +81,88 @@
       }
     }
   },
+  "ashscale_monitor_t20": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_ashscale_monitor; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v1/creature_ashscale_monitor/evidence.json.",
+      "at": "2026-09-28T19:42:04.348Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_ashscale_monitor, SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_ashscale_monitor, SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_ashscale_monitor, SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_ashscale_monitor, SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_ashscale_monitor, SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_ashscale_monitor, SHA256 e64a1b032aabd0e6a0f220e19f2aec3543c0331706567f706a7595b79a32221c."
+        }
+      }
+    }
+  },
   "ashseal_warden": {
     "status": "draft",
     "notes": [],
@@ -781,6 +863,88 @@
       }
     }
   },
+  "blackwater_heron_t5": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_blackwater_heron; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v1/creature_blackwater_heron/evidence.json.",
+      "at": "2026-09-28T19:42:04.348Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blackwater_heron, SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blackwater_heron, SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blackwater_heron, SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blackwater_heron, SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blackwater_heron, SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_blackwater_heron, SHA256 8596675d434a9cbf95ac5241d742a8e6bad2641e72b9580a2d0cd90bc06835ae."
+        }
+      }
+    }
+  },
   "boss_cinderwake_t20": {
     "status": "draft",
     "notes": [],
@@ -859,6 +1023,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate cb92ec9ac967a83a34385ca60fc569e03fde71551520e3b4d2f3abefa7fed9b5."
+        }
+      }
+    }
+  },
+  "boss_galeskin_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_boss_galeskin; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v2/creature_boss_galeskin/evidence.json.",
+      "at": "2026-09-28T19:42:13.938Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
         }
       }
     }
@@ -2068,6 +2314,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate ebbcca1ddfd865337c575a6053b85e3003823fb15f6edbbfacbd0cd2a1bef12f."
+        }
+      }
+    }
+  },
+  "galeskin": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_boss_galeskin; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v2/creature_boss_galeskin/evidence.json.",
+      "at": "2026-09-28T19:42:13.938Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_boss_galeskin, SHA256 3573377fc9f23fbd7c9b8d066a6bd598eb99e1cad4fe4c6a28b08d95a8c6da6c."
         }
       }
     }
@@ -4947,6 +5275,88 @@
       "by": "user"
     }
   },
+  "marchfield_turkey_t1": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_marchfield_turkey; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v2/creature_marchfield_turkey/evidence.json.",
+      "at": "2026-09-28T19:42:13.938Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_marchfield_turkey, SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_marchfield_turkey, SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_marchfield_turkey, SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_marchfield_turkey, SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_marchfield_turkey, SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_marchfield_turkey, SHA256 f57e1de0f8bb017c00bf879779afc4656b25d730b8e215929a53b2e82015e107."
+        }
+      }
+    }
+  },
   "marsh_moose_residents": {
     "status": "draft",
     "notes": [],
@@ -6713,6 +7123,88 @@
       }
     }
   },
+  "quillback_porcupine_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_quillback_porcupine; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 7d9b65b647da1210b0c3d5df6fdc7e6183bdc3a3eb686067ff2762f4ec6f6fbd. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v1/creature_quillback_porcupine/evidence.json.",
+      "at": "2026-09-28T19:42:04.348Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_quillback_porcupine, SHA256 7d9b65b647da1210b0c3d5df6fdc7e6183bdc3a3eb686067ff2762f4ec6f6fbd."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_quillback_porcupine, SHA256 7d9b65b647da1210b0c3d5df6fdc7e6183bdc3a3eb686067ff2762f4ec6f6fbd."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_quillback_porcupine, SHA256 7d9b65b647da1210b0c3d5df6fdc7e6183bdc3a3eb686067ff2762f4ec6f6fbd."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_quillback_porcupine, SHA256 7d9b65b647da1210b0c3d5df6fdc7e6183bdc3a3eb686067ff2762f4ec6f6fbd."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_quillback_porcupine, SHA256 7d9b65b647da1210b0c3d5df6fdc7e6183bdc3a3eb686067ff2762f4ec6f6fbd."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_quillback_porcupine, SHA256 7d9b65b647da1210b0c3d5df6fdc7e6183bdc3a3eb686067ff2762f4ec6f6fbd."
+        }
+      }
+    }
+  },
   "red_worm_t1": {
     "status": "draft",
     "notes": [],
@@ -7369,6 +7861,88 @@
       }
     }
   },
+  "rimeback_tortoise_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:13.938Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_rimeback_tortoise; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 ee68a8b5124e23436869463b51685a5fb2994514659581d422b82fb2e802333a. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v2/creature_rimeback_tortoise/evidence.json.",
+      "at": "2026-09-28T19:42:13.938Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rimeback_tortoise, SHA256 ee68a8b5124e23436869463b51685a5fb2994514659581d422b82fb2e802333a."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rimeback_tortoise, SHA256 ee68a8b5124e23436869463b51685a5fb2994514659581d422b82fb2e802333a."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rimeback_tortoise, SHA256 ee68a8b5124e23436869463b51685a5fb2994514659581d422b82fb2e802333a."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rimeback_tortoise, SHA256 ee68a8b5124e23436869463b51685a5fb2994514659581d422b82fb2e802333a."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rimeback_tortoise, SHA256 ee68a8b5124e23436869463b51685a5fb2994514659581d422b82fb2e802333a."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_rimeback_tortoise, SHA256 ee68a8b5124e23436869463b51685a5fb2994514659581d422b82fb2e802333a."
+        }
+      }
+    }
+  },
   "rootheart": {
     "status": "draft",
     "notes": [],
@@ -7859,6 +8433,88 @@
         "state:death": {
           "verdict": "approved",
           "note": "Reviewed candidate 4f028eceb50ea3a05dd61a0952b3a407a2ab2559bbdd49e01b3b91094608509a."
+        }
+      }
+    }
+  },
+  "slateback_tortoise_t10": {
+    "status": "draft",
+    "notes": [],
+    "candidates": [],
+    "history": [
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "record approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:idle approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:walk approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:run approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:attack approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:hit approved"
+      },
+      {
+        "at": "2026-09-28T19:42:04.348Z",
+        "by": "codex",
+        "action": "art.review",
+        "detail": "state:death approved"
+      }
+    ],
+    "sourceRefs": [],
+    "art": {
+      "verdict": "approved",
+      "note": "Inherited motion acceptance from shared model creature_slateback_tortoise; variants use the same reviewed rig and clips. Production devdocs six-state review; native studio reference comparison; held Death and Idle recovery verified. SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15. Evidence: test-results/creature-audit/candidate-review/quadrupeds-v1/creature_slateback_tortoise/evidence.json.",
+      "at": "2026-09-28T19:42:04.348Z",
+      "by": "codex",
+      "checks": {
+        "state:idle": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slateback_tortoise, SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
+        },
+        "state:walk": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slateback_tortoise, SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
+        },
+        "state:run": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slateback_tortoise, SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
+        },
+        "state:attack": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slateback_tortoise, SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
+        },
+        "state:hit": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slateback_tortoise, SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
+        },
+        "state:death": {
+          "verdict": "approved",
+          "note": "Shared-model motion acceptance: creature_slateback_tortoise, SHA256 c6a46954a648106c88e291e22cfbd7fb0db78108b497bad0d494f4c57dc55d15."
         }
       }
     }

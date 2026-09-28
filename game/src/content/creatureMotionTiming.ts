@@ -121,7 +121,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.38
   },
   "creature_ashscale_monitor": {
-    "seconds": 1.1,
+    "seconds": 1.100000023841858,
     "contactNormalized": 0.48
   },
   "creature_ashseal_warden": {
@@ -145,7 +145,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.5833333333333334
   },
   "creature_blackwater_heron": {
-    "seconds": 1.05,
+    "seconds": 1.0499999523162842,
     "contactNormalized": 0.455
   },
   "creature_blind_cave_weaver": {
@@ -161,8 +161,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.25833333333333336
   },
   "creature_boss_galeskin": {
-    "seconds": 1.05,
-    "contactNormalized": 0.63
+    "seconds": 1.600000023841858,
+    "contactNormalized": 0.65
   },
   "creature_boss_ordrun": {
     "seconds": 2,
@@ -317,8 +317,8 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.2604166666666667
   },
   "creature_marchfield_turkey": {
-    "seconds": 0.78,
-    "contactNormalized": 0.455
+    "seconds": 0.8199999928474426,
+    "contactNormalized": 0.46
   },
   "creature_marchwild_horse": {
     "seconds": 0.966666639,
@@ -373,7 +373,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.48
   },
   "creature_quillback_porcupine": {
-    "seconds": 1.16,
+    "seconds": 1.159999966621399,
     "contactNormalized": 0.54
   },
   "creature_redbrush_fox": {
@@ -405,7 +405,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.4915254237288135
   },
   "creature_rimeback_tortoise": {
-    "seconds": 1.25,
+    "seconds": 1.4500000476837158,
     "contactNormalized": 0.5
   },
   "creature_road_bandit": {
@@ -449,7 +449,7 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
     "contactNormalized": 0.3974358974358974
   },
   "creature_slateback_tortoise": {
-    "seconds": 1.45,
+    "seconds": 1.4500000476837158,
     "contactNormalized": 0.49
   },
   "creature_starroot_guardian": {
@@ -713,6 +713,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_black_wilderness_dragon": 7.8385,
   "creature_blackwater_heron": 2.262,
   "creature_boss_cinderwake": 25.5984,
+  "creature_boss_galeskin": 6.1579,
   "creature_boss_mossbound": 6.6059,
   "creature_boss_ordrun": 20.7633,
   "creature_boss_rootheart": 18.7218,
@@ -738,7 +739,6 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_ivory_castellan": 31.7487,
   "creature_kiln_salamander": 0.9316,
   "creature_lava_golem": 4.1128,
-  "creature_marchfield_turkey": 1.8285,
   "creature_marsh_moose": 7.0213,
   "creature_moonpetal_stalker": 11.2787,
   "creature_mossback_sentinel": 12.3527,
@@ -753,6 +753,7 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_reedbank_goose": 0.6933,
   "creature_reedjaw_crocodile": 2.9833,
   "creature_revenant": 10.1437,
+  "creature_rimeback_tortoise": 0.6077,
   "creature_road_bandit": 1.2657,
   "creature_scree_watcher": 26.585,
   "creature_shale_elemental": 2.857,
